@@ -4,7 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import '../providers/app_state_provider.dart';
 import '../utils/constants.dart';
 import '../utils/profile_l10n.dart';
+import '../utils/responsive.dart';
 import 'navigation_mode_screen.dart';
+import 'regular_mode/legal_screens.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -216,12 +218,16 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 const GoogleIcon(size: 18),
                 const SizedBox(width: 10),
-                Text(
-                  l('continue_with_google'),
-                  style: GoogleFonts.inter(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFF475569), // Slate 600
+                Flexible(
+                  child: FitOneLine(
+                    child: Text(
+                      l('continue_with_google'),
+                      style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF475569), // Slate 600
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -242,36 +248,58 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildPrivacySection(bool isTa) {
-    return RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(
-        style: GoogleFonts.inter(
-          fontSize: 11,
-          color: Colors.white70,
-          height: 1.5,
+    final linkStyle = GoogleFonts.inter(
+      fontSize: 11,
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+      decoration: TextDecoration.underline,
+      decorationColor: Colors.white,
+    );
+    return Column(
+      children: [
+        Text(
+          ProfileL10n.t('privacy_note', isTa),
+          textAlign: TextAlign.center,
+          style: GoogleFonts.inter(fontSize: 11, color: Colors.white70),
         ),
-        children: [
-          TextSpan(text: '${ProfileL10n.t('privacy_note', isTa)}\n'),
-          TextSpan(
-            text: ProfileL10n.t('terms', isTa),
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              decoration: TextDecoration.underline,
+        Wrap(
+          alignment: WrapAlignment.center,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            TextButton(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const TermsConditionsScreen(),
+                ),
+              ),
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
+                minimumSize: const Size(48, 48),
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+              ),
+              child: Text(ProfileL10n.t('terms', isTa), style: linkStyle),
             ),
-          ),
-          TextSpan(text: ' ${ProfileL10n.t('and', isTa)} '),
-          TextSpan(
-            text: ProfileL10n.t('privacy_policy', isTa),
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              decoration: TextDecoration.underline,
+            Text(
+              ProfileL10n.t('and', isTa),
+              style: GoogleFonts.inter(fontSize: 11, color: Colors.white70),
             ),
-          ),
-          const TextSpan(text: '.'),
-        ],
-      ),
+            TextButton(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const PrivacyPolicyScreen()),
+              ),
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
+                minimumSize: const Size(48, 48),
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+              ),
+              child: Text(
+                ProfileL10n.t('privacy_policy', isTa),
+                style: linkStyle,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

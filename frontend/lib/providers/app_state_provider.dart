@@ -665,59 +665,73 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     await SessionCacheService.instance.saveProfile(_profile);
   }
 
-  // Sync profile to Supabase in the background (asynchronous, non-blocking)
-  Future<void> _syncProfileToSupabaseInBackground(
-    UserProfile profileToSync,
-  ) async {
-    if (!_isLoggedIn) return;
-    final user = Supabase.instance.client.auth.currentUser;
-    if (user == null) return;
-
-    try {
-      debugPrint('[AppProvider] Background syncing profile to Supabase...');
-      // Sync profiles table (single source of truth)
-      await SchemeRepository.instance.createProfile(profileToSync);
-
-      // Sync startup_profiles table if they have business details
-      final existingStartups = await Supabase.instance.client
-          .from('startup_profiles')
-          .select('id')
-          .eq('user_id', user.id)
-          .limit(1);
-
-      final Map<String, dynamic> startupData = {
-        'user_id': user.id,
-        'profile_name': '${profileToSync.name} Business',
-        'industry': profileToSync.businessIndustry.isNotEmpty
-            ? profileToSync.businessIndustry
-            : 'Technology',
-        'applicant_type': profileToSync.employmentStatus.isNotEmpty
-            ? profileToSync.employmentStatus
-            : 'Student',
-        'business_stage': profileToSync.businessStage.isNotEmpty
-            ? profileToSync.businessStage
-            : 'Idea',
-        'business_registered': profileToSync.existingBusiness,
-        'funding_required_amount': profileToSync.fundingRequired,
-        'registration_numbers': profileToSync.registrationNumbers,
-        'is_active': true,
-      };
-
-      if (existingStartups.isNotEmpty) {
-        startupData['id'] = existingStartups.first['id'];
-      }
-
-      await Supabase.instance.client
-          .from('startup_profiles')
-          .upsert(startupData);
-      debugPrint('[AppProvider] Background sync to Supabase completed.');
-    } catch (e) {
-      debugPrint('[AppProvider] Error during background sync to Supabase: $e');
+  Future<void> _syncProfileToSupabase(UserProfile profileToSync) async {
+    if (!_isLoggedIn) {
+      throw StateError('Sign in is required before saving profile data.');
     }
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null) {
+      throw StateError('Your session expired. Please sign in again.');
+    }
+
+    final cloudProfile = profileToSync.copyWith(googleUserId: user.id);
+    debugPrint('[AppProvider] Syncing profile to Supabase...');
+    // Keep the completion flag false until every related cloud write succeeds.
+    // The initial upsert also guarantees the startup_profiles foreign-key
+    // parent exists for first-time users.
+    final stagedProfile = cloudProfile.profileCompleted
+        ? cloudProfile.copyWith(profileCompleted: false)
+        : cloudProfile;
+    await SchemeRepository.instance.createProfile(stagedProfile);
+
+    // Sync startup_profiles table so the collected applicant/business fields
+    // are committed in the same submission before the UI moves forward.
+    final existingStartups = await Supabase.instance.client
+        .from('startup_profiles')
+        .select('id')
+        .eq('user_id', user.id)
+        .limit(1);
+
+    final Map<String, dynamic> startupData = {
+      'user_id': user.id,
+      'profile_name': '${cloudProfile.name} Business',
+      'industry': cloudProfile.businessIndustry.isNotEmpty
+          ? cloudProfile.businessIndustry
+          : 'Technology',
+      'applicant_type': cloudProfile.employmentStatus.isNotEmpty
+          ? cloudProfile.employmentStatus
+          : 'Student',
+      'business_stage': cloudProfile.businessStage.isNotEmpty
+          ? cloudProfile.businessStage
+          : 'Idea',
+      'business_registered': cloudProfile.existingBusiness,
+      'funding_required_amount': cloudProfile.fundingRequired,
+      'registration_numbers': cloudProfile.registrationNumbers,
+      'is_active': true,
+    };
+
+    if (existingStartups.isNotEmpty) {
+      startupData['id'] = existingStartups.first['id'];
+    }
+
+    await Supabase.instance.client.from('startup_profiles').upsert(startupData);
+
+    if (cloudProfile.profileCompleted) {
+      await SchemeRepository.instance.createProfile(cloudProfile);
+    }
+    debugPrint('[AppProvider] Supabase profile sync completed.');
+  }
+
+  void _syncProfileToSupabaseInBackground(UserProfile profileToSync) {
+    unawaited(
+      _syncProfileToSupabase(profileToSync).catchError((Object error) {
+        debugPrint('[AppProvider] Background Supabase sync failed: $error');
+      }),
+    );
   }
 
   // Setters & Actions
-  void changeLanguage(String lang) async {
+  Future<void> changeLanguage(String lang) async {
     _selectedLanguage = lang;
     _profile = _profile.copyWith(language: lang, updatedAt: DateTime.now());
     await loadSchemes(forceRefresh: true);
@@ -728,7 +742,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _syncProfileToSupabaseInBackground(_profile);
   }
 
-  void changeNavigationMode(String mode) async {
+  Future<void> changeNavigationMode(String mode) async {
     _navigationMode = mode;
     _profile = _profile.copyWith(
       navigationMode: mode,
@@ -1225,8 +1239,20 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     return missing;
   }
 
-  Future<void> updateProfile(UserProfile updated) async {
-    _profile = updated.copyWith(updatedAt: DateTime.now());
+  Future<void> updateProfile(
+    UserProfile updated, {
+    bool requireCloudSync = false,
+  }) async {
+    final candidate = updated.copyWith(updatedAt: DateTime.now());
+
+    // A completed onboarding submission is not committed locally until the
+    // hosted database confirms both profile upserts. This prevents a restart
+    // from bypassing onboarding after a failed or offline cloud write.
+    if (requireCloudSync) {
+      await _syncProfileToSupabase(candidate);
+    }
+
+    _profile = candidate;
     _filters['state'] = _profile.state;
     _filters['community'] = _profile.community;
     _filters['gender'] = _profile.gender;
@@ -1240,7 +1266,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     notifyListeners();
     await _saveProfile();
 
-    _syncProfileToSupabaseInBackground(_profile);
+    if (!requireCloudSync) {
+      _syncProfileToSupabaseInBackground(_profile);
+    }
   }
 
   Future<void> updateProfilePhoto(String path) async {
