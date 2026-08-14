@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -146,6 +147,18 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
     }
   }
 
+  Future<void> _copySchemeDetails(LocalizedScheme scheme) async {
+    final destination = _applicationDestination(scheme);
+    final shareText = destination.isEmpty
+        ? scheme.name
+        : '${scheme.name}\n$destination';
+    await Clipboard.setData(ClipboardData(text: shareText));
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Scheme details copied to clipboard.')),
+    );
+  }
+
   String _getImageForCategory(String category) {
     final cat = category.toLowerCase();
     if (cat.contains("farmer") || cat.contains("agriculture")) {
@@ -230,7 +243,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                         color: Color(0xFF0F172A),
                         size: 24,
                       ),
-                      onPressed: () {},
+                      onPressed: () => _copySchemeDetails(scheme),
                     ),
                     const SizedBox(width: 8),
                   ],

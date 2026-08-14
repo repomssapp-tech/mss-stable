@@ -249,16 +249,17 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                               alignment: Alignment.center,
                               child: PrimaryButton(
                                 width: screenWidth * 0.78,
-                                onPressed: () {
+                                onPressed: () async {
                                   final provider = Provider.of<AppProvider>(
                                     context,
                                     listen: false,
                                   );
-                                  provider.changeNavigationMode(
+                                  await provider.changeNavigationMode(
                                     _selectedMode == NavigationMode.companion
                                         ? 'companion'
                                         : 'regular',
                                   );
+                                  if (!context.mounted) return;
 
                                   if (widget.onContinue != null) {
                                     widget.onContinue!(_selectedMode);

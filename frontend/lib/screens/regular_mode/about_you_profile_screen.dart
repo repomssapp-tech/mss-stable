@@ -15,6 +15,7 @@ class AboutYouProfileScreen extends StatefulWidget {
 
 class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
   String? _selectedRole;
+  bool _isSubmitting = false;
 
   // Constants
   static const Color kPrimaryBlue = Color(0xFF2563EB);
@@ -264,73 +265,113 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
                                 minimumSize: const Size.fromHeight(50),
                                 elevation: 0,
                               ),
-                              onPressed: () async {
-                                final selectedRole = _selectedRole;
-                                if (selectedRole == null) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        l('about_you_subtitle'),
-                                        style: GoogleFonts.inter(
-                                          fontWeight: FontWeight.w600,
+                              onPressed: _isSubmitting
+                                  ? null
+                                  : () async {
+                                      final selectedRole = _selectedRole;
+                                      if (selectedRole == null) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              l('about_you_subtitle'),
+                                              style: GoogleFonts.inter(
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            backgroundColor: const Color(
+                                              0xFFDC2626,
+                                            ),
+                                            behavior: SnackBarBehavior.floating,
+                                          ),
+                                        );
+                                        return;
+                                      }
+
+                                      final provider = Provider.of<AppProvider>(
+                                        context,
+                                        listen: false,
+                                      );
+                                      final updatedProfile = provider.profile
+                                          .copyWith(
+                                            employmentStatus:
+                                                _canonicalRoleTitle(
+                                                  selectedRole,
+                                                ),
+                                            profileCompleted: true,
+                                          );
+
+                                      setState(() => _isSubmitting = true);
+                                      try {
+                                        await provider.updateProfile(
+                                          updatedProfile,
+                                          requireCloudSync: true,
+                                        );
+
+                                        if (!context.mounted) return;
+                                        Navigator.of(
+                                          context,
+                                        ).pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                            builder: (_) =>
+                                                const MainTabsContainer(),
+                                          ),
+                                          (route) => false,
+                                        );
+                                      } catch (error) {
+                                        if (!context.mounted) return;
+                                        setState(() => _isSubmitting = false);
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              'We could not save your profile to the cloud. Check your connection and try again.',
+                                            ),
+                                            backgroundColor: Color(0xFFDC2626),
+                                            behavior: SnackBarBehavior.floating,
+                                          ),
+                                        );
+                                      }
+                                    },
+                              child: _isSubmitting
+                                  ? const SizedBox(
+                                      width: 22,
+                                      height: 22,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2.5,
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Flexible(
+                                          child: FitOneLine(
+                                            child: Text(
+                                              l('continue'),
+                                              style: GoogleFonts.inter(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                                color: _selectedRole != null
+                                                    ? Colors.white
+                                                    : Colors.grey.shade500,
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                      backgroundColor: const Color(0xFFDC2626),
-                                      behavior: SnackBarBehavior.floating,
-                                    ),
-                                  );
-                                  return;
-                                }
-
-                                final provider = Provider.of<AppProvider>(
-                                  context,
-                                  listen: false,
-                                );
-                                final updatedProfile = provider.profile
-                                    .copyWith(
-                                      employmentStatus: _canonicalRoleTitle(
-                                        selectedRole,
-                                      ),
-                                      profileCompleted: true,
-                                    );
-
-                                await provider.updateProfile(updatedProfile);
-
-                                if (!context.mounted) return;
-                                Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                    builder: (_) => const MainTabsContainer(),
-                                  ),
-                                  (route) => false,
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Flexible(
-                                    child: FitOneLine(
-                                      child: Text(
-                                        l('continue'),
-                                        style: GoogleFonts.inter(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
+                                        const SizedBox(width: 8),
+                                        Icon(
+                                          Icons.arrow_forward,
                                           color: _selectedRole != null
                                               ? Colors.white
                                               : Colors.grey.shade500,
+                                          size: 20,
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Icon(
-                                    Icons.arrow_forward,
-                                    color: _selectedRole != null
-                                        ? Colors.white
-                                        : Colors.grey.shade500,
-                                    size: 20,
-                                  ),
-                                ],
-                              ),
                             ),
                           ],
                         ),

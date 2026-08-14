@@ -19,6 +19,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
   String _selectedLang = 'en';
   String _selectedVoice = VoiceAgentPreferences.defaultVoice;
   bool _previewingVoice = false;
+  bool _isSubmitting = false;
 
   @override
   void initState() {
@@ -463,46 +464,74 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                             ),
                             elevation: 0,
                           ),
-                          onPressed: () async {
-                            final provider = Provider.of<AppProvider>(
-                              context,
-                              listen: false,
-                            );
-                            final navigator = Navigator.of(context);
-                            provider.changeLanguage(_selectedLang);
+                          onPressed: _isSubmitting
+                              ? null
+                              : () async {
+                                  final provider = Provider.of<AppProvider>(
+                                    context,
+                                    listen: false,
+                                  );
+                                  setState(() => _isSubmitting = true);
+                                  try {
+                                    await provider.changeLanguage(
+                                      _selectedLang,
+                                    );
+                                    final updatedProfile = provider.profile
+                                        .copyWith(profileCompleted: true);
+                                    await provider.updateProfile(
+                                      updatedProfile,
+                                      requireCloudSync: true,
+                                    );
 
-                            // Mark the profile as completed to bypass future onboarding redirects
-                            final currentProfile = provider.profile;
-                            final updatedProfile = currentProfile.copyWith(
-                              profileCompleted: true,
-                            );
-                            await provider.updateProfile(updatedProfile);
-
-                            navigator.pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                builder: (_) => const MainTabsContainer(),
-                              ),
-                              (route) => false,
-                            );
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Flexible(
-                                child: FitOneLine(
-                                  child: Text(
-                                    "Let's Begin",
-                                    style: GoogleFonts.inter(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    if (!context.mounted) return;
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            const MainTabsContainer(),
+                                      ),
+                                      (route) => false,
+                                    );
+                                  } catch (error) {
+                                    if (!context.mounted) return;
+                                    setState(() => _isSubmitting = false);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'We could not save your preferences to the cloud. Check your connection and try again.',
+                                        ),
+                                        backgroundColor: Color(0xFFDC2626),
+                                        behavior: SnackBarBehavior.floating,
+                                      ),
+                                    );
+                                  }
+                                },
+                          child: _isSubmitting
+                              ? const SizedBox(
+                                  width: 22,
+                                  height: 22,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2.5,
+                                    color: Colors.white,
                                   ),
+                                )
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Flexible(
+                                      child: FitOneLine(
+                                        child: Text(
+                                          "Let's Begin",
+                                          style: GoogleFonts.inter(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    const Icon(Icons.arrow_forward, size: 18),
+                                  ],
                                 ),
-                              ),
-                              const SizedBox(width: 8),
-                              const Icon(Icons.arrow_forward, size: 18),
-                            ],
-                          ),
                         ),
                       ),
                     ],

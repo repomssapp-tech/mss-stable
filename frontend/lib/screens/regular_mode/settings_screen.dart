@@ -134,12 +134,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }) {
     final isSelected = provider.navigationMode == mode;
     return InkWell(
-      onTap: () {
-        Navigator.pop(context);
-        provider.changeNavigationMode(mode);
+      onTap: () async {
+        final navigator = Navigator.of(context, rootNavigator: true);
+        final messenger = ScaffoldMessenger.of(context);
+        navigator.pop();
+        await provider.changeNavigationMode(mode);
         provider.updateTabIndex(0);
-        Navigator.of(context).popUntil((route) => route.isFirst);
-        ScaffoldMessenger.of(context).showSnackBar(
+        navigator.popUntil((route) => route.isFirst);
+        messenger.showSnackBar(
           SnackBar(
             content: Text(
               mode == 'companion'

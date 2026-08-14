@@ -277,7 +277,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                                 ),
                                 elevation: 0,
                               ),
-                              onPressed: () {
+                              onPressed: () async {
                                 final name = _nameController.text.trim();
                                 final email = _emailController.text.trim();
                                 final phone = _phoneController.text.trim();
@@ -306,7 +306,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                                   context,
                                   listen: false,
                                 );
-                                provider.updateProfile(
+                                await provider.updateProfile(
                                   provider.profile.copyWith(
                                     name: name,
                                     email: email,
@@ -315,6 +315,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                                     gender: _selectedGender,
                                   ),
                                 );
+                                if (!context.mounted) return;
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (_) =>

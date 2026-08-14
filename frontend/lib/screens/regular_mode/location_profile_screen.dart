@@ -433,7 +433,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                     minimumSize: const Size.fromHeight(52),
                                     elevation: 0,
                                   ),
-                                  onPressed: () {
+                                  onPressed: () async {
                                     final doorStreetRaw = _doorStreetController
                                         .text
                                         .trim();
@@ -499,7 +499,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                               .trim()
                                         : city;
 
-                                    provider.updateProfile(
+                                    await provider.updateProfile(
                                       provider.profile.copyWith(
                                         house: house,
                                         street: street,
@@ -510,6 +510,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                         pinCode: pincodeRaw,
                                       ),
                                     );
+                                    if (!context.mounted) return;
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (_) =>
