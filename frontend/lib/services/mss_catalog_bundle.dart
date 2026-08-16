@@ -84,12 +84,21 @@ class MssCatalogBundle {
     );
   }
 
-  /// Reset instance (for testing checksum exceptions).
-  @visibleForTesting
-  static void resetForTesting() {
+  /// Drops the cached bundle so the next [load] call re-reads from disk
+  /// instead of returning the in-memory singleton. Without this, a
+  /// successful background catalog sync (SchemeCatalogSyncService installing
+  /// a new release) would never actually become visible in a running app
+  /// session -- [load] would keep returning the bundle built from whatever
+  /// was on disk at first load, until the process fully restarts. Called
+  /// from [SchemeRepository.clearCache] after a confirmed sync.
+  static void invalidate() {
     _instance = null;
     _loadFuture = null;
   }
+
+  /// Reset instance (for testing checksum exceptions).
+  @visibleForTesting
+  static void resetForTesting() => invalidate();
 
   static Future<MssCatalogBundle> _loadInternal({
     bool overrideChecksumForTest = false,

@@ -54,6 +54,12 @@ class SchemeRepository {
     _cachedLanguage = null;
     _bundleFuture = null;
     _cachedCategoryCounts = null;
+    // Resetting _bundleFuture alone isn't enough: MssCatalogBundle.load()
+    // has its own static singleton short-circuit that would keep returning
+    // the bundle from whatever was on disk at first load. Without this, a
+    // successful background catalog sync would silently never take effect
+    // until the app process fully restarts.
+    MssCatalogBundle.invalidate();
   }
 
   /// Determines whether an error is retryable (network/timeout/5xx) so offline
@@ -217,22 +223,24 @@ class SchemeRepository {
         language: langCode,
       );
       final searchResp = MSSSearchResponse.fromJson(rawJson);
-      if (searchResp.results.isNotEmpty) {
-        final bundle = await _loadBundle();
-        return searchResp.results
-            .map((r) => MssSchemeAdapter.schemeResultToScheme(
-                  r,
-                  bundle,
-                  langCode: langCode,
-                ))
-            .toList();
-      }
+      final bundle = await _loadBundle();
+      // Return unconditionally, even if empty: the online engine correctly
+      // finding zero matches is a real answer, not a failure -- falling
+      // through to a different offline ranking here would silently
+      // override a trustworthy "no results" with a possibly-different set.
+      return searchResp.results
+          .map((r) => MssSchemeAdapter.schemeResultToScheme(
+                r,
+                bundle,
+                langCode: langCode,
+              ))
+          .toList();
     } catch (e) {
       if (!_isRetryableError(e)) rethrow;
       debugPrint('[SchemeRepository] online search failed, falling back offline: $e');
     }
 
-    // Offline fallback
+    // Offline fallback -- only reached when the online call itself failed.
     final matches = await searchSchemeMatchesOffline(query, langCode: langCode);
     return matches.map((match) => match.scheme).toList(growable: false);
   }
@@ -260,33 +268,35 @@ class SchemeRepository {
         limit: limit,
       );
       final searchResp = MSSSearchResponse.fromJson(rawJson);
-      if (searchResp.results.isNotEmpty) {
-        final bundle = await _loadBundle();
-        return searchResp.results.map((r) {
-          final scheme = MssSchemeAdapter.schemeResultToScheme(
-            r,
-            bundle,
-            langCode: langCode,
-          );
-          var reasons = r.matchReasons
-              .map((m) => m.detail)
-              .where((d) => d.isNotEmpty)
-              .toList();
-          if (reasons.isEmpty && r.explanation.summary.isNotEmpty) {
-            reasons = [r.explanation.summary];
-          }
-          return SchemeSearchMatch(
-            scheme: scheme,
-            score: r.matchScore,
-            reasons: reasons,
-          );
-        }).toList();
-      }
+      final bundle = await _loadBundle();
+      // Return unconditionally, even if empty -- see searchSchemes() above
+      // for why a legitimate "online found nothing" must not be silently
+      // overridden by a different offline result set.
+      return searchResp.results.map((r) {
+        final scheme = MssSchemeAdapter.schemeResultToScheme(
+          r,
+          bundle,
+          langCode: langCode,
+        );
+        var reasons = r.matchReasons
+            .map((m) => m.detail)
+            .where((d) => d.isNotEmpty)
+            .toList();
+        if (reasons.isEmpty && r.explanation.summary.isNotEmpty) {
+          reasons = [r.explanation.summary];
+        }
+        return SchemeSearchMatch(
+          scheme: scheme,
+          score: r.matchScore,
+          reasons: reasons,
+        );
+      }).toList();
     } catch (e) {
       if (!_isRetryableError(e)) rethrow;
       debugPrint('[SchemeRepository] online searchSchemeMatches failed: $e');
     }
 
+    // Offline fallback -- only reached when the online call itself failed.
     return searchSchemeMatchesOffline(query, limit: limit, langCode: langCode);
   }
 
@@ -728,7 +738,13 @@ class SchemeRepository {
         if (schemes.isNotEmpty) return schemes;
       }
     } catch (e) {
-      if (!_isRetryableError(e)) rethrow;
+      // Unlike other methods, any online failure here -- including a
+      // non-retryable INVALID_REQUEST, which /v1/eligibility returns
+      // whenever toApiProfile() has nothing to send (e.g. a brand-new user
+      // who hasn't completed onboarding yet) -- should fall back to the
+      // offline engine rather than propagate. An incomplete profile is an
+      // expected, common case here, not an error condition worth failing
+      // the whole recommendations feature over.
       debugPrint('[SchemeRepository] online getRecommendedSchemes error: $e');
     }
 

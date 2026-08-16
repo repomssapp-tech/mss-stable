@@ -13,3 +13,4 @@ __pycache__/
 .venv-ai4bharat-wsl/
 voice/.cache/
 voice/data/generated_audio/
+.mss_publish_scratch/

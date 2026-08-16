@@ -373,11 +373,17 @@ class MssApiClient {
     final isErrorPayload = decoded['contract'] == 'error' || decoded.containsKey('error');
 
     if (response.statusCode >= 400 || isErrorPayload) {
-      final errorMap = decoded['error'] as Map<String, dynamic>? ?? {};
-      final code = (errorMap['code'] ?? 'UNKNOWN_ERROR') as String;
-      final message = (errorMap['message'] ?? 'An error occurred') as String;
-      final field = errorMap['field'] as String?;
-      final detail = errorMap['detail'] as String?;
+      // The Edge Function's error shape is flat -- `error` is itself the
+      // code/short-message string (e.g. "INVALID_REQUEST" or "Route not
+      // found"), with `message`/`field`/`detail` as sibling keys, never
+      // nested under `error`. See backend/supabase/functions/v1/index.ts's
+      // json({ error: ... }) call sites.
+      final code = decoded['error'] is String
+          ? decoded['error'] as String
+          : 'UNKNOWN_ERROR';
+      final message = (decoded['message'] as String?) ?? code;
+      final field = decoded['field'] as String?;
+      final detail = decoded['detail'] as String?;
 
       final isRetryable = code == 'CATALOG_UNAVAILABLE' ||
           code == 'INTERNAL_ERROR' ||

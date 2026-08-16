@@ -45,6 +45,11 @@ class SearchScreenState extends State<SearchScreen> {
   int _matchingProfileCount = 0;
   Map<String, List<String>> _activeSearchFilters = {};
   String _dynamicSearchHintText = "Search PMEGP, Startup India, MSME loans...";
+  // Bumped on every _triggerSearch call; a stale request that resolves after
+  // a newer one must not overwrite it (out-of-order async race -- the search
+  // screen's state survives Home<->Search tab switches via IndexedStack, so
+  // an in-flight request from a previous query can still land here).
+  int _searchGeneration = 0;
 
   double _scaledFontSize(double baseSize) {
     final provider = Provider.of<AppProvider>(context, listen: false);
@@ -216,12 +221,15 @@ class SearchScreenState extends State<SearchScreen> {
     // If query is empty and active filter is "For Me" or "All", go back to idle Categories screen
     if (query.isEmpty &&
         (_activeFilter == 'For Me' || _activeFilter == 'All')) {
+      _searchGeneration++;
       setState(() {
         _currentState = SearchState.idle;
         _searchResults = [];
       });
       return;
     }
+
+    final int requestGeneration = ++_searchGeneration;
 
     setState(() {
       _currentState = SearchState.loading;
@@ -443,7 +451,7 @@ class SearchScreenState extends State<SearchScreen> {
       // the next frame (rather than synchronously here) avoids that without
       // changing what's rendered.
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
+        if (!mounted || requestGeneration != _searchGeneration) return;
         setState(() {
           _masterSearchResults = filteredResults;
           _currentState = SearchState.results;
@@ -452,9 +460,9 @@ class SearchScreenState extends State<SearchScreen> {
       });
       _loadCategoryCounts();
     } catch (e) {
-      if (!mounted) return;
+      if (!mounted || requestGeneration != _searchGeneration) return;
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
+        if (!mounted || requestGeneration != _searchGeneration) return;
         setState(() {
           _masterSearchResults = [];
           _searchResults = [];

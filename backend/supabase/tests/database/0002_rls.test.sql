@@ -111,8 +111,13 @@ select throws_ok(
   'anonymous callers cannot read organization records'
 );
 
+-- catalog.* is intentionally never exposed directly (not in PostgREST's
+-- exposed schemas, no schema-level USAGE grant for anon/authenticated
+-- either) -- all access goes through public-schema security definer RPCs.
+-- mss_scheme_detail() is the actual anonymous-discovery entry point the
+-- app/API use.
 select lives_ok(
-  $$select id from catalog.scheme limit 1$$,
+  $$select public.mss_scheme_detail('SCH000001')$$,
   'the administration migration preserves anonymous scheme discovery'
 );
 reset role;
