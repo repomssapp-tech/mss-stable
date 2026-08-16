@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import '../models/mss_entity.dart';
+import 'scheme_catalog_store.dart';
 
 /// Top-level isolate function for async gzip decompression and JSON decoding.
 /// Executed off the UI main thread via [compute] to prevent startup jank.
@@ -27,6 +28,7 @@ class MssCatalogBundle {
     required Map<String, MssEntity> byId,
     required Map<String, List<MssEntity>> byCatalog,
     required Map<String, Set<String>> searchTokenMap,
+    required Map<String, Map<String, dynamic>> searchProfiles,
     required this.releaseTag,
     required this.totalRelationshipsCount,
     this.duplicateEntityIdCount = 0,
@@ -36,6 +38,7 @@ class MssCatalogBundle {
        byCatalog = UnmodifiableMapView(
          byCatalog.map((k, v) => MapEntry(k, UnmodifiableListView(v))),
        ),
+       searchProfiles = UnmodifiableMapView(searchProfiles),
        _searchTokenMap = searchTokenMap;
 
   static MssCatalogBundle? _instance;
@@ -47,6 +50,12 @@ class MssCatalogBundle {
   final Map<String, MssEntity> byId;
   final Map<String, List<MssEntity>> byCatalog;
   final Map<String, Set<String>> _searchTokenMap;
+
+  /// Raw search_index.json entries for `entityType == 'scheme'`, keyed by
+  /// entityId. Carries `tokens.{en,ta}` and `schemeSearchProfile` -- the
+  /// exact fields the ranking algorithm in [HybridSchemeSearch] consumes,
+  /// mirroring what `catalog/hybrid_search.py` reads from the same file.
+  final Map<String, Map<String, dynamic>> searchProfiles;
   final String releaseTag;
   final int totalRelationshipsCount;
   final int duplicateEntityIdCount;
@@ -88,6 +97,60 @@ class MssCatalogBundle {
     String releaseJsonStr;
     Uint8List compressedBytes;
 
+    // Prefer a downloaded, hash-verified release over the shipped asset, if
+    // one has been installed by SchemeCatalogSyncService -- see
+    // MSS_ANTIGRAVITY_HANDOFF/architecture_docs/OFFLINE_CLOUD_SYNC_ARCHITECTURE.md.
+    // The installed release's own SHA-256 was already verified at install
+    // time (SchemeCatalogStore.install); re-verifying here too costs little
+    // and guards against on-disk corruption between install and load.
+    //
+    // Skipped entirely under `flutter test`: path_provider has no platform
+    // channel implementation there, so this would otherwise throw
+    // MissingPluginException on every load -- caught further down, but the
+    // exception itself is expensive enough to blow performance-sensitive
+    // test budgets for no benefit (tests never have an installed release).
+    final isTestEnvironment = Platform.environment['FLUTTER_TEST'] == 'true';
+    final installed = isTestEnvironment
+        ? null
+        : await SchemeCatalogStore.instance.resolveActive();
+    if (installed != null) {
+      try {
+        final releaseFile = File(installed.releaseJsonPath);
+        final bundleFile = File(installed.bundlePath);
+        releaseJsonStr = await releaseFile.readAsString();
+        compressedBytes = await bundleFile.readAsBytes();
+        final expected = installed.manifest.sha256.toLowerCase();
+        final actual = sha256
+            .convert(compressedBytes)
+            .toString()
+            .toLowerCase();
+        if (actual != expected) {
+          throw Exception(
+            'Installed catalog release failed re-verification '
+            '(expected $expected, got $actual) -- falling back to the '
+            'shipped asset.',
+          );
+        }
+        debugPrint(
+          '[MssCatalogBundle] Loaded installed release '
+          '${installed.manifest.releaseVersion ?? installed.manifest.id} '
+          'from ${installed.bundlePath}',
+        );
+        return _finishLoading(
+          releaseJsonStr,
+          compressedBytes,
+          overrideChecksumForTest: overrideChecksumForTest,
+        );
+      } catch (e) {
+        // Never let a corrupted/unreadable installed release block startup
+        // -- fall through to the bundled asset, which is always known-good.
+        debugPrint(
+          '[MssCatalogBundle] Installed release unusable ($e); '
+          'falling back to the shipped asset.',
+        );
+      }
+    }
+
     try {
       releaseJsonStr = await rootBundle.loadString(releaseAssetPath);
       final ByteData bundleByteData = await rootBundle.load(bundleAssetPath);
@@ -102,6 +165,19 @@ class MssCatalogBundle {
       final bundleFile = File(bundleAssetPath);
       compressedBytes = await bundleFile.readAsBytes();
     }
+
+    return _finishLoading(
+      releaseJsonStr,
+      compressedBytes,
+      overrideChecksumForTest: overrideChecksumForTest,
+    );
+  }
+
+  static Future<MssCatalogBundle> _finishLoading(
+    String releaseJsonStr,
+    Uint8List compressedBytes, {
+    bool overrideChecksumForTest = false,
+  }) async {
 
     final releaseJson = jsonDecode(releaseJsonStr) as Map<String, dynamic>;
     final expectedChecksum =
@@ -143,6 +219,11 @@ class MssCatalogBundle {
       'csr_catalog.json',
       'export_catalog.json',
       'knowledge_catalog.json',
+      'applicability_matrix_catalog.json',
+      'enterprise_classification_catalog.json',
+      'msme_privilege_catalog.json',
+      'business_enablement_catalog.json',
+      'cluster_assistance_catalog.json',
     ];
 
     for (final fileKey in catalogKeys) {
@@ -182,6 +263,23 @@ class MssCatalogBundle {
       byCatalog[catalogName] = entityList;
     }
 
+    // search_index.json carries tokens.{en,ta} + schemeSearchProfile per
+    // scheme -- not indexed into byId/byCatalog (it's a flat search-only
+    // projection, not a full entity), but kept for HybridSchemeSearch.
+    final searchProfiles = <String, Map<String, dynamic>>{};
+    final searchIndexObject =
+        bundleJson['search_index.json'] as Map<String, dynamic>?;
+    final searchIndexData = searchIndexObject?['data'] as List?;
+    if (searchIndexData != null) {
+      for (final rawItem in searchIndexData) {
+        if (rawItem is! Map<String, dynamic>) continue;
+        if (rawItem['entityType'] != 'scheme') continue;
+        final entityId = rawItem['entityId'] as String?;
+        if (entityId == null || entityId.isEmpty) continue;
+        searchProfiles[entityId] = rawItem;
+      }
+    }
+
     // Graph integrity verification pass: check dangling references
     int danglingReferenceCount = 0;
     final seenRelIds = <String>{};
@@ -205,6 +303,7 @@ class MssCatalogBundle {
       byId: byId,
       byCatalog: byCatalog,
       searchTokenMap: searchTokenMap,
+      searchProfiles: searchProfiles,
       releaseTag: releaseTag,
       totalRelationshipsCount: totalRels,
       duplicateEntityIdCount: duplicateEntityIdCount,

@@ -138,21 +138,26 @@ class SearchScreenState extends State<SearchScreen> {
         provider.selectedLanguage,
       );
 
-      if (mounted) {
+      // Deferred for the same reason as the results setState in
+      // _triggerSearch: this can land mid-layout during a keyboard-dismiss
+      // animation and trip the re-entrant-layout assertion.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
         setState(() {
           _categoryCounts = counts;
           _matchingProfileCount = recs.length;
           _dynamicSearchHintText = hint;
           _isLoadingCounts = false;
         });
-      }
+      });
     } catch (e) {
       debugPrint('[SearchScreen] error loading dynamic category counts: $e');
-      if (mounted) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
         setState(() {
           _isLoadingCounts = false;
         });
-      }
+      });
     }
   }
 
@@ -431,18 +436,30 @@ class SearchScreenState extends State<SearchScreen> {
         }).toList();
       }
 
-      setState(() {
-        _masterSearchResults = filteredResults;
-        _currentState = SearchState.results;
+      // Deferred to the next frame: applying these results can land while an
+      // in-flight keyboard-dismiss/route animation is still mid-layout,
+      // which trips Flutter's re-entrant-layout assertion
+      // ('!_debugDoingThisLayout'). Scheduling the rebuild for right before
+      // the next frame (rather than synchronously here) avoids that without
+      // changing what's rendered.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        setState(() {
+          _masterSearchResults = filteredResults;
+          _currentState = SearchState.results;
+        });
+        _applySorting();
       });
-      _applySorting();
       _loadCategoryCounts();
     } catch (e) {
       if (!mounted) return;
-      setState(() {
-        _masterSearchResults = [];
-        _searchResults = [];
-        _currentState = SearchState.results;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        setState(() {
+          _masterSearchResults = [];
+          _searchResults = [];
+          _currentState = SearchState.results;
+        });
       });
     }
   }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -26,41 +27,50 @@ class CatalogSyncResult {
 
 abstract class CatalogReleaseSource {
   Future<CatalogManifest?> fetchCurrentManifest();
-  Future<String> fetchPayload(String releaseId);
+  Future<Uint8List> fetchPayload(CatalogManifest manifest);
 }
 
+/// Reads release identity from `public.mss_current_release()` (the
+/// corrected, Storage-backed architecture -- see
+/// MSS_ANTIGRAVITY_HANDOFF/architecture_docs/OFFLINE_CLOUD_SYNC_ARCHITECTURE.md)
+/// and downloads the actual release artifact from the `catalogs` Storage
+/// bucket, under `releases/<releaseVersion>/catalog_bundle.json.gz`.
+///
+/// Replaces a prior implementation that queried a `public.catalog_releases`
+/// table from an earlier, superseded schema
+/// (`20260730090000_catalog_releases.sql`, tied to a `public.schemes`
+/// four-section-JSON format) that no longer exists in the live database --
+/// see UPDATE_FLOW_SPECIFICATION.md §6 for the full history. That table is
+/// not referenced here at all.
 class SupabaseCatalogReleaseSource implements CatalogReleaseSource {
   SupabaseCatalogReleaseSource(this._client);
 
   final SupabaseClient _client;
+  static const String _bucket = 'catalogs';
+  static const String _bundleFileName = 'catalog_bundle.json.gz';
 
   @override
   Future<CatalogManifest?> fetchCurrentManifest() async {
-    final rows = await _client
-        .from('catalog_releases')
-        .select(
-          'id,version,schema_version,sha256,byte_size,scheme_count,document_count,service_count,published_at',
-        )
-        .eq('is_current', true)
-        .eq('status', 'published')
-        .limit(1);
-    if (rows.isEmpty) return null;
-    return CatalogManifest.fromSupabase(rows.first);
+    final response = await _client.rpc('mss_current_release');
+    final rows = response as List<dynamic>?;
+    if (rows == null || rows.isEmpty) return null;
+    final row = rows.first as Map<String, dynamic>;
+    if (row['release_version'] == null || row['package_sha256'] == null) {
+      return null;
+    }
+    return CatalogManifest.fromReleaseRpc(row);
   }
 
   @override
-  Future<String> fetchPayload(String releaseId) async {
-    final row = await _client
-        .from('catalog_releases')
-        .select('payload')
-        .eq('id', releaseId)
-        .eq('is_current', true)
-        .single();
-    final payload = row['payload'];
-    if (payload is! String) {
-      throw const FormatException('Published catalog payload is missing.');
+  Future<Uint8List> fetchPayload(CatalogManifest manifest) async {
+    final releaseVersion = manifest.releaseVersion;
+    if (releaseVersion == null || releaseVersion.isEmpty) {
+      throw StateError(
+        'Cannot download a release artifact without a releaseVersion.',
+      );
     }
-    return payload;
+    final objectPath = 'releases/$releaseVersion/$_bundleFileName';
+    return _client.storage.from(_bucket).download(objectPath);
   }
 }
 
@@ -128,7 +138,7 @@ class SchemeCatalogSyncService {
         manifest: await _store.readActiveManifest(),
       );
     }
-    if (remote.schemaVersion != SchemeCatalogStore.supportedSchemaVersion) {
+    if (remote.schemaVersion > SchemeCatalogStore.supportedSchemaVersion) {
       return CatalogSyncResult(
         CatalogSyncOutcome.incompatible,
         manifest: remote,
@@ -137,13 +147,13 @@ class SchemeCatalogSyncService {
     }
 
     final local = await _store.readActiveManifest();
-    if (local?.id == remote.id && local?.sha256 == remote.sha256) {
+    if (local != null && local.sameReleaseAs(remote)) {
       return CatalogSyncResult(CatalogSyncOutcome.unchanged, manifest: local);
     }
 
     try {
       final payload = await _releaseSource
-          .fetchPayload(remote.id)
+          .fetchPayload(remote)
           .timeout(_timeout);
       await _store.install(remote, payload);
       return CatalogSyncResult(CatalogSyncOutcome.updated, manifest: remote);

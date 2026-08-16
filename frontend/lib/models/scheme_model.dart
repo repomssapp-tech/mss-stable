@@ -188,6 +188,14 @@ class Scheme {
   final List<String> optionalConditions;
   final List<String> specialCategories;
 
+  // Typed facet values for profile-vs-scheme matching (RecommendationEngine)
+  // -- distinct from the display-text fields above, which are for showing
+  // eligibility criteria in the UI, not for comparing against UserProfile.
+  final int? eligibilityMinAge;
+  final int? eligibilityMaxAge;
+  final List<String> eligibilityGenderValues;
+  final List<String> eligibilityBusinessStageValues;
+
   // Phase 5 Application Timeline & Services
   final String applicationFee;
   final String processingDurationDays;
@@ -267,6 +275,10 @@ class Scheme {
     this.mandatoryConditions = const [],
     this.optionalConditions = const [],
     this.specialCategories = const [],
+    this.eligibilityMinAge,
+    this.eligibilityMaxAge,
+    this.eligibilityGenderValues = const [],
+    this.eligibilityBusinessStageValues = const [],
     this.applicationFee = '',
     this.processingDurationDays = '',
     this.intakeTimelineText = '',
@@ -351,6 +363,94 @@ class Scheme {
     );
   }
 
+  /// Returns a copy with specified fields updated.
+  Scheme copyWith({
+    String? name,
+    double? matchScore,
+    String? status,
+    String? applicationUrl,
+    String? officialWebsite,
+  }) {
+    return Scheme(
+      id: id,
+      schemeCode: schemeCode,
+      name: name ?? this.name,
+      nameTa: nameTa,
+      shortName: shortName,
+      fullSchemeName: fullSchemeName,
+      ministry: ministry,
+      department: department,
+      implementingAgency: implementingAgency,
+      matchScore: matchScore ?? this.matchScore,
+      logoUrl: logoUrl,
+      officialSource: officialSource,
+      governmentLevel: governmentLevel,
+      sponsoringBody: sponsoringBody,
+      issuingBody: issuingBody,
+      state: state,
+      sector: sector,
+      targetBeneficiary: targetBeneficiary,
+      schemeType: schemeType,
+      category: category,
+      overview: overview,
+      overviewTa: overviewTa,
+      objectives: objectives,
+      benefits: benefits,
+      benefitsTa: benefitsTa,
+      subsidyPercentage: subsidyPercentage,
+      maxFunding: maxFunding,
+      minFunding: minFunding,
+      interestSubventionRate: interestSubventionRate,
+      applicationMode: applicationMode,
+      officialWebsite: officialWebsite ?? this.officialWebsite,
+      applicationUrl: applicationUrl ?? this.applicationUrl,
+      guidelinesUrl: guidelinesUrl,
+      sourceUrl: sourceUrl,
+      districtApplicable: districtApplicable,
+      subsidyAmount: subsidyAmount,
+      verificationStatus: verificationStatus,
+      verificationNotes: verificationNotes,
+      lastUpdated: lastUpdated,
+      searchKeywords: searchKeywords,
+      status: status ?? this.status,
+      isActive: isActive,
+      glanceChips: glanceChips,
+      benefitTypesList: benefitTypesList,
+      capitalSubsidyDetails: capitalSubsidyDetails,
+      interestSubventionDetails: interestSubventionDetails,
+      marginMoneyDetails: marginMoneyDetails,
+      loanGuaranteeDetails: loanGuaranteeDetails,
+      supportTypes: supportTypes,
+      rawBenefitsDisplayText: rawBenefitsDisplayText,
+      eligibilityAgeRange: eligibilityAgeRange,
+      turnoverLimits: turnoverLimits,
+      investmentLimits: investmentLimits,
+      allowedBusinessTypes: allowedBusinessTypes,
+      educationRequirements: educationRequirements,
+      mandatoryConditions: mandatoryConditions,
+      optionalConditions: optionalConditions,
+      specialCategories: specialCategories,
+      eligibilityMinAge: eligibilityMinAge,
+      eligibilityMaxAge: eligibilityMaxAge,
+      eligibilityGenderValues: eligibilityGenderValues,
+      eligibilityBusinessStageValues: eligibilityBusinessStageValues,
+      applicationFee: applicationFee,
+      processingDurationDays: processingDurationDays,
+      intakeTimelineText: intakeTimelineText,
+      financeProductsSummary: financeProductsSummary,
+      taxExemptionsSummary: taxExemptionsSummary,
+      applicableTaxesList: applicableTaxesList,
+      knowledgeGuidanceList: knowledgeGuidanceList,
+      helplineContactsMap: helplineContactsMap,
+      eligibilityCriteria: eligibilityCriteria,
+      requiredDocuments: requiredDocuments,
+      applicationProcess: applicationProcess,
+      documents: documents,
+      requiredServices: requiredServices,
+      faqs: faqs,
+    );
+  }
+
   /// Returns a copy with enriched detail fields (eligibility, documents, etc.)
   Scheme copyWithDetails({
     List<String>? eligibilityCriteria,
@@ -375,6 +475,10 @@ class Scheme {
     List<String>? mandatoryConditions,
     List<String>? optionalConditions,
     List<String>? specialCategories,
+    int? eligibilityMinAge,
+    int? eligibilityMaxAge,
+    List<String>? eligibilityGenderValues,
+    List<String>? eligibilityBusinessStageValues,
     String? applicationFee,
     String? processingDurationDays,
     String? intakeTimelineText,
@@ -446,6 +550,12 @@ class Scheme {
       mandatoryConditions: mandatoryConditions ?? this.mandatoryConditions,
       optionalConditions: optionalConditions ?? this.optionalConditions,
       specialCategories: specialCategories ?? this.specialCategories,
+      eligibilityMinAge: eligibilityMinAge ?? this.eligibilityMinAge,
+      eligibilityMaxAge: eligibilityMaxAge ?? this.eligibilityMaxAge,
+      eligibilityGenderValues:
+          eligibilityGenderValues ?? this.eligibilityGenderValues,
+      eligibilityBusinessStageValues:
+          eligibilityBusinessStageValues ?? this.eligibilityBusinessStageValues,
       applicationFee: applicationFee ?? this.applicationFee,
       processingDurationDays:
           processingDurationDays ?? this.processingDurationDays,

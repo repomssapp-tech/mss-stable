@@ -144,11 +144,17 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         counts[st] = list.length;
       }
 
-      if (mounted) {
+      // Deferred: this async load runs on initState, right as the screen's
+      // own entrance/route transition is animating, which can trip
+      // Flutter's re-entrant-layout assertion if the setState lands
+      // mid-layout. See search_screen.dart's _triggerSearch for the same
+      // fix applied to the same underlying race.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
         setState(() {
           _dynamicCategoryCounts = counts;
         });
-      }
+      });
     } catch (e) {
       debugPrint('[CategoriesScreen] error loading dynamic counts: $e');
     }
@@ -1359,33 +1365,38 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   itemCount: ministries.length,
                   itemBuilder: (context, index) {
                     final title = ministries[index];
-                    return ListTile(
-                      contentPadding: const EdgeInsets.symmetric(vertical: 4),
-                      leading: Container(
-                        width: 38,
-                        height: 38,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFEFF6FF),
-                          shape: BoxShape.circle,
+                    return Material(
+                      type: MaterialType.transparency,
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 4,
                         ),
-                        child: const Icon(
-                          Icons.account_balance_rounded,
-                          color: Color(0xFF2563EB),
-                          size: 18,
+                        leading: Container(
+                          width: 38,
+                          height: 38,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFEFF6FF),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.account_balance_rounded,
+                            color: Color(0xFF2563EB),
+                            size: 18,
+                          ),
                         ),
+                        title: Text(
+                          title,
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13.5,
+                          ),
+                        ),
+                        trailing: const Icon(Icons.chevron_right, size: 16),
+                        onTap: () {
+                          Navigator.pop(context);
+                          _onMinistrySelected(title, provider);
+                        },
                       ),
-                      title: Text(
-                        title,
-                        style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13.5,
-                        ),
-                      ),
-                      trailing: const Icon(Icons.chevron_right, size: 16),
-                      onTap: () {
-                        Navigator.pop(context);
-                        _onMinistrySelected(title, provider);
-                      },
                     );
                   },
                 ),
@@ -1490,32 +1501,37 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   itemCount: states.length,
                   itemBuilder: (context, index) {
                     final title = states[index];
-                    return ListTile(
-                      contentPadding: const EdgeInsets.symmetric(vertical: 4),
-                      leading: Image.asset(
-                        _getStateMapAsset(title),
-                        width: 36,
-                        height: 32,
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) {
-                          return CustomPaint(
-                            size: const Size(36, 32),
-                            painter: StateMapPainter(title),
-                          );
+                    return Material(
+                      type: MaterialType.transparency,
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 4,
+                        ),
+                        leading: Image.asset(
+                          _getStateMapAsset(title),
+                          width: 36,
+                          height: 32,
+                          fit: BoxFit.contain,
+                          errorBuilder: (context, error, stackTrace) {
+                            return CustomPaint(
+                              size: const Size(36, 32),
+                              painter: StateMapPainter(title),
+                            );
+                          },
+                        ),
+                        title: Text(
+                          title,
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13.5,
+                          ),
+                        ),
+                        trailing: const Icon(Icons.chevron_right, size: 16),
+                        onTap: () {
+                          Navigator.pop(context);
+                          _onStateSelected(title, provider);
                         },
                       ),
-                      title: Text(
-                        title,
-                        style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13.5,
-                        ),
-                      ),
-                      trailing: const Icon(Icons.chevron_right, size: 16),
-                      onTap: () {
-                        Navigator.pop(context);
-                        _onStateSelected(title, provider);
-                      },
                     );
                   },
                 ),

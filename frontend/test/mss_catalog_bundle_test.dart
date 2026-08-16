@@ -86,6 +86,11 @@ void main() {
           'csr_catalog.json',
           'export_catalog.json',
           'knowledge_catalog.json',
+          'applicability_matrix_catalog.json',
+          'enterprise_classification_catalog.json',
+          'msme_privilege_catalog.json',
+          'business_enablement_catalog.json',
+          'cluster_assistance_catalog.json',
         ];
 
         for (final fileKey in catalogKeys) {
@@ -136,8 +141,8 @@ void main() {
 
         expect(
           byId.length,
-          equals(969),
-          reason: 'Total entities in byId must be exactly 969',
+          equals(1216),
+          reason: 'Total entities in byId must be exactly 1216',
         );
         expect(
           duplicateEntityIdCount,
@@ -151,13 +156,13 @@ void main() {
         );
         expect(
           totalRels,
-          equals(1715),
-          reason: 'Total relationships across entities must be exactly 1715',
+          equals(1710),
+          reason: 'Total relationships across entities must be exactly 1710',
         );
         expect(
           byCatalog['scheme']?.length,
-          equals(217),
-          reason: 'Scheme catalog must contain exactly 217 schemes',
+          equals(219),
+          reason: 'Scheme catalog must contain exactly 219 schemes',
         );
       },
     );
@@ -212,7 +217,7 @@ void main() {
   });
 
   group('Scheme Status & Distribution Verification', () {
-    test('Status counts match active=92, unknown=113, closed=12', () {
+    test('Status counts match active=95, unknown=112, closed=12', () {
       final schemeData = (bundleJson['scheme_catalog.json']['data'] as List)
           .cast<Map<String, dynamic>>();
 
@@ -234,14 +239,14 @@ void main() {
         }
       }
 
-      expect(activeCount, equals(92), reason: 'Active status count must be 92');
+      expect(activeCount, equals(95), reason: 'Active status count must be 95');
       expect(
         unknownCount,
-        equals(113),
-        reason: 'Unknown status count must be 113',
+        equals(112),
+        reason: 'Unknown status count must be 112',
       );
       expect(closedCount, equals(12), reason: 'Closed status count must be 12');
-      expect(activeCount + unknownCount + closedCount, equals(217));
+      expect(activeCount + unknownCount + closedCount, equals(219));
     });
   });
 
@@ -296,6 +301,8 @@ class MssCatalogBundleProxy implements MssCatalogBundle {
   final Map<String, List<MssEntity>> byCatalog;
   @override
   final int totalRelationshipsCount;
+  @override
+  final Map<String, Map<String, dynamic>> searchProfiles = const {};
 
   MssCatalogBundleProxy(
     this.byId,

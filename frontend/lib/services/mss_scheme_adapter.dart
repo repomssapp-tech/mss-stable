@@ -1,4 +1,5 @@
 import '../models/mss_entity.dart';
+import '../models/mss_models.dart';
 import '../models/scheme_model.dart';
 import 'mss_catalog_bundle.dart';
 
@@ -132,7 +133,15 @@ class MssSchemeAdapter {
     final resolvedAuthorities = bundle.getAuthoritiesForScheme(entity);
     final resolvedInstitutions = bundle.getInstitutionsForScheme(entity);
 
-    String ministry = _getLocalizedText(gov['ministryText'], langCode);
+    // ministryText can hold a placeholder explanation (e.g. "Not applicable
+    // (State scheme)") for schemes with no central ministry -- ministryId is
+    // the reliable, language-independent signal for whether a real ministry
+    // is actually resolved, so gate on that rather than the text being
+    // merely non-empty.
+    final hasResolvedMinistry = gov['ministryId'] != null;
+    String ministry = hasResolvedMinistry
+        ? _getLocalizedText(gov['ministryText'], langCode)
+        : '';
     String department = _getLocalizedText(gov['departmentText'], langCode);
     String implementingAgency = _getLocalizedText(
       gov['implementingAgencyText'],
@@ -421,48 +430,81 @@ class MssSchemeAdapter {
     final optionalConditions = <String>[];
     final specialCategories = <String>[];
 
+    // Facet-matching fields for RecommendationEngine -- populated below
+    // alongside the display-text fields, from the SAME structured object.
+    int? eligibilityMinAge;
+    int? eligibilityMaxAge;
+    final eligibilityGenderValues = <String>[];
+    final eligibilityBusinessStageValues = <String>[];
+
     if (structuredEl != null) {
-      final aMin = structuredEl['ageMin'];
-      final aMax = structuredEl['ageMax'];
-      if (aMin != null || aMax != null) {
-        ageRange = '${aMin ?? 18} - ${aMax ?? "No upper limit"} years';
-        elCriteriaList.add('Applicant Age: $ageRange');
+      // Each facet is its own nested object: {text, applies, ...values}.
+      // `applies` (not mere key presence) is the authoritative signal that
+      // the facet actually constrains this scheme -- see taxonomy_engine.py
+      // and build_search_index.py's use of the same "applies" gate.
+      final ageObj = structuredEl['age'] as Map<String, dynamic>?;
+      if (ageObj?['applies'] == true) {
+        final aMin = ageObj?['minYears'];
+        final aMax = ageObj?['maxYears'];
+        eligibilityMinAge = aMin is int ? aMin : int.tryParse('$aMin');
+        eligibilityMaxAge = aMax is int ? aMax : int.tryParse('$aMax');
+        if (aMin != null || aMax != null) {
+          ageRange = '${aMin ?? 18} - ${aMax ?? "No upper limit"} years';
+          elCriteriaList.add('Applicant Age: $ageRange');
+        }
       }
 
-      final tMin = structuredEl['turnoverMinInr'];
-      final tMax = structuredEl['turnoverMaxInr'];
-      if (tMin != null || tMax != null) {
+      final genderObj = structuredEl['gender'] as Map<String, dynamic>?;
+      if (genderObj?['applies'] == true) {
+        final values = _asList(genderObj?['values']);
+        if (values != null) {
+          eligibilityGenderValues.addAll(values.map((e) => e.toString()));
+        }
+      }
+
+      final businessStageObj =
+          structuredEl['businessStage'] as Map<String, dynamic>?;
+      if (businessStageObj?['applies'] == true) {
+        final values = _asList(businessStageObj?['values']);
+        if (values != null) {
+          eligibilityBusinessStageValues.addAll(
+            values.map((e) => e.toString()),
+          );
+        }
+      }
+
+      final turnoverObj = structuredEl['turnover'] as Map<String, dynamic>?;
+      final tMin = turnoverObj?['minInr'];
+      final tMax = turnoverObj?['maxInr'];
+      if (turnoverObj?['applies'] == true && (tMin != null || tMax != null)) {
         turnoverLimits = '₹${tMin ?? 0} to ₹${tMax ?? "No limit"}';
         elCriteriaList.add('Enterprise Turnover: $turnoverLimits');
       }
 
-      final iMin = structuredEl['investmentMinInr'];
-      final iMax = structuredEl['investmentMaxInr'];
-      if (iMin != null || iMax != null) {
+      final investmentObj = structuredEl['investment'] as Map<String, dynamic>?;
+      final iMin = investmentObj?['minInr'];
+      final iMax = investmentObj?['maxInr'];
+      if (investmentObj?['applies'] == true &&
+          (iMin != null || iMax != null)) {
         investmentLimits = '₹${iMin ?? 0} to ₹${iMax ?? "No limit"}';
         elCriteriaList.add('Plant & Machinery Investment: $investmentLimits');
       }
 
-      final bTypes = _asList(structuredEl['businessTypes']);
-      if (bTypes != null && bTypes.isNotEmpty) {
-        allowedBusinessTypes.addAll(bTypes.map((e) => e.toString()));
-        elCriteriaList.add(
-          'Eligible Business Types: ${allowedBusinessTypes.join(', ')}',
-        );
+      final enterpriseObj = structuredEl['enterprise'] as Map<String, dynamic>?;
+      if (enterpriseObj?['applies'] == true) {
+        final bTypes = _asList(enterpriseObj?['types']);
+        if (bTypes != null && bTypes.isNotEmpty) {
+          allowedBusinessTypes.addAll(bTypes.map((e) => e.toString()));
+          elCriteriaList.add(
+            'Eligible Business Types: ${allowedBusinessTypes.join(', ')}',
+          );
+        }
       }
 
-      educationRequirements = _getLocalizedText(
-        structuredEl['education'],
-        langCode,
-      );
-      if (educationRequirements.isNotEmpty) {
-        elCriteriaList.add('Educational Qualification: $educationRequirements');
-      }
-
-      final mConds = _asList(structuredEl['mandatoryConditions']);
-      if (mConds != null) {
-        for (final mc in mConds) {
-          final s = _getLocalizedText(mc, langCode);
+      final otherConds = structuredEl['otherConditions'] as List?;
+      if (otherConds != null) {
+        for (final oc in otherConds) {
+          final s = _getLocalizedText(oc, langCode);
           if (s.isNotEmpty) {
             mandatoryConditions.add(s);
             if (!elCriteriaList.contains(s)) elCriteriaList.add(s);
@@ -470,31 +512,25 @@ class MssSchemeAdapter {
         }
       }
 
-      final oConds = _asList(structuredEl['optionalConditions']);
-      if (oConds != null) {
-        for (final oc in oConds) {
-          final s = _getLocalizedText(oc, langCode);
-          if (s.isNotEmpty) {
-            optionalConditions.add(s);
-            if (!elCriteriaList.contains(s)) elCriteriaList.add(s);
+      final specialCategoryObj =
+          structuredEl['specialCategory'] as Map<String, dynamic>?;
+      if (specialCategoryObj?['applies'] == true) {
+        final sCats = _asList(specialCategoryObj?['values']);
+        if (sCats != null) {
+          for (final sc in sCats) {
+            final s = sc.toString();
+            if (s.isNotEmpty) specialCategories.add(s);
           }
         }
       }
 
-      final sCats = _asList(structuredEl['specialCategories']);
-      if (sCats != null) {
-        for (final sc in sCats) {
-          final s = _getLocalizedText(sc, langCode);
-          if (s.isNotEmpty) specialCategories.add(s);
-        }
-      }
-
-      final locReq = _getLocalizedText(
-        structuredEl['locationRequirement'],
-        langCode,
-      );
-      if (locReq.isNotEmpty && !elCriteriaList.contains('Location: $locReq')) {
-        elCriteriaList.add('Location: $locReq');
+      final locationObj = structuredEl['location'] as Map<String, dynamic>?;
+      final locText = locationObj?['text'];
+      if (locationObj?['applies'] == true &&
+          locText is String &&
+          locText.isNotEmpty &&
+          !elCriteriaList.contains('Location: $locText')) {
+        elCriteriaList.add('Location: $locText');
       }
     }
 
@@ -594,29 +630,41 @@ class MssSchemeAdapter {
     }
 
     if (stepsList.isEmpty) {
-      final mode =
-          (appProc['modeText'] as String?) ??
-          (appProc['mode'] as String?) ??
-          'Online';
-      stepsList.add(
-        'Step 1: Register and fill $mode application via $sponsoringBody portal',
-      );
-      if (appProc['onlineUrl'] != null &&
-          (appProc['onlineUrl'] as String).isNotEmpty) {
+      // No detailed step-by-step procedure is verified for this scheme in
+      // the catalog. Show only what the scheme's own applicationProcess
+      // record actually asserts (modeText / onlineUrl / offlineDetails) --
+      // never a generic invented sequence. A prior version of this fallback
+      // fabricated a uniform 4-step "register -> upload -> District MSME
+      // Officer inspection -> subsidy credited to bank account" flow for
+      // EVERY scheme with empty steps, regardless of scheme type (it even
+      // applied to GeM marketplace seller registration, which involves
+      // neither a district inspection nor a subsidy disbursement). That
+      // fabricated content is deleted, not replaced with different
+      // fabricated content -- every line below traces to a real field on
+      // this scheme's own applicationProcess object.
+      final modeText =
+          (appProc['modeText'] as String?)?.trim() ??
+          (appProc['mode'] as String?)?.trim() ??
+          '';
+      final onlineUrl = (appProc['onlineUrl'] as String?)?.trim() ?? '';
+      final offlineDetails =
+          (appProc['offlineDetails'] as String?)?.trim() ?? '';
+
+      if (modeText.isNotEmpty) {
+        stepsList.add('Application Mode: $modeText');
+      }
+      if (onlineUrl.isNotEmpty) {
+        stepsList.add('Apply Online: $onlineUrl');
+      } else if (offlineDetails.isNotEmpty) {
+        stepsList.add('Offline Process: $offlineDetails');
+      }
+
+      if (stepsList.isEmpty) {
         stepsList.add(
-          'Step 2: Upload required documents online at ${appProc['onlineUrl']}',
-        );
-      } else {
-        stepsList.add(
-          'Step 2: Submit application copy and checklist documents to $issuingBody',
+          'Current application process not verified for this scheme. '
+          'Please refer to the official source above for the latest procedure.',
         );
       }
-      stepsList.add(
-        'Step 3: Verification & field inspection by District MSME Officer / Competent Authority',
-      );
-      stepsList.add(
-        'Step 4: Approval and direct benefit transfer / subsidy credit to bank account',
-      );
     }
 
     final serviceList = <SchemeService>[];
@@ -892,6 +940,10 @@ class MssSchemeAdapter {
       mandatoryConditions: mandatoryConditions,
       optionalConditions: optionalConditions,
       specialCategories: specialCategories,
+      eligibilityMinAge: eligibilityMinAge,
+      eligibilityMaxAge: eligibilityMaxAge,
+      eligibilityGenderValues: eligibilityGenderValues,
+      eligibilityBusinessStageValues: eligibilityBusinessStageValues,
       applicationFee: applicationFee,
       processingDurationDays: processingDurationDays,
       intakeTimelineText: intakeTimelineText,
@@ -906,6 +958,74 @@ class MssSchemeAdapter {
       documents: docList,
       requiredServices: serviceList,
       faqs: faqList,
+    );
+  }
+
+  /// Adapt a SchemeResult (from POST /v1/search) into a Scheme domain model,
+  /// merging offline catalog bundle details when available with API relevance/enrichment scores.
+  static Scheme schemeResultToScheme(
+    SchemeResult result,
+    MssCatalogBundle bundle, {
+    String langCode = 'en',
+  }) {
+    final entity = bundle.getEntity(result.schemeId);
+    if (entity != null && entity.entityType == 'scheme') {
+      final scheme = toScheme(entity, bundle, langCode: langCode);
+      final applyUrl = result.applyAction?.url ?? scheme.applicationUrl;
+      return scheme.copyWith(
+        name: result.name.isNotEmpty ? result.name : scheme.name,
+        matchScore: result.matchScore,
+        status: result.status != SchemeStatus.unrecognised
+            ? result.status.name
+            : scheme.status,
+        applicationUrl: applyUrl.isNotEmpty ? applyUrl : scheme.applicationUrl,
+      );
+    }
+    return Scheme(
+      id: result.schemeId,
+      name: result.name,
+      matchScore: result.matchScore,
+      status: result.status != SchemeStatus.unrecognised ? result.status.name : 'active',
+      officialWebsite: result.applyAction?.url ?? '',
+      applicationUrl: result.applyAction?.url ?? '',
+      overview: result.explanation.summary,
+      searchKeywords: result.matchReasons.map((m) => m.detail).join(' '),
+    );
+  }
+
+  /// Adapt an MssSchemeIntelligence DTO (from GET /v1/schemes/{id}) into a Scheme domain model.
+  static Scheme schemeIntelligenceToScheme(
+    MssSchemeIntelligence intel,
+    MssCatalogBundle bundle, {
+    String langCode = 'en',
+  }) {
+    final entity = bundle.getEntity(intel.schemeId);
+    if (entity != null && entity.entityType == 'scheme') {
+      final scheme = toScheme(entity, bundle, langCode: langCode);
+      final applyOnline = intel.nextActions.firstWhere(
+        (a) => a.action == 'apply_online',
+        orElse: () => const MssNextAction(action: '', label: ''),
+      );
+      return scheme.copyWith(
+        name: intel.name ?? scheme.name,
+        status: intel.schemeStatus != SchemeStatus.unrecognised
+            ? intel.schemeStatus.name
+            : scheme.status,
+        applicationUrl: applyOnline.url ?? scheme.applicationUrl,
+      );
+    }
+    final applyAction = intel.nextActions.firstWhere(
+      (a) => a.action == 'apply_online',
+      orElse: () => const MssNextAction(action: '', label: ''),
+    );
+    return Scheme(
+      id: intel.schemeId,
+      name: intel.name ?? intel.schemeId,
+      status: intel.schemeStatus != SchemeStatus.unrecognised
+          ? intel.schemeStatus.name
+          : 'active',
+      officialWebsite: applyAction.url ?? '',
+      applicationUrl: applyAction.url ?? '',
     );
   }
 }

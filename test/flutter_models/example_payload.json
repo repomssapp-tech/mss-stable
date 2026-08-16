@@ -1,0 +1,436 @@
+{
+  "contractVersion": "1.0.0",
+  "contract": "search_response",
+  "generatedAt": "2026-08-14T17:04:18Z",
+  "catalogVersion": "1.33.0-alpha+stageb.pass1.batch1+stageb.pass2.batch1+stageb.pass1.batch2+stageb.pass1.batch3+stageb.pass1.batch4+stageb.pass1.batch5+stageb.pass1.batch6+stageb.pass1.batch7+stageb.pass1.batch8+stageb.pass1.batch9+stageb.pass2.batches2-9",
+  "deterministic": true,
+  "query": {
+    "text": "collateral free loan for my micro business",
+    "language": "en",
+    "detectedIntent": {
+      "industries": [],
+      "benefits": [
+        "loan"
+      ],
+      "collateral": [
+        "collateral_free"
+      ],
+      "treds": [],
+      "communities": [],
+      "intents": [
+        "LOAN_REQUEST"
+      ]
+    }
+  },
+  "profileApplied": {
+    "enterpriseType": "micro",
+    "state": "IN-TN"
+  },
+  "warnings": [],
+  "resultCount": 2,
+  "results": [
+    {
+      "rank": 1,
+      "schemeId": "SCH000128",
+      "name": "Pradhan Mantri Mudra Yojana (PMMY)",
+      "score": 7.6456,
+      "rankingSignals": {
+        "components": {
+          "keyword": 3.7,
+          "category": 0.0,
+          "eligibility": 0.0,
+          "benefit": 3.0,
+          "semantic": 2.076
+        },
+        "weights": {
+          "keyword": 1.0,
+          "semantic": 0.6,
+          "category": 0.8,
+          "eligibility": 0.5,
+          "benefit": 0.9,
+          "profile": 0.0
+        }
+      },
+      "matchReasons": [
+        {
+          "dimension": "keyword",
+          "detail": "matched keyword(s): business, micro"
+        },
+        {
+          "dimension": "benefit",
+          "detail": "benefit type match: loan"
+        },
+        {
+          "dimension": "benefit",
+          "detail": "intent match: LOAN_REQUEST"
+        },
+        {
+          "dimension": "benefit",
+          "detail": "collateral concept match: collateral_free"
+        },
+        {
+          "dimension": "semantic",
+          "detail": "similar to already-matched scheme(s): SCH000018 (0.5), SCH000168 (0.444), SCH000160 (0.4)"
+        }
+      ],
+      "explanation": "Pradhan Mantri Mudra Yojana (PMMY) (score 7.6456): matched keyword(s): business, micro; benefit type match: loan; intent match: LOAN_REQUEST; collateral concept match: collateral_free; similar to already-matched scheme(s): SCH000018 (0.5), SCH000168 (0.444), SCH000160 (0.4). Source: internal record FIN000077 (no external source cited; retrieved 2026-08-14T00:00:00Z).",
+      "citations": [
+        {
+          "sourceName": "previous_verified_extraction",
+          "organization": null,
+          "url": null,
+          "retrievedDate": "2026-08-14T00:00:00Z",
+          "sourceTier": 2,
+          "sourceId": "FIN000077",
+          "externalSource": false,
+          "origin": "match_evidence"
+        },
+        {
+          "sourceName": "Primary source",
+          "organization": "TN MSME Compendium 2022",
+          "url": "https://www.financialservices.gov.in/pradhan-mantri-mudra-yojana-pmmy",
+          "retrievedDate": null,
+          "sourceTier": 2,
+          "sourceId": "SCH000128-SRC001",
+          "externalSource": true,
+          "origin": "scheme_source",
+          "isPrimary": true
+        },
+        {
+          "sourceName": "Official website",
+          "organization": "TN MSME Compendium 2022",
+          "url": "https://www.financialservices.gov.in/",
+          "retrievedDate": null,
+          "sourceTier": 2,
+          "sourceId": "SCH000128-SRC002",
+          "externalSource": true,
+          "origin": "scheme_source",
+          "isPrimary": false
+        },
+        {
+          "sourceName": "Application portal",
+          "organization": "TN MSME Compendium 2022",
+          "url": "https://www.mudra.org.in/",
+          "retrievedDate": null,
+          "sourceTier": 2,
+          "sourceId": "SCH000128-SRC003",
+          "externalSource": true,
+          "origin": "scheme_source",
+          "isPrimary": false
+        }
+      ],
+      "confidence": {
+        "level": "medium",
+        "verificationStatus": "partially_verified",
+        "schemeStatus": "active",
+        "missingFieldCount": 15,
+        "basis": "catalog verification.confidence, surfaced verbatim; not blended with search score"
+      },
+      "assistance": [
+        {
+          "financeId": "FIN000077",
+          "type": "loan",
+          "typeText": "Loan",
+          "isRepayable": true,
+          "isGuarantee": false,
+          "amount": {
+            "currency": "INR",
+            "percentage": null,
+            "percentageText": "Not a subsidy",
+            "maxInr": 2000000,
+            "maxText": "₹20 lakh under Tarun Plus subject to conditions",
+            "minInr": null,
+            "minText": "Category-dependent"
+          },
+          "mode": null,
+          "applicationUrl": "https://www.mudra.org.in/",
+          "conditions": [],
+          "collateralStatus": "not_required",
+          "providers": [],
+          "description": "Shishu up to ₹50,000; Kishore above ₹50,000 to ₹5 lakh; Tarun above ₹5 lakh to ₹10 lakh; Tarun Plus above ₹10 lakh to ₹20 lakh for entrepreneurs who successfully repaid a previous Tarun loan. Collateral is not required."
+        }
+      ],
+      "authority": [
+        {
+          "entityId": "AUTH000009",
+          "entityType": "authority",
+          "name": "Ministry of Finance",
+          "shortName": null,
+          "relationType": "administered_by"
+        },
+        {
+          "entityId": "AUTH000051",
+          "entityType": "authority",
+          "name": "Department of Financial Services",
+          "shortName": null,
+          "relationType": "administered_by"
+        }
+      ],
+      "applicability": {
+        "schemeId": "SCH000128",
+        "eligible": true,
+        "matchedFacets": [
+          "enterpriseType"
+        ],
+        "neutralFacets": [
+          "state"
+        ],
+        "excludedBy": null,
+        "excludedByAll": []
+      },
+      "nextActions": [
+        {
+          "action": "apply_online",
+          "label": "Apply on the official portal",
+          "url": "https://www.mudra.org.in/",
+          "available": true
+        },
+        {
+          "action": "prepare_documents",
+          "label": "Prepare 5 required document(s)",
+          "url": null,
+          "available": true
+        },
+        {
+          "action": "view_official_source",
+          "label": "Read the official source",
+          "url": "https://www.financialservices.gov.in/pradhan-mantri-mudra-yojana-pmmy",
+          "available": true
+        },
+        {
+          "action": "contact_authority",
+          "label": "Contact: Ministry of Finance, Department of Financial Services",
+          "url": null,
+          "available": true,
+          "entityIds": [
+            "AUTH000009",
+            "AUTH000051"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 2,
+      "schemeId": "SCH000061",
+      "name": "General Purpose Term Loan",
+      "score": 6.931,
+      "rankingSignals": {
+        "components": {
+          "keyword": 3.7,
+          "category": 0.0,
+          "eligibility": 0.0,
+          "benefit": 2.0,
+          "semantic": 2.385
+        },
+        "weights": {
+          "keyword": 1.0,
+          "semantic": 0.6,
+          "category": 0.8,
+          "eligibility": 0.5,
+          "benefit": 0.9,
+          "profile": 0.0
+        }
+      },
+      "matchReasons": [
+        {
+          "dimension": "keyword",
+          "detail": "matched keyword(s): business, loan"
+        },
+        {
+          "dimension": "benefit",
+          "detail": "benefit type match: loan"
+        },
+        {
+          "dimension": "benefit",
+          "detail": "intent match: LOAN_REQUEST"
+        },
+        {
+          "dimension": "semantic",
+          "detail": "similar to already-matched scheme(s): SCH000059 (0.583), SCH000160 (0.538), SCH000159 (0.5)"
+        }
+      ],
+      "explanation": "General Purpose Term Loan (score 6.931): matched keyword(s): business, loan; benefit type match: loan; intent match: LOAN_REQUEST; similar to already-matched scheme(s): SCH000059 (0.583), SCH000160 (0.538), SCH000159 (0.5).",
+      "citations": [
+        {
+          "sourceName": "Primary source",
+          "organization": "TN MSME Compendium 2022",
+          "url": "https://www.sidbi.in/",
+          "retrievedDate": null,
+          "sourceTier": 2,
+          "sourceId": "SCH000061-SRC001",
+          "externalSource": true,
+          "origin": "scheme_source",
+          "isPrimary": true
+        }
+      ],
+      "confidence": {
+        "level": "low",
+        "verificationStatus": "unverified",
+        "schemeStatus": "unknown",
+        "missingFieldCount": 20,
+        "basis": "catalog verification.confidence, surfaced verbatim; not blended with search score"
+      },
+      "assistance": [
+        {
+          "financeId": "FIN000040",
+          "type": "loan",
+          "typeText": "Loan",
+          "isRepayable": true,
+          "isGuarantee": false,
+          "amount": {
+            "currency": "INR",
+            "percentage": null,
+            "percentageText": null,
+            "maxInr": null,
+            "maxText": "Loan finance; terms not verified",
+            "minInr": null,
+            "minText": null
+          },
+          "mode": null,
+          "applicationUrl": null,
+          "conditions": [],
+          "collateralStatus": "not_specified",
+          "providers": [
+            "INST000001"
+          ],
+          "description": "Exact current loan amount, tenure, security and pricing are not entered because an authoritative current product page matching this exact label was not established."
+        }
+      ],
+      "authority": [
+        {
+          "entityId": "AUTH000024",
+          "entityType": "authority",
+          "name": "Small Industries Development Bank of India",
+          "shortName": "SIDBI",
+          "relationType": "administered_by"
+        },
+        {
+          "entityId": "INST000001",
+          "entityType": "institution",
+          "name": "Small Industries Development Bank of India",
+          "shortName": "SIDBI",
+          "relationType": "implemented_by"
+        }
+      ],
+      "applicability": {
+        "schemeId": "SCH000061",
+        "eligible": true,
+        "matchedFacets": [],
+        "neutralFacets": [
+          "enterpriseType",
+          "state"
+        ],
+        "excludedBy": null,
+        "excludedByAll": []
+      },
+      "nextActions": [
+        {
+          "action": "prepare_documents",
+          "label": "Prepare 4 required document(s)",
+          "url": null,
+          "available": true,
+          "statusUnconfirmed": true
+        },
+        {
+          "action": "view_official_source",
+          "label": "Read the official source",
+          "url": "https://www.sidbi.in/",
+          "available": true,
+          "statusUnconfirmed": true
+        },
+        {
+          "action": "contact_authority",
+          "label": "Contact: Small Industries Development Bank of India, Small Industries Development Bank of India",
+          "url": null,
+          "available": true,
+          "entityIds": [
+            "AUTH000024",
+            "INST000001"
+          ],
+          "statusUnconfirmed": true
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "contractVersion": "1.0.0",
+    "catalogVersion": "1.33.0-alpha+stageb.pass1.batch1+stageb.pass2.batch1+stageb.pass1.batch2+stageb.pass1.batch3+stageb.pass1.batch4+stageb.pass1.batch5+stageb.pass1.batch6+stageb.pass1.batch7+stageb.pass1.batch8+stageb.pass1.batch9+stageb.pass2.batches2-9",
+    "lastUpdated": "2026-08-14T17:04:18Z",
+    "catalogChecksum": "sha256:178b7969bc3ee4bfe814e539c8e47e98262de665e298df3302d297d3e40c59ba",
+    "schemaVersion": "1.0.0",
+    "entityCounts": {
+      "applicability_matrix": 217,
+      "authority": 124,
+      "business_enablement": 4,
+      "cluster_assistance": 2,
+      "csr_provision": 16,
+      "export_benefit": 13,
+      "finance_product": 115,
+      "institution": 83,
+      "knowledge_item": 28,
+      "msme_privilege": 1,
+      "scheme": 217,
+      "tax_provision": 13,
+      "treds_platform": 16
+    },
+    "supportedLanguages": [
+      "en",
+      "ta"
+    ],
+    "profileDimensions": {
+      "gender": {
+        "schemesWithData": 76,
+        "allowedValues": [
+          "female"
+        ]
+      },
+      "community": {
+        "schemesWithData": 0,
+        "allowedValues": []
+      },
+      "specialCategory": {
+        "schemesWithData": 72,
+        "allowedValues": [
+          "differently_abled",
+          "ex_servicemen",
+          "minority",
+          "sc",
+          "st",
+          "transgender",
+          "women"
+        ]
+      },
+      "enterpriseType": {
+        "schemesWithData": 36,
+        "allowedValues": [
+          "medium",
+          "micro",
+          "small"
+        ]
+      },
+      "businessStage": {
+        "schemesWithData": 32,
+        "allowedValues": [
+          "diversification",
+          "existing",
+          "expansion",
+          "new"
+        ]
+      },
+      "sector": {
+        "schemesWithData": 0,
+        "allowedValues": []
+      },
+      "state": {
+        "schemesWithData": 36,
+        "allowedValues": [
+          "IN-TN"
+        ]
+      },
+      "district": {
+        "schemesWithData": 0,
+        "allowedValues": []
+      }
+    }
+  }
+}

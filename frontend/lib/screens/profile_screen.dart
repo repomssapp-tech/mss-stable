@@ -124,7 +124,6 @@ class ProfileScreen extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFE2E8F0)),
         boxShadow: [
@@ -135,7 +134,11 @@ class ProfileScreen extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(children: tiles),
+      child: Material(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        child: Column(children: tiles),
+      ),
     );
   }
 
