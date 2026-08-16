@@ -154,6 +154,28 @@ class InSchemesApp extends StatelessWidget {
           ),
           // Set initial screen based on login state
           home: const SplashScreen(),
+          // The platform forwards incoming deep-link intents (e.g. the
+          // Supabase OAuth callback "com.inschemes.app://login-callback/
+          // ?code=...") as a named-route push, even though
+          // supabase_flutter's own listener (registered in
+          // Supabase.initialize) already completes the auth code exchange
+          // independently of the Navigator. This app has no named-route
+          // table (only `home:`), so without a route generator Flutter's
+          // default onUnknownRoute throws "Could not find a generator for
+          // route". Absorb it: push nothing visible and pop immediately.
+          onGenerateRoute: (settings) => null,
+          onUnknownRoute: (settings) => PageRouteBuilder(
+            settings: settings,
+            opaque: false,
+            pageBuilder: (context, animation, secondaryAnimation) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (Navigator.of(context).canPop()) {
+                  Navigator.of(context).pop();
+                }
+              });
+              return const SizedBox.shrink();
+            },
+          ),
         );
       },
     );

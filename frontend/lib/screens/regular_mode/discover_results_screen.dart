@@ -57,11 +57,17 @@ class _DiscoverResultsScreenState extends State<DiscoverResultsScreen> {
     } else {
       list = await SchemeRepository.instance.getSchemesByCategory(widget.title);
     }
-    if (mounted) {
+    // Deferred: this async load runs on initState, right as the screen's
+    // own entrance/route transition is animating, which can trip
+    // Flutter's re-entrant-layout assertion if the setState lands
+    // mid-layout. See search_screen.dart's _triggerSearch for the same
+    // fix applied to the same underlying race.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       setState(() {
         _baseSchemes = list;
       });
-    }
+    });
   }
 
   // Filter and sort the schemes list based on the criteria

@@ -439,6 +439,23 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           );
         }
 
+        // Recompute immediately rather than relying solely on
+        // _subscribeToProfile's realtime listener to catch up -- that
+        // subscription is eventually-consistent (and does nothing at all
+        // if Realtime isn't enabled for the profiles table), so without
+        // this, "Recommended For You" keeps showing scores computed
+        // against the pre-sign-in default profile until something else
+        // happens to recompute it.
+        _filters['state'] = _profile.state;
+        _filters['community'] = _profile.community;
+        _filters['gender'] = _profile.gender;
+        if (_allSchemes.isNotEmpty) {
+          _recommendedSchemes = RecommendationEngine.getRecommendations(
+            _profile,
+            _allSchemes,
+          );
+        }
+
         _subscribeToProfile(user.id);
         _subscribeToNotifications(user.id);
         fetchPromoAlerts();

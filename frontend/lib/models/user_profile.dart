@@ -155,6 +155,8 @@ class UserProfile {
         'T',
       )[0], // yyyy-MM-dd format for DATE type
       'gender': gender,
+      'religion': religion,
+      'first_gen_graduate': firstGenGraduate,
       'disability': disability,
       'veteran': veteran,
       'house': house,
@@ -188,7 +190,8 @@ class UserProfile {
       community: json['community'] ?? 'General',
       religion: json['religion'] ?? '',
       educationLevel: json['educationLevel'] ?? 'Undergraduate',
-      firstGenGraduate: json['firstGenGraduate'] ?? false,
+      firstGenGraduate:
+          json['firstGenGraduate'] ?? json['first_gen_graduate'] ?? false,
       annualIncome: (json['annualIncome'] ?? json['annual_income'] ?? 0.0)
           .toDouble(),
       employmentStatus:

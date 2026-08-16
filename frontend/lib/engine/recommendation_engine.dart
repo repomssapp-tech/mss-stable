@@ -27,8 +27,12 @@ class RecommendationEngine {
       final res = evaluate(profile, scheme);
       results.add(MapEntry(scheme, res));
     }
-    // Sort by score descending
-    results.sort((a, b) => b.value.score.compareTo(a.value.score));
+    // Sort by score descending, scheme id as a deterministic tiebreak so
+    // recomputing (e.g. on every profile sync) never reorders tied schemes.
+    results.sort((a, b) {
+      final scoreCmp = b.value.score.compareTo(a.value.score);
+      return scoreCmp != 0 ? scoreCmp : a.key.id.compareTo(b.key.id);
+    });
     return results;
   }
 
@@ -385,11 +389,27 @@ class RecommendationEngine {
           }
         }
 
-        // 2. Gender check
+        // 2. Gender check -- structured eligibility.gender facet is
+        // authoritative when the catalog actually asserts it (`applies`);
+        // free-text targetBeneficiary keyword match is the fallback for
+        // schemes where that facet wasn't populated, not a data conflict.
         final targetUpper = scheme.targetBeneficiary.toUpperCase();
         final hasWomenKeyword =
             targetUpper.contains('WOMEN') || targetUpper.contains('FEMALE');
-        if (hasWomenKeyword && !isFemale) {
+        if (scheme.eligibilityGenderValues.isNotEmpty) {
+          final wantsFemale = scheme.eligibilityGenderValues
+              .any((v) => v.toLowerCase() == 'female');
+          if (wantsFemale && !isFemale) {
+            score = 0.0;
+            missingRequirements.add(
+              'Gender: This scheme is targeted towards Women/Female entrepreneurs.',
+            );
+          } else if (wantsFemale && isFemale) {
+            matchingReasons.add(
+              'Gender: You match the target female demographic.',
+            );
+          }
+        } else if (hasWomenKeyword && !isFemale) {
           score = 0.0;
           missingRequirements.add(
             'Gender: This scheme is targeted towards Women/Female entrepreneurs.',
@@ -400,14 +420,45 @@ class RecommendationEngine {
           );
         }
 
-        // 3. Community check (SC/ST/OBC)
+        // 3. Special-category check -- structured eligibility.specialCategory
+        // facet (sc/st/women/differently_abled/transgender/ex_servicemen/
+        // minority) is authoritative when populated; free-text SC/ST keyword
+        // match is the fallback. A mismatch is a soft penalty (priority
+        // category, not always exclusive eligibility), never a hard zero.
         final hasSCSTKeyword =
             targetUpper.contains('SC/') ||
             targetUpper.contains('SC ') ||
             targetUpper.contains('ST ') ||
             targetUpper.contains('SC-ST') ||
             targetUpper.contains('SC/ST');
-        if (hasSCSTKeyword && !isSCST) {
+        if (scheme.specialCategories.isNotEmpty) {
+          final profileCategories = <String>{
+            if (profile.community.toLowerCase() == 'sc') 'sc',
+            if (profile.community.toLowerCase() == 'st') 'st',
+            if (isFemale) 'women',
+            if (profile.gender.toLowerCase() == 'transgender') 'transgender',
+            if (profile.disability.isNotEmpty &&
+                profile.disability.toLowerCase() != 'none')
+              'differently_abled',
+            if (profile.veteran) 'ex_servicemen',
+            if (_minorityReligions.contains(profile.religion.toLowerCase()))
+              'minority',
+          };
+          final schemeCategories = scheme.specialCategories
+              .map((c) => c.toLowerCase())
+              .toSet();
+          final overlap = schemeCategories.intersection(profileCategories);
+          if (overlap.isEmpty) {
+            score *= 0.5;
+            missingRequirements.add(
+              'Community/Category: Priority is for ${scheme.specialCategories.join(', ')}.',
+            );
+          } else {
+            matchingReasons.add(
+              'Community/Category: Matches the ${overlap.join(', ')} priority category.',
+            );
+          }
+        } else if (hasSCSTKeyword && !isSCST) {
           score *= 0.5;
           missingRequirements.add(
             'Community: Priority/eligibility is for SC/ST categories.',
@@ -418,11 +469,49 @@ class RecommendationEngine {
           );
         }
 
-        // 4. Stable dynamic baseline score for matches (e.g. 75% to 89%)
-        if (score > 0.0) {
-          final int hash = scheme.id.hashCode.abs();
-          score = 0.75 + (hash % 15) / 100.0;
-          matchingReasons.add('Relevance: Matches your profile parameters.');
+        // 4. Age check -- real, from eligibility.age.{minYears,maxYears}.
+        if (scheme.eligibilityMinAge != null ||
+            scheme.eligibilityMaxAge != null) {
+          final minAge = scheme.eligibilityMinAge ?? 0;
+          final maxAge = scheme.eligibilityMaxAge ?? 200;
+          if (age < minAge || age > maxAge) {
+            score *= 0.3;
+            missingRequirements.add(
+              'Age: Your age ($age) is outside the eligible range of $minAge-$maxAge years.',
+            );
+          } else {
+            matchingReasons.add(
+              'Age: Your age ($age) is within the eligible range of $minAge-$maxAge years.',
+            );
+          }
+        }
+
+        // 5. Business stage check -- real, from eligibility.businessStage.
+        if (scheme.eligibilityBusinessStageValues.isNotEmpty) {
+          final mappedStage = _mapBusinessStage(profile.businessStage);
+          final wantsStage = scheme.eligibilityBusinessStageValues
+              .map((s) => s.toLowerCase())
+              .toSet();
+          if (mappedStage != null && wantsStage.contains(mappedStage)) {
+            matchingReasons.add(
+              'Business Stage: Your business stage (${profile.businessStage}) matches.',
+            );
+          } else {
+            score *= 0.7;
+            missingRequirements.add(
+              'Business Stage: This scheme targets ${scheme.eligibilityBusinessStageValues.join(', ')} businesses.',
+            );
+          }
+        }
+
+        // 6. No eligibility facet applied at all -- genuinely unconstrained,
+        // not a fabricated per-scheme number. Every profile sees the same
+        // (correct) result for a scheme with no restrictions.
+        if (score > 0.0 && matchingReasons.isEmpty) {
+          score = 0.7;
+          matchingReasons.add(
+            'Relevance: No specific eligibility conflicts detected.',
+          );
         }
         break;
     }
@@ -443,4 +532,35 @@ class RecommendationEngine {
       missingDocuments: missingDocuments,
     );
   }
+
+  // Catalog eligibility.businessStage vocab (derived from scheme_catalog.json):
+  // 'new', 'existing', 'expansion', 'diversification'. UserProfile's
+  // businessStage is a separate, coarser onboarding-form vocab: 'Idea',
+  // 'Prototype', 'Registered', 'Operational', 'Expansion'. Maps the latter
+  // onto the former; returns null for stages with no reasonable mapping.
+  static String? _mapBusinessStage(String profileStage) {
+    switch (profileStage.toLowerCase()) {
+      case 'idea':
+      case 'prototype':
+        return 'new';
+      case 'registered':
+      case 'operational':
+        return 'existing';
+      case 'expansion':
+        return 'expansion';
+      default:
+        return null;
+    }
+  }
+
+  // Religions the catalog's eligibility.specialCategory 'minority' value
+  // refers to (India's officially notified religious minorities).
+  static const _minorityReligions = {
+    'muslim',
+    'christian',
+    'sikh',
+    'buddhist',
+    'parsi',
+    'jain',
+  };
 }
