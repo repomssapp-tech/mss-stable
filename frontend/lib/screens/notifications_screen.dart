@@ -6,6 +6,7 @@ import 'package:frontend/utils/constants.dart';
 import 'package:frontend/services/centralized_translator.dart';
 import 'package:frontend/l10n/l10n.dart';
 import 'package:frontend/utils/responsive.dart';
+import 'package:frontend/widgets/app_toast.dart';
 import 'regular_mode/basic_profile_screen.dart';
 
 class NotificationsScreen extends StatefulWidget {
@@ -890,13 +891,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       ? null
                       : () {
                           provider.markNotificationsRead(_selectedIds.toList());
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                CentralizedTranslator.instance.translate(
-                                  'Selected notifications marked as read',
-                                ),
-                              ),
+                          AppToast.showSuccess(
+                            context,
+                            CentralizedTranslator.instance.translate(
+                              'Selected notifications marked as read',
                             ),
                           );
                           setState(() {
@@ -916,13 +914,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       ? null
                       : () {
                           provider.deleteNotifications(_selectedIds.toList());
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                CentralizedTranslator.instance.translate(
-                                  'Selected notifications deleted',
-                                ),
-                              ),
+                          AppToast.showSuccess(
+                            context,
+                            CentralizedTranslator.instance.translate(
+                              'Selected notifications deleted',
                             ),
                           );
                           setState(() {
@@ -934,25 +929,6 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 const SizedBox(width: 8),
               ]
             : [
-                IconButton(
-                  icon: const Icon(
-                    Icons.filter_alt_outlined,
-                    color: AppConstants.primaryText,
-                    size: 22,
-                  ),
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          CentralizedTranslator.instance.translate(
-                            'Filter options opened',
-                          ),
-                        ),
-                        duration: const Duration(milliseconds: 500),
-                      ),
-                    );
-                  },
-                ),
                 PopupMenuButton<String>(
                   color: Colors.white,
                   elevation: 8,
@@ -968,24 +944,18 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   onSelected: (value) {
                     if (value == 'mark_all_read') {
                       provider.markAllNotificationsRead();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            CentralizedTranslator.instance.translate(
-                              'All notifications marked as read',
-                            ),
-                          ),
+                      AppToast.showSuccess(
+                        context,
+                        CentralizedTranslator.instance.translate(
+                          'All notifications marked as read',
                         ),
                       );
                     } else if (value == 'delete_all') {
                       provider.deleteAllNotifications();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            CentralizedTranslator.instance.translate(
-                              'All notifications deleted',
-                            ),
-                          ),
+                      AppToast.showSuccess(
+                        context,
+                        CentralizedTranslator.instance.translate(
+                          'All notifications deleted',
                         ),
                       );
                     } else if (value == 'select') {

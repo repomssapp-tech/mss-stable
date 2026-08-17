@@ -145,7 +145,7 @@ class MssCatalogBundle {
           '${installed.manifest.releaseVersion ?? installed.manifest.id} '
           'from ${installed.bundlePath}',
         );
-        return _finishLoading(
+        return await _finishLoading(
           releaseJsonStr,
           compressedBytes,
           overrideChecksumForTest: overrideChecksumForTest,

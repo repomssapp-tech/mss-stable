@@ -1474,7 +1474,44 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     try {
       final res = await Supabase.instance.client.from('promo_alerts').select();
 
-      _promoAlerts = List<Map<String, dynamic>>.from(res);
+      final mapped = List<Map<String, dynamic>>.from(res).map((item) {
+        final mutable = Map<String, dynamic>.from(item);
+        if (mutable['bg_image'] == null ||
+            mutable['bg_image'].toString().isEmpty) {
+          final title = (mutable['title'] ?? '').toString().toLowerCase();
+          final badge =
+              (mutable['badge_text'] ?? '').toString().toLowerCase();
+          if (badge.contains('alert') ||
+              title.contains('closing') ||
+              title.contains('deadline')) {
+            mutable['bg_image'] = 'assets/images/Background/alert banner.png';
+            mutable['badge_text_color'] = '#EA580C';
+            mutable['badge_bg_color'] = '#FFF7ED';
+          } else if (badge.contains('new') ||
+              title.contains('new scheme') ||
+              title.contains('export')) {
+            mutable['bg_image'] =
+                'assets/images/Background/new scheme banner.png';
+            mutable['badge_text_color'] = '#16A34A';
+            mutable['badge_bg_color'] = '#DCFCE7';
+          } else if (badge.contains('notify') ||
+              title.contains('update') ||
+              title.contains('udyam')) {
+            mutable['bg_image'] =
+                'assets/images/Background/notification banner.png';
+            mutable['badge_text_color'] = '#2563EB';
+            mutable['badge_bg_color'] = '#EFF6FF';
+          } else {
+            mutable['bg_image'] =
+                'assets/images/Background/suggestion banner.png';
+            mutable['badge_text_color'] = '#7C3AED';
+            mutable['badge_bg_color'] = '#F5F3FF';
+          }
+        }
+        return mutable;
+      }).toList();
+
+      _promoAlerts = mapped;
       notifyListeners();
     } catch (e) {
       debugPrint('[AppProvider] Error fetching promo alerts: $e');

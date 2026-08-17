@@ -718,14 +718,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 _parseHexColor(item['bg_gradient_start'] ?? '#FFF7ED'),
                 _parseHexColor(item['bg_gradient_end'] ?? '#FFFFEDD5'),
               ];
-              final String? bgImage = item['bg_image'] as String?;
 
+              // Always ensure a rich design banner background image is used
+              String? bgImage = item['bg_image'] as String?;
+              if (bgImage == null || bgImage.isEmpty) {
+                final fallbackBanners = [
+                  'assets/images/Background/alert banner.png',
+                  'assets/images/Background/new scheme banner.png',
+                  'assets/images/Background/notification banner.png',
+                  'assets/images/Background/suggestion banner.png',
+                ];
+                bgImage = fallbackBanners[index % fallbackBanners.length];
+              }
+
+              // Since the 4 banner images have built-in illustrations on the right,
+              // only render rightGraphic if it's a draft session progress or no bgImage
               Widget rightGraphic = const SizedBox();
-              if (item['graphic_type'] == 'calendar') {
-                rightGraphic = _buildCalendarGraphic();
-              } else if (item['graphic_type'] == 'ship') {
-                rightGraphic = _buildShipGraphic();
-              } else if (item['graphic_type'] == 'progress') {
+              if (item['graphic_type'] == 'progress') {
                 final double progress =
                     (item['progress'] as num?)?.toDouble() ?? 0.0;
                 rightGraphic = _buildProgressGraphic(progress);
@@ -896,7 +905,7 @@ class _HomeScreenState extends State<HomeScreen> {
         borderRadius: BorderRadius.circular(16),
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           decoration: BoxDecoration(
             gradient: bgImage != null ? null : bgGradient,
             image: bgImage != null
@@ -908,9 +917,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.02),
-                blurRadius: 8,
-                offset: const Offset(0, 2),
+                color: Colors.black.withValues(alpha: 0.03),
+                blurRadius: 10,
+                offset: const Offset(0, 3),
               ),
             ],
           ),
@@ -923,12 +932,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 6,
-                        vertical: 2.5,
+                        horizontal: 8,
+                        vertical: 3,
                       ),
                       decoration: BoxDecoration(
                         color: badgeBgColor.withValues(
-                          alpha: bgImage != null ? 0.85 : 1.0,
+                          alpha: bgImage != null ? 0.9 : 1.0,
                         ),
                         borderRadius: BorderRadius.circular(6),
                       ),
@@ -939,19 +948,19 @@ class _HomeScreenState extends State<HomeScreen> {
                               )
                             : badgeText,
                         style: GoogleFonts.inter(
-                          fontSize: 9,
+                          fontSize: 9.5,
                           fontWeight: FontWeight.bold,
                           color: badgeTextColor,
                         ),
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 5),
                     Text(
                       transTitle,
                       style: GoogleFonts.poppins(
-                        fontSize: _scaledFontSize(13.0),
+                        fontSize: _scaledFontSize(13.5),
                         fontWeight: _scaledFontWeight(FontWeight.bold),
-                        color: titleColor,
+                        color: const Color(0xFF0F172A),
                         height: 1.2,
                       ),
                       maxLines: 2,
@@ -962,7 +971,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Text(
                         transSubtitle,
                         style: GoogleFonts.inter(
-                          fontSize: _scaledFontSize(9.5),
+                          fontSize: _scaledFontSize(10.0),
                           color: const Color(0xFF475569),
                           fontWeight: _scaledFontWeight(FontWeight.w600),
                           height: 1.25,
@@ -974,115 +983,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              const SizedBox(width: 6),
+              const SizedBox(width: 8),
               if (bgImage == null)
                 rightGraphic
               else
                 // Reserve spacer on the right so text doesn't overlap the background image's built-in icon
-                const SizedBox(width: 80),
+                const SizedBox(width: 85),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildCalendarGraphic() {
-    return SizedBox(
-      width: 56,
-      height: 56,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: const Color(0xFFFED7AA), width: 1.2),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.04),
-                  blurRadius: 3,
-                  offset: const Offset(0, 1.5),
-                ),
-              ],
-            ),
-            padding: const EdgeInsets.only(
-              top: 10,
-              left: 4,
-              right: 4,
-              bottom: 3,
-            ),
-            child: GridView.count(
-              crossAxisCount: 4,
-              padding: EdgeInsets.zero,
-              mainAxisSpacing: 2,
-              crossAxisSpacing: 2,
-              physics: const NeverScrollableScrollPhysics(),
-              children: List.generate(12, (index) {
-                return Container(
-                  decoration: BoxDecoration(
-                    color: index == 9
-                        ? const Color(0xFFDC2626)
-                        : const Color(0xFFEFF6FF),
-                    shape: BoxShape.circle,
-                  ),
-                );
-              }),
-            ),
-          ),
-          Positioned(
-            top: 2,
-            left: 14,
-            child: Row(
-              children: [
-                _buildCalendarRing(),
-                const SizedBox(width: 10),
-                _buildCalendarRing(),
-              ],
-            ),
-          ),
-          Positioned(
-            right: 0,
-            bottom: 0,
-            child: Container(
-              width: 18,
-              height: 18,
-              decoration: const BoxDecoration(
-                color: Color(0xFF2563EB),
-                shape: BoxShape.circle,
-              ),
-              alignment: Alignment.center,
-              child: const Icon(
-                Icons.access_time_filled,
-                size: 10,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCalendarRing() {
-    return Container(
-      width: 5,
-      height: 9,
-      decoration: BoxDecoration(
-        color: const Color(0xFFEA580C),
-        borderRadius: BorderRadius.circular(2),
-      ),
-    );
-  }
-
-  Widget _buildShipGraphic() {
-    return SizedBox(
-      width: 60,
-      height: 54,
-      child: CustomPaint(painter: ShipPainter()),
     );
   }
 
@@ -2016,76 +1926,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-}
-
-class ShipPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()..style = PaintingStyle.fill;
-    paint.color = const Color(0xFFEFF6FF);
-    canvas.drawCircle(Offset(size.width / 2, size.height / 2), 32, paint);
-
-    paint.color = const Color(0xFF93C5FD);
-    final waterPath = Path()
-      ..moveTo(0, size.height * 0.7)
-      ..quadraticBezierTo(
-        size.width * 0.25,
-        size.height * 0.65,
-        size.width * 0.5,
-        size.height * 0.7,
-      )
-      ..quadraticBezierTo(
-        size.width * 0.75,
-        size.height * 0.75,
-        size.width,
-        size.height * 0.7,
-      )
-      ..lineTo(size.width, size.height)
-      ..lineTo(0, size.height)
-      ..close();
-    canvas.drawPath(waterPath, paint);
-
-    paint.color = const Color(0xFF3B82F6);
-    final hullPath = Path()
-      ..moveTo(size.width * 0.15, size.height * 0.6)
-      ..lineTo(size.width * 0.75, size.height * 0.6)
-      ..lineTo(size.width * 0.68, size.height * 0.72)
-      ..lineTo(size.width * 0.22, size.height * 0.72)
-      ..close();
-    canvas.drawPath(hullPath, paint);
-
-    paint.color = const Color(0xFF1E3A8A);
-    canvas.drawRect(
-      Rect.fromLTWH(size.width * 0.6, size.height * 0.44, 10, 12),
-      paint,
-    );
-
-    paint.color = const Color(0xFFEF4444);
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromLTWH(size.width * 0.25, size.height * 0.50, 10, 10),
-        const Radius.circular(1),
-      ),
-      paint,
-    );
-    paint.color = const Color(0xFF10B981);
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromLTWH(size.width * 0.36, size.height * 0.50, 10, 10),
-        const Radius.circular(1),
-      ),
-      paint,
-    );
-    paint.color = const Color(0xFFF59E0B);
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromLTWH(size.width * 0.47, size.height * 0.50, 10, 10),
-        const Radius.circular(1),
-      ),
-      paint,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

@@ -5,6 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../utils/constants.dart';
 import '../../services/centralized_translator.dart';
 import '../../l10n/l10n.dart';
+import '../../widgets/app_toast.dart';
 
 class HelpSupportScreen extends StatefulWidget {
   final String initialMode; // 'faq', 'contact', 'both'
@@ -57,13 +58,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
 
   void _copyToClipboard(String text, String message) {
     Clipboard.setData(ClipboardData(text: text));
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: const Color(0xFF16A34A),
-        duration: const Duration(seconds: 2),
-      ),
-    );
+    AppToast.showSuccess(context, message);
   }
 
   void _showFAQBottomSheet(String question, String answer) {
@@ -443,13 +438,10 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                           : () {
                               final text = _feedbackController.text.trim();
                               if (text.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      CentralizedTranslator.instance.translate(
-                                        'Please describe the issue.',
-                                      ),
-                                    ),
+                                AppToast.showWarning(
+                                  context,
+                                  CentralizedTranslator.instance.translate(
+                                    'Please describe the issue.',
                                   ),
                                 );
                                 return;
@@ -485,13 +477,9 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                                   if (context.mounted) {
                                     setModalState(() => _isSubmitting = false);
                                     Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                          'Thank you! Your ticket has been submitted.',
-                                        ),
-                                        backgroundColor: Color(0xFF16A34A),
-                                      ),
+                                    AppToast.showSuccess(
+                                      context,
+                                      'Thank you! Your ticket has been submitted.',
                                     );
                                     _feedbackController.clear();
                                     _emailController.clear();
@@ -670,24 +658,20 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       onPressed: submittingFeedback
                           ? null
                           : () {
-                              setModalState(() => submittingFeedback = true);
+                                    setModalState(() => submittingFeedback = true);
                               Future.delayed(
                                 const Duration(milliseconds: 1000),
                                 () {
                                   if (context.mounted) {
-                                    setModalState(
-                                      () => submittingFeedback = false,
-                                    );
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                          'Thank you for your valuable feedback!',
-                                        ),
-                                        backgroundColor: Color(0xFF16A34A),
-                                      ),
-                                    );
-                                  }
+                                      setModalState(
+                                        () => submittingFeedback = false,
+                                      );
+                                      Navigator.pop(context);
+                                      AppToast.showSuccess(
+                                        context,
+                                        'Thank you for your valuable feedback!',
+                                      );
+                                    }
                                 },
                               );
                             },

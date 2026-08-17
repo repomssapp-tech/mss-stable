@@ -23,6 +23,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
   final TextEditingController _pincodeController = TextEditingController();
 
   bool _isLoading = false;
+  bool _hasSubmittedAttempt = false;
 
   // Constants
   static const Color kPrimaryBlue = Color(0xFF2563EB);
@@ -341,7 +342,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
 
                                       // Door / House No / Street Address Field
                                       _buildLabel(
-                                        'Door No / Flat / House No / Street',
+                                        'Door No / Flat / House No / Street *',
                                       ),
                                       const SizedBox(height: 6),
                                       _buildTextField(
@@ -349,26 +350,59 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                         hintText:
                                             'e.g. Flat 402, Royal Enclave',
                                         icon: Icons.home_outlined,
+                                        errorText: _hasSubmittedAttempt &&
+                                                _doorStreetController.text
+                                                    .trim()
+                                                    .isEmpty
+                                            ? 'Please enter your house/street address'
+                                            : null,
+                                        onChanged: (_) {
+                                          if (_hasSubmittedAttempt) {
+                                            setState(() {});
+                                          }
+                                        },
                                       ),
                                       const SizedBox(height: 14),
 
                                       // Area / Locality Field
-                                      _buildLabel('Area / Locality'),
+                                      _buildLabel('Area / Locality *'),
                                       const SizedBox(height: 6),
                                       _buildTextField(
                                         controller: _areaLocalityController,
                                         hintText: 'e.g. Anna Nagar West',
                                         icon: Icons.location_on_outlined,
+                                        errorText: _hasSubmittedAttempt &&
+                                                _areaLocalityController.text
+                                                    .trim()
+                                                    .isEmpty
+                                            ? 'Please enter your area or locality'
+                                            : null,
+                                        onChanged: (_) {
+                                          if (_hasSubmittedAttempt) {
+                                            setState(() {});
+                                          }
+                                        },
                                       ),
                                       const SizedBox(height: 14),
 
                                       // City / District Field
-                                      _buildLabel('City / District'),
+                                      _buildLabel('City / District *'),
                                       const SizedBox(height: 6),
                                       _buildTextField(
                                         controller: _cityDistrictController,
                                         hintText: 'e.g. Chennai',
                                         icon: Icons.business_outlined,
+                                        errorText: _hasSubmittedAttempt &&
+                                                _cityDistrictController.text
+                                                    .trim()
+                                                    .isEmpty
+                                            ? 'Please enter your city or district'
+                                            : null,
+                                        onChanged: (_) {
+                                          if (_hasSubmittedAttempt) {
+                                            setState(() {});
+                                          }
+                                        },
                                       ),
                                       const SizedBox(height: 14),
 
@@ -383,12 +417,25 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                _buildLabel('State'),
+                                                _buildLabel('State *'),
                                                 const SizedBox(height: 6),
                                                 _buildTextField(
                                                   controller: _stateController,
                                                   hintText: 'e.g. Tamil Nadu',
                                                   icon: Icons.map_outlined,
+                                                  errorText:
+                                                      _hasSubmittedAttempt &&
+                                                              _stateController
+                                                                  .text
+                                                                  .trim()
+                                                                  .isEmpty
+                                                          ? 'Please enter state'
+                                                          : null,
+                                                  onChanged: (_) {
+                                                    if (_hasSubmittedAttempt) {
+                                                      setState(() {});
+                                                    }
+                                                  },
                                                 ),
                                               ],
                                             ),
@@ -400,7 +447,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                _buildLabel('Pincode'),
+                                                _buildLabel('Pincode *'),
                                                 const SizedBox(height: 6),
                                                 _buildTextField(
                                                   controller:
@@ -409,6 +456,26 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                                   icon: Icons.pin_drop_outlined,
                                                   keyboardType:
                                                       TextInputType.number,
+                                                  errorText:
+                                                      _hasSubmittedAttempt &&
+                                                              _pincodeController
+                                                                  .text
+                                                                  .trim()
+                                                                  .isEmpty
+                                                          ? 'Required'
+                                                          : (_hasSubmittedAttempt &&
+                                                                  _pincodeController
+                                                                          .text
+                                                                          .trim()
+                                                                          .length !=
+                                                                      6
+                                                              ? '6 digits'
+                                                              : null),
+                                                  onChanged: (_) {
+                                                    if (_hasSubmittedAttempt) {
+                                                      setState(() {});
+                                                    }
+                                                  },
                                                 ),
                                               ],
                                             ),
@@ -434,6 +501,10 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                     elevation: 0,
                                   ),
                                   onPressed: () async {
+                                    setState(() {
+                                      _hasSubmittedAttempt = true;
+                                    });
+
                                     final doorStreetRaw = _doorStreetController
                                         .text
                                         .trim();
@@ -450,23 +521,8 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                         areaRaw.isEmpty ||
                                         cityDistrictRaw.isEmpty ||
                                         stateRaw.isEmpty ||
-                                        pincodeRaw.isEmpty) {
-                                      ScaffoldMessenger.of(
-                                        context,
-                                      ).showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            'Please fill in all address fields (House/Street, Area, City/District, State, Pincode) to continue.',
-                                            style: GoogleFonts.inter(
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                          backgroundColor: const Color(
-                                            0xFFDC2626,
-                                          ),
-                                          behavior: SnackBarBehavior.floating,
-                                        ),
-                                      );
+                                        pincodeRaw.isEmpty ||
+                                        pincodeRaw.length != 6) {
                                       return;
                                     }
 
@@ -666,35 +722,92 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
     required String hintText,
     required IconData icon,
     TextInputType keyboardType = TextInputType.text,
+    String? errorText,
+    void Function(String)? onChanged,
   }) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: keyboardType,
-      style: GoogleFonts.inter(fontSize: 13.5, color: const Color(0xFF1E293B)),
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: Colors.white,
-        isDense: true,
-        hintText: hintText,
-        hintStyle: GoogleFonts.inter(fontSize: 13, color: kSlate500),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 10,
+    final bool hasError = errorText != null;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextFormField(
+          controller: controller,
+          keyboardType: keyboardType,
+          onChanged: onChanged,
+          style: GoogleFonts.inter(
+            fontSize: 13.5,
+            color: const Color(0xFF1E293B),
+          ),
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
+            isDense: true,
+            hintText: hintText,
+            hintStyle: GoogleFonts.inter(fontSize: 13, color: kSlate500),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 10,
+            ),
+            prefixIcon: Icon(
+              icon,
+              color: hasError
+                  ? const Color(0xFFDC2626)
+                  : const Color(0xFF64748B),
+              size: 18,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                color: hasError
+                    ? const Color(0xFFDC2626)
+                    : const Color(0xFFE2E8F0),
+                width: hasError ? 1.4 : 1.2,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                color: hasError
+                    ? const Color(0xFFDC2626)
+                    : const Color(0xFFE2E8F0),
+                width: hasError ? 1.4 : 1.2,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                color: hasError
+                    ? const Color(0xFFDC2626)
+                    : const Color(0xFF2563EB),
+                width: 1.8,
+              ),
+            ),
+          ),
         ),
-        prefixIcon: Icon(icon, color: const Color(0xFF64748B), size: 18),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFFE2E8F0), width: 1.2),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFFE2E8F0), width: 1.2),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF2563EB), width: 1.8),
-        ),
-      ),
+        if (hasError) ...[
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              const Icon(
+                Icons.error_outline_rounded,
+                size: 13,
+                color: Color(0xFFDC2626),
+              ),
+              const SizedBox(width: 4),
+              Expanded(
+                child: Text(
+                  errorText,
+                  style: GoogleFonts.inter(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFFDC2626),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ],
     );
   }
 }

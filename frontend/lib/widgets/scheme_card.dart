@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../models/scheme_model.dart';
@@ -7,6 +8,7 @@ import '../engine/recommendation_engine.dart';
 import '../providers/app_state_provider.dart';
 import '../services/centralized_translator.dart';
 import '../utils/emblem_helper.dart';
+import 'app_toast.dart';
 
 class SchemeCard extends StatelessWidget {
   final Scheme scheme;
@@ -340,17 +342,24 @@ class SchemeCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       GestureDetector(
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                provider.selectedLanguage == 'ta'
-                                    ? '"${locScheme.name}" பகிரப்படுகிறது...'
-                                    : 'Sharing "${scheme.name}"...',
-                              ),
-                              duration: const Duration(seconds: 1),
-                            ),
+                        onTap: () async {
+                          final destination = scheme.applicationUrl.isNotEmpty
+                              ? scheme.applicationUrl
+                              : scheme.officialWebsite;
+                          final shareText = destination.isNotEmpty
+                              ? '${locScheme.name}\n$destination'
+                              : locScheme.name;
+                          await Clipboard.setData(
+                            ClipboardData(text: shareText),
                           );
+                          if (context.mounted) {
+                            AppToast.showSuccess(
+                              context,
+                              provider.selectedLanguage == 'ta'
+                                  ? 'திட்ட விவரங்கள் நகலெடுக்கப்பட்டது'
+                                  : 'Scheme details copied to clipboard',
+                            );
+                          }
                         },
                         child: Container(
                           width: 30,

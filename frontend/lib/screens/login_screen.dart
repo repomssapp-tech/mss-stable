@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../providers/app_state_provider.dart';
-import '../utils/constants.dart';
 import '../utils/profile_l10n.dart';
 import '../utils/responsive.dart';
+import '../widgets/app_toast.dart';
 import 'navigation_mode_screen.dart';
 import 'regular_mode/legal_screens.dart';
 
@@ -198,11 +198,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       }
                     } catch (e) {
                       if (mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('${l('error')}: $e'),
-                            backgroundColor: AppConstants.errorColor,
-                          ),
+                        AppToast.showError(
+                          context,
+                          'Unable to complete Google sign in. Please try again.',
                         );
                       }
                     } finally {

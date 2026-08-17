@@ -10,6 +10,7 @@ import 'help_support_screen.dart';
 import 'legal_screens.dart';
 import '../../widgets/custom_confirm_dialog.dart';
 import '../../utils/responsive.dart';
+import '../../widgets/app_toast.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -136,22 +137,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return InkWell(
       onTap: () async {
         final navigator = Navigator.of(context, rootNavigator: true);
-        final messenger = ScaffoldMessenger.of(context);
         navigator.pop();
         await provider.changeNavigationMode(mode);
         provider.updateTabIndex(0);
         navigator.popUntil((route) => route.isFirst);
-        messenger.showSnackBar(
-          SnackBar(
-            content: Text(
-              mode == 'companion'
-                  ? 'Switched to AI Companion (Saarthi) Navigation'
-                  : 'Switched to Regular Navigation',
-            ),
-            backgroundColor: const Color(0xFF2563EB),
-            duration: const Duration(seconds: 2),
-          ),
-        );
+        if (context.mounted) {
+          AppToast.showSuccess(
+            context,
+            mode == 'companion'
+                ? 'Switched to AI Companion (Saarthi) Navigation'
+                : 'Switched to Regular Navigation',
+          );
+        }
       },
       borderRadius: BorderRadius.circular(16),
       child: Container(
@@ -395,16 +392,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     value: _pushNotifications,
                     onChanged: (val) {
                       setState(() => _pushNotifications = val);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            _pushNotifications
-                                ? context.l10n.notificationsEnabled
-                                : context.l10n.notificationsDisabled,
-                          ),
-                          duration: const Duration(seconds: 1),
-                        ),
-                      );
                     },
                     activeThumbColor: Colors.white,
                     activeTrackColor: const Color(0xFF2563EB),

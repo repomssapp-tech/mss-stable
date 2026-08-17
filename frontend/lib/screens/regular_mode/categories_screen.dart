@@ -507,15 +507,40 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   controller: _searchController,
                   textInputAction: TextInputAction.search,
                   onSubmitted: (query) {
-                    if (query.trim().isNotEmpty) {
-                      _onCategorySelected(query, provider);
+                    final q = query.trim();
+                    if (q.isNotEmpty) {
+                      if (widget.onCategorySelected != null) {
+                        widget.onCategorySelected!(q);
+                      } else {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => SearchResultsScreen(title: q),
+                          ),
+                        );
+                      }
                     }
                   },
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(
-                      Icons.search,
-                      color: Color(0xFF64748B),
-                      size: 20,
+                    prefixIcon: IconButton(
+                      icon: const Icon(
+                        Icons.search,
+                        color: Color(0xFF2563EB),
+                        size: 20,
+                      ),
+                      onPressed: () {
+                        final q = _searchController.text.trim();
+                        if (q.isNotEmpty) {
+                          if (widget.onCategorySelected != null) {
+                            widget.onCategorySelected!(q);
+                          } else {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => SearchResultsScreen(title: q),
+                              ),
+                            );
+                          }
+                        }
+                      },
                     ),
                     hintText: context.l10n.searchPlaceholder,
                     hintStyle: GoogleFonts.inter(
