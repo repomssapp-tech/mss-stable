@@ -50,10 +50,7 @@ function getServiceClient(): SupabaseClient | null {
 
 // Fetches every scheme + its search_index entry via the mss_search_data()
 // RPC (public schema, security definer -- catalog.* itself isn't exposed to
-// PostgREST) and builds the SchemeEntry[] the search engine needs. Fetched
-// fresh per invocation (219 schemes is small; correctness over caching for
-// now, matching how both the Python and Dart reference engines build their
-// in-memory index each run).
+// PostgREST) and builds the SchemeEntry[] the search engine needs.
 async function loadSchemeEntries(supabase: SupabaseClient): Promise<SchemeEntry[]> {
   const { data, error } = await supabase.rpc('mss_search_data')
   if (error) throw new Error(`Failed to load search data: ${error.message}`)
@@ -76,6 +73,37 @@ async function loadSchemeEntries(supabase: SupabaseClient): Promise<SchemeEntry[
     })
   }
   return entries
+}
+
+// Warm-isolate cache: rebuilding the search engine means re-fetching all
+// ~219 scheme + search_index records from Postgres AND rebuilding the
+// vocabulary/IDF index from scratch (O(entries * fields)) -- wasted work
+// when repeated on every keystroke-submit within the same warm Deno
+// isolate. Supabase Edge Functions keep an isolate alive across bursts of
+// requests, so caching here turns "network fetch + rebuild index" into an
+// in-memory hashmap lookup for every request after the first, cutting
+// search latency without touching the ranking algorithm or its output.
+// TTL-bounded (not indefinite) so an admin catalog edit is picked up
+// within a few minutes without needing a manual cache-bust; a cold start
+// (new isolate) always rebuilds fresh regardless of TTL.
+let cachedEntries: SchemeEntry[] | null = null
+let cachedEngine: HybridSearchEngine | null = null
+let cacheLoadedAt = 0
+const CACHE_TTL_MS = 5 * 60 * 1000
+
+async function getSearchEngine(
+  supabase: SupabaseClient
+): Promise<{ engine: HybridSearchEngine; entries: SchemeEntry[] }> {
+  const now = Date.now()
+  if (cachedEngine && cachedEntries && now - cacheLoadedAt < CACHE_TTL_MS) {
+    return { engine: cachedEngine, entries: cachedEntries }
+  }
+  const entries = await loadSchemeEntries(supabase)
+  const engine = new HybridSearchEngine(entries)
+  cachedEntries = entries
+  cachedEngine = engine
+  cacheLoadedAt = now
+  return { engine, entries }
 }
 
 serve(async (req) => {
@@ -155,8 +183,7 @@ serve(async (req) => {
       const page = body.page ?? {}
       const limit = typeof page.limit === 'number' ? Math.min(Math.max(page.limit, 1), 100) : 20
 
-      const entries = await loadSchemeEntries(supabase)
-      const engine = new HybridSearchEngine(entries)
+      const { engine, entries } = await getSearchEngine(supabase)
       const results = engine.search(query, limit)
 
       return json({
