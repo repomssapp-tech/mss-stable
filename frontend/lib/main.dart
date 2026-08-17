@@ -216,8 +216,10 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {
+          if (provider.currentTabIndex == index && index == 1) {
+            searchTabKey.currentState?.resetToIdle();
+          }
           provider.updateTabIndex(index);
-          searchTabKey.currentState?.resetToIdle();
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 4),

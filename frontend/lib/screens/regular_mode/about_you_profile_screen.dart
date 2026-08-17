@@ -5,6 +5,7 @@ import '../../providers/app_state_provider.dart';
 import '../../utils/profile_l10n.dart';
 import '../../main.dart';
 import '../../utils/responsive.dart';
+import '../../widgets/app_toast.dart';
 
 class AboutYouProfileScreen extends StatefulWidget {
   const AboutYouProfileScreen({super.key});
@@ -16,6 +17,7 @@ class AboutYouProfileScreen extends StatefulWidget {
 class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
   String? _selectedRole;
   bool _isSubmitting = false;
+  bool _attemptedSubmit = false;
 
   // Constants
   static const Color kPrimaryBlue = Color(0xFF2563EB);
@@ -251,7 +253,42 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 16),
+                            if (_attemptedSubmit && _selectedRole == null) ...[
+                              Container(
+                                margin: const EdgeInsets.only(bottom: 8),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 8,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFFEF2F2),
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: const Color(0xFFFECACA),
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.error_outline_rounded,
+                                      color: Color(0xFFDC2626),
+                                      size: 16,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        'Please select an option to continue.',
+                                        style: GoogleFonts.inter(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                          color: const Color(0xFFDC2626),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
 
                             // Sticky Action Button (Bottom of card, outside scrollable area)
                             ElevatedButton(
@@ -268,27 +305,14 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
                               onPressed: _isSubmitting
                                   ? null
                                   : () async {
-                                      final selectedRole = _selectedRole;
-                                      if (selectedRole == null) {
-                                        ScaffoldMessenger.of(
-                                          context,
-                                        ).showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              l('about_you_subtitle'),
-                                              style: GoogleFonts.inter(
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                            backgroundColor: const Color(
-                                              0xFFDC2626,
-                                            ),
-                                            behavior: SnackBarBehavior.floating,
-                                          ),
-                                        );
+                                      if (_selectedRole == null) {
+                                        setState(() {
+                                          _attemptedSubmit = true;
+                                        });
                                         return;
                                       }
 
+                                      final selectedRole = _selectedRole!;
                                       final provider = Provider.of<AppProvider>(
                                         context,
                                         listen: false,
@@ -322,16 +346,9 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
                                       } catch (error) {
                                         if (!context.mounted) return;
                                         setState(() => _isSubmitting = false);
-                                        ScaffoldMessenger.of(
+                                        AppToast.showError(
                                           context,
-                                        ).showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                              'We could not save your profile to the cloud. Check your connection and try again.',
-                                            ),
-                                            backgroundColor: Color(0xFFDC2626),
-                                            behavior: SnackBarBehavior.floating,
-                                          ),
+                                          'Unable to save profile to cloud. Please check your connection and try again.',
                                         );
                                       }
                                     },
@@ -402,6 +419,7 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
       onTap: () {
         setState(() {
           _selectedRole = role.id;
+          _attemptedSubmit = false;
         });
       },
       child: AnimatedContainer(

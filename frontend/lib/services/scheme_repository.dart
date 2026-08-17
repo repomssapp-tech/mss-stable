@@ -106,7 +106,6 @@ class SchemeRepository {
         return recommended.take(limit).toList();
       }
     } catch (e) {
-      if (!_isRetryableError(e)) rethrow;
       debugPrint('[SchemeRepository] getTopRecommendedSchemes online error: $e');
     }
 
@@ -218,10 +217,12 @@ class SchemeRepository {
     if (query.trim().isEmpty) return getAllSchemes(langCode: langCode);
 
     try {
-      final rawJson = await _apiClient.search(
-        query: query,
-        language: langCode,
-      );
+      final rawJson = await _apiClient
+          .search(
+            query: query,
+            language: langCode,
+          )
+          .timeout(const Duration(milliseconds: 2500));
       final searchResp = MSSSearchResponse.fromJson(rawJson);
       final bundle = await _loadBundle();
       // Return unconditionally, even if empty: the online engine correctly
@@ -236,7 +237,6 @@ class SchemeRepository {
               ))
           .toList();
     } catch (e) {
-      if (!_isRetryableError(e)) rethrow;
       debugPrint('[SchemeRepository] online search failed, falling back offline: $e');
     }
 
@@ -292,7 +292,6 @@ class SchemeRepository {
         );
       }).toList();
     } catch (e) {
-      if (!_isRetryableError(e)) rethrow;
       debugPrint('[SchemeRepository] online searchSchemeMatches failed: $e');
     }
 
@@ -343,10 +342,12 @@ class SchemeRepository {
     if (category.trim().isEmpty) return getAllSchemes(langCode: langCode);
 
     try {
-      final rawJson = await _apiClient.search(
-        query: category,
-        language: langCode,
-      );
+      final rawJson = await _apiClient
+          .search(
+            query: category,
+            language: langCode,
+          )
+          .timeout(const Duration(milliseconds: 2500));
       final searchResp = MSSSearchResponse.fromJson(rawJson);
       if (searchResp.results.isNotEmpty) {
         final bundle = await _loadBundle();
@@ -359,7 +360,6 @@ class SchemeRepository {
             .toList();
       }
     } catch (e) {
-      if (!_isRetryableError(e)) rethrow;
       debugPrint('[SchemeRepository] online category search failed: $e');
     }
 
@@ -613,7 +613,6 @@ class SchemeRepository {
             .toList();
       }
     } catch (e) {
-      if (!_isRetryableError(e)) rethrow;
       debugPrint('[SchemeRepository] online getSchemesByMinistry error: $e');
     }
 
@@ -650,7 +649,6 @@ class SchemeRepository {
             .toList();
       }
     } catch (e) {
-      if (!_isRetryableError(e)) rethrow;
       debugPrint('[SchemeRepository] online getSchemesByState error: $e');
     }
 
@@ -696,7 +694,6 @@ class SchemeRepository {
         // Genuine 404 / UNKNOWN_SCHEME: non-retryable "not found", return null
         return null;
       }
-      if (!_isRetryableError(e)) rethrow;
       debugPrint('[SchemeRepository] online getSchemeById error: $e');
     }
 

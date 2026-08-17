@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../widgets/scheme_card.dart';
@@ -7,6 +8,7 @@ import '../../providers/app_state_provider.dart';
 import '../../services/centralized_translator.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/responsive.dart';
+import '../../widgets/app_toast.dart';
 import 'scheme_details_screen.dart';
 
 class EligibilityResultsScreen extends StatelessWidget {
@@ -37,17 +39,18 @@ class EligibilityResultsScreen extends StatelessWidget {
               size: 20,
               color: Color(0xFF2563EB),
             ),
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    provider.selectedLanguage == 'ta'
-                        ? 'தகுதி முடிவுகள் பகிரப்படுகின்றன...'
-                        : 'Sharing eligibility results...',
-                  ),
-                  duration: const Duration(seconds: 1),
-                ),
-              );
+            onPressed: () async {
+              final shareText =
+                  'My Scheme Eligibility Results:\n${eligibleMatches.map((e) => '• ${e.key.name} (${(e.value.score * 100).toInt()}% Match)').take(5).join('\n')}';
+              await Clipboard.setData(ClipboardData(text: shareText));
+              if (context.mounted) {
+                AppToast.showSuccess(
+                  context,
+                  provider.selectedLanguage == 'ta'
+                      ? 'தகுதி முடிவுகள் நகலெடுக்கப்பட்டது'
+                      : 'Eligibility results copied to clipboard',
+                );
+              }
             },
           ),
           const SizedBox(width: 8),
@@ -281,13 +284,9 @@ class EligibilityResultsScreen extends StatelessWidget {
                       elevation: 0,
                     ),
                     onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            'Results saved to your eligibility profile!',
-                          ),
-                          backgroundColor: Color(0xFF137C47),
-                        ),
+                      AppToast.showSuccess(
+                        context,
+                        'Results saved to your eligibility profile!',
                       );
                     },
                     icon: const Icon(Icons.bookmark_outline, size: 20),

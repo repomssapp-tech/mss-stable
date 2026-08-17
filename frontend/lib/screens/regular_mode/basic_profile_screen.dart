@@ -22,6 +22,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
 
   String _selectedGender = 'Female';
   DateTime? _selectedDob;
+  bool _hasSubmittedAttempt = false;
 
   @override
   void initState() {
@@ -176,30 +177,58 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
 
                                     // Form Fields
                                     CustomInputField(
-                                      label: l('full_name'),
+                                      label: '${l('full_name')} *',
                                       controller: _nameController,
                                       leadingIcon: Icons.person_outline,
                                       trailingIcon: Icons.edit_outlined,
+                                      errorText: _hasSubmittedAttempt &&
+                                              _nameController.text.trim().isEmpty
+                                          ? 'Please enter your full name'
+                                          : null,
+                                      onChanged: (_) {
+                                        if (_hasSubmittedAttempt) {
+                                          setState(() {});
+                                        }
+                                      },
                                     ),
                                     const SizedBox(height: 16),
 
                                     CustomInputField(
-                                      label: l('email_address'),
+                                      label: '${l('email_address')} *',
                                       controller: _emailController,
                                       leadingIcon: Icons.mail_outline,
                                       trailingIcon: Icons.edit_outlined,
                                       keyboardType: TextInputType.emailAddress,
+                                      errorText: _hasSubmittedAttempt &&
+                                              (_emailController.text.trim().isEmpty ||
+                                                  !_emailController.text.contains('@'))
+                                          ? 'Please enter a valid email address'
+                                          : null,
+                                      onChanged: (_) {
+                                        if (_hasSubmittedAttempt) {
+                                          setState(() {});
+                                        }
+                                      },
                                     ),
                                     const SizedBox(height: 16),
 
                                     CustomInputField(
-                                      label: l('phone_number'),
+                                      label: '${l('phone_number')} *',
                                       controller: _phoneController,
                                       leadingIcon: Icons.phone_outlined,
                                       trailingIcon: Icons.edit_outlined,
                                       keyboardType: TextInputType.phone,
                                       prefixText:
                                           '+91 ', // Reserve +91 country code
+                                      errorText: _hasSubmittedAttempt &&
+                                              _phoneController.text.trim().isEmpty
+                                          ? 'Please enter your phone number'
+                                          : null,
+                                      onChanged: (_) {
+                                        if (_hasSubmittedAttempt) {
+                                          setState(() {});
+                                        }
+                                      },
                                     ),
                                     const SizedBox(height: 16),
 
@@ -209,7 +238,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          'Gender',
+                                          'Gender *',
                                           style: GoogleFonts.inter(
                                             fontSize: 13,
                                             fontWeight: FontWeight.bold,
@@ -241,19 +270,45 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                                             ),
                                           ],
                                         ),
+                                        if (_hasSubmittedAttempt &&
+                                            _selectedGender.isEmpty) ...[
+                                          const SizedBox(height: 4),
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.error_outline_rounded,
+                                                size: 13,
+                                                color: Color(0xFFDC2626),
+                                              ),
+                                              const SizedBox(width: 4),
+                                              Text(
+                                                'Please select your gender',
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: const Color(0xFFDC2626),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ],
                                     ),
                                     const SizedBox(height: 16),
 
                                     // DOB Selector (Moved to a new line)
                                     CustomInputField(
-                                      label: l('date_of_birth'),
+                                      label: '${l('date_of_birth')} *',
                                       controller: _dobController,
                                       leadingIcon:
                                           Icons.calendar_today_outlined,
                                       trailingIcon: Icons.arrow_drop_down,
                                       readOnly: true,
                                       onTap: () => _selectDob(context),
+                                      errorText: _hasSubmittedAttempt &&
+                                              _selectedDob == null
+                                          ? 'Please select your date of birth'
+                                          : null,
                                     ),
                                     const SizedBox(height: 24),
 
@@ -278,27 +333,20 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                                 elevation: 0,
                               ),
                               onPressed: () async {
+                                setState(() {
+                                  _hasSubmittedAttempt = true;
+                                });
+
                                 final name = _nameController.text.trim();
                                 final email = _emailController.text.trim();
                                 final phone = _phoneController.text.trim();
 
                                 if (name.isEmpty ||
                                     email.isEmpty ||
+                                    !email.contains('@') ||
                                     phone.isEmpty ||
                                     _selectedGender.isEmpty ||
                                     _selectedDob == null) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        'Please fill in all mandatory fields (Name, Email, Mobile, Gender, Date of Birth).',
-                                        style: GoogleFonts.inter(
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      backgroundColor: const Color(0xFFDC2626),
-                                      behavior: SnackBarBehavior.floating,
-                                    ),
-                                  );
                                   return;
                                 }
 
@@ -538,6 +586,8 @@ class CustomInputField extends StatelessWidget {
   final bool readOnly;
   final VoidCallback? onTap;
   final String? prefixText;
+  final String? errorText;
+  final void Function(String)? onChanged;
 
   const CustomInputField({
     super.key,
@@ -549,10 +599,14 @@ class CustomInputField extends StatelessWidget {
     this.readOnly = false,
     this.onTap,
     this.prefixText,
+    this.errorText,
+    this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
+    final bool hasError = errorText != null;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -573,6 +627,7 @@ class CustomInputField extends StatelessWidget {
               controller: controller,
               readOnly: readOnly,
               keyboardType: keyboardType,
+              onChanged: onChanged,
               style: GoogleFonts.inter(
                 fontSize: 14.5,
                 color: const Color(0xFF1E293B),
@@ -586,7 +641,9 @@ class CustomInputField extends StatelessWidget {
                 ),
                 prefixIcon: Icon(
                   leadingIcon,
-                  color: const Color(0xFF64748B),
+                  color: hasError
+                      ? const Color(0xFFDC2626)
+                      : const Color(0xFF64748B),
                   size: 20,
                 ),
                 prefixText: prefixText,
@@ -597,27 +654,35 @@ class CustomInputField extends StatelessWidget {
                 ),
                 suffixIcon: Icon(
                   trailingIcon,
-                  color: const Color(0xFF64748B),
+                  color: hasError
+                      ? const Color(0xFFDC2626)
+                      : const Color(0xFF64748B),
                   size: 20,
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(
-                    color: Color(0xFFE2E8F0),
-                    width: 1.2,
+                  borderSide: BorderSide(
+                    color: hasError
+                        ? const Color(0xFFDC2626)
+                        : const Color(0xFFE2E8F0),
+                    width: hasError ? 1.4 : 1.2,
                   ),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(
-                    color: Color(0xFFE2E8F0),
-                    width: 1.2,
+                  borderSide: BorderSide(
+                    color: hasError
+                        ? const Color(0xFFDC2626)
+                        : const Color(0xFFE2E8F0),
+                    width: hasError ? 1.4 : 1.2,
                   ),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(
-                    color: Color(0xFF2563EB),
+                  borderSide: BorderSide(
+                    color: hasError
+                        ? const Color(0xFFDC2626)
+                        : const Color(0xFF2563EB),
                     width: 1.8,
                   ),
                 ),
@@ -625,6 +690,29 @@ class CustomInputField extends StatelessWidget {
             ),
           ),
         ),
+        if (hasError) ...[
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              const Icon(
+                Icons.error_outline_rounded,
+                size: 13,
+                color: Color(0xFFDC2626),
+              ),
+              const SizedBox(width: 4),
+              Expanded(
+                child: Text(
+                  errorText!,
+                  style: GoogleFonts.inter(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFFDC2626),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ],
     );
   }

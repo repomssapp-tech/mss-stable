@@ -44,7 +44,7 @@ class MssApiClient {
     http.Client? client,
     String? baseUrl,
     this.timeout = const Duration(seconds: 10),
-  })  : _client = client ?? http.Client(),
+  })  : _providedClient = client,
         _ownsClient = client == null,
         baseUrl = baseUrl ?? defaultBaseUrl;
 
@@ -61,7 +61,9 @@ class MssApiClient {
     defaultValue: 'https://houpzsxmwemoztpuigmo.supabase.co/functions/v1',
   );
 
-  final http.Client _client;
+  final http.Client? _providedClient;
+  http.Client? _lazyClient;
+  http.Client get _client => _providedClient ?? (_lazyClient ??= http.Client());
   final bool _ownsClient;
   final String baseUrl;
   final Duration timeout;
@@ -69,7 +71,7 @@ class MssApiClient {
   /// Closes the HTTP client if this instance owns it.
   void close() {
     if (_ownsClient) {
-      _client.close();
+      _lazyClient?.close();
     }
   }
 

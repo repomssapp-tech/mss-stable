@@ -13,6 +13,7 @@ import '../../l10n/l10n.dart';
 import '../../services/centralized_translator.dart';
 import '../../utils/responsive.dart';
 import '../../utils/emblem_helper.dart';
+import '../../widgets/voice_assistant_overlay.dart';
 
 String _getLocalizedTagOrCategory(String text, String langCode) {
   if (langCode != 'ta') return text;
@@ -84,12 +85,17 @@ class SearchScreenState extends State<SearchScreen> {
   }
 
   void _applySorting() {
-    if (_masterSearchResults.isEmpty) return;
+    if (_masterSearchResults.isEmpty) {
+      setState(() {
+        _searchResults = [];
+      });
+      return;
+    }
 
     final provider = Provider.of<AppProvider>(context, listen: false);
     final sorted = List<Scheme>.from(_masterSearchResults);
 
-    if (_currentSort == 'Match %') {
+    if (_currentSort == 'Match %' || _currentSort == 'Match') {
       sorted.sort((a, b) {
         final scoreA = RecommendationEngine.evaluate(provider.profile, a).score;
         final scoreB = RecommendationEngine.evaluate(provider.profile, b).score;
@@ -167,15 +173,6 @@ class SearchScreenState extends State<SearchScreen> {
   }
 
   @override
-  void deactivate() {
-    if (_currentState != SearchState.idle) {
-      _searchController.clear();
-      _currentState = SearchState.idle;
-    }
-    super.deactivate();
-  }
-
-  @override
   void dispose() {
     _searchController.removeListener(_onSearchTextChanged);
     _searchController.dispose();
@@ -190,10 +187,67 @@ class SearchScreenState extends State<SearchScreen> {
       _searchFocusNode.unfocus();
       if (mounted) {
         setState(() {
+          _activeSearchFilters = {};
+          _activeFilter = "All";
+          _searchResults = [];
+          _masterSearchResults = [];
           _currentState = SearchState.idle;
         });
       }
     }
+  }
+
+  Future<void> _openVoiceAssistant() async {
+    final provider = Provider.of<AppProvider>(context, listen: false);
+    final schemes = provider.allSchemes.isNotEmpty
+        ? provider.allSchemes
+        : await SchemeRepository.instance.getAllSchemes();
+    if (!mounted) return;
+    await showGeneralDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      barrierLabel: 'Voice assistant',
+      barrierColor: Colors.transparent,
+      transitionDuration: const Duration(milliseconds: 320),
+      pageBuilder: (overlayContext, animation, secondaryAnimation) {
+        return VoiceAssistantOverlay(
+          onClose: () =>
+              Navigator.of(overlayContext, rootNavigator: true).pop(),
+          schemes: schemes,
+          profile: provider.profile,
+          onProfileConfirmed: provider.updateProfile,
+          onSearch: (query) =>
+              SchemeRepository.instance.searchSchemeMatches(query, limit: 20),
+          onSchemeSelected: (scheme) {
+            Navigator.of(overlayContext, rootNavigator: true).pop();
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => SchemeDetailsScreen(scheme: scheme),
+              ),
+            );
+          },
+          onSubmit: (query) {
+            Navigator.of(overlayContext, rootNavigator: true).pop();
+            submitVoiceQuery(query);
+          },
+        );
+      },
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        final curved = CurvedAnimation(
+          parent: animation,
+          curve: Curves.easeOutBack,
+          reverseCurve: Curves.easeInCubic,
+        );
+        return FadeTransition(
+          opacity: animation,
+          child: ScaleTransition(
+            alignment: Alignment.bottomRight,
+            scale: Tween<double>(begin: 0.72, end: 1).animate(curved),
+            child: child,
+          ),
+        );
+      },
+    );
   }
 
   void submitVoiceQuery(String query) {
@@ -212,6 +266,8 @@ class SearchScreenState extends State<SearchScreen> {
     // If text gets cleared, instantly revert to idle
     if (_searchController.text.isEmpty && _currentState != SearchState.idle) {
       setState(() {
+        _searchResults = [];
+        _masterSearchResults = [];
         _currentState = SearchState.idle;
       });
     }
@@ -444,30 +500,19 @@ class SearchScreenState extends State<SearchScreen> {
         }).toList();
       }
 
-      // Deferred to the next frame: applying these results can land while an
-      // in-flight keyboard-dismiss/route animation is still mid-layout,
-      // which trips Flutter's re-entrant-layout assertion
-      // ('!_debugDoingThisLayout'). Scheduling the rebuild for right before
-      // the next frame (rather than synchronously here) avoids that without
-      // changing what's rendered.
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted || requestGeneration != _searchGeneration) return;
-        setState(() {
-          _masterSearchResults = filteredResults;
-          _currentState = SearchState.results;
-        });
-        _applySorting();
+      if (!mounted || requestGeneration != _searchGeneration) return;
+      setState(() {
+        _masterSearchResults = filteredResults;
+        _searchResults = List<Scheme>.from(filteredResults);
+        _currentState = SearchState.results;
       });
-      _loadCategoryCounts();
+      _applySorting();
     } catch (e) {
       if (!mounted || requestGeneration != _searchGeneration) return;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted || requestGeneration != _searchGeneration) return;
-        setState(() {
-          _masterSearchResults = [];
-          _searchResults = [];
-          _currentState = SearchState.results;
-        });
+      setState(() {
+        _masterSearchResults = [];
+        _searchResults = [];
+        _currentState = SearchState.results;
       });
     }
   }
@@ -578,29 +623,36 @@ class SearchScreenState extends State<SearchScreen> {
                   const SizedBox(height: 8),
 
                   // Try banner
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.search,
-                        color: Color(0xFF64748B),
-                        size: 12,
-                      ),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "${context.l10n.trySearchPrefix} $_dynamicSearchHintText",
-                            style: GoogleFonts.inter(
-                              color: const Color(0xFF64748B),
-                              fontSize: _scaledFontSize(11),
-                              fontWeight: FontWeight.w500,
+                  GestureDetector(
+                    onTap: () {
+                      _searchController.text = _dynamicSearchHintText;
+                      _searchFocusNode.unfocus();
+                      _triggerSearch(_dynamicSearchHintText);
+                    },
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.search,
+                          color: Color(0xFF64748B),
+                          size: 12,
+                        ),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "${context.l10n.trySearchPrefix} $_dynamicSearchHintText",
+                              style: GoogleFonts.inter(
+                                color: const Color(0xFF64748B),
+                                fontSize: _scaledFontSize(11),
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
 
                   if (isSearching) ...[
@@ -704,7 +756,20 @@ class SearchScreenState extends State<SearchScreen> {
       child: TextField(
         controller: _searchController,
         focusNode: _searchFocusNode,
-        onSubmitted: _triggerSearch,
+        textInputAction: TextInputAction.search,
+        onSubmitted: (val) {
+          _triggerSearch(_searchController.text);
+        },
+        onChanged: (val) {
+          setState(() {});
+          if (val.trim().isEmpty && _currentState != SearchState.idle) {
+            setState(() {
+              _currentState = SearchState.idle;
+              _searchResults = [];
+              _masterSearchResults = [];
+            });
+          }
+        },
         style: GoogleFonts.inter(
           fontSize: _scaledFontSize(13),
           color: const Color(0xFF1E293B),
@@ -715,10 +780,18 @@ class SearchScreenState extends State<SearchScreen> {
             color: const Color(0xFF94A3B8),
             fontSize: 12.5,
           ),
-          prefixIcon: const Icon(
-            Icons.search,
-            color: Color(0xFF94A3B8),
-            size: 18,
+          prefixIcon: IconButton(
+            icon: const Icon(
+              Icons.search,
+              color: Color(0xFF2563EB),
+              size: 20,
+            ),
+            onPressed: () {
+              if (_searchController.text.trim().isNotEmpty) {
+                _searchFocusNode.unfocus();
+                _triggerSearch(_searchController.text);
+              }
+            },
           ),
           suffixIcon: Row(
             mainAxisSize: MainAxisSize.min,
@@ -734,14 +807,22 @@ class SearchScreenState extends State<SearchScreen> {
                     _searchController.clear();
                     setState(() {
                       _activeSearchFilters = {};
+                      _activeFilter = "All";
                       _currentState = SearchState.idle;
+                      _searchResults = [];
+                      _masterSearchResults = [];
                     });
                   },
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                 ),
-              if (hasText) const SizedBox(width: 8),
-              const Icon(Icons.mic, color: Color(0xFF94A3B8), size: 18),
+              if (hasText) const SizedBox(width: 4),
+              IconButton(
+                icon: const Icon(Icons.mic, color: Color(0xFF2563EB), size: 20),
+                onPressed: _openVoiceAssistant,
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
+              ),
               const SizedBox(width: 12),
             ],
           ),
@@ -979,11 +1060,20 @@ class SearchScreenState extends State<SearchScreen> {
   Widget _buildDynamicContent(List<Map<String, dynamic>> categories) {
     switch (_currentState) {
       case SearchState.loading:
-        return _buildLoadingSkeleton();
+        return KeyedSubtree(
+          key: const ValueKey('SearchLoadingState'),
+          child: _buildLoadingSkeleton(),
+        );
       case SearchState.results:
-        return _buildResultsList();
+        return KeyedSubtree(
+          key: const ValueKey('SearchResultsState'),
+          child: _buildResultsList(),
+        );
       case SearchState.idle:
-        return _buildIdleContent(categories);
+        return KeyedSubtree(
+          key: const ValueKey('SearchIdleState'),
+          child: _buildIdleContent(categories),
+        );
     }
   }
 
@@ -1004,15 +1094,7 @@ class SearchScreenState extends State<SearchScreen> {
           ),
         ),
         const SizedBox(height: 12),
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: categories.length,
-          itemBuilder: (context, index) {
-            final cat = categories[index];
-            return _buildCategoryCard(cat);
-          },
-        ),
+        ...categories.map((cat) => _buildCategoryCard(cat)),
       ],
     );
   }
@@ -1021,6 +1103,7 @@ class SearchScreenState extends State<SearchScreen> {
   Widget _buildLoadingSkeleton() {
     return ListView.builder(
       key: const ValueKey("LoadingContent"),
+      primary: false,
       padding: const EdgeInsets.all(16),
       physics: const NeverScrollableScrollPhysics(),
       itemCount: 5,
@@ -1095,14 +1178,7 @@ class SearchScreenState extends State<SearchScreen> {
         const SizedBox(height: 16),
 
         // Result Cards List
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: _searchResults.length,
-          itemBuilder: (context, index) {
-            return _ResultSchemeCard(scheme: _searchResults[index]);
-          },
-        ),
+        ..._searchResults.map((scheme) => _ResultSchemeCard(scheme: scheme)),
       ],
     );
   }
@@ -1691,14 +1767,18 @@ class _ShimmerSkeletonCard extends StatefulWidget {
 class _ShimmerSkeletonCardState extends State<_ShimmerSkeletonCard>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  late Animation<double> _animation;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 900),
     )..repeat(reverse: true);
+    _animation = Tween<double>(begin: 0.35, end: 0.85).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
   }
 
   @override
@@ -1709,95 +1789,77 @@ class _ShimmerSkeletonCardState extends State<_ShimmerSkeletonCard>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        final double opacity = 0.3 + (_controller.value * 0.4);
-        return Container(
-          margin: const EdgeInsets.only(bottom: 16),
-          padding: const EdgeInsets.all(16),
-          height: 140,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Shimmer Logo Box
-              Opacity(
-                opacity: opacity,
-                child: Container(
-                  width: 56,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE2E8F0),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
+    return FadeTransition(
+      opacity: _animation,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.all(16),
+        height: 140,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Shimmer Logo Box
+            Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: const Color(0xFFE2E8F0),
+                borderRadius: BorderRadius.circular(12),
               ),
-              const SizedBox(width: 14),
+            ),
+            const SizedBox(width: 14),
 
-              // Shimmer Content Lines
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Opacity(
-                      opacity: opacity,
-                      child: Container(
-                        width: 160,
-                        height: 16,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFE2E8F0),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      ),
+            // Shimmer Content Lines
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 160,
+                    height: 16,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE2E8F0),
+                      borderRadius: BorderRadius.circular(4),
                     ),
-                    const SizedBox(height: 8),
-                    Opacity(
-                      opacity: opacity,
-                      child: Container(
-                        width: 100,
-                        height: 14,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFE2E8F0),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      ),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    width: 100,
+                    height: 14,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE2E8F0),
+                      borderRadius: BorderRadius.circular(4),
                     ),
-                    const SizedBox(height: 12),
-                    Opacity(
-                      opacity: opacity,
-                      child: Container(
-                        width: double.infinity,
-                        height: 12,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFE2E8F0),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      ),
+                  ),
+                  const SizedBox(height: 12),
+                  Container(
+                    width: double.infinity,
+                    height: 12,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE2E8F0),
+                      borderRadius: BorderRadius.circular(4),
                     ),
-                    const SizedBox(height: 6),
-                    Opacity(
-                      opacity: opacity,
-                      child: Container(
-                        width: 180,
-                        height: 12,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFE2E8F0),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      ),
+                  ),
+                  const SizedBox(height: 6),
+                  Container(
+                    width: 180,
+                    height: 12,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE2E8F0),
+                      borderRadius: BorderRadius.circular(4),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        );
-      },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

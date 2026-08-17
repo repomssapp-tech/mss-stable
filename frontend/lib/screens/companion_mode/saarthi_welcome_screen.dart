@@ -7,6 +7,7 @@ import '../../services/voice_agent_preferences.dart';
 import '../../services/voice_agent_preview_service.dart';
 import '../../services/centralized_translator.dart';
 import '../../utils/responsive.dart';
+import '../../widgets/app_toast.dart';
 
 class SaarthiWelcomeScreen extends StatefulWidget {
   const SaarthiWelcomeScreen({super.key});
@@ -43,10 +44,9 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
       await VoiceAgentPreviewService.preview(_selectedVoice);
     } catch (error) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(error.toString().replaceFirst('Bad state: ', '')),
-        ),
+      AppToast.showError(
+        context,
+        'Unable to preview voice. Please check your audio settings.',
       );
     } finally {
       if (mounted) setState(() => _previewingVoice = false);
@@ -494,14 +494,9 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                   } catch (error) {
                                     if (!context.mounted) return;
                                     setState(() => _isSubmitting = false);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                          'We could not save your preferences to the cloud. Check your connection and try again.',
-                                        ),
-                                        backgroundColor: Color(0xFFDC2626),
-                                        behavior: SnackBarBehavior.floating,
-                                      ),
+                                    AppToast.showError(
+                                      context,
+                                      'Unable to save preferences to the cloud. Please check your connection and try again.',
                                     );
                                   }
                                 },

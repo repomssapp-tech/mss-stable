@@ -12,6 +12,7 @@ import '../../l10n/l10n.dart';
 import '../../services/centralized_translator.dart';
 import '../../utils/responsive.dart';
 import '../../utils/emblem_helper.dart';
+import '../../widgets/app_toast.dart';
 
 class SchemeDetailsScreen extends StatefulWidget {
   final Scheme scheme;
@@ -138,9 +139,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
   Future<void> _openOfficialUrl(String value) async {
     if (!_isSafeWebUrl(value)) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(context.l10n.noVerifiedLink)));
+      AppToast.showInfo(context, context.l10n.noVerifiedLink);
       return;
     }
 
@@ -149,9 +148,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
       mode: LaunchMode.externalApplication,
     );
     if (!opened && mounted) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(context.l10n.couldNotOpenWebsite)));
+      AppToast.showWarning(context, context.l10n.couldNotOpenWebsite);
     }
   }
 
@@ -162,9 +159,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
         : '${scheme.name}\n$destination';
     await Clipboard.setData(ClipboardData(text: shareText));
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Scheme details copied to clipboard.')),
-    );
+    AppToast.showSuccess(context, 'Scheme details copied to clipboard');
   }
 
   String _getImageForCategory(String category) {
