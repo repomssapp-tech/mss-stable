@@ -1520,7 +1520,7 @@ class _ResultSchemeCard extends StatelessWidget {
       height: size,
       errorBuilder: (context, error, stackTrace) {
         return Image.asset(
-          'assets/images/States assets/Indian emblem.png',
+          'assets/images/States assets/Indian emblem.webp',
           fit: BoxFit.contain,
           width: size,
           height: size,

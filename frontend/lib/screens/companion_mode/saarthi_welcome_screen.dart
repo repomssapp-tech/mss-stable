@@ -88,7 +88,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                               child: Opacity(
                                 opacity: 0.8,
                                 child: Image.asset(
-                                  'assets/images/Background/companion intro bg.png',
+                                  'assets/images/Background/companion intro bg.webp',
                                   fit: BoxFit.cover,
                                   errorBuilder: (context, error, stackTrace) =>
                                       const SizedBox.shrink(),
@@ -150,7 +150,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                             child: SizedBox(
                                               height: 100,
                                               child: Image.asset(
-                                                'assets/images/saarthi/sarathi.png',
+                                                'assets/images/saarthi/sarathi.webp',
                                                 fit: BoxFit.contain,
                                                 errorBuilder:
                                                     (

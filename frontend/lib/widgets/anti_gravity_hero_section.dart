@@ -128,7 +128,7 @@ class _AntiGravityHeroSectionState extends State<AntiGravityHeroSection>
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Image.asset(
-                          'assets/images/Logo/Logo.png',
+                          'assets/images/Logo/Logo.webp',
                           height: 125,
                           fit: BoxFit.contain,
                         ),

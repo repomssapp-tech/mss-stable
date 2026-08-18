@@ -1617,64 +1617,64 @@ String _getStateMapAsset(String stateName) {
 String _getStateMapAssetRaw(String stateName) {
   switch (stateName.toLowerCase().trim()) {
     case 'tamil nadu':
-      return 'assets/images/States and UTs/States/Tamil nadu.png';
+      return 'assets/images/States and UTs/States/Tamil nadu.webp';
     case 'maharashtra':
-      return 'assets/images/States and UTs/States/maharashtra.png';
+      return 'assets/images/States and UTs/States/maharashtra.webp';
     case 'uttar pradesh':
-      return 'assets/images/States and UTs/States/uttar_pradesh.png';
+      return 'assets/images/States and UTs/States/uttar_pradesh.webp';
     case 'karnataka':
-      return 'assets/images/States and UTs/States/karnataka.png';
+      return 'assets/images/States and UTs/States/karnataka.webp';
     case 'gujarat':
-      return 'assets/images/States and UTs/States/gujarat.png';
+      return 'assets/images/States and UTs/States/gujarat.webp';
     case 'arunachal pradesh':
-      return 'assets/images/States and UTs/States/Anrunachal pradhesh.png';
+      return 'assets/images/States and UTs/States/Anrunachal pradhesh.webp';
     case 'assam':
-      return 'assets/images/States and UTs/States/Assam.png';
+      return 'assets/images/States and UTs/States/Assam.webp';
     case 'bihar':
-      return 'assets/images/States and UTs/States/Bihar.png';
+      return 'assets/images/States and UTs/States/Bihar.webp';
     case 'chhattisgarh':
-      return 'assets/images/States and UTs/States/Chhatishgar.png';
+      return 'assets/images/States and UTs/States/Chhatishgar.webp';
     case 'kerala':
-      return 'assets/images/States and UTs/States/Kerala.png';
+      return 'assets/images/States and UTs/States/Kerala.webp';
     case 'andhra pradesh':
-      return 'assets/images/States and UTs/States/andhra pradesh.png';
+      return 'assets/images/States and UTs/States/andhra pradesh.webp';
     case 'goa':
-      return 'assets/images/States and UTs/States/goa.png';
+      return 'assets/images/States and UTs/States/goa.webp';
     case 'haryana':
-      return 'assets/images/States and UTs/States/haryana.png';
+      return 'assets/images/States and UTs/States/haryana.webp';
     case 'himachal pradesh':
-      return 'assets/images/States and UTs/States/himachal pradesh.png';
+      return 'assets/images/States and UTs/States/himachal pradesh.webp';
     case 'jharkhand':
-      return 'assets/images/States and UTs/States/jharkhand.png';
+      return 'assets/images/States and UTs/States/jharkhand.webp';
     case 'madhya pradesh':
-      return 'assets/images/States and UTs/States/madhya pradesh.png';
+      return 'assets/images/States and UTs/States/madhya pradesh.webp';
     case 'manipur':
-      return 'assets/images/States and UTs/States/manipur.png';
+      return 'assets/images/States and UTs/States/manipur.webp';
     case 'meghalaya':
-      return 'assets/images/States and UTs/States/meghalaya.png';
+      return 'assets/images/States and UTs/States/meghalaya.webp';
     case 'mizoram':
-      return 'assets/images/States and UTs/States/mizoram.png';
+      return 'assets/images/States and UTs/States/mizoram.webp';
     case 'nagaland':
-      return 'assets/images/States and UTs/States/nagaland.png';
+      return 'assets/images/States and UTs/States/nagaland.webp';
     case 'odisha':
-      return 'assets/images/States and UTs/States/odisha.png';
+      return 'assets/images/States and UTs/States/odisha.webp';
     case 'punjab':
-      return 'assets/images/States and UTs/States/punjab.png';
+      return 'assets/images/States and UTs/States/punjab.webp';
     case 'rajasthan':
-      return 'assets/images/States and UTs/States/rajasthan.png';
+      return 'assets/images/States and UTs/States/rajasthan.webp';
     case 'sikkim':
-      return 'assets/images/States and UTs/States/sikkim.png';
+      return 'assets/images/States and UTs/States/sikkim.webp';
     case 'telangana':
-      return 'assets/images/States and UTs/States/telangana.png';
+      return 'assets/images/States and UTs/States/telangana.webp';
     case 'tripura':
-      return 'assets/images/States and UTs/States/tripura.png';
+      return 'assets/images/States and UTs/States/tripura.webp';
     case 'uttarakhand':
     case 'uttarkhand':
-      return 'assets/images/States and UTs/States/uttarkhand.png';
+      return 'assets/images/States and UTs/States/uttarkhand.webp';
     case 'west bengal':
-      return 'assets/images/States and UTs/States/west bengal.png';
+      return 'assets/images/States and UTs/States/west bengal.webp';
     default:
-      return 'assets/images/States and UTs/States/Tamil nadu.png';
+      return 'assets/images/States and UTs/States/Tamil nadu.webp';
   }
 }
 

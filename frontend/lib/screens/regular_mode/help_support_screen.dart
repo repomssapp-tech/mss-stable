@@ -1126,7 +1126,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       right: -10,
                       bottom: -5,
                       child: Image.asset(
-                        'assets/images/supporting assets/support_agent.png',
+                        'assets/images/supporting assets/support_agent.webp',
                         height: 85,
                         fit: BoxFit.contain,
                       ),

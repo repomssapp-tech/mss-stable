@@ -5,6 +5,8 @@ import '../../providers/app_state_provider.dart';
 import 'location_profile_screen.dart';
 import '../../utils/responsive.dart';
 import '../../utils/profile_l10n.dart';
+import '../../utils/constants.dart';
+import '../../utils/app_theme.dart';
 
 class BasicProfileScreen extends StatefulWidget {
   const BasicProfileScreen({super.key});
@@ -522,32 +524,13 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   }
 
   Future<void> _selectDob(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
+    final DateTime? picked = await showThemedDatePicker(
       context: context,
-      initialDate: _selectedDob,
+      initialDate: _selectedDob ?? DateTime(2000, 1, 1),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
-      initialDatePickerMode: DatePickerMode
-          .year, // Start in year mode so users can instantly select year/month
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: kPrimaryBlue,
-              onPrimary: Colors.white,
-              onSurface: kSlate900,
-              surface: Colors.white,
-            ),
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                foregroundColor:
-                    kPrimaryBlue, // Smooth, responsive button color
-              ),
-            ),
-          ),
-          child: child!,
-        );
-      },
+      initialDatePickerMode: DatePickerMode.year,
+      helpText: 'SELECT DATE OF BIRTH',
     );
     if (picked != null && picked != _selectedDob) {
       setState(() {
@@ -615,7 +598,7 @@ class CustomInputField extends StatelessWidget {
           style: GoogleFonts.inter(
             fontSize: 13,
             fontWeight: FontWeight.bold,
-            color: const Color(0xFF0F172A),
+            color: AppConstants.primaryText,
           ),
         ),
         const SizedBox(height: 8),
@@ -630,11 +613,11 @@ class CustomInputField extends StatelessWidget {
               onChanged: onChanged,
               style: GoogleFonts.inter(
                 fontSize: 14.5,
-                color: const Color(0xFF1E293B),
+                color: AppConstants.primaryText,
               ),
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.white,
+                fillColor: AppConstants.surfaceColor,
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 14,
                   vertical: 14,
@@ -642,29 +625,29 @@ class CustomInputField extends StatelessWidget {
                 prefixIcon: Icon(
                   leadingIcon,
                   color: hasError
-                      ? const Color(0xFFDC2626)
-                      : const Color(0xFF64748B),
+                      ? AppConstants.errorColor
+                      : AppConstants.secondaryText,
                   size: 20,
                 ),
                 prefixText: prefixText,
                 prefixStyle: GoogleFonts.inter(
                   fontSize: 14.5,
                   fontWeight: FontWeight.w600,
-                  color: const Color(0xFF1E293B),
+                  color: AppConstants.primaryText,
                 ),
                 suffixIcon: Icon(
                   trailingIcon,
                   color: hasError
-                      ? const Color(0xFFDC2626)
-                      : const Color(0xFF64748B),
+                      ? AppConstants.errorColor
+                      : AppConstants.secondaryText,
                   size: 20,
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide(
                     color: hasError
-                        ? const Color(0xFFDC2626)
-                        : const Color(0xFFE2E8F0),
+                        ? AppConstants.errorColor
+                        : AppConstants.cardBorderColor,
                     width: hasError ? 1.4 : 1.2,
                   ),
                 ),
@@ -672,8 +655,8 @@ class CustomInputField extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide(
                     color: hasError
-                        ? const Color(0xFFDC2626)
-                        : const Color(0xFFE2E8F0),
+                        ? AppConstants.errorColor
+                        : AppConstants.cardBorderColor,
                     width: hasError ? 1.4 : 1.2,
                   ),
                 ),
@@ -681,8 +664,8 @@ class CustomInputField extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide(
                     color: hasError
-                        ? const Color(0xFFDC2626)
-                        : const Color(0xFF2563EB),
+                        ? AppConstants.errorColor
+                        : AppConstants.primaryColor,
                     width: 1.8,
                   ),
                 ),
@@ -697,7 +680,7 @@ class CustomInputField extends StatelessWidget {
               const Icon(
                 Icons.error_outline_rounded,
                 size: 13,
-                color: Color(0xFFDC2626),
+                color: AppConstants.errorColor,
               ),
               const SizedBox(width: 4),
               Expanded(
@@ -706,7 +689,7 @@ class CustomInputField extends StatelessWidget {
                   style: GoogleFonts.inter(
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
-                    color: const Color(0xFFDC2626),
+                    color: AppConstants.errorColor,
                   ),
                 ),
               ),

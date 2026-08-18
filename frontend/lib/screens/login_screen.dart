@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
           // 1. Background image
           Positioned.fill(
             child: Image.asset(
-              'assets/images/Background/splash_screen.png',
+              'assets/images/Background/splash_screen.webp',
               fit: BoxFit.cover,
             ),
           ),
@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                               // Brand Logo
                               Image.asset(
-                                'assets/images/Logo/Logo.png',
+                                'assets/images/Logo/Logo.webp',
                                 height: 125,
                                 fit: BoxFit.contain,
                               ),

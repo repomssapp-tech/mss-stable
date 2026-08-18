@@ -224,7 +224,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       'badge_text_color': '#EA580C',
       'badge_bg_color': '#FFF7ED',
       'target_route': 'notifications',
-      'bg_image': 'assets/images/Background/alert banner.png',
+      'bg_image': 'assets/images/Background/alert banner.webp',
     },
     {
       'title': 'New Scheme',
@@ -233,7 +233,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       'badge_text_color': '#16A34A',
       'badge_bg_color': '#DCFCE7',
       'target_route': 'discover_results',
-      'bg_image': 'assets/images/Background/new scheme banner.png',
+      'bg_image': 'assets/images/Background/new scheme banner.webp',
     },
     {
       'title': 'Important Update',
@@ -242,7 +242,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       'badge_text_color': '#2563EB',
       'badge_bg_color': '#EFF6FF',
       'target_route': 'discover_results',
-      'bg_image': 'assets/images/Background/notification banner.png',
+      'bg_image': 'assets/images/Background/notification banner.webp',
     },
     {
       'title': 'For Women Entrepreneurs',
@@ -251,7 +251,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       'badge_text_color': '#7C3AED',
       'badge_bg_color': '#F5F3FF',
       'target_route': 'discover_results',
-      'bg_image': 'assets/images/Background/suggestion banner.png',
+      'bg_image': 'assets/images/Background/suggestion banner.webp',
     },
   ];
 
@@ -1484,26 +1484,26 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           if (badge.contains('alert') ||
               title.contains('closing') ||
               title.contains('deadline')) {
-            mutable['bg_image'] = 'assets/images/Background/alert banner.png';
+            mutable['bg_image'] = 'assets/images/Background/alert banner.webp';
             mutable['badge_text_color'] = '#EA580C';
             mutable['badge_bg_color'] = '#FFF7ED';
           } else if (badge.contains('new') ||
               title.contains('new scheme') ||
               title.contains('export')) {
             mutable['bg_image'] =
-                'assets/images/Background/new scheme banner.png';
+                'assets/images/Background/new scheme banner.webp';
             mutable['badge_text_color'] = '#16A34A';
             mutable['badge_bg_color'] = '#DCFCE7';
           } else if (badge.contains('notify') ||
               title.contains('update') ||
               title.contains('udyam')) {
             mutable['bg_image'] =
-                'assets/images/Background/notification banner.png';
+                'assets/images/Background/notification banner.webp';
             mutable['badge_text_color'] = '#2563EB';
             mutable['badge_bg_color'] = '#EFF6FF';
           } else {
             mutable['bg_image'] =
-                'assets/images/Background/suggestion banner.png';
+                'assets/images/Background/suggestion banner.webp';
             mutable['badge_text_color'] = '#7C3AED';
             mutable['badge_bg_color'] = '#F5F3FF';
           }

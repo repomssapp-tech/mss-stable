@@ -79,28 +79,28 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/Logo/Logo.png
-    - assets/images/Logo/Logo icon.png
-    - assets/images/Logo/compoanion bot.png
-    - assets/images/Background/splash_screen.png
-    - assets/images/Background/search_banner.png
-    - assets/images/Background/mode selection bg.png
-    - assets/images/Background/companion intro bg.png
-    - assets/images/Background/profile process banner.png
-    - assets/images/Background/suggestion banner.png
-    - assets/images/Background/new scheme banner.png
-    - assets/images/Background/alert banner.png
-    - assets/images/Background/notification banner.png
-    - assets/images/Background/tip banner.png
+    - assets/images/Logo/Logo.webp
+    - assets/images/Logo/Logo icon.webp
+    - assets/images/Logo/compoanion bot.webp
+    - assets/images/Background/splash_screen.webp
+    - assets/images/Background/search_banner.webp
+    - assets/images/Background/mode selection bg.webp
+    - assets/images/Background/companion intro bg.webp
+    - assets/images/Background/profile process banner.webp
+    - assets/images/Background/suggestion banner.webp
+    - assets/images/Background/new scheme banner.webp
+    - assets/images/Background/alert banner.webp
+    - assets/images/Background/notification banner.webp
+    - assets/images/Background/tip banner.webp
     - assets/images/Background/Home_screen_bg.webp
     - assets/images/Background/Login_bg.webp
-    - assets/images/Background/onboarding_bg.png
-    - assets/images/States assets/Indian emblem.png
+    - assets/images/Background/onboarding_bg.webp
+    - assets/images/States assets/Indian emblem.webp
     - assets/images/States assets/States/
     - assets/images/States assets/State Emblem/
-    - assets/images/saarthi/sarathi.png
-    - assets/images/supporting assets/support_agent.png
-    - assets/images/supporting assets/user_avatar.png
+    - assets/images/saarthi/sarathi.webp
+    - assets/images/supporting assets/support_agent.webp
+    - assets/images/supporting assets/user_avatar.webp
     - assets/catalog/
 
 
