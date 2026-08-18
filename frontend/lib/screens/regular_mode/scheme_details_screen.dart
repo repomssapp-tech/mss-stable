@@ -165,11 +165,11 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
   String _getImageForCategory(String category) {
     final cat = category.toLowerCase();
     if (cat.contains("farmer") || cat.contains("agriculture")) {
-      return 'assets/images/Background/new scheme banner.png';
+      return 'assets/images/Background/new scheme banner.webp';
     } else if (cat.contains("student") || cat.contains("education")) {
-      return 'assets/images/Background/suggestion banner.png';
+      return 'assets/images/Background/suggestion banner.webp';
     } else {
-      return 'assets/images/Background/profile process banner.png';
+      return 'assets/images/Background/profile process banner.webp';
     }
   }
 
@@ -1152,7 +1152,7 @@ class _HeroSection extends StatelessWidget {
       height: size,
       errorBuilder: (context, error, stackTrace) {
         return Image.asset(
-          'assets/images/States assets/Indian emblem.png',
+          'assets/images/States assets/Indian emblem.webp',
           fit: BoxFit.contain,
           width: size,
           height: size,

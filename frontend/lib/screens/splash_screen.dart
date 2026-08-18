@@ -133,7 +133,7 @@ class _SplashScreenState extends State<SplashScreen>
           // 1. Full screen background
           Positioned.fill(
             child: Image.asset(
-              'assets/images/Background/splash_screen.png',
+              'assets/images/Background/splash_screen.webp',
               fit: BoxFit.cover,
             ),
           ),
@@ -160,7 +160,7 @@ class _SplashScreenState extends State<SplashScreen>
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 40.0),
                       child: Image.asset(
-                        'assets/images/Logo/Logo.png',
+                        'assets/images/Logo/Logo.webp',
                         width: size.width * 0.60,
                         fit: BoxFit.contain,
                         errorBuilder: (context, error, stackTrace) {

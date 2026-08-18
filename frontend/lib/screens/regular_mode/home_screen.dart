@@ -598,7 +598,7 @@ class _HomeScreenState extends State<HomeScreen> {
             borderRadius: BorderRadius.circular(16),
             image: const DecorationImage(
               image: AssetImage(
-                'assets/images/Background/profile process banner.png',
+                'assets/images/Background/profile process banner.webp',
               ),
               fit: BoxFit.cover,
             ),
@@ -723,10 +723,10 @@ class _HomeScreenState extends State<HomeScreen> {
               String? bgImage = item['bg_image'] as String?;
               if (bgImage == null || bgImage.isEmpty) {
                 final fallbackBanners = [
-                  'assets/images/Background/alert banner.png',
-                  'assets/images/Background/new scheme banner.png',
-                  'assets/images/Background/notification banner.png',
-                  'assets/images/Background/suggestion banner.png',
+                  'assets/images/Background/alert banner.webp',
+                  'assets/images/Background/new scheme banner.webp',
+                  'assets/images/Background/notification banner.webp',
+                  'assets/images/Background/suggestion banner.webp',
                 ];
                 bgImage = fallbackBanners[index % fallbackBanners.length];
               }
@@ -1471,7 +1471,7 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
         image: const DecorationImage(
-          image: AssetImage('assets/images/Background/tip banner.png'),
+          image: AssetImage('assets/images/Background/tip banner.webp'),
           fit: BoxFit.cover,
         ),
         borderRadius: BorderRadius.circular(18),
@@ -1720,7 +1720,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(2),
             child: ClipOval(
               child: Image.asset(
-                'assets/images/saarthi/sarathi.png',
+                'assets/images/saarthi/sarathi.webp',
                 fit: BoxFit.cover,
               ),
             ),

@@ -13,6 +13,7 @@ import 'screens/profile_screen.dart';
 import 'screens/regular_mode/saved_schemes_screen.dart';
 import 'screens/companion_mode/saarthi_home_screen.dart';
 import 'utils/constants.dart';
+import 'utils/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -151,6 +152,7 @@ class InSchemesApp extends StatelessWidget {
                 side: const BorderSide(color: AppConstants.cardBorderColor),
               ),
             ),
+            datePickerTheme: AppTheme.datePickerTheme,
           ),
           // Set initial screen based on login state
           home: const SplashScreen(),

@@ -1041,7 +1041,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                     final photo = provider.profile.profilePhoto;
                     if (photo.isEmpty) {
                       return Image.asset(
-                        'assets/images/supporting assets/user_avatar.png',
+                        'assets/images/supporting assets/user_avatar.webp',
                         width: 36,
                         height: 36,
                         fit: BoxFit.cover,
@@ -1072,7 +1072,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                       );
                     }
                     return Image.asset(
-                      'assets/images/supporting assets/user_avatar.png',
+                      'assets/images/supporting assets/user_avatar.webp',
                       width: 36,
                       height: 36,
                       fit: BoxFit.cover,
@@ -1127,7 +1127,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                     ),
                     child: ClipOval(
                       child: Image.asset(
-                        'assets/images/saarthi/sarathi.png',
+                        'assets/images/saarthi/sarathi.webp',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -1251,7 +1251,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                 ),
                 child: ClipOval(
                   child: Image.asset(
-                    'assets/images/saarthi/sarathi.png',
+                    'assets/images/saarthi/sarathi.webp',
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -1480,7 +1480,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                 backgroundColor: const Color(0xFFEFF6FF),
                 child: ClipOval(
                   child: Image.asset(
-                    'assets/images/saarthi/sarathi.png',
+                    'assets/images/saarthi/sarathi.webp',
                     width: 34,
                     height: 34,
                     fit: BoxFit.cover,

@@ -72,7 +72,7 @@ class EligibilityResultsScreen extends StatelessWidget {
                       vertical: 12.0,
                     ),
                     child: Image.asset(
-                      'assets/images/Background/suggestion banner.png',
+                      'assets/images/Background/suggestion banner.webp',
                       height: 180,
                       fit: BoxFit.contain,
                     ),

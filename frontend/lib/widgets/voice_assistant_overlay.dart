@@ -1474,7 +1474,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             height: 56,
             child: ClipOval(
               child: Image.asset(
-                'assets/images/saarthi/sarathi.png',
+                'assets/images/saarthi/sarathi.webp',
                 key: const Key('voice-assistant-image'),
                 fit: BoxFit.cover,
               ),

@@ -10,7 +10,7 @@ class FloatingLogo extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Image.asset(
-          'assets/images/Logo/Logo.png',
+          'assets/images/Logo/Logo.webp',
           height: 80,
           fit: BoxFit.contain,
         ),

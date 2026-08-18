@@ -490,7 +490,7 @@ class ProfileScreen extends StatelessWidget {
                                           provider.profile.profilePhoto;
                                       if (photo.isEmpty) {
                                         return const AssetImage(
-                                              'assets/images/supporting assets/user_avatar.png',
+                                              'assets/images/supporting assets/user_avatar.webp',
                                             )
                                             as ImageProvider;
                                       }
@@ -504,7 +504,7 @@ class ProfileScreen extends StatelessWidget {
                                             as ImageProvider;
                                       }
                                       return const AssetImage(
-                                            'assets/images/supporting assets/user_avatar.png',
+                                            'assets/images/supporting assets/user_avatar.webp',
                                           )
                                           as ImageProvider;
                                     }(),
