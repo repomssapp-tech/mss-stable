@@ -39,7 +39,7 @@ void main() {
     });
 
     for (final path in <String>[
-      'lib/screens/regular_mode/about_you_profile_screen.dart',
+      'lib/screens/regular_mode/eligibility_profile_screen.dart',
       'lib/screens/companion_mode/saarthi_welcome_screen.dart',
     ]) {
       test('$path waits for cloud confirmation before routing', () {
@@ -51,7 +51,7 @@ void main() {
         expect(saveIndex, greaterThanOrEqualTo(0));
         expect(cloudIndex, greaterThan(saveIndex));
         expect(routeIndex, greaterThan(cloudIndex));
-        expect(source, contains('could not save'));
+        expect(source.toLowerCase(), contains('unable to save'));
       });
     }
 

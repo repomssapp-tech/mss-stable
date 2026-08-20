@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../providers/app_state_provider.dart';
 import '../../utils/responsive.dart';
 import '../../utils/permission_helper.dart';
+import '../../utils/profile_l10n.dart';
 
 class LocationProfileScreen extends StatefulWidget {
   const LocationProfileScreen({super.key});
@@ -161,6 +162,11 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isTa = context.select<AppProvider, bool>(
+      (provider) => provider.selectedLanguage == 'ta',
+    );
+    String l(String key) => ProfileL10n.t(key, isTa);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -181,9 +187,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Top Bar (Outside the card)
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconButton(
                           icon: const Icon(
@@ -193,20 +197,29 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                           ),
                           onPressed: () => Navigator.maybePop(context),
                         ),
-                        FlexText(
-                          child: Text(
-                            'Complete Your Profile',
-                            style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: kSlate900,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 40), // Balance centering
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 2),
+                    // Header Text (Outside card)
+                    Text(
+                      l('complete_your_profile'),
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: kSlate900,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      l('location_subtitle'),
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.inter(
+                        fontSize: 13.5,
+                        color: kSlate500,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
 
                     // Main Card Container
                     Expanded(
@@ -253,12 +266,16 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                         Expanded(
                                           child: _buildProgressSegment(false),
                                         ),
+                                        const SizedBox(width: 4),
+                                        Expanded(
+                                          child: _buildProgressSegment(false),
+                                        ),
                                       ],
                                     ),
                                     const SizedBox(height: 8),
                                     Center(
                                       child: Text(
-                                        '2/3 Complete',
+                                        l('step_2_of_4'),
                                         style: GoogleFonts.inter(
                                           fontSize: 13,
                                           fontWeight: FontWeight.w600,

@@ -174,7 +174,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                                     const SizedBox(height: 12),
 
                                     // Completion Pill
-                                    Center(child: _buildProgressPill()),
+                                    Center(child: _buildProgressPill(isTa)),
                                     const SizedBox(height: 20),
 
                                     // Form Fields
@@ -420,6 +420,8 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         Expanded(child: _buildProgressSegment(false)),
         const SizedBox(width: 4),
         Expanded(child: _buildProgressSegment(false)),
+        const SizedBox(width: 4),
+        Expanded(child: _buildProgressSegment(false)),
       ],
     );
   }
@@ -434,9 +436,9 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     );
   }
 
-  Widget _buildProgressPill() {
+  Widget _buildProgressPill(bool isTa) {
     return Text(
-      '1/3 Complete',
+      ProfileL10n.t('step_1_of_4', isTa),
       style: GoogleFonts.inter(
         fontSize: 13,
         fontWeight: FontWeight.w600,

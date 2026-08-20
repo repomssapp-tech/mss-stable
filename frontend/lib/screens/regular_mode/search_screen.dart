@@ -2,18 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../providers/app_state_provider.dart';
-import '../../widgets/filter_bottom_sheet.dart';
+import '../../widgets/filter_panel.dart';
 import '../../models/scheme_model.dart';
-import '../../models/localized_scheme.dart';
 import '../../services/scheme_repository.dart';
 import 'scheme_details_screen.dart';
-import 'discover_results_screen.dart';
+import 'search_results_screen.dart';
 import '../../engine/recommendation_engine.dart';
 import '../../l10n/l10n.dart';
 import '../../services/centralized_translator.dart';
-import '../../utils/responsive.dart';
-import '../../utils/emblem_helper.dart';
 import '../../widgets/voice_assistant_overlay.dart';
+import '../../widgets/scheme_card.dart';
 
 String _getLocalizedTagOrCategory(String text, String langCode) {
   if (langCode != 'ta') return text;
@@ -35,12 +33,17 @@ class SearchScreenState extends State<SearchScreen> {
   SearchState _currentState = SearchState.idle;
   String _activeFilter = "All";
 
-  bool get isSearching => _currentState != SearchState.idle;
+  bool get isSearching =>
+      _currentState != SearchState.idle ||
+      _searchController.text.trim().isNotEmpty;
 
   // Data list of scheme results from Supabase
   List<Scheme> _searchResults = [];
   List<Scheme> _masterSearchResults = [];
-  String _currentSort = "Match";
+  String _sortBy = 'Relevance';
+  String _selectedType = 'All';
+  String _selectedBenefit = 'All';
+  String _selectedMinistry = 'All';
   Map<String, int> _categoryCounts = {};
   bool _isLoadingCounts = true;
   int _matchingProfileCount = 0;
@@ -61,64 +64,280 @@ class SearchScreenState extends State<SearchScreen> {
     return baseWeight;
   }
 
-  String _getLocalizedFilterName(String filter) {
-    switch (filter) {
-      case 'All':
-        return context.l10n.filterAll;
-      case 'Central':
-        return context.l10n.filterCentral;
-      case 'State':
-        return context.l10n.filterState;
-      case 'Loan':
-        return context.l10n.filterLoan;
-      case 'Udyam':
-        return context.l10n.filterUdyam;
-      case 'Startup':
-        return context.l10n.filterStartup;
-      case 'Subsidy':
-        return context.l10n.filterSubsidy;
-      case 'Collateral-Free':
-        return context.l10n.filterCollateralFree;
-      default:
-        return filter;
-    }
+  List<Scheme> _computeEligibleSchemes(AppProvider provider, List<Scheme> all) {
+    final list = all.isNotEmpty ? all : provider.allSchemes;
+    final recs =
+        RecommendationEngine.getRecommendations(provider.profile, list);
+    return recs
+        .where((e) => e.value.score > 0.35)
+        .map((e) => e.key)
+        .toList();
   }
 
-  void _applySorting() {
+  void _applyFiltersAndSort() {
     if (_masterSearchResults.isEmpty) {
       setState(() {
         _searchResults = [];
+        _currentState = SearchState.results;
       });
       return;
     }
 
     final provider = Provider.of<AppProvider>(context, listen: false);
-    final sorted = List<Scheme>.from(_masterSearchResults);
+    List<Scheme> filteredResults = List<Scheme>.from(_masterSearchResults);
 
-    if (_currentSort == 'Match %' || _currentSort == 'Match') {
-      sorted.sort((a, b) {
-        final scoreA = RecommendationEngine.evaluate(provider.profile, a).score;
-        final scoreB = RecommendationEngine.evaluate(provider.profile, b).score;
+    // 1. Dropdown Chips Filters: Type (Loan, Subsidy, etc.)
+    if (_selectedType != 'All') {
+      final typeKeyword = _selectedType.toLowerCase();
+      filteredResults = filteredResults.where((scheme) {
+        return scheme.schemeType.toLowerCase().contains(typeKeyword) ||
+            scheme.name.toLowerCase().contains(typeKeyword) ||
+            scheme.category.toLowerCase().contains(typeKeyword) ||
+            scheme.overview.toLowerCase().contains(typeKeyword);
+      }).toList();
+    }
+
+    // 2. Dropdown Chips Filters: Benefit Type
+    if (_selectedBenefit != 'All') {
+      final benefitLower = _selectedBenefit.toLowerCase();
+      filteredResults = filteredResults.where((scheme) {
+        if (benefitLower == 'financial') {
+          return scheme.benefits.toLowerCase().contains('financial') ||
+              scheme.benefits.toLowerCase().contains('subsidy') ||
+              scheme.benefits.toLowerCase().contains('funding') ||
+              scheme.benefits.toLowerCase().contains('grant') ||
+              scheme.benefits.toLowerCase().contains('loan') ||
+              scheme.benefits.toLowerCase().contains('pension') ||
+              scheme.benefits.toLowerCase().contains('reimbursement') ||
+              scheme.benefits.toLowerCase().contains('₹') ||
+              scheme.benefits.toLowerCase().contains('rs.') ||
+              scheme.schemeType.toLowerCase().contains('subsidy') ||
+              scheme.schemeType.toLowerCase().contains('loan') ||
+              scheme.schemeType.toLowerCase().contains('grant');
+        } else if (benefitLower == 'skill training') {
+          return scheme.benefits.toLowerCase().contains('skill') ||
+              scheme.benefits.toLowerCase().contains('training') ||
+              scheme.benefits.toLowerCase().contains('workshop') ||
+              scheme.benefits.toLowerCase().contains('placement') ||
+              scheme.benefits.toLowerCase().contains('capacity building') ||
+              scheme.benefits.toLowerCase().contains('mentorship') ||
+              scheme.overview.toLowerCase().contains('training') ||
+              scheme.overview.toLowerCase().contains('skill');
+        } else if (benefitLower == 'infrastructure') {
+          return scheme.benefits.toLowerCase().contains('infrastructure') ||
+              scheme.benefits.toLowerCase().contains('facility') ||
+              scheme.benefits.toLowerCase().contains('technology') ||
+              scheme.benefits.toLowerCase().contains('plant') ||
+              scheme.benefits.toLowerCase().contains('machinery') ||
+              scheme.benefits.toLowerCase().contains('incubation') ||
+              scheme.overview.toLowerCase().contains('infrastructure') ||
+              scheme.overview.toLowerCase().contains('technology');
+        } else {
+          return scheme.benefits.toLowerCase().contains(benefitLower) ||
+              scheme.overview.toLowerCase().contains(benefitLower);
+        }
+      }).toList();
+    }
+
+    // 3. Dropdown Chips Filters: Ministry
+    if (_selectedMinistry != 'All') {
+      final ministryLower = _selectedMinistry.toLowerCase();
+      filteredResults = filteredResults.where((scheme) {
+        return scheme.sponsoringBody.toLowerCase().contains(ministryLower) ||
+            scheme.issuingBody.toLowerCase().contains(ministryLower) ||
+            scheme.category.toLowerCase().contains(ministryLower) ||
+            scheme.name.toLowerCase().contains(ministryLower);
+      }).toList();
+    }
+
+    // 4. Provider Filters (from FilterPanel) - only apply when not in "For Me" mode
+    if (_activeFilter != 'For Me') {
+      final providerFilters = provider.filters;
+      if (providerFilters['state'] != null &&
+          providerFilters['state'] != 'All') {
+        final st = providerFilters['state'].toString().toLowerCase();
+        filteredResults = filteredResults.where((scheme) {
+          return scheme.state.toLowerCase() == 'all india' ||
+              scheme.state.toLowerCase().contains(st);
+        }).toList();
+      }
+      if (providerFilters['category'] != null &&
+          providerFilters['category'] != 'All') {
+        final catVal = providerFilters['category'].toString().toLowerCase();
+        final words = catVal.split(RegExp(r'[\s&/,-]+'));
+        filteredResults = filteredResults.where((scheme) {
+          final schCat = scheme.category.toLowerCase();
+          final schSec = scheme.sector.toLowerCase();
+          for (var w in words) {
+            if (w.length > 2 && (schCat.contains(w) || schSec.contains(w))) {
+              return true;
+            }
+          }
+          return false;
+        }).toList();
+      }
+      if (providerFilters['schemeType'] != null &&
+          providerFilters['schemeType'] != 'All') {
+        final stType = providerFilters['schemeType'].toString().toLowerCase();
+        filteredResults = filteredResults.where((scheme) {
+          return scheme.schemeType.toLowerCase().contains(stType) ||
+              scheme.category.toLowerCase().contains(stType);
+        }).toList();
+      }
+    } else {
+      // In "For Me" mode, strictly maintain profile eligibility
+      filteredResults = filteredResults.where((scheme) {
+        final res = RecommendationEngine.evaluate(provider.profile, scheme);
+        return res.score > 0.35;
+      }).toList();
+    }
+
+    // 5. Apply FilterBottomSheet selections if any
+    if (_activeSearchFilters.isNotEmpty) {
+      filteredResults = filteredResults.where((scheme) {
+        final locs = _activeSearchFilters['Location'] ?? [];
+        if (locs.isNotEmpty) {
+          bool matchesLoc = false;
+          for (final loc in locs) {
+            if (loc == 'All India' &&
+                scheme.state.toLowerCase() == 'all india') {
+              matchesLoc = true;
+            } else if (loc == 'Central' &&
+                scheme.governmentLevel.toLowerCase() == 'central') {
+              matchesLoc = true;
+            } else if (loc == 'State' &&
+                (scheme.governmentLevel.toLowerCase() == 'state' ||
+                    (scheme.state.isNotEmpty &&
+                        scheme.state.toLowerCase() != 'all india'))) {
+              matchesLoc = true;
+            }
+          }
+          if (!matchesLoc) return false;
+        }
+
+        final applicants = _activeSearchFilters['Applicant'] ?? [];
+        if (applicants.isNotEmpty) {
+          bool matchesApp = false;
+          final target = scheme.targetBeneficiary.toLowerCase();
+          for (final app in applicants) {
+            if (target.contains(app.toLowerCase())) {
+              matchesApp = true;
+            }
+          }
+          if (!matchesApp) return false;
+        }
+
+        final stages = _activeSearchFilters['Stage'] ?? [];
+        if (stages.isNotEmpty) {
+          bool matchesStage = false;
+          final kw = scheme.searchKeywords.toLowerCase();
+          final name = scheme.name.toLowerCase();
+          for (final stage in stages) {
+            if (kw.contains(stage.toLowerCase()) ||
+                name.contains(stage.toLowerCase())) {
+              matchesStage = true;
+            }
+          }
+          if (!matchesStage) return false;
+        }
+
+        final benefits = _activeSearchFilters['Benefits'] ?? [];
+        if (benefits.isNotEmpty) {
+          bool matchesBen = false;
+          final type = scheme.schemeType.toLowerCase();
+          final cat = scheme.category.toLowerCase();
+          final ben = scheme.benefits.toLowerCase();
+          for (final b in benefits) {
+            if (type.contains(b.toLowerCase()) ||
+                cat.contains(b.toLowerCase()) ||
+                ben.contains(b.toLowerCase())) {
+              matchesBen = true;
+            }
+          }
+          if (!matchesBen) return false;
+        }
+
+        final sectors = _activeSearchFilters['Sector'] ?? [];
+        if (sectors.isNotEmpty) {
+          bool matchesSec = false;
+          final sector = scheme.sector.toLowerCase();
+          for (final sec in sectors) {
+            if (sector.contains(sec.toLowerCase())) {
+              matchesSec = true;
+            }
+          }
+          if (!matchesSec) return false;
+        }
+
+        final authorities = _activeSearchFilters['Authority'] ?? [];
+        if (authorities.isNotEmpty) {
+          bool matchesAuth = false;
+          final sponsor = scheme.sponsoringBody.toLowerCase();
+          final issuer = scheme.issuingBody.toLowerCase();
+          for (final auth in authorities) {
+            if (sponsor.contains(auth.toLowerCase()) ||
+                issuer.contains(auth.toLowerCase())) {
+              matchesAuth = true;
+            }
+          }
+          if (!matchesAuth) return false;
+        }
+
+        return true;
+      }).toList();
+    }
+
+    // 5. If "For Me" filter is active, strictly constrain to user's eligible schemes
+    if (_activeFilter == 'For Me') {
+      filteredResults = filteredResults.where((scheme) {
+        final res = RecommendationEngine.evaluate(provider.profile, scheme);
+        return res.score >= 0.4 && res.score > 0.0;
+      }).toList();
+    }
+
+    // 6. Sorting
+    if (_sortBy == 'Benefits: High to Low') {
+      filteredResults.sort((a, b) {
+        final aBenefit = a.maxFunding ?? a.minFunding ?? 0.0;
+        final bBenefit = b.maxFunding ?? b.minFunding ?? 0.0;
+        return bBenefit.compareTo(aBenefit);
+      });
+    } else if (_sortBy == 'Match %' || _sortBy == 'Match') {
+      filteredResults.sort((a, b) {
+        final scoreA =
+            RecommendationEngine.evaluate(provider.profile, a).percentage;
+        final scoreB =
+            RecommendationEngine.evaluate(provider.profile, b).percentage;
         return scoreB.compareTo(scoreA);
       });
-    } else if (_currentSort == 'Scheme Name (A-Z)') {
-      sorted.sort(
+    } else if (_sortBy == 'Scheme Name (A-Z)') {
+      filteredResults.sort(
         (a, b) => a
             .getName(provider.selectedLanguage)
             .toLowerCase()
             .compareTo(b.getName(provider.selectedLanguage).toLowerCase()),
       );
-    } else if (_currentSort == 'Scheme Name (Z-A)') {
-      sorted.sort(
+    } else if (_sortBy == 'Scheme Name (Z-A)') {
+      filteredResults.sort(
         (a, b) => b
             .getName(provider.selectedLanguage)
             .toLowerCase()
             .compareTo(a.getName(provider.selectedLanguage).toLowerCase()),
       );
+    } else {
+      // Relevance (Default score)
+      filteredResults.sort((a, b) {
+        final scoreA =
+            RecommendationEngine.evaluate(provider.profile, a).score;
+        final scoreB =
+            RecommendationEngine.evaluate(provider.profile, b).score;
+        return scoreB.compareTo(scoreA);
+      });
     }
 
     setState(() {
-      _searchResults = sorted;
+      _searchResults = filteredResults;
+      _currentState = SearchState.results;
     });
   }
 
@@ -138,13 +357,17 @@ class SearchScreenState extends State<SearchScreen> {
   Future<void> _loadCategoryCounts() async {
     final provider = Provider.of<AppProvider>(context, listen: false);
     try {
+      final allSchemes = provider.allSchemes.isNotEmpty
+          ? provider.allSchemes
+          : await SchemeRepository.instance.getAllSchemes();
+
       final counts = await SchemeRepository.instance.getCategoryCounts(
         provider.profile,
         activeFilter: _activeFilter,
       );
-      final recs = await SchemeRepository.instance.getRecommendedSchemes(
-        provider.profile,
-      );
+
+      final eligibleSchemes = _computeEligibleSchemes(provider, allSchemes);
+
       final hint = await SchemeRepository.instance.getDynamicSearchHint(
         provider.selectedLanguage,
       );
@@ -156,7 +379,7 @@ class SearchScreenState extends State<SearchScreen> {
         if (!mounted) return;
         setState(() {
           _categoryCounts = counts;
-          _matchingProfileCount = recs.length;
+          _matchingProfileCount = eligibleSchemes.length;
           _dynamicSearchHintText = hint;
           _isLoadingCounts = false;
         });
@@ -187,6 +410,10 @@ class SearchScreenState extends State<SearchScreen> {
       _searchFocusNode.unfocus();
       if (mounted) {
         setState(() {
+          _sortBy = 'Relevance';
+          _selectedType = 'All';
+          _selectedBenefit = 'All';
+          _selectedMinistry = 'All';
           _activeSearchFilters = {};
           _activeFilter = "All";
           _searchResults = [];
@@ -195,6 +422,10 @@ class SearchScreenState extends State<SearchScreen> {
         });
       }
     }
+  }
+
+  void openFilterBottomSheet() {
+    _openFilterPanel();
   }
 
   Future<void> _openVoiceAssistant() async {
@@ -276,11 +507,15 @@ class SearchScreenState extends State<SearchScreen> {
   void _triggerSearch(String query) async {
     // If query is empty and active filter is "For Me" or "All", go back to idle Categories screen
     if (query.isEmpty &&
-        (_activeFilter == 'For Me' || _activeFilter == 'All')) {
+        _selectedType == 'All' &&
+        _selectedBenefit == 'All' &&
+        _selectedMinistry == 'All' &&
+        _activeFilter == 'All') {
       _searchGeneration++;
       setState(() {
         _currentState = SearchState.idle;
         _searchResults = [];
+        _masterSearchResults = [];
       });
       return;
     }
@@ -315,198 +550,45 @@ class SearchScreenState extends State<SearchScreen> {
       if (_activeFilter == 'For Me' ||
           normalQuery == 'suitable schemes' ||
           normalQuery == 'for me') {
-        results = await SchemeRepository.instance.getRecommendedSchemes(
-          provider.profile,
-        );
+        final all = provider.allSchemes.isNotEmpty
+            ? provider.allSchemes
+            : await SchemeRepository.instance.getAllSchemes();
+
+        final eligible = _computeEligibleSchemes(provider, all);
+
+        // Sort by match score descending
+        eligible.sort((a, b) {
+          final scoreA =
+              RecommendationEngine.evaluate(provider.profile, a).score;
+          final scoreB =
+              RecommendationEngine.evaluate(provider.profile, b).score;
+          return scoreB.compareTo(scoreA);
+        });
+
+        if (searchTerm.isNotEmpty &&
+            normalQuery != 'suitable schemes' &&
+            normalQuery != 'for me') {
+          final q = searchTerm.toLowerCase();
+          results = eligible.where((s) {
+            return s.name.toLowerCase().contains(q) ||
+                s.overview.toLowerCase().contains(q) ||
+                s.category.toLowerCase().contains(q) ||
+                s.sponsoringBody.toLowerCase().contains(q) ||
+                s.searchKeywords.toLowerCase().contains(q);
+          }).toList();
+        } else {
+          results = eligible;
+        }
       } else if (normalQuery.isEmpty || normalQuery == 'all') {
         results = await SchemeRepository.instance.getAllSchemes();
       } else {
         results = await SchemeRepository.instance.searchSchemes(searchTerm);
       }
 
-      if (!mounted) return;
-
-      List<Scheme> filteredResults = results;
-
-      if (_activeFilter == 'For Me') {
-        filteredResults = results.where((scheme) {
-          final eval = RecommendationEngine.evaluate(provider.profile, scheme);
-          return eval.score > 0;
-        }).toList();
-      } else if (_activeFilter == 'Central') {
-        filteredResults = results.where((scheme) {
-          return scheme.governmentLevel.toLowerCase() == 'central';
-        }).toList();
-      } else if (_activeFilter == 'State') {
-        filteredResults = results.where((scheme) {
-          return scheme.governmentLevel.toLowerCase() == 'state' ||
-              (scheme.state.isNotEmpty &&
-                  scheme.state.toLowerCase() != 'all india');
-        }).toList();
-      } else if (_activeFilter == 'Loan') {
-        filteredResults = results.where((scheme) {
-          final type = scheme.schemeType.toLowerCase();
-          final category = scheme.category.toLowerCase();
-          final fullText =
-              '${scheme.name} ${scheme.shortName} ${scheme.schemeType} ${scheme.category} ${scheme.sector} ${scheme.searchKeywords} ${scheme.overview}'
-                  .toLowerCase();
-          return type.contains('loan') ||
-              category.contains('loan') ||
-              category.contains('credit') ||
-              fullText.contains('loan') ||
-              fullText.contains('credit') ||
-              fullText.contains('mudra') ||
-              fullText.contains('cgtmse') ||
-              fullText.contains('working capital') ||
-              fullText.contains('term loan') ||
-              fullText.contains('svanidhi') ||
-              fullText.contains('standup');
-        }).toList();
-      } else if (_activeFilter == 'Udyam') {
-        filteredResults = results.where((scheme) {
-          final reqDocs = scheme.requiredDocuments
-              .map((d) => d.toLowerCase())
-              .join(' ');
-          final desc = scheme.searchKeywords.toLowerCase();
-          return reqDocs.contains('udyam') ||
-              desc.contains('udyam') ||
-              desc.contains('udyam registration');
-        }).toList();
-      } else if (_activeFilter == 'Startup') {
-        filteredResults = results.where((scheme) {
-          final desc = scheme.searchKeywords.toLowerCase();
-          final cat = scheme.category.toLowerCase();
-          return desc.contains('startup') ||
-              cat.contains('startup') ||
-              desc.contains('dpiit');
-        }).toList();
-      } else if (_activeFilter == 'Subsidy') {
-        filteredResults = results.where((scheme) {
-          final type = scheme.schemeType.toLowerCase();
-          final cat = scheme.category.toLowerCase();
-          final desc = scheme.searchKeywords.toLowerCase();
-          return type.contains('subsidy') ||
-              cat.contains('subsidy') ||
-              desc.contains('subsidy');
-        }).toList();
-      } else if (_activeFilter == 'Collateral-Free') {
-        filteredResults = results.where((scheme) {
-          final desc = scheme.searchKeywords.toLowerCase();
-          return desc.contains('cgtmse') ||
-              desc.contains('mudra') ||
-              desc.contains('collateral free') ||
-              desc.contains('collateral-free');
-        }).toList();
-      }
-
-      // Apply FilterBottomSheet selections if any are present
-      if (_activeSearchFilters.isNotEmpty) {
-        filteredResults = filteredResults.where((scheme) {
-          // 1. Location Filter
-          final locs = _activeSearchFilters['Location'] ?? [];
-          if (locs.isNotEmpty) {
-            bool matchesLoc = false;
-            for (final loc in locs) {
-              if (loc == 'All India' &&
-                  scheme.state.toLowerCase() == 'all india') {
-                matchesLoc = true;
-              } else if (loc == 'Central' &&
-                  scheme.governmentLevel.toLowerCase() == 'central') {
-                matchesLoc = true;
-              } else if (loc == 'State' &&
-                  (scheme.governmentLevel.toLowerCase() == 'state' ||
-                      (scheme.state.isNotEmpty &&
-                          scheme.state.toLowerCase() != 'all india'))) {
-                matchesLoc = true;
-              }
-            }
-            if (!matchesLoc) return false;
-          }
-
-          // 2. Applicant Filter
-          final applicants = _activeSearchFilters['Applicant'] ?? [];
-          if (applicants.isNotEmpty) {
-            bool matchesApp = false;
-            final target = scheme.targetBeneficiary.toLowerCase();
-            for (final app in applicants) {
-              if (target.contains(app.toLowerCase())) {
-                matchesApp = true;
-              }
-            }
-            if (!matchesApp) return false;
-          }
-
-          // 3. Stage Filter
-          final stages = _activeSearchFilters['Stage'] ?? [];
-          if (stages.isNotEmpty) {
-            bool matchesStage = false;
-            final kw = scheme.searchKeywords.toLowerCase();
-            final name = scheme.name.toLowerCase();
-            for (final stage in stages) {
-              if (kw.contains(stage.toLowerCase()) ||
-                  name.contains(stage.toLowerCase())) {
-                matchesStage = true;
-              }
-            }
-            if (!matchesStage) return false;
-          }
-
-          // 4. Benefits Filter
-          final benefits = _activeSearchFilters['Benefits'] ?? [];
-          if (benefits.isNotEmpty) {
-            bool matchesBen = false;
-            final type = scheme.schemeType.toLowerCase();
-            final cat = scheme.category.toLowerCase();
-            final ben = scheme.benefits.toLowerCase();
-            for (final b in benefits) {
-              if (type.contains(b.toLowerCase()) ||
-                  cat.contains(b.toLowerCase()) ||
-                  ben.contains(b.toLowerCase())) {
-                matchesBen = true;
-              }
-            }
-            if (!matchesBen) return false;
-          }
-
-          // 5. Sector Filter
-          final sectors = _activeSearchFilters['Sector'] ?? [];
-          if (sectors.isNotEmpty) {
-            bool matchesSec = false;
-            final sector = scheme.sector.toLowerCase();
-            for (final sec in sectors) {
-              if (sector.contains(sec.toLowerCase())) {
-                matchesSec = true;
-              }
-            }
-            if (!matchesSec) return false;
-          }
-
-          // 6. Authority Filter
-          final authorities = _activeSearchFilters['Authority'] ?? [];
-          if (authorities.isNotEmpty) {
-            bool matchesAuth = false;
-            final sponsor = scheme.sponsoringBody.toLowerCase();
-            final issuer = scheme.issuingBody.toLowerCase();
-            for (final auth in authorities) {
-              if (sponsor.contains(auth.toLowerCase()) ||
-                  issuer.contains(auth.toLowerCase())) {
-                matchesAuth = true;
-              }
-            }
-            if (!matchesAuth) return false;
-          }
-
-          return true;
-        }).toList();
-      }
-
       if (!mounted || requestGeneration != _searchGeneration) return;
-      setState(() {
-        _masterSearchResults = filteredResults;
-        _searchResults = List<Scheme>.from(filteredResults);
-        _currentState = SearchState.results;
-      });
-      _applySorting();
+
+      _masterSearchResults = results;
+      _applyFiltersAndSort();
     } catch (e) {
       if (!mounted || requestGeneration != _searchGeneration) return;
       setState(() {
@@ -596,75 +678,72 @@ class SearchScreenState extends State<SearchScreen> {
         "iconBg": const Color(0xFFFFEDD5),
       },
     ];
-
     return Scaffold(
-      backgroundColor: const Color(0xFFEFF6FF), // Solid Light Blue
+      backgroundColor: const Color(0xFFF8FAFC), // Crisp clean background without blue shade
       body: SafeArea(
         child: Column(
           children: [
             // Fixed top header elements
             Padding(
-              padding: const EdgeInsets.only(
-                left: 16.0,
-                right: 16.0,
-                top: 28.0,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // 1. Custom App Bar
-                  _buildCustomAppBar(context, provider),
+              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // 1. Custom App Bar matching Discover Header
+                    _buildCustomAppBar(context, provider),
 
-                  const SizedBox(height: 16),
+                    const SizedBox(height: 14),
 
-                  // 2. Search Input Container with dynamic trailing icon
-                  _buildSearchInput(context),
+                    // 2. Search Input Container with dynamic trailing icon
+                    _buildSearchInput(context),
 
-                  const SizedBox(height: 8),
+                    const SizedBox(height: 10),
 
-                  // Try banner
-                  GestureDetector(
-                    onTap: () {
-                      _searchController.text = _dynamicSearchHintText;
-                      _searchFocusNode.unfocus();
-                      _triggerSearch(_dynamicSearchHintText);
-                    },
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.search,
-                          color: Color(0xFF64748B),
-                          size: 12,
-                        ),
-                        const SizedBox(width: 4),
-                        Expanded(
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "${context.l10n.trySearchPrefix} $_dynamicSearchHintText",
-                              style: GoogleFonts.inter(
-                                color: const Color(0xFF64748B),
-                                fontSize: _scaledFontSize(11),
-                                fontWeight: FontWeight.w500,
+                  if (isSearching) ...[
+                    // Discover Filters Strip (Filter, Sort, Type, Benefit Type, Ministry, Clear All)
+                    _buildDiscoverFiltersStrip(),
+                  ] else ...[
+                    // Try banner when idle
+                    GestureDetector(
+                      onTap: () {
+                        _searchController.text = _dynamicSearchHintText;
+                        _searchFocusNode.unfocus();
+                        _triggerSearch(_dynamicSearchHintText);
+                      },
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.search,
+                            color: Color(0xFF64748B),
+                            size: 12,
+                          ),
+                          const SizedBox(width: 4),
+                          Expanded(
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "${context.l10n.trySearchPrefix} $_dynamicSearchHintText",
+                                style: GoogleFonts.inter(
+                                  color: const Color(0xFF64748B),
+                                  fontSize: _scaledFontSize(11),
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-
-                  if (isSearching) ...[
-                    const SizedBox(height: 16),
-                    // 3. Quick Filters Row (Horizontal Scroll)
-                    _buildQuickFilters(),
                   ],
                 ],
               ),
             ),
+          ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: 6),
 
             // 4. DYNAMIC AREA (AnimatedSwitcher)
             Expanded(
@@ -684,53 +763,55 @@ class SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Future<void> openFilterBottomSheet() async {
-    final Map<String, List<String>>? selectedFilters =
-        await showModalBottomSheet<Map<String, List<String>>>(
-          context: context,
-          isScrollControlled: true,
-          backgroundColor: Colors.transparent,
-          builder: (context) => const FilterBottomSheet(),
-        );
-    if (selectedFilters != null && mounted) {
-      setState(() {
-        _activeSearchFilters = selectedFilters;
-      });
-      _triggerSearch(_searchController.text);
-    }
+  void _openFilterPanel() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => FilterPanel(
+        onApplied: () {
+          _applyFiltersAndSort();
+        },
+      ),
+    );
   }
 
-  // 1. Custom App Bar
+  void _clearAllFilters() {
+    final provider = Provider.of<AppProvider>(context, listen: false);
+    provider.clearFilters();
+    setState(() {
+      _sortBy = 'Relevance';
+      _selectedType = 'All';
+      _selectedBenefit = 'All';
+      _selectedMinistry = 'All';
+      _activeSearchFilters = {};
+      _activeFilter = 'All';
+    });
+    _applyFiltersAndSort();
+  }
+
+  // 1. Custom App Bar (Styled like Discover page header)
   Widget _buildCustomAppBar(BuildContext context, AppProvider provider) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final isTa = provider.selectedLanguage == 'ta';
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Flexible(
-          child: Text(
-            context.l10n.searchTitle,
-            softWrap: true,
-            style: GoogleFonts.poppins(
-              fontSize: _scaledFontSize(18.0),
-              fontWeight: _scaledFontWeight(FontWeight.bold),
-              color: const Color(0xFF0F172A),
-            ),
+        Text(
+          context.l10n.searchTitle,
+          style: GoogleFonts.poppins(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF0F172A),
           ),
         ),
-        GestureDetector(
-          onTap: openFilterBottomSheet,
-          child: Container(
-            width: 36,
-            height: 36,
-            decoration: const BoxDecoration(
-              color: Color(0xFFEFF6FF),
-              shape: BoxShape.circle,
-            ),
-            alignment: Alignment.center,
-            child: const Icon(
-              Icons.filter_alt_outlined,
-              color: Color(0xFF2563EB),
-              size: 20,
-            ),
+        const SizedBox(height: 2),
+        Text(
+          isTa
+              ? 'அனைத்து அரசுத் திட்டங்களையும் எளிதாகத் தேடுங்கள்'
+              : 'Find and explore all eligible government schemes',
+          style: GoogleFonts.inter(
+            fontSize: 12,
+            color: const Color(0xFF64748B),
           ),
         ),
       ],
@@ -742,16 +823,18 @@ class SearchScreenState extends State<SearchScreen> {
     final bool hasText = _searchController.text.isNotEmpty;
 
     return Container(
+      height: 48,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
         ],
+        border: Border.all(color: const Color(0xFFE2E8F0)),
       ),
       child: TextField(
         controller: _searchController,
@@ -806,6 +889,10 @@ class SearchScreenState extends State<SearchScreen> {
                   onPressed: () {
                     _searchController.clear();
                     setState(() {
+                      _sortBy = 'Relevance';
+                      _selectedType = 'All';
+                      _selectedBenefit = 'All';
+                      _selectedMinistry = 'All';
                       _activeSearchFilters = {};
                       _activeFilter = "All";
                       _currentState = SearchState.idle;
@@ -833,227 +920,176 @@ class SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  // 3. Quick Filters Row (Horizontal Scroll)
-  Widget _buildQuickFilters() {
-    final filters = [
-      {"name": "All", "hasSparkle": false},
-      {"name": "Central", "hasSparkle": false},
-      {"name": "State", "hasSparkle": false},
-      {"name": "Loan", "hasSparkle": false},
-      {"name": "Udyam", "hasSparkle": false},
-      {"name": "Startup", "hasSparkle": false},
-      {"name": "Subsidy", "hasSparkle": false},
-      {"name": "Collateral-Free", "hasSparkle": false},
-    ];
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Text(
-                context.l10n.quickFiltersHeader,
-                softWrap: true,
-                style: GoogleFonts.poppins(
-                  fontSize: _scaledFontSize(12.5),
-                  fontWeight: _scaledFontWeight(FontWeight.bold),
-                  color: const Color(0xFF0F172A),
-                ),
-              ),
-            ),
-            PopupMenuButton<String>(
-              color: Colors.white,
-              surfaceTintColor: Colors.transparent,
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-                side: const BorderSide(color: Color(0xFFE2E8F0)),
-              ),
-              onSelected: (String value) {
-                setState(() {
-                  _currentSort = value;
-                });
-                _applySorting();
-              },
-              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                PopupMenuItem<String>(
-                  value: 'Match %',
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          context.l10n.sortMatchPercent,
-                          softWrap: true,
-                          style: GoogleFonts.inter(
-                            fontSize: _scaledFontSize(12),
-                            fontWeight: _currentSort == 'Match %'
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                            color: _currentSort == 'Match %'
-                                ? const Color(0xFF2563EB)
-                                : const Color(0xFF1E293B),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      if (_currentSort == 'Match %')
-                        const Icon(
-                          Icons.check,
-                          color: Color(0xFF2563EB),
-                          size: 14,
-                        ),
-                    ],
-                  ),
-                ),
-                PopupMenuItem<String>(
-                  value: 'Scheme Name (A-Z)',
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          context.l10n.sortNameAsc,
-                          softWrap: true,
-                          style: GoogleFonts.inter(
-                            fontSize: _scaledFontSize(12),
-                            fontWeight: _currentSort == 'Scheme Name (A-Z)'
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                            color: _currentSort == 'Scheme Name (A-Z)'
-                                ? const Color(0xFF2563EB)
-                                : const Color(0xFF1E293B),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      if (_currentSort == 'Scheme Name (A-Z)')
-                        const Icon(
-                          Icons.check,
-                          color: Color(0xFF2563EB),
-                          size: 14,
-                        ),
-                    ],
-                  ),
-                ),
-                PopupMenuItem<String>(
-                  value: 'Scheme Name (Z-A)',
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          context.l10n.sortNameDesc,
-                          softWrap: true,
-                          style: GoogleFonts.inter(
-                            fontSize: _scaledFontSize(12),
-                            fontWeight: _currentSort == 'Scheme Name (Z-A)'
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                            color: _currentSort == 'Scheme Name (Z-A)'
-                                ? const Color(0xFF2563EB)
-                                : const Color(0xFF1E293B),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      if (_currentSort == 'Scheme Name (Z-A)')
-                        const Icon(
-                          Icons.check,
-                          color: Color(0xFF2563EB),
-                          size: 14,
-                        ),
-                    ],
-                  ),
-                ),
-              ],
-              child: Row(
-                children: [
-                  Flexible(
-                    child: FitOneLine(
-                      child: Text(
-                        '${context.l10n.sortByPrefix} $_currentSort',
-                        style: GoogleFonts.inter(
-                          fontSize: _scaledFontSize(11),
-                          fontWeight: _scaledFontWeight(FontWeight.bold),
-                          color: const Color(0xFF2563EB),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const Icon(
-                    Icons.keyboard_arrow_down,
-                    size: 14,
-                    color: Color(0xFF2563EB),
-                  ),
-                ],
-              ),
-            ),
-          ],
+  Widget _buildDropdownChip(
+    String label,
+    List<String> options,
+    String currentValue,
+    ValueChanged<String> onChanged,
+  ) {
+    final bool isActive = currentValue != 'All' && currentValue != 'Relevance';
+    return Container(
+      margin: const EdgeInsets.only(right: 8),
+      child: PopupMenuButton<String>(
+        onSelected: onChanged,
+        color: Colors.white,
+        elevation: 8,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14),
+          side: const BorderSide(color: Color(0xFFE2E8F0)),
         ),
-        const SizedBox(height: 8),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          physics: const BouncingScrollPhysics(),
-          child: Row(
-            children: filters.map((filter) {
-              final String name = filter["name"] as String;
-              final bool hasSparkle = filter["hasSparkle"] as bool;
-              final bool isSelected = _activeFilter == name;
-              return GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _activeFilter = name;
-                  });
-                  _triggerSearch(_searchController.text);
-                  _loadCategoryCounts();
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(right: 8),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 11,
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: isSelected ? const Color(0xFF2563EB) : Colors.white,
-                    borderRadius: BorderRadius.circular(30),
-                    border: Border.all(
-                      color: const Color(0xFF2563EB),
-                      width: 1,
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      if (hasSparkle) ...[
-                        Icon(
-                          Icons.auto_awesome,
-                          color: isSelected
-                              ? Colors.white
-                              : const Color(0xFF2563EB),
-                          size: 11,
-                        ),
-                        const SizedBox(width: 4),
-                      ],
-                      Text(
-                        _getLocalizedFilterName(name),
-                        style: GoogleFonts.inter(
-                          color: isSelected
-                              ? Colors.white
-                              : const Color(0xFF2563EB),
-                          fontWeight: _scaledFontWeight(FontWeight.bold),
-                          fontSize: _scaledFontSize(10),
-                        ),
-                      ),
-                    ],
+        itemBuilder: (context) => options
+            .map(
+              (opt) => PopupMenuItem(
+                value: opt,
+                child: Text(
+                  opt,
+                  style: GoogleFonts.inter(
+                    fontSize: 12.5,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFF0F172A),
                   ),
                 ),
-              );
-            }).toList(),
+              ),
+            )
+            .toList(),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: isActive
+                  ? const Color(0xFF2563EB)
+                  : const Color(0xFFE2E8F0),
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                currentValue == 'All' ? label : '$label: $currentValue',
+                style: GoogleFonts.inter(
+                  fontSize: 11.5,
+                  fontWeight: FontWeight.w500,
+                  color: isActive
+                      ? const Color(0xFF2563EB)
+                      : const Color(0xFF475569),
+                ),
+              ),
+              const SizedBox(width: 4),
+              Icon(
+                Icons.keyboard_arrow_down,
+                size: 14,
+                color: isActive
+                    ? const Color(0xFF2563EB)
+                    : const Color(0xFF64748B),
+              ),
+            ],
           ),
         ),
-      ],
+      ),
+    );
+  }
+
+  // 3. Filters Strip from Discover page (Filter button + Dropdown Chips + Clear All)
+  Widget _buildDiscoverFiltersStrip() {
+    final provider = Provider.of<AppProvider>(context);
+    final isTa = provider.selectedLanguage == 'ta';
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
+      child: Row(
+        children: [
+          // Filter Button
+          OutlinedButton.icon(
+            onPressed: _openFilterPanel,
+            icon: const Icon(
+              Icons.filter_list,
+              size: 14,
+              color: Color(0xFF2563EB),
+            ),
+            label: Text(
+              isTa ? "வடிகட்டி" : "Filter",
+              style: GoogleFonts.inter(
+                fontSize: 11.5,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFF2563EB),
+              ),
+            ),
+            style: OutlinedButton.styleFrom(
+              backgroundColor: Colors.white,
+              side: const BorderSide(color: Color(0xFFE2E8F0)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            ),
+          ),
+          const SizedBox(width: 8),
+
+          // Dropdowns
+          _buildDropdownChip(
+            isTa ? 'வரிசைப்படுத்து' : 'Sort',
+            [
+              'Relevance',
+              'Benefits: High to Low',
+              'Match %',
+              'Scheme Name (A-Z)',
+            ],
+            _sortBy,
+            (v) {
+              setState(() => _sortBy = v);
+              _applyFiltersAndSort();
+            },
+          ),
+          _buildDropdownChip(
+            isTa ? 'வகை' : 'Type',
+            ['All', 'Loan', 'Subsidy', 'Scholarship', 'Pension'],
+            _selectedType,
+            (v) {
+              setState(() => _selectedType = v);
+              _applyFiltersAndSort();
+            },
+          ),
+          _buildDropdownChip(
+            isTa ? 'பயன் வகை' : 'Benefit Type',
+            [
+              'All',
+              'Financial',
+              'Skill training',
+              'Infrastructure',
+            ],
+            _selectedBenefit,
+            (v) {
+              setState(() => _selectedBenefit = v);
+              _applyFiltersAndSort();
+            },
+          ),
+          _buildDropdownChip(
+            isTa ? 'அமைச்சகம்' : 'Ministry',
+            ['All', 'MSME', 'Education', 'Finance', 'Agriculture'],
+            _selectedMinistry,
+            (v) {
+              setState(() => _selectedMinistry = v);
+              _applyFiltersAndSort();
+            },
+          ),
+
+          // Clear All
+          TextButton(
+            onPressed: _clearAllFilters,
+            child: Text(
+              context.l10n.filterClearAll,
+              style: GoogleFonts.inter(
+                fontSize: 11.5,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFF64748B),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -1113,8 +1149,9 @@ class SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  // State 3: Search Results List
+  // State 3: Search Results List (Matching Discover Results Screen style)
   Widget _buildResultsList() {
+    final provider = Provider.of<AppProvider>(context);
     final String queryText = _searchController.text.isNotEmpty
         ? _searchController.text
         : _activeFilter;
@@ -1122,32 +1159,32 @@ class SearchScreenState extends State<SearchScreen> {
     if (_searchResults.isEmpty) {
       return ListView(
         key: const ValueKey('ResultsContent'),
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 48),
         children: [
-          const SizedBox(height: 48),
           Center(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
-                  Icons.search_off,
-                  size: 56,
-                  color: Color(0xFFCBD5E1),
+                Icon(
+                  Icons.search_off_rounded,
+                  size: 48,
+                  color: Colors.grey[400],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
                 Text(
                   context.l10n.noSchemesFound(queryText),
                   style: GoogleFonts.poppins(
-                    fontSize: _scaledFontSize(16),
-                    fontWeight: _scaledFontWeight(FontWeight.bold),
-                    color: const Color(0xFF0F172A),
+                    fontSize: _scaledFontSize(15),
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF334155),
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 6),
                 Text(
                   context.l10n.tryDifferentKeyword,
                   style: GoogleFonts.inter(
-                    fontSize: _scaledFontSize(13),
+                    fontSize: _scaledFontSize(12),
                     color: const Color(0xFF64748B),
                   ),
                   textAlign: TextAlign.center,
@@ -1159,27 +1196,75 @@ class SearchScreenState extends State<SearchScreen> {
       );
     }
 
-    return ListView(
+    return ListView.builder(
       key: const ValueKey('ResultsContent'),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       physics: const BouncingScrollPhysics(),
-      children: [
-        // Results Header Row
-        Text(
-          context.l10n.resultsFor(_searchResults.length, queryText),
-          style: GoogleFonts.inter(
-            fontSize: _scaledFontSize(12),
-            color: const Color(0xFF64748B),
-          ),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
+      itemCount: _searchResults.length + 1,
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          final isForMe = _activeFilter == 'For Me';
+          final titleText = isForMe
+              ? (provider.selectedLanguage == 'ta'
+                  ? "உங்களுக்கான திட்டங்கள் (${_searchResults.length})"
+                  : "Eligible Schemes For You (${_searchResults.length})")
+              : (provider.selectedLanguage == 'ta'
+                  ? "பொருந்தும் திட்டங்கள் (${_searchResults.length})"
+                  : "Matching Schemes (${_searchResults.length})");
 
-        const SizedBox(height: 16),
+          final subtitleText = isForMe
+              ? (provider.selectedLanguage == 'ta'
+                  ? "உங்கள் சுயவிவரத் தகவலின் அடிப்படையில் பொருந்தும் திட்டங்கள்"
+                  : "Matched strictly against your profile data")
+              : (_searchController.text.trim().isNotEmpty
+                  ? "Best matches for \"${_searchController.text.trim()}\""
+                  : "Best matches for your search criteria");
 
-        // Result Cards List
-        ..._searchResults.map((scheme) => _ResultSchemeCard(scheme: scheme)),
-      ],
+          return Padding(
+            padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  titleText,
+                  style: GoogleFonts.poppins(
+                    fontSize: 15.5,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF0F172A),
+                  ),
+                ),
+                Text(
+                  subtitleText,
+                  style: GoogleFonts.inter(
+                    fontSize: 11.5,
+                    color: const Color(0xFF64748B),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        final scheme = _searchResults[index - 1];
+        final recResult =
+            RecommendationEngine.evaluate(provider.profile, scheme);
+
+        return SchemeCard(
+          scheme: scheme,
+          result: recResult,
+          isBookmarked: provider.bookmarkedIds.contains(scheme.id),
+          onBookmarkToggle: () => provider.toggleBookmark(scheme.id),
+          showActions: false,
+          showMatchPercentage: _activeFilter == 'For Me',
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => SchemeDetailsScreen(scheme: scheme),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 
@@ -1189,9 +1274,14 @@ class SearchScreenState extends State<SearchScreen> {
       onTap: () {
         setState(() {
           _activeFilter = 'For Me';
+          _sortBy = 'Relevance';
+          _selectedType = 'All';
+          _selectedBenefit = 'All';
+          _selectedMinistry = 'All';
+          _activeSearchFilters = {};
         });
-        _searchController.text = 'Suitable Schemes';
-        _triggerSearch('Suitable Schemes');
+        _searchController.clear();
+        _triggerSearch('For Me');
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
@@ -1396,7 +1486,7 @@ class SearchScreenState extends State<SearchScreen> {
             if (!mounted) return;
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => DiscoverResultsScreen(
+                builder: (_) => SearchResultsScreen(
                   title: categoryTitle,
                   type: 'category',
                   initialSchemes: schemes,
@@ -1453,310 +1543,7 @@ class SearchScreenState extends State<SearchScreen> {
   }
 }
 
-// 5. private helper widget: ResultSchemeCard (uses Scheme model)
-class _ResultSchemeCard extends StatelessWidget {
-  final Scheme scheme;
-
-  const _ResultSchemeCard({required this.scheme});
-
-  List<String> _getOtherTags(LocalizedScheme locScheme) {
-    final List<String> list = [];
-
-    void addSplit(String value) {
-      if (value.isNotEmpty) {
-        list.addAll(
-          value
-              .split(',')
-              .map((s) => s.trim())
-              .where(
-                (s) =>
-                    s.isNotEmpty &&
-                    s.toLowerCase() != 'pending official verification',
-              ),
-        );
-      }
-    }
-
-    addSplit(locScheme.category);
-    addSplit(locScheme.schemeType);
-    addSplit(locScheme.sector);
-    if (list.isEmpty) list.addAll(locScheme.glanceChips);
-
-    final Set<String> seen = {};
-    final List<String> uniqueList = [];
-
-    final sponsoringLower = locScheme.sponsoringBody.toLowerCase();
-    final govLevelLower = locScheme.governmentLevel.toLowerCase();
-    final stateLower = locScheme.state.toLowerCase();
-
-    for (final tag in list) {
-      final lower = tag.toLowerCase();
-      final isSubtitleTerm =
-          sponsoringLower.contains(lower) ||
-          govLevelLower.contains(lower) ||
-          stateLower.contains(lower);
-      if (!seen.contains(lower) && !isSubtitleTerm) {
-        seen.add(lower);
-        uniqueList.add(tag);
-      }
-    }
-
-    return uniqueList.take(4).toList();
-  }
-
-  Widget _buildSchemeLogo(Scheme scheme, {double size = 48}) {
-    final emblemAsset = EmblemHelper.getEmblemAsset(
-      governmentLevel: scheme.governmentLevel,
-      state: scheme.state,
-      schemeCode: scheme.schemeCode,
-      sponsoringBody: scheme.sponsoringBody,
-      name: scheme.name,
-    );
-
-    return Image.asset(
-      emblemAsset,
-      fit: BoxFit.contain,
-      width: size,
-      height: size,
-      errorBuilder: (context, error, stackTrace) {
-        return Image.asset(
-          'assets/images/States assets/Indian emblem.webp',
-          fit: BoxFit.contain,
-          width: size,
-          height: size,
-        );
-      },
-    );
-  }
-
-  Map<String, Color> _getTagColors(String tag, String category) {
-    final cleanTag = tag.toLowerCase().trim();
-    final cleanCat = category.toLowerCase().trim();
-
-    if (cleanTag == cleanCat) {
-      if (cleanCat.contains('farmer') ||
-          cleanCat.contains('agri') ||
-          cleanCat.contains('rural')) {
-        return {'text': const Color(0xFF15803D), 'bg': const Color(0xFFDCFCE7)};
-      } else if (cleanCat.contains('student') ||
-          cleanCat.contains('edu') ||
-          cleanCat.contains('scholarship')) {
-        return {'text': const Color(0xFF6D28D9), 'bg': const Color(0xFFF5F3FF)};
-      } else if (cleanCat.contains('business') ||
-          cleanCat.contains('msme') ||
-          cleanCat.contains('employment')) {
-        return {'text': const Color(0xFF1E3A8A), 'bg': const Color(0xFFDBEAFE)};
-      } else if (cleanCat.contains('women') ||
-          cleanCat.contains('female') ||
-          cleanCat.contains('girl') ||
-          cleanCat.contains('child')) {
-        return {'text': const Color(0xFFBE185D), 'bg': const Color(0xFFFCE7F3)};
-      } else {
-        return {'text': const Color(0xFF0F766E), 'bg': const Color(0xFFCCFBF1)};
-      }
-    }
-
-    if (cleanTag.contains('central') ||
-        cleanTag.contains('national') ||
-        cleanTag.contains('india')) {
-      return {'text': const Color(0xFFC2410C), 'bg': const Color(0xFFFFEDD5)};
-    } else if (cleanTag.contains('state') ||
-        cleanTag.contains('tamil') ||
-        cleanTag.contains('tn')) {
-      return {'text': const Color(0xFF7C3AED), 'bg': const Color(0xFFF3E8FF)};
-    } else if (cleanTag.contains('loan') || cleanTag.contains('credit')) {
-      return {'text': const Color(0xFFB91C1C), 'bg': const Color(0xFFFEE2E2)};
-    } else if (cleanTag.contains('subsidy') || cleanTag.contains('grant')) {
-      return {'text': const Color(0xFF047857), 'bg': const Color(0xFFD1FAE5)};
-    } else if (cleanTag.contains('msme')) {
-      return {'text': const Color(0xFF15803D), 'bg': const Color(0xFFE8F5E9)};
-    }
-
-    final hash = cleanTag.hashCode;
-    final index = hash.abs() % 4;
-    if (index == 0) {
-      return {'text': const Color(0xFF0369A1), 'bg': const Color(0xFFE0F2FE)};
-    } else if (index == 1) {
-      return {'text': const Color(0xFF0F766E), 'bg': const Color(0xFFE6FFFA)};
-    } else if (index == 2) {
-      return {'text': const Color(0xFF6D28D9), 'bg': const Color(0xFFF5F3FF)};
-    } else {
-      return {'text': const Color(0xFFB45309), 'bg': const Color(0xFFFEF3C7)};
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final provider = Provider.of<AppProvider>(context);
-    final locScheme = scheme.toLocalized(provider.selectedLanguage);
-    final tags = List<String>.from(_getOtherTags(locScheme))
-      ..sort((a, b) => a.length.compareTo(b.length));
-
-    // Build subtitle combining department and state/central level
-    final department = locScheme.sponsoringBody.isNotEmpty
-        ? locScheme.sponsoringBody
-        : locScheme.issuingBody;
-    final level = locScheme.state.isNotEmpty && locScheme.state != 'All India'
-        ? locScheme.state
-        : locScheme.governmentLevel;
-    final subtitleText = [
-      if (department.isNotEmpty) department,
-      if (level.isNotEmpty) level,
-    ].join(' • ');
-
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => SchemeDetailsScreen(scheme: scheme),
-          ),
-        );
-      },
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 14),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
-        ),
-        child: Stack(
-          children: [
-            // Main Card Content Row (Enlarged)
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // Left: Circular Logo Container
-                  Container(
-                    width: 72,
-                    height: 72,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: const Color(0xFFE2E8F0),
-                        width: 1.2,
-                      ),
-                    ),
-                    padding: EdgeInsets.zero,
-                    child: ClipOval(child: _buildSchemeLogo(scheme, size: 72)),
-                  ),
-                  const SizedBox(width: 16),
-
-                  // Middle Content Block
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Match Badge Pill
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 5,
-                              vertical: 1.5,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFE8F5E9),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Text(
-                              context.l10n.matchScorePercent(
-                                RecommendationEngine.evaluate(
-                                  provider.profile,
-                                  scheme,
-                                ).percentage,
-                              ),
-                              style: GoogleFonts.inter(
-                                color: const Color(0xFF2E7D32),
-                                fontSize: 7.5,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        // Title (Scheme Name) - Localized Full Width
-                        Text(
-                          locScheme.name,
-                          style: GoogleFonts.poppins(
-                            fontSize: provider.selectedLanguage == 'ta'
-                                ? 11.5 * 0.90
-                                : 11.5,
-                            fontWeight: FontWeight.bold,
-                            height: provider.selectedLanguage == 'ta'
-                                ? 1.35
-                                : 1.22,
-                            color: const Color(0xFF0F172A),
-                          ),
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        if (subtitleText.isNotEmpty) ...[
-                          const SizedBox(height: 4),
-                          Text(
-                            subtitleText,
-                            style: GoogleFonts.inter(
-                              fontSize: provider.selectedLanguage == 'ta'
-                                  ? 9.5 * 0.90
-                                  : 9.5,
-                              color: const Color(0xFF64748B),
-                              fontWeight: FontWeight.w500,
-                              height: 1.3,
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                        const SizedBox(height: 12),
-
-                        // Chips Row (Others at the bottom)
-                        Wrap(
-                          spacing: 5,
-                          runSpacing: 4,
-                          children: tags.map((tag) {
-                            final colors = _getTagColors(tag, scheme.category);
-                            return Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 6,
-                                vertical: 2,
-                              ),
-                              decoration: BoxDecoration(
-                                color: colors['bg'],
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Text(
-                                _getLocalizedTagOrCategory(
-                                  tag,
-                                  provider.selectedLanguage,
-                                ),
-                                style: GoogleFonts.inter(
-                                  fontSize: provider.selectedLanguage == 'ta'
-                                      ? 8.5 * 0.90
-                                      : 8.5,
-                                  fontWeight: FontWeight.bold,
-                                  color: colors['text'],
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// 6. self-contained Shimmer Skeleton Card Widget
+// 5. self-contained Shimmer Skeleton Card Widget
 class _ShimmerSkeletonCard extends StatefulWidget {
   const _ShimmerSkeletonCard();
 

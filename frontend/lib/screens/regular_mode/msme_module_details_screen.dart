@@ -7,7 +7,7 @@ import '../../providers/app_state_provider.dart';
 import '../../utils/responsive.dart';
 import '../../services/centralized_translator.dart';
 import '../../widgets/standard_page_header.dart';
-import 'discover_results_screen.dart';
+import 'search_results_screen.dart';
 
 class MSMEModuleDetailsScreen extends StatefulWidget {
   final String
@@ -634,7 +634,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                   Navigator.of(context).pop();
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (_) => const DiscoverResultsScreen(
+                      builder: (_) => const SearchResultsScreen(
                         title: 'Loan',
                         type: 'category',
                       ),
@@ -1452,7 +1452,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                   Navigator.of(context).pop();
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (_) => const DiscoverResultsScreen(
+                      builder: (_) => const SearchResultsScreen(
                         title: 'Cluster',
                         type: 'category',
                       ),

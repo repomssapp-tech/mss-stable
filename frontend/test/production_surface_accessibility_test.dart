@@ -160,10 +160,10 @@ void main() {
 
           await _pumpSurface(tester, provider, const BasicProfileScreen());
           expect(find.text('Complete Your Profile'), findsOneWidget);
-          expect(find.text('Full Name'), findsOneWidget);
-          expect(find.text('Email Address'), findsOneWidget);
-          expect(find.text('Gender'), findsOneWidget);
-          expect(find.text('Date of Birth (DOB)'), findsOneWidget);
+          expect(find.textContaining('Full Name'), findsOneWidget);
+          expect(find.textContaining('Email Address'), findsOneWidget);
+          expect(find.textContaining('Gender'), findsOneWidget);
+          expect(find.textContaining('Date of Birth (DOB)'), findsOneWidget);
           expect(find.byType(TextFormField), findsAtLeastNWidgets(3));
 
           var continueButton = find.widgetWithText(ElevatedButton, 'Continue');
@@ -171,7 +171,7 @@ void main() {
           _expectTappableSemantics(tester, continueButton, 'Continue');
           await tester.tap(continueButton);
           await tester.pump();
-          expect(find.byType(SnackBar), findsOneWidget);
+          expect(find.text('Please enter your full name'), findsOneWidget);
           expect(find.byType(LocationProfileScreen), findsNothing);
           expect(tester.takeException(), isNull);
 
@@ -185,7 +185,7 @@ void main() {
           _expectTappableSemantics(tester, continueButton, 'Continue');
           await tester.tap(continueButton);
           await tester.pump();
-          expect(find.byType(SnackBar), findsOneWidget);
+          expect(find.text('Please enter your area or locality'), findsOneWidget);
           expect(find.byType(AboutYouProfileScreen), findsNothing);
           expect(tester.takeException(), isNull);
 
@@ -198,7 +198,6 @@ void main() {
           await tester.tap(continueButton);
           await tester.pump();
           expect(provider.profile.profileCompleted, isFalse);
-          expect(find.byType(SnackBar), findsOneWidget);
           expect(tester.takeException(), isNull);
         });
       },

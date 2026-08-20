@@ -15,7 +15,7 @@ import 'scheme_details_screen.dart';
 import '../notifications_screen.dart';
 import '../login_screen.dart';
 import '../../widgets/smart_assessment_bottom_sheet.dart';
-import 'discover_results_screen.dart';
+import 'search_results_screen.dart';
 import 'basic_profile_screen.dart';
 import 'msme_module_details_screen.dart';
 
@@ -797,7 +797,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } else if (route == 'discover_results') {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (_) => const DiscoverResultsScreen(
+          builder: (_) => const SearchResultsScreen(
             title: 'Business & MSME',
             type: 'category',
           ),
@@ -811,10 +811,9 @@ class _HomeScreenState extends State<HomeScreen> {
         () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (_) => const DiscoverResultsScreen(
+              builder: (_) => const SearchResultsScreen(
                 title: 'Business & MSME',
                 type: 'category',
-                isAssessmentCompleted: true,
               ),
             ),
           );
@@ -1109,11 +1108,10 @@ class _HomeScreenState extends State<HomeScreen> {
         if (!context.mounted) return;
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (_) => DiscoverResultsScreen(
+            builder: (_) => SearchResultsScreen(
               title: title,
               type: 'category',
               initialSchemes: schemes,
-              isAssessmentCompleted: false,
             ),
           ),
         );
