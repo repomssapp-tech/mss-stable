@@ -3,9 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../providers/app_state_provider.dart';
 import '../../utils/profile_l10n.dart';
-import '../../main.dart';
 import '../../utils/responsive.dart';
 import '../../widgets/app_toast.dart';
+import 'eligibility_profile_screen.dart';
 
 class AboutYouProfileScreen extends StatefulWidget {
   const AboutYouProfileScreen({super.key});
@@ -186,12 +186,16 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
                                         Expanded(
                                           child: _buildProgressSegment(true),
                                         ),
+                                        const SizedBox(width: 4),
+                                        Expanded(
+                                          child: _buildProgressSegment(false),
+                                        ),
                                       ],
                                     ),
                                     const SizedBox(height: 8),
                                     Center(
                                       child: Text(
-                                        l('step_3_of_3'),
+                                        l('step_3_of_4'),
                                         style: GoogleFonts.inter(
                                           fontSize: 13,
                                           fontWeight: FontWeight.w600,
@@ -289,6 +293,7 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
                                 ),
                               ),
                             ],
+                            const SizedBox(height: 12),
 
                             // Sticky Action Button (Bottom of card, outside scrollable area)
                             ElevatedButton(
@@ -323,32 +328,29 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
                                                 _canonicalRoleTitle(
                                                   selectedRole,
                                                 ),
-                                            profileCompleted: true,
                                           );
 
                                       setState(() => _isSubmitting = true);
                                       try {
                                         await provider.updateProfile(
                                           updatedProfile,
-                                          requireCloudSync: true,
+                                          requireCloudSync: false,
                                         );
 
                                         if (!context.mounted) return;
-                                        Navigator.of(
-                                          context,
-                                        ).pushAndRemoveUntil(
+                                        setState(() => _isSubmitting = false);
+                                        Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (_) =>
-                                                const MainTabsContainer(),
+                                                const EligibilityProfileScreen(),
                                           ),
-                                          (route) => false,
                                         );
                                       } catch (error) {
                                         if (!context.mounted) return;
                                         setState(() => _isSubmitting = false);
                                         AppToast.showError(
                                           context,
-                                          'Unable to save profile to cloud. Please check your connection and try again.',
+                                          'Unable to save progress. Please try again.',
                                         );
                                       }
                                     },
@@ -372,19 +374,15 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
                                               style: GoogleFonts.inter(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.bold,
-                                                color: _selectedRole != null
-                                                    ? Colors.white
-                                                    : Colors.grey.shade500,
+                                                color: Colors.white,
                                               ),
                                             ),
                                           ),
                                         ),
                                         const SizedBox(width: 8),
-                                        Icon(
+                                        const Icon(
                                           Icons.arrow_forward,
-                                          color: _selectedRole != null
-                                              ? Colors.white
-                                              : Colors.grey.shade500,
+                                          color: Colors.white,
                                           size: 20,
                                         ),
                                       ],

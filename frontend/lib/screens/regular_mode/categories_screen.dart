@@ -7,11 +7,7 @@ import '../../services/scheme_repository.dart';
 import '../../l10n/l10n.dart';
 import '../../services/centralized_translator.dart';
 import '../../utils/responsive.dart';
-
-import '../../widgets/filter_panel.dart';
-
 import '../../widgets/smart_assessment_bottom_sheet.dart';
-import 'discover_results_screen.dart';
 import 'search_results_screen.dart';
 
 String _getLocalizedCategoryOrMinistry(String text, String langCode) {
@@ -19,25 +15,74 @@ String _getLocalizedCategoryOrMinistry(String text, String langCode) {
 
   final lower = text.toLowerCase().trim();
   if (lower.contains('msme')) return 'MSME (குறு, சிறு & நடுத்தர தொழில்கள்)';
-  if (lower.contains('startup')) return 'ஸ்டார்ட்அப் & உறைவிடங்கள்';
+  if (lower.contains('startup & incubation') || lower.contains('startup')) {
+    return 'ஸ்டார்ட்அப் & உறைவிடங்கள்';
+  }
   if (lower.contains('loans & credit') ||
+      lower.contains('finance & banking') ||
       lower.contains('finance') ||
       lower.contains('credit')) {
-    return 'கடன்கள் & கடன் ஆதரவு';
+    return 'கடன்கள் & நிதி ஆதரவு';
   }
-  if (lower.contains('women')) return 'பெண் தொழில்முனைவோருக்கு';
-  if (lower.contains('skill')) return 'திறன் மேம்பாடு';
-  if (lower.contains('artisan')) return 'கைவினைஞர்கள்';
-  if (lower.contains('digital')) return 'டிஜிட்டல் இந்தியா';
-  if (lower.contains('student')) return 'மாணவர் ஸ்டார்ட்அப்கள்';
+  if (lower.contains('women')) return 'பெண் தொழில்முனைவோர்';
+  if (lower.contains('skill')) return 'திறன் மேம்பாடு & பயிற்சி';
+  if (lower.contains('artisan') || lower.contains('craftsmen')) {
+    return 'கைவினைஞர்கள் & கைவினை';
+  }
+  if (lower.contains('digital')) return 'டிஜிட்டல் இந்தியா & தொழில்நுட்பம்';
+  if (lower.contains('student')) return 'மாணவர் & இளைஞர் ஸ்டார்ட்அப்கள்';
+  if (lower.contains('manufacturing')) return 'உற்பத்தி & தொழில் துறை';
+  if (lower.contains('export')) return 'ஏற்றுமதி & வர்த்தக ஊக்குவிப்பு';
+  if (lower.contains('agriculture') || lower.contains('farmer')) {
+    return 'விவசாயம் & சார்ந்த துறைகள்';
+  }
+  if (lower.contains('rural') || lower.contains('shg')) {
+    return 'ஊரக வளர்ச்சி & சுய உதவிக் குழுக்கள்';
+  }
+  if (lower.contains('technology') || lower.contains('innovation')) {
+    return 'தொழில்நுட்பம் & புதுமை';
+  }
+  if (lower.contains('khadi')) return 'கதர் & கிராமத் தொழில்கள்';
+  if (lower.contains('sc / st') || lower.contains('minority')) {
+    return 'SC / ST & சிறுபான்மையினர்';
+  }
+  if (lower.contains('green energy') || lower.contains('environment')) {
+    return 'பசுமை ஆற்றல் & சுற்றுச்சூழல்';
+  }
+  if (lower.contains('health')) return 'சுகாதாரம் & நல்வாழ்வு';
+  if (lower.contains('food processing')) return 'உணவு பதப்படுத்துதல்';
+  if (lower.contains('education') || lower.contains('fellowship')) {
+    return 'கல்வி & உதவித்தொகை';
+  }
+  if (lower.contains('infrastructure') || lower.contains('logistics')) {
+    return 'உள்கட்டமைப்பு & தளவாடங்கள்';
+  }
+  if (lower.contains('social welfare')) return 'சமூக நலம் & ஆதரவு';
+  if (lower.contains('renewable')) return 'புதுப்பிக்கத்தக்க ஆற்றல்';
+
   if (lower.contains('ministry of msme')) return 'MSME அமைச்சகம்';
   if (lower.contains('ministry of finance')) return 'நிதி அமைச்சகம்';
   if (lower.contains('ministry of rural')) return 'ஊரக வளர்ச்சி அமைச்சகம்';
+  if (lower.contains('ministry of education')) return 'கல்வி அமைச்சகம்';
+  if (lower.contains('ministry of agriculture')) return 'விவசாய அமைச்சகம்';
+  if (lower.contains('ministry of skill')) return 'திறன் மேம்பாட்டு அமைச்சகம்';
+  if (lower.contains('ministry of social justice')) return 'சமூக நீதி அமைச்சகம்';
+  if (lower.contains('ministry of housing')) return 'வீட்டுவசதி & நகர்ப்புற அமைச்சகம்';
+  if (lower.contains('ministry of health')) return 'சுகாதார அமைச்சகம்';
+
   if (lower.contains('tamil nadu')) return 'தமிழ்நாடு';
   if (lower.contains('maharashtra')) return 'மகாராஷ்டிரா';
   if (lower.contains('uttar pradesh')) return 'உத்தரப் பிரதேசம்';
   if (lower.contains('karnataka')) return 'கர்நாடகா';
   if (lower.contains('gujarat')) return 'குஜராத்';
+  if (lower.contains('andhra pradesh')) return 'ஆந்திரப் பிரதேசம்';
+  if (lower.contains('kerala')) return 'கேரளா';
+  if (lower.contains('delhi')) return 'டெல்லி';
+  if (lower.contains('punjab')) return 'பஞ்சாப்';
+  if (lower.contains('rajasthan')) return 'ராஜஸ்தான்';
+  if (lower.contains('telangana')) return 'தெலுங்கானா';
+  if (lower.contains('west bengal')) return 'மேற்கு வங்காளம்';
+
   if (lower == 'by category') return 'பிரிவுகள் வாரியாக';
   if (lower == 'by ministry') return 'அமைச்சகங்கள் வாரியாக';
   if (lower == 'by state') return 'மாநிலங்கள் வாரியாக';
@@ -57,7 +102,6 @@ class CategoryItem {
   final IconData icon;
   final Color iconColor;
   final Color backgroundColor;
-  final String schemeCount;
 
   const CategoryItem({
     required this.title,
@@ -65,7 +109,6 @@ class CategoryItem {
     required this.icon,
     required this.iconColor,
     required this.backgroundColor,
-    required this.schemeCount,
   });
 }
 
@@ -79,9 +122,7 @@ class CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
-  final _searchController = TextEditingController();
   final _scrollController = ScrollController();
-  String _searchQuery = '';
 
   // Section keys for scrolling
   final GlobalKey _categorySectionKey = GlobalKey();
@@ -107,48 +148,100 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       final repo = SchemeRepository.instance;
       final Map<String, int> counts = {};
 
-      for (final cat in [
+      final categoriesToLoad = [
         'Business & MSME',
+        'Startup & Incubation',
+        'Loans & Credit Support',
+        'Women Entrepreneurship',
+        'Finance & Banking',
+        'Skill Development',
+        'Artisan & Craftsmen',
+        'Digital India & Tech',
+        'Student & Youth Startups',
+        'Manufacturing & Industry',
+        'Export & Trade Promotion',
+        'Agriculture & Allied',
+        'Rural Development & SHG',
+        'Technology & Innovation',
+        'Khadi & Village Industries',
+        'SC / ST & Minority',
+        'Green Energy & Environment',
+        'Health & Healthcare',
+        'Food Processing',
+        'Education & Fellowship',
+        'Infrastructure & Logistics',
+        'Social Welfare & Support',
+        'Renewable & Energy Efficiency',
         'Startup',
         'Finance',
-        'Skill Development',
         'Artisan',
         'Digital India',
         'Women Entrepreneurs',
         'Student Startups',
-        'Startup & Incubation',
-        'Loans & Credit Support',
-        'Women Entrepreneurship',
-      ]) {
+      ];
+
+      for (final cat in categoriesToLoad) {
         final list = await repo.getSchemesByCategory(cat);
         counts[cat] = list.length;
       }
 
-      for (final min in [
+      final ministriesToLoad = [
         'Ministry of MSME',
+        'Ministry of Education',
         'Ministry of Finance',
+        'Ministry of Agriculture',
         'Ministry of Rural Development',
-      ]) {
+        'Ministry of Skill Development',
+        'Ministry of Social Justice',
+        'Ministry of Housing',
+        'Ministry of Health',
+      ];
+
+      for (final min in ministriesToLoad) {
         final list = await repo.getSchemesByMinistry(min);
         counts[min] = list.length;
       }
 
-      for (final st in [
+      final statesToLoad = [
         'Tamil Nadu',
         'Maharashtra',
         'Uttar Pradesh',
         'Karnataka',
         'Gujarat',
-      ]) {
+        'Andhra Pradesh',
+        'Arunachal Pradesh',
+        'Assam',
+        'Bihar',
+        'Chhattisgarh',
+        'Delhi',
+        'Goa',
+        'Haryana',
+        'Himachal Pradesh',
+        'Jammu & Kashmir',
+        'Jharkhand',
+        'Kerala',
+        'Ladakh',
+        'Madhya Pradesh',
+        'Manipur',
+        'Meghalaya',
+        'Mizoram',
+        'Nagaland',
+        'Odisha',
+        'Puducherry',
+        'Punjab',
+        'Rajasthan',
+        'Sikkim',
+        'Telangana',
+        'Tripura',
+        'Uttarakhand',
+        'West Bengal',
+      ];
+
+      for (final st in statesToLoad) {
         final list = await repo.getSchemesByState(st);
         counts[st] = list.length;
       }
 
-      // Deferred: this async load runs on initState, right as the screen's
-      // own entrance/route transition is animating, which can trip
-      // Flutter's re-entrant-layout assertion if the setState lands
-      // mid-layout. See search_screen.dart's _triggerSearch for the same
-      // fix applied to the same underlying race.
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
         setState(() {
@@ -162,7 +255,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
   @override
   void dispose() {
-    _searchController.dispose();
     _scrollController.dispose();
     super.dispose();
   }
@@ -176,69 +268,182 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       icon: Icons.domain,
       iconColor: Color(0xFF00796B),
       backgroundColor: Color(0xFFE0F2F1),
-      schemeCount: '123 Schemes',
     ),
     CategoryItem(
-      title: 'Startup',
+      title: 'Startup & Incubation',
       description:
           'Seed funding, grants, incubation, and equity assistance programs',
       icon: Icons.rocket_launch,
       iconColor: Color(0xFF7B1FA2),
       backgroundColor: Color(0xFFF3E5F5),
-      schemeCount: '64 Schemes',
     ),
     CategoryItem(
-      title: 'Finance',
+      title: 'Loans & Credit Support',
       description:
-          'Collateral-free loans, interest subvention, and banking schemes',
-      icon: Icons.account_balance,
+          'Collateral-free loans, interest subvention, and institutional credit schemes',
+      icon: Icons.monetization_on,
       iconColor: Color(0xFF2563EB),
       backgroundColor: Color(0xFFE0F2FE),
-      schemeCount: '92 Schemes',
     ),
     CategoryItem(
-      title: 'Skill Development',
-      description: 'Free vocational training and skill certs for employment',
-      icon: Icons.trending_up,
-      iconColor: Color(0xFF43A047),
-      backgroundColor: Color(0xFFE8F5E9),
-      schemeCount: '88 Schemes',
-    ),
-    CategoryItem(
-      title: 'Artisan',
-      description:
-          'Support, toolkits distribution, and exhibitions for craftsmen',
-      icon: Icons.brush,
-      iconColor: Color(0xFF4E342E),
-      backgroundColor: Color(0xFFD7CCC8),
-      schemeCount: '54 Schemes',
-    ),
-    CategoryItem(
-      title: 'Digital India',
-      description:
-          'Digital training, internet vouchers, and tech startups assistance',
-      icon: Icons.desktop_windows,
-      iconColor: Color(0xFF1E88E5),
-      backgroundColor: Color(0xFFE3F2FD),
-      schemeCount: '77 Schemes',
-    ),
-    CategoryItem(
-      title: 'Women Entrepreneurs',
+      title: 'Women Entrepreneurship',
       description:
           'Specialized finance, capital subsidies, and resources for women-owned businesses',
       icon: Icons.person,
       iconColor: Color(0xFFD81B60),
       backgroundColor: Color(0xFFFCE4EC),
-      schemeCount: '142 Schemes',
     ),
     CategoryItem(
-      title: 'Student Startups',
+      title: 'Finance & Banking',
       description:
-          'Specialized student entrepreneurship and incubation programs',
-      icon: Icons.school_outlined,
-      iconColor: Color(0xFF1976D2),
+          'Banking linkages, financial inclusion, and formal credit access schemes',
+      icon: Icons.account_balance,
+      iconColor: Color(0xFF1E88E5),
       backgroundColor: Color(0xFFE3F2FD),
-      schemeCount: '85 Schemes',
+    ),
+    CategoryItem(
+      title: 'Skill Development',
+      description:
+          'Free vocational training, certification, and skill upgradation programs',
+      icon: Icons.trending_up,
+      iconColor: Color(0xFF43A047),
+      backgroundColor: Color(0xFFE8F5E9),
+    ),
+    CategoryItem(
+      title: 'Artisan & Craftsmen',
+      description:
+          'Toolkits distribution, market linkages, and exhibitions for traditional craftspeople',
+      icon: Icons.brush,
+      iconColor: Color(0xFF6D4C41),
+      backgroundColor: Color(0xFFEFEBE9),
+    ),
+    CategoryItem(
+      title: 'Digital India & Tech',
+      description:
+          'Digital enablement, technology adoption, and e-commerce onboardings',
+      icon: Icons.desktop_windows,
+      iconColor: Color(0xFF0288D1),
+      backgroundColor: Color(0xFFE1F5FE),
+    ),
+    CategoryItem(
+      title: 'Student & Youth Startups',
+      description:
+          'Student entrepreneurship, innovation challenges, and campus incubations',
+      icon: Icons.school_outlined,
+      iconColor: Color(0xFF5E35B1),
+      backgroundColor: Color(0xFFEDE7F6),
+    ),
+    CategoryItem(
+      title: 'Manufacturing & Industry',
+      description:
+          'Capital subsidies, Lean manufacturing, and modern tooling assistance',
+      icon: Icons.precision_manufacturing,
+      iconColor: Color(0xFF3949AB),
+      backgroundColor: Color(0xFFE8EAF6),
+    ),
+    CategoryItem(
+      title: 'Export & Trade Promotion',
+      description:
+          'International exhibitions, export freight support, and global market access',
+      icon: Icons.local_shipping,
+      iconColor: Color(0xFF00897B),
+      backgroundColor: Color(0xFFE0F2F1),
+    ),
+    CategoryItem(
+      title: 'Agriculture & Allied',
+      description:
+          'Agri-tech, post-harvest infrastructure, and farmer producer support',
+      icon: Icons.agriculture,
+      iconColor: Color(0xFF2E7D32),
+      backgroundColor: Color(0xFFE8F5E9),
+    ),
+    CategoryItem(
+      title: 'Rural Development & SHG',
+      description:
+          'Self-help groups, community enterprises, and rural livelihood missions',
+      icon: Icons.groups,
+      iconColor: Color(0xFFE65100),
+      backgroundColor: Color(0xFFFFF3E0),
+    ),
+    CategoryItem(
+      title: 'Technology & Innovation',
+      description:
+          'R&D grants, patent filing reimbursements, and tech transfer support',
+      icon: Icons.biotech,
+      iconColor: Color(0xFF6A1B9A),
+      backgroundColor: Color(0xFFF3E5F5),
+    ),
+    CategoryItem(
+      title: 'Khadi & Village Industries',
+      description:
+          'PMEGP, honey mission, pottery, and rural khadi industry promotion',
+      icon: Icons.store,
+      iconColor: Color(0xFF8D6E63),
+      backgroundColor: Color(0xFFD7CCC8),
+    ),
+    CategoryItem(
+      title: 'SC / ST & Minority',
+      description:
+          'Concessional credit, capacity building, and preferential procurement',
+      icon: Icons.diversity_3,
+      iconColor: Color(0xFF00838F),
+      backgroundColor: Color(0xFFE0F7FA),
+    ),
+    CategoryItem(
+      title: 'Green Energy & Environment',
+      description:
+          'Cleaner tech adoption, energy conservation audits, and solar subsidies',
+      icon: Icons.eco,
+      iconColor: Color(0xFF558B2F),
+      backgroundColor: Color(0xFFF1F8E9),
+    ),
+    CategoryItem(
+      title: 'Health & Healthcare',
+      description:
+          'Ayushman Bharat, medical enterprise support, and wellness initiatives',
+      icon: Icons.local_hospital,
+      iconColor: Color(0xFFC2185B),
+      backgroundColor: Color(0xFFFCE4EC),
+    ),
+    CategoryItem(
+      title: 'Food Processing',
+      description:
+          'PMFME micro food enterprises, cold chain, and food safety certifications',
+      icon: Icons.restaurant,
+      iconColor: Color(0xFFD84315),
+      backgroundColor: Color(0xFFFBE9E7),
+    ),
+    CategoryItem(
+      title: 'Education & Fellowship',
+      description:
+          'Higher education grants, women researcher fellowships, and skill certs',
+      icon: Icons.menu_book,
+      iconColor: Color(0xFF1565C0),
+      backgroundColor: Color(0xFFE3F2FD),
+    ),
+    CategoryItem(
+      title: 'Infrastructure & Logistics',
+      description:
+          'Industrial park relocation, cluster development, and logistics support',
+      icon: Icons.apartment,
+      iconColor: Color(0xFF455A64),
+      backgroundColor: Color(0xFFECEFF1),
+    ),
+    CategoryItem(
+      title: 'Social Welfare & Support',
+      description:
+          'Maternity relief, rehabilitation, and social security assistances',
+      icon: Icons.volunteer_activism,
+      iconColor: Color(0xFFAD1457),
+      backgroundColor: Color(0xFFFCE4EC),
+    ),
+    CategoryItem(
+      title: 'Renewable & Energy Efficiency',
+      description:
+          'Solar power units, power backup subsidies, and green energy loans',
+      icon: Icons.solar_power,
+      iconColor: Color(0xFFF57F17),
+      backgroundColor: Color(0xFFFFFDE7),
     ),
   ];
 
@@ -246,63 +451,126 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   final List<Map<String, dynamic>> _displayCategories = [
     {
       'title': 'Business & MSME',
-      'count': '123 Schemes',
       'icon': Icons.domain,
       'color': const Color(0xFF2563EB),
     },
     {
       'title': 'Startup & Incubation',
-      'count': '64 Schemes',
       'icon': Icons.rocket_launch,
       'color': const Color(0xFF2563EB),
     },
     {
       'title': 'Loans & Credit Support',
-      'count': '92 Schemes',
       'icon': Icons.monetization_on,
       'color': const Color(0xFF2563EB),
     },
     {
       'title': 'Women Entrepreneurship',
-      'count': '142 Schemes',
       'icon': Icons.person,
       'color': const Color(0xFF2563EB),
     },
   ];
 
   final List<Map<String, dynamic>> _displayMinistries = [
-    {'title': 'Ministry of MSME', 'count': '186 Schemes'},
-    {'title': 'Ministry of Finance', 'count': '142 Schemes'},
-    {'title': 'Ministry of Rural Development', 'count': '96 Schemes'},
+    {'title': 'Ministry of MSME'},
+    {'title': 'Ministry of Finance'},
+    {'title': 'Ministry of Rural Development'},
   ];
 
   final List<Map<String, dynamic>> _displayStates = [
-    {'title': 'Tamil Nadu', 'count': '185 Schemes'},
-    {'title': 'Maharashtra', 'count': '212 Schemes'},
-    {'title': 'Uttar Pradesh', 'count': '198 Schemes'},
-    {'title': 'Karnataka', 'count': '154 Schemes'},
-    {'title': 'Gujarat', 'count': '126 Schemes'},
+    {'title': 'Tamil Nadu'},
+    {'title': 'Maharashtra'},
+    {'title': 'Uttar Pradesh'},
+    {'title': 'Karnataka'},
+    {'title': 'Gujarat'},
   ];
 
-  void _openFilterPanel() {
-    showModalBottomSheet(
+  void _showComingSoonInfo(String name, String type) {
+    final provider = Provider.of<AppProvider>(context, listen: false);
+    final isTa = provider.selectedLanguage == 'ta';
+
+    showDialog(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => FilterPanel(
-        onApplied: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) =>
-                  SearchResultsScreen(title: _searchController.text),
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: Colors.white,
+        title: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: const BoxDecoration(
+                color: Color(0xFFEFF6FF),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.update_rounded,
+                color: Color(0xFF2563EB),
+                size: 24,
+              ),
             ),
-          );
-        },
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                isTa ? 'விரைவில் புதுப்பிக்கப்படும்' : 'Updating Soon',
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: const Color(0xFF0F172A),
+                ),
+              ),
+            ),
+          ],
+        ),
+        content: Text(
+          isTa
+              ? '$name பிரிவிற்கான திட்டங்கள் தற்போது சேர்க்கப்பட்டு வருகின்றன. விரைவில் புதுப்பிக்கப்படும்!'
+              : 'Schemes under "$name" are currently being verified and will be updated soon. Stay tuned!',
+          style: GoogleFonts.inter(
+            fontSize: 13.5,
+            color: const Color(0xFF475569),
+            height: 1.4,
+          ),
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF2563EB),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            ),
+            child: Text(
+              isTa ? 'சரி' : 'Got it',
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
+  String _formatSchemeCount(int? cnt, AppProvider provider) {
+    if (cnt == null) return '...';
+    if (cnt == 0) {
+      return provider.selectedLanguage == 'ta'
+          ? 'விரைவில் வரும்'
+          : 'Updating Soon';
+    }
+    return context.l10n.schemeCountFormat(cnt);
+  }
+
   void _onCategorySelected(String categoryName, AppProvider provider) {
+    final count = _dynamicCategoryCounts[categoryName];
+    if (count == 0) {
+      _showComingSoonInfo(categoryName, 'category');
+      return;
+    }
+
     SmartAssessmentBottomSheet.show(
       context,
       categoryName,
@@ -312,13 +580,16 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           categoryName,
         );
         if (!mounted) return;
+        if (schemes.isEmpty) {
+          _showComingSoonInfo(categoryName, 'category');
+          return;
+        }
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (_) => DiscoverResultsScreen(
+            builder: (_) => SearchResultsScreen(
               title: categoryName,
               type: 'category',
               initialSchemes: schemes,
-              isAssessmentCompleted: true,
             ),
           ),
         );
@@ -327,6 +598,12 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   }
 
   void _onMinistrySelected(String ministryName, AppProvider provider) {
+    final count = _dynamicCategoryCounts[ministryName];
+    if (count == 0) {
+      _showComingSoonInfo(ministryName, 'ministry');
+      return;
+    }
+
     SmartAssessmentBottomSheet.show(
       context,
       ministryName,
@@ -336,13 +613,16 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           ministryName,
         );
         if (!mounted) return;
+        if (schemes.isEmpty) {
+          _showComingSoonInfo(ministryName, 'ministry');
+          return;
+        }
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (_) => DiscoverResultsScreen(
+            builder: (_) => SearchResultsScreen(
               title: ministryName,
               type: 'ministry',
               initialSchemes: schemes,
-              isAssessmentCompleted: true,
             ),
           ),
         );
@@ -351,18 +631,27 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   }
 
   void _onStateSelected(String stateName, AppProvider provider) {
+    final count = _dynamicCategoryCounts[stateName];
+    if (count == 0) {
+      _showComingSoonInfo(stateName, 'state');
+      return;
+    }
+
     SmartAssessmentBottomSheet.show(context, stateName, 'state', () async {
       final schemes = await SchemeRepository.instance.getSchemesByState(
         stateName,
       );
       if (!mounted) return;
+      if (schemes.isEmpty) {
+        _showComingSoonInfo(stateName, 'state');
+        return;
+      }
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (_) => DiscoverResultsScreen(
+          builder: (_) => SearchResultsScreen(
             title: stateName,
             type: 'state',
             initialSchemes: schemes,
-            isAssessmentCompleted: true,
           ),
         ),
       );
@@ -453,133 +742,31 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // Premium Header (Discover, Search, AI avatar)
+            // Premium Header (Discover, AI collections)
             Padding(
-              padding: const EdgeInsets.only(
-                left: 16.0,
-                right: 16.0,
-                top: 28.0,
-                bottom: 12.0,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    context.l10n.discoverTitle,
-                    style: GoogleFonts.poppins(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF0F172A),
+              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      context.l10n.discoverTitle,
+                      style: GoogleFonts.poppins(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFF0F172A),
+                      ),
                     ),
-                  ),
-                  Text(
-                    context.l10n.exploreTopCuratedCollections,
-                    style: GoogleFonts.inter(
-                      fontSize: 12,
-                      color: const Color(0xFF64748B),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Search Bar with Integrated Filter Button
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 8.0,
-              ),
-              child: Container(
-                height: 48,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(30),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.04),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
+                    const SizedBox(height: 2),
+                    Text(
+                      context.l10n.exploreTopCuratedCollections,
+                      style: GoogleFonts.inter(
+                        fontSize: 12,
+                        color: const Color(0xFF64748B),
+                      ),
                     ),
                   ],
-                  border: Border.all(color: const Color(0xFFE2E8F0)),
-                ),
-                child: TextField(
-                  controller: _searchController,
-                  textInputAction: TextInputAction.search,
-                  onSubmitted: (query) {
-                    final q = query.trim();
-                    if (q.isNotEmpty) {
-                      if (widget.onCategorySelected != null) {
-                        widget.onCategorySelected!(q);
-                      } else {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => SearchResultsScreen(title: q),
-                          ),
-                        );
-                      }
-                    }
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: IconButton(
-                      icon: const Icon(
-                        Icons.search,
-                        color: Color(0xFF2563EB),
-                        size: 20,
-                      ),
-                      onPressed: () {
-                        final q = _searchController.text.trim();
-                        if (q.isNotEmpty) {
-                          if (widget.onCategorySelected != null) {
-                            widget.onCategorySelected!(q);
-                          } else {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => SearchResultsScreen(title: q),
-                              ),
-                            );
-                          }
-                        }
-                      },
-                    ),
-                    hintText: context.l10n.searchPlaceholder,
-                    hintStyle: GoogleFonts.inter(
-                      color: const Color(0xFF94A3B8),
-                      fontSize: 13.5,
-                    ),
-                    border: InputBorder.none,
-                    contentPadding: const EdgeInsets.symmetric(vertical: 12),
-                    suffixIcon: Container(
-                      margin: const EdgeInsets.only(
-                        right: 6,
-                        top: 4,
-                        bottom: 4,
-                      ),
-                      child: TextButton.icon(
-                        onPressed: _openFilterPanel,
-                        icon: const Icon(
-                          Icons.tune_outlined,
-                          size: 14,
-                          color: Color(0xFF2563EB),
-                        ),
-                        label: Text(
-                          context.l10n.filter,
-                          style: GoogleFonts.inter(
-                            fontSize: 11.5,
-                            fontWeight: FontWeight.bold,
-                            color: const Color(0xFF2563EB),
-                          ),
-                        ),
-                        style: TextButton.styleFrom(
-                          backgroundColor: const Color(0xFFEFF6FF),
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
                 ),
               ),
             ),
@@ -599,6 +786,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     _buildSectionHeader(
                       key: _categorySectionKey,
                       title: context.l10n.browseByCategories,
+                      onViewAll: () =>
+                          _showAllCategoriesBottomSheet(context, provider),
                     ),
                     _buildCategoryHorizontalList(provider),
                     const SizedBox(height: 16),
@@ -607,6 +796,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     _buildSectionHeader(
                       key: _ministrySectionKey,
                       title: context.l10n.browseByMinistry,
+                      onViewAll: () =>
+                          _showAllMinistriesBottomSheet(context, provider),
                     ),
                     _buildMinistryHorizontalList(provider),
                     const SizedBox(height: 16),
@@ -615,6 +806,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     _buildSectionHeader(
                       key: _stateSectionKey,
                       title: context.l10n.browseByState,
+                      onViewAll: () =>
+                          _showAllStatesBottomSheet(context, provider),
                     ),
                     _buildStateHorizontalList(provider),
                     const SizedBox(height: 16),
@@ -736,7 +929,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     );
   }
 
-  Widget _buildSectionHeader({required GlobalKey key, required String title}) {
+  Widget _buildSectionHeader({
+    required GlobalKey key,
+    required String title,
+    VoidCallback? onViewAll,
+  }) {
     final provider = Provider.of<AppProvider>(context, listen: false);
     final localizedTitle = _getLocalizedCategoryOrMinistry(
       title,
@@ -746,16 +943,49 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     return Padding(
       key: key,
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          localizedTitle,
-          style: GoogleFonts.poppins(
-            fontSize: provider.selectedLanguage == 'ta' ? 15.0 : 16.5,
-            fontWeight: FontWeight.bold,
-            color: const Color(0xFF0F172A),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          FlexText(
+            child: Text(
+              localizedTitle,
+              style: GoogleFonts.poppins(
+                fontSize: provider.selectedLanguage == 'ta' ? 15.0 : 16.5,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFF0F172A),
+              ),
+            ),
           ),
-        ),
+          if (onViewAll != null)
+            InkWell(
+              onTap: onViewAll,
+              borderRadius: BorderRadius.circular(8),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      provider.selectedLanguage == 'ta'
+                          ? 'அனைத்தையும் பார்க்க'
+                          : 'View All',
+                      style: GoogleFonts.inter(
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF2563EB),
+                      ),
+                    ),
+                    const SizedBox(width: 2),
+                    const Icon(
+                      Icons.chevron_right,
+                      size: 16,
+                      color: Color(0xFF2563EB),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
@@ -771,10 +1001,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         itemBuilder: (context, index) {
           final item = _displayCategories[index];
           final String title = item['title'] as String;
-          final int cnt = _dynamicCategoryCounts[title] ?? 0;
-          final String countStr = cnt > 0
-              ? context.l10n.schemeCountFormat(cnt)
-              : item['count'] as String;
+          final int? cnt = _dynamicCategoryCounts[title];
+          final String countStr = _formatSchemeCount(cnt, provider);
           final String localizedTitle = _getLocalizedCategoryOrMinistry(
             title,
             provider.selectedLanguage,
@@ -836,7 +1064,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       style: GoogleFonts.inter(
                         fontSize: 9.5,
                         fontWeight: FontWeight.w600,
-                        color: const Color(0xFF2563EB),
+                        color: cnt == 0
+                            ? const Color(0xFFD97706)
+                            : const Color(0xFF2563EB),
                       ),
                     ),
                   ],
@@ -860,10 +1090,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         itemBuilder: (context, index) {
           final item = _displayMinistries[index];
           final String title = item['title'] as String;
-          final int cnt = _dynamicCategoryCounts[title] ?? 0;
-          final String countStr = cnt > 0
-              ? context.l10n.schemeCountFormat(cnt)
-              : item['count'] as String;
+          final int? cnt = _dynamicCategoryCounts[title];
+          final String countStr = _formatSchemeCount(cnt, provider);
           final String localizedTitle = _getLocalizedCategoryOrMinistry(
             title,
             provider.selectedLanguage,
@@ -947,7 +1175,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       style: GoogleFonts.inter(
                         fontSize: 9.5,
                         fontWeight: FontWeight.w600,
-                        color: const Color(0xFF2563EB),
+                        color: cnt == 0
+                            ? const Color(0xFFD97706)
+                            : const Color(0xFF2563EB),
                       ),
                     ),
                   ],
@@ -1043,10 +1273,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         itemBuilder: (context, index) {
           final item = _displayStates[index];
           final String title = item['title'] as String;
-          final int cnt = _dynamicCategoryCounts[title] ?? 0;
-          final String countStr = cnt > 0
-              ? context.l10n.schemeCountFormat(cnt)
-              : item['count'] as String;
+          final int? cnt = _dynamicCategoryCounts[title];
+          final String countStr = _formatSchemeCount(cnt, provider);
           final String localizedTitle = _getLocalizedCategoryOrMinistry(
             title,
             provider.selectedLanguage,
@@ -1107,7 +1335,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       style: GoogleFonts.inter(
                         fontSize: 9.5,
                         fontWeight: FontWeight.w600,
-                        color: const Color(0xFF2563EB),
+                        color: cnt == 0
+                            ? const Color(0xFFD97706)
+                            : const Color(0xFF2563EB),
                       ),
                     ),
                   ],
@@ -1124,6 +1354,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     BuildContext context,
     AppProvider provider,
   ) {
+    String modalSearchQuery = '';
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -1133,7 +1364,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           builder: (context, setModalState) {
             final filtered = allCategoriesList.where((cat) {
               return cat.title.toLowerCase().contains(
-                _searchQuery.toLowerCase(),
+                modalSearchQuery.toLowerCase(),
               );
             }).toList();
 
@@ -1167,7 +1398,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       children: [
                         FlexText(
                           child: Text(
-                            'All Categories',
+                            provider.selectedLanguage == 'ta'
+                                ? 'அனைத்து பிரிவுகளும்'
+                                : 'All Categories',
                             softWrap: true,
                             style: GoogleFonts.poppins(
                               fontSize: 18,
@@ -1178,9 +1411,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         ),
                         IconButton(
                           onPressed: () {
-                            setModalState(() {
-                              _searchQuery = '';
-                            });
                             Navigator.pop(context);
                           },
                           icon: const Icon(
@@ -1202,12 +1432,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       child: TextField(
                         onChanged: (val) {
                           setModalState(() {
-                            _searchQuery = val;
+                            modalSearchQuery = val;
                           });
                         },
                         style: GoogleFonts.inter(fontSize: 14),
                         decoration: InputDecoration(
-                          hintText: 'Search categories...',
+                          hintText: provider.selectedLanguage == 'ta'
+                              ? 'பிரிவுகளைத் தேடுங்கள்...'
+                              : 'Search categories...',
                           prefixIcon: const Icon(
                             Icons.search,
                             color: Color(0xFF64748B),
@@ -1255,6 +1487,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     CategoryItem category,
     AppProvider provider,
   ) {
+    final int? cnt = _dynamicCategoryCounts[category.title];
+    final String countStr = _formatSchemeCount(cnt, provider);
+    final String localizedTitle = _getLocalizedCategoryOrMinistry(
+      category.title,
+      provider.selectedLanguage,
+    );
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -1298,7 +1537,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 2.0),
                   child: Text(
-                    category.title,
+                    localizedTitle,
                     textAlign: TextAlign.center,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -1307,6 +1546,17 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF0F172A),
                     ),
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  countStr,
+                  style: GoogleFonts.inter(
+                    fontSize: 9.0,
+                    fontWeight: FontWeight.w600,
+                    color: cnt == 0
+                        ? const Color(0xFFD97706)
+                        : const Color(0xFF2563EB),
                   ),
                 ),
               ],
@@ -1368,7 +1618,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   children: [
                     FlexText(
                       child: Text(
-                        'All Ministries',
+                        provider.selectedLanguage == 'ta'
+                            ? 'அனைத்து அமைச்சகங்களும்'
+                            : 'All Ministries',
                         softWrap: true,
                         style: GoogleFonts.poppins(
                           fontSize: 18,
@@ -1390,6 +1642,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   itemCount: ministries.length,
                   itemBuilder: (context, index) {
                     final title = ministries[index];
+                    final int? cnt = _dynamicCategoryCounts[title];
+                    final String countStr = _formatSchemeCount(cnt, provider);
+                    final String localizedTitle =
+                        _getLocalizedCategoryOrMinistry(
+                          title,
+                          provider.selectedLanguage,
+                        );
+
                     return Material(
                       type: MaterialType.transparency,
                       child: ListTile(
@@ -1410,10 +1670,20 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           ),
                         ),
                         title: Text(
-                          title,
+                          localizedTitle,
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.bold,
                             fontSize: 13.5,
+                          ),
+                        ),
+                        subtitle: Text(
+                          countStr,
+                          style: GoogleFonts.inter(
+                            fontSize: 11,
+                            color: cnt == 0
+                                ? const Color(0xFFD97706)
+                                : const Color(0xFF2563EB),
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                         trailing: const Icon(Icons.chevron_right, size: 16),
@@ -1504,7 +1774,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   children: [
                     FlexText(
                       child: Text(
-                        'All States & UTs',
+                        provider.selectedLanguage == 'ta'
+                            ? 'அனைத்து மாநிலங்களும்'
+                            : 'All States & UTs',
                         softWrap: true,
                         style: GoogleFonts.poppins(
                           fontSize: 18,
@@ -1526,6 +1798,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   itemCount: states.length,
                   itemBuilder: (context, index) {
                     final title = states[index];
+                    final int? cnt = _dynamicCategoryCounts[title];
+                    final String countStr = _formatSchemeCount(cnt, provider);
+                    final String localizedTitle =
+                        _getLocalizedCategoryOrMinistry(
+                          title,
+                          provider.selectedLanguage,
+                        );
+
                     return Material(
                       type: MaterialType.transparency,
                       child: ListTile(
@@ -1545,10 +1825,20 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           },
                         ),
                         title: Text(
-                          title,
+                          localizedTitle,
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.bold,
                             fontSize: 13.5,
+                          ),
+                        ),
+                        subtitle: Text(
+                          countStr,
+                          style: GoogleFonts.inter(
+                            fontSize: 11,
+                            color: cnt == 0
+                                ? const Color(0xFFD97706)
+                                : const Color(0xFF2563EB),
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                         trailing: const Icon(Icons.chevron_right, size: 16),

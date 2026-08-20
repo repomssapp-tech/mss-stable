@@ -625,6 +625,63 @@ class SchemeRepository {
       final fullText = '${s.name} ${s.shortName} ${s.searchKeywords}'
           .toLowerCase();
 
+      if (q.contains('msme') || q.contains('micro, small')) {
+        return sponsor.contains('msme') ||
+            sponsor.contains('micro, small') ||
+            issuer.contains('msme') ||
+            issuer.contains('micro, small') ||
+            fullText.contains('msme') ||
+            s.category.toLowerCase().contains('msme');
+      }
+      if (q.contains('finance')) {
+        return sponsor.contains('finance') ||
+            issuer.contains('finance') ||
+            fullText.contains('finance') ||
+            fullText.contains('financial') ||
+            fullText.contains('banking');
+      }
+      if (q.contains('rural')) {
+        return sponsor.contains('rural') ||
+            issuer.contains('rural') ||
+            fullText.contains('rural');
+      }
+      if (q.contains('education')) {
+        return sponsor.contains('education') ||
+            issuer.contains('education') ||
+            fullText.contains('education') ||
+            fullText.contains('student');
+      }
+      if (q.contains('agriculture') || q.contains('farmer')) {
+        return sponsor.contains('agriculture') ||
+            issuer.contains('agriculture') ||
+            fullText.contains('agriculture') ||
+            fullText.contains('farmer');
+      }
+      if (q.contains('skill')) {
+        return sponsor.contains('skill') ||
+            issuer.contains('skill') ||
+            fullText.contains('skill') ||
+            fullText.contains('vocational');
+      }
+      if (q.contains('social justice')) {
+        return sponsor.contains('social justice') ||
+            issuer.contains('social justice') ||
+            fullText.contains('social justice');
+      }
+      if (q.contains('housing') || q.contains('urban')) {
+        return sponsor.contains('housing') ||
+            sponsor.contains('urban') ||
+            issuer.contains('housing') ||
+            issuer.contains('urban') ||
+            fullText.contains('housing');
+      }
+      if (q.contains('health')) {
+        return sponsor.contains('health') ||
+            issuer.contains('health') ||
+            fullText.contains('health') ||
+            fullText.contains('ayushman');
+      }
+
       return sponsor.contains(q) || issuer.contains(q) || fullText.contains(q);
     }).toList();
     return _rankByQuery(matches, ministry);
@@ -659,15 +716,22 @@ class SchemeRepository {
       final st = s.state.toLowerCase();
       final code = s.schemeCode.toLowerCase();
       final name = s.name.toLowerCase();
+      final isCentral = s.governmentLevel.toLowerCase() == 'central' ||
+          st.contains('all india') ||
+          st.isEmpty;
 
       if (q.contains('tamil nadu') || q == 'tn') {
-        return st.contains('tamil') ||
+        return isCentral ||
+            st.contains('tamil') ||
             st.contains('tn') ||
             code.contains('tn_') ||
             name.contains('tamil');
       }
 
-      return st.contains(q) || code.contains(q) || name.contains(q);
+      return isCentral ||
+          st.contains(q) ||
+          code.contains(q) ||
+          name.contains(q);
     }).toList();
     return _rankByQuery(matches, state);
   }

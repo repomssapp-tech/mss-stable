@@ -181,15 +181,15 @@ class SchemeCard extends StatelessWidget {
     ].join(' • ');
 
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+      margin: const EdgeInsets.symmetric(vertical: 7, horizontal: 16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(18),
         border: Border.all(color: const Color(0xFFE2E8F0), width: 1.2),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
-            blurRadius: 10,
+            color: Colors.black.withValues(alpha: 0.03),
+            blurRadius: 12,
             offset: const Offset(0, 4),
           ),
         ],
@@ -198,16 +198,16 @@ class SchemeCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(18),
           child: Padding(
-            padding: const EdgeInsets.all(14.0),
+            padding: const EdgeInsets.all(16.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Left: Circular Logo Container (64x64)
+                // Left: Circular Logo Container (72x72)
                 Container(
-                  width: 64,
-                  height: 64,
+                  width: 72,
+                  height: 72,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
@@ -217,9 +217,9 @@ class SchemeCard extends StatelessWidget {
                     ),
                   ),
                   padding: EdgeInsets.zero,
-                  child: ClipOval(child: _buildSchemeLogo(scheme, size: 64)),
+                  child: ClipOval(child: _buildSchemeLogo(scheme, size: 72)),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 14),
 
                 // Middle Content Block
                 Expanded(
@@ -235,15 +235,15 @@ class SchemeCard extends StatelessWidget {
                               locScheme.name,
                               style: GoogleFonts.poppins(
                                 fontSize: provider.selectedLanguage == 'ta'
-                                    ? 12.0
-                                    : 13.0,
+                                    ? 13.0
+                                    : 14.0,
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFF0F172A),
                                 height: provider.selectedLanguage == 'ta'
                                     ? 1.35
-                                    : 1.2,
+                                    : 1.25,
                               ),
-                              maxLines: 2,
+                              maxLines: 3,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -262,7 +262,7 @@ class SchemeCard extends StatelessWidget {
                                 "${RecommendationEngine.evaluate(provider.profile, scheme).percentage}% ${provider.selectedLanguage == 'ta' ? 'பொருத்தம்' : 'Match'}",
                                 style: GoogleFonts.inter(
                                   color: const Color(0xFF2E7D32),
-                                  fontSize: 8,
+                                  fontSize: 8.5,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -271,39 +271,44 @@ class SchemeCard extends StatelessWidget {
                         ],
                       ),
                       if (subtitleText.isNotEmpty) ...[
-                        const SizedBox(height: 3),
+                        const SizedBox(height: 4),
                         Text(
                           subtitleText,
                           style: GoogleFonts.inter(
-                            fontSize: 10,
+                            fontSize: provider.selectedLanguage == 'ta'
+                                ? 10.5
+                                : 11.0,
                             color: const Color(0xFF64748B),
                             fontWeight: FontWeight.w500,
+                            height: 1.3,
                           ),
-                          maxLines: 1,
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ],
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 12),
 
                       // Tags Row
                       Wrap(
-                        spacing: 5,
-                        runSpacing: 4,
+                        spacing: 6,
+                        runSpacing: 5,
                         children: tags.map((tag) {
                           final colors = _getTagColors(tag, scheme.category);
                           return Container(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 6,
-                              vertical: 2,
+                              horizontal: 8,
+                              vertical: 3.5,
                             ),
                             decoration: BoxDecoration(
                               color: colors['bg'],
-                              borderRadius: BorderRadius.circular(5),
+                              borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(
                               tag,
                               style: GoogleFonts.inter(
-                                fontSize: 8.5,
+                                fontSize: provider.selectedLanguage == 'ta'
+                                    ? 9.0
+                                    : 9.5,
                                 fontWeight: FontWeight.bold,
                                 color: colors['text'],
                               ),
