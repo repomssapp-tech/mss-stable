@@ -31,21 +31,18 @@ class AppConstants {
 
   // Missing Document Assistance External Links (Official Portals)
   static const Map<String, String> documentLinks = {
-    'PAN Card':
-        'https://www.onlineservices.nsdl.com/paam/endUserRegisterContact.html',
+    'PAN Card': 'https://www.protean-tinpan.com/',
     'Aadhaar Card': 'https://myaadhaar.uidai.gov.in/',
     'Udyam Registration Certificate': 'https://udyamregistration.gov.in/',
     'Nativity Certificate (TN)': 'https://www.tnesevai.tn.gov.in/',
     'Community Certificate': 'https://www.tnesevai.tn.gov.in/',
-    'Artisan Identity Card (DC Handicrafts)': 'https://pehchan.deh.gov.in/',
+    'Artisan Identity Card (DC Handicrafts)': 'https://www.handicrafts.nic.in/',
     'DPIIT Certificate of Recognition': 'https://www.startupindia.gov.in/',
     'Certificate of Incorporation (Pvt Ltd / LLP / Registered Partnership)':
         'https://www.mca.gov.in/',
-    'Project Report / Business Plan':
-        'https://www.msmedi-chennai.gov.in/msme/project-profiles',
-    'Project Report / DPR':
-        'https://www.msmedi-chennai.gov.in/msme/project-profiles',
-    'Project Report': 'https://www.msmedi-chennai.gov.in/msme/project-profiles',
+    'Project Report / Business Plan': 'https://dcmsme.gov.in/',
+    'Project Report / DPR': 'https://dcmsme.gov.in/',
+    'Project Report': 'https://dcmsme.gov.in/',
     'Quotations for machinery/equipment': 'https://www.nsic.co.in/',
     'Price Quotation of machinery/equipment or items to be purchased':
         'https://www.nsic.co.in/',

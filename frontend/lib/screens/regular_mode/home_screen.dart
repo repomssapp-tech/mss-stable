@@ -313,8 +313,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     _buildTipOfTheDay(context),
 
                     const SizedBox(
-                      height: 24,
-                    ), // Clean spacing at the bottom of the page
+                      height: 110,
+                    ), // Ample clearance to ensure floating voice widget never occludes bottom cards
                   ],
                 ),
               ),
@@ -1693,46 +1693,78 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Sticky Floating Action Ask AI widget
   Widget _buildAskAiFab(BuildContext context) {
-    return GestureDetector(
-      onTap: _openVoiceAssistant,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: const Color(
-                0xFFEFF6FF,
-              ), // Soft premium light blue background
-              border: Border.all(color: const Color(0xFF93C5FD), width: 1.5),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFF2563EB).withValues(alpha: 0.24),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
+    final isTa =
+        Provider.of<AppProvider>(context, listen: false).selectedLanguage ==
+        'ta';
+    return Semantics(
+      button: true,
+      label: isTa ? 'சாரதி குரல் உதவியாளர்' : 'Saarthi AI Voice Assistant',
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: _openVoiceAssistant,
+          borderRadius: BorderRadius.circular(32),
+          splashColor: const Color(0xFF2563EB).withValues(alpha: 0.15),
+          highlightColor: const Color(0xFF2563EB).withValues(alpha: 0.08),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 62,
+                height: 62,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: const Color(0xFFEFF6FF),
+                  border: Border.all(
+                    color: const Color(0xFF93C5FD),
+                    width: 1.8,
+                  ),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x332563EB),
+                      blurRadius: 14,
+                      offset: Offset(0, 5),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            padding: const EdgeInsets.all(2),
-            child: ClipOval(
-              child: Image.asset(
-                'assets/images/saarthi/sarathi.webp',
-                fit: BoxFit.cover,
+                padding: const EdgeInsets.all(2.5),
+                child: ClipOval(
+                  child: Image.asset(
+                    'assets/images/saarthi/sarathi.webp',
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
-            ),
+              const SizedBox(height: 4),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 2,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: const Color(0xFFE2E8F0)),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x0F0F172A),
+                      blurRadius: 6,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Text(
+                  context.l10n.askAi,
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF2563EB),
+                    fontSize: 10.5,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 4),
-          Text(
-            context.l10n.askAi,
-            style: GoogleFonts.inter(
-              color: const Color(0xFF2563EB),
-              fontSize: 10.5,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

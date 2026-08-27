@@ -12,7 +12,7 @@ class AppCardStyle {
     Radius.circular(borderRadiusValue),
   );
 
-  static const Color borderColor = Color(0xFFE2E8F0);
+  static const Color borderColor = Color(0xFFF1F5F9);
   static const BorderSide borderSide = BorderSide(
     color: borderColor,
     width: 1.2,
@@ -37,11 +37,11 @@ class AppCardStyle {
       color: backgroundColor,
       borderRadius: BorderRadius.circular(borderRadius),
       border: Border.all(color: borderColor, width: 1.2),
-      boxShadow: [
+      boxShadow: const [
         BoxShadow(
-          color: Colors.black.withValues(alpha: 0.02),
-          blurRadius: 10,
-          offset: const Offset(0, 4),
+          color: Color(0x080F172A),
+          blurRadius: 16,
+          offset: Offset(0, 4),
         ),
       ],
     );

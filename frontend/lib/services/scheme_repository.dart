@@ -48,12 +48,23 @@ class SchemeRepository {
   Future<MssCatalogBundle>? _bundleFuture;
   Map<String, int>? _cachedCategoryCounts;
 
+  // ── Search in-flight deduplication & short-term query memoization ───────
+  final Map<String, Future<List<Scheme>>> _inFlightSchemeSearches = {};
+  final Map<String, _CachedSearch<List<Scheme>>> _searchSchemesCache = {};
+  final Map<String, Future<List<SchemeSearchMatch>>> _inFlightMatchSearches = {};
+  final Map<String, _CachedSearch<List<SchemeSearchMatch>>> _searchMatchesCache = {};
+  static const Duration _searchCacheTtl = Duration(seconds: 15);
+
   void clearCache() {
     _cachedSchemes = null;
     _schemeByIdMap = null;
     _cachedLanguage = null;
     _bundleFuture = null;
     _cachedCategoryCounts = null;
+    _inFlightSchemeSearches.clear();
+    _searchSchemesCache.clear();
+    _inFlightMatchSearches.clear();
+    _searchMatchesCache.clear();
     // Resetting _bundleFuture alone isn't enough: MssCatalogBundle.load()
     // has its own static singleton short-circuit that would keep returning
     // the bundle from whatever was on disk at first load. Without this, a
@@ -210,12 +221,44 @@ class SchemeRepository {
   // ── 6. searchSchemes() ────────────────────────────────────────────────
   /// Intelligently ranks natural-language English, Tamil, and Tanglish queries.
   /// Online-first via POST /v1/search with offline fallback.
+  /// Deduplicated in-flight and memoized for 15s to prevent redundant network calls.
   Future<List<Scheme>> searchSchemes(
     String query, {
     String langCode = 'en',
   }) async {
-    if (query.trim().isEmpty) return getAllSchemes(langCode: langCode);
+    final trimmed = query.trim();
+    if (trimmed.isEmpty) return getAllSchemes(langCode: langCode);
 
+    final cacheKey = '$langCode:${trimmed.toLowerCase()}';
+
+    // 1. Fresh memoized cache check (instant response, 0ms latency)
+    final cached = _searchSchemesCache[cacheKey];
+    if (cached != null && cached.isFresh) {
+      return cached.data;
+    }
+
+    // 2. Singleflight: Deduplicate concurrent in-flight requests for identical query
+    final inFlight = _inFlightSchemeSearches[cacheKey];
+    if (inFlight != null) {
+      return inFlight;
+    }
+
+    final future = _executeSearchSchemes(trimmed, langCode);
+    _inFlightSchemeSearches[cacheKey] = future;
+
+    try {
+      final results = await future;
+      _searchSchemesCache[cacheKey] = _CachedSearch(results);
+      return results;
+    } finally {
+      _inFlightSchemeSearches.remove(cacheKey);
+    }
+  }
+
+  Future<List<Scheme>> _executeSearchSchemes(
+    String query,
+    String langCode,
+  ) async {
     try {
       final rawJson = await _apiClient
           .search(
@@ -225,10 +268,6 @@ class SchemeRepository {
           .timeout(const Duration(milliseconds: 2500));
       final searchResp = MSSSearchResponse.fromJson(rawJson);
       final bundle = await _loadBundle();
-      // Return unconditionally, even if empty: the online engine correctly
-      // finding zero matches is a real answer, not a failure -- falling
-      // through to a different offline ranking here would silently
-      // override a trustworthy "no results" with a possibly-different set.
       return searchResp.results
           .map((r) => MssSchemeAdapter.schemeResultToScheme(
                 r,
@@ -248,12 +287,14 @@ class SchemeRepository {
   // ── 7. searchSchemeMatches() ──────────────────────────────────────────
   /// Returns scored matches for conversational search and voice result UIs.
   /// Online-first via POST /v1/search with offline fallback.
+  /// Deduplicated in-flight and memoized for 15s.
   Future<List<SchemeSearchMatch>> searchSchemeMatches(
     String query, {
     int? limit,
     String langCode = 'en',
   }) async {
-    if (query.trim().isEmpty) {
+    final trimmed = query.trim();
+    if (trimmed.isEmpty) {
       final all = await getAllSchemes(langCode: langCode);
       final slice = limit != null ? all.take(limit) : all;
       return slice
@@ -261,6 +302,37 @@ class SchemeRepository {
           .toList();
     }
 
+    final cacheKey = '$langCode:$limit:${trimmed.toLowerCase()}';
+
+    // 1. Fresh memoized cache check
+    final cached = _searchMatchesCache[cacheKey];
+    if (cached != null && cached.isFresh) {
+      return cached.data;
+    }
+
+    // 2. Singleflight deduplication
+    final inFlight = _inFlightMatchSearches[cacheKey];
+    if (inFlight != null) {
+      return inFlight;
+    }
+
+    final future = _executeSearchSchemeMatches(trimmed, limit, langCode);
+    _inFlightMatchSearches[cacheKey] = future;
+
+    try {
+      final results = await future;
+      _searchMatchesCache[cacheKey] = _CachedSearch(results);
+      return results;
+    } finally {
+      _inFlightMatchSearches.remove(cacheKey);
+    }
+  }
+
+  Future<List<SchemeSearchMatch>> _executeSearchSchemeMatches(
+    String query,
+    int? limit,
+    String langCode,
+  ) async {
     try {
       final rawJson = await _apiClient.search(
         query: query,
@@ -269,9 +341,6 @@ class SchemeRepository {
       );
       final searchResp = MSSSearchResponse.fromJson(rawJson);
       final bundle = await _loadBundle();
-      // Return unconditionally, even if empty -- see searchSchemes() above
-      // for why a legitimate "online found nothing" must not be silently
-      // overridden by a different offline result set.
       return searchResp.results.map((r) {
         final scheme = MssSchemeAdapter.schemeResultToScheme(
           r,
@@ -949,4 +1018,14 @@ class SchemeRepository {
       debugPrint('[SchemeRepository] Error updating last login: $e');
     }
   }
+}
+
+/// Simple in-memory search memoization record with TTL checking
+class _CachedSearch<T> {
+  _CachedSearch(this.data) : timestamp = DateTime.now();
+  final T data;
+  final DateTime timestamp;
+
+  bool get isFresh =>
+      DateTime.now().difference(timestamp) < SchemeRepository._searchCacheTtl;
 }
