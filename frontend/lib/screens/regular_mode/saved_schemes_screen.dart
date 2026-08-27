@@ -19,41 +19,6 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
   int _activeTab = 0; // 0 = All Saved, 1 = Recently Added
   bool _isManageMode = false;
 
-  Widget _buildFolderIllustration() {
-    return Container(
-      width: 68,
-      height: 68,
-      decoration: const BoxDecoration(
-        color: Color(0xFFEFF6FF),
-        shape: BoxShape.circle,
-      ),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          // Folder icon
-          const Icon(Icons.folder_rounded, color: Color(0xFF3B82F6), size: 38),
-          // Heart icon layered on folder
-          Positioned(
-            right: 14,
-            top: 14,
-            child: Container(
-              padding: const EdgeInsets.all(2),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.favorite_rounded,
-                color: Color(0xFF2563EB),
-                size: 10,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildTabBar(int savedCount) {
     final provider = Provider.of<AppProvider>(context, listen: false);
     final isTa = provider.selectedLanguage == 'ta';
@@ -578,35 +543,30 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          context.l10n.savedTitle,
-                          style: GoogleFonts.poppins(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                            color: const Color(0xFF0F172A),
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          context.l10n.noSavedSchemesDesc,
-                          style: GoogleFonts.inter(
-                            fontSize: 12,
-                            color: const Color(0xFF64748B),
-                            height: 1.3,
-                          ),
-                        ),
-                      ],
+              child: SizedBox(
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      context.l10n.savedTitle,
+                      style: GoogleFonts.poppins(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFF0F172A),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  _buildFolderIllustration(),
-                ],
+                    const SizedBox(height: 4),
+                    Text(
+                      context.l10n.noSavedSchemesDesc,
+                      style: GoogleFonts.inter(
+                        fontSize: 12,
+                        color: const Color(0xFF64748B),
+                        height: 1.3,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             _buildTabBar(bookmarks.length),
