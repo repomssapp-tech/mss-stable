@@ -737,8 +737,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     final provider = Provider.of<AppProvider>(context);
 
     return Scaffold(
-      backgroundColor:
-          Colors.transparent, // Uses MainTabsContainer blue gradient background
+      backgroundColor: const Color(
+        0xFFF8FAFC,
+      ), // Slate 50 (Crisp clean background without blue shade)
       body: SafeArea(
         child: Column(
           children: [
