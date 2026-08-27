@@ -110,21 +110,24 @@ class InSchemesApp extends StatelessWidget {
                 color: AppConstants.primaryText,
               ),
 
-              // Inter for Body and Form Elements
+              // Inter for Body and Form Elements (height >= 1.4 prevents Tamil diacritic clipping)
               bodyLarge: GoogleFonts.inter(
                 fontSize: 16,
                 fontWeight: FontWeight.normal,
                 color: AppConstants.primaryText,
+                height: 1.45,
               ),
               bodyMedium: GoogleFonts.inter(
                 fontSize: 15,
                 fontWeight: FontWeight.normal,
                 color: AppConstants.primaryText,
+                height: 1.45,
               ),
               bodySmall: GoogleFonts.inter(
                 fontSize: 13,
                 fontWeight: FontWeight.normal,
                 color: AppConstants.secondaryText,
+                height: 1.4,
               ),
 
               labelLarge: GoogleFonts.inter(

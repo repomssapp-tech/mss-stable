@@ -951,49 +951,60 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                   ),
                 ),
               (() {
-                final docLink = AppConstants.documentLinks.entries.firstWhere((
+                final docEntry = AppConstants.documentLinks.entries.firstWhere((
                   entry,
                 ) {
                   final key = entry.key.toLowerCase();
                   final name = document.name.toLowerCase();
                   return name.contains(key) || key.contains(name);
-                }, orElse: () => const MapEntry('', '')).value;
+                }, orElse: () => const MapEntry('', ''));
 
+                final docLink = docEntry.value;
                 if (docLink.isNotEmpty) {
                   return Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
+                    padding: const EdgeInsets.only(top: 10.0),
                     child: Align(
                       alignment: Alignment.centerRight,
-                      child: InkWell(
-                        onTap: () => _openOfficialUrl(docLink),
-                        borderRadius: BorderRadius.circular(4),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 4,
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(
-                                Icons.open_in_new_rounded,
-                                size: 13,
-                                color: Color(0xFF2563EB),
-                              ),
-                              const SizedBox(width: 4),
-                              Flexible(
-                                child: FitOneLine(
-                                  child: Text(
-                                    context.l10n.getDocumentOnline,
-                                    style: GoogleFonts.inter(
-                                      color: const Color(0xFF2563EB),
-                                      fontSize: 10.5,
-                                      fontWeight: FontWeight.bold,
+                      child: Material(
+                        color: const Color(0xFFEFF6FF),
+                        borderRadius: BorderRadius.circular(8),
+                        child: InkWell(
+                          onTap: () => _openOfficialUrl(docLink),
+                          borderRadius: BorderRadius.circular(8),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 6,
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  Icons.verified_outlined,
+                                  size: 13,
+                                  color: Color(0xFF2563EB),
+                                ),
+                                const SizedBox(width: 5),
+                                Flexible(
+                                  child: FitOneLine(
+                                    child: Text(
+                                      '${context.l10n.getDocumentOnline} (Official Portal)',
+                                      style: GoogleFonts.inter(
+                                        color: const Color(0xFF2563EB),
+                                        fontSize: 10.5,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                                const SizedBox(width: 4),
+                                const Icon(
+                                  Icons.open_in_new_rounded,
+                                  size: 12,
+                                  color: Color(0xFF2563EB),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

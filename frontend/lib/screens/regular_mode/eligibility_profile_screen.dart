@@ -304,6 +304,42 @@ class _EligibilityProfileScreenState extends State<EligibilityProfileScreen> {
                                       l('community'),
                                       Icons.people_outline,
                                     ),
+                                    const SizedBox(height: 6),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                        vertical: 6,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFF1F5F9),
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                          color: const Color(0xFFE2E8F0),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.privacy_tip_outlined,
+                                            size: 14,
+                                            color: Color(0xFF2563EB),
+                                          ),
+                                          const SizedBox(width: 6),
+                                          Expanded(
+                                            child: Text(
+                                              isTa
+                                                  ? 'DPDPA 2023: சமூகப் பிரிவு தகவல் அரசு நலத்திட்ட தகுதி சரிபார்ப்பிற்கு மட்டுமே பாதுகாப்பாக பயன்படுத்தப்படும்.'
+                                                  : 'DPDPA 2023: Demographic data is processed exclusively for welfare scheme matching and is never shared.',
+                                              style: GoogleFonts.inter(
+                                                fontSize: 10,
+                                                color: const Color(0xFF475569),
+                                                height: 1.3,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                     const SizedBox(height: 8),
                                     Wrap(
                                       spacing: 8,

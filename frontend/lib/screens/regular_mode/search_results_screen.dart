@@ -544,6 +544,38 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
+                                const SizedBox(height: 16),
+                                OutlinedButton.icon(
+                                  onPressed: _clearAllFilters,
+                                  icon: const Icon(
+                                    Icons.refresh_rounded,
+                                    size: 16,
+                                    color: Color(0xFF2563EB),
+                                  ),
+                                  label: Text(
+                                    isTa
+                                        ? 'வடிகட்டிகளை அழித்து திட்டங்களைக் காண்க'
+                                        : 'Clear Filters & Explore Schemes',
+                                    style: GoogleFonts.inter(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xFF2563EB),
+                                    ),
+                                  ),
+                                  style: OutlinedButton.styleFrom(
+                                    side: const BorderSide(
+                                      color: Color(0xFF93C5FD),
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 10,
+                                    ),
+                                    backgroundColor: const Color(0xFFEFF6FF),
+                                  ),
+                                ),
                               ],
                             ),
                           ),

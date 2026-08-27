@@ -168,6 +168,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
     String l(String key) => ProfileL10n.t(key, isTa);
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
       body: Stack(
         children: [
@@ -183,7 +184,10 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
           Positioned.fill(
             child: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 8.0,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -197,29 +201,18 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                           ),
                           onPressed: () => Navigator.maybePop(context),
                         ),
+                        const SizedBox(width: 4),
+                        Text(
+                          l('complete_your_profile'),
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: kSlate900,
+                          ),
+                        ),
                       ],
                     ),
-                    const SizedBox(height: 2),
-                    // Header Text (Outside card)
-                    Text(
-                      l('complete_your_profile'),
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: kSlate900,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      l('location_subtitle'),
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.inter(
-                        fontSize: 13.5,
-                        color: kSlate500,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 6),
 
                     // Main Card Container
                     Expanded(
@@ -240,13 +233,13 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              // Non-scrollable Header Info
+                              // Compact Non-scrollable Header Info
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(
                                   20,
+                                  14,
                                   20,
-                                  20,
-                                  10,
+                                  8,
                                 ),
                                 child: Column(
                                   crossAxisAlignment:
@@ -273,37 +266,27 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                       ],
                                     ),
                                     const SizedBox(height: 8),
-                                    Center(
-                                      child: Text(
-                                        l('step_2_of_4'),
-                                        style: GoogleFonts.inter(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w600,
-                                          color: kPrimaryBlue,
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Where Are You Located?',
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: kSlate900,
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 16),
-
-                                    // Header Text
-                                    Text(
-                                      'Where Are You Located?',
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: kSlate900,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      'We use your location to recommend schemes available in your area.',
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.inter(
-                                        fontSize: 13,
-                                        color: kSlate500,
-                                        height: 1.3,
-                                      ),
+                                        Text(
+                                          l('step_2_of_4'),
+                                          style: GoogleFonts.inter(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                            color: kPrimaryBlue,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),

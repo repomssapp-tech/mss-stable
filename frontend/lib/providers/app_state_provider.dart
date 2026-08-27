@@ -1470,7 +1470,17 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     notifyListeners();
   }
 
-  Future<void> fetchPromoAlerts() async {
+  DateTime? _lastPromoFetch;
+  static const Duration _promoFetchThrottle = Duration(minutes: 30);
+
+  Future<void> fetchPromoAlerts({bool force = false}) async {
+    final now = DateTime.now();
+    if (!force &&
+        _lastPromoFetch != null &&
+        now.difference(_lastPromoFetch!) < _promoFetchThrottle) {
+      return;
+    }
+    _lastPromoFetch = now;
     try {
       final res = await Supabase.instance.client.from('promo_alerts').select();
 
