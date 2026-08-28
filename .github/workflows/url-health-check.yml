@@ -1,0 +1,29 @@
+name: Portal & Scheme Link Health Check
+
+on:
+  schedule:
+    # Run every Monday at 04:00 UTC (09:30 IST)
+    - cron: '0 4 * * 1'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check-links:
+    name: Verify Government Portals
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run Portal Health Check
+        working-directory: backend
+        run: npm run verify:links
