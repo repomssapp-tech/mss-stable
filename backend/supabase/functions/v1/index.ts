@@ -83,13 +83,62 @@ async function loadSchemeEntries(supabase: SupabaseClient): Promise<SchemeEntry[
 // requests, so caching here turns "network fetch + rebuild index" into an
 // in-memory hashmap lookup for every request after the first, cutting
 // search latency without touching the ranking algorithm or its output.
-// TTL-bounded (not indefinite) so an admin catalog edit is picked up
-// within a few minutes without needing a manual cache-bust; a cold start
-// (new isolate) always rebuilds fresh regardless of TTL.
+// TTL is 1 hour, with explicit invalidation available via POST /v1/cache-bust.
 let cachedEntries: SchemeEntry[] | null = null
 let cachedEngine: HybridSearchEngine | null = null
 let cacheLoadedAt = 0
-const CACHE_TTL_MS = 5 * 60 * 1000
+const CACHE_TTL_MS = 60 * 60 * 1000 // 1 hour TTL
+let loadingPromise: Promise<{ engine: HybridSearchEngine; entries: SchemeEntry[] }> | null = null
+
+// In-memory sliding-window rate limiter tailored for Supabase Free Tier (500k invocations/mo)
+interface RateLimitEntry {
+  timestamps: number[]
+}
+const searchRateLimitMap = new Map<string, RateLimitEntry>()
+const globalRateLimitMap = new Map<string, RateLimitEntry>()
+const RATE_LIMIT_WINDOW_MS = 60 * 1000
+
+// Free Tier limits:
+// 15 search queries per minute per IP (prevents search abuse while normal UI debounces)
+const MAX_SEARCH_REQUESTS_PER_WINDOW = 15
+// 40 total gateway requests per minute per IP (protects 500k monthly invocation pool)
+const MAX_GLOBAL_REQUESTS_PER_WINDOW = 40
+
+function checkRateLimit(map: Map<string, RateLimitEntry>, clientIp: string, maxRequests: number): boolean {
+  const now = Date.now()
+  let entry = map.get(clientIp)
+  if (!entry) {
+    entry = { timestamps: [] }
+    map.set(clientIp, entry)
+  }
+
+  // Periodic pruning if map grows large
+  if (map.size > 1000) {
+    for (const [ip, item] of map.entries()) {
+      item.timestamps = item.timestamps.filter((ts) => now - ts < RATE_LIMIT_WINDOW_MS)
+      if (item.timestamps.length === 0) {
+        map.delete(ip)
+      }
+    }
+  } else {
+    entry.timestamps = entry.timestamps.filter((ts) => now - ts < RATE_LIMIT_WINDOW_MS)
+  }
+
+  if (entry.timestamps.length >= maxRequests) {
+    return true
+  }
+
+  entry.timestamps.push(now)
+  return false
+}
+
+function isSearchRateLimited(clientIp: string): boolean {
+  return checkRateLimit(searchRateLimitMap, clientIp, MAX_SEARCH_REQUESTS_PER_WINDOW)
+}
+
+function isGlobalRateLimited(clientIp: string): boolean {
+  return checkRateLimit(globalRateLimitMap, clientIp, MAX_GLOBAL_REQUESTS_PER_WINDOW)
+}
 
 async function getSearchEngine(
   supabase: SupabaseClient
@@ -98,12 +147,26 @@ async function getSearchEngine(
   if (cachedEngine && cachedEntries && now - cacheLoadedAt < CACHE_TTL_MS) {
     return { engine: cachedEngine, entries: cachedEntries }
   }
-  const entries = await loadSchemeEntries(supabase)
-  const engine = new HybridSearchEngine(entries)
-  cachedEntries = entries
-  cachedEngine = engine
-  cacheLoadedAt = now
-  return { engine, entries }
+
+  // Singleflight: Coalesce concurrent requests into a single database fetch
+  if (loadingPromise) {
+    return loadingPromise
+  }
+
+  loadingPromise = (async () => {
+    try {
+      const entries = await loadSchemeEntries(supabase)
+      const engine = new HybridSearchEngine(entries)
+      cachedEntries = entries
+      cachedEngine = engine
+      cacheLoadedAt = Date.now()
+      return { engine, entries }
+    } finally {
+      loadingPromise = null
+    }
+  })()
+
+  return loadingPromise
 }
 
 serve(async (req) => {
@@ -119,6 +182,25 @@ serve(async (req) => {
   const subRoute = pathParts[2]
   const subSubRoute = pathParts[3]
 
+  const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
+                   req.headers.get('cf-connecting-ip') ||
+                   'unknown-client'
+
+  // Global rate-limit check for Free Tier invocation protection (excluding health check)
+  if (route !== 'health' && isGlobalRateLimited(clientIp)) {
+    return new Response(JSON.stringify({
+      error: 'TOO_MANY_REQUESTS',
+      message: 'Rate limit exceeded for Free Tier quota protection. Please wait before retrying.',
+    }), {
+      status: 429,
+      headers: {
+        ...corsHeaders,
+        'Content-Type': 'application/json',
+        'Retry-After': '10',
+      },
+    })
+  }
+
   const json = (body: unknown, status = 200) =>
     new Response(JSON.stringify(body), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -127,6 +209,22 @@ serve(async (req) => {
 
   if (route === 'health') {
     return json({ status: 'ok' })
+  }
+
+  // POST /v1/cache-bust -- explicitly busts the in-memory search index cache
+  // (e.g. after a catalog import or publication). Requires service_role key.
+  if (route === 'cache-bust' && req.method === 'POST') {
+    const authHeader = req.headers.get('authorization') ?? ''
+    const apikeyHeader = req.headers.get('apikey') ?? ''
+    const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+    if (!serviceRoleKey || (!authHeader.includes(serviceRoleKey) && apikeyHeader !== serviceRoleKey)) {
+      return json({ error: 'UNAUTHORIZED', message: 'Service role authorization required' }, 401)
+    }
+    cachedEntries = null
+    cachedEngine = null
+    cacheLoadedAt = 0
+    loadingPromise = null
+    return json({ status: 'ok', message: 'Search engine cache invalidated' })
   }
 
   if (route === 'meta') {
@@ -171,6 +269,20 @@ serve(async (req) => {
   }
 
   if (route === 'search' && req.method === 'POST') {
+    if (isSearchRateLimited(clientIp)) {
+      return new Response(JSON.stringify({
+        error: 'TOO_MANY_REQUESTS',
+        message: 'Rate limit exceeded. Please wait a moment before searching again.',
+      }), {
+        status: 429,
+        headers: {
+          ...corsHeaders,
+          'Content-Type': 'application/json',
+          'Retry-After': '5',
+        },
+      })
+    }
+
     try {
       const supabase = getServiceClient()
       if (!supabase) return json({ error: 'Supabase environment variables are missing' }, 500)

@@ -28,13 +28,24 @@ as $$
   select
     s.id as scheme_id,
     s.name_en,
-    s.record_json as scheme_record,
-    si.record_json as search_record
+    jsonb_build_object(
+      'identity', jsonb_build_object(
+        'status', coalesce(s.record_json->'identity'->'status', to_jsonb('unknown'::text)),
+        'name', coalesce(s.record_json->'identity'->'name', to_jsonb(s.name_en))
+      ),
+      'ai', jsonb_build_object(
+        'semanticTags', coalesce(s.record_json->'ai'->'semanticTags', '[]'::jsonb)
+      )
+    ) as scheme_record,
+    jsonb_build_object(
+      'tokens', coalesce(si.record_json->'tokens', '{}'::jsonb),
+      'schemeSearchProfile', coalesce(si.record_json->'schemeSearchProfile', '{}'::jsonb)
+    ) as search_record
   from catalog.scheme s
   left join catalog.search_index si on si.scheme_id = s.id;
 $$;
 
-grant execute on function public.mss_search_data() to anon, authenticated;
+grant execute on function public.mss_search_data() to service_role;
 
 create or replace function public.mss_scheme_detail(p_scheme_id text)
 returns jsonb
