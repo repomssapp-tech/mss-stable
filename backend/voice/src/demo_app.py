@@ -14,6 +14,7 @@ import edge_tts
 import gradio as gr
 from faster_whisper import WhisperModel
 
+from chat_logger import ChatLogger
 from demo_engine import DemoKnowledgeBase, NO_MATCH_ANSWER
 
 
@@ -28,6 +29,7 @@ DEFAULT_HOTWORDS = (
 )
 DEFAULT_MODEL_CACHE = REPOSITORY_ROOT / "voice/.cache/models"
 DEFAULT_TTS_CACHE = REPOSITORY_ROOT / "voice/.cache/demo-responses"
+DEFAULT_CHAT_LOG = REPOSITORY_ROOT / "voice/data/chat_log.json"
 
 
 class VoiceAssistant:
@@ -39,6 +41,8 @@ class VoiceAssistant:
         model_name: str = "base",
         threads: int = 8,
         tts_voice: str = "ta-IN-PallaviNeural",
+        chat_logger: ChatLogger | None = None,
+        log_path: Path | str | None = None,
     ) -> None:
         self.knowledge = DemoKnowledgeBase(knowledge_path)
         self.hotwords = hotwords_path.read_text(encoding="utf-8").strip()
@@ -47,6 +51,9 @@ class VoiceAssistant:
         self.tts_cache = DEFAULT_TTS_CACHE
         self.tts_cache.mkdir(parents=True, exist_ok=True)
         model_cache.mkdir(parents=True, exist_ok=True)
+
+        self.chat_logger = chat_logger or ChatLogger(path=log_path or DEFAULT_CHAT_LOG)
+        self.current_uid = self.chat_logger.start_conversation()
 
         started = time.perf_counter()
         self.model = WhisperModel(
@@ -105,6 +112,13 @@ class VoiceAssistant:
             )
 
         transcript, asr_ms = self.transcribe(audio_path)
+
+        turn_ref = None
+        if transcript.strip():
+            turn_ref = self.chat_logger.begin_turn(
+                uid=self.current_uid, mode="voice", user_message=transcript
+            )
+
         match_started = time.perf_counter()
         match = self.knowledge.match(transcript)
         match_ms = (time.perf_counter() - match_started) * 1000
@@ -117,6 +131,11 @@ class VoiceAssistant:
             answer = NO_MATCH_ANSWER
             match_label = "பொருத்தமான திட்டம் கிடைக்கவில்லை"
             match_score = 0.0
+
+        if turn_ref:
+            self.chat_logger.complete_turn(
+                uid=self.current_uid, turn_ref=turn_ref, ai_message=answer
+            )
 
         speech_path, tts_ms, tts_error = self.synthesize(answer)
         metrics = {
