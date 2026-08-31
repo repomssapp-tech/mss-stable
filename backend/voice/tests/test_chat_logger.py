@@ -1,10 +1,8 @@
-"""Tests for ChatLogger integration in backend/voice."""
+"""Tests for ChatLogger integration in backend/voice using Supabase."""
 
 from __future__ import annotations
 
 import json
-import shutil
-import tempfile
 import unittest
 from pathlib import Path
 
@@ -18,15 +16,22 @@ from chat_logger import ChatLogger
 
 class TestBackendVoiceChatLogger(unittest.TestCase):
     def setUp(self) -> None:
-        self.test_dir = Path(tempfile.mkdtemp(prefix="backend_voice_chat_"))
-        self.log_path = self.test_dir / "chat_log.json"
+        self.dispatched_payloads: list[dict] = []
 
-    def tearDown(self) -> None:
-        if self.test_dir.exists():
-            shutil.rmtree(self.test_dir, ignore_errors=True)
+        def mock_insert(payload: dict) -> dict:
+            self.dispatched_payloads.append(payload)
+            return {"id": len(self.dispatched_payloads), **payload}
+
+        self.mock_insert = mock_insert
 
     def test_voice_turn_flow(self) -> None:
-        logger = ChatLogger(self.log_path)
+        logger = ChatLogger(
+            supabase_url="https://houpzsxmwemoztpuigmo.supabase.co",
+            supabase_key="test-key",
+            table_name="chat_logs",
+        )
+        logger._insert_supabase_row = self.mock_insert  # type: ignore[assignment]
+
         uid = logger.start_conversation()
 
         turn_ref = logger.begin_turn(uid=uid, mode="voice", user_message="மகளிர் உரிமைத் தொகை")
@@ -41,10 +46,13 @@ class TestBackendVoiceChatLogger(unittest.TestCase):
         self.assertEqual(stored["mode"], "voice")
         self.assertEqual(stored["user"], "மகளிர் உரிமைத் தொகை")
 
-        # Verify disk persistence
-        data = json.loads(self.log_path.read_text(encoding="utf-8"))
-        self.assertEqual(len(data), 1)
-        self.assertEqual(data[0]["chat"][0]["mode"], "voice")
+        # Verify dispatched payload to Supabase
+        self.assertEqual(len(self.dispatched_payloads), 1)
+        payload = self.dispatched_payloads[0]
+        self.assertEqual(payload["conversation_uid"], uid)
+        self.assertEqual(payload["mode"], "voice")
+        self.assertEqual(payload["user_message"], "மகளிர் உரிமைத் தொகை")
+        self.assertEqual(payload["turn_index"], 1)
 
 
 if __name__ == "__main__":
