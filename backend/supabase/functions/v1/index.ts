@@ -90,54 +90,96 @@ let cacheLoadedAt = 0
 const CACHE_TTL_MS = 60 * 60 * 1000 // 1 hour TTL
 let loadingPromise: Promise<{ engine: HybridSearchEngine; entries: SchemeEntry[] }> | null = null
 
-// In-memory sliding-window rate limiter tailored for Supabase Free Tier (500k invocations/mo)
-interface RateLimitEntry {
-  timestamps: number[]
-}
-const searchRateLimitMap = new Map<string, RateLimitEntry>()
-const globalRateLimitMap = new Map<string, RateLimitEntry>()
-const RATE_LIMIT_WINDOW_MS = 60 * 1000
+// Database-backed rate limiter.
+//
+// This was previously a pair of in-memory Maps. That never limited anything:
+// isolates on this project cold-boot per request (function_logs showed ~2571
+// boots across ~2736 invocations), so each request got a fresh empty Map and
+// passed the check. Counters now live in public.api_rate_limits via the
+// mss_check_rate_limit() RPC, so they survive isolate death.
+//
+// Free Tier budget being defended: 5GB egress/mo, 500k invocations/mo.
+const RATE_LIMITS = {
+  // Per-IP, per-minute. Normal UI debounce stays well under these.
+  searchPerMinute: { bucket: 'search:min', max: 15, windowSeconds: 60 },
+  globalPerMinute: { bucket: 'all:min', max: 40, windowSeconds: 60 },
+  // Per-IP, per-day. Stops one device looping overnight.
+  searchPerDay: { bucket: 'search:day', max: 200, windowSeconds: 86_400 },
+  // PROJECT-WIDE daily search budget. This is the actual egress stop:
+  // per-IP limits do not bound total project egress, this does. Each search
+  // costs roughly 260KB of egress (corpus fetch + response), so 500/day
+  // keeps the monthly search spend near 4GB worst case, inside the 5GB cap
+  // with headroom for auth, storage and REST.
+  searchGlobalPerDay: { bucket: 'search:global:day', max: 500, windowSeconds: 86_400 },
+} as const
 
-// Free Tier limits:
-// 15 search queries per minute per IP (prevents search abuse while normal UI debounces)
-const MAX_SEARCH_REQUESTS_PER_WINDOW = 15
-// 40 total gateway requests per minute per IP (protects 500k monthly invocation pool)
-const MAX_GLOBAL_REQUESTS_PER_WINDOW = 40
+type RateLimitRule = { bucket: string; max: number; windowSeconds: number }
 
-function checkRateLimit(map: Map<string, RateLimitEntry>, clientIp: string, maxRequests: number): boolean {
-  const now = Date.now()
-  let entry = map.get(clientIp)
-  if (!entry) {
-    entry = { timestamps: [] }
-    map.set(clientIp, entry)
+// L1: if THIS isolate already saw a block for this key, reject without a
+// DB round-trip. Rarely hits given cold boots, but it is free.
+//
+// Stores an expiry rather than a bare key: a warm isolate that cached a block
+// at second 1 of a 60s window must stop honouring it once that window has
+// passed, otherwise the caller stays blocked until the isolate happens to die.
+const knownBlockedUntil = new Map<string, number>()
+
+/**
+ * Returns true when the caller is over the limit and should be blocked.
+ *
+ * `failClosed` decides what happens when the counter itself cannot be read.
+ * Expensive routes (search) fail CLOSED so a database problem can never turn
+ * into unmetered egress -- that is the failure mode that blew the quota. Cheap
+ * routes fail OPEN so a counter outage does not take the whole app down.
+ */
+async function isRateLimited(
+  supabase: SupabaseClient | null,
+  rule: RateLimitRule,
+  identifier: string,
+  failClosed: boolean,
+): Promise<boolean> {
+  const key = `${rule.bucket}:${identifier}`
+  const blockedUntil = knownBlockedUntil.get(key)
+  if (blockedUntil !== undefined) {
+    if (Date.now() < blockedUntil) return true
+    knownBlockedUntil.delete(key)
   }
 
-  // Periodic pruning if map grows large
-  if (map.size > 1000) {
-    for (const [ip, item] of map.entries()) {
-      item.timestamps = item.timestamps.filter((ts) => now - ts < RATE_LIMIT_WINDOW_MS)
-      if (item.timestamps.length === 0) {
-        map.delete(ip)
-      }
+  if (!supabase) return failClosed
+
+  try {
+    const { data, error } = await supabase.rpc('mss_check_rate_limit', {
+      p_bucket: rule.bucket,
+      p_identifier: identifier,
+      p_max_requests: rule.max,
+      p_window_seconds: rule.windowSeconds,
+    })
+    if (error) {
+      console.error(`rate_limit_rpc_error bucket=${rule.bucket}: ${error.message}`)
+      return failClosed
     }
-  } else {
-    entry.timestamps = entry.timestamps.filter((ts) => now - ts < RATE_LIMIT_WINDOW_MS)
+    const limited = data === true
+    if (limited) {
+      knownBlockedUntil.set(key, Date.now() + rule.windowSeconds * 1000)
+    }
+    return limited
+  } catch (error) {
+    console.error(`rate_limit_exception bucket=${rule.bucket}: ${(error as Error).message}`)
+    return failClosed
   }
-
-  if (entry.timestamps.length >= maxRequests) {
-    return true
-  }
-
-  entry.timestamps.push(now)
-  return false
 }
 
-function isSearchRateLimited(clientIp: string): boolean {
-  return checkRateLimit(searchRateLimitMap, clientIp, MAX_SEARCH_REQUESTS_PER_WINDOW)
-}
-
-function isGlobalRateLimited(clientIp: string): boolean {
-  return checkRateLimit(globalRateLimitMap, clientIp, MAX_GLOBAL_REQUESTS_PER_WINDOW)
+function tooManyRequests(retryAfterSeconds: number, message: string): Response {
+  return new Response(
+    JSON.stringify({ error: 'TOO_MANY_REQUESTS', message }),
+    {
+      status: 429,
+      headers: {
+        ...corsHeaders,
+        'Content-Type': 'application/json',
+        'Retry-After': String(retryAfterSeconds),
+      },
+    },
+  )
 }
 
 async function getSearchEngine(
@@ -186,19 +228,18 @@ serve(async (req) => {
                    req.headers.get('cf-connecting-ip') ||
                    'unknown-client'
 
-  // Global rate-limit check for Free Tier invocation protection (excluding health check)
-  if (route !== 'health' && isGlobalRateLimited(clientIp)) {
-    return new Response(JSON.stringify({
-      error: 'TOO_MANY_REQUESTS',
-      message: 'Rate limit exceeded for Free Tier quota protection. Please wait before retrying.',
-    }), {
-      status: 429,
-      headers: {
-        ...corsHeaders,
-        'Content-Type': 'application/json',
-        'Retry-After': '10',
-      },
-    })
+  const rateLimitClient = getServiceClient()
+
+  // Global per-IP invocation guard (health check exempt so uptime probes and
+  // the client's connectivity check never consume budget).
+  if (
+    route !== 'health' &&
+    await isRateLimited(rateLimitClient, RATE_LIMITS.globalPerMinute, clientIp, false)
+  ) {
+    return tooManyRequests(
+      10,
+      'Rate limit exceeded for Free Tier quota protection. Please wait before retrying.',
+    )
   }
 
   const json = (body: unknown, status = 200) =>
@@ -269,18 +310,17 @@ serve(async (req) => {
   }
 
   if (route === 'search' && req.method === 'POST') {
-    if (isSearchRateLimited(clientIp)) {
-      return new Response(JSON.stringify({
-        error: 'TOO_MANY_REQUESTS',
-        message: 'Rate limit exceeded. Please wait a moment before searching again.',
-      }), {
-        status: 429,
-        headers: {
-          ...corsHeaders,
-          'Content-Type': 'application/json',
-          'Retry-After': '5',
-        },
-      })
+    // Search is the only route that pulls the full corpus, so it carries
+    // essentially all of the egress cost. All three of its limits fail
+    // CLOSED: if we cannot account for a search, we do not serve it.
+    if (await isRateLimited(rateLimitClient, RATE_LIMITS.searchPerMinute, clientIp, true)) {
+      return tooManyRequests(5, 'Rate limit exceeded. Please wait a moment before searching again.')
+    }
+    if (await isRateLimited(rateLimitClient, RATE_LIMITS.searchPerDay, clientIp, true)) {
+      return tooManyRequests(3600, 'Daily search limit reached for this device. Please try again tomorrow.')
+    }
+    if (await isRateLimited(rateLimitClient, RATE_LIMITS.searchGlobalPerDay, '__project__', true)) {
+      return tooManyRequests(3600, 'Search is temporarily unavailable while daily capacity resets.')
     }
 
     try {

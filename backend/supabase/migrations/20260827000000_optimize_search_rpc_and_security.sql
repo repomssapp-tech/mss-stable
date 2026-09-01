@@ -44,5 +44,5 @@ as $$
 $$;
 
 -- Security Hardening: Revoke public access, grant strictly to service_role
-revoke execute on function public.mss_search_data() from anon, authenticated;
+revoke all on function public.mss_search_data() from public, anon, authenticated;
 grant execute on function public.mss_search_data() to service_role;

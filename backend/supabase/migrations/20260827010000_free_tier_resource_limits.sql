@@ -4,7 +4,7 @@
 --              Supabase Free Tier (500MB DB, 5GB bandwidth, shared 2 vCPU).
 
 -- 1. Statement timeouts: Abort runaway queries before they saturate shared compute
-alter role anon set statement_timeout = '5s';
+alter role anon set statement_timeout = '3s';
 alter role authenticated set statement_timeout = '8s';
 
 -- 2. Lock timeouts: Prevent contention and transaction backlogs
