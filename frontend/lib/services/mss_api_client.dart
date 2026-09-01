@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Exception thrown when an MSS API call fails or returns an error payload.
 @immutable
@@ -44,9 +45,45 @@ class MssApiClient {
     http.Client? client,
     String? baseUrl,
     this.timeout = const Duration(seconds: 10),
+    String Function()? authTokenProvider,
   })  : _providedClient = client,
         _ownsClient = client == null,
+        _authTokenProvider = authTokenProvider,
         baseUrl = baseUrl ?? defaultBaseUrl;
+
+  /// Project key sent as the `apikey` header and used as the fallback bearer
+  /// token for guests. This is the publishable key -- safe to ship in the
+  /// binary by design, and verified to satisfy the Edge Function gateway's
+  /// `verify_jwt` check.
+  static const String supabaseKey = String.fromEnvironment(
+    'MSS_SUPABASE_KEY',
+    defaultValue: 'sb_publishable_SwlgaGsCt5N-97WwEq7tQw_aNT25VUI',
+  );
+
+  final String Function()? _authTokenProvider;
+
+  /// Bearer token for `/v1` calls: the signed-in user's access token when a
+  /// session exists, otherwise [supabaseKey] so guests -- who never get a
+  /// Supabase session, since the app has no anonymous sign-in -- still pass
+  /// the gateway once the function runs with `verify_jwt: true`.
+  String _authToken() {
+    final provided = _authTokenProvider;
+    if (provided != null) return provided();
+    try {
+      final token = Supabase.instance.client.auth.currentSession?.accessToken;
+      if (token != null && token.isNotEmpty) return token;
+    } catch (_) {
+      // Supabase not initialised (unit tests, isolates) -- fall back below.
+    }
+    return supabaseKey;
+  }
+
+  Map<String, String> _headers({bool json = false}) => {
+        'Accept': 'application/json',
+        if (json) 'Content-Type': 'application/json',
+        'apikey': supabaseKey,
+        'Authorization': 'Bearer ${_authToken()}',
+      };
 
   /// Default Base URL configuration point.
   /// Overridden via `--dart-define=MSS_API_BASE_URL=...` or constructor argument.
@@ -284,7 +321,7 @@ class MssApiClient {
       final response = await _client
           .get(
             uri,
-            headers: const {'Accept': 'application/json'},
+            headers: _headers(),
           )
           .timeout(timeout);
 
@@ -323,10 +360,7 @@ class MssApiClient {
       final response = await _client
           .post(
             uri,
-            headers: const {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-            },
+            headers: _headers(json: true),
             body: jsonEncode(body),
           )
           .timeout(timeout);

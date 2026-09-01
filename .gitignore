@@ -15,6 +15,7 @@ __pycache__/
 .tools/
 scratch/
 .agents/skills/
+.gstack/
 .env
 .env.*
 !.env.example

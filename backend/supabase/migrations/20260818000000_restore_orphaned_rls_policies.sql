@@ -50,6 +50,7 @@
 -- ===========================================================
 
 -- 1. profiles INSERT -- restore verbatim from 20260812112500.
+revoke all on table public.profiles from anon;
 grant select, insert, update on table public.profiles to authenticated;
 drop policy if exists "Profiles insert access" on public.profiles;
 create policy "Profiles insert access"

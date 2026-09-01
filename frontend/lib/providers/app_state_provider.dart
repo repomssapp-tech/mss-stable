@@ -255,7 +255,20 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     },
   ];
 
+  // Guards against redundant re-subscription. `_subscribeToProfile` /
+  // `_subscribeToNotifications` are each called from the auth-state listener,
+  // `_loadState`, and `checkSessionAndFetchProfile`, which can all run on a
+  // single launch. Every re-subscribe tears down the socket and replays an
+  // initial full-table fetch, so the old unconditional version paid for the
+  // same rows two or three times per launch.
+  String? _subscribedProfileUserId;
+  String? _subscribedNotificationsUserId;
+
   void _subscribeToProfile(String userId) {
+    if (_profileSubscription != null && _subscribedProfileUserId == userId) {
+      return;
+    }
+    _subscribedProfileUserId = userId;
     _profileSubscription?.cancel();
     _profileSubscription = Supabase.instance.client
         .from('profiles')
@@ -317,9 +330,15 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   void _unsubscribeFromProfile() {
     _profileSubscription?.cancel();
     _profileSubscription = null;
+    _subscribedProfileUserId = null;
   }
 
   void _subscribeToNotifications(String userId) {
+    if (_notificationsSubscription != null &&
+        _subscribedNotificationsUserId == userId) {
+      return;
+    }
+    _subscribedNotificationsUserId = userId;
     _notificationsSubscription?.cancel();
     _notificationsSubscription = Supabase.instance.client
         .from('notifications')
@@ -405,6 +424,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   void _unsubscribeFromNotifications() {
     _notificationsSubscription?.cancel();
     _notificationsSubscription = null;
+    _subscribedNotificationsUserId = null;
   }
 
   void _setupAuthListener() {
@@ -471,6 +491,11 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         _currentTabIndex = 0;
         _promoAlerts = [];
         _draftSessions = [];
+        // Clear the throttle stamps too, or the next account to sign in on
+        // this device would be served the previous user's empty state until
+        // the throttle window expired.
+        _lastPromoFetch = null;
+        _lastDraftFetch = null;
         _unsubscribeFromProfile();
         _unsubscribeFromNotifications();
         _notificationsList = [];
@@ -1528,14 +1553,31 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     }
   }
 
-  Future<void> fetchDraftSessions() async {
+  DateTime? _lastDraftFetch;
+  static const Duration _draftFetchThrottle = Duration(minutes: 5);
+
+  /// Throttled like [fetchPromoAlerts]. This is called from four places --
+  /// the realtime profile stream, the auth-state listener, `_loadState`, and
+  /// `checkSessionAndFetchProfile` -- so an unthrottled version re-queried
+  /// `questionnaire_sessions` on every profile row change and several times
+  /// per app launch. Pass `force: true` after the user actually edits a draft.
+  Future<void> fetchDraftSessions({bool force = false}) async {
+    final now = DateTime.now();
+    if (!force &&
+        _lastDraftFetch != null &&
+        now.difference(_lastDraftFetch!) < _draftFetchThrottle) {
+      return;
+    }
+
     try {
       final userId = Supabase.instance.client.auth.currentUser?.id;
       if (userId == null) {
         _draftSessions = [];
+        _lastDraftFetch = null;
         notifyListeners();
         return;
       }
+      _lastDraftFetch = now;
 
       final res = await Supabase.instance.client
           .from('questionnaire_sessions')

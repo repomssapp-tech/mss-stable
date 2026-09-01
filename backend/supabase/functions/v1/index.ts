@@ -83,13 +83,104 @@ async function loadSchemeEntries(supabase: SupabaseClient): Promise<SchemeEntry[
 // requests, so caching here turns "network fetch + rebuild index" into an
 // in-memory hashmap lookup for every request after the first, cutting
 // search latency without touching the ranking algorithm or its output.
-// TTL-bounded (not indefinite) so an admin catalog edit is picked up
-// within a few minutes without needing a manual cache-bust; a cold start
-// (new isolate) always rebuilds fresh regardless of TTL.
+// TTL is 1 hour, with explicit invalidation available via POST /v1/cache-bust.
 let cachedEntries: SchemeEntry[] | null = null
 let cachedEngine: HybridSearchEngine | null = null
 let cacheLoadedAt = 0
-const CACHE_TTL_MS = 5 * 60 * 1000
+const CACHE_TTL_MS = 60 * 60 * 1000 // 1 hour TTL
+let loadingPromise: Promise<{ engine: HybridSearchEngine; entries: SchemeEntry[] }> | null = null
+
+// Database-backed rate limiter.
+//
+// This was previously a pair of in-memory Maps. That never limited anything:
+// isolates on this project cold-boot per request (function_logs showed ~2571
+// boots across ~2736 invocations), so each request got a fresh empty Map and
+// passed the check. Counters now live in public.api_rate_limits via the
+// mss_check_rate_limit() RPC, so they survive isolate death.
+//
+// Free Tier budget being defended: 5GB egress/mo, 500k invocations/mo.
+const RATE_LIMITS = {
+  // Per-IP, per-minute. Normal UI debounce stays well under these.
+  searchPerMinute: { bucket: 'search:min', max: 15, windowSeconds: 60 },
+  globalPerMinute: { bucket: 'all:min', max: 40, windowSeconds: 60 },
+  // Per-IP, per-day. Stops one device looping overnight.
+  searchPerDay: { bucket: 'search:day', max: 200, windowSeconds: 86_400 },
+  // PROJECT-WIDE daily search budget. This is the actual egress stop:
+  // per-IP limits do not bound total project egress, this does. Each search
+  // costs roughly 260KB of egress (corpus fetch + response), so 500/day
+  // keeps the monthly search spend near 4GB worst case, inside the 5GB cap
+  // with headroom for auth, storage and REST.
+  searchGlobalPerDay: { bucket: 'search:global:day', max: 500, windowSeconds: 86_400 },
+} as const
+
+type RateLimitRule = { bucket: string; max: number; windowSeconds: number }
+
+// L1: if THIS isolate already saw a block for this key, reject without a
+// DB round-trip. Rarely hits given cold boots, but it is free.
+//
+// Stores an expiry rather than a bare key: a warm isolate that cached a block
+// at second 1 of a 60s window must stop honouring it once that window has
+// passed, otherwise the caller stays blocked until the isolate happens to die.
+const knownBlockedUntil = new Map<string, number>()
+
+/**
+ * Returns true when the caller is over the limit and should be blocked.
+ *
+ * `failClosed` decides what happens when the counter itself cannot be read.
+ * Expensive routes (search) fail CLOSED so a database problem can never turn
+ * into unmetered egress -- that is the failure mode that blew the quota. Cheap
+ * routes fail OPEN so a counter outage does not take the whole app down.
+ */
+async function isRateLimited(
+  supabase: SupabaseClient | null,
+  rule: RateLimitRule,
+  identifier: string,
+  failClosed: boolean,
+): Promise<boolean> {
+  const key = `${rule.bucket}:${identifier}`
+  const blockedUntil = knownBlockedUntil.get(key)
+  if (blockedUntil !== undefined) {
+    if (Date.now() < blockedUntil) return true
+    knownBlockedUntil.delete(key)
+  }
+
+  if (!supabase) return failClosed
+
+  try {
+    const { data, error } = await supabase.rpc('mss_check_rate_limit', {
+      p_bucket: rule.bucket,
+      p_identifier: identifier,
+      p_max_requests: rule.max,
+      p_window_seconds: rule.windowSeconds,
+    })
+    if (error) {
+      console.error(`rate_limit_rpc_error bucket=${rule.bucket}: ${error.message}`)
+      return failClosed
+    }
+    const limited = data === true
+    if (limited) {
+      knownBlockedUntil.set(key, Date.now() + rule.windowSeconds * 1000)
+    }
+    return limited
+  } catch (error) {
+    console.error(`rate_limit_exception bucket=${rule.bucket}: ${(error as Error).message}`)
+    return failClosed
+  }
+}
+
+function tooManyRequests(retryAfterSeconds: number, message: string): Response {
+  return new Response(
+    JSON.stringify({ error: 'TOO_MANY_REQUESTS', message }),
+    {
+      status: 429,
+      headers: {
+        ...corsHeaders,
+        'Content-Type': 'application/json',
+        'Retry-After': String(retryAfterSeconds),
+      },
+    },
+  )
+}
 
 async function getSearchEngine(
   supabase: SupabaseClient
@@ -98,12 +189,26 @@ async function getSearchEngine(
   if (cachedEngine && cachedEntries && now - cacheLoadedAt < CACHE_TTL_MS) {
     return { engine: cachedEngine, entries: cachedEntries }
   }
-  const entries = await loadSchemeEntries(supabase)
-  const engine = new HybridSearchEngine(entries)
-  cachedEntries = entries
-  cachedEngine = engine
-  cacheLoadedAt = now
-  return { engine, entries }
+
+  // Singleflight: Coalesce concurrent requests into a single database fetch
+  if (loadingPromise) {
+    return loadingPromise
+  }
+
+  loadingPromise = (async () => {
+    try {
+      const entries = await loadSchemeEntries(supabase)
+      const engine = new HybridSearchEngine(entries)
+      cachedEntries = entries
+      cachedEngine = engine
+      cacheLoadedAt = Date.now()
+      return { engine, entries }
+    } finally {
+      loadingPromise = null
+    }
+  })()
+
+  return loadingPromise
 }
 
 serve(async (req) => {
@@ -119,6 +224,24 @@ serve(async (req) => {
   const subRoute = pathParts[2]
   const subSubRoute = pathParts[3]
 
+  const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
+                   req.headers.get('cf-connecting-ip') ||
+                   'unknown-client'
+
+  const rateLimitClient = getServiceClient()
+
+  // Global per-IP invocation guard (health check exempt so uptime probes and
+  // the client's connectivity check never consume budget).
+  if (
+    route !== 'health' &&
+    await isRateLimited(rateLimitClient, RATE_LIMITS.globalPerMinute, clientIp, false)
+  ) {
+    return tooManyRequests(
+      10,
+      'Rate limit exceeded for Free Tier quota protection. Please wait before retrying.',
+    )
+  }
+
   const json = (body: unknown, status = 200) =>
     new Response(JSON.stringify(body), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -127,6 +250,22 @@ serve(async (req) => {
 
   if (route === 'health') {
     return json({ status: 'ok' })
+  }
+
+  // POST /v1/cache-bust -- explicitly busts the in-memory search index cache
+  // (e.g. after a catalog import or publication). Requires service_role key.
+  if (route === 'cache-bust' && req.method === 'POST') {
+    const authHeader = req.headers.get('authorization') ?? ''
+    const apikeyHeader = req.headers.get('apikey') ?? ''
+    const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+    if (!serviceRoleKey || (!authHeader.includes(serviceRoleKey) && apikeyHeader !== serviceRoleKey)) {
+      return json({ error: 'UNAUTHORIZED', message: 'Service role authorization required' }, 401)
+    }
+    cachedEntries = null
+    cachedEngine = null
+    cacheLoadedAt = 0
+    loadingPromise = null
+    return json({ status: 'ok', message: 'Search engine cache invalidated' })
   }
 
   if (route === 'meta') {
@@ -171,6 +310,19 @@ serve(async (req) => {
   }
 
   if (route === 'search' && req.method === 'POST') {
+    // Search is the only route that pulls the full corpus, so it carries
+    // essentially all of the egress cost. All three of its limits fail
+    // CLOSED: if we cannot account for a search, we do not serve it.
+    if (await isRateLimited(rateLimitClient, RATE_LIMITS.searchPerMinute, clientIp, true)) {
+      return tooManyRequests(5, 'Rate limit exceeded. Please wait a moment before searching again.')
+    }
+    if (await isRateLimited(rateLimitClient, RATE_LIMITS.searchPerDay, clientIp, true)) {
+      return tooManyRequests(3600, 'Daily search limit reached for this device. Please try again tomorrow.')
+    }
+    if (await isRateLimited(rateLimitClient, RATE_LIMITS.searchGlobalPerDay, '__project__', true)) {
+      return tooManyRequests(3600, 'Search is temporarily unavailable while daily capacity resets.')
+    }
+
     try {
       const supabase = getServiceClient()
       if (!supabase) return json({ error: 'Supabase environment variables are missing' }, 500)
