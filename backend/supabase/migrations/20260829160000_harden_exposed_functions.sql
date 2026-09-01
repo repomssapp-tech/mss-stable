@@ -7,17 +7,32 @@
 --           Companion to the Edge Function change flipping `v1` to
 --           verify_jwt = true. Together these mean: no route into this
 --           project answers an unauthenticated caller.
+--
+--           Every function touched below (except public.delete_user) was
+--           created OUT OF BAND on the hosted project and is defined by no
+--           migration -- rls_auto_enable, catalog.mss_search,
+--           catalog.mss_localized_text, catalog.mss_search_document. So each
+--           statement is guarded on the object actually existing; on a fresh
+--           `supabase db reset` it simply logs and skips. Reconciling those
+--           definitions into migrations is tracked with chat_logs /
+--           auth_user_id.
 -- ===========================================================
 
 -- 1. public.rls_auto_enable() -----------------------------------------
--- This is an EVENT TRIGGER function: it calls pg_event_trigger_ddl_commands(),
--- which raises unless invoked by the event trigger manager, and it only ever
--- ENABLES row level security (never disables). So a direct RPC call is
--- harmless today -- but it has no business being reachable at
--- /rest/v1/rpc/rls_auto_enable by an anonymous caller. Revoke outright; the
--- event trigger continues to fire because triggers run as the trigger owner,
--- not via EXECUTE privilege.
-revoke all on function public.rls_auto_enable() from public, anon, authenticated;
+-- EVENT TRIGGER function: calls pg_event_trigger_ddl_commands() (raises
+-- unless invoked by the event trigger manager) and only ever ENABLES row
+-- level security. A direct RPC call is harmless, but it has no business
+-- being reachable at /rest/v1/rpc/rls_auto_enable by an anonymous caller.
+-- Revoke outright; the event trigger keeps firing because triggers run as
+-- the trigger owner, not via EXECUTE privilege.
+do $$
+begin
+  if to_regprocedure('public.rls_auto_enable()') is not null then
+    execute 'revoke all on function public.rls_auto_enable() from public, anon, authenticated';
+  else
+    raise notice 'public.rls_auto_enable() absent -- skipping (out-of-band object)';
+  end if;
+end $$;
 
 -- 2. public.delete_user() ---------------------------------------------
 -- Guarded internally (raises unless auth.uid() is present), so anon calls
@@ -28,19 +43,32 @@ revoke all on function public.delete_user() from public, anon;
 grant execute on function public.delete_user() to authenticated;
 
 -- 3. Pin search_path on the remaining flagged functions ----------------
--- All four are SECURITY INVOKER, so a mutable search_path is not a
+-- All are SECURITY INVOKER, so a mutable search_path is not a
 -- privilege-escalation route here -- they run with the caller's rights.
 -- Pinning it is still correct hygiene and clears the advisor warning.
--- This is a config-only change: function bodies are untouched, and the
--- resolution order below is the one they already relied on implicitly.
-alter function public.safe_cast_to_numeric(text)
-  set search_path = public, extensions;
+-- Bodies are untouched; the resolution order below is the one they already
+-- relied on implicitly.
+do $$
+begin
+  if to_regprocedure('public.safe_cast_to_numeric(text)') is not null then
+    execute 'alter function public.safe_cast_to_numeric(text) set search_path = public, extensions';
+  end if;
 
-alter function catalog.mss_localized_text(jsonb, text)
-  set search_path = catalog, public, extensions;
+  if to_regprocedure('catalog.mss_localized_text(jsonb, text)') is not null then
+    execute 'alter function catalog.mss_localized_text(jsonb, text) set search_path = catalog, public, extensions';
+  else
+    raise notice 'catalog.mss_localized_text(jsonb, text) absent -- skipping (out-of-band object)';
+  end if;
 
-alter function catalog.mss_search_document(jsonb)
-  set search_path = catalog, public, extensions;
+  if to_regprocedure('catalog.mss_search_document(jsonb)') is not null then
+    execute 'alter function catalog.mss_search_document(jsonb) set search_path = catalog, public, extensions';
+  else
+    raise notice 'catalog.mss_search_document(jsonb) absent -- skipping (out-of-band object)';
+  end if;
 
-alter function catalog.mss_search(text, text, text[], integer, integer)
-  set search_path = catalog, public, extensions;
+  if to_regprocedure('catalog.mss_search(text, text, text[], integer, integer)') is not null then
+    execute 'alter function catalog.mss_search(text, text, text[], integer, integer) set search_path = catalog, public, extensions';
+  else
+    raise notice 'catalog.mss_search(text, text, text[], integer, integer) absent -- skipping (out-of-band object)';
+  end if;
+end $$;

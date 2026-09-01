@@ -114,11 +114,15 @@ select throws_ok(
 -- catalog.* is intentionally never exposed directly (not in PostgREST's
 -- exposed schemas, no schema-level USAGE grant for anon/authenticated
 -- either) -- all access goes through public-schema security definer RPCs.
--- mss_scheme_detail() is the actual anonymous-discovery entry point the
--- app/API use.
-select lives_ok(
+-- Since 20260828160000_lock_down_remaining_catalog_rpcs, those public-schema
+-- catalog RPCs are service_role-only as well: anonymous discovery now goes
+-- exclusively through the JWT-gated v1 Edge Function (which calls them with
+-- the service role). A direct anon call must be denied.
+select throws_ok(
   $$select public.mss_scheme_detail('SCH000001')$$,
-  'the administration migration preserves anonymous scheme discovery'
+  '42501',
+  'permission denied for function mss_scheme_detail',
+  'anon cannot call catalog RPCs directly after the egress lockdown'
 );
 reset role;
 
