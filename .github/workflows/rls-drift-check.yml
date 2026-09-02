@@ -4,6 +4,9 @@ name: RLS Drift Check
 # dashboard / manual SQL edits never pass through `supabase db reset` and so
 # are invisible to the backend-database.yml job.
 #
+# Fails CLOSED: if SUPABASE_DB_URL is not configured, this job goes RED rather
+# than silently passing -- an unverified live RLS posture is not a healthy one.
+#
 # Requires one repository secret:
 #   SUPABASE_DB_URL  -- a Postgres connection string for the hosted project
 #                       using a role that may EXECUTE
@@ -43,11 +46,15 @@ jobs:
         run: |
           set -euo pipefail
           if [ -z "${SUPABASE_DB_URL:-}" ]; then
-            echo "::warning::SUPABASE_DB_URL secret not set -- skipping live RLS drift check"
-            echo "### RLS Drift Check skipped" >> "$GITHUB_STEP_SUMMARY"
-            echo "Add the \`SUPABASE_DB_URL\` repository secret to enable it." >> "$GITHUB_STEP_SUMMARY"
-            echo "count=0" >> "$GITHUB_OUTPUT"
-            exit 0
+            echo "::error::SUPABASE_DB_URL secret is not set -- live RLS posture is UNVERIFIED. This control fails closed: configure the secret to enable it."
+            {
+              echo "### RLS Drift Check NOT CONFIGURED"
+              echo ""
+              echo "The \`SUPABASE_DB_URL\` repository secret is missing, so the live project's"
+              echo "RLS posture is **not being verified**. See the comment at the top of"
+              echo "\`.github/workflows/rls-drift-check.yml\` for how to add it."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 1
           fi
           psql "$SUPABASE_DB_URL" -X -A -t -v ON_ERROR_STOP=1 \
             -c "select scope || ' :: ' || object || ' -- ' || issue
