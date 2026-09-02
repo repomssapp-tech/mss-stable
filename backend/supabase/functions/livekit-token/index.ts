@@ -205,7 +205,11 @@ export function createLiveKitTokenHandler(
     const livekitApiKey = dependencies.getEnv("LIVEKIT_API_KEY");
     const livekitApiSecret = dependencies.getEnv("LIVEKIT_API_SECRET");
     const supabaseUrl = dependencies.getEnv("SUPABASE_URL");
-    const supabaseAnonKey = dependencies.getEnv("SUPABASE_ANON_KEY");
+    // Publishable tier: this only validates a user JWT via auth.getUser /
+    // PostgREST-with-user-Authorization. New publishable key first, legacy anon
+    // var as migration fallback.
+    const supabaseAnonKey = dependencies.getEnv("SUPABASE_PUBLISHABLE_KEY") ??
+      dependencies.getEnv("SUPABASE_ANON_KEY");
     const agentName = dependencies.getEnv("LIVEKIT_AGENT_NAME") ||
       "saarthi-agent";
 

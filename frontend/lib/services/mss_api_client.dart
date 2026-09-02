@@ -54,11 +54,11 @@ class MssApiClient {
   /// Project key sent as the `apikey` header and used as the fallback bearer
   /// token for guests. This is the publishable key -- safe to ship in the
   /// binary by design, and verified to satisfy the Edge Function gateway's
-  /// `verify_jwt` check.
-  static const String supabaseKey = String.fromEnvironment(
-    'MSS_SUPABASE_KEY',
-    defaultValue: 'sb_publishable_SwlgaGsCt5N-97WwEq7tQw_aNT25VUI',
-  );
+  /// `verify_jwt` check. Supplied via `--dart-define-from-file=dart_defines.json`
+  /// (key `SUPABASE_PUBLISHABLE_KEY`, unified with main.dart); no literal
+  /// default is compiled in.
+  static const String supabaseKey =
+      String.fromEnvironment('SUPABASE_PUBLISHABLE_KEY');
 
   final String Function()? _authTokenProvider;
 

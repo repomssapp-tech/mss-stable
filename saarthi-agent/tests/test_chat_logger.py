@@ -236,10 +236,10 @@ class TestChatLogger(unittest.TestCase):
         self.assertEqual(self.dispatched_payloads[0]["metadata"]["latency_ms"], 320)
 
     @patch("chat_logger.urllib.request.urlopen")
-    def test_12_missing_service_role_key_fails_loud_once_never_hardcoded(
+    def test_12_missing_key_fails_loud_once_never_hardcoded(
         self, urlopen_mock: MagicMock
     ) -> None:
-        """12. With no service-role key: no key is stored (never a hardcoded one),
+        """12. With no key of any kind: no key is stored (never a hardcoded one),
         no HTTP is attempted, and the failure is logged exactly once, not per turn."""
         with patch.dict(os.environ, {}, clear=True):
             logger = ChatLogger(
@@ -265,25 +265,56 @@ class TestChatLogger(unittest.TestCase):
         self.assertIsNone(second)
         urlopen_mock.assert_not_called()
         self.assertEqual(len(captured.records), 1)
-        self.assertIn("SUPABASE_SERVICE_ROLE_KEY", captured.output[0])
+        self.assertIn("SUPABASE_SECRET_KEY", captured.output[0])
 
-    def test_13_service_role_key_used_for_apikey_and_bearer(self) -> None:
-        """13. SUPABASE_SERVICE_ROLE_KEY is the exact value used for both headers."""
+    def test_13_secret_key_env_used_for_apikey_and_bearer(self) -> None:
+        """13. SUPABASE_SECRET_KEY (new key tier) is the exact value used for both headers."""
         with patch.dict(
-            os.environ, {"SUPABASE_SERVICE_ROLE_KEY": "svc-role-secret-xyz"}, clear=True
+            os.environ, {"SUPABASE_SECRET_KEY": "sb_secret_xyz"}, clear=True
         ):
             logger = ChatLogger(
                 supabase_url="https://houpzsxmwemoztpuigmo.supabase.co",
                 table_name="chat_logs",
             )
 
-        self.assertEqual(logger.supabase_key, "svc-role-secret-xyz")
+        self.assertEqual(logger.supabase_key, "sb_secret_xyz")
         headers = logger._get_headers()
-        self.assertEqual(headers["apikey"], "svc-role-secret-xyz")
-        self.assertEqual(headers["Authorization"], "Bearer svc-role-secret-xyz")
+        self.assertEqual(headers["apikey"], "sb_secret_xyz")
+        self.assertEqual(headers["Authorization"], "Bearer sb_secret_xyz")
 
-    def test_14_no_hardcoded_supabase_key_literal_in_module(self) -> None:
-        """14. The module carries no publishable/secret key literal and no default-key const."""
+    def test_14_legacy_service_role_key_still_accepted_as_fallback(self) -> None:
+        """14. Legacy SUPABASE_SERVICE_ROLE_KEY still works while the migration is staged."""
+        with patch.dict(
+            os.environ,
+            {"SUPABASE_SERVICE_ROLE_KEY": "legacy-svc-role-secret"},
+            clear=True,
+        ):
+            logger = ChatLogger(
+                supabase_url="https://houpzsxmwemoztpuigmo.supabase.co",
+                table_name="chat_logs",
+            )
+
+        self.assertEqual(logger.supabase_key, "legacy-svc-role-secret")
+
+    def test_15_secret_key_takes_precedence_over_legacy(self) -> None:
+        """15. When both are set, the new SUPABASE_SECRET_KEY wins."""
+        with patch.dict(
+            os.environ,
+            {
+                "SUPABASE_SECRET_KEY": "sb_secret_new",
+                "SUPABASE_SERVICE_ROLE_KEY": "legacy-svc-role",
+            },
+            clear=True,
+        ):
+            logger = ChatLogger(
+                supabase_url="https://houpzsxmwemoztpuigmo.supabase.co",
+                table_name="chat_logs",
+            )
+
+        self.assertEqual(logger.supabase_key, "sb_secret_new")
+
+    def test_16_no_hardcoded_supabase_key_literal_in_module(self) -> None:
+        """16. The module carries no publishable/secret key literal and no default-key const."""
         import chat_logger as chat_logger_module
 
         source = inspect.getsource(chat_logger_module)
@@ -292,8 +323,8 @@ class TestChatLogger(unittest.TestCase):
         self.assertFalse(hasattr(chat_logger_module, "DEFAULT_SUPABASE_KEY"))
 
     @patch("chat_logger.urllib.request.urlopen")
-    def test_15_legacy_supabase_key_env_vars_are_inert(self, urlopen_mock: MagicMock) -> None:
-        """15. SUPABASE_KEY / SUPABASE_ANON_KEY present but no SUPABASE_SERVICE_ROLE_KEY:
+    def test_17_legacy_publishable_env_vars_are_inert(self, urlopen_mock: MagicMock) -> None:
+        """17. SUPABASE_KEY / SUPABASE_ANON_KEY present but no secret/service-role key:
         the removed fallbacks are truly dead -- key stays None, nothing is dispatched."""
         with patch.dict(
             os.environ,
