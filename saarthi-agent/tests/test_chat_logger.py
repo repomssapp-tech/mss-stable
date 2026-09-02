@@ -291,6 +291,38 @@ class TestChatLogger(unittest.TestCase):
         self.assertNotIn("sb_secret_", source)
         self.assertFalse(hasattr(chat_logger_module, "DEFAULT_SUPABASE_KEY"))
 
+    @patch("chat_logger.urllib.request.urlopen")
+    def test_15_legacy_supabase_key_env_vars_are_inert(self, urlopen_mock: MagicMock) -> None:
+        """15. SUPABASE_KEY / SUPABASE_ANON_KEY present but no SUPABASE_SERVICE_ROLE_KEY:
+        the removed fallbacks are truly dead -- key stays None, nothing is dispatched."""
+        with patch.dict(
+            os.environ,
+            {
+                "SUPABASE_KEY": "sb_publishable_legacy_key",
+                "SUPABASE_ANON_KEY": "sb_publishable_anon_key",
+            },
+            clear=True,
+        ):
+            logger = ChatLogger(
+                supabase_url="https://houpzsxmwemoztpuigmo.supabase.co",
+                table_name="chat_logs",
+            )
+
+        self.assertIsNone(logger.supabase_key)
+
+        result = logger._insert_supabase_row(
+            {
+                "conversation_uid": "uid-1",
+                "turn_index": 1,
+                "mode": "text",
+                "user_message": "hi",
+                "ai_message": "hello",
+                "metadata": {},
+            }
+        )
+        self.assertIsNone(result)
+        urlopen_mock.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()
