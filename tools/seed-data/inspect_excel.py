@@ -4,7 +4,7 @@ import sys
 # Set standard output to UTF-8
 sys.stdout.reconfigure(encoding='utf-8')
 
-wb = openpyxl.load_workbook('../IN_Schemes_Master_Data_Collection_Template.xlsx')
+wb = openpyxl.load_workbook('IN_Schemes_Master_Data_Collection_Template.xlsx')
 print("Sheets in workbook:")
 for sheet in wb.sheetnames:
     ws = wb[sheet]

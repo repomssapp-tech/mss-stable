@@ -30,7 +30,7 @@ class StoredSchemeCatalog {
 }
 
 /// Real on-device persistence for downloaded catalog releases, per
-/// MSS_ANTIGRAVITY_HANDOFF/architecture_docs/UPDATE_FLOW_SPECIFICATION.md:
+/// docs/handoff/architecture_docs/UPDATE_FLOW_SPECIFICATION.md:
 /// download to a versioned directory, verify SHA-256, and only then flip an
 /// "active" pointer file -- so a failed or partial install can never corrupt
 /// or replace a working installed release. The previously active release's

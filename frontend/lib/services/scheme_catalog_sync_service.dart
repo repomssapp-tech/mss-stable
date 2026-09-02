@@ -30,18 +30,9 @@ abstract class CatalogReleaseSource {
   Future<Uint8List> fetchPayload(CatalogManifest manifest);
 }
 
-/// Reads release identity from `public.mss_current_release()` (the
-/// corrected, Storage-backed architecture -- see
-/// MSS_ANTIGRAVITY_HANDOFF/architecture_docs/OFFLINE_CLOUD_SYNC_ARCHITECTURE.md)
-/// and downloads the actual release artifact from the `catalogs` Storage
-/// bucket, under `releases/<releaseVersion>/catalog_bundle.json.gz`.
-///
-/// Replaces a prior implementation that queried a `public.catalog_releases`
-/// table from an earlier, superseded schema
-/// (`20260730090000_catalog_releases.sql`, tied to a `public.schemes`
-/// four-section-JSON format) that no longer exists in the live database --
-/// see UPDATE_FLOW_SPECIFICATION.md §6 for the full history. That table is
-/// not referenced here at all.
+/// Reads release identity from `public.mss_current_release()` and
+/// downloads the release artifact from the `catalogs` Storage bucket,
+/// under `releases/<releaseVersion>/catalog_bundle.json.gz`.
 class SupabaseCatalogReleaseSource implements CatalogReleaseSource {
   SupabaseCatalogReleaseSource(this._client);
 
@@ -79,7 +70,7 @@ class SchemeCatalogSyncService {
     CatalogReleaseSource? source,
     SchemeCatalogStore? store,
     Duration timeout = const Duration(seconds: 8),
-    Duration throttle = const Duration(hours: 1),
+    Duration throttle = const Duration(seconds: 2),
     DateTime Function()? clock,
   }) : _source = source,
        _store = store ?? SchemeCatalogStore.instance,

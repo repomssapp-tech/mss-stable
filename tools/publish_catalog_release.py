@@ -6,7 +6,7 @@ up automatically -- no Play Store release, no user action required.
 This exists because that flow used to be five manual, error-prone steps
 (rebuild the bundle, regenerate + apply catalog.* import SQL, upload to
 Storage, flip the current-release pointer, verify) -- see
-MSS_ANTIGRAVITY_HANDOFF/architecture_docs/UPDATE_FLOW_SPECIFICATION.md for
+docs/handoff/architecture_docs/UPDATE_FLOW_SPECIFICATION.md for
 why the two-representation (catalog.* tables for the live API, Storage
 release snapshot for the offline bundle) design requires doing both.
 

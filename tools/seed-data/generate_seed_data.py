@@ -622,7 +622,7 @@ print(f"Generated data for {len(schemes_list)} schemes.")
 
 # 1. Update Excel workbook
 print("Populating Excel sheets...")
-excel_path = '../IN_Schemes_Master_Data_Collection_Template.xlsx'
+excel_path = 'IN_Schemes_Master_Data_Collection_Template.xlsx'
 wb = openpyxl.load_workbook(excel_path)
 
 # Clear existing contents under headers for sheet 1, 2, 3, 4, 5, 6
