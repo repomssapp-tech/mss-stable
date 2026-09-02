@@ -20,8 +20,15 @@ from typing import Any
 logger = logging.getLogger("chat_logger")
 
 DEFAULT_SUPABASE_URL = "https://houpzsxmwemoztpuigmo.supabase.co"
-DEFAULT_SUPABASE_KEY = "sb_publishable_SwlgaGsCt5N-97WwEq7tQw_aNT25VUI"
 DEFAULT_LOGS_TABLE = "chat_logs"
+
+MISSING_KEY_MESSAGE = (
+    "ChatLogger requires SUPABASE_SERVICE_ROLE_KEY (a server-side Supabase "
+    "service-role key) or an explicit supabase_key argument. public.chat_logs "
+    "denies client SELECT and only service_role may write telemetry rows, so "
+    "no anon/publishable key can be used as a fallback. Chat logging is "
+    "disabled until a service-role key is configured."
+)
 
 
 class ChatLogger:
@@ -39,7 +46,11 @@ class ChatLogger:
         Args:
             supabase_url: Target Supabase project base URL. Defaults to SUPABASE_URL env var
                 or https://houpzsxmwemoztpuigmo.supabase.co.
-            supabase_key: Supabase API / anon / service_role key. Defaults to SUPABASE_KEY env var.
+            supabase_key: Supabase service-role key. Defaults to the SUPABASE_SERVICE_ROLE_KEY
+                env var only. No anon/publishable-key fallback exists: public.chat_logs denies
+                client reads and grants writes to service_role alone. When neither source
+                provides a key, the logger stores None and refuses to dispatch (logging once,
+                loudly, on the first attempt) instead of silently using a key that cannot write.
             table_name: Database table name for logs. Defaults to 'chat_logs'.
             http_timeout: Network timeout for HTTP requests in seconds.
         """
@@ -49,17 +60,15 @@ class ChatLogger:
             or DEFAULT_SUPABASE_URL
         ).rstrip("/")
 
-        self.supabase_key = (
-            supabase_key
-            or os.getenv("SUPABASE_SERVICE_ROLE_KEY")
-            or os.getenv("SUPABASE_KEY")
-            or os.getenv("SUPABASE_ANON_KEY")
-            or DEFAULT_SUPABASE_KEY
+        resolved_key = (
+            supabase_key or os.getenv("SUPABASE_SERVICE_ROLE_KEY") or ""
         ).strip()
+        self.supabase_key: str | None = resolved_key or None
 
         self.table_name = table_name or os.getenv("SUPABASE_LOGS_TABLE") or DEFAULT_LOGS_TABLE
         self.http_timeout = http_timeout
 
+        self._missing_key_logged = False
         self._lock = threading.Lock()
         self._conversations: list[dict[str, Any]] = []
         self._turn_counters: dict[str, int] = {}
@@ -75,7 +84,19 @@ class ChatLogger:
         }
 
     def _insert_supabase_row(self, payload: dict[str, Any]) -> dict[str, Any] | None:
-        """Send a single turn record to the Supabase chat_logs table."""
+        """Send a single turn record to the Supabase chat_logs table.
+
+        If no service-role key is configured, refuse to dispatch. The failure is
+        reported once at ERROR level and then suppressed, so a misconfigured
+        deployment is loud on startup traffic without spamming a line per turn
+        and without ever falling back to a key that cannot write.
+        """
+        if not self.supabase_key:
+            if not self._missing_key_logged:
+                self._missing_key_logged = True
+                logger.error(MISSING_KEY_MESSAGE)
+            return None
+
         endpoint = f"{self.supabase_url}/rest/v1/{self.table_name}"
         data_bytes = json.dumps(payload, ensure_ascii=False).encode("utf-8")
         req = urllib.request.Request(

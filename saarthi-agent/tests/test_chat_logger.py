@@ -22,7 +22,9 @@ Tests all cloud logging scenarios:
 from __future__ import annotations
 
 import concurrent.futures
+import inspect
 import json
+import os
 import unittest
 from pathlib import Path
 from unittest.mock import MagicMock, patch
@@ -232,6 +234,62 @@ class TestChatLogger(unittest.TestCase):
         self.assertEqual(len(self.dispatched_payloads), 1)
         self.assertEqual(self.dispatched_payloads[0]["metadata"]["scheme_code"], "TN-101")
         self.assertEqual(self.dispatched_payloads[0]["metadata"]["latency_ms"], 320)
+
+    @patch("chat_logger.urllib.request.urlopen")
+    def test_12_missing_service_role_key_fails_loud_once_never_hardcoded(
+        self, urlopen_mock: MagicMock
+    ) -> None:
+        """12. With no service-role key: no key is stored (never a hardcoded one),
+        no HTTP is attempted, and the failure is logged exactly once, not per turn."""
+        with patch.dict(os.environ, {}, clear=True):
+            logger = ChatLogger(
+                supabase_url="https://houpzsxmwemoztpuigmo.supabase.co",
+                table_name="chat_logs",
+            )
+
+        self.assertIsNone(logger.supabase_key)
+
+        payload = {
+            "conversation_uid": "uid-1",
+            "turn_index": 1,
+            "mode": "text",
+            "user_message": "hi",
+            "ai_message": "hello",
+            "metadata": {},
+        }
+        with self.assertLogs("chat_logger", level="ERROR") as captured:
+            first = logger._insert_supabase_row(payload)
+            second = logger._insert_supabase_row(payload)
+
+        self.assertIsNone(first)
+        self.assertIsNone(second)
+        urlopen_mock.assert_not_called()
+        self.assertEqual(len(captured.records), 1)
+        self.assertIn("SUPABASE_SERVICE_ROLE_KEY", captured.output[0])
+
+    def test_13_service_role_key_used_for_apikey_and_bearer(self) -> None:
+        """13. SUPABASE_SERVICE_ROLE_KEY is the exact value used for both headers."""
+        with patch.dict(
+            os.environ, {"SUPABASE_SERVICE_ROLE_KEY": "svc-role-secret-xyz"}, clear=True
+        ):
+            logger = ChatLogger(
+                supabase_url="https://houpzsxmwemoztpuigmo.supabase.co",
+                table_name="chat_logs",
+            )
+
+        self.assertEqual(logger.supabase_key, "svc-role-secret-xyz")
+        headers = logger._get_headers()
+        self.assertEqual(headers["apikey"], "svc-role-secret-xyz")
+        self.assertEqual(headers["Authorization"], "Bearer svc-role-secret-xyz")
+
+    def test_14_no_hardcoded_supabase_key_literal_in_module(self) -> None:
+        """14. The module carries no publishable/secret key literal and no default-key const."""
+        import chat_logger as chat_logger_module
+
+        source = inspect.getsource(chat_logger_module)
+        self.assertNotIn("sb_publishable_", source)
+        self.assertNotIn("sb_secret_", source)
+        self.assertFalse(hasattr(chat_logger_module, "DEFAULT_SUPABASE_KEY"))
 
 
 if __name__ == "__main__":
