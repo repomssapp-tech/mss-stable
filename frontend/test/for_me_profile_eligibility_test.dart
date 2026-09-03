@@ -98,6 +98,14 @@ void main() {
     });
 
     test('Exact count consistency between computed eligible count and filtered list count', () {
+      // NOTE: under the additive engine a scheme must have at least one
+      // SUBSTANTIVELY matched facet to clear the gate — a fixture with zero
+      // eligibility data no longer passes just because the engine defaults
+      // high (that was the Phase 2 bug). So TN_1 / ALL_1 / KA_1 now declare
+      // an age range this profile (age ~30) satisfies. The test's actual
+      // intent is unchanged: a state mismatch (KA_1) and a gender/category
+      // mismatch (STANDUP_INDIA for a Male OBC) are still hard-excluded, and
+      // exactly the two control schemes pass.
       final profile = UserProfile(
         gender: 'Male',
         state: 'Tamil Nadu',
@@ -113,6 +121,8 @@ void main() {
           state: 'Tamil Nadu',
           category: 'MSME',
           sponsoringBody: 'TN Govt',
+          eligibilityMinAge: 18,
+          eligibilityMaxAge: 45,
         ),
         Scheme(
           id: 'ALL_1',
@@ -120,6 +130,8 @@ void main() {
           state: 'All India',
           category: 'MSME',
           sponsoringBody: 'MSME',
+          eligibilityMinAge: 18,
+          eligibilityMaxAge: 45,
         ),
         Scheme(
           id: 'KA_1',
@@ -127,6 +139,8 @@ void main() {
           state: 'Karnataka',
           category: 'MSME',
           sponsoringBody: 'KA Govt',
+          eligibilityMinAge: 18,
+          eligibilityMaxAge: 45,
         ),
         Scheme(
           id: 'STANDUP_INDIA',
