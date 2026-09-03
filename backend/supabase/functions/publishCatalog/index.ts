@@ -16,7 +16,7 @@ serve(async (req: Request): Promise<Response> => {
     // New secret API key first, legacy service-role var as migration fallback.
     // No anon/publishable fallback: this is a write/publish path and must never
     // run on a read-only key.
-    const supabaseServiceKey = Deno.env.get('SUPABASE_SECRET_KEY') ?? Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+    const supabaseServiceKey = Deno.env.get('SB_SECRET_KEY') ?? Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
 
     if (!supabaseUrl || !supabaseServiceKey) {
       return new Response(
