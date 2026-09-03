@@ -63,7 +63,7 @@ serve(async (req) => {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')
     // TODO: dead since 20260818000000 (RPCs dropped); delete separately
     // Publishable tier: new publishable key first, legacy anon var as fallback.
-    const supabaseAnonKey = Deno.env.get('SUPABASE_PUBLISHABLE_KEY') ?? Deno.env.get('SUPABASE_ANON_KEY')
+    const supabaseAnonKey = Deno.env.get('SB_PUBLISHABLE_KEY') ?? Deno.env.get('SUPABASE_ANON_KEY')
     const openAiApiKey = Deno.env.get('OPENAI_API_KEY')
 
     if (!supabaseUrl || !supabaseAnonKey) {

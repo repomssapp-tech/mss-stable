@@ -14,10 +14,10 @@ Project ref: `houpzsxmwemoztpuigmo`.
 | Runtime | Old source | New env var | Tier | Set where |
 |---|---|---|---|---|
 | Flutter app | hardcoded `sb_publishable_...` literal | `SUPABASE_PUBLISHABLE_KEY` | publishable | `--dart-define-from-file=dart_defines.json` at build |
-| Edge fn `v1` (x2 sites) | injected `SUPABASE_SERVICE_ROLE_KEY` | `SUPABASE_SECRET_KEY` | secret | project function secret |
-| Edge fn `publishCatalog` | injected `SUPABASE_SERVICE_ROLE_KEY` (+ wrong `\|\| ANON_KEY`) | `SUPABASE_SECRET_KEY` | secret | project function secret |
-| Edge fn `livekit-token` | injected `SUPABASE_ANON_KEY` | `SUPABASE_PUBLISHABLE_KEY` | publishable | project function secret |
-| Edge fns `recommend` / `schemes-api` / `search` (DEAD) | injected `SUPABASE_ANON_KEY` | `SUPABASE_PUBLISHABLE_KEY` | publishable | project function secret |
+| Edge fn `v1` (x2 sites) | injected `SUPABASE_SERVICE_ROLE_KEY` | `SB_SECRET_KEY` | secret | project function secret |
+| Edge fn `publishCatalog` | injected `SUPABASE_SERVICE_ROLE_KEY` (dropped a wrong anon fallback) | `SB_SECRET_KEY` | secret | project function secret |
+| Edge fn `livekit-token` | injected `SUPABASE_ANON_KEY` | `SB_PUBLISHABLE_KEY` | publishable | project function secret |
+| Edge fns `recommend` / `schemes-api` / `search` (DEAD) | injected `SUPABASE_ANON_KEY` | `SB_PUBLISHABLE_KEY` | publishable | project function secret |
 | Agent `saarthi-agent` (chat logging) | env `SUPABASE_SERVICE_ROLE_KEY` | `SUPABASE_SECRET_KEY` | secret | `.env.sarvam` -> `lk agent update-secrets` |
 | `backend/scripts/import_catalog.mjs` | `SUPABASE_SECRET_KEY` (already) | `SUPABASE_SECRET_KEY` | secret | `backend/.env` / CI |
 | `backend/scripts/benchmark_search_pipeline.mjs` | hardcoded `sb_publishable_...` | `SUPABASE_PUBLISHABLE_KEY` | publishable | `backend/.env` / local |
@@ -30,16 +30,19 @@ connection string, **not an API key** -- out of scope for this cutover.
 
 1. **Create the new keys** in the Supabase dashboard -> Project Settings -> API
    Keys. Both legacy and new keys are now active simultaneously.
-2. **Set the Edge Function project secrets** (project-scoped -- one setting
-   applies to every function; you run these, they are not run by tooling):
+2. **Set the Edge Function project secrets.** The Supabase CLI reserves the
+   `SUPABASE_` prefix (`supabase secrets set SUPABASE_* ...` is silently
+   skipped), so the Edge Functions read `SB_SECRET_KEY` / `SB_PUBLISHABLE_KEY`.
+   These are project-scoped -- one setting applies to every function:
    ```
-   supabase secrets set SUPABASE_SECRET_KEY=sb_secret_REPLACE --project-ref houpzsxmwemoztpuigmo
-   supabase secrets set SUPABASE_PUBLISHABLE_KEY=sb_publishable_REPLACE --project-ref houpzsxmwemoztpuigmo
+   supabase secrets set SB_SECRET_KEY=sb_secret_REPLACE --project-ref houpzsxmwemoztpuigmo
+   supabase secrets set SB_PUBLISHABLE_KEY=sb_publishable_REPLACE --project-ref houpzsxmwemoztpuigmo
+   supabase secrets list --project-ref houpzsxmwemoztpuigmo
    ```
-   If `supabase secrets set` rejects the `SUPABASE_` prefix as reserved, rename
-   the new vars to `SB_SECRET_KEY` / `SB_PUBLISHABLE_KEY` across the edits
-   (`backend/supabase/functions/**`, `chat_logger.py`, the two scripts,
-   `dart_defines.example.json`, this file) -- one follow-up commit -- and re-run.
+   (Only the Edge Functions use `SB_*`. The backend scripts, the agent, and the
+   Flutter build read `SUPABASE_SECRET_KEY` / `SUPABASE_PUBLISHABLE_KEY` from a
+   plain `.env` / dart-define -- not `supabase secrets` -- so the reserved-name
+   check does not apply to them.)
 3. **Redeploy the live functions** so they pick up the new secrets:
    ```
    supabase functions deploy v1 livekit-token publishCatalog --project-ref houpzsxmwemoztpuigmo
@@ -88,7 +91,7 @@ Removing the new function secrets makes every function fall back to the injected
 legacy vars (the `?? SUPABASE_SERVICE_ROLE_KEY` / `?? SUPABASE_ANON_KEY`
 chains):
 ```
-supabase secrets unset SUPABASE_SECRET_KEY SUPABASE_PUBLISHABLE_KEY --project-ref houpzsxmwemoztpuigmo
+supabase secrets unset SB_SECRET_KEY SB_PUBLISHABLE_KEY --project-ref houpzsxmwemoztpuigmo
 supabase functions deploy v1 livekit-token publishCatalog --project-ref houpzsxmwemoztpuigmo
 ```
 For the agent, remove `SUPABASE_SECRET_KEY` and set `SUPABASE_SERVICE_ROLE_KEY`
