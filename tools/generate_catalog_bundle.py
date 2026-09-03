@@ -98,6 +98,9 @@ def main() -> None:
 
     bundle_sha256 = hashlib.sha256(compressed_bytes).hexdigest()
 
+    search_index_data = bundle.get("search_index.json", {}).get("data", [])
+    search_index_count = len(search_index_data)
+
     release = {
         "releaseId": str(uuid.uuid4()),
         "releaseTag": release_tag,
@@ -108,7 +111,7 @@ def main() -> None:
         "bundleSha256": bundle_sha256,
         "uncompressedBytes": len(uncompressed_bytes),
         "entityCount": entity_count,
-        "searchIndexCount": entity_count,
+        "searchIndexCount": search_index_count,
         "recordCounts": record_counts,
         "perFileSha256": per_file_sha256,
     }

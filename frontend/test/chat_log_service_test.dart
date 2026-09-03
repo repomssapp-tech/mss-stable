@@ -1,11 +1,15 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:frontend/services/chat_log_service.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   group('ChatLogService Tests', () {
     late ChatLogService service;
 
     setUp(() {
+      SharedPreferences.setMockInitialValues({});
       service = ChatLogService(conversationUid: 'test-session-12345');
     });
 

@@ -5,7 +5,6 @@ import '../../main.dart';
 import '../../providers/app_state_provider.dart';
 import '../../services/voice_agent_preferences.dart';
 import '../../services/voice_agent_preview_service.dart';
-import '../../services/centralized_translator.dart';
 import '../../utils/responsive.dart';
 import '../../widgets/app_toast.dart';
 import '../../utils/app_spacing.dart';

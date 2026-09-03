@@ -162,6 +162,59 @@ export interface ScoredResult {
   reasons: string[];
 }
 
+// ── Query Expansion Dictionary ──────────────────────────────────────────
+// Mirrors frontend/assets/search/query_expansion.json field-for-field.
+// All expansion target tokens have been verified against the catalog vocab.
+const QUERY_EXPANSIONS: Record<string, string[]> = {
+  // Scheme acronyms
+  pmegp: ["prime", "minister", "employment", "generation", "programme"],
+  mudra: ["pradhan", "mantri", "mudra", "yojana"],
+  pmmy: ["mudra", "pradhan", "mantri", "yojana"],
+  cgtmse: ["credit", "guarantee", "fund", "micro"],
+  needs: ["entrepreneur", "enterprise", "development"],
+  tread: ["trade", "entrepreneurship", "assistance", "development", "women"],
+  wep: ["women", "entrepreneurship", "platform"],
+  uyegp: ["unemployed", "youth", "employment", "generation", "programme"],
+  tanseed: ["startup", "seed", "fund", "grant"],
+  clcss: ["credit", "linked", "capital", "subsidy"],
+  pmfme: ["food", "processing", "enterprises", "micro"],
+  pmkvy: ["kaushal", "vikas", "skill", "training"],
+  // Institutional abbreviations
+  momsme: ["msme", "ministry", "enterprises"],
+  kvic: ["khadi", "village", "industries"],
+  sidbi: ["small", "industries", "development", "bank"],
+  dpiit: ["industry", "trade", "promotion"],
+  tansim: ["startup", "tamil", "nadu", "innovation"],
+  // Tamil transliterations (Tanglish)
+  kadan: ["loan", "credit", "கடன்"],
+  udavi: ["subsidy", "grant", "assistance", "உதவி"],
+  thozhil: ["business", "enterprise", "industry", "employment", "தொழில்"],
+  magalir: ["women", "மகளிர்"],
+  maniyam: ["subsidy", "மானியம்"],
+  thittam: ["scheme", "programme", "திட்டம்"],
+  vivasayi: ["agriculture", "agricultural", "farm"],
+  velai: ["employment", "skill", "training"],
+  // Multi-word phrases
+  "stand up india": ["stand-up", "women", "enterprise"],
+  "street vendor": ["svanidhi", "street", "vendor", "vendors"],
+  "tea stall": ["svanidhi", "vendor", "micro", "street"],
+  "student startup": ["student", "innovation", "youth", "startup"],
+  handicraft: ["craftspeople", "artisans"],
+  handloom: ["artisans"],
+};
+
+// Pre-split into phrase keys (multi-word) and token keys (single-word)
+// at module load time for efficient lookup in queryConcepts().
+const PHRASE_EXPANSIONS: Record<string, string[]> = {};
+const TOKEN_EXPANSIONS: Record<string, string[]> = {};
+for (const [key, value] of Object.entries(QUERY_EXPANSIONS)) {
+  if (key.includes(" ")) {
+    PHRASE_EXPANSIONS[key] = value;
+  } else {
+    TOKEN_EXPANSIONS[key] = value;
+  }
+}
+
 export class HybridSearchEngine {
   private nDocs: number;
   private vocab: Set<string> = new Set();
@@ -240,6 +293,30 @@ export class HybridSearchEngine {
     }
     const concepts: Concept[] = [];
     const seen = new Set<string>();
+
+    // ── Phase 1: Multi-word phrase expansion ──────────────────────────
+    const queryLower = ` ${query.toLowerCase().replace(/[^a-z0-9 ]/g, " ")} `;
+    for (const [phrase, expansionTokens] of Object.entries(PHRASE_EXPANSIONS)) {
+      if (!queryLower.includes(` ${phrase} `)) continue;
+      const forms = new Set(expansionTokens.filter((f) => this.vocab.has(f)));
+      if (forms.size === 0) continue;
+      const key = [...forms].sort().join("\x01");
+      if (seen.has(key)) continue;
+      seen.add(key);
+      let docFreq = 0;
+      for (const e of this.entries) {
+        const terms = this.entryTerms(e);
+        for (const f of forms) {
+          if (terms.has(f)) {
+            docFreq++;
+            break;
+          }
+        }
+      }
+      concepts.push({ forms, idf: this.idf(docFreq) });
+    }
+
+    // ── Phase 2: Per-token concept building (with single-token expansion)
     for (const tok of raw) {
       if (!isSearchableToken(tok)) continue;
       let forms = new Set<string>([tok]);
@@ -250,10 +327,17 @@ export class HybridSearchEngine {
       }
       if (tok.endsWith("s") && this.vocab.has(tok.slice(0, -1))) forms.add(tok.slice(0, -1));
       if (this.vocab.has(`${tok}s`)) forms.add(`${tok}s`);
+
+      // ── Single-token expansion ─────────────────────────────────────
+      const expansion = TOKEN_EXPANSIONS[tok];
+      if (expansion) {
+        for (const t of expansion) forms.add(t);
+      }
+
       const gated = new Set([...forms].filter((f) => this.vocab.has(f)));
       forms = gated.size > 0 ? gated : new Set([tok]);
 
-      const key = [...forms].sort().join("");
+      const key = [...forms].sort().join("\x01");
       if (seen.has(key)) continue;
       seen.add(key);
 
