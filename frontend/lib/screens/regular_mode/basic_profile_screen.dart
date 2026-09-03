@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../providers/app_state_provider.dart';
@@ -7,6 +8,7 @@ import '../../utils/responsive.dart';
 import '../../utils/profile_l10n.dart';
 import '../../utils/constants.dart';
 import '../../utils/app_theme.dart';
+import '../../utils/app_spacing.dart';
 
 class BasicProfileScreen extends StatefulWidget {
   const BasicProfileScreen({super.key});
@@ -40,24 +42,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
 
     if (profile.dob != null) {
       _selectedDob = profile.dob;
-      final day = _selectedDob!.day.toString().padLeft(2, '0');
-      final months = [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
-      ];
-      _dobController = TextEditingController(
-        text: '$day-${months[_selectedDob!.month - 1]}-${_selectedDob!.year}',
-      );
+      _dobController = TextEditingController(text: _formatDob(_selectedDob!));
     } else {
       _dobController = TextEditingController();
     }
@@ -82,6 +67,16 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     super.dispose();
   }
 
+  // Phone is digits-only (input formatter); the only remaining rule is the
+  // exact 10-digit length. Shown once the user has attempted to continue.
+  String? _phoneErrorText() {
+    if (!_hasSubmittedAttempt) return null;
+    final phone = _phoneController.text.trim();
+    if (phone.isEmpty) return 'Please enter your phone number';
+    if (phone.length != 10) return 'Enter a 10-digit mobile number';
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final isTa =
@@ -104,7 +99,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
           Positioned.fill(
             child: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(AppSpacing.lg),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -121,7 +116,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                       ],
                     ),
                     const SizedBox(
-                      height: 2,
+                      height: AppSpacing.hairline,
                     ), // Tighter spacing between back button and heading
                     // Header Text (Moved out of the card)
                     Text(
@@ -133,7 +128,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                         color: kSlate900,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: AppSpacing.xs),
                     Text(
                       "Let's start with your basic details.",
                       textAlign: TextAlign.center,
@@ -142,11 +137,11 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                         color: kSlate500,
                       ),
                     ),
-                    const SizedBox(height: 12), // Reduced spacing below header
+                    const SizedBox(height: AppSpacing.md), // Reduced spacing below header
                     // Main Card Container
                     Expanded(
                       child: Container(
-                        padding: const EdgeInsets.all(18.0),
+                        padding: const EdgeInsets.all(AppSpacing.xl),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(24),
@@ -171,11 +166,11 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                                   children: [
                                     // Custom Stepper
                                     _buildStepper(),
-                                    const SizedBox(height: 12),
+                                    const SizedBox(height: AppSpacing.md),
 
                                     // Completion Pill
                                     Center(child: _buildProgressPill(isTa)),
-                                    const SizedBox(height: 20),
+                                    const SizedBox(height: AppSpacing.xl),
 
                                     // Form Fields
                                     CustomInputField(
@@ -193,7 +188,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                                         }
                                       },
                                     ),
-                                    const SizedBox(height: 16),
+                                    const SizedBox(height: AppSpacing.lg),
 
                                     CustomInputField(
                                       label: '${l('email_address')} *',
@@ -212,7 +207,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                                         }
                                       },
                                     ),
-                                    const SizedBox(height: 16),
+                                    const SizedBox(height: AppSpacing.lg),
 
                                     CustomInputField(
                                       label: '${l('phone_number')} *',
@@ -220,19 +215,21 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                                       leadingIcon: Icons.phone_outlined,
                                       trailingIcon: Icons.edit_outlined,
                                       keyboardType: TextInputType.phone,
+                                      hintText: '10-digit mobile number',
                                       prefixText:
-                                          '+91 ', // Reserve +91 country code
-                                      errorText: _hasSubmittedAttempt &&
-                                              _phoneController.text.trim().isEmpty
-                                          ? 'Please enter your phone number'
-                                          : null,
+                                          '+91 ', // Always-visible country code
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly,
+                                        LengthLimitingTextInputFormatter(10),
+                                      ],
+                                      errorText: _phoneErrorText(),
                                       onChanged: (_) {
                                         if (_hasSubmittedAttempt) {
                                           setState(() {});
                                         }
                                       },
                                     ),
-                                    const SizedBox(height: 16),
+                                    const SizedBox(height: AppSpacing.lg),
 
                                     // Gender Selector (Now spans full card width)
                                     Column(
@@ -247,7 +244,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                                             color: kSlate900,
                                           ),
                                         ),
-                                        const SizedBox(height: 8),
+                                        const SizedBox(height: AppSpacing.sm),
                                         Row(
                                           children: [
                                             Expanded(
@@ -256,14 +253,14 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                                                 Icons.male,
                                               ),
                                             ),
-                                            const SizedBox(width: 6),
+                                            const SizedBox(width: AppSpacing.tight),
                                             Expanded(
                                               child: _buildGenderBox(
                                                 'Female',
                                                 Icons.female,
                                               ),
                                             ),
-                                            const SizedBox(width: 6),
+                                            const SizedBox(width: AppSpacing.tight),
                                             Expanded(
                                               child: _buildGenderBox(
                                                 'Other',
@@ -274,7 +271,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                                         ),
                                         if (_hasSubmittedAttempt &&
                                             _selectedGender.isEmpty) ...[
-                                          const SizedBox(height: 4),
+                                          const SizedBox(height: AppSpacing.xs),
                                           Row(
                                             children: [
                                               const Icon(
@@ -282,7 +279,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                                                 size: 13,
                                                 color: Color(0xFFDC2626),
                                               ),
-                                              const SizedBox(width: 4),
+                                              const SizedBox(width: AppSpacing.xs),
                                               Text(
                                                 'Please select your gender',
                                                 style: GoogleFonts.inter(
@@ -296,7 +293,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                                         ],
                                       ],
                                     ),
-                                    const SizedBox(height: 16),
+                                    const SizedBox(height: AppSpacing.lg),
 
                                     // DOB Selector (Moved to a new line)
                                     CustomInputField(
@@ -306,17 +303,18 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                                           Icons.calendar_today_outlined,
                                       trailingIcon: Icons.arrow_drop_down,
                                       readOnly: true,
+                                      hintText: 'DD/MM/YYYY',
                                       onTap: () => _selectDob(context),
                                       errorText: _hasSubmittedAttempt &&
                                               _selectedDob == null
                                           ? 'Please select your date of birth'
                                           : null,
                                     ),
-                                    const SizedBox(height: 24),
+                                    const SizedBox(height: AppSpacing.xxl),
 
                                     // Info Box
                                     _buildInfoBox(),
-                                    const SizedBox(height: 12),
+                                    const SizedBox(height: AppSpacing.md),
                                   ],
                                 ),
                               ),
@@ -330,7 +328,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 padding: const EdgeInsets.symmetric(
-                                  vertical: 16,
+                                  vertical: AppSpacing.lg,
                                 ),
                                 elevation: 0,
                               ),
@@ -346,7 +344,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                                 if (name.isEmpty ||
                                     email.isEmpty ||
                                     !email.contains('@') ||
-                                    phone.isEmpty ||
+                                    phone.length != 10 ||
                                     _selectedGender.isEmpty ||
                                     _selectedDob == null) {
                                   return;
@@ -388,7 +386,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
+                                  const SizedBox(width: AppSpacing.sm),
                                   const Icon(
                                     Icons.arrow_forward,
                                     color: Colors.white,
@@ -416,11 +414,11 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     return Row(
       children: [
         Expanded(child: _buildProgressSegment(true)),
-        const SizedBox(width: 4),
+        const SizedBox(width: AppSpacing.xs),
         Expanded(child: _buildProgressSegment(false)),
-        const SizedBox(width: 4),
+        const SizedBox(width: AppSpacing.xs),
         Expanded(child: _buildProgressSegment(false)),
-        const SizedBox(width: 4),
+        const SizedBox(width: AppSpacing.xs),
         Expanded(child: _buildProgressSegment(false)),
       ],
     );
@@ -475,7 +473,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
               color: isSelected ? kPrimaryBlue : kSlate500,
               size: 13, // Tighter icon size
             ),
-            const SizedBox(width: 2),
+            const SizedBox(width: AppSpacing.hairline),
             Flexible(
               child: Text(
                 gender,
@@ -496,7 +494,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
 
   Widget _buildInfoBox() {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: kInfoBlueBg,
         borderRadius: BorderRadius.circular(12),
@@ -509,7 +507,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
             color: kPrimaryBlue,
             size: 20,
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Text(
               "We'll use this information to personalize your MSS experience and keep you updated.",
@@ -537,27 +535,16 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     if (picked != null && picked != _selectedDob) {
       setState(() {
         _selectedDob = picked;
-        // Format: dd-MMM-yyyy
-        final day = picked.day.toString().padLeft(2, '0');
-        final months = [
-          'Jan',
-          'Feb',
-          'Mar',
-          'Apr',
-          'May',
-          'Jun',
-          'Jul',
-          'Aug',
-          'Sep',
-          'Oct',
-          'Nov',
-          'Dec',
-        ];
-        final monthStr = months[picked.month - 1];
-        final year = picked.year;
-        _dobController.text = '$day-$monthStr-$year';
+        _dobController.text = _formatDob(picked);
       });
     }
+  }
+
+  // Matches the DD/MM/YYYY placeholder shown on the empty field.
+  static String _formatDob(DateTime d) {
+    final day = d.day.toString().padLeft(2, '0');
+    final month = d.month.toString().padLeft(2, '0');
+    return '$day/$month/${d.year}';
   }
 }
 
@@ -571,6 +558,8 @@ class CustomInputField extends StatelessWidget {
   final bool readOnly;
   final VoidCallback? onTap;
   final String? prefixText;
+  final String? hintText;
+  final List<TextInputFormatter>? inputFormatters;
   final String? errorText;
   final void Function(String)? onChanged;
 
@@ -584,6 +573,8 @@ class CustomInputField extends StatelessWidget {
     this.readOnly = false,
     this.onTap,
     this.prefixText,
+    this.hintText,
+    this.inputFormatters,
     this.errorText,
     this.onChanged,
   });
@@ -603,7 +594,7 @@ class CustomInputField extends StatelessWidget {
             color: AppConstants.primaryText,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: AppSpacing.sm),
         GestureDetector(
           onTap: onTap,
           child: AbsorbPointer(
@@ -612,6 +603,7 @@ class CustomInputField extends StatelessWidget {
               controller: controller,
               readOnly: readOnly,
               keyboardType: keyboardType,
+              inputFormatters: inputFormatters,
               onChanged: onChanged,
               style: GoogleFonts.inter(
                 fontSize: 14.5,
@@ -620,23 +612,52 @@ class CustomInputField extends StatelessWidget {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: AppConstants.surfaceColor,
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 14,
-                  vertical: 14,
-                ),
-                prefixIcon: Icon(
-                  leadingIcon,
-                  color: hasError
-                      ? AppConstants.errorColor
-                      : AppConstants.secondaryText,
-                  size: 20,
-                ),
-                prefixText: prefixText,
-                prefixStyle: GoogleFonts.inter(
+                hintText: hintText,
+                hintStyle: GoogleFonts.inter(
                   fontSize: 14.5,
-                  fontWeight: FontWeight.w600,
-                  color: AppConstants.primaryText,
+                  color: AppConstants.secondaryText,
                 ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.lg,
+                  vertical: AppSpacing.lg,
+                ),
+                // The country code is rendered inside the prefixIcon slot (not
+                // InputDecoration.prefixText) so it stays visible even when the
+                // field is unfocused and empty.
+                prefixIcon: prefixText == null
+                    ? Icon(
+                        leadingIcon,
+                        color: hasError
+                            ? AppConstants.errorColor
+                            : AppConstants.secondaryText,
+                        size: 20,
+                      )
+                    : Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const SizedBox(width: AppSpacing.lg),
+                          Icon(
+                            leadingIcon,
+                            color: hasError
+                                ? AppConstants.errorColor
+                                : AppConstants.secondaryText,
+                            size: 20,
+                          ),
+                          const SizedBox(width: AppSpacing.sm),
+                          Text(
+                            prefixText!,
+                            style: GoogleFonts.inter(
+                              fontSize: 14.5,
+                              fontWeight: FontWeight.w600,
+                              color: AppConstants.primaryText,
+                            ),
+                          ),
+                          const SizedBox(width: AppSpacing.tight),
+                        ],
+                      ),
+                prefixIconConstraints: prefixText == null
+                    ? null
+                    : const BoxConstraints(minWidth: 0, minHeight: 0),
                 suffixIcon: Icon(
                   trailingIcon,
                   color: hasError
@@ -676,7 +697,7 @@ class CustomInputField extends StatelessWidget {
           ),
         ),
         if (hasError) ...[
-          const SizedBox(height: 4),
+          const SizedBox(height: AppSpacing.xs),
           Row(
             children: [
               const Icon(
@@ -684,7 +705,7 @@ class CustomInputField extends StatelessWidget {
                 size: 13,
                 color: AppConstants.errorColor,
               ),
-              const SizedBox(width: 4),
+              const SizedBox(width: AppSpacing.xs),
               Expanded(
                 child: Text(
                   errorText!,

@@ -13,6 +13,7 @@ import '../../widgets/app_toast.dart';
 import '../../services/centralized_translator.dart';
 import '../../l10n/l10n.dart';
 import 'scheme_details_screen.dart';
+import '../../utils/app_spacing.dart';
 
 class SearchResultsScreen extends StatefulWidget {
   final String title;
@@ -233,7 +234,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
   ) {
     final bool isActive = currentValue != 'All' && currentValue != 'Relevance';
     return Container(
-      margin: const EdgeInsets.only(right: 8),
+      margin: const EdgeInsets.only(right: AppSpacing.sm),
       child: PopupMenuButton<String>(
         onSelected: onChanged,
         color: Colors.white,
@@ -258,7 +259,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
             )
             .toList(),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
@@ -281,7 +282,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                       : const Color(0xFF475569),
                 ),
               ),
-              const SizedBox(width: 4),
+              const SizedBox(width: AppSpacing.xs),
               Icon(
                 Icons.keyboard_arrow_down,
                 size: 14,
@@ -299,7 +300,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
   Widget _buildFiltersStrip(AppProvider provider) {
     final isTa = provider.selectedLanguage == 'ta';
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.tight, horizontal: AppSpacing.lg),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
@@ -328,12 +329,12 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
+                  horizontal: AppSpacing.md,
+                  vertical: AppSpacing.tight,
                 ),
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: AppSpacing.sm),
 
             // Dropdown Chips
             _buildDropdownChip(
@@ -391,7 +392,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
 
   Widget _buildSearchInput() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.tight),
       height: 46,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -439,7 +440,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                 )
               : null,
           border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(vertical: 8),
+          contentPadding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
         ),
       ),
     );
@@ -485,13 +486,13 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
               }
             },
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: AppSpacing.sm),
         ],
       ),
       body: SafeArea(
         child: Column(
           children: [
-            const SizedBox(height: 6),
+            const SizedBox(height: AppSpacing.tight),
 
             // Search bar for refining results
             _buildSearchInput(),
@@ -499,7 +500,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
             // Discover filter strip (Sort, Type, Benefit, Ministry, Filter)
             _buildFiltersStrip(provider),
 
-            const SizedBox(height: 4),
+            const SizedBox(height: AppSpacing.xs),
 
             // Results Content Area
             Expanded(
@@ -512,7 +513,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                   : filteredSchemes.isEmpty
                       ? Center(
                           child: Padding(
-                            padding: const EdgeInsets.all(24.0),
+                            padding: const EdgeInsets.all(AppSpacing.xxl),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -521,7 +522,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                   size: 48,
                                   color: Colors.grey[400],
                                 ),
-                                const SizedBox(height: 12),
+                                const SizedBox(height: AppSpacing.md),
                                 Text(
                                   context.l10n.noSchemesFound(
                                     _searchController.text.isNotEmpty
@@ -535,7 +536,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
-                                const SizedBox(height: 6),
+                                const SizedBox(height: AppSpacing.tight),
                                 Text(
                                   context.l10n.tryDifferentKeyword,
                                   style: GoogleFonts.inter(
@@ -544,7 +545,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
-                                const SizedBox(height: 16),
+                                const SizedBox(height: AppSpacing.lg),
                                 OutlinedButton.icon(
                                   onPressed: _clearAllFilters,
                                   icon: const Icon(
@@ -570,8 +571,8 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     padding: const EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 10,
+                                      horizontal: AppSpacing.lg,
+                                      vertical: AppSpacing.sm,
                                     ),
                                     backgroundColor: const Color(0xFFEFF6FF),
                                   ),
@@ -582,7 +583,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                         )
                       : ListView.builder(
                           physics: const BouncingScrollPhysics(),
-                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
                           itemCount: filteredSchemes.length,
                           itemBuilder: (context, index) {
                             final entry = filteredSchemes[index];

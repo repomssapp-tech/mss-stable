@@ -6,6 +6,7 @@ import '../../utils/profile_l10n.dart';
 import '../../utils/responsive.dart';
 import '../../widgets/app_toast.dart';
 import '../../main.dart';
+import '../../utils/app_spacing.dart';
 
 class EligibilityProfileScreen extends StatefulWidget {
   const EligibilityProfileScreen({super.key});
@@ -137,7 +138,7 @@ class _EligibilityProfileScreenState extends State<EligibilityProfileScreen> {
           Positioned.fill(
             child: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(AppSpacing.lg),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -169,8 +170,8 @@ class _EligibilityProfileScreenState extends State<EligibilityProfileScreen> {
                               : () => _completeProfile(isSkip: true),
                           style: TextButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 4,
+                              horizontal: AppSpacing.sm,
+                              vertical: AppSpacing.xs,
                             ),
                             minimumSize: Size.zero,
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -186,12 +187,12 @@ class _EligibilityProfileScreenState extends State<EligibilityProfileScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: AppSpacing.md),
 
                     // Main Card Container
                     Expanded(
                       child: Container(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(AppSpacing.lg),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(24),
@@ -221,21 +222,21 @@ class _EligibilityProfileScreenState extends State<EligibilityProfileScreen> {
                                         Expanded(
                                           child: _buildProgressSegment(true),
                                         ),
-                                        const SizedBox(width: 4),
+                                        const SizedBox(width: AppSpacing.xs),
                                         Expanded(
                                           child: _buildProgressSegment(true),
                                         ),
-                                        const SizedBox(width: 4),
+                                        const SizedBox(width: AppSpacing.xs),
                                         Expanded(
                                           child: _buildProgressSegment(true),
                                         ),
-                                        const SizedBox(width: 4),
+                                        const SizedBox(width: AppSpacing.xs),
                                         Expanded(
                                           child: _buildProgressSegment(true),
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(height: 8),
+                                    const SizedBox(height: AppSpacing.sm),
                                     Center(
                                       child: Text(
                                         l('step_4_of_4'),
@@ -246,7 +247,7 @@ class _EligibilityProfileScreenState extends State<EligibilityProfileScreen> {
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(height: 8),
+                                    const SizedBox(height: AppSpacing.sm),
 
                                     // Header Title & Subtitle
                                     Text(
@@ -258,7 +259,7 @@ class _EligibilityProfileScreenState extends State<EligibilityProfileScreen> {
                                         color: kSlate900,
                                       ),
                                     ),
-                                    const SizedBox(height: 4),
+                                    const SizedBox(height: AppSpacing.xs),
                                     Text(
                                       l('eligibility_subtitle'),
                                       textAlign: TextAlign.center,
@@ -268,17 +269,17 @@ class _EligibilityProfileScreenState extends State<EligibilityProfileScreen> {
                                         height: 1.3,
                                       ),
                                     ),
-                                    const SizedBox(height: 16),
+                                    const SizedBox(height: AppSpacing.lg),
 
                                     // 1. Education Level
                                     _buildSectionLabel(
                                       l('qualification'),
                                       Icons.school_outlined,
                                     ),
-                                    const SizedBox(height: 8),
+                                    const SizedBox(height: AppSpacing.sm),
                                     Wrap(
-                                      spacing: 8,
-                                      runSpacing: 8,
+                                      spacing: AppSpacing.sm,
+                                      runSpacing: AppSpacing.sm,
                                       children: _educationOptions.map((opt) {
                                         final isSelected =
                                             _selectedEducation.toLowerCase() ==
@@ -297,18 +298,18 @@ class _EligibilityProfileScreenState extends State<EligibilityProfileScreen> {
                                         );
                                       }).toList(),
                                     ),
-                                    const SizedBox(height: 16),
+                                    const SizedBox(height: AppSpacing.lg),
 
                                     // 2. Community Category
                                     _buildSectionLabel(
                                       l('community'),
                                       Icons.people_outline,
                                     ),
-                                    const SizedBox(height: 6),
+                                    const SizedBox(height: AppSpacing.tight),
                                     Container(
                                       padding: const EdgeInsets.symmetric(
-                                        horizontal: 10,
-                                        vertical: 6,
+                                        horizontal: AppSpacing.sm,
+                                        vertical: AppSpacing.tight,
                                       ),
                                       decoration: BoxDecoration(
                                         color: const Color(0xFFF1F5F9),
@@ -324,7 +325,7 @@ class _EligibilityProfileScreenState extends State<EligibilityProfileScreen> {
                                             size: 14,
                                             color: Color(0xFF2563EB),
                                           ),
-                                          const SizedBox(width: 6),
+                                          const SizedBox(width: AppSpacing.tight),
                                           Expanded(
                                             child: Text(
                                               isTa
@@ -340,10 +341,10 @@ class _EligibilityProfileScreenState extends State<EligibilityProfileScreen> {
                                         ],
                                       ),
                                     ),
-                                    const SizedBox(height: 8),
+                                    const SizedBox(height: AppSpacing.sm),
                                     Wrap(
-                                      spacing: 8,
-                                      runSpacing: 8,
+                                      spacing: AppSpacing.sm,
+                                      runSpacing: AppSpacing.sm,
                                       children: _communityOptions.map((opt) {
                                         final isSelected =
                                             _selectedCommunity.toLowerCase() ==
@@ -362,17 +363,17 @@ class _EligibilityProfileScreenState extends State<EligibilityProfileScreen> {
                                         );
                                       }).toList(),
                                     ),
-                                    const SizedBox(height: 16),
+                                    const SizedBox(height: AppSpacing.lg),
 
                                     // 3. Annual Income Range
                                     _buildSectionLabel(
                                       l('income'),
                                       Icons.currency_rupee,
                                     ),
-                                    const SizedBox(height: 8),
+                                    const SizedBox(height: AppSpacing.sm),
                                     Wrap(
-                                      spacing: 8,
-                                      runSpacing: 8,
+                                      spacing: AppSpacing.sm,
+                                      runSpacing: AppSpacing.sm,
                                       children: _incomeOptions.map((opt) {
                                         final val = opt['value'] as double;
                                         final isSelected =
@@ -391,14 +392,14 @@ class _EligibilityProfileScreenState extends State<EligibilityProfileScreen> {
                                         );
                                       }).toList(),
                                     ),
-                                    const SizedBox(height: 16),
+                                    const SizedBox(height: AppSpacing.lg),
 
                                     // 4. Special Categories / Priority
                                     _buildSectionLabel(
                                       l('special_categories'),
                                       Icons.verified_user_outlined,
                                     ),
-                                    const SizedBox(height: 8),
+                                    const SizedBox(height: AppSpacing.sm),
 
                                     _buildToggleCard(
                                       title: l('first_gen_graduate'),
@@ -409,7 +410,7 @@ class _EligibilityProfileScreenState extends State<EligibilityProfileScreen> {
                                         });
                                       },
                                     ),
-                                    const SizedBox(height: 6),
+                                    const SizedBox(height: AppSpacing.tight),
 
                                     _buildToggleCard(
                                       title: l('disability'),
@@ -420,7 +421,7 @@ class _EligibilityProfileScreenState extends State<EligibilityProfileScreen> {
                                         });
                                       },
                                     ),
-                                    const SizedBox(height: 6),
+                                    const SizedBox(height: AppSpacing.tight),
 
                                     _buildToggleCard(
                                       title: l('veteran'),
@@ -431,12 +432,12 @@ class _EligibilityProfileScreenState extends State<EligibilityProfileScreen> {
                                         });
                                       },
                                     ),
-                                    const SizedBox(height: 12),
+                                    const SizedBox(height: AppSpacing.md),
                                   ],
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 10),
+                            const SizedBox(height: AppSpacing.sm),
 
                             // Sticky Action Button
                             ElevatedButton(
@@ -476,7 +477,7 @@ class _EligibilityProfileScreenState extends State<EligibilityProfileScreen> {
                                             ),
                                           ),
                                         ),
-                                        const SizedBox(width: 8),
+                                        const SizedBox(width: AppSpacing.sm),
                                         const Icon(
                                           Icons.check_circle_outline,
                                           color: Colors.white,
@@ -503,13 +504,17 @@ class _EligibilityProfileScreenState extends State<EligibilityProfileScreen> {
     return Row(
       children: [
         Icon(icon, size: 16, color: kPrimaryBlue),
-        const SizedBox(width: 6),
-        Text(
-          text,
-          style: GoogleFonts.inter(
-            fontSize: 13,
-            fontWeight: FontWeight.bold,
-            color: kSlate800,
+        const SizedBox(width: AppSpacing.tight),
+        Expanded(
+          child: Text(
+            text,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.inter(
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
+              color: kSlate800,
+            ),
           ),
         ),
       ],
@@ -523,42 +528,57 @@ class _EligibilityProfileScreenState extends State<EligibilityProfileScreen> {
   }) {
     return GestureDetector(
       onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFFEFF6FF) : Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: isSelected ? kPrimaryBlue : kBorderGrey,
-            width: isSelected ? 1.4 : 1.0,
-          ),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: kPrimaryBlue.withValues(alpha: 0.1),
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
-                  ),
-                ]
-              : null,
+      child: ConstrainedBox(
+        // Never let a single chip exceed the card's content width, so a long
+        // label ellipsizes instead of overflowing the Wrap line.
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.sizeOf(context).width - 72,
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (isSelected) ...[
-              const Icon(Icons.check_circle, size: 14, color: kPrimaryBlue),
-              const SizedBox(width: 5),
-            ],
-            Text(
-              label,
-              style: GoogleFonts.inter(
-                fontSize: 12,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                color: isSelected ? kPrimaryBlue : const Color(0xFF334155),
-              ),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+          decoration: BoxDecoration(
+            color: isSelected ? const Color(0xFFEFF6FF) : Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: isSelected ? kPrimaryBlue : kBorderGrey,
+              width: isSelected ? 1.4 : 1.0,
             ),
-          ],
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: kPrimaryBlue.withValues(alpha: 0.1),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ]
+                : null,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (isSelected) ...[
+                const Icon(Icons.check_circle, size: 14, color: kPrimaryBlue),
+                const SizedBox(width: AppSpacing.tight),
+              ],
+              Flexible(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                    fontWeight: isSelected
+                        ? FontWeight.bold
+                        : FontWeight.w500,
+                    color: isSelected
+                        ? kPrimaryBlue
+                        : const Color(0xFF334155),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -570,7 +590,7 @@ class _EligibilityProfileScreenState extends State<EligibilityProfileScreen> {
     required ValueChanged<bool> onChanged,
   }) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
       decoration: BoxDecoration(
         color: value ? const Color(0xFFF8FAFC) : Colors.white,
         borderRadius: BorderRadius.circular(10),

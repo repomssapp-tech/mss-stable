@@ -6,6 +6,7 @@ import '../../utils/profile_l10n.dart';
 import '../../utils/responsive.dart';
 import '../../widgets/app_toast.dart';
 import 'eligibility_profile_screen.dart';
+import '../../utils/app_spacing.dart';
 
 class AboutYouProfileScreen extends StatefulWidget {
   const AboutYouProfileScreen({super.key});
@@ -113,7 +114,7 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
           Positioned.fill(
             child: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(AppSpacing.lg),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -139,16 +140,18 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 40), // Balance centering
+                        const SizedBox(
+                          width: 40,
+                        ), // spacing-ok: counterweight for the leading IconButton, not a gap
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.lg),
 
                     // Main Card Container (Expanded to take remaining space)
                     Expanded(
                       child: Container(
                         padding: const EdgeInsets.all(
-                          16.0,
+                          AppSpacing.lg,
                         ), // Tight card padding
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -178,21 +181,21 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
                                         Expanded(
                                           child: _buildProgressSegment(true),
                                         ),
-                                        const SizedBox(width: 4),
+                                        const SizedBox(width: AppSpacing.xs),
                                         Expanded(
                                           child: _buildProgressSegment(true),
                                         ),
-                                        const SizedBox(width: 4),
+                                        const SizedBox(width: AppSpacing.xs),
                                         Expanded(
                                           child: _buildProgressSegment(true),
                                         ),
-                                        const SizedBox(width: 4),
+                                        const SizedBox(width: AppSpacing.xs),
                                         Expanded(
                                           child: _buildProgressSegment(false),
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(height: 8),
+                                    const SizedBox(height: AppSpacing.sm),
                                     Center(
                                       child: Text(
                                         l('step_3_of_4'),
@@ -203,7 +206,7 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(height: 12),
+                                    const SizedBox(height: AppSpacing.md),
 
                                     // Header Text
                                     Text(
@@ -215,7 +218,7 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
                                         color: kSlate900,
                                       ),
                                     ),
-                                    const SizedBox(height: 4),
+                                    const SizedBox(height: AppSpacing.xs),
                                     Text(
                                       l('about_you_subtitle'),
                                       textAlign: TextAlign.center,
@@ -224,7 +227,7 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
                                         color: kSlate500,
                                       ),
                                     ),
-                                    const SizedBox(height: 16),
+                                    const SizedBox(height: AppSpacing.lg),
 
                                     // 2x3 Grid Area (non-scrollable itself, scrolls with parent)
                                     GridView.builder(
@@ -235,8 +238,8 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
                                       gridDelegate:
                                           SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 2,
-                                            crossAxisSpacing: 12,
-                                            mainAxisSpacing: 12,
+                                            crossAxisSpacing: AppSpacing.md,
+                                            mainAxisSpacing: AppSpacing.md,
                                             childAspectRatio:
                                                 MediaQuery.sizeOf(
                                                       context,
@@ -259,10 +262,10 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
                             ),
                             if (_attemptedSubmit && _selectedRole == null) ...[
                               Container(
-                                margin: const EdgeInsets.only(bottom: 8),
+                                margin: const EdgeInsets.only(bottom: AppSpacing.sm),
                                 padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 8,
+                                  horizontal: AppSpacing.md,
+                                  vertical: AppSpacing.sm,
                                 ),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFFEF2F2),
@@ -278,7 +281,7 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
                                       color: Color(0xFFDC2626),
                                       size: 16,
                                     ),
-                                    const SizedBox(width: 8),
+                                    const SizedBox(width: AppSpacing.sm),
                                     Expanded(
                                       child: Text(
                                         'Please select an option to continue.',
@@ -293,7 +296,7 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
                                 ),
                               ),
                             ],
-                            const SizedBox(height: 12),
+                            const SizedBox(height: AppSpacing.md),
 
                             // Sticky Action Button (Bottom of card, outside scrollable area)
                             ElevatedButton(
@@ -379,7 +382,7 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
                                             ),
                                           ),
                                         ),
-                                        const SizedBox(width: 8),
+                                        const SizedBox(width: AppSpacing.sm),
                                         const Icon(
                                           Icons.arrow_forward,
                                           color: Colors.white,
@@ -422,7 +425,7 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
-        padding: const EdgeInsets.all(8.0), // Compact padding
+        padding: const EdgeInsets.all(AppSpacing.sm), // Compact padding
         decoration: BoxDecoration(
           color: isSelected ? const Color(0xFFF5F9FF) : Colors.white,
           borderRadius: BorderRadius.circular(16),
@@ -491,7 +494,7 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: AppSpacing.tight),
 
             // Role Title
             Text(
@@ -505,7 +508,7 @@ class _AboutYouProfileScreenState extends State<AboutYouProfileScreen> {
                 color: kSlate900,
               ),
             ),
-            const SizedBox(height: 2),
+            const SizedBox(height: AppSpacing.hairline),
 
             // Role Description
             Text(

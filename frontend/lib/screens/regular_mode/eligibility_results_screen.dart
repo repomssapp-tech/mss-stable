@@ -10,6 +10,7 @@ import '../../l10n/l10n.dart';
 import '../../utils/responsive.dart';
 import '../../widgets/app_toast.dart';
 import 'scheme_details_screen.dart';
+import '../../utils/app_spacing.dart';
 
 class EligibilityResultsScreen extends StatelessWidget {
   const EligibilityResultsScreen({super.key});
@@ -53,7 +54,7 @@ class EligibilityResultsScreen extends StatelessWidget {
               }
             },
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: AppSpacing.sm),
         ],
       ),
       body: Column(
@@ -63,13 +64,13 @@ class EligibilityResultsScreen extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
-                  const SizedBox(height: 10),
+                  const SizedBox(height: AppSpacing.sm),
                   // Custom Vector Success Illustration Stack
                   // Image-based Success Illustration from assets
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                      vertical: 12.0,
+                      horizontal: AppSpacing.lg,
+                      vertical: AppSpacing.md,
                     ),
                     child: Image.asset(
                       'assets/images/Background/suggestion banner.webp',
@@ -77,7 +78,7 @@ class EligibilityResultsScreen extends StatelessWidget {
                       fit: BoxFit.contain,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: AppSpacing.sm),
 
                   // Great News Header
                   Text(
@@ -88,7 +89,7 @@ class EligibilityResultsScreen extends StatelessWidget {
                       color: const Color(0xFF137C47),
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: AppSpacing.tight),
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
@@ -107,7 +108,7 @@ class EligibilityResultsScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: AppSpacing.tight),
                   Text(
                     'based on the information you provided',
                     style: GoogleFonts.inter(
@@ -115,11 +116,11 @@ class EligibilityResultsScreen extends StatelessWidget {
                       color: const Color(0xFF64748B),
                     ),
                   ),
-                  const SizedBox(height: 28),
+                  const SizedBox(height: AppSpacing.xxxl),
 
                   // Recommended Schemes Section Header
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -158,7 +159,7 @@ class EligibilityResultsScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 2),
+                              const SizedBox(width: AppSpacing.hairline),
                               const Icon(
                                 Icons.chevron_right,
                                 size: 16,
@@ -170,13 +171,13 @@ class EligibilityResultsScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: AppSpacing.sm),
 
                   // Recommended cards list
                   if (eligibleMatches.isEmpty)
                     Container(
-                      margin: const EdgeInsets.all(24),
-                      padding: const EdgeInsets.all(24),
+                      margin: const EdgeInsets.all(AppSpacing.xxl),
+                      padding: const EdgeInsets.all(AppSpacing.xxl),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
@@ -212,13 +213,13 @@ class EligibilityResultsScreen extends StatelessWidget {
                       ),
                     ),
 
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppSpacing.lg),
 
                   // Info Alert Banner
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
                     child: Container(
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(AppSpacing.md),
                       decoration: BoxDecoration(
                         color: const Color(0xFFE6F4EA),
                         borderRadius: BorderRadius.circular(10),
@@ -233,7 +234,7 @@ class EligibilityResultsScreen extends StatelessWidget {
                             color: Color(0xFF137C47),
                             size: 20,
                           ),
-                          const SizedBox(width: 8),
+                          const SizedBox(width: AppSpacing.sm),
                           Expanded(
                             child: Text(
                               'These schemes are sorted based on your profile match and eligibility criteria.',
@@ -248,7 +249,7 @@ class EligibilityResultsScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppSpacing.xxl),
                 ],
               ),
             ),
@@ -256,7 +257,7 @@ class EligibilityResultsScreen extends StatelessWidget {
 
           // Bottom Bar Action Panel
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
             decoration: BoxDecoration(
               color: Colors.white,
               border: Border(
@@ -299,7 +300,7 @@ class EligibilityResultsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: AppSpacing.sm),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -308,7 +309,7 @@ class EligibilityResultsScreen extends StatelessWidget {
                       size: 14,
                       color: Color(0xFF64748B),
                     ),
-                    const SizedBox(width: 4),
+                    const SizedBox(width: AppSpacing.xs),
                     Flexible(
                       child: Text(
                         'Your information is secure and private',
@@ -321,7 +322,7 @@ class EligibilityResultsScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: AppSpacing.xs),
               ],
             ),
           ),

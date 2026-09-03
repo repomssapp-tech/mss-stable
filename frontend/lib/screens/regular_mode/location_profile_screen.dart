@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
@@ -8,6 +9,7 @@ import '../../providers/app_state_provider.dart';
 import '../../utils/responsive.dart';
 import '../../utils/permission_helper.dart';
 import '../../utils/profile_l10n.dart';
+import '../../utils/app_spacing.dart';
 
 class LocationProfileScreen extends StatefulWidget {
   const LocationProfileScreen({super.key});
@@ -79,6 +81,25 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
     _pincodeController.dispose();
     super.dispose();
   }
+
+  // Digits-only is enforced by the input formatter; the remaining rule is the
+  // exact 6-digit length. Only surfaced after a Continue attempt.
+  String? _pincodeErrorText() {
+    if (!_hasSubmittedAttempt) return null;
+    final pin = _pincodeController.text.trim();
+    if (pin.isEmpty) return 'Required';
+    if (pin.length != 6) return 'Enter 6 digits';
+    return null;
+  }
+
+  // All required fields on this step are non-empty and the pincode is a
+  // complete 6-digit number. Drives the Continue button's enabled state.
+  bool get _isStepValid =>
+      _doorStreetController.text.trim().isNotEmpty &&
+      _areaLocalityController.text.trim().isNotEmpty &&
+      _cityDistrictController.text.trim().isNotEmpty &&
+      _stateController.text.trim().isNotEmpty &&
+      _pincodeController.text.trim().length == 6;
 
   // Live Location Fetch and Geocoding Parser
   Future<void> _fetchAndGeocodeLocation() async {
@@ -185,8 +206,8 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
             child: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                  vertical: 8.0,
+                  horizontal: AppSpacing.lg,
+                  vertical: AppSpacing.sm,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -201,18 +222,22 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                           ),
                           onPressed: () => Navigator.maybePop(context),
                         ),
-                        const SizedBox(width: 4),
-                        Text(
-                          l('complete_your_profile'),
-                          style: GoogleFonts.poppins(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: kSlate900,
+                        const SizedBox(width: AppSpacing.xs),
+                        Expanded(
+                          child: Text(
+                            l('complete_your_profile'),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.poppins(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: kSlate900,
+                            ),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: AppSpacing.tight),
 
                     // Main Card Container
                     Expanded(
@@ -236,10 +261,10 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                               // Compact Non-scrollable Header Info
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(
-                                  20,
-                                  14,
-                                  20,
-                                  8,
+                                  AppSpacing.xl,
+                                  AppSpacing.lg,
+                                  AppSpacing.xl,
+                                  AppSpacing.sm,
                                 ),
                                 child: Column(
                                   crossAxisAlignment:
@@ -251,42 +276,40 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                         Expanded(
                                           child: _buildProgressSegment(true),
                                         ),
-                                        const SizedBox(width: 4),
+                                        const SizedBox(width: AppSpacing.xs),
                                         Expanded(
                                           child: _buildProgressSegment(true),
                                         ),
-                                        const SizedBox(width: 4),
+                                        const SizedBox(width: AppSpacing.xs),
                                         Expanded(
                                           child: _buildProgressSegment(false),
                                         ),
-                                        const SizedBox(width: 4),
+                                        const SizedBox(width: AppSpacing.xs),
                                         Expanded(
                                           child: _buildProgressSegment(false),
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(height: 8),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Where Are You Located?',
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                            color: kSlate900,
-                                          ),
-                                        ),
-                                        Text(
-                                          l('step_2_of_4'),
-                                          style: GoogleFonts.inter(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                            color: kPrimaryBlue,
-                                          ),
-                                        ),
-                                      ],
+                                    const SizedBox(height: AppSpacing.sm),
+                                    // Step label sits above the heading (not
+                                    // beside it) so the two never collide at
+                                    // 320 dp / large text scale.
+                                    Text(
+                                      l('step_2_of_4'),
+                                      style: GoogleFonts.inter(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                        color: kPrimaryBlue,
+                                      ),
+                                    ),
+                                    const SizedBox(height: AppSpacing.hairline),
+                                    Text(
+                                      'Where Are You Located?',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color: kSlate900,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -297,16 +320,16 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                 child: SingleChildScrollView(
                                   physics: const BouncingScrollPhysics(),
                                   padding: const EdgeInsets.symmetric(
-                                    horizontal: 20,
+                                    horizontal: AppSpacing.xl,
                                   ),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.stretch,
                                     children: [
-                                      const SizedBox(height: 10),
+                                      const SizedBox(height: AppSpacing.sm),
                                       // Option 1: Live Location Card
                                       _buildFetchLocationCard(),
-                                      const SizedBox(height: 20),
+                                      const SizedBox(height: AppSpacing.xl),
 
                                       // Divider
                                       Row(
@@ -317,16 +340,21 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                               thickness: 1,
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 12.0,
-                                            ),
-                                            child: Text(
-                                              'OR FILL MANUALLY',
-                                              style: GoogleFonts.inter(
-                                                fontSize: 11,
-                                                fontWeight: FontWeight.w500,
-                                                color: kSlate500,
+                                          Flexible(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: AppSpacing.md,
+                                              ),
+                                              child: Text(
+                                                'OR FILL MANUALLY',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: kSlate500,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -338,13 +366,13 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(height: 20),
+                                      const SizedBox(height: AppSpacing.xl),
 
                                       // Door / House No / Street Address Field
                                       _buildLabel(
                                         'Door No / Flat / House No / Street *',
                                       ),
-                                      const SizedBox(height: 6),
+                                      const SizedBox(height: AppSpacing.tight),
                                       _buildTextField(
                                         controller: _doorStreetController,
                                         hintText:
@@ -362,11 +390,11 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                           }
                                         },
                                       ),
-                                      const SizedBox(height: 14),
+                                      const SizedBox(height: AppSpacing.lg),
 
                                       // Area / Locality Field
                                       _buildLabel('Area / Locality *'),
-                                      const SizedBox(height: 6),
+                                      const SizedBox(height: AppSpacing.tight),
                                       _buildTextField(
                                         controller: _areaLocalityController,
                                         hintText: 'e.g. Anna Nagar West',
@@ -383,11 +411,11 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                           }
                                         },
                                       ),
-                                      const SizedBox(height: 14),
+                                      const SizedBox(height: AppSpacing.lg),
 
                                       // City / District Field
                                       _buildLabel('City / District *'),
-                                      const SizedBox(height: 6),
+                                      const SizedBox(height: AppSpacing.tight),
                                       _buildTextField(
                                         controller: _cityDistrictController,
                                         hintText: 'e.g. Chennai',
@@ -404,7 +432,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                           }
                                         },
                                       ),
-                                      const SizedBox(height: 14),
+                                      const SizedBox(height: AppSpacing.lg),
 
                                       // State & Pincode Row (Side-by-Side)
                                       Row(
@@ -418,7 +446,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 _buildLabel('State *'),
-                                                const SizedBox(height: 6),
+                                                const SizedBox(height: AppSpacing.tight),
                                                 _buildTextField(
                                                   controller: _stateController,
                                                   hintText: 'e.g. Tamil Nadu',
@@ -440,7 +468,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                               ],
                                             ),
                                           ),
-                                          const SizedBox(width: 12),
+                                          const SizedBox(width: AppSpacing.md),
                                           Expanded(
                                             flex: 2,
                                             child: Column(
@@ -448,7 +476,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 _buildLabel('Pincode *'),
-                                                const SizedBox(height: 6),
+                                                const SizedBox(height: AppSpacing.tight),
                                                 _buildTextField(
                                                   controller:
                                                       _pincodeController,
@@ -456,33 +484,22 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                                   icon: Icons.pin_drop_outlined,
                                                   keyboardType:
                                                       TextInputType.number,
-                                                  errorText:
-                                                      _hasSubmittedAttempt &&
-                                                              _pincodeController
-                                                                  .text
-                                                                  .trim()
-                                                                  .isEmpty
-                                                          ? 'Required'
-                                                          : (_hasSubmittedAttempt &&
-                                                                  _pincodeController
-                                                                          .text
-                                                                          .trim()
-                                                                          .length !=
-                                                                      6
-                                                              ? '6 digits'
-                                                              : null),
-                                                  onChanged: (_) {
-                                                    if (_hasSubmittedAttempt) {
-                                                      setState(() {});
-                                                    }
-                                                  },
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter
+                                                        .digitsOnly,
+                                                    LengthLimitingTextInputFormatter(
+                                                      6,
+                                                    ),
+                                                  ],
+                                                  errorText: _pincodeErrorText(),
+                                                  onChanged: (_) {},
                                                 ),
                                               ],
                                             ),
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(height: 24),
+                                      const SizedBox(height: AppSpacing.xxl),
                                     ],
                                   ),
                                 ),
@@ -490,10 +507,12 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
 
                               // Sticky Action Button (Bottom of card)
                               Padding(
-                                padding: const EdgeInsets.all(20),
+                                padding: const EdgeInsets.all(AppSpacing.xl),
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: kPrimaryBlue,
+                                    backgroundColor: _isStepValid
+                                        ? kPrimaryBlue
+                                        : Colors.grey.shade300,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12),
                                     ),
@@ -589,7 +608,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(width: 8),
+                                      const SizedBox(width: AppSpacing.sm),
                                       const Icon(
                                         Icons.arrow_forward,
                                         color: Colors.white,
@@ -640,7 +659,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
     return GestureDetector(
       onTap: _isLoading ? null : _fetchAndGeocodeLocation,
       child: Container(
-        padding: const EdgeInsets.all(14.0),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
@@ -656,7 +675,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(AppSpacing.sm),
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: kPrimaryBlue,
@@ -676,7 +695,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                       size: 20,
                     ),
             ),
-            const SizedBox(width: 14),
+            const SizedBox(width: AppSpacing.lg),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -689,7 +708,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                       color: kSlate900,
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: AppSpacing.hairline),
                   Text(
                     _isLoading
                         ? 'Fetching coordinates...'
@@ -722,6 +741,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
     required String hintText,
     required IconData icon,
     TextInputType keyboardType = TextInputType.text,
+    List<TextInputFormatter>? inputFormatters,
     String? errorText,
     void Function(String)? onChanged,
   }) {
@@ -733,7 +753,12 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
         TextFormField(
           controller: controller,
           keyboardType: keyboardType,
-          onChanged: onChanged,
+          inputFormatters: inputFormatters,
+          onChanged: (value) {
+            onChanged?.call(value);
+            // Keep the Continue button's enabled state in sync with input.
+            setState(() {});
+          },
           style: GoogleFonts.inter(
             fontSize: 13.5,
             color: const Color(0xFF1E293B),
@@ -745,8 +770,8 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
             hintText: hintText,
             hintStyle: GoogleFonts.inter(fontSize: 13, color: kSlate500),
             contentPadding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 10,
+              horizontal: AppSpacing.md,
+              vertical: AppSpacing.sm,
             ),
             prefixIcon: Icon(
               icon,
@@ -785,7 +810,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
           ),
         ),
         if (hasError) ...[
-          const SizedBox(height: 4),
+          const SizedBox(height: AppSpacing.xs),
           Row(
             children: [
               const Icon(
@@ -793,7 +818,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                 size: 13,
                 color: Color(0xFFDC2626),
               ),
-              const SizedBox(width: 4),
+              const SizedBox(width: AppSpacing.xs),
               Expanded(
                 child: Text(
                   errorText,

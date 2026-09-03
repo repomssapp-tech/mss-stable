@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../providers/app_state_provider.dart';
 import '../../widgets/filter_panel.dart';
 import '../../models/scheme_model.dart';
+import '../../models/user_profile.dart';
 import '../../services/scheme_repository.dart';
 import 'scheme_details_screen.dart';
 import 'search_results_screen.dart';
@@ -19,6 +20,94 @@ String _getLocalizedTagOrCategory(String text, String langCode) {
 }
 
 enum SearchState { idle, loading, results }
+
+/// Which empty state the "For Me" results view should render.
+enum ForMeEmptyState {
+  /// There are matches to show.
+  none,
+
+  /// Profile is too sparse to personalise — show "complete your profile".
+  completeProfile,
+
+  /// Profile is usable but nothing cleared the score gate / facet filters.
+  noMatches,
+}
+
+/// Result of resolving the "For Me" view: the schemes to show plus which
+/// empty state (if any) applies. Pure data, unit-tested.
+class ForMeViewResult {
+  const ForMeViewResult(this.schemes, this.emptyState);
+  final List<Scheme> schemes;
+  final ForMeEmptyState emptyState;
+}
+
+/// Applies the FilterPanel facet map (`provider.filters`) to [input]. Used in
+/// EVERY mode, including "For Me", so the score gate and the facets combine
+/// additively (intersection). Pure — no BuildContext, no provider.
+List<Scheme> applyProviderFacetFilters(
+  List<Scheme> input,
+  Map<String, dynamic> filters,
+) {
+  var out = input;
+  final state = filters['state'];
+  if (state != null && state != 'All') {
+    final st = state.toString().toLowerCase();
+    out = out.where((s) {
+      return s.state.toLowerCase() == 'all india' ||
+          s.state.toLowerCase().contains(st);
+    }).toList();
+  }
+  final category = filters['category'];
+  if (category != null && category != 'All') {
+    final words = category.toString().toLowerCase().split(RegExp(r'[\s&/,-]+'));
+    out = out.where((s) {
+      final schCat = s.category.toLowerCase();
+      final schSec = s.sector.toLowerCase();
+      for (final w in words) {
+        if (w.length > 2 && (schCat.contains(w) || schSec.contains(w))) {
+          return true;
+        }
+      }
+      return false;
+    }).toList();
+  }
+  final schemeType = filters['schemeType'];
+  if (schemeType != null && schemeType != 'All') {
+    final stType = schemeType.toString().toLowerCase();
+    out = out.where((s) {
+      return s.schemeType.toLowerCase().contains(stType) ||
+          s.category.toLowerCase().contains(stType);
+    }).toList();
+  }
+  return out;
+}
+
+/// Resolves the "For Me" results view from the master result set. Additive:
+/// score gate (>= RecommendationEngine.forMeThreshold) INTERSECTED with the
+/// FilterPanel facets. Returns an empty list — never the catalog — with a
+/// [ForMeEmptyState] the caller renders:
+///  - [ForMeEmptyState.completeProfile] when the profile is too sparse;
+///  - [ForMeEmptyState.noMatches] when it is usable but nothing qualifies.
+/// Pure — no BuildContext.
+ForMeViewResult computeForMeView({
+  required List<Scheme> master,
+  required UserProfile profile,
+  required Map<String, dynamic> filters,
+}) {
+  if (!RecommendationEngine.hasEnoughProfileForRecommendation(profile)) {
+    return const ForMeViewResult(<Scheme>[], ForMeEmptyState.completeProfile);
+  }
+  final gated = master
+      .where((s) =>
+          RecommendationEngine.evaluate(profile, s).score >=
+          RecommendationEngine.forMeThreshold)
+      .toList();
+  final filtered = applyProviderFacetFilters(gated, filters);
+  return ForMeViewResult(
+    filtered,
+    filtered.isEmpty ? ForMeEmptyState.noMatches : ForMeEmptyState.none,
+  );
+}
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -64,17 +153,35 @@ class SearchScreenState extends State<SearchScreen> {
     return baseWeight;
   }
 
+  // Which empty state the "For Me" results view should render (see
+  // ForMeEmptyState). Kept current even when there is nothing to filter so
+  // the view can explain *why* it is empty instead of silently showing the
+  // whole catalog or a bare "no results".
+  ForMeEmptyState _forMeEmptyState = ForMeEmptyState.none;
+
   List<Scheme> _computeEligibleSchemes(AppProvider provider, List<Scheme> all) {
     final list = all.isNotEmpty ? all : provider.allSchemes;
-    final recs =
-        RecommendationEngine.getRecommendations(provider.profile, list);
-    return recs
-        .where((e) => e.value.score > 0.35)
-        .map((e) => e.key)
-        .toList();
+    // Single source of truth for the "For Me" set: an additive score gate at
+    // RecommendationEngine.forMeThreshold, and an empty list when the profile
+    // is not populated enough to personalise. Keeps the list and the
+    // `_matchingProfileCount` badge in exact agreement.
+    return RecommendationEngine.forMeSchemes(provider.profile, list);
   }
 
   void _applyFiltersAndSort() {
+    final provider = Provider.of<AppProvider>(context, listen: false);
+
+    // Keep the "For Me" empty-state classification current even when there is
+    // nothing to filter (the early-return path below).
+    if (_activeFilter == 'For Me' &&
+        !RecommendationEngine.hasEnoughProfileForRecommendation(
+          provider.profile,
+        )) {
+      _forMeEmptyState = ForMeEmptyState.completeProfile;
+    } else if (_activeFilter != 'For Me') {
+      _forMeEmptyState = ForMeEmptyState.none;
+    }
+
     if (_masterSearchResults.isEmpty) {
       setState(() {
         _searchResults = [];
@@ -82,8 +189,6 @@ class SearchScreenState extends State<SearchScreen> {
       });
       return;
     }
-
-    final provider = Provider.of<AppProvider>(context, listen: false);
     List<Scheme> filteredResults = List<Scheme>.from(_masterSearchResults);
 
     // 1. Dropdown Chips Filters: Type (Loan, Subsidy, etc.)
@@ -150,46 +255,13 @@ class SearchScreenState extends State<SearchScreen> {
       }).toList();
     }
 
-    // 4. Provider Filters (from FilterPanel) - only apply when not in "For Me" mode
+    // 4. Provider Filters (from FilterPanel) - applied in EVERY mode. In
+    // "For Me" the score gate (step 6 below) folds these in via
+    // computeForMeView, so only apply them here for the other modes to avoid
+    // filtering twice.
     if (_activeFilter != 'For Me') {
-      final providerFilters = provider.filters;
-      if (providerFilters['state'] != null &&
-          providerFilters['state'] != 'All') {
-        final st = providerFilters['state'].toString().toLowerCase();
-        filteredResults = filteredResults.where((scheme) {
-          return scheme.state.toLowerCase() == 'all india' ||
-              scheme.state.toLowerCase().contains(st);
-        }).toList();
-      }
-      if (providerFilters['category'] != null &&
-          providerFilters['category'] != 'All') {
-        final catVal = providerFilters['category'].toString().toLowerCase();
-        final words = catVal.split(RegExp(r'[\s&/,-]+'));
-        filteredResults = filteredResults.where((scheme) {
-          final schCat = scheme.category.toLowerCase();
-          final schSec = scheme.sector.toLowerCase();
-          for (var w in words) {
-            if (w.length > 2 && (schCat.contains(w) || schSec.contains(w))) {
-              return true;
-            }
-          }
-          return false;
-        }).toList();
-      }
-      if (providerFilters['schemeType'] != null &&
-          providerFilters['schemeType'] != 'All') {
-        final stType = providerFilters['schemeType'].toString().toLowerCase();
-        filteredResults = filteredResults.where((scheme) {
-          return scheme.schemeType.toLowerCase().contains(stType) ||
-              scheme.category.toLowerCase().contains(stType);
-        }).toList();
-      }
-    } else {
-      // In "For Me" mode, strictly maintain profile eligibility
-      filteredResults = filteredResults.where((scheme) {
-        final res = RecommendationEngine.evaluate(provider.profile, scheme);
-        return res.score > 0.35;
-      }).toList();
+      filteredResults =
+          applyProviderFacetFilters(filteredResults, provider.filters);
     }
 
     // 5. Apply FilterBottomSheet selections if any
@@ -287,12 +359,20 @@ class SearchScreenState extends State<SearchScreen> {
       }).toList();
     }
 
-    // 5. If "For Me" filter is active, strictly constrain to user's eligible schemes
+    // 6. If "For Me" filter is active, resolve the view through the pure
+    // computeForMeView: score gate (>= forMeThreshold) INTERSECTED with the
+    // FilterPanel facets, or an empty list + a ForMeEmptyState when the
+    // profile is too sparse / nothing qualifies. Never the catalog.
     if (_activeFilter == 'For Me') {
-      filteredResults = filteredResults.where((scheme) {
-        final res = RecommendationEngine.evaluate(provider.profile, scheme);
-        return res.score >= 0.4 && res.score > 0.0;
-      }).toList();
+      final view = computeForMeView(
+        master: filteredResults,
+        profile: provider.profile,
+        filters: provider.filters,
+      );
+      filteredResults = List<Scheme>.from(view.schemes);
+      _forMeEmptyState = view.emptyState;
+    } else {
+      _forMeEmptyState = ForMeEmptyState.none;
     }
 
     // 6. Sorting
@@ -1157,6 +1237,37 @@ class SearchScreenState extends State<SearchScreen> {
         : _activeFilter;
 
     if (_searchResults.isEmpty) {
+      final isTa = provider.selectedLanguage == 'ta';
+      final bool forMeNeedsProfile = _activeFilter == 'For Me' &&
+          _forMeEmptyState == ForMeEmptyState.completeProfile;
+      final bool forMeNoMatches = _activeFilter == 'For Me' &&
+          _forMeEmptyState != ForMeEmptyState.completeProfile;
+
+      final String title;
+      final String subtitle;
+      final IconData icon;
+      if (forMeNeedsProfile) {
+        icon = Icons.assignment_ind_outlined;
+        title = isTa
+            ? 'தனிப்பட்ட பரிந்துரைகளுக்கு உங்கள் சுயவிவரத்தை நிரப்பவும்'
+            : 'Complete your profile to see personalised matches';
+        subtitle = isTa
+            ? 'வயது, பாலினம் மற்றும் மாநிலம் சேர்த்தால் "எனக்கானது" உங்களுக்கு ஏற்ற திட்டங்களைக் காட்டும்.'
+            : 'Add your date of birth, gender and state so "For Me" can match schemes to you.';
+      } else if (forMeNoMatches) {
+        icon = Icons.search_off_rounded;
+        title = isTa
+            ? 'உங்கள் சுயவிவரத்திற்கு இப்போது பொருந்தும் திட்டங்கள் இல்லை'
+            : 'No schemes match your profile yet';
+        subtitle = isTa
+            ? 'வடிகட்டிகளை மாற்றவும் அல்லது சுயவிவரத்தைப் புதுப்பிக்கவும்.'
+            : 'Try adjusting the filters, or update your profile details.';
+      } else {
+        icon = Icons.search_off_rounded;
+        title = context.l10n.noSchemesFound(queryText);
+        subtitle = context.l10n.tryDifferentKeyword;
+      }
+
       return ListView(
         key: const ValueKey('ResultsContent'),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 48),
@@ -1165,14 +1276,10 @@ class SearchScreenState extends State<SearchScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.search_off_rounded,
-                  size: 48,
-                  color: Colors.grey[400],
-                ),
+                Icon(icon, size: 48, color: Colors.grey[400]),
                 const SizedBox(height: 12),
                 Text(
-                  context.l10n.noSchemesFound(queryText),
+                  title,
                   style: GoogleFonts.poppins(
                     fontSize: _scaledFontSize(15),
                     fontWeight: FontWeight.bold,
@@ -1182,7 +1289,7 @@ class SearchScreenState extends State<SearchScreen> {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  context.l10n.tryDifferentKeyword,
+                  subtitle,
                   style: GoogleFonts.inter(
                     fontSize: _scaledFontSize(12),
                     color: const Color(0xFF64748B),

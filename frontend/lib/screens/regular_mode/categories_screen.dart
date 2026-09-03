@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../models/scheme_model.dart';
 import '../../providers/app_state_provider.dart';
 import '../../services/scheme_repository.dart';
 import '../../l10n/l10n.dart';
@@ -9,6 +10,7 @@ import '../../services/centralized_translator.dart';
 import '../../utils/responsive.dart';
 import '../../widgets/smart_assessment_bottom_sheet.dart';
 import 'search_results_screen.dart';
+import '../../utils/app_spacing.dart';
 
 String _getLocalizedCategoryOrMinistry(String text, String langCode) {
   if (langCode != 'ta') return text;
@@ -96,6 +98,321 @@ String _getLocalizedCategoryOrMinistry(String text, String langCode) {
   return text;
 }
 
+/// DiscoverCounts
+/// ──────────────
+/// Deterministic, connectivity-independent derivation of the Discover tab's
+/// per-grouping scheme counts, computed entirely from the offline catalog
+/// (`SchemeRepository.getAllSchemes()` == `bundle.schemes`, the 219 rows of
+/// `scheme_catalog.json`). One row == one scheme, everywhere.
+///
+/// This replaces the previous `_loadDynamicCounts()` implementation, which
+/// called `repo.getSchemesByCategory/Ministry/State(name).length` — a loose
+/// keyword `.where()` over `category`/`searchKeywords`/`overview`/`benefits`
+/// that (a) hit `/v1/search` when online, so counts changed with
+/// connectivity, (b) double-counted categories, (c) inflated ministries via
+/// free-text "finance"/"rural" matches in overview prose, and (d) inflated
+/// every state because `getSchemesByState` treated every central / "all
+/// india" / blank-state scheme as matching *every* state name.
+///
+/// Design decisions (see PR body):
+///   • State  — a scheme counts for a state if it is nationally applicable
+///     (central / central+state / Pan-India) OR its own `state` field names
+///     that state. The central-schemes-count-for-every-state overlap is
+///     INTENTIONAL and honest: those schemes genuinely apply there. Tamil
+///     Nadu therefore legitimately shows more than Maharashtra (it has
+///     state-scoped schemes on top of the national baseline).
+///   • Ministry — matched on the structured `ministry` field (falling back to
+///     `sponsoringBody`), via a small normalized-alias map. NOT a substring
+///     search of overview text. Ministries with no schemes legitimately
+///     show 0 ("Updating Soon").
+///   • Category — the curated Discover categories ("Women Entrepreneurship",
+///     "Startup & Incubation", …) are marketing concepts that do not map to
+///     any single structured field (the catalog's `sectors`/`schemeType`/
+///     `tags` are empty on most schemes — Phase 1 finding). So category uses
+///     an explicit, fixed keyword predicate over the scheme's structured +
+///     descriptive text. Categories deliberately OVERLAP (a scheme can be
+///     both "Startup" and "Women Entrepreneurship"), so `sum(category
+///     counts) > 219` by construction — this is reported, not hidden, and
+///     there is no "fall back to MSME schemes when nothing matches" inflation.
+class DiscoverCounts {
+  DiscoverCounts._();
+
+  /// Curated category cards shown on Discover (mirrors the labels the screen
+  /// looks up in `_dynamicCategoryCounts`).
+  static const List<String> categoryLabels = [
+    'Business & MSME',
+    'Startup & Incubation',
+    'Loans & Credit Support',
+    'Women Entrepreneurship',
+    'Finance & Banking',
+    'Skill Development',
+    'Artisan & Craftsmen',
+    'Digital India & Tech',
+    'Student & Youth Startups',
+    'Manufacturing & Industry',
+    'Export & Trade Promotion',
+    'Agriculture & Allied',
+    'Rural Development & SHG',
+    'Technology & Innovation',
+    'Khadi & Village Industries',
+    'SC / ST & Minority',
+    'Green Energy & Environment',
+    'Health & Healthcare',
+    'Food Processing',
+    'Education & Fellowship',
+    'Infrastructure & Logistics',
+    'Social Welfare & Support',
+    'Renewable & Energy Efficiency',
+    // Short aliases still referenced by older curated collections / tests.
+    'Startup',
+    'Finance',
+    'Artisan',
+    'Digital India',
+    'Women Entrepreneurs',
+    'Student Startups',
+  ];
+
+  static const List<String> ministryLabels = [
+    'Ministry of MSME',
+    'Ministry of Education',
+    'Ministry of Finance',
+    'Ministry of Agriculture',
+    'Ministry of Rural Development',
+    'Ministry of Skill Development',
+    'Ministry of Social Justice',
+    'Ministry of Housing',
+    'Ministry of Health',
+  ];
+
+  static const List<String> stateLabels = [
+    'Tamil Nadu',
+    'Maharashtra',
+    'Uttar Pradesh',
+    'Karnataka',
+    'Gujarat',
+    'Andhra Pradesh',
+    'Arunachal Pradesh',
+    'Assam',
+    'Bihar',
+    'Chhattisgarh',
+    'Delhi',
+    'Goa',
+    'Haryana',
+    'Himachal Pradesh',
+    'Jammu & Kashmir',
+    'Jharkhand',
+    'Kerala',
+    'Ladakh',
+    'Madhya Pradesh',
+    'Manipur',
+    'Meghalaya',
+    'Mizoram',
+    'Nagaland',
+    'Odisha',
+    'Puducherry',
+    'Punjab',
+    'Rajasthan',
+    'Sikkim',
+    'Telangana',
+    'Tripura',
+    'Uttarakhand',
+    'West Bengal',
+  ];
+
+  /// Fixed keyword predicate per curated category. Matched (case-insensitive
+  /// substring) against a scheme's structured + descriptive text.
+  static const Map<String, List<String>> _categoryKeywords = {
+    'Business & MSME': [
+      'msme', 'micro enterprise', 'small enterprise', 'medium enterprise',
+      'udyam', 'micro, small'
+    ],
+    'Startup & Incubation': [
+      'startup', 'start-up', 'incubat', 'dpiit', 'seed fund', 'accelerator'
+    ],
+    'Loans & Credit Support': [
+      'loan', 'credit', 'collateral', 'mudra', 'cgtmse', 'working capital',
+      'term loan', 'refinanc'
+    ],
+    'Women Entrepreneurship': ['women', 'mahila', 'female'],
+    'Finance & Banking': [
+      'bank', 'finance', 'financial', 'venture capital', 'equity',
+      'credit guarantee', 'sidbi'
+    ],
+    'Skill Development': [
+      'skill', 'training', 'apprentice', 'vocational', 'upskill',
+      'capacity building', 'entrepreneurship development programme'
+    ],
+    'Artisan & Craftsmen': [
+      'artisan', 'craft', 'handicraft', 'handloom', 'weaver', 'vishwakarma',
+      'coir', 'pottery', 'khadi'
+    ],
+    'Digital India & Tech': [
+      'digital', 'e-commerce', 'e commerce', 'ict', 'online platform',
+      'technology adoption'
+    ],
+    'Student & Youth Startups': [
+      'student', 'youth', 'campus', 'fellowship', 'young entrepreneur'
+    ],
+    'Manufacturing & Industry': [
+      'manufactur', 'industr', 'production', 'plant & machinery', 'lean',
+      'factory', 'zed'
+    ],
+    'Export & Trade Promotion': [
+      'export', 'trade promotion', 'international market', 'dgft',
+      'foreign trade', 'exhibition', 'cross-border'
+    ],
+    'Agriculture & Allied': [
+      'agricultur', 'farmer', 'agri ', 'agri-', 'horticultur', 'allied',
+      'dairy', 'fisher', 'animal husbandry', 'agro'
+    ],
+    'Rural Development & SHG': [
+      'rural', 'shg', 'self help', 'self-help', 'livelihood', 'village',
+      'panchayat'
+    ],
+    'Technology & Innovation': [
+      'innovat', 'r&d', 'research', 'patent', 'deep tech', 'technolog'
+    ],
+    'Khadi & Village Industries': [
+      'khadi', 'village industr', 'pmegp', 'honey mission', 'kvic'
+    ],
+    'SC / ST & Minority': [
+      'sc/st', 'sc / st', 'sc-st', 'scheduled caste', 'scheduled tribe',
+      'minorit', 'dalit', 'adivasi'
+    ],
+    'Green Energy & Environment': [
+      'green', 'environment', 'clean tech', 'pollution', 'sustainab',
+      'carbon', 'effluent', 'eco-friendly'
+    ],
+    'Health & Healthcare': [
+      'health', 'hospital', 'medical', 'ayushman', 'wellness', 'pharma'
+    ],
+    'Food Processing': [
+      'food processing', 'pmfme', 'cold chain', 'food safety',
+      'agro processing', 'micro food'
+    ],
+    'Education & Fellowship': [
+      'education', 'scholarship', 'fellowship', 'research grant', 'academ'
+    ],
+    'Infrastructure & Logistics': [
+      'infrastructure', 'logistic', 'industrial park', 'cluster', 'warehous',
+      'common facility', 'flatted factory'
+    ],
+    'Social Welfare & Support': [
+      'welfare', 'social security', 'pension', 'maternity', 'rehabilitat',
+      'differently abled', 'disabilit', 'insurance'
+    ],
+    'Renewable & Energy Efficiency': [
+      'renewable', 'energy efficiency', 'solar', 'power backup',
+      'energy conservation', 'energy audit'
+    ],
+    'Startup': ['startup', 'start-up', 'incubat', 'dpiit', 'seed fund'],
+    'Finance': ['finance', 'financial', 'loan', 'credit', 'bank', 'sidbi'],
+    'Artisan': [
+      'artisan', 'craft', 'handicraft', 'handloom', 'weaver', 'vishwakarma'
+    ],
+    'Digital India': ['digital', 'e-commerce', 'e commerce', 'ict'],
+    'Women Entrepreneurs': ['women', 'mahila', 'female'],
+    'Student Startups': ['student', 'youth', 'campus', 'fellowship'],
+  };
+
+  /// Normalized aliases for ministry-name matching against the structured
+  /// `ministry` / `sponsoringBody` field (never overview text).
+  static const Map<String, List<String>> _ministryAliases = {
+    'Ministry of MSME': ['micro, small', 'msme'],
+    'Ministry of Education': [
+      'ministry of education', 'department of higher education',
+      'department of school education'
+    ],
+    'Ministry of Finance': [
+      'ministry of finance', 'department of financial services',
+      'department of economic affairs'
+    ],
+    'Ministry of Agriculture': [
+      'ministry of agriculture', 'agriculture & farmers',
+      'agriculture and farmers'
+    ],
+    'Ministry of Rural Development': ['rural development'],
+    'Ministry of Skill Development': ['skill development'],
+    'Ministry of Social Justice': ['social justice'],
+    'Ministry of Housing': ['housing and urban', 'housing & urban'],
+    'Ministry of Health': [
+      'health and family welfare', 'health & family welfare',
+      'ministry of health'
+    ],
+  };
+
+  static String _composite(Scheme s) => (
+        '${s.name} ${s.shortName} ${s.category} ${s.schemeType} ${s.sector} '
+        '${s.targetBeneficiary} ${s.searchKeywords} ${s.overview} ${s.benefits}'
+      ).toLowerCase();
+
+  /// A scheme that applies across India regardless of the user's state:
+  /// central / central+state government level, or a Pan-India / All-India /
+  /// blank state field.
+  static bool nationallyApplicable(Scheme s) {
+    final level = s.governmentLevel.toLowerCase();
+    final state = s.state.toLowerCase();
+    return level.contains('central') ||
+        state.contains('pan-india') ||
+        state.contains('all india') ||
+        state.trim().isEmpty;
+  }
+
+  static bool matchesCategory(Scheme s, String label) {
+    final keywords = _categoryKeywords[label];
+    if (keywords == null || keywords.isEmpty) return false;
+    final hay = _composite(s);
+    return keywords.any(hay.contains);
+  }
+
+  static bool matchesMinistry(Scheme s, String label) {
+    final aliases = _ministryAliases[label] ?? <String>[label.toLowerCase()];
+    final hay =
+        (s.ministry.isNotEmpty ? s.ministry : s.sponsoringBody).toLowerCase();
+    return aliases.any(hay.contains);
+  }
+
+  static bool matchesState(Scheme s, String label) {
+    if (nationallyApplicable(s)) return true;
+    return s.state.toLowerCase().contains(label.toLowerCase());
+  }
+
+  /// The exact rows [compute] counted for ([label], [kind]) — so the
+  /// drilldown list opened from a Discover card can never disagree with the
+  /// number printed on that card. [kind] is 'category' | 'ministry' | 'state'.
+  static List<Scheme> schemesFor(
+    String label,
+    String kind,
+    List<Scheme> schemes,
+  ) {
+    switch (kind) {
+      case 'ministry':
+        return schemes.where((s) => matchesMinistry(s, label)).toList();
+      case 'state':
+        return schemes.where((s) => matchesState(s, label)).toList();
+      case 'category':
+      default:
+        return schemes.where((s) => matchesCategory(s, label)).toList();
+    }
+  }
+
+  /// Computes every displayed grouping count from [schemes]. Deterministic:
+  /// the same input always yields the same map.
+  static Map<String, int> compute(List<Scheme> schemes) {
+    final counts = <String, int>{};
+    for (final label in categoryLabels) {
+      counts[label] = schemes.where((s) => matchesCategory(s, label)).length;
+    }
+    for (final label in ministryLabels) {
+      counts[label] = schemes.where((s) => matchesMinistry(s, label)).length;
+    }
+    for (final label in stateLabels) {
+      counts[label] = schemes.where((s) => matchesState(s, label)).length;
+    }
+    return counts;
+  }
+}
+
 class CategoryItem {
   final String title;
   final String description;
@@ -145,102 +462,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
   Future<void> _loadDynamicCounts() async {
     try {
-      final repo = SchemeRepository.instance;
-      final Map<String, int> counts = {};
-
-      final categoriesToLoad = [
-        'Business & MSME',
-        'Startup & Incubation',
-        'Loans & Credit Support',
-        'Women Entrepreneurship',
-        'Finance & Banking',
-        'Skill Development',
-        'Artisan & Craftsmen',
-        'Digital India & Tech',
-        'Student & Youth Startups',
-        'Manufacturing & Industry',
-        'Export & Trade Promotion',
-        'Agriculture & Allied',
-        'Rural Development & SHG',
-        'Technology & Innovation',
-        'Khadi & Village Industries',
-        'SC / ST & Minority',
-        'Green Energy & Environment',
-        'Health & Healthcare',
-        'Food Processing',
-        'Education & Fellowship',
-        'Infrastructure & Logistics',
-        'Social Welfare & Support',
-        'Renewable & Energy Efficiency',
-        'Startup',
-        'Finance',
-        'Artisan',
-        'Digital India',
-        'Women Entrepreneurs',
-        'Student Startups',
-      ];
-
-      for (final cat in categoriesToLoad) {
-        final list = await repo.getSchemesByCategory(cat);
-        counts[cat] = list.length;
-      }
-
-      final ministriesToLoad = [
-        'Ministry of MSME',
-        'Ministry of Education',
-        'Ministry of Finance',
-        'Ministry of Agriculture',
-        'Ministry of Rural Development',
-        'Ministry of Skill Development',
-        'Ministry of Social Justice',
-        'Ministry of Housing',
-        'Ministry of Health',
-      ];
-
-      for (final min in ministriesToLoad) {
-        final list = await repo.getSchemesByMinistry(min);
-        counts[min] = list.length;
-      }
-
-      final statesToLoad = [
-        'Tamil Nadu',
-        'Maharashtra',
-        'Uttar Pradesh',
-        'Karnataka',
-        'Gujarat',
-        'Andhra Pradesh',
-        'Arunachal Pradesh',
-        'Assam',
-        'Bihar',
-        'Chhattisgarh',
-        'Delhi',
-        'Goa',
-        'Haryana',
-        'Himachal Pradesh',
-        'Jammu & Kashmir',
-        'Jharkhand',
-        'Kerala',
-        'Ladakh',
-        'Madhya Pradesh',
-        'Manipur',
-        'Meghalaya',
-        'Mizoram',
-        'Nagaland',
-        'Odisha',
-        'Puducherry',
-        'Punjab',
-        'Rajasthan',
-        'Sikkim',
-        'Telangana',
-        'Tripura',
-        'Uttarakhand',
-        'West Bengal',
-      ];
-
-      for (final st in statesToLoad) {
-        final list = await repo.getSchemesByState(st);
-        counts[st] = list.length;
-      }
+      // Derive every Discover count from the offline catalog's structured
+      // fields (219 rows) via [DiscoverCounts] — no /v1/search, no keyword
+      // sweep of overview prose, no hardcoded totals, connectivity-independent.
+      final schemes = await SchemeRepository.instance.getAllSchemes();
+      final counts = DiscoverCounts.compute(schemes);
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
@@ -497,7 +723,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         title: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(AppSpacing.sm),
               decoration: const BoxDecoration(
                 color: Color(0xFFEFF6FF),
                 shape: BoxShape.circle,
@@ -508,7 +734,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 size: 24,
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: AppSpacing.md),
             Expanded(
               child: Text(
                 isTa ? 'விரைவில் புதுப்பிக்கப்படும்' : 'Updating Soon',
@@ -539,7 +765,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl, vertical: AppSpacing.sm),
             ),
             child: Text(
               isTa ? 'சரி' : 'Got it',
@@ -576,9 +802,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       categoryName,
       'category',
       () async {
-        final schemes = await SchemeRepository.instance.getSchemesByCategory(
-          categoryName,
-        );
+        // Same derivation as the count on the card: the offline catalog
+        // filtered through the exact DiscoverCounts predicate. Never the
+        // connectivity-dependent /v1/search keyword path, so the list and
+        // the number can never disagree.
+        final all = await SchemeRepository.instance.getAllSchemes();
+        final schemes =
+            DiscoverCounts.schemesFor(categoryName, 'category', all);
         if (!mounted) return;
         if (schemes.isEmpty) {
           _showComingSoonInfo(categoryName, 'category');
@@ -609,9 +839,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       ministryName,
       'ministry',
       () async {
-        final schemes = await SchemeRepository.instance.getSchemesByMinistry(
-          ministryName,
-        );
+        final all = await SchemeRepository.instance.getAllSchemes();
+        final schemes =
+            DiscoverCounts.schemesFor(ministryName, 'ministry', all);
         if (!mounted) return;
         if (schemes.isEmpty) {
           _showComingSoonInfo(ministryName, 'ministry');
@@ -638,9 +868,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     }
 
     SmartAssessmentBottomSheet.show(context, stateName, 'state', () async {
-      final schemes = await SchemeRepository.instance.getSchemesByState(
-        stateName,
-      );
+      final all = await SchemeRepository.instance.getAllSchemes();
+      final schemes = DiscoverCounts.schemesFor(stateName, 'state', all);
       if (!mounted) return;
       if (schemes.isEmpty) {
         _showComingSoonInfo(stateName, 'state');
@@ -686,7 +915,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
         return SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(AppSpacing.xl),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -699,7 +928,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     color: const Color(0xFF0F172A),
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: AppSpacing.md),
                 ...stages.map((stage) {
                   return ListTile(
                     leading: CircleAvatar(
@@ -745,7 +974,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           children: [
             // Premium Header (Discover, AI collections)
             Padding(
-              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
+              padding: const EdgeInsets.fromLTRB(AppSpacing.lg, AppSpacing.lg, AppSpacing.lg, AppSpacing.sm),
               child: SizedBox(
                 width: double.infinity,
                 child: Column(
@@ -759,7 +988,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         color: const Color(0xFF0F172A),
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: AppSpacing.hairline),
                     Text(
                       context.l10n.exploreTopCuratedCollections,
                       style: GoogleFonts.inter(
@@ -776,12 +1005,12 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               child: SingleChildScrollView(
                 controller: _scrollController,
                 physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
                 child: Column(
                   children: [
                     // Horizontal Circle Quick-Links row
                     _buildQuickLinksRow(provider),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.lg),
 
                     // Section 1: By Category
                     _buildSectionHeader(
@@ -791,7 +1020,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           _showAllCategoriesBottomSheet(context, provider),
                     ),
                     _buildCategoryHorizontalList(provider),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.lg),
 
                     // Section 2: By Ministry
                     _buildSectionHeader(
@@ -801,7 +1030,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           _showAllMinistriesBottomSheet(context, provider),
                     ),
                     _buildMinistryHorizontalList(provider),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.lg),
 
                     // Section 3: By State
                     _buildSectionHeader(
@@ -811,9 +1040,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           _showAllStatesBottomSheet(context, provider),
                     ),
                     _buildStateHorizontalList(provider),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.lg),
                     _buildBusinessUtilitiesSection(),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: AppSpacing.xxl),
                   ],
                 ),
               ),
@@ -867,7 +1096,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: 12),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
         itemCount: items.length,
         itemBuilder: (context, index) {
           final item = items[index];
@@ -879,7 +1108,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             onTap: item['action'] as VoidCallback,
             child: Container(
               width: 88,
-              margin: const EdgeInsets.symmetric(horizontal: 4),
+              margin: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -909,7 +1138,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: AppSpacing.tight),
                   Text(
                     localizedTitle,
                     textAlign: TextAlign.center,
@@ -943,7 +1172,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
     return Padding(
       key: key,
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -962,7 +1191,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               onTap: onViewAll,
               borderRadius: BorderRadius.circular(8),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -976,7 +1205,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         color: const Color(0xFF2563EB),
                       ),
                     ),
-                    const SizedBox(width: 2),
+                    const SizedBox(width: AppSpacing.hairline),
                     const Icon(
                       Icons.chevron_right,
                       size: 16,
@@ -997,7 +1226,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
         itemCount: _displayCategories.length,
         itemBuilder: (context, index) {
           final item = _displayCategories[index];
@@ -1012,7 +1241,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
           return Container(
             width: 134,
-            margin: const EdgeInsets.symmetric(horizontal: 4.0),
+            margin: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
@@ -1029,12 +1258,12 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               onTap: () => _onCategorySelected(title, provider),
               borderRadius: BorderRadius.circular(16),
               child: Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: const EdgeInsets.all(AppSpacing.md),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(6),
+                      padding: const EdgeInsets.all(AppSpacing.tight),
                       decoration: const BoxDecoration(
                         color: Color(0xFFEFF6FF),
                         shape: BoxShape.circle,
@@ -1059,7 +1288,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         height: provider.selectedLanguage == 'ta' ? 1.3 : 1.2,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: AppSpacing.hairline),
                     Text(
                       countStr,
                       style: GoogleFonts.inter(
@@ -1086,7 +1315,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
         itemCount: _displayMinistries.length,
         itemBuilder: (context, index) {
           final item = _displayMinistries[index];
@@ -1100,7 +1329,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
           return Container(
             width: 134,
-            margin: const EdgeInsets.symmetric(horizontal: 4.0),
+            margin: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
@@ -1117,7 +1346,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               onTap: () => _onMinistrySelected(title, provider),
               borderRadius: BorderRadius.circular(16),
               child: Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: const EdgeInsets.all(AppSpacing.md),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -1170,7 +1399,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         height: provider.selectedLanguage == 'ta' ? 1.3 : 1.2,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: AppSpacing.hairline),
                     Text(
                       countStr,
                       style: GoogleFonts.inter(
@@ -1269,7 +1498,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
         itemCount: _displayStates.length,
         itemBuilder: (context, index) {
           final item = _displayStates[index];
@@ -1283,7 +1512,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
           return Container(
             width: 134,
-            margin: const EdgeInsets.symmetric(horizontal: 4.0),
+            margin: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
@@ -1300,7 +1529,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               onTap: () => _onStateSelected(title, provider),
               borderRadius: BorderRadius.circular(16),
               child: Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: const EdgeInsets.all(AppSpacing.md),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -1330,7 +1559,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         color: const Color(0xFF0F172A),
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: AppSpacing.hairline),
                     Text(
                       countStr,
                       style: GoogleFonts.inter(
@@ -1383,7 +1612,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 children: [
                   Center(
                     child: Container(
-                      margin: const EdgeInsets.only(top: 12),
+                      margin: const EdgeInsets.only(top: AppSpacing.md),
                       width: 40,
                       height: 4,
                       decoration: BoxDecoration(
@@ -1393,7 +1622,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(AppSpacing.xl),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -1423,7 +1652,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
                     child: Container(
                       decoration: BoxDecoration(
                         color: const Color(0xFFF8FAFC),
@@ -1447,24 +1676,24 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           ),
                           border: InputBorder.none,
                           contentPadding: const EdgeInsets.symmetric(
-                            vertical: 12,
+                            vertical: AppSpacing.md,
                           ),
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppSpacing.lg),
                   Expanded(
                     child: GridView.builder(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0,
-                        vertical: 8.0,
+                        horizontal: AppSpacing.xl,
+                        vertical: AppSpacing.sm,
                       ),
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 12,
+                            crossAxisSpacing: AppSpacing.sm,
+                            mainAxisSpacing: AppSpacing.md,
                             childAspectRatio: 0.78,
                           ),
                       itemCount: filtered.length,
@@ -1517,7 +1746,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           },
           borderRadius: BorderRadius.circular(16),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+            padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm, horizontal: AppSpacing.xs),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -1534,9 +1763,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     size: 22,
                   ),
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: AppSpacing.tight),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.hairline),
                   child: Text(
                     localizedTitle,
                     textAlign: TextAlign.center,
@@ -1549,7 +1778,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 2),
+                const SizedBox(height: AppSpacing.hairline),
                 Text(
                   countStr,
                   style: GoogleFonts.inter(
@@ -1603,7 +1832,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             children: [
               Center(
                 child: Container(
-                  margin: const EdgeInsets.only(top: 12),
+                  margin: const EdgeInsets.only(top: AppSpacing.md),
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
@@ -1613,7 +1842,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(AppSpacing.xl),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1639,7 +1868,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               ),
               Expanded(
                 child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
                   itemCount: ministries.length,
                   itemBuilder: (context, index) {
                     final title = ministries[index];
@@ -1655,7 +1884,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       type: MaterialType.transparency,
                       child: ListTile(
                         contentPadding: const EdgeInsets.symmetric(
-                          vertical: 4,
+                          vertical: AppSpacing.xs,
                         ),
                         leading: Container(
                           width: 38,
@@ -1759,7 +1988,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             children: [
               Center(
                 child: Container(
-                  margin: const EdgeInsets.only(top: 12),
+                  margin: const EdgeInsets.only(top: AppSpacing.md),
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
@@ -1769,7 +1998,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(AppSpacing.xl),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1795,7 +2024,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               ),
               Expanded(
                 child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
                   itemCount: states.length,
                   itemBuilder: (context, index) {
                     final title = states[index];
@@ -1811,7 +2040,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       type: MaterialType.transparency,
                       child: ListTile(
                         contentPadding: const EdgeInsets.symmetric(
-                          vertical: 4,
+                          vertical: AppSpacing.xs,
                         ),
                         leading: Image.asset(
                           _getStateMapAsset(title),
@@ -1867,7 +2096,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
           child: Text(
             isTa
                 ? CentralizedTranslator.instance.translate(
@@ -1881,13 +2110,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             ),
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: AppSpacing.sm),
         SizedBox(
           height: 98,
           child: ListView(
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
             children: [
               _buildUtilityCard(
                 icon: Icons.domain_verification,
@@ -1996,7 +2225,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   }) {
     return Container(
       width: 142,
-      margin: const EdgeInsets.symmetric(horizontal: 4),
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -2013,13 +2242,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         onTap: onTap,
         borderRadius: BorderRadius.circular(16),
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(AppSpacing.md),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(icon, color: const Color(0xFF2563EB), size: 20),
-              const SizedBox(height: 6),
+              const SizedBox(height: AppSpacing.tight),
               Text(
                 title,
                 maxLines: 1,
@@ -2081,7 +2310,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     child: Container(
                       width: 38,
                       height: 4,
-                      margin: const EdgeInsets.only(bottom: 16),
+                      margin: const EdgeInsets.only(bottom: AppSpacing.lg),
                       decoration: BoxDecoration(
                         color: const Color(0xFFE2E8F0),
                         borderRadius: BorderRadius.circular(2),
@@ -2091,7 +2320,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(AppSpacing.sm),
                         decoration: BoxDecoration(
                           color: const Color(0xFFEFF6FF),
                           borderRadius: BorderRadius.circular(10),
@@ -2102,7 +2331,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           size: 18,
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: AppSpacing.md),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -2143,7 +2372,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppSpacing.xl),
                   Text(
                     isTa
                         ? CentralizedTranslator.instance.translate(
@@ -2156,7 +2385,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       color: const Color(0xFF334155),
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: AppSpacing.tight),
                   TextField(
                     controller: investmentController,
                     keyboardType: const TextInputType.numberWithOptions(
@@ -2192,8 +2421,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         color: const Color(0xFF0F172A),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 10,
+                        horizontal: AppSpacing.lg,
+                        vertical: AppSpacing.sm,
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -2208,7 +2437,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 14),
+                  const SizedBox(height: AppSpacing.lg),
                   Text(
                     isTa
                         ? CentralizedTranslator.instance.translate(
@@ -2221,7 +2450,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       color: const Color(0xFF334155),
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: AppSpacing.tight),
                   TextField(
                     controller: turnoverController,
                     keyboardType: const TextInputType.numberWithOptions(
@@ -2257,8 +2486,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         color: const Color(0xFF0F172A),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 10,
+                        horizontal: AppSpacing.lg,
+                        vertical: AppSpacing.sm,
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -2273,7 +2502,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppSpacing.xl),
                   if (result.isNotEmpty) ...[
                     Container(
                       width: double.infinity,
@@ -2300,8 +2529,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 12,
+                                  horizontal: AppSpacing.lg,
+                                  vertical: AppSpacing.md,
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -2320,7 +2549,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                         letterSpacing: 0.5,
                                       ),
                                     ),
-                                    const SizedBox(height: 4),
+                                    const SizedBox(height: AppSpacing.xs),
                                     Text(
                                       isTa
                                           ? CentralizedTranslator.instance
@@ -2333,7 +2562,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                       ),
                                     ),
                                     if (subResult.isNotEmpty) ...[
-                                      const SizedBox(height: 4),
+                                      const SizedBox(height: AppSpacing.xs),
                                       Text(
                                         isTa
                                             ? CentralizedTranslator.instance
@@ -2353,7 +2582,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: AppSpacing.xl),
                   ],
                   SizedBox(
                     width: double.infinity,
@@ -2463,7 +2692,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     child: Container(
                       width: 38,
                       height: 4,
-                      margin: const EdgeInsets.only(bottom: 16),
+                      margin: const EdgeInsets.only(bottom: AppSpacing.lg),
                       decoration: BoxDecoration(
                         color: const Color(0xFFE2E8F0),
                         borderRadius: BorderRadius.circular(2),
@@ -2473,7 +2702,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(AppSpacing.sm),
                         decoration: BoxDecoration(
                           color: const Color(0xFFEFF6FF),
                           borderRadius: BorderRadius.circular(10),
@@ -2484,7 +2713,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           size: 18,
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: AppSpacing.md),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -2525,7 +2754,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppSpacing.xl),
                   Text(
                     isTa
                         ? CentralizedTranslator.instance.translate(
@@ -2538,7 +2767,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       color: const Color(0xFF334155),
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: AppSpacing.tight),
                   TextField(
                     controller: amountController,
                     keyboardType: const TextInputType.numberWithOptions(
@@ -2568,8 +2797,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         color: const Color(0xFF0F172A),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 10,
+                        horizontal: AppSpacing.lg,
+                        vertical: AppSpacing.sm,
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -2584,7 +2813,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 14),
+                  const SizedBox(height: AppSpacing.lg),
                   Text(
                     isTa
                         ? CentralizedTranslator.instance.translate(
@@ -2597,14 +2826,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       color: const Color(0xFF334155),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSpacing.sm),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [5.0, 12.0, 18.0, 28.0].map((rate) {
                       final isSelected = gstPercentage == rate;
                       return Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
                           child: ChoiceChip(
                             label: Center(
                               child: Text(
@@ -2644,11 +2873,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       );
                     }).toList(),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppSpacing.xl),
                   if (error.isNotEmpty) ...[
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(AppSpacing.md),
                       decoration: BoxDecoration(
                         color: const Color(0xFFFEF2F2),
                         borderRadius: BorderRadius.circular(12),
@@ -2666,11 +2895,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.lg),
                   ] else if (baseVal > 0) ...[
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(AppSpacing.md),
                       decoration: BoxDecoration(
                         color: const Color(0xFFEFF6FF),
                         borderRadius: BorderRadius.circular(16),
@@ -2694,7 +2923,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: AppSpacing.sm),
                               Flexible(
                                 child: FitOneLine(
                                   alignment: Alignment.centerRight,
@@ -2711,7 +2940,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             ],
                           ),
                           const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 6.0),
+                            padding: EdgeInsets.symmetric(vertical: AppSpacing.tight),
                             child: Divider(color: Color(0xFFDBEAFE), height: 1),
                           ),
                           Row(
@@ -2727,7 +2956,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: AppSpacing.sm),
                               Flexible(
                                 child: FitOneLine(
                                   alignment: Alignment.centerRight,
@@ -2743,7 +2972,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: AppSpacing.xs),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -2757,7 +2986,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: AppSpacing.sm),
                               Flexible(
                                 child: FitOneLine(
                                   alignment: Alignment.centerRight,
@@ -2774,7 +3003,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             ],
                           ),
                           const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 6.0),
+                            padding: EdgeInsets.symmetric(vertical: AppSpacing.tight),
                             child: Divider(color: Color(0xFFDBEAFE), height: 1),
                           ),
                           Row(
@@ -2794,7 +3023,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: AppSpacing.sm),
                               Flexible(
                                 child: FitOneLine(
                                   alignment: Alignment.centerRight,
@@ -2813,7 +3042,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: AppSpacing.xl),
                   ],
                   SizedBox(
                     width: double.infinity,
@@ -2903,7 +3132,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     child: Container(
                       width: 38,
                       height: 4,
-                      margin: const EdgeInsets.only(bottom: 16),
+                      margin: const EdgeInsets.only(bottom: AppSpacing.lg),
                       decoration: BoxDecoration(
                         color: const Color(0xFFE2E8F0),
                         borderRadius: BorderRadius.circular(2),
@@ -2913,7 +3142,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(AppSpacing.sm),
                         decoration: BoxDecoration(
                           color: const Color(0xFFEFF6FF),
                           borderRadius: BorderRadius.circular(10),
@@ -2924,7 +3153,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           size: 18,
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: AppSpacing.md),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -2957,7 +3186,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppSpacing.xl),
                   Text(
                     'Loan Amount',
                     style: GoogleFonts.inter(
@@ -2966,7 +3195,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       color: const Color(0xFF334155),
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: AppSpacing.tight),
                   TextField(
                     controller: loanController,
                     keyboardType: const TextInputType.numberWithOptions(
@@ -2992,8 +3221,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         color: const Color(0xFF0F172A),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 10,
+                        horizontal: AppSpacing.lg,
+                        vertical: AppSpacing.sm,
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -3008,7 +3237,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 14),
+                  const SizedBox(height: AppSpacing.lg),
                   Row(
                     children: [
                       Expanded(
@@ -3023,7 +3252,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                 color: const Color(0xFF334155),
                               ),
                             ),
-                            const SizedBox(height: 6),
+                            const SizedBox(height: AppSpacing.tight),
                             TextField(
                               controller: rateController,
                               keyboardType:
@@ -3045,8 +3274,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   color: const Color(0xFF64748B),
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 14,
-                                  vertical: 10,
+                                  horizontal: AppSpacing.lg,
+                                  vertical: AppSpacing.sm,
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -3066,7 +3295,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(width: 14),
+                      const SizedBox(width: AppSpacing.lg),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -3079,7 +3308,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                 color: const Color(0xFF334155),
                               ),
                             ),
-                            const SizedBox(height: 6),
+                            const SizedBox(height: AppSpacing.tight),
                             TextField(
                               controller: tenureController,
                               keyboardType: TextInputType.number,
@@ -3098,8 +3327,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   color: const Color(0xFF64748B),
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 14,
-                                  vertical: 10,
+                                  horizontal: AppSpacing.lg,
+                                  vertical: AppSpacing.sm,
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -3121,11 +3350,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppSpacing.xl),
                   if (error.isNotEmpty) ...[
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(AppSpacing.md),
                       decoration: BoxDecoration(
                         color: const Color(0xFFFEF2F2),
                         borderRadius: BorderRadius.circular(12),
@@ -3141,11 +3370,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.lg),
                   ] else if (emiVal > 0) ...[
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(AppSpacing.md),
                       decoration: BoxDecoration(
                         color: const Color(0xFFEFF6FF),
                         borderRadius: BorderRadius.circular(16),
@@ -3169,7 +3398,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: AppSpacing.sm),
                               Flexible(
                                 child: FitOneLine(
                                   alignment: Alignment.centerRight,
@@ -3186,7 +3415,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             ],
                           ),
                           const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 6.0),
+                            padding: EdgeInsets.symmetric(vertical: AppSpacing.tight),
                             child: Divider(color: Color(0xFFDBEAFE), height: 1),
                           ),
                           Row(
@@ -3204,7 +3433,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: AppSpacing.sm),
                               Flexible(
                                 child: FitOneLine(
                                   alignment: Alignment.centerRight,
@@ -3220,7 +3449,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: AppSpacing.xs),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -3236,7 +3465,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: AppSpacing.sm),
                               Flexible(
                                 child: FitOneLine(
                                   alignment: Alignment.centerRight,
@@ -3253,7 +3482,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             ],
                           ),
                           const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 6.0),
+                            padding: EdgeInsets.symmetric(vertical: AppSpacing.tight),
                             child: Divider(color: Color(0xFFDBEAFE), height: 1),
                           ),
                           Row(
@@ -3271,7 +3500,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: AppSpacing.sm),
                               Flexible(
                                 child: FitOneLine(
                                   alignment: Alignment.centerRight,
@@ -3290,7 +3519,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: AppSpacing.xl),
                   ],
                   SizedBox(
                     width: double.infinity,
@@ -3385,7 +3614,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     child: Container(
                       width: 38,
                       height: 4,
-                      margin: const EdgeInsets.only(bottom: 16),
+                      margin: const EdgeInsets.only(bottom: AppSpacing.lg),
                       decoration: BoxDecoration(
                         color: const Color(0xFFE2E8F0),
                         borderRadius: BorderRadius.circular(2),
@@ -3395,7 +3624,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(AppSpacing.sm),
                         decoration: BoxDecoration(
                           color: const Color(0xFFEFF6FF),
                           borderRadius: BorderRadius.circular(10),
@@ -3406,7 +3635,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           size: 18,
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: AppSpacing.md),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -3439,7 +3668,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppSpacing.xl),
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(color: const Color(0xFFE2E8F0)),
@@ -3553,7 +3782,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppSpacing.xl),
                   if (result.isNotEmpty) ...[
                     Container(
                       width: double.infinity,
@@ -3565,7 +3794,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         ),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(12.0),
+                        padding: const EdgeInsets.all(AppSpacing.md),
                         child: Row(
                           children: [
                             Icon(
@@ -3575,7 +3804,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               color: resultColor,
                               size: 18,
                             ),
-                            const SizedBox(width: 10),
+                            const SizedBox(width: AppSpacing.sm),
                             Expanded(
                               child: Text(
                                 result,
@@ -3590,7 +3819,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: AppSpacing.xl),
                   ],
                   SizedBox(
                     width: double.infinity,
@@ -3682,7 +3911,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     child: Container(
                       width: 38,
                       height: 4,
-                      margin: const EdgeInsets.only(bottom: 16),
+                      margin: const EdgeInsets.only(bottom: AppSpacing.lg),
                       decoration: BoxDecoration(
                         color: const Color(0xFFE2E8F0),
                         borderRadius: BorderRadius.circular(2),
@@ -3692,7 +3921,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(AppSpacing.sm),
                         decoration: BoxDecoration(
                           color: const Color(0xFFEFF6FF),
                           borderRadius: BorderRadius.circular(10),
@@ -3703,7 +3932,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           size: 18,
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: AppSpacing.md),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -3736,7 +3965,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppSpacing.xl),
                   Text(
                     'Monthly Recurring Revenue (MRR)',
                     style: GoogleFonts.inter(
@@ -3745,7 +3974,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       color: const Color(0xFF334155),
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: AppSpacing.tight),
                   TextField(
                     controller: mrrController,
                     keyboardType: TextInputType.number,
@@ -3769,8 +3998,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         color: const Color(0xFF0F172A),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 10,
+                        horizontal: AppSpacing.lg,
+                        vertical: AppSpacing.sm,
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -3785,7 +4014,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 14),
+                  const SizedBox(height: AppSpacing.lg),
                   Row(
                     children: [
                       Expanded(
@@ -3800,7 +4029,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                 color: const Color(0xFF334155),
                               ),
                             ),
-                            const SizedBox(height: 6),
+                            const SizedBox(height: AppSpacing.tight),
                             TextField(
                               controller: growthController,
                               keyboardType:
@@ -3822,8 +4051,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   color: const Color(0xFF64748B),
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 14,
-                                  vertical: 10,
+                                  horizontal: AppSpacing.lg,
+                                  vertical: AppSpacing.sm,
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -3843,7 +4072,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(width: 14),
+                      const SizedBox(width: AppSpacing.lg),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -3856,7 +4085,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                 color: const Color(0xFF334155),
                               ),
                             ),
-                            const SizedBox(height: 6),
+                            const SizedBox(height: AppSpacing.tight),
                             DropdownButtonFormField<String>(
                               initialValue: selectedSector,
                               decoration: InputDecoration(
@@ -3869,8 +4098,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ),
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 10,
+                                  horizontal: AppSpacing.md,
+                                  vertical: AppSpacing.sm,
                                 ),
                               ),
                               items:
@@ -3899,11 +4128,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppSpacing.xl),
                   if (error.isNotEmpty) ...[
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(AppSpacing.md),
                       decoration: BoxDecoration(
                         color: const Color(0xFFFEF2F2),
                         borderRadius: BorderRadius.circular(12),
@@ -3919,11 +4148,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.lg),
                   ] else if (lowEstimate > 0) ...[
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(AppSpacing.md),
                       decoration: BoxDecoration(
                         color: const Color(0xFFEFF6FF),
                         borderRadius: BorderRadius.circular(16),
@@ -3947,7 +4176,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: AppSpacing.sm),
                               Flexible(
                                 child: FitOneLine(
                                   alignment: Alignment.centerRight,
@@ -3964,7 +4193,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             ],
                           ),
                           const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 6.0),
+                            padding: EdgeInsets.symmetric(vertical: AppSpacing.tight),
                             child: Divider(color: Color(0xFFDBEAFE), height: 1),
                           ),
                           Row(
@@ -3982,7 +4211,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: AppSpacing.sm),
                               Flexible(
                                 child: FitOneLine(
                                   alignment: Alignment.centerRight,
@@ -3998,7 +4227,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: AppSpacing.xs),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -4014,7 +4243,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: AppSpacing.sm),
                               Flexible(
                                 child: FitOneLine(
                                   alignment: Alignment.centerRight,
@@ -4033,7 +4262,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: AppSpacing.xl),
                   ],
                   SizedBox(
                     width: double.infinity,
@@ -4135,7 +4364,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     child: Container(
                       width: 38,
                       height: 4,
-                      margin: const EdgeInsets.only(bottom: 16),
+                      margin: const EdgeInsets.only(bottom: AppSpacing.lg),
                       decoration: BoxDecoration(
                         color: const Color(0xFFE2E8F0),
                         borderRadius: BorderRadius.circular(2),
@@ -4145,7 +4374,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(AppSpacing.sm),
                         decoration: BoxDecoration(
                           color: const Color(0xFFEFF6FF),
                           borderRadius: BorderRadius.circular(10),
@@ -4156,7 +4385,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           size: 18,
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: AppSpacing.md),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -4189,7 +4418,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppSpacing.xl),
                   Text(
                     'Business Entity Type',
                     style: GoogleFonts.inter(
@@ -4198,7 +4427,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       color: const Color(0xFF334155),
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: AppSpacing.tight),
                   DropdownButtonFormField<String>(
                     initialValue: selectedType,
                     decoration: InputDecoration(
@@ -4209,8 +4438,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 10,
+                        horizontal: AppSpacing.md,
+                        vertical: AppSpacing.sm,
                       ),
                     ),
                     items:
@@ -4262,7 +4491,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       }
                     },
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppSpacing.xl),
                   Text(
                     'Required Documents',
                     style: GoogleFonts.inter(
@@ -4271,7 +4500,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       color: const Color(0xFF334155),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSpacing.sm),
                   ConstrainedBox(
                     constraints: const BoxConstraints(maxHeight: 220),
                     child: ListView.builder(
@@ -4279,10 +4508,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       itemCount: checklist.length,
                       itemBuilder: (context, index) {
                         return Container(
-                          margin: const EdgeInsets.symmetric(vertical: 4.0),
+                          margin: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 8,
+                            horizontal: AppSpacing.md,
+                            vertical: AppSpacing.sm,
                           ),
                           decoration: BoxDecoration(
                             color: const Color(0xFFF8FAFC),
@@ -4296,7 +4525,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                 color: Color(0xFF2563EB),
                                 size: 16,
                               ),
-                              const SizedBox(width: 10),
+                              const SizedBox(width: AppSpacing.sm),
                               Expanded(
                                 child: Text(
                                   checklist[index],
@@ -4313,7 +4542,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppSpacing.xl),
                   SizedBox(
                     width: double.infinity,
                     height: 44,
@@ -4379,7 +4608,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     child: Container(
                       width: 38,
                       height: 4,
-                      margin: const EdgeInsets.only(bottom: 16),
+                      margin: const EdgeInsets.only(bottom: AppSpacing.lg),
                       decoration: BoxDecoration(
                         color: const Color(0xFFE2E8F0),
                         borderRadius: BorderRadius.circular(2),
@@ -4389,7 +4618,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(AppSpacing.sm),
                         decoration: BoxDecoration(
                           color: const Color(0xFFEFF6FF),
                           borderRadius: BorderRadius.circular(10),
@@ -4400,7 +4629,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           size: 18,
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: AppSpacing.md),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -4433,7 +4662,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppSpacing.xl),
                   Text(
                     'Project / Machinery Cost (Lakhs)',
                     style: GoogleFonts.inter(
@@ -4442,7 +4671,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       color: const Color(0xFF334155),
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: AppSpacing.tight),
                   TextField(
                     controller: costController,
                     keyboardType: const TextInputType.numberWithOptions(
@@ -4474,8 +4703,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         color: const Color(0xFF0F172A),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 10,
+                        horizontal: AppSpacing.lg,
+                        vertical: AppSpacing.sm,
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -4490,7 +4719,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 14),
+                  const SizedBox(height: AppSpacing.lg),
                   Text(
                     'Expected Subsidy Percentage (%)',
                     style: GoogleFonts.inter(
@@ -4499,7 +4728,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       color: const Color(0xFF334155),
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: AppSpacing.tight),
                   TextField(
                     controller: subsidyController,
                     keyboardType: const TextInputType.numberWithOptions(
@@ -4525,8 +4754,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         color: const Color(0xFF64748B),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 10,
+                        horizontal: AppSpacing.lg,
+                        vertical: AppSpacing.sm,
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -4541,11 +4770,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppSpacing.xl),
                   if (error.isNotEmpty) ...[
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(AppSpacing.md),
                       decoration: BoxDecoration(
                         color: const Color(0xFFFEF2F2),
                         borderRadius: BorderRadius.circular(12),
@@ -4561,11 +4790,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.lg),
                   ] else if (costVal > 0) ...[
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(AppSpacing.md),
                       decoration: BoxDecoration(
                         color: const Color(0xFFEFF6FF),
                         borderRadius: BorderRadius.circular(16),
@@ -4588,7 +4817,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: AppSpacing.sm),
                               Flexible(
                                 child: FitOneLine(
                                   alignment: Alignment.centerRight,
@@ -4604,7 +4833,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: AppSpacing.xs),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -4618,7 +4847,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: AppSpacing.sm),
                               Flexible(
                                 child: FitOneLine(
                                   alignment: Alignment.centerRight,
@@ -4635,7 +4864,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             ],
                           ),
                           const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 6.0),
+                            padding: EdgeInsets.symmetric(vertical: AppSpacing.tight),
                             child: Divider(color: Color(0xFFDBEAFE), height: 1),
                           ),
                           Row(
@@ -4654,7 +4883,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: AppSpacing.sm),
                               Flexible(
                                 child: FitOneLine(
                                   alignment: Alignment.centerRight,
@@ -4673,7 +4902,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: AppSpacing.xl),
                   ],
                   SizedBox(
                     width: double.infinity,
