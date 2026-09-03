@@ -37,24 +37,19 @@ void main() async {
     ),
   );
 
-  // Supabase connection config comes from --dart-define-from-file at build
-  // time (see frontend/dart_defines.example.json). The URL is not a secret so
-  // it keeps a default; the publishable key must be supplied explicitly.
+  // Supabase connection config. Overridable at build time via
+  // --dart-define-from-file=dart_defines.json (keys SUPABASE_URL /
+  // SUPABASE_PUBLISHABLE_KEY); the compiled-in defaults are the production
+  // project URL + publishable key, both public by design so the app runs
+  // with no build flags.
   const supabaseUrl = String.fromEnvironment(
     'SUPABASE_URL',
     defaultValue: 'https://houpzsxmwemoztpuigmo.supabase.co',
   );
   const supabasePublishableKey = String.fromEnvironment(
     'SUPABASE_PUBLISHABLE_KEY',
+    defaultValue: 'sb_publishable_GnJpz6ZxuGeeroG92VkbBA_b3_pyTvN',
   );
-  if (supabasePublishableKey.isEmpty) {
-    throw StateError(
-      'SUPABASE_PUBLISHABLE_KEY is not set. Copy '
-      'frontend/dart_defines.example.json to frontend/dart_defines.json, fill '
-      'in the publishable key, and run with '
-      '--dart-define-from-file=dart_defines.json.',
-    );
-  }
 
   await Supabase.initialize(
     url: supabaseUrl,
