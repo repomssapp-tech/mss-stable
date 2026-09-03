@@ -22,7 +22,6 @@ from livekit.agents import (
 )
 from livekit.plugins import ai_coustics, sarvam
 
-from chat_logger import ChatLogger
 from scheme_catalog import SchemeCatalog
 
 logger = logging.getLogger("agent")
@@ -41,11 +40,6 @@ SCHEME_RESULTS_ATTRIBUTE = "in.schemes.results.v1"
 @lru_cache(maxsize=1)
 def get_scheme_catalog() -> SchemeCatalog:
     return SchemeCatalog()
-
-
-@lru_cache(maxsize=1)
-def get_chat_logger() -> ChatLogger:
-    return ChatLogger()
 
 
 def build_scheme_results_state(matches: list[dict]) -> dict:
@@ -387,13 +381,9 @@ class Assistant(Agent):
         self,
         profile: UserProfileContext | None = None,
         room: rtc.Room | None = None,
-        chat_logger: ChatLogger | None = None,
-        conversation_uid: str | None = None,
     ) -> None:
         resolved_profile = profile or UserProfileContext()
         self._room = room
-        self.chat_logger = chat_logger or get_chat_logger()
-        self.conversation_uid = conversation_uid
         super().__init__(
             llm=sarvam.LLM(model=SARVAM_LLM_MODEL, temperature=0.2),
             instructions=build_agent_instructions(resolved_profile),
@@ -473,10 +463,6 @@ async def saarthi_agent(ctx: JobContext):
     turns = VoiceTurnConfig.from_env()
     profile = await load_user_profile_context(ctx)
 
-    chat_logger = get_chat_logger()
-    room_uid = ctx.room.name if ctx.room and ctx.room.name else None
-    conversation_uid = chat_logger.start_conversation(custom_uid=room_uid)
-
     # Sarvam handles the multilingual speech and language pipeline. LiveKit keeps
     # realtime transport, turn detection, noise cancellation, and deployment.
     session = AgentSession(
@@ -530,36 +516,11 @@ async def saarthi_agent(ctx: JobContext):
         },
     )
 
-    # Attach conversation turn logger to voice pipeline events
-    active_turn_ref: str | None = None
-
-    @session.on("user_speech_committed")
-    def _on_user_speech(msg: object) -> None:
-        nonlocal active_turn_ref
-        text = getattr(msg, "content", None) or getattr(msg, "message", None) or str(msg or "")
-        if isinstance(text, str) and text.strip():
-            active_turn_ref = chat_logger.begin_turn(
-                uid=conversation_uid, mode="voice", user_message=text
-            )
-
-    @session.on("agent_speech_committed")
-    def _on_agent_speech(msg: object) -> None:
-        nonlocal active_turn_ref
-        if active_turn_ref:
-            text = getattr(msg, "content", None) or getattr(msg, "message", None) or str(msg or "")
-            if isinstance(text, str) and text.strip():
-                chat_logger.complete_turn(
-                    uid=conversation_uid, turn_ref=active_turn_ref, ai_message=text
-                )
-                active_turn_ref = None
-
     # Start the session, which initializes the voice pipeline and warms up the models
     await session.start(
         agent=Assistant(
             profile=profile,
             room=ctx.room,
-            chat_logger=chat_logger,
-            conversation_uid=conversation_uid,
         ),
         room=ctx.room,
         room_options=room_io.RoomOptions(
