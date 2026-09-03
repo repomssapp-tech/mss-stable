@@ -32,7 +32,13 @@ class RecommendationEngine {
   // substantive (only national coverage) stays at 0.20 < [forMeThreshold],
   // a reasonably-matched profile lands ~0.45-0.65, and a well-matched one
   // ~0.7-0.9.
-  static const double _wState = 0.20; // national coverage OR exact state match
+  static const double _wState = 0.20; // exact state match (scheme scoped to the profile's state)
+  // National / all-India coverage is true for *every* user, so it is the
+  // weakest possible personalisation signal — worth less than an exact state
+  // match. A national scheme now needs one genuinely strong facet match
+  // (gender / age / stage) OR two lighter ones to clear [forMeThreshold],
+  // instead of "you live in India + any one weak signal".
+  static const double _wNationalCoverage = 0.15;
   static const double _wAge = 0.25; // scheme has an age gate the profile is in
   static const double _wGender = 0.25; // scheme is gender-scoped, profile matches
   static const double _wCommunity = 0.20; // special-category / SC-ST overlap
@@ -326,12 +332,24 @@ class RecommendationEngine {
         }
         matchingReasons.add('Location: You reside in Tamil Nadu.');
         score += _wState;
-        // Needs a Pehchan Artisan Card we can't infer from the profile --
-        // stays a weak match unless the user narrows via the artisan filter.
-        missingRequirements.add(
-          'Artisan Status: Must hold a valid Pehchan Artisan Card from the Ministry of Textiles.',
-        );
-        score += 0.1;
+        // The Pehchan Artisan Card itself can't be inferred, but when the
+        // profile's role is artisan / SHG member this is a genuine "For Me"
+        // match; for anyone else it stays a weak, findable-but-not-personal
+        // result.
+        if (_isArtisanRole(profile)) {
+          matchingReasons.add(
+            'Occupation: Your profile identifies you as an artisan / SHG member.',
+          );
+          score += _wSectorStage;
+          missingRequirements.add(
+            'Artisan Status: You will still need a valid Pehchan Artisan Card from the Ministry of Textiles.',
+          );
+        } else {
+          missingRequirements.add(
+            'Artisan Status: Must hold a valid Pehchan Artisan Card from the Ministry of Textiles.',
+          );
+          score += 0.1;
+        }
         break;
 
       case 'STARTUP_TN':
@@ -347,13 +365,26 @@ class RecommendationEngine {
           'Location: Available for startups incorporated in Tamil Nadu.',
         );
         score += _wState;
-        missingRequirements.add(
-          'DPIIT Recognition: Requires registration and recognition from DPIIT (Govt of India).',
-        );
+        // DPIIT recognition can't be inferred, but a profile that identifies
+        // as building / running a business is the intended audience — treat
+        // it as a real match. Others stay findable but sub-threshold.
+        if (_isFounderRole(profile)) {
+          matchingReasons.add(
+            'Stage: Your profile identifies you as an entrepreneur / business owner.',
+          );
+          score += _wSectorStage;
+          missingRequirements.add(
+            'DPIIT Recognition: You will still need registration and recognition from DPIIT (Govt of India).',
+          );
+        } else {
+          missingRequirements.add(
+            'DPIIT Recognition: Requires registration and recognition from DPIIT (Govt of India).',
+          );
+          score += 0.1;
+        }
         matchingReasons.add(
           'Innovation: Offers TANSEED grants of up to ₹15 Lakhs.',
         );
-        score += 0.1;
         break;
 
       case 'POST_MATRIC':
@@ -465,7 +496,7 @@ class RecommendationEngine {
           matchingReasons.add(
             'Coverage: Applies across India, including ${profile.state}.',
           );
-          score += _wState;
+          score += _wNationalCoverage;
         }
 
         // 2. Gender -- structured eligibility.gender facet is authoritative
@@ -601,6 +632,41 @@ class RecommendationEngine {
           }
         }
 
+        // 6b. Role <-> scheme theme -- SUBSTANTIVE: the onboarding role the
+        //     user picked lines up with what the scheme is *about*. This is
+        //     what lets a Tamil Nadu startup grant (state-scoped, otherwise
+        //     silent on facets) clear the "For Me" bar for a Tamil Nadu user
+        //     who identifies as an entrepreneur, instead of sitting at the
+        //     bare state-match score.
+        final themeHay =
+            '${scheme.sector} ${scheme.category} ${scheme.searchKeywords} '
+                    '${scheme.name} ${scheme.targetBeneficiary}'
+                .toLowerCase();
+        const founderThemeWords = [
+          'startup', 'start-up', 'start up', 'entrepreneur', 'incubat',
+          'seed fund', 'seed grant', 'venture', 'self-employment',
+          'self employment', 'enterprise creation',
+        ];
+        const artisanThemeWords = [
+          'artisan', 'handicraft', 'handloom', 'weaver', 'khadi', 'craft',
+          'kaivinai', 'cottage industr',
+        ];
+        if (_isFounderRole(profile) &&
+            founderThemeWords.any(themeHay.contains)) {
+          matchingReasons.add(
+            'Focus: This scheme supports entrepreneurs/startups, which matches '
+            'your profile.',
+          );
+          score += _wSectorStage;
+        } else if (_isArtisanRole(profile) &&
+            artisanThemeWords.any(themeHay.contains)) {
+          matchingReasons.add(
+            'Focus: This scheme supports artisans/craftspeople, which matches '
+            'your profile.',
+          );
+          score += _wSectorStage;
+        }
+
         // 7. Genuinely unconstrained scheme that matched nothing at all --
         //    keep it findable (search / browse) but well below the "For Me"
         //    bar. This is NOT a match, it is the absence of one.
@@ -628,6 +694,24 @@ class RecommendationEngine {
       missingRequirements: missingRequirements,
       missingDocuments: missingDocuments,
     );
+  }
+
+  // Role self-identification from the "About You" onboarding step
+  // (UserProfile.employmentStatus). Canonical titles: Student,
+  // Aspiring Entrepreneur, Existing Business, MSME Owner, Farmer,
+  // Artisan / SHG Member.
+  static bool _isArtisanRole(UserProfile p) {
+    final e = p.employmentStatus.toLowerCase();
+    return e.contains('artisan') || e.contains('shg');
+  }
+
+  static bool _isFounderRole(UserProfile p) {
+    final e = p.employmentStatus.toLowerCase();
+    return e.contains('entrepreneur') ||
+        e.contains('business') ||
+        e.contains('msme') ||
+        e.contains('self-employed') ||
+        e.contains('self employed');
   }
 
   // Catalog eligibility.businessStage vocab (derived from scheme_catalog.json):
