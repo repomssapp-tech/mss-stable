@@ -43,7 +43,9 @@ const corsHeaders = {
 
 function getServiceClient(): SupabaseClient | null {
   const supabaseUrl = Deno.env.get('SUPABASE_URL')
-  const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
+  // New secret API key first; fall back to the injected legacy service-role
+  // var so nothing breaks until legacy keys are deactivated post-cutover.
+  const serviceRoleKey = Deno.env.get('SUPABASE_SECRET_KEY') ?? Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
   if (!supabaseUrl || !serviceRoleKey) return null
   return createClient(supabaseUrl, serviceRoleKey)
 }
@@ -257,7 +259,7 @@ serve(async (req) => {
   if (route === 'cache-bust' && req.method === 'POST') {
     const authHeader = req.headers.get('authorization') ?? ''
     const apikeyHeader = req.headers.get('apikey') ?? ''
-    const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+    const serviceRoleKey = (Deno.env.get('SUPABASE_SECRET_KEY') ?? Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')) ?? ''
     if (!serviceRoleKey || (!authHeader.includes(serviceRoleKey) && apikeyHeader !== serviceRoleKey)) {
       return json({ error: 'UNAUTHORIZED', message: 'Service role authorization required' }, 401)
     }

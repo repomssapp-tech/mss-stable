@@ -23,11 +23,12 @@ DEFAULT_SUPABASE_URL = "https://houpzsxmwemoztpuigmo.supabase.co"
 DEFAULT_LOGS_TABLE = "chat_logs"
 
 MISSING_KEY_MESSAGE = (
-    "ChatLogger requires SUPABASE_SERVICE_ROLE_KEY (a server-side Supabase "
-    "service-role key) or an explicit supabase_key argument. public.chat_logs "
-    "denies client SELECT and only service_role may write telemetry rows, so "
-    "no anon/publishable key can be used as a fallback. Chat logging is "
-    "disabled until a service-role key is configured."
+    "ChatLogger requires SUPABASE_SECRET_KEY (a server-side Supabase secret key) "
+    "-- or the legacy SUPABASE_SERVICE_ROLE_KEY var, still accepted during the "
+    "API-key migration -- or an explicit supabase_key argument. public.chat_logs "
+    "denies client SELECT and only the secret / service_role key may write "
+    "telemetry rows, so no anon/publishable key can be used as a fallback. "
+    "Chat logging is disabled until a secret key is configured."
 )
 
 
@@ -46,11 +47,14 @@ class ChatLogger:
         Args:
             supabase_url: Target Supabase project base URL. Defaults to SUPABASE_URL env var
                 or https://houpzsxmwemoztpuigmo.supabase.co.
-            supabase_key: Supabase service-role key. Defaults to the SUPABASE_SERVICE_ROLE_KEY
-                env var only. No anon/publishable-key fallback exists: public.chat_logs denies
-                client reads and grants writes to service_role alone. When neither source
-                provides a key, the logger stores None and refuses to dispatch (logging once,
-                loudly, on the first attempt) instead of silently using a key that cannot write.
+            supabase_key: Supabase server-side secret key. Resolved from
+                this argument, else the SUPABASE_SECRET_KEY env var, else the legacy
+                SUPABASE_SERVICE_ROLE_KEY var (still accepted during the API-key migration).
+                No anon/publishable-key fallback exists: public.chat_logs denies client reads
+                and grants writes to the secret / service_role key alone. Never ship this key
+                in a client / APK. When no source provides a key, the logger stores None and
+                refuses to dispatch (logging once, loudly, on the first attempt) instead of
+                silently using a key that cannot write.
             table_name: Database table name for logs. Defaults to 'chat_logs'.
             http_timeout: Network timeout for HTTP requests in seconds.
         """
@@ -61,7 +65,10 @@ class ChatLogger:
         ).rstrip("/")
 
         resolved_key = (
-            supabase_key or os.getenv("SUPABASE_SERVICE_ROLE_KEY") or ""
+            supabase_key
+            or os.getenv("SUPABASE_SECRET_KEY")
+            or os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+            or ""
         ).strip()
         self.supabase_key: str | None = resolved_key or None
 

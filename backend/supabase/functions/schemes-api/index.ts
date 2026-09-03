@@ -51,7 +51,9 @@ serve(async (req) => {
     }
 
     const supabaseUrl = Deno.env.get('SUPABASE_URL')
-    const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')
+    // TODO: dead since 20260818000000 (RPCs dropped); delete separately
+    // Publishable tier: new publishable key first, legacy anon var as fallback.
+    const supabaseAnonKey = Deno.env.get('SUPABASE_PUBLISHABLE_KEY') ?? Deno.env.get('SUPABASE_ANON_KEY')
     if (!supabaseUrl || !supabaseAnonKey) {
       return new Response(JSON.stringify({ error: "Supabase environment variables are missing" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },

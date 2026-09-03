@@ -63,6 +63,7 @@ import argparse
 import gzip
 import hashlib
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -77,12 +78,12 @@ DEFAULT_SOURCE = Path(r"C:\Users\roger\OneDrive\Documents\Plan\catalog")
 SCRATCH_DIR = BACKEND_DIR / ".mss_publish_scratch"
 BUCKET = "catalogs"
 
-# Publishable (anon-level) key for the real project -- already embedded in
-# the shipped Flutter app (frontend/lib/main.dart), so it's not a secret;
-# used here only to verify a publish over the same public API surface every
-# app instance uses.
-PRODUCTION_URL = "https://houpzsxmwemoztpuigmo.supabase.co"
-PRODUCTION_ANON_KEY = "sb_publishable_SwlgaGsCt5N-97WwEq7tQw_aNT25VUI"
+# New-format publishable key (sb_publishable_...) for the real project. Public
+# by design -- the shipped Flutter app carries the same one -- but not hardcoded
+# here; supply it via the environment (see backend/.env.example). Used only to
+# verify a publish over the same public API surface every app instance uses.
+PRODUCTION_URL = os.environ.get("SUPABASE_URL", "https://houpzsxmwemoztpuigmo.supabase.co")
+PUBLISHABLE_KEY = os.environ.get("SUPABASE_PUBLISHABLE_KEY")
 
 # Every file the release bundle covers -- 15 entity catalogs + the search
 # index -- uploaded individually alongside the merged .gz so Storage mirrors
@@ -146,8 +147,14 @@ class Env:
             )
             self.db_container = f"supabase_db_{project_id}"
         else:
+            if not PUBLISHABLE_KEY:
+                raise SystemExit(
+                    "Set SUPABASE_PUBLISHABLE_KEY (the sb_publishable_... key) in "
+                    "the environment to publish/verify against production. Never "
+                    "hardcode Supabase keys in source."
+                )
             self.url = PRODUCTION_URL
-            self.anon_key = PRODUCTION_ANON_KEY
+            self.anon_key = PUBLISHABLE_KEY
 
     def db_query(self, sql_path: Path) -> str:
         """Applies a (possibly multi-statement) SQL script. Fire-and-forget

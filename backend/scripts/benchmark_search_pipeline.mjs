@@ -9,8 +9,14 @@
  * Runs on native Node 20+ with zero external dependencies.
  */
 
-const BASE_URL = 'https://houpzsxmwemoztpuigmo.supabase.co';
-const ANON_KEY = 'sb_publishable_SwlgaGsCt5N-97WwEq7tQw_aNT25VUI';
+const BASE_URL = process.env.SUPABASE_URL ?? 'https://houpzsxmwemoztpuigmo.supabase.co';
+// New-format publishable key (sb_publishable_...). Safe to be public, but not
+// hardcoded -- supply it via the environment (see backend/.env.example).
+const PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY;
+if (!PUBLISHABLE_KEY) {
+  console.error('Set SUPABASE_PUBLISHABLE_KEY (the sb_publishable_... key). Never hardcode Supabase keys in source.');
+  process.exit(1);
+}
 
 async function measureRequest(name, url, options = {}) {
   const start = Date.now();
@@ -18,8 +24,8 @@ async function measureRequest(name, url, options = {}) {
     const res = await fetch(url, {
       ...options,
       headers: {
-        'apikey': ANON_KEY,
-        'Authorization': `Bearer ${ANON_KEY}`,
+        'apikey': PUBLISHABLE_KEY,
+        'Authorization': `Bearer ${PUBLISHABLE_KEY}`,
         'Content-Type': 'application/json',
         ...(options.headers || {}),
       },

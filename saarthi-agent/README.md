@@ -64,6 +64,32 @@ To add Tamil later, populate the existing `localization.ta` fields and replace
 `{"metadata": ..., "data": [...]}` structure, run `uv run pytest`, and deploy
 again. Tamil names and summaries are already included in the search index.
 
+## Supabase chat logging
+
+Each conversation turn (user input + agent reply) is written to the Supabase
+`public.chat_logs` table for review. That table denies client reads and only a
+server-side key may write to it, so the agent needs a **secret** Supabase key —
+never a publishable/anon key, and never one shipped in a client.
+
+Add these to the ignored `.env.sarvam` file beside this README:
+
+```dotenv
+SUPABASE_URL=https://<project-ref>.supabase.co
+SUPABASE_SECRET_KEY=sb_secret_...
+```
+
+`SUPABASE_SECRET_KEY` is the new-format secret key. During the API-key migration
+the legacy `SUPABASE_SERVICE_ROLE_KEY` variable is still accepted as a fallback
+(see `CUTOVER.md` at the repo root). If no key is configured, chat logging is
+disabled and the agent logs one clear error on the first turn — voice sessions
+are unaffected.
+
+Push the secrets to the deployed agent with:
+
+```console
+lk agent update-secrets --secrets-file .env.sarvam --overwrite
+```
+
 ## LiveKit starter reference
 
 A complete starter project for building voice AI apps with [LiveKit Agents for Python](https://github.com/livekit/agents) and [LiveKit Cloud](https://cloud.livekit.io/).
