@@ -252,12 +252,14 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                               children: [
                                 Row(
                                   children: [
-                                    Text(
-                                      'Saarthi can help you with',
-                                      style: GoogleFonts.inter(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                        color: kDarkSlate,
+                                    Flexible(
+                                      child: Text(
+                                        'Saarthi can help you with',
+                                        style: GoogleFonts.inter(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          color: kDarkSlate,
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(width: 8),
@@ -361,83 +363,9 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                   circleTextColor: const Color(0xFFEA580C),
                                 ),
                                 const SizedBox(height: 4),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.record_voice_over_outlined,
-                                      color: kBrandBlue,
-                                      size: 18,
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      'Voice',
-                                      style: GoogleFonts.inter(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                        color: kDarkSlate,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 10),
-                                    ChoiceChip(
-                                      label: Text(
-                                        CentralizedTranslator.instance
-                                            .translate('Natural'),
-                                      ),
-                                      selected: _selectedVoice == 'natural',
-                                      onSelected: (_) =>
-                                          _selectVoice('natural'),
-                                    ),
-                                    const SizedBox(width: 6),
-                                    ChoiceChip(
-                                      label: Text(
-                                        CentralizedTranslator.instance
-                                            .translate('Clear'),
-                                      ),
-                                      selected: _selectedVoice == 'clear',
-                                      onSelected: (_) => _selectVoice('clear'),
-                                    ),
-                                    const Spacer(),
-                                    IconButton(
-                                      tooltip: 'Preview in English and Tamil',
-                                      onPressed: _previewingVoice
-                                          ? null
-                                          : _previewVoice,
-                                      icon: _previewingVoice
-                                          ? const SizedBox(
-                                              width: 18,
-                                              height: 18,
-                                              child: CircularProgressIndicator(
-                                                strokeWidth: 2,
-                                              ),
-                                            )
-                                          : const Icon(
-                                              Icons.play_circle_outline,
-                                            ),
-                                    ),
-                                  ],
-                                ),
+                                _buildVoiceSelector(),
                                 const SizedBox(height: 8),
-                                // Info banner
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.info_outline,
-                                      color: kBrandBlue,
-                                      size: 14,
-                                    ),
-                                    const SizedBox(width: 6),
-                                    Flexible(
-                                      child: Text(
-                                        "You can change this anytime in settings.",
-                                        softWrap: true,
-                                        style: GoogleFonts.inter(
-                                          fontSize: 11,
-                                          color: kSlate500,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                _buildInfoBanner(),
                               ],
                             ),
                           ],
@@ -669,6 +597,193 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildVoiceSelector() {
+    final isTamil = _selectedLang == 'ta';
+    final voiceLabel = isTamil ? 'குரல்' : 'Voice';
+    final naturalLabel = isTamil ? 'இயற்கையான ஒலி' : 'Natural';
+    final clearLabel = isTamil ? 'தெளிவான ஒலி' : 'Clear';
+
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: const Color(0xFFE2E8F0)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.015),
+            blurRadius: 6,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              const Icon(
+                Icons.record_voice_over_outlined,
+                color: kBrandBlue,
+                size: 18,
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  voiceLabel,
+                  style: GoogleFonts.inter(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: kDarkSlate,
+                  ),
+                ),
+              ),
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: _previewingVoice ? null : _previewVoice,
+                  borderRadius: BorderRadius.circular(8),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _previewingVoice
+                            ? const SizedBox(
+                                width: 14,
+                                height: 14,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: kBrandBlue,
+                                ),
+                              )
+                            : const Icon(
+                                Icons.volume_up_rounded,
+                                size: 16,
+                                color: kBrandBlue,
+                              ),
+                        const SizedBox(width: 4),
+                        Text(
+                          isTamil ? 'கேட்க' : 'Preview',
+                          style: GoogleFonts.inter(
+                            fontSize: 11.5,
+                            fontWeight: FontWeight.w600,
+                            color: kBrandBlue,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              Expanded(
+                child: _buildVoiceOptionChip(
+                  label: naturalLabel,
+                  value: 'natural',
+                  isSelected: _selectedVoice == 'natural',
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: _buildVoiceOptionChip(
+                  label: clearLabel,
+                  value: 'clear',
+                  isSelected: _selectedVoice == 'clear',
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildVoiceOptionChip({
+    required String label,
+    required String value,
+    required bool isSelected,
+  }) {
+    return GestureDetector(
+      onTap: () => _selectVoice(value),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? const Color(0xFFEFF6FF) : const Color(0xFFF8FAFC),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: isSelected ? kBrandBlue : const Color(0xFFE2E8F0),
+            width: isSelected ? 1.5 : 1.0,
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              isSelected
+                  ? Icons.check_circle_rounded
+                  : Icons.radio_button_unchecked_rounded,
+              size: 16,
+              color: isSelected ? kBrandBlue : const Color(0xFF94A3B8),
+            ),
+            const SizedBox(width: 6),
+            Flexible(
+              child: FitOneLine(
+                child: Text(
+                  label,
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                    fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                    color: isSelected ? kBrandBlue : kDarkSlate,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoBanner() {
+    final isTamil = _selectedLang == 'ta';
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.only(top: 1.0),
+          child: Icon(
+            Icons.info_outline,
+            color: kBrandBlue,
+            size: 14,
+          ),
+        ),
+        const SizedBox(width: 6),
+        Expanded(
+          child: Text(
+            isTamil
+                ? "இதை நீங்கள் எப்போது வேண்டுமானாலும் அமைப்புகளில் மாற்றலாம்."
+                : "You can change this anytime in settings.",
+            style: GoogleFonts.inter(
+              fontSize: 11,
+              color: kSlate500,
+              height: 1.3,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
