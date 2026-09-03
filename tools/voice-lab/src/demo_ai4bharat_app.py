@@ -13,7 +13,6 @@ import edge_tts
 import gradio as gr
 
 from ai4bharat_asr import AI4BharatTamilASR
-from chat_logger import ChatLogger
 from demo_engine import DemoKnowledgeBase, NO_MATCH_ANSWER
 
 
@@ -31,7 +30,6 @@ DEFAULT_WARMUP_AUDIO = (
     REPOSITORY_ROOT / "voice/data/generated_audio/bench_004.mp3"
 )
 DEFAULT_TTS_CACHE = REPOSITORY_ROOT / "voice/.cache/ai4bharat-demo-responses"
-DEFAULT_CHAT_LOG = REPOSITORY_ROOT / "voice/data/chat_log.json"
 
 
 class AI4BharatVoiceAssistant:
@@ -43,15 +41,11 @@ class AI4BharatVoiceAssistant:
         decoder: str = "ctc",
         warmup_audio: Path | None = DEFAULT_WARMUP_AUDIO,
         tts_voice: str = "ta-IN-PallaviNeural",
-        chat_logger: ChatLogger | None = None,
-        log_path: Path | str | None = None,
     ) -> None:
         self.knowledge = DemoKnowledgeBase(knowledge_path)
         self.tts_voice = tts_voice
         self.tts_cache = DEFAULT_TTS_CACHE
         self.tts_cache.mkdir(parents=True, exist_ok=True)
-        self.chat_logger = chat_logger or ChatLogger(path=log_path or DEFAULT_CHAT_LOG)
-        self.current_uid = self.chat_logger.start_conversation()
 
         self.asr = AI4BharatTamilASR(model_path=model_path, device=device)
         self.asr.set_decoder(decoder)
@@ -92,15 +86,6 @@ class AI4BharatVoiceAssistant:
 
         transcript, asr_ms = self.asr.transcribe_one(audio_path)
 
-        turn_ref = None
-        if transcript.strip():
-            turn_ref = self.chat_logger.begin_turn(
-                uid=self.current_uid, mode="voice", user_message=transcript
-            )
-
-        match_started = time.perf_counter()
-        match = self.knowledge.match(transcript)
-        match_ms = (time.perf_counter() - match_started) * 1000
         if match:
             answer = match.answer
             match_label = f"{match.title} — பொருத்தம் {match.score:.1%}"
@@ -109,11 +94,6 @@ class AI4BharatVoiceAssistant:
             answer = NO_MATCH_ANSWER
             match_label = "பொருத்தமான திட்டம் கிடைக்கவில்லை"
             match_score = 0.0
-
-        if turn_ref:
-            self.chat_logger.complete_turn(
-                uid=self.current_uid, turn_ref=turn_ref, ai_message=answer
-            )
 
         speech_path, tts_ms, tts_error = self.synthesize(answer)
         metrics: dict[str, Any] = {

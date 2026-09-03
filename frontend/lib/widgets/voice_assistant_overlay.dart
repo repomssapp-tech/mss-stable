@@ -21,6 +21,7 @@ import '../services/speech_output_controller.dart';
 import '../services/voice_recognition_controller.dart';
 import '../services/voice_agent_controller.dart';
 import '../services/centralized_translator.dart';
+import '../services/chat_log_service.dart';
 import '../utils/responsive.dart';
 import '../l10n/l10n.dart';
 
@@ -149,6 +150,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
   int _groundingGeneration = 0;
   final List<_VoiceTranscriptTurn> _conversationTurns = [];
   final ScrollController _panelScrollController = ScrollController();
+  final ChatLogService _chatLogService = ChatLogService();
   int _fallbackTranscriptId = 0;
 
   bool get _isListening => _voicePhase == _VoiceAssistantPhase.listening;
@@ -308,6 +310,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
       duration: const Duration(milliseconds: 900),
     );
     unawaited(_initializeSpeechOutput());
+    _chatLogService.startSession();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) => _initializeVoiceAgent(),
     );
@@ -440,6 +443,13 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     final id = suppliedId is String && suppliedId.trim().isNotEmpty
         ? suppliedId.trim()
         : '${speaker.name}-${_fallbackTranscriptId++}';
+    _chatLogService.upsertMessage(
+      id: id,
+      speaker: speaker == _VoiceTranscriptSpeaker.user
+          ? ChatMessageSpeaker.user
+          : ChatMessageSpeaker.assistant,
+      text: text,
+    );
     final index = _conversationTurns.indexWhere((turn) => turn.id == id);
     setState(() {
       if (index >= 0) {
@@ -1205,11 +1215,13 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     unawaited(_speechOutputController.stop());
     unawaited(_recognitionController.cancel());
     unawaited(_voiceAgentController?.close());
+    unawaited(_chatLogService.flushSessionLogs(mode: 'voice'));
     widget.onClose();
   }
 
   @override
   void dispose() {
+    unawaited(_chatLogService.flushSessionLogs(mode: 'voice'));
     WidgetsBinding.instance.removeObserver(this);
     _voiceAgentController?.removeListener(_handleVoiceAgentChanged);
     unawaited(_voiceAgentEvents?.cancel());
