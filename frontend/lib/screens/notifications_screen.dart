@@ -8,6 +8,7 @@ import 'package:frontend/l10n/l10n.dart';
 import 'package:frontend/utils/responsive.dart';
 import 'package:frontend/widgets/app_toast.dart';
 import 'regular_mode/basic_profile_screen.dart';
+import '../utils/app_spacing.dart';
 
 class NotificationsScreen extends StatefulWidget {
   final String? initialFilter;
@@ -47,7 +48,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   // Helper widget to build tags
   Widget _buildTag(String text, Color bg, Color textCol) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
       decoration: BoxDecoration(
         color: bg,
         borderRadius: BorderRadius.circular(4),
@@ -67,9 +68,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   Widget _buildFilterChips() {
     return Container(
       height: 38,
-      margin: const EdgeInsets.symmetric(vertical: 8),
+      margin: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
       child: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
         scrollDirection: Axis.horizontal,
         itemCount: _categories.length,
         itemBuilder: (context, index) {
@@ -87,8 +88,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               });
             },
             child: Container(
-              margin: const EdgeInsets.only(right: 8),
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              margin: const EdgeInsets.only(right: AppSpacing.sm),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
               decoration: BoxDecoration(
                 color: isSelected ? activeBgColor : inactiveBgColor,
                 borderRadius: BorderRadius.circular(24),
@@ -107,7 +108,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                     color: isSelected ? activeTextColor : inactiveTextColor,
                     size: 15,
                   ),
-                  const SizedBox(width: 6),
+                  const SizedBox(width: AppSpacing.tight),
                   Text(
                     cat['label'] as String,
                     style: GoogleFonts.inter(
@@ -143,7 +144,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 20, 16, 8),
+          padding: const EdgeInsets.fromLTRB(AppSpacing.lg, AppSpacing.xl, AppSpacing.lg, AppSpacing.sm),
           child: Row(
             children: [
               Container(
@@ -156,7 +157,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 alignment: Alignment.center,
                 child: Icon(headerIcon, color: headerIconColor, size: 18),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,8 +184,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 onPressed: onViewAll,
                 style: TextButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
+                    horizontal: AppSpacing.sm,
+                    vertical: AppSpacing.xs,
                   ),
                   minimumSize: Size.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -204,7 +205,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 2),
+                    const SizedBox(width: AppSpacing.hairline),
                     const Icon(
                       Icons.chevron_right,
                       size: 14,
@@ -217,7 +218,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           ),
         ),
         ...cards,
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSpacing.md),
       ],
     );
   }
@@ -243,7 +244,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
     return Card(
       elevation: 0,
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.tight),
       color: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
@@ -265,13 +266,13 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           }
         },
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (_isSelectionMode)
                 Container(
-                  margin: const EdgeInsets.only(right: 12, top: 12),
+                  margin: const EdgeInsets.only(right: AppSpacing.md, top: AppSpacing.md),
                   child: Icon(
                     isSelected ? Icons.check_circle : Icons.radio_button_off,
                     color: isSelected
@@ -290,7 +291,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 alignment: Alignment.center,
                 child: Icon(icon, color: iconCol, size: 24),
               ),
-              const SizedBox(width: 14),
+              const SizedBox(width: AppSpacing.lg),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -308,11 +309,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 6),
+                        const SizedBox(width: AppSpacing.tight),
                         Container(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 2,
+                            horizontal: AppSpacing.tight,
+                            vertical: AppSpacing.hairline,
                           ),
                           decoration: BoxDecoration(
                             color: const Color(0xFFDCFCE7),
@@ -329,7 +330,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: AppSpacing.tight),
                     Text(
                       item['body'] ?? '',
                       style: GoogleFonts.inter(
@@ -338,12 +339,12 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         height: 1.45,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: AppSpacing.sm),
                     _buildTag(item['tag'] ?? '', iconBg, iconCol),
                   ],
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: AppSpacing.sm),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -354,7 +355,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       color: const Color(0xFF94A3B8),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppSpacing.lg),
                   if (!isRead)
                     Container(
                       width: 8,
@@ -394,7 +395,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
     return Card(
       elevation: 0,
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.tight),
       color: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
@@ -416,13 +417,13 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           }
         },
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (_isSelectionMode)
                 Container(
-                  margin: const EdgeInsets.only(right: 12, top: 12),
+                  margin: const EdgeInsets.only(right: AppSpacing.md, top: AppSpacing.md),
                   child: Icon(
                     isSelected ? Icons.check_circle : Icons.radio_button_off,
                     color: isSelected
@@ -441,7 +442,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 alignment: Alignment.center,
                 child: Icon(icon, color: iconCol, size: 24),
               ),
-              const SizedBox(width: 14),
+              const SizedBox(width: AppSpacing.lg),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -454,7 +455,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         color: const Color(0xFF0F172A),
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: AppSpacing.xs),
                     Text(
                       item['body'] ?? '',
                       style: GoogleFonts.inter(
@@ -462,10 +463,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         color: const Color(0xFF64748B),
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: AppSpacing.md),
                     Wrap(
-                      spacing: 6,
-                      runSpacing: 4,
+                      spacing: AppSpacing.tight,
+                      runSpacing: AppSpacing.xs,
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         const Icon(
@@ -473,7 +474,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           size: 12,
                           color: Color(0xFFE11D48),
                         ),
-                        const SizedBox(width: 2),
+                        const SizedBox(width: AppSpacing.hairline),
                         Text(
                           item['deadline'] ?? '',
                           style: GoogleFonts.inter(
@@ -502,7 +503,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   ],
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: AppSpacing.sm),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -513,7 +514,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       color: const Color(0xFF94A3B8),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppSpacing.lg),
                   if (!isRead)
                     Container(
                       width: 8,
@@ -546,7 +547,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
     return Card(
       elevation: 0,
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.tight),
       color: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
@@ -568,13 +569,13 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           }
         },
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               if (_isSelectionMode)
                 Container(
-                  margin: const EdgeInsets.only(right: 12),
+                  margin: const EdgeInsets.only(right: AppSpacing.md),
                   child: Icon(
                     isSelected ? Icons.check_circle : Icons.radio_button_off,
                     color: isSelected
@@ -593,7 +594,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 alignment: Alignment.center,
                 child: Icon(icon, color: const Color(0xFF2563EB), size: 24),
               ),
-              const SizedBox(width: 14),
+              const SizedBox(width: AppSpacing.lg),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -606,7 +607,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         color: const Color(0xFF0F172A),
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: AppSpacing.xs),
                     Text(
                       item['body'] ?? '',
                       style: GoogleFonts.inter(
@@ -618,7 +619,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   ],
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: AppSpacing.sm),
               Flexible(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -636,7 +637,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: AppSpacing.sm),
                         if (!isRead)
                           Container(
                             width: 8,
@@ -648,7 +649,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           ),
                       ],
                     ),
-                    const SizedBox(width: 6),
+                    const SizedBox(width: AppSpacing.tight),
                     const Icon(
                       Icons.chevron_right,
                       color: Color(0xFF94A3B8),
@@ -676,7 +677,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
     return Card(
       elevation: 0,
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.tight),
       color: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
@@ -701,13 +702,13 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           }
         },
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (_isSelectionMode)
                 Container(
-                  margin: const EdgeInsets.only(right: 12, top: 12),
+                  margin: const EdgeInsets.only(right: AppSpacing.md, top: AppSpacing.md),
                   child: Icon(
                     isSelected ? Icons.check_circle : Icons.radio_button_off,
                     color: isSelected
@@ -730,7 +731,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   size: 28,
                 ),
               ),
-              const SizedBox(width: 14),
+              const SizedBox(width: AppSpacing.lg),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -743,7 +744,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         color: const Color(0xFF0F172A),
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: AppSpacing.xs),
                     Text(
                       item['body'] ?? '',
                       style: GoogleFonts.inter(
@@ -751,7 +752,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         color: const Color(0xFF64748B),
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: AppSpacing.md),
                     Row(
                       children: [
                         Text(
@@ -762,7 +763,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        const SizedBox(width: AppSpacing.sm),
                         Expanded(
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
@@ -776,7 +777,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        const SizedBox(width: AppSpacing.sm),
                         Text(
                           '$completion%',
                           style: GoogleFonts.inter(
@@ -790,7 +791,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   ],
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: AppSpacing.sm),
               Flexible(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -807,7 +808,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: AppSpacing.lg),
                         if (!isRead)
                           Container(
                             width: 8,
@@ -819,7 +820,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           ),
                       ],
                     ),
-                    const SizedBox(width: 6),
+                    const SizedBox(width: AppSpacing.tight),
                     const Icon(
                       Icons.chevron_right,
                       color: Color(0xFF94A3B8),
@@ -926,7 +927,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           });
                         },
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: AppSpacing.sm),
               ]
             : [
                 PopupMenuButton<String>(
@@ -975,7 +976,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             color: Color(0xFF64748B),
                             size: 20,
                           ),
-                          const SizedBox(width: 8),
+                          const SizedBox(width: AppSpacing.sm),
                           Flexible(
                             child: Text(
                               'Mark all as read',
@@ -995,7 +996,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             color: Color(0xFFEF4444),
                             size: 20,
                           ),
-                          const SizedBox(width: 8),
+                          const SizedBox(width: AppSpacing.sm),
                           Flexible(
                             child: Text(
                               'Delete all',
@@ -1018,7 +1019,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             color: Color(0xFF64748B),
                             size: 20,
                           ),
-                          const SizedBox(width: 8),
+                          const SizedBox(width: AppSpacing.sm),
                           Flexible(
                             child: Text(
                               'Select',
@@ -1154,7 +1155,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                               size: 60,
                               color: Color(0xFF94A3B8),
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: AppSpacing.lg),
                             Text(
                               'No matching alerts',
                               style: GoogleFonts.inter(
@@ -1166,7 +1167,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         ),
                       ),
                     ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppSpacing.xxl),
                 ],
               ),
             ),

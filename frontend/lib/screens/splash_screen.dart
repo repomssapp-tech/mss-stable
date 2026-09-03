@@ -9,6 +9,7 @@ import '../providers/app_state_provider.dart';
 import '../services/session_cache_service.dart';
 import '../utils/constants.dart';
 import '../main.dart';
+import '../utils/app_spacing.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -172,7 +173,7 @@ class _SplashScreenState extends State<SplashScreen>
                                 size: 80,
                                 color: AppConstants.primaryColor,
                               ),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: AppSpacing.lg),
                               Text(
                                 'MSS',
                                 style: GoogleFonts.poppins(
@@ -209,7 +210,7 @@ class _SplashScreenState extends State<SplashScreen>
                             ),
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: AppSpacing.xl),
                         Text(
                           'Loading...',
                           style: GoogleFonts.inter(
@@ -219,7 +220,7 @@ class _SplashScreenState extends State<SplashScreen>
                             letterSpacing: 0.5,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: AppSpacing.sm),
                         Text(
                           'Please wait while we prepare\nsomething amazing for you',
                           style: GoogleFonts.inter(
@@ -232,7 +233,7 @@ class _SplashScreenState extends State<SplashScreen>
                       ],
                     ),
                   ),
-                  const SizedBox(height: 36),
+                  const SizedBox(height: AppSpacing.xxxl),
                 ],
               ),
             ),

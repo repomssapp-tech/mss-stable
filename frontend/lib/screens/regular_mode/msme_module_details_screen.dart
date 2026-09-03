@@ -8,6 +8,7 @@ import '../../utils/responsive.dart';
 import '../../services/centralized_translator.dart';
 import '../../widgets/standard_page_header.dart';
 import 'search_results_screen.dart';
+import '../../utils/app_spacing.dart';
 
 class MSMEModuleDetailsScreen extends StatefulWidget {
   final String
@@ -271,26 +272,26 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
             _buildModuleHeader(),
 
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppSpacing.xxl),
 
                   // What the User Gets Section
                   _buildWhatUserGets(),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppSpacing.xxl),
 
                   // Interactive Feature Panel (The Core Function)
                   _buildInteractiveFeaturePanel(),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppSpacing.xxl),
 
                   // Main Features Inside Section
                   _buildMainFeaturesList(),
 
-                  const SizedBox(height: 32),
+                  const SizedBox(height: AppSpacing.xxxl),
                 ],
               ),
             ),
@@ -307,7 +308,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
         color: Colors.white,
         border: Border(bottom: BorderSide(color: const Color(0xFFE2E8F0))),
       ),
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(AppSpacing.xl),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -322,7 +323,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 ),
                 child: Icon(widget.icon, color: widget.iconColor, size: 32),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: AppSpacing.lg),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -335,7 +336,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                         color: const Color(0xFF0F172A),
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: AppSpacing.xs),
                     Text(
                       widget.description,
                       style: GoogleFonts.inter(
@@ -397,7 +398,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -416,7 +417,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
           Row(
             children: [
               Icon(Icons.stars_rounded, color: widget.iconColor, size: 20),
-              const SizedBox(width: 8),
+              const SizedBox(width: AppSpacing.sm),
               Flexible(
                 child: Text(
                   Provider.of<AppProvider>(
@@ -437,7 +438,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: AppSpacing.sm),
           Text(
             Provider.of<AppProvider>(context, listen: false).selectedLanguage ==
                     'ta'
@@ -489,7 +490,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
         side: const BorderSide(color: Color(0xFFE2E8F0)),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -503,7 +504,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 color: const Color(0xFF0F172A),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.md),
             Text(
               provider.selectedLanguage == 'ta'
                   ? 'உங்கள் சுயவிவரத்தை பூர்த்தி செய்து அல்லது தேடுபொறி மூலம் திட்டங்களை ஆராய்ந்து பொருத்தமான முடிவுகளைப் பெறுங்கள்.'
@@ -514,7 +515,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 height: 1.4,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.lg),
             Row(
               children: [
                 Expanded(
@@ -526,7 +527,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
                     ),
                     onPressed: () {
                       provider.updateTabIndex(1); // Navigate to search
@@ -543,7 +544,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: AppSpacing.md),
                 Expanded(
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
@@ -552,7 +553,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
                     ),
                     onPressed: () {
                       provider.updateTabIndex(4); // Navigate to profile
@@ -588,7 +589,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
         side: const BorderSide(color: Color(0xFFE2E8F0)),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -604,7 +605,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 color: const Color(0xFF0F172A),
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             Text(
               isTa
                   ? CentralizedTranslator.instance.translate(
@@ -617,7 +618,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 height: 1.4,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.lg),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -628,7 +629,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -645,7 +646,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Icon(Icons.currency_rupee, size: 16),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: AppSpacing.sm),
                     Flexible(
                       child: FitOneLine(
                         child: Text(
@@ -679,14 +680,14 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
         side: const BorderSide(color: Color(0xFFE2E8F0)),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 Icon(Icons.calculate, color: widget.iconColor, size: 22),
-                const SizedBox(width: 8),
+                const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Text(
                     Provider.of<AppProvider>(
@@ -705,7 +706,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             Text(
               Provider.of<AppProvider>(
                         context,
@@ -720,7 +721,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 height: 1.4,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.lg),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -740,7 +741,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: AppSpacing.md),
                 Expanded(
                   child: Text(
                     Provider.of<AppProvider>(
@@ -759,7 +760,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: AppSpacing.tight),
             Row(
               children: [
                 Expanded(
@@ -770,8 +771,8 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 8,
+                          horizontal: AppSpacing.sm,
+                          vertical: AppSpacing.sm,
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -781,7 +782,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: AppSpacing.md),
                 Expanded(
                   child: SizedBox(
                     height: 42,
@@ -790,8 +791,8 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 8,
+                          horizontal: AppSpacing.sm,
+                          vertical: AppSpacing.sm,
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -803,9 +804,9 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.lg),
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(AppSpacing.md),
               decoration: BoxDecoration(
                 color: const Color(0xFFF1F5F9),
                 borderRadius: BorderRadius.circular(8),
@@ -832,7 +833,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: AppSpacing.sm),
                       Flexible(
                         child: FitOneLine(
                           alignment: Alignment.centerRight,
@@ -848,7 +849,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: AppSpacing.tight),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -869,7 +870,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: AppSpacing.sm),
                       Flexible(
                         child: FitOneLine(
                           alignment: Alignment.centerRight,
@@ -906,7 +907,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: AppSpacing.sm),
                       Flexible(
                         child: FitOneLine(
                           alignment: Alignment.centerRight,
@@ -947,7 +948,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
         side: const BorderSide(color: Color(0xFFE2E8F0)),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -963,7 +964,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 color: const Color(0xFF0F172A),
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: AppSpacing.xs),
             Text(
               isTa
                   ? CentralizedTranslator.instance.translate(
@@ -975,7 +976,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 color: const Color(0xFF64748B),
               ),
             ),
-            const SizedBox(height: 14),
+            const SizedBox(height: AppSpacing.lg),
             Row(
               children: [
                 Expanded(
@@ -991,7 +992,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: AppSpacing.md),
                 Text(
                   '${(progress * 100).toInt()}%',
                   style: GoogleFonts.inter(
@@ -1002,7 +1003,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.md),
             ...List.generate(_exportChecklist.length, (index) {
               final item = _exportChecklist[index];
               final qText = isTa
@@ -1040,9 +1041,9 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                   ),
                   if (item['checked'] == false)
                     Padding(
-                      padding: const EdgeInsets.only(left: 32, bottom: 8),
+                      padding: const EdgeInsets.only(left: AppSpacing.xxxl, bottom: AppSpacing.sm),
                       child: Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(AppSpacing.sm),
                         decoration: BoxDecoration(
                           color: const Color(0xFFFFFBEB),
                           borderRadius: BorderRadius.circular(6),
@@ -1056,7 +1057,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                               color: Color(0xFFD97706),
                               size: 14,
                             ),
-                            const SizedBox(width: 6),
+                            const SizedBox(width: AppSpacing.tight),
                             Expanded(
                               child: Text(
                                 tipText,
@@ -1091,7 +1092,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
         side: const BorderSide(color: Color(0xFFE2E8F0)),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -1107,7 +1108,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 color: const Color(0xFF0F172A),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.md),
             Container(
               height: 48,
               decoration: BoxDecoration(
@@ -1148,9 +1149,9 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 }),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.lg),
             Container(
-              padding: const EdgeInsets.all(14),
+              padding: const EdgeInsets.all(AppSpacing.lg),
               decoration: BoxDecoration(
                 color: widget.themeColor.withValues(alpha: 0.04),
                 borderRadius: BorderRadius.circular(12),
@@ -1173,7 +1174,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                       color: widget.iconColor,
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: AppSpacing.tight),
                   Text(
                     isTa
                         ? CentralizedTranslator.instance.translate(
@@ -1187,7 +1188,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: AppSpacing.sm),
                   Row(
                     children: [
                       const Icon(
@@ -1195,7 +1196,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                         color: Color(0xFF64748B),
                         size: 16,
                       ),
-                      const SizedBox(width: 6),
+                      const SizedBox(width: AppSpacing.tight),
                       Expanded(
                         child: Text(
                           isTa
@@ -1230,7 +1231,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
         side: const BorderSide(color: Color(0xFFE2E8F0)),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -1242,7 +1243,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 color: const Color(0xFF0F172A),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.md),
 
             // Step Selector Pills (Step 1, Step 2, Step 3, Step 4)
             Container(
@@ -1285,11 +1286,11 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 }),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.lg),
 
             // Step Details Box
             Container(
-              padding: const EdgeInsets.all(14),
+              padding: const EdgeInsets.all(AppSpacing.lg),
               decoration: BoxDecoration(
                 color: widget.themeColor.withValues(alpha: 0.04),
                 borderRadius: BorderRadius.circular(12),
@@ -1308,7 +1309,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                       color: widget.iconColor,
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: AppSpacing.tight),
                   Text(
                     _udyamSteps[_udyamStepIndex]['desc']!,
                     style: GoogleFonts.inter(
@@ -1318,7 +1319,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: AppSpacing.sm),
                   Row(
                     children: [
                       const Icon(
@@ -1326,7 +1327,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                         color: Color(0xFF64748B),
                         size: 16,
                       ),
-                      const SizedBox(width: 6),
+                      const SizedBox(width: AppSpacing.tight),
                       Expanded(
                         child: Text(
                           _udyamSteps[_udyamStepIndex]['action']!,
@@ -1344,7 +1345,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
               ),
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.lg),
 
             // Button to official Udyam portal
             SizedBox(
@@ -1357,7 +1358,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
                 ),
                 child: Text(
                   'Go to Official Udyam Portal',
@@ -1406,7 +1407,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
         side: const BorderSide(color: Color(0xFFE2E8F0)),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -1422,7 +1423,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 color: const Color(0xFF0F172A),
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             Text(
               isTa
                   ? CentralizedTranslator.instance.translate(
@@ -1435,7 +1436,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 height: 1.4,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.lg),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -1446,7 +1447,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -1463,7 +1464,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Icon(Icons.hub, size: 16),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: AppSpacing.sm),
                     Flexible(
                       child: FitOneLine(
                         child: Text(
@@ -1500,7 +1501,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
         side: const BorderSide(color: Color(0xFFE2E8F0)),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -1516,7 +1517,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 color: const Color(0xFF0F172A),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.md),
             Row(
               children: [
                 _buildGovtTabHeader(
@@ -1539,7 +1540,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.lg),
             _buildGovtTabContent(),
           ],
         ),
@@ -1557,7 +1558,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
           });
         },
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 8),
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
           alignment: Alignment.center,
           decoration: BoxDecoration(
             border: Border(
@@ -1615,7 +1616,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
     }
 
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: const Color(0xFFF8FAFC),
         borderRadius: BorderRadius.circular(10),
@@ -1632,7 +1633,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
               color: const Color(0xFF1E293B),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.sm),
           Text(
             roles,
             style: GoogleFonts.inter(
@@ -1642,9 +1643,9 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
               fontWeight: FontWeight.w500,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.sm),
           const Divider(color: Color(0xFFE2E8F0)),
-          const SizedBox(height: 4),
+          const SizedBox(height: AppSpacing.xs),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -1653,7 +1654,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 size: 14,
                 color: Color(0xFF64748B),
               ),
-              const SizedBox(width: 6),
+              const SizedBox(width: AppSpacing.tight),
               Expanded(
                 child: Text(
                   details,
@@ -1686,7 +1687,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
         side: const BorderSide(color: Color(0xFFE2E8F0)),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -1704,7 +1705,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 color: const Color(0xFF0F172A),
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             SizedBox(
               height: 40,
               child: TextField(
@@ -1734,7 +1735,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.md),
             ConstrainedBox(
               constraints: const BoxConstraints(maxHeight: 280),
               child: ListView.builder(
@@ -1764,7 +1765,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                       : inst['schemes'];
 
                   return Container(
-                    margin: const EdgeInsets.only(bottom: 8),
+                    margin: const EdgeInsets.only(bottom: AppSpacing.sm),
                     decoration: BoxDecoration(
                       color: const Color(0xFFF8FAFC),
                       borderRadius: BorderRadius.circular(8),
@@ -1795,19 +1796,19 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        tilePadding: const EdgeInsets.symmetric(horizontal: 12),
-                        childrenPadding: const EdgeInsets.all(12),
+                        tilePadding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                        childrenPadding: const EdgeInsets.all(AppSpacing.md),
                         children: [
                           _buildExpansionItem(
                             isTa ? 'பங்கு' : 'Role',
                             roleText,
                           ),
-                          const SizedBox(height: 6),
+                          const SizedBox(height: AppSpacing.tight),
                           _buildExpansionItem(
                             isTa ? 'முக்கிய சேவைகள்' : 'Key Services',
                             servicesText,
                           ),
-                          const SizedBox(height: 6),
+                          const SizedBox(height: AppSpacing.tight),
                           _buildExpansionItem(
                             isTa ? 'முதன்மை திட்டங்கள்' : 'Top Schemes',
                             schemesText,
@@ -1839,7 +1840,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
-            const SizedBox(width: 6),
+            const SizedBox(width: AppSpacing.tight),
             Flexible(
               child: Text(
                 label,
@@ -1853,7 +1854,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: AppSpacing.xs),
         Text(
           value,
           style: GoogleFonts.inter(
@@ -1989,22 +1990,22 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
             color: const Color(0xFF0F172A),
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSpacing.md),
         ...localizedFeatures.map((feature) {
           return Padding(
-            padding: const EdgeInsets.only(bottom: 10),
+            padding: const EdgeInsets.only(bottom: AppSpacing.sm),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 3.0),
+                  padding: const EdgeInsets.only(top: AppSpacing.xs),
                   child: Icon(
                     Icons.check_circle_outline,
                     color: widget.iconColor,
                     size: 16,
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Text(
                     feature,

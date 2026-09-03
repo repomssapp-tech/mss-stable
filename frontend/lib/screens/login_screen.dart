@@ -7,6 +7,7 @@ import '../utils/responsive.dart';
 import '../widgets/app_toast.dart';
 import 'navigation_mode_screen.dart';
 import 'regular_mode/legal_screens.dart';
+import '../utils/app_spacing.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -63,8 +64,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: IntrinsicHeight(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 10,
+                            horizontal: AppSpacing.xl,
+                            vertical: AppSpacing.sm,
                           ),
                           child: Column(
                             children: [
@@ -76,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 height: 125,
                                 fit: BoxFit.contain,
                               ),
-                              const SizedBox(height: 12),
+                              const SizedBox(height: AppSpacing.md),
 
                               // Title
                               Text(
@@ -87,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   color: const Color(0xFF0F172A), // Slate 900
                                 ),
                               ),
-                              const SizedBox(height: 4),
+                              const SizedBox(height: AppSpacing.xs),
 
                               // Subtitle
                               Text(
@@ -104,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                               // Main Card
                               Container(
-                                padding: const EdgeInsets.all(20),
+                                padding: const EdgeInsets.all(AppSpacing.xl),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(20),
@@ -127,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               // Bottom Privacy Policy & Terms Section
                               _buildPrivacySection(isTa),
 
-                              const SizedBox(height: 8),
+                              const SizedBox(height: AppSpacing.sm),
                             ],
                           ),
                         ),
@@ -158,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
             color: const Color(0xFF0F172A), // Slate 900
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: AppSpacing.xs),
         Text(
           l('google_account_continue'),
           textAlign: TextAlign.center,
@@ -168,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
             height: 1.4,
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: AppSpacing.xl),
         SizedBox(
           width: double.infinity,
           height: 52,
@@ -215,7 +216,7 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const GoogleIcon(size: 18),
-                const SizedBox(width: 10),
+                const SizedBox(width: AppSpacing.sm),
                 Flexible(
                   child: FitOneLine(
                     child: Text(
@@ -232,7 +233,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSpacing.md),
         Text(
           l('secure_browser_auth'),
           textAlign: TextAlign.center,
@@ -273,7 +274,7 @@ class _LoginScreenState extends State<LoginScreen> {
               style: TextButton.styleFrom(
                 foregroundColor: Colors.white,
                 minimumSize: const Size(48, 48),
-                padding: const EdgeInsets.symmetric(horizontal: 4),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
               ),
               child: Text(ProfileL10n.t('terms', isTa), style: linkStyle),
             ),
@@ -288,7 +289,7 @@ class _LoginScreenState extends State<LoginScreen> {
               style: TextButton.styleFrom(
                 foregroundColor: Colors.white,
                 minimumSize: const Size(48, 48),
-                padding: const EdgeInsets.symmetric(horizontal: 4),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
               ),
               child: Text(
                 ProfileL10n.t('privacy_policy', isTa),

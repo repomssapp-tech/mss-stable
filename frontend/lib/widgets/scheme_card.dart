@@ -9,6 +9,7 @@ import '../providers/app_state_provider.dart';
 import '../services/centralized_translator.dart';
 import '../utils/emblem_helper.dart';
 import 'app_toast.dart';
+import '../utils/app_spacing.dart';
 
 class SchemeCard extends StatelessWidget {
   final Scheme scheme;
@@ -181,7 +182,7 @@ class SchemeCard extends StatelessWidget {
     ].join(' • ');
 
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 7, horizontal: 16),
+      margin: const EdgeInsets.symmetric(vertical: AppSpacing.sm, horizontal: AppSpacing.lg),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
@@ -200,7 +201,7 @@ class SchemeCard extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(18),
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(AppSpacing.lg),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -219,7 +220,7 @@ class SchemeCard extends StatelessWidget {
                   padding: EdgeInsets.zero,
                   child: ClipOval(child: _buildSchemeLogo(scheme, size: 72)),
                 ),
-                const SizedBox(width: 14),
+                const SizedBox(width: AppSpacing.lg),
 
                 // Middle Content Block
                 Expanded(
@@ -248,11 +249,11 @@ class SchemeCard extends StatelessWidget {
                             ),
                           ),
                           if (showMatchPercentage) ...[
-                            const SizedBox(width: 6),
+                            const SizedBox(width: AppSpacing.tight),
                             Container(
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 6,
-                                vertical: 2,
+                                horizontal: AppSpacing.tight,
+                                vertical: AppSpacing.hairline,
                               ),
                               decoration: BoxDecoration(
                                 color: const Color(0xFFE8F5E8),
@@ -271,7 +272,7 @@ class SchemeCard extends StatelessWidget {
                         ],
                       ),
                       if (subtitleText.isNotEmpty) ...[
-                        const SizedBox(height: 4),
+                        const SizedBox(height: AppSpacing.xs),
                         Text(
                           subtitleText,
                           style: GoogleFonts.inter(
@@ -286,18 +287,18 @@ class SchemeCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ],
-                      const SizedBox(height: 12),
+                      const SizedBox(height: AppSpacing.md),
 
                       // Tags Row
                       Wrap(
-                        spacing: 6,
-                        runSpacing: 5,
+                        spacing: AppSpacing.tight,
+                        runSpacing: AppSpacing.tight,
                         children: tags.map((tag) {
                           final colors = _getTagColors(tag, scheme.category);
                           return Container(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 3.5,
+                              horizontal: AppSpacing.sm,
+                              vertical: AppSpacing.xs,
                             ),
                             decoration: BoxDecoration(
                               color: colors['bg'],
@@ -322,7 +323,7 @@ class SchemeCard extends StatelessWidget {
 
                 // Far Right Actions Column
                 if (showActions) ...[
-                  const SizedBox(width: 8),
+                  const SizedBox(width: AppSpacing.sm),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -345,7 +346,7 @@ class SchemeCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: AppSpacing.sm),
                       GestureDetector(
                         onTap: () async {
                           final destination = scheme.applicationUrl.isNotEmpty

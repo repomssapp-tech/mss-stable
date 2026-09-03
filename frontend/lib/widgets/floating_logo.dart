@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../utils/responsive.dart';
+import '../utils/app_spacing.dart';
 
 class FloatingLogo extends StatelessWidget {
   const FloatingLogo({super.key});
@@ -14,7 +15,7 @@ class FloatingLogo extends StatelessWidget {
           height: 80,
           fit: BoxFit.contain,
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: AppSpacing.sm),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -23,7 +24,7 @@ class FloatingLogo extends StatelessWidget {
               height: 1.5,
               color: const Color(0xFFF97316),
             ), // Orange
-            const SizedBox(width: 8),
+            const SizedBox(width: AppSpacing.sm),
             Flexible(
               child: FitOneLine(
                 child: const Text(
@@ -36,7 +37,7 @@ class FloatingLogo extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: AppSpacing.sm),
             Container(
               width: 16,
               height: 1.5,

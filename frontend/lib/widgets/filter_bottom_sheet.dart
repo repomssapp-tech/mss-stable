@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../utils/responsive.dart';
 import '../l10n/l10n.dart';
+import '../utils/app_spacing.dart';
 
 class FilterBottomSheet extends StatefulWidget {
   const FilterBottomSheet({super.key});
@@ -125,7 +126,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             child: Container(
               width: 40,
               height: 4,
-              margin: const EdgeInsets.only(top: 12, bottom: 16),
+              margin: const EdgeInsets.only(top: AppSpacing.md, bottom: AppSpacing.lg),
               decoration: BoxDecoration(
                 color: const Color(0xFFE2E8F0),
                 borderRadius: BorderRadius.circular(2),
@@ -133,7 +134,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -148,7 +149,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: AppSpacing.sm),
                 Flexible(
                   child: GestureDetector(
                     onTap: _clearAll,
@@ -168,12 +169,12 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               ],
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.md),
 
           // 3. Scrollable Filter Categories
           Expanded(
             child: ListView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(AppSpacing.lg),
               itemCount: _filterCategories.length,
               itemBuilder: (context, index) {
                 final category = _filterCategories[index];
@@ -196,10 +197,10 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           // 5. Bottom Action Bar
           Container(
             padding: const EdgeInsets.only(
-              left: 16,
-              right: 16,
-              top: 12,
-              bottom: 12,
+              left: AppSpacing.lg,
+              right: AppSpacing.lg,
+              top: AppSpacing.md,
+              bottom: AppSpacing.md,
             ),
             decoration: const BoxDecoration(
               color: Colors.white,
@@ -237,7 +238,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    const SizedBox(width: AppSpacing.lg),
                     Expanded(
                       child: SizedBox(
                         height: 46, // Reduced height to prevent overflows
@@ -299,7 +300,7 @@ class _FilterCategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: AppSpacing.md),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -308,7 +309,7 @@ class _FilterCategoryCard extends StatelessWidget {
       child: Theme(
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
-          tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          tilePadding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.xs),
           leading: Container(
             width: 38,
             height: 38,
@@ -340,16 +341,16 @@ class _FilterCategoryCard extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                left: 16,
-                right: 16,
-                bottom: 16,
-                top: 4,
+                left: AppSpacing.lg,
+                right: AppSpacing.lg,
+                bottom: AppSpacing.lg,
+                top: AppSpacing.xs,
               ),
               child: Align(
                 alignment: Alignment.topLeft,
                 child: Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
+                  spacing: AppSpacing.sm,
+                  runSpacing: AppSpacing.sm,
                   children: options.map((opt) {
                     final bool isSelected = selectedOptions.contains(opt);
                     return ChoiceChip(

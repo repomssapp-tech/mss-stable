@@ -13,6 +13,7 @@ import '../../services/centralized_translator.dart';
 import '../../utils/responsive.dart';
 import '../../utils/emblem_helper.dart';
 import '../../widgets/app_toast.dart';
+import '../../utils/app_spacing.dart';
 
 class SchemeDetailsScreen extends StatefulWidget {
   final Scheme scheme;
@@ -248,7 +249,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                       ),
                       onPressed: () => _copySchemeDetails(scheme),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: AppSpacing.sm),
                   ],
                 ),
 
@@ -277,7 +278,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         physics: const BouncingScrollPhysics(),
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
                         child: Row(
                           children: List.generate(_getTabs(context).length, (
                             index,
@@ -307,9 +308,9 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                                 _scrollToSection(index);
                               },
                               child: Container(
-                                margin: const EdgeInsets.only(right: 24),
+                                margin: const EdgeInsets.only(right: AppSpacing.xxl),
                                 padding: const EdgeInsets.symmetric(
-                                  vertical: 12,
+                                  vertical: AppSpacing.md,
                                 ),
                                 decoration: BoxDecoration(
                                   border: Border(
@@ -345,9 +346,9 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                 // 4. Scrollable Content Body
                 SliverPadding(
                   padding: const EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                    top: 16,
+                    left: AppSpacing.lg,
+                    right: AppSpacing.lg,
+                    top: AppSpacing.lg,
                     bottom: 120,
                   ),
                   sliver: SliverList(
@@ -364,18 +365,18 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: AppSpacing.xxl),
 
                       // Why this matches you card
                       _buildSchemeHighlightsCard(scheme),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: AppSpacing.md),
                       _buildOfficialSourceCard(scheme),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: AppSpacing.xxl),
 
                       // Show a loading indicator while enriched details load
                       if (_detailsLoading)
                         const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 24),
+                          padding: EdgeInsets.symmetric(vertical: AppSpacing.xxl),
                           child: Center(
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
@@ -401,7 +402,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                           },
                           child: _buildBenefitsContent(scheme),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: AppSpacing.md),
 
                         // Eligibility Expandable Section
                         _ExpandableSection(
@@ -419,7 +420,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                           },
                           child: _buildEligibilityContent(scheme),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: AppSpacing.md),
 
                         // Required Documents Expandable Section
                         _ExpandableSection(
@@ -437,7 +438,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                           },
                           child: _buildDocumentsContent(scheme),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: AppSpacing.md),
 
                         // Required Services Expandable Section
                         _ExpandableSection(
@@ -455,7 +456,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                           },
                           child: _buildServicesContent(scheme.requiredServices),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: AppSpacing.md),
 
                         // Process Expandable Section
                         _ExpandableSection(
@@ -516,7 +517,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
     final maxPillWidth = MediaQuery.of(context).size.width - 56;
 
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -535,7 +536,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                 color: Color(0xFF2563EB),
                 size: 16,
               ),
-              const SizedBox(width: 6),
+              const SizedBox(width: AppSpacing.tight),
               Flexible(
                 child: Text(
                   context.l10n.schemeAtAGlance,
@@ -549,14 +550,14 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.md),
           Wrap(
-            spacing: 8,
-            runSpacing: 8,
+            spacing: AppSpacing.sm,
+            runSpacing: AppSpacing.sm,
             children: matches.map((match) {
               return Container(
                 constraints: BoxConstraints(maxWidth: maxPillWidth),
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
                 decoration: BoxDecoration(
                   color: const Color(0xFFEFF6FF),
                   borderRadius: BorderRadius.circular(6),
@@ -570,7 +571,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                       color: Color(0xFF2563EB),
                       size: 11,
                     ),
-                    const SizedBox(width: 4),
+                    const SizedBox(width: AppSpacing.xs),
                     Flexible(
                       child: Text(
                         match,
@@ -599,7 +600,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
     ].firstWhere(_isSafeWebUrl, orElse: () => '');
 
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: const Color(0xFFF8FAFC),
         borderRadius: BorderRadius.circular(12),
@@ -608,7 +609,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
       child: Row(
         children: [
           const Icon(Icons.verified_outlined, color: Color(0xFF047857)),
-          const SizedBox(width: 10),
+          const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -711,7 +712,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
           ),
         ),
         if (benefitCards.isNotEmpty) ...[
-          const SizedBox(height: 14),
+          const SizedBox(height: AppSpacing.lg),
           Builder(
             builder: (context) {
               final screenWidth = MediaQuery.of(context).size.width;
@@ -726,10 +727,10 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                     return Container(
                       width: cardWidth,
                       height: cardHeight,
-                      margin: const EdgeInsets.only(right: 12, bottom: 4),
+                      margin: const EdgeInsets.only(right: AppSpacing.md, bottom: AppSpacing.xs),
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 8,
+                        horizontal: AppSpacing.sm,
+                        vertical: AppSpacing.sm,
                       ),
                       decoration: BoxDecoration(
                         color: card["bg"] as Color,
@@ -742,7 +743,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                             color: card["color"] as Color,
                             size: 20,
                           ),
-                          const SizedBox(width: 8),
+                          const SizedBox(width: AppSpacing.sm),
                           Expanded(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -758,7 +759,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                                const SizedBox(height: 2),
+                                const SizedBox(height: AppSpacing.hairline),
                                 Text(
                                   card["desc"] as String,
                                   style: GoogleFonts.inter(
@@ -791,19 +792,19 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
       children: [
         ...scheme.eligibilityCriteria.map((rule) {
           return Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
+            padding: const EdgeInsets.only(bottom: AppSpacing.sm),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Padding(
-                  padding: EdgeInsets.only(top: 2.0),
+                  padding: EdgeInsets.only(top: AppSpacing.hairline),
                   child: Icon(
                     Icons.check_circle_outline,
                     color: Color(0xFF2563EB),
                     size: 14,
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Text(
                     rule,
@@ -828,7 +829,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: AppSpacing.xs),
           Text(
             scheme.verificationNotes,
             style: GoogleFonts.inter(
@@ -863,8 +864,8 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
       children: documents.map((document) {
         return Container(
           width: double.infinity,
-          margin: const EdgeInsets.only(bottom: 10),
-          padding: const EdgeInsets.all(12),
+          margin: const EdgeInsets.only(bottom: AppSpacing.sm),
+          padding: const EdgeInsets.all(AppSpacing.md),
           decoration: BoxDecoration(
             color: const Color(0xFFF8FAFC),
             borderRadius: BorderRadius.circular(10),
@@ -881,7 +882,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                     color: Color(0xFF2563EB),
                     size: 17,
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: AppSpacing.sm),
                   Expanded(
                     child: Text(
                       document.name,
@@ -895,8 +896,8 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                   if (document.mandatory.isNotEmpty)
                     Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 7,
-                        vertical: 3,
+                        horizontal: AppSpacing.sm,
+                        vertical: AppSpacing.xs,
                       ),
                       decoration: BoxDecoration(
                         color: document.isMandatory
@@ -920,7 +921,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                 ],
               ),
               if (document.description.isNotEmpty) ...[
-                const SizedBox(height: 6),
+                const SizedBox(height: AppSpacing.tight),
                 Text(
                   document.description,
                   style: GoogleFonts.inter(
@@ -931,7 +932,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                 ),
               ],
               if (document.issuingAuthority.isNotEmpty) ...[
-                const SizedBox(height: 6),
+                const SizedBox(height: AppSpacing.tight),
                 Text(
                   context.l10n.issuedByFormat(document.issuingAuthority),
                   style: GoogleFonts.inter(
@@ -962,7 +963,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                 final docLink = docEntry.value;
                 if (docLink.isNotEmpty) {
                   return Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
+                    padding: const EdgeInsets.only(top: AppSpacing.sm),
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Material(
@@ -973,8 +974,8 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                           borderRadius: BorderRadius.circular(8),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 6,
+                              horizontal: AppSpacing.sm,
+                              vertical: AppSpacing.tight,
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -984,7 +985,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                                   size: 13,
                                   color: Color(0xFF2563EB),
                                 ),
-                                const SizedBox(width: 5),
+                                const SizedBox(width: AppSpacing.tight),
                                 Flexible(
                                   child: FitOneLine(
                                     child: Text(
@@ -997,7 +998,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 4),
+                                const SizedBox(width: AppSpacing.xs),
                                 const Icon(
                                   Icons.open_in_new_rounded,
                                   size: 12,
@@ -1108,7 +1109,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                   ),
               ],
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: AppSpacing.md),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1121,7 +1122,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                       fontSize: 11.5,
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: AppSpacing.hairline),
                   Text(
                     context.l10n.processStepSubtitle,
                     style: GoogleFonts.inter(
@@ -1129,7 +1130,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                       fontSize: 9.0,
                     ),
                   ),
-                  const SizedBox(height: 14),
+                  const SizedBox(height: AppSpacing.lg),
                 ],
               ),
             ),
@@ -1200,7 +1201,7 @@ class _HeroSection extends StatelessWidget {
     }
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14),
@@ -1257,8 +1258,8 @@ class _HeroSection extends StatelessWidget {
               flex: 3,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 8,
+                  horizontal: AppSpacing.sm,
+                  vertical: AppSpacing.sm,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1269,8 +1270,8 @@ class _HeroSection extends StatelessWidget {
                       children: [
                         Container(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 2,
+                            horizontal: AppSpacing.tight,
+                            vertical: AppSpacing.hairline,
                           ),
                           decoration: BoxDecoration(
                             color: const Color(0xFFEFF6FF),
@@ -1289,7 +1290,7 @@ class _HeroSection extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: AppSpacing.xs),
                         Text(
                           shortForm,
                           style: GoogleFonts.poppins(
@@ -1302,7 +1303,7 @@ class _HeroSection extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         if (fullName.isNotEmpty) ...[
-                          const SizedBox(height: 2),
+                          const SizedBox(height: AppSpacing.hairline),
                           Text(
                             "($fullName)",
                             style: GoogleFonts.inter(
@@ -1315,7 +1316,7 @@ class _HeroSection extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ],
-                        const SizedBox(height: 2),
+                        const SizedBox(height: AppSpacing.hairline),
                         Text(
                           scheme.sponsoringBody,
                           style: GoogleFonts.inter(
@@ -1327,12 +1328,12 @@ class _HeroSection extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: AppSpacing.tight),
 
                     // Sponsoring theme tags
                     Wrap(
-                      spacing: 4,
-                      runSpacing: 4,
+                      spacing: AppSpacing.xs,
+                      runSpacing: AppSpacing.xs,
                       children: [
                         if (scheme.schemeType.isNotEmpty)
                           _buildMiniTag(
@@ -1361,13 +1362,13 @@ class _HeroSection extends StatelessWidget {
                         ],
                       ],
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: AppSpacing.tight),
 
                     // Match Banner (Single-row layout)
                     Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
+                        horizontal: AppSpacing.sm,
+                        vertical: AppSpacing.xs,
                       ),
                       decoration: BoxDecoration(
                         color: const Color(0xFFEFF6FF),
@@ -1385,7 +1386,7 @@ class _HeroSection extends StatelessWidget {
                             color: Color(0xFF2563EB),
                             size: 12,
                           ),
-                          const SizedBox(width: 4),
+                          const SizedBox(width: AppSpacing.xs),
                           Expanded(
                             child: RichText(
                               maxLines: 1,
@@ -1427,7 +1428,7 @@ class _HeroSection extends StatelessWidget {
 
   Widget _buildMiniTag(String label, Color bg, Color text) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.tight, vertical: AppSpacing.hairline),
       decoration: BoxDecoration(
         color: bg,
         borderRadius: BorderRadius.circular(4),
@@ -1509,7 +1510,7 @@ class _ExpandableSection extends StatelessWidget {
           controller: controller,
           initiallyExpanded: isExpanded,
           onExpansionChanged: (_) => onToggle(),
-          tilePadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
+          tilePadding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.hairline),
           leading: Container(
             width: 32,
             height: 32,
@@ -1532,10 +1533,10 @@ class _ExpandableSection extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                left: 16,
-                right: 16,
-                bottom: 16,
-                top: 4,
+                left: AppSpacing.lg,
+                right: AppSpacing.lg,
+                bottom: AppSpacing.lg,
+                top: AppSpacing.xs,
               ),
               // The section's own opaque white Container above sits between
               // any ListTile in `child` (services/documents content) and the
@@ -1615,7 +1616,7 @@ class _BottomActionBar extends StatelessWidget {
                         color: const Color(0xFF2563EB),
                         size: 20,
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: AppSpacing.sm),
                       Text(
                         isBookmarked
                             ? context.l10n.savedSchemeButton
@@ -1632,7 +1633,7 @@ class _BottomActionBar extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: AppSpacing.lg),
 
           // Apply Now Button — Fix 2: FittedBox prevents overflow
           Expanded(
@@ -1661,7 +1662,7 @@ class _BottomActionBar extends StatelessWidget {
                           fontSize: 14.0,
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: AppSpacing.sm),
                       const Icon(
                         Icons.arrow_forward,
                         color: Colors.white,

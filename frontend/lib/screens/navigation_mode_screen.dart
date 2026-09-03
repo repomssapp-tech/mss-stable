@@ -8,6 +8,7 @@ import '../providers/app_state_provider.dart';
 import '../main.dart';
 import '../utils/responsive.dart';
 import '../l10n/l10n.dart';
+import '../utils/app_spacing.dart';
 
 enum NavigationMode { regular, companion }
 
@@ -67,8 +68,8 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                               alignment: Alignment.topLeft,
                               child: Padding(
                                 padding: const EdgeInsets.only(
-                                  left: 12.0,
-                                  top: 8.0,
+                                  left: AppSpacing.md,
+                                  top: AppSpacing.sm,
                                 ),
                                 child: IconButton(
                                   icon: const Icon(
@@ -102,7 +103,7 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                                     height: 80,
                                     fit: BoxFit.contain,
                                   ),
-                                  const SizedBox(height: 12),
+                                  const SizedBox(height: AppSpacing.md),
 
                                   // Header Text Group
                                   Column(
@@ -133,7 +134,7 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                                           ],
                                         ),
                                       ),
-                                      const SizedBox(height: 4),
+                                      const SizedBox(height: AppSpacing.xs),
                                       Text(
                                         'Select the navigation style that best suits you.',
                                         textAlign: TextAlign.center,
@@ -144,7 +145,7 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 12),
+                                  const SizedBox(height: AppSpacing.md),
 
                                   // Option Cards Group
                                   Column(
@@ -185,7 +186,7 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                                           });
                                         },
                                       ),
-                                      const SizedBox(height: 8),
+                                      const SizedBox(height: AppSpacing.sm),
                                       NavigationOptionCard(
                                         mode: NavigationMode.companion,
                                         isSelected:
@@ -225,7 +226,7 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 12),
+                                  const SizedBox(height: AppSpacing.md),
 
                                   // Info Card
                                   InfoCard(
@@ -243,8 +244,8 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                             Container(
                               color: Colors.transparent,
                               padding: const EdgeInsets.only(
-                                bottom: 16.0,
-                                top: 10.0,
+                                bottom: AppSpacing.lg,
+                                top: AppSpacing.sm,
                               ),
                               alignment: Alignment.center,
                               child: PrimaryButton(
@@ -341,8 +342,8 @@ class NavigationOptionCard extends StatelessWidget {
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeOutQuint,
         padding: const EdgeInsets.symmetric(
-          horizontal: 14.0,
-          vertical: 10.0,
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.sm,
         ), // Reduced card padding
         decoration: BoxDecoration(
           color: isSelected ? activeBg : Colors.white,
@@ -373,7 +374,7 @@ class NavigationOptionCard extends StatelessWidget {
               children: [
                 // Illustration / Icon on the left (Slightly smaller padding)
                 Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(AppSpacing.sm),
                   decoration: BoxDecoration(
                     color: iconBgColor,
                     borderRadius: BorderRadius.circular(12),
@@ -384,7 +385,7 @@ class NavigationOptionCard extends StatelessWidget {
                     size: 24, // Slightly smaller
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: AppSpacing.md),
 
                 // Middle Text & Chips Details
                 Expanded(
@@ -400,7 +401,7 @@ class NavigationOptionCard extends StatelessWidget {
                           color: _NavigationModeScreenState.kSlate800,
                         ),
                       ),
-                      const SizedBox(height: 2),
+                      const SizedBox(height: AppSpacing.hairline),
                       Text(
                         subtitle,
                         style: GoogleFonts.inter(
@@ -408,18 +409,18 @@ class NavigationOptionCard extends StatelessWidget {
                           color: _NavigationModeScreenState.kSlate500,
                         ),
                       ),
-                      const SizedBox(height: 8), // Tighter spacing
+                      const SizedBox(height: AppSpacing.sm), // Tighter spacing
                       // Vertical Layout for Feature Chips
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           for (int i = 0; i < chips.length; i++) ...[
                             if (i > 0)
-                              const SizedBox(height: 4), // Reduced chip spacing
+                              const SizedBox(height: AppSpacing.xs), // Reduced chip spacing
                             Container(
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 2.5,
+                                horizontal: AppSpacing.sm,
+                                vertical: AppSpacing.hairline,
                               ),
                               decoration: BoxDecoration(
                                 color: isSelected ? Colors.white : iconBgColor,
@@ -433,7 +434,7 @@ class NavigationOptionCard extends StatelessWidget {
                                     color: iconColor,
                                     size: 9,
                                   ),
-                                  const SizedBox(width: 4),
+                                  const SizedBox(width: AppSpacing.xs),
                                   Flexible(
                                     child: FitOneLine(
                                       child: Text(
@@ -455,7 +456,7 @@ class NavigationOptionCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: AppSpacing.md),
               ],
             ),
 
@@ -471,7 +472,7 @@ class NavigationOptionCard extends StatelessWidget {
                         shape: BoxShape.circle,
                         color: activeColor,
                       ),
-                      padding: const EdgeInsets.all(2.5),
+                      padding: const EdgeInsets.all(AppSpacing.hairline),
                       child: Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
@@ -508,8 +509,8 @@ class InfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: 14,
-        vertical: 10,
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.sm,
       ), // More compact padding
       decoration: BoxDecoration(
         color: const Color(0xFFEFF6FF), // Blue tinted background
@@ -520,7 +521,7 @@ class InfoCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Icon(Icons.info_outline, color: Color(0xFF2563EB), size: 18),
-          const SizedBox(width: 10),
+          const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -602,7 +603,7 @@ class PrimaryButton extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: AppSpacing.sm),
             const Icon(Icons.arrow_forward, color: Colors.white, size: 20),
           ],
         ),

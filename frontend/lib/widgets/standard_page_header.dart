@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../utils/app_spacing.dart';
 
 /// StandardPageHeader
 /// ──────────────────
@@ -38,7 +39,7 @@ class StandardPageHeader extends StatelessWidget
         bottom: false,
         child: Container(
           height: preferredSize.height,
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
           decoration: BoxDecoration(
             color: backgroundColor,
             border: Border(
@@ -66,7 +67,7 @@ class StandardPageHeader extends StatelessWidget
                   tooltip: 'Back',
                 )
               else
-                const SizedBox(width: 12),
+                const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -84,7 +85,7 @@ class StandardPageHeader extends StatelessWidget
                       overflow: TextOverflow.ellipsis,
                     ),
                     if (subtitle != null && subtitle!.isNotEmpty) ...[
-                      const SizedBox(height: 2),
+                      const SizedBox(height: AppSpacing.hairline),
                       Text(
                         subtitle!,
                         style: GoogleFonts.inter(
@@ -103,7 +104,7 @@ class StandardPageHeader extends StatelessWidget
               if (actions != null && actions!.isNotEmpty)
                 Row(mainAxisSize: MainAxisSize.min, children: actions!)
               else
-                const SizedBox(width: 8),
+                const SizedBox(width: AppSpacing.sm),
             ],
           ),
         ),

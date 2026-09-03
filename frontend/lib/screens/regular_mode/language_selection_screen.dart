@@ -6,6 +6,7 @@ import '../../widgets/floating_logo.dart';
 import '../../utils/profile_l10n.dart';
 import '../login_screen.dart';
 import '../../utils/responsive.dart';
+import '../../utils/app_spacing.dart';
 
 class LanguageOption {
   final String code;
@@ -103,8 +104,8 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                       child: IntrinsicHeight(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 24.0,
-                            vertical: 16.0,
+                            horizontal: AppSpacing.xxl,
+                            vertical: AppSpacing.lg,
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -128,7 +129,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                                       color: const Color(0xFF1E293B),
                                     ),
                                   ),
-                                  const SizedBox(height: 8),
+                                  const SizedBox(height: AppSpacing.sm),
                                   Text(
                                     l('language_subtitle'),
                                     textAlign: TextAlign.center,
@@ -150,7 +151,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                                       _selectedLang == option.code;
                                   return Padding(
                                     padding: const EdgeInsets.only(
-                                      bottom: 12.0,
+                                      bottom: AppSpacing.md,
                                     ),
                                     child: _buildLanguageItem(
                                       option,
@@ -164,7 +165,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
 
                               // 6. Info Box Card
                               Container(
-                                padding: const EdgeInsets.all(14),
+                                padding: const EdgeInsets.all(AppSpacing.lg),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFEFF6FF), // Blue 50
                                   borderRadius: BorderRadius.circular(16),
@@ -175,7 +176,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                                 child: Row(
                                   children: [
                                     Container(
-                                      padding: const EdgeInsets.all(8),
+                                      padding: const EdgeInsets.all(AppSpacing.sm),
                                       decoration: const BoxDecoration(
                                         shape: BoxShape.circle,
                                         color: Color(0xFFDBEAFE),
@@ -186,7 +187,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                                         size: 20,
                                       ),
                                     ),
-                                    const SizedBox(width: 12),
+                                    const SizedBox(width: AppSpacing.md),
                                     Expanded(
                                       child: Column(
                                         crossAxisAlignment:
@@ -200,7 +201,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                                               color: const Color(0xFF1E3A8A),
                                             ),
                                           ),
-                                          const SizedBox(height: 2),
+                                          const SizedBox(height: AppSpacing.hairline),
                                           Text(
                                             l('change_anytime'),
                                             style: GoogleFonts.inter(
@@ -240,7 +241,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                                       borderRadius: BorderRadius.circular(16),
                                     ),
                                     padding: const EdgeInsets.symmetric(
-                                      vertical: 16,
+                                      vertical: AppSpacing.lg,
                                     ),
                                     elevation: 0,
                                   ),
@@ -267,7 +268,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(width: 8),
+                                      const SizedBox(width: AppSpacing.sm),
                                       const Icon(
                                         Icons.arrow_forward,
                                         color: Colors.white,
@@ -300,7 +301,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
       borderRadius: BorderRadius.circular(16),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.lg),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
@@ -346,7 +347,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                 ),
               ),
             ),
-            const SizedBox(width: 14),
+            const SizedBox(width: AppSpacing.lg),
 
             // Language names
             Expanded(
@@ -362,7 +363,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                       color: const Color(0xFF0F172A), // Slate 900
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: AppSpacing.hairline),
                   Text(
                     option.englishTitle,
                     style: GoogleFonts.inter(

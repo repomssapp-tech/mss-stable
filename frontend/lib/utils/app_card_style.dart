@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'app_spacing.dart';
 
 /// AppCardStyle
 /// ────────────
@@ -19,11 +20,11 @@ class AppCardStyle {
   );
 
   static const EdgeInsets cardMargin = EdgeInsets.symmetric(
-    vertical: 6.0,
-    horizontal: 16.0,
+    vertical: AppSpacing.tight,
+    horizontal: AppSpacing.lg,
   );
-  static const EdgeInsets cardPadding = EdgeInsets.all(14.0);
-  static const EdgeInsets cardInnerPadding = EdgeInsets.all(16.0);
+  static const EdgeInsets cardPadding = EdgeInsets.all(AppSpacing.lg);
+  static const EdgeInsets cardInnerPadding = EdgeInsets.all(AppSpacing.lg);
 
   static const double chipSpacing = 6.0;
   static const double chipRunSpacing = 6.0;

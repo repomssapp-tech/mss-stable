@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../utils/constants.dart';
 import '../utils/responsive.dart';
+import '../utils/app_spacing.dart';
 
 class CategoryCard extends StatelessWidget {
   final String title;
@@ -19,7 +20,7 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+      margin: const EdgeInsets.symmetric(vertical: AppSpacing.tight, horizontal: AppSpacing.lg),
       elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
@@ -30,7 +31,7 @@ class CategoryCard extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(16),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           child: Row(
             children: [
               // Emoji / Icon container
@@ -46,7 +47,7 @@ class CategoryCard extends StatelessWidget {
                   child: Text(icon, style: const TextStyle(fontSize: 26)),
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: AppSpacing.lg),
 
               // Text Content (Title & Description)
               Expanded(
@@ -61,7 +62,7 @@ class CategoryCard extends StatelessWidget {
                         color: AppConstants.primaryText,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: AppSpacing.xs),
                     Text(
                       description,
                       style: const TextStyle(
@@ -74,7 +75,7 @@ class CategoryCard extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: AppSpacing.sm),
 
               // Navigation Arrow
               const Icon(

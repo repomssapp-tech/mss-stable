@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../utils/app_spacing.dart';
 
 class CustomConfirmDialog extends StatelessWidget {
   final IconData icon;
@@ -65,7 +66,7 @@ class CustomConfirmDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(AppSpacing.xxl),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(24),
@@ -91,7 +92,7 @@ class CustomConfirmDialog extends StatelessWidget {
             ),
             child: Icon(icon, color: iconColor, size: 28),
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: AppSpacing.xl),
 
           // Title
           Text(
@@ -103,7 +104,7 @@ class CustomConfirmDialog extends StatelessWidget {
               color: const Color(0xFF0F172A),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.sm),
 
           // Message
           Text(
@@ -115,7 +116,7 @@ class CustomConfirmDialog extends StatelessWidget {
               color: const Color(0xFF64748B),
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSpacing.xxl),
 
           // Action Buttons Row
           Row(
@@ -124,7 +125,7 @@ class CustomConfirmDialog extends StatelessWidget {
               Expanded(
                 child: TextButton(
                   style: TextButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                       side: const BorderSide(color: Color(0xFFE2E8F0)),
@@ -141,7 +142,7 @@ class CustomConfirmDialog extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: AppSpacing.md),
 
               // Confirm Button
               Expanded(
@@ -149,7 +150,7 @@ class CustomConfirmDialog extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: confirmColor,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),

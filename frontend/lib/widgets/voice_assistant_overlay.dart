@@ -24,6 +24,7 @@ import '../services/centralized_translator.dart';
 import '../services/chat_log_service.dart';
 import '../utils/responsive.dart';
 import '../l10n/l10n.dart';
+import '../utils/app_spacing.dart';
 
 enum _VoiceAssistantPhase {
   starting,
@@ -1312,7 +1313,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             ),
           ),
           SafeArea(
-            minimum: const EdgeInsets.fromLTRB(12, 12, 12, 16),
+            minimum: const EdgeInsets.fromLTRB(AppSpacing.md, AppSpacing.md, AppSpacing.md, AppSpacing.lg),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: ConstrainedBox(
@@ -1340,20 +1341,20 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                   ),
                   child: SingleChildScrollView(
                     controller: _panelScrollController,
-                    padding: const EdgeInsets.fromLTRB(18, 16, 18, 14),
+                    padding: const EdgeInsets.fromLTRB(AppSpacing.xl, AppSpacing.lg, AppSpacing.xl, AppSpacing.lg),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         _buildHeader(),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: AppSpacing.md),
                         _buildListeningArea(),
                         if (_conversationTurns.isNotEmpty) ...[
-                          const SizedBox(height: 12),
+                          const SizedBox(height: AppSpacing.md),
                           _buildConversationTranscript(),
                         ],
                         if (_cloudSessionInUse) ...[
-                          const SizedBox(height: 8),
+                          const SizedBox(height: AppSpacing.sm),
                           Row(
                             key: const Key('voice-cloud-disclosure'),
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -1363,7 +1364,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                                 size: 13,
                                 color: _accent,
                               ),
-                              const SizedBox(width: 5),
+                              const SizedBox(width: AppSpacing.tight),
                               Flexible(
                                 child: Text(
                                   'Live audio is processed securely. This app does not save audio or raw transcripts.',
@@ -1378,7 +1379,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                           ),
                         ],
                         if (_message != null) ...[
-                          const SizedBox(height: 10),
+                          const SizedBox(height: AppSpacing.sm),
                           Text(
                             _message!,
                             textAlign: TextAlign.center,
@@ -1389,25 +1390,25 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                           ),
                         ],
                         if (_session?.reply case final reply?) ...[
-                          const SizedBox(height: 12),
+                          const SizedBox(height: AppSpacing.md),
                           _buildAssistantReply(reply),
                         ],
                         if (_groundingPhase != _OnlineGroundingPhase.idle) ...[
-                          const SizedBox(height: 9),
+                          const SizedBox(height: AppSpacing.sm),
                           _buildOnlineGrounding(),
                         ],
                         if (_session?.facts.isNotEmpty == true) ...[
-                          const SizedBox(height: 12),
+                          const SizedBox(height: AppSpacing.md),
                           _buildFactChips(),
                         ],
                         if (_session?.question != null) ...[
-                          const SizedBox(height: 12),
+                          const SizedBox(height: AppSpacing.md),
                           _buildQuestionCard(_session!.question!),
                         ],
                         if (_legacySearching ||
                             _session?.phase ==
                                 AssistantSessionPhase.understanding) ...[
-                          const SizedBox(height: 12),
+                          const SizedBox(height: AppSpacing.md),
                           LinearProgressIndicator(
                             key: Key('voice-search-progress'),
                             minHeight: 2,
@@ -1416,17 +1417,17 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                           ),
                         ] else if (_session?.recommendations.isNotEmpty ==
                             true) ...[
-                          const SizedBox(height: 12),
+                          const SizedBox(height: AppSpacing.md),
                           _buildConversationalResults(),
                         ] else if (_legacyMatches.isNotEmpty) ...[
-                          const SizedBox(height: 12),
+                          const SizedBox(height: AppSpacing.md),
                           _buildLegacyResults(),
                         ] else if (_session?.phase ==
                                 AssistantSessionPhase.noConfidentMatch ||
                             (_transcript.isNotEmpty &&
                                 !_hasConversation &&
                                 !_legacySearching)) ...[
-                          const SizedBox(height: 10),
+                          const SizedBox(height: AppSpacing.sm),
                           Text(
                             _presentInTamil
                                 ? 'நம்பகமான பொருத்தம் கிடைக்கவில்லை. உங்கள் நிலையை வேறு வார்த்தைகளில் சொல்லுங்கள்.'
@@ -1441,7 +1442,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                         ],
                         if (_session?.excludedUncertainCount case final count?
                             when count > 0) ...[
-                          const SizedBox(height: 8),
+                          const SizedBox(height: AppSpacing.sm),
                           TextButton.icon(
                             key: const Key('voice-show-uncertain'),
                             onPressed: () =>
@@ -1452,7 +1453,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                             ),
                           ),
                         ],
-                        const SizedBox(height: 8),
+                        const SizedBox(height: AppSpacing.sm),
                         Center(
                           child: Container(
                             width: 36,
@@ -1493,7 +1494,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             ),
           ),
         ),
-        const SizedBox(width: 10),
+        const SizedBox(width: AppSpacing.sm),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1519,7 +1520,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                         shape: BoxShape.circle,
                       ),
                     ),
-                    const SizedBox(width: 5),
+                    const SizedBox(width: AppSpacing.tight),
                     Flexible(
                       child: FitOneLine(
                         alignment: Alignment.centerLeft,
@@ -1571,7 +1572,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     final showSuggestions =
         _transcript.isEmpty && _session?.statement.isEmpty != false;
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.045),
         borderRadius: BorderRadius.circular(18),
@@ -1611,10 +1612,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             ),
           ),
           if (showSuggestions) ...[
-            const SizedBox(height: 14),
+            const SizedBox(height: AppSpacing.lg),
             Wrap(
-              spacing: 6,
-              runSpacing: 6,
+              spacing: AppSpacing.tight,
+              runSpacing: AppSpacing.tight,
               alignment: WrapAlignment.center,
               children: [
                 _suggestionChip('Business loans'),
@@ -1623,7 +1624,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               ],
             ),
           ],
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.lg),
           Row(
             children: [
               Expanded(
@@ -1641,7 +1642,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                       : const SizedBox(),
                 ),
               ),
-              const SizedBox(width: 24),
+              const SizedBox(width: AppSpacing.xxl),
               Semantics(
                 button: true,
                 label: _speaking
@@ -1672,7 +1673,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                   ),
                 ),
               ),
-              const SizedBox(width: 24),
+              const SizedBox(width: AppSpacing.xxl),
               Expanded(
                 child: Align(
                   alignment: Alignment.centerLeft,
@@ -1686,7 +1687,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.sm),
           Text(
             _speaking
                 ? 'Interrupt'
@@ -1701,7 +1702,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             ),
           ),
           if (_cloudSessionInUse) ...[
-            const SizedBox(height: 6),
+            const SizedBox(height: AppSpacing.tight),
             Semantics(
               label: 'Server noise filtering is on',
               child: Row(
@@ -1712,7 +1713,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                     color: Color(0xFF34D399),
                     size: 13,
                   ),
-                  const SizedBox(width: 5),
+                  const SizedBox(width: AppSpacing.tight),
                   Text(
                     _presentInTamil
                         ? 'சத்தம் வடிகட்டப்படுகிறது'
@@ -1728,7 +1729,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             ),
           ],
           if (_isCompanion) ...[
-            const SizedBox(height: 10),
+            const SizedBox(height: AppSpacing.sm),
             Row(
               children: [
                 Expanded(
@@ -1753,7 +1754,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                     ),
                   ),
                 ),
-                const SizedBox(width: 6),
+                const SizedBox(width: AppSpacing.tight),
                 IconButton(
                   key: const Key('voice-send-text'),
                   tooltip: 'Send message',
@@ -1777,7 +1778,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
       label: 'Conversation transcript',
       child: Container(
         key: const Key('voice-conversation-transcript'),
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(AppSpacing.md),
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.035),
           borderRadius: BorderRadius.circular(18),
@@ -1789,7 +1790,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             Row(
               children: [
                 Icon(Icons.forum_outlined, color: _accent, size: 16),
-                const SizedBox(width: 7),
+                const SizedBox(width: AppSpacing.sm),
                 Text(
                   _presentInTamil ? 'உரையாடல்' : 'Conversation',
                   style: GoogleFonts.inter(
@@ -1800,7 +1801,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                 ),
               ],
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: AppSpacing.sm),
             for (final turn in visibleTurns) _buildTranscriptBubble(turn),
           ],
         ),
@@ -1823,8 +1824,8 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         child: Container(
           key: Key('voice-turn-${turn.id}'),
           constraints: const BoxConstraints(maxWidth: 440),
-          margin: const EdgeInsets.only(bottom: 9),
-          padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 10),
+          margin: const EdgeInsets.only(bottom: AppSpacing.sm),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
           decoration: BoxDecoration(
             color: bubbleColor,
             borderRadius: BorderRadius.only(
@@ -1851,7 +1852,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                   fontWeight: FontWeight.w800,
                 ),
               ),
-              const SizedBox(height: 3),
+              const SizedBox(height: AppSpacing.xs),
               Text(
                 turn.text,
                 style: GoogleFonts.inter(
@@ -1890,7 +1891,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         label: 'Voice language $_languageBadgeLabel',
         child: Container(
           key: const Key('voice-language-auto-badge'),
-          padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
           decoration: BoxDecoration(
             color: const Color(0xFFDBEAFE),
             borderRadius: BorderRadius.circular(14),
@@ -1909,7 +1910,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     }
     return Container(
       key: const Key('voice-language-fallback-picker'),
-      padding: const EdgeInsets.all(2),
+      padding: const EdgeInsets.all(AppSpacing.hairline),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.06),
         borderRadius: BorderRadius.circular(14),
@@ -1933,7 +1934,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
       child: Container(
         constraints: const BoxConstraints(minHeight: 36),
         alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
         decoration: BoxDecoration(
           color: selected ? const Color(0xFF2563EB) : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
@@ -1963,10 +1964,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             fontWeight: FontWeight.w700,
           ),
         ),
-        const SizedBox(height: 6),
+        const SizedBox(height: AppSpacing.tight),
         Wrap(
-          spacing: 6,
-          runSpacing: 6,
+          spacing: AppSpacing.tight,
+          runSpacing: AppSpacing.tight,
           children: facts
               .map((fact) {
                 final conflict = fact.hasConflict;
@@ -2010,7 +2011,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     final text = _questionText(_session!, question);
     return Container(
       key: const Key('voice-follow-up-question'),
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: const Color(0xFF1D4ED8).withValues(alpha: 0.16),
         borderRadius: BorderRadius.circular(16),
@@ -2028,7 +2029,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                 color: Color(0xFF60A5FA),
                 size: 17,
               ),
-              const SizedBox(width: 7),
+              const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: Text(
                   text,
@@ -2053,10 +2054,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             ],
           ),
           if (question.options.isNotEmpty) ...[
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             Wrap(
-              spacing: 6,
-              runSpacing: 6,
+              spacing: AppSpacing.tight,
+              runSpacing: AppSpacing.tight,
               children: question.options
                   .map(
                     (option) => ActionChip(
@@ -2085,7 +2086,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               ) ==
               false)
             Padding(
-              padding: const EdgeInsets.only(top: 6),
+              padding: const EdgeInsets.only(top: AppSpacing.tight),
               child: Text(
                 'Speech output is unavailable; tap the microphone to answer.',
                 style: GoogleFonts.inter(
@@ -2136,7 +2137,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             _session!.facts.values.any(
               (fact) => fact.source != EligibilityFactSource.profile,
             )) ...[
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.sm),
           OutlinedButton.icon(
             key: const Key('voice-review-profile'),
             onPressed: _reviewAndSaveFacts,
@@ -2155,7 +2156,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
   Widget _buildAssistantReply(GroundedAssistantReply reply) {
     return Container(
       key: const Key('voice-assistant-reply'),
-      padding: const EdgeInsets.all(13),
+      padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: _accent.withValues(alpha: 0.11),
         borderRadius: BorderRadius.circular(15),
@@ -2167,7 +2168,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           Row(
             children: [
               Icon(Icons.auto_awesome, size: 15, color: _accent),
-              const SizedBox(width: 6),
+              const SizedBox(width: AppSpacing.tight),
               Flexible(
                 child: FitOneLine(
                   alignment: Alignment.centerLeft,
@@ -2183,7 +2184,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               ),
             ],
           ),
-          const SizedBox(height: 7),
+          const SizedBox(height: AppSpacing.sm),
           Text(
             reply.displayText,
             style: GoogleFonts.inter(
@@ -2193,7 +2194,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             ),
           ),
           if (reply.sourceUrl.isNotEmpty) ...[
-            const SizedBox(height: 7),
+            const SizedBox(height: AppSpacing.sm),
             TextButton.icon(
               key: const Key('voice-assistant-source'),
               onPressed: () => _openReplySource(reply.sourceUrl),
@@ -2236,7 +2237,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     };
     return Container(
       key: const Key('voice-online-grounding'),
-      padding: const EdgeInsets.all(11),
+      padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: const Color(0xFF0F1D2E),
         borderRadius: BorderRadius.circular(13),
@@ -2256,7 +2257,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                 size: 15,
                 color: isFound ? const Color(0xFF4ADE80) : _accent,
               ),
-              const SizedBox(width: 7),
+              const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: Text(
                   title,
@@ -2280,18 +2281,18 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             ],
           ),
           if (isFound) ...[
-            const SizedBox(height: 5),
+            const SizedBox(height: AppSpacing.tight),
             ..._groundedSources.map(
               (source) => Padding(
-                padding: const EdgeInsets.only(top: 5),
+                padding: const EdgeInsets.only(top: AppSpacing.tight),
                 child: InkWell(
                   key: Key('voice-grounded-source-${source.url}'),
                   onTap: () => _openReplySource(source.url.toString()),
                   borderRadius: BorderRadius.circular(9),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 7,
-                      vertical: 6,
+                      horizontal: AppSpacing.sm,
+                      vertical: AppSpacing.tight,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -2317,7 +2318,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                             ),
                           ],
                         ),
-                        const SizedBox(height: 2),
+                        const SizedBox(height: AppSpacing.hairline),
                         Text(
                           source.snippet,
                           maxLines: 3,
@@ -2328,7 +2329,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                             height: 1.35,
                           ),
                         ),
-                        const SizedBox(height: 2),
+                        const SizedBox(height: AppSpacing.hairline),
                         Text(
                           source.host,
                           style: GoogleFonts.inter(
@@ -2344,7 +2345,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             ),
           ],
           if (isChecking || isFound) ...[
-            const SizedBox(height: 5),
+            const SizedBox(height: AppSpacing.tight),
             Text(
               'Only the topic and official links are checked. Your statement and profile stay on this device.',
               key: const Key('voice-grounding-privacy-note'),
@@ -2385,13 +2386,13 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
       _ => const Color(0xFFF87171),
     };
     return Padding(
-      padding: const EdgeInsets.only(top: 7),
+      padding: const EdgeInsets.only(top: AppSpacing.sm),
       child: InkWell(
         key: Key('voice-result-${scheme.id}'),
         onTap: () => widget.onSchemeSelected?.call(scheme),
         borderRadius: BorderRadius.circular(14),
         child: Container(
-          padding: const EdgeInsets.all(11),
+          padding: const EdgeInsets.all(AppSpacing.md),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.052),
             borderRadius: BorderRadius.circular(14),
@@ -2414,11 +2415,11 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: AppSpacing.sm),
                   Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 5,
+                      horizontal: AppSpacing.sm,
+                      vertical: AppSpacing.tight,
                     ),
                     decoration: BoxDecoration(
                       color: color.withValues(alpha: 0.24),
@@ -2436,7 +2437,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                   ),
                 ],
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: AppSpacing.tight),
               if (recommendation.reasons.isNotEmpty)
                 _resultLine(
                   Icons.check_circle_outline,
@@ -2476,12 +2477,12 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
   }
 
   Widget _resultLine(IconData icon, String text, Color color) => Padding(
-    padding: const EdgeInsets.only(top: 3),
+    padding: const EdgeInsets.only(top: AppSpacing.xs),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Icon(icon, color: color, size: 13),
-        const SizedBox(width: 5),
+        const SizedBox(width: AppSpacing.tight),
         Expanded(
           child: Text(
             text,
@@ -2517,7 +2518,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             .take(3)
             .map(
               (match) => Padding(
-                padding: const EdgeInsets.only(top: 6),
+                padding: const EdgeInsets.only(top: AppSpacing.tight),
                 child: Material(
                   color: Colors.transparent,
                   child: ListTile(

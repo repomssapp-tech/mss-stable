@@ -59,10 +59,12 @@ void main() {
     final forMe = RecommendationEngine.forMeSchemes(populated(), all);
     print('For Me (populated) = ${forMe.length} / ${all.length}');
     expect(forMe, isNotEmpty);
-    // A scheme that matches nothing substantive (only national coverage)
-    // scores 0.20 and is excluded — so the personalised set is well under
-    // the whole catalog, not a rounding error below it.
-    expect(forMe.length, lessThan((0.7 * all.length).round()));
+    // National coverage alone now scores 0.15 (below the bar); a national
+    // scheme needs a genuine facet match to appear. For a broad Female+SC
+    // Tamil Nadu profile the personalised set sits well under half the
+    // catalog — and must not silently collapse to almost nothing either.
+    expect(forMe.length, greaterThan((0.20 * all.length).round()));
+    expect(forMe.length, lessThan((0.60 * all.length).round()));
   });
 
   test('empty profile: "For Me" is empty and the screen must show the '
@@ -89,6 +91,75 @@ void main() {
     print('TN For Me = ${tnSet.length}, Karnataka For Me = ${kaSet.length}');
     expect(kaSet.length, lessThan(tnSet.length),
         reason: 'Tamil-Nadu-scoped schemes must drop out for a Karnataka user');
+  });
+
+  group('role signal lifts a thematically-matching state scheme over the bar',
+      () {
+    UserProfile tn({String role = 'Student'}) => UserProfile(
+          gender: 'Female',
+          community: 'SC',
+          state: 'Tamil Nadu',
+          dob: DateTime(1995, 6, 1),
+          educationLevel: 'Undergraduate',
+          employmentStatus: role,
+          businessIndustry: 'Handicrafts',
+          businessStage: 'Idea',
+          profileCompleted: true,
+        );
+
+    test('TANSEED (real catalog TN182): below the bar for a generic student, '
+        'clears it for a self-identified entrepreneur', () {
+      final tanseed = all.firstWhere(
+        (s) => s.schemeCode.toUpperCase() == 'TN182',
+        orElse: () => throw StateError('TN182 (TANSEED) not in catalog'),
+      );
+      final generic = RecommendationEngine.evaluate(tn(), tanseed).score;
+      final founder = RecommendationEngine.evaluate(
+        tn(role: 'Aspiring Entrepreneur'),
+        tanseed,
+      ).score;
+      expect(generic, lessThan(RecommendationEngine.forMeThreshold),
+          reason: 'a state startup grant is not a personal match for a student');
+      expect(founder, greaterThanOrEqualTo(RecommendationEngine.forMeThreshold),
+          reason: 'it IS a personal match for a Tamil Nadu entrepreneur');
+    });
+
+    test('artisan-themed TN scheme: below the bar for a generic student, '
+        'clears it for a self-identified artisan', () {
+      final artisanScheme = Scheme(
+        id: 'SYNTH_ARTISAN_TN',
+        name: 'Tamil Nadu Handloom Weaver Craft Support',
+        state: 'Tamil Nadu',
+        category: 'Artisan / Handicraft',
+        sector: 'Handloom',
+      );
+      final generic = RecommendationEngine.evaluate(tn(), artisanScheme).score;
+      final artisan = RecommendationEngine.evaluate(
+        tn(role: 'Artisan / SHG Member'),
+        artisanScheme,
+      ).score;
+      expect(generic, lessThan(RecommendationEngine.forMeThreshold));
+      expect(artisan, greaterThanOrEqualTo(RecommendationEngine.forMeThreshold));
+    });
+
+    test('a non-TN entrepreneur is still hard-disqualified from a TN scheme',
+        () {
+      final tanseed = all.firstWhere(
+        (s) => s.schemeCode.toUpperCase() == 'TN182',
+        orElse: () => throw StateError('TN182 not in catalog'),
+      );
+      final r = RecommendationEngine.evaluate(
+        UserProfile(
+          gender: 'Female',
+          state: 'Karnataka',
+          dob: DateTime(1995, 6, 1),
+          employmentStatus: 'Aspiring Entrepreneur',
+          profileCompleted: true,
+        ),
+        tanseed,
+      );
+      expect(r.score, 0.0);
+    });
   });
 
   test('a well-matched profile/scheme pair lands in a confident band, not '

@@ -54,59 +54,52 @@ value.
 
 ## 3. What was migrated
 
-Discover + Profile flows only (7 files, ~365 `AppSpacing.*` references), via a
-single mechanical transform (`scratchpad/migrate_spacing.py`), not
-screen-by-screen hand edits:
+**Full rollout — all of `lib/`.** First the Discover + Profile flows (7 files),
+then every remaining `.dart` file under `lib/` with spacing literals (32 more
+files), via one mechanical transform (`scratchpad/migrate_spacing.py` then
+`scratchpad/migrate_spacing_all.py`), not screen-by-screen hand edits.
+~1050 `EdgeInsets` / `SizedBox` / `Wrap` / grid-spacing sites now go through
+`AppSpacing.*`.
 
-- `screens/regular_mode/categories_screen.dart` (Discover, 183 sites)
-- `screens/regular_mode/search_results_screen.dart`
-- `screens/regular_mode/basic_profile_screen.dart`
-- `screens/regular_mode/location_profile_screen.dart`
-- `screens/regular_mode/about_you_profile_screen.dart`
-- `screens/regular_mode/eligibility_profile_screen.dart`
-- `screens/regular_mode/eligibility_results_screen.dart`
+Value snaps applied uniformly (off-scale -> nearest step). The ones that move
+real pixels: `10 -> 8` (~103 sites total), `14 -> 16` (~72), `5 -> 6` (~18),
+`9 -> 8`, `11/13 -> 12`, `18 -> 20`. All <= 2 px; the full `flutter test`
+suite (widget + layout tests) stays green.
 
-One value kept as a literal: `SizedBox(width: 40)` in
-`about_you_profile_screen.dart` — a centering counterweight for the leading
-`IconButton`, not a gap. Marked `// spacing-ok`.
+Left as raw literals (not spacing steps — fixed control / image / avatar
+dimensions): `1, 40, 43, 44, 48, 60, 80, 84, 85, 110, 120`. These are
+allowed by the enforcement test (it only flags *on-scale* values). One
+explicit `// spacing-ok`: `SizedBox(width: 40)` in
+`about_you_profile_screen.dart` (centering counterweight).
 
 ## 4. Enforcement
 
 `frontend/test/spacing_scale_test.dart` (runs in the normal `flutter test`
-suite / CI):
+suite / CI), repo-wide over `lib/`:
 
-1. Fails if any file in `_enforcedFiles` (the 7 above) contains a bare
-   numeric literal inside `EdgeInsets.all/symmetric/only/fromLTRB(...)` or
-   `SizedBox(width:/height: N)`. Escape hatch: `// spacing-ok` on the line.
+1. Fails if any `EdgeInsets.all/symmetric/only/fromLTRB(...)` or
+   `SizedBox(width:/height: ...)` — single- or multi-line — uses a bare
+   numeric literal whose value is **on the scale** (`0, 2, 4, 6, 8, 12, 16,
+   20, 24, 32`). Off-scale measurements (48, 60, ...) are left alone.
+   Escape hatch: `// spacing-ok` on the value's line.
 2. Fails if `AppSpacing`'s declared steps ever drift from
    `{0, 2, 4, 6, 8, 12, 16, 20, 24, 32}`.
 
 No new dependency (a `custom_lint` rule was considered and rejected as
-disproportionate). To widen the rule, add paths to `_enforcedFiles`.
+disproportionate).
 
-## 5. Full-rollout cost (rest of the app)
+## 5. Rollout status
 
-**~790 remaining sites across 33 files.** Largest:
+**Done — whole app.** All ~39 files migrated; enforcement is repo-wide.
 
-| file | sites |
-|------|------:|
-| `screens/regular_mode/msme_module_details_screen.dart` | 89 |
-| `screens/regular_mode/home_screen.dart` | 71 |
-| `widgets/voice_assistant_overlay.dart` | 64 |
-| `screens/regular_mode/scheme_details_screen.dart` | 59 |
-| `screens/companion_mode/saarthi_home_screen.dart` | 58 |
-| `screens/notifications_screen.dart` | 56 |
-| `screens/regular_mode/help_support_screen.dart` | 54 |
-| `screens/regular_mode/search_screen.dart` | 40 |
-| ... 25 more files | <= 39 each |
+Remaining judgement calls a reviewer should eyeball (no screenshots were
+taken):
 
-The transform generalises — extend `TARGETS` in the migration script and
-`_enforcedFiles` in the test. On this batch it needed exactly **one** manual
-annotation across 335 sites, so the code change is ~95% mechanical.
+- The `10 -> 8` and `14 -> 16` snaps on dense screens
+  (`msme_module_details_screen.dart`, `scheme_details_screen.dart`,
+  `voice_assistant_overlay.dart`, `saarthi_home_screen.dart`).
+- Multi-property `SizedBox(height: N, width: M, child: ...)` were migrated in
+  place; confirm none changed a deliberate aspect ratio.
 
-The real cost is QA, not code: `flutter analyze` + a visual pass on each of
-the ~33 screens to confirm the 10->8 / 14->16 snaps (and any new outliers per
-file) don't shift a layout. **Estimate: 1-2 engineer-days**, dominated by
-screenshot diffing and review, spread over as many PRs as makes review
-manageable (suggest grouping by flow: companion mode, scheme detail, home,
-settings/legal, notifications).
+If any spot regresses, fix it with the right `AppSpacing` step or an explicit
+`// spacing-ok`, not by reverting the file.

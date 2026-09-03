@@ -11,6 +11,7 @@ import 'legal_screens.dart';
 import '../../widgets/custom_confirm_dialog.dart';
 import '../../utils/responsive.dart';
 import '../../widgets/app_toast.dart';
+import '../../utils/app_spacing.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -43,8 +44,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       builder: (context) {
         return Dialog(
           insetPadding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
-            vertical: 24.0,
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.xxl,
           ),
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
@@ -52,7 +53,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             side: const BorderSide(color: Color(0xFFE2E8F0)),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(AppSpacing.xxl),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -60,7 +61,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(AppSpacing.sm),
                       decoration: const BoxDecoration(
                         color: Color(0xFFEFF6FF),
                         shape: BoxShape.circle,
@@ -71,7 +72,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         size: 20,
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: AppSpacing.md),
                     Expanded(
                       child: Text(
                         context.l10n.navigationModeSetting,
@@ -91,7 +92,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: AppSpacing.lg),
                 Text(
                   'Choose your preferred layout mode for navigating schemes and services.',
                   style: GoogleFonts.inter(
@@ -99,7 +100,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     color: const Color(0xFF64748B),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: AppSpacing.xl),
                 _buildModeOption(
                   context: context,
                   provider: provider,
@@ -108,7 +109,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   subtitle: context.l10n.settingsRegularSubtitle,
                   icon: Icons.layers_outlined,
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: AppSpacing.md),
                 _buildModeOption(
                   context: context,
                   provider: provider,
@@ -152,7 +153,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       },
       borderRadius: BorderRadius.circular(16),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         decoration: BoxDecoration(
           color: isSelected ? const Color(0xFFEFF6FF) : Colors.white,
           borderRadius: BorderRadius.circular(16),
@@ -172,7 +173,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   : const Color(0xFF64748B),
               size: 24,
             ),
-            const SizedBox(width: 16),
+            const SizedBox(width: AppSpacing.lg),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,7 +188,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           : const Color(0xFF0F172A),
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: AppSpacing.hairline),
                   Text(
                     subtitle,
                     style: GoogleFonts.inter(
@@ -237,12 +238,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: SafeArea(
         child: ListView(
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(AppSpacing.xl),
           children: [
             // Adaptive Profile Header Card
             Container(
-              padding: const EdgeInsets.all(16),
-              margin: const EdgeInsets.only(bottom: 20),
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              margin: const EdgeInsets.only(bottom: AppSpacing.xl),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
@@ -272,7 +273,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 14),
+                  const SizedBox(width: AppSpacing.lg),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -294,7 +295,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 : 1.2,
                           ),
                         ),
-                        const SizedBox(height: 2),
+                        const SizedBox(height: AppSpacing.hairline),
                         Text(
                           provider.profile.mobile.isNotEmpty
                               ? provider.profile.mobile
@@ -306,11 +307,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             color: const Color(0xFF64748B),
                           ),
                         ),
-                        const SizedBox(height: 6),
+                        const SizedBox(height: AppSpacing.tight),
                         Container(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 3,
+                            horizontal: AppSpacing.sm,
+                            vertical: AppSpacing.xs,
                           ),
                           decoration: BoxDecoration(
                             color: const Color(0xFFEFF6FF),
@@ -465,7 +466,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 isLast: true,
               ),
             ]),
-            const SizedBox(height: 32),
+            const SizedBox(height: AppSpacing.xxxl),
 
             // Logout Button
             OutlinedButton.icon(
@@ -475,7 +476,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 14),
+                padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
               ),
               icon: const Icon(Icons.logout, size: 18),
               label: Text(
@@ -499,7 +500,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 );
               },
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.lg),
 
             // Centered App Version Footer
             Center(
@@ -512,7 +513,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: AppSpacing.xxl),
           ],
         ),
       ),
@@ -521,7 +522,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildGroupHeader(String title) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20.0, bottom: 8.0),
+      padding: const EdgeInsets.only(top: AppSpacing.xl, bottom: AppSpacing.sm),
       child: Text(
         title,
         style: GoogleFonts.inter(
@@ -567,8 +568,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       children: [
         ListTile(
           contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 2,
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.hairline,
           ),
           leading: Icon(
             icon,
@@ -602,7 +603,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ),
                     ),
-                  const SizedBox(width: 4),
+                  const SizedBox(width: AppSpacing.xs),
                   const Icon(
                     Icons.chevron_right,
                     color: Color(0xFF94A3B8),
