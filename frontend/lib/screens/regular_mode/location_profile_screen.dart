@@ -9,6 +9,7 @@ import '../../providers/app_state_provider.dart';
 import '../../utils/responsive.dart';
 import '../../utils/permission_helper.dart';
 import '../../utils/profile_l10n.dart';
+import '../../utils/app_spacing.dart';
 
 class LocationProfileScreen extends StatefulWidget {
   const LocationProfileScreen({super.key});
@@ -205,8 +206,8 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
             child: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                  vertical: 8.0,
+                  horizontal: AppSpacing.lg,
+                  vertical: AppSpacing.sm,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -221,7 +222,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                           ),
                           onPressed: () => Navigator.maybePop(context),
                         ),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: AppSpacing.xs),
                         Expanded(
                           child: Text(
                             l('complete_your_profile'),
@@ -236,7 +237,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: AppSpacing.tight),
 
                     // Main Card Container
                     Expanded(
@@ -260,10 +261,10 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                               // Compact Non-scrollable Header Info
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(
-                                  20,
-                                  14,
-                                  20,
-                                  8,
+                                  AppSpacing.xl,
+                                  AppSpacing.lg,
+                                  AppSpacing.xl,
+                                  AppSpacing.sm,
                                 ),
                                 child: Column(
                                   crossAxisAlignment:
@@ -275,21 +276,21 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                         Expanded(
                                           child: _buildProgressSegment(true),
                                         ),
-                                        const SizedBox(width: 4),
+                                        const SizedBox(width: AppSpacing.xs),
                                         Expanded(
                                           child: _buildProgressSegment(true),
                                         ),
-                                        const SizedBox(width: 4),
+                                        const SizedBox(width: AppSpacing.xs),
                                         Expanded(
                                           child: _buildProgressSegment(false),
                                         ),
-                                        const SizedBox(width: 4),
+                                        const SizedBox(width: AppSpacing.xs),
                                         Expanded(
                                           child: _buildProgressSegment(false),
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(height: 8),
+                                    const SizedBox(height: AppSpacing.sm),
                                     // Step label sits above the heading (not
                                     // beside it) so the two never collide at
                                     // 320 dp / large text scale.
@@ -301,7 +302,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                         color: kPrimaryBlue,
                                       ),
                                     ),
-                                    const SizedBox(height: 2),
+                                    const SizedBox(height: AppSpacing.hairline),
                                     Text(
                                       'Where Are You Located?',
                                       style: GoogleFonts.poppins(
@@ -319,16 +320,16 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                 child: SingleChildScrollView(
                                   physics: const BouncingScrollPhysics(),
                                   padding: const EdgeInsets.symmetric(
-                                    horizontal: 20,
+                                    horizontal: AppSpacing.xl,
                                   ),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.stretch,
                                     children: [
-                                      const SizedBox(height: 10),
+                                      const SizedBox(height: AppSpacing.sm),
                                       // Option 1: Live Location Card
                                       _buildFetchLocationCard(),
-                                      const SizedBox(height: 20),
+                                      const SizedBox(height: AppSpacing.xl),
 
                                       // Divider
                                       Row(
@@ -343,7 +344,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.symmetric(
-                                                horizontal: 12.0,
+                                                horizontal: AppSpacing.md,
                                               ),
                                               child: Text(
                                                 'OR FILL MANUALLY',
@@ -365,13 +366,13 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(height: 20),
+                                      const SizedBox(height: AppSpacing.xl),
 
                                       // Door / House No / Street Address Field
                                       _buildLabel(
                                         'Door No / Flat / House No / Street *',
                                       ),
-                                      const SizedBox(height: 6),
+                                      const SizedBox(height: AppSpacing.tight),
                                       _buildTextField(
                                         controller: _doorStreetController,
                                         hintText:
@@ -389,11 +390,11 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                           }
                                         },
                                       ),
-                                      const SizedBox(height: 14),
+                                      const SizedBox(height: AppSpacing.lg),
 
                                       // Area / Locality Field
                                       _buildLabel('Area / Locality *'),
-                                      const SizedBox(height: 6),
+                                      const SizedBox(height: AppSpacing.tight),
                                       _buildTextField(
                                         controller: _areaLocalityController,
                                         hintText: 'e.g. Anna Nagar West',
@@ -410,11 +411,11 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                           }
                                         },
                                       ),
-                                      const SizedBox(height: 14),
+                                      const SizedBox(height: AppSpacing.lg),
 
                                       // City / District Field
                                       _buildLabel('City / District *'),
-                                      const SizedBox(height: 6),
+                                      const SizedBox(height: AppSpacing.tight),
                                       _buildTextField(
                                         controller: _cityDistrictController,
                                         hintText: 'e.g. Chennai',
@@ -431,7 +432,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                           }
                                         },
                                       ),
-                                      const SizedBox(height: 14),
+                                      const SizedBox(height: AppSpacing.lg),
 
                                       // State & Pincode Row (Side-by-Side)
                                       Row(
@@ -445,7 +446,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 _buildLabel('State *'),
-                                                const SizedBox(height: 6),
+                                                const SizedBox(height: AppSpacing.tight),
                                                 _buildTextField(
                                                   controller: _stateController,
                                                   hintText: 'e.g. Tamil Nadu',
@@ -467,7 +468,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                               ],
                                             ),
                                           ),
-                                          const SizedBox(width: 12),
+                                          const SizedBox(width: AppSpacing.md),
                                           Expanded(
                                             flex: 2,
                                             child: Column(
@@ -475,7 +476,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 _buildLabel('Pincode *'),
-                                                const SizedBox(height: 6),
+                                                const SizedBox(height: AppSpacing.tight),
                                                 _buildTextField(
                                                   controller:
                                                       _pincodeController,
@@ -498,7 +499,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(height: 24),
+                                      const SizedBox(height: AppSpacing.xxl),
                                     ],
                                   ),
                                 ),
@@ -506,7 +507,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
 
                               // Sticky Action Button (Bottom of card)
                               Padding(
-                                padding: const EdgeInsets.all(20),
+                                padding: const EdgeInsets.all(AppSpacing.xl),
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: _isStepValid
@@ -607,7 +608,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(width: 8),
+                                      const SizedBox(width: AppSpacing.sm),
                                       const Icon(
                                         Icons.arrow_forward,
                                         color: Colors.white,
@@ -658,7 +659,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
     return GestureDetector(
       onTap: _isLoading ? null : _fetchAndGeocodeLocation,
       child: Container(
-        padding: const EdgeInsets.all(14.0),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
@@ -674,7 +675,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(AppSpacing.sm),
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: kPrimaryBlue,
@@ -694,7 +695,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                       size: 20,
                     ),
             ),
-            const SizedBox(width: 14),
+            const SizedBox(width: AppSpacing.lg),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -707,7 +708,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                       color: kSlate900,
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: AppSpacing.hairline),
                   Text(
                     _isLoading
                         ? 'Fetching coordinates...'
@@ -769,8 +770,8 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
             hintText: hintText,
             hintStyle: GoogleFonts.inter(fontSize: 13, color: kSlate500),
             contentPadding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 10,
+              horizontal: AppSpacing.md,
+              vertical: AppSpacing.sm,
             ),
             prefixIcon: Icon(
               icon,
@@ -809,7 +810,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
           ),
         ),
         if (hasError) ...[
-          const SizedBox(height: 4),
+          const SizedBox(height: AppSpacing.xs),
           Row(
             children: [
               const Icon(
@@ -817,7 +818,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                 size: 13,
                 color: Color(0xFFDC2626),
               ),
-              const SizedBox(width: 4),
+              const SizedBox(width: AppSpacing.xs),
               Expanded(
                 child: Text(
                   errorText,
