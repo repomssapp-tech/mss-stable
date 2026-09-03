@@ -102,6 +102,7 @@ flutter:
     - assets/images/supporting assets/support_agent.webp
     - assets/images/supporting assets/user_avatar.webp
     - assets/catalog/
+    - assets/search/
 
 
 

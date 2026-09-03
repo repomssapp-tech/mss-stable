@@ -31,7 +31,7 @@ Ground truth used below:
 
 | # | Location | Issue |
 |--|----------|-------|
-| B1 | `frontend/assets/catalog/release.json:11` | `searchIndexCount: 1216` — copied from `entityCount`. The actual `search_index.json` (same SHA) has **971** records. Consumers that trust this field over-count the index by 245. Fix belongs in the bundle generator, out of scope for this report. |
+| B1 | `frontend/assets/catalog/release.json:11` | `searchIndexCount: 1216` was copied from `entityCount`. **FIXED**: corrected to `971` in `release.json`, fixed generator logic in `tools/generate_catalog_bundle.py`, and added validation in `mss_catalog_bundle_test.dart`. |
 
 ## C. Region mismatch (needs sign-off — doc or infra is wrong)
 

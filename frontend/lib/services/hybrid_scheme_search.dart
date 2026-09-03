@@ -203,12 +203,22 @@ class _ScoredScheme {
 /// offline search implementation for catalog search; it is not a second,
 /// independently-tuned engine.
 class HybridSchemeSearch {
-  HybridSchemeSearch._(this._bundle, this._schemeEntries) {
+  HybridSchemeSearch._(this._bundle, this._schemeEntries, this._expansions) {
     _semanticCodes = {
       for (final entry in _schemeEntries)
         entry.id: _semanticTagCodes(entry),
     };
     _buildIdf();
+    // Split the expansion dictionary into phrase keys (multi-word,
+    // matched against the raw query) and single-token keys (matched
+    // per-token during concept building). Done once at build time.
+    for (final entry in _expansions.entries) {
+      if (entry.key.contains(' ')) {
+        _phraseExpansions[entry.key] = entry.value;
+      } else {
+        _tokenExpansions[entry.key] = entry.value;
+      }
+    }
   }
 
   static const Map<String, double> _weights = {
@@ -247,13 +257,16 @@ class HybridSchemeSearch {
 
   final MssCatalogBundle _bundle;
   final List<MssEntity> _schemeEntries;
+  final Map<String, List<String>> _expansions;
+  final Map<String, List<String>> _phraseExpansions = {};
+  final Map<String, List<String>> _tokenExpansions = {};
   late final Map<String, Set<String>> _semanticCodes;
   final Map<String, Set<String>> _entryTermCache = {};
   late int _nDocs;
   late Set<String> _vocab;
 
   static HybridSchemeSearch build(MssCatalogBundle bundle) {
-    return HybridSchemeSearch._(bundle, bundle.schemes);
+    return HybridSchemeSearch._(bundle, bundle.schemes, bundle.queryExpansions);
   }
 
   Set<String> _semanticTagCodes(MssEntity entry) {
@@ -379,6 +392,29 @@ class HybridSchemeSearch {
 
     final concepts = <_Concept>[];
     final seen = <String>{};
+
+    // ── Phase 1: Multi-word phrase expansion ──────────────────────────
+    // Detect multi-word keys in the lowercased query before per-token
+    // processing. Each matched phrase injects a dedicated concept whose
+    // forms are the phrase's expansion targets, vocab-gated.
+    if (_phraseExpansions.isNotEmpty) {
+      final queryLower =
+          ' ${query.toLowerCase().replaceAll(RegExp(r'[^a-z0-9 ]'), ' ')} ';
+      for (final entry in _phraseExpansions.entries) {
+        if (!queryLower.contains(' ${entry.key} ')) continue;
+        final forms = entry.value.where(_vocab.contains).toSet();
+        if (forms.isEmpty) continue;
+        final key = (forms.toList()..sort()).join('\x01');
+        if (seen.contains(key)) continue;
+        seen.add(key);
+        final docFreq = _schemeEntries
+            .where((e) => forms.intersection(_entryTerms(e)).isNotEmpty)
+            .length;
+        concepts.add(_Concept(forms, _idf(docFreq)));
+      }
+    }
+
+    // ── Phase 2: Per-token concept building (with single-token expansion)
     for (final tok in raw) {
       if (!SchemeSearchTaxonomy.isSearchableToken(tok)) continue;
       var forms = <String>{tok};
@@ -393,10 +429,21 @@ class HybridSchemeSearch {
       if (_vocab.contains('${tok}s')) {
         forms.add('${tok}s');
       }
+
+      // ── Single-token expansion ─────────────────────────────────────
+      // If the expansion dictionary has this token, merge its expansions
+      // into forms BEFORE the vocab gate. The original token is kept;
+      // expansions that are not in _vocab are silently dropped by the
+      // gate below, exactly as designed.
+      final expansion = _tokenExpansions[tok];
+      if (expansion != null) {
+        forms.addAll(expansion);
+      }
+
       final gated = forms.where(_vocab.contains).toSet();
       forms = gated.isEmpty ? {tok} : gated;
 
-      final key = (forms.toList()..sort()).join('');
+      final key = (forms.toList()..sort()).join('\x01');
       if (seen.contains(key)) continue;
       seen.add(key);
 

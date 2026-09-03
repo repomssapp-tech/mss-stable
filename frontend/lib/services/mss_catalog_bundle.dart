@@ -31,6 +31,7 @@ class MssCatalogBundle {
     required Map<String, Map<String, dynamic>> searchProfiles,
     required this.releaseTag,
     required this.totalRelationshipsCount,
+    required Map<String, List<String>> queryExpansions,
     this.duplicateEntityIdCount = 0,
     this.danglingReferenceCount = 0,
     this.uniqueRelationshipIdsCount = 0,
@@ -39,6 +40,7 @@ class MssCatalogBundle {
          byCatalog.map((k, v) => MapEntry(k, UnmodifiableListView(v))),
        ),
        searchProfiles = UnmodifiableMapView(searchProfiles),
+       queryExpansions = UnmodifiableMapView(queryExpansions),
        _searchTokenMap = searchTokenMap;
 
   static MssCatalogBundle? _instance;
@@ -46,6 +48,7 @@ class MssCatalogBundle {
 
   static const String releaseAssetPath = 'assets/catalog/release.json';
   static const String bundleAssetPath = 'assets/catalog/catalog_bundle.json.gz';
+  static const String queryExpansionAssetPath = 'assets/search/query_expansion.json';
 
   final Map<String, MssEntity> byId;
   final Map<String, List<MssEntity>> byCatalog;
@@ -56,6 +59,13 @@ class MssCatalogBundle {
   /// exact fields the ranking algorithm in [HybridSchemeSearch] consumes,
   /// mirroring what `catalog/hybrid_search.py` reads from the same file.
   final Map<String, Map<String, dynamic>> searchProfiles;
+
+  /// Query expansion dictionary loaded from `assets/search/query_expansion.json`.
+  /// Maps query tokens/phrases to lists of catalog-vocabulary-verified
+  /// expansion terms. Used by [HybridSchemeSearch] to expand queries at
+  /// search time without an async gap.
+  final Map<String, List<String>> queryExpansions;
+
   final String releaseTag;
   final int totalRelationshipsCount;
   final int duplicateEntityIdCount;
@@ -100,11 +110,43 @@ class MssCatalogBundle {
   @visibleForTesting
   static void resetForTesting() => invalidate();
 
+  /// Loads the query expansion dictionary from the bundled JSON asset.
+  /// Returns an empty map on any failure so the search engine degrades
+  /// gracefully (no expansion) instead of crashing.
+  static Future<Map<String, List<String>>> _loadQueryExpansions() async {
+    try {
+      final jsonStr = await rootBundle.loadString(queryExpansionAssetPath);
+      final raw = jsonDecode(jsonStr) as Map<String, dynamic>;
+      return raw.map(
+        (k, v) => MapEntry(k.toLowerCase(), (v as List).cast<String>()),
+      );
+    } catch (_) {
+      // Fallback for flutter test / missing asset — try direct file read.
+      try {
+        final file = File(queryExpansionAssetPath);
+        if (await file.exists()) {
+          final raw = jsonDecode(await file.readAsString())
+              as Map<String, dynamic>;
+          return raw.map(
+            (k, v) => MapEntry(k.toLowerCase(), (v as List).cast<String>()),
+          );
+        }
+      } catch (_) {
+        // Intentionally empty — fall through to empty map.
+      }
+    }
+    return const <String, List<String>>{};
+  }
+
   static Future<MssCatalogBundle> _loadInternal({
     bool overrideChecksumForTest = false,
   }) async {
     String releaseJsonStr;
     Uint8List compressedBytes;
+
+    // Load the query expansion dictionary in parallel with the catalog
+    // bundle. This is a tiny JSON file (~2 KB) so load time is negligible.
+    final expansionsFuture = _loadQueryExpansions();
 
     // Prefer a downloaded, hash-verified release over the shipped asset, if
     // one has been installed by SchemeCatalogSyncService -- see
@@ -148,6 +190,7 @@ class MssCatalogBundle {
         return await _finishLoading(
           releaseJsonStr,
           compressedBytes,
+          queryExpansions: await expansionsFuture,
           overrideChecksumForTest: overrideChecksumForTest,
         );
       } catch (e) {
@@ -178,6 +221,7 @@ class MssCatalogBundle {
     return _finishLoading(
       releaseJsonStr,
       compressedBytes,
+      queryExpansions: await expansionsFuture,
       overrideChecksumForTest: overrideChecksumForTest,
     );
   }
@@ -185,6 +229,7 @@ class MssCatalogBundle {
   static Future<MssCatalogBundle> _finishLoading(
     String releaseJsonStr,
     Uint8List compressedBytes, {
+    Map<String, List<String>> queryExpansions = const <String, List<String>>{},
     bool overrideChecksumForTest = false,
   }) async {
 
@@ -313,6 +358,7 @@ class MssCatalogBundle {
       byCatalog: byCatalog,
       searchTokenMap: searchTokenMap,
       searchProfiles: searchProfiles,
+      queryExpansions: queryExpansions,
       releaseTag: releaseTag,
       totalRelationshipsCount: totalRels,
       duplicateEntityIdCount: duplicateEntityIdCount,

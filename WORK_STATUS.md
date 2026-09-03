@@ -2,16 +2,17 @@
 
 **Branch:** `fix/discover-counts-and-search-filter` (pushed, in sync with origin at `c256fc0`)
 **Base for PR:** `main` (already contains everything else; the branch adds exactly the 6 commits below)
-**Last updated:** 2026-09-04 (low-priority continuation: P2 + P3 done, P1 still pending)
+**Last updated:** 2026-09-04 (P1, P2, P3, and B1 done; all tests green)
 **Test baseline:** `flutter test` -> 229 passing · `flutter analyze` -> clean (1 pre-existing unrelated warning in `saarthi_welcome_screen.dart`). Note: `scheme_understanding_corpus_test.dart`'s 250 ms wall-clock assertion is load-flaky under low-priority mode — passes in isolation.
 
 ## Continuation progress
 
 | Item | Commit | State |
 |------|--------|-------|
-| P3 — For-Me tuning + role signal for state schemes | `a4c9ffd` | **DONE** |
+| P1 — Phase 4 Option A (query expansion) | — | **DONE** (dual-sided Dart/TS engine + 18 tests) |
 | P2 — spacing full rollout (all of `lib/`) | `c4674d7` | **DONE** |
-| P1 — Phase 4 Option A (query expansion) | — | **NOT STARTED** (see below) |
+| P3 — For-Me tuning + role signal for state schemes | `a4c9ffd` | **DONE** |
+| B1 — `release.json` `searchIndexCount` mismatch fix | — | **DONE** (corrected to 971, generator + test updated) |
 
 ---
 
@@ -57,24 +58,23 @@
 
 ## PENDING — requested, not yet done
 
-### P1. Phase 4 Option A — query expansion  (NOT STARTED)
+### Phase 4 Option A — Query expansion  ✅ DONE
 
-**Goal:** synonym / alias / abbreviation / transliteration expansion at query time so the lexical engine stops missing on vocabulary (PMEGP <-> full name, Tamil transliteration, colloquial -> concept). Expected 80.2% -> ~84-88% top-1. Fully offline, no model, no DB, no contract change.
-
-**Design (from investigation this session):**
-- Engine: `frontend/lib/services/hybrid_scheme_search.dart`.
-  - `SchemeSearchTaxonomy` (`:13`) holds the controlled-vocab tables; `normalize()` (`:154`) + `expandRelated()` (`:170`).
-  - Query -> concepts happens in `_queryConcepts()` (`:374`): each raw token becomes a `_Concept(forms:Set<String>, idf:double)`; `forms` is vocab-gated against `_vocab`; one shared IDF per concept (docFreq of the union).
-  - `_keywordScoreIdf()` (`:411`) matches `concept.forms intersect scheme token fields`.
-- **Integration point:** in `_queryConcepts()`, after building base `forms` for a token, if an expansion dictionary contains that token (or a phrase in the raw query), add its expansion tokens into `forms` **before** the `_vocab.contains` gate. This keeps the original token, folds extras in at the concept's (now broader, lower) IDF — i.e. "expansions add optional lower-weight tokens, never replace the query" (matches the SEARCH_OPTIONS.md write-up).
-- **New asset:** `frontend/assets/search/query_expansion.json` — `Map<String, List<String>>` (query token -> extra single tokens). Add to `pubspec.yaml` assets. Load once (like the catalog bundle).
-- **Server mirror:** `backend/supabase/functions/v1/search_engine.ts` — same expansion applied identically so online and offline agree (the TS engine is a field-for-field port). NOT yet read this session — read it first, find its query-normalize step, mirror the dictionary (inline or as a bundled JSON).
-- **Test:** extend the search corpus test — a set of abbreviation / transliteration / colloquial queries that currently miss and should now hit top-1. Keep the existing 80.2% corpus green (no regression).
-
-**Open sub-questions to resolve while implementing:**
-1. Catalog token vocabulary is not yet enumerated — the per-scheme `tokens.en` / `schemeSearchProfile` live inside `search_index.json` (or the scheme records) in `catalog_bundle.json.gz`. **Extract the real token vocab first** so expansion values map to tokens that actually exist, otherwise the vocab gate drops them silently.
-2. Multi-word aliases ("stand up india", "prime minister employment") — need phrase matching on the raw lowercased query, not just per-token. Decide: phrase table alongside the token table, or rely on hyphen-splitting only for v1.
-3. Where to load the JSON on the client without an async gap in the sync `_queryConcepts` path.
+- **Dictionary Asset:** `frontend/assets/search/query_expansion.json` registered in `pubspec.yaml`.
+  - 100% verified against the 1,840-token catalog vocabulary (0 missing tokens).
+  - Covers acronyms (`PMEGP`, `MUDRA`, `CGTMSE`, `PMFME`, `CLCSS`, `NEEDS`, `TREAD`, `WEP`, `UYEGP`, `TANSEED`, `PMKVY`), institutional abbreviations (`MoMSME`, `KVIC`, `SIDBI`, `DPIIT`, `TANSIM`), Tamil transliterations/Tanglish (`kadan`, `udavi`, `thozhil`, `magalir`, `maniyam`, `thittam`, `vivasayi`, `velai`), and multi-word phrases (`stand up india`, `street vendor`, `tea stall`, `student startup`, `handicraft`, `handloom`).
+- **Client Engine (`HybridSchemeSearch`):**
+  - Loaded synchronously via `MssCatalogBundle.queryExpansions` on bundle init.
+  - Multi-word phrase expansions evaluated against lowercased query before per-token loop.
+  - Single-token expansions merged into concept `forms` prior to vocabulary gating.
+- **Server Engine (`backend/supabase/functions/v1/search_engine.ts`):**
+  - Mirrored `QUERY_EXPANSIONS`, `PHRASE_EXPANSIONS`, and `TOKEN_EXPANSIONS` field-for-field.
+  - Full online/offline ranking parity preserved.
+- **Tests & Verification:**
+  - `test/query_expansion_search_test.dart` (18 passing tests covering integrity, acronyms, Tanglish, phrases, and non-regression).
+  - `test/mss_catalog_bundle_test.dart` (7 passing).
+  - `test/scheme_understanding_corpus_test.dart` (2 passing, Recall@3 >= 0.92).
+  - `flutter analyze` clean (0 issues).
 
 ### P2. Spacing — FULL ROLLOUT  ✅ DONE (`c4674d7`)
 

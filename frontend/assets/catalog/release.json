@@ -8,7 +8,7 @@
   "bundleSha256": "ccc3251ae2dccaf04039b4148a719717e6f0593d85dc4b1e6a223695896ee9d7",
   "uncompressedBytes": 10763417,
   "entityCount": 1216,
-  "searchIndexCount": 1216,
+  "searchIndexCount": 971,
   "recordCounts": {
     "common_catalog.json": 344,
     "authority_catalog.json": 124,

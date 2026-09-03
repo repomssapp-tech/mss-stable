@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 enum ChatMessageSpeaker { user, assistant }
@@ -26,15 +28,43 @@ class ChatMessageRecord {
         text: text ?? this.text,
         timestamp: timestamp,
       );
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'speaker': speaker.name,
+        'text': text,
+        'timestamp': timestamp.toIso8601String(),
+      };
+
+  factory ChatMessageRecord.fromJson(Map<String, dynamic> json) {
+    return ChatMessageRecord(
+      id: json['id'] as String? ?? '',
+      speaker: json['speaker'] == 'assistant'
+          ? ChatMessageSpeaker.assistant
+          : ChatMessageSpeaker.user,
+      text: json['text'] as String? ?? '',
+      timestamp: json['timestamp'] != null
+          ? DateTime.tryParse(json['timestamp'] as String) ?? DateTime.now().toUtc()
+          : DateTime.now().toUtc(),
+    );
+  }
 }
 
-/// Service that buffers conversation speech in memory during a voice session
-/// and dispatches the completed conversation to Supabase public.chat_logs
-/// in a single batch insert when the session ends.
+/// Service that buffers conversation speech both in memory and locally on disk,
+/// and dispatches the completed conversation to Supabase `public.chat_logs`
+/// table in a single batch insert when the session ends.
+///
+/// Features:
+/// 1. Real-time in-memory buffer for 0ms latency during active speech.
+/// 2. Local disk persistence via SharedPreferences to survive app crashes or abrupt closes.
+/// 3. Offline retry queue that automatically uploads unsaved sessions upon reconnection.
 class ChatLogService {
   ChatLogService({String? conversationUid}) {
     startSession(customUid: conversationUid);
   }
+
+  static const String _pendingSessionsKey = 'chat_log_pending_sessions';
+  static const String _sessionDataPrefix = 'chat_log_session_';
 
   late String _conversationUid;
   final List<ChatMessageRecord> _messages = [];
@@ -71,8 +101,8 @@ class ChatLogService {
     _isFlushed = false;
   }
 
-  /// Inserts or updates an in-memory message record by message ID.
-  /// This prevents streaming speech deltas from generating partial duplicates.
+  /// Inserts or updates an in-memory message record by message ID,
+  /// and mirrors the updated session state to local disk asynchronously.
   void upsertMessage({
     required String id,
     required ChatMessageSpeaker speaker,
@@ -94,6 +124,9 @@ class ChatLogService {
         ),
       );
     }
+
+    // Persist active state locally so speech is never lost on sudden process exit
+    unawaited(_persistSessionLocally());
   }
 
   /// Convenience helper to record a user speech/text turn.
@@ -117,7 +150,7 @@ class ChatLogService {
   }
 
   /// Pairs chronological in-memory messages into structured turns matching
-  /// the schema of public.chat_logs.
+  /// the schema of `public.chat_logs`.
   List<Map<String, dynamic>> buildTurns({
     required String mode,
     Map<String, dynamic>? baseMetadata,
@@ -185,42 +218,173 @@ class ChatLogService {
     return turns;
   }
 
+  /// Persists current in-memory messages to local disk (SharedPreferences).
+  Future<void> _persistSessionLocally() async {
+    try {
+      if (_messages.isEmpty) return;
+      final prefs = await SharedPreferences.getInstance();
+      final key = '$_sessionDataPrefix$_conversationUid';
+      final serialized = jsonEncode(_messages.map((m) => m.toJson()).toList());
+      await prefs.setString(key, serialized);
+
+      final pendingList = prefs.getStringList(_pendingSessionsKey) ?? [];
+      if (!pendingList.contains(_conversationUid)) {
+        pendingList.add(_conversationUid);
+        await prefs.setStringList(_pendingSessionsKey, pendingList);
+      }
+    } catch (e) {
+      debugPrint('[ChatLogService] Local disk write notice: $e');
+    }
+  }
+
+  /// Removes session from local disk once successfully uploaded to Supabase.
+  Future<void> _clearLocalSession(String uid) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final key = '$_sessionDataPrefix$uid';
+      await prefs.remove(key);
+
+      final pendingList = prefs.getStringList(_pendingSessionsKey) ?? [];
+      if (pendingList.contains(uid)) {
+        pendingList.remove(uid);
+        await prefs.setStringList(_pendingSessionsKey, pendingList);
+      }
+    } catch (e) {
+      debugPrint('[ChatLogService] Local disk clear notice: $e');
+    }
+  }
+
   /// Sends accumulated turns to Supabase public.chat_logs table in a single
   /// batch HTTP request. Protected by an atomic idempotency latch.
+  ///
+  /// If Supabase is unreachable or device is offline, the conversation remains
+  /// securely stored in SharedPreferences and will be uploaded automatically.
   Future<bool> flushSessionLogs({
     String mode = 'voice',
     SupabaseClient? client,
     Map<String, dynamic>? metadata,
   }) async {
+    debugPrint('[ChatLogService] flushSessionLogs() triggered. In-memory messages: ${_messages.length}, isFlushed: $_isFlushed, isFlushing: $_isFlushing');
     if (_isFlushed || _isFlushing) {
+      debugPrint('[ChatLogService] Flush aborted: already completed or in-progress.');
       return false;
     }
     _isFlushing = true;
 
     try {
-      final turns = buildTurns(mode: mode, baseMetadata: metadata);
+      // 1. Build turns from in-memory records
+      var turns = buildTurns(mode: mode, baseMetadata: metadata);
+
+      // If in-memory buffer was empty, check if saved state exists on disk
       if (turns.isEmpty) {
+        debugPrint('[ChatLogService] Memory was empty; checking local disk for session $_conversationUid...');
+        await _loadSessionFromLocalDisk();
+        turns = buildTurns(mode: mode, baseMetadata: metadata);
+      }
+
+      if (turns.isEmpty) {
+        debugPrint('[ChatLogService] ⚠️ No conversation turns recorded (empty conversation). Nothing to upload.');
+        _isFlushed = true;
+        await _clearLocalSession(_conversationUid);
+        return false;
+      }
+
+      // 2. Guarantee local disk persistence before attempting network call
+      await _persistSessionLocally();
+
+      // 3. Resolve database client
+      final db = _resolveClient(client);
+      if (db == null) {
+        debugPrint('[ChatLogService] ⚠️ Supabase client not available! Preserving session $_conversationUid on disk.');
         _isFlushed = true;
         return false;
       }
 
-      final db = _resolveClient(client);
-      if (db == null) {
-        debugPrint('[ChatLogService] Supabase client not available. Skipping cloud log upload.');
-        _isFlushed = true;
-        return false;
+      // 4. Send single batch insert to Supabase public.chat_logs
+      debugPrint('[ChatLogService] 🚀 Uploading ${turns.length} turn(s) for $_conversationUid to Supabase public.chat_logs:');
+      for (final t in turns) {
+        debugPrint('[ChatLogService]    Turn ${t['turn_index']}: User="${t['user_message']}" | AI="${t['ai_message']}"');
       }
 
       await db.from('chat_logs').insert(turns);
       _isFlushed = true;
-      debugPrint('[ChatLogService] Successfully flushed ${turns.length} turns for $_conversationUid to Supabase.');
+
+      // 5. Clean up local disk cache now that Supabase has persisted the rows
+      await _clearLocalSession(_conversationUid);
+      debugPrint('[ChatLogService] ✅ Successfully flushed and confirmed ${turns.length} turns in Supabase public.chat_logs!');
       return true;
     } catch (error, stackTrace) {
-      debugPrint('[ChatLogService] Failed to flush chat logs to Supabase: $error');
+      debugPrint('[ChatLogService] ❌ Cloud upload failed (offline/network error): $error');
+      debugPrint('[ChatLogService] Session $_conversationUid is safely preserved in local disk queue for automatic retry.');
       debugPrint('$stackTrace');
       return false;
     } finally {
       _isFlushing = false;
+    }
+  }
+
+  /// Restores messages from disk if RAM was cleared.
+  Future<void> _loadSessionFromLocalDisk() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final raw = prefs.getString('$_sessionDataPrefix$_conversationUid');
+      if (raw != null && raw.isNotEmpty) {
+        final decoded = jsonDecode(raw) as List<dynamic>;
+        _messages.clear();
+        for (final item in decoded) {
+          if (item is Map<String, dynamic>) {
+            _messages.add(ChatMessageRecord.fromJson(item));
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint('[ChatLogService] Notice reading local session: $e');
+    }
+  }
+
+  /// Flushes any pending offline sessions stored on local disk to Supabase.
+  /// Can be called on app startup or when internet connectivity is re-established.
+  static Future<int> syncPendingOfflineQueue({SupabaseClient? client}) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final pendingUids = prefs.getStringList(_pendingSessionsKey) ?? [];
+      if (pendingUids.isEmpty) return 0;
+
+      final db = client ?? (Supabase.instance.client);
+      var syncedCount = 0;
+
+      for (final uid in List<String>.from(pendingUids)) {
+        final raw = prefs.getString('$_sessionDataPrefix$uid');
+        if (raw == null || raw.isEmpty) {
+          pendingUids.remove(uid);
+          await prefs.remove('$_sessionDataPrefix$uid');
+          continue;
+        }
+
+        final decoded = jsonDecode(raw) as List<dynamic>;
+        final service = ChatLogService(conversationUid: uid);
+        for (final item in decoded) {
+          if (item is Map<String, dynamic>) {
+            service._messages.add(ChatMessageRecord.fromJson(item));
+          }
+        }
+
+        final turns = service.buildTurns(mode: 'voice');
+        if (turns.isNotEmpty) {
+          await db.from('chat_logs').insert(turns);
+          debugPrint('[ChatLogService] Offline sync: successfully uploaded pending session $uid (${turns.length} turns).');
+        }
+
+        await prefs.remove('$_sessionDataPrefix$uid');
+        pendingUids.remove(uid);
+        syncedCount++;
+      }
+
+      await prefs.setStringList(_pendingSessionsKey, pendingUids);
+      return syncedCount;
+    } catch (e) {
+      debugPrint('[ChatLogService] Offline sync notice: $e');
+      return 0;
     }
   }
 

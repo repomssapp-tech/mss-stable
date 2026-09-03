@@ -66,6 +66,33 @@ void main() {
       expect(badChecksum, isNot(equals(expectedSha)));
     });
 
+    test('Release manifest counts accurately match bundle payloads', () {
+      expect(
+        releaseJson['entityCount'],
+        equals(1216),
+        reason: 'release.json entityCount must equal 1216',
+      );
+      expect(
+        releaseJson['searchIndexCount'],
+        equals(971),
+        reason: 'release.json searchIndexCount must equal 971',
+      );
+
+      final searchIndexData =
+          bundleJson['search_index.json']?['data'] as List?;
+      expect(
+        searchIndexData,
+        isNotNull,
+        reason: 'search_index.json must be present in bundle',
+      );
+      expect(
+        searchIndexData!.length,
+        equals(releaseJson['searchIndexCount']),
+        reason:
+            'search_index.json record count must match release.json searchIndexCount',
+      );
+    });
+
     test(
       'Graph Integrity: Unique Entity IDs, Unique Relationship IDs, and 0 Dangling References',
       () {
@@ -303,6 +330,8 @@ class MssCatalogBundleProxy implements MssCatalogBundle {
   final int totalRelationshipsCount;
   @override
   final Map<String, Map<String, dynamic>> searchProfiles = const {};
+  @override
+  final Map<String, List<String>> queryExpansions = const {};
 
   MssCatalogBundleProxy(
     this.byId,
