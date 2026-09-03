@@ -8,6 +8,7 @@ import '../../services/voice_agent_preview_service.dart';
 import '../../services/centralized_translator.dart';
 import '../../utils/responsive.dart';
 import '../../widgets/app_toast.dart';
+import '../../utils/app_spacing.dart';
 
 class SaarthiWelcomeScreen extends StatefulWidget {
   const SaarthiWelcomeScreen({super.key});
@@ -97,10 +98,10 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
-                                left: 20.0,
-                                right: 20.0,
+                                left: AppSpacing.xl,
+                                right: AppSpacing.xl,
                                 top: 44.0,
-                                bottom: 16.0,
+                                bottom: AppSpacing.lg,
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -169,10 +170,10 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 0),
+                                  const SizedBox(height: AppSpacing.none),
                                   // Speech Card inside the blue header area
                                   Container(
-                                    padding: const EdgeInsets.all(14),
+                                    padding: const EdgeInsets.all(AppSpacing.lg),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(16),
@@ -191,7 +192,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Container(
-                                          padding: const EdgeInsets.all(10),
+                                          padding: const EdgeInsets.all(AppSpacing.sm),
                                           decoration: const BoxDecoration(
                                             color: Color(0xFFEFF6FF),
                                             shape: BoxShape.circle,
@@ -202,7 +203,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                             size: 20,
                                           ),
                                         ),
-                                        const SizedBox(width: 12),
+                                        const SizedBox(width: AppSpacing.md),
                                         Expanded(
                                           child: Column(
                                             crossAxisAlignment:
@@ -216,7 +217,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                                   color: kDarkBlue,
                                                 ),
                                               ),
-                                              const SizedBox(height: 3),
+                                              const SizedBox(height: AppSpacing.xs),
                                               Text(
                                                 "I'll help you discover the right schemes, explain everything simply, and guide you at every step.",
                                                 style: GoogleFonts.inter(
@@ -238,11 +239,11 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                         ),
                       ),
 
-                      const SizedBox(height: 12),
+                      const SizedBox(height: AppSpacing.md),
 
                       // 2 & 3. Middle content area
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
@@ -262,7 +263,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(width: 8),
+                                    const SizedBox(width: AppSpacing.sm),
                                     Expanded(
                                       child: Container(
                                         height: 1,
@@ -271,7 +272,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 10),
+                                const SizedBox(height: AppSpacing.sm),
                                 Row(
                                   children: [
                                     Expanded(
@@ -280,7 +281,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                         title: 'Talk Naturally',
                                       ),
                                     ),
-                                    const SizedBox(width: 10),
+                                    const SizedBox(width: AppSpacing.sm),
                                     Expanded(
                                       child: _buildFeatureCard(
                                         icon: Icons.language_outlined,
@@ -289,7 +290,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 10),
+                                const SizedBox(height: AppSpacing.sm),
                                 Row(
                                   children: [
                                     Expanded(
@@ -298,7 +299,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                         title: 'Business Roadmap',
                                       ),
                                     ),
-                                    const SizedBox(width: 10),
+                                    const SizedBox(width: AppSpacing.sm),
                                     Expanded(
                                       child: _buildFeatureCard(
                                         icon: Icons.assignment_outlined,
@@ -310,7 +311,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                               ],
                             ),
 
-                            const SizedBox(height: 16),
+                            const SizedBox(height: AppSpacing.lg),
 
                             // 3. Choose Language Section
                             Column(
@@ -323,7 +324,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                       color: kBrandBlue,
                                       size: 20,
                                     ),
-                                    const SizedBox(width: 8),
+                                    const SizedBox(width: AppSpacing.sm),
                                     Flexible(
                                       child: Text(
                                         "Choose Language",
@@ -337,7 +338,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 4),
+                                const SizedBox(height: AppSpacing.xs),
                                 Text(
                                   "Choose your preferred language so Saarthi can talk to you better.",
                                   style: GoogleFonts.inter(
@@ -345,7 +346,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                     color: kSlate500,
                                   ),
                                 ),
-                                const SizedBox(height: 8),
+                                const SizedBox(height: AppSpacing.sm),
                                 _buildLanguageCard(
                                   code: 'en',
                                   title: 'English',
@@ -362,9 +363,9 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                   circleBg: const Color(0xFFFFF7ED),
                                   circleTextColor: const Color(0xFFEA580C),
                                 ),
-                                const SizedBox(height: 4),
+                                const SizedBox(height: AppSpacing.xs),
                                 _buildVoiceSelector(),
-                                const SizedBox(height: 8),
+                                const SizedBox(height: AppSpacing.sm),
                                 _buildInfoBanner(),
                               ],
                             ),
@@ -377,10 +378,10 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                       // 4. Action Button at Bottom
                       Padding(
                         padding: const EdgeInsets.only(
-                          left: 20.0,
-                          right: 20.0,
-                          bottom: 16.0,
-                          top: 12.0,
+                          left: AppSpacing.xl,
+                          right: AppSpacing.xl,
+                          bottom: AppSpacing.lg,
+                          top: AppSpacing.md,
                         ),
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -451,7 +452,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(width: 8),
+                                    const SizedBox(width: AppSpacing.sm),
                                     const Icon(Icons.arrow_forward, size: 18),
                                   ],
                                 ),
@@ -470,7 +471,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
 
   Widget _buildFeatureCard({required IconData icon, required String title}) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm, horizontal: AppSpacing.sm),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -481,14 +482,14 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: const EdgeInsets.all(6),
+            padding: const EdgeInsets.all(AppSpacing.tight),
             decoration: const BoxDecoration(
               color: Color(0xFFEFF6FF),
               shape: BoxShape.circle,
             ),
             child: Icon(icon, color: kBrandBlue, size: 16),
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: AppSpacing.tight),
           Text(
             title,
             textAlign: TextAlign.center,
@@ -519,8 +520,8 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
         });
       },
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 6),
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+        margin: const EdgeInsets.symmetric(vertical: AppSpacing.tight),
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg, horizontal: AppSpacing.lg),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
@@ -558,7 +559,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                 ),
               ),
             ),
-            const SizedBox(width: 16),
+            const SizedBox(width: AppSpacing.lg),
             // Title & Subtitle
             Expanded(
               child: Column(
@@ -572,7 +573,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                       color: isSelected ? kBrandBlue : kDarkSlate,
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: AppSpacing.hairline),
                   Text(
                     subtitle,
                     style: GoogleFonts.inter(fontSize: 11.5, color: kSlate500),
@@ -607,8 +608,8 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
     final clearLabel = isTamil ? 'தெளிவான ஒலி' : 'Clear';
 
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+      padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14),
@@ -631,7 +632,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                 color: kBrandBlue,
                 size: 18,
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: Text(
                   voiceLabel,
@@ -649,8 +650,8 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                   borderRadius: BorderRadius.circular(8),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
+                      horizontal: AppSpacing.sm,
+                      vertical: AppSpacing.xs,
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -669,7 +670,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                 size: 16,
                                 color: kBrandBlue,
                               ),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: AppSpacing.xs),
                         Text(
                           isTamil ? 'கேட்க' : 'Preview',
                           style: GoogleFonts.inter(
@@ -685,7 +686,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: AppSpacing.sm),
           Row(
             children: [
               Expanded(
@@ -695,7 +696,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                   isSelected: _selectedVoice == 'natural',
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: _buildVoiceOptionChip(
                   label: clearLabel,
@@ -719,7 +720,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
       onTap: () => _selectVoice(value),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
-        padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 8),
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm, horizontal: AppSpacing.sm),
         decoration: BoxDecoration(
           color: isSelected ? const Color(0xFFEFF6FF) : const Color(0xFFF8FAFC),
           borderRadius: BorderRadius.circular(10),
@@ -738,7 +739,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
               size: 16,
               color: isSelected ? kBrandBlue : const Color(0xFF94A3B8),
             ),
-            const SizedBox(width: 6),
+            const SizedBox(width: AppSpacing.tight),
             Flexible(
               child: FitOneLine(
                 child: Text(
@@ -770,7 +771,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
             size: 14,
           ),
         ),
-        const SizedBox(width: 6),
+        const SizedBox(width: AppSpacing.tight),
         Expanded(
           child: Text(
             isTamil

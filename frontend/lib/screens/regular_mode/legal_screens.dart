@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../utils/app_spacing.dart';
 
 /// Full-page detailed Privacy Policy Screen for IN Schemes
 class PrivacyPolicyScreen extends StatelessWidget {
@@ -40,7 +41,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(AppSpacing.xl),
           physics: const BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +49,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               // Header Card
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(18),
+                padding: const EdgeInsets.all(AppSpacing.xl),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -78,7 +79,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                         size: 28,
                       ),
                     ),
-                    const SizedBox(width: 14),
+                    const SizedBox(width: AppSpacing.lg),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,7 +92,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                               color: kSlate900,
                             ),
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: AppSpacing.xs),
                           Text(
                             'Last Updated: August 2026 • Version 2.0',
                             style: GoogleFonts.inter(
@@ -106,7 +107,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: AppSpacing.xxl),
 
               Text(
                 'Your privacy and data protection are fundamental to our mission. This policy outlines how IN Schemes handles, stores, and protects your information.',
@@ -116,7 +117,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                   height: 1.5,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: AppSpacing.xl),
 
               // Section 1: Information We Collect
               _buildSectionCard(
@@ -128,7 +129,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                   '• Enterprise & Category Details: Target Role (Student, Entrepreneur, MSME, Farmer) and income bracket used for eligibility matching.',
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.lg),
 
               // Section 2: How We Use Your Data
               _buildSectionCard(
@@ -140,7 +141,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                   '• System Improvement: Anonymized operational metrics to enhance scheme search speed.',
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.lg),
 
               // Section 3: Data Security & Storage
               _buildSectionCard(
@@ -152,7 +153,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                   '• Zero Data Monetization: Your data is never sold, leased, or rented to third-party marketing brokers.',
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.lg),
 
               // Section 4: Official External Links
               _buildSectionCard(
@@ -163,7 +164,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                   '• Independent Credentials: IN Schemes does not store or access your credentials on external government portals.',
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.lg),
 
               // Section 5: Your Rights & Control
               _buildSectionCard(
@@ -174,12 +175,12 @@ class PrivacyPolicyScreen extends StatelessWidget {
                   '• Right to Erasure: You can permanently delete your profile and account history using the "Delete Account" button.',
                 ],
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: AppSpacing.xxl),
 
               // Contact Footer Box
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(AppSpacing.lg),
                 decoration: BoxDecoration(
                   color: kBgLight,
                   borderRadius: BorderRadius.circular(14),
@@ -195,7 +196,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                           color: kPrimaryBlue,
                           size: 20,
                         ),
-                        const SizedBox(width: 8),
+                        const SizedBox(width: AppSpacing.sm),
                         Text(
                           'Have Privacy Questions?',
                           style: GoogleFonts.poppins(
@@ -206,7 +207,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: AppSpacing.tight),
                     Text(
                       'If you have questions regarding data privacy or consent, contact our support desk at support@inschemes.gov.in.',
                       style: GoogleFonts.inter(
@@ -218,7 +219,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: AppSpacing.xxl),
             ],
           ),
         ),
@@ -233,7 +234,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
   }) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -252,7 +253,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
           Row(
             children: [
               Icon(icon, color: kPrimaryBlue, size: 22),
-              const SizedBox(width: 10),
+              const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: Text(
                   title,
@@ -265,10 +266,10 @@ class PrivacyPolicyScreen extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.md),
           ...content.map(
             (point) => Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
+              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
               child: Text(
                 point,
                 style: GoogleFonts.inter(
@@ -324,7 +325,7 @@ class TermsConditionsScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(AppSpacing.xl),
           physics: const BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -332,7 +333,7 @@ class TermsConditionsScreen extends StatelessWidget {
               // Header Card
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(18),
+                padding: const EdgeInsets.all(AppSpacing.xl),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -362,7 +363,7 @@ class TermsConditionsScreen extends StatelessWidget {
                         size: 28,
                       ),
                     ),
-                    const SizedBox(width: 14),
+                    const SizedBox(width: AppSpacing.lg),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -375,7 +376,7 @@ class TermsConditionsScreen extends StatelessWidget {
                               color: kSlate900,
                             ),
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: AppSpacing.xs),
                           Text(
                             'Last Updated: August 2026 • Version 2.0',
                             style: GoogleFonts.inter(
@@ -390,7 +391,7 @@ class TermsConditionsScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: AppSpacing.xxl),
 
               Text(
                 'By accessing or using the IN Schemes application, you agree to be bound by these Terms & Conditions. Please read them carefully.',
@@ -400,7 +401,7 @@ class TermsConditionsScreen extends StatelessWidget {
                   height: 1.5,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: AppSpacing.xl),
 
               // Section 1: Purpose & Scope
               _buildSectionCard(
@@ -411,7 +412,7 @@ class TermsConditionsScreen extends StatelessWidget {
                   '• Non-Governmental Entity: IN Schemes provides scheme aggregation and eligibility guidance. Final sanction and approval rest exclusively with respective Government Departments.',
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.lg),
 
               // Section 2: User Responsibilities
               _buildSectionCard(
@@ -422,7 +423,7 @@ class TermsConditionsScreen extends StatelessWidget {
                   '• Fair Usage: Users agree not to attempt unauthorized access, reverse engineering, or automated scraping of the IN Schemes database.',
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.lg),
 
               // Section 3: Intellectual Property & Emblems
               _buildSectionCard(
@@ -433,7 +434,7 @@ class TermsConditionsScreen extends StatelessWidget {
                   '• Application Content: Interface designs, matching algorithms, and curated guides are protected under intellectual property rights.',
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.lg),
 
               // Section 4: External Links & Disclaimer
               _buildSectionCard(
@@ -444,12 +445,12 @@ class TermsConditionsScreen extends StatelessWidget {
                   '• Policy Updates: IN Schemes reserves the right to update these terms to reflect legal or feature changes.',
                 ],
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: AppSpacing.xxl),
 
               // Agreement Footer Box
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(AppSpacing.lg),
                 decoration: BoxDecoration(
                   color: kBgLight,
                   borderRadius: BorderRadius.circular(14),
@@ -465,7 +466,7 @@ class TermsConditionsScreen extends StatelessWidget {
                           color: kPrimaryBlue,
                           size: 20,
                         ),
-                        const SizedBox(width: 8),
+                        const SizedBox(width: AppSpacing.sm),
                         Text(
                           'Terms Agreement',
                           style: GoogleFonts.poppins(
@@ -476,7 +477,7 @@ class TermsConditionsScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: AppSpacing.tight),
                     Text(
                       'Continued use of IN Schemes signifies your acceptance of these Terms & Conditions.',
                       style: GoogleFonts.inter(
@@ -488,7 +489,7 @@ class TermsConditionsScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: AppSpacing.xxl),
             ],
           ),
         ),
@@ -503,7 +504,7 @@ class TermsConditionsScreen extends StatelessWidget {
   }) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -522,7 +523,7 @@ class TermsConditionsScreen extends StatelessWidget {
           Row(
             children: [
               Icon(icon, color: kPrimaryBlue, size: 22),
-              const SizedBox(width: 10),
+              const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: Text(
                   title,
@@ -535,10 +536,10 @@ class TermsConditionsScreen extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.md),
           ...content.map(
             (point) => Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
+              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
               child: Text(
                 point,
                 style: GoogleFonts.inter(

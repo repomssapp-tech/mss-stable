@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:google_fonts/google_fonts.dart';
+import 'app_spacing.dart';
 
 /// Explicitly shows the styled Location Services Off dialog when location services (GPS) are turned off.
 Future<void> showLocationServiceOffDialog(BuildContext context) async {
@@ -11,7 +12,7 @@ Future<void> showLocationServiceOffDialog(BuildContext context) async {
     barrierDismissible: false,
     builder: (context) => Dialog(
       backgroundColor: Colors.transparent,
-      insetPadding: const EdgeInsets.symmetric(horizontal: 24),
+      insetPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxl),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -24,7 +25,7 @@ Future<void> showLocationServiceOffDialog(BuildContext context) async {
             ),
           ],
         ),
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(AppSpacing.xxl),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -48,7 +49,7 @@ Future<void> showLocationServiceOffDialog(BuildContext context) async {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: AppSpacing.xl),
 
             // Title
             Text(
@@ -61,7 +62,7 @@ Future<void> showLocationServiceOffDialog(BuildContext context) async {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: AppSpacing.sm),
 
             // Description
             Text(
@@ -73,11 +74,11 @@ Future<void> showLocationServiceOffDialog(BuildContext context) async {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.lg),
 
             // Benefits Box
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(AppSpacing.md),
               decoration: BoxDecoration(
                 color: const Color(0xFFF8FAFC),
                 borderRadius: BorderRadius.circular(12),
@@ -92,7 +93,7 @@ Future<void> showLocationServiceOffDialog(BuildContext context) async {
                         color: Color(0xFF2563EB),
                         size: 16,
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: AppSpacing.sm),
                       Expanded(
                         child: Text(
                           'Auto-detect State & District eligibility',
@@ -105,7 +106,7 @@ Future<void> showLocationServiceOffDialog(BuildContext context) async {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSpacing.sm),
                   Row(
                     children: [
                       const Icon(
@@ -113,7 +114,7 @@ Future<void> showLocationServiceOffDialog(BuildContext context) async {
                         color: Color(0xFF2563EB),
                         size: 16,
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: AppSpacing.sm),
                       Expanded(
                         child: Text(
                           'Tailored regional subsidies & benefits',
@@ -129,7 +130,7 @@ Future<void> showLocationServiceOffDialog(BuildContext context) async {
                 ],
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: AppSpacing.xxl),
 
             // Primary Action Button (Turn On Location)
             SizedBox(
@@ -142,7 +143,7 @@ Future<void> showLocationServiceOffDialog(BuildContext context) async {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
                 ),
                 icon: const Icon(Icons.settings_suggest_rounded, size: 20),
                 label: Text(
@@ -158,7 +159,7 @@ Future<void> showLocationServiceOffDialog(BuildContext context) async {
                 },
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
 
             // Secondary Action Button (Cancel)
             SizedBox(

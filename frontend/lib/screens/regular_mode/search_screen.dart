@@ -13,6 +13,7 @@ import '../../l10n/l10n.dart';
 import '../../services/centralized_translator.dart';
 import '../../widgets/voice_assistant_overlay.dart';
 import '../../widgets/scheme_card.dart';
+import '../../utils/app_spacing.dart';
 
 String _getLocalizedTagOrCategory(String text, String langCode) {
   if (langCode != 'ta') return text;
@@ -765,7 +766,7 @@ class SearchScreenState extends State<SearchScreen> {
           children: [
             // Fixed top header elements
             Padding(
-              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
+              padding: const EdgeInsets.fromLTRB(AppSpacing.lg, AppSpacing.lg, AppSpacing.lg, AppSpacing.sm),
               child: SizedBox(
                 width: double.infinity,
                 child: Column(
@@ -774,12 +775,12 @@ class SearchScreenState extends State<SearchScreen> {
                     // 1. Custom App Bar matching Discover Header
                     _buildCustomAppBar(context, provider),
 
-                    const SizedBox(height: 14),
+                    const SizedBox(height: AppSpacing.lg),
 
                     // 2. Search Input Container with dynamic trailing icon
                     _buildSearchInput(context),
 
-                    const SizedBox(height: 10),
+                    const SizedBox(height: AppSpacing.sm),
 
                   if (isSearching) ...[
                     // Discover Filters Strip (Filter, Sort, Type, Benefit Type, Ministry, Clear All)
@@ -799,7 +800,7 @@ class SearchScreenState extends State<SearchScreen> {
                             color: Color(0xFF64748B),
                             size: 12,
                           ),
-                          const SizedBox(width: 4),
+                          const SizedBox(width: AppSpacing.xs),
                           Expanded(
                             child: FittedBox(
                               fit: BoxFit.scaleDown,
@@ -823,7 +824,7 @@ class SearchScreenState extends State<SearchScreen> {
             ),
           ),
 
-            const SizedBox(height: 6),
+            const SizedBox(height: AppSpacing.tight),
 
             // 4. DYNAMIC AREA (AnimatedSwitcher)
             Expanded(
@@ -884,7 +885,7 @@ class SearchScreenState extends State<SearchScreen> {
             color: const Color(0xFF0F172A),
           ),
         ),
-        const SizedBox(height: 2),
+        const SizedBox(height: AppSpacing.hairline),
         Text(
           isTa
               ? 'அனைத்து அரசுத் திட்டங்களையும் எளிதாகத் தேடுங்கள்'
@@ -983,18 +984,18 @@ class SearchScreenState extends State<SearchScreen> {
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                 ),
-              if (hasText) const SizedBox(width: 4),
+              if (hasText) const SizedBox(width: AppSpacing.xs),
               IconButton(
                 icon: const Icon(Icons.mic, color: Color(0xFF2563EB), size: 20),
                 onPressed: _openVoiceAssistant,
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: AppSpacing.md),
             ],
           ),
           border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(vertical: 8),
+          contentPadding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
         ),
       ),
     );
@@ -1008,7 +1009,7 @@ class SearchScreenState extends State<SearchScreen> {
   ) {
     final bool isActive = currentValue != 'All' && currentValue != 'Relevance';
     return Container(
-      margin: const EdgeInsets.only(right: 8),
+      margin: const EdgeInsets.only(right: AppSpacing.sm),
       child: PopupMenuButton<String>(
         onSelected: onChanged,
         color: Colors.white,
@@ -1033,7 +1034,7 @@ class SearchScreenState extends State<SearchScreen> {
             )
             .toList(),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
@@ -1056,7 +1057,7 @@ class SearchScreenState extends State<SearchScreen> {
                       : const Color(0xFF475569),
                 ),
               ),
-              const SizedBox(width: 4),
+              const SizedBox(width: AppSpacing.xs),
               Icon(
                 Icons.keyboard_arrow_down,
                 size: 14,
@@ -1103,10 +1104,10 @@ class SearchScreenState extends State<SearchScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.tight),
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: AppSpacing.sm),
 
           // Dropdowns
           _buildDropdownChip(
@@ -1196,11 +1197,11 @@ class SearchScreenState extends State<SearchScreen> {
   Widget _buildIdleContent(List<Map<String, dynamic>> categories) {
     return ListView(
       key: const ValueKey("IdleContent"),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       physics: const BouncingScrollPhysics(),
       children: [
         _buildHighlightSummaryCard(),
-        const SizedBox(height: 24),
+        const SizedBox(height: AppSpacing.xxl),
         Text(
           context.l10n.browseCategories,
           style: GoogleFonts.poppins(
@@ -1209,7 +1210,7 @@ class SearchScreenState extends State<SearchScreen> {
             color: const Color(0xFF0F172A),
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSpacing.md),
         ...categories.map((cat) => _buildCategoryCard(cat)),
       ],
     );
@@ -1220,7 +1221,7 @@ class SearchScreenState extends State<SearchScreen> {
     return ListView.builder(
       key: const ValueKey("LoadingContent"),
       primary: false,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       physics: const NeverScrollableScrollPhysics(),
       itemCount: 5,
       itemBuilder: (context, index) {
@@ -1270,14 +1271,14 @@ class SearchScreenState extends State<SearchScreen> {
 
       return ListView(
         key: const ValueKey('ResultsContent'),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 48),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: 48),
         children: [
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(icon, size: 48, color: Colors.grey[400]),
-                const SizedBox(height: 12),
+                const SizedBox(height: AppSpacing.md),
                 Text(
                   title,
                   style: GoogleFonts.poppins(
@@ -1287,7 +1288,7 @@ class SearchScreenState extends State<SearchScreen> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: AppSpacing.tight),
                 Text(
                   subtitle,
                   style: GoogleFonts.inter(
@@ -1305,7 +1306,7 @@ class SearchScreenState extends State<SearchScreen> {
 
     return ListView.builder(
       key: const ValueKey('ResultsContent'),
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
       physics: const BouncingScrollPhysics(),
       itemCount: _searchResults.length + 1,
       itemBuilder: (context, index) {
@@ -1328,7 +1329,7 @@ class SearchScreenState extends State<SearchScreen> {
                   : "Best matches for your search criteria");
 
           return Padding(
-            padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 12.0),
+            padding: const EdgeInsets.only(left: AppSpacing.lg, right: AppSpacing.lg, bottom: AppSpacing.md),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -1391,7 +1392,7 @@ class SearchScreenState extends State<SearchScreen> {
         _triggerSearch('For Me');
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
@@ -1423,7 +1424,7 @@ class SearchScreenState extends State<SearchScreen> {
                 size: 20,
               ),
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: AppSpacing.sm),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1444,11 +1445,11 @@ class SearchScreenState extends State<SearchScreen> {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      const SizedBox(width: 6),
+                      const SizedBox(width: AppSpacing.tight),
                       Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 5,
-                          vertical: 1.5,
+                          horizontal: AppSpacing.tight,
+                          vertical: AppSpacing.hairline,
                         ),
                         decoration: BoxDecoration(
                           color: const Color(0xFFECFDF5),
@@ -1465,7 +1466,7 @@ class SearchScreenState extends State<SearchScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 3),
+                  const SizedBox(height: AppSpacing.xs),
                   Text(
                     _isLoadingCounts
                         ? context.l10n.calculatingMatches
@@ -1483,7 +1484,7 @@ class SearchScreenState extends State<SearchScreen> {
                 ],
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: AppSpacing.sm),
             SizedBox(
               width: 48,
               height: 48,
@@ -1505,9 +1506,9 @@ class SearchScreenState extends State<SearchScreen> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.only(
-                          top: 8,
-                          left: 4,
-                          right: 4,
+                          top: AppSpacing.sm,
+                          left: AppSpacing.xs,
+                          right: AppSpacing.xs,
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1517,13 +1518,13 @@ class SearchScreenState extends State<SearchScreen> {
                               height: 2.5,
                               color: const Color(0xFF93C5FD),
                             ),
-                            const SizedBox(height: 3),
+                            const SizedBox(height: AppSpacing.xs),
                             Container(
                               width: 20,
                               height: 2.5,
                               color: const Color(0xFF93C5FD),
                             ),
-                            const SizedBox(height: 3),
+                            const SizedBox(height: AppSpacing.xs),
                             Container(
                               width: 12,
                               height: 2.5,
@@ -1576,7 +1577,7 @@ class SearchScreenState extends State<SearchScreen> {
   Widget _buildCategoryCard(Map<String, dynamic> category) {
     final provider = Provider.of<AppProvider>(context, listen: false);
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: AppSpacing.md),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -1603,8 +1604,8 @@ class SearchScreenState extends State<SearchScreen> {
           },
           child: ListTile(
             contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 4,
+              horizontal: AppSpacing.lg,
+              vertical: AppSpacing.xs,
             ),
             leading: Container(
               width: 42,
@@ -1686,8 +1687,8 @@ class _ShimmerSkeletonCardState extends State<_ShimmerSkeletonCard>
     return FadeTransition(
       opacity: _animation,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 16),
-        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.only(bottom: AppSpacing.lg),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         height: 140,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -1706,7 +1707,7 @@ class _ShimmerSkeletonCardState extends State<_ShimmerSkeletonCard>
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
-            const SizedBox(width: 14),
+            const SizedBox(width: AppSpacing.lg),
 
             // Shimmer Content Lines
             Expanded(
@@ -1721,7 +1722,7 @@ class _ShimmerSkeletonCardState extends State<_ShimmerSkeletonCard>
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSpacing.sm),
                   Container(
                     width: 100,
                     height: 14,
@@ -1730,7 +1731,7 @@ class _ShimmerSkeletonCardState extends State<_ShimmerSkeletonCard>
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: AppSpacing.md),
                   Container(
                     width: double.infinity,
                     height: 12,
@@ -1739,7 +1740,7 @@ class _ShimmerSkeletonCardState extends State<_ShimmerSkeletonCard>
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: AppSpacing.tight),
                   Container(
                     width: 180,
                     height: 12,

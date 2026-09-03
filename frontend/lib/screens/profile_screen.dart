@@ -14,6 +14,7 @@ import 'regular_mode/help_support_screen.dart';
 import 'notifications_screen.dart';
 import '../widgets/custom_confirm_dialog.dart';
 import '../utils/responsive.dart';
+import '../utils/app_spacing.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -92,7 +93,7 @@ class ProfileScreen extends StatelessWidget {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: AppSpacing.xs),
           Text(
             value,
             style: GoogleFonts.inter(
@@ -115,14 +116,14 @@ class ProfileScreen extends StatelessWidget {
       height: 28,
       width: 1,
       color: const Color(0xFFE2E8F0),
-      margin: const EdgeInsets.symmetric(horizontal: 8),
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
     );
   }
 
   // Grouped Card container for Settings Tiles
   Widget _buildGroupCard(List<Widget> tiles) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.tight),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFE2E8F0)),
@@ -158,8 +159,8 @@ class ProfileScreen extends StatelessWidget {
       children: [
         ListTile(
           contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 2,
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.hairline,
           ),
           leading: Container(
             width: 36,
@@ -192,7 +193,7 @@ class ProfileScreen extends StatelessWidget {
               if (trailingText != null)
                 Flexible(
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
+                    padding: const EdgeInsets.only(right: AppSpacing.sm),
                     child: FitOneLine(
                       child: Text(
                         trailingText,
@@ -244,7 +245,7 @@ class ProfileScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                padding: const EdgeInsets.symmetric(vertical: AppSpacing.xl),
                 child: Text(
                   context.l10n.profilePhotoTitle,
                   style: GoogleFonts.poppins(
@@ -314,7 +315,7 @@ class ProfileScreen extends StatelessWidget {
                     await provider.updateProfilePhoto('');
                   },
                 ),
-              const SizedBox(height: 12),
+              const SizedBox(height: AppSpacing.md),
             ],
           ),
         );
@@ -363,7 +364,7 @@ class ProfileScreen extends StatelessWidget {
         actions: [
           // Notification Bell with Badge
           Padding(
-            padding: const EdgeInsets.only(right: 16.0),
+            padding: const EdgeInsets.only(right: AppSpacing.lg),
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
@@ -394,7 +395,7 @@ class ProfileScreen extends StatelessWidget {
                       right: 2,
                       top: 2,
                       child: Container(
-                        padding: const EdgeInsets.all(2),
+                        padding: const EdgeInsets.all(AppSpacing.hairline),
                         decoration: const BoxDecoration(
                           color: Color(0xFFEF4444),
                           shape: BoxShape.circle,
@@ -427,7 +428,7 @@ class ProfileScreen extends StatelessWidget {
             // 1. Profile Banner (Blue Gradient Card)
             Container(
               width: double.infinity,
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 gradient: const LinearGradient(
@@ -465,7 +466,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(AppSpacing.xl),
                       child: Row(
                         children: [
                           // Avatar Stack with Camera Overlay
@@ -538,7 +539,7 @@ class ProfileScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(width: 16),
+                          const SizedBox(width: AppSpacing.lg),
                           // User Name, Badges & Contacts
                           Expanded(
                             child: Column(
@@ -546,8 +547,8 @@ class ProfileScreen extends StatelessWidget {
                               children: [
                                 Wrap(
                                   crossAxisAlignment: WrapCrossAlignment.center,
-                                  spacing: 6,
-                                  runSpacing: 4,
+                                  spacing: AppSpacing.tight,
+                                  runSpacing: AppSpacing.xs,
                                   children: [
                                     Text(
                                       profile.name.isNotEmpty
@@ -570,8 +571,8 @@ class ProfileScreen extends StatelessWidget {
                                     ),
                                     Container(
                                       padding: const EdgeInsets.symmetric(
-                                        horizontal: 6,
-                                        vertical: 3,
+                                        horizontal: AppSpacing.tight,
+                                        vertical: AppSpacing.xs,
                                       ),
                                       decoration: BoxDecoration(
                                         color: Colors.white.withAlpha(25),
@@ -595,7 +596,7 @@ class ProfileScreen extends StatelessWidget {
                                                 : const Color(0xFFF59E0B),
                                             size: 10,
                                           ),
-                                          const SizedBox(width: 3),
+                                          const SizedBox(width: AppSpacing.xs),
                                           Text(
                                             profile.profileCompleted
                                                 ? context.l10n.profileVerified
@@ -615,7 +616,7 @@ class ProfileScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 8),
+                                const SizedBox(height: AppSpacing.sm),
                                 Row(
                                   children: [
                                     const Icon(
@@ -623,7 +624,7 @@ class ProfileScreen extends StatelessWidget {
                                       color: Colors.white70,
                                       size: 12,
                                     ),
-                                    const SizedBox(width: 6),
+                                    const SizedBox(width: AppSpacing.tight),
                                     Flexible(
                                       child: FitOneLine(
                                         alignment: Alignment.centerLeft,
@@ -641,7 +642,7 @@ class ProfileScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 6),
+                                const SizedBox(height: AppSpacing.tight),
                                 Row(
                                   children: [
                                     const Icon(
@@ -649,7 +650,7 @@ class ProfileScreen extends StatelessWidget {
                                       color: Colors.white70,
                                       size: 12,
                                     ),
-                                    const SizedBox(width: 6),
+                                    const SizedBox(width: AppSpacing.tight),
                                     Expanded(
                                       child: Text(
                                         profile.email.isNotEmpty
@@ -679,8 +680,8 @@ class ProfileScreen extends StatelessWidget {
 
             // 2. User Information Card
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-              padding: const EdgeInsets.all(16),
+              margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.tight),
+              padding: const EdgeInsets.all(AppSpacing.lg),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
@@ -712,7 +713,7 @@ class ProfileScreen extends StatelessWidget {
                           size: 18,
                         ),
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: AppSpacing.sm),
                       Expanded(
                         child: Text(
                           context.l10n.userInformation,
@@ -725,7 +726,7 @@ class ProfileScreen extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: AppSpacing.sm),
                       TextButton.icon(
                         onPressed: () {
                           Navigator.of(context).push(
@@ -750,8 +751,8 @@ class ProfileScreen extends StatelessWidget {
                         style: TextButton.styleFrom(
                           backgroundColor: const Color(0xFFEFF6FF),
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 5,
+                            horizontal: AppSpacing.sm,
+                            vertical: AppSpacing.tight,
                           ),
                           minimumSize: Size.zero,
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -766,7 +767,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppSpacing.lg),
                   // Information Details Grid
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -787,7 +788,7 @@ class ProfileScreen extends StatelessWidget {
                     ],
                   ),
                   const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
                     child: Divider(color: Color(0xFFF1F5F9), height: 1),
                   ),
                   Row(
@@ -818,8 +819,8 @@ class ProfileScreen extends StatelessWidget {
 
             // 2b. Eligibility & Professional Details Card
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-              padding: const EdgeInsets.all(16),
+              margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.tight),
+              padding: const EdgeInsets.all(AppSpacing.lg),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
@@ -852,7 +853,7 @@ class ProfileScreen extends StatelessWidget {
                           size: 18,
                         ),
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: AppSpacing.sm),
                       Expanded(
                         child: Text(
                           context.l10n.eligibilityProfessionalDetails,
@@ -867,7 +868,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppSpacing.lg),
 
                   // Details Row 1: Qualification & Employment
                   Row(
@@ -897,7 +898,7 @@ class ProfileScreen extends StatelessWidget {
                     ],
                   ),
                   const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
                     child: Divider(color: Color(0xFFF1F5F9), height: 1),
                   ),
 
@@ -924,7 +925,7 @@ class ProfileScreen extends StatelessWidget {
                     ],
                   ),
                   const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
                     child: Divider(color: Color(0xFFF1F5F9), height: 1),
                   ),
 
@@ -957,10 +958,10 @@ class ProfileScreen extends StatelessWidget {
                   // Business Details (Optional)
                   if (profile.existingBusiness) ...[
                     const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.0),
+                      padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
                       child: Divider(color: Color(0xFFF1F5F9), height: 1),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: AppSpacing.xs),
                     Text(
                       context.l10n.businessInformation,
                       style: GoogleFonts.inter(
@@ -969,7 +970,7 @@ class ProfileScreen extends StatelessWidget {
                         color: const Color(0xFF2563EB),
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: AppSpacing.md),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -997,7 +998,7 @@ class ProfileScreen extends StatelessWidget {
                       ],
                     ),
                     const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.0),
+                      padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
                       child: Divider(color: Color(0xFFF1F5F9), height: 1),
                     ),
                     Row(
@@ -1141,7 +1142,7 @@ class ProfileScreen extends StatelessWidget {
                 onTap: () => _handleLogout(context, provider),
               ),
             ]),
-            const SizedBox(height: 32),
+            const SizedBox(height: AppSpacing.xxxl),
           ],
         ),
       ),

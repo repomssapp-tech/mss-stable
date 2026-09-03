@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/centralized_translator.dart';
 import '../utils/responsive.dart';
+import '../utils/app_spacing.dart';
 
 class AntiGravityHeroSection extends StatefulWidget {
   final int activeDotIndex;
@@ -132,7 +133,7 @@ class _AntiGravityHeroSectionState extends State<AntiGravityHeroSection>
                           height: 125,
                           fit: BoxFit.contain,
                         ),
-                        const SizedBox(height: 6),
+                        const SizedBox(height: AppSpacing.tight),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -141,7 +142,7 @@ class _AntiGravityHeroSectionState extends State<AntiGravityHeroSection>
                               height: 1.5,
                               color: Colors.orange,
                             ),
-                            const SizedBox(width: 6),
+                            const SizedBox(width: AppSpacing.tight),
                             Flexible(
                               child: FitOneLine(
                                 child: const Text(
@@ -154,7 +155,7 @@ class _AntiGravityHeroSectionState extends State<AntiGravityHeroSection>
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 6),
+                            const SizedBox(width: AppSpacing.tight),
                             Container(
                               width: 12,
                               height: 1.5,
@@ -162,7 +163,7 @@ class _AntiGravityHeroSectionState extends State<AntiGravityHeroSection>
                             ),
                           ],
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: AppSpacing.lg),
 
                         // Onboarding indicator
                         Row(
@@ -171,7 +172,7 @@ class _AntiGravityHeroSectionState extends State<AntiGravityHeroSection>
                             final isActive = index == widget.activeDotIndex;
                             return AnimatedContainer(
                               duration: const Duration(milliseconds: 300),
-                              margin: const EdgeInsets.symmetric(horizontal: 4),
+                              margin: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
                               width: isActive ? 8.0 : 6.0,
                               height: isActive ? 8.0 : 6.0,
                               decoration: BoxDecoration(

@@ -5,6 +5,7 @@ import '../providers/app_state_provider.dart';
 import '../models/user_profile.dart';
 import '../services/centralized_translator.dart';
 import '../utils/responsive.dart';
+import '../utils/app_spacing.dart';
 
 /// Pre-localized questionnaire node for UI rendering.
 class LocalizedQuestionNode {
@@ -441,7 +442,7 @@ class _SmartAssessmentBottomSheetState
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.lg),
 
           // Header
           Row(
@@ -453,7 +454,7 @@ class _SmartAssessmentBottomSheetState
                     Container(
                       padding: widget.cardType == 'state'
                           ? EdgeInsets.zero
-                          : const EdgeInsets.all(6),
+                          : const EdgeInsets.all(AppSpacing.tight),
                       decoration: widget.cardType == 'state'
                           ? null
                           : BoxDecoration(
@@ -481,7 +482,7 @@ class _SmartAssessmentBottomSheetState
                               size: 16,
                             ),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: AppSpacing.sm),
                     Flexible(
                       child: Text(
                         cardTitleLocalized,
@@ -502,7 +503,7 @@ class _SmartAssessmentBottomSheetState
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.md),
 
           // Progress Bar
           Row(
@@ -518,7 +519,7 @@ class _SmartAssessmentBottomSheetState
                   ),
                 ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: AppSpacing.sm),
               Text(
                 stepLabel,
                 style: GoogleFonts.inter(
@@ -529,7 +530,7 @@ class _SmartAssessmentBottomSheetState
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSpacing.xxl),
 
           // Animated Question Box
           AnimatedSwitcher(
@@ -561,7 +562,7 @@ class _SmartAssessmentBottomSheetState
                 ),
                 if (localizedNode.subtitleText != null &&
                     localizedNode.subtitleText!.isNotEmpty) ...[
-                  const SizedBox(height: 6),
+                  const SizedBox(height: AppSpacing.tight),
                   Text(
                     localizedNode.subtitleText!,
                     style: GoogleFonts.inter(
@@ -571,7 +572,7 @@ class _SmartAssessmentBottomSheetState
                     ),
                   ),
                 ],
-                const SizedBox(height: 16),
+                const SizedBox(height: AppSpacing.lg),
 
                 // Options list
                 ...List.generate(localizedNode.options.length, (index) {
@@ -580,15 +581,15 @@ class _SmartAssessmentBottomSheetState
                   final isSelected = _answers[_currentQuestionId] == rawOption;
 
                   return Container(
-                    margin: const EdgeInsets.only(bottom: 10),
+                    margin: const EdgeInsets.only(bottom: AppSpacing.sm),
                     width: double.infinity,
                     child: OutlinedButton(
                       onPressed: () =>
                           _onOptionSelected(optionLocalized, localizedNode),
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
-                          vertical: 13,
-                          horizontal: 16,
+                          vertical: AppSpacing.md,
+                          horizontal: AppSpacing.lg,
                         ),
                         alignment: Alignment.centerLeft,
                         backgroundColor: isSelected
@@ -625,7 +626,7 @@ class _SmartAssessmentBottomSheetState
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.lg),
 
           // Footer controls
           Row(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../utils/constants.dart';
 import '../utils/responsive.dart';
+import '../utils/app_spacing.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -27,7 +28,7 @@ class CustomButton extends StatelessWidget {
       children: [
         if (icon != null && !isLoading) ...[
           Icon(icon, size: 18, color: Colors.white),
-          const SizedBox(width: 8),
+          const SizedBox(width: AppSpacing.sm),
         ],
         if (isLoading)
           const SizedBox(
@@ -92,7 +93,7 @@ class CustomButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxl),
         ),
         onPressed: isLoading ? null : onPressed,
         child: buttonContent,

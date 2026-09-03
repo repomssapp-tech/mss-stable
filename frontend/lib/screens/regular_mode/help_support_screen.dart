@@ -6,6 +6,7 @@ import '../../utils/constants.dart';
 import '../../services/centralized_translator.dart';
 import '../../l10n/l10n.dart';
 import '../../widgets/app_toast.dart';
+import '../../utils/app_spacing.dart';
 
 class HelpSupportScreen extends StatefulWidget {
   final String initialMode; // 'faq', 'contact', 'both'
@@ -73,7 +74,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
       ),
       builder: (context) {
         return Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(AppSpacing.xxl),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +82,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(AppSpacing.sm),
                     decoration: const BoxDecoration(
                       color: Color(0xFFEFF6FF),
                       shape: BoxShape.circle,
@@ -92,7 +93,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       size: 20,
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: AppSpacing.md),
                   Expanded(
                     child: Text(
                       'FAQ Answer',
@@ -112,7 +113,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.lg),
               Text(
                 question,
                 style: GoogleFonts.inter(
@@ -121,7 +122,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                   color: const Color(0xFF0F172A),
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: AppSpacing.md),
               Text(
                 answer,
                 style: GoogleFonts.inter(
@@ -130,7 +131,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                   height: 1.5,
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.lg),
             ],
           ),
         );
@@ -178,11 +179,11 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
             return Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 24, 24, 12),
+                  padding: const EdgeInsets.fromLTRB(AppSpacing.xxl, AppSpacing.xxl, AppSpacing.xxl, AppSpacing.md),
                   child: Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(AppSpacing.sm),
                         decoration: const BoxDecoration(
                           color: Color(0xFFEFF6FF),
                           shape: BoxShape.circle,
@@ -193,7 +194,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                           size: 20,
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: AppSpacing.md),
                       Text(
                         'All FAQs',
                         style: GoogleFonts.poppins(
@@ -216,12 +217,12 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                 Expanded(
                   child: ListView.builder(
                     controller: scrollController,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
                     itemCount: allFaqs.length,
                     itemBuilder: (context, index) {
                       final faq = allFaqs[index];
                       return Container(
-                        margin: const EdgeInsets.symmetric(vertical: 4),
+                        margin: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
@@ -240,10 +241,10 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                           collapsedIconColor: const Color(0xFF64748B),
                           shape: const Border(),
                           childrenPadding: const EdgeInsets.fromLTRB(
-                            16,
-                            0,
-                            16,
-                            16,
+                            AppSpacing.lg,
+                            AppSpacing.none,
+                            AppSpacing.lg,
+                            AppSpacing.lg,
                           ),
                           children: [
                             Text(
@@ -296,7 +297,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(AppSpacing.sm),
                         decoration: const BoxDecoration(
                           color: Color(0xFFF0FDF4),
                           shape: BoxShape.circle,
@@ -307,7 +308,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                           size: 20,
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: AppSpacing.md),
                       Text(
                         'Report an Issue',
                         style: GoogleFonts.poppins(
@@ -326,7 +327,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppSpacing.lg),
                   Text(
                     'Facing a problem? Fill out the details below and our team will get back to you shortly.',
                     style: GoogleFonts.inter(
@@ -334,7 +335,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       color: const Color(0xFF64748B),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppSpacing.xl),
                   DropdownButtonFormField<String>(
                     initialValue: _issueCategory,
                     dropdownColor: Colors.white,
@@ -374,7 +375,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       }
                     },
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppSpacing.lg),
                   TextFormField(
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
@@ -397,7 +398,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppSpacing.lg),
                   TextFormField(
                     controller: _feedbackController,
                     maxLines: 4,
@@ -421,7 +422,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppSpacing.xxl),
                   SizedBox(
                     width: double.infinity,
                     height: 48,
@@ -546,7 +547,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(AppSpacing.sm),
                         decoration: const BoxDecoration(
                           color: Color(0xFFEFF6FF),
                           shape: BoxShape.circle,
@@ -557,7 +558,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                           size: 20,
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: AppSpacing.md),
                       Text(
                         'Share Feedback',
                         style: GoogleFonts.poppins(
@@ -576,7 +577,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppSpacing.lg),
                   Text(
                     'We value your feedback. Let us know how we can improve your experience!',
                     style: GoogleFonts.inter(
@@ -584,7 +585,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       color: const Color(0xFF64748B),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppSpacing.xl),
                   Center(
                     child: Column(
                       children: [
@@ -596,7 +597,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                             color: const Color(0xFF0F172A),
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: AppSpacing.sm),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: List.generate(5, (index) {
@@ -620,7 +621,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppSpacing.lg),
                   TextFormField(
                     controller: feedbackTextController,
                     maxLines: 3,
@@ -643,7 +644,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppSpacing.xxl),
                   SizedBox(
                     width: double.infinity,
                     height: 48,
@@ -704,7 +705,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
 
   Widget _buildGroupCard({required List<Widget> children}) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.xl, vertical: AppSpacing.sm),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
@@ -750,11 +751,11 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
       body: SafeArea(
         child: ListView(
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
           children: [
             // Header Section
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -769,7 +770,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                           size: 26,
                         ),
                       ),
-                      const SizedBox(width: 16),
+                      const SizedBox(width: AppSpacing.lg),
                       Flexible(
                         child: Text(
                           widget.initialMode == 'faq'
@@ -787,7 +788,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSpacing.sm),
                   Text(
                     "We're here to help you",
                     style: GoogleFonts.inter(
@@ -799,14 +800,14 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: AppSpacing.xxl),
 
             // Card 1: FAQs Group
             if (widget.initialMode == 'both' || widget.initialMode == 'faq')
               _buildGroupCard(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(AppSpacing.lg),
                     child: Row(
                       children: [
                         _buildCircleIcon(
@@ -814,7 +815,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                           bgColor: const Color(0xFFEFF6FF),
                           iconColor: const Color(0xFF2563EB),
                         ),
-                        const SizedBox(width: 16),
+                        const SizedBox(width: AppSpacing.lg),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -827,7 +828,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                                   color: const Color(0xFF0F172A),
                                 ),
                               ),
-                              const SizedBox(height: 2),
+                              const SizedBox(height: AppSpacing.hairline),
                               Text(
                                 'Find answers to common questions',
                                 style: GoogleFonts.inter(
@@ -852,8 +853,8 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       children: [
                         ListTile(
                           contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 2,
+                            horizontal: AppSpacing.lg,
+                            vertical: AppSpacing.hairline,
                           ),
                           title: Text(
                             faq['question']!,
@@ -879,8 +880,8 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                   }),
                   ListTile(
                     contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 2,
+                      horizontal: AppSpacing.lg,
+                      vertical: AppSpacing.hairline,
                     ),
                     title: Text(
                       'View all FAQs',
@@ -905,7 +906,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
               _buildGroupCard(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(AppSpacing.lg),
                     child: Row(
                       children: [
                         _buildCircleIcon(
@@ -913,7 +914,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                           bgColor: const Color(0xFFEFF6FF),
                           iconColor: const Color(0xFF2563EB),
                         ),
-                        const SizedBox(width: 16),
+                        const SizedBox(width: AppSpacing.lg),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -926,7 +927,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                                   color: const Color(0xFF0F172A),
                                 ),
                               ),
-                              const SizedBox(height: 2),
+                              const SizedBox(height: AppSpacing.hairline),
                               Text(
                                 'Get in touch with our support team',
                                 style: GoogleFonts.inter(
@@ -941,10 +942,10 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                    padding: const EdgeInsets.fromLTRB(AppSpacing.lg, AppSpacing.none, AppSpacing.lg, AppSpacing.lg),
                     child: Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(AppSpacing.md),
                       decoration: BoxDecoration(
                         color: const Color(0xFFF8FAFC),
                         borderRadius: BorderRadius.circular(12),
@@ -960,7 +961,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                             size: 36,
                             iconSize: 18,
                           ),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: AppSpacing.md),
                           Text(
                             'Email Us',
                             style: GoogleFonts.inter(
@@ -969,7 +970,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                               color: const Color(0xFF0F172A),
                             ),
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: AppSpacing.xs),
                           GestureDetector(
                             onTap: () => _copyToClipboard(
                               'inschemes.support@gmail.com',
@@ -984,7 +985,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: AppSpacing.sm),
                           Text(
                             'We typically reply within 24 hours',
                             style: GoogleFonts.inter(
@@ -1005,8 +1006,8 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                 children: [
                   ListTile(
                     contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
+                      horizontal: AppSpacing.lg,
+                      vertical: AppSpacing.sm,
                     ),
                     leading: _buildCircleIcon(
                       icon: Icons.bug_report_outlined,
@@ -1038,8 +1039,8 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                   const Divider(color: Color(0xFFF1F5F9), height: 1),
                   ListTile(
                     contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
+                      horizontal: AppSpacing.lg,
+                      vertical: AppSpacing.sm,
                     ),
                     leading: _buildCircleIcon(
                       icon: Icons.chat_bubble_outline_rounded,
@@ -1074,7 +1075,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
             // Still need help Banner
             if (widget.initialMode == 'both' || widget.initialMode == 'contact')
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                margin: const EdgeInsets.symmetric(horizontal: AppSpacing.xl, vertical: AppSpacing.sm),
                 decoration: BoxDecoration(
                   color: const Color(0xFFF0FDF4),
                   borderRadius: BorderRadius.circular(16),
@@ -1084,7 +1085,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                 child: Stack(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 16, 110, 16),
+                      padding: const EdgeInsets.fromLTRB(AppSpacing.lg, AppSpacing.lg, 110, AppSpacing.lg),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -1095,7 +1096,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                             size: 36,
                             iconSize: 18,
                           ),
-                          const SizedBox(width: 12),
+                          const SizedBox(width: AppSpacing.md),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1108,7 +1109,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                                     color: const Color(0xFF15803D),
                                   ),
                                 ),
-                                const SizedBox(height: 4),
+                                const SizedBox(height: AppSpacing.xs),
                                 Text(
                                   'Our support team is always ready to assist you.',
                                   style: GoogleFonts.inter(
@@ -1134,7 +1135,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                   ],
                 ),
               ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.lg),
           ],
         ),
       ),

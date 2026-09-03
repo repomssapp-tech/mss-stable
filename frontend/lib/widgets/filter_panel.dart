@@ -5,6 +5,7 @@ import '../providers/app_state_provider.dart';
 import '../utils/constants.dart';
 import '../utils/responsive.dart';
 import '../l10n/l10n.dart';
+import '../utils/app_spacing.dart';
 
 class FilterPanel extends StatefulWidget {
   final VoidCallback? onApplied;
@@ -149,7 +150,7 @@ class _FilterPanelState extends State<FilterPanel> {
           // Handle bar
           Center(
             child: Container(
-              margin: const EdgeInsets.only(top: 10, bottom: 8),
+              margin: const EdgeInsets.only(top: AppSpacing.sm, bottom: AppSpacing.sm),
               width: 48,
               height: 4,
               decoration: BoxDecoration(
@@ -161,7 +162,7 @@ class _FilterPanelState extends State<FilterPanel> {
 
           // Header Row
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl, vertical: AppSpacing.sm),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -176,7 +177,7 @@ class _FilterPanelState extends State<FilterPanel> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: AppSpacing.sm),
                 Flexible(
                   child: GestureDetector(
                     onTap: _resetFilters,
@@ -195,7 +196,7 @@ class _FilterPanelState extends State<FilterPanel> {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: AppSpacing.xs),
                         const Icon(
                           Icons.refresh,
                           size: 14,
@@ -222,8 +223,8 @@ class _FilterPanelState extends State<FilterPanel> {
                   _buildSectionHeader('Location'),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 4,
+                      horizontal: AppSpacing.xl,
+                      vertical: AppSpacing.xs,
                     ),
                     child: IntrinsicHeight(
                       child: Row(
@@ -246,7 +247,7 @@ class _FilterPanelState extends State<FilterPanel> {
                             onChanged: (val) =>
                                 setState(() => _state = val ?? 'All'),
                           ),
-                          const SizedBox(width: 10),
+                          const SizedBox(width: AppSpacing.sm),
                           _buildDropdownCell(
                             icon: Icons.apartment_outlined,
                             iconColor: const Color(0xFF2563EB),
@@ -273,8 +274,8 @@ class _FilterPanelState extends State<FilterPanel> {
                   _buildSectionHeader('Organization'),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 4,
+                      horizontal: AppSpacing.xl,
+                      vertical: AppSpacing.xs,
                     ),
                     child: IntrinsicHeight(
                       child: Row(
@@ -296,7 +297,7 @@ class _FilterPanelState extends State<FilterPanel> {
                             onChanged: (val) =>
                                 setState(() => _ministry = val ?? 'All'),
                           ),
-                          const SizedBox(width: 10),
+                          const SizedBox(width: AppSpacing.sm),
                           _buildDropdownCell(
                             icon: Icons.folder_open_outlined,
                             iconColor: const Color(0xFF7C3AED),
@@ -318,8 +319,8 @@ class _FilterPanelState extends State<FilterPanel> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 4,
+                      horizontal: AppSpacing.xl,
+                      vertical: AppSpacing.xs,
                     ),
                     child: Row(
                       children: [
@@ -340,7 +341,7 @@ class _FilterPanelState extends State<FilterPanel> {
                           onChanged: (val) =>
                               setState(() => _category = val ?? 'All'),
                         ),
-                        const SizedBox(width: 10),
+                        const SizedBox(width: AppSpacing.sm),
                         const Expanded(
                           child: SizedBox(),
                         ), // Push to left, take exactly half width
@@ -352,8 +353,8 @@ class _FilterPanelState extends State<FilterPanel> {
                   _buildSectionHeader('Personal Details'),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 4,
+                      horizontal: AppSpacing.xl,
+                      vertical: AppSpacing.xs,
                     ),
                     child: Row(
                       children: [
@@ -378,8 +379,8 @@ class _FilterPanelState extends State<FilterPanel> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 4,
+                      horizontal: AppSpacing.xl,
+                      vertical: AppSpacing.xs,
                     ),
                     child: IntrinsicHeight(
                       child: Row(
@@ -395,7 +396,7 @@ class _FilterPanelState extends State<FilterPanel> {
                             onChanged: (val) =>
                                 setState(() => _gender = val ?? 'All'),
                           ),
-                          const SizedBox(width: 10),
+                          const SizedBox(width: AppSpacing.sm),
                           _buildDropdownCell(
                             icon: Icons.calendar_month_outlined,
                             iconColor: const Color(0xFF0D9488),
@@ -418,8 +419,8 @@ class _FilterPanelState extends State<FilterPanel> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 4,
+                      horizontal: AppSpacing.xl,
+                      vertical: AppSpacing.xs,
                     ),
                     child: IntrinsicHeight(
                       child: Row(
@@ -435,7 +436,7 @@ class _FilterPanelState extends State<FilterPanel> {
                             onChanged: (val) =>
                                 setState(() => _community = val ?? 'All'),
                           ),
-                          const SizedBox(width: 10),
+                          const SizedBox(width: AppSpacing.sm),
                           _buildDropdownCell(
                             icon: Icons.business_center_outlined,
                             iconColor: const Color(0xFF2563EB),
@@ -459,8 +460,8 @@ class _FilterPanelState extends State<FilterPanel> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 4,
+                      horizontal: AppSpacing.xl,
+                      vertical: AppSpacing.xs,
                     ),
                     child: IntrinsicHeight(
                       child: Row(
@@ -482,7 +483,7 @@ class _FilterPanelState extends State<FilterPanel> {
                             onChanged: (val) =>
                                 setState(() => _education = val ?? 'All'),
                           ),
-                          const SizedBox(width: 10),
+                          const SizedBox(width: AppSpacing.sm),
                           _buildSwitchCell(
                             icon: Icons.workspace_premium_outlined,
                             iconColor: const Color(0xFFEA580C),
@@ -497,8 +498,8 @@ class _FilterPanelState extends State<FilterPanel> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 4,
+                      horizontal: AppSpacing.xl,
+                      vertical: AppSpacing.xs,
                     ),
                     child: Row(
                       children: [
@@ -526,8 +527,8 @@ class _FilterPanelState extends State<FilterPanel> {
                   _buildSectionHeader('Scheme Preferences'),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 4,
+                      horizontal: AppSpacing.xl,
+                      vertical: AppSpacing.xs,
                     ),
                     child: IntrinsicHeight(
                       child: Row(
@@ -543,7 +544,7 @@ class _FilterPanelState extends State<FilterPanel> {
                             onChanged: (val) =>
                                 setState(() => _schemeStatus = val ?? 'All'),
                           ),
-                          const SizedBox(width: 10),
+                          const SizedBox(width: AppSpacing.sm),
                           _buildDropdownCell(
                             icon: Icons.language_outlined,
                             iconColor: const Color(0xFF16A34A),
@@ -564,8 +565,8 @@ class _FilterPanelState extends State<FilterPanel> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 4,
+                      horizontal: AppSpacing.xl,
+                      vertical: AppSpacing.xs,
                     ),
                     child: Row(
                       children: [
@@ -583,13 +584,13 @@ class _FilterPanelState extends State<FilterPanel> {
                           onChanged: (val) =>
                               setState(() => _schemeType = val ?? 'All'),
                         ),
-                        const SizedBox(width: 10),
+                        const SizedBox(width: AppSpacing.sm),
                         const Expanded(child: SizedBox()),
                       ],
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppSpacing.xxl),
                 ],
               ),
             ),
@@ -634,7 +635,7 @@ class _FilterPanelState extends State<FilterPanel> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: AppSpacing.md),
                 Expanded(
                   flex: 2,
                   child: SizedBox(
@@ -669,7 +670,7 @@ class _FilterPanelState extends State<FilterPanel> {
 
   Widget _buildSectionHeader(String title) {
     return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 8),
+      padding: const EdgeInsets.only(left: AppSpacing.xl, right: AppSpacing.xl, top: AppSpacing.xl, bottom: AppSpacing.sm),
       child: Text(
         title,
         style: GoogleFonts.poppins(
@@ -692,7 +693,7 @@ class _FilterPanelState extends State<FilterPanel> {
   }) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.sm),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
@@ -712,7 +713,7 @@ class _FilterPanelState extends State<FilterPanel> {
                   ),
                   child: Icon(icon, color: iconColor, size: 16),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -728,7 +729,7 @@ class _FilterPanelState extends State<FilterPanel> {
                           color: const Color(0xFF64748B),
                         ),
                       ),
-                      const SizedBox(height: 2),
+                      const SizedBox(height: AppSpacing.hairline),
                       Text(
                         value == 'All' ? 'Select $label' : value,
                         style: GoogleFonts.inter(
@@ -778,7 +779,7 @@ class _FilterPanelState extends State<FilterPanel> {
                               ),
                             ),
                           ),
-                          const SizedBox(width: 8),
+                          const SizedBox(width: AppSpacing.sm),
                           if (isSelected)
                             const Icon(
                               Icons.check,
@@ -809,7 +810,7 @@ class _FilterPanelState extends State<FilterPanel> {
   }) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.sm),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
@@ -826,7 +827,7 @@ class _FilterPanelState extends State<FilterPanel> {
               ),
               child: Icon(icon, color: iconColor, size: 16),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: AppSpacing.sm),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -842,7 +843,7 @@ class _FilterPanelState extends State<FilterPanel> {
                       color: const Color(0xFF64748B),
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: AppSpacing.hairline),
                   Text(
                     value ? 'Yes' : 'Select Option',
                     style: GoogleFonts.inter(

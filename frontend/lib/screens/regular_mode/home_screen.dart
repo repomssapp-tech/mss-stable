@@ -18,6 +18,7 @@ import '../../widgets/smart_assessment_bottom_sheet.dart';
 import 'search_results_screen.dart';
 import 'basic_profile_screen.dart';
 import 'msme_module_details_screen.dart';
+import '../../utils/app_spacing.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, this.onVoiceQuery, this.onFilterPressed});
@@ -257,57 +258,57 @@ class _HomeScreenState extends State<HomeScreen> {
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 20),
+                    const SizedBox(height: AppSpacing.xl),
 
                     // Unified Header
                     _buildHeader(context, provider),
 
-                    const SizedBox(height: 10),
+                    const SizedBox(height: AppSpacing.sm),
 
                     // Search Bar & Filter Button
                     _buildSearchAndFilter(context, provider),
 
-                    const SizedBox(height: 10),
+                    const SizedBox(height: AppSpacing.sm),
 
                     // Quick search horizontal pills
                     _buildQuickPills(context, provider),
 
                     if (provider.profileCompletionPercentage < 100) ...[
-                      const SizedBox(height: 18),
+                      const SizedBox(height: AppSpacing.xl),
                       // Profile Completion (Real & Compact)
                       _buildProfileCompleteCard(context, provider),
                     ],
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: AppSpacing.xl),
 
                     // Carousel Cards (Alerts, New Scheme, AI Recommendation)
                     _buildCarouselSection(context),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: AppSpacing.xxl),
 
                     // Choose Your Journey (2x2 Grid)
                     _buildChooseYourJourney(context, provider),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: AppSpacing.xxl),
 
                     // Explore MSME Support (2x4 Grid)
                     _buildExploreMSMESupport(context),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: AppSpacing.xxl),
 
                     // Recommended For You (Horizontal List)
                     _buildRecommendedSection(context, recommended, provider),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: AppSpacing.xxl),
 
                     // Latest Updates Card
                     _buildLatestUpdates(context, provider),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: AppSpacing.xxl),
 
                     // Tip of the Day
                     _buildTipOfTheDay(context),
@@ -350,11 +351,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                const SizedBox(width: 4),
+                const SizedBox(width: AppSpacing.xs),
                 Text("👋", style: GoogleFonts.inter(fontSize: 14)),
               ],
             ),
-            const SizedBox(height: 2),
+            const SizedBox(height: AppSpacing.hairline),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -371,7 +372,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 if (!provider.isGuest) ...[
-                  const SizedBox(width: 6),
+                  const SizedBox(width: AppSpacing.tight),
                   const Icon(
                     Icons.verified,
                     color: Color(0xFF2563EB),
@@ -441,7 +442,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // Search & Filter Box
   Widget _buildSearchAndFilter(BuildContext context, AppProvider provider) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(30),
@@ -457,7 +458,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Row(
         children: [
           const Icon(Icons.search, color: Color(0xFF2563EB), size: 22),
-          const SizedBox(width: 10),
+          const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
@@ -476,9 +477,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: AppSpacing.sm),
           Container(height: 20, width: 1, color: const Color(0xFFE2E8F0)),
-          const SizedBox(width: 8),
+          const SizedBox(width: AppSpacing.sm),
           GestureDetector(
             onTap: () {
               if (widget.onFilterPressed != null) {
@@ -488,7 +489,7 @@ class _HomeScreenState extends State<HomeScreen> {
               }
             },
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.tight),
               decoration: BoxDecoration(
                 border: Border.all(color: const Color(0xFFCBD5E1)),
                 borderRadius: BorderRadius.circular(18),
@@ -500,7 +501,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     size: 14,
                     color: Color(0xFF1E293B),
                   ),
-                  const SizedBox(width: 4),
+                  const SizedBox(width: AppSpacing.xs),
                   Text(
                     context.l10n.filter,
                     style: GoogleFonts.inter(
@@ -550,8 +551,8 @@ class _HomeScreenState extends State<HomeScreen> {
               }
             },
             child: Container(
-              margin: const EdgeInsets.only(right: 8),
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              margin: const EdgeInsets.only(right: AppSpacing.sm),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
@@ -561,7 +562,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Icon(Icons.search, size: 13, color: Color(0xFF64748B)),
-                  const SizedBox(width: 6),
+                  const SizedBox(width: AppSpacing.tight),
                   Text(
                     text,
                     style: GoogleFonts.inter(
@@ -593,7 +594,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         borderRadius: BorderRadius.circular(16),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.lg),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             image: const DecorationImage(
@@ -641,7 +642,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: AppSpacing.sm),
 
               // Vertical Divider Line
               Container(
@@ -649,7 +650,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 38,
                 color: const Color(0xFFE2E8F0).withValues(alpha: 0.8),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: AppSpacing.md),
 
               // Middle: Text Column
               Expanded(
@@ -665,7 +666,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: const Color(0xFF0F172A),
                       ),
                     ),
-                    const SizedBox(height: 3),
+                    const SizedBox(height: AppSpacing.xs),
                     Text(
                       context.l10n.unlockPersonalizedSchemeRecommendations,
                       style: GoogleFonts.inter(
@@ -769,7 +770,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: AppSpacing.sm),
         _buildDotIndicator(
           items.length,
           _activeCarouselIndex,
@@ -844,7 +845,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            padding: const EdgeInsets.all(4),
+            padding: const EdgeInsets.all(AppSpacing.xs),
             child: CircularProgressIndicator(
               value: progress,
               strokeWidth: 3,
@@ -903,8 +904,8 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: onTap,
         borderRadius: BorderRadius.circular(16),
         child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          margin: const EdgeInsets.symmetric(horizontal: AppSpacing.tight, vertical: AppSpacing.xs),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.lg),
           decoration: BoxDecoration(
             gradient: bgImage != null ? null : bgGradient,
             image: bgImage != null
@@ -931,8 +932,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 3,
+                        horizontal: AppSpacing.sm,
+                        vertical: AppSpacing.xs,
                       ),
                       decoration: BoxDecoration(
                         color: badgeBgColor.withValues(
@@ -953,7 +954,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 5),
+                    const SizedBox(height: AppSpacing.tight),
                     Text(
                       transTitle,
                       style: GoogleFonts.poppins(
@@ -966,7 +967,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       overflow: TextOverflow.ellipsis,
                     ),
                     if (transSubtitle.isNotEmpty) ...[
-                      const SizedBox(height: 4),
+                      const SizedBox(height: AppSpacing.xs),
                       Text(
                         transSubtitle,
                         style: GoogleFonts.inter(
@@ -982,7 +983,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: AppSpacing.sm),
               if (bgImage == null)
                 rightGraphic
               else
@@ -1008,7 +1009,7 @@ class _HomeScreenState extends State<HomeScreen> {
             color: const Color(0xFF0F172A),
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSpacing.md),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),
@@ -1119,8 +1120,8 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
         width: 88,
         height: 112,
-        margin: const EdgeInsets.only(right: 12),
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+        margin: const EdgeInsets.only(right: AppSpacing.md),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.sm),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
@@ -1136,7 +1137,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             Icon(icon, color: const Color(0xFF2563EB), size: 24),
-            const SizedBox(height: 6),
+            const SizedBox(height: AppSpacing.tight),
             Expanded(
               child: Center(
                 child: Text(
@@ -1255,7 +1256,7 @@ class _HomeScreenState extends State<HomeScreen> {
             color: const Color(0xFF0F172A),
           ),
         ),
-        const SizedBox(height: 14),
+        const SizedBox(height: AppSpacing.lg),
         SizedBox(
           height: 225,
           child: ListView.builder(
@@ -1310,8 +1311,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: Container(
                   width: cardWidth,
-                  margin: const EdgeInsets.only(right: 12, top: 4, bottom: 4),
-                  padding: const EdgeInsets.all(12),
+                  margin: const EdgeInsets.only(right: AppSpacing.md, top: AppSpacing.xs, bottom: AppSpacing.xs),
+                  padding: const EdgeInsets.all(AppSpacing.md),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
@@ -1333,8 +1334,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Container(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 3,
+                              horizontal: AppSpacing.sm,
+                              vertical: AppSpacing.xs,
                             ),
                             decoration: BoxDecoration(
                               color: const Color(0xFFDCFCE7),
@@ -1356,7 +1357,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                           ),
-                          const SizedBox(width: 6),
+                          const SizedBox(width: AppSpacing.tight),
                           GestureDetector(
                             onTap: () {
                               final sCode = item['schemeCode'] as String;
@@ -1374,7 +1375,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: AppSpacing.sm),
                       // Title Row
                       Row(
                         children: [
@@ -1427,13 +1428,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                     .toList()
                               : rawChipsList;
                           return Wrap(
-                            spacing: 4,
-                            runSpacing: 4,
+                            spacing: AppSpacing.xs,
+                            runSpacing: AppSpacing.xs,
                             children: chipsList.map((tag) {
                               return Container(
                                 padding: const EdgeInsets.symmetric(
-                                  horizontal: 6,
-                                  vertical: 2,
+                                  horizontal: AppSpacing.tight,
+                                  vertical: AppSpacing.hairline,
                                 ),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFF1F5F9),
@@ -1466,7 +1467,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // Tip of the Day Card (Yellow theme with custom tip banner bg)
   Widget _buildTipOfTheDay(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.lg),
       decoration: BoxDecoration(
         image: const DecorationImage(
           image: AssetImage('assets/images/Background/tip banner.webp'),
@@ -1496,7 +1497,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Color(0xFFF59E0B),
                       size: 18,
                     ),
-                    const SizedBox(width: 6),
+                    const SizedBox(width: AppSpacing.tight),
                     Expanded(
                       child: Text(
                         context.l10n.tipOfTheDay,
@@ -1511,7 +1512,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: AppSpacing.tight),
                 Text(
                   context.l10n.tipOfTheDayContent,
                   style: GoogleFonts.inter(
@@ -1526,7 +1527,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: AppSpacing.sm),
           // Reserved right spacer to prevent text from overlapping the built-in image graphic
           const SizedBox(width: 60),
         ],
@@ -1574,7 +1575,7 @@ class _HomeScreenState extends State<HomeScreen> {
             color: const Color(0xFF0F172A),
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSpacing.md),
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(
@@ -1582,7 +1583,7 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           },
           child: Container(
-            padding: const EdgeInsets.all(14),
+            padding: const EdgeInsets.all(AppSpacing.lg),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
@@ -1611,15 +1612,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     size: 22,
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: AppSpacing.md),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 2,
+                          horizontal: AppSpacing.sm,
+                          vertical: AppSpacing.hairline,
                         ),
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -1635,7 +1636,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 6),
+                      const SizedBox(height: AppSpacing.tight),
                       Text(
                         titleText,
                         style: GoogleFonts.inter(
@@ -1647,7 +1648,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 6),
+                      const SizedBox(height: AppSpacing.tight),
                       Text(
                         timeText,
                         style: GoogleFonts.inter(
@@ -1658,7 +1659,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: AppSpacing.sm),
                 const Icon(
                   Icons.chevron_right,
                   color: Color(0xFF94A3B8),
@@ -1681,7 +1682,7 @@ class _HomeScreenState extends State<HomeScreen> {
           duration: const Duration(milliseconds: 200),
           width: isActive ? 12 : 6,
           height: 6,
-          margin: const EdgeInsets.symmetric(horizontal: 2.5),
+          margin: const EdgeInsets.symmetric(horizontal: AppSpacing.hairline),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(3),
             color: isActive ? color : const Color(0xFFE2E8F0),
@@ -1727,7 +1728,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-                padding: const EdgeInsets.all(2.5),
+                padding: const EdgeInsets.all(AppSpacing.hairline),
                 child: ClipOval(
                   child: Image.asset(
                     'assets/images/saarthi/sarathi.webp',
@@ -1735,11 +1736,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: AppSpacing.xs),
               Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 2,
+                  horizontal: AppSpacing.sm,
+                  vertical: AppSpacing.hairline,
                 ),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -1781,13 +1782,13 @@ class _HomeScreenState extends State<HomeScreen> {
             color: const Color(0xFF0F172A),
           ),
         ),
-        const SizedBox(height: 14),
+        const SizedBox(height: AppSpacing.lg),
         SizedBox(
           height: 178,
           child: ListView(
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.symmetric(vertical: 2),
+            padding: const EdgeInsets.symmetric(vertical: AppSpacing.hairline),
             children: [
               _buildMSMESupportCard(
                 context: context,
@@ -1879,7 +1880,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }) {
     return Container(
       width: 150,
-      margin: const EdgeInsets.only(right: 12),
+      margin: const EdgeInsets.only(right: AppSpacing.md),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -1911,7 +1912,7 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           borderRadius: BorderRadius.circular(16),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.sm),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -1924,7 +1925,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: Icon(icon, color: iconColor, size: 22),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: AppSpacing.sm),
                 Text(
                   title,
                   textAlign: TextAlign.center,
@@ -1936,7 +1937,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: const Color(0xFF0F172A),
                   ),
                 ),
-                const SizedBox(height: 3),
+                const SizedBox(height: AppSpacing.xs),
                 Text(
                   subtitle,
                   textAlign: TextAlign.center,

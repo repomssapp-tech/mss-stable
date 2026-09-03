@@ -7,6 +7,7 @@ import '../../models/localized_scheme.dart';
 import '../../l10n/l10n.dart';
 import 'scheme_details_screen.dart';
 import '../../utils/responsive.dart';
+import '../../utils/app_spacing.dart';
 
 class SavedSchemesScreen extends StatefulWidget {
   const SavedSchemesScreen({super.key});
@@ -24,8 +25,8 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
     final isTa = provider.selectedLanguage == 'ta';
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.all(6),
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
+      padding: const EdgeInsets.all(AppSpacing.tight),
       decoration: BoxDecoration(
         color: const Color(0xFFF1F5F9),
         borderRadius: BorderRadius.circular(14),
@@ -37,8 +38,8 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
               onTap: () => setState(() => _activeTab = 0),
               child: Container(
                 padding: EdgeInsets.symmetric(
-                  vertical: isTa ? 12 : 10,
-                  horizontal: 8,
+                  vertical: isTa ? AppSpacing.md : AppSpacing.sm,
+                  horizontal: AppSpacing.sm,
                 ),
                 decoration: BoxDecoration(
                   color: _activeTab == 0 ? Colors.white : Colors.transparent,
@@ -71,14 +72,14 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
               ),
             ),
           ),
-          const SizedBox(width: 6),
+          const SizedBox(width: AppSpacing.tight),
           Expanded(
             child: GestureDetector(
               onTap: () => setState(() => _activeTab = 1),
               child: Container(
                 padding: EdgeInsets.symmetric(
-                  vertical: isTa ? 12 : 10,
-                  horizontal: 8,
+                  vertical: isTa ? AppSpacing.md : AppSpacing.sm,
+                  horizontal: AppSpacing.sm,
                 ),
                 decoration: BoxDecoration(
                   color: _activeTab == 1 ? Colors.white : Colors.transparent,
@@ -145,7 +146,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
     }
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: AppSpacing.md),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -159,7 +160,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -167,14 +168,14 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(AppSpacing.sm),
                   decoration: BoxDecoration(
                     color: iconBgColor,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(iconData, color: iconColor, size: 22),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: AppSpacing.md),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -194,7 +195,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 3),
+                      const SizedBox(height: AppSpacing.xs),
                       Text(
                         locScheme.category,
                         style: GoogleFonts.inter(
@@ -206,7 +207,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: AppSpacing.sm),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -251,7 +252,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.md),
             Text(
               locScheme.overview,
               style: GoogleFonts.inter(
@@ -262,15 +263,15 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.lg),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
-                    spacing: 6,
-                    runSpacing: 4,
+                    spacing: AppSpacing.tight,
+                    runSpacing: AppSpacing.xs,
                     children: [
                       const Icon(
                         Icons.bookmark_added_outlined,
@@ -311,7 +312,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: AppSpacing.sm),
                 OutlinedButton(
                   onPressed: () {
                     Navigator.of(context).push(
@@ -329,8 +330,8 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
+                      horizontal: AppSpacing.md,
+                      vertical: AppSpacing.tight,
                     ),
                   ),
                   child: Row(
@@ -350,7 +351,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: AppSpacing.xs),
                       const Icon(
                         Icons.arrow_forward_rounded,
                         size: 11,
@@ -369,8 +370,8 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
 
   Widget _buildManageListBanner() {
     return Container(
-      margin: const EdgeInsets.all(16.0),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      margin: const EdgeInsets.all(AppSpacing.lg),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.lg),
       decoration: BoxDecoration(
         color: const Color(0xFFEFF6FF),
         borderRadius: BorderRadius.circular(16),
@@ -378,7 +379,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(AppSpacing.sm),
             decoration: const BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
@@ -389,7 +390,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
               size: 20,
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: AppSpacing.md),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -402,7 +403,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                     color: const Color(0xFF1E3A8A),
                   ),
                 ),
-                const SizedBox(height: 2),
+                const SizedBox(height: AppSpacing.hairline),
                 Text(
                   "Remove schemes you're no longer interested in.",
                   style: GoogleFonts.inter(
@@ -413,7 +414,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
               ],
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: AppSpacing.sm),
           ElevatedButton.icon(
             onPressed: () {
               setState(() {
@@ -427,7 +428,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                 borderRadius: BorderRadius.circular(10),
                 side: const BorderSide(color: Color(0xFFBFDBFE)),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.tight),
             ),
             icon: Icon(
               _isManageMode
@@ -459,7 +460,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
   Widget _buildEmptyState(BuildContext context, AppProvider provider) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.all(AppSpacing.xxl),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -476,7 +477,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                 size: 40,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.lg),
             Text(
               context.l10n.noSavedSchemes,
               style: GoogleFonts.poppins(
@@ -485,7 +486,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                 color: const Color(0xFF0F172A),
               ),
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: AppSpacing.tight),
             Text(
               context.l10n.noSavedSchemesDesc,
               textAlign: TextAlign.center,
@@ -495,7 +496,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                 height: 1.4,
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: AppSpacing.xl),
             ElevatedButton(
               onPressed: () {
                 provider.updateTabIndex(2);
@@ -507,8 +508,8 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 12,
+                  horizontal: AppSpacing.xl,
+                  vertical: AppSpacing.md,
                 ),
               ),
               child: Text(
@@ -542,7 +543,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+              padding: const EdgeInsets.fromLTRB(AppSpacing.lg, AppSpacing.lg, AppSpacing.lg, AppSpacing.md),
               child: SizedBox(
                 width: double.infinity,
                 child: Column(
@@ -556,7 +557,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                         color: const Color(0xFF0F172A),
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: AppSpacing.xs),
                     Text(
                       context.l10n.noSavedSchemesDesc,
                       style: GoogleFonts.inter(

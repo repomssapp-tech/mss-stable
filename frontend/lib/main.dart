@@ -14,6 +14,7 @@ import 'screens/regular_mode/saved_schemes_screen.dart';
 import 'screens/companion_mode/saarthi_home_screen.dart';
 import 'utils/constants.dart';
 import 'utils/app_theme.dart';
+import 'utils/app_spacing.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -241,14 +242,14 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
           provider.updateTabIndex(index);
         },
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4),
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               iconWidget,
-              const SizedBox(height: 3),
+              const SizedBox(height: AppSpacing.xs),
               Text(
                 label,
                 textAlign: TextAlign.center,
@@ -339,7 +340,7 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
                       top: BorderSide(color: Color(0xFFE2E8F0), width: 1),
                     ),
                   ),
-                  padding: const EdgeInsets.only(top: 8, bottom: 8),
+                  padding: const EdgeInsets.only(top: AppSpacing.sm, bottom: AppSpacing.sm),
                   child: SafeArea(
                     top: false,
                     child: Row(

@@ -21,6 +21,7 @@ import '../regular_mode/scheme_details_screen.dart';
 import '../../services/centralized_translator.dart';
 import '../../utils/responsive.dart';
 import '../../l10n/l10n.dart';
+import '../../utils/app_spacing.dart';
 
 enum SaarthiVoiceState { idle, listening, processing, speaking, ended }
 
@@ -917,9 +918,9 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
             if (!_isConversationActive)
               Padding(
                 padding: const EdgeInsets.only(
-                  left: 20.0,
-                  right: 20.0,
-                  top: 20.0,
+                  left: AppSpacing.xl,
+                  right: AppSpacing.xl,
+                  top: AppSpacing.xl,
                 ),
                 child: _buildTopBar(
                   provider,
@@ -929,7 +930,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                 ),
               )
             else
-              const SizedBox(height: 4),
+              const SizedBox(height: AppSpacing.xs),
 
             // 2. Character Welcome Banner / Compact Header
             _buildCharacterHeader(userName, kDarkSlate, kBrandBlue, kSlate500),
@@ -961,7 +962,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
         // Language Pill selector
         Flexible(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.tight),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
@@ -970,7 +971,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
             child: Row(
               children: [
                 const Icon(Icons.language, color: Color(0xFF2563EB), size: 16),
-                const SizedBox(width: 6),
+                const SizedBox(width: AppSpacing.tight),
                 Flexible(
                   child: FitOneLine(
                     child: Text(
@@ -1026,7 +1027,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                   ),
               ],
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: AppSpacing.sm),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
@@ -1095,9 +1096,9 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   ) {
     if (_isConversationActive) {
       return Padding(
-        padding: const EdgeInsets.fromLTRB(20, 14, 20, 8),
+        padding: const EdgeInsets.fromLTRB(AppSpacing.xl, AppSpacing.lg, AppSpacing.xl, AppSpacing.sm),
         child: Container(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(AppSpacing.md),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(18),
@@ -1147,7 +1148,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                   ),
                 ],
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1160,7 +1161,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                         color: kDarkSlate,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: AppSpacing.hairline),
                     AnimatedSwitcher(
                       duration: const Duration(milliseconds: 180),
                       child: Text(
@@ -1177,7 +1178,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 6),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.tight),
                 decoration: BoxDecoration(
                   color: _cloudConnectionError == null
                       ? const Color(0xFFECFDF5)
@@ -1201,7 +1202,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                           ? const Color(0xFF047857)
                           : const Color(0xFFDC2626),
                     ),
-                    const SizedBox(width: 4),
+                    const SizedBox(width: AppSpacing.xs),
                     Flexible(
                       child: FitOneLine(
                         child: Text(
@@ -1231,7 +1232,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
 
     return Column(
       children: [
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSpacing.md),
         Center(
           child: Stack(
             alignment: Alignment.center,
@@ -1271,7 +1272,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
             ],
           ),
         ),
-        const SizedBox(height: 6),
+        const SizedBox(height: AppSpacing.tight),
         Column(
           children: [
             Center(
@@ -1293,7 +1294,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                 ),
               ),
             ),
-            const SizedBox(height: 2),
+            const SizedBox(height: AppSpacing.hairline),
             Center(
               child: RichText(
                 textAlign: TextAlign.center,
@@ -1319,7 +1320,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSpacing.md),
       ],
     );
   }
@@ -1346,7 +1347,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                             color: const Color(0xFF0F172A),
                           ),
                         ),
-                        const SizedBox(height: 6),
+                        const SizedBox(height: AppSpacing.tight),
                         Text(
                           'Tell me what support you need. I will ask one detail at a time.',
                           textAlign: TextAlign.center,
@@ -1365,7 +1366,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                   controller: _scrollController,
                   keyboardDismissBehavior:
                       ScrollViewKeyboardDismissBehavior.onDrag,
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 18),
+                  padding: const EdgeInsets.fromLTRB(AppSpacing.lg, AppSpacing.sm, AppSpacing.lg, AppSpacing.xl),
                   itemCount: _messages.length,
                   itemBuilder: (context, index) =>
                       _buildMessageItem(_messages[index]),
@@ -1391,8 +1392,8 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF2563EB),
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
+                    horizontal: AppSpacing.lg,
+                    vertical: AppSpacing.sm,
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
@@ -1417,7 +1418,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
     final timeStr = _formatTimestamp(message.timestamp);
 
     return Padding(
-      padding: const EdgeInsets.only(top: 6, bottom: 12, left: 48),
+      padding: const EdgeInsets.only(top: AppSpacing.tight, bottom: AppSpacing.md, left: 48),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -1429,9 +1430,9 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
               color: const Color(0xFF64748B),
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: AppSpacing.xs),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
             decoration: BoxDecoration(
               color: const Color(0xFF2563EB),
               borderRadius: const BorderRadius.only(
@@ -1468,7 +1469,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
     final isSpeaking = message.speakingState == 'speaking';
 
     return Padding(
-      padding: const EdgeInsets.only(top: 2, bottom: 14),
+      padding: const EdgeInsets.only(top: AppSpacing.hairline, bottom: AppSpacing.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1487,7 +1488,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                   ),
                 ),
               ),
-              const SizedBox(width: 9),
+              const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1500,11 +1501,11 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                         color: const Color(0xFF64748B),
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: AppSpacing.xs),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 12,
+                        horizontal: AppSpacing.lg,
+                        vertical: AppSpacing.md,
                       ),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -1529,7 +1530,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                             ),
                           ),
                           if (isSpeaking) ...[
-                            const SizedBox(height: 9),
+                            const SizedBox(height: AppSpacing.sm),
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -1538,7 +1539,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                                 _buildWaveformBar(12, 14),
                                 _buildWaveformBar(7, 8),
                                 _buildWaveformBar(10, 10),
-                                const SizedBox(width: 7),
+                                const SizedBox(width: AppSpacing.sm),
                                 Flexible(
                                   child: FitOneLine(
                                     child: Text(
@@ -1564,7 +1565,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
           ),
           if (message.schemeResults != null &&
               message.schemeResults!.isNotEmpty) ...[
-            const SizedBox(height: 14),
+            const SizedBox(height: AppSpacing.lg),
             Padding(
               padding: const EdgeInsets.only(left: 43),
               child: Column(
@@ -1577,7 +1578,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                         size: 16,
                         color: Color(0xFF2563EB),
                       ),
-                      const SizedBox(width: 6),
+                      const SizedBox(width: AppSpacing.tight),
                       Flexible(
                         child: Text(
                           context.l10n.recommendedForYou,
@@ -1591,7 +1592,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                       ),
                     ],
                   ),
-                  const SizedBox(height: 3),
+                  const SizedBox(height: AppSpacing.xs),
                   Text(
                     'Ranked from the details you shared. Final eligibility is confirmed by the department.',
                     style: GoogleFonts.inter(
@@ -1600,7 +1601,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                       color: const Color(0xFF64748B),
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: AppSpacing.tight),
                   ...message.schemeResults!.map(
                     (scheme) => _buildCompactSchemeCard(
                       scheme,
@@ -1624,7 +1625,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
             0.5 +
             0.5 * math.sin(_waveController.value * math.pi * 2 + animDelay);
         return Container(
-          margin: const EdgeInsets.symmetric(horizontal: 1.5),
+          margin: const EdgeInsets.symmetric(horizontal: AppSpacing.hairline),
           width: 2.5,
           height: height * scale,
           decoration: BoxDecoration(
@@ -1685,7 +1686,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
         : locScheme.overview.trim();
 
     return Padding(
-      padding: const EdgeInsets.only(top: 9),
+      padding: const EdgeInsets.only(top: AppSpacing.sm),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
@@ -1699,7 +1700,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
           },
           borderRadius: BorderRadius.circular(16),
           child: Ink(
-            padding: const EdgeInsets.all(13),
+            padding: const EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
@@ -1721,7 +1722,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildSchemeIcon(locScheme.name),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: AppSpacing.sm),
                     Expanded(
                       child: Text(
                         locScheme.name,
@@ -1735,11 +1736,11 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: AppSpacing.sm),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 5,
+                        horizontal: AppSpacing.sm,
+                        vertical: AppSpacing.tight,
                       ),
                       decoration: BoxDecoration(
                         color: confidenceColor.withValues(alpha: 0.10),
@@ -1761,7 +1762,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                   ],
                 ),
                 if (summary.isNotEmpty) ...[
-                  const SizedBox(height: 10),
+                  const SizedBox(height: AppSpacing.sm),
                   Text(
                     summary,
                     maxLines: 2,
@@ -1773,7 +1774,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                     ),
                   ),
                 ],
-                const SizedBox(height: 10),
+                const SizedBox(height: AppSpacing.sm),
                 Row(
                   children: [
                     Icon(
@@ -1785,7 +1786,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                           ? const Color(0xFF059669)
                           : const Color(0xFF64748B),
                     ),
-                    const SizedBox(width: 5),
+                    const SizedBox(width: AppSpacing.tight),
                     Expanded(
                       child: Text(
                         verified
@@ -1810,7 +1811,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                         color: const Color(0xFF2563EB),
                       ),
                     ),
-                    const SizedBox(width: 2),
+                    const SizedBox(width: AppSpacing.hairline),
                     const Icon(
                       Icons.arrow_forward_rounded,
                       size: 14,
@@ -1863,7 +1864,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   ) {
     if (!_isConversationActive) {
       return Container(
-        padding: const EdgeInsets.fromLTRB(20, 10, 20, 16),
+        padding: const EdgeInsets.fromLTRB(AppSpacing.xl, AppSpacing.sm, AppSpacing.xl, AppSpacing.lg),
         decoration: BoxDecoration(
           color: const Color(0xFFF8FAFC),
           boxShadow: [
@@ -1881,7 +1882,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
             GestureDetector(
               onTap: _startConversationMode,
               child: Container(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(AppSpacing.lg),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
@@ -1907,7 +1908,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                         color: kDarkSlate,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: AppSpacing.hairline),
                     Text(
                       'Tap below and speak your question',
                       style: GoogleFonts.inter(fontSize: 10, color: kSlate500),
@@ -1916,7 +1917,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                 ),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.md),
 
             _buildStartVoiceButton(),
           ],
@@ -1924,7 +1925,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
       );
     } else {
       return Container(
-        padding: const EdgeInsets.fromLTRB(20, 12, 20, 16),
+        padding: const EdgeInsets.fromLTRB(AppSpacing.xl, AppSpacing.md, AppSpacing.xl, AppSpacing.lg),
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -1940,7 +1941,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
           children: [
             _buildVoiceStatusBanner(),
             if (_cloudConnectionError != null) ...[
-              const SizedBox(height: 6),
+              const SizedBox(height: AppSpacing.tight),
               Text(
                 _cloudConnectionError!,
                 textAlign: TextAlign.center,
@@ -1960,9 +1961,9 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                 ),
               ),
             ],
-            const SizedBox(height: 10),
+            const SizedBox(height: AppSpacing.sm),
             _buildAccessibleVoiceControls(),
-            const SizedBox(height: 10),
+            const SizedBox(height: AppSpacing.sm),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -1973,7 +1974,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                   size: 12,
                   color: const Color(0xFF94A3B8),
                 ),
-                const SizedBox(width: 4),
+                const SizedBox(width: AppSpacing.xs),
                 Flexible(
                   child: FitOneLine(
                     child: Text(
@@ -2042,7 +2043,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
       label: _getVoiceStatusText(),
       child: Container(
         key: const Key('saarthi-voice-status'),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.10),
           borderRadius: BorderRadius.circular(14),
@@ -2053,7 +2054,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon, size: 21, color: color),
-            const SizedBox(width: 8),
+            const SizedBox(width: AppSpacing.sm),
             Flexible(
               child: Text(
                 _getVoiceStatusText(),
@@ -2093,7 +2094,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
     return Container(
       key: const Key('saarthi-accessible-controls'),
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(12, 12, 12, 10),
+      padding: const EdgeInsets.fromLTRB(AppSpacing.md, AppSpacing.md, AppSpacing.md, AppSpacing.sm),
       decoration: BoxDecoration(
         color: const Color(0xFFF8FAFC),
         borderRadius: BorderRadius.circular(22),
@@ -2124,7 +2125,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                       ),
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: AppSpacing.tight),
                   FitOneLine(
                     child: Text(
                       primaryLabel,
@@ -2173,12 +2174,12 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
         child: ConstrainedBox(
           constraints: const BoxConstraints(minWidth: 64, minHeight: 64),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.tight),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(icon, size: 26, color: color),
-                const SizedBox(height: 5),
+                const SizedBox(height: AppSpacing.tight),
                 FitOneLine(
                   child: Text(
                     label,

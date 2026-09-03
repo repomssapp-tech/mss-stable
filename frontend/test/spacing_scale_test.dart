@@ -1,51 +1,90 @@
-// Phase 6 enforcement: the Discover and Profile flows must express every
-// padding / margin / gap through `AppSpacing` (lib/utils/app_spacing.dart)
-// rather than a bare numeric literal. This keeps the spacing scale from
-// drifting back out of sync one screen at a time.
+// Phase 6 enforcement: padding / margin / gap values across lib/ must be
+// expressed through `AppSpacing` (lib/utils/app_spacing.dart), not a bare
+// numeric literal. This keeps the spacing scale from drifting back out of
+// sync one screen at a time.
 //
-// Scope is intentionally limited to the migrated flows. To roll the rule out
-// further, add files to `_enforcedFiles`.
+// Only values that ARE on the scale are enforced: an `EdgeInsets.all(16)` is
+// a violation (should be `AppSpacing.lg`), but a `SizedBox(height: 48)` for a
+// fixed control size is a real measurement, not a spacing step, and is left
+// alone.
 //
-// Escape hatch: put `// spacing-ok` on the line for a value that is a genuine
-// layout measurement rather than a spacing step (e.g. a centering
-// counterweight).
+// Escape hatch: put `// spacing-ok` on the same line as the value for an
+// on-scale literal that is deliberately raw (e.g. a centering counterweight).
 
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 
-const _enforcedFiles = <String>[
-  'lib/screens/regular_mode/categories_screen.dart',
-  'lib/screens/regular_mode/search_results_screen.dart',
-  'lib/screens/regular_mode/basic_profile_screen.dart',
-  'lib/screens/regular_mode/location_profile_screen.dart',
-  'lib/screens/regular_mode/about_you_profile_screen.dart',
-  'lib/screens/regular_mode/eligibility_profile_screen.dart',
-  'lib/screens/regular_mode/eligibility_results_screen.dart',
-];
+// The values that must go through AppSpacing when used as a gap/pad.
+const _scaleValues = <int>{0, 2, 4, 6, 8, 12, 16, 20, 24, 32};
 
-// EdgeInsets.all/symmetric/only/fromLTRB( ... <digit> ... )  or
-// SizedBox( width|height: <digit> ... )
-final _bareSpacing = RegExp(
-  r'EdgeInsets\.(?:all|symmetric|only|fromLTRB)\([^)]*\d[^)]*\)'
-  r'|SizedBox\(\s*(?:width|height):\s*\d',
-);
+// A spacing call site. `[^()]*` also spans newlines, so multi-line
+// EdgeInsets/SizedBox calls are covered too.
+final _edgeCall =
+    RegExp(r'EdgeInsets\.(?:all|symmetric|only|fromLTRB)\(([^()]*)\)');
+final _sizedBoxCall = RegExp(r'SizedBox\(([^()]*?(?:width|height):[^()]*?)\)');
+final _numToken = RegExp(r'(?<![\w.])(\d+)(?:\.0)?(?![\w.\d])');
+
+Iterable<File> _dartFiles(Directory dir) sync* {
+  for (final e in dir.listSync(recursive: true)) {
+    if (e is File && e.path.endsWith('.dart')) yield e;
+  }
+}
 
 void main() {
-  test('Discover + Profile flows use AppSpacing, not bare spacing literals', () {
+  test('lib/ uses AppSpacing for on-scale padding/margin/gap literals', () {
+    final libDir = Directory('lib');
+    expect(libDir.existsSync(), isTrue);
+
     final offenders = <String>[];
 
-    for (final rel in _enforcedFiles) {
-      final file = File(rel);
-      expect(file.existsSync(), isTrue, reason: 'missing $rel');
+    for (final file in _dartFiles(libDir)) {
+      final path = file.path.replaceAll('\\', '/');
+      if (path.endsWith('lib/utils/app_spacing.dart')) continue;
 
-      final lines = file.readAsLinesSync();
-      for (var i = 0; i < lines.length; i++) {
-        final line = lines[i];
-        if (line.contains('// spacing-ok')) continue;
-        if (_bareSpacing.hasMatch(line)) {
-          offenders.add('$rel:${i + 1}: ${line.trim()}');
+      final src = file.readAsStringSync();
+      // Precompute line-start offsets for offset -> line number.
+      final lineStarts = <int>[0];
+      for (var i = 0; i < src.length; i++) {
+        if (src[i] == '\n') lineStarts.add(i + 1);
+      }
+      int lineOf(int offset) {
+        var lo = 0, hi = lineStarts.length - 1;
+        while (lo < hi) {
+          final mid = (lo + hi + 1) >> 1;
+          if (lineStarts[mid] <= offset) {
+            lo = mid;
+          } else {
+            hi = mid - 1;
+          }
         }
+        return lo; // 0-based
+      }
+
+      for (final call in [
+        ..._edgeCall.allMatches(src),
+        ..._sizedBoxCall.allMatches(src),
+      ]) {
+        final args = call.group(1)!;
+        final onScale = _numToken
+            .allMatches(args)
+            .map((m) => int.parse(m.group(1)!))
+            .where(_scaleValues.contains);
+        if (onScale.isEmpty) continue;
+
+        final startLine = lineOf(call.start);
+        final endLine = lineOf(call.end);
+        final srcLines = src.split('\n');
+        final hasMarker = [
+          for (var l = startLine; l <= endLine && l < srcLines.length; l++)
+            srcLines[l],
+        ].any((l) => l.contains('// spacing-ok'));
+        if (hasMarker) continue;
+
+        offenders.add(
+          '$path:${startLine + 1}: '
+          '${srcLines[startLine].trim()}',
+        );
       }
     }
 
@@ -53,9 +92,9 @@ void main() {
       offenders,
       isEmpty,
       reason:
-          'Use AppSpacing.* for padding/margin/gaps in these flows '
-          '(or add `// spacing-ok` if the value is a real layout measurement):'
-          '\n${offenders.join('\n')}',
+          'Use AppSpacing.* for these on-scale padding/margin/gap values '
+          '(or add `// spacing-ok` if the raw literal is deliberate):\n'
+          '${offenders.join('\n')}',
     );
   });
 
