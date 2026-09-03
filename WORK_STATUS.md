@@ -2,8 +2,16 @@
 
 **Branch:** `fix/discover-counts-and-search-filter` (pushed, in sync with origin at `c256fc0`)
 **Base for PR:** `main` (already contains everything else; the branch adds exactly the 6 commits below)
-**Last updated:** 2026-09-04
-**Test baseline:** `flutter test` -> 226 passing · `flutter analyze` -> clean (1 pre-existing unrelated warning in `saarthi_welcome_screen.dart`)
+**Last updated:** 2026-09-04 (low-priority continuation: P2 + P3 done, P1 still pending)
+**Test baseline:** `flutter test` -> 229 passing · `flutter analyze` -> clean (1 pre-existing unrelated warning in `saarthi_welcome_screen.dart`). Note: `scheme_understanding_corpus_test.dart`'s 250 ms wall-clock assertion is load-flaky under low-priority mode — passes in isolation.
+
+## Continuation progress
+
+| Item | Commit | State |
+|------|--------|-------|
+| P3 — For-Me tuning + role signal for state schemes | `a4c9ffd` | **DONE** |
+| P2 — spacing full rollout (all of `lib/`) | `c4674d7` | **DONE** |
+| P1 — Phase 4 Option A (query expansion) | — | **NOT STARTED** (see below) |
 
 ---
 
@@ -68,27 +76,33 @@
 2. Multi-word aliases ("stand up india", "prime minister employment") — need phrase matching on the raw lowercased query, not just per-token. Decide: phrase table alongside the token table, or rely on hyphen-splitting only for v1.
 3. Where to load the JSON on the client without an async gap in the sync `_queryConcepts` path.
 
-### P2. Spacing — FULL ROLLOUT to the rest of the app  (NOT STARTED)
+### P2. Spacing — FULL ROLLOUT  ✅ DONE (`c4674d7`)
 
-**Scope:** ~790 remaining `EdgeInsets` / `SizedBox` / gap literals across **33 files** (list + counts in `SPACING.md` section 5; biggest: `msme_module_details_screen.dart` 89, `home_screen.dart` 71, `voice_assistant_overlay.dart` 64, `scheme_details_screen.dart` 59, `saarthi_home_screen.dart` 58, `notifications_screen.dart` 56, `help_support_screen.dart` 54).
+All ~39 `lib/` files migrated to `AppSpacing` (7 flow files earlier +
+32 more here). Enforcement (`test/spacing_scale_test.dart`) is now
+repo-wide and matches multi-line calls; flags only on-scale bare values.
+`SPACING.md` sections 3-5 updated. `flutter test` green. Reviewer eyeball
+list for the `10->8` / `14->16` snaps on dense screens is in `SPACING.md`
+section 5.
 
-**How:**
-1. Extend `TARGETS` in `scratchpad/migrate_spacing.py` to every file under `lib/` that has spacing literals. The script already: rewrites `EdgeInsets.*`/`SizedBox`/`Wrap`/grid spacing, snaps off-scale values, inserts the app_spacing import — **fix the relative-path depth per directory** (`lib/widgets/` needs `../utils/`, `lib/screens/` needs `../utils/`, `lib/screens/regular_mode/` needs `../../utils/`).
-2. `flutter analyze` — expect 0 new errors.
-3. Extend `_enforcedFiles` in `frontend/test/spacing_scale_test.dart` to the full set.
-4. `flutter test` — full suite must stay green. Watch widget/golden tests for shifted layouts from the `10->8` / `14->16` snaps.
-5. Manual QA gap: no screenshots. Flag any file where a snap looks risky; add `// spacing-ok` for a genuine layout measurement or hand-pick the step.
+### P3. "For Me" threshold tuning + STARTUP_TN / KALAIGNAR_KAIVINAI  ✅ DONE (`a4c9ffd`)
 
-**Risk:** value snaps across 33 screens with no visual QA. Split into per-flow commits (companion mode / scheme detail / home / settings+legal / notifications / widgets) so review is manageable.
-
-### P3. "For Me" threshold tuning + STARTUP_TN / KALAIGNAR_KAIVINAI  (NOT STARTED)
-
-**Current state after `b2d8d17`:** filter now actually filters (complete profile ~64% pass, was ~96%). Not tuned to a target rate. `STARTUP_TN` and `KALAIGNAR_KAIVINAI` land ~0.30 for a matching Tamil Nadu user -> excluded from "For Me".
-
-**To do:**
-- Decide a target pass-rate for a fully specified profile (suggest ~25-40% of 219 — a recommendation surface should be selective) and adjust `RecommendationEngine` additive weights / `forMeThreshold` to hit it. File: `frontend/lib/engine/recommendation_engine.dart`.
-- Fix the two named schemes so a matching TN user clears 0.4 — check their facet constraints in the catalog and the named-scheme `switch` in `evaluate()`; award for the state + sector + community match they legitimately have rather than special-casing the score upward.
-- Update `for_me_filter_shrinks_test.dart` / `for_me_profile_eligibility_test.dart`: tighten the populated-count assertion to the new target band; add explicit fixtures for `STARTUP_TN` and `KALAIGNAR_KAIVINAI` asserting `score >= forMeThreshold` for a matching TN profile.
+- `_wNationalCoverage` (0.15) now separate from `_wState` (0.20): all-India
+  coverage is no longer enough on its own to carry a weak second facet over
+  0.4. Populated Female/SC/TN profile: For-Me set 141/219 -> **106/219**.
+- New role<->theme match in `evaluate()`'s `default` branch: entrepreneur /
+  self-employed role + startup/entrepreneurship-themed scheme (or artisan
+  role + artisan/handicraft theme) awards `_wSectorStage`. This is what the
+  **real** catalog scheme `TN182` (TANSEED) needed — it was stuck at 0.20
+  for a Tamil Nadu entrepreneur, now 0.45; still 0.20 for a generic
+  student. (The named-scheme `switch` cases keyed on `STARTUP_TN` /
+  `KALAIGNAR_KAIVINAI` never match catalog schemes, whose ids are
+  `SCH0000NN` — and there is no "Kaivinai" artisan scheme in the shipped
+  catalog at all. The fix had to live in `default`.)
+- Tests: populated-set assertion tightened to a 20-60% band; new group
+  asserting TANSEED (real `TN182`) + a synthetic artisan-themed TN scheme
+  cross the bar only with the matching role, and a non-TN entrepreneur is
+  still hard-disqualified.
 
 ---
 
