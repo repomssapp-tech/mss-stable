@@ -504,12 +504,16 @@ class _EligibilityProfileScreenState extends State<EligibilityProfileScreen> {
       children: [
         Icon(icon, size: 16, color: kPrimaryBlue),
         const SizedBox(width: 6),
-        Text(
-          text,
-          style: GoogleFonts.inter(
-            fontSize: 13,
-            fontWeight: FontWeight.bold,
-            color: kSlate800,
+        Expanded(
+          child: Text(
+            text,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.inter(
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
+              color: kSlate800,
+            ),
           ),
         ),
       ],
@@ -523,42 +527,57 @@ class _EligibilityProfileScreenState extends State<EligibilityProfileScreen> {
   }) {
     return GestureDetector(
       onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFFEFF6FF) : Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: isSelected ? kPrimaryBlue : kBorderGrey,
-            width: isSelected ? 1.4 : 1.0,
-          ),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: kPrimaryBlue.withValues(alpha: 0.1),
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
-                  ),
-                ]
-              : null,
+      child: ConstrainedBox(
+        // Never let a single chip exceed the card's content width, so a long
+        // label ellipsizes instead of overflowing the Wrap line.
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.sizeOf(context).width - 72,
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (isSelected) ...[
-              const Icon(Icons.check_circle, size: 14, color: kPrimaryBlue),
-              const SizedBox(width: 5),
-            ],
-            Text(
-              label,
-              style: GoogleFonts.inter(
-                fontSize: 12,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                color: isSelected ? kPrimaryBlue : const Color(0xFF334155),
-              ),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: isSelected ? const Color(0xFFEFF6FF) : Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: isSelected ? kPrimaryBlue : kBorderGrey,
+              width: isSelected ? 1.4 : 1.0,
             ),
-          ],
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: kPrimaryBlue.withValues(alpha: 0.1),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ]
+                : null,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (isSelected) ...[
+                const Icon(Icons.check_circle, size: 14, color: kPrimaryBlue),
+                const SizedBox(width: 5),
+              ],
+              Flexible(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                    fontWeight: isSelected
+                        ? FontWeight.bold
+                        : FontWeight.w500,
+                    color: isSelected
+                        ? kPrimaryBlue
+                        : const Color(0xFF334155),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

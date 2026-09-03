@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
@@ -79,6 +80,25 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
     _pincodeController.dispose();
     super.dispose();
   }
+
+  // Digits-only is enforced by the input formatter; the remaining rule is the
+  // exact 6-digit length. Only surfaced after a Continue attempt.
+  String? _pincodeErrorText() {
+    if (!_hasSubmittedAttempt) return null;
+    final pin = _pincodeController.text.trim();
+    if (pin.isEmpty) return 'Required';
+    if (pin.length != 6) return 'Enter 6 digits';
+    return null;
+  }
+
+  // All required fields on this step are non-empty and the pincode is a
+  // complete 6-digit number. Drives the Continue button's enabled state.
+  bool get _isStepValid =>
+      _doorStreetController.text.trim().isNotEmpty &&
+      _areaLocalityController.text.trim().isNotEmpty &&
+      _cityDistrictController.text.trim().isNotEmpty &&
+      _stateController.text.trim().isNotEmpty &&
+      _pincodeController.text.trim().length == 6;
 
   // Live Location Fetch and Geocoding Parser
   Future<void> _fetchAndGeocodeLocation() async {
@@ -202,12 +222,16 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                           onPressed: () => Navigator.maybePop(context),
                         ),
                         const SizedBox(width: 4),
-                        Text(
-                          l('complete_your_profile'),
-                          style: GoogleFonts.poppins(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: kSlate900,
+                        Expanded(
+                          child: Text(
+                            l('complete_your_profile'),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.poppins(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: kSlate900,
+                            ),
                           ),
                         ),
                       ],
@@ -266,27 +290,25 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                       ],
                                     ),
                                     const SizedBox(height: 8),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Where Are You Located?',
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                            color: kSlate900,
-                                          ),
-                                        ),
-                                        Text(
-                                          l('step_2_of_4'),
-                                          style: GoogleFonts.inter(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                            color: kPrimaryBlue,
-                                          ),
-                                        ),
-                                      ],
+                                    // Step label sits above the heading (not
+                                    // beside it) so the two never collide at
+                                    // 320 dp / large text scale.
+                                    Text(
+                                      l('step_2_of_4'),
+                                      style: GoogleFonts.inter(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                        color: kPrimaryBlue,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      'Where Are You Located?',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color: kSlate900,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -317,16 +339,21 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                               thickness: 1,
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 12.0,
-                                            ),
-                                            child: Text(
-                                              'OR FILL MANUALLY',
-                                              style: GoogleFonts.inter(
-                                                fontSize: 11,
-                                                fontWeight: FontWeight.w500,
-                                                color: kSlate500,
+                                          Flexible(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 12.0,
+                                              ),
+                                              child: Text(
+                                                'OR FILL MANUALLY',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: kSlate500,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -456,26 +483,15 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                                   icon: Icons.pin_drop_outlined,
                                                   keyboardType:
                                                       TextInputType.number,
-                                                  errorText:
-                                                      _hasSubmittedAttempt &&
-                                                              _pincodeController
-                                                                  .text
-                                                                  .trim()
-                                                                  .isEmpty
-                                                          ? 'Required'
-                                                          : (_hasSubmittedAttempt &&
-                                                                  _pincodeController
-                                                                          .text
-                                                                          .trim()
-                                                                          .length !=
-                                                                      6
-                                                              ? '6 digits'
-                                                              : null),
-                                                  onChanged: (_) {
-                                                    if (_hasSubmittedAttempt) {
-                                                      setState(() {});
-                                                    }
-                                                  },
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter
+                                                        .digitsOnly,
+                                                    LengthLimitingTextInputFormatter(
+                                                      6,
+                                                    ),
+                                                  ],
+                                                  errorText: _pincodeErrorText(),
+                                                  onChanged: (_) {},
                                                 ),
                                               ],
                                             ),
@@ -493,7 +509,9 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
                                 padding: const EdgeInsets.all(20),
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: kPrimaryBlue,
+                                    backgroundColor: _isStepValid
+                                        ? kPrimaryBlue
+                                        : Colors.grey.shade300,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12),
                                     ),
@@ -722,6 +740,7 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
     required String hintText,
     required IconData icon,
     TextInputType keyboardType = TextInputType.text,
+    List<TextInputFormatter>? inputFormatters,
     String? errorText,
     void Function(String)? onChanged,
   }) {
@@ -733,7 +752,12 @@ class _LocationProfileScreenState extends State<LocationProfileScreen> {
         TextFormField(
           controller: controller,
           keyboardType: keyboardType,
-          onChanged: onChanged,
+          inputFormatters: inputFormatters,
+          onChanged: (value) {
+            onChanged?.call(value);
+            // Keep the Continue button's enabled state in sync with input.
+            setState(() {});
+          },
           style: GoogleFonts.inter(
             fontSize: 13.5,
             color: const Color(0xFF1E293B),
