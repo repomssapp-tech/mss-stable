@@ -70,7 +70,7 @@ class SchemeCatalogSyncService {
     CatalogReleaseSource? source,
     SchemeCatalogStore? store,
     Duration timeout = const Duration(seconds: 8),
-    Duration throttle = const Duration(seconds: 2),
+    Duration throttle = const Duration(hours: 1),
     DateTime Function()? clock,
   }) : _source = source,
        _store = store ?? SchemeCatalogStore.instance,

@@ -25,7 +25,6 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
   final SchemeCatalogSyncService _catalogSyncService;
   StreamSubscription<List<Map<String, dynamic>>>? _profileSubscription;
-  RealtimeChannel? _catalogSyncChannel;
   bool _isLoggedIn = false;
   bool _isLoggingOut = false;
   String _mobileNumber = '';
@@ -428,39 +427,6 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _subscribedNotificationsUserId = null;
   }
 
-  void _subscribeToCatalogUpdates() {
-    if (_catalogSyncChannel != null) return;
-    try {
-      _catalogSyncChannel = Supabase.instance.client
-          .channel('catalog_sync')
-          .onBroadcast(
-            event: 'catalog_updated',
-            callback: (payload) async {
-              debugPrint(
-                '[AppProvider] Realtime catalog update event received: $payload',
-              );
-              final result = await syncSchemeCatalog(force: true);
-              if (result.changed || result.outcome == CatalogSyncOutcome.unchanged) {
-                SchemeRepository.instance.clearCache();
-                await loadSchemes(forceRefresh: true);
-              }
-            },
-          );
-      _catalogSyncChannel?.subscribe((status, [error]) {
-        if (status == RealtimeSubscribeStatus.subscribed) {
-          debugPrint('[AppProvider] Subscribed to catalog_sync channel');
-        }
-      });
-    } catch (e) {
-      debugPrint('[AppProvider] Error subscribing to catalog_sync channel: $e');
-    }
-  }
-
-  void _unsubscribeFromCatalogUpdates() {
-    _catalogSyncChannel?.unsubscribe();
-    _catalogSyncChannel = null;
-  }
-
   void _setupAuthListener() {
     Supabase.instance.client.auth.onAuthStateChange.listen((data) async {
       final Session? session = data.session;
@@ -731,7 +697,6 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       // Render local data first, then refresh the published snapshot silently.
       await loadSchemes();
       unawaited(syncSchemeCatalog());
-      _subscribeToCatalogUpdates();
     } catch (e) {
       debugPrint('Error loading state: $e');
     }
@@ -1651,7 +1616,6 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     WidgetsBinding.instance.removeObserver(this);
     _unsubscribeFromProfile();
     _unsubscribeFromNotifications();
-    _unsubscribeFromCatalogUpdates();
     super.dispose();
   }
 }
