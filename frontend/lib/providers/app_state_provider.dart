@@ -506,6 +506,12 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
   // Getters
   bool get isLoggedIn => _isLoggedIn;
+
+  @visibleForTesting
+  void setLoggedInForTesting(bool val) {
+    _isLoggedIn = val;
+    notifyListeners();
+  }
   bool get isGuest => false;
   bool get isLoggingOut => _isLoggingOut;
   String get mobileNumber => _mobileNumber;
@@ -1115,15 +1121,15 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     // Commit wizard answers to UserProfile
     _profile = UserProfile(
       name: _wizardAnswers['name'] ?? '',
-      gender: _wizardAnswers['gender'] ?? 'Female',
+      gender: _wizardAnswers['gender'] ?? '',
       dob: _wizardAnswers['dob'] as DateTime?,
-      state: _wizardAnswers['state'] ?? 'Tamil Nadu',
+      state: _wizardAnswers['state'] ?? '',
       district: _wizardAnswers['district'] ?? '',
       city: _wizardAnswers['city'] ?? '',
       pinCode: _wizardAnswers['pinCode'] ?? '',
-      community: _wizardAnswers['community'] ?? 'General',
+      community: _wizardAnswers['community'] ?? '',
       religion: _wizardAnswers['religion'] ?? '',
-      educationLevel: _wizardAnswers['educationLevel'] ?? 'Undergraduate',
+      educationLevel: _wizardAnswers['educationLevel'] ?? '',
       firstGenGraduate: _wizardAnswers['firstGenGraduate'] ?? false,
       annualIncome: (_wizardAnswers['annualIncome'] ?? 0.0) as double,
       mobile: _mobileNumber,

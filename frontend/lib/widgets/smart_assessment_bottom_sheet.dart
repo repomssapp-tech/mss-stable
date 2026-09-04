@@ -303,8 +303,13 @@ class _SmartAssessmentBottomSheetState
             ans.contains('woman') ||
             ans.contains('Women')) {
           gender = 'Female';
-        } else {
+        } else if (ans.contains('Male') ||
+            ans.contains('man') ||
+            ans.contains('Men')) {
           gender = 'Male';
+        } else if (ans.contains('Other') ||
+            ans.contains('Transgender')) {
+          gender = 'Other';
         }
       }
 

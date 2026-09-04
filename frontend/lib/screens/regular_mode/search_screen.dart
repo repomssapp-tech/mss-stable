@@ -818,6 +818,8 @@ class SearchScreenState extends State<SearchScreen> {
                         ],
                       ),
                     ),
+                    const SizedBox(height: AppSpacing.sm),
+                    _buildQuickPills(context),
                   ],
                 ],
               ),
@@ -896,6 +898,65 @@ class SearchScreenState extends State<SearchScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  // Quick Search Horizontal Pills
+  Widget _buildQuickPills(BuildContext context) {
+    final pills = [
+      context.l10n.quickPillPmegp,
+      context.l10n.quickPillStartup,
+      context.l10n.quickPillLoans,
+      context.l10n.quickPillWomen,
+      context.l10n.quickPillAscend,
+    ];
+
+    return SizedBox(
+      height: 38,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
+        itemCount: pills.length,
+        itemBuilder: (context, index) {
+          final text = pills[index];
+          return GestureDetector(
+            onTap: () {
+              final query = text
+                  .replaceAll("Search ", "")
+                  .replaceAll("தேடுக", "")
+                  .trim();
+              submitVoiceQuery(query);
+            },
+            child: Container(
+              margin: const EdgeInsets.only(right: AppSpacing.sm),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.md,
+                vertical: AppSpacing.sm,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: const Color(0xFFE2E8F0)),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.search, size: 13, color: Color(0xFF64748B)),
+                  const SizedBox(width: AppSpacing.tight),
+                  Text(
+                    text,
+                    style: GoogleFonts.inter(
+                      fontSize: 11.5,
+                      fontWeight: FontWeight.w500,
+                      color: const Color(0xFF334155),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 

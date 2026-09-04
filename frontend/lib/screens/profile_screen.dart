@@ -15,6 +15,7 @@ import 'notifications_screen.dart';
 import '../widgets/custom_confirm_dialog.dart';
 import '../utils/responsive.dart';
 import '../utils/app_spacing.dart';
+import '../utils/profile_l10n.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -34,6 +35,10 @@ class ProfileScreen extends StatelessWidget {
   }
 
   String _getLocalizedIncomeRange(double income, BuildContext context) {
+    if (income <= 0) {
+      final isTa = Provider.of<AppProvider>(context, listen: false).selectedLanguage == 'ta';
+      return ProfileL10n.t('income_no_income', isTa);
+    }
     if (income <= 150000) return context.l10n.incUnder1_5;
     if (income <= 300000) return context.l10n.inc1_5To3;
     if (income <= 500000) return context.l10n.inc3To5;

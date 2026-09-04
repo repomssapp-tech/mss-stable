@@ -1,0 +1,14 @@
+# Root workspace analysis options for MSS_App
+# Prevents Dart analyzer from treating archive harnesses and scratch scripts as broken standalone packages.
+
+analyzer:
+  exclude:
+    - docs/archive/**
+    - scratch/**
+    - frontend/build/**
+    - frontend/android/**
+    - frontend/ios/**
+    - frontend/web/**
+    - frontend/windows/**
+    - frontend/macos/**
+    - frontend/linux/**

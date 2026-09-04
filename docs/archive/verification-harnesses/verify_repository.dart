@@ -10,9 +10,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 
-import '../../frontend/lib/models/user_profile.dart';
-import '../../frontend/lib/services/mss_api_client.dart';
-import '../../frontend/lib/services/scheme_repository.dart';
+import '../../../frontend/lib/models/user_profile.dart';
+import '../../../frontend/lib/services/mss_api_client.dart';
+import '../../../frontend/lib/services/scheme_repository.dart';
 
 int _checks = 0;
 int _failures = 0;

@@ -9,7 +9,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import '../../frontend/lib/models/mss_models.dart';
+import '../../../frontend/lib/models/mss_models.dart';
 
 int _checks = 0;
 int _failures = 0;

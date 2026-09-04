@@ -19,6 +19,7 @@ import 'search_results_screen.dart';
 import 'basic_profile_screen.dart';
 import 'msme_module_details_screen.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/constants.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, this.onVoiceQuery, this.onFilterPressed});
@@ -37,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _recommendedScrollController = ScrollController();
   int _activeCarouselIndex = 0;
   Timer? _carouselTimer;
+  bool _showSearchPills = false;
 
   double _scaledFontSize(double baseSize) {
     final provider = Provider.of<AppProvider>(context, listen: false);
@@ -272,10 +274,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     // Search Bar & Filter Button
                     _buildSearchAndFilter(context, provider),
 
-                    const SizedBox(height: AppSpacing.sm),
-
-                    // Quick search horizontal pills
-                    _buildQuickPills(context, provider),
+                    if (_showSearchPills) ...[
+                      const SizedBox(height: AppSpacing.sm),
+                      // Quick search horizontal pills
+                      _buildQuickPills(context, provider),
+                    ],
 
                     if (provider.profileCompletionPercentage < 100) ...[
                       const SizedBox(height: AppSpacing.xl),
@@ -344,7 +347,10 @@ class _HomeScreenState extends State<HomeScreen> {
             Row(
               children: [
                 Text(
-                  context.l10n.goodMorning,
+                  AppConstants.getTimeGreeting(
+                    isTa: provider.selectedLanguage == 'ta',
+                    withComma: true,
+                  ),
                   style: GoogleFonts.inter(
                     fontSize: 14,
                     color: const Color(0xFF64748B),
@@ -446,10 +452,15 @@ class _HomeScreenState extends State<HomeScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(30),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
+        border: Border.all(
+          color: _showSearchPills ? const Color(0xFF2563EB) : const Color(0xFFE2E8F0),
+          width: _showSearchPills ? 1.5 : 1.0,
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: _showSearchPills
+                ? const Color(0xFF2563EB).withValues(alpha: 0.08)
+                : Colors.black.withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -457,13 +468,27 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: Row(
         children: [
-          const Icon(Icons.search, color: Color(0xFF2563EB), size: 22),
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () {
+              if (!_showSearchPills) {
+                setState(() => _showSearchPills = true);
+              } else {
+                provider.updateTabIndex(1);
+              }
+            },
+            child: const Icon(Icons.search, color: Color(0xFF2563EB), size: 22),
+          ),
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {
-                provider.updateTabIndex(1);
+                if (!_showSearchPills) {
+                  setState(() => _showSearchPills = true);
+                } else {
+                  provider.updateTabIndex(1);
+                }
               },
               child: Text(
                 context.l10n.searchPlaceholder,
@@ -477,7 +502,23 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          const SizedBox(width: AppSpacing.sm),
+          if (_showSearchPills) ...[
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                setState(() => _showSearchPills = false);
+              },
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: AppSpacing.xs),
+                child: Icon(
+                  Icons.close,
+                  size: 18,
+                  color: Color(0xFF94A3B8),
+                ),
+              ),
+            ),
+            const SizedBox(width: AppSpacing.xs),
+          ],
           Container(height: 20, width: 1, color: const Color(0xFFE2E8F0)),
           const SizedBox(width: AppSpacing.sm),
           GestureDetector(
