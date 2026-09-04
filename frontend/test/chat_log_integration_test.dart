@@ -22,7 +22,7 @@ void main() {
 
   group('Live Supabase Chat Logging Integration Test', () {
     late SupabaseClient client;
-    final testConversationUid = 'test-e2e-${DateTime.now().millisecondsSinceEpoch}';
+    final testConversationUid = ChatLogService.generateUuidV4();
 
     setUpAll(() {
       client = SupabaseClient(supabaseUrl, supabaseKey);
