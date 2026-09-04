@@ -41,25 +41,48 @@ class _FilterPanelState extends State<FilterPanel> {
     super.initState();
     final provider = Provider.of<AppProvider>(context, listen: false);
 
-    // Initialize state from existing provider filters or defaults (defaulting to 'All')
-    _state = provider.filters['state'] ?? 'All';
-    _district = provider.filters['district'] ?? 'All';
-    _ministry = provider.filters['ministry'] ?? 'All';
-    _department = provider.filters['department'] ?? 'All';
-    _category = provider.filters['category'] ?? 'All';
+    // Initialize state from existing provider filters or defaults
+    _state = provider.filters['state'] ?? '';
+    if (_state == 'All') _state = '';
+    _district = provider.filters['district'] ?? '';
+    if (_district == 'All') _district = '';
+    _ministry = provider.filters['ministry'] ?? '';
+    if (_ministry == 'All') _ministry = '';
+    _department = provider.filters['department'] ?? '';
+    if (_department == 'All') _department = '';
+    _category = provider.filters['category'] ?? '';
+    if (_category == 'All') _category = '';
 
-    _income = provider.filters['income'] ?? 'All';
-    _gender = provider.filters['gender'] ?? 'All';
-    _age = provider.filters['age'] ?? 'All';
-    _community = provider.filters['community'] ?? 'All';
-    _occupation = provider.filters['occupation'] ?? 'All';
-    _education = provider.filters['education'] ?? 'All';
+    _income = provider.filters['income'] ?? '';
+    if (_income == 'All') _income = '';
+    _gender = provider.filters['gender'] ?? '';
+    if (_gender == 'All') _gender = '';
+    _age = provider.filters['age'] ?? '';
+    if (_age == 'All') _age = '';
+    _community = provider.filters['community'] ?? '';
+    if (_community == 'All') _community = '';
+    _occupation = provider.filters['occupation'] ?? '';
+    if (_occupation == 'All') _occupation = '';
+    _education = provider.filters['education'] ?? '';
+    if (_education == 'All') _education = '';
     _firstGen = provider.filters['firstGen'] == true;
-    _disability = provider.filters['disability'] ?? 'All';
+    _disability = provider.filters['disability'] ?? '';
+    if (_disability == 'All') _disability = '';
 
-    _schemeStatus = provider.filters['schemeStatus'] ?? 'All';
-    _onlineOffline = provider.filters['onlineOffline'] ?? 'All';
-    _schemeType = provider.filters['schemeType'] ?? 'All';
+    // Auto-select 'No Income' for students if income is not already chosen
+    final userOccupation = _occupation.isNotEmpty
+        ? _occupation
+        : provider.profile.employmentStatus;
+    if (userOccupation.toLowerCase() == 'student' && _income.isEmpty) {
+      _income = 'No Income';
+    }
+
+    _schemeStatus = provider.filters['schemeStatus'] ?? '';
+    if (_schemeStatus == 'All') _schemeStatus = '';
+    _onlineOffline = provider.filters['onlineOffline'] ?? '';
+    if (_onlineOffline == 'All') _onlineOffline = '';
+    _schemeType = provider.filters['schemeType'] ?? '';
+    if (_schemeType == 'All') _schemeType = '';
   }
 
   void _applyFilters() {
@@ -91,47 +114,47 @@ class _FilterPanelState extends State<FilterPanel> {
 
   void _resetFilters() {
     setState(() {
-      _state = 'All';
-      _district = 'All';
-      _ministry = 'All';
-      _department = 'All';
-      _category = 'All';
+      _state = '';
+      _district = '';
+      _ministry = '';
+      _department = '';
+      _category = '';
 
-      _income = 'All';
-      _gender = 'All';
-      _age = 'All';
-      _community = 'All';
-      _occupation = 'All';
-      _education = 'All';
+      _income = '';
+      _gender = '';
+      _age = '';
+      _community = '';
+      _occupation = '';
+      _education = '';
       _firstGen = false;
-      _disability = 'All';
+      _disability = '';
 
-      _schemeStatus = 'All';
-      _onlineOffline = 'All';
-      _schemeType = 'All';
+      _schemeStatus = '';
+      _onlineOffline = '';
+      _schemeType = '';
     });
   }
 
   int _getActiveFilterCount() {
     int count = 0;
-    if (_state != 'All') count++;
-    if (_district != 'All') count++;
-    if (_ministry != 'All') count++;
-    if (_department != 'All') count++;
-    if (_category != 'All') count++;
+    if (_state.isNotEmpty && _state != 'All') count++;
+    if (_district.isNotEmpty && _district != 'All') count++;
+    if (_ministry.isNotEmpty && _ministry != 'All') count++;
+    if (_department.isNotEmpty && _department != 'All') count++;
+    if (_category.isNotEmpty && _category != 'All') count++;
 
-    if (_income != 'All') count++;
-    if (_gender != 'All') count++;
-    if (_age != 'All') count++;
-    if (_community != 'All') count++;
-    if (_occupation != 'All') count++;
-    if (_education != 'All') count++;
+    if (_income.isNotEmpty && _income != 'All') count++;
+    if (_gender.isNotEmpty && _gender != 'All') count++;
+    if (_age.isNotEmpty && _age != 'All') count++;
+    if (_community.isNotEmpty && _community != 'All') count++;
+    if (_occupation.isNotEmpty && _occupation != 'All') count++;
+    if (_education.isNotEmpty && _education != 'All') count++;
     if (_firstGen) count++;
-    if (_disability != 'All') count++;
+    if (_disability.isNotEmpty && _disability != 'All') count++;
 
-    if (_schemeStatus != 'All') count++;
-    if (_onlineOffline != 'All') count++;
-    if (_schemeType != 'All') count++;
+    if (_schemeStatus.isNotEmpty && _schemeStatus != 'All') count++;
+    if (_onlineOffline.isNotEmpty && _onlineOffline != 'All') count++;
+    if (_schemeType.isNotEmpty && _schemeType != 'All') count++;
     return count;
   }
 
@@ -237,7 +260,6 @@ class _FilterPanelState extends State<FilterPanel> {
                             label: context.l10n.filterState,
                             value: _state,
                             items: [
-                              'All',
                               'Tamil Nadu',
                               'Karnataka',
                               'Kerala',
@@ -245,7 +267,7 @@ class _FilterPanelState extends State<FilterPanel> {
                               'Delhi',
                             ],
                             onChanged: (val) =>
-                                setState(() => _state = val ?? 'All'),
+                                setState(() => _state = val ?? ''),
                           ),
                           const SizedBox(width: AppSpacing.sm),
                           _buildDropdownCell(
@@ -255,7 +277,6 @@ class _FilterPanelState extends State<FilterPanel> {
                             label: context.l10n.filterDistrict,
                             value: _district,
                             items: [
-                              'All',
                               'Chennai',
                               'Bangalore',
                               'Cochin',
@@ -263,7 +284,7 @@ class _FilterPanelState extends State<FilterPanel> {
                               'New Delhi',
                             ],
                             onChanged: (val) =>
-                                setState(() => _district = val ?? 'All'),
+                                setState(() => _district = val ?? ''),
                           ),
                         ],
                       ),
@@ -288,14 +309,13 @@ class _FilterPanelState extends State<FilterPanel> {
                             label: context.l10n.filterMinistry,
                             value: _ministry,
                             items: [
-                              'All',
                               'Ministry of MSME',
                               'Ministry of Agriculture',
                               'Ministry of Finance',
                               'Ministry of Education',
                             ],
                             onChanged: (val) =>
-                                setState(() => _ministry = val ?? 'All'),
+                                setState(() => _ministry = val ?? ''),
                           ),
                           const SizedBox(width: AppSpacing.sm),
                           _buildDropdownCell(
@@ -305,13 +325,12 @@ class _FilterPanelState extends State<FilterPanel> {
                             label: context.l10n.filterDepartment,
                             value: _department,
                             items: [
-                              'All',
                               'Dept of MSME Development',
                               'Dept of Agriculture Cooperation',
                               'Dept of Higher Education',
                             ],
                             onChanged: (val) =>
-                                setState(() => _department = val ?? 'All'),
+                                setState(() => _department = val ?? ''),
                           ),
                         ],
                       ),
@@ -331,7 +350,6 @@ class _FilterPanelState extends State<FilterPanel> {
                           label: context.l10n.filterCategory,
                           value: _category,
                           items: [
-                            'All',
                             'Business & MSME',
                             'Startup',
                             'Finance',
@@ -339,7 +357,7 @@ class _FilterPanelState extends State<FilterPanel> {
                             'Artisan',
                           ],
                           onChanged: (val) =>
-                              setState(() => _category = val ?? 'All'),
+                              setState(() => _category = val ?? ''),
                         ),
                         const SizedBox(width: AppSpacing.sm),
                         const Expanded(
@@ -365,14 +383,14 @@ class _FilterPanelState extends State<FilterPanel> {
                           label: context.l10n.labelAnnualIncome,
                           value: _income,
                           items: [
-                            'All',
+                            'No Income',
                             'Under ₹1 Lakh',
                             'Under ₹5 Lakhs',
                             'Under ₹10 Lakhs',
                             'Under ₹50 Lakhs',
                           ],
                           onChanged: (val) =>
-                              setState(() => _income = val ?? 'All'),
+                              setState(() => _income = val ?? ''),
                         ),
                       ],
                     ),
@@ -392,9 +410,9 @@ class _FilterPanelState extends State<FilterPanel> {
                             iconBgColor: const Color(0xFFFDF2F8),
                             label: context.l10n.labelGender,
                             value: _gender,
-                            items: ['All', 'Female', 'Male', 'Transgender'],
+                            items: ['Female', 'Male', 'Transgender'],
                             onChanged: (val) =>
-                                setState(() => _gender = val ?? 'All'),
+                                setState(() => _gender = val ?? ''),
                           ),
                           const SizedBox(width: AppSpacing.sm),
                           _buildDropdownCell(
@@ -404,14 +422,13 @@ class _FilterPanelState extends State<FilterPanel> {
                             label: context.l10n.labelAge,
                             value: _age,
                             items: [
-                              'All',
                               'Under 18',
                               '18 - 35',
                               '36 - 60',
                               'Above 60',
                             ],
                             onChanged: (val) =>
-                                setState(() => _age = val ?? 'All'),
+                                setState(() => _age = val ?? ''),
                           ),
                         ],
                       ),
@@ -432,9 +449,9 @@ class _FilterPanelState extends State<FilterPanel> {
                             iconBgColor: const Color(0xFFF5F3FF),
                             label: context.l10n.labelCommunity,
                             value: _community,
-                            items: ['All', 'General', 'OBC', 'EWS', 'SC', 'ST'],
+                            items: ['General', 'OBC', 'EWS', 'SC', 'ST'],
                             onChanged: (val) =>
-                                setState(() => _community = val ?? 'All'),
+                                setState(() => _community = val ?? ''),
                           ),
                           const SizedBox(width: AppSpacing.sm),
                           _buildDropdownCell(
@@ -444,15 +461,20 @@ class _FilterPanelState extends State<FilterPanel> {
                             label: context.l10n.labelOccupation,
                             value: _occupation,
                             items: [
-                              'All',
                               'Unemployed',
                               'Student',
                               'Farmer',
-                              'Self Employed',
+                              'Self Employed / Business',
                               'Salaried',
+                              'Artisan / Craftsman',
                             ],
-                            onChanged: (val) =>
-                                setState(() => _occupation = val ?? 'All'),
+                            onChanged: (val) => setState(() {
+                              _occupation = val ?? '';
+                              if (_occupation == 'Student' &&
+                                  _income.isEmpty) {
+                                _income = 'No Income';
+                              }
+                            }),
                           ),
                         ],
                       ),
@@ -474,14 +496,13 @@ class _FilterPanelState extends State<FilterPanel> {
                             label: context.l10n.labelEducation,
                             value: _education,
                             items: [
-                              'All',
                               'Under 10th',
                               '12th Pass',
                               'Graduate',
                               'Post Graduate',
                             ],
                             onChanged: (val) =>
-                                setState(() => _education = val ?? 'All'),
+                                setState(() => _education = val ?? ''),
                           ),
                           const SizedBox(width: AppSpacing.sm),
                           _buildSwitchCell(
@@ -510,7 +531,6 @@ class _FilterPanelState extends State<FilterPanel> {
                           label: context.l10n.labelDisability,
                           value: _disability,
                           items: [
-                            'All',
                             'None',
                             'Locomotor',
                             'Visual',
@@ -518,7 +538,7 @@ class _FilterPanelState extends State<FilterPanel> {
                             'Other',
                           ],
                           onChanged: (val) =>
-                              setState(() => _disability = val ?? 'All'),
+                              setState(() => _disability = val ?? ''),
                         ),
                       ],
                     ),
@@ -540,9 +560,9 @@ class _FilterPanelState extends State<FilterPanel> {
                             iconBgColor: const Color(0xFFEFF6FF),
                             label: context.l10n.filterSchemeStatus,
                             value: _schemeStatus,
-                            items: ['All', 'Active', 'Closed'],
+                            items: ['Active', 'Closed'],
                             onChanged: (val) =>
-                                setState(() => _schemeStatus = val ?? 'All'),
+                                setState(() => _schemeStatus = val ?? ''),
                           ),
                           const SizedBox(width: AppSpacing.sm),
                           _buildDropdownCell(
@@ -552,12 +572,11 @@ class _FilterPanelState extends State<FilterPanel> {
                             label: context.l10n.filterOnlineOffline,
                             value: _onlineOffline,
                             items: [
-                              'All',
                               'Online Application',
                               'Offline Application',
                             ],
                             onChanged: (val) =>
-                                setState(() => _onlineOffline = val ?? 'All'),
+                                setState(() => _onlineOffline = val ?? ''),
                           ),
                         ],
                       ),
@@ -577,12 +596,11 @@ class _FilterPanelState extends State<FilterPanel> {
                           label: context.l10n.filterCentralStateScheme,
                           value: _schemeType,
                           items: [
-                            'All',
                             'Central Government',
                             'State Government',
                           ],
                           onChanged: (val) =>
-                              setState(() => _schemeType = val ?? 'All'),
+                              setState(() => _schemeType = val ?? ''),
                         ),
                         const SizedBox(width: AppSpacing.sm),
                         const Expanded(child: SizedBox()),
@@ -691,6 +709,7 @@ class _FilterPanelState extends State<FilterPanel> {
     required List<String> items,
     required ValueChanged<String?> onChanged,
   }) {
+    final bool isUnset = value.isEmpty || value == 'All';
     return Expanded(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.sm),
@@ -731,11 +750,13 @@ class _FilterPanelState extends State<FilterPanel> {
                       ),
                       const SizedBox(height: AppSpacing.hairline),
                       Text(
-                        value == 'All' ? 'Select $label' : value,
+                        isUnset ? 'Select $label' : value,
                         style: GoogleFonts.inter(
                           fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF0F172A),
+                          fontWeight: isUnset ? FontWeight.w500 : FontWeight.bold,
+                          color: isUnset
+                              ? const Color(0xFF94A3B8)
+                              : const Color(0xFF0F172A),
                         ),
                       ),
                     ],
@@ -752,7 +773,14 @@ class _FilterPanelState extends State<FilterPanel> {
               child: Opacity(
                 opacity: 0.0,
                 child: DropdownButton<String>(
-                  value: items.contains(value) ? value : items.first,
+                  value: items.contains(value) ? value : null,
+                  hint: Text(
+                    'Select $label',
+                    style: GoogleFonts.inter(
+                      fontSize: 13,
+                      color: const Color(0xFF94A3B8),
+                    ),
+                  ),
                   isExpanded: true,
                   dropdownColor: Colors.white,
                   borderRadius: BorderRadius.circular(12),

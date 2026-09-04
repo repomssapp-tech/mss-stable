@@ -302,7 +302,7 @@ class ProfileScreen extends StatelessWidget {
                   }
                 },
               ),
-              if (provider.profile.profilePhoto.isNotEmpty)
+              if (provider.hasCustomPhoto)
                 ListTile(
                   leading: const Icon(
                     Icons.delete_outline_rounded,
@@ -491,29 +491,53 @@ class ProfileScreen extends StatelessWidget {
                                   ),
                                   child: CircleAvatar(
                                     radius: 38,
-                                    backgroundImage: () {
-                                      final photo =
-                                          provider.profile.profilePhoto;
-                                      if (photo.isEmpty) {
-                                        return const AssetImage(
-                                              'assets/images/supporting assets/user_avatar.webp',
-                                            )
-                                            as ImageProvider;
-                                      }
-                                      if (photo.startsWith('http://') ||
-                                          photo.startsWith('https://')) {
-                                        return NetworkImage(photo)
-                                            as ImageProvider;
-                                      }
-                                      if (File(photo).existsSync()) {
-                                        return FileImage(File(photo))
-                                            as ImageProvider;
-                                      }
-                                      return const AssetImage(
-                                            'assets/images/supporting assets/user_avatar.webp',
-                                          )
-                                          as ImageProvider;
-                                    }(),
+                                    backgroundColor: Colors.white,
+                                    child: ClipOval(
+                                      child: () {
+                                        final photo =
+                                            provider.effectiveProfilePhoto;
+                                        if (photo.startsWith('http://') ||
+                                            photo.startsWith('https://')) {
+                                          return Image.network(
+                                            photo,
+                                            width: 76,
+                                            height: 76,
+                                            fit: BoxFit.cover,
+                                            errorBuilder:
+                                                (context, error, stackTrace) =>
+                                                    Image.asset(
+                                                      'assets/images/supporting assets/user_avatar.webp',
+                                                      width: 76,
+                                                      height: 76,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                          );
+                                        }
+                                        if (photo.isNotEmpty &&
+                                            File(photo).existsSync()) {
+                                          return Image.file(
+                                            File(photo),
+                                            width: 76,
+                                            height: 76,
+                                            fit: BoxFit.cover,
+                                            errorBuilder:
+                                                (context, error, stackTrace) =>
+                                                    Image.asset(
+                                                      'assets/images/supporting assets/user_avatar.webp',
+                                                      width: 76,
+                                                      height: 76,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                          );
+                                        }
+                                        return Image.asset(
+                                          'assets/images/supporting assets/user_avatar.webp',
+                                          width: 76,
+                                          height: 76,
+                                          fit: BoxFit.cover,
+                                        );
+                                      }(),
+                                    ),
                                   ),
                                 ),
                               ),

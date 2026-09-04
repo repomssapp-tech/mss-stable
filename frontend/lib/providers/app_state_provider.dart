@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -51,10 +52,10 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   // Active Filters state
   Map<String, dynamic> _filters = {
     'state': 'Tamil Nadu',
-    'community': 'All',
-    'gender': 'All',
-    'category': 'All',
-    'income': 'All',
+    'community': '',
+    'gender': '',
+    'category': '',
+    'income': '',
   };
 
   // Temporary wizard answers during the "Find My Schemes" Assessment
@@ -278,7 +279,24 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         .listen(
           (data) async {
             if (data.isNotEmpty) {
-              final dbProfile = UserProfile.fromJson(data.first);
+              var dbProfile = UserProfile.fromJson(data.first);
+
+              // Preserve local custom photo or Google OAuth photo if remote photo is empty
+              if (dbProfile.profilePhoto.isEmpty ||
+                  dbProfile.profilePhoto.contains('user_avatar.webp')) {
+                final currentPhoto = _profile.profilePhoto;
+                if (currentPhoto.isNotEmpty &&
+                    !currentPhoto.contains('user_avatar.webp')) {
+                  dbProfile = dbProfile.copyWith(profilePhoto: currentPhoto);
+                } else {
+                  final googlePhoto = extractGooglePhoto(
+                    Supabase.instance.client.auth.currentUser,
+                  );
+                  if (googlePhoto.isNotEmpty) {
+                    dbProfile = dbProfile.copyWith(profilePhoto: googlePhoto);
+                  }
+                }
+              }
 
               final remoteUpdated =
                   dbProfile.updatedAt ?? DateTime.fromMillisecondsSinceEpoch(0);
@@ -287,6 +305,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
               if (remoteUpdated.isAfter(localUpdated) ||
                   dbProfile.name != _profile.name ||
+                  dbProfile.profilePhoto != _profile.profilePhoto ||
                   dbProfile.language != _profile.language ||
                   dbProfile.navigationMode != _profile.navigationMode ||
                   dbProfile.state != _profile.state ||
@@ -439,25 +458,37 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         _isLoggedIn = true;
         final user = session.user;
         _mobileNumber = user.phone ?? '';
+        final googlePhoto = extractGooglePhoto(user);
+        final googleName = extractGoogleName(user);
 
         final dbProfile = await SchemeRepository.instance.getProfile(user.id);
         if (dbProfile != null) {
           _profile = dbProfile;
           _selectedLanguage = dbProfile.language;
           _navigationMode = dbProfile.navigationMode;
+
+          if ((_profile.profilePhoto.isEmpty ||
+                  _profile.profilePhoto.contains('user_avatar.webp')) &&
+              googlePhoto.isNotEmpty) {
+            _profile = _profile.copyWith(
+              profilePhoto: googlePhoto,
+              updatedAt: DateTime.now(),
+            );
+            unawaited(SessionCacheService.instance.saveProfile(_profile));
+            unawaited(SchemeRepository.instance.updateProfile(_profile));
+          }
         } else {
           _profile = UserProfile(
             googleUserId: user.id,
-            name:
-                user.userMetadata?['full_name'] ??
-                user.userMetadata?['name'] ??
-                'Google User',
+            name: googleName.isNotEmpty ? googleName : 'Google User',
             email: user.email ?? '',
             mobile: user.phone ?? '',
-            profilePhoto: user.userMetadata?['avatar_url'] ?? '',
+            profilePhoto: googlePhoto,
             language: _selectedLanguage,
             navigationMode: _navigationMode,
           );
+          unawaited(_saveProfile());
+          unawaited(SchemeRepository.instance.createProfile(_profile));
         }
 
         // Recompute immediately rather than relying solely on
@@ -520,6 +551,94 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   String get navigationMode => _navigationMode;
   int get currentTabIndex => _currentTabIndex;
   UserProfile get profile => _profile;
+
+  /// Extracts the Google account profile image URL from Supabase Auth user metadata or identities.
+  static String extractGooglePhoto(User? user) {
+    if (user == null) return '';
+    final meta = user.userMetadata;
+    if (meta != null) {
+      for (final key in ['avatar_url', 'picture', 'photo_url', 'avatarUrl']) {
+        final val = meta[key];
+        if (val is String && val.trim().isNotEmpty) {
+          return val.trim();
+        }
+      }
+    }
+    if (user.identities != null) {
+      for (final identity in user.identities!) {
+        final idData = identity.identityData;
+        if (idData != null) {
+          for (final key in ['avatar_url', 'picture', 'photo_url', 'avatarUrl']) {
+            final val = idData[key];
+            if (val is String && val.trim().isNotEmpty) {
+              return val.trim();
+            }
+          }
+        }
+      }
+    }
+    return '';
+  }
+
+  /// Extracts the Google account name from Supabase Auth user metadata or identities.
+  static String extractGoogleName(User? user) {
+    if (user == null) return '';
+    final meta = user.userMetadata;
+    if (meta != null) {
+      for (final key in ['full_name', 'name', 'user_name']) {
+        final val = meta[key];
+        if (val is String && val.trim().isNotEmpty) {
+          return val.trim();
+        }
+      }
+    }
+    if (user.identities != null) {
+      for (final identity in user.identities!) {
+        final idData = identity.identityData;
+        if (idData != null) {
+          for (final key in ['full_name', 'name', 'user_name']) {
+            final val = idData[key];
+            if (val is String && val.trim().isNotEmpty) {
+              return val.trim();
+            }
+          }
+        }
+      }
+    }
+    return '';
+  }
+
+  /// Returns the effective profile photo URL or local file path.
+  /// Priority:
+  /// 1. Custom photo chosen by user (valid local file from gallery/camera or non-Google custom URL).
+  /// 2. Google OAuth profile photo from current Supabase session.
+  /// 3. Empty string (falls back to local avatar illustration asset).
+  String get effectiveProfilePhoto {
+    final photo = _profile.profilePhoto.trim();
+    if (photo.isNotEmpty && !photo.contains('user_avatar.webp')) {
+      if (photo.startsWith('http://') || photo.startsWith('https://')) {
+        return photo;
+      }
+      if (File(photo).existsSync()) {
+        return photo;
+      }
+    }
+    final googlePhoto = extractGooglePhoto(Supabase.instance.client.auth.currentUser);
+    if (googlePhoto.isNotEmpty) {
+      return googlePhoto;
+    }
+    return '';
+  }
+
+  /// Returns true if the user has uploaded/picked a custom profile photo.
+  bool get hasCustomPhoto {
+    final photo = _profile.profilePhoto.trim();
+    if (photo.isEmpty || photo.contains('user_avatar.webp')) return false;
+    if (File(photo).existsSync()) return true;
+    final google = extractGooglePhoto(Supabase.instance.client.auth.currentUser);
+    return google.isNotEmpty && photo != google;
+  }
+
   List<String> get bookmarkedIds => _bookmarkedIds;
   List<String> get recentlyViewedIds => _recentlyViewedIds;
   String get searchQuery => _searchQuery;
@@ -689,6 +808,19 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         );
         _isLoggedIn = true;
         _mobileNumber = session.user.phone ?? '';
+
+        final googlePhoto = extractGooglePhoto(session.user);
+        if ((_profile.profilePhoto.isEmpty ||
+                _profile.profilePhoto.contains('user_avatar.webp')) &&
+            googlePhoto.isNotEmpty) {
+          _profile = _profile.copyWith(
+            profilePhoto: googlePhoto,
+            updatedAt: DateTime.now(),
+          );
+          unawaited(SessionCacheService.instance.saveProfile(_profile));
+          unawaited(SchemeRepository.instance.updateProfile(_profile));
+        }
+
         _subscribeToProfile(session.user.id);
         _subscribeToNotifications(session.user.id);
         fetchPromoAlerts();
@@ -825,6 +957,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     final user = session.user;
     _isLoggedIn = true;
     _mobileNumber = user.phone ?? '';
+    final googlePhoto = extractGooglePhoto(user);
+    final googleName = extractGoogleName(user);
 
     _subscribeToProfile(user.id);
     fetchPromoAlerts();
@@ -835,6 +969,16 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       _profile = dbProfile;
       _selectedLanguage = dbProfile.language;
       _navigationMode = dbProfile.navigationMode;
+
+      if ((_profile.profilePhoto.isEmpty ||
+              _profile.profilePhoto.contains('user_avatar.webp')) &&
+          googlePhoto.isNotEmpty) {
+        _profile = _profile.copyWith(
+          profilePhoto: googlePhoto,
+          updatedAt: DateTime.now(),
+        );
+        unawaited(SchemeRepository.instance.updateProfile(_profile));
+      }
 
       await SchemeRepository.instance.updateLastLogin(user.id);
 
@@ -847,16 +991,16 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     } else {
       _profile = UserProfile(
         googleUserId: user.id,
-        name:
-            user.userMetadata?['full_name'] ?? user.userMetadata?['name'] ?? '',
+        name: googleName.isNotEmpty ? googleName : 'Google User',
         email: user.email ?? '',
         mobile: user.phone ?? '',
-        profilePhoto: user.userMetadata?['avatar_url'] ?? '',
+        profilePhoto: googlePhoto,
         language: _selectedLanguage,
         navigationMode: _navigationMode,
         profileCompleted: false,
       );
       await _saveProfile();
+      unawaited(SchemeRepository.instance.createProfile(_profile));
       notifyListeners();
       return false;
     }
@@ -995,15 +1139,30 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       final dbProfile = await SchemeRepository.instance.getProfile(user.id);
 
       if (dbProfile != null) {
+        var syncProfile = dbProfile;
+        if (syncProfile.profilePhoto.isEmpty ||
+            syncProfile.profilePhoto.contains('user_avatar.webp')) {
+          final currentPhoto = _profile.profilePhoto;
+          if (currentPhoto.isNotEmpty &&
+              !currentPhoto.contains('user_avatar.webp')) {
+            syncProfile = syncProfile.copyWith(profilePhoto: currentPhoto);
+          } else {
+            final googlePhoto = extractGooglePhoto(user);
+            if (googlePhoto.isNotEmpty) {
+              syncProfile = syncProfile.copyWith(profilePhoto: googlePhoto);
+            }
+          }
+        }
+
         final remoteUpdated =
-            dbProfile.updatedAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+            syncProfile.updatedAt ?? DateTime.fromMillisecondsSinceEpoch(0);
         final localUpdated =
             _profile.updatedAt ?? DateTime.fromMillisecondsSinceEpoch(0);
 
         if (remoteUpdated.isAfter(localUpdated)) {
-          _profile = dbProfile;
-          _selectedLanguage = dbProfile.language;
-          _navigationMode = dbProfile.navigationMode;
+          _profile = syncProfile;
+          _selectedLanguage = syncProfile.language;
+          _navigationMode = syncProfile.navigationMode;
           await SessionCacheService.instance.saveProfile(_profile);
           notifyListeners();
           debugPrint(
@@ -1070,10 +1229,10 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   void clearFilters() {
     _filters = {
       'state': _profile.state,
-      'community': 'All',
-      'gender': 'All',
-      'category': 'All',
-      'income': 'All',
+      'community': '',
+      'gender': '',
+      'category': '',
+      'income': '',
     };
     notifyListeners();
   }
@@ -1320,7 +1479,12 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   }
 
   Future<void> updateProfilePhoto(String path) async {
-    _profile = _profile.copyWith(profilePhoto: path, updatedAt: DateTime.now());
+    final trimmed = path.trim();
+    // If removing custom photo, reset back to Google account photo as default
+    final newPhoto = trimmed.isEmpty
+        ? extractGooglePhoto(Supabase.instance.client.auth.currentUser)
+        : trimmed;
+    _profile = _profile.copyWith(profilePhoto: newPhoto, updatedAt: DateTime.now());
     notifyListeners();
     await _saveProfile();
 

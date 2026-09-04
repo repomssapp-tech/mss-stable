@@ -60,4 +60,51 @@ void main() {
     expect(find.textContaining('Ministry'), findsOneWidget);
     expect(find.text('Clear All'), findsOneWidget);
   });
+
+  testWidgets('SearchScreen filter chip popup menus do NOT contain "All"', (
+    WidgetTester tester,
+  ) async {
+    final provider = AppProvider();
+
+    await tester.pumpWidget(
+      ChangeNotifierProvider.value(
+        value: provider,
+        child: const MaterialApp(
+          localizationsDelegates: [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: [Locale('en'), Locale('ta')],
+          home: Scaffold(body: SearchScreen()),
+        ),
+      ),
+    );
+
+    await tester.pumpAndSettle();
+
+    // Trigger filter strip by focusing or searching
+    await tester.enterText(find.byType(TextField), 'loan');
+    await tester.pump();
+
+    // Tap "Type" chip to open menu
+    await tester.tap(find.text('Type'));
+    await tester.pumpAndSettle();
+
+    // Verify popup items
+    expect(find.text('Loan'), findsWidgets);
+    expect(find.text('Subsidy'), findsOneWidget);
+    expect(find.text('Scholarship'), findsOneWidget);
+    expect(find.text('Pension'), findsOneWidget);
+    expect(find.text('All'), findsNothing,
+        reason: 'Filter chip popup menu must not contain "All"');
+
+    // Select "Loan"
+    await tester.tap(find.text('Loan').last);
+    await tester.pumpAndSettle();
+
+    // Never show 'No schemes found for "All"'
+    expect(find.textContaining('"All"'), findsNothing);
+  });
 }

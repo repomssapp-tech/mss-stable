@@ -35,9 +35,9 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
   late TextEditingController _searchController;
   final FocusNode _searchFocusNode = FocusNode();
   String _sortBy = 'Relevance';
-  String _selectedType = 'All';
-  String _selectedBenefit = 'All';
-  String _selectedMinistry = 'All';
+  String _selectedType = '';
+  String _selectedBenefit = '';
+  String _selectedMinistry = '';
 
   List<Scheme>? _baseSchemes;
   bool _isLoading = false;
@@ -119,9 +119,9 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
     provider.clearFilters();
     setState(() {
       _sortBy = 'Relevance';
-      _selectedType = 'All';
-      _selectedBenefit = 'All';
-      _selectedMinistry = 'All';
+      _selectedType = '';
+      _selectedBenefit = '';
+      _selectedMinistry = '';
       _searchController.clear();
     });
   }
@@ -148,7 +148,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
       }
 
       // 1. Dropdown Chips Filters: Type (Loan, Subsidy, etc.)
-      if (_selectedType != 'All') {
+      if (_selectedType.isNotEmpty && _selectedType != 'All') {
         final typeKeyword = _selectedType.toLowerCase();
         final matchesType =
             scheme.schemeType.toLowerCase().contains(typeKeyword) ||
@@ -159,7 +159,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
       }
 
       // 2. Dropdown Chips Filters: Benefit Type
-      if (_selectedBenefit != 'All') {
+      if (_selectedBenefit.isNotEmpty && _selectedBenefit != 'All') {
         final benefitLower = _selectedBenefit.toLowerCase();
         bool matchesBenefit = false;
         if (benefitLower == 'financial') {
@@ -185,7 +185,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
       }
 
       // 3. Dropdown Chips Filters: Ministry
-      if (_selectedMinistry != 'All') {
+      if (_selectedMinistry.isNotEmpty && _selectedMinistry != 'All') {
         final ministryLower = _selectedMinistry.toLowerCase();
         final matchesMinistry = scheme.sponsoringBody
             .toLowerCase()
@@ -232,7 +232,9 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
     String currentValue,
     ValueChanged<String> onChanged,
   ) {
-    final bool isActive = currentValue != 'All' && currentValue != 'Relevance';
+    final bool isActive = currentValue.isNotEmpty &&
+        currentValue != 'All' &&
+        currentValue != 'Relevance';
     return Container(
       margin: const EdgeInsets.only(right: AppSpacing.sm),
       child: PopupMenuButton<String>(
@@ -247,19 +249,37 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
             .map(
               (opt) => PopupMenuItem(
                 value: opt,
-                child: Text(
-                  opt,
-                  style: GoogleFonts.inter(
-                    fontSize: 12.5,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF0F172A),
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      opt,
+                      style: GoogleFonts.inter(
+                        fontSize: 12.5,
+                        fontWeight: opt == currentValue
+                            ? FontWeight.bold
+                            : FontWeight.w500,
+                        color: opt == currentValue
+                            ? const Color(0xFF2563EB)
+                            : const Color(0xFF0F172A),
+                      ),
+                    ),
+                    if (opt == currentValue)
+                      const Icon(
+                        Icons.check,
+                        size: 14,
+                        color: Color(0xFF2563EB),
+                      ),
+                  ],
                 ),
               ),
             )
             .toList(),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.md,
+            vertical: AppSpacing.sm,
+          ),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
@@ -273,7 +293,9 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                currentValue == 'All' ? label : '$label: $currentValue',
+                (currentValue.isEmpty || currentValue == 'All')
+                    ? label
+                    : '$label: $currentValue',
                 style: GoogleFonts.inter(
                   fontSize: 11.5,
                   fontWeight: FontWeight.w500,
@@ -350,26 +372,27 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
             ),
             _buildDropdownChip(
               isTa ? 'வகை' : 'Type',
-              ['All', 'Loan', 'Subsidy', 'Scholarship', 'Pension'],
+              ['Loan', 'Subsidy', 'Scholarship', 'Pension'],
               _selectedType,
-              (v) => setState(() => _selectedType = v),
+              (v) => setState(() => _selectedType = (_selectedType == v ? '' : v)),
             ),
             _buildDropdownChip(
               isTa ? 'பயன் வகை' : 'Benefit Type',
               [
-                'All',
                 'Financial',
                 'Skill training',
                 'Infrastructure',
               ],
               _selectedBenefit,
-              (v) => setState(() => _selectedBenefit = v),
+              (v) => setState(
+                  () => _selectedBenefit = (_selectedBenefit == v ? '' : v)),
             ),
             _buildDropdownChip(
               isTa ? 'அமைச்சகம்' : 'Ministry',
-              ['All', 'MSME', 'Education', 'Finance', 'Agriculture'],
+              ['MSME', 'Education', 'Finance', 'Agriculture'],
               _selectedMinistry,
-              (v) => setState(() => _selectedMinistry = v),
+              (v) => setState(
+                  () => _selectedMinistry = (_selectedMinistry == v ? '' : v)),
             ),
 
             // Clear All
@@ -524,11 +547,19 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                 ),
                                 const SizedBox(height: AppSpacing.md),
                                 Text(
-                                  context.l10n.noSchemesFound(
-                                    _searchController.text.isNotEmpty
-                                        ? _searchController.text
-                                        : widget.title,
-                                  ),
+                                  () {
+                                    final q = _searchController.text.trim();
+                                    if (q.isNotEmpty) {
+                                      return context.l10n.noSchemesFound(q);
+                                    }
+                                    if (widget.title.trim().isNotEmpty &&
+                                        widget.title.toLowerCase() != 'all') {
+                                      return context.l10n.noSchemesFound(widget.title);
+                                    }
+                                    return provider.selectedLanguage == 'ta'
+                                        ? 'தேர்ந்தெடுக்கப்பட்ட வடிகட்டிகளுக்கு பொருந்தும் திட்டங்கள் எதுவும் இல்லை'
+                                        : 'No schemes found matching your filters';
+                                  }(),
                                   style: GoogleFonts.poppins(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
