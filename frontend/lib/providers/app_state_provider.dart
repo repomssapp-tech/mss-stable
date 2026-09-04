@@ -13,6 +13,7 @@ import '../services/scheme_repository.dart';
 import '../services/scheme_catalog_sync_service.dart';
 import '../services/session_cache_service.dart';
 import '../screens/splash_screen.dart';
+import '../widgets/app_toast.dart';
 
 class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   AppProvider({SchemeCatalogSyncService? catalogSyncService})
@@ -902,7 +903,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _isLoggingOut = true;
     notifyListeners();
 
-    // 1. Delete user account from Supabase Auth (cascades to profiles)
+    // Account deletion must be confirmed by Supabase. Do not clear local
+    // state after an offline failure: that would falsely claim success.
     if (_isLoggedIn) {
       final user = Supabase.instance.client.auth.currentUser;
       if (user != null) {
@@ -916,18 +918,15 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           );
         } catch (e) {
           debugPrint('[AppProvider] Error calling delete_user RPC: $e');
-          // Fallback: delete profile row directly if RPC fails
-          try {
-            await Supabase.instance.client
-                .from('profiles')
-                .delete()
-                .eq('id', user.id);
-            debugPrint('[AppProvider] Supabase profile data deleted directly.');
-          } catch (dbError) {
-            debugPrint(
-              '[AppProvider] Error deleting profile from database directly: $dbError',
+          _isLoggingOut = false;
+          notifyListeners();
+          if (context.mounted) {
+            AppToast.showWarning(
+              context,
+              'Account deletion needs an internet connection. Nothing was changed.',
             );
           }
+          return;
         }
       }
     }
@@ -943,6 +942,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _currentTabIndex = 0;
     _tabHistory.clear();
     _unsubscribeFromProfile();
+    _unsubscribeFromNotifications();
 
     await SessionCacheService.instance.clearSession();
 
@@ -1520,8 +1520,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         if (mutable['bg_image'] == null ||
             mutable['bg_image'].toString().isEmpty) {
           final title = (mutable['title'] ?? '').toString().toLowerCase();
-          final badge =
-              (mutable['badge_text'] ?? '').toString().toLowerCase();
+          final badge = (mutable['badge_text'] ?? '').toString().toLowerCase();
           if (badge.contains('alert') ||
               title.contains('closing') ||
               title.contains('deadline')) {

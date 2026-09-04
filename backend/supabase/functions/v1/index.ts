@@ -22,6 +22,7 @@
 // switching.
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import { timingSafeEqual } from "https://deno.land/std@0.168.0/crypto/timing_safe_equal.ts"
 import { createClient, SupabaseClient } from "https://esm.sh/@supabase/supabase-js@2.39.0"
 import { HybridSearchEngine, SchemeEntry } from "./search_engine.ts"
 import {
@@ -39,6 +40,19 @@ import {
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+}
+
+function safeEqual(a: string, b: string): boolean {
+  const encoder = new TextEncoder()
+  const aBytes = encoder.encode(a)
+  const bBytes = encoder.encode(b)
+  // timingSafeEqual requires equal-length buffers; still touch it on a
+  // length mismatch so that case doesn't return via a distinctly faster path.
+  if (aBytes.length !== bBytes.length) {
+    timingSafeEqual(aBytes, aBytes)
+    return false
+  }
+  return timingSafeEqual(aBytes, bBytes)
 }
 
 function getServiceClient(): SupabaseClient | null {
@@ -260,7 +274,11 @@ serve(async (req) => {
     const authHeader = req.headers.get('authorization') ?? ''
     const apikeyHeader = req.headers.get('apikey') ?? ''
     const serviceRoleKey = (Deno.env.get('SB_SECRET_KEY') ?? Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')) ?? ''
-    if (!serviceRoleKey || (!authHeader.includes(serviceRoleKey) && apikeyHeader !== serviceRoleKey)) {
+    const presentedToken = authHeader.replace(/^Bearer\s+/i, '')
+    const authorized =
+      !!serviceRoleKey &&
+      (safeEqual(presentedToken, serviceRoleKey) || safeEqual(apikeyHeader, serviceRoleKey))
+    if (!authorized) {
       return json({ error: 'UNAUTHORIZED', message: 'Service role authorization required' }, 401)
     }
     cachedEntries = null

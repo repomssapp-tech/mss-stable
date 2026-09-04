@@ -38,6 +38,7 @@ update storage.buckets
 --    through the existing "Admins/Publishers modify catalogs bucket"
 --    policy, which is deliberately left untouched.
 drop policy if exists "Public Access to catalogs bucket" on storage.objects;
+drop policy if exists "Catalog bundle readable by app clients" on storage.objects;
 
 create policy "Catalog bundle readable by app clients"
   on storage.objects

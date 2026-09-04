@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'regular_mode/language_selection_screen.dart';
 import 'login_screen.dart';
 import '../providers/app_state_provider.dart';
+import '../services/auth_service.dart';
 import '../services/session_cache_service.dart';
 import '../utils/constants.dart';
 import '../main.dart';
@@ -50,7 +51,13 @@ class _SplashScreenState extends State<SplashScreen>
     _controller.forward();
 
     // Auto navigate after 3.2 seconds
-    _navigationTimer = Timer(const Duration(milliseconds: 3200), () async {
+    _navigationTimer = Timer(
+      const Duration(milliseconds: 3200),
+      _continueStartup,
+    );
+  }
+
+  Future<void> _continueStartup() async {
       if (!mounted) return;
 
       final provider = Provider.of<AppProvider>(context, listen: false);
@@ -70,6 +77,16 @@ class _SplashScreenState extends State<SplashScreen>
           if (userResponse.user == null) {
             session = null;
           }
+        } on AuthRetryableFetchException catch (netErr) {
+          // Network-unreachable (offline, DNS failure, timeout) -- not a
+          // rejection by the server. Trust the cached session rather than
+          // signing the user out just because the app happened to start
+          // offline; this is the online-only exception to the offline-first
+          // policy (session validation), not scheme discovery, but it must
+          // not destroy state that was working fine a moment ago.
+          debugPrint(
+            '[SplashScreen] Session validation unreachable (offline?), keeping cached session: $netErr',
+          );
         } on AuthException catch (authErr) {
           debugPrint(
             '[SplashScreen] Auth exception during session validation: $authErr',
@@ -98,6 +115,13 @@ class _SplashScreenState extends State<SplashScreen>
           MaterialPageRoute(builder: (_) => const MainTabsContainer()),
         );
       } else {
+        // Without a saved session/profile, sign-in is the only next step.
+        // Keep the user out of an unusable sign-in screen while offline.
+        if (!await AuthService.canReachAuthenticationService()) {
+          if (mounted) _showNoNetworkDialog();
+          return;
+        }
+
         // Session invalid or profile incomplete - clean auth cache
         await cache.clearSession();
         try {
@@ -115,7 +139,67 @@ class _SplashScreenState extends State<SplashScreen>
           );
         }
       }
-    });
+  }
+
+  void _showNoNetworkDialog() {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) => Dialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.xl),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(AppSpacing.md),
+                decoration: const BoxDecoration(
+                  color: Color(0xFFFFFBEB),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.wifi_off_rounded,
+                  color: Color(0xFFD97706),
+                  size: 28,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.lg),
+              Text(
+                'No internet connection',
+                style: GoogleFonts.poppins(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xFF0F172A),
+                ),
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              Text(
+                'Connect to the internet to sign in or restore this app.',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.inter(
+                  fontSize: 13,
+                  height: 1.4,
+                  color: const Color(0xFF64748B),
+                ),
+              ),
+              const SizedBox(height: AppSpacing.xl),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                    _continueStartup();
+                  },
+                  child: const Text('Retry'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   @override

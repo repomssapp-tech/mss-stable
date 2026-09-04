@@ -20,12 +20,14 @@ CREATE INDEX IF NOT EXISTS idx_chat_logs_created_at ON public.chat_logs (created
 ALTER TABLE public.chat_logs ENABLE ROW LEVEL SECURITY;
 
 -- Allow insert from authenticated, anon, and service roles
+DROP POLICY IF EXISTS "Allow log insertion" ON public.chat_logs;
 CREATE POLICY "Allow log insertion" ON public.chat_logs
     FOR INSERT
     TO anon, authenticated, service_role
     WITH CHECK (true);
 
 -- Allow read access for authenticated and service roles
+DROP POLICY IF EXISTS "Allow read chat logs" ON public.chat_logs;
 CREATE POLICY "Allow read chat logs" ON public.chat_logs
     FOR SELECT
     TO anon, authenticated, service_role

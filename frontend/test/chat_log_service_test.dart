@@ -39,9 +39,10 @@ void main() {
       );
       expect(service.messageCount, 1);
 
-      final turns = service.buildTurns(mode: 'voice');
-      expect(turns.length, 1);
-      expect(turns.first['user_message'], 'Hello, what schemes are available?');
+      final sessionRow = service.buildSessionRow(mode: 'voice');
+      final transcript = sessionRow['transcript'] as List;
+      expect(transcript.length, 1);
+      expect(transcript.first['text'], 'Hello, what schemes are available?');
     });
 
     test('pairs standard alternating user and assistant turns', () {
@@ -50,85 +51,87 @@ void main() {
       service.recordUserMessage('How do I apply for PM-KISAN?', id: 'u2');
       service.recordAiMessage('You can apply online with land documents.', id: 'a2');
 
-      final turns = service.buildTurns(mode: 'voice');
+      final sessionRow = service.buildSessionRow(mode: 'voice');
+      final transcript = sessionRow['transcript'] as List;
 
-      expect(turns.length, 2);
-      expect(turns[0]['turn_index'], 1);
-      expect(turns[0]['conversation_uid'], 'test-session-12345');
-      expect(turns[0]['mode'], 'voice');
-      expect(turns[0]['user_message'], 'What schemes are there for farmers?');
-      expect(turns[0]['ai_message'], 'PM-KISAN and Uzhavar Pathukappu are available.');
+      expect(transcript.length, 4);
+      expect(transcript[0]['turn'], 1);
+      expect(transcript[0]['role'], 'user');
+      expect(transcript[0]['text'], 'What schemes are there for farmers?');
+      
+      expect(transcript[1]['turn'], 1);
+      expect(transcript[1]['role'], 'ai');
+      expect(transcript[1]['text'], 'PM-KISAN and Uzhavar Pathukappu are available.');
 
-      expect(turns[1]['turn_index'], 2);
-      expect(turns[1]['conversation_uid'], 'test-session-12345');
-      expect(turns[1]['mode'], 'voice');
-      expect(turns[1]['user_message'], 'How do I apply for PM-KISAN?');
-      expect(turns[1]['ai_message'], 'You can apply online with land documents.');
+      expect(transcript[2]['turn'], 2);
+      expect(transcript[2]['role'], 'user');
+      expect(transcript[2]['text'], 'How do I apply for PM-KISAN?');
+
+      expect(transcript[3]['turn'], 2);
+      expect(transcript[3]['role'], 'ai');
+      expect(transcript[3]['text'], 'You can apply online with land documents.');
     });
 
-    test('handles assistant greeting first with (Session started)', () {
+    test('handles assistant greeting first', () {
       service.recordAiMessage('Vanakkam! I am Saarthi, your welfare assistant.', id: 'a0');
       service.recordUserMessage('Tell me about scholarships.', id: 'u1');
       service.recordAiMessage('Post-Matric scholarship is available for college students.', id: 'a1');
 
-      final turns = service.buildTurns(mode: 'voice');
+      final sessionRow = service.buildSessionRow(mode: 'voice');
+      final transcript = sessionRow['transcript'] as List;
 
-      expect(turns.length, 2);
-      expect(turns[0]['turn_index'], 1);
-      expect(turns[0]['user_message'], '(Session started)');
-      expect(turns[0]['ai_message'], 'Vanakkam! I am Saarthi, your welfare assistant.');
+      expect(transcript.length, 3);
+      expect(transcript[0]['turn'], 1);
+      expect(transcript[0]['role'], 'ai');
+      expect(transcript[0]['text'], 'Vanakkam! I am Saarthi, your welfare assistant.');
 
-      expect(turns[1]['turn_index'], 2);
-      expect(turns[1]['user_message'], 'Tell me about scholarships.');
-      expect(turns[1]['ai_message'], 'Post-Matric scholarship is available for college students.');
+      expect(transcript[1]['turn'], 2);
+      expect(transcript[1]['role'], 'user');
+      expect(transcript[1]['text'], 'Tell me about scholarships.');
     });
 
-    test('handles user abrupt exit without AI reply with (Session ended)', () {
+    test('handles user abrupt exit gracefully', () {
       service.recordUserMessage('I want to apply for agriculture loan.', id: 'u1');
 
-      final turns = service.buildTurns(mode: 'voice');
+      final sessionRow = service.buildSessionRow(mode: 'voice');
+      final transcript = sessionRow['transcript'] as List;
 
-      expect(turns.length, 1);
-      expect(turns[0]['turn_index'], 1);
-      expect(turns[0]['user_message'], 'I want to apply for agriculture loan.');
-      expect(turns[0]['ai_message'], '(Session ended)');
+      expect(transcript.length, 1);
+      expect(transcript[0]['turn'], 1);
+      expect(transcript[0]['role'], 'user');
+      expect(transcript[0]['text'], 'I want to apply for agriculture loan.');
+      expect(sessionRow['status'], 'completed');
     });
 
-    test('combines consecutive user speech into one turn', () {
+    test('maintains separate turns for consecutive user speech', () {
       service.recordUserMessage('I am 22 years old.', id: 'u1');
       service.recordUserMessage('And I need business funding.', id: 'u2');
       service.recordAiMessage('PMEGP scheme provides loan subsidy for young entrepreneurs.', id: 'a1');
 
-      final turns = service.buildTurns(mode: 'voice');
+      final sessionRow = service.buildSessionRow(mode: 'voice');
+      final transcript = sessionRow['transcript'] as List;
 
-      expect(turns.length, 1);
-      expect(turns[0]['turn_index'], 1);
-      expect(turns[0]['user_message'], 'I am 22 years old. And I need business funding.');
-      expect(turns[0]['ai_message'], 'PMEGP scheme provides loan subsidy for young entrepreneurs.');
+      expect(transcript.length, 3);
+      expect(transcript[0]['turn'], 1);
+      expect(transcript[0]['role'], 'user');
+      expect(transcript[0]['text'], 'I am 22 years old.');
+
+      expect(transcript[1]['turn'], 2);
+      expect(transcript[1]['role'], 'user');
+      expect(transcript[1]['text'], 'And I need business funding.');
+
+      expect(transcript[2]['turn'], 2);
+      expect(transcript[2]['role'], 'ai');
+      expect(transcript[2]['text'], 'PMEGP scheme provides loan subsidy for young entrepreneurs.');
     });
 
-    test('empty conversation produces empty turns and no writes', () async {
-      final turns = service.buildTurns(mode: 'voice');
-      expect(turns, isEmpty);
+    test('empty conversation produces empty session row and no writes', () async {
+      final sessionRow = service.buildSessionRow(mode: 'voice');
+      expect(sessionRow, isEmpty);
 
       final flushed = await service.flushSessionLogs(mode: 'voice');
       expect(flushed, isFalse);
       expect(service.isFlushed, isTrue);
-    });
-
-    test('enforces mode check to voice or text', () {
-      service.recordUserMessage('Test message', id: 'u1');
-      service.recordAiMessage('Test response', id: 'a1');
-
-      final voiceTurns = service.buildTurns(mode: 'voice');
-      expect(voiceTurns.first['mode'], 'voice');
-
-      final textTurns = service.buildTurns(mode: 'text');
-      expect(textTurns.first['mode'], 'text');
-
-      // Any unexpected mode defaults safely to voice
-      final unknownTurns = service.buildTurns(mode: 'unknown');
-      expect(unknownTurns.first['mode'], 'voice');
     });
 
     test('idempotency latch prevents double submission', () async {
@@ -142,6 +145,62 @@ void main() {
       // Second flush attempt
       final secondFlush = await service.flushSessionLogs(mode: 'voice');
       expect(secondFlush, isFalse);
+    });
+
+    test('ChatPayloadMapper emits strictly required Supabase keys', () {
+      service.recordUserMessage('Hello Saarthi', id: 'u1');
+      service.recordAiMessage('Vanakkam!', id: 'a1');
+
+      final row = service.buildSessionRow(
+        mode: 'voice',
+        baseMetadata: {'source': 'companion_mode'},
+        userId: 'test-user',
+      );
+
+      // Verify ONLY the exact expected keys exist
+      const expectedKeys = {
+        'session_id',
+        'user_id',
+        'status',
+        'transcript',
+        'session_metrics',
+        'created_at',
+        'ended_at',
+      };
+      expect(row.keys.toSet(), equals(expectedKeys));
+      
+      expect(row['session_id'], 'test-session-12345');
+      expect(row['user_id'], 'test-user');
+      expect(row['status'], 'completed');
+      expect(row['session_metrics']['metadata'], {'source': 'companion_mode'});
+      
+      final transcript = row['transcript'] as List;
+      expect(transcript.length, 2);
+      // 'Hello Saarthi' is Latin script → detected as English
+      expect((transcript[0] as Map)['detected_language'], 'en');
+    });
+
+    test('syncChatSession method delegates and preserves local cache when offline', () async {
+      final prefs = await SharedPreferences.getInstance();
+      final syncService = ChatLogService(conversationUid: 'offline-sess-1');
+
+      syncService.recordUserMessage('Tell me about farming loan', id: 'u1');
+      syncService.recordAiMessage('NABARD schemes are available', id: 'a1');
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+
+      // Local storage must contain the pending session before sync
+      final pendingBefore = prefs.getStringList('chat_log_pending_sessions');
+      expect(pendingBefore, contains('offline-sess-1'));
+      expect(prefs.containsKey('chat_log_session_offline-sess-1'), isTrue);
+
+      // Calling syncChatSession with no client simulates unavailable Supabase
+      final success = await syncService.syncChatSession(mode: 'voice');
+      expect(success, isFalse);
+
+      // CRITICAL RULE: local cache must remain intact for future recovery!
+      final pendingAfter = prefs.getStringList('chat_log_pending_sessions');
+      expect(pendingAfter, contains('offline-sess-1'));
+      expect(prefs.containsKey('chat_log_session_offline-sess-1'), isTrue);
     });
   });
 }
