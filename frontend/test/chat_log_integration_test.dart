@@ -31,9 +31,9 @@ void main() {
     tearDownAll(() async {
       try {
         await client
-            .from('chat_logs')
+            .from('voice_chat_sessions')
             .delete()
-            .eq('conversation_uid', testConversationUid);
+            .eq('session_id', testConversationUid);
         // ignore: avoid_print
         print('[Test Cleanup] Successfully removed test rows for $testConversationUid');
       } catch (e) {
@@ -42,7 +42,7 @@ void main() {
       }
     });
 
-    test('performs live end-to-end chat logging into Supabase chat_logs table', () async {
+    test('performs live end-to-end chat logging into Supabase voice_chat_sessions table', () async {
       final service = ChatLogService(conversationUid: testConversationUid);
 
       // Turn 1: AI Greeting
@@ -73,23 +73,34 @@ void main() {
 
       expect(service.messageCount, 5);
 
-      // Verify turns built in memory before flush
-      final turns = service.buildTurns(
+      // Verify row built in memory before flush
+      final sessionRow = service.buildSessionRow(
         mode: 'voice',
         baseMetadata: {'test_suite': 'e2e_verification', 'surface': 'voice_overlay'},
       );
-      expect(turns.length, 3);
-      expect(turns[0]['turn_index'], 1);
-      expect(turns[0]['user_message'], '(Session started)');
-      expect(turns[0]['ai_message'], 'வணக்கம்! நான் சாரதி, உங்கள் நலத்திட்ட வழிகாட்டி.');
+      
+      final transcript = sessionRow['transcript'] as List;
+      expect(transcript.length, 5);
+      
+      expect(transcript[0]['turn'], 1);
+      expect(transcript[0]['role'], 'ai');
+      expect(transcript[0]['text'], 'வணக்கம்! நான் சாரதி, உங்கள் நலத்திட்ட வழிகாட்டி.');
 
-      expect(turns[1]['turn_index'], 2);
-      expect(turns[1]['user_message'], 'விவசாயிகளுக்கு என்னென்ன திட்டங்கள் உள்ளன?');
-      expect(turns[1]['ai_message'], 'PM-KISAN மற்றும் உழவர் பாதுகாப்பு திட்டம் உள்ளது.');
+      expect(transcript[1]['turn'], 2);
+      expect(transcript[1]['role'], 'user');
+      expect(transcript[1]['text'], 'விவசாயிகளுக்கு என்னென்ன திட்டங்கள் உள்ளன?');
 
-      expect(turns[2]['turn_index'], 3);
-      expect(turns[2]['user_message'], 'விண்ணப்பிப்பது எப்படி?');
-      expect(turns[2]['ai_message'], 'நீங்கள் ஆன்லைனில் அல்லது VAO அலுவலகத்தில் விண்ணப்பிக்கலாம்.');
+      expect(transcript[2]['turn'], 2);
+      expect(transcript[2]['role'], 'ai');
+      expect(transcript[2]['text'], 'PM-KISAN மற்றும் உழவர் பாதுகாப்பு திட்டம் உள்ளது.');
+
+      expect(transcript[3]['turn'], 3);
+      expect(transcript[3]['role'], 'user');
+      expect(transcript[3]['text'], 'விண்ணப்பிப்பது எப்படி?');
+
+      expect(transcript[4]['turn'], 3);
+      expect(transcript[4]['role'], 'ai');
+      expect(transcript[4]['text'], 'நீங்கள் ஆன்லைனில் அல்லது VAO அலுவலகத்தில் விண்ணப்பிக்கலாம்.');
 
       // Flush to live Supabase database
       final flushResult = await service.flushSessionLogs(
@@ -109,41 +120,37 @@ void main() {
 
       // Query live Supabase table directly to verify stored records
       final response = await client
-          .from('chat_logs')
+          .from('voice_chat_sessions')
           .select()
-          .eq('conversation_uid', testConversationUid)
-          .order('turn_index', ascending: true);
+          .eq('session_id', testConversationUid)
+          .maybeSingle();
 
-      final rows = List<Map<String, dynamic>>.from(response as List);
-      expect(rows.length, 3);
+      expect(response, isNotNull);
+      final row = response!;
 
-      // Validate Row 1
-      expect(rows[0]['conversation_uid'], testConversationUid);
-      expect(rows[0]['turn_index'], 1);
-      expect(rows[0]['mode'], 'voice');
-      expect(rows[0]['user_message'], '(Session started)');
-      expect(rows[0]['ai_message'], 'வணக்கம்! நான் சாரதி, உங்கள் நலத்திட்ட வழிகாட்டி.');
-      expect(rows[0]['created_at'], isNotNull);
+      expect(row['session_id'], testConversationUid);
+      expect(row['status'], 'completed');
+      expect(row['created_at'], isNotNull);
+      expect(row['ended_at'], isNotNull);
 
-      // Validate Row 2
-      expect(rows[1]['conversation_uid'], testConversationUid);
-      expect(rows[1]['turn_index'], 2);
-      expect(rows[1]['mode'], 'voice');
-      expect(rows[1]['user_message'], 'விவசாயிகளுக்கு என்னென்ன திட்டங்கள் உள்ளன?');
-      expect(rows[1]['ai_message'], 'PM-KISAN மற்றும் உழவர் பாதுகாப்பு திட்டம் உள்ளது.');
+      final dbTranscript = row['transcript'] as List;
+      expect(dbTranscript.length, 5);
+      expect(dbTranscript[0]['text'], 'வணக்கம்! நான் சாரதி, உங்கள் நலத்திட்ட வழிகாட்டி.');
+      expect(dbTranscript[1]['text'], 'விவசாயிகளுக்கு என்னென்ன திட்டங்கள் உள்ளன?');
+      expect(dbTranscript[2]['text'], 'PM-KISAN மற்றும் உழவர் பாதுகாப்பு திட்டம் உள்ளது.');
+      expect(dbTranscript[3]['text'], 'விண்ணப்பிப்பது எப்படி?');
+      expect(dbTranscript[4]['text'], 'நீங்கள் ஆன்லைனில் அல்லது VAO அலுவலகத்தில் விண்ணப்பிக்கலாம்.');
 
-      // Validate Row 3
-      expect(rows[2]['conversation_uid'], testConversationUid);
-      expect(rows[2]['turn_index'], 3);
-      expect(rows[2]['mode'], 'voice');
-      expect(rows[2]['user_message'], 'விண்ணப்பிப்பது எப்படி?');
-      expect(rows[2]['ai_message'], 'நீங்கள் ஆன்லைனில் அல்லது VAO அலுவலகத்தில் விண்ணப்பிக்கலாம்.');
+      final metrics = row['session_metrics'];
+      expect(metrics['session_ended_type'], 'completed');
+      expect(metrics['total_turns'], 3);
+      expect(metrics['metadata']['test_suite'], 'e2e_verification');
 
       // ignore: avoid_print
-      print('\n[E2E Verification Success] Verified 3 live rows in Supabase:');
-      for (final r in rows) {
+      print('\n[E2E Verification Success] Verified 1 live session row in Supabase:');
+      for (final msg in dbTranscript) {
         // ignore: avoid_print
-        print('  Turn ${r['turn_index']}: "${r['user_message']}" -> "${r['ai_message']}"');
+        print('  Turn ${msg['turn']} [${msg['role']}]: "${msg['text']}"');
       }
     });
   });

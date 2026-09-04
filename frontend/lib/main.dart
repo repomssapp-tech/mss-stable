@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,7 @@ import 'screens/regular_mode/search_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/regular_mode/saved_schemes_screen.dart';
 import 'screens/companion_mode/saarthi_home_screen.dart';
+import 'services/chat_log_service.dart';
 import 'utils/constants.dart';
 import 'utils/app_theme.dart';
 import 'utils/app_spacing.dart';
@@ -56,6 +58,9 @@ void main() async {
     url: supabaseUrl,
     publishableKey: supabasePublishableKey,
   );
+
+  // App Startup Recovery: Check for unsynced chat sessions in local storage and batch upload to Supabase
+  unawaited(ChatLogService.syncPendingOfflineQueue());
 
   runApp(
     ChangeNotifierProvider(
