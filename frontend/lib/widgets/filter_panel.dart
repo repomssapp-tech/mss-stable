@@ -41,14 +41,17 @@ class _FilterPanelState extends State<FilterPanel> {
     super.initState();
     final provider = Provider.of<AppProvider>(context, listen: false);
 
-    // Initialize state from existing provider filters or defaults (defaulting to 'All')
+    // Initialize state from existing provider filters or defaults
     _state = provider.filters['state'] ?? 'All';
     _district = provider.filters['district'] ?? 'All';
-    _ministry = provider.filters['ministry'] ?? 'All';
-    _department = provider.filters['department'] ?? 'All';
+    _ministry = provider.filters['ministry'] ?? '';
+    if (_ministry == 'All') _ministry = '';
+    _department = provider.filters['department'] ?? '';
+    if (_department == 'All') _department = '';
     _category = provider.filters['category'] ?? 'All';
 
-    _income = provider.filters['income'] ?? 'All';
+    _income = provider.filters['income'] ?? '';
+    if (_income == 'All') _income = '';
     _gender = provider.filters['gender'] ?? 'All';
     _age = provider.filters['age'] ?? 'All';
     _community = provider.filters['community'] ?? 'All';
@@ -56,6 +59,14 @@ class _FilterPanelState extends State<FilterPanel> {
     _education = provider.filters['education'] ?? 'All';
     _firstGen = provider.filters['firstGen'] == true;
     _disability = provider.filters['disability'] ?? 'All';
+
+    // Auto-select 'No Income' for students if income is not already chosen
+    final userOccupation = _occupation != 'All'
+        ? _occupation
+        : provider.profile.employmentStatus;
+    if (userOccupation.toLowerCase() == 'student' && _income.isEmpty) {
+      _income = 'No Income';
+    }
 
     _schemeStatus = provider.filters['schemeStatus'] ?? 'All';
     _onlineOffline = provider.filters['onlineOffline'] ?? 'All';
@@ -93,11 +104,11 @@ class _FilterPanelState extends State<FilterPanel> {
     setState(() {
       _state = 'All';
       _district = 'All';
-      _ministry = 'All';
-      _department = 'All';
+      _ministry = '';
+      _department = '';
       _category = 'All';
 
-      _income = 'All';
+      _income = '';
       _gender = 'All';
       _age = 'All';
       _community = 'All';
@@ -116,11 +127,11 @@ class _FilterPanelState extends State<FilterPanel> {
     int count = 0;
     if (_state != 'All') count++;
     if (_district != 'All') count++;
-    if (_ministry != 'All') count++;
-    if (_department != 'All') count++;
+    if (_ministry.isNotEmpty && _ministry != 'All') count++;
+    if (_department.isNotEmpty && _department != 'All') count++;
     if (_category != 'All') count++;
 
-    if (_income != 'All') count++;
+    if (_income.isNotEmpty && _income != 'All') count++;
     if (_gender != 'All') count++;
     if (_age != 'All') count++;
     if (_community != 'All') count++;
@@ -288,14 +299,13 @@ class _FilterPanelState extends State<FilterPanel> {
                             label: context.l10n.filterMinistry,
                             value: _ministry,
                             items: [
-                              'All',
                               'Ministry of MSME',
                               'Ministry of Agriculture',
                               'Ministry of Finance',
                               'Ministry of Education',
                             ],
                             onChanged: (val) =>
-                                setState(() => _ministry = val ?? 'All'),
+                                setState(() => _ministry = val ?? ''),
                           ),
                           const SizedBox(width: AppSpacing.sm),
                           _buildDropdownCell(
@@ -305,13 +315,12 @@ class _FilterPanelState extends State<FilterPanel> {
                             label: context.l10n.filterDepartment,
                             value: _department,
                             items: [
-                              'All',
                               'Dept of MSME Development',
                               'Dept of Agriculture Cooperation',
                               'Dept of Higher Education',
                             ],
                             onChanged: (val) =>
-                                setState(() => _department = val ?? 'All'),
+                                setState(() => _department = val ?? ''),
                           ),
                         ],
                       ),
@@ -365,14 +374,14 @@ class _FilterPanelState extends State<FilterPanel> {
                           label: context.l10n.labelAnnualIncome,
                           value: _income,
                           items: [
-                            'All',
+                            'No Income',
                             'Under ₹1 Lakh',
                             'Under ₹5 Lakhs',
                             'Under ₹10 Lakhs',
                             'Under ₹50 Lakhs',
                           ],
                           onChanged: (val) =>
-                              setState(() => _income = val ?? 'All'),
+                              setState(() => _income = val ?? ''),
                         ),
                       ],
                     ),
@@ -448,11 +457,17 @@ class _FilterPanelState extends State<FilterPanel> {
                               'Unemployed',
                               'Student',
                               'Farmer',
-                              'Self Employed',
+                              'Self Employed / Business',
                               'Salaried',
+                              'Artisan / Craftsman',
                             ],
-                            onChanged: (val) =>
-                                setState(() => _occupation = val ?? 'All'),
+                            onChanged: (val) => setState(() {
+                              _occupation = val ?? 'All';
+                              if (_occupation == 'Student' &&
+                                  (_income.isEmpty || _income == 'All')) {
+                                _income = 'No Income';
+                              }
+                            }),
                           ),
                         ],
                       ),
@@ -691,6 +706,7 @@ class _FilterPanelState extends State<FilterPanel> {
     required List<String> items,
     required ValueChanged<String?> onChanged,
   }) {
+    final bool isUnset = value.isEmpty || value == 'All';
     return Expanded(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.sm),
@@ -731,11 +747,13 @@ class _FilterPanelState extends State<FilterPanel> {
                       ),
                       const SizedBox(height: AppSpacing.hairline),
                       Text(
-                        value == 'All' ? 'Select $label' : value,
+                        isUnset ? 'Select $label' : value,
                         style: GoogleFonts.inter(
                           fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF0F172A),
+                          fontWeight: isUnset ? FontWeight.w500 : FontWeight.bold,
+                          color: isUnset
+                              ? const Color(0xFF94A3B8)
+                              : const Color(0xFF0F172A),
                         ),
                       ),
                     ],
@@ -752,7 +770,14 @@ class _FilterPanelState extends State<FilterPanel> {
               child: Opacity(
                 opacity: 0.0,
                 child: DropdownButton<String>(
-                  value: items.contains(value) ? value : items.first,
+                  value: items.contains(value) ? value : null,
+                  hint: Text(
+                    'Select $label',
+                    style: GoogleFonts.inter(
+                      fontSize: 13,
+                      color: const Color(0xFF94A3B8),
+                    ),
+                  ),
                   isExpanded: true,
                   dropdownColor: Colors.white,
                   borderRadius: BorderRadius.circular(12),

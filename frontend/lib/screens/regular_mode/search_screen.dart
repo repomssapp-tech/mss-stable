@@ -82,6 +82,30 @@ List<Scheme> applyProviderFacetFilters(
           s.category.toLowerCase().contains(stType);
     }).toList();
   }
+  final ministry = filters['ministry'];
+  if (ministry != null &&
+      ministry != 'All' &&
+      ministry.toString().trim().isNotEmpty) {
+    final mLower = ministry.toString().toLowerCase();
+    out = out.where((s) {
+      return s.sponsoringBody.toLowerCase().contains(mLower) ||
+          s.issuingBody.toLowerCase().contains(mLower) ||
+          s.category.toLowerCase().contains(mLower) ||
+          s.name.toLowerCase().contains(mLower);
+    }).toList();
+  }
+  final department = filters['department'];
+  if (department != null &&
+      department != 'All' &&
+      department.toString().trim().isNotEmpty) {
+    final dLower = department.toString().toLowerCase();
+    out = out.where((s) {
+      return s.sponsoringBody.toLowerCase().contains(dLower) ||
+          s.issuingBody.toLowerCase().contains(dLower) ||
+          s.category.toLowerCase().contains(dLower) ||
+          s.name.toLowerCase().contains(dLower);
+    }).toList();
+  }
   return out;
 }
 
@@ -570,7 +594,7 @@ class SearchScreenState extends State<SearchScreen> {
     _openFilterPanel();
   }
 
-  Future<void> _openVoiceAssistant() async {
+  Future<void> openVoiceAssistant() async {
     final provider = Provider.of<AppProvider>(context, listen: false);
     final schemes = provider.allSchemes.isNotEmpty
         ? provider.allSchemes
