@@ -36,6 +36,7 @@ begin;
 -- M4. catalog.relationships -- gate reads on a published source entity.
 -- ---------------------------------------------------------------------------
 drop policy if exists "Anon/Public read relationships" on catalog.relationships;
+drop policy if exists "Public read relationships for published entities" on catalog.relationships;
 
 create policy "Public read relationships for published entities"
 on catalog.relationships
@@ -61,6 +62,7 @@ drop policy if exists "Public view catalog releases" on admin.catalog_releases;
 -- M6. public.promo_alerts / public.feature_requests -- authenticated-only read.
 -- ---------------------------------------------------------------------------
 drop policy if exists "Allow public read access to promo_alerts" on public.promo_alerts;
+drop policy if exists "Authenticated read promo_alerts" on public.promo_alerts;
 create policy "Authenticated read promo_alerts"
 on public.promo_alerts
 for select
@@ -69,6 +71,7 @@ using (true);
 revoke select on table public.promo_alerts from anon;
 
 drop policy if exists "Public read feature requests" on public.feature_requests;
+drop policy if exists "Authenticated read feature requests" on public.feature_requests;
 create policy "Authenticated read feature requests"
 on public.feature_requests
 for select
