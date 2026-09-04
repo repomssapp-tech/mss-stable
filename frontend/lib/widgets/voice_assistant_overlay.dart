@@ -152,6 +152,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
   final List<_VoiceTranscriptTurn> _conversationTurns = [];
   final ScrollController _panelScrollController = ScrollController();
   final ChatLogService _chatLogService = ChatLogService();
+  late final AppLifecycleListener _lifecycleListener;
   int _fallbackTranscriptId = 0;
 
   bool get _isListening => _voicePhase == _VoiceAssistantPhase.listening;
@@ -312,6 +313,11 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     );
     unawaited(_initializeSpeechOutput());
     _chatLogService.startSession();
+    _lifecycleListener = AppLifecycleListener(
+      onPause: () => unawaited(_chatLogService.syncChatSession(mode: 'voice')),
+      onHide: () => unawaited(_chatLogService.syncChatSession(mode: 'voice')),
+      onDetach: () => unawaited(_chatLogService.syncChatSession(mode: 'voice')),
+    );
     WidgetsBinding.instance.addPostFrameCallback(
       (_) => _initializeVoiceAgent(),
     );
@@ -1216,13 +1222,15 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     unawaited(_speechOutputController.stop());
     unawaited(_recognitionController.cancel());
     unawaited(_voiceAgentController?.close());
-    unawaited(_chatLogService.flushSessionLogs(mode: 'voice'));
+    unawaited(_chatLogService.syncChatSession(mode: 'voice'));
     widget.onClose();
   }
 
   @override
   void dispose() {
-    unawaited(_chatLogService.flushSessionLogs(mode: 'voice'));
+    _lifecycleListener.dispose();
+    // Note: _close() is always called before dispose() and already triggers
+    // syncChatSession(). No need to call it again here.
     WidgetsBinding.instance.removeObserver(this);
     _voiceAgentController?.removeListener(_handleVoiceAgentChanged);
     unawaited(_voiceAgentEvents?.cancel());
@@ -1265,9 +1273,14 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context);
     final edgeRadius = math.max(26.0, media.viewPadding.top + 10);
-    return Material(
-      key: const Key('voice-assistant-overlay'),
-      color: Colors.transparent,
+    return PopScope(
+      canPop: true,
+      onPopInvokedWithResult: (didPop, result) {
+        unawaited(_chatLogService.syncChatSession(mode: 'voice'));
+      },
+      child: Material(
+        key: const Key('voice-assistant-overlay'),
+        color: Colors.transparent,
       child: Stack(
         children: [
           const Positioned.fill(
@@ -1473,6 +1486,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           ),
         ],
       ),
+    ),
     );
   }
 

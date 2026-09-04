@@ -50,9 +50,88 @@ class ChatMessageRecord {
   }
 }
 
+/// Pure mapping utility that transforms internal chat data into the exact
+/// database payload schema for Supabase `public.voice_chat_sessions`, stripping away
+/// all transient and UI-only properties (such as typing indicators, animation states).
+class ChatPayloadMapper {
+  const ChatPayloadMapper._();
+
+  /// Detects the language of a text string by checking for Tamil Unicode
+  /// characters (U+0B80–U+0BFF). Returns 'ta' for Tamil, 'en' otherwise.
+  static String _detectLanguage(String text) {
+    for (final rune in text.runes) {
+      if (rune >= 0x0B80 && rune <= 0x0BFF) return 'ta';
+    }
+    return 'en';
+  }
+
+  /// Constructs a single row payload strictly conforming to public.voice_chat_sessions.
+  static Map<String, dynamic> mapMessagesToSessionRow({
+    required String conversationUid,
+    required List<ChatMessageRecord> messages,
+    required String mode,
+    Map<String, dynamic>? baseMetadata,
+    String? userId,
+  }) {
+    if (messages.isEmpty) return const {};
+
+    final transcript = <Map<String, dynamic>>[];
+    var currentTurn = 0;
+
+    for (var i = 0; i < messages.length; i++) {
+      final m = messages[i];
+      final text = m.text.trim();
+      if (text.isEmpty) continue;
+
+      if (m.speaker == ChatMessageSpeaker.user) {
+        currentTurn++;
+        transcript.add({
+          'turn': currentTurn,
+          'role': 'user',
+          'text': text,
+          'timestamp': m.timestamp.toIso8601String(),
+          'detected_language': _detectLanguage(text),
+        });
+      } else {
+        if (currentTurn == 0) currentTurn = 1;
+        transcript.add({
+          'turn': currentTurn,
+          'role': 'ai',
+          'text': text,
+          'timestamp': m.timestamp.toIso8601String(),
+          'token_usage_ai': 0,
+          'interrupted_by_user': false,
+        });
+      }
+    }
+
+    if (transcript.isEmpty) return const {};
+
+    final createdAt = messages.first.timestamp.toIso8601String();
+    final endedAt = messages.last.timestamp.toIso8601String();
+    final durationSec = messages.last.timestamp.difference(messages.first.timestamp).inSeconds;
+    const status = 'completed';
+
+    return {
+      'session_id': conversationUid,
+      'user_id': userId,
+      'status': status,
+      'transcript': transcript,
+      'session_metrics': {
+        'total_duration_sec': durationSec,
+        'total_turns': currentTurn,
+        'session_ended_type': status,
+        if (baseMetadata != null) 'metadata': baseMetadata,
+      },
+      'created_at': createdAt,
+      'ended_at': endedAt,
+    };
+  }
+}
+
 /// Service that buffers conversation speech both in memory and locally on disk,
-/// and dispatches the completed conversation to Supabase `public.chat_logs`
-/// table in a single batch insert when the session ends.
+/// and dispatches the completed conversation to Supabase `public.voice_chat_sessions`
+/// table in a single insert when the session ends.
 ///
 /// Features:
 /// 1. Real-time in-memory buffer for 0ms latency during active speech.
@@ -149,73 +228,45 @@ class ChatLogService {
     );
   }
 
-  /// Pairs chronological in-memory messages into structured turns matching
-  /// the schema of `public.chat_logs`.
-  List<Map<String, dynamic>> buildTurns({
+  /// Transforms in-memory messages into a structured JSON session matching
+  /// the schema of `public.voice_chat_sessions`.
+  Map<String, dynamic> buildSessionRow({
     required String mode,
     Map<String, dynamic>? baseMetadata,
+    String? userId,
   }) {
-    if (_messages.isEmpty) return const [];
-
-    final turns = <Map<String, dynamic>>[];
-    var turnIndex = 1;
-    final sanitizedMode = mode == 'text' ? 'text' : 'voice';
-    final metadataPayload = baseMetadata ?? const {'source': 'flutter_frontend'};
-
-    var i = 0;
-    while (i < _messages.length) {
-      final current = _messages[i];
-      var currentText = current.text.trim();
-      if (currentText.isEmpty) {
-        i++;
-        continue;
-      }
-
-      if (current.speaker == ChatMessageSpeaker.user) {
-        // Accumulate consecutive user messages if any
-        var nextIdx = i + 1;
-        while (nextIdx < _messages.length &&
-            _messages[nextIdx].speaker == ChatMessageSpeaker.user) {
-          final nextText = _messages[nextIdx].text.trim();
-          if (nextText.isNotEmpty) {
-            currentText = '$currentText $nextText';
-          }
-          nextIdx++;
-        }
-
-        String aiMessage;
-        if (nextIdx < _messages.length &&
-            _messages[nextIdx].speaker == ChatMessageSpeaker.assistant) {
-          aiMessage = _messages[nextIdx].text.trim();
-          i = nextIdx + 1;
-        } else {
-          aiMessage = '(Session ended)';
-          i = nextIdx;
-        }
-
-        turns.add({
-          'conversation_uid': _conversationUid,
-          'turn_index': turnIndex++,
-          'mode': sanitizedMode,
-          'user_message': currentText,
-          'ai_message': aiMessage.isNotEmpty ? aiMessage : '(Session ended)',
-          'metadata': metadataPayload,
-        });
-      } else {
-        // Assistant spoke first (initial greeting)
-        turns.add({
-          'conversation_uid': _conversationUid,
-          'turn_index': turnIndex++,
-          'mode': sanitizedMode,
-          'user_message': '(Session started)',
-          'ai_message': currentText,
-          'metadata': metadataPayload,
-        });
-        i++;
-      }
+    String? resolvedUserId = userId;
+    if (resolvedUserId == null) {
+      try {
+        resolvedUserId = Supabase.instance.client.auth.currentUser?.id;
+      } catch (_) {}
     }
 
-    return turns;
+    return ChatPayloadMapper.mapMessagesToSessionRow(
+      conversationUid: _conversationUid,
+      messages: _messages,
+      mode: mode,
+      baseMetadata: baseMetadata,
+      userId: resolvedUserId,
+    );
+  }
+
+  /// Dedicated batch upload method that reads the entire local cache for the
+  /// current session and inserts it into Supabase `public.voice_chat_sessions`.
+  ///
+  /// CRITICAL RULE: Clears the local cache IF AND ONLY IF the Supabase insert
+  /// returns a successful response. If the network fails, local cache remains
+  /// intact for future recovery.
+  Future<bool> syncChatSession({
+    String mode = 'voice',
+    SupabaseClient? client,
+    Map<String, dynamic>? metadata,
+  }) async {
+    return flushSessionLogs(
+      mode: mode,
+      client: client,
+      metadata: metadata,
+    );
   }
 
   /// Persists current in-memory messages to local disk (SharedPreferences).
@@ -232,6 +283,7 @@ class ChatLogService {
         pendingList.add(_conversationUid);
         await prefs.setStringList(_pendingSessionsKey, pendingList);
       }
+
     } catch (e) {
       debugPrint('[ChatLogService] Local disk write notice: $e');
     }
@@ -254,7 +306,7 @@ class ChatLogService {
     }
   }
 
-  /// Sends accumulated turns to Supabase public.chat_logs table in a single
+  /// Sends accumulated turns to Supabase public.voice_chat_sessions table in a single
   /// batch HTTP request. Protected by an atomic idempotency latch.
   ///
   /// If Supabase is unreachable or device is offline, the conversation remains
@@ -272,18 +324,18 @@ class ChatLogService {
     _isFlushing = true;
 
     try {
-      // 1. Build turns from in-memory records
-      var turns = buildTurns(mode: mode, baseMetadata: metadata);
+      // 1. Build session row from in-memory records
+      var sessionRow = buildSessionRow(mode: mode, baseMetadata: metadata);
 
       // If in-memory buffer was empty, check if saved state exists on disk
-      if (turns.isEmpty) {
+      if (sessionRow.isEmpty) {
         debugPrint('[ChatLogService] Memory was empty; checking local disk for session $_conversationUid...');
         await _loadSessionFromLocalDisk();
-        turns = buildTurns(mode: mode, baseMetadata: metadata);
+        sessionRow = buildSessionRow(mode: mode, baseMetadata: metadata);
       }
 
-      if (turns.isEmpty) {
-        debugPrint('[ChatLogService] ⚠️ No conversation turns recorded (empty conversation). Nothing to upload.');
+      if (sessionRow.isEmpty) {
+        debugPrint('[ChatLogService] ⚠️ No conversation recorded (empty conversation). Nothing to upload.');
         _isFlushed = true;
         await _clearLocalSession(_conversationUid);
         return false;
@@ -300,18 +352,15 @@ class ChatLogService {
         return false;
       }
 
-      // 4. Send single batch insert to Supabase public.chat_logs
-      debugPrint('[ChatLogService] 🚀 Uploading ${turns.length} turn(s) for $_conversationUid to Supabase public.chat_logs:');
-      for (final t in turns) {
-        debugPrint('[ChatLogService]    Turn ${t['turn_index']}: User="${t['user_message']}" | AI="${t['ai_message']}"');
-      }
+      // 4. Send single insert to Supabase public.voice_chat_sessions
+      debugPrint('[ChatLogService] 🚀 Uploading session $_conversationUid to Supabase public.voice_chat_sessions');
 
-      await db.from('chat_logs').insert(turns);
+      await db.from('voice_chat_sessions').insert(sessionRow);
       _isFlushed = true;
 
       // 5. Clean up local disk cache now that Supabase has persisted the rows
       await _clearLocalSession(_conversationUid);
-      debugPrint('[ChatLogService] ✅ Successfully flushed and confirmed ${turns.length} turns in Supabase public.chat_logs!');
+      debugPrint('[ChatLogService] ✅ Successfully flushed session in Supabase public.voice_chat_sessions!');
       return true;
     } catch (error, stackTrace) {
       debugPrint('[ChatLogService] ❌ Cloud upload failed (offline/network error): $error');
@@ -354,36 +403,41 @@ class ChatLogService {
       var syncedCount = 0;
 
       for (final uid in List<String>.from(pendingUids)) {
-        final raw = prefs.getString('$_sessionDataPrefix$uid');
-        if (raw == null || raw.isEmpty) {
-          pendingUids.remove(uid);
-          await prefs.remove('$_sessionDataPrefix$uid');
-          continue;
-        }
-
-        final decoded = jsonDecode(raw) as List<dynamic>;
-        final service = ChatLogService(conversationUid: uid);
-        for (final item in decoded) {
-          if (item is Map<String, dynamic>) {
-            service._messages.add(ChatMessageRecord.fromJson(item));
+        try {
+          final raw = prefs.getString('$_sessionDataPrefix$uid');
+          if (raw == null || raw.isEmpty) {
+            pendingUids.remove(uid);
+            await prefs.remove('$_sessionDataPrefix$uid');
+            continue;
           }
-        }
 
-        final turns = service.buildTurns(mode: 'voice');
-        if (turns.isNotEmpty) {
-          await db.from('chat_logs').insert(turns);
-          debugPrint('[ChatLogService] Offline sync: successfully uploaded pending session $uid (${turns.length} turns).');
-        }
+          final decoded = jsonDecode(raw) as List<dynamic>;
+          final service = ChatLogService(conversationUid: uid);
+          for (final item in decoded) {
+            if (item is Map<String, dynamic>) {
+              service._messages.add(ChatMessageRecord.fromJson(item));
+            }
+          }
 
-        await prefs.remove('$_sessionDataPrefix$uid');
-        pendingUids.remove(uid);
-        syncedCount++;
+          final sessionRow = service.buildSessionRow(mode: 'voice');
+          if (sessionRow.isNotEmpty) {
+            await db.from('voice_chat_sessions').insert(sessionRow);
+            debugPrint('[ChatLogService] Offline sync: successfully uploaded pending session $uid.');
+          }
+
+          // Cleared IF AND ONLY IF insert succeeded
+          await prefs.remove('$_sessionDataPrefix$uid');
+          pendingUids.remove(uid);
+          syncedCount++;
+        } catch (e) {
+          debugPrint('[ChatLogService] Offline sync notice for session $uid: $e');
+        }
       }
 
       await prefs.setStringList(_pendingSessionsKey, pendingUids);
       return syncedCount;
     } catch (e) {
-      debugPrint('[ChatLogService] Offline sync notice: $e');
+      debugPrint('[ChatLogService] Offline sync queue notice: $e');
       return 0;
     }
   }

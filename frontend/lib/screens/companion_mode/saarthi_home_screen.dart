@@ -22,6 +22,7 @@ import '../../services/centralized_translator.dart';
 import '../../utils/responsive.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/app_spacing.dart';
+import '../../services/chat_log_service.dart';
 
 enum SaarthiVoiceState { idle, listening, processing, speaking, ended }
 
@@ -130,10 +131,17 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   String _lastCloudOutputTranscript = '';
 
   final ScrollController _scrollController = ScrollController();
+  final ChatLogService _chatLogService = ChatLogService();
+  late final AppLifecycleListener _lifecycleListener;
 
   @override
   void initState() {
     super.initState();
+    _lifecycleListener = AppLifecycleListener(
+      onPause: _syncChatSession,
+      onHide: _syncChatSession,
+      onDetach: _syncChatSession,
+    );
     // Initialize animation controllers immediately for vsync
     _pulseController = AnimationController(
       vsync: this,
@@ -151,6 +159,8 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
 
   @override
   void dispose() {
+    _lifecycleListener.dispose();
+    _syncChatSession();
     _voiceAgentController?.removeListener(_handleCloudAgentChanged);
     unawaited(_voiceAgentEvents?.cancel());
     unawaited(_voiceAgentController?.dispose());
@@ -165,6 +175,22 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
     _soundLevel.dispose();
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void _syncChatSession() {
+    if (_messages.isEmpty && _chatLogService.messageCount == 0) return;
+    for (final msg in _messages) {
+      if (msg.text.trim().isNotEmpty && msg.status != 'transcribing') {
+        _chatLogService.upsertMessage(
+          id: msg.id,
+          speaker: msg.role == 'assistant'
+              ? ChatMessageSpeaker.assistant
+              : ChatMessageSpeaker.user,
+          text: msg.text,
+        );
+      }
+    }
+    unawaited(_chatLogService.syncChatSession(mode: 'voice'));
   }
 
   void _startConversationMode() {
@@ -210,6 +236,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   }
 
   Future<void> _startCompanionConversation() async {
+    _chatLogService.startSession();
     _initializeControllers();
     if (!mounted) return;
     _lastCloudInputTranscript = '';
@@ -370,6 +397,13 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
       timestamp: DateTime.now(),
       speakingState: speaking ? 'speaking' : null,
     );
+    if (text.trim().isNotEmpty) {
+      _chatLogService.upsertMessage(
+        id: index >= 0 ? _messages[index].id : message.id,
+        speaker: ChatMessageSpeaker.assistant,
+        text: text,
+      );
+    }
     if (index < 0) {
       setState(() {
         if (_messages.isNotEmpty && _messages.last.role == 'user') {
@@ -486,6 +520,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   }
 
   Future<void> _endConversation() async {
+    _syncChatSession();
     _sessionController?.cancel();
     _usingCloudVoice = false;
     await _voiceAgentController?.close();
@@ -552,6 +587,16 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
       setState(() {
         _messages.add(newMsg);
       });
+    }
+    if (isFinal && text.trim().isNotEmpty) {
+      final msgId = (_messages.isNotEmpty && _messages.last.role == 'user')
+          ? _messages.last.id
+          : DateTime.now().millisecondsSinceEpoch.toString();
+      _chatLogService.upsertMessage(
+        id: msgId,
+        speaker: ChatMessageSpeaker.user,
+        text: text,
+      );
     }
     _scrollToBottom();
   }
@@ -797,10 +842,18 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   }
 
   void _addAssistantMessage(String text) {
+    final id = DateTime.now().millisecondsSinceEpoch.toString();
+    if (text.trim().isNotEmpty) {
+      _chatLogService.upsertMessage(
+        id: id,
+        speaker: ChatMessageSpeaker.assistant,
+        text: text,
+      );
+    }
     setState(() {
       _messages.add(
         SaarthiMessage(
-          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          id: id,
           role: 'assistant',
           text: text,
           timestamp: DateTime.now(),
@@ -909,42 +962,48 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
     const Color kDarkSlate = Color(0xFF0F172A);
     const Color kSlate500 = Color(0xFF64748B);
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
-      body: SafeArea(
-        child: Column(
-          children: [
-            // 1. Top bar: Language Pill & Notifications / Profile Avatar
-            if (!_isConversationActive)
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: AppSpacing.xl,
-                  right: AppSpacing.xl,
-                  top: AppSpacing.xl,
-                ),
-                child: _buildTopBar(
-                  provider,
-                  kDarkSlate,
-                  kBrandBlue,
-                  kSlate500,
-                ),
-              )
-            else
-              const SizedBox(height: AppSpacing.xs),
+    return PopScope(
+      canPop: true,
+      onPopInvokedWithResult: (didPop, result) {
+        _syncChatSession();
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF8FAFC),
+        body: SafeArea(
+          child: Column(
+            children: [
+              // 1. Top bar: Language Pill & Notifications / Profile Avatar
+              if (!_isConversationActive)
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: AppSpacing.xl,
+                    right: AppSpacing.xl,
+                    top: AppSpacing.xl,
+                  ),
+                  child: _buildTopBar(
+                    provider,
+                    kDarkSlate,
+                    kBrandBlue,
+                    kSlate500,
+                  ),
+                )
+              else
+                const SizedBox(height: AppSpacing.xs),
 
-            // 2. Character Welcome Banner / Compact Header
-            _buildCharacterHeader(userName, kDarkSlate, kBrandBlue, kSlate500),
+              // 2. Character Welcome Banner / Compact Header
+              _buildCharacterHeader(userName, kDarkSlate, kBrandBlue, kSlate500),
 
-            // 3. Expanded content area
-            Expanded(
-              child: _isConversationActive
-                  ? _buildTranscriptSection()
-                  : const SizedBox.shrink(),
-            ),
+              // 3. Expanded content area
+              Expanded(
+                child: _isConversationActive
+                    ? _buildTranscriptSection()
+                    : const SizedBox.shrink(),
+              ),
 
-            // 4. Bottom Control panel
-            _buildBottomPanel(kBrandBlue, kDarkSlate, kSlate500),
-          ],
+              // 4. Bottom Control panel
+              _buildBottomPanel(kBrandBlue, kDarkSlate, kSlate500),
+            ],
+          ),
         ),
       ),
     );
