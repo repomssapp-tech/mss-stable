@@ -55,16 +55,16 @@ class UserProfile {
     this.mobile = '',
     this.email = '',
     this.address = '',
-    this.state = 'Tamil Nadu',
+    this.state = '',
     this.district = '',
     this.city = '',
     this.pinCode = '',
-    this.community = 'General',
+    this.community = '',
     this.religion = '',
-    this.educationLevel = 'Undergraduate',
+    this.educationLevel = '',
     this.firstGenGraduate = false,
     this.annualIncome = 0.0,
-    this.employmentStatus = 'Student',
+    this.employmentStatus = '',
 
     // Default initializations for extended fields
     this.profileCompleted = false,
@@ -74,10 +74,10 @@ class UserProfile {
     this.street = '',
     this.area = '',
     this.village = '',
-    this.qualification = 'Undergraduate',
+    this.qualification = '',
     this.existingBusiness = false,
-    this.businessStage = 'Idea',
-    this.businessIndustry = 'Technology',
+    this.businessStage = '',
+    this.businessIndustry = '',
     this.fundingRequired = 0.0,
     this.registrationNumbers = '',
     this.googleUserId = '',
@@ -183,13 +183,13 @@ class UserProfile {
       mobile: json['mobile'] ?? json['phone'] ?? '',
       email: json['email'] ?? '',
       address: json['address'] ?? '',
-      state: json['state'] ?? 'Tamil Nadu',
+      state: json['state'] ?? '',
       district: json['district'] ?? '',
       city: json['city'] ?? '',
       pinCode: json['pinCode'] ?? json['pincode'] ?? json['pin'] ?? '',
-      community: json['community'] ?? 'General',
+      community: json['community'] ?? '',
       religion: json['religion'] ?? '',
-      educationLevel: json['educationLevel'] ?? 'Undergraduate',
+      educationLevel: json['educationLevel'] ?? '',
       firstGenGraduate:
           json['firstGenGraduate'] ?? json['first_gen_graduate'] ?? false,
       annualIncome: (json['annualIncome'] ?? json['annual_income'] ?? 0.0)
@@ -198,7 +198,7 @@ class UserProfile {
           json['employmentStatus'] ??
           json['applicant_type'] ??
           json['employment'] ??
-          'Student',
+          '',
       profileCompleted:
           json['profileCompleted'] ??
           json['profile_completed'] ??
@@ -210,12 +210,12 @@ class UserProfile {
       street: json['street'] ?? '',
       area: json['area'] ?? '',
       village: json['village'] ?? '',
-      qualification: json['qualification'] ?? 'Undergraduate',
+      qualification: json['qualification'] ?? '',
       existingBusiness:
           json['existingBusiness'] ?? json['business_registered'] ?? false,
-      businessStage: json['businessStage'] ?? json['business_stage'] ?? 'Idea',
+      businessStage: json['businessStage'] ?? json['business_stage'] ?? '',
       businessIndustry:
-          json['businessIndustry'] ?? json['industry'] ?? 'Technology',
+          json['businessIndustry'] ?? json['industry'] ?? '',
       fundingRequired:
           (json['fundingRequired'] ?? json['funding_required_amount'] ?? 0.0)
               .toDouble(),

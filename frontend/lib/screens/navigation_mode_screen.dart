@@ -281,7 +281,7 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                                         ),
                                       );
                                     } else {
-                                      Navigator.of(context).pushReplacement(
+                                      Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (_) =>
                                               const BasicProfileScreen(),

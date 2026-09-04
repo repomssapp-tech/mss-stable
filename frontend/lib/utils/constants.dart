@@ -77,4 +77,21 @@ class AppConstants {
   static String get(String key, String lang) {
     return translations[lang]?[key] ?? translations['en']?[key] ?? key;
   }
+
+  /// Returns localized greeting matching the actual time of day:
+  /// - Morning (05:00 - 11:59): Good Morning / காலை வணக்கம்
+  /// - Afternoon (12:00 - 16:59): Good Afternoon / மதிய வணக்கம்
+  /// - Evening / Night (17:00 - 04:59): Good Evening / மாலை வணக்கம்
+  static String getTimeGreeting({bool isTa = false, bool withComma = true}) {
+    final hour = DateTime.now().hour;
+    final String greeting;
+    if (hour >= 5 && hour < 12) {
+      greeting = isTa ? 'காலை வணக்கம்' : 'Good Morning';
+    } else if (hour >= 12 && hour < 17) {
+      greeting = isTa ? 'மதிய வணக்கம்' : 'Good Afternoon';
+    } else {
+      greeting = isTa ? 'மாலை வணக்கம்' : 'Good Evening';
+    }
+    return withComma ? '$greeting,' : greeting;
+  }
 }

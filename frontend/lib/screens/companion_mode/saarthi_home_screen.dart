@@ -22,6 +22,7 @@ import '../../services/centralized_translator.dart';
 import '../../utils/responsive.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/constants.dart';
 import '../../services/chat_log_service.dart';
 
 enum SaarthiVoiceState { idle, listening, processing, speaking, ended }
@@ -1344,7 +1345,10 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                     color: kDarkSlate,
                   ),
                   children: [
-                    TextSpan(text: '${context.l10n.goodMorning} '),
+                    TextSpan(
+                      text:
+                          '${AppConstants.getTimeGreeting(isTa: Provider.of<AppProvider>(context, listen: false).selectedLanguage == 'ta', withComma: true)} ',
+                    ),
                     TextSpan(
                       text: '$userName! 👋',
                       style: const TextStyle(color: Color(0xFF2563EB)),

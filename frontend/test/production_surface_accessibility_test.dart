@@ -178,7 +178,7 @@ void main() {
           await _pumpSurface(tester, provider, const LocationProfileScreen());
           await tester.pump();
           expect(find.text('Where Are You Located?'), findsOneWidget);
-          expect(find.text('Use My Current Location'), findsOneWidget);
+          expect(find.text('Use Current Location'), findsOneWidget);
           expect(find.byType(TextFormField), findsNWidgets(5));
           continueButton = find.widgetWithText(ElevatedButton, 'Continue');
           await tester.ensureVisible(continueButton);
