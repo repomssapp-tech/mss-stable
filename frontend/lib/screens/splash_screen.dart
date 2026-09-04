@@ -70,6 +70,16 @@ class _SplashScreenState extends State<SplashScreen>
           if (userResponse.user == null) {
             session = null;
           }
+        } on AuthRetryableFetchException catch (netErr) {
+          // Network-unreachable (offline, DNS failure, timeout) -- not a
+          // rejection by the server. Trust the cached session rather than
+          // signing the user out just because the app happened to start
+          // offline; this is the online-only exception to the offline-first
+          // policy (session validation), not scheme discovery, but it must
+          // not destroy state that was working fine a moment ago.
+          debugPrint(
+            '[SplashScreen] Session validation unreachable (offline?), keeping cached session: $netErr',
+          );
         } on AuthException catch (authErr) {
           debugPrint(
             '[SplashScreen] Auth exception during session validation: $authErr',

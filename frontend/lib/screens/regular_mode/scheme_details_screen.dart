@@ -101,8 +101,19 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
   }
 
   /// Fix 3: Scrolls to the section matching the tapped tab index.
+  ///
+  /// Called in the same setState that expands the section's ExpansionTile,
+  /// which animates open over ~200ms. Measuring position one frame later
+  /// (the previous behaviour) catches the tile mid-collapse: for a section
+  /// near the bottom of the list (Services, Process) the still-collapsed
+  /// header can already fit on screen, so ensureVisible sees nothing to
+  /// scroll and does nothing -- then the tile finishes expanding with no
+  /// scroll tracking it, leaving the revealed content below the fold.
+  /// Waiting out the expand animation before measuring fixes that for every
+  /// section, not just the ones far enough up the list to mask it.
   void _scrollToSection(int index) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    Future.delayed(const Duration(milliseconds: 260), () {
+      if (!mounted) return;
       final keys = [
         _overviewKey,
         _benefitsKey,
