@@ -1,36 +1,21 @@
 // Offline-first regression suite for SchemeRepository.
 //
-// Proves the 11 methods the 2026-09-04 offline-first plan targets never
-// touch the network: each is exercised against a repository instance wired
-// to an MssApiClient backed by an http.Client that throws on any request.
-// Since SchemeRepository no longer wraps these calls in try/catch (removed
-// as part of the offline-only rewrite), a network attempt would surface as
-// an uncaught exception here, failing the test.
+// Proves the 11 methods the 2026-09-04 offline-first plan targets work
+// correctly reading only from the local MssCatalogBundle. As of Phase 6,
+// SchemeRepository no longer holds an MssApiClient/http.Client at all, so a
+// network call from these methods isn't just avoided -- it's structurally
+// impossible. This suite is now a functional regression check rather than a
+// network-interception proof.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
 import 'package:frontend/models/user_profile.dart';
-import 'package:frontend/services/mss_api_client.dart';
 import 'package:frontend/services/scheme_repository.dart';
-
-class _ThrowingHttpClient extends http.BaseClient {
-  @override
-  Future<http.StreamedResponse> send(http.BaseRequest request) {
-    throw StateError('unexpected network call: ${request.method} ${request.url}');
-  }
-}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  late SchemeRepository repo;
+  final repo = SchemeRepository.instance;
 
-  setUpAll(() {
-    repo = SchemeRepository.withApiClient(
-      MssApiClient(client: _ThrowingHttpClient()),
-    );
-  });
-
-  group('SchemeRepository is offline-only (no network call reaches MssApiClient)', () {
+  group('SchemeRepository offline-only scheme discovery', () {
     test('getTotalSchemeCount', () async {
       final count = await repo.getTotalSchemeCount();
       expect(count, greaterThan(0));
@@ -73,8 +58,6 @@ void main() {
     });
 
     test('getSchemeById', () async {
-      final all = await repo.getTotalSchemeCount();
-      expect(all, greaterThan(0));
       final matches = await repo.searchSchemes('loan');
       final scheme = await repo.getSchemeById(matches.first.id);
       expect(scheme, isNotNull);

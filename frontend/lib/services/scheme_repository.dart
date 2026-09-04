@@ -4,27 +4,22 @@ import '../models/scheme_model.dart';
 import '../models/user_profile.dart';
 import 'hybrid_scheme_search.dart';
 import 'intelligent_scheme_search.dart' show SchemeSearchMatch;
-import 'mss_api_client.dart';
 import 'mss_catalog_bundle.dart';
 import 'mss_scheme_adapter.dart';
 import '../engine/recommendation_engine.dart';
 
 /// SchemeRepository
 /// ─────────────────
-/// Single source of truth for all scheme-related data.
-/// Powered by an online-first network policy over MssApiClient with graceful
-/// fallback to the offline MssCatalogBundle.
+/// Single source of truth for all scheme-related data. Scheme discovery
+/// (search, categories, details, recommendations) is offline-only, reading
+/// exclusively from the local MssCatalogBundle -- see docs and
+/// 2026-09-04's offline-first migration. Profile persistence still goes
+/// through Supabase directly (see the methods below _db).
 class SchemeRepository {
-  SchemeRepository._({MssApiClient? apiClient})
-      : _apiClient = apiClient ?? MssApiClient();
+  SchemeRepository._();
 
   static final SchemeRepository instance = SchemeRepository._();
 
-  /// Create a repository instance with a custom or mocked MssApiClient (e.g. for testing).
-  factory SchemeRepository.withApiClient(MssApiClient apiClient) =>
-      SchemeRepository._(apiClient: apiClient);
-
-  final MssApiClient _apiClient;
   SupabaseClient get _db => Supabase.instance.client;
 
   // ── In-memory cache ──────────────────────────────────────────────────
