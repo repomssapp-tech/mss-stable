@@ -426,16 +426,23 @@ class SearchScreenState extends State<SearchScreen> {
   void initState() {
     super.initState();
     _searchController.addListener(_onSearchTextChanged);
-    _loadCategoryCounts();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    // didChangeDependencies always fires once immediately after initState on
+    // the very first build (in addition to firing on later InheritedWidget
+    // changes, e.g. locale), so this alone covers both the initial load and
+    // future recounts -- no separate initState call needed.
     _loadCategoryCounts();
   }
 
+  bool _categoryCountsInFlight = false;
+
   Future<void> _loadCategoryCounts() async {
+    if (_categoryCountsInFlight) return;
+    _categoryCountsInFlight = true;
     final provider = Provider.of<AppProvider>(context, listen: false);
     try {
       final allSchemes = provider.allSchemes.isNotEmpty
@@ -473,6 +480,8 @@ class SearchScreenState extends State<SearchScreen> {
           _isLoadingCounts = false;
         });
       });
+    } finally {
+      _categoryCountsInFlight = false;
     }
   }
 

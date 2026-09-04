@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../models/mss_models.dart';
 import '../models/scheme_model.dart';
 import '../models/user_profile.dart';
 import 'hybrid_scheme_search.dart';
@@ -9,19 +8,6 @@ import 'mss_api_client.dart';
 import 'mss_catalog_bundle.dart';
 import 'mss_scheme_adapter.dart';
 import '../engine/recommendation_engine.dart';
-
-extension _UserProfileApiMapping on UserProfile {
-  Map<String, dynamic> toApiProfile() {
-    final m = <String, dynamic>{};
-    if (state.isNotEmpty) m['state'] = state;
-    if (gender.isNotEmpty) m['gender'] = gender;
-    if (community.isNotEmpty) m['community'] = community;
-    if (businessStage.isNotEmpty) m['businessStage'] = businessStage;
-    if (businessIndustry.isNotEmpty) m['sector'] = businessIndustry;
-    if (employmentStatus.isNotEmpty) m['employmentStatus'] = employmentStatus;
-    return m;
-  }
-}
 
 /// SchemeRepository
 /// ─────────────────
@@ -73,51 +59,27 @@ class SchemeRepository {
     MssCatalogBundle.invalidate();
   }
 
-  /// Determines whether an error is retryable (network/timeout/5xx) so offline
-  /// catalog fallback should be triggered, vs non-retryable (e.g., 404/400)
-  /// which should be allowed to throw or return null/empty.
-  bool _isRetryableError(Object e) {
-    if (e is MssApiException) {
-      return e.isRetryable;
-    }
-    // Network/socket/timeout/parse errors are retryable connectivity issues
-    return true;
-  }
-
   Future<MssCatalogBundle> _loadBundle() =>
       _bundleFuture ??= MssCatalogBundle.load();
 
   // ── 1. getTotalSchemeCount() ──────────────────────────────────────────
-  /// Returns total number of schemes from server metadata, with offline count fallback.
+  /// Returns total number of schemes from the local catalog. Offline-only --
+  /// scheme discovery never hits the network.
   Future<int> getTotalSchemeCount() async {
-    try {
-      final rawJson = await _apiClient.getMetadata();
-      final meta = MssMeta.fromJson(rawJson);
-      if (meta.entityCounts.containsKey('scheme')) {
-        return meta.entityCounts['scheme']!;
-      }
-    } catch (e) {
-      if (!_isRetryableError(e)) rethrow;
-      debugPrint('[SchemeRepository] getTotalSchemeCount online error: $e');
-    }
-
     final schemes = await getAllSchemes();
     return schemes.length;
   }
 
   // ── 2. getTopRecommendedSchemes() ─────────────────────────────────────
   /// Returns top [limit] recommended schemes for user profile sorted by relevance score.
+  /// Offline-only -- delegates to getRecommendedSchemes (local scoring).
   Future<List<Scheme>> getTopRecommendedSchemes(
     UserProfile profile, {
     int limit = 5,
   }) async {
-    try {
-      final recommended = await getRecommendedSchemes(profile);
-      if (recommended.isNotEmpty) {
-        return recommended.take(limit).toList();
-      }
-    } catch (e) {
-      debugPrint('[SchemeRepository] getTopRecommendedSchemes online error: $e');
+    final recommended = await getRecommendedSchemes(profile);
+    if (recommended.isNotEmpty) {
+      return recommended.take(limit).toList();
     }
 
     // Fallback: Client-side RecommendationEngine
@@ -259,27 +221,6 @@ class SchemeRepository {
     String query,
     String langCode,
   ) async {
-    try {
-      final rawJson = await _apiClient
-          .search(
-            query: query,
-            language: langCode,
-          )
-          .timeout(const Duration(milliseconds: 2500));
-      final searchResp = MSSSearchResponse.fromJson(rawJson);
-      final bundle = await _loadBundle();
-      return searchResp.results
-          .map((r) => MssSchemeAdapter.schemeResultToScheme(
-                r,
-                bundle,
-                langCode: langCode,
-              ))
-          .toList();
-    } catch (e) {
-      debugPrint('[SchemeRepository] online search failed, falling back offline: $e');
-    }
-
-    // Offline fallback -- only reached when the online call itself failed.
     final matches = await searchSchemeMatchesOffline(query, langCode: langCode);
     return matches.map((match) => match.scheme).toList(growable: false);
   }
@@ -333,38 +274,6 @@ class SchemeRepository {
     int? limit,
     String langCode,
   ) async {
-    try {
-      final rawJson = await _apiClient.search(
-        query: query,
-        language: langCode,
-        limit: limit,
-      );
-      final searchResp = MSSSearchResponse.fromJson(rawJson);
-      final bundle = await _loadBundle();
-      return searchResp.results.map((r) {
-        final scheme = MssSchemeAdapter.schemeResultToScheme(
-          r,
-          bundle,
-          langCode: langCode,
-        );
-        var reasons = r.matchReasons
-            .map((m) => m.detail)
-            .where((d) => d.isNotEmpty)
-            .toList();
-        if (reasons.isEmpty && r.explanation.summary.isNotEmpty) {
-          reasons = [r.explanation.summary];
-        }
-        return SchemeSearchMatch(
-          scheme: scheme,
-          score: r.matchScore,
-          reasons: reasons,
-        );
-      }).toList();
-    } catch (e) {
-      debugPrint('[SchemeRepository] online searchSchemeMatches failed: $e');
-    }
-
-    // Offline fallback -- only reached when the online call itself failed.
     return searchSchemeMatchesOffline(query, limit: limit, langCode: langCode);
   }
 
@@ -402,36 +311,12 @@ class SchemeRepository {
   }
 
   // ── 8. getSchemesByCategory() ─────────────────────────────────────────
-  /// Returns schemes matching a specific category key.
-  /// Online-first via POST /v1/search with offline category predicate fallback.
+  /// Returns schemes matching a specific category key. Offline-only.
   Future<List<Scheme>> getSchemesByCategory(
     String category, {
     String langCode = 'en',
   }) async {
     if (category.trim().isEmpty) return getAllSchemes(langCode: langCode);
-
-    try {
-      final rawJson = await _apiClient
-          .search(
-            query: category,
-            language: langCode,
-          )
-          .timeout(const Duration(milliseconds: 2500));
-      final searchResp = MSSSearchResponse.fromJson(rawJson);
-      if (searchResp.results.isNotEmpty) {
-        final bundle = await _loadBundle();
-        return searchResp.results
-            .map((r) => MssSchemeAdapter.schemeResultToScheme(
-                  r,
-                  bundle,
-                  langCode: langCode,
-                ))
-            .toList();
-      }
-    } catch (e) {
-      debugPrint('[SchemeRepository] online category search failed: $e');
-    }
-
     return _getSchemesByCategoryOffline(category, langCode: langCode);
   }
 
@@ -668,22 +553,9 @@ class SchemeRepository {
 
   // ── 9. getSchemesByMinistry() ─────────────────────────────────────────
   /// Returns schemes sponsored or issued by a given ministry/department.
-  /// Online-first via POST /v1/search with offline fallback.
+  /// Offline-only.
   Future<List<Scheme>> getSchemesByMinistry(String ministry) async {
     if (ministry.trim().isEmpty) return getAllSchemes();
-
-    try {
-      final rawJson = await _apiClient.search(query: ministry);
-      final searchResp = MSSSearchResponse.fromJson(rawJson);
-      if (searchResp.results.isNotEmpty) {
-        final bundle = await _loadBundle();
-        return searchResp.results
-            .map((r) => MssSchemeAdapter.schemeResultToScheme(r, bundle))
-            .toList();
-      }
-    } catch (e) {
-      debugPrint('[SchemeRepository] online getSchemesByMinistry error: $e');
-    }
 
     final q = ministry.toLowerCase().trim();
     final all = await getAllSchemes();
@@ -758,25 +630,9 @@ class SchemeRepository {
 
   // ── 10. getSchemesByState() ───────────────────────────────────────────
   /// Returns schemes applicable to a specific state or All India.
-  /// Online-first via POST /v1/search (profile.state) with offline fallback.
+  /// Offline-only.
   Future<List<Scheme>> getSchemesByState(String state) async {
     if (state.trim().isEmpty) return getAllSchemes();
-
-    try {
-      final rawJson = await _apiClient.search(
-        query: state,
-        profile: {'state': state},
-      );
-      final searchResp = MSSSearchResponse.fromJson(rawJson);
-      if (searchResp.results.isNotEmpty) {
-        final bundle = await _loadBundle();
-        return searchResp.results
-            .map((r) => MssSchemeAdapter.schemeResultToScheme(r, bundle))
-            .toList();
-      }
-    } catch (e) {
-      debugPrint('[SchemeRepository] online getSchemesByState error: $e');
-    }
 
     final q = state.toLowerCase().trim();
     final all = await getAllSchemes();
@@ -806,31 +662,10 @@ class SchemeRepository {
   }
 
   // ── 11. getSchemeById() ───────────────────────────────────────────────
-  /// Loads a Scheme by ID or Code in O(1) time.
-  /// Online-first via GET /v1/schemes/{id} with offline fallback.
-  /// Non-retryable 404 / UNKNOWN_SCHEME returns null without falling back.
+  /// Loads a Scheme by ID or Code in O(1) time. Offline-only.
   Future<Scheme?> getSchemeById(String id, {String langCode = 'en'}) async {
     if (id.trim().isEmpty) return null;
 
-    try {
-      final rawJson = await _apiClient.getSchemeDetail(id, lang: langCode);
-      final intel = MssSchemeIntelligence.fromJson(rawJson);
-      final bundle = await _loadBundle();
-      return MssSchemeAdapter.schemeIntelligenceToScheme(
-        intel,
-        bundle,
-        langCode: langCode,
-      );
-    } catch (e) {
-      if (e is MssApiException &&
-          (e.statusCode == 404 || e.code == 'UNKNOWN_SCHEME')) {
-        // Genuine 404 / UNKNOWN_SCHEME: non-retryable "not found", return null
-        return null;
-      }
-      debugPrint('[SchemeRepository] online getSchemeById error: $e');
-    }
-
-    // Offline fallback
     await getAllSchemes(langCode: langCode);
     final key = id.trim().toLowerCase();
     final cached = _schemeByIdMap?[key];
@@ -850,35 +685,9 @@ class SchemeRepository {
   }
 
   // ── 12. getRecommendedSchemes() ───────────────────────────────────────
-  /// Returns schemes ranked by relevance to the user's profile.
-  /// Online-first via POST /v1/eligibility with offline RecommendationEngine fallback.
+  /// Returns schemes ranked by relevance to the user's profile. Offline-only
+  /// via the local RecommendationEngine scoring pass.
   Future<List<Scheme>> getRecommendedSchemes(UserProfile profile) async {
-    try {
-      final rawJson = await _apiClient.checkEligibility(
-        profile: profile.toApiProfile(),
-        onlyEligible: false,
-      );
-      final elResp = MssApplicabilityResponse.fromJson(rawJson);
-      if (elResp.results.isNotEmpty) {
-        final schemes = <Scheme>[];
-        for (final item in elResp.results) {
-          final s = await getSchemeById(item.schemeId);
-          if (s != null) schemes.add(s);
-        }
-        if (schemes.isNotEmpty) return schemes;
-      }
-    } catch (e) {
-      // Unlike other methods, any online failure here -- including a
-      // non-retryable INVALID_REQUEST, which /v1/eligibility returns
-      // whenever toApiProfile() has nothing to send (e.g. a brand-new user
-      // who hasn't completed onboarding yet) -- should fall back to the
-      // offline engine rather than propagate. An incomplete profile is an
-      // expected, common case here, not an error condition worth failing
-      // the whole recommendations feature over.
-      debugPrint('[SchemeRepository] online getRecommendedSchemes error: $e');
-    }
-
-    // Offline RecommendationEngine fallback
     final all = await getAllSchemes();
 
     final scored = all.map((s) {
