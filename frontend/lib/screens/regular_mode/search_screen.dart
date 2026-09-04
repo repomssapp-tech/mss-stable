@@ -53,7 +53,7 @@ List<Scheme> applyProviderFacetFilters(
 ) {
   var out = input;
   final state = filters['state'];
-  if (state != null && state != 'All') {
+  if (state != null && state != 'All' && state.toString().trim().isNotEmpty) {
     final st = state.toString().toLowerCase();
     out = out.where((s) {
       return s.state.toLowerCase() == 'all india' ||
@@ -61,7 +61,7 @@ List<Scheme> applyProviderFacetFilters(
     }).toList();
   }
   final category = filters['category'];
-  if (category != null && category != 'All') {
+  if (category != null && category != 'All' && category.toString().trim().isNotEmpty) {
     final words = category.toString().toLowerCase().split(RegExp(r'[\s&/,-]+'));
     out = out.where((s) {
       final schCat = s.category.toLowerCase();
@@ -75,7 +75,7 @@ List<Scheme> applyProviderFacetFilters(
     }).toList();
   }
   final schemeType = filters['schemeType'];
-  if (schemeType != null && schemeType != 'All') {
+  if (schemeType != null && schemeType != 'All' && schemeType.toString().trim().isNotEmpty) {
     final stType = schemeType.toString().toLowerCase();
     out = out.where((s) {
       return s.schemeType.toLowerCase().contains(stType) ||
@@ -160,9 +160,9 @@ class SearchScreenState extends State<SearchScreen> {
   List<Scheme> _searchResults = [];
   List<Scheme> _masterSearchResults = [];
   String _sortBy = 'Relevance';
-  String _selectedType = 'All';
-  String _selectedBenefit = 'All';
-  String _selectedMinistry = 'All';
+  String _selectedType = '';
+  String _selectedBenefit = '';
+  String _selectedMinistry = '';
   Map<String, int> _categoryCounts = {};
   bool _isLoadingCounts = true;
   int _matchingProfileCount = 0;
@@ -198,7 +198,17 @@ class SearchScreenState extends State<SearchScreen> {
     return RecommendationEngine.forMeSchemes(provider.profile, list);
   }
 
-  void _applyFiltersAndSort() {
+  bool _hasActiveProviderFilters(Map<String, dynamic> filters) {
+    for (final entry in filters.entries) {
+      final val = entry.value;
+      if (val is String && val.isNotEmpty && val != 'All') return true;
+      if (val is bool && val) return true;
+      if (val is List && val.isNotEmpty) return true;
+    }
+    return false;
+  }
+
+  Future<void> _applyFiltersAndSort() async {
     final provider = Provider.of<AppProvider>(context, listen: false);
 
     // Keep the "For Me" empty-state classification current even when there is
@@ -213,16 +223,15 @@ class SearchScreenState extends State<SearchScreen> {
     }
 
     if (_masterSearchResults.isEmpty) {
-      setState(() {
-        _searchResults = [];
-        _currentState = SearchState.results;
-      });
-      return;
+      final catalog = provider.allSchemes.isNotEmpty
+          ? provider.allSchemes
+          : await SchemeRepository.instance.getAllSchemes();
+      _masterSearchResults = catalog;
     }
     List<Scheme> filteredResults = List<Scheme>.from(_masterSearchResults);
 
     // 1. Dropdown Chips Filters: Type (Loan, Subsidy, etc.)
-    if (_selectedType != 'All') {
+    if (_selectedType.isNotEmpty && _selectedType != 'All') {
       final typeKeyword = _selectedType.toLowerCase();
       filteredResults = filteredResults.where((scheme) {
         return scheme.schemeType.toLowerCase().contains(typeKeyword) ||
@@ -233,7 +242,7 @@ class SearchScreenState extends State<SearchScreen> {
     }
 
     // 2. Dropdown Chips Filters: Benefit Type
-    if (_selectedBenefit != 'All') {
+    if (_selectedBenefit.isNotEmpty && _selectedBenefit != 'All') {
       final benefitLower = _selectedBenefit.toLowerCase();
       filteredResults = filteredResults.where((scheme) {
         if (benefitLower == 'financial') {
@@ -275,7 +284,7 @@ class SearchScreenState extends State<SearchScreen> {
     }
 
     // 3. Dropdown Chips Filters: Ministry
-    if (_selectedMinistry != 'All') {
+    if (_selectedMinistry.isNotEmpty && _selectedMinistry != 'All') {
       final ministryLower = _selectedMinistry.toLowerCase();
       filteredResults = filteredResults.where((scheme) {
         return scheme.sponsoringBody.toLowerCase().contains(ministryLower) ||
@@ -445,10 +454,30 @@ class SearchScreenState extends State<SearchScreen> {
       });
     }
 
-    setState(() {
-      _searchResults = filteredResults;
-      _currentState = SearchState.results;
-    });
+    final bool hasActiveFilter = _selectedType.isNotEmpty ||
+        _selectedBenefit.isNotEmpty ||
+        _selectedMinistry.isNotEmpty ||
+        _activeFilter == 'For Me' ||
+        _activeSearchFilters.isNotEmpty ||
+        _hasActiveProviderFilters(provider.filters);
+
+    if (_searchController.text.trim().isEmpty && !hasActiveFilter) {
+      if (mounted) {
+        setState(() {
+          _searchResults = [];
+          _masterSearchResults = [];
+          _currentState = SearchState.idle;
+        });
+      }
+      return;
+    }
+
+    if (mounted) {
+      setState(() {
+        _searchResults = filteredResults;
+        _currentState = SearchState.results;
+      });
+    }
   }
 
   @override
@@ -577,9 +606,9 @@ class SearchScreenState extends State<SearchScreen> {
       if (mounted) {
         setState(() {
           _sortBy = 'Relevance';
-          _selectedType = 'All';
-          _selectedBenefit = 'All';
-          _selectedMinistry = 'All';
+          _selectedType = '';
+          _selectedBenefit = '';
+          _selectedMinistry = '';
           _activeSearchFilters = {};
           _activeFilter = "All";
           _searchResults = [];
@@ -660,23 +689,35 @@ class SearchScreenState extends State<SearchScreen> {
   }
 
   void _onSearchTextChanged() {
-    // If text gets cleared, instantly revert to idle
+    // If text gets cleared, revert to idle if no filters are active; otherwise re-apply filters
     if (_searchController.text.isEmpty && _currentState != SearchState.idle) {
-      setState(() {
-        _searchResults = [];
-        _masterSearchResults = [];
-        _currentState = SearchState.idle;
-      });
+      final provider = Provider.of<AppProvider>(context, listen: false);
+      final bool hasActiveFilter = _selectedType.isNotEmpty ||
+          _selectedBenefit.isNotEmpty ||
+          _selectedMinistry.isNotEmpty ||
+          _activeFilter == 'For Me' ||
+          _activeSearchFilters.isNotEmpty ||
+          _hasActiveProviderFilters(provider.filters);
+      if (!hasActiveFilter) {
+        setState(() {
+          _searchResults = [];
+          _masterSearchResults = [];
+          _currentState = SearchState.idle;
+        });
+      } else {
+        _applyFiltersAndSort();
+      }
     }
   }
 
   void _triggerSearch(String query) async {
-    // If query is empty and active filter is "For Me" or "All", go back to idle Categories screen
+    // If query is empty and no active filters, go back to idle Categories screen
     if (query.isEmpty &&
-        _selectedType == 'All' &&
-        _selectedBenefit == 'All' &&
-        _selectedMinistry == 'All' &&
-        _activeFilter == 'All') {
+        _selectedType.isEmpty &&
+        _selectedBenefit.isEmpty &&
+        _selectedMinistry.isEmpty &&
+        _activeFilter == 'All' &&
+        _activeSearchFilters.isEmpty) {
       _searchGeneration++;
       setState(() {
         _currentState = SearchState.idle;
@@ -949,13 +990,21 @@ class SearchScreenState extends State<SearchScreen> {
     provider.clearFilters();
     setState(() {
       _sortBy = 'Relevance';
-      _selectedType = 'All';
-      _selectedBenefit = 'All';
-      _selectedMinistry = 'All';
+      _selectedType = '';
+      _selectedBenefit = '';
+      _selectedMinistry = '';
       _activeSearchFilters = {};
       _activeFilter = 'All';
     });
-    _applyFiltersAndSort();
+    if (_searchController.text.trim().isEmpty) {
+      setState(() {
+        _currentState = SearchState.idle;
+        _searchResults = [];
+        _masterSearchResults = [];
+      });
+    } else {
+      _applyFiltersAndSort();
+    }
   }
 
   // 1. Custom App Bar (Styled like Discover page header)
@@ -1117,9 +1166,9 @@ class SearchScreenState extends State<SearchScreen> {
                     _searchController.clear();
                     setState(() {
                       _sortBy = 'Relevance';
-                      _selectedType = 'All';
-                      _selectedBenefit = 'All';
-                      _selectedMinistry = 'All';
+                      _selectedType = '';
+                      _selectedBenefit = '';
+                      _selectedMinistry = '';
                       _activeSearchFilters = {};
                       _activeFilter = "All";
                       _currentState = SearchState.idle;
@@ -1159,7 +1208,9 @@ class SearchScreenState extends State<SearchScreen> {
     String currentValue,
     ValueChanged<String> onChanged,
   ) {
-    final bool isActive = currentValue != 'All' && currentValue != 'Relevance';
+    final bool isActive = currentValue.isNotEmpty &&
+        currentValue != 'All' &&
+        currentValue != 'Relevance';
     return Container(
       margin: const EdgeInsets.only(right: AppSpacing.sm),
       child: PopupMenuButton<String>(
@@ -1174,19 +1225,37 @@ class SearchScreenState extends State<SearchScreen> {
             .map(
               (opt) => PopupMenuItem(
                 value: opt,
-                child: Text(
-                  opt,
-                  style: GoogleFonts.inter(
-                    fontSize: 12.5,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF0F172A),
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      opt,
+                      style: GoogleFonts.inter(
+                        fontSize: 12.5,
+                        fontWeight: opt == currentValue
+                            ? FontWeight.bold
+                            : FontWeight.w500,
+                        color: opt == currentValue
+                            ? const Color(0xFF2563EB)
+                            : const Color(0xFF0F172A),
+                      ),
+                    ),
+                    if (opt == currentValue)
+                      const Icon(
+                        Icons.check,
+                        size: 14,
+                        color: Color(0xFF2563EB),
+                      ),
+                  ],
                 ),
               ),
             )
             .toList(),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.md,
+            vertical: AppSpacing.sm,
+          ),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
@@ -1200,7 +1269,9 @@ class SearchScreenState extends State<SearchScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                currentValue == 'All' ? label : '$label: $currentValue',
+                (currentValue.isEmpty || currentValue == 'All')
+                    ? label
+                    : '$label: $currentValue',
                 style: GoogleFonts.inter(
                   fontSize: 11.5,
                   fontWeight: FontWeight.w500,
@@ -1278,33 +1349,34 @@ class SearchScreenState extends State<SearchScreen> {
           ),
           _buildDropdownChip(
             isTa ? 'வகை' : 'Type',
-            ['All', 'Loan', 'Subsidy', 'Scholarship', 'Pension'],
+            ['Loan', 'Subsidy', 'Scholarship', 'Pension'],
             _selectedType,
             (v) {
-              setState(() => _selectedType = v);
+              setState(() => _selectedType = (_selectedType == v ? '' : v));
               _applyFiltersAndSort();
             },
           ),
           _buildDropdownChip(
             isTa ? 'பயன் வகை' : 'Benefit Type',
             [
-              'All',
               'Financial',
               'Skill training',
               'Infrastructure',
             ],
             _selectedBenefit,
             (v) {
-              setState(() => _selectedBenefit = v);
+              setState(
+                  () => _selectedBenefit = (_selectedBenefit == v ? '' : v));
               _applyFiltersAndSort();
             },
           ),
           _buildDropdownChip(
             isTa ? 'அமைச்சகம்' : 'Ministry',
-            ['All', 'MSME', 'Education', 'Finance', 'Agriculture'],
+            ['MSME', 'Education', 'Finance', 'Agriculture'],
             _selectedMinistry,
             (v) {
-              setState(() => _selectedMinistry = v);
+              setState(
+                  () => _selectedMinistry = (_selectedMinistry == v ? '' : v));
               _applyFiltersAndSort();
             },
           ),
@@ -1385,9 +1457,7 @@ class SearchScreenState extends State<SearchScreen> {
   // State 3: Search Results List (Matching Discover Results Screen style)
   Widget _buildResultsList() {
     final provider = Provider.of<AppProvider>(context);
-    final String queryText = _searchController.text.isNotEmpty
-        ? _searchController.text
-        : _activeFilter;
+    final String queryText = _searchController.text.trim();
 
     if (_searchResults.isEmpty) {
       final isTa = provider.selectedLanguage == 'ta';
@@ -1415,10 +1485,18 @@ class SearchScreenState extends State<SearchScreen> {
         subtitle = isTa
             ? 'வடிகட்டிகளை மாற்றவும் அல்லது சுயவிவரத்தைப் புதுப்பிக்கவும்.'
             : 'Try adjusting the filters, or update your profile details.';
-      } else {
+      } else if (queryText.isNotEmpty) {
         icon = Icons.search_off_rounded;
         title = context.l10n.noSchemesFound(queryText);
         subtitle = context.l10n.tryDifferentKeyword;
+      } else {
+        icon = Icons.filter_alt_off_outlined;
+        title = isTa
+            ? 'தேர்ந்தெடுக்கப்பட்ட வடிகட்டிகளுக்கு பொருந்தும் திட்டங்கள் எதுவும் இல்லை'
+            : 'No schemes found matching your filters';
+        subtitle = isTa
+            ? 'வடிகட்டிகளை மாற்றவும் அல்லது மீட்டமைக்கவும்.'
+            : 'Try adjusting or clearing your filters to see more results.';
       }
 
       return ListView(
@@ -1535,9 +1613,9 @@ class SearchScreenState extends State<SearchScreen> {
         setState(() {
           _activeFilter = 'For Me';
           _sortBy = 'Relevance';
-          _selectedType = 'All';
-          _selectedBenefit = 'All';
-          _selectedMinistry = 'All';
+          _selectedType = '';
+          _selectedBenefit = '';
+          _selectedMinistry = '';
           _activeSearchFilters = {};
         });
         _searchController.clear();

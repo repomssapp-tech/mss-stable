@@ -51,10 +51,10 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   // Active Filters state
   Map<String, dynamic> _filters = {
     'state': 'Tamil Nadu',
-    'community': 'All',
-    'gender': 'All',
-    'category': 'All',
-    'income': 'All',
+    'community': '',
+    'gender': '',
+    'category': '',
+    'income': '',
   };
 
   // Temporary wizard answers during the "Find My Schemes" Assessment
@@ -1070,10 +1070,10 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   void clearFilters() {
     _filters = {
       'state': _profile.state,
-      'community': 'All',
-      'gender': 'All',
-      'category': 'All',
-      'income': 'All',
+      'community': '',
+      'gender': '',
+      'category': '',
+      'income': '',
     };
     notifyListeners();
   }

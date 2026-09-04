@@ -85,6 +85,38 @@ void main() {
           reason: 'Annual Income dropdown must contain "No Income"');
     });
 
+    testWidgets('NO dropdown in FilterPanel contains "All" in its options',
+        (WidgetTester tester) async {
+      final provider = AppProvider();
+
+      await tester.pumpWidget(
+        ChangeNotifierProvider<AppProvider>.value(
+          value: provider,
+          child: const MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: Scaffold(
+              body: FilterPanel(),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final dropdowns = tester.widgetList<DropdownButton<String>>(
+        find.byType(DropdownButton<String>),
+      ).toList();
+
+      expect(dropdowns.length, equals(15),
+          reason: 'Expected 15 filter dropdowns in FilterPanel');
+
+      for (final dropdown in dropdowns) {
+        final items = dropdown.items?.map((item) => item.value).toList() ?? [];
+        expect(items.contains('All'), isFalse,
+            reason: 'Dropdown with items $items must NOT contain "All"');
+      }
+    });
+
     testWidgets('Student occupation automatically defaults Annual Income to "No Income"',
         (WidgetTester tester) async {
       final provider = AppProvider();
