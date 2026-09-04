@@ -128,12 +128,15 @@ they're done and verified.
 
 ## Standing constraints (still apply to anything further)
 
+> 2026-09-04: the former "no second search/ranking engine in Dart" constraint was
+> removed at the user's explicit direction, to allow an offline-first scheme-discovery
+> refactor that promotes the existing local `HybridSchemeSearch` ranking to be the
+> primary/live path (server-side search remains authoritative only for background
+> catalog sync, not live queries).
+
 - Do not modify UI/UX, layouts, spacing, typography, colors, navigation,
   or existing screens/cards unless technically required for integration —
   and if so, document exactly what and why.
-- Do not implement a second search/ranking engine in Dart — the
-  server-side search/resolver is authoritative; Flutter consumes its
-  output.
 - Do not re-translate catalog content in Flutter — Tamil localization
   already lives in the catalog data (`localization.ta` fields); consume it,
   don't regenerate it. Static UI strings (ARB files) are a separate system

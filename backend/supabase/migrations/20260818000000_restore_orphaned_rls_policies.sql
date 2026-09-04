@@ -306,6 +306,17 @@ begin
           -- decision (drop it vs. give it a real policy) rather than either
           -- guessing a policy for it or letting it block this migration.
           and not (n.nspname = 'public' and c.relname = 'auth_user_id')
+          -- public.api_rate_limits: already present on production (created
+          -- out-of-band, ahead of this migration in the sequence) with the
+          -- exact shape 20260828000000_persistent_rate_limiter.sql defines
+          -- and formally re-creates via `create table if not exists`. RLS
+          -- enabled with zero client-facing policies is the correct,
+          -- intentional posture there -- it's a service_role-only rate
+          -- limiter bucket (`revoke all ... from anon, authenticated`, no
+          -- policy needed since service_role bypasses RLS entirely).
+          -- Excluded here so this guard doesn't fail on a table that isn't
+          -- broken, just ahead of its own formal migration.
+          and not (n.nspname = 'public' and c.relname = 'api_rate_limits')
     ) loop
         orphan_count := orphan_count + 1;
         raise warning 'RLS enabled with zero policies: %.%', orphaned.schemaname, orphaned.tablename;
