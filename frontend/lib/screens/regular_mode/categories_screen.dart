@@ -887,79 +887,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     });
   }
 
-  void _openLifeStageSelector(AppProvider provider) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (context) {
-        final stages = [
-          {
-            'title': 'Idea Stage',
-            'desc': 'Mentorship, seed funding, and business registrations',
-            'icon': Icons.lightbulb_outline,
-          },
-          {
-            'title': 'Startup Stage',
-            'desc': 'Equity funding, scaling grants, and incubation facilities',
-            'icon': Icons.rocket_launch,
-          },
-          {
-            'title': 'Growth Stage',
-            'desc': 'Credit guarantees, term loans, and technology scaling',
-            'icon': Icons.trending_up,
-          },
-        ];
-
-        return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.xl),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Select Business Stage',
-                  style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF0F172A),
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.md),
-                ...stages.map((stage) {
-                  return ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: const Color(0xFFEFF6FF),
-                      child: Icon(
-                        stage['icon'] as IconData,
-                        color: const Color(0xFF2563EB),
-                      ),
-                    ),
-                    title: Text(
-                      stage['title'] as String,
-                      style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                      stage['desc'] as String,
-                      style: GoogleFonts.inter(fontSize: 11),
-                    ),
-                    onTap: () {
-                      Navigator.pop(context);
-                      provider.clearFilters();
-                      _onCategorySelected(stage['title'] as String, provider);
-                    },
-                  );
-                }),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -1008,9 +935,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
                 child: Column(
                   children: [
-                    // Horizontal Circle Quick-Links row
-                    _buildQuickLinksRow(provider),
-                    const SizedBox(height: AppSpacing.lg),
 
                     // Section 1: By Category
                     _buildSectionHeader(
@@ -1053,111 +977,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     );
   }
 
-  Widget _buildQuickLinksRow(AppProvider provider) {
-    final List<Map<String, dynamic>> items = [
-      {
-        'title': 'All Categories',
-        'icon': Icons.grid_view_rounded,
-        'action': () => _showAllCategoriesBottomSheet(context, provider),
-      },
-      {
-        'title': 'All Ministries',
-        'icon': Icons.account_balance_rounded,
-        'action': () => _showAllMinistriesBottomSheet(context, provider),
-      },
-      {
-        'title': 'All States',
-        'icon': Icons.location_on_rounded,
-        'action': () => _showAllStatesBottomSheet(context, provider),
-      },
-      {
-        'title': 'By Stage',
-        'icon': Icons.trending_up_rounded,
-        'action': () => _openLifeStageSelector(provider),
-      },
-      {
-        'title': 'Popular',
-        'icon': Icons.star_rounded,
-        'action': () {
-          _onCategorySelected('Popular Schemes', provider);
-        },
-      },
-      {
-        'title': 'Newly Added',
-        'icon': Icons.fiber_new_rounded,
-        'action': () {
-          _onCategorySelected('Newly Added Schemes', provider);
-        },
-      },
-    ];
-
-    return SizedBox(
-      height: provider.selectedLanguage == 'ta' ? 84 : 78,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          final item = items[index];
-          final localizedTitle = _getLocalizedCategoryOrMinistry(
-            item['title'] as String,
-            provider.selectedLanguage,
-          );
-          return GestureDetector(
-            onTap: item['action'] as VoidCallback,
-            child: Container(
-              width: 88,
-              margin: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.03),
-                          blurRadius: 6,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                      border: Border.all(
-                        color: const Color(0xFFEFF6FF),
-                        width: 1.5,
-                      ),
-                    ),
-                    child: Center(
-                      child: Icon(
-                        item['icon'] as IconData,
-                        color: const Color(0xFF2563EB),
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.tight),
-                  Text(
-                    localizedTitle,
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.inter(
-                      fontSize: provider.selectedLanguage == 'ta' ? 8.5 : 9.5,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF0F172A),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
 
   Widget _buildSectionHeader({
     required GlobalKey key,
