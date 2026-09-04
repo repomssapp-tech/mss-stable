@@ -1,3 +1,5 @@
+.claude/settings.local.json
+
 # Large local inference artifacts are downloaded or delivered as model packs.
 # They must never be committed to the application repository.
 *.gguf
