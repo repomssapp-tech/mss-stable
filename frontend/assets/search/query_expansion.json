@@ -32,5 +32,8 @@
   "tea stall": ["svanidhi", "vendor", "micro", "street"],
   "student startup": ["student", "innovation", "youth", "startup"],
   "handicraft": ["craftspeople", "artisans"],
-  "handloom": ["artisans"]
+  "handloom": ["artisans"],
+
+  "tax": ["gst", "customs", "duty", "income"],
+  "exemption": ["customs", "duty", "reimbursement"]
 }

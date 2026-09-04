@@ -12,8 +12,10 @@ import '../../engine/recommendation_engine.dart';
 import '../../l10n/l10n.dart';
 import '../../services/centralized_translator.dart';
 import '../../widgets/voice_assistant_overlay.dart';
+import '../../widgets/app_toast.dart';
 import '../../widgets/scheme_card.dart';
 import '../../utils/app_spacing.dart';
+import '../../services/voice_recognition_controller.dart';
 
 String _getLocalizedTagOrCategory(String text, String langCode) {
   if (langCode != 'ta') return text;
@@ -120,6 +122,9 @@ class SearchScreen extends StatefulWidget {
 class SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
+  final VoiceRecognitionController _dictationController =
+      AutomaticVoiceRecognitionController();
+  bool _isDictating = false;
   SearchState _currentState = SearchState.idle;
   String _activeFilter = "All";
 
@@ -485,8 +490,55 @@ class SearchScreenState extends State<SearchScreen> {
     }
   }
 
+  /// Direct search-bar dictation: transcribes speech straight into the
+  /// search field via the device's speech recognizer (Android's
+  /// SpeechRecognizer, Google-backed), distinct from the full "Ask IN AI"
+  /// conversational overlay [_openVoiceAssistant] opens elsewhere.
+  Future<void> _toggleDictation() async {
+    if (_isDictating) {
+      await _dictationController.stop();
+      if (mounted) setState(() => _isDictating = false);
+      return;
+    }
+
+    final capabilities = await _dictationController.initialize(
+      onStatus: (_) {},
+      onResult: (result) {
+        if (!mounted) return;
+        _searchController.text = result.transcript;
+        _searchController.selection = TextSelection.collapsed(
+          offset: result.transcript.length,
+        );
+        if (result.isFinal) {
+          setState(() => _isDictating = false);
+          if (result.transcript.trim().isNotEmpty) {
+            _triggerSearch(result.transcript.trim());
+          }
+        }
+      },
+      onSoundLevel: (_) {},
+      onLanguage: (_) {},
+      onError: (error) {
+        if (!mounted) return;
+        setState(() => _isDictating = false);
+        AppToast.showWarning(context, error.message);
+      },
+    );
+
+    if (!capabilities.available) {
+      if (mounted && capabilities.reason != null) {
+        AppToast.showWarning(context, capabilities.reason!);
+      }
+      return;
+    }
+
+    setState(() => _isDictating = true);
+    await _dictationController.listen();
+  }
+
   @override
   void dispose() {
+    _dictationController.dispose();
     _searchController.removeListener(_onSearchTextChanged);
     _searchController.dispose();
     _searchFocusNode.dispose();
@@ -995,8 +1047,14 @@ class SearchScreenState extends State<SearchScreen> {
                 ),
               if (hasText) const SizedBox(width: AppSpacing.xs),
               IconButton(
-                icon: const Icon(Icons.mic, color: Color(0xFF2563EB), size: 20),
-                onPressed: _openVoiceAssistant,
+                icon: Icon(
+                  _isDictating ? Icons.mic : Icons.mic_none,
+                  color: _isDictating
+                      ? const Color(0xFFDC2626)
+                      : const Color(0xFF2563EB),
+                  size: 20,
+                ),
+                onPressed: _toggleDictation,
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
               ),
