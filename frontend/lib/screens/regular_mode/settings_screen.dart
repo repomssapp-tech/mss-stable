@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -262,16 +263,55 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   CircleAvatar(
                     radius: 26,
                     backgroundColor: const Color(0xFFEFF6FF),
-                    child: Text(
-                      provider.profile.name.isNotEmpty
-                          ? provider.profile.name[0].toUpperCase()
-                          : 'U',
-                      style: GoogleFonts.poppins(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFF2563EB),
-                      ),
-                    ),
+                    child: provider.effectiveProfilePhoto.isNotEmpty
+                        ? ClipOval(
+                            child: () {
+                              final photo = provider.effectiveProfilePhoto;
+                              Widget buildFallbackText() => Text(
+                                    provider.profile.name.isNotEmpty
+                                        ? provider.profile.name[0].toUpperCase()
+                                        : 'U',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: const Color(0xFF2563EB),
+                                    ),
+                                  );
+
+                              if (photo.startsWith('http://') ||
+                                  photo.startsWith('https://')) {
+                                return Image.network(
+                                  photo,
+                                  width: 52,
+                                  height: 52,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      buildFallbackText(),
+                                );
+                              }
+                              if (File(photo).existsSync()) {
+                                return Image.file(
+                                  File(photo),
+                                  width: 52,
+                                  height: 52,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      buildFallbackText(),
+                                );
+                              }
+                              return buildFallbackText();
+                            }(),
+                          )
+                        : Text(
+                            provider.profile.name.isNotEmpty
+                                ? provider.profile.name[0].toUpperCase()
+                                : 'U',
+                            style: GoogleFonts.poppins(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: const Color(0xFF2563EB),
+                            ),
+                          ),
                   ),
                   const SizedBox(width: AppSpacing.lg),
                   Expanded(

@@ -1099,7 +1099,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                 backgroundColor: const Color(0xFFEFF6FF),
                 child: ClipOval(
                   child: () {
-                    final photo = provider.profile.profilePhoto;
+                    final photo = provider.effectiveProfilePhoto;
                     if (photo.isEmpty) {
                       return Image.asset(
                         'assets/images/supporting assets/user_avatar.webp',
