@@ -188,6 +188,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
               ? ChatMessageSpeaker.assistant
               : ChatMessageSpeaker.user,
           text: msg.text,
+          timestamp: msg.timestamp,
         );
       }
     }
