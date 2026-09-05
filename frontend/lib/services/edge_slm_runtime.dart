@@ -86,10 +86,13 @@ class QwenEdgeSlmRuntime implements EdgeSlmRuntime {
                 ],
                 template: 'chatml',
                 maxTokens: 192,
-                temperature: 0.05,
-                topP: 0.8,
-                topK: 20,
-                minP: 0.02,
+                // Structured extraction must be repeatable. Greedy decoding
+                // prevents the same request from producing different facts or
+                // concepts on successive runs.
+                temperature: 0,
+                topP: 1,
+                topK: 1,
+                minP: 0,
                 repeatPenalty: 1.08,
                 seed: 7,
               )

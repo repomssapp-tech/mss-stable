@@ -25,7 +25,7 @@ void main() {
     () async {
       final runtime = _FakeRuntime(
         output: '''noise before JSON
-{"language":"tanglish","concepts":["business"],"facts":[{"key":"businessStage","value":"New business","confidence":0.94,"negated":false},{"key":"businessSector","value":"Retail","confidence":0.88,"negated":false}]}''',
+{"language":"en","concepts":["business"],"facts":[{"key":"businessStage","value":"New business","confidence":0.94,"negated":false},{"key":"businessSector","value":"Retail","confidence":0.88,"negated":false}]}''',
       );
       final engine = EdgeSlmUnderstandingEngine(
         modelPack: _ReadyPack(),
@@ -42,7 +42,7 @@ void main() {
       );
 
       expect(runtime.loadedPath, '/models/qwen.gguf');
-      expect(result.isTamil, isTrue);
+      expect(result.isTamil, isFalse);
       expect(
         result.facts[EligibilityFactKey.businessStage]?.value,
         'New business',
@@ -152,12 +152,48 @@ void main() {
     },
   );
 
-  test('rejects Tanglish classification for Tamil-script input', () async {
+  test(
+    'repeated normalized input reuses the same parsed understanding',
+    () async {
+      final runtime = _FakeRuntime(
+        output: '{"language":"en","concepts":["business"],"facts":[]}',
+      );
+      final engine = EdgeSlmUnderstandingEngine(
+        modelPack: _ReadyPack(),
+        runtime: runtime,
+      );
+      const request = SchemeUnderstandingRequest(
+        statement: 'I need a business loan',
+        schemes: [businessScheme],
+        knownFacts: {},
+        questionsAsked: 0,
+      );
+
+      final first = await engine.understand(request);
+      final second = await engine.understand(
+        const SchemeUnderstandingRequest(
+          statement: '  I NEED A BUSINESS LOAN  ',
+          schemes: [businessScheme],
+          knownFacts: {},
+          questionsAsked: 0,
+        ),
+      );
+
+      expect(runtime.generateCount, 1);
+      expect(
+        second.recommendations.map((item) => item.scheme.id),
+        first.recommendations.map((item) => item.scheme.id),
+      );
+      await engine.close();
+    },
+  );
+
+  test('rejects unsupported language classification for Tamil input', () async {
     final fallback = _RecordingFallback();
     final engine = EdgeSlmUnderstandingEngine(
       modelPack: _ReadyPack(),
       runtime: _FakeRuntime(
-        output: '{"language":"tanglish","concepts":["health"],"facts":[]}',
+        output: '{"language":"romanized","concepts":["health"],"facts":[]}',
       ),
       fallback: fallback,
     );
@@ -238,6 +274,7 @@ class _FakeRuntime implements EdgeSlmRuntime {
 
   final String output;
   String? loadedPath;
+  int generateCount = 0;
 
   @override
   bool get isLoaded => loadedPath != null;
@@ -249,7 +286,10 @@ class _FakeRuntime implements EdgeSlmRuntime {
   Future<String> generateStructured({
     required String systemPrompt,
     required String userPrompt,
-  }) async => output;
+  }) async {
+    generateCount++;
+    return output;
+  }
 
   @override
   Future<void> stop() async {}

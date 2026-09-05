@@ -54,7 +54,7 @@ void main() {
     expect(matches.first.scheme.id, 'IN-FARM');
   });
 
-  test('understands colloquial Tanglish education requests', () {
+  test('romanized input does not switch the assistant into Tamil mode', () {
     final intent = IntelligentSchemeSearch.interpret(
       'enakku college padippuku scholarship venum',
     );
@@ -63,12 +63,12 @@ void main() {
       schemes,
     );
 
-    expect(intent.isTamil, isTrue);
+    expect(intent.isTamil, isFalse);
     expect(intent.concepts, contains('education'));
     expect(matches.first.scheme.id, 'IN-STUDENT');
   });
 
-  test('understands mixed English and colloquial Tamil requests', () {
+  test('mixed romanized input keeps English presentation', () {
     final intent = IntelligentSchemeSearch.interpret(
       'my mother ku own business start panna loan venum',
     );
@@ -77,7 +77,7 @@ void main() {
       schemes,
     );
 
-    expect(intent.isTamil, isTrue);
+    expect(intent.isTamil, isFalse);
     expect(intent.concepts, containsAll(['women', 'business', 'loan']));
     expect(matches.first.scheme.id, 'IN-BIZ');
   });

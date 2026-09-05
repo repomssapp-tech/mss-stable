@@ -62,7 +62,9 @@ List<Scheme> applyProviderFacetFilters(
     }).toList();
   }
   final category = filters['category'];
-  if (category != null && category != 'All' && category.toString().trim().isNotEmpty) {
+  if (category != null &&
+      category != 'All' &&
+      category.toString().trim().isNotEmpty) {
     final words = category.toString().toLowerCase().split(RegExp(r'[\s&/,-]+'));
     out = out.where((s) {
       final schCat = s.category.toLowerCase();
@@ -76,7 +78,9 @@ List<Scheme> applyProviderFacetFilters(
     }).toList();
   }
   final schemeType = filters['schemeType'];
-  if (schemeType != null && schemeType != 'All' && schemeType.toString().trim().isNotEmpty) {
+  if (schemeType != null &&
+      schemeType != 'All' &&
+      schemeType.toString().trim().isNotEmpty) {
     final stType = schemeType.toString().toLowerCase();
     out = out.where((s) {
       return s.schemeType.toLowerCase().contains(stType) ||
@@ -126,9 +130,11 @@ ForMeViewResult computeForMeView({
     return const ForMeViewResult(<Scheme>[], ForMeEmptyState.completeProfile);
   }
   final gated = master
-      .where((s) =>
-          RecommendationEngine.evaluate(profile, s).score >=
-          RecommendationEngine.forMeThreshold)
+      .where(
+        (s) =>
+            RecommendationEngine.evaluate(profile, s).score >=
+            RecommendationEngine.forMeThreshold,
+      )
       .toList();
   final filtered = applyProviderFacetFilters(gated, filters);
   return ForMeViewResult(
@@ -311,8 +317,10 @@ class SearchScreenState extends State<SearchScreen> {
     // computeForMeView, so only apply them here for the other modes to avoid
     // filtering twice.
     if (_activeFilter != 'For Me') {
-      filteredResults =
-          applyProviderFacetFilters(filteredResults, provider.filters);
+      filteredResults = applyProviderFacetFilters(
+        filteredResults,
+        provider.filters,
+      );
     }
 
     // 5. Apply FilterBottomSheet selections if any
@@ -435,10 +443,14 @@ class SearchScreenState extends State<SearchScreen> {
       });
     } else if (_sortBy == 'Match %' || _sortBy == 'Match') {
       filteredResults.sort((a, b) {
-        final scoreA =
-            RecommendationEngine.evaluate(provider.profile, a).percentage;
-        final scoreB =
-            RecommendationEngine.evaluate(provider.profile, b).percentage;
+        final scoreA = RecommendationEngine.evaluate(
+          provider.profile,
+          a,
+        ).percentage;
+        final scoreB = RecommendationEngine.evaluate(
+          provider.profile,
+          b,
+        ).percentage;
         return scoreB.compareTo(scoreA);
       });
     } else if (_sortBy == 'Scheme Name (A-Z)') {
@@ -458,15 +470,14 @@ class SearchScreenState extends State<SearchScreen> {
     } else {
       // Relevance (Default score)
       filteredResults.sort((a, b) {
-        final scoreA =
-            RecommendationEngine.evaluate(provider.profile, a).score;
-        final scoreB =
-            RecommendationEngine.evaluate(provider.profile, b).score;
+        final scoreA = RecommendationEngine.evaluate(provider.profile, a).score;
+        final scoreB = RecommendationEngine.evaluate(provider.profile, b).score;
         return scoreB.compareTo(scoreA);
       });
     }
 
-    final bool hasActiveFilter = _selectedType.isNotEmpty ||
+    final bool hasActiveFilter =
+        _selectedType.isNotEmpty ||
         _selectedBenefit.isNotEmpty ||
         _selectedMinistry.isNotEmpty ||
         _activeFilter == 'For Me' ||
@@ -661,7 +672,7 @@ class SearchScreenState extends State<SearchScreen> {
       barrierDismissible: false,
       barrierLabel: 'Voice assistant',
       barrierColor: Colors.transparent,
-      transitionDuration: const Duration(milliseconds: 320),
+      transitionDuration: const Duration(milliseconds: 220),
       pageBuilder: (overlayContext, animation, secondaryAnimation) {
         return VoiceAssistantOverlay(
           onClose: () =>
@@ -686,18 +697,9 @@ class SearchScreenState extends State<SearchScreen> {
         );
       },
       transitionBuilder: (context, animation, secondaryAnimation, child) {
-        final curved = CurvedAnimation(
-          parent: animation,
-          curve: Curves.easeOutBack,
-          reverseCurve: Curves.easeInCubic,
-        );
         return FadeTransition(
-          opacity: animation,
-          child: ScaleTransition(
-            alignment: Alignment.bottomRight,
-            scale: Tween<double>(begin: 0.72, end: 1).animate(curved),
-            child: child,
-          ),
+          opacity: CurvedAnimation(parent: animation, curve: Curves.easeOut),
+          child: child,
         );
       },
     );
@@ -725,7 +727,8 @@ class SearchScreenState extends State<SearchScreen> {
       // If text gets cleared, revert to idle if no filters are active; otherwise re-apply filters
       if (_searchController.text.isEmpty && _currentState != SearchState.idle) {
         final provider = Provider.of<AppProvider>(context, listen: false);
-        final bool hasActiveFilter = _selectedType.isNotEmpty ||
+        final bool hasActiveFilter =
+            _selectedType.isNotEmpty ||
             _selectedBenefit.isNotEmpty ||
             _selectedMinistry.isNotEmpty ||
             _activeFilter == 'For Me' ||
@@ -799,10 +802,14 @@ class SearchScreenState extends State<SearchScreen> {
 
         // Sort by match score descending
         eligible.sort((a, b) {
-          final scoreA =
-              RecommendationEngine.evaluate(provider.profile, a).score;
-          final scoreB =
-              RecommendationEngine.evaluate(provider.profile, b).score;
+          final scoreA = RecommendationEngine.evaluate(
+            provider.profile,
+            a,
+          ).score;
+          final scoreB = RecommendationEngine.evaluate(
+            provider.profile,
+            b,
+          ).score;
           return scoreB.compareTo(scoreA);
         });
 
@@ -920,13 +927,20 @@ class SearchScreenState extends State<SearchScreen> {
       },
     ];
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC), // Crisp clean background without blue shade
+      backgroundColor: const Color(
+        0xFFF8FAFC,
+      ), // Crisp clean background without blue shade
       body: SafeArea(
         child: Column(
           children: [
             // Fixed top header elements
             Padding(
-              padding: const EdgeInsets.fromLTRB(AppSpacing.lg, AppSpacing.lg, AppSpacing.lg, AppSpacing.sm),
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.lg,
+                AppSpacing.lg,
+                AppSpacing.lg,
+                AppSpacing.sm,
+              ),
               child: SizedBox(
                 width: double.infinity,
                 child: Column(
@@ -942,49 +956,49 @@ class SearchScreenState extends State<SearchScreen> {
 
                     const SizedBox(height: AppSpacing.sm),
 
-                  if (isSearching) ...[
-                    // Discover Filters Strip (Filter, Sort, Type, Benefit Type, Ministry, Clear All)
-                    _buildDiscoverFiltersStrip(),
-                  ] else ...[
-                    // Try banner when idle
-                    GestureDetector(
-                      onTap: () {
-                        _searchController.text = _dynamicSearchHintText;
-                        _searchFocusNode.unfocus();
-                        _triggerSearch(_dynamicSearchHintText);
-                      },
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.search,
-                            color: Color(0xFF64748B),
-                            size: 12,
-                          ),
-                          const SizedBox(width: AppSpacing.xs),
-                          Expanded(
-                            child: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                "${context.l10n.trySearchPrefix} $_dynamicSearchHintText",
-                                style: GoogleFonts.inter(
-                                  color: const Color(0xFF64748B),
-                                  fontSize: _scaledFontSize(11),
-                                  fontWeight: FontWeight.w500,
+                    if (isSearching) ...[
+                      // Discover Filters Strip (Filter, Sort, Type, Benefit Type, Ministry, Clear All)
+                      _buildDiscoverFiltersStrip(),
+                    ] else ...[
+                      // Try banner when idle
+                      GestureDetector(
+                        onTap: () {
+                          _searchController.text = _dynamicSearchHintText;
+                          _searchFocusNode.unfocus();
+                          _triggerSearch(_dynamicSearchHintText);
+                        },
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.search,
+                              color: Color(0xFF64748B),
+                              size: 12,
+                            ),
+                            const SizedBox(width: AppSpacing.xs),
+                            Expanded(
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "${context.l10n.trySearchPrefix} $_dynamicSearchHintText",
+                                  style: GoogleFonts.inter(
+                                    color: const Color(0xFF64748B),
+                                    fontSize: _scaledFontSize(11),
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: AppSpacing.sm),
-                    _buildQuickPills(context),
+                      const SizedBox(height: AppSpacing.sm),
+                      _buildQuickPills(context),
+                    ],
                   ],
-                ],
+                ),
               ),
             ),
-          ),
 
             const SizedBox(height: AppSpacing.tight),
 
@@ -1168,11 +1182,7 @@ class SearchScreenState extends State<SearchScreen> {
           ),
           prefixIcon: IconButton(
             tooltip: 'Search',
-            icon: const Icon(
-              Icons.search,
-              color: Color(0xFF2563EB),
-              size: 20,
-            ),
+            icon: const Icon(Icons.search, color: Color(0xFF2563EB), size: 20),
             onPressed: () {
               if (_searchController.text.trim().isNotEmpty) {
                 _searchFocusNode.unfocus();
@@ -1238,7 +1248,8 @@ class SearchScreenState extends State<SearchScreen> {
     String currentValue,
     ValueChanged<String> onChanged,
   ) {
-    final bool isActive = currentValue.isNotEmpty &&
+    final bool isActive =
+        currentValue.isNotEmpty &&
         currentValue != 'All' &&
         currentValue != 'Relevance';
     return Container(
@@ -1357,7 +1368,10 @@ class SearchScreenState extends State<SearchScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.tight),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.md,
+                vertical: AppSpacing.tight,
+              ),
             ),
           ),
           const SizedBox(width: AppSpacing.sm),
@@ -1388,15 +1402,12 @@ class SearchScreenState extends State<SearchScreen> {
           ),
           _buildDropdownChip(
             isTa ? 'பயன் வகை' : 'Benefit Type',
-            [
-              'Financial',
-              'Skill training',
-              'Infrastructure',
-            ],
+            ['Financial', 'Skill training', 'Infrastructure'],
             _selectedBenefit,
             (v) {
               setState(
-                  () => _selectedBenefit = (_selectedBenefit == v ? '' : v));
+                () => _selectedBenefit = (_selectedBenefit == v ? '' : v),
+              );
               _applyFiltersAndSort();
             },
           ),
@@ -1406,7 +1417,8 @@ class SearchScreenState extends State<SearchScreen> {
             _selectedMinistry,
             (v) {
               setState(
-                  () => _selectedMinistry = (_selectedMinistry == v ? '' : v));
+                () => _selectedMinistry = (_selectedMinistry == v ? '' : v),
+              );
               _applyFiltersAndSort();
             },
           ),
@@ -1491,9 +1503,11 @@ class SearchScreenState extends State<SearchScreen> {
 
     if (_searchResults.isEmpty) {
       final isTa = provider.selectedLanguage == 'ta';
-      final bool forMeNeedsProfile = _activeFilter == 'For Me' &&
+      final bool forMeNeedsProfile =
+          _activeFilter == 'For Me' &&
           _forMeEmptyState == ForMeEmptyState.completeProfile;
-      final bool forMeNoMatches = _activeFilter == 'For Me' &&
+      final bool forMeNoMatches =
+          _activeFilter == 'For Me' &&
           _forMeEmptyState != ForMeEmptyState.completeProfile;
 
       final String title;
@@ -1531,7 +1545,10 @@ class SearchScreenState extends State<SearchScreen> {
 
       return ListView(
         key: const ValueKey('ResultsContent'),
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: 48),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.lg,
+          vertical: 48,
+        ),
         children: [
           Center(
             child: Column(
@@ -1574,22 +1591,26 @@ class SearchScreenState extends State<SearchScreen> {
           final isForMe = _activeFilter == 'For Me';
           final titleText = isForMe
               ? (provider.selectedLanguage == 'ta'
-                  ? "உங்களுக்கான திட்டங்கள் (${_searchResults.length})"
-                  : "Eligible Schemes For You (${_searchResults.length})")
+                    ? "உங்களுக்கான திட்டங்கள் (${_searchResults.length})"
+                    : "Eligible Schemes For You (${_searchResults.length})")
               : (provider.selectedLanguage == 'ta'
-                  ? "பொருந்தும் திட்டங்கள் (${_searchResults.length})"
-                  : "Matching Schemes (${_searchResults.length})");
+                    ? "பொருந்தும் திட்டங்கள் (${_searchResults.length})"
+                    : "Matching Schemes (${_searchResults.length})");
 
           final subtitleText = isForMe
               ? (provider.selectedLanguage == 'ta'
-                  ? "உங்கள் சுயவிவரத் தகவலின் அடிப்படையில் பொருந்தும் திட்டங்கள்"
-                  : "Matched strictly against your profile data")
+                    ? "உங்கள் சுயவிவரத் தகவலின் அடிப்படையில் பொருந்தும் திட்டங்கள்"
+                    : "Matched strictly against your profile data")
               : (_searchController.text.trim().isNotEmpty
-                  ? "Best matches for \"${_searchController.text.trim()}\""
-                  : "Best matches for your search criteria");
+                    ? "Best matches for \"${_searchController.text.trim()}\""
+                    : "Best matches for your search criteria");
 
           return Padding(
-            padding: const EdgeInsets.only(left: AppSpacing.lg, right: AppSpacing.lg, bottom: AppSpacing.md),
+            padding: const EdgeInsets.only(
+              left: AppSpacing.lg,
+              right: AppSpacing.lg,
+              bottom: AppSpacing.md,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -1614,8 +1635,10 @@ class SearchScreenState extends State<SearchScreen> {
         }
 
         final scheme = _searchResults[index - 1];
-        final recResult =
-            RecommendationEngine.evaluate(provider.profile, scheme);
+        final recResult = RecommendationEngine.evaluate(
+          provider.profile,
+          scheme,
+        );
 
         return SchemeCard(
           scheme: scheme,
@@ -1652,7 +1675,10 @@ class SearchScreenState extends State<SearchScreen> {
         _triggerSearch('For Me');
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.md,
+        ),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
@@ -1964,9 +1990,10 @@ class _ShimmerSkeletonCardState extends State<_ShimmerSkeletonCard>
       vsync: this,
       duration: const Duration(milliseconds: 900),
     )..repeat(reverse: true);
-    _animation = Tween<double>(begin: 0.35, end: 0.85).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _animation = Tween<double>(
+      begin: 0.35,
+      end: 0.85,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
