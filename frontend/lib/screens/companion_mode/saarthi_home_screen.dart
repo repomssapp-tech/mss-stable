@@ -203,6 +203,9 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
     if (_messages.isEmpty && _chatLogService.messageCount == 0) return;
     for (final msg in _messages) {
       if (msg.text.trim().isNotEmpty && msg.status != 'transcribing') {
+        final schemeNames = (msg.schemeResults != null && msg.schemeResults!.isNotEmpty)
+            ? msg.schemeResults!.map((s) => s.name).toList()
+            : null;
         _chatLogService.upsertMessage(
           id: msg.id,
           speaker: msg.role == 'assistant'
@@ -210,6 +213,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
               : ChatMessageSpeaker.user,
           text: msg.text,
           timestamp: msg.timestamp,
+          recommendations: schemeNames,
         );
       }
     }
@@ -414,6 +418,13 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
         _pendingCloudMetadata = results;
         return;
       }
+      final schemeNames = schemes.map((s) => s.name).toList();
+      _chatLogService.upsertMessage(
+        id: _messages[index].id,
+        speaker: ChatMessageSpeaker.assistant,
+        text: _messages[index].text,
+        recommendations: schemeNames,
+      );
       setState(() {
         _messages[index] = _messages[index].copyWith(
           schemeResults: schemes,
@@ -441,10 +452,15 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
       speakingState: speaking ? 'speaking' : null,
     );
     if (text.trim().isNotEmpty) {
+      final schemeNames =
+          (_pendingCloudSchemes != null && _pendingCloudSchemes!.isNotEmpty)
+              ? _pendingCloudSchemes!.map((s) => s.name).toList()
+              : null;
       _chatLogService.upsertMessage(
         id: index >= 0 ? _messages[index].id : message.id,
         speaker: ChatMessageSpeaker.assistant,
         text: text,
+        recommendations: schemeNames,
       );
     }
     if (index < 0) {

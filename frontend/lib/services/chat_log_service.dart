@@ -15,28 +15,51 @@ class ChatMessageRecord {
     required this.speaker,
     required this.text,
     required this.timestamp,
+    this.recommendations,
   });
 
   final String id;
   final ChatMessageSpeaker speaker;
   final String text;
   final DateTime timestamp;
+  final dynamic recommendations;
 
-  ChatMessageRecord copyWith({String? text}) => ChatMessageRecord(
+  ChatMessageRecord copyWith({
+    String? text,
+    dynamic recommendations,
+    bool clearRecommendations = false,
+  }) => ChatMessageRecord(
         id: id,
         speaker: speaker,
         text: text ?? this.text,
         timestamp: timestamp,
+        recommendations: clearRecommendations
+            ? null
+            : recommendations ?? this.recommendations,
       );
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'speaker': speaker.name,
-        'text': text,
-        'timestamp': timestamp.toIso8601String(),
-      };
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{
+      'id': id,
+      'speaker': speaker.name,
+      'text': text,
+      'timestamp': timestamp.toIso8601String(),
+    };
+    if (recommendations != null) {
+      map['recommendations'] = recommendations;
+    }
+    return map;
+  }
 
   factory ChatMessageRecord.fromJson(Map<String, dynamic> json) {
+    dynamic parsedRecommendations = false;
+    final rawRecs = json['recommendations'];
+    if (rawRecs is bool) {
+      parsedRecommendations = rawRecs;
+    } else if (rawRecs is List) {
+      parsedRecommendations = rawRecs.map((e) => e.toString()).toList();
+    }
+
     return ChatMessageRecord(
       id: json['id'] as String? ?? '',
       speaker: json['speaker'] == 'assistant'
@@ -46,6 +69,7 @@ class ChatMessageRecord {
       timestamp: json['timestamp'] != null
           ? DateTime.tryParse(json['timestamp'] as String) ?? DateTime.now().toUtc()
           : DateTime.now().toUtc(),
+      recommendations: parsedRecommendations,
     );
   }
 }
@@ -101,6 +125,9 @@ class ChatPayloadMapper {
           'timestamp': m.timestamp.toIso8601String(),
           'token_usage_ai': 0,
           'interrupted_by_user': false,
+          'recommendations': (m.recommendations is List && (m.recommendations as List).isNotEmpty)
+              ? m.recommendations
+              : false,
         });
       }
     }
@@ -121,7 +148,7 @@ class ChatPayloadMapper {
         'total_duration_sec': durationSec,
         'total_turns': currentTurn,
         'session_ended_type': status,
-        if (baseMetadata != null) 'metadata': baseMetadata,
+        'metadata': ?baseMetadata,
       },
       'created_at': createdAt,
       'ended_at': endedAt,
@@ -204,13 +231,17 @@ class ChatLogService {
     required ChatMessageSpeaker speaker,
     required String text,
     DateTime? timestamp,
+    dynamic recommendations,
   }) {
     final cleaned = text.trim();
     if (cleaned.isEmpty) return;
 
     final existingIndex = _messages.indexWhere((item) => item.id == id);
     if (existingIndex >= 0) {
-      _messages[existingIndex] = _messages[existingIndex].copyWith(text: cleaned);
+      _messages[existingIndex] = _messages[existingIndex].copyWith(
+        text: cleaned,
+        recommendations: recommendations,
+      );
     } else {
       _messages.add(
         ChatMessageRecord(
@@ -218,6 +249,7 @@ class ChatLogService {
           speaker: speaker,
           text: cleaned,
           timestamp: (timestamp ?? DateTime.now()).toUtc(),
+          recommendations: recommendations,
         ),
       );
     }
@@ -237,12 +269,17 @@ class ChatLogService {
   }
 
   /// Convenience helper to record a Saarthi agent reply.
-  void recordAiMessage(String text, {String? id}) {
+  void recordAiMessage(
+    String text, {
+    String? id,
+    dynamic recommendations,
+  }) {
     final messageId = id ?? 'assistant-${generateUuidV4()}';
     upsertMessage(
       id: messageId,
       speaker: ChatMessageSpeaker.assistant,
       text: text,
+      recommendations: recommendations,
     );
   }
 

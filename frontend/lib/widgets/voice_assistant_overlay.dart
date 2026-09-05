@@ -478,6 +478,14 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           _conversationTurns[_conversationTurns.length - 1] = _conversationTurns
               .last
               .copyWith(schemeMatches: matches);
+          
+          final schemeNames = matches.map((m) => m.scheme.name).toList();
+          _chatLogService.upsertMessage(
+            id: _conversationTurns.last.id,
+            speaker: ChatMessageSpeaker.assistant,
+            text: _conversationTurns.last.text,
+            recommendations: schemeNames,
+          );
         } else {
           _pendingCloudMatches = matches;
         }
@@ -496,25 +504,32 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
 
   void _upsertTranscriptTurn(
     VoiceAgentEvent event,
-    _VoiceTranscriptSpeaker speaker,
-  ) {
+    _VoiceTranscriptSpeaker speaker, {
+    List<String>? recommendations,
+  }) {
     final text = event.text?.trim() ?? '';
     if (text.isEmpty) return;
     final suppliedId = event.data?['messageId'];
     final id = suppliedId is String && suppliedId.trim().isNotEmpty
         ? suppliedId.trim()
         : '${speaker.name}-${_fallbackTranscriptId++}';
+    
+    final pendingMatches = speaker == _VoiceTranscriptSpeaker.assistant
+        ? _pendingCloudMatches
+        : const <SchemeSearchMatch>[];
+        
     _chatLogService.upsertMessage(
       id: id,
       speaker: speaker == _VoiceTranscriptSpeaker.user
           ? ChatMessageSpeaker.user
           : ChatMessageSpeaker.assistant,
       text: text,
+      recommendations: recommendations ?? (pendingMatches.isNotEmpty 
+          ? pendingMatches.map((m) => m.scheme.name).toList() 
+          : null),
     );
     final index = _conversationTurns.indexWhere((turn) => turn.id == id);
-    final pendingMatches = speaker == _VoiceTranscriptSpeaker.assistant
-        ? _pendingCloudMatches
-        : const <SchemeSearchMatch>[];
+
     setState(() {
       if (index >= 0) {
         _conversationTurns[index] = _conversationTurns[index].copyWith(
@@ -661,6 +676,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             state.phase == AssistantSessionPhase.noConfidentMatch) &&
         reply != null) {
       _lastSpokenTurn = turnKey;
+      final schemeNames = state.recommendations.map((r) => r.scheme.name).toList();
       _upsertTranscriptTurn(
         VoiceAgentEvent(
           VoiceAgentEventType.outputTranscriptDone,
@@ -668,6 +684,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           data: {'messageId': 'local-assistant-$turnKey'},
         ),
         _VoiceTranscriptSpeaker.assistant,
+        recommendations: schemeNames.isNotEmpty ? schemeNames : null,
       );
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) unawaited(_speakReply(reply));

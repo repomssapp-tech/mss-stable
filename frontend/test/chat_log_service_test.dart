@@ -223,5 +223,42 @@ void main() {
       expect(pendingAfter, contains('offline-sess-1'));
       expect(prefs.containsKey('chat_log_session_offline-sess-1'), isTrue);
     });
+    test('AI messages correctly map recommendations to JSON and user messages omit it entirely', () {
+      service.recordUserMessage('Tell me about farming loan', id: 'u1');
+      service.recordAiMessage(
+        'NABARD schemes are available',
+        id: 'a1',
+        recommendations: ['NABARD Scheme A', 'NABARD Scheme B'],
+      );
+      service.recordUserMessage('How to apply?', id: 'u2');
+      service.recordAiMessage(
+        'You can apply online.',
+        id: 'a2',
+        // No recommendations provided for follow-up
+      );
+
+      final sessionRow = service.buildSessionRow(mode: 'voice', userId: 'test-user');
+      final transcript = sessionRow['transcript'] as List;
+
+      expect(transcript.length, 4);
+
+      // User turn 1
+      expect(transcript[0]['role'], 'user');
+      expect(transcript[0].containsKey('recommendations'), isFalse); // Users MUST NOT have this key
+
+      // AI turn 1 with recommendations
+      expect(transcript[1]['role'], 'ai');
+      expect(transcript[1]['recommendations'], isA<List>());
+      expect((transcript[1]['recommendations'] as List).length, 2);
+      expect((transcript[1]['recommendations'] as List).contains('NABARD Scheme A'), isTrue);
+
+      // User turn 2
+      expect(transcript[2]['role'], 'user');
+      expect(transcript[2].containsKey('recommendations'), isFalse);
+
+      // AI turn 2 without recommendations
+      expect(transcript[3]['role'], 'ai');
+      expect(transcript[3]['recommendations'], isFalse); // AI MUST have it explicitly set to false if empty
+    });
   });
 }
