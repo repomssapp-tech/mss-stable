@@ -7,6 +7,7 @@ import '../../services/centralized_translator.dart';
 import '../../l10n/l10n.dart';
 import '../../widgets/app_toast.dart';
 import '../../utils/app_spacing.dart';
+import '../../services/support_ticket_service.dart';
 
 class HelpSupportScreen extends StatefulWidget {
   final String initialMode; // 'faq', 'contact', 'both'
@@ -272,6 +273,12 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
   }
 
   void _showReportIssueBottomSheet() {
+    if (_emailController.text.trim().isEmpty) {
+      final userEmail = Supabase.instance.client.auth.currentUser?.email;
+      if (userEmail != null && userEmail.isNotEmpty) {
+        _emailController.text = userEmail;
+      }
+    }
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -439,57 +446,62 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       ),
                       onPressed: _isSubmitting
                           ? null
-                          : () {
+                          : () async {
+                              final email = _emailController.text.trim();
                               final text = _feedbackController.text.trim();
-                              if (text.isEmpty) {
-                                AppToast.showWarning(
-                                  context,
-                                  CentralizedTranslator.instance.translate(
-                                    'Please describe the issue.',
-                                  ),
+
+                              try {
+                                SupportTicketService.instance.validateInputs(
+                                  category: _issueCategory,
+                                  email: email,
+                                  description: text,
                                 );
+                              } on SupportTicketValidationException catch (e) {
+                                AppToast.showWarning(context, e.message);
                                 return;
                               }
+
                               setModalState(() => _isSubmitting = true);
 
-                              // Realtime Supabase insertion of support ticket notification
-                              final userId =
-                                  Supabase.instance.client.auth.currentUser?.id;
-                              if (userId != null) {
-                                Supabase.instance.client
-                                    .from('notifications')
-                                    .insert({
-                                      'user_id': userId,
-                                      'title':
-                                          'Ticket Created: $_issueCategory',
-                                      'message':
-                                          'Your support ticket description: "$text" has been received. Our team will contact you at ${_emailController.text.trim()}.',
-                                      'notification_type': 'updates',
-                                      'is_read': false,
-                                    })
-                                    .catchError((e) {
-                                      debugPrint(
-                                        '[HelpSupportScreen] Failed to save support notification: $e',
-                                      );
-                                      return null;
-                                    });
-                              }
+                              try {
+                                await SupportTicketService.instance.submitTicket(
+                                  category: _issueCategory,
+                                  email: email,
+                                  description: text,
+                                );
 
-                              Future.delayed(
-                                const Duration(milliseconds: 1200),
-                                () {
-                                  if (context.mounted) {
-                                    setModalState(() => _isSubmitting = false);
-                                    Navigator.pop(context);
-                                    AppToast.showSuccess(
-                                      context,
+                                if (context.mounted) {
+                                  Navigator.pop(context);
+                                  AppToast.showSuccess(
+                                    context,
+                                    CentralizedTranslator.instance.translate(
                                       'Thank you! Your ticket has been submitted.',
-                                    );
-                                    _feedbackController.clear();
-                                    _emailController.clear();
-                                  }
-                                },
-                              );
+                                    ),
+                                  );
+                                  _feedbackController.clear();
+                                }
+                              } on SupportTicketRateLimitException catch (e) {
+                                if (context.mounted) {
+                                  AppToast.showWarning(context, e.message);
+                                }
+                              } on SupportTicketValidationException catch (e) {
+                                if (context.mounted) {
+                                  AppToast.showWarning(context, e.message);
+                                }
+                              } catch (e) {
+                                if (context.mounted) {
+                                  AppToast.showError(
+                                    context,
+                                    CentralizedTranslator.instance.translate(
+                                      'Failed to submit ticket. Please check your connection and try again.',
+                                    ),
+                                  );
+                                }
+                              } finally {
+                                if (context.mounted) {
+                                  setModalState(() => _isSubmitting = false);
+                                }
+                              }
                             },
                       child: _isSubmitting
                           ? const SizedBox(
