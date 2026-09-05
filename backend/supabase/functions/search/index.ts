@@ -13,7 +13,7 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-serve((req) => {
+const handler = (req: Request): Response => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }
@@ -25,4 +25,10 @@ serve((req) => {
     }),
     { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 410 }
   )
-})
+}
+
+// Bind the port only when run as a program, never on import -- otherwise
+// merely importing this module from a test claims port 8000.
+if (import.meta.main) serve(handler)
+
+export default handler

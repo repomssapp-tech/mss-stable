@@ -1,62 +1,49 @@
-import { assertEquals } from "https://deno.land/std@0.168.0/testing/asserts.ts"
+// Tests for the RETIRED `search` endpoint.
+//
+// The previous suite here exercised an implementation that no longer exists:
+// it mocked OpenAI embeddings and asserted 400/502 responses. That code was
+// removed when the function's target RPC (search_schemes) was dropped as dead
+// code in 20260818000000 -- every call was spending a real OpenAI embeddings
+// request before failing at the RPC step. The function is now a deliberate
+// 410 tombstone, kept deployed so an installed app build calling the old
+// route gets "gone forever" rather than an ambiguous 404.
+//
+// These tests lock that contract. If this endpoint is ever removed outright,
+// delete the function and this file together.
+import { assertEquals } from "https://deno.land/std@0.168.0/testing/asserts.ts";
 
-Deno.test("Search Function - Invalid Input Validation", async () => {
-  const req = new Request("http://localhost/search", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ query: "" })
-  })
+import handler from "./index.ts";
 
-  // Set environment variables mock
-  Deno.env.set("OPENAI_API_KEY", "mock-key")
-  Deno.env.set("SUPABASE_URL", "https://mock.supabase.co")
-  Deno.env.set("SUPABASE_ANON_KEY", "mock-anon-key")
+Deno.test("search - POST returns 410 GONE and points at the replacement", async () => {
+  const res = await handler(
+    new Request("http://localhost/search", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query: "textile loan" }),
+    }),
+  );
 
-  // Mock global fetch to intercept OpenAI and Supabase calls
-  const originalFetch = globalThis.fetch
-  globalThis.fetch = async (url, options) => {
-    if (url === "https://api.openai.com/v1/embeddings") {
-      return new Response(JSON.stringify({ error: "Failed" }), { status: 400 })
-    }
-    return originalFetch(url, options)
+  assertEquals(res.status, 410);
+
+  const body = await res.json();
+  assertEquals(body.error, "GONE");
+  assertEquals(body.message, "This endpoint is retired. Use POST /v1/search instead.");
+});
+
+Deno.test("search - is retired regardless of method", async () => {
+  for (const method of ["GET", "POST", "PUT", "DELETE"]) {
+    const res = await handler(new Request("http://localhost/search", { method }));
+    assertEquals(res.status, 410, `${method} should be retired`);
+    await res.body?.cancel();
   }
+});
 
-  try {
-    // Import function directly inside dynamic test execution to catch environment state
-    const handler = (await import("./index.ts")).default;
-    
-    // Test empty query validation
-    const res = await handler(req)
-    assertEquals(res.status, 400)
-    const data = await res.json()
-    assertEquals(data.error, "Query parameter must be a non-empty string")
-  } finally {
-    globalThis.fetch = originalFetch
-  }
-})
+Deno.test("search - OPTIONS preflight still succeeds with CORS headers", async () => {
+  const res = await handler(
+    new Request("http://localhost/search", { method: "OPTIONS" }),
+  );
 
-Deno.test("Search Function - OpenAI API failure handling", async () => {
-  const req = new Request("http://localhost/search", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ query: "Test valid query text" })
-  })
-
-  const originalFetch = globalThis.fetch
-  globalThis.fetch = async (url, options) => {
-    if (url === "https://api.openai.com/v1/embeddings") {
-      return new Response("OpenAI quota exceeded", { status: 429 })
-    }
-    return originalFetch(url, options)
-  }
-
-  try {
-    const handler = (await import("./index.ts")).default;
-    const res = await handler(req)
-    assertEquals(res.status, 502)
-    const data = await res.json()
-    assertEquals(data.error.includes("OpenAI API failed"), true)
-  } finally {
-    globalThis.fetch = originalFetch
-  }
-})
+  assertEquals(res.status, 200);
+  assertEquals(res.headers.get("Access-Control-Allow-Origin"), "*");
+  await res.body?.cancel();
+});
