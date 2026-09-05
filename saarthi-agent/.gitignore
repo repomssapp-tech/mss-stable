@@ -18,6 +18,12 @@ KMS
 # OpenAI Codex
 .codex/config.local.toml
 
+# 1.1 (audit_fix.md): runtime state written by catalog_sync.py, not source
+# data -- data/scheme_catalog.json, data/search_index.json, and
+# data/search_taxonomy.json stay tracked as the Docker-image fallback copy.
+data/catalog_manifest.json
+data/last_sync_check.json
+
 # Gemini CLI
 .gemini/history/
 .gemini/tmp/
