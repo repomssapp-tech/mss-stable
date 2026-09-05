@@ -22,10 +22,24 @@ import '../../utils/app_spacing.dart';
 import '../../utils/constants.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, this.onVoiceQuery, this.onFilterPressed});
+  const HomeScreen({
+    super.key,
+    this.onVoiceQuery,
+    this.onFilterPressed,
+    this.onSearchBarTap,
+  });
 
   final ValueChanged<String>? onVoiceQuery;
   final VoidCallback? onFilterPressed;
+
+  /// Called on a single tap of the search bar. The bar itself is not a real
+  /// TextField (it can't be -- it lives on the Home tab, but typing needs to
+  /// drive the Search tab's results/filters/voice-dictation machinery, all
+  /// of which already lives in SearchScreen). So this switches to the
+  /// Search tab and focuses its TextField in one motion, instead of the
+  /// previous two-tap dance (tap once to reveal quick pills that did
+  /// nothing useful, tap again to navigate) that never opened a keyboard.
+  final VoidCallback? onSearchBarTap;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -38,7 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _recommendedScrollController = ScrollController();
   int _activeCarouselIndex = 0;
   Timer? _carouselTimer;
-  bool _showSearchPills = false;
   bool _loggedOutRedirectScheduled = false;
 
   double _scaledFontSize(double baseSize) {
@@ -289,11 +302,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     // Search Bar & Filter Button
                     _buildSearchAndFilter(context, provider),
 
-                    if (_showSearchPills) ...[
-                      const SizedBox(height: AppSpacing.sm),
-                      // Quick search horizontal pills
-                      _buildQuickPills(context, provider),
-                    ],
+                    const SizedBox(height: AppSpacing.sm),
+                    // Quick search horizontal pills
+                    _buildQuickPills(context, provider),
 
                     if (provider.profileCompletionPercentage < 100) ...[
                       const SizedBox(height: AppSpacing.xl),
@@ -467,15 +478,10 @@ class _HomeScreenState extends State<HomeScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(30),
-        border: Border.all(
-          color: _showSearchPills ? const Color(0xFF2563EB) : const Color(0xFFE2E8F0),
-          width: _showSearchPills ? 1.5 : 1.0,
-        ),
+        border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
         boxShadow: [
           BoxShadow(
-            color: _showSearchPills
-                ? const Color(0xFF2563EB).withValues(alpha: 0.08)
-                : Colors.black.withValues(alpha: 0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -485,26 +491,14 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           GestureDetector(
             behavior: HitTestBehavior.opaque,
-            onTap: () {
-              if (!_showSearchPills) {
-                setState(() => _showSearchPills = true);
-              } else {
-                provider.updateTabIndex(1);
-              }
-            },
+            onTap: () => widget.onSearchBarTap?.call(),
             child: const Icon(Icons.search, color: Color(0xFF2563EB), size: 22),
           ),
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onTap: () {
-                if (!_showSearchPills) {
-                  setState(() => _showSearchPills = true);
-                } else {
-                  provider.updateTabIndex(1);
-                }
-              },
+              onTap: () => widget.onSearchBarTap?.call(),
               child: Text(
                 context.l10n.searchPlaceholder,
                 style: GoogleFonts.inter(
@@ -517,23 +511,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          if (_showSearchPills) ...[
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () {
-                setState(() => _showSearchPills = false);
-              },
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: AppSpacing.xs),
-                child: Icon(
-                  Icons.close,
-                  size: 18,
-                  color: Color(0xFF94A3B8),
-                ),
-              ),
-            ),
-            const SizedBox(width: AppSpacing.xs),
-          ],
           Container(height: 20, width: 1, color: const Color(0xFFE2E8F0)),
           const SizedBox(width: AppSpacing.sm),
           GestureDetector(

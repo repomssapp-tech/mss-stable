@@ -51,7 +51,9 @@ void main() {
   });
 
   group('HomeScreen search pills visibility tests', () {
-    testWidgets('Quick search pills are hidden by default and appear on search bar click',
+    testWidgets(
+        'Quick search pills are visible immediately, and tapping the search '
+        'bar fires onSearchBarTap exactly once (no dead two-tap reveal step)',
         (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.5;
@@ -60,6 +62,7 @@ void main() {
 
       final provider = AppProvider();
       provider.setLoggedInForTesting(true);
+      var searchBarTapCount = 0;
 
       await tester.pumpWidget(
         ChangeNotifierProvider<AppProvider>.value(
@@ -67,17 +70,19 @@ void main() {
           child: MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-            home: const Scaffold(
-              body: HomeScreen(),
+            home: Scaffold(
+              body: HomeScreen(
+                onSearchBarTap: () => searchBarTapCount++,
+              ),
             ),
           ),
         ),
       );
       await tester.pumpAndSettle();
 
-      // By default: quick pills should NOT be visible
-      expect(find.text('Search PMEGP'), findsNothing);
-      expect(find.text('Search Startup India'), findsNothing);
+      // Quick pills are always visible now -- no reveal gesture needed.
+      expect(find.text('Search PMEGP'), findsOneWidget);
+      expect(find.text('Search Startup India'), findsOneWidget);
 
       // Verify dynamic time-of-day greeting is present
       final currentGreeting = AppConstants.getTimeGreeting(
@@ -90,25 +95,16 @@ void main() {
       final searchField = find.textContaining('Search schemes');
       expect(searchField, findsOneWidget);
 
-      // Tap on the search bar
+      // A single tap on the search bar must fire onSearchBarTap exactly
+      // once -- previously this required a second tap, and even then only
+      // switched tabs without ever focusing a real TextField.
       await tester.tap(searchField);
       await tester.pumpAndSettle();
+      expect(searchBarTapCount, 1);
 
-      // Now quick pills should be visible!
+      // Pills remain visible; there is no close button anymore (the old
+      // "tap again to dismiss pills" state no longer exists).
       expect(find.text('Search PMEGP'), findsOneWidget);
-      expect(find.text('Search Startup India'), findsOneWidget);
-
-      // A close button (Icons.close) should now be present in the search bar
-      final closeBtn = find.byIcon(Icons.close);
-      expect(closeBtn, findsOneWidget);
-
-      // Tap close button to dismiss pills
-      await tester.tap(closeBtn);
-      await tester.pumpAndSettle();
-
-      // Pills should be hidden again
-      expect(find.text('Search PMEGP'), findsNothing);
-      expect(find.text('Search Startup India'), findsNothing);
       expect(find.byIcon(Icons.close), findsNothing);
     });
   });

@@ -636,6 +636,20 @@ class SearchScreenState extends State<SearchScreen> {
     _openFilterPanel();
   }
 
+  /// Requests focus (and, via the platform's normal focus->keyboard behavior,
+  /// opens the keyboard) on the real search TextField. Called by HomeScreen
+  /// via searchTabKey right after switching to this tab, the same
+  /// GlobalKey-based pattern already used for submitVoiceQuery/
+  /// openFilterBottomSheet -- so a single tap on the home search bar lands
+  /// the user here with the keyboard already up, instead of the previous
+  /// fake "tap once to reveal pills, tap again to navigate" two-step (which
+  /// never actually opened a keyboard, because the home search bar was a
+  /// plain Text widget, not a TextField).
+  void focusSearchField() {
+    if (!mounted) return;
+    FocusScope.of(context).requestFocus(_searchFocusNode);
+  }
+
   Future<void> openVoiceAssistant() async {
     final provider = Provider.of<AppProvider>(context, listen: false);
     final schemes = provider.allSchemes.isNotEmpty
@@ -1878,13 +1892,18 @@ class SearchScreenState extends State<SearchScreen> {
                 color: const Color(0xFF0F172A),
               ),
             ),
-            subtitle: Text(
-              category["count"] as String,
-              style: GoogleFonts.inter(
-                fontSize: _scaledFontSize(10),
-                color: const Color(0xFF64748B),
-              ),
-            ),
+            subtitle: _isLoadingCounts
+                ? const Padding(
+                    padding: EdgeInsets.only(top: AppSpacing.hairline),
+                    child: _SkeletonBar(width: 70, height: 10),
+                  )
+                : Text(
+                    category["count"] as String,
+                    style: GoogleFonts.inter(
+                      fontSize: _scaledFontSize(10),
+                      color: const Color(0xFF64748B),
+                    ),
+                  ),
             trailing: const Icon(
               Icons.chevron_right,
               color: Color(0xFF94A3B8),
@@ -1892,6 +1911,34 @@ class SearchScreenState extends State<SearchScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+// A small reusable static skeleton bar, for inline loading placeholders
+// (e.g. a category tile's count while getCategoryCounts() is still
+// computing) that are too small to warrant a full _ShimmerSkeletonCard.
+// Deliberately NOT animated, unlike _ShimmerSkeletonCard below: this shows
+// during the idle Browse Categories view, which is on screen by default
+// (not just during a transient results-loading state), so an indefinitely-
+// repeating animation here would leave every widget test that pumps this
+// screen unable to ever reach `pumpAndSettle()` -- there would always be a
+// pending frame. A static box still reads as "loading" via its shape/color.
+class _SkeletonBar extends StatelessWidget {
+  const _SkeletonBar({required this.width, required this.height});
+
+  final double width;
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        color: const Color(0xFFE2E8F0),
+        borderRadius: BorderRadius.circular(4),
       ),
     );
   }
