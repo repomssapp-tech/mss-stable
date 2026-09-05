@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -133,11 +134,13 @@ void main() {
       await tester.pumpWidget(buildTestApp(provider));
       await tester.pump();
 
-      // Verify that Image.network is rendered
-      final imageWidgets = tester.widgetList<Image>(find.byType(Image));
-      final hasNetworkImage = imageWidgets.any((img) =>
-          img.image is NetworkImage &&
-          (img.image as NetworkImage).url == 'https://lh3.googleusercontent.com/test_google_avatar');
+      // Verify that CachedNetworkImage is rendered with the expected URL
+      final imageWidgets = tester.widgetList<CachedNetworkImage>(
+        find.byType(CachedNetworkImage),
+      );
+      final hasNetworkImage = imageWidgets.any(
+        (img) => img.imageUrl == 'https://lh3.googleusercontent.com/test_google_avatar',
+      );
 
       expect(hasNetworkImage, isTrue);
     });

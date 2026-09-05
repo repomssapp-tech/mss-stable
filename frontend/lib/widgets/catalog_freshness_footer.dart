@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../services/mss_catalog_bundle.dart';
+import '../utils/app_spacing.dart';
 
 /// 2.7 (audit_fix.md): a subtle indicator of catalog data currency, so a
 /// user can tell "no match" apart from "this device's local catalog is
@@ -37,7 +38,7 @@ class CatalogFreshnessFooter extends StatelessWidget {
                 '${dateText != null ? ' • updated $dateText' : ''}';
 
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
           child: Center(
             child: Text(
               label,
