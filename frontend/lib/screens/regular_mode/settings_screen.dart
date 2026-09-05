@@ -90,6 +90,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         Icons.close_rounded,
                         color: Color(0xFF94A3B8),
                       ),
+                      tooltip: 'Close',
                       onPressed: () => Navigator.pop(context),
                     ),
                   ],
@@ -225,6 +226,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         elevation: 0.5,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Color(0xFF0F172A)),
+          tooltip: 'Back',
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(

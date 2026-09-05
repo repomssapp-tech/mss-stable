@@ -457,6 +457,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                     color: Color(0xFF94A3B8),
                     size: 18,
                   ),
+                  tooltip: 'Clear search',
                   onPressed: () {
                     _searchController.clear();
                     setState(() {});

@@ -857,6 +857,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         leading: _isSelectionMode
             ? IconButton(
                 icon: const Icon(Icons.close, color: AppConstants.primaryText),
+                tooltip: 'Cancel selection',
                 onPressed: () {
                   setState(() {
                     _isSelectionMode = false;

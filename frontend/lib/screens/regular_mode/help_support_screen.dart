@@ -109,6 +109,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       Icons.close_rounded,
                       color: Color(0xFF94A3B8),
                     ),
+                    tooltip: 'Close',
                     onPressed: () => Navigator.pop(context),
                   ),
                 ],
@@ -209,6 +210,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                           Icons.close_rounded,
                           color: Color(0xFF94A3B8),
                         ),
+                        tooltip: 'Close',
                         onPressed: () => Navigator.pop(context),
                       ),
                     ],
@@ -323,6 +325,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                           Icons.close_rounded,
                           color: Color(0xFF94A3B8),
                         ),
+                        tooltip: 'Close',
                         onPressed: () => Navigator.pop(context),
                       ),
                     ],
@@ -573,6 +576,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                           Icons.close_rounded,
                           color: Color(0xFF94A3B8),
                         ),
+                        tooltip: 'Close',
                         onPressed: () => Navigator.pop(context),
                       ),
                     ],
@@ -610,6 +614,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                                 color: const Color(0xFFF59E0B),
                                 size: 36,
                               ),
+                              tooltip: 'Rate $starRating star${starRating == 1 ? '' : 's'}',
                               onPressed: () {
                                 setModalState(() {
                                   rating = starRating.toDouble();
