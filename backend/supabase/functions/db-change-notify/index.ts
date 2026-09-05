@@ -59,7 +59,7 @@ export function createDbChangeNotifyHandler(options: DbChangeNotifyOptions = {})
       const channel = supabase.channel('catalog_sync');
 
       await new Promise<void>((resolve) => {
-        let timer: number | undefined;
+        let timer: ReturnType<typeof setTimeout> | undefined;
 
         channel.subscribe(async (status: string) => {
           if (status === 'SUBSCRIBED') {
@@ -109,4 +109,8 @@ export function createDbChangeNotifyHandler(options: DbChangeNotifyOptions = {})
   };
 }
 
-serve(createDbChangeNotifyHandler());
+const handler = createDbChangeNotifyHandler();
+
+if (import.meta.main) serve(handler);
+
+export default handler;
