@@ -193,11 +193,21 @@ class SearchScreenState extends State<SearchScreen> {
 
   List<Scheme> _computeEligibleSchemes(AppProvider provider, List<Scheme> all) {
     final list = all.isNotEmpty ? all : provider.allSchemes;
-    // Single source of truth for the "For Me" set: an additive score gate at
-    // RecommendationEngine.forMeThreshold, and an empty list when the profile
-    // is not populated enough to personalise. Keeps the list and the
-    // `_matchingProfileCount` badge in exact agreement.
-    return RecommendationEngine.forMeSchemes(provider.profile, list);
+    // Single source of truth for the "For Me" set: routes through the exact
+    // same computeForMeView used to build the results list (score gate
+    // INTERSECTED with provider.filters), so the `_matchingProfileCount`
+    // badge can never drift from what the list actually shows. Previously
+    // this called RecommendationEngine.forMeSchemes() directly, which
+    // applied the score gate only and ignored provider.filters entirely --
+    // whenever a facet (state/category/ministry/etc.) was active, the badge
+    // showed the full score-gated count while the real list additionally
+    // filtered by that facet, e.g. "5 schemes match your profile" opening to
+    // a list of only 2.
+    return computeForMeView(
+      master: list,
+      profile: provider.profile,
+      filters: provider.filters,
+    ).schemes;
   }
 
   bool _hasActiveProviderFilters(Map<String, dynamic> filters) {
