@@ -95,7 +95,7 @@ def test_results_are_compact_and_source_grounded(tmp_path: Path) -> None:
     result = SchemeCatalog(catalog_path).search("manufacturing", limit=1)[0]
 
     assert result["verification"]["is_verified"] is True
-    assert 40 <= result["match_confidence"] <= 97
+    assert "match_confidence" not in result
     assert result["application"]["url"] == "https://example.gov.in/apply"
     assert result["sources"] == [
         {"title": "Official source", "url": "https://example.gov.in/scheme"}
