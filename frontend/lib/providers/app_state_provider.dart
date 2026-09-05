@@ -461,58 +461,70 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         final googlePhoto = extractGooglePhoto(user);
         final googleName = extractGoogleName(user);
 
-        final dbProfile = await SchemeRepository.instance.getProfile(user.id);
-        if (dbProfile != null) {
-          _profile = dbProfile;
-          _selectedLanguage = dbProfile.language;
-          _navigationMode = dbProfile.navigationMode;
+        // Authentication is complete at this point. Notify immediately so the
+        // login route can advance while profile hydration continues; a slow or
+        // unavailable profile query must never leave the user on the sign-in
+        // button after Google has already accepted them.
+        notifyListeners();
 
-          if ((_profile.profilePhoto.isEmpty ||
-                  _profile.profilePhoto.contains('user_avatar.webp')) &&
-              googlePhoto.isNotEmpty) {
-            _profile = _profile.copyWith(
+        try {
+          final dbProfile = await SchemeRepository.instance.getProfile(user.id);
+          if (dbProfile != null) {
+            _profile = dbProfile;
+            _selectedLanguage = dbProfile.language;
+            _navigationMode = dbProfile.navigationMode;
+
+            if ((_profile.profilePhoto.isEmpty ||
+                    _profile.profilePhoto.contains('user_avatar.webp')) &&
+                googlePhoto.isNotEmpty) {
+              _profile = _profile.copyWith(
+                profilePhoto: googlePhoto,
+                updatedAt: DateTime.now(),
+              );
+              unawaited(SessionCacheService.instance.saveProfile(_profile));
+              unawaited(SchemeRepository.instance.updateProfile(_profile));
+            }
+          } else {
+            _profile = UserProfile(
+              googleUserId: user.id,
+              name: googleName.isNotEmpty ? googleName : 'Google User',
+              email: user.email ?? '',
+              mobile: user.phone ?? '',
               profilePhoto: googlePhoto,
-              updatedAt: DateTime.now(),
+              language: _selectedLanguage,
+              navigationMode: _navigationMode,
             );
-            unawaited(SessionCacheService.instance.saveProfile(_profile));
-            unawaited(SchemeRepository.instance.updateProfile(_profile));
+            unawaited(_saveProfile());
+            unawaited(SchemeRepository.instance.createProfile(_profile));
           }
-        } else {
-          _profile = UserProfile(
-            googleUserId: user.id,
-            name: googleName.isNotEmpty ? googleName : 'Google User',
-            email: user.email ?? '',
-            mobile: user.phone ?? '',
-            profilePhoto: googlePhoto,
-            language: _selectedLanguage,
-            navigationMode: _navigationMode,
-          );
-          unawaited(_saveProfile());
-          unawaited(SchemeRepository.instance.createProfile(_profile));
-        }
 
-        // Recompute immediately rather than relying solely on
-        // _subscribeToProfile's realtime listener to catch up -- that
-        // subscription is eventually-consistent (and does nothing at all
-        // if Realtime isn't enabled for the profiles table), so without
-        // this, "Recommended For You" keeps showing scores computed
-        // against the pre-sign-in default profile until something else
-        // happens to recompute it.
-        _filters['state'] = _profile.state;
-        _filters['community'] = _profile.community;
-        _filters['gender'] = _profile.gender;
-        if (_allSchemes.isNotEmpty) {
-          _recommendedSchemes = RecommendationEngine.getRecommendations(
-            _profile,
-            _allSchemes,
+          // Recompute immediately rather than relying solely on
+          // _subscribeToProfile's realtime listener to catch up -- that
+          // subscription is eventually-consistent (and does nothing at all
+          // if Realtime isn't enabled for the profiles table), so without
+          // this, "Recommended For You" keeps showing scores computed
+          // against the pre-sign-in default profile until something else
+          // happens to recompute it.
+          _filters['state'] = _profile.state;
+          _filters['community'] = _profile.community;
+          _filters['gender'] = _profile.gender;
+          if (_allSchemes.isNotEmpty) {
+            _recommendedSchemes = RecommendationEngine.getRecommendations(
+              _profile,
+              _allSchemes,
+            );
+          }
+
+          _subscribeToProfile(user.id);
+          _subscribeToNotifications(user.id);
+          fetchPromoAlerts();
+          fetchDraftSessions();
+          await _saveProfile();
+        } catch (error, stackTrace) {
+          debugPrint(
+            '[AppProvider] Signed in, but profile hydration failed: $error\n$stackTrace',
           );
         }
-
-        _subscribeToProfile(user.id);
-        _subscribeToNotifications(user.id);
-        fetchPromoAlerts();
-        fetchDraftSessions();
-        await _saveProfile();
         notifyListeners();
       } else if (event == AuthChangeEvent.signedOut) {
         _isLoggedIn = false;
@@ -544,6 +556,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _isLoggedIn = val;
     notifyListeners();
   }
+
   bool get isGuest => false;
   bool get isLoggingOut => _isLoggingOut;
   String get mobileNumber => _mobileNumber;
@@ -568,7 +581,12 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       for (final identity in user.identities!) {
         final idData = identity.identityData;
         if (idData != null) {
-          for (final key in ['avatar_url', 'picture', 'photo_url', 'avatarUrl']) {
+          for (final key in [
+            'avatar_url',
+            'picture',
+            'photo_url',
+            'avatarUrl',
+          ]) {
             final val = idData[key];
             if (val is String && val.trim().isNotEmpty) {
               return val.trim();
@@ -623,7 +641,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         return photo;
       }
     }
-    final googlePhoto = extractGooglePhoto(Supabase.instance.client.auth.currentUser);
+    final googlePhoto = extractGooglePhoto(
+      Supabase.instance.client.auth.currentUser,
+    );
     if (googlePhoto.isNotEmpty) {
       return googlePhoto;
     }
@@ -635,7 +655,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     final photo = _profile.profilePhoto.trim();
     if (photo.isEmpty || photo.contains('user_avatar.webp')) return false;
     if (File(photo).existsSync()) return true;
-    final google = extractGooglePhoto(Supabase.instance.client.auth.currentUser);
+    final google = extractGooglePhoto(
+      Supabase.instance.client.auth.currentUser,
+    );
     return google.isNotEmpty && photo != google;
   }
 
@@ -1484,7 +1506,10 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     final newPhoto = trimmed.isEmpty
         ? extractGooglePhoto(Supabase.instance.client.auth.currentUser)
         : trimmed;
-    _profile = _profile.copyWith(profilePhoto: newPhoto, updatedAt: DateTime.now());
+    _profile = _profile.copyWith(
+      profilePhoto: newPhoto,
+      updatedAt: DateTime.now(),
+    );
     notifyListeners();
     await _saveProfile();
 

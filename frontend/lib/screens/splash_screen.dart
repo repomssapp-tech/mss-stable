@@ -5,12 +5,30 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'regular_mode/language_selection_screen.dart';
 import 'login_screen.dart';
+import 'navigation_mode_screen.dart';
 import '../providers/app_state_provider.dart';
 import '../services/auth_service.dart';
 import '../services/session_cache_service.dart';
 import '../utils/constants.dart';
 import '../main.dart';
 import '../utils/app_spacing.dart';
+
+enum StartupDestination { home, navigationMode, language, login }
+
+StartupDestination resolveStartupDestination({
+  required bool hasSession,
+  required bool hasCachedLanguage,
+  required bool profileCompleted,
+}) {
+  if (hasSession) {
+    return profileCompleted
+        ? StartupDestination.home
+        : StartupDestination.navigationMode;
+  }
+  return hasCachedLanguage
+      ? StartupDestination.login
+      : StartupDestination.language;
+}
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -58,63 +76,79 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _continueStartup() async {
-      if (!mounted) return;
+    if (!mounted) return;
 
-      final provider = Provider.of<AppProvider>(context, listen: false);
-      final cache = SessionCacheService.instance;
+    final provider = Provider.of<AppProvider>(context, listen: false);
+    final cache = SessionCacheService.instance;
 
-      // Load preference details from cache
-      final lang = await cache.getLanguage();
-      final profile = await cache.loadProfile();
+    // Load preference details from cache
+    final lang = await cache.getLanguage();
+    final profile = await cache.loadProfile();
 
-      // Validate Supabase session (instant offline check)
-      var session = Supabase.instance.client.auth.currentSession;
+    // Validate Supabase session (instant offline check)
+    var session = Supabase.instance.client.auth.currentSession;
 
-      if (session != null) {
-        try {
-          // Perform a server-side validation to check if the user was deleted/disabled
-          final userResponse = await Supabase.instance.client.auth.getUser();
-          if (userResponse.user == null) {
-            session = null;
-          }
-        } on AuthRetryableFetchException catch (netErr) {
-          // Network-unreachable (offline, DNS failure, timeout) -- not a
-          // rejection by the server. Trust the cached session rather than
-          // signing the user out just because the app happened to start
-          // offline; this is the online-only exception to the offline-first
-          // policy (session validation), not scheme discovery, but it must
-          // not destroy state that was working fine a moment ago.
-          debugPrint(
-            '[SplashScreen] Session validation unreachable (offline?), keeping cached session: $netErr',
-          );
-        } on AuthException catch (authErr) {
-          debugPrint(
-            '[SplashScreen] Auth exception during session validation: $authErr',
-          );
-          final statusStr = authErr.statusCode ?? '';
-          if (statusStr == '400' ||
-              statusStr == '403' ||
-              statusStr == '404' ||
-              authErr.message.toLowerCase().contains('user') ||
-              authErr.message.toLowerCase().contains('invalid')) {
-            session = null;
-          }
-        } catch (e) {
-          debugPrint(
-            '[SplashScreen] Non-auth exception during session validation: $e',
-          );
+    if (session != null) {
+      try {
+        // Perform a server-side validation to check if the user was deleted/disabled
+        final userResponse = await Supabase.instance.client.auth.getUser();
+        if (userResponse.user == null) {
+          session = null;
         }
+      } on AuthRetryableFetchException catch (netErr) {
+        // Network-unreachable (offline, DNS failure, timeout) -- not a
+        // rejection by the server. Trust the cached session rather than
+        // signing the user out just because the app happened to start
+        // offline; this is the online-only exception to the offline-first
+        // policy (session validation), not scheme discovery, but it must
+        // not destroy state that was working fine a moment ago.
+        debugPrint(
+          '[SplashScreen] Session validation unreachable (offline?), keeping cached session: $netErr',
+        );
+      } on AuthException catch (authErr) {
+        debugPrint(
+          '[SplashScreen] Auth exception during session validation: $authErr',
+        );
+        final statusStr = authErr.statusCode ?? '';
+        if (statusStr == '400' ||
+            statusStr == '403' ||
+            statusStr == '404' ||
+            authErr.message.toLowerCase().contains('user') ||
+            authErr.message.toLowerCase().contains('invalid')) {
+          session = null;
+        }
+      } catch (e) {
+        debugPrint(
+          '[SplashScreen] Non-auth exception during session validation: $e',
+        );
       }
+    }
 
-      if (!mounted) return;
+    if (!mounted) return;
 
-      if (session != null && profile != null && profile.profileCompleted) {
-        // Instant routing based on local cache
+    final destination = resolveStartupDestination(
+      hasSession: session != null,
+      hasCachedLanguage: lang != null,
+      profileCompleted: profile?.profileCompleted ?? false,
+    );
+
+    switch (destination) {
+      case StartupDestination.home:
         provider.updateTabIndex(0);
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (_) => const MainTabsContainer()),
         );
-      } else {
+        return;
+      case StartupDestination.navigationMode:
+        // A valid OAuth session must survive first-run onboarding. Previously
+        // this path signed new users out because their profile was incomplete,
+        // creating an endless "Continue with Google" loop.
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const NavigationModeScreen()),
+        );
+        return;
+      case StartupDestination.language:
+      case StartupDestination.login:
         // Without a saved session/profile, sign-in is the only next step.
         // Keep the user out of an unusable sign-in screen while offline.
         if (!await AuthService.canReachAuthenticationService()) {
@@ -129,7 +163,7 @@ class _SplashScreenState extends State<SplashScreen>
         } catch (_) {}
 
         if (!mounted) return;
-        if (lang == null) {
+        if (destination == StartupDestination.language) {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (_) => const LanguageSelectionScreen()),
           );
@@ -138,7 +172,8 @@ class _SplashScreenState extends State<SplashScreen>
             MaterialPageRoute(builder: (_) => const LoginScreen()),
           );
         }
-      }
+        return;
+    }
   }
 
   void _showNoNetworkDialog() {
