@@ -30,6 +30,7 @@ class MssCatalogBundle {
     required Map<String, Set<String>> searchTokenMap,
     required Map<String, Map<String, dynamic>> searchProfiles,
     required this.releaseTag,
+    this.releasedAt,
     required this.totalRelationshipsCount,
     required Map<String, List<String>> queryExpansions,
     this.duplicateEntityIdCount = 0,
@@ -67,6 +68,10 @@ class MssCatalogBundle {
   final Map<String, List<String>> queryExpansions;
 
   final String releaseTag;
+
+  /// When this catalog release was published, per `release.json:"releasedAt"`.
+  /// Null only if the field is absent/unparsable in the shipped asset.
+  final DateTime? releasedAt;
   final int totalRelationshipsCount;
   final int duplicateEntityIdCount;
   final int danglingReferenceCount;
@@ -237,6 +242,9 @@ class MssCatalogBundle {
     final expectedChecksum =
         (releaseJson['bundleSha256'] as String?)?.toLowerCase() ?? '';
     final releaseTag = (releaseJson['releaseTag'] as String?) ?? 'unknown';
+    final releasedAt = DateTime.tryParse(
+      (releaseJson['releasedAt'] as String?) ?? '',
+    );
 
     // Verify SHA-256 Checksum
     final actualChecksum = sha256
@@ -360,6 +368,7 @@ class MssCatalogBundle {
       searchProfiles: searchProfiles,
       queryExpansions: queryExpansions,
       releaseTag: releaseTag,
+      releasedAt: releasedAt,
       totalRelationshipsCount: totalRels,
       duplicateEntityIdCount: duplicateEntityIdCount,
       danglingReferenceCount: danglingReferenceCount,

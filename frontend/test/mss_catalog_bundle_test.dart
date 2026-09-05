@@ -356,6 +356,9 @@ class MssCatalogBundleProxy implements MssCatalogBundle {
   String get releaseTag => '1.33.0-alpha';
 
   @override
+  DateTime? get releasedAt => null;
+
+  @override
   int get duplicateEntityIdCount => 0;
 
   @override
