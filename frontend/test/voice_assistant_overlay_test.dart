@@ -175,7 +175,7 @@ void main() {
     session.dispose();
   });
 
-  testWidgets('cloud agent scheme results appear as tappable cards', (
+  testWidgets('cloud scheme cards attach to the upcoming assistant turn', (
     tester,
   ) async {
     const scheme = Scheme(
@@ -208,6 +208,16 @@ void main() {
     );
     await tester.pump();
 
+    cloud.emitTranscript(
+      VoiceAgentEventType.outputTranscriptDelta,
+      id: 'agent-previous',
+      text: 'What support do you need?',
+    );
+    cloud.emitTranscript(
+      VoiceAgentEventType.inputTranscriptDelta,
+      id: 'user-current',
+      text: 'Capital support for my business',
+    );
     cloud.emitSchemeResults(
       const CloudSchemeResult(
         id: 'SCH000001',
@@ -217,7 +227,24 @@ void main() {
     );
     await tester.pump();
 
-    expect(find.byKey(const Key('voice-result-IN001')), findsOneWidget);
+    expect(find.byKey(const Key('voice-result-IN001')), findsNothing);
+
+    cloud.emitTranscript(
+      VoiceAgentEventType.outputTranscriptDelta,
+      id: 'agent-current',
+      text: 'This subsidy fits your business need and helps fund equipment.',
+    );
+    await tester.pump();
+
+    final currentReply = find.byKey(const Key('voice-turn-agent-current'));
+    expect(currentReply, findsOneWidget);
+    expect(
+      find.descendant(
+        of: currentReply,
+        matching: find.byKey(const Key('voice-result-IN001')),
+      ),
+      findsOneWidget,
+    );
     expect(find.text('Capital Subsidy'), findsOneWidget);
 
     await tester.pumpWidget(const SizedBox());
@@ -255,8 +282,9 @@ void main() {
       );
       expect(find.byType(BackdropFilter), findsNothing);
       expect(find.byType(RepaintBoundary), findsWidgets);
-      expect(find.text('Ask IN AI'), findsOneWidget);
-      expect(find.byKey(const Key('voice-assistant-image')), findsOneWidget);
+      expect(find.text('IN AI'), findsOneWidget);
+      expect(find.text('How can I help?'), findsOneWidget);
+      expect(find.byKey(const Key('voice-assistant-image')), findsNothing);
       expect(find.text('Ready'), findsOneWidget);
       expect(
         find.byKey(const Key('voice-language-auto-badge')),
@@ -382,7 +410,7 @@ void main() {
     await tester.pump();
     await tester.pump();
     expect(find.text('Farmer Subsidy'), findsOneWidget);
-    expect(find.text('உங்களுக்கான சிறந்த திட்டங்கள்'), findsOneWidget);
+    expect(find.text('உங்களுக்கான திட்டங்கள்'), findsOneWidget);
   });
 
   testWidgets('unsupported devices reveal the fallback language picker', (
@@ -693,7 +721,7 @@ void main() {
         ),
       ),
     );
-    await tester.tap(find.byIcon(Icons.mic_none_rounded));
+    await tester.tap(find.byKey(const Key('voice-primary-control')));
     await tester.pump();
     recognition.emitResult(
       'I am a 30 years old woman in Tamil Nadu starting a manufacturing business',
@@ -714,6 +742,58 @@ void main() {
     expect(saved?.state, 'Tamil Nadu');
     expect(saved?.businessIndustry, 'Manufacturing');
     expect(saved?.profileCompleted, isTrue);
+  });
+
+  testWidgets('assistant can expand beyond the initial three recommendations', (
+    tester,
+  ) async {
+    final schemes = List.generate(
+      5,
+      (index) => Scheme(
+        id: 'IN-EXPAND-$index',
+        schemeCode: 'IN-EXPAND-$index',
+        name: 'Relevant Scheme ${index + 1}',
+        status: 'Current',
+        verificationStatus: 'Verified official source',
+        sourceUrl: 'https://example.gov.in/scheme-$index',
+      ),
+    );
+    final session = AssistantSessionController(
+      engine: _FixedRecommendationEngine(schemes),
+      schemes: schemes,
+      profile: UserProfile(),
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: VoiceAssistantOverlay(
+          autoStart: false,
+          sessionController: session,
+          recognitionController: _FakeVoiceRecognitionController(),
+          speechOutputController: _FakeSpeechOutputController(),
+          onClose: () {},
+          onSubmit: (_) {},
+        ),
+      ),
+    );
+    await session.start('Show business support schemes');
+    await tester.pump();
+
+    expect(find.text('5 found'), findsOneWidget);
+    expect(find.text('Relevant Scheme 1'), findsOneWidget);
+    expect(find.text('Relevant Scheme 4'), findsNothing);
+
+    final toggle = find.byKey(const Key('voice-toggle-all-results'));
+    await tester.ensureVisible(toggle);
+    await tester.tap(toggle);
+    await tester.pump();
+
+    expect(find.text('Relevant Scheme 4'), findsOneWidget);
+    expect(find.text('Relevant Scheme 5'), findsOneWidget);
+    expect(find.text('Show top 3'), findsOneWidget);
+    session.dispose();
   });
 
   testWidgets(
@@ -854,6 +934,36 @@ void main() {
 
     expect(changed.shouldRepaint(original), isTrue);
   });
+}
+
+class _FixedRecommendationEngine implements SchemeUnderstandingEngine {
+  const _FixedRecommendationEngine(this.schemes);
+
+  final List<Scheme> schemes;
+
+  @override
+  Future<SchemeUnderstandingResult> understand(
+    SchemeUnderstandingRequest request,
+  ) async => SchemeUnderstandingResult(
+    isTamil: false,
+    concepts: const {'business'},
+    facts: request.knownFacts,
+    recommendations: schemes
+        .map(
+          (scheme) => SchemeRecommendation(
+            scheme: scheme,
+            score: 0.9,
+            state: SchemeMatchState.likelyMatch,
+            reasons: const ['Relevant to the request'],
+            unknownRequirements: const [],
+            disqualifiers: const [],
+            isTrusted: true,
+          ),
+        )
+        .toList(growable: false),
+    excludedUncertainCount: 0,
+    elapsed: Duration.zero,
+  );
 }
 
 class _FakeVoiceRecognitionController implements VoiceRecognitionController {

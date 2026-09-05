@@ -89,23 +89,26 @@ void main() {
     },
   );
 
-  test('understands colloquial Tamil, Tanglish, and landholding', () async {
-    final result = await engine.understand(
-      const SchemeUnderstandingRequest(
-        statement:
-            'naan 42 vayasu Tamil Nadu vivasayi, 3 acre nilam irukku equipment maaniyam venum',
-        schemes: schemes,
-        knownFacts: {},
-        questionsAsked: 0,
-      ),
-    );
+  test(
+    'romanized input remains English while preserving extracted facts',
+    () async {
+      final result = await engine.understand(
+        const SchemeUnderstandingRequest(
+          statement:
+              'naan 42 vayasu Tamil Nadu vivasayi, 3 acre nilam irukku equipment maaniyam venum',
+          schemes: schemes,
+          knownFacts: {},
+          questionsAsked: 0,
+        ),
+      );
 
-    expect(result.isTamil, isTrue);
-    expect(result.facts[EligibilityFactKey.age]?.value, '42');
-    expect(result.facts[EligibilityFactKey.occupation]?.value, 'Farmer');
-    expect(result.facts[EligibilityFactKey.landholding]?.value, '3 acres');
-    expect(result.recommendations.first.scheme.id, 'IN-FARM');
-  });
+      expect(result.isTamil, isFalse);
+      expect(result.facts[EligibilityFactKey.age]?.value, '42');
+      expect(result.facts[EligibilityFactKey.occupation]?.value, 'Farmer');
+      expect(result.facts[EligibilityFactKey.landholding]?.value, '3 acres');
+      expect(result.recommendations.first.scheme.id, 'IN-FARM');
+    },
+  );
 
   test('keeps Tamil ration requests in the required food category', () async {
     const foodScheme = Scheme(

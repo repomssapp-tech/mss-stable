@@ -32,8 +32,10 @@ class SchemeRepository {
   // ── Search in-flight deduplication & short-term query memoization ───────
   final Map<String, Future<List<Scheme>>> _inFlightSchemeSearches = {};
   final Map<String, _CachedSearch<List<Scheme>>> _searchSchemesCache = {};
-  final Map<String, Future<List<SchemeSearchMatch>>> _inFlightMatchSearches = {};
-  final Map<String, _CachedSearch<List<SchemeSearchMatch>>> _searchMatchesCache = {};
+  final Map<String, Future<List<SchemeSearchMatch>>> _inFlightMatchSearches =
+      {};
+  final Map<String, _CachedSearch<List<SchemeSearchMatch>>>
+  _searchMatchesCache = {};
   static const Duration _searchCacheTtl = Duration(seconds: 15);
 
   void clearCache() {
@@ -176,7 +178,7 @@ class SchemeRepository {
   }
 
   // ── 6. searchSchemes() ────────────────────────────────────────────────
-  /// Intelligently ranks natural-language English, Tamil, and Tanglish queries.
+  /// Intelligently ranks natural-language English and Tamil queries.
   /// Online-first via POST /v1/search with offline fallback.
   /// Deduplicated in-flight and memoized for 15s to prevent redundant network calls.
   Future<List<Scheme>> searchSchemes(
@@ -234,7 +236,9 @@ class SchemeRepository {
       final all = await getAllSchemes(langCode: langCode);
       final slice = limit != null ? all.take(limit) : all;
       return slice
-          .map((s) => SchemeSearchMatch(scheme: s, score: 1.0, reasons: const []))
+          .map(
+            (s) => SchemeSearchMatch(scheme: s, score: 1.0, reasons: const []),
+          )
           .toList();
     }
 
@@ -399,7 +403,9 @@ class SchemeRepository {
             canonicalText.contains('exhibition');
       }
 
-      if (q.contains('export') || q.contains('trade') || q.contains('foreign')) {
+      if (q.contains('export') ||
+          q.contains('trade') ||
+          q.contains('foreign')) {
         return cat.contains('export') ||
             sector.contains('export') ||
             kw.contains('export') ||
@@ -636,7 +642,8 @@ class SchemeRepository {
       final st = s.state.toLowerCase();
       final code = s.schemeCode.toLowerCase();
       final name = s.name.toLowerCase();
-      final isCentral = s.governmentLevel.toLowerCase() == 'central' ||
+      final isCentral =
+          s.governmentLevel.toLowerCase() == 'central' ||
           st.contains('all india') ||
           st.isEmpty;
 

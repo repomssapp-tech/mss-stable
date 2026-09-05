@@ -9,7 +9,7 @@ provides realtime rooms, turn handling, noise cancellation, and cloud deployment
 Sarvam AI provides the voice pipeline:
 
 - Speech recognition: `saaras:v3` in transcription mode with language detection
-- Language model: `sarvam-105b`
+- Language model: `sarvam-105b-conversations`, tuned for realtime dialogue
 - Speech synthesis: `bulbul:v3`, Tamil-first with the `kavitha` speaker
 
 ## Sarvam setup
@@ -19,12 +19,26 @@ README:
 
 ```dotenv
 SARVAM_API_KEY=your_key_here
+SARVAM_LLM_MODEL=sarvam-105b-conversations
+SARVAM_LLM_TEMPERATURE=0.25
+SARVAM_LLM_MAX_TOKENS=256
+SARVAM_LLM_FREQUENCY_PENALTY=0.1
+SARVAM_LLM_PRESENCE_PENALTY=0
+SARVAM_LLM_REASONING_EFFORT=none
 SARVAM_STT_LANGUAGE=unknown
 SARVAM_STT_MODE=transcribe
 SARVAM_TTS_LANGUAGE=ta-IN
 SARVAM_TTS_SPEAKER=kavitha
 SAARTHI_NOISE_ENHANCEMENT_LEVEL=0.8
 ```
+
+The defaults favor fast, dependable government-scheme guidance: low
+temperature, a 256-token ceiling, a small repetition penalty, and no reasoning
+tokens. Deployments can raise `SARVAM_LLM_MAX_TOKENS` up to 4096 for longer
+answers or opt into `low`, `medium`, or `high` reasoning when switching
+`SARVAM_LLM_MODEL` to the general `sarvam-105b` model. `top_p` is intentionally
+left at Sarvam's default because Sarvam recommends tuning either temperature or
+`top_p`, not both.
 
 Incoming microphone audio is processed in the agent by LiveKit Cloud's
 ai-coustics Voice Focus model before Sarvam STT and turn detection. Keep the

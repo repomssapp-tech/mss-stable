@@ -20,6 +20,33 @@ void main() {
     expect(cloudAssistantMessageTargetIndex(messages), 1);
   });
 
+  test('scheme cards wait for the assistant turn after the current user', () {
+    final waitingForReply = [message('assistant'), message('user')];
+    final streamingReply = [message('user'), message('assistant')];
+
+    expect(cloudSchemeResultTargetIndex(waitingForReply), -1);
+    expect(cloudSchemeResultTargetIndex(streamingReply), 1);
+  });
+
+  test('only transient connection failures are retried automatically', () {
+    expect(
+      isTransientCloudConnectionFailure(StateError('socket timeout')),
+      isTrue,
+    );
+    expect(
+      isTransientCloudConnectionFailure(StateError('network unavailable')),
+      isTrue,
+    );
+    expect(
+      isTransientCloudConnectionFailure(StateError('401 invalid session')),
+      isFalse,
+    );
+    expect(
+      isTransientCloudConnectionFailure(StateError('not configured')),
+      isFalse,
+    );
+  });
+
   test('transcribing state can be cleared when a turn completes', () {
     final transcribing = message('user', status: 'transcribing');
     expect(transcribing.copyWith(clearStatus: true).status, isNull);

@@ -15,7 +15,7 @@ class SchemeSearchMatch {
   final List<String> reasons;
 }
 
-/// Normalized meaning extracted from an English, Tamil, or Tanglish query.
+/// Normalized meaning extracted from an English or Tamil query.
 class SchemeSearchIntent {
   const SchemeSearchIntent({
     required this.originalQuery,
@@ -32,8 +32,8 @@ class SchemeSearchIntent {
 
 /// Lightweight multilingual retrieval for the bundled government-scheme data.
 ///
-/// Tamil-script and colloquial Tanglish phrases are expanded into the English
-/// concepts used by the source catalog, then every field is scored by relevance.
+/// Tamil-script phrases are expanded into the English concepts used by the
+/// source catalog, then every field is scored by relevance.
 /// No query or catalog data leaves the device.
 class IntelligentSchemeSearch {
   const IntelligentSchemeSearch._();
@@ -472,25 +472,6 @@ class IntelligentSchemeSearch {
     'கிடைக்குமா',
   };
 
-  static const Set<String> _tanglishMarkers = {
-    'enakku',
-    'ennoda',
-    'iruka',
-    'irukku',
-    'kidaikuma',
-    'ku',
-    'kudunga',
-    'illa',
-    'irukken',
-    'naa',
-    'naan',
-    'panna',
-    'pannalam',
-    'pathi',
-    'thevai',
-    'venum',
-  };
-
   static SchemeSearchIntent interpret(String query) {
     final normalized = _normalize(query);
     final concepts = <String>{};
@@ -513,9 +494,7 @@ class IntelligentSchemeSearch {
       originalQuery: query.trim(),
       terms: terms,
       concepts: concepts,
-      isTamil:
-          RegExp(r'[\u0B80-\u0BFF]').hasMatch(query) ||
-          _tokens(normalized).any(_tanglishMarkers.contains),
+      isTamil: RegExp(r'[\u0B80-\u0BFF]').hasMatch(query),
     );
   }
 

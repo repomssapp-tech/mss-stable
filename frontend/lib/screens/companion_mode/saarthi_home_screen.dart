@@ -11,6 +11,7 @@ import '../../models/scheme_model.dart';
 import '../../models/localized_scheme.dart';
 import '../../services/assistant_session_controller.dart';
 import '../../services/livekit_voice_agent_controller.dart';
+import '../../services/intelligent_scheme_search.dart';
 import '../../services/scheme_understanding_engine.dart';
 import '../../services/speech_output_controller.dart';
 import '../../services/voice_recognition_controller.dart';
@@ -79,6 +80,24 @@ int cloudAssistantMessageTargetIndex(List<SaarthiMessage> messages) =>
     : -1;
 
 @visibleForTesting
+int cloudSchemeResultTargetIndex(List<SaarthiMessage> messages) =>
+    messages.isNotEmpty && messages.last.role == 'assistant'
+    ? messages.length - 1
+    : -1;
+
+@visibleForTesting
+bool isTransientCloudConnectionFailure(Object? error) {
+  final detail = error?.toString().toLowerCase() ?? '';
+  return detail.contains('network') ||
+      detail.contains('socket') ||
+      detail.contains('timeout') ||
+      detail.contains('timed out') ||
+      detail.contains('disconnected') ||
+      detail.contains('host lookup') ||
+      detail.contains('connection reset');
+}
+
+@visibleForTesting
 bool shouldApplyCloudOutput({
   required String output,
   required String previousOutput,
@@ -130,6 +149,8 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   String? _cloudConnectionError;
   String _lastCloudInputTranscript = '';
   String _lastCloudOutputTranscript = '';
+  List<Scheme>? _pendingCloudSchemes;
+  List<CloudSchemeResult>? _pendingCloudMetadata;
 
   final ScrollController _scrollController = ScrollController();
   final ChatLogService _chatLogService = ChatLogService();
@@ -243,6 +264,8 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
     if (!mounted) return;
     _lastCloudInputTranscript = '';
     _lastCloudOutputTranscript = '';
+    _pendingCloudSchemes = null;
+    _pendingCloudMetadata = null;
     setState(() {
       _isConversationActive = true;
       _voiceState = SaarthiVoiceState.processing;
@@ -272,7 +295,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
       });
     }
     Object? lastError;
-    for (var attempt = 0; attempt < 3; attempt += 1) {
+    for (var attempt = 0; attempt < 2; attempt += 1) {
       try {
         await cloud.initialize();
         if (attempt == 0) {
@@ -298,8 +321,9 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
         lastError = error;
         debugPrint('Saarthi cloud connection attempt ${attempt + 1}: $error');
       }
-      if (attempt < 2) {
-        await Future<void>.delayed(Duration(milliseconds: 500 * (attempt + 1)));
+      if (!isTransientCloudConnectionFailure(lastError)) break;
+      if (attempt < 1) {
+        await Future<void>.delayed(const Duration(milliseconds: 250));
       }
     }
     _cloudRetrying = false;
@@ -366,15 +390,30 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
           ? raw
           : const <CloudSchemeResult>[];
       final provider = Provider.of<AppProvider>(context, listen: false);
-      final schemes = matchCloudSchemeResultsToCatalog(
+      final catalogMatches = matchCloudSchemeResultsToCatalog(
         results,
         provider.allSchemes,
       );
+      final userTurns = _messages
+          .where((message) => message.role == 'user')
+          .map((message) => message.text.trim())
+          .where((text) => text.isNotEmpty)
+          .toList(growable: false);
+      final recentQuery = userTurns
+          .skip(math.max(0, userTurns.length - 3))
+          .join(' ');
+      final schemes = IntelligentSchemeSearch.rank(
+        recentQuery,
+        catalogMatches,
+        limit: 3,
+      ).map((match) => match.scheme).toList(growable: false);
       if (schemes.isEmpty) return;
-      final index = _messages.lastIndexWhere(
-        (message) => message.role == 'assistant',
-      );
-      if (index < 0) return;
+      final index = cloudSchemeResultTargetIndex(_messages);
+      if (index < 0) {
+        _pendingCloudSchemes = schemes;
+        _pendingCloudMetadata = results;
+        return;
+      }
       setState(() {
         _messages[index] = _messages[index].copyWith(
           schemeResults: schemes,
@@ -397,6 +436,8 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
       role: 'assistant',
       text: text,
       timestamp: DateTime.now(),
+      schemeResults: _pendingCloudSchemes,
+      cloudSchemeResults: _pendingCloudMetadata,
       speakingState: speaking ? 'speaking' : null,
     );
     if (text.trim().isNotEmpty) {
@@ -419,11 +460,15 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
       setState(() {
         _messages[index] = _messages[index].copyWith(
           text: text,
+          schemeResults: _pendingCloudSchemes,
+          cloudSchemeResults: _pendingCloudMetadata,
           speakingState: speaking ? 'speaking' : null,
           clearSpeakingState: !speaking,
         );
       });
     }
+    _pendingCloudSchemes = null;
+    _pendingCloudMetadata = null;
     _scrollToBottom();
   }
 
@@ -993,7 +1038,12 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                 const SizedBox(height: AppSpacing.xs),
 
               // 2. Character Welcome Banner / Compact Header
-              _buildCharacterHeader(userName, kDarkSlate, kBrandBlue, kSlate500),
+              _buildCharacterHeader(
+                userName,
+                kDarkSlate,
+                kBrandBlue,
+                kSlate500,
+              ),
 
               // 3. Expanded content area
               Expanded(
@@ -1023,7 +1073,10 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
         // Language Pill selector
         Flexible(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.tight),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.md,
+              vertical: AppSpacing.tight,
+            ),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
@@ -1158,7 +1211,12 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   ) {
     if (_isConversationActive) {
       return Padding(
-        padding: const EdgeInsets.fromLTRB(AppSpacing.xl, AppSpacing.lg, AppSpacing.xl, AppSpacing.sm),
+        padding: const EdgeInsets.fromLTRB(
+          AppSpacing.xl,
+          AppSpacing.lg,
+          AppSpacing.xl,
+          AppSpacing.sm,
+        ),
         child: Container(
           padding: const EdgeInsets.all(AppSpacing.md),
           decoration: BoxDecoration(
@@ -1240,7 +1298,10 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.tight),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.sm,
+                  vertical: AppSpacing.tight,
+                ),
                 decoration: BoxDecoration(
                   color: _cloudConnectionError == null
                       ? const Color(0xFFECFDF5)
@@ -1431,7 +1492,12 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                   controller: _scrollController,
                   keyboardDismissBehavior:
                       ScrollViewKeyboardDismissBehavior.onDrag,
-                  padding: const EdgeInsets.fromLTRB(AppSpacing.lg, AppSpacing.sm, AppSpacing.lg, AppSpacing.xl),
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpacing.lg,
+                    AppSpacing.sm,
+                    AppSpacing.lg,
+                    AppSpacing.xl,
+                  ),
                   itemCount: _messages.length,
                   itemBuilder: (context, index) =>
                       _buildMessageItem(_messages[index]),
@@ -1483,7 +1549,11 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
     final timeStr = _formatTimestamp(message.timestamp);
 
     return Padding(
-      padding: const EdgeInsets.only(top: AppSpacing.tight, bottom: AppSpacing.md, left: 48),
+      padding: const EdgeInsets.only(
+        top: AppSpacing.tight,
+        bottom: AppSpacing.md,
+        left: 48,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -1497,7 +1567,10 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
           ),
           const SizedBox(height: AppSpacing.xs),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.lg,
+              vertical: AppSpacing.md,
+            ),
             decoration: BoxDecoration(
               color: const Color(0xFF2563EB),
               borderRadius: const BorderRadius.only(
@@ -1534,7 +1607,10 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
     final isSpeaking = message.speakingState == 'speaking';
 
     return Padding(
-      padding: const EdgeInsets.only(top: AppSpacing.hairline, bottom: AppSpacing.lg),
+      padding: const EdgeInsets.only(
+        top: AppSpacing.hairline,
+        bottom: AppSpacing.lg,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1929,7 +2005,12 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   ) {
     if (!_isConversationActive) {
       return Container(
-        padding: const EdgeInsets.fromLTRB(AppSpacing.xl, AppSpacing.sm, AppSpacing.xl, AppSpacing.lg),
+        padding: const EdgeInsets.fromLTRB(
+          AppSpacing.xl,
+          AppSpacing.sm,
+          AppSpacing.xl,
+          AppSpacing.lg,
+        ),
         decoration: BoxDecoration(
           color: const Color(0xFFF8FAFC),
           boxShadow: [
@@ -1990,7 +2071,12 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
       );
     } else {
       return Container(
-        padding: const EdgeInsets.fromLTRB(AppSpacing.xl, AppSpacing.md, AppSpacing.xl, AppSpacing.lg),
+        padding: const EdgeInsets.fromLTRB(
+          AppSpacing.xl,
+          AppSpacing.md,
+          AppSpacing.xl,
+          AppSpacing.lg,
+        ),
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -2108,7 +2194,10 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
       label: _getVoiceStatusText(),
       child: Container(
         key: const Key('saarthi-voice-status'),
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.sm,
+        ),
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.10),
           borderRadius: BorderRadius.circular(14),
@@ -2159,7 +2248,12 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
     return Container(
       key: const Key('saarthi-accessible-controls'),
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(AppSpacing.md, AppSpacing.md, AppSpacing.md, AppSpacing.sm),
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.md,
+        AppSpacing.md,
+        AppSpacing.md,
+        AppSpacing.sm,
+      ),
       decoration: BoxDecoration(
         color: const Color(0xFFF8FAFC),
         borderRadius: BorderRadius.circular(22),
@@ -2239,7 +2333,10 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
         child: ConstrainedBox(
           constraints: const BoxConstraints(minWidth: 64, minHeight: 64),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.tight),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.sm,
+              vertical: AppSpacing.tight,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

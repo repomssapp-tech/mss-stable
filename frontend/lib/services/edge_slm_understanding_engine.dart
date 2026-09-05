@@ -110,7 +110,7 @@ class EdgeSlmUnderstandingEngine extends ChangeNotifier
   };
 
   static const _systemPrompt = '''
-Parse an Indian government-scheme request in English, Tamil, Tanglish, or mixed language. Return JSON only with language, concepts, and explicitly stated facts. Never guess. Valid concepts: agriculture, education, business, housing, health, employment, disability, senior, marriage, community, fisheries, livestock, food. Valid fact keys: age, state, district, annualIncome, gender, community, occupation, education, disability, maritalStatus, studentStatus, businessStage, businessSector, fundingNeed, landholding.
+Parse an Indian government-scheme request in English or Tamil. Return JSON only with language (`en` or `ta`), concepts, and explicitly stated facts. Never guess. Valid concepts: agriculture, education, business, housing, health, employment, disability, senior, marriage, community, fisheries, livestock, food. Valid fact keys: age, state, district, annualIncome, gender, community, occupation, education, disability, maritalStatus, studentStatus, businessStage, businessSector, fundingNeed, landholding.
 ''';
 
   final EdgeModelPackStore _modelPack;
@@ -119,6 +119,7 @@ Parse an Indian government-scheme request in English, Tamil, Tanglish, or mixed 
   EdgeSlmSnapshot _snapshot = const EdgeSlmSnapshot();
   Future<void>? _preparing;
   bool _closed = false;
+  final Map<String, _ParsedUnderstanding> _understandingCache = {};
 
   EdgeSlmSnapshot get snapshot => _snapshot;
 
@@ -197,11 +198,24 @@ Parse an Indian government-scheme request in English, Tamil, Tanglish, or mixed 
                 'Question fact: $requestedKey\n'
                 'Latest answer: ${request.latestAnswer}'
           : request.statement;
-      final raw = await _runtime.generateStructured(
-        systemPrompt: _systemPrompt,
-        userPrompt: input,
+      final cacheKey = input.trim().toLowerCase().replaceAll(
+        RegExp(r'\s+'),
+        ' ',
       );
-      final parsed = _parse(raw);
+      var parsed = _understandingCache[cacheKey];
+      if (parsed == null) {
+        final raw = await _runtime.generateStructured(
+          systemPrompt: _systemPrompt,
+          userPrompt: input,
+        );
+        parsed = _parse(raw);
+        // Keep repeated questions stable without persisting an unbounded
+        // transcript or writing the user's statement to storage.
+        if (_understandingCache.length >= 32) {
+          _understandingCache.remove(_understandingCache.keys.first);
+        }
+        _understandingCache[cacheKey] = parsed;
+      }
       final inputContainsTamil = RegExp(r'[\u0B80-\u0BFF]').hasMatch(input);
       if (inputContainsTamil && !parsed.acceptsTamilScript) {
         throw const FormatException(
@@ -408,6 +422,7 @@ Parse an Indian government-scheme request in English, Tamil, Tanglish, or mixed 
     if (_closed) return;
     _closed = true;
     _modelPack.removeListener(_handlePackChanged);
+    _understandingCache.clear();
     await _modelPack.cancel();
     await _runtime.stop();
     await _runtime.dispose();
@@ -427,11 +442,7 @@ class _ParsedUnderstanding {
   final Set<String> concepts;
   final Map<EligibilityFactKey, EligibilityFact> facts;
 
-  bool get usesTamilPresentation =>
-      language == 'ta' || language == 'tanglish' || language == 'mixed';
+  bool get usesTamilPresentation => language == 'ta';
 
-  // Tamil-script input must not be accepted as merely romanized Tanglish. Tiny
-  // models sometimes copy a valid-looking Tanglish example while failing to
-  // understand the actual Tamil sentence.
-  bool get acceptsTamilScript => language == 'ta' || language == 'mixed';
+  bool get acceptsTamilScript => language == 'ta';
 }

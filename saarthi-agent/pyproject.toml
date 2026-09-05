@@ -9,7 +9,7 @@ description = "Multilingual government-scheme voice guide for IN Schemes"
 requires-python = ">=3.10, <3.15"
 
 dependencies = [
-    "livekit-agents[sarvam]~=1.6",
+    "livekit-agents[sarvam]~=1.7",
     "livekit-plugins-ai-coustics~=0.2",
     "python-dotenv",
 ]

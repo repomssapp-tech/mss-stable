@@ -93,6 +93,8 @@ void main() {
 
   test('cloud voice listens while pre-connect audio is buffering', () {
     expect(cloudVoicePreConnectAudio, isTrue);
+    expect(cloudClientAudioProcessingEnabled, isTrue);
+    expect(cloudHighPassFilterEnabled, isTrue);
     expect(
       shouldReportCloudListening(
         agentCanListen: true,

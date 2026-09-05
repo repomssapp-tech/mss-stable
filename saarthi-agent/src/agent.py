@@ -1,6 +1,7 @@
 import asyncio
 import json
 import logging
+import math
 import os
 import re
 import textwrap
@@ -32,10 +33,11 @@ load_dotenv(".env.local")
 
 
 SARVAM_STT_MODEL = "saaras:v3"
-SARVAM_LLM_MODEL = "sarvam-105b"
+SARVAM_LLM_MODEL = "sarvam-105b-conversations"
 SARVAM_TTS_MODEL = "bulbul:v3"
 PROFILE_CONTEXT_TOPIC = "in-schemes.profile.v1"
 SCHEME_RESULTS_ATTRIBUTE = "in.schemes.results.v1"
+PROFILE_CONTEXT_FALLBACK_TIMEOUT = 0.2
 
 
 @lru_cache(maxsize=1)
@@ -107,6 +109,96 @@ class SarvamVoiceConfig:
             tts_language=os.getenv("SARVAM_TTS_LANGUAGE", "ta-IN"),
             tts_speaker=os.getenv("SARVAM_TTS_SPEAKER", "kavitha"),
         )
+
+
+def _bounded_env_float(
+    name: str,
+    default: float,
+    minimum: float,
+    maximum: float,
+) -> float:
+    try:
+        value = float(os.getenv(name, str(default)))
+    except ValueError:
+        return default
+    if not math.isfinite(value):
+        return default
+    return max(minimum, min(value, maximum))
+
+
+def _bounded_env_int(
+    name: str,
+    default: int,
+    minimum: int,
+    maximum: int,
+) -> int:
+    try:
+        value = int(os.getenv(name, str(default)))
+    except ValueError:
+        return default
+    return max(minimum, min(value, maximum))
+
+
+@dataclass(frozen=True)
+class SarvamLlmConfig:
+    """Validated generation controls optimized for a low-latency voice turn."""
+
+    model: str
+    temperature: float
+    max_tokens: int
+    frequency_penalty: float
+    presence_penalty: float
+    reasoning_effort: str | None
+
+    @classmethod
+    def from_env(cls) -> "SarvamLlmConfig":
+        model = os.getenv("SARVAM_LLM_MODEL", SARVAM_LLM_MODEL).strip()
+        if model not in {"sarvam-105b", "sarvam-105b-conversations"}:
+            logger.warning(
+                "Unsupported SARVAM_LLM_MODEL=%r; using %s",
+                model,
+                SARVAM_LLM_MODEL,
+            )
+            model = SARVAM_LLM_MODEL
+
+        raw_reasoning = os.getenv("SARVAM_LLM_REASONING_EFFORT", "none")
+        normalized_reasoning = raw_reasoning.strip().lower()
+        reasoning_effort = (
+            normalized_reasoning
+            if normalized_reasoning in {"low", "medium", "high"}
+            else None
+        )
+
+        return cls(
+            model=model,
+            temperature=_bounded_env_float("SARVAM_LLM_TEMPERATURE", 0.25, 0.0, 2.0),
+            # Voice replies are intentionally brief. This still leaves ample room
+            # for a tool call or a detailed fallback without paying the API's
+            # 2,048-token default on every turn.
+            max_tokens=_bounded_env_int("SARVAM_LLM_MAX_TOKENS", 256, 64, 4096),
+            frequency_penalty=_bounded_env_float(
+                "SARVAM_LLM_FREQUENCY_PENALTY", 0.1, -2.0, 2.0
+            ),
+            # Novelty is undesirable for eligibility guidance, so presence
+            # penalty stays neutral unless a deployment explicitly changes it.
+            presence_penalty=_bounded_env_float(
+                "SARVAM_LLM_PRESENCE_PENALTY", 0.0, -2.0, 2.0
+            ),
+            reasoning_effort=reasoning_effort,
+        )
+
+
+def build_sarvam_llm(config: SarvamLlmConfig | None = None):
+    """Build Sarvam without also tuning top-p alongside temperature."""
+    resolved = config or SarvamLlmConfig.from_env()
+    return sarvam.LLM(
+        model=resolved.model,
+        temperature=resolved.temperature,
+        max_tokens=resolved.max_tokens,
+        frequency_penalty=resolved.frequency_penalty,
+        presence_penalty=resolved.presence_penalty,
+        reasoning_effort=resolved.reasoning_effort,
+    )
 
 
 @dataclass(frozen=True)
@@ -276,7 +368,7 @@ MSS_INSTRUCTIONS = textwrap.dedent(
     LANGUAGE AND VOICE
 
     - Speak natural conversational Tamil. If the user uses English words, use natural Tanglish. Reply in simple English only when they clearly use English.
-    - Every spoken response must be fewer than 15 words. Be warm, direct, and brief.
+    - Use no more than two short sentences. Keep each sentence fewer than 15 words.
     - Ask exactly one question per turn. Never ask multiple questions together.
     - Output clean plain text only. Never use markdown, asterisks, hashtags, brackets, emojis, tables, or lists.
 
@@ -288,7 +380,7 @@ MSS_INSTRUCTIONS = textwrap.dedent(
     - If onboarding already provided a name, age, income, occupation, state, gender, or other fact, use it and never ask for it again.
     - Greet saved users naturally using their name and saved details when useful. Do not repeat an onboarding interview.
     - When age, monthly income, and occupation or category are known, immediately call find_schemes. Do not speak a waiting message before the tool call.
-    - After the tool returns, announce the best scheme in one or two short sentences. Mention that its card is visible in the app.
+    - After the tool returns, explain the best scheme's main benefit and why it fits the citizen. Then mention that its card is visible in the app.
 
     SCHEME FACTS AND SAFETY
 
@@ -369,7 +461,7 @@ def build_profile_chat_ctx(profile: UserProfileContext) -> llm.ChatContext | Non
 
 
 async def load_user_profile_context(
-    ctx: JobContext, timeout: float = 2.0
+    ctx: JobContext, timeout: float = PROFILE_CONTEXT_FALLBACK_TIMEOUT
 ) -> UserProfileContext:
     """Load signed job metadata, with a reliable client data packet fallback."""
     profile = UserProfileContext.from_job_metadata(ctx.job.metadata)
@@ -410,7 +502,7 @@ class Assistant(Agent):
         resolved_profile = profile or UserProfileContext()
         self._room = room
         super().__init__(
-            llm=sarvam.LLM(model=SARVAM_LLM_MODEL, temperature=0.2),
+            llm=build_sarvam_llm(),
             instructions=build_agent_instructions(resolved_profile),
             chat_ctx=build_profile_chat_ctx(resolved_profile),
         )
