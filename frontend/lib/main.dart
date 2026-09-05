@@ -1,9 +1,13 @@
+// ignore_for_file: experimental_member_use
+
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:livekit_client/livekit_client.dart' as livekit;
 import 'l10n/app_localizations.dart';
 import 'providers/app_state_provider.dart';
 import 'screens/splash_screen.dart';
@@ -61,6 +65,19 @@ void main() async {
 
   // App Startup Recovery: Check for unsynced chat sessions in local storage and batch upload to Supabase
   unawaited(ChatLogService.syncPendingOfflineQueue());
+
+  // Warm WebRTC in the background while the user is on the app shell. This
+  // also selects Android's communication audio path early, allowing supported
+  // phones to use their hardware AEC/noise suppressor before voice connects.
+  unawaited(
+    livekit.LiveKitClient.initialize(
+      bypassVoiceProcessing: false,
+      // LiveKit marks this Android audio-session preset experimental, but it
+      // is the supported API for priming communication mode before first use.
+      initialAudioSessionOptions:
+          const livekit.AudioSessionOptions.communication(),
+    ),
+  );
 
   runApp(
     ChangeNotifierProvider(
@@ -345,7 +362,10 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
                       top: BorderSide(color: Color(0xFFE2E8F0), width: 1),
                     ),
                   ),
-                  padding: const EdgeInsets.only(top: AppSpacing.sm, bottom: AppSpacing.sm),
+                  padding: const EdgeInsets.only(
+                    top: AppSpacing.sm,
+                    bottom: AppSpacing.sm,
+                  ),
                   child: SafeArea(
                     top: false,
                     child: Row(

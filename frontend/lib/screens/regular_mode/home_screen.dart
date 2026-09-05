@@ -159,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
       barrierDismissible: false,
       barrierLabel: 'Voice assistant',
       barrierColor: Colors.transparent,
-      transitionDuration: const Duration(milliseconds: 320),
+      transitionDuration: const Duration(milliseconds: 220),
       pageBuilder: (overlayContext, animation, secondaryAnimation) {
         return VoiceAssistantOverlay(
           onClose: () =>
@@ -184,18 +184,9 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       },
       transitionBuilder: (context, animation, secondaryAnimation, child) {
-        final curved = CurvedAnimation(
-          parent: animation,
-          curve: Curves.easeOutBack,
-          reverseCurve: Curves.easeInCubic,
-        );
         return FadeTransition(
-          opacity: animation,
-          child: ScaleTransition(
-            alignment: Alignment.bottomRight,
-            scale: Tween<double>(begin: 0.72, end: 1).animate(curved),
-            child: child,
-          ),
+          opacity: CurvedAnimation(parent: animation, curve: Curves.easeOut),
+          child: child,
         );
       },
     );
@@ -463,12 +454,17 @@ class _HomeScreenState extends State<HomeScreen> {
   // Search & Filter Box
   Widget _buildSearchAndFilter(BuildContext context, AppProvider provider) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.sm,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(30),
         border: Border.all(
-          color: _showSearchPills ? const Color(0xFF2563EB) : const Color(0xFFE2E8F0),
+          color: _showSearchPills
+              ? const Color(0xFF2563EB)
+              : const Color(0xFFE2E8F0),
           width: _showSearchPills ? 1.5 : 1.0,
         ),
         boxShadow: [
@@ -525,11 +521,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: AppSpacing.xs),
-                child: Icon(
-                  Icons.close,
-                  size: 18,
-                  color: Color(0xFF94A3B8),
-                ),
+                child: Icon(Icons.close, size: 18, color: Color(0xFF94A3B8)),
               ),
             ),
             const SizedBox(width: AppSpacing.xs),
@@ -545,7 +537,10 @@ class _HomeScreenState extends State<HomeScreen> {
               }
             },
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.tight),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.md,
+                vertical: AppSpacing.tight,
+              ),
               decoration: BoxDecoration(
                 border: Border.all(color: const Color(0xFFCBD5E1)),
                 borderRadius: BorderRadius.circular(18),
@@ -608,7 +603,10 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             child: Container(
               margin: const EdgeInsets.only(right: AppSpacing.sm),
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.md,
+                vertical: AppSpacing.sm,
+              ),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
@@ -650,7 +648,10 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         borderRadius: BorderRadius.circular(16),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.lg),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.md,
+            vertical: AppSpacing.lg,
+          ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             image: const DecorationImage(
@@ -960,8 +961,14 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: onTap,
         borderRadius: BorderRadius.circular(16),
         child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: AppSpacing.tight, vertical: AppSpacing.xs),
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.lg),
+          margin: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.tight,
+            vertical: AppSpacing.xs,
+          ),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.lg,
+          ),
           decoration: BoxDecoration(
             gradient: bgImage != null ? null : bgGradient,
             image: bgImage != null
@@ -1177,7 +1184,10 @@ class _HomeScreenState extends State<HomeScreen> {
         width: 88,
         height: 112,
         margin: const EdgeInsets.only(right: AppSpacing.md),
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.sm),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.sm,
+          vertical: AppSpacing.sm,
+        ),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
@@ -1367,7 +1377,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: Container(
                   width: cardWidth,
-                  margin: const EdgeInsets.only(right: AppSpacing.md, top: AppSpacing.xs, bottom: AppSpacing.xs),
+                  margin: const EdgeInsets.only(
+                    right: AppSpacing.md,
+                    top: AppSpacing.xs,
+                    bottom: AppSpacing.xs,
+                  ),
                   padding: const EdgeInsets.all(AppSpacing.md),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -1523,7 +1537,10 @@ class _HomeScreenState extends State<HomeScreen> {
   // Tip of the Day Card (Yellow theme with custom tip banner bg)
   Widget _buildTipOfTheDay(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.lg),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.lg,
+      ),
       decoration: BoxDecoration(
         image: const DecorationImage(
           image: AssetImage('assets/images/Background/tip banner.webp'),
@@ -1968,7 +1985,10 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           borderRadius: BorderRadius.circular(16),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.sm),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.sm,
+              vertical: AppSpacing.sm,
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

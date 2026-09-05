@@ -48,14 +48,23 @@ class _VoiceTranscriptTurn {
     required this.id,
     required this.speaker,
     required this.text,
+    this.schemeMatches = const [],
   });
 
   final String id;
   final _VoiceTranscriptSpeaker speaker;
   final String text;
+  final List<SchemeSearchMatch> schemeMatches;
 
-  _VoiceTranscriptTurn copyWith({String? text}) =>
-      _VoiceTranscriptTurn(id: id, speaker: speaker, text: text ?? this.text);
+  _VoiceTranscriptTurn copyWith({
+    String? text,
+    List<SchemeSearchMatch>? schemeMatches,
+  }) => _VoiceTranscriptTurn(
+    id: id,
+    speaker: speaker,
+    text: text ?? this.text,
+    schemeMatches: schemeMatches ?? this.schemeMatches,
+  );
 }
 
 class VoiceAssistantOverlay extends StatefulWidget {
@@ -149,7 +158,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
   List<GroundedSource> _groundedSources = const [];
   String? _groundingKey;
   int _groundingGeneration = 0;
+  bool _showAllRecommendations = false;
+  String? _recommendationStatement;
   final List<_VoiceTranscriptTurn> _conversationTurns = [];
+  List<SchemeSearchMatch> _pendingCloudMatches = const [];
   final ScrollController _panelScrollController = ScrollController();
   final ChatLogService _chatLogService = ChatLogService();
   late final AppLifecycleListener _lifecycleListener;
@@ -184,6 +196,14 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
   }
 
   bool get _presentInTamil {
+    if (!_isCompanion) {
+      final statement = _session?.statement ?? '';
+      return _detectedLanguage?.toLowerCase().startsWith('ta') == true ||
+          RegExp(r'[\u0B80-\u0BFF]').hasMatch(_transcript) ||
+          RegExp(r'[\u0B80-\u0BFF]').hasMatch(statement) ||
+          (_showFallbackPicker &&
+              _fallbackLanguage == VoiceInputLanguage.tamil);
+    }
     if (_session?.isTamil == true) return true;
     if (_detectedLanguage?.toLowerCase().startsWith('ta') == true) return true;
     if (_detectedLanguage?.toLowerCase().startsWith('en') == true) return false;
@@ -416,19 +436,53 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           ? raw
           : const <CloudSchemeResult>[];
       final schemes = matchCloudSchemeResultsToCatalog(results, widget.schemes);
+      final userTurns = _conversationTurns
+          .where((turn) => turn.speaker == _VoiceTranscriptSpeaker.user)
+          .map((turn) => turn.text.trim())
+          .where((text) => text.isNotEmpty)
+          .toList(growable: false);
+      final recentQuery = userTurns
+          .skip(math.max(0, userTurns.length - 3))
+          .join(' ');
+      final locallyRanked = IntelligentSchemeSearch.rank(
+        recentQuery,
+        schemes,
+        limit: 3,
+      );
+      final matches = locallyRanked
+          .map((ranked) {
+            final scheme = ranked.scheme;
+            final metadata = results.cast<CloudSchemeResult?>().firstWhere(
+              (result) =>
+                  result?.id == scheme.id ||
+                  result?.code == scheme.schemeCode ||
+                  result?.name == scheme.name,
+              orElse: () => null,
+            );
+            final confidence = metadata?.matchConfidence;
+            return SchemeSearchMatch(
+              scheme: scheme,
+              score: ranked.score,
+              reasons: [
+                if (confidence != null) '$confidence% relevance match',
+                ...ranked.reasons,
+              ],
+            );
+          })
+          .toList(growable: false);
+      if (matches.isEmpty) return;
       setState(() {
-        _legacyMatches = schemes
-            .map(
-              (scheme) => SchemeSearchMatch(
-                scheme: scheme,
-                score: 1,
-                reasons: const [
-                  'Recommended by Saarthi from the verified catalog',
-                ],
-              ),
-            )
-            .toList(growable: false);
+        if (_conversationTurns.isNotEmpty &&
+            _conversationTurns.last.speaker ==
+                _VoiceTranscriptSpeaker.assistant) {
+          _conversationTurns[_conversationTurns.length - 1] = _conversationTurns
+              .last
+              .copyWith(schemeMatches: matches);
+        } else {
+          _pendingCloudMatches = matches;
+        }
       });
+      _scrollToLatestTurn();
       return;
     }
     if (event.type == VoiceAgentEventType.recoverableError ||
@@ -458,14 +512,23 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
       text: text,
     );
     final index = _conversationTurns.indexWhere((turn) => turn.id == id);
+    final pendingMatches = speaker == _VoiceTranscriptSpeaker.assistant
+        ? _pendingCloudMatches
+        : const <SchemeSearchMatch>[];
     setState(() {
       if (index >= 0) {
         _conversationTurns[index] = _conversationTurns[index].copyWith(
           text: text,
+          schemeMatches: pendingMatches.isEmpty ? null : pendingMatches,
         );
       } else {
         _conversationTurns.add(
-          _VoiceTranscriptTurn(id: id, speaker: speaker, text: text),
+          _VoiceTranscriptTurn(
+            id: id,
+            speaker: speaker,
+            text: text,
+            schemeMatches: pendingMatches,
+          ),
         );
         if (_conversationTurns.length > 12) {
           _conversationTurns.removeAt(0);
@@ -473,6 +536,8 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
       }
       if (speaker == _VoiceTranscriptSpeaker.user) {
         _transcript = text;
+      } else if (pendingMatches.isNotEmpty) {
+        _pendingCloudMatches = const [];
       }
     });
     _scrollToLatestTurn();
@@ -489,6 +554,16 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         curve: Curves.easeOutCubic,
       );
     });
+  }
+
+  bool _replyAlreadyInTranscript(GroundedAssistantReply reply) {
+    final expected = reply.displayText.trim().toLowerCase();
+    if (expected.isEmpty) return false;
+    return _conversationTurns.reversed.any(
+      (turn) =>
+          turn.speaker == _VoiceTranscriptSpeaker.assistant &&
+          turn.text.trim().toLowerCase() == expected,
+    );
   }
 
   Future<void> _fallBackToLocalVoice() async {
@@ -539,6 +614,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     if (!mounted) return;
     final state = _sessionController!.state;
     setState(() {
+      if (state.statement != _recommendationStatement) {
+        _recommendationStatement = state.statement;
+        _showAllRecommendations = false;
+      }
       _message = state.message;
       if (state.latestTranscript.isNotEmpty) {
         _transcript = state.latestTranscript;
@@ -971,30 +1050,9 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
   }
 
   String _questionText(AssistantSessionState state, FollowUpQuestion question) {
-    if (RegExp(r'[\u0B80-\u0BFF]').hasMatch(state.statement)) {
-      return question.tamil;
-    }
-    if (!state.isTamil) return question.english;
-    return switch (question.factKey) {
-      EligibilityFactKey.age => 'Unga vayasu enna?',
-      EligibilityFactKey.state => 'Neenga entha state-la irukkeenga?',
-      EligibilityFactKey.district => 'Neenga entha district-la irukkeenga?',
-      EligibilityFactKey.annualIncome =>
-        'Unga family annual income approximately evlo?',
-      EligibilityFactKey.gender => 'Unga gender category enna?',
-      EligibilityFactKey.community => 'Unga community category enna?',
-      EligibilityFactKey.occupation => 'Ippo unga occupation enna?',
-      EligibilityFactKey.education => 'Unga education level enna?',
-      EligibilityFactKey.disability => 'Disability category apply aaguma?',
-      EligibilityFactKey.maritalStatus => 'Unga marital status enna?',
-      EligibilityFactKey.studentStatus =>
-        'Neenga ippo student-ah irukkeengala?',
-      EligibilityFactKey.businessStage =>
-        'Idhu idea stage-ah, new business-ah, illa existing business-ah?',
-      EligibilityFactKey.businessSector => 'Business sector enna?',
-      EligibilityFactKey.fundingNeed => 'Approximately evlo funding thevai?',
-      EligibilityFactKey.landholding => 'Unga landholding evlo?',
-    };
+    final tamil =
+        state.isTamil || RegExp(r'[\u0B80-\u0BFF]').hasMatch(state.statement);
+    return tamil ? question.tamil : question.english;
   }
 
   Future<void> _answerOption(String option) async {
@@ -1271,6 +1329,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
 
   @override
   Widget build(BuildContext context) {
+    if (!_isCompanion) return _buildRegularVoiceExperience(context);
     final media = MediaQuery.of(context);
     final edgeRadius = math.max(26.0, media.viewPadding.top + 10);
     return PopScope(
@@ -1281,212 +1340,878 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
       child: Material(
         key: const Key('voice-assistant-overlay'),
         color: Colors.transparent,
-      child: Stack(
-        children: [
-          const Positioned.fill(
-            child: AnnotatedRegion<SystemUiOverlayStyle>(
-              value: SystemUiOverlayStyle(
-                statusBarColor: Colors.transparent,
-                statusBarIconBrightness: Brightness.dark,
-                systemStatusBarContrastEnforced: false,
-                systemNavigationBarColor: Colors.transparent,
-                systemNavigationBarDividerColor: Colors.transparent,
-                systemNavigationBarIconBrightness: Brightness.light,
-                systemNavigationBarContrastEnforced: false,
+        child: Stack(
+          children: [
+            const Positioned.fill(
+              child: AnnotatedRegion<SystemUiOverlayStyle>(
+                value: SystemUiOverlayStyle(
+                  statusBarColor: Colors.transparent,
+                  statusBarIconBrightness: Brightness.dark,
+                  systemStatusBarContrastEnforced: false,
+                  systemNavigationBarColor: Colors.transparent,
+                  systemNavigationBarDividerColor: Colors.transparent,
+                  systemNavigationBarIconBrightness: Brightness.light,
+                  systemNavigationBarContrastEnforced: false,
+                ),
+                child: SizedBox.expand(),
               ),
-              child: SizedBox.expand(),
             ),
-          ),
-          Positioned.fill(
-            child: ColoredBox(
-              color: const Color(0xFF020617).withValues(alpha: 0.10),
+            Positioned.fill(
+              child: ColoredBox(
+                color: const Color(0xFF020617).withValues(alpha: 0.10),
+              ),
             ),
-          ),
-          Positioned.fill(
-            child: IgnorePointer(
-              child: RepaintBoundary(
-                child: AnimatedBuilder(
-                  key: const Key('voice-edge-outline'),
-                  animation: _edgeRepaint,
-                  builder: (context, child) => CustomPaint(
-                    isComplex: true,
-                    willChange: true,
-                    painter: VoiceEdgePainter(
-                      entranceProgress: _edgeRevealController.value,
-                      ambientProgress: _edgeController.value,
-                      activityIntensity: _edgeIntensity.value,
-                      activity: _edgeActivity,
-                      radius: edgeRadius,
-                      reduceMotion: _reduceEdgeMotion,
-                      companion: _isCompanion,
+            Positioned.fill(
+              child: IgnorePointer(
+                child: RepaintBoundary(
+                  child: AnimatedBuilder(
+                    key: const Key('voice-edge-outline'),
+                    animation: _edgeRepaint,
+                    builder: (context, child) => CustomPaint(
+                      isComplex: true,
+                      willChange: true,
+                      painter: VoiceEdgePainter(
+                        entranceProgress: _edgeRevealController.value,
+                        ambientProgress: _edgeController.value,
+                        activityIntensity: _edgeIntensity.value,
+                        activity: _edgeActivity,
+                        radius: edgeRadius,
+                        reduceMotion: _reduceEdgeMotion,
+                        companion: _isCompanion,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          SafeArea(
-            minimum: const EdgeInsets.fromLTRB(AppSpacing.md, AppSpacing.md, AppSpacing.md, AppSpacing.lg),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxWidth: 620,
-                  maxHeight: math.min(media.size.height * 0.86, 760),
-                ),
-                child: Container(
-                  key: const Key('voice-assistant-panel'),
-                  decoration: BoxDecoration(
-                    color:
-                        (_isCompanion
-                                ? const Color(0xFF1C1008)
-                                : const Color(0xFF07111F))
-                            .withValues(alpha: 0.98),
-                    borderRadius: BorderRadius.circular(28),
-                    border: Border.all(color: _accent.withValues(alpha: 0.34)),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color(0x66020A16),
-                        blurRadius: 30,
-                        offset: Offset(0, 14),
-                      ),
-                    ],
+            SafeArea(
+              minimum: const EdgeInsets.fromLTRB(
+                AppSpacing.md,
+                AppSpacing.md,
+                AppSpacing.md,
+                AppSpacing.lg,
+              ),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: 620,
+                    maxHeight: math.min(media.size.height * 0.86, 760),
                   ),
-                  child: SingleChildScrollView(
-                    controller: _panelScrollController,
-                    padding: const EdgeInsets.fromLTRB(AppSpacing.xl, AppSpacing.lg, AppSpacing.xl, AppSpacing.lg),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        _buildHeader(),
-                        const SizedBox(height: AppSpacing.md),
-                        _buildListeningArea(),
-                        if (_conversationTurns.isNotEmpty) ...[
-                          const SizedBox(height: AppSpacing.md),
-                          _buildConversationTranscript(),
-                        ],
-                        if (_cloudSessionInUse) ...[
-                          const SizedBox(height: AppSpacing.sm),
-                          Row(
-                            key: const Key('voice-cloud-disclosure'),
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.cloud_outlined,
-                                size: 13,
-                                color: _accent,
-                              ),
-                              const SizedBox(width: AppSpacing.tight),
-                              Flexible(
-                                child: Text(
-                                  'Live audio is processed securely. This app does not save audio or raw transcripts.',
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.inter(
-                                    color: const Color(0xFFCBD5E1),
-                                    fontSize: 9.5,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                        if (_message != null) ...[
-                          const SizedBox(height: AppSpacing.sm),
-                          Text(
-                            _message!,
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.inter(
-                              color: const Color(0xFFFCA5A5),
-                              fontSize: 11.5,
-                            ),
-                          ),
-                        ],
-                        if (_session?.reply case final reply?) ...[
-                          const SizedBox(height: AppSpacing.md),
-                          _buildAssistantReply(reply),
-                        ],
-                        if (_groundingPhase != _OnlineGroundingPhase.idle) ...[
-                          const SizedBox(height: AppSpacing.sm),
-                          _buildOnlineGrounding(),
-                        ],
-                        if (_session?.facts.isNotEmpty == true) ...[
-                          const SizedBox(height: AppSpacing.md),
-                          _buildFactChips(),
-                        ],
-                        if (_session?.question != null) ...[
-                          const SizedBox(height: AppSpacing.md),
-                          _buildQuestionCard(_session!.question!),
-                        ],
-                        if (_legacySearching ||
-                            _session?.phase ==
-                                AssistantSessionPhase.understanding) ...[
-                          const SizedBox(height: AppSpacing.md),
-                          LinearProgressIndicator(
-                            key: Key('voice-search-progress'),
-                            minHeight: 2,
-                            color: _accent,
-                            backgroundColor: _accent.withValues(alpha: 0.20),
-                          ),
-                        ] else if (_session?.recommendations.isNotEmpty ==
-                            true) ...[
-                          const SizedBox(height: AppSpacing.md),
-                          _buildConversationalResults(),
-                        ] else if (_legacyMatches.isNotEmpty) ...[
-                          const SizedBox(height: AppSpacing.md),
-                          _buildLegacyResults(),
-                        ] else if (_session?.phase ==
-                                AssistantSessionPhase.noConfidentMatch ||
-                            (_transcript.isNotEmpty &&
-                                !_hasConversation &&
-                                !_legacySearching)) ...[
-                          const SizedBox(height: AppSpacing.sm),
-                          Text(
-                            _presentInTamil
-                                ? 'நம்பகமான பொருத்தம் கிடைக்கவில்லை. உங்கள் நிலையை வேறு வார்த்தைகளில் சொல்லுங்கள்.'
-                                : 'No confident scheme match yet. Tell me a little more about your situation.',
-                            key: const Key('voice-no-results'),
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.inter(
-                              color: const Color(0xFFFBBF24),
-                              fontSize: 11,
-                            ),
-                          ),
-                        ],
-                        if (_session?.excludedUncertainCount case final count?
-                            when count > 0) ...[
-                          const SizedBox(height: AppSpacing.sm),
-                          TextButton.icon(
-                            key: const Key('voice-show-uncertain'),
-                            onPressed: () =>
-                                _sessionController?.setIncludeUncertain(true),
-                            icon: const Icon(Icons.info_outline, size: 15),
-                            label: Text(
-                              'See $count uncertain or historical schemes',
-                            ),
-                          ),
-                        ],
-                        const SizedBox(height: AppSpacing.sm),
-                        Center(
-                          child: Container(
-                            width: 36,
-                            height: 4,
-                            decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.12),
-                              borderRadius: BorderRadius.circular(2),
-                            ),
-                          ),
+                  child: Container(
+                    key: const Key('voice-assistant-panel'),
+                    decoration: BoxDecoration(
+                      color:
+                          (_isCompanion
+                                  ? const Color(0xFF1C1008)
+                                  : const Color(0xFF07111F))
+                              .withValues(alpha: 0.98),
+                      borderRadius: BorderRadius.circular(28),
+                      border: Border.all(
+                        color: _accent.withValues(alpha: 0.34),
+                      ),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0x66020A16),
+                          blurRadius: 30,
+                          offset: Offset(0, 14),
                         ),
                       ],
                     ),
+                    child: SingleChildScrollView(
+                      controller: _panelScrollController,
+                      padding: const EdgeInsets.fromLTRB(
+                        AppSpacing.xl,
+                        AppSpacing.lg,
+                        AppSpacing.xl,
+                        AppSpacing.lg,
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          _buildHeader(),
+                          const SizedBox(height: AppSpacing.md),
+                          _buildListeningArea(),
+                          if (_conversationTurns.isNotEmpty) ...[
+                            const SizedBox(height: AppSpacing.md),
+                            _buildConversationTranscript(),
+                          ],
+                          if (_cloudSessionInUse) ...[
+                            const SizedBox(height: AppSpacing.sm),
+                            Row(
+                              key: const Key('voice-cloud-disclosure'),
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.cloud_outlined,
+                                  size: 13,
+                                  color: _accent,
+                                ),
+                                const SizedBox(width: AppSpacing.tight),
+                                Flexible(
+                                  child: Text(
+                                    'Device noise control • Secure live voice',
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.inter(
+                                      color: const Color(0xFFCBD5E1),
+                                      fontSize: 9.5,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                          if (_message != null) ...[
+                            const SizedBox(height: AppSpacing.sm),
+                            Text(
+                              _message!,
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.inter(
+                                color: const Color(0xFFFCA5A5),
+                                fontSize: 11.5,
+                              ),
+                            ),
+                          ],
+                          if (_session?.reply case final reply?
+                              when !_replyAlreadyInTranscript(reply)) ...[
+                            const SizedBox(height: AppSpacing.md),
+                            _buildAssistantReply(reply),
+                          ],
+                          if (_groundingPhase !=
+                              _OnlineGroundingPhase.idle) ...[
+                            const SizedBox(height: AppSpacing.sm),
+                            _buildOnlineGrounding(),
+                          ],
+                          if (_session?.facts.isNotEmpty == true) ...[
+                            const SizedBox(height: AppSpacing.md),
+                            _buildFactChips(),
+                          ],
+                          if (_session?.question != null) ...[
+                            const SizedBox(height: AppSpacing.md),
+                            _buildQuestionCard(_session!.question!),
+                          ],
+                          if (_legacySearching ||
+                              _session?.phase ==
+                                  AssistantSessionPhase.understanding) ...[
+                            const SizedBox(height: AppSpacing.md),
+                            LinearProgressIndicator(
+                              key: Key('voice-search-progress'),
+                              minHeight: 2,
+                              color: _accent,
+                              backgroundColor: _accent.withValues(alpha: 0.20),
+                            ),
+                          ] else if (_session?.recommendations.isNotEmpty ==
+                              true) ...[
+                            const SizedBox(height: AppSpacing.md),
+                            _buildConversationalResults(),
+                          ] else if (_legacyMatches.isNotEmpty) ...[
+                            const SizedBox(height: AppSpacing.md),
+                            _buildLegacyResults(),
+                          ] else if (_session?.phase ==
+                                  AssistantSessionPhase.noConfidentMatch ||
+                              (_transcript.isNotEmpty &&
+                                  !_hasConversation &&
+                                  !_legacySearching)) ...[
+                            const SizedBox(height: AppSpacing.sm),
+                            Text(
+                              _presentInTamil
+                                  ? 'நம்பகமான பொருத்தம் கிடைக்கவில்லை. உங்கள் நிலையை வேறு வார்த்தைகளில் சொல்லுங்கள்.'
+                                  : 'No confident scheme match yet. Tell me a little more about your situation.',
+                              key: const Key('voice-no-results'),
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.inter(
+                                color: const Color(0xFFFBBF24),
+                                fontSize: 11,
+                              ),
+                            ),
+                          ],
+                          if (_session?.excludedUncertainCount case final count?
+                              when count > 0) ...[
+                            const SizedBox(height: AppSpacing.sm),
+                            TextButton.icon(
+                              key: const Key('voice-show-uncertain'),
+                              onPressed: () =>
+                                  _sessionController?.setIncludeUncertain(true),
+                              icon: const Icon(Icons.info_outline, size: 15),
+                              label: Text(
+                                'See $count uncertain or historical schemes',
+                              ),
+                            ),
+                          ],
+                          const SizedBox(height: AppSpacing.sm),
+                          Center(
+                            child: Container(
+                              width: 36,
+                              height: 4,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.12),
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRegularVoiceExperience(BuildContext context) {
+    final media = MediaQuery.of(context);
+    final hasConversation = _conversationTurns.isNotEmpty;
+    final isGenerating =
+        _voicePhase == _VoiceAssistantPhase.processing ||
+        _session?.phase == AssistantSessionPhase.understanding ||
+        _legacySearching;
+    return Material(
+      key: const Key('voice-assistant-overlay'),
+      color: const Color(0xFF070A12),
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
+          systemNavigationBarColor: Color(0xFF070A12),
+          systemNavigationBarIconBrightness: Brightness.light,
+          systemStatusBarContrastEnforced: false,
+          systemNavigationBarContrastEnforced: false,
+        ),
+        child: Stack(
+          children: [
+            const Positioned.fill(child: _RegularVoiceBackdrop()),
+            Positioned.fill(
+              child: IgnorePointer(
+                child: RepaintBoundary(
+                  child: AnimatedBuilder(
+                    key: const Key('voice-edge-outline'),
+                    animation: _edgeRepaint,
+                    builder: (context, child) => CustomPaint(
+                      painter: _RegularVoiceAmbientPainter(
+                        progress: _edgeController.value,
+                        intensity: _edgeIntensity.value,
+                        active: _isListening || _speaking || isGenerating,
+                        reduceMotion: _reduceEdgeMotion,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SafeArea(
+              child: Container(
+                key: const Key('voice-assistant-panel'),
+                width: double.infinity,
+                height: double.infinity,
+                padding: EdgeInsets.fromLTRB(
+                  media.size.width < 360 ? 16 : 22,
+                  8,
+                  media.size.width < 360 ? 16 : 22,
+                  14,
+                ),
+                child: Column(
+                  children: [
+                    _buildRegularTopBar(),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        controller: _panelScrollController,
+                        physics: const BouncingScrollPhysics(),
+                        padding: const EdgeInsets.only(top: 20, bottom: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            _buildRegularPresence(isGenerating),
+                            const SizedBox(height: 28),
+                            if (!hasConversation)
+                              _buildRegularWelcome()
+                            else
+                              Container(
+                                key: _session?.reply != null
+                                    ? const Key('voice-assistant-reply')
+                                    : null,
+                                child: _buildRegularTranscript(),
+                              ),
+                            if (_message != null) ...[
+                              const SizedBox(height: 16),
+                              _buildRegularNotice(_message!),
+                            ],
+                            if (_session?.question case final question?) ...[
+                              const SizedBox(height: 20),
+                              _buildRegularQuestionCard(question),
+                            ],
+                            if (_session?.recommendations.isNotEmpty ==
+                                true) ...[
+                              const SizedBox(height: 22),
+                              _buildRegularRecommendations(),
+                            ] else if (_legacyMatches.isNotEmpty) ...[
+                              const SizedBox(height: 22),
+                              _buildRegularLegacyResults(),
+                            ] else if (_session?.phase ==
+                                    AssistantSessionPhase.noConfidentMatch ||
+                                (_transcript.isNotEmpty &&
+                                    !_hasConversation &&
+                                    !_legacySearching)) ...[
+                              const SizedBox(height: 18),
+                              Text(
+                                _presentInTamil
+                                    ? 'உறுதியான பொருத்தம் இன்னும் கிடைக்கவில்லை. இன்னும் ஒரு விவரம் சொல்லுங்கள்.'
+                                    : 'I need one more detail to find a confident match.',
+                                key: const Key('voice-no-results'),
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.inter(
+                                  color: const Color(0xFFA8B0C2),
+                                  fontSize: 13,
+                                  height: 1.4,
+                                ),
+                              ),
+                            ],
+                            if (_groundingPhase !=
+                                _OnlineGroundingPhase.idle) ...[
+                              const SizedBox(height: 16),
+                              _buildOnlineGrounding(),
+                            ],
+                          ],
+                        ),
+                      ),
+                    ),
+                    _buildRegularControls(),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRegularTopBar() {
+    return Row(
+      children: [
+        Container(
+          width: 34,
+          height: 34,
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFF6D5DFB), Color(0xFF36C5F0)],
+            ),
+            borderRadius: BorderRadius.circular(12),
           ),
+          child: const Icon(
+            Icons.auto_awesome_rounded,
+            color: Colors.white,
+            size: 18,
+          ),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'IN AI',
+                style: GoogleFonts.inter(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: -0.2,
+                ),
+              ),
+              Semantics(
+                liveRegion: true,
+                label: _statusLabel,
+                child: Text(
+                  _statusLabel,
+                  key: const Key('voice-live-status'),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFFA8B0C2),
+                    fontSize: 10.5,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        _buildLanguageSelector(),
+        const SizedBox(width: 4),
+        IconButton(
+          key: const Key('voice-close-button'),
+          tooltip: 'Cancel assistant',
+          onPressed: _close,
+          style: IconButton.styleFrom(
+            minimumSize: const Size(48, 48),
+            foregroundColor: const Color(0xFFD7DCE8),
+          ),
+          icon: const Icon(Icons.close_rounded),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRegularPresence(bool isGenerating) {
+    final active = _isListening || _speaking || isGenerating;
+    return Center(
+      child: Semantics(
+        image: true,
+        label: active ? _statusLabel : 'IN AI voice ready',
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 320),
+          curve: Curves.easeOutCubic,
+          width: active ? 154 : 138,
+          height: active ? 154 : 138,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: RadialGradient(
+              colors: [
+                const Color(0xFF8B7CFF).withValues(alpha: active ? 0.95 : 0.72),
+                const Color(0xFF3E7BFA).withValues(alpha: 0.58),
+                const Color(0xFF17C4D8).withValues(alpha: 0.08),
+              ],
+              stops: const [0, 0.52, 1],
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(
+                  0xFF6D5DFB,
+                ).withValues(alpha: active ? 0.42 : 0.20),
+                blurRadius: active ? 54 : 34,
+                spreadRadius: active ? 10 : 2,
+              ),
+            ],
+          ),
+          child: Center(
+            child: VoiceLevelBars(
+              key: const Key('voice-level-bars'),
+              animation: _waveController,
+              level: _soundLevel,
+              active: _isListening,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRegularWelcome() {
+    return Column(
+      children: [
+        Text(
+          _presentInTamil ? 'நான் எப்படி உதவலாம்?' : 'How can I help?',
+          key: const Key('voice-transcript'),
+          textAlign: TextAlign.center,
+          style: GoogleFonts.inter(
+            color: Colors.white,
+            fontSize: 26,
+            height: 1.2,
+            fontWeight: FontWeight.w600,
+            letterSpacing: -0.7,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          _presentInTamil
+              ? 'உங்கள் நிலையைச் சொல்லுங்கள். பொருத்தமான அரசு திட்டங்களைக் கண்டுபிடிக்கிறேன்.'
+              : 'Tell me your situation. I’ll find relevant government schemes.',
+          textAlign: TextAlign.center,
+          style: GoogleFonts.inter(
+            color: const Color(0xFF9CA6BA),
+            fontSize: 13,
+            height: 1.45,
+          ),
+        ),
+        const SizedBox(height: 22),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          alignment: WrapAlignment.center,
+          children: [
+            _suggestionChip('Business loans'),
+            _suggestionChip('College scholarship'),
+            _suggestionChip('Farmer subsidy'),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRegularTranscript() {
+    final visibleTurns = _conversationTurns.length <= 3
+        ? _conversationTurns
+        : _conversationTurns.sublist(_conversationTurns.length - 3);
+    return Semantics(
+      container: true,
+      label: 'Conversation transcript',
+      child: Column(
+        key: const Key('voice-conversation-transcript'),
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [for (final turn in visibleTurns) _buildRegularTurn(turn)],
+      ),
+    );
+  }
+
+  Widget _buildRegularTurn(_VoiceTranscriptTurn turn) {
+    final isUser = turn.speaker == _VoiceTranscriptSpeaker.user;
+    final label = isUser ? (_presentInTamil ? 'நீங்கள்' : 'You') : 'IN AI';
+    return Container(
+      key: Key('voice-turn-${turn.id}'),
+      margin: const EdgeInsets.only(bottom: 22),
+      padding: EdgeInsets.only(left: isUser ? 34 : 0),
+      child: Column(
+        crossAxisAlignment: isUser
+            ? CrossAxisAlignment.end
+            : CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: GoogleFonts.inter(
+              color: isUser ? const Color(0xFF7F8AA1) : const Color(0xFF8B9BFF),
+              fontSize: 10,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.3,
+            ),
+          ),
+          const SizedBox(height: 5),
+          Text(
+            turn.text,
+            textAlign: isUser ? TextAlign.right : TextAlign.left,
+            style: GoogleFonts.inter(
+              color: isUser ? const Color(0xFFC5CBD8) : const Color(0xFFF4F6FA),
+              fontSize: isUser ? 15 : 17,
+              fontWeight: isUser ? FontWeight.w500 : FontWeight.w400,
+              height: 1.48,
+              letterSpacing: -0.15,
+            ),
+          ),
+          if (turn.schemeMatches.isNotEmpty) ...[
+            const SizedBox(height: 14),
+            ...turn.schemeMatches.take(3).map(_buildTurnSchemeCard),
+          ],
         ],
       ),
-    ),
+    );
+  }
+
+  Widget _buildRegularNotice(String text) {
+    return Semantics(
+      liveRegion: true,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
+        decoration: BoxDecoration(
+          color: const Color(0xFF151A27),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: const Color(0xFF2A3142)),
+        ),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: GoogleFonts.inter(
+            color: const Color(0xFFD4D9E5),
+            fontSize: 12,
+            height: 1.4,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRegularQuestionCard(FollowUpQuestion question) {
+    final state = _session!;
+    return Container(
+      key: const Key('voice-follow-up-question'),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFF111624),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: const Color(0xFF303A58)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            _questionText(state, question),
+            style: GoogleFonts.inter(
+              color: Colors.white,
+              fontSize: 15,
+              height: 1.4,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          if (question.options.isNotEmpty) ...[
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: question.options
+                  .map(
+                    (option) => ActionChip(
+                      key: Key(
+                        'voice-answer-${option.toLowerCase().replaceAll(' ', '-')}',
+                      ),
+                      label: Text(option),
+                      onPressed: () => _answerOption(option),
+                      backgroundColor: const Color(0xFF222A42),
+                      side: const BorderSide(color: Color(0xFF46537B)),
+                      labelStyle: const TextStyle(
+                        color: Color(0xFFF2F4F8),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  )
+                  .toList(growable: false),
+            ),
+          ],
+          if (_speechCapabilities?.supports(
+                state.isTamil ? 'ta-IN' : 'en-IN',
+              ) ==
+              false) ...[
+            const SizedBox(height: 10),
+            Text(
+              'Speech output is unavailable; tap the microphone to answer.',
+              style: GoogleFonts.inter(
+                color: const Color(0xFFFFC46B),
+                fontSize: 10.5,
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRegularRecommendations() {
+    final all = _session!.recommendations;
+    final visible = _showAllRecommendations
+        ? all
+        : all.take(3).toList(growable: false);
+    return Column(
+      key: const Key('voice-search-results'),
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                _presentInTamil ? 'உங்களுக்கான திட்டங்கள்' : 'For you',
+                style: GoogleFonts.inter(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            Text(
+              '${all.length} found',
+              key: const Key('voice-result-count'),
+              style: GoogleFonts.inter(
+                color: const Color(0xFF929DB2),
+                fontSize: 11,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        ...visible.map(_buildRegularRecommendationCard),
+        if (all.length > 3)
+          TextButton.icon(
+            key: const Key('voice-toggle-all-results'),
+            onPressed: () => setState(
+              () => _showAllRecommendations = !_showAllRecommendations,
+            ),
+            icon: Icon(
+              _showAllRecommendations
+                  ? Icons.expand_less_rounded
+                  : Icons.expand_more_rounded,
+            ),
+            label: Text(
+              _showAllRecommendations
+                  ? 'Show top 3'
+                  : 'Show all ${all.length} matches',
+            ),
+          ),
+        if (widget.onProfileConfirmed != null &&
+            _session!.facts.values.any(
+              (fact) => fact.source != EligibilityFactSource.profile,
+            ))
+          TextButton.icon(
+            key: const Key('voice-review-profile'),
+            onPressed: _reviewAndSaveFacts,
+            icon: const Icon(Icons.tune_rounded, size: 17),
+            label: const Text('Review details'),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildRegularRecommendationCard(SchemeRecommendation recommendation) {
+    final localized = recommendation.scheme.toLocalized(
+      _presentInTamil ? 'ta' : 'en',
+    );
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 9),
+      child: InkWell(
+        key: Key('voice-result-${recommendation.scheme.id}'),
+        onTap: () => widget.onSchemeSelected?.call(recommendation.scheme),
+        borderRadius: BorderRadius.circular(18),
+        child: Container(
+          padding: const EdgeInsets.all(15),
+          decoration: BoxDecoration(
+            color: const Color(0xFF111624),
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: const Color(0xFF29334E)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text(
+                      localized.name,
+                      style: GoogleFonts.inter(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        height: 1.35,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  const Icon(
+                    Icons.arrow_outward_rounded,
+                    size: 17,
+                    color: Color(0xFF8B9BFF),
+                  ),
+                ],
+              ),
+              if (recommendation.reasons.isNotEmpty) ...[
+                const SizedBox(height: 7),
+                Text(
+                  _presentInTamil
+                      ? 'ஏன் பொருந்துகிறது: ${recommendation.reasons.join(' • ')}'
+                      : 'Why this fits: ${recommendation.reasons.join(' • ')}',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFFB7C0D2),
+                    fontSize: 10.5,
+                    height: 1.4,
+                  ),
+                ),
+              ],
+              const SizedBox(height: 6),
+              Text(
+                recommendation.isTrusted
+                    ? 'Current official source verified'
+                    : 'Confirm current eligibility before applying',
+                style: GoogleFonts.inter(
+                  color: recommendation.isTrusted
+                      ? const Color(0xFF70D6B2)
+                      : const Color(0xFFFFC46B),
+                  fontSize: 9.5,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRegularLegacyResults() {
+    return Column(
+      key: const Key('voice-search-results'),
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          _presentInTamil ? 'உங்களுக்கான திட்டங்கள்' : 'For you',
+          style: GoogleFonts.inter(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(height: 10),
+        ..._legacyMatches.take(3).map(_buildTurnSchemeCard),
+      ],
+    );
+  }
+
+  Widget _buildRegularControls() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          _speaking
+              ? 'Tap to interrupt'
+              : _isListening
+              ? 'Listening…'
+              : 'Tap to speak',
+          textAlign: TextAlign.center,
+          style: GoogleFonts.inter(
+            color: const Color(0xFFA8B0C2),
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const SizedBox(height: 9),
+        Semantics(
+          button: true,
+          label: _speaking
+              ? 'Interrupt assistant'
+              : _isListening
+              ? 'Stop listening'
+              : 'Start listening',
+          hint: 'Double tap to control the microphone',
+          onTap: _toggleListening,
+          excludeSemantics: true,
+          child: IconButton.filled(
+            key: const Key('voice-primary-control'),
+            onPressed: _toggleListening,
+            style: IconButton.styleFrom(
+              minimumSize: const Size(68, 68),
+              backgroundColor: _isListening
+                  ? const Color(0xFFF1F3F8)
+                  : const Color(0xFF6D5DFB),
+              foregroundColor: _isListening
+                  ? const Color(0xFF121622)
+                  : Colors.white,
+              shadowColor: const Color(0xFF6D5DFB),
+              elevation: 10,
+            ),
+            icon: Icon(
+              _speaking
+                  ? Icons.front_hand_rounded
+                  : _isListening
+                  ? Icons.stop_rounded
+                  : Icons.mic_rounded,
+              size: 28,
+            ),
+          ),
+        ),
+        if (_cloudSessionInUse) ...[
+          const SizedBox(height: 9),
+          Text(
+            'Device noise control • Secure live voice',
+            key: const Key('voice-cloud-disclosure'),
+            style: GoogleFonts.inter(
+              color: const Color(0xFF707A91),
+              fontSize: 9,
+            ),
+          ),
+        ],
+      ],
     );
   }
 
@@ -1646,7 +2371,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                   alignment: Alignment.centerRight,
                   child: _cloudSessionInUse
                       ? Semantics(
-                          label: 'Server noise filtering is active',
+                          label: 'Device echo and noise control is active',
                           child: const Icon(
                             Icons.noise_control_off_rounded,
                             color: Color(0xFF34D399),
@@ -1718,7 +2443,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           if (_cloudSessionInUse) ...[
             const SizedBox(height: AppSpacing.tight),
             Semantics(
-              label: 'Server noise filtering is on',
+              label: 'Device echo and noise control is on',
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -1730,8 +2455,8 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                   const SizedBox(width: AppSpacing.tight),
                   Text(
                     _presentInTamil
-                        ? 'சத்தம் வடிகட்டப்படுகிறது'
-                        : 'Noise filtering on',
+                        ? 'சாதன சத்தக் கட்டுப்பாடு'
+                        : 'Device noise control',
                     style: GoogleFonts.inter(
                       color: const Color(0xFF6EE7B7),
                       fontSize: 9.5,
@@ -1784,9 +2509,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
   }
 
   Widget _buildConversationTranscript() {
-    final visibleTurns = _conversationTurns.length <= 8
+    final turnLimit = _isCompanion ? 8 : 3;
+    final visibleTurns = _conversationTurns.length <= turnLimit
         ? _conversationTurns
-        : _conversationTurns.sublist(_conversationTurns.length - 8);
+        : _conversationTurns.sublist(_conversationTurns.length - turnLimit);
     return Semantics(
       container: true,
       label: 'Conversation transcript',
@@ -1839,7 +2565,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           key: Key('voice-turn-${turn.id}'),
           constraints: const BoxConstraints(maxWidth: 440),
           margin: const EdgeInsets.only(bottom: AppSpacing.sm),
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.md,
+            vertical: AppSpacing.sm,
+          ),
           decoration: BoxDecoration(
             color: bubbleColor,
             borderRadius: BorderRadius.only(
@@ -1869,6 +2598,8 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               const SizedBox(height: AppSpacing.xs),
               Text(
                 turn.text,
+                maxLines: _isCompanion ? null : (isUser ? 3 : 5),
+                overflow: _isCompanion ? null : TextOverflow.ellipsis,
                 style: GoogleFonts.inter(
                   color: Colors.white,
                   fontSize: 13.5,
@@ -1876,7 +2607,80 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                   fontWeight: FontWeight.w500,
                 ),
               ),
+              if (turn.schemeMatches.isNotEmpty) ...[
+                const SizedBox(height: 9),
+                Text(
+                  _presentInTamil
+                      ? 'உங்களுக்கு பொருத்தமானவை'
+                      : 'Recommended for you',
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF86EFAC),
+                    fontSize: 10,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                ...turn.schemeMatches.take(3).map(_buildTurnSchemeCard),
+              ],
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTurnSchemeCard(SchemeSearchMatch match) {
+    final scheme = match.scheme.toLocalized(_presentInTamil ? 'ta' : 'en');
+    return Padding(
+      padding: const EdgeInsets.only(top: 6),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          key: Key('voice-result-${match.scheme.id}'),
+          onTap: () => widget.onSchemeSelected?.call(match.scheme),
+          borderRadius: BorderRadius.circular(11),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
+            decoration: BoxDecoration(
+              color: _accent.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(11),
+              border: Border.all(color: _accent.withValues(alpha: 0.24)),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        scheme.name,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      if (match.reasons.isNotEmpty) ...[
+                        const SizedBox(height: 2),
+                        Text(
+                          match.reasons.join(' • '),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Color(0xFFCBD5E1),
+                            fontSize: 9.5,
+                            height: 1.25,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 5),
+                Icon(Icons.arrow_forward_rounded, size: 15, color: _accent),
+              ],
+            ),
           ),
         ),
       ),
@@ -1905,7 +2709,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         label: 'Voice language $_languageBadgeLabel',
         child: Container(
           key: const Key('voice-language-auto-badge'),
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.sm,
+            vertical: AppSpacing.xs,
+          ),
           decoration: BoxDecoration(
             color: const Color(0xFFDBEAFE),
             borderRadius: BorderRadius.circular(14),
@@ -1948,7 +2755,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
       child: Container(
         constraints: const BoxConstraints(minHeight: 36),
         alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.sm,
+          vertical: AppSpacing.xs,
+        ),
         decoration: BoxDecoration(
           color: selected ? const Color(0xFF2563EB) : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
@@ -1966,7 +2776,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
   }
 
   Widget _buildFactChips() {
-    final facts = _session!.facts.values.toList(growable: false);
+    final allFacts = _session!.facts.values.toList(growable: false);
+    final facts = _isCompanion
+        ? allFacts
+        : allFacts.take(3).toList(growable: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -2115,9 +2928,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
   }
 
   Widget _buildConversationalResults() {
-    final recommendations = _session!.recommendations
-        .take(3)
-        .toList(growable: false);
+    final allRecommendations = _session!.recommendations;
+    final recommendations = _showAllRecommendations
+        ? allRecommendations
+        : allRecommendations.take(3).toList(growable: false);
     return Column(
       key: const Key('voice-search-results'),
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -2136,17 +2950,45 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                 ),
               ),
             ),
+            Text(
+              '${allRecommendations.length} found',
+              key: const Key('voice-result-count'),
+              style: GoogleFonts.inter(
+                color: const Color(0xFF93C5FD),
+                fontSize: 10.5,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(width: 6),
             TextButton(
               key: const Key('voice-view-all-results'),
               onPressed: () => widget.onSubmit(_session!.statement),
               child: Text(
-                CentralizedTranslator.instance.translate('View all'),
+                CentralizedTranslator.instance.translate('Open search'),
                 style: const TextStyle(fontSize: 10.5),
               ),
             ),
           ],
         ),
         ...recommendations.map(_buildRecommendationCard),
+        if (allRecommendations.length > 3)
+          TextButton.icon(
+            key: const Key('voice-toggle-all-results'),
+            onPressed: () => setState(
+              () => _showAllRecommendations = !_showAllRecommendations,
+            ),
+            icon: Icon(
+              _showAllRecommendations
+                  ? Icons.expand_less_rounded
+                  : Icons.expand_more_rounded,
+              size: 17,
+            ),
+            label: Text(
+              _showAllRecommendations
+                  ? 'Show top 3'
+                  : 'Show all ${allRecommendations.length} matches',
+            ),
+          ),
         if (widget.onProfileConfirmed != null &&
             _session!.facts.values.any(
               (fact) => fact.source != EligibilityFactSource.profile,
@@ -2249,6 +3091,89 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         'Official page unavailable · using the verified local catalog',
       _OnlineGroundingPhase.idle => '',
     };
+    if (!_isCompanion) {
+      final firstSource = isFound && _groundedSources.isNotEmpty
+          ? _groundedSources.first
+          : null;
+      return Container(
+        key: const Key('voice-online-grounding'),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        decoration: BoxDecoration(
+          color: const Color(0xFF0F1D2E),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: (isFound ? const Color(0xFF22C55E) : _accent).withValues(
+              alpha: 0.25,
+            ),
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  icon,
+                  size: 14,
+                  color: isFound ? const Color(0xFF4ADE80) : _accent,
+                ),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: GoogleFonts.inter(
+                      color: const Color(0xFFE2E8F0),
+                      fontSize: 10,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                if (isChecking)
+                  SizedBox(
+                    width: 12,
+                    height: 12,
+                    child: CircularProgressIndicator(
+                      key: const Key('voice-online-grounding-progress'),
+                      strokeWidth: 1.5,
+                      color: _accent,
+                    ),
+                  ),
+              ],
+            ),
+            if (firstSource != null) ...[
+              const SizedBox(height: 4),
+              InkWell(
+                key: Key('voice-grounded-source-${firstSource.url}'),
+                onTap: () => _openReplySource(firstSource.url.toString()),
+                child: Text(
+                  firstSource.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF93C5FD),
+                    fontSize: 9.5,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+            if (isChecking || isFound) ...[
+              const SizedBox(height: 3),
+              Text(
+                'Only the topic and official links are checked. Your statement and profile stay on this device.',
+                key: const Key('voice-grounding-privacy-note'),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.inter(
+                  color: const Color(0xFF64748B),
+                  fontSize: 8,
+                ),
+              ),
+            ],
+          ],
+        ),
+      );
+    }
     return Container(
       key: const Key('voice-online-grounding'),
       padding: const EdgeInsets.all(AppSpacing.md),
@@ -2609,17 +3534,121 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
   }
 }
 
+class _RegularVoiceBackdrop extends StatelessWidget {
+  const _RegularVoiceBackdrop();
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color(0xFF0B1020), Color(0xFF070A12), Color(0xFF05070C)],
+          stops: [0, 0.46, 1],
+        ),
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            top: -150,
+            right: -120,
+            child: Container(
+              width: 330,
+              height: 330,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: const Color(0xFF5D52E8).withValues(alpha: 0.10),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF5D52E8).withValues(alpha: 0.16),
+                    blurRadius: 120,
+                    spreadRadius: 45,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: -170,
+            left: -130,
+            child: Container(
+              width: 350,
+              height: 350,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: const Color(0xFF18BBD0).withValues(alpha: 0.07),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF18BBD0).withValues(alpha: 0.12),
+                    blurRadius: 130,
+                    spreadRadius: 50,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _RegularVoiceAmbientPainter extends CustomPainter {
+  const _RegularVoiceAmbientPainter({
+    required this.progress,
+    required this.intensity,
+    required this.active,
+    required this.reduceMotion,
+  });
+
+  final double progress;
+  final double intensity;
+  final bool active;
+  final bool reduceMotion;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final phase = reduceMotion ? 0.35 : progress;
+    final pulse = active ? 0.6 + math.sin(phase * math.pi * 2) * 0.12 : 0.35;
+    final center = Offset(size.width / 2, math.min(size.height * 0.31, 270));
+    final radius = math.min(size.width * 0.38, 170) + intensity * 18;
+    final paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.2
+      ..shader = RadialGradient(
+        colors: [
+          const Color(0xFF8B7CFF).withValues(alpha: 0.0),
+          const Color(0xFF8B7CFF).withValues(alpha: 0.16 * pulse),
+          const Color(0xFF22D3EE).withValues(alpha: 0.0),
+        ],
+        stops: const [0.66, 0.86, 1],
+      ).createShader(Rect.fromCircle(center: center, radius: radius));
+    canvas.drawCircle(center, radius, paint);
+    canvas.drawCircle(center, radius + 18, paint..strokeWidth = 0.7);
+  }
+
+  @override
+  bool shouldRepaint(covariant _RegularVoiceAmbientPainter oldDelegate) =>
+      oldDelegate.progress != progress ||
+      oldDelegate.intensity != intensity ||
+      oldDelegate.active != active ||
+      oldDelegate.reduceMotion != reduceMotion;
+}
+
 class VoiceLevelBars extends StatelessWidget {
   const VoiceLevelBars({
     super.key,
     required this.animation,
     required this.level,
     required this.active,
+    this.color,
   });
 
   final Animation<double> animation;
   final ValueListenable<double> level;
   final bool active;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) => AnimatedOpacity(
@@ -2634,6 +3663,7 @@ class VoiceLevelBars extends StatelessWidget {
             progress: animation.value,
             level: level.value,
             active: active,
+            color: color,
           ),
         ),
       ),
@@ -2646,12 +3676,14 @@ class VoiceLevelPainter extends CustomPainter {
     required this.progress,
     required this.level,
     required this.active,
+    this.color,
   });
 
   static const int barCount = 9;
   final double progress;
   final double level;
   final bool active;
+  final Color? color;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -2662,12 +3694,16 @@ class VoiceLevelPainter extends CustomPainter {
     final phase = progress * math.pi * 2;
     final paint = Paint()
       ..strokeCap = StrokeCap.round
-      ..strokeWidth = strokeWidth
-      ..shader = const LinearGradient(
+      ..strokeWidth = strokeWidth;
+    if (color != null) {
+      paint.color = color!;
+    } else {
+      paint.shader = const LinearGradient(
         begin: Alignment.bottomCenter,
         end: Alignment.topCenter,
         colors: [Color(0xFF2563EB), Color(0xFF67E8F9)],
       ).createShader(Offset.zero & size);
+    }
     for (var index = 0; index < barCount; index++) {
       final distance = ((index - center).abs() / center).clamp(0.0, 1.0);
       final envelope = 1 - distance * 0.48;
@@ -2687,7 +3723,8 @@ class VoiceLevelPainter extends CustomPainter {
   bool shouldRepaint(covariant VoiceLevelPainter oldDelegate) =>
       oldDelegate.progress != progress ||
       oldDelegate.level != level ||
-      oldDelegate.active != active;
+      oldDelegate.active != active ||
+      oldDelegate.color != color;
 }
 
 class VoiceEdgePainter extends CustomPainter {

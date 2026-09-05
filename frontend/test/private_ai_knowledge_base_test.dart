@@ -40,7 +40,7 @@ void main() {
         'tamil_nadu_priority_sectors',
   };
 
-  test('recognizes all locked English and Tanglish edge cases', () {
+  test('recognizes legacy romanized queries but responds in English', () {
     for (final edgeCase in edgeCases.entries) {
       final match = PrivateAiKnowledgeBase.lookup(edgeCase.key);
       expect(
@@ -49,6 +49,7 @@ void main() {
         reason: 'Failed to understand: ${edgeCase.key}',
       );
       expect(match?.reply().displayText, isNotEmpty);
+      expect(match?.reply().languageTag, 'en-IN');
       expect(match?.reply().sourceUrl, startsWith('https://'));
     }
   });

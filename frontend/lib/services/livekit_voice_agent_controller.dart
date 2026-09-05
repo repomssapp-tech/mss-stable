@@ -108,6 +108,12 @@ List<Scheme> matchCloudSchemeResultsToCatalog(
 const cloudVoicePreConnectAudio = true;
 
 @visibleForTesting
+const cloudClientAudioProcessingEnabled = true;
+
+@visibleForTesting
+const cloudHighPassFilterEnabled = true;
+
+@visibleForTesting
 bool shouldReportCloudListening({
   required bool agentCanListen,
   required bool isMuted,
@@ -299,11 +305,13 @@ class LiveKitVoiceAgentController extends ChangeNotifier
         room: livekit.Room(
           roomOptions: const livekit.RoomOptions(
             defaultAudioCaptureOptions: livekit.AudioCaptureOptions(
-              // Keep WebRTC processing explicit for phone microphones.
-              // Enhanced agent-side Voice Focus handles the second pass.
-              noiseSuppression: true,
-              echoCancellation: true,
-              autoGainControl: true,
+              // Android's WebRTC audio device module selects its hardware AEC
+              // and noise suppressor when the device exposes reliable DSP.
+              // It falls back to the WebRTC software path automatically.
+              noiseSuppression: cloudClientAudioProcessingEnabled,
+              echoCancellation: cloudClientAudioProcessingEnabled,
+              autoGainControl: cloudClientAudioProcessingEnabled,
+              highPassFilter: cloudHighPassFilterEnabled,
               voiceIsolation: true,
               typingNoiseDetection: true,
             ),

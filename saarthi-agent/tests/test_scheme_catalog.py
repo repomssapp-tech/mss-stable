@@ -91,6 +91,46 @@ def test_search_ranks_code_and_name_matches(tmp_path: Path) -> None:
     assert catalog.search("student scholarship", limit=1)[0]["id"] == "SCH2"
 
 
+def test_search_ignores_profile_filler_and_rejects_unrelated_matches(
+    tmp_path: Path,
+) -> None:
+    catalog_path = tmp_path / "schemes.json"
+    index_path = tmp_path / "search_index.json"
+    scholarship = _record(
+        "SCHOLAR",
+        "TN-STUDENT",
+        "College Student Scholarship",
+        "Tuition support for college students",
+    )
+    scholarship["search"]["keywords"] = ["student", "college", "scholarship"]
+    farming = _record(
+        "FARM",
+        "TN-FARM",
+        "Farm Equipment Subsidy",
+        "Equipment support for farmers",
+    )
+    farming["search"]["keywords"] = ["farmer", "agriculture", "equipment"]
+    _write_catalog(catalog_path, [farming, scholarship])
+    _write_search_index(
+        index_path,
+        [
+            _search_index_row("FARM", ["farmer", "agriculture", "equipment"]),
+            _search_index_row(
+                "SCHOLAR", ["student", "college", "scholarship", "tuition"]
+            ),
+        ],
+    )
+    catalog = SchemeCatalog(catalog_path, index_path)
+
+    results = catalog.search(
+        "I am 21 from Tamil Nadu and need a college scholarship",
+        limit=5,
+    )
+
+    assert [result["id"] for result in results] == ["SCHOLAR"]
+    assert catalog.search("I am 21 and live in Tamil Nadu", limit=5) == []
+
+
 def test_search_supports_future_tamil_localization(tmp_path: Path) -> None:
     catalog_path = tmp_path / "schemes.json"
     index_path = tmp_path / "search_index.json"

@@ -7,16 +7,19 @@ from livekit.agents import AgentSession, inference, llm
 
 from agent import (
     MSS_INSTRUCTIONS,
+    PROFILE_CONTEXT_FALLBACK_TIMEOUT,
     SAARTHI_INSTRUCTIONS,
     SARVAM_LLM_MODEL,
     SARVAM_STT_MODEL,
     SARVAM_TTS_MODEL,
     Assistant,
+    SarvamLlmConfig,
     SarvamVoiceConfig,
     UserProfileContext,
     VoiceTurnConfig,
     build_agent_instructions,
     build_profile_chat_ctx,
+    build_sarvam_llm,
     build_scheme_results_state,
 )
 
@@ -44,6 +47,8 @@ def test_saarthi_domain_contract() -> None:
     assert "do not speak when the session starts" in normalized
     assert "wait for the citizen's first utterance" in normalized
     assert "never use markdown" in normalized
+    assert "why it fits" in normalized
+    assert "main benefit" in normalized
 
 
 def test_saved_profile_prompt_skips_onboarding_questions() -> None:
@@ -232,12 +237,88 @@ def test_sarvam_voice_stack_defaults(monkeypatch: pytest.MonkeyPatch) -> None:
     config = SarvamVoiceConfig.from_env()
 
     assert SARVAM_STT_MODEL == "saaras:v3"
-    assert SARVAM_LLM_MODEL == "sarvam-105b"
+    assert SARVAM_LLM_MODEL == "sarvam-105b-conversations"
     assert SARVAM_TTS_MODEL == "bulbul:v3"
     assert config.stt_language == "unknown"
     assert config.stt_mode == "transcribe"
     assert config.tts_language == "ta-IN"
     assert config.tts_speaker == "kavitha"
+
+
+def test_sarvam_llm_defaults_are_bounded_for_realtime_voice(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    for name in (
+        "SARVAM_LLM_MODEL",
+        "SARVAM_LLM_TEMPERATURE",
+        "SARVAM_LLM_MAX_TOKENS",
+        "SARVAM_LLM_FREQUENCY_PENALTY",
+        "SARVAM_LLM_PRESENCE_PENALTY",
+        "SARVAM_LLM_REASONING_EFFORT",
+    ):
+        monkeypatch.delenv(name, raising=False)
+
+    config = SarvamLlmConfig.from_env()
+
+    assert config.model == "sarvam-105b-conversations"
+    assert config.temperature == pytest.approx(0.25)
+    assert config.max_tokens == 256
+    assert config.frequency_penalty == pytest.approx(0.1)
+    assert config.presence_penalty == 0
+    assert config.reasoning_effort is None
+
+
+def test_sarvam_llm_tuning_is_validated_from_environment(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("SARVAM_LLM_MODEL", "sarvam-105b")
+    monkeypatch.setenv("SARVAM_LLM_TEMPERATURE", "4")
+    monkeypatch.setenv("SARVAM_LLM_MAX_TOKENS", "99999")
+    monkeypatch.setenv("SARVAM_LLM_FREQUENCY_PENALTY", "-5")
+    monkeypatch.setenv("SARVAM_LLM_PRESENCE_PENALTY", "invalid")
+    monkeypatch.setenv("SARVAM_LLM_REASONING_EFFORT", "high")
+
+    config = SarvamLlmConfig.from_env()
+
+    assert config.model == "sarvam-105b"
+    assert config.temperature == 2
+    assert config.max_tokens == 4096
+    assert config.frequency_penalty == -2
+    assert config.presence_penalty == 0
+    assert config.reasoning_effort == "high"
+
+
+def test_sarvam_llm_builder_applies_only_deliberate_generation_controls(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    captured: dict[str, object] = {}
+
+    def fake_llm(**kwargs: object) -> object:
+        captured.update(kwargs)
+        return object()
+
+    monkeypatch.setattr("agent.sarvam.LLM", fake_llm)
+    config = SarvamLlmConfig(
+        model="sarvam-105b-conversations",
+        temperature=0.3,
+        max_tokens=320,
+        frequency_penalty=0.15,
+        presence_penalty=0,
+        reasoning_effort=None,
+    )
+
+    result = build_sarvam_llm(config)
+
+    assert result is not None
+    assert captured == {
+        "model": "sarvam-105b-conversations",
+        "temperature": 0.3,
+        "max_tokens": 320,
+        "frequency_penalty": 0.15,
+        "presence_penalty": 0,
+        "reasoning_effort": None,
+    }
+    assert "top_p" not in captured
 
 
 def test_sarvam_voice_stack_allows_environment_overrides(
@@ -284,6 +365,10 @@ def test_voice_turn_defaults_commit_short_answers_promptly() -> None:
     assert config.endpoint_min_delay <= 0.2
     assert config.endpoint_max_delay <= 0.7
     assert config.start_speech_volume_threshold < 0
+
+
+def test_missing_profile_context_never_blocks_voice_startup_for_seconds() -> None:
+    assert 0 <= PROFILE_CONTEXT_FALLBACK_TIMEOUT <= 0.25
 
 
 def test_voice_focus_strength_is_deployment_tunable(

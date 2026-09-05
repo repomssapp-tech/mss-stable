@@ -162,7 +162,7 @@ abstract interface class ClosableSchemeUnderstandingEngine {
   Future<void> close();
 }
 
-/// Offline English/Tamil/Tanglish statement understanding and scheme ranking.
+/// Offline English/Tamil statement understanding and scheme ranking.
 ///
 /// The engine deliberately uses only bundled catalog data. It never performs a
 /// network request or persists the user's statement.
@@ -585,10 +585,8 @@ class LocalSchemeUnderstandingEngine implements SchemeUnderstandingEngine {
     required FollowUpQuestion? followUp,
   }) {
     final tamilScript = RegExp(r'[\u0B80-\u0BFF]').hasMatch(statement);
-    final language = tamilScript
+    final language = tamilScript || isTamil
         ? PrivateAiLanguage.tamil
-        : isTamil
-        ? PrivateAiLanguage.tanglish
         : PrivateAiLanguage.english;
     if (recommendations.isEmpty) {
       final text = switch (language) {
@@ -596,8 +594,6 @@ class LocalSchemeUnderstandingEngine implements SchemeUnderstandingEngine {
           'I could not find a verified catalog match for that yet. Tell me the type of help, your work or study situation, location, and approximate funding need; I will try again without guessing.',
         PrivateAiLanguage.tamil =>
           'இதற்கு நம்பகமாக சரிபார்க்கப்பட்ட திட்டம் இன்னும் கிடைக்கவில்லை. தேவையான உதவி வகை, வேலை அல்லது படிப்பு நிலை, இருப்பிடம் மற்றும் சுமார் நிதித் தேவையைச் சொல்லுங்கள்; ஊகிக்காமல் மீண்டும் தேடுகிறேன்.',
-        PrivateAiLanguage.tanglish =>
-          'Idhukku verified catalog match innum kedaikkala. Entha help, unga work/study situation, location, approximate funding need sollunga; guess pannama marubadiyum search panren.',
       };
       return GroundedAssistantReply(
         topic: 'no_verified_match',
@@ -610,15 +606,13 @@ class LocalSchemeUnderstandingEngine implements SchemeUnderstandingEngine {
     }
 
     final top = recommendations.first;
-    final count = math.min(3, recommendations.length);
+    final count = recommendations.length;
     final needsMore = followUp != null || top.unknownRequirements.isNotEmpty;
     final text = switch (language) {
       PrivateAiLanguage.english =>
         'I found $count verified ${count == 1 ? 'possibility' : 'possibilities'}. The closest match is ${top.scheme.name}. ${needsMore ? 'I still need one eligibility detail before treating it as a strong match.' : 'The published details align with what you told me, but confirm final eligibility on the official source.'}',
       PrivateAiLanguage.tamil =>
         'சரிபார்க்கப்பட்ட $count வாய்ப்புகள் கிடைத்துள்ளன. மிக நெருக்கமான பொருத்தம் ${top.scheme.name}. ${needsMore ? 'வலுவான பொருத்தமாகக் கூற இன்னும் ஒரு தகுதி விவரம் தேவை.' : 'நீங்கள் கூறிய தகவலுடன் வெளியிடப்பட்ட விவரங்கள் பொருந்துகின்றன; இறுதி தகுதியை அதிகாரப்பூர்வ தளத்தில் உறுதி செய்யுங்கள்.'}',
-      PrivateAiLanguage.tanglish =>
-        'Verified-ah $count options kedaichirukku. Closest match ${top.scheme.name}. ${needsMore ? 'Strong match-nu solla innum oru eligibility detail venum.' : 'Neenga sonna details-oda align aaguthu; final eligibility official source-la confirm pannunga.'}',
     };
     return GroundedAssistantReply(
       topic: 'scheme_recommendation',
@@ -628,7 +622,6 @@ class LocalSchemeUnderstandingEngine implements SchemeUnderstandingEngine {
       sourceLabel: 'Official scheme source',
       sourceUrl: top.scheme.sourceUrl,
       relatedSchemeCodes: recommendations
-          .take(3)
           .map((item) => item.scheme.schemeCode)
           .toList(growable: false),
     );
