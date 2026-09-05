@@ -39,7 +39,7 @@ void main() {
       );
       expect(service.messageCount, 1);
 
-      final sessionRow = service.buildSessionRow(mode: 'voice');
+      final sessionRow = service.buildSessionRow(mode: 'voice', userId: 'test-user');
       final transcript = sessionRow['transcript'] as List;
       expect(transcript.length, 1);
       expect(transcript.first['text'], 'Hello, what schemes are available?');
@@ -51,7 +51,7 @@ void main() {
       service.recordUserMessage('How do I apply for PM-KISAN?', id: 'u2');
       service.recordAiMessage('You can apply online with land documents.', id: 'a2');
 
-      final sessionRow = service.buildSessionRow(mode: 'voice');
+      final sessionRow = service.buildSessionRow(mode: 'voice', userId: 'test-user');
       final transcript = sessionRow['transcript'] as List;
 
       expect(transcript.length, 4);
@@ -77,7 +77,7 @@ void main() {
       service.recordUserMessage('Tell me about scholarships.', id: 'u1');
       service.recordAiMessage('Post-Matric scholarship is available for college students.', id: 'a1');
 
-      final sessionRow = service.buildSessionRow(mode: 'voice');
+      final sessionRow = service.buildSessionRow(mode: 'voice', userId: 'test-user');
       final transcript = sessionRow['transcript'] as List;
 
       expect(transcript.length, 3);
@@ -93,7 +93,7 @@ void main() {
     test('handles user abrupt exit gracefully', () {
       service.recordUserMessage('I want to apply for agriculture loan.', id: 'u1');
 
-      final sessionRow = service.buildSessionRow(mode: 'voice');
+      final sessionRow = service.buildSessionRow(mode: 'voice', userId: 'test-user');
       final transcript = sessionRow['transcript'] as List;
 
       expect(transcript.length, 1);
@@ -108,7 +108,7 @@ void main() {
       service.recordUserMessage('And I need business funding.', id: 'u2');
       service.recordAiMessage('PMEGP scheme provides loan subsidy for young entrepreneurs.', id: 'a1');
 
-      final sessionRow = service.buildSessionRow(mode: 'voice');
+      final sessionRow = service.buildSessionRow(mode: 'voice', userId: 'test-user');
       final transcript = sessionRow['transcript'] as List;
 
       expect(transcript.length, 3);
@@ -126,10 +126,10 @@ void main() {
     });
 
     test('empty conversation produces empty session row and no writes', () async {
-      final sessionRow = service.buildSessionRow(mode: 'voice');
+      final sessionRow = service.buildSessionRow(mode: 'voice', userId: 'test-user');
       expect(sessionRow, isEmpty);
 
-      final flushed = await service.flushSessionLogs(mode: 'voice');
+      final flushed = await service.flushSessionLogs(mode: 'voice', userId: 'test-user');
       expect(flushed, isFalse);
       expect(service.isFlushed, isTrue);
     });
@@ -139,11 +139,11 @@ void main() {
       service.recordAiMessage('Hi', id: 'a1');
 
       // First flush
-      await service.flushSessionLogs(mode: 'voice');
+      await service.flushSessionLogs(mode: 'voice', userId: 'test-user');
       expect(service.isFlushed, isTrue);
 
       // Second flush attempt
-      final secondFlush = await service.flushSessionLogs(mode: 'voice');
+      final secondFlush = await service.flushSessionLogs(mode: 'voice', userId: 'test-user');
       expect(secondFlush, isFalse);
     });
 
@@ -194,7 +194,7 @@ void main() {
       expect(prefs.containsKey('chat_log_session_offline-sess-1'), isTrue);
 
       // Calling syncChatSession with no client simulates unavailable Supabase
-      final success = await syncService.syncChatSession(mode: 'voice');
+      final success = await syncService.syncChatSession(mode: 'voice', userId: 'test-user');
       expect(success, isFalse);
 
       // CRITICAL RULE: local cache must remain intact for future recovery!

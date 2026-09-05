@@ -150,6 +150,13 @@ class ChatLogService {
   bool _isFlushing = false;
   bool _isFlushed = false;
 
+  /// Owner captured when the session STARTS, not when it is flushed.
+  ///
+  /// Resolving the user at flush time attributed a session to whoever happened
+  /// to be signed in at upload, so a queued session could be stamped with a
+  /// different user than the one who actually spoke it. Capture it up front.
+  String? _sessionUserId;
+
   String get conversationUid => _conversationUid;
   bool get isFlushed => _isFlushed;
   int get messageCount => _messages.length;
@@ -178,6 +185,16 @@ class ChatLogService {
     _messages.clear();
     _isFlushing = false;
     _isFlushed = false;
+    _sessionUserId = _currentUserId();
+  }
+
+  /// Current signed-in user id, or null if auth is unavailable/not yet restored.
+  static String? _currentUserId() {
+    try {
+      return Supabase.instance.client.auth.currentUser?.id;
+    } catch (_) {
+      return null;
+    }
   }
 
   /// Inserts or updates an in-memory message record by message ID,
@@ -235,11 +252,20 @@ class ChatLogService {
     Map<String, dynamic>? baseMetadata,
     String? userId,
   }) {
-    String? resolvedUserId = userId;
+    // Prefer the owner captured at session start; fall back to the live session
+    // only if this instance never saw one (e.g. restored from disk).
+    final resolvedUserId = userId ?? _sessionUserId ?? _currentUserId();
+
+    // voice_chat_sessions accepts authenticated writes only: every row must be
+    // bound to its owner. Without a user there is no lawful row to write, so
+    // build nothing rather than emit an unattributable orphan that the server
+    // will reject anyway.
     if (resolvedUserId == null) {
-      try {
-        resolvedUserId = Supabase.instance.client.auth.currentUser?.id;
-      } catch (_) {}
+      debugPrint(
+        '[ChatLogService] No authenticated user for session $_conversationUid; '
+        'skipping upload (session stays on disk until sign-in).',
+      );
+      return const {};
     }
 
     return ChatPayloadMapper.mapMessagesToSessionRow(
@@ -261,11 +287,13 @@ class ChatLogService {
     String mode = 'voice',
     SupabaseClient? client,
     Map<String, dynamic>? metadata,
+    String? userId,
   }) async {
     return flushSessionLogs(
       mode: mode,
       client: client,
       metadata: metadata,
+      userId: userId,
     );
   }
 
@@ -315,6 +343,7 @@ class ChatLogService {
     String mode = 'voice',
     SupabaseClient? client,
     Map<String, dynamic>? metadata,
+    String? userId,
   }) async {
     debugPrint('[ChatLogService] flushSessionLogs() triggered. In-memory messages: ${_messages.length}, isFlushed: $_isFlushed, isFlushing: $_isFlushing');
     if (_isFlushed || _isFlushing) {
@@ -324,8 +353,22 @@ class ChatLogService {
     _isFlushing = true;
 
     try {
+      // 0. Without an owner the row cannot be written (RLS binds user_id to
+      //    auth.uid()). Bail out BEFORE the empty-row branch below, which
+      //    deletes the local copy -- an unauthenticated flush must preserve
+      //    the session on disk, not discard it.
+      if ((userId ?? _sessionUserId ?? _currentUserId()) == null) {
+        debugPrint(
+          '[ChatLogService] No authenticated user; session $_conversationUid '
+          'preserved on disk for retry after sign-in.',
+        );
+        await _persistSessionLocally();
+        return false;
+      }
+
       // 1. Build session row from in-memory records
-      var sessionRow = buildSessionRow(mode: mode, baseMetadata: metadata);
+      var sessionRow =
+          buildSessionRow(mode: mode, baseMetadata: metadata, userId: userId);
 
       // If in-memory buffer was empty, check if saved state exists on disk
       if (sessionRow.isEmpty) {
@@ -399,6 +442,17 @@ class ChatLogService {
       final pendingUids = prefs.getStringList(_pendingSessionsKey) ?? [];
       if (pendingUids.isEmpty) return 0;
 
+      // Nothing in the queue can be written without an owner; retrying would
+      // just fail against RLS on every launch. Leave the queue untouched and
+      // drain it after the user signs in.
+      if (_currentUserId() == null) {
+        debugPrint(
+          '[ChatLogService] Offline sync deferred: no authenticated user '
+          '(${pendingUids.length} session(s) still queued).',
+        );
+        return 0;
+      }
+
       final db = client ?? (Supabase.instance.client);
       var syncedCount = 0;
 
@@ -431,6 +485,19 @@ class ChatLogService {
           syncedCount++;
         } catch (e) {
           debugPrint('[ChatLogService] Offline sync notice for session $uid: $e');
+
+          // Distinguish "try again later" from "will never succeed". A network
+          // error is retryable; an RLS/permission rejection or a duplicate
+          // primary key (already uploaded) is not -- keeping those queued
+          // retries a doomed insert on every launch, forever.
+          if (_isPermanentUploadFailure(e)) {
+            debugPrint(
+              '[ChatLogService] Session $uid dropped from queue: permanent '
+              'rejection, retrying cannot succeed.',
+            );
+            await prefs.remove('$_sessionDataPrefix$uid');
+            pendingUids.remove(uid);
+          }
         }
       }
 
@@ -440,6 +507,19 @@ class ChatLogService {
       debugPrint('[ChatLogService] Offline sync queue notice: $e');
       return 0;
     }
+  }
+
+  /// True when an upload failure can never succeed on retry, so the queued
+  /// session should be dropped rather than retried on every launch.
+  ///
+  /// Retryable (returns false): network/timeout/connection errors.
+  /// Permanent (returns true): RLS or grant rejection (Postgres 42501), and
+  /// duplicate primary key (23505) which means the row already landed.
+  static bool _isPermanentUploadFailure(Object error) {
+    if (error is PostgrestException) {
+      return error.code == '42501' || error.code == '23505';
+    }
+    return false;
   }
 
   SupabaseClient? _resolveClient(SupabaseClient? provided) {

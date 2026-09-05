@@ -20,7 +20,17 @@ void main() {
   const supabaseUrl = 'https://houpzsxmwemoztpuigmo.supabase.co';
   const supabaseKey = 'sb_publishable_SwlgaGsCt5N-97WwEq7tQw_aNT25VUI';
 
-  group('Live Supabase Chat Logging Integration Test', () {
+  // Skipped since 20260906: voice_chat_sessions no longer accepts anonymous
+  // writes. INSERT is granted to `authenticated` only and the RLS policy
+  // requires user_id = auth.uid(), so this cannot pass with a publishable key
+  // alone -- it needs a real signed-in session.
+  //
+  // To re-enable: sign a test user in during setUpAll (auth.signInWithPassword)
+  // and pass that user's id through, then remove the skip below.
+  // Do NOT re-add an anon INSERT grant to make this test pass.
+  group('Live Supabase Chat Logging Integration Test',
+      skip: 'Needs an authenticated Supabase session; anon INSERT revoked (20260906).',
+      () {
     late SupabaseClient client;
     final testConversationUid = ChatLogService.generateUuidV4();
 
