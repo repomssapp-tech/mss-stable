@@ -39,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _activeCarouselIndex = 0;
   Timer? _carouselTimer;
   bool _showSearchPills = false;
+  bool _loggedOutRedirectScheduled = false;
 
   double _scaledFontSize(double baseSize) {
     final provider = Provider.of<AppProvider>(context, listen: false);
@@ -204,6 +205,20 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
     if (!provider.isLoggedIn) {
+      // Session was revoked (or refresh failed) while this screen was
+      // already mounted -- initState()'s check only runs once, so without
+      // this the user is stuck on a permanent spinner instead of being
+      // routed back to login.
+      if (!_loggedOutRedirectScheduled) {
+        _loggedOutRedirectScheduled = true;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) return;
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (_) => const LoginScreen()),
+            (route) => false,
+          );
+        });
+      }
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
     final recommendedScored = provider.recommendedSchemes
