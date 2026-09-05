@@ -13,7 +13,8 @@ backend/
 ├── docs/                    Product requirements, ADRs, and API notes
 ├── openapi/openapi.yaml     Draft `/v1` administration and sync contract
 ├── supabase/
-│   ├── functions/           recommend, schemes-api, and search Edge Functions
+│   ├── functions/           db-change-notify, livekit-token, publishCatalog,
+│   │                        recommend, search, and v1 Edge Functions
 │   ├── migrations/          Forward-only database migrations
 │   ├── seed/                Scheme data and organization fixtures
 │   └── tests/database/      pgTAP schema and RLS tests
@@ -45,10 +46,14 @@ To deploy after linking the intended Supabase project:
 
 ```powershell
 npx supabase db push
-npx supabase functions deploy recommend
-npx supabase functions deploy schemes-api
-npx supabase functions deploy search
+npx supabase functions deploy v1
+npx supabase functions deploy livekit-token
+npx supabase functions deploy publishCatalog
+npx supabase functions deploy db-change-notify
 ```
+
+`recommend` and `search` are still deployed but are superseded by `v1`; see the
+`(DEAD)` row in `CUTOVER.md`. Do not redeploy them without checking that first.
 
 ## Published mobile scheme catalog
 
