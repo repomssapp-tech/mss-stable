@@ -1,13 +1,13 @@
 {
-  "releaseId": "97a458b5-b44f-49d8-b8ef-8ffb5d6e3049",
-  "releaseTag": "1.33.1-alpha",
+  "releaseId": "48afe983-8163-4620-9e4a-6cfd563447b8",
+  "releaseTag": "1.34.0-alpha",
   "schemaVersion": "1.0.0",
-  "releasedAt": "2026-09-04T21:05:14Z",
+  "releasedAt": "2026-09-05T14:57:34Z",
   "bundleAsset": "assets/catalog/catalog_bundle.json.gz",
-  "bundleBytes": 830262,
-  "bundleSha256": "fa0c2677f4d21aabbed38653d2d26accf16b15d9602410d4d70e5f3cbfe2b325",
-  "uncompressedBytes": 10763362,
-  "entityCount": 1216,
+  "bundleBytes": 832810,
+  "bundleSha256": "450e73f6b8f4cf6425045f86be5d33b593921157880daf6c6120cddae3aa4327",
+  "uncompressedBytes": 10777837,
+  "entityCount": 1220,
   "searchIndexCount": 971,
   "recordCounts": {
     "common_catalog.json": 344,
@@ -22,8 +22,8 @@
     "knowledge_catalog.json": 28,
     "applicability_matrix_catalog.json": 219,
     "enterprise_classification_catalog.json": 11,
-    "msme_privilege_catalog.json": 1,
-    "business_enablement_catalog.json": 4,
+    "msme_privilege_catalog.json": 2,
+    "business_enablement_catalog.json": 7,
     "cluster_assistance_catalog.json": 10
   },
   "perFileSha256": {
@@ -39,8 +39,8 @@
     "knowledge_catalog.json": "5e989164f61e9ccb64adc3d07ea56594669fdd9a9413afbf8d8b3cf888ff569d",
     "applicability_matrix_catalog.json": "53a801913a249180b5f085863e56ed4b12c3a8f0d724a062a43f2916eac3c65e",
     "enterprise_classification_catalog.json": "906e0bbd49e30c1a8b06933bda2d7ce2aa87786db176a369f79b23ab7e1bfcf2",
-    "msme_privilege_catalog.json": "92208bfaa9cebb5130fa52b5addb320df73bccc25c5c5ba281ba194604ce1c95",
-    "business_enablement_catalog.json": "f8cfabf5227215ec8e88c2ae336b790b70648ec19bc273562873df3e629f6f30",
+    "msme_privilege_catalog.json": "e23561aaa4367620a6ec0da1b9016c74a4a1bb0ce03a2c4ec81f9a0540ae0cd9",
+    "business_enablement_catalog.json": "0d2be4f5e35b2556c78b06086d402919332bc6bdc3cd499ca21738ab9fcd1662",
     "cluster_assistance_catalog.json": "70cd4def3795be99067596728dfd70e0e621bba4072091544642686cb7f6553e",
     "search_index.json": "d61bb89fa9a4a78b2fffedf9eaa680703c295e202f0881f778610940edf463a0"
   }

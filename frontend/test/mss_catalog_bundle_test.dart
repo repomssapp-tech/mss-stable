@@ -69,8 +69,8 @@ void main() {
     test('Release manifest counts accurately match bundle payloads', () {
       expect(
         releaseJson['entityCount'],
-        equals(1216),
-        reason: 'release.json entityCount must equal 1216',
+        equals(1220),
+        reason: 'release.json entityCount must equal 1220',
       );
       expect(
         releaseJson['searchIndexCount'],
@@ -168,8 +168,8 @@ void main() {
 
         expect(
           byId.length,
-          equals(1216),
-          reason: 'Total entities in byId must be exactly 1216',
+          equals(1220),
+          reason: 'Total entities in byId must be exactly 1220',
         );
         expect(
           duplicateEntityIdCount,
