@@ -1143,6 +1143,7 @@ class SearchScreenState extends State<SearchScreen> {
             fontSize: 12.5,
           ),
           prefixIcon: IconButton(
+            tooltip: 'Search',
             icon: const Icon(
               Icons.search,
               color: Color(0xFF2563EB),
@@ -1160,6 +1161,7 @@ class SearchScreenState extends State<SearchScreen> {
             children: [
               if (hasText)
                 IconButton(
+                  tooltip: 'Clear search',
                   icon: const Icon(
                     Icons.close,
                     color: Color(0xFF94A3B8),
@@ -1184,6 +1186,7 @@ class SearchScreenState extends State<SearchScreen> {
                 ),
               if (hasText) const SizedBox(width: AppSpacing.xs),
               IconButton(
+                tooltip: _isDictating ? 'Stop voice search' : 'Voice search',
                 icon: Icon(
                   _isDictating ? Icons.mic : Icons.mic_none,
                   color: _isDictating
