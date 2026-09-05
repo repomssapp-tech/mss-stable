@@ -265,7 +265,30 @@ serve(async (req) => {
     })
 
   if (route === 'health') {
-    return json({ status: 'ok' })
+    const dbCheck = (async () => {
+      const client = rateLimitClient
+      if (!client) return false
+      const { error } = await client.from('api_rate_limits').select('client_id').limit(1)
+      return !error
+    })()
+    const timeout = new Promise<false>((resolve) => setTimeout(() => resolve(false), 2000))
+    const dbOk = await Promise.race([dbCheck, timeout])
+    const catalogOk = cachedEntries != null || (await (async () => {
+      const client = rateLimitClient
+      if (!client) return false
+      try {
+        await getSearchEngine(client)
+        return cachedEntries != null
+      } catch {
+        return false
+      }
+    })())
+
+    const status = dbOk && catalogOk ? 'ok' : 'degraded'
+    return json(
+      { status, db: dbOk ? 'ok' : 'fail', catalog: catalogOk ? 'ok' : 'fail' },
+      status === 'ok' ? 200 : 503,
+    )
   }
 
   // POST /v1/cache-bust -- explicitly busts the in-memory search index cache
