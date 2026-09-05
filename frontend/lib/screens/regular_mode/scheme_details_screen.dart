@@ -124,7 +124,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
       ];
       final key = keys[index];
       final ctx = key.currentContext;
-      if (ctx != null) {
+      if (ctx != null && ctx.mounted) {
         Scrollable.ensureVisible(
           ctx,
           duration: const Duration(milliseconds: 300),

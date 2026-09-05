@@ -142,6 +142,7 @@ async function migrate() {
             timestamp: row.created_at,
             token_usage_ai: 0,
             interrupted_by_user: false,
+            recommendations: false,
           });
         }
       }
