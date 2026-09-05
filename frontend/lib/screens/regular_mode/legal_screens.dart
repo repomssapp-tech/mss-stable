@@ -27,6 +27,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
             color: kSlate900,
             size: 20,
           ),
+          tooltip: 'Back',
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -311,6 +312,7 @@ class TermsConditionsScreen extends StatelessWidget {
             color: kSlate900,
             size: 20,
           ),
+          tooltip: 'Back',
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(

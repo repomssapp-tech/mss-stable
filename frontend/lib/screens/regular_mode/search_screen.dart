@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -148,6 +149,7 @@ class SearchScreenState extends State<SearchScreen> {
   final FocusNode _searchFocusNode = FocusNode();
   final VoiceRecognitionController _dictationController =
       AutomaticVoiceRecognitionController();
+  Timer? _searchDebounce;
   bool _isDictating = false;
   SearchState _currentState = SearchState.idle;
   String _activeFilter = "All";
@@ -591,6 +593,7 @@ class SearchScreenState extends State<SearchScreen> {
 
   @override
   void dispose() {
+    _searchDebounce?.cancel();
     _dictationController.dispose();
     _searchController.removeListener(_onSearchTextChanged);
     _searchController.dispose();
@@ -689,25 +692,32 @@ class SearchScreenState extends State<SearchScreen> {
   }
 
   void _onSearchTextChanged() {
-    // If text gets cleared, revert to idle if no filters are active; otherwise re-apply filters
-    if (_searchController.text.isEmpty && _currentState != SearchState.idle) {
-      final provider = Provider.of<AppProvider>(context, listen: false);
-      final bool hasActiveFilter = _selectedType.isNotEmpty ||
-          _selectedBenefit.isNotEmpty ||
-          _selectedMinistry.isNotEmpty ||
-          _activeFilter == 'For Me' ||
-          _activeSearchFilters.isNotEmpty ||
-          _hasActiveProviderFilters(provider.filters);
-      if (!hasActiveFilter) {
-        setState(() {
-          _searchResults = [];
-          _masterSearchResults = [];
-          _currentState = SearchState.idle;
-        });
-      } else {
-        _applyFiltersAndSort();
+    // Rebuild immediately so the clear-icon reflects the current text.
+    setState(() {});
+
+    _searchDebounce?.cancel();
+    _searchDebounce = Timer(const Duration(milliseconds: 300), () {
+      if (!mounted) return;
+      // If text gets cleared, revert to idle if no filters are active; otherwise re-apply filters
+      if (_searchController.text.isEmpty && _currentState != SearchState.idle) {
+        final provider = Provider.of<AppProvider>(context, listen: false);
+        final bool hasActiveFilter = _selectedType.isNotEmpty ||
+            _selectedBenefit.isNotEmpty ||
+            _selectedMinistry.isNotEmpty ||
+            _activeFilter == 'For Me' ||
+            _activeSearchFilters.isNotEmpty ||
+            _hasActiveProviderFilters(provider.filters);
+        if (!hasActiveFilter) {
+          setState(() {
+            _searchResults = [];
+            _masterSearchResults = [];
+            _currentState = SearchState.idle;
+          });
+        } else {
+          _applyFiltersAndSort();
+        }
       }
-    }
+    });
   }
 
   void _triggerSearch(String query) async {
@@ -1119,16 +1129,9 @@ class SearchScreenState extends State<SearchScreen> {
         onSubmitted: (val) {
           _triggerSearch(_searchController.text);
         },
-        onChanged: (val) {
-          setState(() {});
-          if (val.trim().isEmpty && _currentState != SearchState.idle) {
-            setState(() {
-              _currentState = SearchState.idle;
-              _searchResults = [];
-              _masterSearchResults = [];
-            });
-          }
-        },
+        // Text-change handling (debounce + idle reset) lives solely in
+        // _onSearchTextChanged via the controller listener, so there is
+        // only one path reacting to keystrokes.
         style: GoogleFonts.inter(
           fontSize: _scaledFontSize(13),
           color: const Color(0xFF1E293B),
@@ -1140,6 +1143,7 @@ class SearchScreenState extends State<SearchScreen> {
             fontSize: 12.5,
           ),
           prefixIcon: IconButton(
+            tooltip: 'Search',
             icon: const Icon(
               Icons.search,
               color: Color(0xFF2563EB),
@@ -1157,6 +1161,7 @@ class SearchScreenState extends State<SearchScreen> {
             children: [
               if (hasText)
                 IconButton(
+                  tooltip: 'Clear search',
                   icon: const Icon(
                     Icons.close,
                     color: Color(0xFF94A3B8),
@@ -1181,6 +1186,7 @@ class SearchScreenState extends State<SearchScreen> {
                 ),
               if (hasText) const SizedBox(width: AppSpacing.xs),
               IconButton(
+                tooltip: _isDictating ? 'Stop voice search' : 'Voice search',
                 icon: Icon(
                   _isDictating ? Icons.mic : Icons.mic_none,
                   color: _isDictating

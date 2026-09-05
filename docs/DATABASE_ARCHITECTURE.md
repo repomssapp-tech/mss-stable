@@ -272,7 +272,11 @@ Every RLS-enabled table across `public`/`catalog`/`admin` must carry at least on
 * `public.mss_current_release()`, `public.mss_scheme_detail()` and the other RPC-layer functions listed in §3 are all `SECURITY DEFINER` with a pinned `search_path` (no search-path-hijack surface); the remaining `SECURITY INVOKER` catalog functions (`mss_search`, `mss_localized_text`, `mss_search_document`) got their `search_path` pinned too, for hygiene.
 * `functions.v1` (the Edge Function surface) runs with `verify_jwt = true`, pinned in `config.toml` with an explicit comment against silent regression -- previously it ran with `verify_jwt = false`, meaning every `/v1/*` route was invokable with no credential at all.
 
-### 5.3. Known open items (not yet fixed)
+### 5.3. Deliberate exceptions (documented so they read as intentional, not drift)
+* **Project region: `ap-southeast-2` (Sydney).** Not previously documented in-repo. For an India-resident MSME user base this is ~150-200ms of avoidable RTT on every authenticated call; a move to a Mumbai-region project was not undertaken here because it requires a full project rebuild-and-restore (new project ref, all keys/URLs/deployed functions change) and should be preceded by measuring real RTT from target geography rather than assuming the figure above, and by settling any data-residency requirement first.
+* **`public.mss_current_release()` is anon-callable.** Confirmed via live probe returning 200 with the publishable key. This is intentional: the client needs a pre-auth catalog-freshness check, and the function exposes only release-pointer metadata. Do not revoke it. `.github/workflows/rls-drift-check.yml`'s expected-posture baseline should treat this grant as expected, not as drift.
+
+### 5.4. Known open items (not yet fixed)
 * `catalog.mss_scheme_detail()`/`mss_lookup_catalog()`/etc. don't filter `status = 'PUBLISHED'` in the SQL body itself -- only at the GRANT layer (`service_role`-only). Safe today, but not fail-safe if an Edge Function forgets to filter.
 * Missing indexes on several FK/RLS-filter columns (`catalog.finance/tax/export/csr/treds.scheme_id`, and the `user_id`/`conversation_id` columns most `public.*` RLS policies filter on).
 * `publishCatalog` Edge Function has no admin/service-role check -- any authenticated user can trigger a `catalog_updated` realtime broadcast.

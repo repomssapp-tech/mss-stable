@@ -12,6 +12,7 @@ import 'legal_screens.dart';
 import '../../widgets/custom_confirm_dialog.dart';
 import '../../utils/responsive.dart';
 import '../../widgets/app_toast.dart';
+import '../../widgets/catalog_freshness_footer.dart';
 import '../../utils/app_spacing.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -89,6 +90,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         Icons.close_rounded,
                         color: Color(0xFF94A3B8),
                       ),
+                      tooltip: 'Close',
                       onPressed: () => Navigator.pop(context),
                     ),
                   ],
@@ -224,6 +226,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         elevation: 0.5,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Color(0xFF0F172A)),
+          tooltip: 'Back',
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -552,6 +555,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   color: const Color(0xFF94A3B8),
                 ),
               ),
+            ),
+            CatalogFreshnessFooter(
+              isTa: provider.selectedLanguage == 'ta',
             ),
             const SizedBox(height: AppSpacing.xxl),
           ],

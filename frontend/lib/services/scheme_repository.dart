@@ -762,7 +762,12 @@ class SchemeRepository {
   /// Retrieves a user profile by their UUID from public.profiles table.
   Future<UserProfile?> getProfile(String uid) async {
     try {
-      final rows = await _db.from('profiles').select().eq('id', uid).limit(1);
+      final rows = await _db
+          .from('profiles')
+          .select()
+          .eq('id', uid)
+          .limit(1)
+          .timeout(const Duration(seconds: 8));
       if ((rows as List).isEmpty) {
         debugPrint('[SchemeRepository] No profile found for user UUID: $uid');
         return null;
@@ -780,7 +785,10 @@ class SchemeRepository {
       debugPrint(
         '[SchemeRepository] Creating profile for user UUID: ${profile.googleUserId}',
       );
-      await _db.from('profiles').upsert(profile.toSupabase());
+      await _db
+          .from('profiles')
+          .upsert(profile.toSupabase())
+          .timeout(const Duration(seconds: 8));
       debugPrint('[SchemeRepository] Profile successfully created.');
     } catch (e) {
       debugPrint('[SchemeRepository] Error creating profile: $e');
@@ -797,7 +805,8 @@ class SchemeRepository {
       await _db
           .from('profiles')
           .update(profile.toSupabase())
-          .eq('id', profile.googleUserId);
+          .eq('id', profile.googleUserId)
+          .timeout(const Duration(seconds: 8));
       debugPrint('[SchemeRepository] Profile successfully updated.');
     } catch (e) {
       debugPrint('[SchemeRepository] Error updating profile: $e');

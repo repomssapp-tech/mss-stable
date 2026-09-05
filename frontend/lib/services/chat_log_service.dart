@@ -203,6 +203,7 @@ class ChatLogService {
     required String id,
     required ChatMessageSpeaker speaker,
     required String text,
+    DateTime? timestamp,
   }) {
     final cleaned = text.trim();
     if (cleaned.isEmpty) return;
@@ -216,7 +217,7 @@ class ChatLogService {
           id: id,
           speaker: speaker,
           text: cleaned,
-          timestamp: DateTime.now().toUtc(),
+          timestamp: (timestamp ?? DateTime.now()).toUtc(),
         ),
       );
     }

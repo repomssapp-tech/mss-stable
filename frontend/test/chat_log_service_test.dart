@@ -72,6 +72,27 @@ void main() {
       expect(transcript[3]['text'], 'You can apply online with land documents.');
     });
 
+    test('preserves the real per-turn timestamp so duration is not always 0', () {
+      final start = DateTime.utc(2026, 9, 5, 10, 0, 0);
+      service.upsertMessage(
+        id: 'u1',
+        speaker: ChatMessageSpeaker.user,
+        text: 'What schemes are there for farmers?',
+        timestamp: start,
+      );
+      service.upsertMessage(
+        id: 'a1',
+        speaker: ChatMessageSpeaker.assistant,
+        text: 'PM-KISAN is available.',
+        timestamp: start.add(const Duration(seconds: 45)),
+      );
+
+      final sessionRow = service.buildSessionRow(mode: 'voice', userId: 'test-user');
+      final metrics = sessionRow['session_metrics'] as Map;
+
+      expect(metrics['total_duration_sec'], 45);
+    });
+
     test('handles assistant greeting first', () {
       service.recordAiMessage('Vanakkam! I am Saarthi, your welfare assistant.', id: 'a0');
       service.recordUserMessage('Tell me about scholarships.', id: 'u1');

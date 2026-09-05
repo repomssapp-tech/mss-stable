@@ -1,5 +1,7 @@
-// MSS API gateway -- implements the /v1/* contract the Flutter client
-// (MssApiClient) calls: GET /v1/meta, GET /v1/health, POST /v1/search,
+// MSS API gateway -- implements the /v1/* contract. Kept for schema/finance/
+// catalog lookups; scheme search and discovery are served on-device by
+// SchemeRepository, which has no network caller for this surface.
+// GET /v1/meta, GET /v1/health, POST /v1/search,
 // GET /v1/schemes/{id}, GET /v1/schemes/{id}/finance,
 // GET /v1/finance-products[/{id}], GET /v1/clusters[/{id}],
 // GET /v1/tax[/{id}], GET /v1/privileges[/{id}],
@@ -265,7 +267,30 @@ serve(async (req) => {
     })
 
   if (route === 'health') {
-    return json({ status: 'ok' })
+    const dbCheck = (async () => {
+      const client = rateLimitClient
+      if (!client) return false
+      const { error } = await client.from('api_rate_limits').select('client_id').limit(1)
+      return !error
+    })()
+    const timeout = new Promise<false>((resolve) => setTimeout(() => resolve(false), 2000))
+    const dbOk = await Promise.race([dbCheck, timeout])
+    const catalogOk = cachedEntries != null || (await (async () => {
+      const client = rateLimitClient
+      if (!client) return false
+      try {
+        await getSearchEngine(client)
+        return cachedEntries != null
+      } catch {
+        return false
+      }
+    })())
+
+    const status = dbOk && catalogOk ? 'ok' : 'degraded'
+    return json(
+      { status, db: dbOk ? 'ok' : 'fail', catalog: catalogOk ? 'ok' : 'fail' },
+      status === 'ok' ? 200 : 503,
+    )
   }
 
   // POST /v1/cache-bust -- explicitly busts the in-memory search index cache

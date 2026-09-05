@@ -188,6 +188,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
               ? ChatMessageSpeaker.assistant
               : ChatMessageSpeaker.user,
           text: msg.text,
+          timestamp: msg.timestamp,
         );
       }
     }
@@ -1064,6 +1065,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                     color: Color(0xFF0F172A),
                     size: 24,
                   ),
+                  tooltip: 'Notifications',
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(

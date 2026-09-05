@@ -10,6 +10,7 @@ import '../../widgets/scheme_card.dart';
 import '../../widgets/filter_panel.dart';
 import '../../widgets/standard_page_header.dart';
 import '../../widgets/app_toast.dart';
+import '../../widgets/catalog_freshness_footer.dart';
 import '../../services/centralized_translator.dart';
 import '../../l10n/l10n.dart';
 import 'scheme_details_screen.dart';
@@ -456,6 +457,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                     color: Color(0xFF94A3B8),
                     size: 18,
                   ),
+                  tooltip: 'Clear search',
                   onPressed: () {
                     _searchController.clear();
                     setState(() {});
@@ -489,6 +491,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
         elevation: 1,
         actions: [
           IconButton(
+            tooltip: 'Share results',
             icon: const Icon(
               Icons.share_outlined,
               size: 20,
@@ -642,6 +645,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                           },
                         ),
             ),
+            CatalogFreshnessFooter(isTa: isTa),
           ],
         ),
       ),

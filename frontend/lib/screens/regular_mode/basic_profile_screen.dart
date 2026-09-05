@@ -579,6 +579,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                               color: kSlate800,
                               size: 24,
                             ),
+                            tooltip: 'Back',
                             onPressed: _handleBack,
                           ),
                           const SizedBox(width: AppSpacing.xs),

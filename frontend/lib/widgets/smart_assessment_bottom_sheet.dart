@@ -504,6 +504,7 @@ class _SmartAssessmentBottomSheetState
               ),
               IconButton(
                 icon: const Icon(Icons.close, size: 20),
+                tooltip: 'Close',
                 onPressed: () => Navigator.pop(context),
               ),
             ],

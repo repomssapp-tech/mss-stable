@@ -193,7 +193,6 @@ def test_scheme_search_results_are_compact_ui_state() -> None:
                 "id": "SCH000001",
                 "code": "TN001",
                 "name": "Micro Manufacturing Capital Subsidy",
-                "match_confidence": 91,
                 "verification": {
                     "is_verified": True,
                     "confidence": "high",
@@ -211,7 +210,6 @@ def test_scheme_search_results_are_compact_ui_state() -> None:
                 "id": "SCH000001",
                 "code": "TN001",
                 "name": "Micro Manufacturing Capital Subsidy",
-                "match_confidence": 91,
                 "is_verified": True,
                 "source_confidence": "high",
             },

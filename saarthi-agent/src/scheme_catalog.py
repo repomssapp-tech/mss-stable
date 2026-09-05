@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-import math
 import re
 import unicodedata
 from pathlib import Path
@@ -119,22 +118,10 @@ class SchemeCatalog:
                 ranked.append((score, str(identity.get("id", "")), record))
 
         ranked.sort(key=lambda item: (-item[0], item[1]))
-        return [
-            self._compact(record, match_confidence=self._match_confidence(score))
-            for score, _, record in ranked[:limit]
-        ]
+        return [self._compact(record) for _, _, record in ranked[:limit]]
 
     @staticmethod
-    def _match_confidence(score: int) -> int:
-        """Map deterministic retrieval strength to a bounded UI percentage.
-
-        This is relevance confidence, not a promise of scheme eligibility.
-        """
-        confidence = round((1 - math.exp(-score / 60)) * 100)
-        return max(40, min(confidence, 97))
-
-    @staticmethod
-    def _compact(record: dict[str, Any], *, match_confidence: int) -> dict[str, Any]:
+    def _compact(record: dict[str, Any]) -> dict[str, Any]:
         identity = record.get("identity", {})
         content = record.get("content", {})
         eligibility = content.get("eligibility", {}).get("narrative", {})
@@ -168,7 +155,6 @@ class SchemeCatalog:
             "id": identity.get("id"),
             "code": identity.get("code"),
             "name": identity.get("name"),
-            "match_confidence": match_confidence,
             "scheme_status": identity.get("status"),
             "summary": content.get("overview", {}).get("summary"),
             "eligibility": eligibility.get("verifiedCriteria")

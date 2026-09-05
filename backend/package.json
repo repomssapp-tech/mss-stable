@@ -10,6 +10,7 @@
     "db:test": "supabase test db",
     "db:lint": "supabase db lint --local --level warning --fail-on warning",
     "db:validate": "npm run db:reset && npm run db:test && npm run db:lint",
+    "functions:test": "deno test --allow-env --node-modules-dir=auto supabase/functions",
     "catalog:import": "node scripts/import_catalog.mjs",
     "catalog:validate": "node scripts/import_catalog.mjs --validate-only --expect-schemes=217 --expect-documents=556 --expect-services=217",
     "catalog:bootstrap": "node scripts/import_catalog.mjs --publish --expect-schemes=217 --expect-documents=556 --expect-services=217",

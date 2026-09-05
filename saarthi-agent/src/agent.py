@@ -54,9 +54,6 @@ def build_scheme_results_state(matches: list[dict]) -> dict:
         }
         if not any(item.values()):
             continue
-        raw_confidence = match.get("match_confidence")
-        if isinstance(raw_confidence, (int, float)):
-            item["match_confidence"] = max(0, min(round(raw_confidence), 100))
         verification = match.get("verification")
         if isinstance(verification, dict):
             item["is_verified"] = bool(verification.get("is_verified"))

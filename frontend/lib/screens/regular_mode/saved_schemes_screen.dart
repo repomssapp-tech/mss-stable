@@ -220,6 +220,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                               color: Color(0xFFEF4444),
                               size: 20,
                             ),
+                            tooltip: 'Remove from saved',
                             onPressed: () {
                               provider.toggleBookmark(scheme.id);
                             },

@@ -40,6 +40,7 @@ class EligibilityResultsScreen extends StatelessWidget {
               size: 20,
               color: Color(0xFF2563EB),
             ),
+            tooltip: 'Share results',
             onPressed: () async {
               final shareText =
                   'My Scheme Eligibility Results:\n${eligibleMatches.map((e) => '• ${e.key.name} (${(e.value.score * 100).toInt()}% Match)').take(5).join('\n')}';

@@ -236,6 +236,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                   elevation: 0,
                   scrolledUnderElevation: 0,
                   leading: IconButton(
+                    tooltip: 'Back',
                     icon: const Icon(
                       Icons.arrow_back,
                       color: Color(0xFF0F172A),
@@ -253,6 +254,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                   ),
                   actions: [
                     IconButton(
+                      tooltip: 'Share scheme details',
                       icon: const Icon(
                         Icons.share_outlined,
                         color: Color(0xFF0F172A),

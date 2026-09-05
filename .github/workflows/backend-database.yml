@@ -34,6 +34,11 @@ jobs:
           cache-dependency-path: backend/package-lock.json
       - run: npm ci
         working-directory: backend
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: '2.9.6'
+      - run: npm run functions:test
+        working-directory: backend
       - run: npx supabase start --exclude analytics
         working-directory: backend
       - run: npm run db:reset
