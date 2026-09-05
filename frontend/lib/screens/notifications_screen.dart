@@ -673,7 +673,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     final id = item['id'] as String;
     final isSelected = _selectedIds.contains(id);
     final isRead = item['read'] as bool;
-    final completion = item['progress'] ?? 70;
+    final completion = provider.profileCompletionPercentage;
 
     return Card(
       elevation: 0,

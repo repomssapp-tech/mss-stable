@@ -1403,27 +1403,39 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   int get profileCompletionPercentage {
     final List<bool> checks = [];
 
-    // Personal Info
+    // Personal Info (6)
     checks.add(_profile.name.trim().isNotEmpty);
     checks.add(_profile.mobile.trim().isNotEmpty);
+    checks.add(_profile.email.trim().isNotEmpty);
     checks.add(_profile.dob != null);
     checks.add(_profile.gender.trim().isNotEmpty);
+    final hasPhoto = effectiveProfilePhoto.isNotEmpty || _profile.profilePhoto.trim().isNotEmpty;
+    checks.add(hasPhoto);
 
-    // Address Info
+    // Address Info (6)
     checks.add(_profile.house.trim().isNotEmpty);
-    checks.add(_profile.street.trim().isNotEmpty);
     checks.add(_profile.area.trim().isNotEmpty);
-    checks.add(_profile.state.trim().isNotEmpty);
-    checks.add(_profile.district.trim().isNotEmpty);
     checks.add(_profile.city.trim().isNotEmpty);
+    checks.add(_profile.district.trim().isNotEmpty);
+    checks.add(_profile.state.trim().isNotEmpty);
     checks.add(_profile.pinCode.trim().isNotEmpty);
 
-    // Social
-    checks.add(_profile.community.trim().isNotEmpty);
-
-    // Education & Employment
-    checks.add(_profile.qualification.trim().isNotEmpty);
+    // Role / Employment (1)
     checks.add(_profile.employmentStatus.trim().isNotEmpty);
+
+    // Eligibility & Social (Step 4) (4)
+    checks.add(_profile.qualification.trim().isNotEmpty || _profile.educationLevel.trim().isNotEmpty);
+    checks.add(_profile.community.trim().isNotEmpty);
+    checks.add(_profile.disability == 'Yes' || _profile.disability == 'No');
+    
+    // Eligibility Booleans (Income, Veteran, First Gen)
+    // Counted as filled if they completed Step 4
+    final completedStep4 = _profile.qualification.trim().isNotEmpty || _profile.educationLevel.trim().isNotEmpty;
+    checks.add(completedStep4);
+
+    // Preferences (2)
+    checks.add(_profile.language.trim().isNotEmpty);
+    checks.add(_profile.navigationMode.trim().isNotEmpty);
 
     // Business (conditional)
     if (_profile.existingBusiness) {
@@ -1434,19 +1446,24 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     final total = checks.length;
     final filled = checks.where((c) => c).length;
 
-    return ((filled / total) * 100).round();
+    return total == 0 ? 0 : ((filled / total) * 100).round();
   }
 
   List<String> get missingProfileSections {
     final missing = <String>[];
-    if (_profile.name.trim().isEmpty) missing.add('Name');
-    if (_profile.mobile.trim().isEmpty) missing.add('Phone');
-    if (_profile.dob == null) missing.add('Date of Birth');
-    if (_profile.gender.trim().isEmpty) missing.add('Gender');
+    
+    // Check Basic Details
+    if (_profile.name.trim().isEmpty ||
+        _profile.mobile.trim().isEmpty ||
+        _profile.email.trim().isEmpty ||
+        _profile.dob == null ||
+        _profile.gender.trim().isEmpty ||
+        (effectiveProfilePhoto.isEmpty && _profile.profilePhoto.trim().isEmpty)) {
+      missing.add('Basic Details');
+    }
 
     // Address
     if (_profile.house.trim().isEmpty ||
-        _profile.street.trim().isEmpty ||
         _profile.area.trim().isEmpty ||
         _profile.state.trim().isEmpty ||
         _profile.district.trim().isEmpty ||
@@ -1455,9 +1472,14 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       missing.add('Address Details');
     }
 
-    if (_profile.community.trim().isEmpty) missing.add('Community');
-    if (_profile.qualification.trim().isEmpty) missing.add('Qualification');
     if (_profile.employmentStatus.trim().isEmpty) missing.add('Employment');
+
+    // Eligibility
+    if ((_profile.qualification.trim().isEmpty && _profile.educationLevel.trim().isEmpty) ||
+        _profile.community.trim().isEmpty ||
+        (_profile.disability != 'Yes' && _profile.disability != 'No')) {
+      missing.add('Eligibility');
+    }
 
     if (_profile.existingBusiness) {
       if (_profile.businessStage.trim().isEmpty ||
