@@ -3,37 +3,37 @@
 from __future__ import annotations
 
 import json
-import re
-import unicodedata
 from pathlib import Path
 from typing import Any
+
+from hybrid_search import HybridSearchEngine, SchemeEntry
+from search_taxonomy import SchemeSearchTaxonomy
 
 DEFAULT_CATALOG_PATH = (
     Path(__file__).resolve().parents[1] / "data" / "scheme_catalog.json"
 )
-
-
-def _normalize(value: str) -> str:
-    value = unicodedata.normalize("NFKC", value).casefold()
-    return " ".join(re.findall(r"[^\W_]+", value, flags=re.UNICODE))
-
-
-def _string_values(value: Any):
-    if isinstance(value, str):
-        if value.strip():
-            yield value
-    elif isinstance(value, dict):
-        for child in value.values():
-            yield from _string_values(child)
-    elif isinstance(value, list):
-        for child in value:
-            yield from _string_values(child)
+DEFAULT_SEARCH_INDEX_PATH = (
+    Path(__file__).resolve().parents[1] / "data" / "search_index.json"
+)
 
 
 class SchemeCatalog:
-    """Load a catalog once and return small, source-grounded search results."""
+    """Load a catalog once and return small, source-grounded search results.
 
-    def __init__(self, path: Path | str = DEFAULT_CATALOG_PATH) -> None:
+    1.3 (audit_fix.md): search() ranks via HybridSearchEngine -- the same
+    taxonomy-based, IDF-weighted algorithm as search_engine.ts and
+    hybrid_scheme_search.dart -- instead of the previous ad hoc bucket
+    scoring. Voice results changed substantially for every query as a
+    result; that is the intended effect of unifying the three engines, not
+    a regression (see tests/test_hybrid_search_parity.py).
+    """
+
+    def __init__(
+        self,
+        path: Path | str = DEFAULT_CATALOG_PATH,
+        search_index_path: Path | str = DEFAULT_SEARCH_INDEX_PATH,
+        taxonomy: SchemeSearchTaxonomy | None = None,
+    ) -> None:
         self.path = Path(path)
         payload = json.loads(self.path.read_text(encoding="utf-8"))
         records = payload.get("data")
@@ -41,7 +41,31 @@ class SchemeCatalog:
             raise ValueError("Scheme catalog must contain a top-level data array")
 
         self._records = [record for record in records if self._is_available(record)]
-        self._search_rows = [self._build_search_row(record) for record in self._records]
+        self._records_by_id = {
+            str(record.get("identity", {}).get("id", "")): record
+            for record in self._records
+        }
+
+        search_index_payload = json.loads(
+            Path(search_index_path).read_text(encoding="utf-8")
+        )
+        search_profile_by_id: dict[str, dict[str, Any]] = {
+            row["entityId"]: row
+            for row in search_index_payload.get("data", [])
+            if row.get("entityId")
+        }
+
+        entries = [
+            SchemeEntry(
+                id=record_id,
+                status=record.get("identity", {}).get("status", "unknown"),
+                name_en=record.get("identity", {}).get("name", ""),
+                raw=record,
+                search_profile=search_profile_by_id.get(record_id, {}),
+            )
+            for record_id, record in self._records_by_id.items()
+        ]
+        self._engine = HybridSearchEngine(entries, taxonomy or SchemeSearchTaxonomy())
 
     @property
     def count(self) -> int:
@@ -55,70 +79,12 @@ class SchemeCatalog:
             "published",
         }
 
-    @staticmethod
-    def _build_search_row(record: dict[str, Any]) -> dict[str, Any]:
-        identity = record.get("identity", {})
-        searchable_sections = {
-            "identity": identity,
-            "localization": record.get("localization", {}),
-            "search": record.get("search", {}),
-            "classification": record.get("content", {}).get("classification", {}),
-            "overview": record.get("content", {}).get("overview", {}),
-            "targetBeneficiaries": record.get("content", {}).get(
-                "targetBeneficiaries", {}
-            ),
-            "eligibility": record.get("content", {}).get("eligibility", {}),
-            "benefits": record.get("content", {}).get("benefits", {}),
-        }
-        names = [identity.get("name", ""), identity.get("code", "")]
-        names.extend(
-            localized.get("name", "")
-            for localized in record.get("localization", {}).values()
-            if isinstance(localized, dict)
-        )
-        return {
-            "record": record,
-            "names": [_normalize(name) for name in names if name],
-            "text": _normalize(" ".join(_string_values(searchable_sections))),
-        }
-
     def search(self, query: str, *, limit: int = 3) -> list[dict[str, Any]]:
-        normalized_query = _normalize(query)
-        if not normalized_query:
+        if not query.strip():
             return []
-
         limit = max(1, min(limit, 5))
-        tokens = normalized_query.split()
-        ranked: list[tuple[int, str, dict[str, Any]]] = []
-
-        for row in self._search_rows:
-            record = row["record"]
-            identity = record.get("identity", {})
-            code = _normalize(str(identity.get("code", "")))
-            score = 0
-
-            if normalized_query == code:
-                score += 1_000
-            if normalized_query in row["names"]:
-                score += 800
-            elif any(normalized_query in name for name in row["names"]):
-                score += 300
-            if normalized_query in row["text"]:
-                score += 120
-
-            for token in tokens:
-                if any(token in name for name in row["names"]):
-                    score += 40
-                if token in row["text"]:
-                    score += 8
-
-            if record.get("verification", {}).get("isVerified"):
-                score += 5
-            if score > 5:
-                ranked.append((score, str(identity.get("id", "")), record))
-
-        ranked.sort(key=lambda item: (-item[0], item[1]))
-        return [self._compact(record) for _, _, record in ranked[:limit]]
+        results = self._engine.search(query, top_n=limit)
+        return [self._compact(self._records_by_id[r.scheme_id]) for r in results]
 
     @staticmethod
     def _compact(record: dict[str, Any]) -> dict[str, Any]:
