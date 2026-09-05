@@ -1,6 +1,20 @@
 -- MSS_App table archival -- Phase 3 cleanup (audit_fix.md)
 -- All targets verified at 0 rows and 0 code references at execution time.
 -- Rename is reversible: ALTER TABLE public._deprecated_x RENAME TO x;
+--
+-- CORRECTION (see 20260905111658_restore_load_bearing_rbac_tables.sql):
+-- organization_memberships, user_roles, regions and user_regions were
+-- archived here based on a grep sweep that covered app code but not SQL
+-- function bodies defined in earlier migrations. They are referenced by
+-- fully-qualified name inside private.has_role(), private.has_region()
+-- and private.belongs_to_organization() (all SECURITY DEFINER, search_path
+-- = ''), so archiving them broke those functions. A later migration
+-- restored all four. This file is left as originally applied (never
+-- rewrite history a production migration already ran) with those four
+-- ALTER TABLE lines removed so a *fresh* install does not reintroduce the
+-- same bug -- only beneficiary_categories, confirmed safe (referenced
+-- solely as a string literal in a coverage-check list, never queried),
+-- stays archived from this original scaffold group.
 
 BEGIN;
 
@@ -8,11 +22,9 @@ BEGIN;
 ALTER TABLE public.question_options        RENAME TO _deprecated_question_options;
 ALTER TABLE public.user_responses          RENAME TO _deprecated_user_responses;
 
--- Multi-tenant admin scaffold (never shipped)
-ALTER TABLE public.organization_memberships RENAME TO _deprecated_organization_memberships;
-ALTER TABLE public.user_roles              RENAME TO _deprecated_user_roles;
-ALTER TABLE public.regions                 RENAME TO _deprecated_regions;
-ALTER TABLE public.user_regions            RENAME TO _deprecated_user_regions;
+-- Multi-tenant admin scaffold (never shipped) -- beneficiary_categories only;
+-- organization_memberships/user_roles/regions/user_regions are load-bearing,
+-- see the correction note above.
 ALTER TABLE public.beneficiary_categories  RENAME TO _deprecated_beneficiary_categories;
 
 -- Superseded by public.chat_logs / voice_chat_sessions (live)
