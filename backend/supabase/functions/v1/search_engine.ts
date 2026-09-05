@@ -10,6 +10,8 @@
 // are otherwise identical to what the Dart port reads from
 // MssCatalogBundle.schemes / .searchProfiles.
 
+import taxonomyData from "../_shared/search_taxonomy.json" with { type: "json" };
+
 export interface QueryTags {
   industries: string[];
   benefits: string[];
@@ -19,71 +21,31 @@ export interface QueryTags {
   intents: string[];
 }
 
-const SHORT_TOKEN_VOCAB = new Set(["sc", "st", "tn"]);
+// 1.2 (audit_fix.md): every value below is loaded from
+// _shared/search_taxonomy.json -- the single source of truth also read by
+// hybrid_scheme_search.dart (Dart) and scheme_catalog.py (Python), instead
+// of being declared independently in each language. Do not hand-edit these
+// values here; edit backend/catalog/search_taxonomy.json (the canonical
+// copy) and re-sync all three engines' local copies plus their parity
+// tests.
+const SHORT_TOKEN_VOCAB = new Set(taxonomyData.shortTokenVocab);
 
 function isSearchableToken(token: string): boolean {
   const t = token.toLowerCase();
   return t.length >= 3 || SHORT_TOKEN_VOCAB.has(t);
 }
 
-const TAXONOMY = {
-  industries: {
-    textile: ["textile", "cloth", "garment", "weaving", "power loom", "handloom", "apparel", "fabric", "yarn", "spinning"],
-    auto: ["auto", "automobile", "automotive", "vehicle", "auto component", "auto parts"],
-    leather: ["leather", "tannery", "footwear", "tanning"],
-    printing: ["printing", "press", "publication", "packaging print"],
-    manufacturing: ["manufacturing", "manufacture", "factory", "production", "plant and machinery"],
-    service: ["service", "services sector", "service enterprise"],
-    food_processing: ["food processing", "food product", "food products", "agro processing", "agro-based", "agro based", "food industry", "food safety"],
-  },
-  benefits: {
-    loan: ["loan", "business loan", "msme loan", "term loan", "capital loan", "working capital", "credit", "borrow", "financing", "finance", "funding"],
-    subsidy: ["subsidy", "subsidies", "subsidised", "subsidized"],
-    grant: ["grant", "grant-in-aid"],
-    guarantee: ["guarantee"],
-    training: ["training", "skill development", "capacity building", "workshop"],
-    export_support: ["export", "export incentive", "export assistance", "duty exemption"],
-  },
-  collateral: {
-    collateral_free: ["collateral free", "collateral-free", "without collateral", "no collateral", "security free", "security-free", "no security required"],
-    guarantee_backed: ["credit guarantee", "guarantee backed", "guarantee-backed", "backed by guarantee", "cgtmse", "cgss", "credit guarantee fund"],
-  },
-  treds: {
-    treds_platform: ["treds", "trade receivables discounting system", "rxil", "m1xchange", "m1 xchange", "invoicemart", "invoice mart", "receivables exchange of india"],
-    invoice_discounting: ["invoice discounting", "invoice financing", "bill discounting"],
-    receivables_financing: ["receivables financing", "receivable financing", "msme receivables"],
-  },
-  communities: {
-    women: ["women", "woman", "female", "mahila"],
-    sc: ["sc entrepreneur", "scheduled caste", " sc "],
-    st: ["st entrepreneur", "scheduled tribe", " st "],
-    differently_abled: ["differently abled", "disability", "disabled", "pwd"],
-    transgender: ["transgender"],
-    minority: ["minority"],
-    ex_servicemen: ["ex-servicemen", "ex servicemen", "veteran"],
-  },
-  intents: {
-    LOAN_REQUEST: ["loan", "borrow", "credit", "money to start", "money for", "funding", "finance my"],
-    SUBSIDY_REQUEST: ["subsidy", "subsidised", "subsidized"],
-    GRANT_REQUEST: ["grant"],
-    TRAINING_REQUEST: ["training", "skill development", "workshop", "capacity building"],
-    REGISTRATION_REQUEST: ["register", "registration", "udyam", "how to register"],
-    EXPORT_REQUEST: ["export", "iec", "dgft"],
-    TAX_REQUEST: ["gst", "tax", "income tax", "exemption"],
-    WOMEN_SUPPORT: ["women", "female", "mahila", "woman entrepreneur"],
-    STARTUP_SUPPORT: ["startup", "start up", "new business", "start a business", "start my"],
-    CLUSTER_SUPPORT: ["cluster", "common facility centre", "common facility center"],
-  },
-} as const;
+const TAXONOMY = taxonomyData.taxonomy as {
+  industries: Record<string, readonly string[]>;
+  benefits: Record<string, readonly string[]>;
+  collateral: Record<string, readonly string[]>;
+  treds: Record<string, readonly string[]>;
+  communities: Record<string, readonly string[]>;
+  intents: Record<string, readonly string[]>;
+};
 
 // Partial (not full) credit across related-but-distinct concepts.
-const RELATED_CONCEPTS: Record<string, string[]> = {
-  treds_platform: ["invoice_discounting", "receivables_financing"],
-  invoice_discounting: ["treds_platform", "receivables_financing"],
-  receivables_financing: ["treds_platform", "invoice_discounting"],
-  collateral_free: [],
-  guarantee_backed: [],
-};
+const RELATED_CONCEPTS: Record<string, string[]> = taxonomyData.relatedConcepts;
 
 function findTags(textLower: string, table: Record<string, readonly string[]>): string[] {
   const hits: string[] = [];
@@ -123,7 +85,7 @@ interface Concept {
   idf: number;
 }
 
-const TOKEN_RE = /[A-Za-z][A-Za-z0-9&-]{1,}|[஀-௿]{2,}/g;
+const TOKEN_RE = new RegExp(taxonomyData.tokenRegexSource, "g");
 
 function stripEdges(s: string, chars: string): string {
   let start = 0;
@@ -133,10 +95,10 @@ function stripEdges(s: string, chars: string): string {
   return s.slice(start, end);
 }
 
-const STATUS_FACTOR: Record<string, number> = { active: 1.0, unknown: 1.0, closed: 0.72 };
-const STATUS_TO_CONCEPT: Record<string, string> = { not_required: "collateral_free", guarantee_covered: "guarantee_backed" };
-const WEIGHTS = { keyword: 1.0, semantic: 0.6, category: 0.8, eligibility: 0.5, benefit: 0.9 };
-const SEMANTIC_QUERY_GROUPS: (keyof QueryTags)[] = ["industries", "benefits", "communities", "collateral", "treds"];
+const STATUS_FACTOR: Record<string, number> = taxonomyData.statusFactor;
+const STATUS_TO_CONCEPT: Record<string, string> = taxonomyData.statusToConcept;
+const WEIGHTS = taxonomyData.weights;
+const SEMANTIC_QUERY_GROUPS = taxonomyData.semanticQueryGroups as (keyof QueryTags)[];
 
 export interface SchemeEntry {
   id: string;
@@ -163,45 +125,15 @@ export interface ScoredResult {
 }
 
 // ── Query Expansion Dictionary ──────────────────────────────────────────
-// Mirrors frontend/assets/search/query_expansion.json field-for-field.
-// All expansion target tokens have been verified against the catalog vocab.
-const QUERY_EXPANSIONS: Record<string, string[]> = {
-  // Scheme acronyms
-  pmegp: ["prime", "minister", "employment", "generation", "programme"],
-  mudra: ["pradhan", "mantri", "mudra", "yojana"],
-  pmmy: ["mudra", "pradhan", "mantri", "yojana"],
-  cgtmse: ["credit", "guarantee", "fund", "micro"],
-  needs: ["entrepreneur", "enterprise", "development"],
-  tread: ["trade", "entrepreneurship", "assistance", "development", "women"],
-  wep: ["women", "entrepreneurship", "platform"],
-  uyegp: ["unemployed", "youth", "employment", "generation", "programme"],
-  tanseed: ["startup", "seed", "fund", "grant"],
-  clcss: ["credit", "linked", "capital", "subsidy"],
-  pmfme: ["food", "processing", "enterprises", "micro"],
-  pmkvy: ["kaushal", "vikas", "skill", "training"],
-  // Institutional abbreviations
-  momsme: ["msme", "ministry", "enterprises"],
-  kvic: ["khadi", "village", "industries"],
-  sidbi: ["small", "industries", "development", "bank"],
-  dpiit: ["industry", "trade", "promotion"],
-  tansim: ["startup", "tamil", "nadu", "innovation"],
-  // Tamil transliterations (Tanglish)
-  kadan: ["loan", "credit", "கடன்"],
-  udavi: ["subsidy", "grant", "assistance", "உதவி"],
-  thozhil: ["business", "enterprise", "industry", "employment", "தொழில்"],
-  magalir: ["women", "மகளிர்"],
-  maniyam: ["subsidy", "மானியம்"],
-  thittam: ["scheme", "programme", "திட்டம்"],
-  vivasayi: ["agriculture", "agricultural", "farm"],
-  velai: ["employment", "skill", "training"],
-  // Multi-word phrases
-  "stand up india": ["stand-up", "women", "enterprise"],
-  "street vendor": ["svanidhi", "street", "vendor", "vendors"],
-  "tea stall": ["svanidhi", "vendor", "micro", "street"],
-  "student startup": ["student", "innovation", "youth", "startup"],
-  handicraft: ["craftspeople", "artisans"],
-  handloom: ["artisans"],
-};
+// 1.2 (audit_fix.md): this used to be a hand-maintained literal that had
+// silently drifted from frontend/assets/search/query_expansion.json --
+// missing "tax" and "exemption" entries the Dart engine already had, so the
+// server ranked tax/exemption queries measurably worse than the offline
+// engine with no error, no test failure, nothing. Loaded from the shared
+// taxonomy JSON now so the two can never independently drift again;
+// hybrid_scheme_search.dart continues to load query_expansion.json
+// directly, and a parity test asserts the two stay identical.
+const QUERY_EXPANSIONS: Record<string, string[]> = taxonomyData.queryExpansions;
 
 // Pre-split into phrase keys (multi-word) and token keys (single-word)
 // at module load time for efficient lookup in queryConcepts().

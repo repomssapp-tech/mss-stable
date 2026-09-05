@@ -279,7 +279,7 @@ class SchemeRepository {
     String langCode = 'en',
   }) async {
     final bundle = await _loadBundle();
-    return HybridSchemeSearch.rank(
+    return await HybridSchemeSearch.rank(
       query,
       bundle,
       limit: limit,
@@ -296,7 +296,7 @@ class SchemeRepository {
   Future<List<Scheme>> _rankByQuery(List<Scheme> matches, String label) async {
     if (matches.length <= 1) return matches;
     final bundle = await _loadBundle();
-    final scores = HybridSchemeSearch.build(bundle).scoreByQuery(label);
+    final scores = (await HybridSchemeSearch.build(bundle)).scoreByQuery(label);
     final ranked = List<Scheme>.from(matches);
     ranked.sort((a, b) {
       final scoreCmp = (scores[b.id] ?? 0).compareTo(scores[a.id] ?? 0);
