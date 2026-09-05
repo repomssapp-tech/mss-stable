@@ -7,13 +7,11 @@
 // step -- an unbounded-cost, zero-value code path. v1's POST /v1/search is
 // the live, rate-limited replacement (see functions/v1/index.ts).
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-}
+import { buildCorsHeaders } from "../_shared/cors.ts"
 
 const handler = (req: Request): Response => {
+  const corsHeaders = buildCorsHeaders(req)
+
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }

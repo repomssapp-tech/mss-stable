@@ -53,6 +53,8 @@ Deno.test("recommend - OPTIONS preflight still succeeds with CORS headers", asyn
   );
 
   assertEquals(res.status, 200);
-  assertEquals(res.headers.get("Access-Control-Allow-Origin"), "*");
+  // 3.1: no Origin header on the request (the Flutter app never sends one)
+  // -> no Access-Control-Allow-Origin in the response. Not a wildcard.
+  assertEquals(res.headers.get("Access-Control-Allow-Origin"), null);
   await res.body?.cancel();
 });

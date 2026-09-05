@@ -1,6 +1,10 @@
 // MSS API gateway -- implements the /v1/* contract. Kept for schema/finance/
 // catalog lookups; scheme search and discovery are served on-device by
-// SchemeRepository, which has no network caller for this surface.
+// SchemeRepository today, which has no network caller for this surface.
+// POST /v1/search has no caller yet either, but is deliberately kept live
+// (rather than retired behind the search/index.ts 410 pattern) as the
+// planned future search path for the Saarthi voice agent (audit_fix.md
+// 7.2/1.3) once its ranker is ported instead of embedding a fourth copy.
 // GET /v1/meta, GET /v1/health, POST /v1/search,
 // GET /v1/schemes/{id}, GET /v1/schemes/{id}/finance,
 // GET /v1/finance-products[/{id}], GET /v1/clusters[/{id}],
@@ -39,10 +43,7 @@ import {
   ProfileDimension,
 } from "./api_mappers.ts"
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-}
+import { buildCorsHeaders } from "../_shared/cors.ts"
 
 function safeEqual(a: string, b: string): boolean {
   const encoder = new TextEncoder()
@@ -186,7 +187,11 @@ async function isRateLimited(
   }
 }
 
-function tooManyRequests(retryAfterSeconds: number, message: string): Response {
+function tooManyRequests(
+  corsHeaders: Record<string, string>,
+  retryAfterSeconds: number,
+  message: string,
+): Response {
   return new Response(
     JSON.stringify({ error: 'TOO_MANY_REQUESTS', message }),
     {
@@ -230,6 +235,8 @@ async function getSearchEngine(
 }
 
 serve(async (req) => {
+  const corsHeaders = buildCorsHeaders(req)
+
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }
@@ -255,6 +262,7 @@ serve(async (req) => {
     await isRateLimited(rateLimitClient, RATE_LIMITS.globalPerMinute, clientIp, false)
   ) {
     return tooManyRequests(
+      corsHeaders,
       10,
       'Rate limit exceeded for Free Tier quota protection. Please wait before retrying.',
     )
@@ -359,13 +367,13 @@ serve(async (req) => {
     // essentially all of the egress cost. All three of its limits fail
     // CLOSED: if we cannot account for a search, we do not serve it.
     if (await isRateLimited(rateLimitClient, RATE_LIMITS.searchPerMinute, clientIp, true)) {
-      return tooManyRequests(5, 'Rate limit exceeded. Please wait a moment before searching again.')
+      return tooManyRequests(corsHeaders, 5, 'Rate limit exceeded. Please wait a moment before searching again.')
     }
     if (await isRateLimited(rateLimitClient, RATE_LIMITS.searchPerDay, clientIp, true)) {
-      return tooManyRequests(3600, 'Daily search limit reached for this device. Please try again tomorrow.')
+      return tooManyRequests(corsHeaders, 3600, 'Daily search limit reached for this device. Please try again tomorrow.')
     }
     if (await isRateLimited(rateLimitClient, RATE_LIMITS.searchGlobalPerDay, '__project__', true)) {
-      return tooManyRequests(3600, 'Search is temporarily unavailable while daily capacity resets.')
+      return tooManyRequests(corsHeaders, 3600, 'Search is temporarily unavailable while daily capacity resets.')
     }
 
     try {
