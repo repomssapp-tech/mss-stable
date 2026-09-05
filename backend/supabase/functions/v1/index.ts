@@ -1,5 +1,7 @@
-// MSS API gateway -- implements the /v1/* contract the Flutter client
-// (MssApiClient) calls: GET /v1/meta, GET /v1/health, POST /v1/search,
+// MSS API gateway -- implements the /v1/* contract. Kept for schema/finance/
+// catalog lookups; scheme search and discovery are served on-device by
+// SchemeRepository, which has no network caller for this surface.
+// GET /v1/meta, GET /v1/health, POST /v1/search,
 // GET /v1/schemes/{id}, GET /v1/schemes/{id}/finance,
 // GET /v1/finance-products[/{id}], GET /v1/clusters[/{id}],
 // GET /v1/tax[/{id}], GET /v1/privileges[/{id}],
