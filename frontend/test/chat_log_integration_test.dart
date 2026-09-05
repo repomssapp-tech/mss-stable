@@ -18,7 +18,7 @@ void main() {
   HttpOverrides.global = _RealNetworkHttpOverrides();
 
   const supabaseUrl = 'https://houpzsxmwemoztpuigmo.supabase.co';
-  const supabaseKey = 'sb_publishable_SwlgaGsCt5N-97WwEq7tQw_aNT25VUI';
+  const supabaseKey = 'sb_publishable_GnJpz6ZxuGeeroG92VkbBA_b3_pyTvN';
 
   // Skipped since 20260906: voice_chat_sessions no longer accepts anonymous
   // writes. INSERT is granted to `authenticated` only and the RLS policy

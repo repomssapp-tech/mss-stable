@@ -72,7 +72,7 @@ All endpoints were tested live against `https://houpzsxmwemoztpuigmo.supabase.co
   ```dart
   await Supabase.initialize(
     url: 'https://houpzsxmwemoztpuigmo.supabase.co',
-    publishableKey: 'sb_publishable_SwlgaGsCt5N-97WwEq7tQw_aNT25VUI',
+    publishableKey: 'sb_publishable_REDACTED', // see audit_fix.md 3.3
   );
   ```
 - **Tables Queried:**
