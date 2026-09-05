@@ -513,8 +513,7 @@ class ProfileScreen extends StatelessWidget {
                                                     ),
                                           );
                                         }
-                                        if (photo.isNotEmpty &&
-                                            File(photo).existsSync()) {
+                                        if (photo.isNotEmpty) {
                                           return Image.file(
                                             File(photo),
                                             width: 76,
