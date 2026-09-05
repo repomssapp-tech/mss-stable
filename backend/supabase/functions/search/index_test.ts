@@ -44,6 +44,20 @@ Deno.test("search - OPTIONS preflight still succeeds with CORS headers", async (
   );
 
   assertEquals(res.status, 200);
-  assertEquals(res.headers.get("Access-Control-Allow-Origin"), "*");
+  // 3.1: no Origin header on the request (the Flutter app never sends one)
+  // -> no Access-Control-Allow-Origin in the response. Not a wildcard.
+  assertEquals(res.headers.get("Access-Control-Allow-Origin"), null);
+  await res.body?.cancel();
+});
+
+Deno.test("search - reflects an allowlisted Origin", async () => {
+  const res = await handler(
+    new Request("http://localhost/search", {
+      method: "OPTIONS",
+      headers: { Origin: "http://localhost:3000" },
+    }),
+  );
+
+  assertEquals(res.headers.get("Access-Control-Allow-Origin"), "http://localhost:3000");
   await res.body?.cancel();
 });

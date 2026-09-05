@@ -85,7 +85,9 @@ Deno.test("db-change-notify answers CORS preflight without touching Supabase", a
 
   assertEquals(response.status, 200);
   assertEquals(await response.text(), "ok");
-  assertEquals(response.headers.get("Access-Control-Allow-Origin"), "*");
+  // 3.1: no Origin header on the request (the Flutter app never sends one)
+  // -> no Access-Control-Allow-Origin in the response. Not a wildcard.
+  assertEquals(response.headers.get("Access-Control-Allow-Origin"), null);
   assertEquals(spy.channelNames.length, 0);
 });
 

@@ -1,10 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.39.0";
-
-const corsHeaders: Record<string, string> = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+import { buildCorsHeaders } from "../_shared/cors.ts";
 
 export interface BroadcastChannelLike {
   subscribe(callback: (status: string) => void | Promise<void>): unknown;
@@ -29,6 +25,8 @@ export function createDbChangeNotifyHandler(options: DbChangeNotifyOptions = {})
   const subscribeTimeoutMs = options.subscribeTimeoutMs ?? 3000;
 
   return async (req: Request): Promise<Response> => {
+    const corsHeaders = buildCorsHeaders(req);
+
     if (req.method === 'OPTIONS') {
       return new Response('ok', { headers: corsHeaders });
     }

@@ -3,13 +3,7 @@ import {
   RoomAgentDispatch,
   RoomConfiguration,
 } from "npm:@livekit/protocol@1.50.4";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-};
+import { buildCorsHeaders } from "../_shared/cors.ts";
 
 type TokenIssueRequest = {
   apiKey: string;
@@ -50,12 +44,6 @@ type HandlerDependencies = {
   ) => Promise<AgentProfile>;
   issueToken: (request: TokenIssueRequest) => Promise<string>;
 };
-
-const json = (body: unknown, status: number) =>
-  new Response(JSON.stringify(body), {
-    status,
-    headers: { ...corsHeaders, "Content-Type": "application/json" },
-  });
 
 async function authenticateSupabaseUser(
   authorization: string,
@@ -189,6 +177,15 @@ export function createLiveKitTokenHandler(
   };
 
   return async (request: Request): Promise<Response> => {
+    const corsHeaders = buildCorsHeaders(request, {
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+    });
+    const json = (body: unknown, status: number) =>
+      new Response(JSON.stringify(body), {
+        status,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+
     if (request.method === "OPTIONS") {
       return new Response(null, { status: 204, headers: corsHeaders });
     }
