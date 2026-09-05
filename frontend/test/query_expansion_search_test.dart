@@ -14,7 +14,7 @@ void main() {
 
   setUpAll(() async {
     bundle = await MssCatalogBundle.load(overrideChecksumForTest: true);
-    engine = HybridSchemeSearch.build(bundle);
+    engine = await HybridSchemeSearch.build(bundle);
   });
 
   // ─── Dictionary integrity ────────────────────────────────────────────

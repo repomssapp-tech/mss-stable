@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
 import 'dart:math' as math;
+
+import 'package:flutter/services.dart' show rootBundle;
 
 import '../models/mss_entity.dart';
 import 'intelligent_scheme_search.dart' show SchemeSearchMatch;
@@ -10,131 +14,103 @@ import 'mss_scheme_adapter.dart';
 /// backend `mss_api_rc1.py` search endpoint uses). A controlled vocabulary +
 /// keyword/pattern matcher over a versioned table -- not an LLM call, so the
 /// same query always produces the same tags.
+///
+/// 1.2 (audit_fix.md): every field below is loaded once from
+/// `assets/search/search_taxonomy.json` -- the single source of truth also
+/// read by search_engine.ts (TypeScript) and scheme_catalog.py (Python),
+/// instead of being declared independently in each language. [ensureLoaded]
+/// must be awaited before any other member of this class is used (Dart
+/// cannot load JSON at `const` time, so these are runtime-initialized, not
+/// compile-time constants as before). Do not hand-edit these values here;
+/// edit `backend/catalog/search_taxonomy.json` (the canonical copy) and
+/// re-sync all three engines' local copies plus their parity tests.
 class SchemeSearchTaxonomy {
   const SchemeSearchTaxonomy._();
+
+  static const String assetPath = 'assets/search/search_taxonomy.json';
+
+  static bool _loaded = false;
 
   // Only way a <3-char token becomes searchable. Derived from the same
   // controlled sources as the Python original; do not add to this without
   // re-deriving from the catalog (see taxonomy_engine.py's own comment).
-  static const Set<String> shortTokenVocab = {'sc', 'st', 'tn'};
+  static Set<String> shortTokenVocab = const {};
+
+  static Map<String, List<String>> industries = const {};
+  static Map<String, List<String>> benefits = const {};
+  // Two DISTINCT concepts, deliberately not merged: a lender waiving
+  // security ("collateral_free") is not the same fact as a third party
+  // covering default risk ("guarantee_backed").
+  static Map<String, List<String>> collateral = const {};
+  static Map<String, List<String>> treds = const {};
+  static Map<String, List<String>> communities = const {};
+  static Map<String, List<String>> intents = const {};
+
+  // Partial (not full) credit across related-but-distinct concepts.
+  static Map<String, List<String>> relatedConcepts = const {};
+
+  static Map<String, double> weights = const {};
+
+  // Applies AFTER the weighted sum as a uniform multiplicative factor keyed
+  // only on identity.status. "closed" is discounted, never zeroed -- an
+  // explicitly relevant closed scheme still outranks an unrelated active
+  // one. "unknown" gets no penalty: absence of confirmed status is not
+  // evidence of closure.
+  static Map<String, double> statusFactor = const {};
+  static Map<String, String> statusToConcept = const {};
+  static List<String> semanticQueryGroups = const [];
+
+  // Mirrors the index builder's tokenizer regex so a query term and an
+  // index term share the same surface form.
+  static RegExp tokenRe = RegExp('');
+
+  /// Loads and caches the shared taxonomy JSON. Idempotent and safe to call
+  /// from multiple call sites (every [HybridSchemeSearch.build]); the file
+  /// is only actually read once per process.
+  static Future<void> ensureLoaded() async {
+    if (_loaded) return;
+    String jsonStr;
+    try {
+      jsonStr = await rootBundle.loadString(assetPath);
+    } catch (_) {
+      // Fallback for flutter test / missing asset bundle -- direct file read.
+      jsonStr = await File(assetPath).readAsString();
+    }
+    final data = jsonDecode(jsonStr) as Map<String, dynamic>;
+
+    shortTokenVocab = (data['shortTokenVocab'] as List).cast<String>().toSet();
+    tokenRe = RegExp(data['tokenRegexSource'] as String);
+
+    final taxonomy = data['taxonomy'] as Map<String, dynamic>;
+    industries = _stringListMap(taxonomy['industries']);
+    benefits = _stringListMap(taxonomy['benefits']);
+    collateral = _stringListMap(taxonomy['collateral']);
+    treds = _stringListMap(taxonomy['treds']);
+    communities = _stringListMap(taxonomy['communities']);
+    intents = _stringListMap(taxonomy['intents']);
+
+    relatedConcepts = _stringListMap(data['relatedConcepts']);
+    weights = (data['weights'] as Map<String, dynamic>)
+        .map((k, v) => MapEntry(k, (v as num).toDouble()));
+    statusFactor = (data['statusFactor'] as Map<String, dynamic>)
+        .map((k, v) => MapEntry(k, (v as num).toDouble()));
+    statusToConcept =
+        (data['statusToConcept'] as Map<String, dynamic>).cast<String, String>();
+    semanticQueryGroups =
+        (data['semanticQueryGroups'] as List).cast<String>();
+
+    _loaded = true;
+  }
+
+  static Map<String, List<String>> _stringListMap(dynamic raw) {
+    final map = raw as Map<String, dynamic>;
+    return map.map((k, v) => MapEntry(k, (v as List).cast<String>()));
+  }
 
   static bool isSearchableToken(String token) {
     final t = token.toLowerCase();
     return t.length >= 3 || shortTokenVocab.contains(t);
   }
-
-  static const Map<String, List<String>> industries = {
-    'textile': [
-      'textile', 'cloth', 'garment', 'weaving', 'power loom', 'handloom',
-      'apparel', 'fabric', 'yarn', 'spinning',
-    ],
-    'auto': [
-      'auto', 'automobile', 'automotive', 'vehicle', 'auto component',
-      'auto parts',
-    ],
-    'leather': ['leather', 'tannery', 'footwear', 'tanning'],
-    'printing': ['printing', 'press', 'publication', 'packaging print'],
-    'manufacturing': [
-      'manufacturing', 'manufacture', 'factory', 'production',
-      'plant and machinery',
-    ],
-    'service': ['service', 'services sector', 'service enterprise'],
-    'food_processing': [
-      'food processing', 'food product', 'food products', 'agro processing',
-      'agro-based', 'agro based', 'food industry', 'food safety',
-    ],
-  };
-
-  static const Map<String, List<String>> benefits = {
-    'loan': [
-      'loan', 'business loan', 'msme loan', 'term loan', 'capital loan',
-      'working capital', 'credit', 'borrow', 'financing', 'finance',
-      'funding',
-    ],
-    'subsidy': ['subsidy', 'subsidies', 'subsidised', 'subsidized'],
-    'grant': ['grant', 'grant-in-aid'],
-    'guarantee': ['guarantee'],
-    'training': [
-      'training', 'skill development', 'capacity building', 'workshop',
-    ],
-    'export_support': [
-      'export', 'export incentive', 'export assistance', 'duty exemption',
-    ],
-  };
-
-  // Two DISTINCT concepts, deliberately not merged: a lender waiving
-  // security ("collateral_free") is not the same fact as a third party
-  // covering default risk ("guarantee_backed").
-  static const Map<String, List<String>> collateral = {
-    'collateral_free': [
-      'collateral free', 'collateral-free', 'without collateral',
-      'no collateral', 'security free', 'security-free',
-      'no security required',
-    ],
-    'guarantee_backed': [
-      'credit guarantee', 'guarantee backed', 'guarantee-backed',
-      'backed by guarantee', 'cgtmse', 'cgss', 'credit guarantee fund',
-    ],
-  };
-
-  static const Map<String, List<String>> treds = {
-    'treds_platform': [
-      'treds', 'trade receivables discounting system', 'rxil', 'm1xchange',
-      'm1 xchange', 'invoicemart', 'invoice mart',
-      'receivables exchange of india',
-    ],
-    'invoice_discounting': [
-      'invoice discounting', 'invoice financing', 'bill discounting',
-    ],
-    'receivables_financing': [
-      'receivables financing', 'receivable financing', 'msme receivables',
-    ],
-  };
-
-  // Partial (not full) credit across related-but-distinct concepts.
-  static const Map<String, List<String>> relatedConcepts = {
-    'treds_platform': ['invoice_discounting', 'receivables_financing'],
-    'invoice_discounting': ['treds_platform', 'receivables_financing'],
-    'receivables_financing': ['treds_platform', 'invoice_discounting'],
-    'collateral_free': [],
-    'guarantee_backed': [],
-  };
-
-  static const Map<String, List<String>> communities = {
-    'women': ['women', 'woman', 'female', 'mahila'],
-    'sc': ['sc entrepreneur', 'scheduled caste', ' sc '],
-    'st': ['st entrepreneur', 'scheduled tribe', ' st '],
-    'differently_abled': [
-      'differently abled', 'disability', 'disabled', 'pwd',
-    ],
-    'transgender': ['transgender'],
-    'minority': ['minority'],
-    'ex_servicemen': ['ex-servicemen', 'ex servicemen', 'veteran'],
-  };
-
-  static const Map<String, List<String>> intents = {
-    'LOAN_REQUEST': [
-      'loan', 'borrow', 'credit', 'money to start', 'money for', 'funding',
-      'finance my',
-    ],
-    'SUBSIDY_REQUEST': ['subsidy', 'subsidised', 'subsidized'],
-    'GRANT_REQUEST': ['grant'],
-    'TRAINING_REQUEST': [
-      'training', 'skill development', 'workshop', 'capacity building',
-    ],
-    'REGISTRATION_REQUEST': [
-      'register', 'registration', 'udyam', 'how to register',
-    ],
-    'EXPORT_REQUEST': ['export', 'iec', 'dgft'],
-    'TAX_REQUEST': ['gst', 'tax', 'income tax', 'exemption'],
-    'WOMEN_SUPPORT': ['women', 'female', 'mahila', 'woman entrepreneur'],
-    'STARTUP_SUPPORT': [
-      'startup', 'start up', 'new business', 'start a business', 'start my',
-    ],
-    'CLUSTER_SUPPORT': [
-      'cluster', 'common facility centre', 'common facility center',
-    ],
-  };
 
   static List<String> _find(String textLower, Map<String, List<String>> table) {
     final hits = <String>[];
@@ -221,40 +197,6 @@ class HybridSchemeSearch {
     }
   }
 
-  static const Map<String, double> _weights = {
-    'keyword': 1.0,
-    'semantic': 0.6,
-    'category': 0.8,
-    'eligibility': 0.5,
-    'benefit': 0.9,
-  };
-
-  // Applies AFTER the weighted sum as a uniform multiplicative factor keyed
-  // only on identity.status. "closed" is discounted, never zeroed --  an
-  // explicitly relevant closed scheme still outranks an unrelated active
-  // one. "unknown" gets no penalty: absence of confirmed status is not
-  // evidence of closure.
-  static const Map<String, double> _statusFactor = {
-    'active': 1.0,
-    'unknown': 1.0,
-    'closed': 0.72,
-  };
-
-  static const Map<String, String> _statusToConcept = {
-    'not_required': 'collateral_free',
-    'guarantee_covered': 'guarantee_backed',
-  };
-
-  static const List<String> _semanticQueryGroups = [
-    'industries', 'benefits', 'communities', 'collateral', 'treds',
-  ];
-
-  // Mirrors the index builder's tokenizer regex so a query term and an
-  // index term share the same surface form.
-  static final RegExp _tokenRe = RegExp(
-    r'[A-Za-z][A-Za-z0-9&-]{1,}|[஀-௿]{2,}',
-  );
-
   final MssCatalogBundle _bundle;
   final List<MssEntity> _schemeEntries;
   final Map<String, List<String>> _expansions;
@@ -265,7 +207,8 @@ class HybridSchemeSearch {
   late int _nDocs;
   late Set<String> _vocab;
 
-  static HybridSchemeSearch build(MssCatalogBundle bundle) {
+  static Future<HybridSchemeSearch> build(MssCatalogBundle bundle) async {
+    await SchemeSearchTaxonomy.ensureLoaded();
     return HybridSchemeSearch._(bundle, bundle.schemes, bundle.queryExpansions);
   }
 
@@ -385,7 +328,7 @@ class HybridSchemeSearch {
   /// Query -> list of concepts (surface-form set + IDF). Computed once per
   /// query, not per candidate.
   List<_Concept> _queryConcepts(String query) {
-    final raw = _tokenRe
+    final raw = SchemeSearchTaxonomy.tokenRe
         .allMatches(query)
         .map((m) => _stripEdges(m.group(0)!, '-&').toLowerCase())
         .toList();
@@ -531,7 +474,7 @@ class HybridSchemeSearch {
     }
     final entryCollateralConcepts = {
       for (final s in _stringSet(profile['collateralStatus']))
-        if (_statusToConcept.containsKey(s)) _statusToConcept[s]!,
+        if (SchemeSearchTaxonomy.statusToConcept.containsKey(s)) SchemeSearchTaxonomy.statusToConcept[s]!,
     };
     if (entryCollateralConcepts
         .intersection(queryTags['collateral']!.toSet())
@@ -545,7 +488,7 @@ class HybridSchemeSearch {
     final codes = _semanticCodes[entry.id];
     if (codes == null || codes.isEmpty) return 0.0;
     final concepts = <String>{};
-    for (final group in _semanticQueryGroups) {
+    for (final group in SchemeSearchTaxonomy.semanticQueryGroups) {
       concepts.addAll(queryTags[group] ?? const []);
     }
     if (concepts.isEmpty) return 0.0;
@@ -608,7 +551,7 @@ class HybridSchemeSearch {
 
     final entryCollateral = {
       for (final s in _stringSet(profile['collateralStatus']))
-        if (_statusToConcept.containsKey(s)) _statusToConcept[s]!,
+        if (SchemeSearchTaxonomy.statusToConcept.containsKey(s)) SchemeSearchTaxonomy.statusToConcept[s]!,
     };
     final collateralHit =
         entryCollateral.intersection(queryTags['collateral']!.toSet());
@@ -619,7 +562,7 @@ class HybridSchemeSearch {
     final codes = _semanticCodes[entry.id] ?? const {};
     if (codes.isNotEmpty) {
       final semanticConcepts = <String>{};
-      for (final group in _semanticQueryGroups) {
+      for (final group in SchemeSearchTaxonomy.semanticQueryGroups) {
         semanticConcepts.addAll(queryTags[group] ?? const []);
       }
       final covered = semanticConcepts.intersection(codes);
@@ -669,12 +612,12 @@ class HybridSchemeSearch {
     final elig = _eligibilityScore(entry, queryTags);
     final ben = _benefitScore(entry, queryTags);
     final semantic = _semanticScore(entry, queryTags);
-    final raw = _weights['keyword']! * kw +
-        _weights['semantic']! * semantic +
-        _weights['category']! * cat +
-        _weights['eligibility']! * elig +
-        _weights['benefit']! * ben;
-    final statusFactor = _statusFactor[entry.status.toLowerCase()] ?? 1.0;
+    final raw = SchemeSearchTaxonomy.weights['keyword']! * kw +
+        SchemeSearchTaxonomy.weights['semantic']! * semantic +
+        SchemeSearchTaxonomy.weights['category']! * cat +
+        SchemeSearchTaxonomy.weights['eligibility']! * elig +
+        SchemeSearchTaxonomy.weights['benefit']! * ben;
+    final statusFactor = SchemeSearchTaxonomy.statusFactor[entry.status.toLowerCase()] ?? 1.0;
     final finalScore = raw * statusFactor;
     return (finalScore * 10000).round() / 10000;
   }
@@ -697,14 +640,14 @@ class HybridSchemeSearch {
   /// Ranks the offline catalog and returns [SchemeSearchMatch]es, the same
   /// shape `SchemeRepository` already expects from the offline fallback
   /// path -- see `scheme_repository.dart`'s `searchSchemeMatchesOffline`.
-  static List<SchemeSearchMatch> rank(
+  static Future<List<SchemeSearchMatch>> rank(
     String query,
     MssCatalogBundle bundle, {
     int? limit,
     String langCode = 'en',
-  }) {
+  }) async {
     if (query.trim().isEmpty) return const [];
-    final engine = build(bundle);
+    final engine = await build(bundle);
     final results = engine.search(query, topN: limit);
     return [
       for (final (entry, score, reasons) in results)

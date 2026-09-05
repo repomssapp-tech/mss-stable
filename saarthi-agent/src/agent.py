@@ -22,6 +22,7 @@ from livekit.agents import (
 )
 from livekit.plugins import ai_coustics, sarvam
 
+from catalog_sync import CatalogSyncService, SyncOutcome
 from scheme_catalog import SchemeCatalog
 
 logger = logging.getLogger("agent")
@@ -40,6 +41,31 @@ SCHEME_RESULTS_ATTRIBUTE = "in.schemes.results.v1"
 @lru_cache(maxsize=1)
 def get_scheme_catalog() -> SchemeCatalog:
     return SchemeCatalog()
+
+
+def _sync_catalog_before_startup(_proc) -> None:
+    """1.1 (audit_fix.md, structural half): runs once per worker/job
+    process, before it starts accepting jobs (see AgentServer.setup_fnc).
+    Never blocks startup on network failure -- CatalogSyncService falls
+    back to whatever is already on disk (the Docker image's bundled
+    snapshot, or a previously-synced release) on any error, and this
+    itself never raises.
+    """
+    service = CatalogSyncService(
+        supabase_url=os.environ.get("SUPABASE_URL"),
+        supabase_key=os.environ.get("SUPABASE_SECRET_KEY")
+        or os.environ.get("SUPABASE_SERVICE_ROLE_KEY"),
+    )
+    try:
+        outcome = asyncio.run(service.sync_if_needed())
+    except Exception:
+        logger.warning(
+            "catalog sync raised unexpectedly; using local catalog as-is", exc_info=True
+        )
+        return
+    if outcome == SyncOutcome.UPDATED:
+        get_scheme_catalog.cache_clear()
+    logger.info("catalog sync at startup: %s", outcome.value)
 
 
 def build_scheme_results_state(matches: list[dict]) -> dict:
@@ -160,7 +186,9 @@ class UserProfileContext:
         )
         for indicator in injection_indicators:
             if indicator in lower:
-                logger.warning("Rejected suspicious profile text field matching '%s'", indicator)
+                logger.warning(
+                    "Rejected suspicious profile text field matching '%s'", indicator
+                )
                 return None
         # Strip potential XML/HTML tags to prevent prompt delimiter escaping
         cleaned = re.sub(r"[<>]", "", cleaned)
@@ -446,6 +474,7 @@ class Assistant(Agent):
 
 
 server = AgentServer()
+server.setup_fnc = _sync_catalog_before_startup
 
 
 @server.rtc_session(agent_name="saarthi-agent")
