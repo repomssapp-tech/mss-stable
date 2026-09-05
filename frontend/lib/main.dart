@@ -312,6 +312,12 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
                   searchTabKey.currentState?.openFilterBottomSheet();
                 });
               },
+              onSearchBarTap: () {
+                provider.updateTabIndex(1);
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  searchTabKey.currentState?.focusSearchField();
+                });
+              },
             ),
       SearchScreen(key: searchTabKey),
       CategoriesScreen(

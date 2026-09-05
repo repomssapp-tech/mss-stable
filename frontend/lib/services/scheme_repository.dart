@@ -94,7 +94,16 @@ class SchemeRepository {
 
   // ── 3. getCategoryCounts() ────────────────────────────────────────────
   /// Computes dynamic category scheme counts once and caches results.
-  /// Intentionally local to avoid 8 sequential network roundtrips on UI build.
+  /// Single pass over the catalog testing all 8 fixed categories per scheme,
+  /// instead of the previous 8 independent calls into getSchemesByCategory()
+  /// -- each of which rebuilt the same per-scheme canonicalText string from
+  /// scratch, so the catalog was effectively string-scanned 8x over on every
+  /// cold Search-tab open. The per-category predicates below are copied
+  /// verbatim from _getSchemesByCategoryOffline's exact-match branches for
+  /// these 8 category names, so the counts here and the list you get from
+  /// tapping a category tile (which still goes through
+  /// _getSchemesByCategoryOffline) can never drift apart -- keep them in
+  /// sync if either changes.
   Future<Map<String, int>> getCategoryCounts(
     UserProfile profile, {
     String activeFilter = 'All',
@@ -103,8 +112,7 @@ class SchemeRepository {
       return _cachedCategoryCounts!;
     }
 
-    final Map<String, int> counts = {};
-    final categoriesToQuery = [
+    const categoriesToQuery = [
       "MSME",
       "Startup",
       "Women Entrepreneurs",
@@ -115,9 +123,84 @@ class SchemeRepository {
       "Export & Trade Promotion",
     ];
 
-    for (final cat in categoriesToQuery) {
-      final matches = await getSchemesByCategory(cat);
-      counts[cat] = matches.length;
+    final all = await getAllSchemes();
+    final Map<String, int> counts = {for (final c in categoriesToQuery) c: 0};
+
+    for (final s in all) {
+      final cat = s.category.toLowerCase();
+      final type = s.schemeType.toLowerCase();
+      final target = s.targetBeneficiary.toLowerCase();
+      final kw = s.searchKeywords.toLowerCase();
+      final sector = s.sector.toLowerCase();
+      final canonicalText =
+          '${s.name} ${s.shortName} ${s.schemeType} ${s.category} ${s.sector} ${s.searchKeywords} ${s.overview}'
+              .toLowerCase();
+
+      if (cat.contains('msme') ||
+          sector.contains('msme') ||
+          target.contains('msme') ||
+          canonicalText.contains('micro') ||
+          canonicalText.contains('udyam')) {
+        counts['MSME'] = counts['MSME']! + 1;
+      }
+      if (cat.contains('startup') ||
+          kw.contains('startup') ||
+          kw.contains('dpiit') ||
+          canonicalText.contains('incubator') ||
+          canonicalText.contains('seed fund')) {
+        counts['Startup'] = counts['Startup']! + 1;
+      }
+      if (target.contains('women') ||
+          kw.contains('women') ||
+          target.contains('female') ||
+          canonicalText.contains('mahila') ||
+          canonicalText.contains('stree')) {
+        counts['Women Entrepreneurs'] = counts['Women Entrepreneurs']! + 1;
+      }
+      if (type.contains('loan') ||
+          cat.contains('loan') ||
+          cat.contains('credit') ||
+          canonicalText.contains('loan') ||
+          canonicalText.contains('credit') ||
+          canonicalText.contains('mudra') ||
+          canonicalText.contains('cgtmse') ||
+          canonicalText.contains('working capital') ||
+          canonicalText.contains('term loan') ||
+          canonicalText.contains('svanidhi') ||
+          canonicalText.contains('standup') ||
+          canonicalText.contains('financing') ||
+          canonicalText.contains('collateral-free') ||
+          canonicalText.contains('collateral free')) {
+        counts['Business Loans & Credit'] = counts['Business Loans & Credit']! + 1;
+      }
+      if (target.contains('artisan') ||
+          target.contains('shg') ||
+          kw.contains('vishwakarma') ||
+          kw.contains('weaver') ||
+          canonicalText.contains('craftsman')) {
+        counts['SHG & Artisan'] = counts['SHG & Artisan']! + 1;
+      }
+      if (cat.contains('tech') ||
+          sector.contains('tech') ||
+          kw.contains('technology') ||
+          canonicalText.contains('digital') ||
+          canonicalText.contains('r&d')) {
+        counts['Technology'] = counts['Technology']! + 1;
+      }
+      if (sector.contains('manufactur') ||
+          cat.contains('manufactur') ||
+          kw.contains('manufacturing') ||
+          canonicalText.contains('production') ||
+          canonicalText.contains('factory')) {
+        counts['Manufacturing'] = counts['Manufacturing']! + 1;
+      }
+      if (cat.contains('export') ||
+          sector.contains('export') ||
+          kw.contains('export') ||
+          canonicalText.contains('trade promotion') ||
+          canonicalText.contains('exhibition')) {
+        counts['Export & Trade Promotion'] = counts['Export & Trade Promotion']! + 1;
+      }
     }
 
     if (activeFilter == 'All') {

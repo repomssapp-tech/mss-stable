@@ -199,11 +199,21 @@ class SearchScreenState extends State<SearchScreen> {
 
   List<Scheme> _computeEligibleSchemes(AppProvider provider, List<Scheme> all) {
     final list = all.isNotEmpty ? all : provider.allSchemes;
-    // Single source of truth for the "For Me" set: an additive score gate at
-    // RecommendationEngine.forMeThreshold, and an empty list when the profile
-    // is not populated enough to personalise. Keeps the list and the
-    // `_matchingProfileCount` badge in exact agreement.
-    return RecommendationEngine.forMeSchemes(provider.profile, list);
+    // Single source of truth for the "For Me" set: routes through the exact
+    // same computeForMeView used to build the results list (score gate
+    // INTERSECTED with provider.filters), so the `_matchingProfileCount`
+    // badge can never drift from what the list actually shows. Previously
+    // this called RecommendationEngine.forMeSchemes() directly, which
+    // applied the score gate only and ignored provider.filters entirely --
+    // whenever a facet (state/category/ministry/etc.) was active, the badge
+    // showed the full score-gated count while the real list additionally
+    // filtered by that facet, e.g. "5 schemes match your profile" opening to
+    // a list of only 2.
+    return computeForMeView(
+      master: list,
+      profile: provider.profile,
+      filters: provider.filters,
+    ).schemes;
   }
 
   bool _hasActiveProviderFilters(Map<String, dynamic> filters) {
@@ -635,6 +645,20 @@ class SearchScreenState extends State<SearchScreen> {
 
   void openFilterBottomSheet() {
     _openFilterPanel();
+  }
+
+  /// Requests focus (and, via the platform's normal focus->keyboard behavior,
+  /// opens the keyboard) on the real search TextField. Called by HomeScreen
+  /// via searchTabKey right after switching to this tab, the same
+  /// GlobalKey-based pattern already used for submitVoiceQuery/
+  /// openFilterBottomSheet -- so a single tap on the home search bar lands
+  /// the user here with the keyboard already up, instead of the previous
+  /// fake "tap once to reveal pills, tap again to navigate" two-step (which
+  /// never actually opened a keyboard, because the home search bar was a
+  /// plain Text widget, not a TextField).
+  void focusSearchField() {
+    if (!mounted) return;
+    FocusScope.of(context).requestFocus(_searchFocusNode);
   }
 
   Future<void> openVoiceAssistant() async {
@@ -1894,13 +1918,18 @@ class SearchScreenState extends State<SearchScreen> {
                 color: const Color(0xFF0F172A),
               ),
             ),
-            subtitle: Text(
-              category["count"] as String,
-              style: GoogleFonts.inter(
-                fontSize: _scaledFontSize(10),
-                color: const Color(0xFF64748B),
-              ),
-            ),
+            subtitle: _isLoadingCounts
+                ? const Padding(
+                    padding: EdgeInsets.only(top: AppSpacing.hairline),
+                    child: _SkeletonBar(width: 70, height: 10),
+                  )
+                : Text(
+                    category["count"] as String,
+                    style: GoogleFonts.inter(
+                      fontSize: _scaledFontSize(10),
+                      color: const Color(0xFF64748B),
+                    ),
+                  ),
             trailing: const Icon(
               Icons.chevron_right,
               color: Color(0xFF94A3B8),
@@ -1908,6 +1937,34 @@ class SearchScreenState extends State<SearchScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+// A small reusable static skeleton bar, for inline loading placeholders
+// (e.g. a category tile's count while getCategoryCounts() is still
+// computing) that are too small to warrant a full _ShimmerSkeletonCard.
+// Deliberately NOT animated, unlike _ShimmerSkeletonCard below: this shows
+// during the idle Browse Categories view, which is on screen by default
+// (not just during a transient results-loading state), so an indefinitely-
+// repeating animation here would leave every widget test that pumps this
+// screen unable to ever reach `pumpAndSettle()` -- there would always be a
+// pending frame. A static box still reads as "loading" via its shape/color.
+class _SkeletonBar extends StatelessWidget {
+  const _SkeletonBar({required this.width, required this.height});
+
+  final double width;
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        color: const Color(0xFFE2E8F0),
+        borderRadius: BorderRadius.circular(4),
       ),
     );
   }
