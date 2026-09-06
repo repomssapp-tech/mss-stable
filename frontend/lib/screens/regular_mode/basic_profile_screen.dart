@@ -120,14 +120,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     _selectedGender = profile.profileCompleted ? profile.gender : '';
 
     // 2. Initialize Step 2 controllers
-    final doorStreetParts = <String>[
-      if (profile.house.trim().isNotEmpty) profile.house.trim(),
-      if (profile.street.trim().isNotEmpty &&
-          profile.street.trim() != profile.house.trim())
-        profile.street.trim(),
-    ];
-    _doorStreetController =
-        TextEditingController(text: doorStreetParts.join(', '));
+    _doorStreetController = TextEditingController(text: profile.house.trim());
     _areaLocalityController = TextEditingController(text: profile.area);
     String cityDistrict = profile.district;
     if (profile.city.isNotEmpty && profile.city != profile.district) {
@@ -459,7 +452,6 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       provider.updateProfile(
         provider.profile.copyWith(
           house: doorStreet,
-          street: doorStreet,
           area: area,
           city: city,
           district: district,

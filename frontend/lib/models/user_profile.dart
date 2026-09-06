@@ -4,7 +4,6 @@ class UserProfile {
   String gender;
   String mobile;
   String email;
-  String address;
   String state;
   String district;
   String city;
@@ -22,9 +21,7 @@ class UserProfile {
   String disability;
   bool veteran;
   String house;
-  String street;
   String area;
-  String village;
   String qualification;
 
   // Business fields (stored in startup_profiles mapping)
@@ -54,7 +51,6 @@ class UserProfile {
     this.gender = '',
     this.mobile = '',
     this.email = '',
-    this.address = '',
     this.state = '',
     this.district = '',
     this.city = '',
@@ -71,9 +67,7 @@ class UserProfile {
     this.disability = 'None',
     this.veteran = false,
     this.house = '',
-    this.street = '',
     this.area = '',
-    this.village = '',
     this.qualification = '',
     this.existingBusiness = false,
     this.businessStage = '',
@@ -99,7 +93,6 @@ class UserProfile {
       'gender': gender,
       'mobile': mobile,
       'email': email,
-      'address': address,
       'state': state,
       'district': district,
       'city': city,
@@ -114,9 +107,7 @@ class UserProfile {
       'disability': disability,
       'veteran': veteran,
       'house': house,
-      'street': street,
       'area': area,
-      'village': village,
       'qualification': qualification,
       'existingBusiness': existingBusiness,
       'businessStage': businessStage,
@@ -160,11 +151,10 @@ class UserProfile {
       'disability': disability,
       'veteran': veteran,
       'house': house,
-      'street': street,
       'area': area,
-      'village': village,
       'city': city,
       'qualification': qualification,
+      'education_level': educationLevel,
       'annual_income': annualIncome,
       'community': community,
       'notifications': notificationsEnabled,
@@ -182,14 +172,16 @@ class UserProfile {
       gender: json['gender'] ?? '',
       mobile: json['mobile'] ?? json['phone'] ?? '',
       email: json['email'] ?? '',
-      address: json['address'] ?? '',
       state: json['state'] ?? '',
       district: json['district'] ?? '',
       city: json['city'] ?? '',
       pinCode: json['pinCode'] ?? json['pincode'] ?? json['pin'] ?? '',
       community: json['community'] ?? '',
       religion: json['religion'] ?? '',
-      educationLevel: json['educationLevel'] ?? '',
+      educationLevel: json['educationLevel'] ??
+          json['education_level'] ??
+          json['qualification'] ??
+          '',
       firstGenGraduate:
           json['firstGenGraduate'] ?? json['first_gen_graduate'] ?? false,
       annualIncome: (json['annualIncome'] ?? json['annual_income'] ?? 0.0)
@@ -207,9 +199,7 @@ class UserProfile {
       disability: json['disability'] ?? 'None',
       veteran: json['veteran'] ?? false,
       house: json['house'] ?? '',
-      street: json['street'] ?? '',
       area: json['area'] ?? '',
-      village: json['village'] ?? '',
       qualification: json['qualification'] ?? '',
       existingBusiness:
           json['existingBusiness'] ?? json['business_registered'] ?? false,
@@ -251,13 +241,65 @@ class UserProfile {
     );
   }
 
+  /// Merge a freshly-fetched [remote] profile onto this (locally cached) one.
+  /// [remote] wins for every field it actually carries a value for; where it
+  /// is blank/zero (a partial DB row), the local value is kept. This is what
+  /// stops a login / background sync from resetting scoring inputs the DB
+  /// round-trip happens to miss.
+  UserProfile mergeFrom(UserProfile remote) {
+    String s(String r, String l) => r.trim().isNotEmpty ? r : l;
+    return remote.copyWith(
+      name: s(remote.name, name),
+      gender: s(remote.gender, gender),
+      mobile: s(remote.mobile, mobile),
+      email: s(remote.email, email),
+      state: s(remote.state, state),
+      district: s(remote.district, district),
+      city: s(remote.city, city),
+      pinCode: s(remote.pinCode, pinCode),
+      community: s(remote.community, community),
+      religion: s(remote.religion, religion),
+      educationLevel: s(remote.educationLevel, educationLevel),
+      qualification: s(remote.qualification, qualification),
+      employmentStatus: s(remote.employmentStatus, employmentStatus),
+      disability: s(remote.disability, disability),
+      house: s(remote.house, house),
+      area: s(remote.area, area),
+      businessStage: s(remote.businessStage, businessStage),
+      businessIndustry: s(remote.businessIndustry, businessIndustry),
+      registrationNumbers: s(remote.registrationNumbers, registrationNumbers),
+      dob: remote.dob ?? dob,
+      annualIncome:
+          remote.annualIncome != 0 ? remote.annualIncome : annualIncome,
+      fundingRequired: remote.fundingRequired != 0
+          ? remote.fundingRequired
+          : fundingRequired,
+      firstGenGraduate: remote.firstGenGraduate || firstGenGraduate,
+      veteran: remote.veteran || veteran,
+      existingBusiness: remote.existingBusiness || existingBusiness,
+    );
+  }
+
+  /// True when [remote] already holds everything [mergeFrom] would have
+  /// recovered -- i.e. no local-only field needs pushing back to the DB.
+  bool matchesStored(UserProfile remote) =>
+      religion == remote.religion &&
+      educationLevel == remote.educationLevel &&
+      qualification == remote.qualification &&
+      community == remote.community &&
+      businessStage == remote.businessStage &&
+      businessIndustry == remote.businessIndustry &&
+      gender == remote.gender &&
+      state == remote.state &&
+      (dob == remote.dob) &&
+      annualIncome == remote.annualIncome;
+
   UserProfile copyWith({
     String? name,
     DateTime? dob,
     String? gender,
     String? mobile,
     String? email,
-    String? address,
     String? state,
     String? district,
     String? city,
@@ -272,9 +314,7 @@ class UserProfile {
     String? disability,
     bool? veteran,
     String? house,
-    String? street,
     String? area,
-    String? village,
     String? qualification,
     bool? existingBusiness,
     String? businessStage,
@@ -298,7 +338,6 @@ class UserProfile {
       gender: gender ?? this.gender,
       mobile: mobile ?? this.mobile,
       email: email ?? this.email,
-      address: address ?? this.address,
       state: state ?? this.state,
       updatedAt: updatedAt ?? this.updatedAt,
       district: district ?? this.district,
@@ -314,9 +353,7 @@ class UserProfile {
       disability: disability ?? this.disability,
       veteran: veteran ?? this.veteran,
       house: house ?? this.house,
-      street: street ?? this.street,
       area: area ?? this.area,
-      village: village ?? this.village,
       qualification: qualification ?? this.qualification,
       existingBusiness: existingBusiness ?? this.existingBusiness,
       businessStage: businessStage ?? this.businessStage,
