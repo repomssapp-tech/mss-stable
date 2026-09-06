@@ -17,6 +17,7 @@ import '../../widgets/smart_assessment_bottom_sheet.dart';
 import 'search_results_screen.dart';
 import 'basic_profile_screen.dart';
 import 'msme_module_details_screen.dart';
+import 'sarvam_chat_screen.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/constants.dart';
 
@@ -160,6 +161,18 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
+  Future<void> _openChatbot() async {
+    final provider = Provider.of<AppProvider>(context, listen: false);
+    await Navigator.of(context).push<void>(
+      MaterialPageRoute(
+        builder: (_) => SarvamChatScreen(
+          profile: provider.profile,
+          language: provider.selectedLanguage,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
@@ -288,13 +301,58 @@ class _HomeScreenState extends State<HomeScreen> {
                     // Tip of the Day
                     _buildTipOfTheDay(context),
 
-                    const SizedBox(height: AppSpacing.xxl),
+                    const SizedBox(height: 110),
                   ],
                 ),
               ),
             ),
           ),
+          Positioned(
+            right: AppSpacing.lg,
+            bottom: AppSpacing.lg,
+            child: _buildChatButton(provider),
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildChatButton(AppProvider provider) {
+    final isTamil = provider.selectedLanguage == 'ta';
+    return Semantics(
+      button: true,
+      label: isTamil ? 'சார்த்தி AI அரட்டை' : 'Open Saarthi AI chat',
+      child: Material(
+        color: const Color(0xFF2563EB),
+        elevation: 5,
+        shadowColor: const Color(0x552563EB),
+        borderRadius: BorderRadius.circular(28),
+        child: InkWell(
+          onTap: _openChatbot,
+          borderRadius: BorderRadius.circular(28),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 13),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.auto_awesome_rounded,
+                  color: Colors.white,
+                  size: 19,
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                Text(
+                  isTamil ? 'AI அரட்டை' : 'Ask AI',
+                  style: GoogleFonts.inter(
+                    color: Colors.white,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
