@@ -299,10 +299,12 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                 top: 24.0,
                 bottom: MediaQuery.of(context).viewInsets.bottom + 24.0,
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+              child: SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                   Row(
                     children: [
                       Container(
@@ -339,7 +341,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   Text(
-                    'Facing a problem? Fill out the details below and our team will get back to you shortly.',
+                    'Facing a problem? Fill out the details below and our team will get back to you shortly.\n\nYour report will be sent directly to mssschemessearch@gmail.com. Please enter your email below so we can reply.',
                     style: GoogleFonts.inter(
                       fontSize: 13,
                       color: const Color(0xFF64748B),
@@ -523,6 +525,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                   ),
                 ],
               ),
+              ),
             );
           },
         );
@@ -533,7 +536,15 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
   void _showFeedbackBottomSheet() {
     double rating = 5.0;
     final feedbackTextController = TextEditingController();
+    final emailController = TextEditingController();
     bool submittingFeedback = false;
+
+    if (emailController.text.trim().isEmpty) {
+      final userEmail = Supabase.instance.client.auth.currentUser?.email;
+      if (userEmail != null && userEmail.isNotEmpty) {
+        emailController.text = userEmail;
+      }
+    }
 
     showModalBottomSheet(
       context: context,
@@ -555,10 +566,12 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                 top: 24.0,
                 bottom: MediaQuery.of(context).viewInsets.bottom + 24.0,
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+              child: SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                   Row(
                     children: [
                       Container(
@@ -640,6 +653,29 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   TextFormField(
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    style: GoogleFonts.inter(
+                      color: const Color(0xFF0F172A),
+                      fontSize: 14,
+                    ),
+                    decoration: InputDecoration(
+                      labelText: context.l10n.helpContactEmailLabel,
+                      hintText: 'e.g. yourname@gmail.com for follow-up from mssschemessearch@gmail.com',
+                      labelStyle: const TextStyle(color: Color(0xFF64748B)),
+                      hintStyle: const TextStyle(color: Color(0xFF94A3B8)),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(color: Color(0xFF2563EB)),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  TextFormField(
                     controller: feedbackTextController,
                     maxLines: 3,
                     style: GoogleFonts.inter(
@@ -675,23 +711,53 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       ),
                       onPressed: submittingFeedback
                           ? null
-                          : () {
-                                    setModalState(() => submittingFeedback = true);
-                              Future.delayed(
-                                const Duration(milliseconds: 1000),
-                                () {
-                                  if (context.mounted) {
-                                      setModalState(
-                                        () => submittingFeedback = false,
-                                      );
-                                      Navigator.pop(context);
-                                      AppToast.showSuccess(
-                                        context,
-                                        'Thank you for your valuable feedback!',
-                                      );
-                                    }
-                                },
-                              );
+                          : () async {
+                              final email = emailController.text.trim();
+                              final text = feedbackTextController.text.trim();
+
+                              try {
+                                SupportTicketService.instance.validateInputs(
+                                  category: 'Feedback',
+                                  email: email,
+                                  description: text,
+                                );
+                              } on SupportTicketValidationException catch (e) {
+                                AppToast.showWarning(context, e.message);
+                                return;
+                              }
+
+                              setModalState(() => submittingFeedback = true);
+
+                              try {
+                                await SupportTicketService.instance.submitTicket(
+                                  category: 'Feedback',
+                                  email: email,
+                                  description: 'Rating: ${rating.toInt()} Stars\n\n$text',
+                                );
+
+                                if (context.mounted) {
+                                  Navigator.pop(context);
+                                  AppToast.showSuccess(
+                                    context,
+                                    'Thank you for your valuable feedback!',
+                                  );
+                                }
+                              } on SupportTicketRateLimitException catch (e) {
+                                if (context.mounted) {
+                                  AppToast.showWarning(context, e.message);
+                                }
+                              } catch (e) {
+                                if (context.mounted) {
+                                  AppToast.showError(
+                                    context,
+                                    'Failed to submit feedback. Please check your connection.',
+                                  );
+                                }
+                              } finally {
+                                if (context.mounted) {
+                                  setModalState(() => submittingFeedback = false);
+                                }
+                              }
                             },
                       child: submittingFeedback
                           ? const SizedBox(
@@ -712,6 +778,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                     ),
                   ),
                 ],
+              ),
               ),
             );
           },
@@ -990,11 +1057,11 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                           const SizedBox(height: AppSpacing.xs),
                           GestureDetector(
                             onTap: () => _copyToClipboard(
-                              'inschemes.support@gmail.com',
+                              'mssschemessearch@gmail.com',
                               'Support email copied to clipboard!',
                             ),
                             child: Text(
-                              'inschemes.support@gmail.com',
+                              'mssschemessearch@gmail.com',
                               style: GoogleFonts.inter(
                                 color: const Color(0xFF2563EB),
                                 fontSize: 12,
