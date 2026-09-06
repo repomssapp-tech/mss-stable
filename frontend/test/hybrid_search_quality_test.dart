@@ -52,6 +52,23 @@ void main() {
     'pmegp': r'PMEGP',
     'mudra loan': r'MUDRA|Mudra',
     'stand up india': r'Stand.?Up|Stand-Up',
+    // Extended intent matrix -- broad need queries must keep a genuinely
+    // on-topic scheme in the top 3 (they are lists, not lookups).
+    'startup schemes': r'[Ss]tartup',
+    'working capital': r'[Ww]orking [Cc]apital|TWARIT|[Cc]ash [Cc]redit',
+    'interest subsidy': r'[Ii]nterest|[Ss]ubvention|[Ss]ubsidy',
+    'capital subsidy': r'[Cc]apital [Ss]ubsidy|CLCSS|[Ss]ubsidy',
+    'technology upgradation': r'[Tt]echnolog|[Uu]pgrad|CLCSS',
+    'export support': r'[Ee]xport',
+    'cluster development': r'[Cc]luster',
+    'employment subsidy': r'[Ee]mployment|[Ww]age|EPF|PMEGP',
+    'equipment subsidy': r'[Ee]quipment|[Mm]achinery|SPEED|[Ss]ubsidy',
+    'credit support': r'[Cc]redit|[Ll]oan|[Gg]uarantee',
+    'manufacturing subsidy': r'[Mm]anufactur|[Ss]ubsidy|[Cc]apital',
+    'new enterprise':
+        r'[Nn]ew [ ]?[Ee]nterprise|NEEDS|[Ff]irst.?[Gg]eneration|[Ee]ntrepreneur',
+    'business expansion':
+        r'[Bb]usiness|[Ee]xpansion|[Ss]cale|[Gg]rowth|[Ww]orking [Cc]apital|[Ll]oan',
   };
 
   group('HybridSchemeSearch quality — 25 representative queries', () {

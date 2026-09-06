@@ -15,6 +15,7 @@ import 'package:frontend/models/user_profile.dart';
 import 'package:frontend/screens/regular_mode/search_screen.dart'
     show
         applyProviderFacetFilters,
+        schemeIsNationwide,
         computeForMeView,
         ForMeEmptyState;
 import 'package:frontend/services/scheme_repository.dart';
@@ -233,6 +234,21 @@ void main() {
       final out = applyProviderFacetFilters(mixed, const {'category': 'Startup'});
       expect(out.map((s) => s.id), unorderedEquals(['C', 'D']));
     });
+
+    test('a state facet keeps nationwide schemes however they are labelled', () {
+      final national = [
+        Scheme(id: 'N1', name: 'N1', state: 'Pan-India'),
+        Scheme(id: 'N2', name: 'N2', state: 'All India'),
+        Scheme(id: 'N3', name: 'N3', state: 'India'),
+        Scheme(id: 'N4', name: 'N4', state: 'Nationwide'),
+        Scheme(id: 'S1', name: 'S1', state: 'Kerala'),
+      ];
+      final out = applyProviderFacetFilters(
+        national,
+        const {'state': 'Tamil Nadu'},
+      );
+      expect(out.map((s) => s.id), unorderedEquals(['N1', 'N2', 'N3', 'N4']));
+    });
   });
 
   group('computeForMeView', () {
@@ -289,11 +305,14 @@ void main() {
       print('For Me unfiltered=${unfiltered.length}, '
           '+state=Karnataka facet=${filtered.length}');
       expect(filtered.length, lessThan(unfiltered.length));
-      // Every survivor is either All-India or Karnataka — the facet really
+      // Every survivor is either nationwide or Karnataka — the facet really
       // applied, it is not just the score gate.
       for (final s in filtered) {
-        final st = s.state.toLowerCase();
-        expect(st == 'all india' || st.contains('karnataka'), isTrue);
+        expect(
+          schemeIsNationwide(s) || s.state.toLowerCase().contains('karnataka'),
+          isTrue,
+          reason: '${s.id} has state "${s.state}"',
+        );
       }
     });
   });

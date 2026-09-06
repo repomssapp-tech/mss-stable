@@ -358,7 +358,6 @@ class _SmartAssessmentBottomSheetState
       gender: gender,
       mobile: profile.mobile,
       email: profile.email,
-      address: profile.address,
       state: state,
       district: profile.district,
       city: profile.city,

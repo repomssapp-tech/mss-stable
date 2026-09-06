@@ -166,6 +166,38 @@ class _ScoredScheme {
   final double score;
 }
 
+/// Precomputed lookup surface for one scheme: the forms a name/acronym/alias
+/// query is matched against. Built once per engine, cached. Kept entirely
+/// out of the parity-locked scoring path ([HybridSchemeSearch.search] /
+/// `_scoreEntry` / `search_taxonomy.json`).
+class _LookupEntry {
+  _LookupEntry({
+    required this.entry,
+    required this.fullForms,
+    required this.acronym,
+    required this.shortName,
+    required this.nameTokens,
+    required this.meaningfulNameCount,
+  });
+
+  final MssEntity entry;
+
+  /// Normalised whole-string forms: localised names + every alias.
+  final Set<String> fullForms;
+
+  /// Curated `identity.acronym`, normalised and space-stripped ('' if none).
+  final String acronym;
+
+  /// Curated `identity.shortName`, normalised and space-stripped ('' if none).
+  final String shortName;
+
+  /// Union of meaningful tokens across the English name and all aliases.
+  final Set<String> nameTokens;
+
+  /// Meaningful-token count of the English name alone (tier-3 denominator).
+  final int meaningfulNameCount;
+}
+
 /// Offline port of `Plan/catalog/hybrid_search.py` -- the same ranking
 /// formula the backend's `/v1/search` endpoint uses server-side:
 ///
@@ -637,9 +669,170 @@ class HybridSchemeSearch {
     };
   }
 
+  // ── Exact-entity lookup ─────────────────────────────────────────────
+  // A scheme-name / acronym / alias query is a *lookup*, not a relevance
+  // search: it must return that scheme (or nothing) -- never a spread of
+  // topically-adjacent schemes. [exactEntityMatches] runs BEFORE the scored
+  // search in [rank]. It reads identity.name / identity.acronym /
+  // identity.shortName / search.aliases -- all already in the catalog
+  // bundle -- and never touches the parity-locked scoring path.
+
+  /// How far below the top score a scored result may fall before it is
+  /// dropped as a weak/incidental match. Relative, so it adapts to how
+  /// peaked the score distribution is for a given query.
+  static const double _kRelevanceFloorRatio = 0.35;
+
+  /// Hard ceiling on how many scored results a single query returns.
+  static const int _kMaxResults = 25;
+
+  /// When a query reads like a specific scheme name (>= this many meaningful
+  /// tokens) but no exact-entity tier matched, the scored fallback must
+  /// clear [_kNameLookupMinScore] or the query is treated as "not in the
+  /// catalog" (empty result) rather than answered with common-word noise.
+  static const int _kNameLookupMinTokens = 3;
+  static const double _kNameLookupMinScore = 4.0;
+
+  /// Tokens that carry no lookup signal on their own -- ignored when
+  /// deciding whether a multi-word query "is" a particular scheme's name.
+  static const Set<String> _lookupStopwords = {
+    'scheme', 'schemes', 'yojana', 'program', 'programme', 'the', 'of',
+    'for', 'and', 'a', 'an', 'to', 'in', 'on', 'by',
+  };
+
+  List<_LookupEntry>? _lookupCache;
+
+  static String _normLookup(String s) => s
+      .toLowerCase()
+      .replaceAll(RegExp(r'[^a-z0-9]+'), ' ')
+      .trim();
+
+  List<String> _meaningfulTokens(String norm) => [
+        for (final t in norm.split(' '))
+          if (t.length >= 2 && !_lookupStopwords.contains(t)) t,
+      ];
+
+  List<_LookupEntry> _lookupEntries() {
+    return _lookupCache ??= [
+      for (final e in _schemeEntries) _buildLookupEntry(e),
+    ];
+  }
+
+  _LookupEntry _buildLookupEntry(MssEntity e) {
+    final nameEn = _normLookup(e.getLocalizedName('en'));
+    final nameTa = _normLookup(e.getLocalizedName('ta'));
+    final identity = e.identity;
+    final acronym =
+        _normLookup((identity['acronym'] ?? '').toString()).replaceAll(' ', '');
+    final shortName = _normLookup((identity['shortName'] ?? '').toString())
+        .replaceAll(' ', '');
+    final aliasRaw = (e.search['aliases'] as Map<String, dynamic>?) ?? const {};
+    final aliases = <String>{
+      for (final lang in const ['en', 'ta'])
+        ..._stringList(aliasRaw[lang]).map(_normLookup),
+    }..removeWhere((a) => a.isEmpty);
+    final fullForms = <String>{nameEn, nameTa, ...aliases}
+      ..removeWhere((a) => a.isEmpty);
+    final nameTokens = <String>{
+      ..._meaningfulTokens(nameEn),
+      for (final a in aliases) ..._meaningfulTokens(a),
+    };
+    return _LookupEntry(
+      entry: e,
+      fullForms: fullForms,
+      acronym: acronym,
+      shortName: shortName,
+      nameTokens: nameTokens,
+      meaningfulNameCount: _meaningfulTokens(nameEn).length,
+    );
+  }
+
+  /// The scheme(s) a lookup-style [rawQuery] names exactly or near-exactly,
+  /// or an empty list when the query is not a scheme lookup (a broad/intent
+  /// query). Deterministic: results sorted by entity id. Public for tests.
+  List<MssEntity> exactEntityMatches(String rawQuery) {
+    final nq = _normLookup(rawQuery);
+    if (nq.isEmpty) return const [];
+    final cq = nq.replaceAll(' ', '');
+    final qMeaning = _meaningfulTokens(nq);
+    final table = _lookupEntries();
+
+    // Tier 1 -- the query IS a whole scheme name / alias.
+    final t1 = [for (final l in table) if (l.fullForms.contains(nq)) l.entry];
+    if (t1.isNotEmpty) return _sortedById(t1);
+
+    // Tier 2 -- the query IS a curated acronym / short name.
+    if (cq.length >= 2 && cq.length <= 15) {
+      final t2 = [
+        for (final l in table)
+          if ((l.acronym.isNotEmpty && l.acronym == cq) ||
+              (l.shortName.isNotEmpty && l.shortName == cq))
+            l.entry,
+      ];
+      if (t2.isNotEmpty) return _sortedById(t2);
+    }
+
+    // Tier 3 -- a multi-word query that covers >=60% of one scheme's name
+    // and introduces no token the name lacks.
+    if (qMeaning.length >= 2) {
+      final t3 = [
+        for (final l in table)
+          if (l.meaningfulNameCount > 0 &&
+              qMeaning.every(l.nameTokens.contains) &&
+              qMeaning.length / l.meaningfulNameCount >= 0.6)
+            l.entry,
+      ];
+      if (t3.isNotEmpty) return _sortedById(t3);
+    }
+
+    return const [];
+  }
+
+  List<MssEntity> _sortedById(List<MssEntity> xs) =>
+      xs..sort((a, b) => a.id.compareTo(b.id));
+
+  /// Test/diagnostic only: the per-signal score contributions for one
+  /// scheme under [query]. Not referenced by any UI.
+  Map<String, double> debugScoreBreakdown(String query, String schemeId) {
+    final entry = _schemeEntries.firstWhere(
+      (e) => e.id == schemeId,
+      orElse: () => throw ArgumentError('unknown scheme: $schemeId'),
+    );
+    final queryTags = SchemeSearchTaxonomy.normalize(query);
+    final concepts = _queryConcepts(query);
+    final kw = _keywordScoreIdf(entry, concepts);
+    final cat = _categoryScore(entry, queryTags);
+    final elig = _eligibilityScore(entry, queryTags);
+    final ben = _benefitScore(entry, queryTags);
+    final semantic = _semanticScore(entry, queryTags);
+    final w = SchemeSearchTaxonomy.weights;
+    final raw = w['keyword']! * kw +
+        w['semantic']! * semantic +
+        w['category']! * cat +
+        w['eligibility']! * elig +
+        w['benefit']! * ben;
+    final statusFactor =
+        SchemeSearchTaxonomy.statusFactor[entry.status.toLowerCase()] ?? 1.0;
+    return {
+      'keyword': kw,
+      'semantic': semantic,
+      'category': cat,
+      'eligibility': elig,
+      'benefit': ben,
+      'statusFactor': statusFactor,
+      'raw': raw,
+      'final': (raw * statusFactor * 10000).round() / 10000,
+      'exactTier':
+          exactEntityMatches(query).any((e) => e.id == schemeId) ? 1.0 : 0.0,
+    };
+  }
+
   /// Ranks the offline catalog and returns [SchemeSearchMatch]es, the same
   /// shape `SchemeRepository` already expects from the offline fallback
   /// path -- see `scheme_repository.dart`'s `searchSchemeMatchesOffline`.
+  ///
+  /// Pipeline: exact-entity lookup first ([exactEntityMatches]); otherwise
+  /// the scored [search], with the weak tail dropped (relative floor) and
+  /// the count capped so one shared generic term cannot fill the screen.
   static Future<List<SchemeSearchMatch>> rank(
     String query,
     MssCatalogBundle bundle, {
@@ -648,14 +841,45 @@ class HybridSchemeSearch {
   }) async {
     if (query.trim().isEmpty) return const [];
     final engine = await build(bundle);
-    final results = engine.search(query, topN: limit);
-    return [
-      for (final (entry, score, reasons) in results)
+
+    SchemeSearchMatch toMatch(
+      MssEntity entry,
+      double score,
+      List<String> reasons,
+    ) =>
         SchemeSearchMatch(
           scheme: MssSchemeAdapter.toScheme(entry, bundle, langCode: langCode),
           score: score,
           reasons: reasons,
-        ),
-    ];
+        );
+
+    // 1. Exact-entity lookup -- return just the named scheme(s).
+    final exact = engine.exactEntityMatches(query);
+    if (exact.isNotEmpty) {
+      final picked = limit != null ? exact.take(limit) : exact;
+      return [
+        for (final e in picked) toMatch(e, 1.0, const ['Exact scheme match']),
+      ];
+    }
+
+    // 2. Relevance search, then drop the weak tail and cap the count.
+    final results = engine.search(query, topN: limit);
+    if (results.isEmpty) return const [];
+    final maxScore = results.first.$2;
+
+    // A multi-word proper-name query that no tier matched and that only
+    // scrapes common-word noise -> "not available", not a wrong list.
+    final meaningfulTokens =
+        engine._meaningfulTokens(_normLookup(query)).length;
+    if (meaningfulTokens >= _kNameLookupMinTokens &&
+        maxScore < _kNameLookupMinScore) {
+      return const [];
+    }
+
+    final floor = maxScore * _kRelevanceFloorRatio;
+    var kept = [for (final r in results) if (r.$2 >= floor) r];
+    if (kept.isEmpty) kept = [results.first];
+    if (kept.length > _kMaxResults) kept = kept.sublist(0, _kMaxResults);
+    return [for (final (e, s, r) in kept) toMatch(e, s, r)];
   }
 }

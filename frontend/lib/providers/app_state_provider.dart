@@ -49,14 +49,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   CatalogSyncResult? _catalogSyncResult;
   bool _catalogSyncing = false;
 
-  // Active Filters state
-  Map<String, dynamic> _filters = {
-    'state': 'Tamil Nadu',
-    'community': '',
-    'gender': '',
-    'category': '',
-    'income': '',
-  };
+  // Active scheme facet filters (see lib/models/scheme_filter.dart). Empty by
+  // default -- regular search is never silently narrowed by the profile.
+  Map<String, dynamic> _filters = {};
 
   // Temporary wizard answers during the "Find My Schemes" Assessment
   Map<String, dynamic> _wizardAnswers = {};
@@ -314,12 +309,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
                   dbProfile.gender != _profile.gender ||
                   dbProfile.employmentStatus != _profile.employmentStatus ||
                   dbProfile.profileCompleted != _profile.profileCompleted) {
-                _profile = dbProfile;
+                _profile = _profile.mergeFrom(dbProfile);
                 _selectedLanguage = dbProfile.language;
                 _navigationMode = dbProfile.navigationMode;
-                _filters['state'] = _profile.state;
-                _filters['community'] = _profile.community;
-                _filters['gender'] = _profile.gender;
 
                 _recommendedSchemes = RecommendationEngine.getRecommendations(
                   _profile,
@@ -470,9 +462,15 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         try {
           final dbProfile = await SchemeRepository.instance.getProfile(user.id);
           if (dbProfile != null) {
-            _profile = dbProfile;
+            _profile = _profile.mergeFrom(dbProfile);
             _selectedLanguage = dbProfile.language;
             _navigationMode = dbProfile.navigationMode;
+            // Persist the merged (most complete) profile locally, and push
+            // back to Supabase any field the DB row was missing.
+            unawaited(SessionCacheService.instance.saveProfile(_profile));
+            if (!_profile.matchesStored(dbProfile)) {
+              unawaited(SchemeRepository.instance.updateProfile(_profile));
+            }
 
             if ((_profile.profilePhoto.isEmpty ||
                     _profile.profilePhoto.contains('user_avatar.webp')) &&
@@ -505,9 +503,6 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           // this, "Recommended For You" keeps showing scores computed
           // against the pre-sign-in default profile until something else
           // happens to recompute it.
-          _filters['state'] = _profile.state;
-          _filters['community'] = _profile.community;
-          _filters['gender'] = _profile.gender;
           if (_allSchemes.isNotEmpty) {
             _recommendedSchemes = RecommendationEngine.getRecommendations(
               _profile,
@@ -818,11 +813,6 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         _downloadedDocs = [];
       }
 
-      // Initialize filters based on loaded profile
-      _filters['state'] = _profile.state;
-      _filters['community'] = _profile.community;
-      _filters['gender'] = _profile.gender;
-
       final session = Supabase.instance.client.auth.currentSession;
       if (session != null) {
         debugPrint(
@@ -895,29 +885,41 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         .eq('user_id', user.id)
         .limit(1);
 
-    final Map<String, dynamic> startupData = {
-      'user_id': user.id,
-      'profile_name': '${cloudProfile.name} Business',
-      'industry': cloudProfile.businessIndustry.isNotEmpty
-          ? cloudProfile.businessIndustry
-          : 'Technology',
-      'applicant_type': cloudProfile.employmentStatus.isNotEmpty
-          ? cloudProfile.employmentStatus
-          : 'Student',
-      'business_stage': cloudProfile.businessStage.isNotEmpty
-          ? cloudProfile.businessStage
-          : 'Idea',
-      'business_registered': cloudProfile.existingBusiness,
-      'funding_required_amount': cloudProfile.fundingRequired,
-      'registration_numbers': cloudProfile.registrationNumbers,
-      'is_active': true,
-    };
+    // Only touch startup_profiles when the user has actually given business
+    // data -- no more writing 'Technology' / 'Idea' / 'Student' placeholders
+    // that then round-trip back as if they were real answers.
+    final hasBusinessData = cloudProfile.businessIndustry.trim().isNotEmpty ||
+        cloudProfile.businessStage.trim().isNotEmpty ||
+        cloudProfile.existingBusiness ||
+        cloudProfile.fundingRequired > 0 ||
+        cloudProfile.registrationNumbers.trim().isNotEmpty;
 
-    if (existingStartups.isNotEmpty) {
-      startupData['id'] = existingStartups.first['id'];
+    if (hasBusinessData) {
+      final Map<String, dynamic> startupData = {
+        'user_id': user.id,
+        'profile_name': '${cloudProfile.name} Business',
+        'industry': cloudProfile.businessIndustry.trim().isNotEmpty
+            ? cloudProfile.businessIndustry
+            : 'Unspecified',
+        'applicant_type': cloudProfile.employmentStatus.trim().isNotEmpty
+            ? cloudProfile.employmentStatus
+            : 'Unspecified',
+        'business_stage': cloudProfile.businessStage.trim().isNotEmpty
+            ? cloudProfile.businessStage
+            : 'Unspecified',
+        'business_registered': cloudProfile.existingBusiness,
+        'funding_required_amount': cloudProfile.fundingRequired,
+        'registration_numbers': cloudProfile.registrationNumbers,
+        'is_first_generation_entrepreneur': cloudProfile.firstGenGraduate,
+        'is_active': true,
+      };
+      if (existingStartups.isNotEmpty) {
+        startupData['id'] = existingStartups.first['id'];
+      }
+      await Supabase.instance.client
+          .from('startup_profiles')
+          .upsert(startupData);
     }
-
-    await Supabase.instance.client.from('startup_profiles').upsert(startupData);
 
     if (cloudProfile.profileCompleted) {
       await SchemeRepository.instance.createProfile(cloudProfile);
@@ -988,7 +990,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
     final dbProfile = await SchemeRepository.instance.getProfile(user.id);
     if (dbProfile != null) {
-      _profile = dbProfile;
+      _profile = _profile.mergeFrom(dbProfile);
       _selectedLanguage = dbProfile.language;
       _navigationMode = dbProfile.navigationMode;
 
@@ -1249,13 +1251,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   }
 
   void clearFilters() {
-    _filters = {
-      'state': _profile.state,
-      'community': '',
-      'gender': '',
-      'category': '',
-      'income': '',
-    };
+    _filters = {};
     notifyListeners();
   }
 
@@ -1504,9 +1500,6 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     }
 
     _profile = candidate;
-    _filters['state'] = _profile.state;
-    _filters['community'] = _profile.community;
-    _filters['gender'] = _profile.gender;
 
     // Recalculate recommendations based on updated profile
     _recommendedSchemes = RecommendationEngine.getRecommendations(

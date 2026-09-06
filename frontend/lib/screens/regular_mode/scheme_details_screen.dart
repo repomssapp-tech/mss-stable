@@ -100,6 +100,61 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
     }
   }
 
+  /// Single authoritative handler for a tab tap. The selected-tab state
+  /// (`_activeTabIndex`) and the section's expanded flag are set FIRST in a
+  /// bare setState -- nothing that can throw runs before the rebuild, so
+  /// the tab always visibly responds. The imperative
+  /// `ExpansionTileController.expand()` (which throws when its tile is not
+  /// currently mounted) is deferred to a post-frame callback and guarded;
+  /// if it is skipped, `initiallyExpanded` opens the tile when
+  /// `_scrollToSection` brings it on screen and it builds.
+  void _onTabTapped(int index) {
+    setState(() {
+      _activeTabIndex = index;
+      switch (index) {
+        case 1:
+          _benefitsExpanded = true;
+          break;
+        case 2:
+          _eligibilityExpanded = true;
+          break;
+        case 3:
+          _documentsExpanded = true;
+          break;
+        case 4:
+          _servicesExpanded = true;
+          break;
+        case 5:
+          _processExpanded = true;
+          break;
+      }
+    });
+    _expandSectionForTab(index);
+    _scrollToSection(index);
+  }
+
+  void _expandSectionForTab(int index) {
+    // ignore: deprecated_member_use
+    final ExpansionTileController? controller = switch (index) {
+      1 => _benefitsController,
+      2 => _eligibilityController,
+      3 => _documentsController,
+      4 => _servicesController,
+      5 => _processController,
+      _ => null,
+    };
+    if (controller == null) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      try {
+        if (!controller.isExpanded) controller.expand();
+      } catch (_) {
+        // Tile not attached yet (still off-screen): initiallyExpanded opens
+        // it when it builds. Safe to ignore.
+      }
+    });
+  }
+
   /// Fix 3: Scrolls to the section matching the tapped tab index.
   ///
   /// Called in the same setState that expands the section's ExpansionTile,
@@ -298,28 +353,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                           ) {
                             final bool isSelected = _activeTabIndex == index;
                             return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _activeTabIndex = index;
-                                  if (index == 1) {
-                                    _benefitsExpanded = true;
-                                    _benefitsController.expand();
-                                  } else if (index == 2) {
-                                    _eligibilityExpanded = true;
-                                    _eligibilityController.expand();
-                                  } else if (index == 3) {
-                                    _documentsExpanded = true;
-                                    _documentsController.expand();
-                                  } else if (index == 4) {
-                                    _servicesExpanded = true;
-                                    _servicesController.expand();
-                                  } else if (index == 5) {
-                                    _processExpanded = true;
-                                    _processController.expand();
-                                  }
-                                });
-                                _scrollToSection(index);
-                              },
+                              onTap: () => _onTabTapped(index),
                               child: Container(
                                 margin: const EdgeInsets.only(right: AppSpacing.xxl),
                                 padding: const EdgeInsets.symmetric(
@@ -398,7 +432,12 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                           ),
                         ),
 
-                      if (!_detailsLoading) ...[
+                      // The five sections are ALWAYS mounted -- even during
+                      // the details-load window -- so a tab tap always has a
+                      // live ExpansionTile to target and never silently
+                      // fails. Each content builder shows its own empty
+                      // state when its data is missing.
+                      ...[
                         // Benefits Expandable Section
                         _ExpandableSection(
                           key: _benefitsKey,
@@ -489,7 +528,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                             scheme.applicationProcess,
                           ),
                         ),
-                      ], // end if (!_detailsLoading)
+                      ],
                     ]),
                   ),
                 ),
@@ -1517,7 +1556,13 @@ class _ExpandableSection extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
       ),
-      child: Theme(
+      // The ExpansionTile header is a ListTile; without a Material between it
+      // and this coloured Container it asserts "background may be invisible"
+      // once the section is mounted during loading. A transparency Material
+      // gives it a compositing surface without changing appearance.
+      child: Material(
+        type: MaterialType.transparency,
+        child: Theme(
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
           controller: controller,
@@ -1563,6 +1608,7 @@ class _ExpandableSection extends StatelessWidget {
               ),
             ),
           ],
+        ),
         ),
       ),
     );

@@ -862,7 +862,30 @@ class SchemeRepository {
         debugPrint('[SchemeRepository] No profile found for user UUID: $uid');
         return null;
       }
-      return UserProfile.fromJson(rows[0]);
+      final merged = Map<String, dynamic>.from(rows[0] as Map);
+
+      // The app collects business/applicant fields but stores them in a
+      // separate table (startup_profiles). getProfile() replaces the whole
+      // in-memory profile, so without this merge those fields silently
+      // reset to defaults on every login / background sync.
+      try {
+        final startup = await _db
+            .from('startup_profiles')
+            .select('industry, business_stage, business_registered, '
+                'funding_required_amount, registration_numbers')
+            .eq('user_id', uid)
+            .order('is_active', ascending: false)
+            .limit(1)
+            .timeout(const Duration(seconds: 8));
+        if ((startup as List).isNotEmpty) {
+          (startup[0] as Map).forEach((k, v) {
+            if (v != null) merged.putIfAbsent(k.toString(), () => v);
+          });
+        }
+      } catch (e) {
+        debugPrint('[SchemeRepository] startup_profiles fetch skipped: $e');
+      }
+      return UserProfile.fromJson(merged);
     } catch (e) {
       debugPrint('[SchemeRepository] Error fetching profile: $e');
       return null;

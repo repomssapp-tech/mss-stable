@@ -5,6 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../providers/app_state_provider.dart';
 import '../../widgets/filter_panel.dart';
 import '../../models/scheme_model.dart';
+import '../../models/scheme_filter.dart';
+export '../../models/scheme_filter.dart'
+    show schemeIsNationwide, applySchemeFilters;
 import '../../models/user_profile.dart';
 import '../../services/scheme_repository.dart';
 import 'scheme_details_screen.dart';
@@ -45,74 +48,13 @@ class ForMeViewResult {
   final ForMeEmptyState emptyState;
 }
 
-/// Applies the FilterPanel facet map (`provider.filters`) to [input]. Used in
-/// EVERY mode, including "For Me", so the score gate and the facets combine
-/// additively (intersection). Pure — no BuildContext, no provider.
+/// Legacy name kept for [computeForMeView] and existing tests. The one
+/// matcher now lives in `models/scheme_filter.dart`.
 List<Scheme> applyProviderFacetFilters(
   List<Scheme> input,
   Map<String, dynamic> filters,
-) {
-  var out = input;
-  final state = filters['state'];
-  if (state != null && state != 'All' && state.toString().trim().isNotEmpty) {
-    final st = state.toString().toLowerCase();
-    out = out.where((s) {
-      return s.state.toLowerCase() == 'all india' ||
-          s.state.toLowerCase().contains(st);
-    }).toList();
-  }
-  final category = filters['category'];
-  if (category != null &&
-      category != 'All' &&
-      category.toString().trim().isNotEmpty) {
-    final words = category.toString().toLowerCase().split(RegExp(r'[\s&/,-]+'));
-    out = out.where((s) {
-      final schCat = s.category.toLowerCase();
-      final schSec = s.sector.toLowerCase();
-      for (final w in words) {
-        if (w.length > 2 && (schCat.contains(w) || schSec.contains(w))) {
-          return true;
-        }
-      }
-      return false;
-    }).toList();
-  }
-  final schemeType = filters['schemeType'];
-  if (schemeType != null &&
-      schemeType != 'All' &&
-      schemeType.toString().trim().isNotEmpty) {
-    final stType = schemeType.toString().toLowerCase();
-    out = out.where((s) {
-      return s.schemeType.toLowerCase().contains(stType) ||
-          s.category.toLowerCase().contains(stType);
-    }).toList();
-  }
-  final ministry = filters['ministry'];
-  if (ministry != null &&
-      ministry != 'All' &&
-      ministry.toString().trim().isNotEmpty) {
-    final mLower = ministry.toString().toLowerCase();
-    out = out.where((s) {
-      return s.sponsoringBody.toLowerCase().contains(mLower) ||
-          s.issuingBody.toLowerCase().contains(mLower) ||
-          s.category.toLowerCase().contains(mLower) ||
-          s.name.toLowerCase().contains(mLower);
-    }).toList();
-  }
-  final department = filters['department'];
-  if (department != null &&
-      department != 'All' &&
-      department.toString().trim().isNotEmpty) {
-    final dLower = department.toString().toLowerCase();
-    out = out.where((s) {
-      return s.sponsoringBody.toLowerCase().contains(dLower) ||
-          s.issuingBody.toLowerCase().contains(dLower) ||
-          s.category.toLowerCase().contains(dLower) ||
-          s.name.toLowerCase().contains(dLower);
-    }).toList();
-  }
-  return out;
-}
+) =>
+    applySchemeFilters(input, filters);
 
 /// Resolves the "For Me" results view from the master result set. Additive:
 /// score gate (>= RecommendationEngine.forMeThreshold) INTERSECTED with the
@@ -168,13 +110,9 @@ class SearchScreenState extends State<SearchScreen> {
   List<Scheme> _searchResults = [];
   List<Scheme> _masterSearchResults = [];
   String _sortBy = 'Relevance';
-  String _selectedType = '';
-  String _selectedBenefit = '';
-  String _selectedMinistry = '';
   Map<String, int> _categoryCounts = {};
   bool _isLoadingCounts = true;
   int _matchingProfileCount = 0;
-  Map<String, List<String>> _activeSearchFilters = {};
   String _dynamicSearchHintText = "Search PMEGP, Startup India, MSME loans...";
   // Bumped on every _triggerSearch call; a stale request that resolves after
   // a newer one must not overwrite it (out-of-order async race -- the search
@@ -216,16 +154,6 @@ class SearchScreenState extends State<SearchScreen> {
     ).schemes;
   }
 
-  bool _hasActiveProviderFilters(Map<String, dynamic> filters) {
-    for (final entry in filters.entries) {
-      final val = entry.value;
-      if (val is String && val.isNotEmpty && val != 'All') return true;
-      if (val is bool && val) return true;
-      if (val is List && val.isNotEmpty) return true;
-    }
-    return false;
-  }
-
   Future<void> _applyFiltersAndSort() async {
     final provider = Provider.of<AppProvider>(context, listen: false);
 
@@ -240,7 +168,12 @@ class SearchScreenState extends State<SearchScreen> {
       _forMeEmptyState = ForMeEmptyState.none;
     }
 
-    if (_masterSearchResults.isEmpty) {
+    final bool hasTextQuery = _searchController.text.trim().isNotEmpty;
+
+    // Only fall back to the whole catalog for a filter-only / browse view.
+    // A text query that matched nothing must stay empty so the results view
+    // can show its "no scheme found" state -- not silently list all 219.
+    if (_masterSearchResults.isEmpty && !hasTextQuery) {
       final catalog = provider.allSchemes.isNotEmpty
           ? provider.allSchemes
           : await SchemeRepository.instance.getAllSchemes();
@@ -248,180 +181,13 @@ class SearchScreenState extends State<SearchScreen> {
     }
     List<Scheme> filteredResults = List<Scheme>.from(_masterSearchResults);
 
-    // 1. Dropdown Chips Filters: Type (Loan, Subsidy, etc.)
-    if (_selectedType.isNotEmpty && _selectedType != 'All') {
-      final typeKeyword = _selectedType.toLowerCase();
-      filteredResults = filteredResults.where((scheme) {
-        return scheme.schemeType.toLowerCase().contains(typeKeyword) ||
-            scheme.name.toLowerCase().contains(typeKeyword) ||
-            scheme.category.toLowerCase().contains(typeKeyword) ||
-            scheme.overview.toLowerCase().contains(typeKeyword);
-      }).toList();
-    }
-
-    // 2. Dropdown Chips Filters: Benefit Type
-    if (_selectedBenefit.isNotEmpty && _selectedBenefit != 'All') {
-      final benefitLower = _selectedBenefit.toLowerCase();
-      filteredResults = filteredResults.where((scheme) {
-        if (benefitLower == 'financial') {
-          return scheme.benefits.toLowerCase().contains('financial') ||
-              scheme.benefits.toLowerCase().contains('subsidy') ||
-              scheme.benefits.toLowerCase().contains('funding') ||
-              scheme.benefits.toLowerCase().contains('grant') ||
-              scheme.benefits.toLowerCase().contains('loan') ||
-              scheme.benefits.toLowerCase().contains('pension') ||
-              scheme.benefits.toLowerCase().contains('reimbursement') ||
-              scheme.benefits.toLowerCase().contains('₹') ||
-              scheme.benefits.toLowerCase().contains('rs.') ||
-              scheme.schemeType.toLowerCase().contains('subsidy') ||
-              scheme.schemeType.toLowerCase().contains('loan') ||
-              scheme.schemeType.toLowerCase().contains('grant');
-        } else if (benefitLower == 'skill training') {
-          return scheme.benefits.toLowerCase().contains('skill') ||
-              scheme.benefits.toLowerCase().contains('training') ||
-              scheme.benefits.toLowerCase().contains('workshop') ||
-              scheme.benefits.toLowerCase().contains('placement') ||
-              scheme.benefits.toLowerCase().contains('capacity building') ||
-              scheme.benefits.toLowerCase().contains('mentorship') ||
-              scheme.overview.toLowerCase().contains('training') ||
-              scheme.overview.toLowerCase().contains('skill');
-        } else if (benefitLower == 'infrastructure') {
-          return scheme.benefits.toLowerCase().contains('infrastructure') ||
-              scheme.benefits.toLowerCase().contains('facility') ||
-              scheme.benefits.toLowerCase().contains('technology') ||
-              scheme.benefits.toLowerCase().contains('plant') ||
-              scheme.benefits.toLowerCase().contains('machinery') ||
-              scheme.benefits.toLowerCase().contains('incubation') ||
-              scheme.overview.toLowerCase().contains('infrastructure') ||
-              scheme.overview.toLowerCase().contains('technology');
-        } else {
-          return scheme.benefits.toLowerCase().contains(benefitLower) ||
-              scheme.overview.toLowerCase().contains(benefitLower);
-        }
-      }).toList();
-    }
-
-    // 3. Dropdown Chips Filters: Ministry
-    if (_selectedMinistry.isNotEmpty && _selectedMinistry != 'All') {
-      final ministryLower = _selectedMinistry.toLowerCase();
-      filteredResults = filteredResults.where((scheme) {
-        return scheme.sponsoringBody.toLowerCase().contains(ministryLower) ||
-            scheme.issuingBody.toLowerCase().contains(ministryLower) ||
-            scheme.category.toLowerCase().contains(ministryLower) ||
-            scheme.name.toLowerCase().contains(ministryLower);
-      }).toList();
-    }
-
-    // 4. Provider Filters (from FilterPanel) - applied in EVERY mode. In
-    // "For Me" the score gate (step 6 below) folds these in via
-    // computeForMeView, so only apply them here for the other modes to avoid
-    // filtering twice.
+    // 1. Facet filters (from the Filter sheet). Skipped in "For Me" mode --
+    //    computeForMeView folds them in below so they aren't applied twice.
     if (_activeFilter != 'For Me') {
-      filteredResults = applyProviderFacetFilters(
-        filteredResults,
-        provider.filters,
-      );
+      filteredResults = applySchemeFilters(filteredResults, provider.filters);
     }
 
-    // 5. Apply FilterBottomSheet selections if any
-    if (_activeSearchFilters.isNotEmpty) {
-      filteredResults = filteredResults.where((scheme) {
-        final locs = _activeSearchFilters['Location'] ?? [];
-        if (locs.isNotEmpty) {
-          bool matchesLoc = false;
-          for (final loc in locs) {
-            if (loc == 'All India' &&
-                scheme.state.toLowerCase() == 'all india') {
-              matchesLoc = true;
-            } else if (loc == 'Central' &&
-                scheme.governmentLevel.toLowerCase() == 'central') {
-              matchesLoc = true;
-            } else if (loc == 'State' &&
-                (scheme.governmentLevel.toLowerCase() == 'state' ||
-                    (scheme.state.isNotEmpty &&
-                        scheme.state.toLowerCase() != 'all india'))) {
-              matchesLoc = true;
-            }
-          }
-          if (!matchesLoc) return false;
-        }
-
-        final applicants = _activeSearchFilters['Applicant'] ?? [];
-        if (applicants.isNotEmpty) {
-          bool matchesApp = false;
-          final target = scheme.targetBeneficiary.toLowerCase();
-          for (final app in applicants) {
-            if (target.contains(app.toLowerCase())) {
-              matchesApp = true;
-            }
-          }
-          if (!matchesApp) return false;
-        }
-
-        final stages = _activeSearchFilters['Stage'] ?? [];
-        if (stages.isNotEmpty) {
-          bool matchesStage = false;
-          final kw = scheme.searchKeywords.toLowerCase();
-          final name = scheme.name.toLowerCase();
-          for (final stage in stages) {
-            if (kw.contains(stage.toLowerCase()) ||
-                name.contains(stage.toLowerCase())) {
-              matchesStage = true;
-            }
-          }
-          if (!matchesStage) return false;
-        }
-
-        final benefits = _activeSearchFilters['Benefits'] ?? [];
-        if (benefits.isNotEmpty) {
-          bool matchesBen = false;
-          final type = scheme.schemeType.toLowerCase();
-          final cat = scheme.category.toLowerCase();
-          final ben = scheme.benefits.toLowerCase();
-          for (final b in benefits) {
-            if (type.contains(b.toLowerCase()) ||
-                cat.contains(b.toLowerCase()) ||
-                ben.contains(b.toLowerCase())) {
-              matchesBen = true;
-            }
-          }
-          if (!matchesBen) return false;
-        }
-
-        final sectors = _activeSearchFilters['Sector'] ?? [];
-        if (sectors.isNotEmpty) {
-          bool matchesSec = false;
-          final sector = scheme.sector.toLowerCase();
-          for (final sec in sectors) {
-            if (sector.contains(sec.toLowerCase())) {
-              matchesSec = true;
-            }
-          }
-          if (!matchesSec) return false;
-        }
-
-        final authorities = _activeSearchFilters['Authority'] ?? [];
-        if (authorities.isNotEmpty) {
-          bool matchesAuth = false;
-          final sponsor = scheme.sponsoringBody.toLowerCase();
-          final issuer = scheme.issuingBody.toLowerCase();
-          for (final auth in authorities) {
-            if (sponsor.contains(auth.toLowerCase()) ||
-                issuer.contains(auth.toLowerCase())) {
-              matchesAuth = true;
-            }
-          }
-          if (!matchesAuth) return false;
-        }
-
-        return true;
-      }).toList();
-    }
-
-    // 6. If "For Me" filter is active, resolve the view through the pure
-    // computeForMeView: score gate (>= forMeThreshold) INTERSECTED with the
-    // FilterPanel facets, or an empty list + a ForMeEmptyState when the
-    // profile is too sparse / nothing qualifies. Never the catalog.
+    // 2. "For Me": opt-in profile-eligibility gate. Never the catalog.
     if (_activeFilter == 'For Me') {
       final view = computeForMeView(
         master: filteredResults,
@@ -434,55 +200,30 @@ class SearchScreenState extends State<SearchScreen> {
       _forMeEmptyState = ForMeEmptyState.none;
     }
 
-    // 6. Sorting
-    if (_sortBy == 'Benefits: High to Low') {
+    // 3. Sort. 'Relevance' (default) keeps the incoming order -- the search
+    //    engine's ranking for a text query, catalog order when browsing.
+    //    Profile fit is applied ONLY here via 'Best match for me' (or the
+    //    'For Me' chip), never for plain 'Relevance'.
+    if (_sortBy == 'Best match for me' ||
+        _sortBy == 'Match %' ||
+        _sortBy == 'Match') {
       filteredResults.sort((a, b) {
-        final aBenefit = a.maxFunding ?? a.minFunding ?? 0.0;
-        final bBenefit = b.maxFunding ?? b.minFunding ?? 0.0;
-        return bBenefit.compareTo(aBenefit);
+        final sa = RecommendationEngine.evaluate(provider.profile, a).percentage;
+        final sb = RecommendationEngine.evaluate(provider.profile, b).percentage;
+        return sb.compareTo(sa);
       });
-    } else if (_sortBy == 'Match %' || _sortBy == 'Match') {
-      filteredResults.sort((a, b) {
-        final scoreA = RecommendationEngine.evaluate(
-          provider.profile,
-          a,
-        ).percentage;
-        final scoreB = RecommendationEngine.evaluate(
-          provider.profile,
-          b,
-        ).percentage;
-        return scoreB.compareTo(scoreA);
-      });
-    } else if (_sortBy == 'Scheme Name (A-Z)') {
+    } else if (_sortBy == 'Scheme name (A-Z)' ||
+        _sortBy == 'Scheme Name (A-Z)') {
       filteredResults.sort(
         (a, b) => a
             .getName(provider.selectedLanguage)
             .toLowerCase()
             .compareTo(b.getName(provider.selectedLanguage).toLowerCase()),
       );
-    } else if (_sortBy == 'Scheme Name (Z-A)') {
-      filteredResults.sort(
-        (a, b) => b
-            .getName(provider.selectedLanguage)
-            .toLowerCase()
-            .compareTo(a.getName(provider.selectedLanguage).toLowerCase()),
-      );
-    } else {
-      // Relevance (Default score)
-      filteredResults.sort((a, b) {
-        final scoreA = RecommendationEngine.evaluate(provider.profile, a).score;
-        final scoreB = RecommendationEngine.evaluate(provider.profile, b).score;
-        return scoreB.compareTo(scoreA);
-      });
     }
 
-    final bool hasActiveFilter =
-        _selectedType.isNotEmpty ||
-        _selectedBenefit.isNotEmpty ||
-        _selectedMinistry.isNotEmpty ||
-        _activeFilter == 'For Me' ||
-        _activeSearchFilters.isNotEmpty ||
-        _hasActiveProviderFilters(provider.filters);
+    final bool hasActiveFilter = _activeFilter == 'For Me' ||
+        hasActiveSchemeFilters(provider.filters);
 
     if (_searchController.text.trim().isEmpty && !hasActiveFilter) {
       if (mounted) {
@@ -630,10 +371,6 @@ class SearchScreenState extends State<SearchScreen> {
       if (mounted) {
         setState(() {
           _sortBy = 'Relevance';
-          _selectedType = '';
-          _selectedBenefit = '';
-          _selectedMinistry = '';
-          _activeSearchFilters = {};
           _activeFilter = "All";
           _searchResults = [];
           _masterSearchResults = [];
@@ -727,13 +464,8 @@ class SearchScreenState extends State<SearchScreen> {
       // If text gets cleared, revert to idle if no filters are active; otherwise re-apply filters
       if (_searchController.text.isEmpty && _currentState != SearchState.idle) {
         final provider = Provider.of<AppProvider>(context, listen: false);
-        final bool hasActiveFilter =
-            _selectedType.isNotEmpty ||
-            _selectedBenefit.isNotEmpty ||
-            _selectedMinistry.isNotEmpty ||
-            _activeFilter == 'For Me' ||
-            _activeSearchFilters.isNotEmpty ||
-            _hasActiveProviderFilters(provider.filters);
+        final bool hasActiveFilter = _activeFilter == 'For Me' ||
+            hasActiveSchemeFilters(provider.filters);
         if (!hasActiveFilter) {
           setState(() {
             _searchResults = [];
@@ -749,12 +481,10 @@ class SearchScreenState extends State<SearchScreen> {
 
   void _triggerSearch(String query) async {
     // If query is empty and no active filters, go back to idle Categories screen
+    final provider0 = Provider.of<AppProvider>(context, listen: false);
     if (query.isEmpty &&
-        _selectedType.isEmpty &&
-        _selectedBenefit.isEmpty &&
-        _selectedMinistry.isEmpty &&
         _activeFilter == 'All' &&
-        _activeSearchFilters.isEmpty) {
+        !hasActiveSchemeFilters(provider0.filters)) {
       _searchGeneration++;
       setState(() {
         _currentState = SearchState.idle;
@@ -770,74 +500,29 @@ class SearchScreenState extends State<SearchScreen> {
       _currentState = SearchState.loading;
     });
 
-    final normalized = query.toLowerCase().trim();
-    final bool showAll =
-        _activeFilter != 'For Me' ||
-        normalized == 'all' ||
-        normalized.startsWith('all ') ||
-        normalized.endsWith(' all') ||
-        normalized.contains(' all ');
-
-    String searchTerm = query;
-    if (showAll && normalized != 'all' && _activeFilter == 'For Me') {
-      searchTerm = query
-          .replaceAll(RegExp(r'\ball\b', caseSensitive: false), '')
-          .replaceAll(RegExp(r'\s+'), ' ')
-          .trim();
-    }
-
-    final provider = Provider.of<AppProvider>(context, listen: false);
+    // Regular search is a pure relevance lookup -- never pre-filtered or
+    // re-ranked by the user's profile. The profile-based "For Me" view is
+    // applied afterwards, and only when the user has enabled its filter
+    // chip (see _applyFiltersAndSort step 6).
+    final String normalQuery = query.toLowerCase().trim();
 
     try {
       List<Scheme> results;
-      final String normalQuery = searchTerm.toLowerCase().trim();
-      if (_activeFilter == 'For Me' ||
+      if (normalQuery.isEmpty ||
+          normalQuery == 'all' ||
           normalQuery == 'suitable schemes' ||
           normalQuery == 'for me') {
-        final all = provider.allSchemes.isNotEmpty
-            ? provider.allSchemes
-            : await SchemeRepository.instance.getAllSchemes();
-
-        final eligible = _computeEligibleSchemes(provider, all);
-
-        // Sort by match score descending
-        eligible.sort((a, b) {
-          final scoreA = RecommendationEngine.evaluate(
-            provider.profile,
-            a,
-          ).score;
-          final scoreB = RecommendationEngine.evaluate(
-            provider.profile,
-            b,
-          ).score;
-          return scoreB.compareTo(scoreA);
-        });
-
-        if (searchTerm.isNotEmpty &&
-            normalQuery != 'suitable schemes' &&
-            normalQuery != 'for me') {
-          final q = searchTerm.toLowerCase();
-          results = eligible.where((s) {
-            return s.name.toLowerCase().contains(q) ||
-                s.overview.toLowerCase().contains(q) ||
-                s.category.toLowerCase().contains(q) ||
-                s.sponsoringBody.toLowerCase().contains(q) ||
-                s.searchKeywords.toLowerCase().contains(q);
-          }).toList();
-        } else {
-          results = eligible;
-        }
-      } else if (normalQuery.isEmpty || normalQuery == 'all') {
         results = await SchemeRepository.instance.getAllSchemes();
       } else {
-        results = await SchemeRepository.instance.searchSchemes(searchTerm);
+        results = await SchemeRepository.instance.searchSchemes(query);
       }
 
       if (!mounted || requestGeneration != _searchGeneration) return;
 
       _masterSearchResults = results;
       _applyFiltersAndSort();
-    } catch (e) {
+    } catch (e, st) {
+      debugPrint('[SearchScreen] search failed for "$query": $e\n$st');
       if (!mounted || requestGeneration != _searchGeneration) return;
       setState(() {
         _masterSearchResults = [];
@@ -1033,28 +718,6 @@ class SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  void _clearAllFilters() {
-    final provider = Provider.of<AppProvider>(context, listen: false);
-    provider.clearFilters();
-    setState(() {
-      _sortBy = 'Relevance';
-      _selectedType = '';
-      _selectedBenefit = '';
-      _selectedMinistry = '';
-      _activeSearchFilters = {};
-      _activeFilter = 'All';
-    });
-    if (_searchController.text.trim().isEmpty) {
-      setState(() {
-        _currentState = SearchState.idle;
-        _searchResults = [];
-        _masterSearchResults = [];
-      });
-    } else {
-      _applyFiltersAndSort();
-    }
-  }
-
   // 1. Custom App Bar (Styled like Discover page header)
   Widget _buildCustomAppBar(BuildContext context, AppProvider provider) {
     final isTa = provider.selectedLanguage == 'ta';
@@ -1205,10 +868,6 @@ class SearchScreenState extends State<SearchScreen> {
                     _searchController.clear();
                     setState(() {
                       _sortBy = 'Relevance';
-                      _selectedType = '';
-                      _selectedBenefit = '';
-                      _selectedMinistry = '';
-                      _activeSearchFilters = {};
                       _activeFilter = "All";
                       _currentState = SearchState.idle;
                       _searchResults = [];
@@ -1336,10 +995,11 @@ class SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  // 3. Filters Strip from Discover page (Filter button + Dropdown Chips + Clear All)
+  // 3. Filters strip: Filter · For Me · Sort  (nothing else).
   Widget _buildDiscoverFiltersStrip() {
     final provider = Provider.of<AppProvider>(context);
     final isTa = provider.selectedLanguage == 'ta';
+    final int facetCount = activeSchemeFilterCount(provider.filters);
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -1355,7 +1015,9 @@ class SearchScreenState extends State<SearchScreen> {
               color: Color(0xFF2563EB),
             ),
             label: Text(
-              isTa ? "வடிகட்டி" : "Filter",
+              facetCount > 0
+                  ? '${isTa ? "வடிகட்டி" : "Filter"} · $facetCount'
+                  : (isTa ? "வடிகட்டி" : "Filter"),
               style: GoogleFonts.inter(
                 fontSize: 11.5,
                 fontWeight: FontWeight.bold,
@@ -1376,64 +1038,63 @@ class SearchScreenState extends State<SearchScreen> {
           ),
           const SizedBox(width: AppSpacing.sm),
 
-          // Dropdowns
+          // "For Me" -- opt-in profile-eligibility filter. Off by default;
+          // regular search results are never profile-weighted. Turning it
+          // on drops schemes the user is not eligible for, keeping the
+          // relevance order (see _applyFiltersAndSort step 6).
+          OutlinedButton.icon(
+            onPressed: () {
+              setState(() {
+                _activeFilter = _activeFilter == 'For Me' ? 'All' : 'For Me';
+              });
+              _applyFiltersAndSort();
+            },
+            icon: Icon(
+              Icons.auto_awesome,
+              size: 14,
+              color: _activeFilter == 'For Me'
+                  ? Colors.white
+                  : const Color(0xFF2563EB),
+            ),
+            label: Text(
+              context.l10n.forMe,
+              style: GoogleFonts.inter(
+                fontSize: 11.5,
+                fontWeight: FontWeight.bold,
+                color: _activeFilter == 'For Me'
+                    ? Colors.white
+                    : const Color(0xFF2563EB),
+              ),
+            ),
+            style: OutlinedButton.styleFrom(
+              backgroundColor: _activeFilter == 'For Me'
+                  ? const Color(0xFF2563EB)
+                  : Colors.white,
+              side: const BorderSide(color: Color(0xFFE2E8F0)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.md,
+                vertical: AppSpacing.tight,
+              ),
+            ),
+          ),
+          const SizedBox(width: AppSpacing.sm),
+
+          // Sort
           _buildDropdownChip(
             isTa ? 'வரிசைப்படுத்து' : 'Sort',
-            [
+            const [
               'Relevance',
-              'Benefits: High to Low',
-              'Match %',
-              'Scheme Name (A-Z)',
+              'Best match for me',
+              'Scheme name (A-Z)',
             ],
             _sortBy,
             (v) {
               setState(() => _sortBy = v);
               _applyFiltersAndSort();
             },
-          ),
-          _buildDropdownChip(
-            isTa ? 'வகை' : 'Type',
-            ['Loan', 'Subsidy', 'Scholarship', 'Pension'],
-            _selectedType,
-            (v) {
-              setState(() => _selectedType = (_selectedType == v ? '' : v));
-              _applyFiltersAndSort();
-            },
-          ),
-          _buildDropdownChip(
-            isTa ? 'பயன் வகை' : 'Benefit Type',
-            ['Financial', 'Skill training', 'Infrastructure'],
-            _selectedBenefit,
-            (v) {
-              setState(
-                () => _selectedBenefit = (_selectedBenefit == v ? '' : v),
-              );
-              _applyFiltersAndSort();
-            },
-          ),
-          _buildDropdownChip(
-            isTa ? 'அமைச்சகம்' : 'Ministry',
-            ['MSME', 'Education', 'Finance', 'Agriculture'],
-            _selectedMinistry,
-            (v) {
-              setState(
-                () => _selectedMinistry = (_selectedMinistry == v ? '' : v),
-              );
-              _applyFiltersAndSort();
-            },
-          ),
-
-          // Clear All
-          TextButton(
-            onPressed: _clearAllFilters,
-            child: Text(
-              context.l10n.filterClearAll,
-              style: GoogleFonts.inter(
-                fontSize: 11.5,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF64748B),
-              ),
-            ),
           ),
         ],
       ),
@@ -1666,10 +1327,6 @@ class SearchScreenState extends State<SearchScreen> {
         setState(() {
           _activeFilter = 'For Me';
           _sortBy = 'Relevance';
-          _selectedType = '';
-          _selectedBenefit = '';
-          _selectedMinistry = '';
-          _activeSearchFilters = {};
         });
         _searchController.clear();
         _triggerSearch('For Me');
