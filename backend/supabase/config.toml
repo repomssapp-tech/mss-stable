@@ -396,6 +396,9 @@ verify_jwt = true
 [functions.livekit-token]
 verify_jwt = true
 
+[functions.sarvam-chat]
+verify_jwt = true
+
 [analytics]
 enabled = true
 port = 54327
