@@ -1637,7 +1637,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                     Expanded(
                       child: SingleChildScrollView(
                         controller: _panelScrollController,
-                        physics: const BouncingScrollPhysics(),
+                        physics: const ClampingScrollPhysics(),
                         padding: const EdgeInsets.only(top: 20, bottom: 20),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,

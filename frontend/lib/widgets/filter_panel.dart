@@ -166,7 +166,7 @@ class _FilterPanelState extends State<FilterPanel> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Filters',
+                  context.l10n.filterTitle,
                   style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -191,7 +191,7 @@ class _FilterPanelState extends State<FilterPanel> {
           const Divider(height: 1, color: Color(0xFFE2E8F0)),
           Expanded(
             child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               padding: const EdgeInsets.fromLTRB(
                 AppSpacing.xl,
                 AppSpacing.md,
@@ -211,7 +211,7 @@ class _FilterPanelState extends State<FilterPanel> {
                               size: 16, color: Color(0xFF2563EB)),
                           const SizedBox(width: AppSpacing.xs),
                           Text(
-                            'Use my profile ($profileState)',
+                            context.l10n.filterUseMyProfile(profileState),
                             style: GoogleFonts.inter(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
@@ -224,11 +224,11 @@ class _FilterPanelState extends State<FilterPanel> {
                     const SizedBox(height: AppSpacing.lg),
                   ],
                   _group(
-                    'Coverage',
+                    context.l10n.filterGroupCoverage,
                     2,
                     [
                       _ChipSpec(
-                        'Nationwide',
+                        context.l10n.filterCoverageNationwide,
                         _counts['cov:nationwide'] ?? 0,
                         _coverage == 'nationwide',
                         () => setState(() => _coverage =
@@ -252,12 +252,12 @@ class _FilterPanelState extends State<FilterPanel> {
                     ],
                   ),
                   _group(
-                    'What it offers',
+                    context.l10n.filterGroupOffers,
                     2,
                     [
                       for (final g in kSchemeTypeGroups)
                         _ChipSpec(
-                          g.label,
+                          _typeLabel(g.id),
                           _counts['type:${g.id}'] ?? 0,
                           _types.contains(g.id),
                           () => setState(() => _types.contains(g.id)
@@ -267,13 +267,13 @@ class _FilterPanelState extends State<FilterPanel> {
                     ],
                   ),
                   _group(
-                    'For',
+                    context.l10n.filterGroupFor,
                     3,
                     [
-                      for (final (code, label) in kBeneficiaryOptions)
+                      for (final (code, _) in kBeneficiaryOptions)
                         if ((_counts['ben:$code'] ?? 0) >= 4)
                           _ChipSpec(
-                            label,
+                            _benLabel(code),
                             _counts['ben:$code'] ?? 0,
                             _beneficiaries.contains(code),
                             () => setState(() => _beneficiaries.contains(code)
@@ -304,7 +304,7 @@ class _FilterPanelState extends State<FilterPanel> {
                     ),
                   ),
                   child: Text(
-                    'Show $showCount schemes',
+                    context.l10n.filterShowSchemes(showCount),
                     style: GoogleFonts.inter(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -317,6 +317,51 @@ class _FilterPanelState extends State<FilterPanel> {
         ],
       ),
     );
+  }
+
+  /// Localized display label for a [SchemeTypeGroup.id]. The model keeps a
+  /// stable English label for logging/tests; the UI shows the translation.
+  String _typeLabel(String id) {
+    final l = context.l10n;
+    switch (id) {
+      case 'loans':
+        return l.filterTypeLoans;
+      case 'subsidies':
+        return l.filterTypeSubsidies;
+      case 'grants':
+        return l.filterTypeGrants;
+      case 'guarantee':
+        return l.filterTypeGuarantee;
+      case 'training':
+        return l.filterTypeTraining;
+      case 'market':
+        return l.filterTypeMarket;
+      case 'infra':
+        return l.filterTypeInfra;
+    }
+    return id;
+  }
+
+  /// Localized display label for a beneficiary code.
+  String _benLabel(String code) {
+    final l = context.l10n;
+    switch (code) {
+      case 'women':
+        return l.filterBenWomen;
+      case 'sc':
+        return l.filterBenSc;
+      case 'st':
+        return l.filterBenSt;
+      case 'differently_abled':
+        return l.filterBenDifferentlyAbled;
+      case 'transgender':
+        return l.filterBenTransgender;
+      case 'minority':
+        return l.filterBenMinority;
+      case 'ex_servicemen':
+        return l.filterBenExServicemen;
+    }
+    return code;
   }
 
   /// A fixed [columns]-wide grid of equal-width chips. Because every cell is

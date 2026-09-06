@@ -931,7 +931,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             Expanded(
               child: SingleChildScrollView(
                 controller: _scrollController,
-                physics: const BouncingScrollPhysics(),
+                physics: const ClampingScrollPhysics(),
                 padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
                 child: Column(
                   children: [
@@ -1044,7 +1044,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       height: provider.selectedLanguage == 'ta' ? 138 : 126,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
         itemCount: _displayCategories.length,
         itemBuilder: (context, index) {
@@ -1133,7 +1133,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       height: provider.selectedLanguage == 'ta' ? 138 : 126,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
         itemCount: _displayMinistries.length,
         itemBuilder: (context, index) {
@@ -1316,7 +1316,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       height: provider.selectedLanguage == 'ta' ? 138 : 126,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
         itemCount: _displayStates.length,
         itemBuilder: (context, index) {
@@ -1937,7 +1937,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           height: 98,
           child: ListView(
             scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
             children: [
               _buildUtilityCard(

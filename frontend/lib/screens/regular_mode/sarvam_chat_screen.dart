@@ -358,6 +358,11 @@ class _MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isUser = message.role == 'user';
+    final baseStyle = GoogleFonts.inter(
+      fontSize: 14,
+      height: 1.45,
+      color: isUser ? Colors.white : const Color(0xFF1E293B),
+    );
     return Align(
       alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
@@ -377,16 +382,137 @@ class _MessageBubble extends StatelessWidget {
           ),
           border: isUser ? null : Border.all(color: const Color(0xFFE2E8F0)),
         ),
-        child: SelectableText(
-          message.content,
-          style: GoogleFonts.inter(
-            fontSize: 14,
-            height: 1.45,
-            color: isUser ? Colors.white : const Color(0xFF1E293B),
-          ),
-        ),
+        // Model replies arrive as markdown; user messages are plain text.
+        child: isUser
+            ? SelectableText(message.content, style: baseStyle)
+            : _MarkdownBody(text: message.content, baseStyle: baseStyle),
       ),
     );
+  }
+}
+
+/// Minimal markdown renderer for LLM chat replies -- handles the small
+/// subset the model actually emits: `**bold**` / `__bold__`,
+/// `*italic*` / `_italic_`, `` `code` ``, `#`/`##`/`###` headings,
+/// `-`/`*`/`•` bullets and `1.` ordered items. Anything else renders as
+/// plain text. Inlined here to avoid a markdown package dependency.
+class _MarkdownBody extends StatelessWidget {
+  const _MarkdownBody({required this.text, required this.baseStyle});
+
+  final String text;
+  final TextStyle baseStyle;
+
+  static final RegExp _heading = RegExp(r'^(#{1,3})\s+(.*)$');
+  static final RegExp _bullet = RegExp(r'^([-*•])\s+(.*)$');
+  static final RegExp _ordered = RegExp(r'^(\d+)[.)]\s+(.*)$');
+  static final RegExp _inlinePattern = RegExp(
+    r'(\*\*|__)(.+?)\1|(\*|_)(.+?)\3|`([^`]+)`',
+    dotAll: true,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    final blocks = <Widget>[];
+    final lines = text.replaceAll('\r\n', '\n').split('\n');
+
+    for (final raw in lines) {
+      final line = raw.trimRight();
+      final trimmed = line.trimLeft();
+
+      if (trimmed.isEmpty) {
+        blocks.add(const SizedBox(height: AppSpacing.tight));
+        continue;
+      }
+
+      final heading = _heading.firstMatch(trimmed);
+      if (heading != null) {
+        final level = heading.group(1)!.length;
+        final bump = level == 1 ? 3.0 : (level == 2 ? 2.0 : 1.0);
+        blocks.add(Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.hairline),
+          child: SelectableText.rich(
+            _inline(
+              heading.group(2)!,
+              baseStyle.copyWith(
+                fontWeight: FontWeight.bold,
+                fontSize: (baseStyle.fontSize ?? 14) + bump,
+              ),
+            ),
+          ),
+        ));
+        continue;
+      }
+
+      final bullet = _bullet.firstMatch(trimmed);
+      if (bullet != null) {
+        blocks.add(_listRow('•  ', bullet.group(2)!));
+        continue;
+      }
+
+      final ordered = _ordered.firstMatch(trimmed);
+      if (ordered != null) {
+        blocks.add(_listRow('${ordered.group(1)}.  ', ordered.group(2)!));
+        continue;
+      }
+
+      blocks.add(SelectableText.rich(_inline(line, baseStyle)));
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: blocks,
+    );
+  }
+
+  Widget _listRow(String marker, String content) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.hairline),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(marker, style: baseStyle),
+          Expanded(child: SelectableText.rich(_inline(content, baseStyle))),
+        ],
+      ),
+    );
+  }
+
+  TextSpan _inline(String input, TextStyle style) {
+    final spans = <TextSpan>[];
+    var index = 0;
+    for (final m in _inlinePattern.allMatches(input)) {
+      if (m.start > index) {
+        spans.add(TextSpan(text: input.substring(index, m.start), style: style));
+      }
+      if (m.group(2) != null) {
+        spans.add(TextSpan(
+          text: m.group(2),
+          style: style.copyWith(fontWeight: FontWeight.bold),
+        ));
+      } else if (m.group(4) != null) {
+        spans.add(TextSpan(
+          text: m.group(4),
+          style: style.copyWith(fontStyle: FontStyle.italic),
+        ));
+      } else if (m.group(5) != null) {
+        spans.add(TextSpan(
+          text: m.group(5),
+          style: style.copyWith(
+            fontFamily: 'monospace',
+            backgroundColor: style.color?.withValues(alpha: 0.08),
+          ),
+        ));
+      }
+      index = m.end;
+    }
+    if (index < input.length) {
+      spans.add(TextSpan(text: input.substring(index), style: style));
+    }
+    if (spans.isEmpty) {
+      return TextSpan(text: input, style: style);
+    }
+    return TextSpan(children: spans);
   }
 }
 

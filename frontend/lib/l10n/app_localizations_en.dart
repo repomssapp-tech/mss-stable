@@ -857,6 +857,116 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navSwitchAnytimeTitle => 'Switch Anytime';
 
   @override
+  String get navSelectStyleSubtitle =>
+      'Select the navigation style that best suits you.';
+
+  @override
+  String get navContinueButton => 'Continue';
+
+  @override
+  String get navChipFastSimple => 'Fast & Simple';
+
+  @override
+  String get navChipTraditionalUi => 'Traditional UI';
+
+  @override
+  String get navChipSelfPaced => 'Self-paced browsing';
+
+  @override
+  String get navChipAiAnytime => 'AI available anytime';
+
+  @override
+  String get navChipVoiceFirst => 'Voice-first experience';
+
+  @override
+  String get navChipPersonalized => 'Personalized guidance';
+
+  @override
+  String get navChipSmartRecs => 'Smart recommendations';
+
+  @override
+  String get navChipExplainsScreens => 'Explains every screen';
+
+  @override
+  String get filterTitle => 'Filters';
+
+  @override
+  String get filterButton => 'Filter';
+
+  @override
+  String filterUseMyProfile(Object state) {
+    return 'Use my profile ($state)';
+  }
+
+  @override
+  String get filterGroupCoverage => 'Coverage';
+
+  @override
+  String get filterGroupOffers => 'What it offers';
+
+  @override
+  String get filterGroupFor => 'For';
+
+  @override
+  String get filterCoverageNationwide => 'Nationwide';
+
+  @override
+  String filterShowSchemes(Object count) {
+    return 'Show $count schemes';
+  }
+
+  @override
+  String get filterTypeLoans => 'Loans & credit';
+
+  @override
+  String get filterTypeSubsidies => 'Subsidies';
+
+  @override
+  String get filterTypeGrants => 'Grants & equity';
+
+  @override
+  String get filterTypeGuarantee => 'Guarantee';
+
+  @override
+  String get filterTypeTraining => 'Training';
+
+  @override
+  String get filterTypeMarket => 'Market & export';
+
+  @override
+  String get filterTypeInfra => 'Infrastructure';
+
+  @override
+  String get filterBenWomen => 'Women';
+
+  @override
+  String get filterBenSc => 'SC';
+
+  @override
+  String get filterBenSt => 'ST';
+
+  @override
+  String get filterBenDifferentlyAbled => 'Differently-abled';
+
+  @override
+  String get filterBenTransgender => 'Transgender';
+
+  @override
+  String get filterBenMinority => 'Minority';
+
+  @override
+  String get filterBenExServicemen => 'Ex-servicemen';
+
+  @override
+  String get sortRelevance => 'Relevance';
+
+  @override
+  String get sortBestMatch => 'Best match for me';
+
+  @override
+  String get sortSchemeNameAz => 'Scheme name (A-Z)';
+
+  @override
   String get settingsRegularSubtitle =>
       'Traditional clean list and tab view layout';
 

@@ -19,7 +19,7 @@ void main() {
     } catch (_) {}
   });
 
-  testWidgets('EligibilityProfileScreen renders 4/4 stepper, options and Skip button', (
+  testWidgets('EligibilityProfileScreen renders 4/4 stepper and options, no Skip', (
     WidgetTester tester,
   ) async {
     final provider = AppProvider();
@@ -45,8 +45,8 @@ void main() {
     // 1. Verify Stepper 4/4 text
     expect(find.text('4/4 Complete'), findsOneWidget);
 
-    // 2. Verify Skip button is present
-    expect(find.text('Skip'), findsOneWidget);
+    // 2. Step 4 is now mandatory -- the Skip shortcut has been removed.
+    expect(find.text('Skip'), findsNothing);
 
     // 3. Verify Education options
     expect(find.textContaining('Undergraduate'), findsOneWidget);

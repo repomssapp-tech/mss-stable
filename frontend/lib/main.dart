@@ -22,6 +22,19 @@ import 'utils/constants.dart';
 import 'utils/app_theme.dart';
 import 'utils/app_spacing.dart';
 
+/// App-wide scroll behavior: Android-style clamping (no iOS rubber-band).
+/// The bounce read as "sticky and elastic" and let content be dragged well
+/// past the last section. Widget-level `physics:` still overrides this, so
+/// explicit `BouncingScrollPhysics()` call sites were switched to
+/// `ClampingScrollPhysics()` as well.
+class AppScrollBehavior extends MaterialScrollBehavior {
+  const AppScrollBehavior();
+
+  @override
+  ScrollPhysics getScrollPhysics(BuildContext context) =>
+      const ClampingScrollPhysics();
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -97,16 +110,23 @@ class InSchemesApp extends StatelessWidget {
         return MaterialApp(
           title: 'MSS',
           debugShowCheckedModeBanner: false,
+          scrollBehavior: const AppScrollBehavior(),
           locale: Locale(provider.selectedLanguage),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           builder: (context, child) {
             final mediaQueryData = MediaQuery.of(context);
             // Respect the device's own accessibility text-scale setting
-            // instead of discarding it, but keep the app's 1.20 design
-            // floor and cap the ceiling at 1.30 so layouts stay intact.
+            // instead of discarding it, but keep an app design floor and a
+            // ceiling so layouts stay intact. Tamil glyphs are taller and
+            // denser than Latin, so the +20% floor made Tamil screens feel
+            // cramped -- drop the floor (and lower the ceiling) for `ta`.
+            final isTamil = provider.selectedLanguage == 'ta';
             final deviceScale = mediaQueryData.textScaler.scale(1.0);
-            final boundedScale = deviceScale.clamp(1.20, 1.30);
+            final boundedScale = deviceScale.clamp(
+              isTamil ? 1.0 : 1.20,
+              isTamil ? 1.12 : 1.30,
+            );
             return MediaQuery(
               data: mediaQueryData.copyWith(
                 textScaler: TextScaler.linear(boundedScale),

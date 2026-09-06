@@ -1688,6 +1688,216 @@ abstract class AppLocalizations {
   /// **'Switch Anytime'**
   String get navSwitchAnytimeTitle;
 
+  /// No description provided for @navSelectStyleSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the navigation style that best suits you.'**
+  String get navSelectStyleSubtitle;
+
+  /// No description provided for @navContinueButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get navContinueButton;
+
+  /// No description provided for @navChipFastSimple.
+  ///
+  /// In en, this message translates to:
+  /// **'Fast & Simple'**
+  String get navChipFastSimple;
+
+  /// No description provided for @navChipTraditionalUi.
+  ///
+  /// In en, this message translates to:
+  /// **'Traditional UI'**
+  String get navChipTraditionalUi;
+
+  /// No description provided for @navChipSelfPaced.
+  ///
+  /// In en, this message translates to:
+  /// **'Self-paced browsing'**
+  String get navChipSelfPaced;
+
+  /// No description provided for @navChipAiAnytime.
+  ///
+  /// In en, this message translates to:
+  /// **'AI available anytime'**
+  String get navChipAiAnytime;
+
+  /// No description provided for @navChipVoiceFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice-first experience'**
+  String get navChipVoiceFirst;
+
+  /// No description provided for @navChipPersonalized.
+  ///
+  /// In en, this message translates to:
+  /// **'Personalized guidance'**
+  String get navChipPersonalized;
+
+  /// No description provided for @navChipSmartRecs.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart recommendations'**
+  String get navChipSmartRecs;
+
+  /// No description provided for @navChipExplainsScreens.
+  ///
+  /// In en, this message translates to:
+  /// **'Explains every screen'**
+  String get navChipExplainsScreens;
+
+  /// No description provided for @filterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get filterTitle;
+
+  /// No description provided for @filterButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get filterButton;
+
+  /// No description provided for @filterUseMyProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Use my profile ({state})'**
+  String filterUseMyProfile(Object state);
+
+  /// No description provided for @filterGroupCoverage.
+  ///
+  /// In en, this message translates to:
+  /// **'Coverage'**
+  String get filterGroupCoverage;
+
+  /// No description provided for @filterGroupOffers.
+  ///
+  /// In en, this message translates to:
+  /// **'What it offers'**
+  String get filterGroupOffers;
+
+  /// No description provided for @filterGroupFor.
+  ///
+  /// In en, this message translates to:
+  /// **'For'**
+  String get filterGroupFor;
+
+  /// No description provided for @filterCoverageNationwide.
+  ///
+  /// In en, this message translates to:
+  /// **'Nationwide'**
+  String get filterCoverageNationwide;
+
+  /// No description provided for @filterShowSchemes.
+  ///
+  /// In en, this message translates to:
+  /// **'Show {count} schemes'**
+  String filterShowSchemes(Object count);
+
+  /// No description provided for @filterTypeLoans.
+  ///
+  /// In en, this message translates to:
+  /// **'Loans & credit'**
+  String get filterTypeLoans;
+
+  /// No description provided for @filterTypeSubsidies.
+  ///
+  /// In en, this message translates to:
+  /// **'Subsidies'**
+  String get filterTypeSubsidies;
+
+  /// No description provided for @filterTypeGrants.
+  ///
+  /// In en, this message translates to:
+  /// **'Grants & equity'**
+  String get filterTypeGrants;
+
+  /// No description provided for @filterTypeGuarantee.
+  ///
+  /// In en, this message translates to:
+  /// **'Guarantee'**
+  String get filterTypeGuarantee;
+
+  /// No description provided for @filterTypeTraining.
+  ///
+  /// In en, this message translates to:
+  /// **'Training'**
+  String get filterTypeTraining;
+
+  /// No description provided for @filterTypeMarket.
+  ///
+  /// In en, this message translates to:
+  /// **'Market & export'**
+  String get filterTypeMarket;
+
+  /// No description provided for @filterTypeInfra.
+  ///
+  /// In en, this message translates to:
+  /// **'Infrastructure'**
+  String get filterTypeInfra;
+
+  /// No description provided for @filterBenWomen.
+  ///
+  /// In en, this message translates to:
+  /// **'Women'**
+  String get filterBenWomen;
+
+  /// No description provided for @filterBenSc.
+  ///
+  /// In en, this message translates to:
+  /// **'SC'**
+  String get filterBenSc;
+
+  /// No description provided for @filterBenSt.
+  ///
+  /// In en, this message translates to:
+  /// **'ST'**
+  String get filterBenSt;
+
+  /// No description provided for @filterBenDifferentlyAbled.
+  ///
+  /// In en, this message translates to:
+  /// **'Differently-abled'**
+  String get filterBenDifferentlyAbled;
+
+  /// No description provided for @filterBenTransgender.
+  ///
+  /// In en, this message translates to:
+  /// **'Transgender'**
+  String get filterBenTransgender;
+
+  /// No description provided for @filterBenMinority.
+  ///
+  /// In en, this message translates to:
+  /// **'Minority'**
+  String get filterBenMinority;
+
+  /// No description provided for @filterBenExServicemen.
+  ///
+  /// In en, this message translates to:
+  /// **'Ex-servicemen'**
+  String get filterBenExServicemen;
+
+  /// No description provided for @sortRelevance.
+  ///
+  /// In en, this message translates to:
+  /// **'Relevance'**
+  String get sortRelevance;
+
+  /// No description provided for @sortBestMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Best match for me'**
+  String get sortBestMatch;
+
+  /// No description provided for @sortSchemeNameAz.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheme name (A-Z)'**
+  String get sortSchemeNameAz;
+
   /// No description provided for @settingsRegularSubtitle.
   ///
   /// In en, this message translates to:

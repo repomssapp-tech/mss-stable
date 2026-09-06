@@ -199,6 +199,177 @@ class _SmartAssessmentBottomSheetState
       _questionFlow = _getMinistryFlow(widget.cardTitle);
       _currentQuestionId = 'min_q1';
     }
+    _seedCurrentAnswerFromProfile();
+  }
+
+  /// Pre-select the answer for the current question when the onboarding
+  /// profile already contains it (caste, income, gender, age, education,
+  /// home-state domicile). The user still taps to confirm or change it --
+  /// nothing is auto-submitted -- but they no longer re-enter data the app
+  /// already has. A no-op when the profile field is empty or the question
+  /// asks something new.
+  void _seedCurrentAnswerFromProfile() {
+    if (_answers.containsKey(_currentQuestionId)) return;
+    final node = _questionFlow[_currentQuestionId];
+    if (node == null) return;
+    final preset = _profileDefaultFor(node);
+    if (preset != null) _answers[_currentQuestionId] = preset;
+  }
+
+  /// Returns the raw option string on [node] that matches the current
+  /// profile, or null when the question is not one the profile can answer.
+  String? _profileDefaultFor(QuestionNode node) {
+    final p = Provider.of<AppProvider>(context, listen: false).profile;
+    final id = node.id.toLowerCase();
+    final q = node.questionText.toLowerCase();
+
+    String? pick(bool Function(String optLower) test) {
+      for (final o in node.options) {
+        if (test(o.toLowerCase())) return o;
+      }
+      return null;
+    }
+
+    // Gender
+    if (id.contains('gender') || q.contains('your gender')) {
+      final g = p.gender.toLowerCase();
+      if (g.contains('female') || g.contains('woman')) {
+        return pick((o) => o.contains('female') || o.contains('women'));
+      }
+      if (g.contains('male') || g.contains('man')) {
+        return pick((o) => o.contains('male') || o.contains('men'));
+      }
+      if (g.contains('trans') || g.contains('other')) {
+        return pick((o) => o.contains('other') || o.contains('transgender'));
+      }
+      return null;
+    }
+
+    // Caste / social category
+    if (id.contains('caste') ||
+        id.contains('reservation') ||
+        q.contains('caste') ||
+        q.contains('social category') ||
+        q.contains('reservation list')) {
+      final c = p.community.toLowerCase();
+      if (c.isEmpty) return null;
+      if (c.contains('scheduled') || c == 'sc' || c == 'st' ||
+          c.contains('sc/') || c.contains('/st') || c.contains('sc ') ||
+          c.contains(' st')) {
+        return pick((o) => o.contains('sc') || o.contains('st'));
+      }
+      if (c.contains('obc') || c.contains('bc') || c.contains('sebc') ||
+          c.contains('mbc') || c.contains('backward')) {
+        return pick((o) =>
+            o.contains('obc') || o.contains('bc') || o.contains('sebc') ||
+            o.contains('backward'));
+      }
+      if (c.contains('ews') || c.contains('minor')) {
+        return pick((o) => o.contains('ews') || o.contains('minor'));
+      }
+      if (c.contains('general') || c.contains('open')) {
+        return pick((o) => o.contains('general') || o.contains('open'));
+      }
+      return null;
+    }
+
+    // Annual income (household). Options are ascending brackets in lakhs.
+    if (id.contains('income') ||
+        (q.contains('annual') && q.contains('income'))) {
+      final inc = p.annualIncome;
+      if (inc <= 0) return null;
+      for (final o in node.options) {
+        final ol = o.toLowerCase();
+        final nums = RegExp(r'([\d.]+)')
+            .allMatches(ol)
+            .map((m) => double.tryParse(m.group(1)!) ?? 0)
+            .where((n) => n > 0)
+            .map((n) => n * 100000) // "lakhs"
+            .toList();
+        if (nums.isEmpty) continue;
+        final isLower =
+            ol.contains('under') || ol.contains('below') || ol.contains('less');
+        final isUpper =
+            ol.contains('over') || ol.contains('above') || ol.contains('more');
+        if (isLower && inc < nums.first) return o;
+        if (isUpper && inc >= nums.first) return o;
+        if (!isLower && !isUpper && nums.length >= 2) {
+          if (inc >= nums.first && inc <= nums.last) return o;
+        }
+      }
+      return null;
+    }
+
+    // Applicant age (ministry flow).
+    if (id == 'min_q2' || q.contains('current age')) {
+      final dob = p.dob;
+      if (dob == null) return null;
+      final now = DateTime.now();
+      var age = now.year - dob.year;
+      if (now.month < dob.month ||
+          (now.month == dob.month && now.day < dob.day)) {
+        age--;
+      }
+      for (final o in node.options) {
+        final ol = o.toLowerCase();
+        final nums = RegExp(r'(\d+)')
+            .allMatches(ol)
+            .map((m) => int.parse(m.group(1)!))
+            .toList();
+        if (nums.isEmpty) continue;
+        if (ol.contains('above') || ol.contains('+')) {
+          if (age >= nums.first) return o;
+        } else if (nums.length >= 2 && age >= nums.first && age <= nums.last) {
+          return o;
+        }
+      }
+      return null;
+    }
+
+    // Education level (education flow, first question).
+    if (id == 'edu_q1' || q.contains('level of education')) {
+      final e = p.educationLevel.toLowerCase();
+      if (e.isEmpty) return null;
+      if (e.contains('phd') ||
+          e.contains('ph.d') ||
+          e.contains('doctor') ||
+          e.contains('research')) {
+        return pick((o) => o.contains('ph.d') || o.contains('research'));
+      }
+      if (e.contains('post') || e.contains('master') || e.contains('pg')) {
+        return pick((o) => o.contains('postgraduate'));
+      }
+      if (e.contains('under') ||
+          e.contains('bachelor') ||
+          e.contains('ug') ||
+          e.contains('graduat') ||
+          e.contains('degree')) {
+        return pick((o) => o.contains('undergraduate'));
+      }
+      if (e.contains('school') ||
+          e.contains('12') ||
+          e.contains('10') ||
+          e.contains('secondary') ||
+          e.contains('hsc') ||
+          e.contains('sslc')) {
+        return pick((o) => o.contains('schooling'));
+      }
+      return null;
+    }
+
+    // State domicile (state flow, first question).
+    if (id == 'state_q1' || q.contains('permanent resident')) {
+      final ps = p.state.trim().toLowerCase();
+      if (ps.isEmpty) return null;
+      final card = widget.cardTitle.trim().toLowerCase();
+      final sameState =
+          ps == card || (card.isNotEmpty && (ps.contains(card) || card.contains(ps)));
+      return pick((o) => sameState
+          ? (o.contains('yes') || o.contains('domicile') || o.contains('permanent'))
+          : (o.contains('no') || o.contains('temporary')));
+    }
+
+    return null;
   }
 
   Color _getThemeColor() {
@@ -224,6 +395,7 @@ class _SmartAssessmentBottomSheetState
 
       if (nextId != null && _questionFlow.containsKey(nextId)) {
         _currentQuestionId = nextId;
+        _seedCurrentAnswerFromProfile();
       } else {
         _submitAnswers();
       }
@@ -235,6 +407,7 @@ class _SmartAssessmentBottomSheetState
       setState(() {
         _currentQuestionId = _questionHistory.removeLast();
         _answers.remove(_currentQuestionId);
+        _seedCurrentAnswerFromProfile();
       });
     }
   }
@@ -342,6 +515,97 @@ class _SmartAssessmentBottomSheetState
       }
     });
 
+    // Turn the "what do you need" answers into real result filters so the
+    // list the user lands on is actually narrowed by what they picked --
+    // scheme-type facets from the intent questions, special-category facets
+    // only from questions that explicitly target a beneficiary group.
+    final Set<String> pickedSchemeTypes = {};
+    final Set<String> pickedBeneficiaries = {};
+    _answers.forEach((qId, ans) {
+      final a = ans.toLowerCase();
+      final q = qId.toLowerCase();
+      final qText = (_questionFlow[qId]?.questionText ?? '').toLowerCase();
+      final isGenderQ = q.contains('gender') || qText.contains('your gender');
+      final isDemographicQ =
+          q.contains('demographic') || qText.contains('woman or sc/st');
+
+      if (a.contains('loan') ||
+          a.contains('credit') ||
+          a.contains('mudra') ||
+          a.contains('kcc') ||
+          a.contains('working capital') ||
+          a.contains('micro-credit') ||
+          a.contains('micro credit')) {
+        pickedSchemeTypes.add('loans');
+      }
+      if (a.contains('guarantee') || a.contains('cgtmse')) {
+        pickedSchemeTypes.add('guarantee');
+      }
+      if (a.contains('subsid') ||
+          a.contains('subvention') ||
+          a.contains('reimburs') ||
+          a.contains('waiver') ||
+          a.contains('margin money') ||
+          a.contains('toolkit') ||
+          a.contains('incentive')) {
+        pickedSchemeTypes.add('subsidies');
+      }
+      if (a.contains('grant') ||
+          a.contains('seed fund') ||
+          a.contains('equity') ||
+          a.contains('fellowship') ||
+          a.contains('corpus') ||
+          a.contains('cash transfer') ||
+          a.contains('allowance') ||
+          a.contains('pension') ||
+          a.contains('scholarship')) {
+        pickedSchemeTypes.add('grants');
+      }
+      if (a.contains('training') ||
+          a.contains('pmkvy') ||
+          a.contains('skill') ||
+          a.contains('mentor') ||
+          a.contains('incubat')) {
+        pickedSchemeTypes.add('training');
+      }
+      if (a.contains('exhibition') ||
+          a.contains('stall') ||
+          a.contains('market') ||
+          a.contains('export') ||
+          a.contains('international fair') ||
+          a.contains('trade')) {
+        pickedSchemeTypes.add('market');
+      }
+      if (a.contains('infrastructure') ||
+          a.contains('cluster') ||
+          a.contains('hardware') ||
+          a.contains('software infra')) {
+        pickedSchemeTypes.add('infra');
+      }
+
+      if (isDemographicQ) {
+        if (a.contains('woman') || a.contains('women')) {
+          pickedBeneficiaries.add('women');
+        }
+        if (a.contains('sc/st') || a.contains('sc / st') || a.contains('scst')) {
+          pickedBeneficiaries
+            ..add('sc')
+            ..add('st');
+        }
+      }
+      if (q.startsWith('women')) {
+        pickedBeneficiaries.add('women');
+      }
+      if (isGenderQ) {
+        if (a.contains('female') || a.contains('women')) {
+          pickedBeneficiaries.add('women');
+        }
+        if (a.contains('transgender') || a.contains('other')) {
+          pickedBeneficiaries.add('transgender');
+        }
+      }
+    });
+
     provider.clearFilters();
     if (widget.cardType == 'state') {
       state = widget.cardTitle;
@@ -350,6 +614,12 @@ class _SmartAssessmentBottomSheetState
       provider.updateFilter('category', widget.cardTitle);
     } else if (widget.cardType == 'ministry') {
       provider.updateFilter('ministry', widget.cardTitle);
+    }
+    if (pickedSchemeTypes.isNotEmpty) {
+      provider.updateFilter('schemeTypes', pickedSchemeTypes.toList());
+    }
+    if (pickedBeneficiaries.isNotEmpty) {
+      provider.updateFilter('beneficiaries', pickedBeneficiaries.toList());
     }
 
     final updatedProfile = UserProfile(

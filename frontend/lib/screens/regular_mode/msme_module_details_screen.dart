@@ -264,7 +264,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
         elevation: 1,
       ),
       body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -1740,7 +1740,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
               constraints: const BoxConstraints(maxHeight: 280),
               child: ListView.builder(
                 shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
+                physics: const ClampingScrollPhysics(),
                 itemCount: filtered.length,
                 itemBuilder: (context, index) {
                   final inst = filtered[index];

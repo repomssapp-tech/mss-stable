@@ -62,7 +62,7 @@ class EligibilityResultsScreen extends StatelessWidget {
         children: [
           Expanded(
             child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               child: Column(
                 children: [
                   const SizedBox(height: AppSpacing.sm),

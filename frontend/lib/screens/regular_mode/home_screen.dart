@@ -245,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
           // 2. Scrollable content
           SafeArea(
             child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
                 child: Column(
@@ -571,7 +571,7 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 38,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         itemCount: pills.length,
         itemBuilder: (context, index) {
           final text = pills[index];
@@ -755,7 +755,7 @@ class _HomeScreenState extends State<HomeScreen> {
               // Restart timer to avoid sliding immediately after manual swipe
               _startCarouselTimer(items.length);
             },
-            physics: const BouncingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             itemCount: items.length,
             itemBuilder: (context, index) {
               final item = items[index];
@@ -1062,14 +1062,14 @@ class _HomeScreenState extends State<HomeScreen> {
         const SizedBox(height: AppSpacing.md),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          physics: const BouncingScrollPhysics(),
+          physics: const ClampingScrollPhysics(),
           child: Row(
             children: [
               _buildJourneyActionCard(
                 context: context,
                 title: context.l10n.exportSupport,
                 icon: Icons.public_rounded,
-                categoryName: 'Business & MSME',
+                moduleId: 'export',
               ),
               _buildJourneyActionCard(
                 context: context,
@@ -1081,19 +1081,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 context: context,
                 title: context.l10n.registerUdyam,
                 icon: Icons.app_registration_rounded,
-                categoryName: 'Business & MSME',
+                moduleId: 'udyam',
               ),
               _buildJourneyActionCard(
                 context: context,
                 title: context.l10n.findFunding,
                 icon: Icons.currency_rupee_rounded,
-                categoryName: 'Business & MSME',
+                categoryName: 'Business Loans & Credit',
               ),
               _buildJourneyActionCard(
                 context: context,
                 title: context.l10n.startABusiness,
                 icon: Icons.rocket_launch_rounded,
-                categoryName: 'Business & MSME',
+                categoryName: 'Startup',
               ),
             ],
           ),
@@ -1106,7 +1106,8 @@ class _HomeScreenState extends State<HomeScreen> {
     required BuildContext context,
     required String title,
     required IconData icon,
-    required String categoryName,
+    String? moduleId,
+    String? categoryName,
   }) {
     String formattedTitle = title;
     if (title.contains(' ')) {
@@ -1115,11 +1116,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return GestureDetector(
       onTap: () async {
-        final lowerTitle = title.toLowerCase();
+        // Route on the language-stable moduleId / categoryName, never the
+        // localized `title` -- in Tamil a title like "உத்யம் பதிவு" contains
+        // no "udyam"/"export" substring, so the old checks silently fell
+        // through and every card returned the same generic fallback list.
 
-        // 1. Register Udyam -> Opens interactive Udyam Registration module
-        if (lowerTitle.contains('udyam') ||
-            lowerTitle.contains('register udyam')) {
+        // 1. Register Udyam -> interactive Udyam Registration module
+        if (moduleId == 'udyam') {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (_) => const MSMEModuleDetailsScreen(
@@ -1136,8 +1139,8 @@ class _HomeScreenState extends State<HomeScreen> {
           return;
         }
 
-        // 2. Export Support -> Opens Export Readiness module
-        if (lowerTitle.contains('export')) {
+        // 2. Export Support -> Export Readiness module
+        if (moduleId == 'export') {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (_) => const MSMEModuleDetailsScreen(
@@ -1154,7 +1157,7 @@ class _HomeScreenState extends State<HomeScreen> {
         }
 
         final schemes = await SchemeRepository.instance.getSchemesByCategory(
-          title,
+          categoryName ?? title,
         );
         if (!context.mounted) return;
         Navigator.of(context).push(
@@ -1315,7 +1318,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: ListView.builder(
             controller: _recommendedScrollController,
             scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             itemCount: items.length,
             itemBuilder: (context, index) {
               final item = items[index];
@@ -1769,7 +1772,7 @@ class _HomeScreenState extends State<HomeScreen> {
           height: 178,
           child: ListView(
             scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             padding: const EdgeInsets.symmetric(vertical: AppSpacing.hairline),
             children: [
               _buildMSMESupportCard(
