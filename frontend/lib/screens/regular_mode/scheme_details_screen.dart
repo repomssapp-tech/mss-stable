@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show RenderAbstractViewport;
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -177,15 +178,28 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
         _servicesKey,
         _processKey,
       ];
-      final key = keys[index];
-      final ctx = key.currentContext;
-      if (ctx != null && ctx.mounted) {
-        Scrollable.ensureVisible(
-          ctx,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-        );
-      }
+      final ctx = keys[index].currentContext;
+      if (ctx == null || !ctx.mounted) return;
+      final box = ctx.findRenderObject();
+      if (box is! RenderBox) return;
+
+      // `Scrollable.ensureVisible` is a no-op once any part of the target is
+      // already on screen, so for the lower sections (Services, Process)
+      // whose collapsed header was visible it did nothing -- the tab looked
+      // dead. Compute the offset that puts the section's top just under the
+      // 48px pinned tab bar and animate there explicitly, clamped to the
+      // scroll range (the trailing spacer sliver gives the last sections
+      // enough room to actually reach the top).
+      final position = Scrollable.of(ctx).position;
+      final reveal =
+          RenderAbstractViewport.of(box).getOffsetToReveal(box, 0.0).offset;
+      final target = (reveal - _StickyTabBarDelegate.kHeight - 12.0)
+          .clamp(position.minScrollExtent, position.maxScrollExtent);
+      position.animateTo(
+        target,
+        duration: const Duration(milliseconds: 320),
+        curve: Curves.easeInOut,
+      );
     });
   }
 
@@ -282,7 +296,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
           // Bottom Layer: CustomScrollView withSticky Tabs
           Positioned.fill(
             child: CustomScrollView(
-              physics: const BouncingScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               slivers: [
                 // 1. Custom App Bar
                 SliverAppBar(
@@ -345,7 +359,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                       ),
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        physics: const BouncingScrollPhysics(),
+                        physics: const ClampingScrollPhysics(),
                         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
                         child: Row(
                           children: List.generate(_getTabs(context).length, (
@@ -527,6 +541,12 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                           child: _buildProcessContent(
                             scheme.applicationProcess,
                           ),
+                        ),
+                        // Scroll slack so the tab bar's lower sections
+                        // (Services / Process) can be brought to the top by
+                        // _scrollToSection instead of clamping short.
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).height * 0.5,
                         ),
                       ],
                     ]),
@@ -773,7 +793,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
 
               return SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                physics: const BouncingScrollPhysics(),
+                physics: const ClampingScrollPhysics(),
                 child: Row(
                   children: benefitCards.map((card) {
                     return Container(
@@ -1501,13 +1521,15 @@ class _HeroSection extends StatelessWidget {
 class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
   final Widget child;
 
+  static const double kHeight = 48.0;
+
   const _StickyTabBarDelegate({required this.child});
 
   @override
-  double get minExtent => 48.0;
+  double get minExtent => kHeight;
 
   @override
-  double get maxExtent => 48.0;
+  double get maxExtent => kHeight;
 
   @override
   Widget build(
@@ -1515,7 +1537,7 @@ class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return Container(color: Colors.white, height: 48.0, child: child);
+    return Container(color: Colors.white, height: kHeight, child: child);
   }
 
   @override
@@ -1631,6 +1653,11 @@ class _BottomActionBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Tamil button labels are ~2x longer than English; size the text for the
+    // active language (with a readable floor) instead of letting a FittedBox
+    // shrink it to nothing.
+    final bool isTamil = Localizations.localeOf(context).languageCode == 'ta';
+    final double labelSize = isTamil ? 11.5 : 14.0;
     return Container(
       padding: EdgeInsets.only(
         left: 16,
@@ -1656,7 +1683,7 @@ class _BottomActionBar extends StatelessWidget {
           // Save Scheme Button — Fix 2: FittedBox prevents overflow
           Expanded(
             child: SizedBox(
-              height: 50,
+              height: 54,
               child: OutlinedButton(
                 onPressed: onBookmarkToggle,
                 style: OutlinedButton.styleFrom(
@@ -1665,29 +1692,33 @@ class _BottomActionBar extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                        color: const Color(0xFF2563EB),
-                        size: 20,
-                      ),
-                      const SizedBox(width: AppSpacing.sm),
-                      Text(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                      color: const Color(0xFF2563EB),
+                      size: 20,
+                    ),
+                    const SizedBox(width: AppSpacing.xs),
+                    Flexible(
+                      child: Text(
                         isBookmarked
                             ? context.l10n.savedSchemeButton
                             : context.l10n.saveSchemeButton,
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.inter(
                           color: const Color(0xFF2563EB),
                           fontWeight: FontWeight.bold,
-                          fontSize: 14.0,
+                          fontSize: labelSize,
+                          height: 1.15,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -1697,7 +1728,7 @@ class _BottomActionBar extends StatelessWidget {
           // Apply Now Button — Fix 2: FittedBox prevents overflow
           Expanded(
             child: SizedBox(
-              height: 50,
+              height: 54,
               child: ElevatedButton(
                 onPressed: applyEnabled ? onApply : null,
                 style: ElevatedButton.styleFrom(
@@ -1708,27 +1739,31 @@ class _BottomActionBar extends StatelessWidget {
                   ),
                   elevation: 0,
                 ),
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(
+                      child: Text(
                         context.l10n.applyNowButton,
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.inter(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 14.0,
+                          fontSize: labelSize,
+                          height: 1.15,
                         ),
                       ),
-                      const SizedBox(width: AppSpacing.sm),
-                      const Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                        size: 16,
-                      ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(width: AppSpacing.xs),
+                    const Icon(
+                      Icons.arrow_forward,
+                      color: Colors.white,
+                      size: 16,
+                    ),
+                  ],
                 ),
               ),
             ),

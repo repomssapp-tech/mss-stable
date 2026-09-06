@@ -1043,7 +1043,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           // Notifications List
           Expanded(
             child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               child: Column(
                 children: [
                   // 1. New Scheme Alerts Section

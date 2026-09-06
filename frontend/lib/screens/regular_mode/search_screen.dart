@@ -760,7 +760,7 @@ class SearchScreenState extends State<SearchScreen> {
       height: 38,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         itemCount: pills.length,
         itemBuilder: (context, index) {
           final text = pills[index];
@@ -901,12 +901,28 @@ class SearchScreenState extends State<SearchScreen> {
     );
   }
 
+  /// Localized display for a sort value. `_sortBy` keeps the stable English
+  /// key (compared in _applyFiltersAndSort); only the label is translated.
+  String _sortLabel(String value) {
+    switch (value) {
+      case 'Best match for me':
+        return context.l10n.sortBestMatch;
+      case 'Scheme name (A-Z)':
+        return context.l10n.sortSchemeNameAz;
+      case 'Relevance':
+      default:
+        return context.l10n.sortRelevance;
+    }
+  }
+
   Widget _buildDropdownChip(
     String label,
     List<String> options,
     String currentValue,
-    ValueChanged<String> onChanged,
-  ) {
+    ValueChanged<String> onChanged, {
+    String Function(String value)? displayOf,
+  }) {
+    String show(String v) => displayOf?.call(v) ?? v;
     final bool isActive =
         currentValue.isNotEmpty &&
         currentValue != 'All' &&
@@ -929,7 +945,7 @@ class SearchScreenState extends State<SearchScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      opt,
+                      show(opt),
                       style: GoogleFonts.inter(
                         fontSize: 12.5,
                         fontWeight: opt == currentValue
@@ -971,7 +987,7 @@ class SearchScreenState extends State<SearchScreen> {
               Text(
                 (currentValue.isEmpty || currentValue == 'All')
                     ? label
-                    : '$label: $currentValue',
+                    : '$label: ${show(currentValue)}',
                 style: GoogleFonts.inter(
                   fontSize: 11.5,
                   fontWeight: FontWeight.w500,
@@ -1003,7 +1019,7 @@ class SearchScreenState extends State<SearchScreen> {
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      physics: const BouncingScrollPhysics(),
+      physics: const ClampingScrollPhysics(),
       child: Row(
         children: [
           // Filter Button
@@ -1016,8 +1032,8 @@ class SearchScreenState extends State<SearchScreen> {
             ),
             label: Text(
               facetCount > 0
-                  ? '${isTa ? "வடிகட்டி" : "Filter"} · $facetCount'
-                  : (isTa ? "வடிகட்டி" : "Filter"),
+                  ? '${context.l10n.filterButton} · $facetCount'
+                  : context.l10n.filterButton,
               style: GoogleFonts.inter(
                 fontSize: 11.5,
                 fontWeight: FontWeight.bold,
@@ -1095,6 +1111,7 @@ class SearchScreenState extends State<SearchScreen> {
               setState(() => _sortBy = v);
               _applyFiltersAndSort();
             },
+            displayOf: _sortLabel,
           ),
         ],
       ),
@@ -1125,7 +1142,7 @@ class SearchScreenState extends State<SearchScreen> {
     return ListView(
       key: const ValueKey("IdleContent"),
       padding: const EdgeInsets.all(AppSpacing.lg),
-      physics: const BouncingScrollPhysics(),
+      physics: const ClampingScrollPhysics(),
       children: [
         _buildHighlightSummaryCard(),
         const SizedBox(height: AppSpacing.xxl),
@@ -1245,7 +1262,7 @@ class SearchScreenState extends State<SearchScreen> {
     return ListView.builder(
       key: const ValueKey('ResultsContent'),
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-      physics: const BouncingScrollPhysics(),
+      physics: const ClampingScrollPhysics(),
       itemCount: _searchResults.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {

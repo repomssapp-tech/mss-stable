@@ -576,7 +576,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
               child: displaySchemes.isEmpty
                   ? _buildEmptyState(context, provider)
                   : ListView.builder(
-                      physics: const BouncingScrollPhysics(),
+                      physics: const ClampingScrollPhysics(),
                       itemCount: displaySchemes.length + 1,
                       itemBuilder: (context, index) {
                         if (index == displaySchemes.length) {

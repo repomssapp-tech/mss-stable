@@ -137,7 +137,7 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                                       ),
                                       const SizedBox(height: AppSpacing.xs),
                                       Text(
-                                        'Select the navigation style that best suits you.',
+                                        context.l10n.navSelectStyleSubtitle,
                                         textAlign: TextAlign.center,
                                         style: GoogleFonts.inter(
                                           fontSize: 13.5,
@@ -165,19 +165,22 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                                         icon: Icons.explore_rounded,
                                         iconColor: kPrimaryBlue,
                                         iconBgColor: const Color(0xFFEFF6FF),
-                                        chips: const [
-                                          ChipInfo(Icons.bolt, 'Fast & Simple'),
+                                        chips: [
+                                          ChipInfo(
+                                            Icons.bolt,
+                                            context.l10n.navChipFastSimple,
+                                          ),
                                           ChipInfo(
                                             Icons.phone_android,
-                                            'Traditional UI',
+                                            context.l10n.navChipTraditionalUi,
                                           ),
                                           ChipInfo(
                                             Icons.touch_app,
-                                            'Self-paced browsing',
+                                            context.l10n.navChipSelfPaced,
                                           ),
                                           ChipInfo(
                                             Icons.auto_awesome,
-                                            'AI available anytime',
+                                            context.l10n.navChipAiAnytime,
                                           ),
                                         ],
                                         onTap: () {
@@ -200,22 +203,22 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                                         icon: Icons.support_agent_rounded,
                                         iconColor: const Color(0xFF2563EB),
                                         iconBgColor: const Color(0xFFEFF6FF),
-                                        chips: const [
+                                        chips: [
                                           ChipInfo(
                                             Icons.mic,
-                                            'Voice-first experience',
+                                            context.l10n.navChipVoiceFirst,
                                           ),
                                           ChipInfo(
                                             Icons.person,
-                                            'Personalized guidance',
+                                            context.l10n.navChipPersonalized,
                                           ),
                                           ChipInfo(
                                             Icons.lightbulb_outline,
-                                            'Smart recommendations',
+                                            context.l10n.navChipSmartRecs,
                                           ),
                                           ChipInfo(
                                             Icons.co_present,
-                                            'Explains every screen',
+                                            context.l10n.navChipExplainsScreens,
                                           ),
                                         ],
                                         onTap: () {
@@ -595,7 +598,7 @@ class PrimaryButton extends StatelessWidget {
             Flexible(
               child: FitOneLine(
                 child: Text(
-                  'Continue',
+                  context.l10n.navContinueButton,
                   style: GoogleFonts.inter(
                     fontSize: 16.5,
                     fontWeight: FontWeight.bold,

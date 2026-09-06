@@ -767,7 +767,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
       backgroundColor: AppConstants.backgroundColor,
       body: SafeArea(
         child: ListView(
-          physics: const BouncingScrollPhysics(),
+          physics: const ClampingScrollPhysics(),
           padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
           children: [
             // Header Section

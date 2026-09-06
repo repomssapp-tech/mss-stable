@@ -849,10 +849,15 @@ class MssSchemeAdapter {
       }
     }
 
+    // No silent fallback: a scheme with no verified source URL keeps an
+    // empty officialWebsite. The UI then disables the Apply / Source
+    // buttons (see _BottomActionBar `applyEnabled` and
+    // _buildOfficialSourceCard) instead of sending the user to an
+    // unrelated government homepage.
     final officialWebsite =
         (officialWebsiteRaw != null && officialWebsiteRaw.trim().isNotEmpty)
         ? officialWebsiteRaw.trim()
-        : 'https://tn.gov.in';
+        : '';
     final applicationUrl =
         (appProc['onlineUrl'] as String?) ??
         (resources['applicationPortalUrl'] as String?) ??

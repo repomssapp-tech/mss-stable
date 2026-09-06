@@ -217,7 +217,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify no check icons exist inside choice chips
-      expect(find.byIcon(Icons.check_circle), findsNothing);
+      expect(find.byIcon(Icons.check), findsNothing);
 
       // Tap Undergraduate chip to select
       await tester.ensureVisible(find.text('Undergraduate (Degree)'));
@@ -225,7 +225,7 @@ void main() {
       await tester.tap(find.text('Undergraduate (Degree)'));
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.check_circle), findsNWidgets(1));
+      expect(find.byIcon(Icons.check), findsNWidgets(1));
 
       // Tap Undergraduate chip again to deselect
       await tester.ensureVisible(find.text('Undergraduate (Degree)'));
@@ -233,7 +233,7 @@ void main() {
       await tester.tap(find.text('Undergraduate (Degree)'));
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.check_circle), findsNothing);
+      expect(find.byIcon(Icons.check), findsNothing);
 
       // Tap General (OC) community chip to select
       await tester.ensureVisible(find.text('General (OC)'));
@@ -241,7 +241,7 @@ void main() {
       await tester.tap(find.text('General (OC)'));
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.check_circle), findsNWidgets(1));
+      expect(find.byIcon(Icons.check), findsNWidgets(1));
 
       // Tap General (OC) again to deselect
       await tester.ensureVisible(find.text('General (OC)'));
@@ -249,7 +249,7 @@ void main() {
       await tester.tap(find.text('General (OC)'));
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.check_circle), findsNothing);
+      expect(find.byIcon(Icons.check), findsNothing);
 
       // Verify "No Income" option exists for students and users with no income
       expect(find.text('No Income'), findsOneWidget);
@@ -260,7 +260,7 @@ void main() {
       await tester.tap(find.text('No Income'));
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.check_circle), findsNWidgets(1));
+      expect(find.byIcon(Icons.check), findsNWidgets(1));
 
       // Tap No Income again to deselect
       await tester.ensureVisible(find.text('No Income'));
@@ -268,7 +268,7 @@ void main() {
       await tester.tap(find.text('No Income'));
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.check_circle), findsNothing);
+      expect(find.byIcon(Icons.check), findsNothing);
 
       // Tap Under ₹1.5 Lakhs income chip to select
       await tester.ensureVisible(find.text('Under ₹1.5 Lakhs'));
@@ -276,7 +276,7 @@ void main() {
       await tester.tap(find.text('Under ₹1.5 Lakhs'));
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.check_circle), findsNWidgets(1));
+      expect(find.byIcon(Icons.check), findsNWidgets(1));
 
       // Tap Under ₹1.5 Lakhs again to deselect
       await tester.ensureVisible(find.text('Under ₹1.5 Lakhs'));
@@ -284,7 +284,7 @@ void main() {
       await tester.tap(find.text('Under ₹1.5 Lakhs'));
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.check_circle), findsNothing);
+      expect(find.byIcon(Icons.check), findsNothing);
     },
   );
 
@@ -314,7 +314,7 @@ void main() {
       await tester.pumpWidget(buildTestApp(const EligibilityProfileScreen(), provider));
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.check_circle), findsNothing);
+      expect(find.byIcon(Icons.check), findsNothing);
     },
   );
 }

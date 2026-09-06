@@ -61,6 +61,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   // --- Step 3: About You State ---
   String? _selectedRole;
   bool _hasSubmittedStep3 = false;
+  bool _hasSubmittedStep4 = false;
 
   // --- Step 4: Eligibility State ---
   late String _selectedEducation;
@@ -225,12 +226,28 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     return null;
   }
 
+  /// A place name must have some letters (Latin or Tamil) and a sane length --
+  /// rejects junk like "1" / "11" / "." that non-empty checks let through.
+  static final RegExp _placeNameLetters = RegExp(r'[A-Za-z஀-௿]');
+  static bool _looksLikePlaceName(String value, {int min = 2}) {
+    final t = value.trim();
+    return t.length >= min && _placeNameLetters.hasMatch(t);
+  }
+
   bool get _isStep2Valid =>
       _doorStreetController.text.trim().isNotEmpty &&
       _areaLocalityController.text.trim().isNotEmpty &&
-      _cityDistrictController.text.trim().isNotEmpty &&
-      _stateController.text.trim().isNotEmpty &&
+      _looksLikePlaceName(_cityDistrictController.text, min: 2) &&
+      _looksLikePlaceName(_stateController.text, min: 3) &&
       _pincodeController.text.trim().length == 6;
+
+  // Step 4 (Eligibility) now requires education, community and income --
+  // these drive scheme matching, so the profile is not "complete" without
+  // them. Special-category toggles stay optional.
+  bool get _isStep4Valid =>
+      _selectedEducation.isNotEmpty &&
+      _selectedCommunity.isNotEmpty &&
+      _selectedIncome != null;
 
   static String _canonicalRoleTitle(String roleId) => switch (roleId) {
         'student' => 'Student',
@@ -479,29 +496,33 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
 
       setState(() => _currentStep = 4);
     } else if (_currentStep == 4) {
-      _completeProfile(isSkip: false);
+      setState(() => _hasSubmittedStep4 = true);
+      if (!_isStep4Valid) {
+        AppToast.showError(
+          context,
+          'Please complete all required fields to continue.',
+        );
+        return;
+      }
+      _completeProfile();
     }
   }
 
-  Future<void> _completeProfile({bool isSkip = false}) async {
+  Future<void> _completeProfile() async {
     if (_isSubmitting) return;
     setState(() => _isSubmitting = true);
 
     final provider = Provider.of<AppProvider>(context, listen: false);
-    final currentProfile = provider.profile;
-
-    final updatedProfile = isSkip
-        ? currentProfile.copyWith(profileCompleted: true)
-        : currentProfile.copyWith(
-            qualification: _selectedEducation,
-            educationLevel: _selectedEducation,
-            community: _selectedCommunity,
-            annualIncome: _selectedIncome ?? 0.0,
-            disability: _isDifferentlyAbled ? 'Yes' : 'No',
-            veteran: _isVeteran,
-            firstGenGraduate: _isFirstGenGraduate,
-            profileCompleted: true,
-          );
+    final updatedProfile = provider.profile.copyWith(
+      qualification: _selectedEducation,
+      educationLevel: _selectedEducation,
+      community: _selectedCommunity,
+      annualIncome: _selectedIncome ?? 0.0,
+      disability: _isDifferentlyAbled ? 'Yes' : 'No',
+      veteran: _isVeteran,
+      firstGenGraduate: _isFirstGenGraduate,
+      profileCompleted: true,
+    );
 
     try {
       await provider.updateProfile(updatedProfile, requireCloudSync: true);
@@ -587,29 +608,6 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                               ),
                             ),
                           ),
-                          if (_currentStep == 4) ...[
-                            TextButton(
-                              onPressed: _isSubmitting
-                                  ? null
-                                  : () => _completeProfile(isSkip: true),
-                              style: TextButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: AppSpacing.sm,
-                                  vertical: AppSpacing.xs,
-                                ),
-                                minimumSize: Size.zero,
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              ),
-                              child: Text(
-                                l('skip'),
-                                style: GoogleFonts.inter(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
-                                  color: kPrimaryBlue,
-                                ),
-                              ),
-                            ),
-                          ],
                         ],
                       ),
                       const SizedBox(height: AppSpacing.tight),
@@ -645,7 +643,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                               // 3. Scrollable Form Content (Only forms scroll and change!)
                               Expanded(
                                 child: SingleChildScrollView(
-                                  physics: const BouncingScrollPhysics(),
+                                  physics: const ClampingScrollPhysics(),
                                   child: _buildStepForm(_currentStep, isTa),
                                 ),
                               ),
@@ -661,7 +659,10 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                                           : (_currentStep == 3 &&
                                                   _selectedRole == null)
                                               ? Colors.grey.shade300
-                                              : kPrimaryBlue,
+                                              : (_currentStep == 4 &&
+                                                      !_isStep4Valid)
+                                                  ? Colors.grey.shade300
+                                                  : kPrimaryBlue,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
@@ -796,7 +797,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       children: [
         const SizedBox(height: AppSpacing.xs),
         Text(
-          "Let's start with your basic details.",
+          l('basic_details_subtitle'),
           textAlign: TextAlign.center,
           style: GoogleFonts.inter(
             fontSize: 13.5,
@@ -936,7 +937,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         const SizedBox(height: AppSpacing.xxl),
 
         // Info Box
-        _buildInfoBox(),
+        _buildInfoBox(isTa),
         const SizedBox(height: AppSpacing.md),
       ],
     );
@@ -988,7 +989,8 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     );
   }
 
-  Widget _buildInfoBox() {
+  Widget _buildInfoBox(bool isTa) {
+    String l(String key) => ProfileL10n.t(key, isTa);
     return Container(
       padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
@@ -1007,7 +1009,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Text(
-              'Your details are safe with us. We use this information to personalize your scheme recommendations.',
+              l('profile_info_note'),
               style: GoogleFonts.inter(
                 fontSize: 12,
                 color: kSlate800,
@@ -1024,12 +1026,13 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   // STEP 2 FORM: Location
   // ---------------------------------------------------------------------------
   Widget _buildStep2Form(bool isTa) {
+    String l(String key) => ProfileL10n.t(key, isTa);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: AppSpacing.xs),
         Text(
-          'Where Are You Located?',
+          l('where_located'),
           textAlign: TextAlign.center,
           style: GoogleFonts.poppins(
             fontSize: 16,
@@ -1083,7 +1086,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                 const SizedBox(width: AppSpacing.md),
                 Expanded(
                   child: Text(
-                    'Use Current Location',
+                    l('use_current_location'),
                     style: GoogleFonts.inter(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -1114,7 +1117,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
               child: Text(
-                'OR',
+                l('or'),
                 style: GoogleFonts.inter(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
@@ -1134,7 +1137,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         const SizedBox(height: AppSpacing.xl),
 
         // Door / House No / Street Address Field
-        _buildLabel('Door No / Flat / House No / Street *'),
+        _buildLabel('${l('door_no_street')} *'),
         const SizedBox(height: AppSpacing.tight),
         _buildTextField(
           controller: _doorStreetController,
@@ -1149,7 +1152,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         const SizedBox(height: AppSpacing.lg),
 
         // Area / Locality Field
-        _buildLabel('Area / Locality *'),
+        _buildLabel('${l('area_locality')} *'),
         const SizedBox(height: AppSpacing.tight),
         _buildTextField(
           controller: _areaLocalityController,
@@ -1164,37 +1167,38 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         const SizedBox(height: AppSpacing.lg),
 
         // City / District Field
-        _buildLabel('City / District *'),
+        _buildLabel('${l('city_district')} *'),
         const SizedBox(height: AppSpacing.tight),
         _buildTextField(
           controller: _cityDistrictController,
           hintText: 'e.g. Chennai',
           icon: Icons.location_city_outlined,
           errorText: _hasSubmittedStep2 &&
-                  _cityDistrictController.text.trim().isEmpty
-              ? 'Please enter your city or district'
+                  !_looksLikePlaceName(_cityDistrictController.text, min: 2)
+              ? 'Please enter a valid city or district'
               : null,
           onChanged: (_) => setState(() {}),
         ),
         const SizedBox(height: AppSpacing.lg),
 
         // State Field
-        _buildLabel('State *'),
+        _buildLabel('${l('state')} *'),
         const SizedBox(height: AppSpacing.tight),
         _buildTextField(
           controller: _stateController,
           hintText: 'e.g. Tamil Nadu',
           icon: Icons.map_outlined,
           errorText:
-              _hasSubmittedStep2 && _stateController.text.trim().isEmpty
-                  ? 'Please enter state'
+              _hasSubmittedStep2 &&
+                      !_looksLikePlaceName(_stateController.text, min: 3)
+                  ? 'Please enter a valid state'
                   : null,
           onChanged: (_) => setState(() {}),
         ),
         const SizedBox(height: AppSpacing.lg),
 
         // Pincode Field (below State)
-        _buildLabel('Pincode *'),
+        _buildLabel('${l('pincode')} *'),
         const SizedBox(height: AppSpacing.tight),
         _buildTextField(
           controller: _pincodeController,
@@ -1494,6 +1498,40 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   Widget _buildStep4Form(bool isTa) {
     String l(String key) => ProfileL10n.t(key, isTa);
 
+    // Two-column grid of selectable cards -- same visual language as the
+    // Step 3 role grid, so Step 4 reads as a sibling of the other steps
+    // instead of a loose chip cloud.
+    Widget optionGrid({
+      required List<Map<String, dynamic>> options,
+      required bool Function(Map<String, dynamic> opt) isSelected,
+      required void Function(Map<String, dynamic> opt) onSelect,
+    }) {
+      return GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: options.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: AppSpacing.sm,
+          mainAxisSpacing: AppSpacing.sm,
+          mainAxisExtent: 52,
+        ),
+        itemBuilder: (context, index) {
+          final opt = options[index];
+          final text =
+              isTa ? opt['labelTa'] as String : opt['label'] as String;
+          return _buildSelectCard(
+            label: text,
+            isSelected: isSelected(opt),
+            onTap: () => setState(() {
+              onSelect(opt);
+              _hasSubmittedStep4 = false;
+            }),
+          );
+        },
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -1512,252 +1550,241 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
           l('eligibility_subtitle'),
           textAlign: TextAlign.center,
           style: GoogleFonts.inter(
-            fontSize: 11.5,
+            fontSize: 13,
             color: kSlate500,
             height: 1.3,
           ),
         ),
         const SizedBox(height: AppSpacing.lg),
 
-        // 1. Education Level
-        _buildSectionLabel(
-          l('qualification'),
-          Icons.school_outlined,
-        ),
+        // 1. Education level (required)
+        _buildLabel('${l('qualification')} *'),
         const SizedBox(height: AppSpacing.sm),
-        Wrap(
-          spacing: AppSpacing.sm,
-          runSpacing: AppSpacing.sm,
-          children: _educationOptions.map((opt) {
-            final isSelected = _selectedEducation.isNotEmpty &&
-                _selectedEducation.toLowerCase() == opt['id']!.toLowerCase();
-            final text = isTa ? opt['labelTa']! : opt['label']!;
-            return _buildChoiceChip(
-              label: text,
-              isSelected: isSelected,
-              onTap: () {
-                setState(() {
-                  _selectedEducation = isSelected ? '' : opt['id']!;
-                });
-              },
-            );
-          }).toList(),
+        optionGrid(
+          options: _educationOptions,
+          isSelected: (opt) =>
+              _selectedEducation.isNotEmpty &&
+              _selectedEducation.toLowerCase() ==
+                  (opt['id'] as String).toLowerCase(),
+          onSelect: (opt) {
+            final id = opt['id'] as String;
+            _selectedEducation =
+                _selectedEducation.toLowerCase() == id.toLowerCase() ? '' : id;
+          },
         ),
+        if (_hasSubmittedStep4 && _selectedEducation.isEmpty)
+          _buildFieldError('Please select your education level'),
         const SizedBox(height: AppSpacing.lg),
 
-        // 2. Community Category
-        _buildSectionLabel(
-          l('community'),
-          Icons.people_outline,
-        ),
+        // 2. Community category (required)
+        _buildLabel('${l('community')} *'),
         const SizedBox(height: AppSpacing.tight),
-        Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.sm,
-            vertical: AppSpacing.tight,
-          ),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF1F5F9),
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: const Color(0xFFE2E8F0),
-            ),
-          ),
-          child: Row(
-            children: [
-              const Icon(
-                Icons.privacy_tip_outlined,
-                size: 14,
-                color: Color(0xFF2563EB),
-              ),
-              const SizedBox(width: AppSpacing.tight),
-              Expanded(
-                child: Text(
-                  isTa
-                      ? 'DPDPA 2023: சமூகப் பிரிவு தகவல் அரசு நலத்திட்ட தகுதி சரிபார்ப்பிற்கு மட்டுமே பாதுகாப்பாக பயன்படுத்தப்படும்.'
-                      : 'DPDPA 2023: Demographic data is processed exclusively for welfare scheme matching and is never shared.',
-                  style: GoogleFonts.inter(
-                    fontSize: 10,
-                    color: const Color(0xFF475569),
-                    height: 1.3,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+        _buildPrivacyNote(isTa),
         const SizedBox(height: AppSpacing.sm),
-        Wrap(
-          spacing: AppSpacing.sm,
-          runSpacing: AppSpacing.sm,
-          children: _communityOptions.map((opt) {
-            final isSelected = _selectedCommunity.isNotEmpty &&
-                _selectedCommunity.toLowerCase() == opt['id']!.toLowerCase();
-            final text = isTa ? opt['labelTa']! : opt['label']!;
-            return _buildChoiceChip(
-              label: text,
-              isSelected: isSelected,
-              onTap: () {
-                setState(() {
-                  _selectedCommunity = isSelected ? '' : opt['id']!;
-                });
-              },
-            );
-          }).toList(),
+        optionGrid(
+          options: _communityOptions,
+          isSelected: (opt) =>
+              _selectedCommunity.isNotEmpty &&
+              _selectedCommunity.toLowerCase() ==
+                  (opt['id'] as String).toLowerCase(),
+          onSelect: (opt) {
+            final id = opt['id'] as String;
+            _selectedCommunity =
+                _selectedCommunity.toLowerCase() == id.toLowerCase() ? '' : id;
+          },
         ),
+        if (_hasSubmittedStep4 && _selectedCommunity.isEmpty)
+          _buildFieldError('Please select your community category'),
         const SizedBox(height: AppSpacing.lg),
 
-        // 3. Annual Income Range
-        _buildSectionLabel(
-          l('income'),
-          Icons.currency_rupee,
-        ),
+        // 3. Annual household income (required)
+        _buildLabel('${l('income')} *'),
         const SizedBox(height: AppSpacing.sm),
-        Wrap(
-          spacing: AppSpacing.sm,
-          runSpacing: AppSpacing.sm,
-          children: _incomeOptions.map((opt) {
+        optionGrid(
+          options: _incomeOptions,
+          isSelected: (opt) =>
+              _selectedIncome != null &&
+              (_selectedIncome! - (opt['value'] as double)).abs() < 1000,
+          onSelect: (opt) {
             final val = opt['value'] as double;
-            final isSelected = _selectedIncome != null &&
-                (_selectedIncome! - val).abs() < 1000;
-            final text = isTa
-                ? opt['labelTa'] as String
-                : opt['label'] as String;
-            return _buildChoiceChip(
-              label: text,
-              isSelected: isSelected,
-              onTap: () {
-                setState(() {
-                  _selectedIncome = isSelected ? null : val;
-                });
-              },
-            );
-          }).toList(),
+            _selectedIncome = (_selectedIncome != null &&
+                    (_selectedIncome! - val).abs() < 1000)
+                ? null
+                : val;
+          },
         ),
+        if (_hasSubmittedStep4 && _selectedIncome == null)
+          _buildFieldError('Please select your annual income range'),
         const SizedBox(height: AppSpacing.lg),
 
-        // 4. Special Categories / Priority
-        _buildSectionLabel(
-          l('special_categories'),
-          Icons.verified_user_outlined,
-        ),
+        // 4. Special categories (optional)
+        _buildLabel(l('special_categories')),
         const SizedBox(height: AppSpacing.sm),
-
         _buildToggleCard(
           title: l('first_gen_graduate'),
           value: _isFirstGenGraduate,
-          onChanged: (val) {
-            setState(() {
-              _isFirstGenGraduate = val;
-            });
-          },
+          onChanged: (val) => setState(() => _isFirstGenGraduate = val),
         ),
         const SizedBox(height: AppSpacing.tight),
-
         _buildToggleCard(
           title: l('disability'),
           value: _isDifferentlyAbled,
-          onChanged: (val) {
-            setState(() {
-              _isDifferentlyAbled = val;
-            });
-          },
+          onChanged: (val) => setState(() => _isDifferentlyAbled = val),
         ),
         const SizedBox(height: AppSpacing.tight),
-
         _buildToggleCard(
           title: l('veteran'),
           value: _isVeteran,
-          onChanged: (val) {
-            setState(() {
-              _isVeteran = val;
-            });
-          },
+          onChanged: (val) => setState(() => _isVeteran = val),
         ),
         const SizedBox(height: AppSpacing.md),
       ],
     );
   }
 
-  Widget _buildSectionLabel(String text, IconData icon) {
-    return Row(
-      children: [
-        Icon(icon, size: 16, color: kPrimaryBlue),
-        const SizedBox(width: AppSpacing.tight),
-        Expanded(
-          child: Text(
-            text,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.inter(
-              fontSize: 13,
-              fontWeight: FontWeight.bold,
-              color: kSlate800,
+  // Slim privacy reassurance, styled like the Step 1 info box.
+  Widget _buildPrivacyNote(bool isTa) {
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.sm),
+      decoration: BoxDecoration(
+        color: kInfoBlueBg,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: const Color(0xFFD0E1FD)),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Icon(
+            Icons.privacy_tip_outlined,
+            size: 14,
+            color: kPrimaryBlue,
+          ),
+          const SizedBox(width: AppSpacing.tight),
+          Expanded(
+            child: Text(
+              isTa
+                  ? 'DPDPA 2023: சமூகப் பிரிவு தகவல் அரசு நலத்திட்டத் தகுதி சரிபார்ப்பிற்கு மட்டுமே பயன்படுத்தப்படும்; பகிரப்படாது.'
+                  : 'DPDPA 2023: Used only to match you with welfare schemes. Never shared.',
+              style: GoogleFonts.inter(
+                fontSize: 10.5,
+                color: kSlate800,
+                height: 1.35,
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  Widget _buildChoiceChip({
+  // Inline validation pill -- identical to the Step 3 error style.
+  Widget _buildFieldError(String message) {
+    return Padding(
+      padding: const EdgeInsets.only(top: AppSpacing.sm),
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.sm,
+        ),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFEF2F2),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: const Color(0xFFFECACA)),
+        ),
+        child: Row(
+          children: [
+            const Icon(
+              Icons.error_outline_rounded,
+              color: Color(0xFFDC2626),
+              size: 16,
+            ),
+            const SizedBox(width: AppSpacing.sm),
+            Expanded(
+              child: Text(
+                message,
+                style: GoogleFonts.inter(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: const Color(0xFFDC2626),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Selectable option card -- mirrors _buildRoleCard (Step 3).
+  Widget _buildSelectCard({
     required String label,
     required bool isSelected,
     required VoidCallback onTap,
   }) {
     return GestureDetector(
       onTap: onTap,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxWidth: MediaQuery.sizeOf(context).width - 72,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 150),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.sm,
         ),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 180),
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.md,
-            vertical: AppSpacing.sm,
+        decoration: BoxDecoration(
+          color: isSelected ? const Color(0xFFF5F9FF) : Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: isSelected ? kPrimaryBlue : kBorderGrey,
+            width: isSelected ? 1.8 : 1.2,
           ),
-          decoration: BoxDecoration(
-            color: isSelected ? const Color(0xFFEFF6FF) : Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-              color: isSelected ? kPrimaryBlue : kBorderGrey,
-              width: isSelected ? 1.4 : 1.0,
-            ),
-            boxShadow: isSelected
-                ? [
-                    BoxShadow(
-                      color: kPrimaryBlue.withValues(alpha: 0.1),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ]
-                : null,
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (isSelected) ...[
-                const Icon(Icons.check_circle, size: 14, color: kPrimaryBlue),
-                const SizedBox(width: AppSpacing.tight),
-              ],
-              Flexible(
-                child: Text(
-                  label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.inter(
-                    fontSize: 12,
-                    fontWeight:
-                        isSelected ? FontWeight.bold : FontWeight.w500,
-                    color: isSelected
-                        ? kPrimaryBlue
-                        : const Color(0xFF334155),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: kPrimaryBlue.withValues(alpha: 0.1),
+                    blurRadius: 8,
+                    offset: const Offset(0, 3),
                   ),
+                ]
+              : [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.02),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                label,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.inter(
+                  fontSize: 12.5,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                  color: isSelected ? kPrimaryBlue : kSlate800,
+                  height: 1.2,
                 ),
               ),
-            ],
-          ),
+            ),
+            const SizedBox(width: AppSpacing.xs),
+            Container(
+              width: 16,
+              height: 16,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: isSelected ? kPrimaryBlue : Colors.white,
+                border: Border.all(
+                  color: isSelected ? kPrimaryBlue : kBorderGrey,
+                  width: 1.5,
+                ),
+              ),
+              alignment: Alignment.center,
+              child: isSelected
+                  ? const Icon(Icons.check, color: Colors.white, size: 10)
+                  : null,
+            ),
+          ],
         ),
       ),
     );

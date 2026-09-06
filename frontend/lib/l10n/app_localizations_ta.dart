@@ -691,13 +691,13 @@ class AppLocalizationsTa extends AppLocalizations {
   String get sourceButton => 'மூலம்';
 
   @override
-  String get applyNowButton => 'இப்பொழுதே விண்ணப்பிக்கவும்';
+  String get applyNowButton => 'இப்போது விண்ணப்பிக்க';
 
   @override
-  String get saveSchemeButton => 'திட்டத்தை சேமிக்கவும்';
+  String get saveSchemeButton => 'சேமிக்கவும்';
 
   @override
-  String get savedSchemeButton => 'சேமிக்கப்பட்ட திட்டம்';
+  String get savedSchemeButton => 'சேமிக்கப்பட்டது';
 
   @override
   String get noVerifiedLink =>
@@ -864,6 +864,116 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get navSwitchAnytimeTitle => 'எப்போது வேண்டுமானாலும் மாறலாம்';
+
+  @override
+  String get navSelectStyleSubtitle =>
+      'உங்களுக்கு ஏற்ற வழிசெலுத்தல் பாணியைத் தேர்ந்தெடுக்கவும்.';
+
+  @override
+  String get navContinueButton => 'தொடரவும்';
+
+  @override
+  String get navChipFastSimple => 'வேகமும் எளிமையும்';
+
+  @override
+  String get navChipTraditionalUi => 'பாரம்பரிய இடைமுகம்';
+
+  @override
+  String get navChipSelfPaced => 'சொந்த வேகத்தில் உலாவல்';
+
+  @override
+  String get navChipAiAnytime => 'எப்போதும் AI கிடைக்கும்';
+
+  @override
+  String get navChipVoiceFirst => 'குரல் முதன்மை அனுபவம்';
+
+  @override
+  String get navChipPersonalized => 'தனிப்பயன் வழிகாட்டுதல்';
+
+  @override
+  String get navChipSmartRecs => 'சிறந்த பரிந்துரைகள்';
+
+  @override
+  String get navChipExplainsScreens => 'ஒவ்வொரு திரையையும் விளக்கும்';
+
+  @override
+  String get filterTitle => 'வடிப்பான்கள்';
+
+  @override
+  String get filterButton => 'வடிப்பான்';
+
+  @override
+  String filterUseMyProfile(Object state) {
+    return 'எனது சுயவிவரத்தைப் பயன்படுத்து ($state)';
+  }
+
+  @override
+  String get filterGroupCoverage => 'பரப்பளவு';
+
+  @override
+  String get filterGroupOffers => 'என்ன வழங்குகிறது';
+
+  @override
+  String get filterGroupFor => 'யாருக்காக';
+
+  @override
+  String get filterCoverageNationwide => 'நாடு முழுவதும்';
+
+  @override
+  String filterShowSchemes(Object count) {
+    return '$count திட்டங்களைக் காட்டு';
+  }
+
+  @override
+  String get filterTypeLoans => 'கடன் & வரவு';
+
+  @override
+  String get filterTypeSubsidies => 'மானியங்கள்';
+
+  @override
+  String get filterTypeGrants => 'மானியம் & பங்கு';
+
+  @override
+  String get filterTypeGuarantee => 'உத்தரவாதம்';
+
+  @override
+  String get filterTypeTraining => 'பயிற்சி';
+
+  @override
+  String get filterTypeMarket => 'சந்தை & ஏற்றுமதி';
+
+  @override
+  String get filterTypeInfra => 'உள்கட்டமைப்பு';
+
+  @override
+  String get filterBenWomen => 'பெண்கள்';
+
+  @override
+  String get filterBenSc => 'SC';
+
+  @override
+  String get filterBenSt => 'ST';
+
+  @override
+  String get filterBenDifferentlyAbled => 'மாற்றுத்திறனாளிகள்';
+
+  @override
+  String get filterBenTransgender => 'திருநங்கை';
+
+  @override
+  String get filterBenMinority => 'சிறுபான்மையினர்';
+
+  @override
+  String get filterBenExServicemen => 'முன்னாள் ராணுவத்தினர்';
+
+  @override
+  String get sortRelevance => 'பொருத்தம்';
+
+  @override
+  String get sortBestMatch => 'எனக்கு ஏற்ற பொருத்தம்';
+
+  @override
+  String get sortSchemeNameAz => 'திட்டப் பெயர் (அ-ஃ)';
 
   @override
   String get settingsRegularSubtitle =>
