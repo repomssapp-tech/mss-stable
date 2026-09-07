@@ -31,6 +31,12 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   bool _isLoggingOut = false;
   String _mobileNumber = '';
   String _selectedLanguage = 'en'; // 'en', 'ta'
+  // After an explicit changeLanguage(), the just-chosen value and when it was
+  // set. A realtime echo or a not-yet-updated profile row can still carry the
+  // OLD language for a moment; _reconcileServerLanguage() ignores a server
+  // value that contradicts this choice within a short window.
+  String? _pendingLanguage;
+  DateTime? _pendingLanguageSince;
   String _navigationMode = 'regular'; // 'regular', 'companion'
   int _currentTabIndex =
       0; // Bottom Navigation: 0: Home, 1: Search, 2: Categories, 3: Saved Schemes, 4: Profile
@@ -310,7 +316,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
                   dbProfile.employmentStatus != _profile.employmentStatus ||
                   dbProfile.profileCompleted != _profile.profileCompleted) {
                 _profile = _profile.mergeFrom(dbProfile);
-                _selectedLanguage = dbProfile.language;
+                _selectedLanguage = _reconcileServerLanguage(dbProfile.language);
+                _profile = _profile.copyWith(language: _selectedLanguage);
                 _navigationMode = dbProfile.navigationMode;
 
                 _recommendedSchemes = RecommendationEngine.getRecommendations(
@@ -465,7 +472,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           final dbProfile = await SchemeRepository.instance.getProfile(user.id);
           if (dbProfile != null) {
             _profile = _profile.mergeFrom(dbProfile);
-            _selectedLanguage = dbProfile.language;
+            _selectedLanguage = _reconcileServerLanguage(dbProfile.language);
+            _profile = _profile.copyWith(language: _selectedLanguage);
             _navigationMode = dbProfile.navigationMode;
             // Persist the merged (most complete) profile locally, and push
             // back to Supabase any field the DB row was missing.
@@ -938,9 +946,43 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     );
   }
 
+  /// Resolve the language to apply when a server profile row / realtime echo
+  /// arrives. If the user just switched language explicitly, a server value
+  /// that still shows the OLD language is a stale echo — keep the user's
+  /// choice for a short window. Once the server agrees (or the window lapses)
+  /// go back to trusting it.
+  String _reconcileServerLanguage(String serverLang) {
+    final pending = _pendingLanguage;
+    final since = _pendingLanguageSince;
+    if (pending == null || since == null) return serverLang;
+    if (serverLang == pending) {
+      _pendingLanguage = null;
+      _pendingLanguageSince = null;
+      return serverLang;
+    }
+    if (DateTime.now().difference(since) < const Duration(seconds: 20)) {
+      return pending;
+    }
+    _pendingLanguage = null;
+    _pendingLanguageSince = null;
+    return serverLang;
+  }
+
+  @visibleForTesting
+  void debugMarkLanguagePending(String lang) {
+    _pendingLanguage = lang;
+    _pendingLanguageSince = DateTime.now();
+  }
+
+  @visibleForTesting
+  String debugReconcileServerLanguage(String serverLang) =>
+      _reconcileServerLanguage(serverLang);
+
   // Setters & Actions
   Future<void> changeLanguage(String lang) async {
     _selectedLanguage = lang;
+    _pendingLanguage = lang;
+    _pendingLanguageSince = DateTime.now();
     _profile = _profile.copyWith(language: lang, updatedAt: DateTime.now());
     await loadSchemes(forceRefresh: true);
     notifyListeners();
@@ -994,7 +1036,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     final dbProfile = await SchemeRepository.instance.getProfile(user.id);
     if (dbProfile != null) {
       _profile = _profile.mergeFrom(dbProfile);
-      _selectedLanguage = dbProfile.language;
+      _selectedLanguage = _reconcileServerLanguage(dbProfile.language);
+      _profile = _profile.copyWith(language: _selectedLanguage);
       _navigationMode = dbProfile.navigationMode;
 
       if ((_profile.profilePhoto.isEmpty ||
@@ -1042,6 +1085,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _isLoggedIn = false;
     _mobileNumber = '';
     _selectedLanguage = 'en';
+    _pendingLanguage = null;
+    _pendingLanguageSince = null;
     _navigationMode = 'regular';
     _profile = UserProfile();
     _bookmarkedIds.clear();
@@ -1106,6 +1151,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _isLoggedIn = false;
     _mobileNumber = '';
     _selectedLanguage = 'en';
+    _pendingLanguage = null;
+    _pendingLanguageSince = null;
     _navigationMode = 'regular';
     _profile = UserProfile();
     _bookmarkedIds.clear();
@@ -1188,7 +1235,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
         if (remoteUpdated.isAfter(localUpdated)) {
           _profile = syncProfile;
-          _selectedLanguage = syncProfile.language;
+          _selectedLanguage = _reconcileServerLanguage(syncProfile.language);
+          _profile = _profile.copyWith(language: _selectedLanguage);
           _navigationMode = syncProfile.navigationMode;
           await SessionCacheService.instance.saveProfile(_profile);
           notifyListeners();
