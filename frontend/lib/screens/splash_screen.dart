@@ -12,6 +12,9 @@ import '../services/session_cache_service.dart';
 import '../utils/constants.dart';
 import '../main.dart';
 import '../utils/app_spacing.dart';
+import '../features/beta_gate/beta_config.dart';
+import '../features/beta_gate/beta_gate_service.dart';
+import '../features/beta_gate/beta_gate_screen.dart';
 
 enum StartupDestination { home, navigationMode, language, login }
 
@@ -121,6 +124,20 @@ class _SplashScreenState extends State<SplashScreen>
         debugPrint(
           '[SplashScreen] Non-auth exception during session validation: $e',
         );
+      }
+    }
+
+    if (!mounted) return;
+
+    // Beta Tester Gate Interception
+    if (isBetaModeEnabled) {
+      final hasUnlockedBeta = await BetaGateService.hasUnlockedBeta();
+      if (!hasUnlockedBeta) {
+        if (!mounted) return;
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const BetaGateScreen()),
+        );
+        return;
       }
     }
 
