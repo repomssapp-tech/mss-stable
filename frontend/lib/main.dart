@@ -124,12 +124,12 @@ class _StartupErrorApp extends StatelessWidget {
         backgroundColor: const Color(0xFF0F172A),
         body: Center(
           child: Padding(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(AppSpacing.xxl),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Icon(Icons.error_outline, color: Colors.white, size: 48),
-                const SizedBox(height: 16),
+                const SizedBox(height: AppSpacing.lg),
                 const Text(
                   'App configuration error',
                   style: TextStyle(
@@ -138,7 +138,7 @@ class _StartupErrorApp extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: AppSpacing.md),
                 Text(
                   message,
                   textAlign: TextAlign.center,

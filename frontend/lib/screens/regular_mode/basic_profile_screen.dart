@@ -6,7 +6,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/app_state_provider.dart';
-import '../../utils/profile_l10n.dart';
+import '../../l10n/l10n.dart';
 import '../../utils/permission_helper.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/constants.dart';
@@ -270,56 +270,59 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         _ => null,
       };
 
-  List<RoleModel> _buildRoles(String Function(String) l) => [
-        RoleModel(
-          id: 'student',
-          title: l('student'),
-          subtitle: l('student_subtitle'),
-          imagePath: 'assets/images/roles/student.webp',
-          icon: Icons.school_outlined,
-          color: const Color(0xFF3B82F6),
-        ),
-        RoleModel(
-          id: 'entrepreneur',
-          title: l('aspiring_entrepreneur'),
-          subtitle: l('aspiring_entrepreneur_subtitle'),
-          imagePath: 'assets/images/roles/entrepreneur.webp',
-          icon: Icons.lightbulb_outline,
-          color: const Color(0xFFF59E0B),
-        ),
-        RoleModel(
-          id: 'existing_business',
-          title: l('existing_business'),
-          subtitle: l('existing_business_subtitle'),
-          imagePath: 'assets/images/roles/business.webp',
-          icon: Icons.business_center_outlined,
-          color: const Color(0xFF6366F1),
-        ),
-        RoleModel(
-          id: 'msme',
-          title: l('msme_owner'),
-          subtitle: l('msme_owner_subtitle'),
-          imagePath: 'assets/images/roles/msme.webp',
-          icon: Icons.storefront_outlined,
-          color: const Color(0xFF10B981),
-        ),
-        RoleModel(
-          id: 'farmer',
-          title: l('farmer'),
-          subtitle: l('farmer_subtitle'),
-          imagePath: 'assets/images/roles/farmer.webp',
-          icon: Icons.agriculture_outlined,
-          color: const Color(0xFF14B8A6),
-        ),
-        RoleModel(
-          id: 'artisan',
-          title: l('artisan_shg'),
-          subtitle: l('artisan_shg_subtitle'),
-          imagePath: 'assets/images/roles/artisan.webp',
-          icon: Icons.palette_outlined,
-          color: const Color(0xFFEC4899),
-        ),
-      ];
+  List<RoleModel> _buildRoles() {
+    final l10n = context.l10n;
+    return [
+      RoleModel(
+        id: 'student',
+        title: l10n.empStudent,
+        subtitle: l10n.studentSubtitle,
+        imagePath: 'assets/images/roles/student.webp',
+        icon: Icons.school_outlined,
+        color: const Color(0xFF3B82F6),
+      ),
+      RoleModel(
+        id: 'entrepreneur',
+        title: l10n.aspiringEntrepreneur,
+        subtitle: l10n.aspiringEntrepreneurSubtitle,
+        imagePath: 'assets/images/roles/entrepreneur.webp',
+        icon: Icons.lightbulb_outline,
+        color: const Color(0xFFF59E0B),
+      ),
+      RoleModel(
+        id: 'existing_business',
+        title: l10n.existingBusiness,
+        subtitle: l10n.existingBusinessSubtitle,
+        imagePath: 'assets/images/roles/business.webp',
+        icon: Icons.business_center_outlined,
+        color: const Color(0xFF6366F1),
+      ),
+      RoleModel(
+        id: 'msme',
+        title: l10n.msmeOwner,
+        subtitle: l10n.msmeOwnerSubtitle,
+        imagePath: 'assets/images/roles/msme.webp',
+        icon: Icons.storefront_outlined,
+        color: const Color(0xFF10B981),
+      ),
+      RoleModel(
+        id: 'farmer',
+        title: l10n.empFarmer,
+        subtitle: l10n.farmerSubtitle,
+        imagePath: 'assets/images/roles/farmer.webp',
+        icon: Icons.agriculture_outlined,
+        color: const Color(0xFF14B8A6),
+      ),
+      RoleModel(
+        id: 'artisan',
+        title: l10n.artisanShg,
+        subtitle: l10n.artisanShgSubtitle,
+        imagePath: 'assets/images/roles/artisan.webp',
+        icon: Icons.palette_outlined,
+        color: const Color(0xFFEC4899),
+      ),
+    ];
+  }
 
   // Geocoding live fetch for Step 2
   Future<void> _fetchAndGeocodeLocation() async {
@@ -544,9 +547,11 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    // `isTa` still feeds the inline label ternaries in Step 4 (opt['labelTa'])
+    // and the DPDPA privacy note -- those are migrated in a later batch.
     final isTa =
         Provider.of<AppProvider>(context).selectedLanguage == 'ta';
-    String l(String key) => ProfileL10n.t(key, isTa);
 
     return PopScope(
       canPop: _currentStep == 1,
@@ -598,7 +603,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                           const SizedBox(width: AppSpacing.xs),
                           Expanded(
                             child: Text(
-                              l('complete_your_profile'),
+                              l10n.completeYourProfile,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.poppins(
@@ -636,7 +641,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
 
                               // 2. Static Progress Fraction
                               Center(
-                                child: _buildProgressFraction(_currentStep, isTa),
+                                child: _buildProgressFraction(_currentStep),
                               ),
                               const SizedBox(height: AppSpacing.sm),
 
@@ -688,8 +693,8 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                                             child: FitOneLine(
                                               child: Text(
                                                 _currentStep == 4
-                                                    ? l('complete_profile')
-                                                    : l('continue'),
+                                                    ? l10n.completeProfile
+                                                    : l10n.navContinueButton,
                                                 style: GoogleFonts.inter(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w600,
@@ -751,16 +756,17 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     );
   }
 
-  Widget _buildProgressFraction(int step, bool isTa) {
-    final key = switch (step) {
-      1 => 'step_1_of_4',
-      2 => 'step_2_of_4',
-      3 => 'step_3_of_4',
-      4 => 'step_4_of_4',
-      _ => 'step_1_of_4',
+  Widget _buildProgressFraction(int step) {
+    final l10n = context.l10n;
+    final text = switch (step) {
+      1 => l10n.step1Of4,
+      2 => l10n.step2Of4,
+      3 => l10n.step3Of4,
+      4 => l10n.step4Of4,
+      _ => l10n.step1Of4,
     };
     return Text(
-      ProfileL10n.t(key, isTa),
+      text,
       style: GoogleFonts.inter(
         fontSize: 13,
         fontWeight: FontWeight.w600,
@@ -774,30 +780,30 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   Widget _buildStepForm(int step, bool isTa) {
     switch (step) {
       case 1:
-        return _buildStep1Form(isTa);
+        return _buildStep1Form();
       case 2:
-        return _buildStep2Form(isTa);
+        return _buildStep2Form();
       case 3:
-        return _buildStep3Form(isTa);
+        return _buildStep3Form();
       case 4:
         return _buildStep4Form(isTa);
       default:
-        return _buildStep1Form(isTa);
+        return _buildStep1Form();
     }
   }
 
   // ---------------------------------------------------------------------------
   // STEP 1 FORM: Basic Details
   // ---------------------------------------------------------------------------
-  Widget _buildStep1Form(bool isTa) {
-    String l(String key) => ProfileL10n.t(key, isTa);
+  Widget _buildStep1Form() {
+    final l10n = context.l10n;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: AppSpacing.xs),
         Text(
-          l('basic_details_subtitle'),
+          l10n.basicDetailsSubtitle,
           textAlign: TextAlign.center,
           style: GoogleFonts.inter(
             fontSize: 13.5,
@@ -808,7 +814,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
 
         // Full Name
         CustomInputField(
-          label: '${l('full_name')} *',
+          label: '${l10n.labelFullName} *',
           controller: _nameController,
           leadingIcon: Icons.person_outline,
           trailingIcon: Icons.edit_outlined,
@@ -823,7 +829,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
 
         // Email Address
         CustomInputField(
-          label: '${l('email_address')} *',
+          label: '${l10n.emailAddress} *',
           controller: _emailController,
           leadingIcon: Icons.mail_outline,
           trailingIcon: Icons.edit_outlined,
@@ -841,7 +847,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
 
         // Phone Number (+91 prefix)
         CustomInputField(
-          label: '${l('phone_number')} *',
+          label: '${l10n.phoneNumber} *',
           controller: _phoneController,
           leadingIcon: Icons.phone_outlined,
           trailingIcon: Icons.edit_outlined,
@@ -865,7 +871,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
           children: [
             Text.rich(
               TextSpan(
-                text: l('gender'),
+                text: l10n.labelGender,
                 style: GoogleFonts.inter(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -885,12 +891,12 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
             const SizedBox(height: AppSpacing.xs),
             Row(
               children: [
-                Expanded(child: _buildGenderBox(l('male'), Icons.male)),
+                Expanded(child: _buildGenderBox(l10n.genderMale, Icons.male)),
                 const SizedBox(width: AppSpacing.xs),
-                Expanded(child: _buildGenderBox(l('female'), Icons.female)),
+                Expanded(child: _buildGenderBox(l10n.genderFemale, Icons.female)),
                 const SizedBox(width: AppSpacing.xs),
                 Expanded(
-                  child: _buildGenderBox(l('other'), Icons.transgender),
+                  child: _buildGenderBox(l10n.genderOther, Icons.transgender),
                 ),
               ],
             ),
@@ -923,7 +929,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
 
         // Date of Birth
         CustomInputField(
-          label: '${l('date_of_birth')} *',
+          label: '${l10n.dateOfBirth} *',
           controller: _dobController,
           leadingIcon: Icons.calendar_today_outlined,
           trailingIcon: Icons.arrow_drop_down,
@@ -937,7 +943,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         const SizedBox(height: AppSpacing.xxl),
 
         // Info Box
-        _buildInfoBox(isTa),
+        _buildInfoBox(),
         const SizedBox(height: AppSpacing.md),
       ],
     );
@@ -989,8 +995,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     );
   }
 
-  Widget _buildInfoBox(bool isTa) {
-    String l(String key) => ProfileL10n.t(key, isTa);
+  Widget _buildInfoBox() {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
@@ -1009,7 +1014,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Text(
-              l('profile_info_note'),
+              context.l10n.profileInfoNote,
               style: GoogleFonts.inter(
                 fontSize: 12,
                 color: kSlate800,
@@ -1025,14 +1030,14 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   // ---------------------------------------------------------------------------
   // STEP 2 FORM: Location
   // ---------------------------------------------------------------------------
-  Widget _buildStep2Form(bool isTa) {
-    String l(String key) => ProfileL10n.t(key, isTa);
+  Widget _buildStep2Form() {
+    final l10n = context.l10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: AppSpacing.xs),
         Text(
-          l('where_located'),
+          l10n.whereLocated,
           textAlign: TextAlign.center,
           style: GoogleFonts.poppins(
             fontSize: 16,
@@ -1086,7 +1091,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                 const SizedBox(width: AppSpacing.md),
                 Expanded(
                   child: Text(
-                    l('use_current_location'),
+                    l10n.useCurrentLocation,
                     style: GoogleFonts.inter(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -1117,7 +1122,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
               child: Text(
-                l('or'),
+                l10n.or,
                 style: GoogleFonts.inter(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
@@ -1137,7 +1142,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         const SizedBox(height: AppSpacing.xl),
 
         // Door / House No / Street Address Field
-        _buildLabel('${l('door_no_street')} *'),
+        _buildLabel('${l10n.doorNoStreet} *'),
         const SizedBox(height: AppSpacing.tight),
         _buildTextField(
           controller: _doorStreetController,
@@ -1152,7 +1157,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         const SizedBox(height: AppSpacing.lg),
 
         // Area / Locality Field
-        _buildLabel('${l('area_locality')} *'),
+        _buildLabel('${l10n.areaLocality} *'),
         const SizedBox(height: AppSpacing.tight),
         _buildTextField(
           controller: _areaLocalityController,
@@ -1167,7 +1172,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         const SizedBox(height: AppSpacing.lg),
 
         // City / District Field
-        _buildLabel('${l('city_district')} *'),
+        _buildLabel('${l10n.cityDistrict} *'),
         const SizedBox(height: AppSpacing.tight),
         _buildTextField(
           controller: _cityDistrictController,
@@ -1182,7 +1187,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         const SizedBox(height: AppSpacing.lg),
 
         // State Field
-        _buildLabel('${l('state')} *'),
+        _buildLabel('${l10n.state} *'),
         const SizedBox(height: AppSpacing.tight),
         _buildTextField(
           controller: _stateController,
@@ -1198,7 +1203,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         const SizedBox(height: AppSpacing.lg),
 
         // Pincode Field (below State)
-        _buildLabel('${l('pincode')} *'),
+        _buildLabel('${l10n.pincode} *'),
         const SizedBox(height: AppSpacing.tight),
         _buildTextField(
           controller: _pincodeController,
@@ -1300,16 +1305,16 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   // ---------------------------------------------------------------------------
   // STEP 3 FORM: About You (Roles)
   // ---------------------------------------------------------------------------
-  Widget _buildStep3Form(bool isTa) {
-    String l(String key) => ProfileL10n.t(key, isTa);
-    final roles = _buildRoles(l);
+  Widget _buildStep3Form() {
+    final l10n = context.l10n;
+    final roles = _buildRoles();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: AppSpacing.xs),
         Text(
-          l('tell_us_about_you'),
+          l10n.tellUsAboutYou,
           textAlign: TextAlign.center,
           style: GoogleFonts.poppins(
             fontSize: 16,
@@ -1319,7 +1324,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         ),
         const SizedBox(height: AppSpacing.xs),
         Text(
-          l('about_you_subtitle'),
+          l10n.aboutYouSubtitle,
           textAlign: TextAlign.center,
           style: GoogleFonts.inter(
             fontSize: 13,
@@ -1496,7 +1501,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   // STEP 4 FORM: Eligibility
   // ---------------------------------------------------------------------------
   Widget _buildStep4Form(bool isTa) {
-    String l(String key) => ProfileL10n.t(key, isTa);
+    final l10n = context.l10n;
 
     // Two-column grid of selectable cards -- same visual language as the
     // Step 3 role grid, so Step 4 reads as a sibling of the other steps
@@ -1537,7 +1542,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       children: [
         const SizedBox(height: AppSpacing.xs),
         Text(
-          l('check_eligibility'),
+          l10n.checkEligibility,
           textAlign: TextAlign.center,
           style: GoogleFonts.poppins(
             fontSize: 16,
@@ -1547,7 +1552,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         ),
         const SizedBox(height: AppSpacing.xs),
         Text(
-          l('eligibility_subtitle'),
+          l10n.eligibilitySubtitle,
           textAlign: TextAlign.center,
           style: GoogleFonts.inter(
             fontSize: 13,
@@ -1558,7 +1563,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         const SizedBox(height: AppSpacing.lg),
 
         // 1. Education level (required)
-        _buildLabel('${l('qualification')} *'),
+        _buildLabel('${l10n.qualification} *'),
         const SizedBox(height: AppSpacing.sm),
         optionGrid(
           options: _educationOptions,
@@ -1577,7 +1582,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         const SizedBox(height: AppSpacing.lg),
 
         // 2. Community category (required)
-        _buildLabel('${l('community')} *'),
+        _buildLabel('${l10n.community} *'),
         const SizedBox(height: AppSpacing.tight),
         _buildPrivacyNote(isTa),
         const SizedBox(height: AppSpacing.sm),
@@ -1598,7 +1603,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         const SizedBox(height: AppSpacing.lg),
 
         // 3. Annual household income (required)
-        _buildLabel('${l('income')} *'),
+        _buildLabel('${l10n.income} *'),
         const SizedBox(height: AppSpacing.sm),
         optionGrid(
           options: _incomeOptions,
@@ -1618,22 +1623,22 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         const SizedBox(height: AppSpacing.lg),
 
         // 4. Special categories (optional)
-        _buildLabel(l('special_categories')),
+        _buildLabel(l10n.specialCategories),
         const SizedBox(height: AppSpacing.sm),
         _buildToggleCard(
-          title: l('first_gen_graduate'),
+          title: l10n.firstGenGraduate,
           value: _isFirstGenGraduate,
           onChanged: (val) => setState(() => _isFirstGenGraduate = val),
         ),
         const SizedBox(height: AppSpacing.tight),
         _buildToggleCard(
-          title: l('disability'),
+          title: l10n.disability,
           value: _isDifferentlyAbled,
           onChanged: (val) => setState(() => _isDifferentlyAbled = val),
         ),
         const SizedBox(height: AppSpacing.tight),
         _buildToggleCard(
-          title: l('veteran'),
+          title: l10n.veteran,
           value: _isVeteran,
           onChanged: (val) => setState(() => _isVeteran = val),
         ),

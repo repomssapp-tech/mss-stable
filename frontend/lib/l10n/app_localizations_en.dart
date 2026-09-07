@@ -1518,4 +1518,395 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get retryVoice => 'Retry voice';
+
+  @override
+  String get chooseYourLanguage => 'Choose Your Language';
+
+  @override
+  String get languageSubtitle =>
+      'Select your preferred language to explore government schemes in your language.';
+
+  @override
+  String get yourLanguageExperience => 'Your Language, Your Experience';
+
+  @override
+  String get changeAnytime => 'Change it anytime from Settings.';
+
+  @override
+  String get welcome => 'Welcome!';
+
+  @override
+  String get loginSubtitle =>
+      'Login or sign up to discover and explore government schemes that empower you.';
+
+  @override
+  String get continueSecurely => 'Continue securely';
+
+  @override
+  String get googleAccountContinue =>
+      'Use your Google account to sign in or create your MSS account.';
+
+  @override
+  String get continueWithGoogle => 'Continue with Google';
+
+  @override
+  String get secureBrowserAuth =>
+      'A secure browser window will open for authentication.';
+
+  @override
+  String get privacyNote => 'By continuing, you agree to our';
+
+  @override
+  String get terms => 'Terms of Service';
+
+  @override
+  String get and => 'and';
+
+  @override
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get skipLogin => 'Skip & Explore';
+
+  @override
+  String get demoMode => 'Demo mode — all features available';
+
+  @override
+  String get verifiedPlatform => 'Government Verified Platform';
+
+  @override
+  String get forIndia => 'For every Indian entrepreneur & citizen';
+
+  @override
+  String get basicDetailsSubtitle => 'Let\'s start with your basic details.';
+
+  @override
+  String get emailAddress => 'Email Address';
+
+  @override
+  String get phoneNumber => 'Phone Number';
+
+  @override
+  String get dateOfBirth => 'Date of Birth (DOB)';
+
+  @override
+  String get profileInfoNote =>
+      'We\'ll use this information to personalize your MSS experience and keep you updated.';
+
+  @override
+  String get step1Of4 => '1/4 Complete';
+
+  @override
+  String get step2Of4 => '2/4 Complete';
+
+  @override
+  String get step3Of4 => '3/4 Complete';
+
+  @override
+  String get step4Of4 => '4/4 Complete';
+
+  @override
+  String get step1Of3 => '1/3 Complete';
+
+  @override
+  String get step2Of3 => '2/3 Complete';
+
+  @override
+  String get step3Of3 => '3/3 Complete';
+
+  @override
+  String get whereLocated => 'Where Are You Located?';
+
+  @override
+  String get locationSubtitle =>
+      'We use your location to recommend schemes available in your area.';
+
+  @override
+  String get useCurrentLocation => 'Use Current Location';
+
+  @override
+  String get fetchingCoordinates => 'Fetching coordinates...';
+
+  @override
+  String get getLocationAuto => 'Get your current location automatically';
+
+  @override
+  String get or => 'OR';
+
+  @override
+  String get doorNoStreet => 'Door No / Flat / House No / Street';
+
+  @override
+  String get areaLocality => 'Area / Locality';
+
+  @override
+  String get cityDistrict => 'City / District';
+
+  @override
+  String get state => 'State';
+
+  @override
+  String get pincode => 'Pincode';
+
+  @override
+  String get tellUsAboutYou => 'Tell Us About You';
+
+  @override
+  String get aboutYouSubtitle => 'Choose the option that best describes you.';
+
+  @override
+  String get studentSubtitle =>
+      'Looking for learning, innovation and startup opportunities.';
+
+  @override
+  String get aspiringEntrepreneur => 'Entrepreneur';
+
+  @override
+  String get aspiringEntrepreneurSubtitle =>
+      'I have an idea and want to start a business.';
+
+  @override
+  String get existingBusiness => 'Business';
+
+  @override
+  String get existingBusinessSubtitle =>
+      'I already run a registered or unregistered business.';
+
+  @override
+  String get msmeOwner => 'MSME Owner';
+
+  @override
+  String get msmeOwnerSubtitle => 'I own a micro, small or medium enterprise.';
+
+  @override
+  String get farmerSubtitle => 'I am involved in farming or agriculture.';
+
+  @override
+  String get artisanShg => 'Artisan / SHG Member';
+
+  @override
+  String get artisanShgSubtitle =>
+      'I am an artisan or part of a Self Help Group.';
+
+  @override
+  String get overwriteDetails => 'Overwrite details?';
+
+  @override
+  String get overwriteMessage =>
+      'You have already entered some address details. Do you want to overwrite them with your current location?';
+
+  @override
+  String get overwrite => 'Overwrite';
+
+  @override
+  String get profileSaved => 'Profile saved successfully!';
+
+  @override
+  String get failedFetchLocation => 'Failed to fetch location';
+
+  @override
+  String get usingDefaultLocation =>
+      'Using default location (Chennai) due to GPS/permission constraints.';
+
+  @override
+  String get locationFetched => 'Location fetched and populated successfully!';
+
+  @override
+  String get saveProfile => 'Save Profile';
+
+  @override
+  String get updateProfile => 'Update Profile';
+
+  @override
+  String get personalInfo => 'Personal Information';
+
+  @override
+  String get locationInfo => 'Location Details';
+
+  @override
+  String get businessInfo => 'Business Information';
+
+  @override
+  String get income => 'Annual Income';
+
+  @override
+  String get community => 'Community / Category';
+
+  @override
+  String get employment => 'Employment Status';
+
+  @override
+  String get qualification => 'Qualification';
+
+  @override
+  String get veteran => 'Ex-Serviceman / Veteran';
+
+  @override
+  String get disability => 'Person with Disability';
+
+  @override
+  String get disabilityType => 'Disability Type';
+
+  @override
+  String get hasExistingBusiness => 'I have an existing business';
+
+  @override
+  String get businessStage => 'Business Stage';
+
+  @override
+  String get businessIndustry => 'Business Industry / Sector';
+
+  @override
+  String get fundingRequired => 'Funding Required';
+
+  @override
+  String get registrationNumbers => 'Registration Numbers (Udyam, GST, etc.)';
+
+  @override
+  String get checkEligibility => 'Check Eligibility';
+
+  @override
+  String get eligibilityDetails => 'Eligibility Details';
+
+  @override
+  String get eligibilitySubtitle =>
+      'Helps us recommend 100% accurate schemes & subsidies for you.';
+
+  @override
+  String get firstGenGraduate => 'First-Generation Graduate';
+
+  @override
+  String get skipForNow => 'Skip for now';
+
+  @override
+  String get completeProfile => 'Complete Profile';
+
+  @override
+  String get incomeNoIncome => 'No Income';
+
+  @override
+  String get incomeBelow15l => 'Below ₹1.5 Lakhs';
+
+  @override
+  String get income15l3l => '₹1.5L - ₹3 Lakhs';
+
+  @override
+  String get income3l6l => '₹3L - ₹6 Lakhs';
+
+  @override
+  String get income6l10l => '₹6L - ₹10 Lakhs';
+
+  @override
+  String get incomeAbove10l => 'Above ₹10 Lakhs';
+
+  @override
+  String get specialCategories => 'Special Status / Priority';
+
+  @override
+  String get loading => 'Loading...';
+
+  @override
+  String get error => 'Error';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get skip => 'Skip';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get back => 'Back';
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get select => 'Select';
+
+  @override
+  String get search => 'Search';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get nameLabel => 'Name';
+
+  @override
+  String get dobLabel => 'Date of Birth';
+
+  @override
+  String get houseNo => 'House No.';
+
+  @override
+  String get street => 'Street';
+
+  @override
+  String get villageTown => 'Village / Town';
+
+  @override
+  String get useLocation => 'Use Location';
+
+  @override
+  String get locating => 'Locating...';
+
+  @override
+  String get salaried => 'Salaried';
+
+  @override
+  String get businessOwner => 'Business Owner';
+
+  @override
+  String get homemaker => 'Homemaker';
+
+  @override
+  String get retired => 'Retired';
+
+  @override
+  String get selfEmployed => 'Self-employed';
+
+  @override
+  String get undergraduate => 'Undergraduate';
+
+  @override
+  String get graduate => 'Graduate';
+
+  @override
+  String get postgraduate => 'Postgraduate';
+
+  @override
+  String get diploma => 'Diploma';
+
+  @override
+  String get higherSecondary => 'Higher Secondary';
+
+  @override
+  String get secondary => 'Secondary';
+
+  @override
+  String get primary => 'Primary';
+
+  @override
+  String get noFormal => 'No Formal Education';
+
+  @override
+  String get ideaStage => 'Idea Stage';
+
+  @override
+  String get earlyStage => 'Early Stage';
+
+  @override
+  String get growthStage => 'Growth Stage';
+
+  @override
+  String get established => 'Established';
 }

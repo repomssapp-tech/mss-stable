@@ -1540,4 +1540,400 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get retryVoice => 'மீண்டும் குரலை முயற்சிக்கவும்';
+
+  @override
+  String get chooseYourLanguage => 'உங்கள் மொழியை தேர்ந்தெடுக்கவும்';
+
+  @override
+  String get languageSubtitle =>
+      'அரசாங்க திட்டங்களை உங்கள் மொழியில் ஆராய விரும்பும் மொழியைத் தேர்ந்தெடுக்கவும்.';
+
+  @override
+  String get yourLanguageExperience => 'உங்கள் மொழி, உங்கள் அனுபவம்';
+
+  @override
+  String get changeAnytime => 'அமைவுகளில் எப்போதும் மாற்றலாம்.';
+
+  @override
+  String get welcome => 'வரவேற்கிறோம்!';
+
+  @override
+  String get loginSubtitle =>
+      'உங்களை மேம்படுத்தும் அரசாங்க திட்டங்களை கண்டறிய உள்நுழைக அல்லது பதிவு செய்யுங்கள்.';
+
+  @override
+  String get continueSecurely => 'பாதுகாப்பாகத் தொடரவும்';
+
+  @override
+  String get googleAccountContinue =>
+      'உங்கள் Google கணக்கைப் பயன்படுத்தி MSS-ல் உள்நுழையவும் அல்லது புதிய கணக்கை உருவாக்கவும்.';
+
+  @override
+  String get continueWithGoogle => 'Google மூலம் தொடரவும்';
+
+  @override
+  String get secureBrowserAuth =>
+      'அங்கீகாரத்திற்காக பாதுகாப்பான உலாவி திறக்கும்.';
+
+  @override
+  String get privacyNote =>
+      'தொடர்வதன் மூலம், நீங்கள் எங்கள் விதிமுறைகளுக்கு ஒப்புக்கொள்கிறீர்கள்';
+
+  @override
+  String get terms => 'சேவை விதிமுறைகள்';
+
+  @override
+  String get and => 'மற்றும்';
+
+  @override
+  String get privacyPolicy => 'தனியுரிமைக் கொள்கை';
+
+  @override
+  String get skipLogin => 'தவிர்த்து ஆராயுங்கள்';
+
+  @override
+  String get demoMode => 'டெமோ பயன்முறை — அனைத்து அம்சங்களும் கிடைக்கும்';
+
+  @override
+  String get verifiedPlatform => 'அரசால் சரிபார்க்கப்பட்ட தளம்';
+
+  @override
+  String get forIndia => 'ஒவ்வொரு இந்திய தொழில்முனைவோர் & குடிமகனுக்கும்';
+
+  @override
+  String get basicDetailsSubtitle =>
+      'உங்கள் அடிப்படை விவரங்களுடன் தொடங்குவோம்.';
+
+  @override
+  String get emailAddress => 'மின்னஞ்சல் முகவரி';
+
+  @override
+  String get phoneNumber => 'தொலைபேசி எண்';
+
+  @override
+  String get dateOfBirth => 'பிறந்த தேதி';
+
+  @override
+  String get profileInfoNote =>
+      'இந்த தகவலை உங்கள் MSS அனுபவத்தை தனிப்பயனாக்க பயன்படுத்துவோம்.';
+
+  @override
+  String get step1Of4 => '1/4 முடிந்தது';
+
+  @override
+  String get step2Of4 => '2/4 முடிந்தது';
+
+  @override
+  String get step3Of4 => '3/4 முடிந்தது';
+
+  @override
+  String get step4Of4 => '4/4 முடிந்தது';
+
+  @override
+  String get step1Of3 => '1/3 முடிந்தது';
+
+  @override
+  String get step2Of3 => '2/3 முடிந்தது';
+
+  @override
+  String get step3Of3 => '3/3 முடிந்தது';
+
+  @override
+  String get whereLocated => 'நீங்கள் எங்கு வசிக்கிறீர்கள்?';
+
+  @override
+  String get locationSubtitle =>
+      'உங்கள் பகுதியில் கிடைக்கும் திட்டங்களை பரிந்துரைக்க உங்கள் இருப்பிடத்தைப் பயன்படுத்துகிறோம்.';
+
+  @override
+  String get useCurrentLocation => 'என் தற்போதைய இருப்பிடத்தைப் பயன்படுத்துக';
+
+  @override
+  String get fetchingCoordinates => 'இருப்பிட ஆயத்தொலைவுகளை பெறுகிறோம்...';
+
+  @override
+  String get getLocationAuto => 'தானாகவே தற்போதைய இருப்பிடத்தைப் பெறுக';
+
+  @override
+  String get or => 'அல்லது';
+
+  @override
+  String get doorNoStreet => 'கதவு எண் / பிளாட் / வீட்டு எண் / தெரு';
+
+  @override
+  String get areaLocality => 'பகுதி / குடியிருப்பு';
+
+  @override
+  String get cityDistrict => 'நகர் / மாவட்டம்';
+
+  @override
+  String get state => 'மாநிலம்';
+
+  @override
+  String get pincode => 'அஞ்சல் குறியீடு';
+
+  @override
+  String get tellUsAboutYou => 'உங்களைப் பற்றி சொல்லுங்கள்';
+
+  @override
+  String get aboutYouSubtitle =>
+      'உங்களை சிறப்பாக விவரிக்கும் விருப்பத்தை தேர்ந்தெடுங்கள்.';
+
+  @override
+  String get studentSubtitle =>
+      'கற்றல், கண்டுபிடிப்பு மற்றும் ஸ்டார்ட்அப் வாய்ப்புகளை தேடுகிறேன்.';
+
+  @override
+  String get aspiringEntrepreneur => 'தொழில்முனைவோர்';
+
+  @override
+  String get aspiringEntrepreneurSubtitle =>
+      'என்னிடம் ஒரு யோசனை உள்ளது, தொழில் தொடங்க விரும்புகிறேன்.';
+
+  @override
+  String get existingBusiness => 'வணிகம்';
+
+  @override
+  String get existingBusinessSubtitle =>
+      'பதிவு செய்யப்பட்ட அல்லது பதிவு செய்யப்படாத தொழிலை நடத்துகிறேன்.';
+
+  @override
+  String get msmeOwner => 'MSME உரிமையாளர்';
+
+  @override
+  String get msmeOwnerSubtitle =>
+      'குறு, சிறு அல்லது நடுத்தர நிறுவன உரிமையாளர்.';
+
+  @override
+  String get farmerSubtitle =>
+      'விவசாயம் அல்லது வேளாண்மையில் ஈடுபட்டிருக்கிறேன்.';
+
+  @override
+  String get artisanShg => 'கைவினைஞர் / சுய உதவிக்குழு உறுப்பினர்';
+
+  @override
+  String get artisanShgSubtitle =>
+      'கைவினைஞர் அல்லது சுய உதவிக்குழு உறுப்பினர்.';
+
+  @override
+  String get overwriteDetails => 'விவரங்களை மேலெழுதவா?';
+
+  @override
+  String get overwriteMessage =>
+      'நீங்கள் ஏற்கனவே முகவரி விவரங்களை உள்ளிட்டுள்ளீர்கள். தற்போதைய இருப்பிடத்துடன் மேலெழுத விரும்புகிறீர்களா?';
+
+  @override
+  String get overwrite => 'மேலெழுது';
+
+  @override
+  String get profileSaved => 'சுயவிவரம் வெற்றிகரமாக சேமிக்கப்பட்டது!';
+
+  @override
+  String get failedFetchLocation => 'இருப்பிடத்தைப் பெற முடியவில்லை';
+
+  @override
+  String get usingDefaultLocation =>
+      'GPS/அனுமதி தடைகள் காரணமாக இயல்புநிலை இருப்பிடம் (சென்னை) பயன்படுத்தப்படுகிறது.';
+
+  @override
+  String get locationFetched => 'இருப்பிடம் வெற்றிகரமாக பெறப்பட்டது!';
+
+  @override
+  String get saveProfile => 'சுயவிவரம் சேமி';
+
+  @override
+  String get updateProfile => 'சுயவிவரம் புதுப்பி';
+
+  @override
+  String get personalInfo => 'தனிப்பட்ட விவரங்கள்';
+
+  @override
+  String get locationInfo => 'இருப்பிட விவரங்கள்';
+
+  @override
+  String get businessInfo => 'தொழில் விவரங்கள்';
+
+  @override
+  String get income => 'வருடாந்திர வருமானம்';
+
+  @override
+  String get community => 'சமூகம் / பிரிவு';
+
+  @override
+  String get employment => 'வேலைவாய்ப்பு நிலை';
+
+  @override
+  String get qualification => 'கல்வித் தகுதி';
+
+  @override
+  String get veteran => 'முன்னாள் படைவீரர்';
+
+  @override
+  String get disability => 'மாற்றுத்திறனாளி';
+
+  @override
+  String get disabilityType => 'மாற்றுத்திறன் வகை';
+
+  @override
+  String get hasExistingBusiness => 'எனக்கு நிலவும் தொழில் உள்ளது';
+
+  @override
+  String get businessStage => 'தொழில் நிலை';
+
+  @override
+  String get businessIndustry => 'தொழில் துறை / வகை';
+
+  @override
+  String get fundingRequired => 'தேவையான நிதி';
+
+  @override
+  String get registrationNumbers => 'பதிவு எண்கள் (உத்யம், ஜிஎஸ்டி, முதலியன)';
+
+  @override
+  String get checkEligibility => 'தகுதி சரிபார்ப்பு';
+
+  @override
+  String get eligibilityDetails => 'தகுதி விவரங்கள்';
+
+  @override
+  String get eligibilitySubtitle =>
+      'உங்களுக்கான 100% துல்லியமான அரசு திட்டங்களை பரிந்துரைக்க உதவும்.';
+
+  @override
+  String get firstGenGraduate => 'முதல் தலைமுறை பட்டதாரி';
+
+  @override
+  String get skipForNow => 'இப்போது தவிர்க்கவும்';
+
+  @override
+  String get completeProfile => 'சுயவிவரத்தை நிறைவு செய்க';
+
+  @override
+  String get incomeNoIncome => 'வருமானம் இல்லை';
+
+  @override
+  String get incomeBelow15l => '₹1.5 லட்சத்திற்கு கீழ்';
+
+  @override
+  String get income15l3l => '₹1.5L - ₹3 லட்சம்';
+
+  @override
+  String get income3l6l => '₹3L - ₹6 லட்சம்';
+
+  @override
+  String get income6l10l => '₹6L - ₹10 லட்சம்';
+
+  @override
+  String get incomeAbove10l => '₹10 லட்சத்திற்கு மேல்';
+
+  @override
+  String get specialCategories => 'சிறப்பு நிலை / முன்னுரிமை';
+
+  @override
+  String get loading => 'ஏற்றுகிறது...';
+
+  @override
+  String get error => 'பிழை';
+
+  @override
+  String get retry => 'மீண்டும் முயற்சி';
+
+  @override
+  String get ok => 'சரி';
+
+  @override
+  String get skip => 'தவிர்';
+
+  @override
+  String get save => 'சேமி';
+
+  @override
+  String get edit => 'திருத்து';
+
+  @override
+  String get back => 'பின்செல்';
+
+  @override
+  String get next => 'அடுத்து';
+
+  @override
+  String get select => 'தேர்ந்தெடுக்கவும்';
+
+  @override
+  String get search => 'தேடு';
+
+  @override
+  String get close => 'மூடு';
+
+  @override
+  String get nameLabel => 'பெயர்';
+
+  @override
+  String get dobLabel => 'பிறந்த தேதி';
+
+  @override
+  String get houseNo => 'வீட்டு எண்';
+
+  @override
+  String get street => 'தெரு';
+
+  @override
+  String get villageTown => 'கிராமம் / நகரம்';
+
+  @override
+  String get useLocation => 'இருப்பிடத்தைப் பயன்படுத்து';
+
+  @override
+  String get locating => 'இருப்பிடம் தேடுகிறோம்...';
+
+  @override
+  String get salaried => 'சம்பளதாரர்';
+
+  @override
+  String get businessOwner => 'தொழில் உரிமையாளர்';
+
+  @override
+  String get homemaker => 'இல்லத்தரசி';
+
+  @override
+  String get retired => 'ஓய்வுபெற்றவர்';
+
+  @override
+  String get selfEmployed => 'சுயதொழில்';
+
+  @override
+  String get undergraduate => 'இளங்கலை';
+
+  @override
+  String get graduate => 'பட்டதாரி';
+
+  @override
+  String get postgraduate => 'முதுகலை';
+
+  @override
+  String get diploma => 'டிப்ளமோ';
+
+  @override
+  String get higherSecondary => 'மேல்நிலைப்பள்ளி';
+
+  @override
+  String get secondary => 'நடுநிலைப்பள்ளி';
+
+  @override
+  String get primary => 'தொடக்கப்பள்ளி';
+
+  @override
+  String get noFormal => 'முறையான கல்வியில்லை';
+
+  @override
+  String get ideaStage => 'யோசனை நிலை';
+
+  @override
+  String get earlyStage => 'ஆரம்ப நிலை';
+
+  @override
+  String get growthStage => 'வளர்ச்சி நிலை';
+
+  @override
+  String get established => 'நிறுவப்பட்டது';
 }

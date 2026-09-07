@@ -2899,6 +2899,762 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Retry voice'**
   String get retryVoice;
+
+  /// No description provided for @chooseYourLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Your Language'**
+  String get chooseYourLanguage;
+
+  /// No description provided for @languageSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your preferred language to explore government schemes in your language.'**
+  String get languageSubtitle;
+
+  /// No description provided for @yourLanguageExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Language, Your Experience'**
+  String get yourLanguageExperience;
+
+  /// No description provided for @changeAnytime.
+  ///
+  /// In en, this message translates to:
+  /// **'Change it anytime from Settings.'**
+  String get changeAnytime;
+
+  /// No description provided for @welcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome!'**
+  String get welcome;
+
+  /// No description provided for @loginSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Login or sign up to discover and explore government schemes that empower you.'**
+  String get loginSubtitle;
+
+  /// No description provided for @continueSecurely.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue securely'**
+  String get continueSecurely;
+
+  /// No description provided for @googleAccountContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Use your Google account to sign in or create your MSS account.'**
+  String get googleAccountContinue;
+
+  /// No description provided for @continueWithGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get continueWithGoogle;
+
+  /// No description provided for @secureBrowserAuth.
+  ///
+  /// In en, this message translates to:
+  /// **'A secure browser window will open for authentication.'**
+  String get secureBrowserAuth;
+
+  /// No description provided for @privacyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'By continuing, you agree to our'**
+  String get privacyNote;
+
+  /// No description provided for @terms.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get terms;
+
+  /// No description provided for @and.
+  ///
+  /// In en, this message translates to:
+  /// **'and'**
+  String get and;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
+  /// No description provided for @skipLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip & Explore'**
+  String get skipLogin;
+
+  /// No description provided for @demoMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Demo mode — all features available'**
+  String get demoMode;
+
+  /// No description provided for @verifiedPlatform.
+  ///
+  /// In en, this message translates to:
+  /// **'Government Verified Platform'**
+  String get verifiedPlatform;
+
+  /// No description provided for @forIndia.
+  ///
+  /// In en, this message translates to:
+  /// **'For every Indian entrepreneur & citizen'**
+  String get forIndia;
+
+  /// No description provided for @basicDetailsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s start with your basic details.'**
+  String get basicDetailsSubtitle;
+
+  /// No description provided for @emailAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Address'**
+  String get emailAddress;
+
+  /// No description provided for @phoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get phoneNumber;
+
+  /// No description provided for @dateOfBirth.
+  ///
+  /// In en, this message translates to:
+  /// **'Date of Birth (DOB)'**
+  String get dateOfBirth;
+
+  /// No description provided for @profileInfoNote.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll use this information to personalize your MSS experience and keep you updated.'**
+  String get profileInfoNote;
+
+  /// No description provided for @step1Of4.
+  ///
+  /// In en, this message translates to:
+  /// **'1/4 Complete'**
+  String get step1Of4;
+
+  /// No description provided for @step2Of4.
+  ///
+  /// In en, this message translates to:
+  /// **'2/4 Complete'**
+  String get step2Of4;
+
+  /// No description provided for @step3Of4.
+  ///
+  /// In en, this message translates to:
+  /// **'3/4 Complete'**
+  String get step3Of4;
+
+  /// No description provided for @step4Of4.
+  ///
+  /// In en, this message translates to:
+  /// **'4/4 Complete'**
+  String get step4Of4;
+
+  /// No description provided for @step1Of3.
+  ///
+  /// In en, this message translates to:
+  /// **'1/3 Complete'**
+  String get step1Of3;
+
+  /// No description provided for @step2Of3.
+  ///
+  /// In en, this message translates to:
+  /// **'2/3 Complete'**
+  String get step2Of3;
+
+  /// No description provided for @step3Of3.
+  ///
+  /// In en, this message translates to:
+  /// **'3/3 Complete'**
+  String get step3Of3;
+
+  /// No description provided for @whereLocated.
+  ///
+  /// In en, this message translates to:
+  /// **'Where Are You Located?'**
+  String get whereLocated;
+
+  /// No description provided for @locationSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We use your location to recommend schemes available in your area.'**
+  String get locationSubtitle;
+
+  /// No description provided for @useCurrentLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Use Current Location'**
+  String get useCurrentLocation;
+
+  /// No description provided for @fetchingCoordinates.
+  ///
+  /// In en, this message translates to:
+  /// **'Fetching coordinates...'**
+  String get fetchingCoordinates;
+
+  /// No description provided for @getLocationAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Get your current location automatically'**
+  String get getLocationAuto;
+
+  /// No description provided for @or.
+  ///
+  /// In en, this message translates to:
+  /// **'OR'**
+  String get or;
+
+  /// No description provided for @doorNoStreet.
+  ///
+  /// In en, this message translates to:
+  /// **'Door No / Flat / House No / Street'**
+  String get doorNoStreet;
+
+  /// No description provided for @areaLocality.
+  ///
+  /// In en, this message translates to:
+  /// **'Area / Locality'**
+  String get areaLocality;
+
+  /// No description provided for @cityDistrict.
+  ///
+  /// In en, this message translates to:
+  /// **'City / District'**
+  String get cityDistrict;
+
+  /// No description provided for @state.
+  ///
+  /// In en, this message translates to:
+  /// **'State'**
+  String get state;
+
+  /// No description provided for @pincode.
+  ///
+  /// In en, this message translates to:
+  /// **'Pincode'**
+  String get pincode;
+
+  /// No description provided for @tellUsAboutYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell Us About You'**
+  String get tellUsAboutYou;
+
+  /// No description provided for @aboutYouSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the option that best describes you.'**
+  String get aboutYouSubtitle;
+
+  /// No description provided for @studentSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Looking for learning, innovation and startup opportunities.'**
+  String get studentSubtitle;
+
+  /// No description provided for @aspiringEntrepreneur.
+  ///
+  /// In en, this message translates to:
+  /// **'Entrepreneur'**
+  String get aspiringEntrepreneur;
+
+  /// No description provided for @aspiringEntrepreneurSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'I have an idea and want to start a business.'**
+  String get aspiringEntrepreneurSubtitle;
+
+  /// No description provided for @existingBusiness.
+  ///
+  /// In en, this message translates to:
+  /// **'Business'**
+  String get existingBusiness;
+
+  /// No description provided for @existingBusinessSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'I already run a registered or unregistered business.'**
+  String get existingBusinessSubtitle;
+
+  /// No description provided for @msmeOwner.
+  ///
+  /// In en, this message translates to:
+  /// **'MSME Owner'**
+  String get msmeOwner;
+
+  /// No description provided for @msmeOwnerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'I own a micro, small or medium enterprise.'**
+  String get msmeOwnerSubtitle;
+
+  /// No description provided for @farmerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'I am involved in farming or agriculture.'**
+  String get farmerSubtitle;
+
+  /// No description provided for @artisanShg.
+  ///
+  /// In en, this message translates to:
+  /// **'Artisan / SHG Member'**
+  String get artisanShg;
+
+  /// No description provided for @artisanShgSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'I am an artisan or part of a Self Help Group.'**
+  String get artisanShgSubtitle;
+
+  /// No description provided for @overwriteDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Overwrite details?'**
+  String get overwriteDetails;
+
+  /// No description provided for @overwriteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You have already entered some address details. Do you want to overwrite them with your current location?'**
+  String get overwriteMessage;
+
+  /// No description provided for @overwrite.
+  ///
+  /// In en, this message translates to:
+  /// **'Overwrite'**
+  String get overwrite;
+
+  /// No description provided for @profileSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile saved successfully!'**
+  String get profileSaved;
+
+  /// No description provided for @failedFetchLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to fetch location'**
+  String get failedFetchLocation;
+
+  /// No description provided for @usingDefaultLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Using default location (Chennai) due to GPS/permission constraints.'**
+  String get usingDefaultLocation;
+
+  /// No description provided for @locationFetched.
+  ///
+  /// In en, this message translates to:
+  /// **'Location fetched and populated successfully!'**
+  String get locationFetched;
+
+  /// No description provided for @saveProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Profile'**
+  String get saveProfile;
+
+  /// No description provided for @updateProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Profile'**
+  String get updateProfile;
+
+  /// No description provided for @personalInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Information'**
+  String get personalInfo;
+
+  /// No description provided for @locationInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Location Details'**
+  String get locationInfo;
+
+  /// No description provided for @businessInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Business Information'**
+  String get businessInfo;
+
+  /// No description provided for @income.
+  ///
+  /// In en, this message translates to:
+  /// **'Annual Income'**
+  String get income;
+
+  /// No description provided for @community.
+  ///
+  /// In en, this message translates to:
+  /// **'Community / Category'**
+  String get community;
+
+  /// No description provided for @employment.
+  ///
+  /// In en, this message translates to:
+  /// **'Employment Status'**
+  String get employment;
+
+  /// No description provided for @qualification.
+  ///
+  /// In en, this message translates to:
+  /// **'Qualification'**
+  String get qualification;
+
+  /// No description provided for @veteran.
+  ///
+  /// In en, this message translates to:
+  /// **'Ex-Serviceman / Veteran'**
+  String get veteran;
+
+  /// No description provided for @disability.
+  ///
+  /// In en, this message translates to:
+  /// **'Person with Disability'**
+  String get disability;
+
+  /// No description provided for @disabilityType.
+  ///
+  /// In en, this message translates to:
+  /// **'Disability Type'**
+  String get disabilityType;
+
+  /// No description provided for @hasExistingBusiness.
+  ///
+  /// In en, this message translates to:
+  /// **'I have an existing business'**
+  String get hasExistingBusiness;
+
+  /// No description provided for @businessStage.
+  ///
+  /// In en, this message translates to:
+  /// **'Business Stage'**
+  String get businessStage;
+
+  /// No description provided for @businessIndustry.
+  ///
+  /// In en, this message translates to:
+  /// **'Business Industry / Sector'**
+  String get businessIndustry;
+
+  /// No description provided for @fundingRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Funding Required'**
+  String get fundingRequired;
+
+  /// No description provided for @registrationNumbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration Numbers (Udyam, GST, etc.)'**
+  String get registrationNumbers;
+
+  /// No description provided for @checkEligibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Check Eligibility'**
+  String get checkEligibility;
+
+  /// No description provided for @eligibilityDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Eligibility Details'**
+  String get eligibilityDetails;
+
+  /// No description provided for @eligibilitySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Helps us recommend 100% accurate schemes & subsidies for you.'**
+  String get eligibilitySubtitle;
+
+  /// No description provided for @firstGenGraduate.
+  ///
+  /// In en, this message translates to:
+  /// **'First-Generation Graduate'**
+  String get firstGenGraduate;
+
+  /// No description provided for @skipForNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip for now'**
+  String get skipForNow;
+
+  /// No description provided for @completeProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete Profile'**
+  String get completeProfile;
+
+  /// No description provided for @incomeNoIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'No Income'**
+  String get incomeNoIncome;
+
+  /// No description provided for @incomeBelow15l.
+  ///
+  /// In en, this message translates to:
+  /// **'Below ₹1.5 Lakhs'**
+  String get incomeBelow15l;
+
+  /// No description provided for @income15l3l.
+  ///
+  /// In en, this message translates to:
+  /// **'₹1.5L - ₹3 Lakhs'**
+  String get income15l3l;
+
+  /// No description provided for @income3l6l.
+  ///
+  /// In en, this message translates to:
+  /// **'₹3L - ₹6 Lakhs'**
+  String get income3l6l;
+
+  /// No description provided for @income6l10l.
+  ///
+  /// In en, this message translates to:
+  /// **'₹6L - ₹10 Lakhs'**
+  String get income6l10l;
+
+  /// No description provided for @incomeAbove10l.
+  ///
+  /// In en, this message translates to:
+  /// **'Above ₹10 Lakhs'**
+  String get incomeAbove10l;
+
+  /// No description provided for @specialCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Special Status / Priority'**
+  String get specialCategories;
+
+  /// No description provided for @loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loading;
+
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get ok;
+
+  /// No description provided for @skip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get skip;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// No description provided for @back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
+  /// No description provided for @select.
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get select;
+
+  /// No description provided for @search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get search;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @nameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get nameLabel;
+
+  /// No description provided for @dobLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Date of Birth'**
+  String get dobLabel;
+
+  /// No description provided for @houseNo.
+  ///
+  /// In en, this message translates to:
+  /// **'House No.'**
+  String get houseNo;
+
+  /// No description provided for @street.
+  ///
+  /// In en, this message translates to:
+  /// **'Street'**
+  String get street;
+
+  /// No description provided for @villageTown.
+  ///
+  /// In en, this message translates to:
+  /// **'Village / Town'**
+  String get villageTown;
+
+  /// No description provided for @useLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Use Location'**
+  String get useLocation;
+
+  /// No description provided for @locating.
+  ///
+  /// In en, this message translates to:
+  /// **'Locating...'**
+  String get locating;
+
+  /// No description provided for @salaried.
+  ///
+  /// In en, this message translates to:
+  /// **'Salaried'**
+  String get salaried;
+
+  /// No description provided for @businessOwner.
+  ///
+  /// In en, this message translates to:
+  /// **'Business Owner'**
+  String get businessOwner;
+
+  /// No description provided for @homemaker.
+  ///
+  /// In en, this message translates to:
+  /// **'Homemaker'**
+  String get homemaker;
+
+  /// No description provided for @retired.
+  ///
+  /// In en, this message translates to:
+  /// **'Retired'**
+  String get retired;
+
+  /// No description provided for @selfEmployed.
+  ///
+  /// In en, this message translates to:
+  /// **'Self-employed'**
+  String get selfEmployed;
+
+  /// No description provided for @undergraduate.
+  ///
+  /// In en, this message translates to:
+  /// **'Undergraduate'**
+  String get undergraduate;
+
+  /// No description provided for @graduate.
+  ///
+  /// In en, this message translates to:
+  /// **'Graduate'**
+  String get graduate;
+
+  /// No description provided for @postgraduate.
+  ///
+  /// In en, this message translates to:
+  /// **'Postgraduate'**
+  String get postgraduate;
+
+  /// No description provided for @diploma.
+  ///
+  /// In en, this message translates to:
+  /// **'Diploma'**
+  String get diploma;
+
+  /// No description provided for @higherSecondary.
+  ///
+  /// In en, this message translates to:
+  /// **'Higher Secondary'**
+  String get higherSecondary;
+
+  /// No description provided for @secondary.
+  ///
+  /// In en, this message translates to:
+  /// **'Secondary'**
+  String get secondary;
+
+  /// No description provided for @primary.
+  ///
+  /// In en, this message translates to:
+  /// **'Primary'**
+  String get primary;
+
+  /// No description provided for @noFormal.
+  ///
+  /// In en, this message translates to:
+  /// **'No Formal Education'**
+  String get noFormal;
+
+  /// No description provided for @ideaStage.
+  ///
+  /// In en, this message translates to:
+  /// **'Idea Stage'**
+  String get ideaStage;
+
+  /// No description provided for @earlyStage.
+  ///
+  /// In en, this message translates to:
+  /// **'Early Stage'**
+  String get earlyStage;
+
+  /// No description provided for @growthStage.
+  ///
+  /// In en, this message translates to:
+  /// **'Growth Stage'**
+  String get growthStage;
+
+  /// No description provided for @established.
+  ///
+  /// In en, this message translates to:
+  /// **'Established'**
+  String get established;
 }
 
 class _AppLocalizationsDelegate
