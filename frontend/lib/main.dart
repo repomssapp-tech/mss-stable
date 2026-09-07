@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:livekit_client/livekit_client.dart' as livekit;
+import 'config/app_config.dart';
 import 'l10n/app_localizations.dart';
 import 'providers/app_state_provider.dart';
 import 'screens/splash_screen.dart';
@@ -57,23 +58,14 @@ void main() async {
     ),
   );
 
-  // Supabase connection config. Overridable at build time via
-  // --dart-define-from-file=dart_defines.json (keys SUPABASE_URL /
-  // SUPABASE_PUBLISHABLE_KEY); the compiled-in defaults are the production
-  // project URL + publishable key, both public by design so the app runs
-  // with no build flags.
-  const supabaseUrl = String.fromEnvironment(
-    'SUPABASE_URL',
-    defaultValue: 'https://houpzsxmwemoztpuigmo.supabase.co',
-  );
-  const supabasePublishableKey = String.fromEnvironment(
-    'SUPABASE_PUBLISHABLE_KEY',
-    defaultValue: 'sb_publishable_GnJpz6ZxuGeeroG92VkbBA_b3_pyTvN',
-  );
+  // Supabase connection config is injected at build time and never hard-coded.
+  // Supply it with --dart-define-from-file=dart_defines.json (keys SUPABASE_URL
+  // / SUPABASE_PUBLISHABLE_KEY). Fails fast with actionable guidance if absent.
+  AppConfig.ensureValid();
 
   await Supabase.initialize(
-    url: supabaseUrl,
-    publishableKey: supabasePublishableKey,
+    url: AppConfig.supabaseUrl,
+    publishableKey: AppConfig.supabasePublishableKey,
   );
 
   // App Startup Recovery: Check for unsynced chat sessions in local storage and batch upload to Supabase

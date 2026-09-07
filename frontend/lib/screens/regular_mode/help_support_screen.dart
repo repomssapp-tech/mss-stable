@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../utils/constants.dart';
-import '../../services/centralized_translator.dart';
 import '../../l10n/l10n.dart';
 import '../../widgets/app_toast.dart';
 import '../../utils/app_spacing.dart';
@@ -21,7 +20,6 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
   final _feedbackController = TextEditingController();
   final _emailController = TextEditingController();
   String _issueCategory = 'General Inquiry';
-  bool _isSubmitting = false;
 
   final List<Map<String, String>> _faqs = [
     {
@@ -279,6 +277,12 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
         _emailController.text = userEmail;
       }
     }
+    // Kept local (like the Feedback sheet's `submittingFeedback`) so it always
+    // starts false on each open. As a State field it could stick at `true` --
+    // the success path pops the sheet before the `finally` runs, so the
+    // `context.mounted` guard skipped the reset and every later open showed a
+    // permanently disabled Submit button.
+    bool submitting = false;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -376,9 +380,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                         ].map((cat) {
                           return DropdownMenuItem(
                             value: cat,
-                            child: Text(
-                              CentralizedTranslator.instance.translate(cat),
-                            ),
+                            child: Text(cat),
                           );
                         }).toList(),
                     onChanged: (val) {
@@ -446,7 +448,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                         ),
                         elevation: 0,
                       ),
-                      onPressed: _isSubmitting
+                      onPressed: submitting
                           ? null
                           : () async {
                               final email = _emailController.text.trim();
@@ -463,7 +465,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                                 return;
                               }
 
-                              setModalState(() => _isSubmitting = true);
+                              setModalState(() => submitting = true);
 
                               try {
                                 await SupportTicketService.instance.submitTicket(
@@ -476,9 +478,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                                   Navigator.pop(context);
                                   AppToast.showSuccess(
                                     context,
-                                    CentralizedTranslator.instance.translate(
-                                      'Thank you! Your ticket has been submitted.',
-                                    ),
+                                    'Thank you! Your ticket has been submitted.',
                                   );
                                   _feedbackController.clear();
                                 }
@@ -494,18 +494,16 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                                 if (context.mounted) {
                                   AppToast.showError(
                                     context,
-                                    CentralizedTranslator.instance.translate(
-                                      'Failed to submit ticket. Please check your connection and try again.',
-                                    ),
+                                    'Failed to submit ticket. Please check your connection and try again.',
                                   );
                                 }
                               } finally {
                                 if (context.mounted) {
-                                  setModalState(() => _isSubmitting = false);
+                                  setModalState(() => submitting = false);
                                 }
                               }
                             },
-                      child: _isSubmitting
+                      child: submitting
                           ? const SizedBox(
                               width: 20,
                               height: 20,

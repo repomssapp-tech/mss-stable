@@ -3212,9 +3212,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  CentralizedTranslator.instance.translate(
-                                    'Monthly EMI',
-                                  ),
+                                  'Monthly EMI',
                                   softWrap: true,
                                   style: GoogleFonts.inter(
                                     fontSize: 11.5,
@@ -3248,9 +3246,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  CentralizedTranslator.instance.translate(
-                                    'Principal Amount',
-                                  ),
+                                  'Principal Amount',
                                   softWrap: true,
                                   style: GoogleFonts.inter(
                                     fontSize: 11,
@@ -3280,9 +3276,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  CentralizedTranslator.instance.translate(
-                                    'Total Interest Payable',
-                                  ),
+                                  'Total Interest Payable',
                                   softWrap: true,
                                   style: GoogleFonts.inter(
                                     fontSize: 11,
@@ -3315,9 +3309,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  CentralizedTranslator.instance.translate(
-                                    'Total Amount (Principal + Int)',
-                                  ),
+                                  'Total Amount (Principal + Int)',
                                   softWrap: true,
                                   style: GoogleFonts.inter(
                                     fontSize: 11,
@@ -3504,18 +3496,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       children: [
                         CheckboxListTile(
                           title: Text(
-                            CentralizedTranslator.instance.translate(
-                              'Registered as Pvt Ltd / LLP / Partnership',
-                            ),
+                            'Registered as Pvt Ltd / LLP / Partnership',
                             style: const TextStyle(
                               fontSize: 11.5,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           subtitle: Text(
-                            CentralizedTranslator.instance.translate(
-                              'Must be registered in India',
-                            ),
+                            'Must be registered in India',
                             style: const TextStyle(fontSize: 9.5),
                           ),
                           value: isPvtLtdOrLlp,
@@ -3532,18 +3520,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         const Divider(height: 1, color: Color(0xFFE2E8F0)),
                         CheckboxListTile(
                           title: Text(
-                            CentralizedTranslator.instance.translate(
-                              'Incorporation age is under 10 years',
-                            ),
+                            'Incorporation age is under 10 years',
                             style: const TextStyle(
                               fontSize: 11.5,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           subtitle: Text(
-                            CentralizedTranslator.instance.translate(
-                              'From incorporation date',
-                            ),
+                            'From incorporation date',
                             style: const TextStyle(fontSize: 9.5),
                           ),
                           value: isUnder10Years,
@@ -3556,18 +3540,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         const Divider(height: 1, color: Color(0xFFE2E8F0)),
                         CheckboxListTile(
                           title: Text(
-                            CentralizedTranslator.instance.translate(
-                              'Annual turnover has never exceeded ₹100 Cr',
-                            ),
+                            'Annual turnover has never exceeded ₹100 Cr',
                             style: const TextStyle(
                               fontSize: 11.5,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           subtitle: Text(
-                            CentralizedTranslator.instance.translate(
-                              'For any financial year',
-                            ),
+                            'For any financial year',
                             style: const TextStyle(fontSize: 9.5),
                           ),
                           value: turnoverUnder100Cr,
@@ -3580,18 +3560,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         const Divider(height: 1, color: Color(0xFFE2E8F0)),
                         CheckboxListTile(
                           title: Text(
-                            CentralizedTranslator.instance.translate(
-                              'Working towards innovation/scaling',
-                            ),
+                            'Working towards innovation/scaling',
                             style: const TextStyle(
                               fontSize: 11.5,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           subtitle: Text(
-                            CentralizedTranslator.instance.translate(
-                              'Developing new products/processes',
-                            ),
+                            'Developing new products/processes',
                             style: const TextStyle(fontSize: 9.5),
                           ),
                           value: isInnovative,
@@ -3992,9 +3968,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  CentralizedTranslator.instance.translate(
-                                    'Valuation Range',
-                                  ),
+                                  'Valuation Range',
                                   softWrap: true,
                                   style: GoogleFonts.inter(
                                     fontSize: 11.5,
@@ -4028,9 +4002,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  CentralizedTranslator.instance.translate(
-                                    'Calculated ARR',
-                                  ),
+                                  'Calculated ARR',
                                   softWrap: true,
                                   style: GoogleFonts.inter(
                                     fontSize: 11,
@@ -4060,9 +4032,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  CentralizedTranslator.instance.translate(
-                                    'Applied ARR Multiple',
-                                  ),
+                                  'Applied ARR Multiple',
                                   softWrap: true,
                                   style: GoogleFonts.inter(
                                     fontSize: 11,
@@ -4636,9 +4606,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  CentralizedTranslator.instance.translate(
-                                    'Original Project Cost',
-                                  ),
+                                  'Original Project Cost',
                                   softWrap: true,
                                   style: GoogleFonts.inter(
                                     fontSize: 11,
@@ -4668,7 +4636,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  '${CentralizedTranslator.instance.translate('Expected Subsidy')} (${subsidyPercentVal.toStringAsFixed(1)}%)',
+                                  'Expected Subsidy (${subsidyPercentVal.toStringAsFixed(1)}%)',
                                   softWrap: true,
                                   style: GoogleFonts.inter(
                                     fontSize: 11,
@@ -4701,9 +4669,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  CentralizedTranslator.instance.translate(
-                                    'Net Cost to Business',
-                                  ),
+                                  'Net Cost to Business',
                                   softWrap: true,
                                   style: GoogleFonts.inter(
                                     fontSize: 12,
