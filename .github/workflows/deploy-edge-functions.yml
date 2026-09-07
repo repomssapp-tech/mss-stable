@@ -20,9 +20,14 @@ name: Deploy Edge Functions
 # Environment secrets:
 #   SUPABASE_ACCESS_TOKEN  — a personal access token (Account → Access Tokens)
 #                            or a CI token scoped to this project.
-# Environment variables (Settings → Variables), or edit the default below:
-#   SUPABASE_PROJECT_REF   — target project ref. Defaults to houpzsxmwemoztpuigmo
-#                            (already the value used throughout backend/).
+# Environment variables (Settings → Variables), or edit the defaults below:
+#   SUPABASE_PROJECT_REF       — target project ref. Defaults to houpzsxmwemoztpuigmo
+#                                (already the value used throughout backend/).
+#   SUPABASE_PUBLISHABLE_KEY   — client-visible publishable key, needed only for
+#                                the post-deploy health probe because
+#                                [functions.v1] verify_jwt = true rejects an
+#                                unauthenticated request at the gateway. Defaults
+#                                to the same value baked into frontend/lib/main.dart.
 #
 # Function secrets (SARVAM_API_KEY, LIVEKIT_* …) are NOT managed here — they are
 # set once with `supabase secrets set --project-ref …` and left alone. This
@@ -87,7 +92,9 @@ jobs:
             entry="${dir}index.ts"
             [ -f "$entry" ] || { echo "::warning::$name has no index.ts, skipping"; continue; }
             echo "deno check $entry"
-            deno check "$entry"
+            # --node-modules-dir=auto mirrors the functions:test script so npm:
+            # specifiers (e.g. db-change-notify's @supabase/supabase-js) resolve.
+            deno check --node-modules-dir=auto "$entry"
           done
         working-directory: backend
 
@@ -116,16 +123,29 @@ jobs:
         if: ${{ github.event.inputs.dry_run == 'false' }}
         env:
           PROJECT_REF: ${{ vars.SUPABASE_PROJECT_REF || 'houpzsxmwemoztpuigmo' }}
+          # [functions.v1] verify_jwt = true — the gateway 401s an unauthenticated
+          # call, so the probe must present the publishable key exactly as the
+          # Flutter client does (apikey + Authorization).
+          PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_GnJpz6ZxuGeeroG92VkbBA_b3_pyTvN' }}
         run: |
           set -euo pipefail
           url="https://${PROJECT_REF}.supabase.co/functions/v1/v1/health"
           echo "Probing $url"
           for attempt in 1 2 3 4 5; do
-            code="$(curl -s -o /tmp/health.json -w '%{http_code}' "$url" || true)"
+            code="$(curl -s -o /tmp/health.json -w '%{http_code}' \
+              -H "apikey: ${PUBLISHABLE_KEY}" \
+              -H "Authorization: Bearer ${PUBLISHABLE_KEY}" \
+              "$url" || true)"
             echo "attempt $attempt → HTTP $code"
             cat /tmp/health.json 2>/dev/null || true
             echo
             if [ "$code" = "200" ]; then
+              # The finding-8.1 health check returns 503 on real failure, but
+              # guard against a degraded-but-200 body just in case.
+              if grep -q '"fail"' /tmp/health.json; then
+                echo "::error::/v1/health returned 200 but a component reported 'fail'."
+                exit 1
+              fi
               exit 0
             fi
             sleep 10
