@@ -2144,4 +2144,761 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get croreSuffix => 'Cr';
+
+  @override
+  String get assessEduQ1 => 'What is your current level of education?';
+
+  @override
+  String get assessEduQ1Opt1 => 'Schooling (Up to 12th)';
+
+  @override
+  String get assessEduQ1Opt2 => 'Undergraduate';
+
+  @override
+  String get assessEduQ1Opt3 => 'Postgraduate';
+
+  @override
+  String get assessEduQ1Opt4 => 'Ph.D. & Research';
+
+  @override
+  String get assessEduQ2School =>
+      'What class/grade are you currently enrolled in?';
+
+  @override
+  String get assessEduQ2SchoolOpt1 => 'Class 1 - 8 (Primary)';
+
+  @override
+  String get assessEduQ2SchoolOpt2 => 'Class 9 - 10 (Secondary)';
+
+  @override
+  String get assessEduQ2SchoolOpt3 => 'Class 11 - 12 (Higher Secondary)';
+
+  @override
+  String get assessEduQ2College => 'What is your primary stream of study?';
+
+  @override
+  String get assessEduQ2CollegeOpt1 => 'STEM (Science/Engineering/IT)';
+
+  @override
+  String get assessEduQ2CollegeOpt2 => 'Arts, Commerce & Humanities';
+
+  @override
+  String get assessEduQ2CollegeOpt3 => 'Medical & Nursing';
+
+  @override
+  String get assessEduQ2CollegeOpt4 => 'Agricultural Studies';
+
+  @override
+  String get assessEduQ2Research =>
+      'What is your research specialization domain?';
+
+  @override
+  String get assessEduQ2ResearchOpt1 => 'STEM Research & Patents';
+
+  @override
+  String get assessEduQ2ResearchOpt2 => 'Humanities & Social Sciences';
+
+  @override
+  String get assessEduQ2ResearchOpt3 => 'Agricultural/Biological Sciences';
+
+  @override
+  String get assessEduQ3School =>
+      'What type of aid is most important right now?';
+
+  @override
+  String get assessEduQ3SchoolOpt1 => 'Pre-matric Scholarship';
+
+  @override
+  String get assessEduQ3SchoolOpt2 => 'Free textbooks & uniforms';
+
+  @override
+  String get assessEduQ3SchoolOpt3 => 'Hostel accommodation subsidy';
+
+  @override
+  String get assessEduQ3College =>
+      'Are you interested in a low-interest student education loan?';
+
+  @override
+  String get assessEduQ3CollegeOpt1 => 'Yes, need education loan';
+
+  @override
+  String get assessEduQ3CollegeOpt2 => 'No, seeking tuition scholarships only';
+
+  @override
+  String get assessEduQ3Research =>
+      'Are you seeking a research fellowship or international study grant?';
+
+  @override
+  String get assessEduQ3ResearchOpt1 => 'National Fellowship grant';
+
+  @override
+  String get assessEduQ3ResearchOpt2 => 'International study allowance';
+
+  @override
+  String get assessEduQ3ResearchOpt3 => 'Merit publication awards';
+
+  @override
+  String get assessEduQ4Caste =>
+      'What is your caste/social reservation category?';
+
+  @override
+  String get assessEduQ4CasteOpt1 => 'General';
+
+  @override
+  String get assessEduQ4CasteOpt2 => 'OBC';
+
+  @override
+  String get assessEduQ4CasteOpt3 => 'SC / ST';
+
+  @override
+  String get assessEduQ4CasteOpt4 => 'EWS / Minority';
+
+  @override
+  String get assessEduQ5Income =>
+      'What is your family\'s annual household income?';
+
+  @override
+  String get assessEduQ5IncomeOpt1 => 'Under ₹2.5 Lakhs';
+
+  @override
+  String get assessEduQ5IncomeOpt2 => '₹2.5 Lakhs - ₹8 Lakhs';
+
+  @override
+  String get assessEduQ5IncomeOpt3 => 'Over ₹8 Lakhs';
+
+  @override
+  String get assessWomenQ1 => 'Who is the primary beneficiary of the scheme?';
+
+  @override
+  String get assessWomenQ1Opt1 => 'Pregnant or Lactating Mother';
+
+  @override
+  String get assessWomenQ1Opt2 => 'Girl Child (Parent applying)';
+
+  @override
+  String get assessWomenQ1Opt3 => 'Woman Entrepreneur';
+
+  @override
+  String get assessWomenQ1Opt4 => 'Single Woman / Widow in distress';
+
+  @override
+  String get assessWomenQ2Maternal => 'Is this your first or second pregnancy?';
+
+  @override
+  String get assessWomenQ2MaternalOpt1 => 'First pregnancy';
+
+  @override
+  String get assessWomenQ2MaternalOpt2 => 'Second pregnancy';
+
+  @override
+  String get assessWomenQ2MaternalOpt3 => 'More than two';
+
+  @override
+  String get assessWomenQ2Girl => 'What is the age of the girl child?';
+
+  @override
+  String get assessWomenQ2GirlOpt1 => 'Newborn (0 - 1 Year)';
+
+  @override
+  String get assessWomenQ2GirlOpt2 => 'Child (2 - 10 Years)';
+
+  @override
+  String get assessWomenQ2GirlOpt3 => 'Adolescent (11 - 18 Years)';
+
+  @override
+  String get assessWomenQ2Biz =>
+      'Do women hold at least a 51% ownership stake in the enterprise?';
+
+  @override
+  String get assessWomenQ2BizOpt1 => 'Yes, fully owned by women';
+
+  @override
+  String get assessWomenQ2BizOpt2 => 'No, minor/shared stake';
+
+  @override
+  String get assessWomenQ2Welfare =>
+      'Do you possess a BPL (Below Poverty Line) Ration Card?';
+
+  @override
+  String get assessWomenQ2WelfareOpt1 => 'Yes, BPL Cardholder';
+
+  @override
+  String get assessWomenQ2WelfareOpt2 => 'No, APL / General';
+
+  @override
+  String get assessWomenQ3MaternReg =>
+      'Are you registered at your local Anganwadi/Health center?';
+
+  @override
+  String get assessWomenQ3MaternRegOpt1 => 'Yes, registered';
+
+  @override
+  String get assessWomenQ3MaternRegOpt2 => 'No, not registered yet';
+
+  @override
+  String get assessWomenQ3GirlSave =>
+      'Would you like to open a long-term savings account (Sukanya Samriddhi)?';
+
+  @override
+  String get assessWomenQ3GirlSaveOpt1 => 'Yes, open savings account';
+
+  @override
+  String get assessWomenQ3GirlSaveOpt2 =>
+      'No, seeking educational scholarships';
+
+  @override
+  String get assessWomenQ3GirlEdu =>
+      'Is the girl child currently enrolled in school/college?';
+
+  @override
+  String get assessWomenQ3GirlEduOpt1 => 'Yes, attending school/college';
+
+  @override
+  String get assessWomenQ3GirlEduOpt2 => 'No, discontinued education';
+
+  @override
+  String get assessWomenQ3BizCredit =>
+      'What capital support size are you seeking for your business?';
+
+  @override
+  String get assessWomenQ3BizCreditOpt1 => 'Micro-credit (Under ₹1 Lakh)';
+
+  @override
+  String get assessWomenQ3BizCreditOpt2 => 'SME Loan (₹1 Lakh - ₹10 Lakhs)';
+
+  @override
+  String get assessWomenQ3BizCreditOpt3 =>
+      'Stand-Up India loan (Over ₹10 Lakhs)';
+
+  @override
+  String get assessWomenQ3WelfarePension =>
+      'Are you currently receiving any monthly social pension?';
+
+  @override
+  String get assessWomenQ3WelfarePensionOpt1 => 'Yes, receiving widow pension';
+
+  @override
+  String get assessWomenQ3WelfarePensionOpt2 => 'No pension received';
+
+  @override
+  String get assessWomenQ4Caste => 'What is your caste/social category?';
+
+  @override
+  String get assessWomenQ4CasteOpt1 => 'General';
+
+  @override
+  String get assessWomenQ4CasteOpt2 => 'OBC';
+
+  @override
+  String get assessWomenQ4CasteOpt3 => 'SC / ST';
+
+  @override
+  String get assessWomenQ4CasteOpt4 => 'Minority / EWS';
+
+  @override
+  String get assessWomenQ5Income => 'What is your family\'s annual income?';
+
+  @override
+  String get assessWomenQ5IncomeOpt1 => 'Under ₹1.5 Lakhs';
+
+  @override
+  String get assessWomenQ5IncomeOpt2 => '₹1.5 Lakhs - ₹5 Lakhs';
+
+  @override
+  String get assessWomenQ5IncomeOpt3 => 'Over ₹5 Lakhs';
+
+  @override
+  String get assessBizQ1 => 'Is your business legally registered?';
+
+  @override
+  String get assessBizQ1Opt1 => 'Yes, under MSME Udyam';
+
+  @override
+  String get assessBizQ1Opt2 => 'Yes, as a DPIIT Startup';
+
+  @override
+  String get assessBizQ1Opt3 => 'No, operating as individual trader/artisan';
+
+  @override
+  String get assessBizQ1Opt4 => 'No, it is in idea stage';
+
+  @override
+  String get assessBizQ2Msme =>
+      'What is the total investment in machinery/equipment?';
+
+  @override
+  String get assessBizQ2MsmeOpt1 => 'Micro (Under ₹1 Crore)';
+
+  @override
+  String get assessBizQ2MsmeOpt2 => 'Small (₹1 Crore - ₹10 Crore)';
+
+  @override
+  String get assessBizQ2MsmeOpt3 => 'Medium (Over ₹10 Crore)';
+
+  @override
+  String get assessBizQ2Startup => 'What stage is your startup currently in?';
+
+  @override
+  String get assessBizQ2StartupOpt1 => 'Prototype / MVP development';
+
+  @override
+  String get assessBizQ2StartupOpt2 => 'Early Revenue / Validation';
+
+  @override
+  String get assessBizQ2StartupOpt3 => 'Scaling & expansion';
+
+  @override
+  String get assessBizQ2Artisan =>
+      'Do you hold a valid PM Vishwakarma Card or Artisan ID?';
+
+  @override
+  String get assessBizQ2ArtisanOpt1 => 'Yes, active card';
+
+  @override
+  String get assessBizQ2ArtisanOpt2 => 'No, not registered';
+
+  @override
+  String get assessBizQ2Idea =>
+      'Do you have a business project report prepared?';
+
+  @override
+  String get assessBizQ2IdeaOpt1 => 'Yes, report is ready';
+
+  @override
+  String get assessBizQ2IdeaOpt2 => 'No, need project guidance';
+
+  @override
+  String get assessBizQ3MsmeNeed =>
+      'What primary credit/loan support do you need?';
+
+  @override
+  String get assessBizQ3MsmeNeedOpt1 => 'Collateral-free Mudra Loan';
+
+  @override
+  String get assessBizQ3MsmeNeedOpt2 => 'Working capital guarantee (CGTMSE)';
+
+  @override
+  String get assessBizQ3MsmeNeedOpt3 => 'Equipment purchase capital subsidy';
+
+  @override
+  String get assessBizQ3StartupNeed =>
+      'Are you seeking equity funding or tax exemptions?';
+
+  @override
+  String get assessBizQ3StartupNeedOpt1 => 'Government Seed Funding';
+
+  @override
+  String get assessBizQ3StartupNeedOpt2 => 'Section 80-IAC Tax Exemption';
+
+  @override
+  String get assessBizQ3StartupNeedOpt3 => 'Incubator mentoring grant';
+
+  @override
+  String get assessBizQ3ArtisanNeed => 'What support does your craft require?';
+
+  @override
+  String get assessBizQ3ArtisanNeedOpt1 => 'Free toolkit upgrade voucher';
+
+  @override
+  String get assessBizQ3ArtisanNeedOpt2 => 'Exhibition & stall subsidies';
+
+  @override
+  String get assessBizQ3ArtisanNeedOpt3 => 'Individual craft micro-loan';
+
+  @override
+  String get assessBizQ4Demographics =>
+      'Is the primary owner a Woman or SC/ST entrepreneur?';
+
+  @override
+  String get assessBizQ4DemographicsOpt1 => 'Yes, woman entrepreneur';
+
+  @override
+  String get assessBizQ4DemographicsOpt2 => 'Yes, SC/ST entrepreneur';
+
+  @override
+  String get assessBizQ4DemographicsOpt3 => 'Yes, both SC/ST & Woman';
+
+  @override
+  String get assessBizQ4DemographicsOpt4 => 'General category Male';
+
+  @override
+  String get assessBizQ5Turnover =>
+      'What is the annual turnover or estimated revenue of the business?';
+
+  @override
+  String get assessBizQ5TurnoverOpt1 => 'Under ₹10 Lakhs';
+
+  @override
+  String get assessBizQ5TurnoverOpt2 => '₹10 Lakhs - ₹50 Lakhs';
+
+  @override
+  String get assessBizQ5TurnoverOpt3 => '₹50 Lakhs - ₹2 Crores';
+
+  @override
+  String get assessBizQ5TurnoverOpt4 => 'Over ₹2 Crores';
+
+  @override
+  String get assessAgriQ1 => 'What is your landholding size for farming?';
+
+  @override
+  String get assessAgriQ1Opt1 => 'Small / Marginal (Under 2 Hectares)';
+
+  @override
+  String get assessAgriQ1Opt2 => 'Medium (2 - 5 Hectares)';
+
+  @override
+  String get assessAgriQ1Opt3 => 'Large / Commercial (Over 5 Hectares)';
+
+  @override
+  String get assessAgriQ1Opt4 => 'Tenant / Landless Farmer';
+
+  @override
+  String get assessAgriQ2 => 'What agricultural support do you need urgently?';
+
+  @override
+  String get assessAgriQ2Opt1 => 'PM-KISAN Cash Transfer';
+
+  @override
+  String get assessAgriQ2Opt2 => 'Drip Irrigation / Equipment Subsidy';
+
+  @override
+  String get assessAgriQ2Opt3 => 'Crop Insurance & Disaster Relief';
+
+  @override
+  String get assessAgriQ2Opt4 => 'Kisan Credit Card (KCC) Loan';
+
+  @override
+  String get assessAgriQ3Caste => 'What is your social category?';
+
+  @override
+  String get assessAgriQ3CasteOpt1 => 'General';
+
+  @override
+  String get assessAgriQ3CasteOpt2 => 'OBC';
+
+  @override
+  String get assessAgriQ3CasteOpt3 => 'SC / ST';
+
+  @override
+  String get assessAgriQ3CasteOpt4 => 'Small Farmer Special';
+
+  @override
+  String get assessAgriQ4Income => 'What is your total family annual income?';
+
+  @override
+  String get assessAgriQ4IncomeOpt1 => 'Under ₹1.5 Lakhs';
+
+  @override
+  String get assessAgriQ4IncomeOpt2 => '₹1.5 Lakhs - ₹5 Lakhs';
+
+  @override
+  String get assessAgriQ4IncomeOpt3 => 'Over ₹5 Lakhs';
+
+  @override
+  String get assessSkillQ1 => 'What is your current employment or skill level?';
+
+  @override
+  String get assessSkillQ1Opt1 => 'Unemployed youth seeking job';
+
+  @override
+  String get assessSkillQ1Opt2 => 'School/College dropout';
+
+  @override
+  String get assessSkillQ1Opt3 => 'Traditional artisan / Worker';
+
+  @override
+  String get assessSkillQ1Opt4 => 'Employed seeking skill upgrade';
+
+  @override
+  String get assessSkillQ2 => 'Which skill training area interests you?';
+
+  @override
+  String get assessSkillQ2Opt1 => 'IT, Digital & Electronics';
+
+  @override
+  String get assessSkillQ2Opt2 => 'Apparel, Textile & Handicrafts';
+
+  @override
+  String get assessSkillQ2Opt3 => 'Automotive & Mechanical';
+
+  @override
+  String get assessSkillQ2Opt4 => 'Healthcare & Hospitality';
+
+  @override
+  String get assessSkillQ3 =>
+      'Are you looking for government-certified PMKVY training?';
+
+  @override
+  String get assessSkillQ3Opt1 => 'Yes, need certified training';
+
+  @override
+  String get assessSkillQ3Opt2 => 'No, seeking self-employment stipend';
+
+  @override
+  String get assessSkillQ4Income => 'What is your annual family income?';
+
+  @override
+  String get assessSkillQ4IncomeOpt1 => 'Under ₹2.5 Lakhs';
+
+  @override
+  String get assessSkillQ4IncomeOpt2 => '₹2.5 Lakhs - ₹8 Lakhs';
+
+  @override
+  String get assessSkillQ4IncomeOpt3 => 'Over ₹8 Lakhs';
+
+  @override
+  String get assessTeQ1 => 'What is your primary enterprise focus?';
+
+  @override
+  String get assessTeQ1Opt1 => 'Technology / R&D Innovation';
+
+  @override
+  String get assessTeQ1Opt2 => 'Export & Trade Expansion';
+
+  @override
+  String get assessTeQ1Opt3 => 'Manufacturing Production Unit';
+
+  @override
+  String get assessTeQ1Opt4 => 'Digital Infrastructure';
+
+  @override
+  String get assessTeQ2 =>
+      'What specific government scheme support do you require?';
+
+  @override
+  String get assessTeQ2Opt1 => 'Capital Investment Subsidy';
+
+  @override
+  String get assessTeQ2Opt2 => 'Patent & R&D Filing Reimbursement';
+
+  @override
+  String get assessTeQ2Opt3 => 'Market Access & International Fair Grant';
+
+  @override
+  String get assessTeQ2Opt4 => 'Software & Hardware Infrastructure Support';
+
+  @override
+  String get assessTeQ3Turnover => 'What is your enterprise annual turnover?';
+
+  @override
+  String get assessTeQ3TurnoverOpt1 => 'Under ₹50 Lakhs';
+
+  @override
+  String get assessTeQ3TurnoverOpt2 => '₹50 Lakhs - ₹5 Crores';
+
+  @override
+  String get assessTeQ3TurnoverOpt3 => 'Over ₹5 Crores';
+
+  @override
+  String get assessCatQ1 => 'What describes your current employment status?';
+
+  @override
+  String get assessCatQ1Opt1 => 'Student';
+
+  @override
+  String get assessCatQ1Opt2 => 'Farmer';
+
+  @override
+  String get assessCatQ1Opt3 => 'Business Owner / Self-employed';
+
+  @override
+  String get assessCatQ1Opt4 => 'Unemployed / Worker';
+
+  @override
+  String get assessCatQ2 =>
+      'Are you seeking financial credit or direct subsidy grants?';
+
+  @override
+  String get assessCatQ2Opt1 => 'Business / Study Loans';
+
+  @override
+  String get assessCatQ2Opt2 => 'Subsidies & welfare grants';
+
+  @override
+  String get assessCatQ2Opt3 => 'Free skill training / services';
+
+  @override
+  String get assessCatQ3 => 'What is your gender?';
+
+  @override
+  String get assessCatQ3Opt1 => 'Female';
+
+  @override
+  String get assessCatQ3Opt2 => 'Male';
+
+  @override
+  String get assessCatQ3Opt3 => 'Other';
+
+  @override
+  String get assessCatQ4 => 'What is your social caste category?';
+
+  @override
+  String get assessCatQ4Opt1 => 'General';
+
+  @override
+  String get assessCatQ4Opt2 => 'OBC';
+
+  @override
+  String get assessCatQ4Opt3 => 'SC / ST';
+
+  @override
+  String get assessCatQ4Opt4 => 'EWS / Minority';
+
+  @override
+  String get assessCatQ5 => 'What is your annual family income?';
+
+  @override
+  String get assessCatQ5Opt1 => 'Under ₹2.5 Lakhs';
+
+  @override
+  String get assessCatQ5Opt2 => '₹2.5 Lakhs - ₹8 Lakhs';
+
+  @override
+  String get assessCatQ5Opt3 => 'Over ₹8 Lakhs';
+
+  @override
+  String assessStateQ1(Object stateName) {
+    return 'Are you a permanent resident/domicile of $stateName?';
+  }
+
+  @override
+  String get assessStateQ1Opt1 => 'Yes, I hold a domicile certificate';
+
+  @override
+  String get assessStateQ1Opt2 => 'No, I am a temporary resident';
+
+  @override
+  String assessStateQ2(Object stateName) {
+    return 'What is your category in the $stateName state reservation list?';
+  }
+
+  @override
+  String get assessStateQ2Opt1 => 'BC / SEBC / OBC';
+
+  @override
+  String get assessStateQ2Opt2 => 'SC / ST';
+
+  @override
+  String get assessStateQ2Opt3 => 'EWS / Minority';
+
+  @override
+  String get assessStateQ2Opt4 => 'General / Open';
+
+  @override
+  String assessStateQ3(Object stateName) {
+    return 'What is your primary livelihood sector in $stateName?';
+  }
+
+  @override
+  String get assessStateQ3Opt1 => 'Agriculture / Farmer';
+
+  @override
+  String get assessStateQ3Opt2 => 'MSME / Startup owner';
+
+  @override
+  String get assessStateQ3Opt3 => 'Weaving / Traditional Crafts';
+
+  @override
+  String get assessStateQ3Opt4 => 'Student / Higher studies';
+
+  @override
+  String get assessStateQ4 =>
+      'What type of state assistance are you targeting?';
+
+  @override
+  String get assessStateQ4Opt1 => 'Monthly cash allowances';
+
+  @override
+  String get assessStateQ4Opt2 => 'Education fee waivers';
+
+  @override
+  String get assessStateQ4Opt3 => 'Business subsidies';
+
+  @override
+  String get assessStateQ4Opt4 => 'Agricultural input support';
+
+  @override
+  String get assessStateQ5 => 'What is your total family annual income?';
+
+  @override
+  String get assessStateQ5Opt1 => 'Under ₹1.5 Lakhs';
+
+  @override
+  String get assessStateQ5Opt2 => '₹1.5 Lakhs - ₹5 Lakhs';
+
+  @override
+  String get assessStateQ5Opt3 => 'Over ₹5 Lakhs';
+
+  @override
+  String get assessMinQ1 =>
+      'What is your primary objective within this ministry\'s portal?';
+
+  @override
+  String get assessMinQ1Opt1 => 'Applying for business subsidy / credit';
+
+  @override
+  String get assessMinQ1Opt2 => 'Seeking educational scholarships';
+
+  @override
+  String get assessMinQ1Opt3 => 'Seeking farmer agricultural aid';
+
+  @override
+  String get assessMinQ1Opt4 => 'Seeking rural infrastructure / SHG help';
+
+  @override
+  String get assessMinQ2 => 'What is the applicant\'s current age?';
+
+  @override
+  String get assessMinQ2Opt1 => '18 - 35 Years';
+
+  @override
+  String get assessMinQ2Opt2 => '36 - 59 Years';
+
+  @override
+  String get assessMinQ2Opt3 => '60 Years and above';
+
+  @override
+  String get assessMinQ3 =>
+      'Do you have any registered ID linked to this ministry?';
+
+  @override
+  String get assessMinQ3Opt1 => 'Yes, Udyam / PM-KISAN / Scholar ID';
+
+  @override
+  String get assessMinQ3Opt2 => 'No, not registered yet';
+
+  @override
+  String get assessMinQ4 => 'What is your social category?';
+
+  @override
+  String get assessMinQ4Opt1 => 'General';
+
+  @override
+  String get assessMinQ4Opt2 => 'OBC';
+
+  @override
+  String get assessMinQ4Opt3 => 'SC / ST';
+
+  @override
+  String get assessMinQ4Opt4 => 'Minority / PwD';
+
+  @override
+  String get assessMinQ5 => 'What is your annual household income?';
+
+  @override
+  String get assessMinQ5Opt1 => 'Under ₹2.5 Lakhs';
+
+  @override
+  String get assessMinQ5Opt2 => '₹2.5 Lakhs - ₹8 Lakhs';
+
+  @override
+  String get assessMinQ5Opt3 => 'Over ₹8 Lakhs';
+
+  @override
+  String assessStepLabel(Object currentStep, Object totalSteps) {
+    return 'Step $currentStep of $totalSteps';
+  }
+
+  @override
+  String get assessSkipToResults => 'Skip to Results';
 }

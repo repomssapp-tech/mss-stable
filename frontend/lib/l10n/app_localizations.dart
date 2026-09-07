@@ -4093,6 +4093,1446 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cr'**
   String get croreSuffix;
+
+  /// No description provided for @assessEduQ1.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your current level of education?'**
+  String get assessEduQ1;
+
+  /// No description provided for @assessEduQ1Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Schooling (Up to 12th)'**
+  String get assessEduQ1Opt1;
+
+  /// No description provided for @assessEduQ1Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Undergraduate'**
+  String get assessEduQ1Opt2;
+
+  /// No description provided for @assessEduQ1Opt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Postgraduate'**
+  String get assessEduQ1Opt3;
+
+  /// No description provided for @assessEduQ1Opt4.
+  ///
+  /// In en, this message translates to:
+  /// **'Ph.D. & Research'**
+  String get assessEduQ1Opt4;
+
+  /// No description provided for @assessEduQ2School.
+  ///
+  /// In en, this message translates to:
+  /// **'What class/grade are you currently enrolled in?'**
+  String get assessEduQ2School;
+
+  /// No description provided for @assessEduQ2SchoolOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Class 1 - 8 (Primary)'**
+  String get assessEduQ2SchoolOpt1;
+
+  /// No description provided for @assessEduQ2SchoolOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Class 9 - 10 (Secondary)'**
+  String get assessEduQ2SchoolOpt2;
+
+  /// No description provided for @assessEduQ2SchoolOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Class 11 - 12 (Higher Secondary)'**
+  String get assessEduQ2SchoolOpt3;
+
+  /// No description provided for @assessEduQ2College.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your primary stream of study?'**
+  String get assessEduQ2College;
+
+  /// No description provided for @assessEduQ2CollegeOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'STEM (Science/Engineering/IT)'**
+  String get assessEduQ2CollegeOpt1;
+
+  /// No description provided for @assessEduQ2CollegeOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Arts, Commerce & Humanities'**
+  String get assessEduQ2CollegeOpt2;
+
+  /// No description provided for @assessEduQ2CollegeOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Medical & Nursing'**
+  String get assessEduQ2CollegeOpt3;
+
+  /// No description provided for @assessEduQ2CollegeOpt4.
+  ///
+  /// In en, this message translates to:
+  /// **'Agricultural Studies'**
+  String get assessEduQ2CollegeOpt4;
+
+  /// No description provided for @assessEduQ2Research.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your research specialization domain?'**
+  String get assessEduQ2Research;
+
+  /// No description provided for @assessEduQ2ResearchOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'STEM Research & Patents'**
+  String get assessEduQ2ResearchOpt1;
+
+  /// No description provided for @assessEduQ2ResearchOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Humanities & Social Sciences'**
+  String get assessEduQ2ResearchOpt2;
+
+  /// No description provided for @assessEduQ2ResearchOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Agricultural/Biological Sciences'**
+  String get assessEduQ2ResearchOpt3;
+
+  /// No description provided for @assessEduQ3School.
+  ///
+  /// In en, this message translates to:
+  /// **'What type of aid is most important right now?'**
+  String get assessEduQ3School;
+
+  /// No description provided for @assessEduQ3SchoolOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Pre-matric Scholarship'**
+  String get assessEduQ3SchoolOpt1;
+
+  /// No description provided for @assessEduQ3SchoolOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Free textbooks & uniforms'**
+  String get assessEduQ3SchoolOpt2;
+
+  /// No description provided for @assessEduQ3SchoolOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Hostel accommodation subsidy'**
+  String get assessEduQ3SchoolOpt3;
+
+  /// No description provided for @assessEduQ3College.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you interested in a low-interest student education loan?'**
+  String get assessEduQ3College;
+
+  /// No description provided for @assessEduQ3CollegeOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, need education loan'**
+  String get assessEduQ3CollegeOpt1;
+
+  /// No description provided for @assessEduQ3CollegeOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'No, seeking tuition scholarships only'**
+  String get assessEduQ3CollegeOpt2;
+
+  /// No description provided for @assessEduQ3Research.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you seeking a research fellowship or international study grant?'**
+  String get assessEduQ3Research;
+
+  /// No description provided for @assessEduQ3ResearchOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'National Fellowship grant'**
+  String get assessEduQ3ResearchOpt1;
+
+  /// No description provided for @assessEduQ3ResearchOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'International study allowance'**
+  String get assessEduQ3ResearchOpt2;
+
+  /// No description provided for @assessEduQ3ResearchOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Merit publication awards'**
+  String get assessEduQ3ResearchOpt3;
+
+  /// No description provided for @assessEduQ4Caste.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your caste/social reservation category?'**
+  String get assessEduQ4Caste;
+
+  /// No description provided for @assessEduQ4CasteOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get assessEduQ4CasteOpt1;
+
+  /// No description provided for @assessEduQ4CasteOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'OBC'**
+  String get assessEduQ4CasteOpt2;
+
+  /// No description provided for @assessEduQ4CasteOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'SC / ST'**
+  String get assessEduQ4CasteOpt3;
+
+  /// No description provided for @assessEduQ4CasteOpt4.
+  ///
+  /// In en, this message translates to:
+  /// **'EWS / Minority'**
+  String get assessEduQ4CasteOpt4;
+
+  /// No description provided for @assessEduQ5Income.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your family\'s annual household income?'**
+  String get assessEduQ5Income;
+
+  /// No description provided for @assessEduQ5IncomeOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Under ₹2.5 Lakhs'**
+  String get assessEduQ5IncomeOpt1;
+
+  /// No description provided for @assessEduQ5IncomeOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'₹2.5 Lakhs - ₹8 Lakhs'**
+  String get assessEduQ5IncomeOpt2;
+
+  /// No description provided for @assessEduQ5IncomeOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Over ₹8 Lakhs'**
+  String get assessEduQ5IncomeOpt3;
+
+  /// No description provided for @assessWomenQ1.
+  ///
+  /// In en, this message translates to:
+  /// **'Who is the primary beneficiary of the scheme?'**
+  String get assessWomenQ1;
+
+  /// No description provided for @assessWomenQ1Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Pregnant or Lactating Mother'**
+  String get assessWomenQ1Opt1;
+
+  /// No description provided for @assessWomenQ1Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Girl Child (Parent applying)'**
+  String get assessWomenQ1Opt2;
+
+  /// No description provided for @assessWomenQ1Opt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Woman Entrepreneur'**
+  String get assessWomenQ1Opt3;
+
+  /// No description provided for @assessWomenQ1Opt4.
+  ///
+  /// In en, this message translates to:
+  /// **'Single Woman / Widow in distress'**
+  String get assessWomenQ1Opt4;
+
+  /// No description provided for @assessWomenQ2Maternal.
+  ///
+  /// In en, this message translates to:
+  /// **'Is this your first or second pregnancy?'**
+  String get assessWomenQ2Maternal;
+
+  /// No description provided for @assessWomenQ2MaternalOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'First pregnancy'**
+  String get assessWomenQ2MaternalOpt1;
+
+  /// No description provided for @assessWomenQ2MaternalOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Second pregnancy'**
+  String get assessWomenQ2MaternalOpt2;
+
+  /// No description provided for @assessWomenQ2MaternalOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'More than two'**
+  String get assessWomenQ2MaternalOpt3;
+
+  /// No description provided for @assessWomenQ2Girl.
+  ///
+  /// In en, this message translates to:
+  /// **'What is the age of the girl child?'**
+  String get assessWomenQ2Girl;
+
+  /// No description provided for @assessWomenQ2GirlOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Newborn (0 - 1 Year)'**
+  String get assessWomenQ2GirlOpt1;
+
+  /// No description provided for @assessWomenQ2GirlOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Child (2 - 10 Years)'**
+  String get assessWomenQ2GirlOpt2;
+
+  /// No description provided for @assessWomenQ2GirlOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Adolescent (11 - 18 Years)'**
+  String get assessWomenQ2GirlOpt3;
+
+  /// No description provided for @assessWomenQ2Biz.
+  ///
+  /// In en, this message translates to:
+  /// **'Do women hold at least a 51% ownership stake in the enterprise?'**
+  String get assessWomenQ2Biz;
+
+  /// No description provided for @assessWomenQ2BizOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, fully owned by women'**
+  String get assessWomenQ2BizOpt1;
+
+  /// No description provided for @assessWomenQ2BizOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'No, minor/shared stake'**
+  String get assessWomenQ2BizOpt2;
+
+  /// No description provided for @assessWomenQ2Welfare.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you possess a BPL (Below Poverty Line) Ration Card?'**
+  String get assessWomenQ2Welfare;
+
+  /// No description provided for @assessWomenQ2WelfareOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, BPL Cardholder'**
+  String get assessWomenQ2WelfareOpt1;
+
+  /// No description provided for @assessWomenQ2WelfareOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'No, APL / General'**
+  String get assessWomenQ2WelfareOpt2;
+
+  /// No description provided for @assessWomenQ3MaternReg.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you registered at your local Anganwadi/Health center?'**
+  String get assessWomenQ3MaternReg;
+
+  /// No description provided for @assessWomenQ3MaternRegOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, registered'**
+  String get assessWomenQ3MaternRegOpt1;
+
+  /// No description provided for @assessWomenQ3MaternRegOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'No, not registered yet'**
+  String get assessWomenQ3MaternRegOpt2;
+
+  /// No description provided for @assessWomenQ3GirlSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Would you like to open a long-term savings account (Sukanya Samriddhi)?'**
+  String get assessWomenQ3GirlSave;
+
+  /// No description provided for @assessWomenQ3GirlSaveOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, open savings account'**
+  String get assessWomenQ3GirlSaveOpt1;
+
+  /// No description provided for @assessWomenQ3GirlSaveOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'No, seeking educational scholarships'**
+  String get assessWomenQ3GirlSaveOpt2;
+
+  /// No description provided for @assessWomenQ3GirlEdu.
+  ///
+  /// In en, this message translates to:
+  /// **'Is the girl child currently enrolled in school/college?'**
+  String get assessWomenQ3GirlEdu;
+
+  /// No description provided for @assessWomenQ3GirlEduOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, attending school/college'**
+  String get assessWomenQ3GirlEduOpt1;
+
+  /// No description provided for @assessWomenQ3GirlEduOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'No, discontinued education'**
+  String get assessWomenQ3GirlEduOpt2;
+
+  /// No description provided for @assessWomenQ3BizCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'What capital support size are you seeking for your business?'**
+  String get assessWomenQ3BizCredit;
+
+  /// No description provided for @assessWomenQ3BizCreditOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Micro-credit (Under ₹1 Lakh)'**
+  String get assessWomenQ3BizCreditOpt1;
+
+  /// No description provided for @assessWomenQ3BizCreditOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'SME Loan (₹1 Lakh - ₹10 Lakhs)'**
+  String get assessWomenQ3BizCreditOpt2;
+
+  /// No description provided for @assessWomenQ3BizCreditOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Stand-Up India loan (Over ₹10 Lakhs)'**
+  String get assessWomenQ3BizCreditOpt3;
+
+  /// No description provided for @assessWomenQ3WelfarePension.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you currently receiving any monthly social pension?'**
+  String get assessWomenQ3WelfarePension;
+
+  /// No description provided for @assessWomenQ3WelfarePensionOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, receiving widow pension'**
+  String get assessWomenQ3WelfarePensionOpt1;
+
+  /// No description provided for @assessWomenQ3WelfarePensionOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'No pension received'**
+  String get assessWomenQ3WelfarePensionOpt2;
+
+  /// No description provided for @assessWomenQ4Caste.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your caste/social category?'**
+  String get assessWomenQ4Caste;
+
+  /// No description provided for @assessWomenQ4CasteOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get assessWomenQ4CasteOpt1;
+
+  /// No description provided for @assessWomenQ4CasteOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'OBC'**
+  String get assessWomenQ4CasteOpt2;
+
+  /// No description provided for @assessWomenQ4CasteOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'SC / ST'**
+  String get assessWomenQ4CasteOpt3;
+
+  /// No description provided for @assessWomenQ4CasteOpt4.
+  ///
+  /// In en, this message translates to:
+  /// **'Minority / EWS'**
+  String get assessWomenQ4CasteOpt4;
+
+  /// No description provided for @assessWomenQ5Income.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your family\'s annual income?'**
+  String get assessWomenQ5Income;
+
+  /// No description provided for @assessWomenQ5IncomeOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Under ₹1.5 Lakhs'**
+  String get assessWomenQ5IncomeOpt1;
+
+  /// No description provided for @assessWomenQ5IncomeOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'₹1.5 Lakhs - ₹5 Lakhs'**
+  String get assessWomenQ5IncomeOpt2;
+
+  /// No description provided for @assessWomenQ5IncomeOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Over ₹5 Lakhs'**
+  String get assessWomenQ5IncomeOpt3;
+
+  /// No description provided for @assessBizQ1.
+  ///
+  /// In en, this message translates to:
+  /// **'Is your business legally registered?'**
+  String get assessBizQ1;
+
+  /// No description provided for @assessBizQ1Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, under MSME Udyam'**
+  String get assessBizQ1Opt1;
+
+  /// No description provided for @assessBizQ1Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, as a DPIIT Startup'**
+  String get assessBizQ1Opt2;
+
+  /// No description provided for @assessBizQ1Opt3.
+  ///
+  /// In en, this message translates to:
+  /// **'No, operating as individual trader/artisan'**
+  String get assessBizQ1Opt3;
+
+  /// No description provided for @assessBizQ1Opt4.
+  ///
+  /// In en, this message translates to:
+  /// **'No, it is in idea stage'**
+  String get assessBizQ1Opt4;
+
+  /// No description provided for @assessBizQ2Msme.
+  ///
+  /// In en, this message translates to:
+  /// **'What is the total investment in machinery/equipment?'**
+  String get assessBizQ2Msme;
+
+  /// No description provided for @assessBizQ2MsmeOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Micro (Under ₹1 Crore)'**
+  String get assessBizQ2MsmeOpt1;
+
+  /// No description provided for @assessBizQ2MsmeOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Small (₹1 Crore - ₹10 Crore)'**
+  String get assessBizQ2MsmeOpt2;
+
+  /// No description provided for @assessBizQ2MsmeOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium (Over ₹10 Crore)'**
+  String get assessBizQ2MsmeOpt3;
+
+  /// No description provided for @assessBizQ2Startup.
+  ///
+  /// In en, this message translates to:
+  /// **'What stage is your startup currently in?'**
+  String get assessBizQ2Startup;
+
+  /// No description provided for @assessBizQ2StartupOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Prototype / MVP development'**
+  String get assessBizQ2StartupOpt1;
+
+  /// No description provided for @assessBizQ2StartupOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Early Revenue / Validation'**
+  String get assessBizQ2StartupOpt2;
+
+  /// No description provided for @assessBizQ2StartupOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Scaling & expansion'**
+  String get assessBizQ2StartupOpt3;
+
+  /// No description provided for @assessBizQ2Artisan.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you hold a valid PM Vishwakarma Card or Artisan ID?'**
+  String get assessBizQ2Artisan;
+
+  /// No description provided for @assessBizQ2ArtisanOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, active card'**
+  String get assessBizQ2ArtisanOpt1;
+
+  /// No description provided for @assessBizQ2ArtisanOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'No, not registered'**
+  String get assessBizQ2ArtisanOpt2;
+
+  /// No description provided for @assessBizQ2Idea.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you have a business project report prepared?'**
+  String get assessBizQ2Idea;
+
+  /// No description provided for @assessBizQ2IdeaOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, report is ready'**
+  String get assessBizQ2IdeaOpt1;
+
+  /// No description provided for @assessBizQ2IdeaOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'No, need project guidance'**
+  String get assessBizQ2IdeaOpt2;
+
+  /// No description provided for @assessBizQ3MsmeNeed.
+  ///
+  /// In en, this message translates to:
+  /// **'What primary credit/loan support do you need?'**
+  String get assessBizQ3MsmeNeed;
+
+  /// No description provided for @assessBizQ3MsmeNeedOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Collateral-free Mudra Loan'**
+  String get assessBizQ3MsmeNeedOpt1;
+
+  /// No description provided for @assessBizQ3MsmeNeedOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Working capital guarantee (CGTMSE)'**
+  String get assessBizQ3MsmeNeedOpt2;
+
+  /// No description provided for @assessBizQ3MsmeNeedOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment purchase capital subsidy'**
+  String get assessBizQ3MsmeNeedOpt3;
+
+  /// No description provided for @assessBizQ3StartupNeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you seeking equity funding or tax exemptions?'**
+  String get assessBizQ3StartupNeed;
+
+  /// No description provided for @assessBizQ3StartupNeedOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Government Seed Funding'**
+  String get assessBizQ3StartupNeedOpt1;
+
+  /// No description provided for @assessBizQ3StartupNeedOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Section 80-IAC Tax Exemption'**
+  String get assessBizQ3StartupNeedOpt2;
+
+  /// No description provided for @assessBizQ3StartupNeedOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Incubator mentoring grant'**
+  String get assessBizQ3StartupNeedOpt3;
+
+  /// No description provided for @assessBizQ3ArtisanNeed.
+  ///
+  /// In en, this message translates to:
+  /// **'What support does your craft require?'**
+  String get assessBizQ3ArtisanNeed;
+
+  /// No description provided for @assessBizQ3ArtisanNeedOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Free toolkit upgrade voucher'**
+  String get assessBizQ3ArtisanNeedOpt1;
+
+  /// No description provided for @assessBizQ3ArtisanNeedOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Exhibition & stall subsidies'**
+  String get assessBizQ3ArtisanNeedOpt2;
+
+  /// No description provided for @assessBizQ3ArtisanNeedOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Individual craft micro-loan'**
+  String get assessBizQ3ArtisanNeedOpt3;
+
+  /// No description provided for @assessBizQ4Demographics.
+  ///
+  /// In en, this message translates to:
+  /// **'Is the primary owner a Woman or SC/ST entrepreneur?'**
+  String get assessBizQ4Demographics;
+
+  /// No description provided for @assessBizQ4DemographicsOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, woman entrepreneur'**
+  String get assessBizQ4DemographicsOpt1;
+
+  /// No description provided for @assessBizQ4DemographicsOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, SC/ST entrepreneur'**
+  String get assessBizQ4DemographicsOpt2;
+
+  /// No description provided for @assessBizQ4DemographicsOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, both SC/ST & Woman'**
+  String get assessBizQ4DemographicsOpt3;
+
+  /// No description provided for @assessBizQ4DemographicsOpt4.
+  ///
+  /// In en, this message translates to:
+  /// **'General category Male'**
+  String get assessBizQ4DemographicsOpt4;
+
+  /// No description provided for @assessBizQ5Turnover.
+  ///
+  /// In en, this message translates to:
+  /// **'What is the annual turnover or estimated revenue of the business?'**
+  String get assessBizQ5Turnover;
+
+  /// No description provided for @assessBizQ5TurnoverOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Under ₹10 Lakhs'**
+  String get assessBizQ5TurnoverOpt1;
+
+  /// No description provided for @assessBizQ5TurnoverOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'₹10 Lakhs - ₹50 Lakhs'**
+  String get assessBizQ5TurnoverOpt2;
+
+  /// No description provided for @assessBizQ5TurnoverOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'₹50 Lakhs - ₹2 Crores'**
+  String get assessBizQ5TurnoverOpt3;
+
+  /// No description provided for @assessBizQ5TurnoverOpt4.
+  ///
+  /// In en, this message translates to:
+  /// **'Over ₹2 Crores'**
+  String get assessBizQ5TurnoverOpt4;
+
+  /// No description provided for @assessAgriQ1.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your landholding size for farming?'**
+  String get assessAgriQ1;
+
+  /// No description provided for @assessAgriQ1Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Small / Marginal (Under 2 Hectares)'**
+  String get assessAgriQ1Opt1;
+
+  /// No description provided for @assessAgriQ1Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium (2 - 5 Hectares)'**
+  String get assessAgriQ1Opt2;
+
+  /// No description provided for @assessAgriQ1Opt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Large / Commercial (Over 5 Hectares)'**
+  String get assessAgriQ1Opt3;
+
+  /// No description provided for @assessAgriQ1Opt4.
+  ///
+  /// In en, this message translates to:
+  /// **'Tenant / Landless Farmer'**
+  String get assessAgriQ1Opt4;
+
+  /// No description provided for @assessAgriQ2.
+  ///
+  /// In en, this message translates to:
+  /// **'What agricultural support do you need urgently?'**
+  String get assessAgriQ2;
+
+  /// No description provided for @assessAgriQ2Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'PM-KISAN Cash Transfer'**
+  String get assessAgriQ2Opt1;
+
+  /// No description provided for @assessAgriQ2Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Drip Irrigation / Equipment Subsidy'**
+  String get assessAgriQ2Opt2;
+
+  /// No description provided for @assessAgriQ2Opt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Crop Insurance & Disaster Relief'**
+  String get assessAgriQ2Opt3;
+
+  /// No description provided for @assessAgriQ2Opt4.
+  ///
+  /// In en, this message translates to:
+  /// **'Kisan Credit Card (KCC) Loan'**
+  String get assessAgriQ2Opt4;
+
+  /// No description provided for @assessAgriQ3Caste.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your social category?'**
+  String get assessAgriQ3Caste;
+
+  /// No description provided for @assessAgriQ3CasteOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get assessAgriQ3CasteOpt1;
+
+  /// No description provided for @assessAgriQ3CasteOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'OBC'**
+  String get assessAgriQ3CasteOpt2;
+
+  /// No description provided for @assessAgriQ3CasteOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'SC / ST'**
+  String get assessAgriQ3CasteOpt3;
+
+  /// No description provided for @assessAgriQ3CasteOpt4.
+  ///
+  /// In en, this message translates to:
+  /// **'Small Farmer Special'**
+  String get assessAgriQ3CasteOpt4;
+
+  /// No description provided for @assessAgriQ4Income.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your total family annual income?'**
+  String get assessAgriQ4Income;
+
+  /// No description provided for @assessAgriQ4IncomeOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Under ₹1.5 Lakhs'**
+  String get assessAgriQ4IncomeOpt1;
+
+  /// No description provided for @assessAgriQ4IncomeOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'₹1.5 Lakhs - ₹5 Lakhs'**
+  String get assessAgriQ4IncomeOpt2;
+
+  /// No description provided for @assessAgriQ4IncomeOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Over ₹5 Lakhs'**
+  String get assessAgriQ4IncomeOpt3;
+
+  /// No description provided for @assessSkillQ1.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your current employment or skill level?'**
+  String get assessSkillQ1;
+
+  /// No description provided for @assessSkillQ1Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Unemployed youth seeking job'**
+  String get assessSkillQ1Opt1;
+
+  /// No description provided for @assessSkillQ1Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'School/College dropout'**
+  String get assessSkillQ1Opt2;
+
+  /// No description provided for @assessSkillQ1Opt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Traditional artisan / Worker'**
+  String get assessSkillQ1Opt3;
+
+  /// No description provided for @assessSkillQ1Opt4.
+  ///
+  /// In en, this message translates to:
+  /// **'Employed seeking skill upgrade'**
+  String get assessSkillQ1Opt4;
+
+  /// No description provided for @assessSkillQ2.
+  ///
+  /// In en, this message translates to:
+  /// **'Which skill training area interests you?'**
+  String get assessSkillQ2;
+
+  /// No description provided for @assessSkillQ2Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'IT, Digital & Electronics'**
+  String get assessSkillQ2Opt1;
+
+  /// No description provided for @assessSkillQ2Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Apparel, Textile & Handicrafts'**
+  String get assessSkillQ2Opt2;
+
+  /// No description provided for @assessSkillQ2Opt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Automotive & Mechanical'**
+  String get assessSkillQ2Opt3;
+
+  /// No description provided for @assessSkillQ2Opt4.
+  ///
+  /// In en, this message translates to:
+  /// **'Healthcare & Hospitality'**
+  String get assessSkillQ2Opt4;
+
+  /// No description provided for @assessSkillQ3.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you looking for government-certified PMKVY training?'**
+  String get assessSkillQ3;
+
+  /// No description provided for @assessSkillQ3Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, need certified training'**
+  String get assessSkillQ3Opt1;
+
+  /// No description provided for @assessSkillQ3Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'No, seeking self-employment stipend'**
+  String get assessSkillQ3Opt2;
+
+  /// No description provided for @assessSkillQ4Income.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your annual family income?'**
+  String get assessSkillQ4Income;
+
+  /// No description provided for @assessSkillQ4IncomeOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Under ₹2.5 Lakhs'**
+  String get assessSkillQ4IncomeOpt1;
+
+  /// No description provided for @assessSkillQ4IncomeOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'₹2.5 Lakhs - ₹8 Lakhs'**
+  String get assessSkillQ4IncomeOpt2;
+
+  /// No description provided for @assessSkillQ4IncomeOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Over ₹8 Lakhs'**
+  String get assessSkillQ4IncomeOpt3;
+
+  /// No description provided for @assessTeQ1.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your primary enterprise focus?'**
+  String get assessTeQ1;
+
+  /// No description provided for @assessTeQ1Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Technology / R&D Innovation'**
+  String get assessTeQ1Opt1;
+
+  /// No description provided for @assessTeQ1Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Export & Trade Expansion'**
+  String get assessTeQ1Opt2;
+
+  /// No description provided for @assessTeQ1Opt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Manufacturing Production Unit'**
+  String get assessTeQ1Opt3;
+
+  /// No description provided for @assessTeQ1Opt4.
+  ///
+  /// In en, this message translates to:
+  /// **'Digital Infrastructure'**
+  String get assessTeQ1Opt4;
+
+  /// No description provided for @assessTeQ2.
+  ///
+  /// In en, this message translates to:
+  /// **'What specific government scheme support do you require?'**
+  String get assessTeQ2;
+
+  /// No description provided for @assessTeQ2Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Capital Investment Subsidy'**
+  String get assessTeQ2Opt1;
+
+  /// No description provided for @assessTeQ2Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Patent & R&D Filing Reimbursement'**
+  String get assessTeQ2Opt2;
+
+  /// No description provided for @assessTeQ2Opt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Market Access & International Fair Grant'**
+  String get assessTeQ2Opt3;
+
+  /// No description provided for @assessTeQ2Opt4.
+  ///
+  /// In en, this message translates to:
+  /// **'Software & Hardware Infrastructure Support'**
+  String get assessTeQ2Opt4;
+
+  /// No description provided for @assessTeQ3Turnover.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your enterprise annual turnover?'**
+  String get assessTeQ3Turnover;
+
+  /// No description provided for @assessTeQ3TurnoverOpt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Under ₹50 Lakhs'**
+  String get assessTeQ3TurnoverOpt1;
+
+  /// No description provided for @assessTeQ3TurnoverOpt2.
+  ///
+  /// In en, this message translates to:
+  /// **'₹50 Lakhs - ₹5 Crores'**
+  String get assessTeQ3TurnoverOpt2;
+
+  /// No description provided for @assessTeQ3TurnoverOpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Over ₹5 Crores'**
+  String get assessTeQ3TurnoverOpt3;
+
+  /// No description provided for @assessCatQ1.
+  ///
+  /// In en, this message translates to:
+  /// **'What describes your current employment status?'**
+  String get assessCatQ1;
+
+  /// No description provided for @assessCatQ1Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Student'**
+  String get assessCatQ1Opt1;
+
+  /// No description provided for @assessCatQ1Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Farmer'**
+  String get assessCatQ1Opt2;
+
+  /// No description provided for @assessCatQ1Opt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Business Owner / Self-employed'**
+  String get assessCatQ1Opt3;
+
+  /// No description provided for @assessCatQ1Opt4.
+  ///
+  /// In en, this message translates to:
+  /// **'Unemployed / Worker'**
+  String get assessCatQ1Opt4;
+
+  /// No description provided for @assessCatQ2.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you seeking financial credit or direct subsidy grants?'**
+  String get assessCatQ2;
+
+  /// No description provided for @assessCatQ2Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Business / Study Loans'**
+  String get assessCatQ2Opt1;
+
+  /// No description provided for @assessCatQ2Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Subsidies & welfare grants'**
+  String get assessCatQ2Opt2;
+
+  /// No description provided for @assessCatQ2Opt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Free skill training / services'**
+  String get assessCatQ2Opt3;
+
+  /// No description provided for @assessCatQ3.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your gender?'**
+  String get assessCatQ3;
+
+  /// No description provided for @assessCatQ3Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get assessCatQ3Opt1;
+
+  /// No description provided for @assessCatQ3Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get assessCatQ3Opt2;
+
+  /// No description provided for @assessCatQ3Opt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get assessCatQ3Opt3;
+
+  /// No description provided for @assessCatQ4.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your social caste category?'**
+  String get assessCatQ4;
+
+  /// No description provided for @assessCatQ4Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get assessCatQ4Opt1;
+
+  /// No description provided for @assessCatQ4Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'OBC'**
+  String get assessCatQ4Opt2;
+
+  /// No description provided for @assessCatQ4Opt3.
+  ///
+  /// In en, this message translates to:
+  /// **'SC / ST'**
+  String get assessCatQ4Opt3;
+
+  /// No description provided for @assessCatQ4Opt4.
+  ///
+  /// In en, this message translates to:
+  /// **'EWS / Minority'**
+  String get assessCatQ4Opt4;
+
+  /// No description provided for @assessCatQ5.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your annual family income?'**
+  String get assessCatQ5;
+
+  /// No description provided for @assessCatQ5Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Under ₹2.5 Lakhs'**
+  String get assessCatQ5Opt1;
+
+  /// No description provided for @assessCatQ5Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'₹2.5 Lakhs - ₹8 Lakhs'**
+  String get assessCatQ5Opt2;
+
+  /// No description provided for @assessCatQ5Opt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Over ₹8 Lakhs'**
+  String get assessCatQ5Opt3;
+
+  /// No description provided for @assessStateQ1.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you a permanent resident/domicile of {stateName}?'**
+  String assessStateQ1(Object stateName);
+
+  /// No description provided for @assessStateQ1Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, I hold a domicile certificate'**
+  String get assessStateQ1Opt1;
+
+  /// No description provided for @assessStateQ1Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'No, I am a temporary resident'**
+  String get assessStateQ1Opt2;
+
+  /// No description provided for @assessStateQ2.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your category in the {stateName} state reservation list?'**
+  String assessStateQ2(Object stateName);
+
+  /// No description provided for @assessStateQ2Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'BC / SEBC / OBC'**
+  String get assessStateQ2Opt1;
+
+  /// No description provided for @assessStateQ2Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'SC / ST'**
+  String get assessStateQ2Opt2;
+
+  /// No description provided for @assessStateQ2Opt3.
+  ///
+  /// In en, this message translates to:
+  /// **'EWS / Minority'**
+  String get assessStateQ2Opt3;
+
+  /// No description provided for @assessStateQ2Opt4.
+  ///
+  /// In en, this message translates to:
+  /// **'General / Open'**
+  String get assessStateQ2Opt4;
+
+  /// No description provided for @assessStateQ3.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your primary livelihood sector in {stateName}?'**
+  String assessStateQ3(Object stateName);
+
+  /// No description provided for @assessStateQ3Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Agriculture / Farmer'**
+  String get assessStateQ3Opt1;
+
+  /// No description provided for @assessStateQ3Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'MSME / Startup owner'**
+  String get assessStateQ3Opt2;
+
+  /// No description provided for @assessStateQ3Opt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Weaving / Traditional Crafts'**
+  String get assessStateQ3Opt3;
+
+  /// No description provided for @assessStateQ3Opt4.
+  ///
+  /// In en, this message translates to:
+  /// **'Student / Higher studies'**
+  String get assessStateQ3Opt4;
+
+  /// No description provided for @assessStateQ4.
+  ///
+  /// In en, this message translates to:
+  /// **'What type of state assistance are you targeting?'**
+  String get assessStateQ4;
+
+  /// No description provided for @assessStateQ4Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly cash allowances'**
+  String get assessStateQ4Opt1;
+
+  /// No description provided for @assessStateQ4Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Education fee waivers'**
+  String get assessStateQ4Opt2;
+
+  /// No description provided for @assessStateQ4Opt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Business subsidies'**
+  String get assessStateQ4Opt3;
+
+  /// No description provided for @assessStateQ4Opt4.
+  ///
+  /// In en, this message translates to:
+  /// **'Agricultural input support'**
+  String get assessStateQ4Opt4;
+
+  /// No description provided for @assessStateQ5.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your total family annual income?'**
+  String get assessStateQ5;
+
+  /// No description provided for @assessStateQ5Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Under ₹1.5 Lakhs'**
+  String get assessStateQ5Opt1;
+
+  /// No description provided for @assessStateQ5Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'₹1.5 Lakhs - ₹5 Lakhs'**
+  String get assessStateQ5Opt2;
+
+  /// No description provided for @assessStateQ5Opt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Over ₹5 Lakhs'**
+  String get assessStateQ5Opt3;
+
+  /// No description provided for @assessMinQ1.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your primary objective within this ministry\'s portal?'**
+  String get assessMinQ1;
+
+  /// No description provided for @assessMinQ1Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Applying for business subsidy / credit'**
+  String get assessMinQ1Opt1;
+
+  /// No description provided for @assessMinQ1Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Seeking educational scholarships'**
+  String get assessMinQ1Opt2;
+
+  /// No description provided for @assessMinQ1Opt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Seeking farmer agricultural aid'**
+  String get assessMinQ1Opt3;
+
+  /// No description provided for @assessMinQ1Opt4.
+  ///
+  /// In en, this message translates to:
+  /// **'Seeking rural infrastructure / SHG help'**
+  String get assessMinQ1Opt4;
+
+  /// No description provided for @assessMinQ2.
+  ///
+  /// In en, this message translates to:
+  /// **'What is the applicant\'s current age?'**
+  String get assessMinQ2;
+
+  /// No description provided for @assessMinQ2Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'18 - 35 Years'**
+  String get assessMinQ2Opt1;
+
+  /// No description provided for @assessMinQ2Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'36 - 59 Years'**
+  String get assessMinQ2Opt2;
+
+  /// No description provided for @assessMinQ2Opt3.
+  ///
+  /// In en, this message translates to:
+  /// **'60 Years and above'**
+  String get assessMinQ2Opt3;
+
+  /// No description provided for @assessMinQ3.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you have any registered ID linked to this ministry?'**
+  String get assessMinQ3;
+
+  /// No description provided for @assessMinQ3Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, Udyam / PM-KISAN / Scholar ID'**
+  String get assessMinQ3Opt1;
+
+  /// No description provided for @assessMinQ3Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'No, not registered yet'**
+  String get assessMinQ3Opt2;
+
+  /// No description provided for @assessMinQ4.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your social category?'**
+  String get assessMinQ4;
+
+  /// No description provided for @assessMinQ4Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get assessMinQ4Opt1;
+
+  /// No description provided for @assessMinQ4Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'OBC'**
+  String get assessMinQ4Opt2;
+
+  /// No description provided for @assessMinQ4Opt3.
+  ///
+  /// In en, this message translates to:
+  /// **'SC / ST'**
+  String get assessMinQ4Opt3;
+
+  /// No description provided for @assessMinQ4Opt4.
+  ///
+  /// In en, this message translates to:
+  /// **'Minority / PwD'**
+  String get assessMinQ4Opt4;
+
+  /// No description provided for @assessMinQ5.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your annual household income?'**
+  String get assessMinQ5;
+
+  /// No description provided for @assessMinQ5Opt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Under ₹2.5 Lakhs'**
+  String get assessMinQ5Opt1;
+
+  /// No description provided for @assessMinQ5Opt2.
+  ///
+  /// In en, this message translates to:
+  /// **'₹2.5 Lakhs - ₹8 Lakhs'**
+  String get assessMinQ5Opt2;
+
+  /// No description provided for @assessMinQ5Opt3.
+  ///
+  /// In en, this message translates to:
+  /// **'Over ₹8 Lakhs'**
+  String get assessMinQ5Opt3;
+
+  /// No description provided for @assessStepLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {currentStep} of {totalSteps}'**
+  String assessStepLabel(Object currentStep, Object totalSteps);
+
+  /// No description provided for @assessSkipToResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip to Results'**
+  String get assessSkipToResults;
 }
 
 class _AppLocalizationsDelegate

@@ -2173,4 +2173,765 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get croreSuffix => 'கோடி';
+
+  @override
+  String get assessEduQ1 => 'உங்கள் தற்போதைய கல்வித் தகுதி என்ன?';
+
+  @override
+  String get assessEduQ1Opt1 => 'பள்ளி கல்வி (12 ஆம் வகுப்பு வரை)';
+
+  @override
+  String get assessEduQ1Opt2 => 'இளங்கலை (UG)';
+
+  @override
+  String get assessEduQ1Opt3 => 'முதுகலை (PG)';
+
+  @override
+  String get assessEduQ1Opt4 => 'முனைவர் பட்டம் & ஆராய்ச்சி';
+
+  @override
+  String get assessEduQ2School =>
+      'நீங்கள் தற்போது எந்த வகுப்பில் படிக்கிறீர்கள்?';
+
+  @override
+  String get assessEduQ2SchoolOpt1 => 'வகுப்பு 1 - 8 (தொடக்கப்பள்ளி)';
+
+  @override
+  String get assessEduQ2SchoolOpt2 => 'வகுப்பு 9 - 10 (உயர்நிலைப்பள்ளி)';
+
+  @override
+  String get assessEduQ2SchoolOpt3 => 'வகுப்பு 11 - 12 (மேல்நிலைப்பள்ளி)';
+
+  @override
+  String get assessEduQ2College => 'உங்கள் முதன்மை கல்விப் பிரிவு என்ன?';
+
+  @override
+  String get assessEduQ2CollegeOpt1 => 'STEM (அறிவியல்/பொறியியல்/IT)';
+
+  @override
+  String get assessEduQ2CollegeOpt2 => 'கலை, வணிகவியல் & மானுடவியல்';
+
+  @override
+  String get assessEduQ2CollegeOpt3 => 'மருத்துவம் & செவிலியர்';
+
+  @override
+  String get assessEduQ2CollegeOpt4 => 'வேளாண் படிப்புகள்';
+
+  @override
+  String get assessEduQ2Research => 'உங்கள் ஆராய்ச்சி துறை என்ன?';
+
+  @override
+  String get assessEduQ2ResearchOpt1 => 'STEM ஆராய்ச்சி & காப்புரிமை';
+
+  @override
+  String get assessEduQ2ResearchOpt2 => 'மானுடவியல் & சமூக அறிவியல்';
+
+  @override
+  String get assessEduQ2ResearchOpt3 => 'வேளாண் / உயிரியல் அறிவியல்';
+
+  @override
+  String get assessEduQ3School =>
+      'தற்போது உங்களுக்கு எந்த வகையான உதவி தேவைப்படுகிறது?';
+
+  @override
+  String get assessEduQ3SchoolOpt1 => 'பள்ளிப்படிப்பு உதவித்தொகை (Pre-matric)';
+
+  @override
+  String get assessEduQ3SchoolOpt2 => 'இலவச பாடப்புத்தகங்கள் & சீருடைகள்';
+
+  @override
+  String get assessEduQ3SchoolOpt3 => 'விடுதி தங்குமிட மானியம்';
+
+  @override
+  String get assessEduQ3College =>
+      'குறைந்த வட்டி கல்விக்கடனில் ஆர்வமாக உள்ளீர்களா?';
+
+  @override
+  String get assessEduQ3CollegeOpt1 => 'ஆம், கல்விக்கடன் தேவை';
+
+  @override
+  String get assessEduQ3CollegeOpt2 => 'இல்லை, கல்வி உதவித்தொகை மட்டும் தேவை';
+
+  @override
+  String get assessEduQ3Research =>
+      'ஆராய்ச்சி உதவித்தொகை அல்லது வெளிநாட்டு கல்வி நிதி எதிர்பார்க்கிறீர்களா?';
+
+  @override
+  String get assessEduQ3ResearchOpt1 => 'தேசிய ஆராய்ச்சி நிதி (Fellowship)';
+
+  @override
+  String get assessEduQ3ResearchOpt2 => 'வெளிநாட்டு கல்வி உதவித்தொகை';
+
+  @override
+  String get assessEduQ3ResearchOpt3 => 'ஆராய்ச்சி கட்டுரை விருதுகள்';
+
+  @override
+  String get assessEduQ4Caste => 'உங்கள் சமூகப் பிரிவு என்ன?';
+
+  @override
+  String get assessEduQ4CasteOpt1 => 'பொதுப்பிரிவு (General)';
+
+  @override
+  String get assessEduQ4CasteOpt2 => 'பிற்படுத்தப்பட்டோர் (OBC/BC)';
+
+  @override
+  String get assessEduQ4CasteOpt3 => 'பட்டியல் வகுப்பினர் (SC / ST)';
+
+  @override
+  String get assessEduQ4CasteOpt4 =>
+      'பொருளாதாரத்தில் பின்தங்கியோர் / சிறுபான்மையினர்';
+
+  @override
+  String get assessEduQ5Income => 'உங்கள் குடும்பத்தின் ஆண்டு வருமானம் என்ன?';
+
+  @override
+  String get assessEduQ5IncomeOpt1 => '₹2.5 இலட்சத்திற்குக் கீழ்';
+
+  @override
+  String get assessEduQ5IncomeOpt2 => '₹2.5 இலட்சம் - ₹8 இலட்சம்';
+
+  @override
+  String get assessEduQ5IncomeOpt3 => '₹8 இலட்சத்திற்கு மேல்';
+
+  @override
+  String get assessWomenQ1 => 'திட்டத்தின் முதன்மை பயனாளி யார்?';
+
+  @override
+  String get assessWomenQ1Opt1 => 'கர்ப்பிணி அல்லது பாலூட்டும் தாய்';
+
+  @override
+  String get assessWomenQ1Opt2 => 'பெண் குழந்தை (பெற்றோர் விண்ணப்பிக்கின்றனர்)';
+
+  @override
+  String get assessWomenQ1Opt3 => 'பெண் தொழில்முனைவோர்';
+
+  @override
+  String get assessWomenQ1Opt4 => 'தனித்து வாழும் பெண் / விதவை தாய்';
+
+  @override
+  String get assessWomenQ2Maternal =>
+      'இது உங்கள் முதலாவது அல்லது இரண்டாவது கர்ப்பமா?';
+
+  @override
+  String get assessWomenQ2MaternalOpt1 => 'முதல் கர்ப்பம்';
+
+  @override
+  String get assessWomenQ2MaternalOpt2 => 'இரண்டாவது கர்ப்பம்';
+
+  @override
+  String get assessWomenQ2MaternalOpt3 => 'இரண்டிற்கும் மேற்பட்டவை';
+
+  @override
+  String get assessWomenQ2Girl => 'பெண் குழந்தையின் வயது என்ன?';
+
+  @override
+  String get assessWomenQ2GirlOpt1 => 'பிறந்த குழந்தை (0 - 1 வயது)';
+
+  @override
+  String get assessWomenQ2GirlOpt2 => 'குழந்தை (2 - 10 வயது)';
+
+  @override
+  String get assessWomenQ2GirlOpt3 => 'இளம் பெண் (11 - 18 வயது)';
+
+  @override
+  String get assessWomenQ2Biz =>
+      'நிறுவனத்தில் பெண்களுக்கு குறைந்தது 51% பங்கீடு உள்ளதா?';
+
+  @override
+  String get assessWomenQ2BizOpt1 => 'ஆம், முழுவதும் பெண்கள் உரிமையிலானது';
+
+  @override
+  String get assessWomenQ2BizOpt2 => 'இல்லை, குறைந்த பங்கீடு';
+
+  @override
+  String get assessWomenQ2Welfare =>
+      'உங்களிடம் வறுமைக் கோட்டிற்கு கீழ் (BPL) குடும்ப அட்டை உள்ளதா?';
+
+  @override
+  String get assessWomenQ2WelfareOpt1 => 'ஆம், BPL அட்டைதாரர்';
+
+  @override
+  String get assessWomenQ2WelfareOpt2 => 'இல்லை, APL / பொதுப்பிரிவு';
+
+  @override
+  String get assessWomenQ3MaternReg =>
+      'உள்ளூர் அங்கன்வாடி / சுகாதார மையத்தில் பதிவு செய்துள்ளீர்களா?';
+
+  @override
+  String get assessWomenQ3MaternRegOpt1 => 'ஆம், பதிவு செய்யப்பட்டுள்ளது';
+
+  @override
+  String get assessWomenQ3MaternRegOpt2 => 'இல்லை, இன்னும் பதிவு செய்யவில்லை';
+
+  @override
+  String get assessWomenQ3GirlSave =>
+      'செல்வமகள் சேமிப்பு கணக்கு (Sukanya Samriddhi) தொடங்க விரும்புகிறீர்களா?';
+
+  @override
+  String get assessWomenQ3GirlSaveOpt1 =>
+      'ஆம், சேமிப்பு கணக்கு தொடங்க வேண்டும்';
+
+  @override
+  String get assessWomenQ3GirlSaveOpt2 => 'இல்லை, கல்வி உதவித்தொகை தேவை';
+
+  @override
+  String get assessWomenQ3GirlEdu =>
+      'பெண் குழந்தை தற்போது பள்ளி / கல்லூரியில் படிக்கிறாரா?';
+
+  @override
+  String get assessWomenQ3GirlEduOpt1 => 'ஆம், பள்ளி / கல்லூரியில் படிக்கிறார்';
+
+  @override
+  String get assessWomenQ3GirlEduOpt2 => 'இல்லை, படிப்பை நிறுத்திவிட்டார்';
+
+  @override
+  String get assessWomenQ3BizCredit =>
+      'உங்கள் தொழிலுக்கு எவ்வளவு மூலதன நிதி தேவை?';
+
+  @override
+  String get assessWomenQ3BizCreditOpt1 => 'குறுங்கடன் (₹1 இலட்சத்திற்கு கீழ்)';
+
+  @override
+  String get assessWomenQ3BizCreditOpt2 =>
+      'MSME கடன் (₹1 இலட்சம் - ₹10 இலட்சம்)';
+
+  @override
+  String get assessWomenQ3BizCreditOpt3 =>
+      'ஸ்டாண்ட்-அப் இந்தியா கடன் (₹10 இலட்சத்திற்கு மேல்)';
+
+  @override
+  String get assessWomenQ3WelfarePension =>
+      'தற்போது மாதந்தோறும் அரசு ஓய்வூதியம் பெறுகிறீர்களா?';
+
+  @override
+  String get assessWomenQ3WelfarePensionOpt1 =>
+      'ஆம், விதவை ஓய்வூதியம் பெறுகிறேன்';
+
+  @override
+  String get assessWomenQ3WelfarePensionOpt2 => 'இல்லை, ஓய்வூதியம் பெறவில்லை';
+
+  @override
+  String get assessWomenQ4Caste => 'உங்கள் சமூகப் பிரிவு என்ன?';
+
+  @override
+  String get assessWomenQ4CasteOpt1 => 'பொதுப்பிரிவு (General)';
+
+  @override
+  String get assessWomenQ4CasteOpt2 => 'பிற்படுத்தப்பட்டோர் (OBC/BC)';
+
+  @override
+  String get assessWomenQ4CasteOpt3 => 'பட்டியல் வகுப்பினர் (SC / ST)';
+
+  @override
+  String get assessWomenQ4CasteOpt4 => 'சிறுபான்மையினர் / EWS';
+
+  @override
+  String get assessWomenQ5Income => 'உங்கள் குடும்பத்தின் ஆண்டு வருமானம் என்ன?';
+
+  @override
+  String get assessWomenQ5IncomeOpt1 => '₹1.5 இலட்சத்திற்குக் கீழ்';
+
+  @override
+  String get assessWomenQ5IncomeOpt2 => '₹1.5 இலட்சம் - ₹5 இலட்சம்';
+
+  @override
+  String get assessWomenQ5IncomeOpt3 => '₹5 இலட்சத்திற்கு மேல்';
+
+  @override
+  String get assessBizQ1 => 'உங்கள் தொழில் முறைப்படி பதிவு செய்யப்பட்டுள்ளதா?';
+
+  @override
+  String get assessBizQ1Opt1 => 'ஆம், MSME உத்யம் மூலம்';
+
+  @override
+  String get assessBizQ1Opt2 => 'ஆம், DPIIT ஸ்டார்ட்அப்பாக';
+
+  @override
+  String get assessBizQ1Opt3 => 'இல்லை, தனிநபர் வியாபாரி / கைவினைஞராக';
+
+  @override
+  String get assessBizQ1Opt4 => 'இல்லை, யோசனை நிலையில் உள்ளது';
+
+  @override
+  String get assessBizQ2Msme =>
+      'இயந்திரங்கள் / உபகரணங்களில் மொத்த முதலீடு எவ்வளவு?';
+
+  @override
+  String get assessBizQ2MsmeOpt1 => 'குறுந்தொழில் (₹1 கோடிக்கு கீழ்)';
+
+  @override
+  String get assessBizQ2MsmeOpt2 => 'சிறு தொழில் (₹1 கோடி - ₹10 கோடி)';
+
+  @override
+  String get assessBizQ2MsmeOpt3 => 'நடுத்தர தொழில் (₹10 கோடிக்கு மேல்)';
+
+  @override
+  String get assessBizQ2Startup =>
+      'உங்கள் ஸ்டார்ட்அப் தற்போது எந்த நிலையில் உள்ளது?';
+
+  @override
+  String get assessBizQ2StartupOpt1 => 'மாதிரி வடிவம் / MVP உருவாக்கம்';
+
+  @override
+  String get assessBizQ2StartupOpt2 => 'ஆரம்ப வருவாய் / சந்தை சரிபார்ப்பு';
+
+  @override
+  String get assessBizQ2StartupOpt3 => 'தொழில் விரிவாக்கம்';
+
+  @override
+  String get assessBizQ2Artisan =>
+      'உங்களிடம் பிஎம் விஸ்வகர்மா அட்டை / கைவினைஞர் சான்றிதழ் உள்ளதா?';
+
+  @override
+  String get assessBizQ2ArtisanOpt1 => 'ஆம், செயலில் உள்ள அட்டை உள்ளது';
+
+  @override
+  String get assessBizQ2ArtisanOpt2 => 'இல்லை, பதிவு செய்யவில்லை';
+
+  @override
+  String get assessBizQ2Idea => 'தொழில் திட்ட அறிக்கை தயாரித்துள்ளீர்களா?';
+
+  @override
+  String get assessBizQ2IdeaOpt1 => 'ஆம், திட்ட அறிக்கை தயார்';
+
+  @override
+  String get assessBizQ2IdeaOpt2 => 'இல்லை, திட்ட வழிகாட்டுதல் தேவை';
+
+  @override
+  String get assessBizQ3MsmeNeed =>
+      'உங்களுக்கு முதன்மையாக எந்த கடன் உதவி தேவை?';
+
+  @override
+  String get assessBizQ3MsmeNeedOpt1 => 'பிணையமில்லா முத்ரா கடன்';
+
+  @override
+  String get assessBizQ3MsmeNeedOpt2 => 'நடைமுறை மூலதன உத்தரவாதம் (CGTMSE)';
+
+  @override
+  String get assessBizQ3MsmeNeedOpt3 =>
+      'இயந்திரங்கள் வாங்குவதற்கான மூலதன மானியம்';
+
+  @override
+  String get assessBizQ3StartupNeed =>
+      'பங்கு மூலதன நிதி அல்லது வரி விலக்கு எதிர்பார்க்கிறீர்களா?';
+
+  @override
+  String get assessBizQ3StartupNeedOpt1 => 'அரசு தொடக்க நிதி (Seed Funding)';
+
+  @override
+  String get assessBizQ3StartupNeedOpt2 => 'பிரிவு 80-IAC வரி விலக்கு';
+
+  @override
+  String get assessBizQ3StartupNeedOpt3 => 'இன்குபேட்டர் வழிகாட்டுதல் மானியம்';
+
+  @override
+  String get assessBizQ3ArtisanNeed =>
+      'உங்கள் கைவினைத் தொழிலுக்கு என்ன உதவி தேவை?';
+
+  @override
+  String get assessBizQ3ArtisanNeedOpt1 =>
+      'இலவச கருவித்தொகுப்பு (Toolkit) வவுச்சர்';
+
+  @override
+  String get assessBizQ3ArtisanNeedOpt2 => 'கண்காட்சி மற்றும் அரங்கு மானியம்';
+
+  @override
+  String get assessBizQ3ArtisanNeedOpt3 =>
+      'கைவினைஞர்களுக்கான தனிநபர் குறுங்கடன்';
+
+  @override
+  String get assessBizQ4Demographics =>
+      'முதன்மையாளர் பெண் அல்லது SC/ST தொழில்முனைவோரா?';
+
+  @override
+  String get assessBizQ4DemographicsOpt1 => 'ஆம், பெண் தொழில்முனைவோர்';
+
+  @override
+  String get assessBizQ4DemographicsOpt2 => 'ஆம், SC/ST தொழில்முனைவோர்';
+
+  @override
+  String get assessBizQ4DemographicsOpt3 => 'ஆம், SC/ST மற்றும் பெண்';
+
+  @override
+  String get assessBizQ4DemographicsOpt4 => 'பொதுப்பிரிவு ஆண்';
+
+  @override
+  String get assessBizQ5Turnover =>
+      'தொழிலின் ஆண்டு விற்றுமுதல் (Turnover) எவ்வளவு?';
+
+  @override
+  String get assessBizQ5TurnoverOpt1 => '₹10 இலட்சத்திற்குக் கீழ்';
+
+  @override
+  String get assessBizQ5TurnoverOpt2 => '₹10 இலட்சம் - ₹50 இலட்சம்';
+
+  @override
+  String get assessBizQ5TurnoverOpt3 => '₹50 இலட்சம் - ₹2 கோடி';
+
+  @override
+  String get assessBizQ5TurnoverOpt4 => '₹2 கோடிக்கு மேல்';
+
+  @override
+  String get assessAgriQ1 => 'உங்கள் விவசாய நிலத்தின் பரப்பளவு எவ்வளவு?';
+
+  @override
+  String get assessAgriQ1Opt1 => 'சிறு / குறு விவசாயி (2 ஹெக்டேருக்கு கீழ்)';
+
+  @override
+  String get assessAgriQ1Opt2 => 'நடுத்தர விவசாயி (2 - 5 ஹெக்டேர்)';
+
+  @override
+  String get assessAgriQ1Opt3 => 'பெரிய விவசாயி (5 ஹெக்டேருக்கு மேல்)';
+
+  @override
+  String get assessAgriQ1Opt4 => 'குத்தகை / நிலமற்ற விவசாயி';
+
+  @override
+  String get assessAgriQ2 =>
+      'உங்களுக்கு உடனடியாக தேவைப்படும் விவசாய உதவி என்ன?';
+
+  @override
+  String get assessAgriQ2Opt1 => 'PM-KISAN நேரடி நிதி உதவி';
+
+  @override
+  String get assessAgriQ2Opt2 => 'சொட்டு நீர் பாசனம் / உபகரண மானியம்';
+
+  @override
+  String get assessAgriQ2Opt3 => 'பயிர் காப்பீடு & பேரிடர் நிவாரணம்';
+
+  @override
+  String get assessAgriQ2Opt4 => 'கிசான் கிரெடிட் கார்டு (KCC) கடன்';
+
+  @override
+  String get assessAgriQ3Caste => 'உங்கள் சமூகப் பிரிவு என்ன?';
+
+  @override
+  String get assessAgriQ3CasteOpt1 => 'பொதுப்பிரிவு (General)';
+
+  @override
+  String get assessAgriQ3CasteOpt2 => 'பிற்படுத்தப்பட்டோர் (OBC/BC)';
+
+  @override
+  String get assessAgriQ3CasteOpt3 => 'பட்டியல் வகுப்பினர் (SC / ST)';
+
+  @override
+  String get assessAgriQ3CasteOpt4 => 'சிறப்பு விவசாயி பிரிவு';
+
+  @override
+  String get assessAgriQ4Income => 'உங்கள் குடும்பத்தின் ஆண்டு வருமானம் என்ன?';
+
+  @override
+  String get assessAgriQ4IncomeOpt1 => '₹1.5 இலட்சத்திற்குக் கீழ்';
+
+  @override
+  String get assessAgriQ4IncomeOpt2 => '₹1.5 இலட்சம் - ₹5 இலட்சம்';
+
+  @override
+  String get assessAgriQ4IncomeOpt3 => '₹5 இலட்சத்திற்கு மேல்';
+
+  @override
+  String get assessSkillQ1 => 'உங்கள் தற்போதைய தொழில் / திறன் நிலை என்ன?';
+
+  @override
+  String get assessSkillQ1Opt1 => 'வேலைதேடும் இளைஞர்';
+
+  @override
+  String get assessSkillQ1Opt2 => 'பள்ளி / கல்லூரி இடைநின்றவர்';
+
+  @override
+  String get assessSkillQ1Opt3 => 'பாரம்பரிய தொழிலாளி / பணியாளர்';
+
+  @override
+  String get assessSkillQ1Opt4 => 'திறன் மேம்பாடு விரும்பும் பணியாளர்';
+
+  @override
+  String get assessSkillQ2 => 'எந்தத் துறையில் பயிற்சி பெற விரும்புகிறீர்கள்?';
+
+  @override
+  String get assessSkillQ2Opt1 => 'தகவல் தொழில்நுட்பம் & எலக்ட்ரானிக்ஸ்';
+
+  @override
+  String get assessSkillQ2Opt2 => 'ஆடை வடிவமைப்பு & கைவினை';
+
+  @override
+  String get assessSkillQ2Opt3 => 'வாகனம் & மெக்கானிக்கல்';
+
+  @override
+  String get assessSkillQ2Opt4 => 'சுகாதாரம் & விருந்தோம்பல்';
+
+  @override
+  String get assessSkillQ3 =>
+      'அரசு அங்கீகாரம் பெற்ற இலவசப் பயிற்சி பெற விரும்புகிறீர்களா?';
+
+  @override
+  String get assessSkillQ3Opt1 => 'ஆம், சான்றிதழ் பயிற்சி தேவை';
+
+  @override
+  String get assessSkillQ3Opt2 => 'இல்லை, சுயதொழில் உதவித்தொகை தேவை';
+
+  @override
+  String get assessSkillQ4Income => 'உங்கள் குடும்பத்தின் ஆண்டு வருமானம் என்ன?';
+
+  @override
+  String get assessSkillQ4IncomeOpt1 => '₹2.5 இலட்சத்திற்குக் கீழ்';
+
+  @override
+  String get assessSkillQ4IncomeOpt2 => '₹2.5 இலட்சம் - ₹8 இலட்சம்';
+
+  @override
+  String get assessSkillQ4IncomeOpt3 => '₹8 இலட்சத்திற்கு மேல்';
+
+  @override
+  String get assessTeQ1 => 'உங்கள் நிறுவனத்தின் முதன்மை கவனம் என்ன?';
+
+  @override
+  String get assessTeQ1Opt1 => 'தொழில்நுட்பம் / R&D ஆராய்ச்சி';
+
+  @override
+  String get assessTeQ1Opt2 => 'ஏற்றுமதி & வர்த்தக விரிவாக்கம்';
+
+  @override
+  String get assessTeQ1Opt3 => 'உற்பத்தி ஆலை (Manufacturing)';
+
+  @override
+  String get assessTeQ1Opt4 => 'டிஜிட்டல் கட்டமைப்பு';
+
+  @override
+  String get assessTeQ2 => 'உங்களுக்கு அரசிடமிருந்து என்ன உதவி தேவைப்படுகிறது?';
+
+  @override
+  String get assessTeQ2Opt1 => 'மூலதன முதலீட்டு மானியம்';
+
+  @override
+  String get assessTeQ2Opt2 => 'காப்புரிமை & R&D கட்டணத் திரும்பப்பெறுதல்';
+
+  @override
+  String get assessTeQ2Opt3 => 'சர்வதேச வர்த்தகக் கண்காட்சி மானியம்';
+
+  @override
+  String get assessTeQ2Opt4 => 'மென்பொருள் & வன்பொருள் கட்டமைப்பு';
+
+  @override
+  String get assessTeQ3Turnover =>
+      'உங்கள் நிறுவனத்தின் ஆண்டு விற்றுமுதல் எவ்வளவு?';
+
+  @override
+  String get assessTeQ3TurnoverOpt1 => '₹50 இலட்சத்திற்குக் கீழ்';
+
+  @override
+  String get assessTeQ3TurnoverOpt2 => '₹50 இலட்சம் - ₹5 கோடி';
+
+  @override
+  String get assessTeQ3TurnoverOpt3 => '₹5 கோடிக்கு மேல்';
+
+  @override
+  String get assessCatQ1 => 'உங்கள் தற்போதைய வேலைவாய்ப்பு நிலை என்ன?';
+
+  @override
+  String get assessCatQ1Opt1 => 'மாணவர்';
+
+  @override
+  String get assessCatQ1Opt2 => 'விவசாயி';
+
+  @override
+  String get assessCatQ1Opt3 => 'தொழிலதிபர் / சுயதொழில்';
+
+  @override
+  String get assessCatQ1Opt4 => 'வேலையில்லாதவர் / பணியாளர்';
+
+  @override
+  String get assessCatQ2 =>
+      'நிதிக் கடன் அல்லது நேரடி மானியங்களை எதிர்பார்க்கிறீர்களா?';
+
+  @override
+  String get assessCatQ2Opt1 => 'தொழில் / கல்வி கடன்கள்';
+
+  @override
+  String get assessCatQ2Opt2 => 'மானியங்கள் & நலத்திட்ட உதவிகள்';
+
+  @override
+  String get assessCatQ2Opt3 => 'இலவச திறன் பயிற்சி / சேவைகள்';
+
+  @override
+  String get assessCatQ3 => 'உங்கள் பாலினம் என்ன?';
+
+  @override
+  String get assessCatQ3Opt1 => 'பெண்';
+
+  @override
+  String get assessCatQ3Opt2 => 'ஆண்';
+
+  @override
+  String get assessCatQ3Opt3 => 'இதர';
+
+  @override
+  String get assessCatQ4 => 'உங்கள் சமூகப் பிரிவு என்ன?';
+
+  @override
+  String get assessCatQ4Opt1 => 'பொதுப்பிரிவு (General)';
+
+  @override
+  String get assessCatQ4Opt2 => 'பிற்படுத்தப்பட்டோர் (OBC/BC)';
+
+  @override
+  String get assessCatQ4Opt3 => 'பட்டியல் வகுப்பினர் (SC / ST)';
+
+  @override
+  String get assessCatQ4Opt4 =>
+      'பொருளாதாரத்தில் பின்தங்கியோர் / சிறுபான்மையினர்';
+
+  @override
+  String get assessCatQ5 => 'உங்கள் குடும்பத்தின் ஆண்டு வருமானம் என்ன?';
+
+  @override
+  String get assessCatQ5Opt1 => '₹2.5 இலட்சத்திற்குக் கீழ்';
+
+  @override
+  String get assessCatQ5Opt2 => '₹2.5 இலட்சம் - ₹8 இலட்சம்';
+
+  @override
+  String get assessCatQ5Opt3 => '₹8 இலட்சத்திற்கு மேல்';
+
+  @override
+  String assessStateQ1(Object stateName) {
+    return 'நீங்கள் $stateName மாநிலத்தின் நிரந்தர குடியாசியா?';
+  }
+
+  @override
+  String get assessStateQ1Opt1 => 'ஆம், இருப்பிட சான்றிதழ் உள்ளது';
+
+  @override
+  String get assessStateQ1Opt2 => 'இல்லை, தற்காலிகமாக வசிக்கிறேன்';
+
+  @override
+  String assessStateQ2(Object stateName) {
+    return '$stateName மாநில இடஒதுக்கீடு பட்டியலில் உங்கள் பிரிவு என்ன?';
+  }
+
+  @override
+  String get assessStateQ2Opt1 => 'BC / MBC / OBC';
+
+  @override
+  String get assessStateQ2Opt2 => 'SC / ST';
+
+  @override
+  String get assessStateQ2Opt3 => 'EWS / சிறுபான்மையினர்';
+
+  @override
+  String get assessStateQ2Opt4 => 'பொதுப்பிரிவு (Open)';
+
+  @override
+  String assessStateQ3(Object stateName) {
+    return '$stateName மாநிலத்தில் உங்கள் முதன்மை வாழ்வாதாரத் துறை என்ன?';
+  }
+
+  @override
+  String get assessStateQ3Opt1 => 'வேளாண்மை / விவசாயி';
+
+  @override
+  String get assessStateQ3Opt2 => 'MSME / ஸ்டார்ட்அப் உரிமையாளர்';
+
+  @override
+  String get assessStateQ3Opt3 => 'நெசவு / பாரம்பரிய கைவினைஞர்கள்';
+
+  @override
+  String get assessStateQ3Opt4 => 'மாணவர் / உயர்கல்வி';
+
+  @override
+  String get assessStateQ4 => 'மாநில அரசின் எந்த உதவிகளை எதிர்பார்க்கிறீர்கள்?';
+
+  @override
+  String get assessStateQ4Opt1 => 'மாதாந்திர நிதியுதவி / உதவித்தொகை';
+
+  @override
+  String get assessStateQ4Opt2 => 'கல்விக் கட்டண விலக்கு';
+
+  @override
+  String get assessStateQ4Opt3 => 'தொழில் மானியங்கள்';
+
+  @override
+  String get assessStateQ4Opt4 => 'விவசாய உறைவிட உதவிகள்';
+
+  @override
+  String get assessStateQ5 => 'உங்கள் குடும்பத்தின் ஆண்டு வருமானம் என்ன?';
+
+  @override
+  String get assessStateQ5Opt1 => '₹1.5 இலட்சத்திற்குக் கீழ்';
+
+  @override
+  String get assessStateQ5Opt2 => '₹1.5 இலட்சம் - ₹5 இலட்சம்';
+
+  @override
+  String get assessStateQ5Opt3 => '₹5 இலட்சத்திற்கு மேல்';
+
+  @override
+  String get assessMinQ1 => 'இத்துறையின் மூலம் உங்கள் முதன்மை நோக்கம் என்ன?';
+
+  @override
+  String get assessMinQ1Opt1 => 'தொழில் மானியம் / கடனுக்கு விண்ணப்பித்தல்';
+
+  @override
+  String get assessMinQ1Opt2 => 'கல்வி உதவித்தொகை பெறுதல்';
+
+  @override
+  String get assessMinQ1Opt3 => 'விவசாய நிதி உதவிகள் பெறுதல்';
+
+  @override
+  String get assessMinQ1Opt4 => 'ஊரக மகளிர் சுயஉதவிக் குழு உதவிகள்';
+
+  @override
+  String get assessMinQ2 => 'விண்ணப்பதாரரின் தற்போதைய வயது என்ன?';
+
+  @override
+  String get assessMinQ2Opt1 => '18 - 35 வயது';
+
+  @override
+  String get assessMinQ2Opt2 => '36 - 59 வயது';
+
+  @override
+  String get assessMinQ2Opt3 => '60 வயது மற்றும் அதற்கு மேல்';
+
+  @override
+  String get assessMinQ3 => 'இமைச்சகத்துடன் பதிவு செய்யப்பட்ட எண் உள்ளதா?';
+
+  @override
+  String get assessMinQ3Opt1 => 'ஆம், உத்யம் / PM-KISAN / மாணவர் சான்று எண்';
+
+  @override
+  String get assessMinQ3Opt2 => 'இல்லை, இன்னும் பதிவு செய்யவில்லை';
+
+  @override
+  String get assessMinQ4 => 'உங்கள் சமூகப் பிரிவு என்ன?';
+
+  @override
+  String get assessMinQ4Opt1 => 'பொதுப்பிரிவு (General)';
+
+  @override
+  String get assessMinQ4Opt2 => 'பிற்படுத்தப்பட்டோர் (OBC/BC)';
+
+  @override
+  String get assessMinQ4Opt3 => 'பட்டியல் வகுப்பினர் (SC / ST)';
+
+  @override
+  String get assessMinQ4Opt4 => 'சிறுபான்மையினர் / மாற்றுத்திறனாளி';
+
+  @override
+  String get assessMinQ5 => 'உங்கள் குடும்பத்தின் ஆண்டு வருமானம் என்ன?';
+
+  @override
+  String get assessMinQ5Opt1 => '₹2.5 இலட்சத்திற்குக் கீழ்';
+
+  @override
+  String get assessMinQ5Opt2 => '₹2.5 இலட்சம் - ₹8 இலட்சம்';
+
+  @override
+  String get assessMinQ5Opt3 => '₹8 இலட்சத்திற்கு மேல்';
+
+  @override
+  String assessStepLabel(Object currentStep, Object totalSteps) {
+    return 'படி $currentStep / $totalSteps';
+  }
+
+  @override
+  String get assessSkipToResults => 'முடிவுகளுக்குச் செல்';
 }
