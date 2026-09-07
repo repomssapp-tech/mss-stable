@@ -1,0 +1,148 @@
+name: Build App
+
+# Finding 8.3 (audit_fix.md) — build/verify automation for the Flutter app
+# component. Companion workflows: deploy-edge-functions.yml, deploy-voice-agent.yml.
+#
+# Scope, per the audit: "at minimum flutter analyze + flutter test + release
+# build artifact upload". This workflow does not publish to any store — it
+# produces a signed (or, without signing secrets, an unsigned) build artifact
+# for a human to promote.
+#
+# ─── Rollout state: MANUAL FIRST ────────────────────────────────────────────
+# workflow_dispatch-only. analyze + test run on every invocation; the release
+# APK build runs on every invocation too, but is only marked promotable when
+# dry_run=false AND signing secrets are present. Once this has produced one
+# good signed build, it is safe to also run analyze+test on PRs by adding:
+#
+#   pull_request:
+#     paths: ['frontend/**', '.github/workflows/build-app.yml']
+#
+# Keep the signed-build + artifact-upload path on workflow_dispatch until there
+# is a real distribution target for it.
+#
+# ─── Required configuration (for a signed build) ────────────────────────────
+# Repository → Settings → Environments → "production" (required reviewers).
+# Environment secrets:
+#   ANDROID_KEYSTORE_BASE64    — base64 of the upload keystore (.jks)
+#   ANDROID_KEYSTORE_PASSWORD  — store password
+#   ANDROID_KEY_ALIAS          — key alias (repo default: "upload")
+#   ANDROID_KEY_PASSWORD       — key password
+# Without these, the workflow still runs analyze/test and builds a debug-signed
+# APK + web bundle so the pipeline is exercised end to end.
+#
+# Repository variable (optional):
+#   FLUTTER_VERSION — exact Flutter version to pin. Leave unset to track the
+#   latest stable channel. pubspec.yaml requires Dart >= 3.11.1, so a pinned
+#   value must be a Flutter release that bundles at least that Dart SDK.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Verify + build, but do not treat the output as a promotable release."
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-app-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: frontend
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: ${{ github.event.inputs.dry_run == 'false' && 'production' || '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17" # matches android/app/build.gradle.kts JavaVersion.VERSION_17
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ vars.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Flutter / Dart versions
+        run: flutter --version
+
+      - name: Resolve dependencies
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Test
+        run: flutter test
+
+      - name: Configure release signing
+        id: signing
+        env:
+          KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          if [ -z "${KEYSTORE_B64:-}" ]; then
+            echo "No signing secrets present — will build a debug-signed APK."
+            echo "signed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "$KEYSTORE_B64" | base64 -d > android/app/upload-keystore.jks
+          cat > android/key.properties <<EOF
+          storeFile=app/upload-keystore.jks
+          storePassword=${KEYSTORE_PASSWORD}
+          keyAlias=${KEY_ALIAS}
+          keyPassword=${KEY_PASSWORD}
+          EOF
+          echo "signed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Build release APK
+        if: ${{ steps.signing.outputs.signed == 'true' }}
+        run: flutter build apk --release
+
+      - name: Build debug APK (no signing secrets)
+        if: ${{ steps.signing.outputs.signed != 'true' }}
+        run: flutter build apk --debug
+
+      - name: Build web bundle
+        run: flutter build web --release
+
+      - name: Remove signing material
+        if: ${{ always() }}
+        run: rm -f android/key.properties android/app/upload-keystore.jks
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-apk-${{ github.sha }}
+          path: frontend/build/app/outputs/flutter-apk/*.apk
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload web bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-web-${{ github.sha }}
+          path: frontend/build/web
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Promotable?
+        run: |
+          if [ "${{ github.event.inputs.dry_run }}" = "false" ] && [ "${{ steps.signing.outputs.signed }}" = "true" ]; then
+            echo "Signed release build — artifact app-apk-${{ github.sha }} is promotable."
+          else
+            echo "Not promotable: dry_run=${{ github.event.inputs.dry_run }}, signed=${{ steps.signing.outputs.signed }}."
+          fi
