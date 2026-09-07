@@ -447,6 +447,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       if (session != null &&
           (event == AuthChangeEvent.signedIn ||
               event == AuthChangeEvent.tokenRefreshed)) {
+        // Auth resolved -- retire the startup grace marker for OAuth redirects.
+        unawaited(AuthService.clearOAuthPending());
         _isLoggedIn = true;
         final user = session.user;
         _mobileNumber = user.phone ?? '';
@@ -522,6 +524,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         }
         notifyListeners();
       } else if (event == AuthChangeEvent.signedOut) {
+        unawaited(AuthService.clearOAuthPending());
         _isLoggedIn = false;
         _mobileNumber = '';
         _profile = UserProfile();
