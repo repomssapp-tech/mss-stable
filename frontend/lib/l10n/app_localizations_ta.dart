@@ -3023,4 +3023,181 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get eligibilityResultsCopiedToClipboard =>
       'தகுதி முடிவுகள் நகலெடுக்கப்பட்டது';
+
+  @override
+  String get faqEligibilityQ =>
+      'ஒரு திட்டத்திற்கான எனது தகுதியை எப்படிச் சரிபார்ப்பது?';
+
+  @override
+  String get faqEligibilityA =>
+      '\'திட்டங்களைத் தேடு\' தாவலுக்குச் சென்று, உங்கள் சுயவிவரத் தகவல்களை (வயது, பாலினம், மாநிலம், வருமானம் போன்றவை) நிரப்புங்கள்; பொருத்திப் பார்க்கும் இயந்திரம் கிடைக்கும் அனைத்து திட்டங்களுக்குமான உங்கள் தகுதி மதிப்பெண்ணை உடனடியாகக் காட்டும்!';
+
+  @override
+  String get faqApplyQ => 'ஒரு திட்டத்திற்கு எப்படி விண்ணப்பிப்பது?';
+
+  @override
+  String get faqApplyA =>
+      'எந்தத் திட்டத்தையும் தேர்ந்தெடுத்து அதன் விரிவான விளக்கம், பயன்கள் மற்றும் தேவையான ஆவணங்களைப் பார்க்கலாம். உங்கள் உலாவியில் அதிகாரப்பூர்வ அரசு விண்ணப்பத் தளத்தைத் திறக்க \'இப்போது விண்ணப்பிக்க\' பொத்தானைத் தட்டுங்கள்.';
+
+  @override
+  String get faqTrackQ => 'எனது விண்ணப்ப நிலையை எங்கே கண்காணிக்கலாம்?';
+
+  @override
+  String get faqTrackA =>
+      'விண்ணப்பங்கள் நேரடியாக அதிகாரப்பூர்வ அரசுத் தளங்களில் செயலாக்கப்படுவதால், விண்ணப்பிக்கும் போது வழங்கப்பட்ட விண்ணப்ப எண்ணைப் பயன்படுத்தி அந்தந்தத் தளத்தில் உள்நுழைந்து உங்கள் நிலையைக் கண்காணிக்கலாம்.';
+
+  @override
+  String get faqFreeQ => 'MSS செயலியைப் பயன்படுத்த இலவசமா?';
+
+  @override
+  String get faqFreeA =>
+      'ஆம், MSS முழுவதுமாக இலவசம். எந்த மறைமுகக் கட்டணமும் இன்றி இந்தியாவில் உள்ள அனைவருக்கும் குடிமக்கள் நலன்களையும் அரசுத் திட்டங்களையும் எட்டச் செய்வதே எங்கள் இலக்கு.';
+
+  @override
+  String get faqDataFreshnessQ =>
+      'புதிய தரவு எவ்வளவு அடிக்கடி புதுப்பிக்கப்படுகிறது?';
+
+  @override
+  String get faqDataFreshnessA =>
+      'மத்திய மற்றும் மாநில அமைச்சகங்களின் சமீபத்திய அறிவிப்புகள், திட்டங்கள், மானியங்கள் மற்றும் விண்ணப்ப வழிகாட்டுதல்களைப் பிரதிபலிக்கும் வகையில் எங்கள் தரவுத்தளம் தினமும் புதுப்பிக்கப்படுகிறது.';
+
+  @override
+  String get faqScoringQ => 'பரிந்துரை மதிப்பெண் எப்படிச் செயல்படுகிறது?';
+
+  @override
+  String get faqScoringA =>
+      'உங்கள் சுயவிவரத்தை (வசிப்பிடம், வயது, பாலினம், கல்வி மற்றும் சமூகம்) ஒவ்வொரு திட்டமும் நிர்ணயித்துள்ள நிபந்தனைகளுடன் ஒப்பிட்டு மதிப்பிடுகிறோம். பூர்த்தி செய்யப்பட்ட நிபந்தனைகளின் சதவீதத்தைப் பொறுத்து 100%-க்கு ஒரு பொருத்த மதிப்பெண் கணக்கிடப்படுகிறது.';
+
+  @override
+  String get faqDataSharingQ => 'எனது தனிப்பட்ட தரவு அரசுடன் பகிரப்படுகிறதா?';
+
+  @override
+  String get faqDataSharingA =>
+      'இல்லை. MSS என்பது உங்கள் சாதனத்திலேயே முழுமையாக இயங்கும் ஒரு பரிந்துரைக் கருவி. உங்கள் சுயவிவரத் தகவல்களை வெளித் துறைகளுடன் நாங்கள் பகிர்வதில்லை. நீங்கள் நேரடியாக அதிகாரப்பூர்வ தளங்களில் விண்ணப்பிக்கிறீர்கள்.';
+
+  @override
+  String get faqMissingDocsQ => 'விடுபட்ட ஆவணங்களை எப்படிப் பெறுவது?';
+
+  @override
+  String get faqMissingDocsA =>
+      'திட்ட விவரங்கள் பக்கத்தில், \"Missing\" எனக் குறிக்கப்பட்ட எந்த ஆவணத்திற்கும் \"Get Document\" இணைப்பு இருக்கும்; அது உங்களை நேரடியாக அதிகாரப்பூர்வ தளத்திற்கு (எ.கா., Aadhaar-க்கு UIDAI, PAN-க்கு NSDL) திருப்பிவிடும்.';
+
+  @override
+  String get helpCatGeneralInquiry => 'பொது விசாரணை';
+
+  @override
+  String get helpFaqAnswerTitle => 'FAQ பதில்';
+
+  @override
+  String get helpAllFaqsTitle => 'அனைத்து FAQ-களும்';
+
+  @override
+  String get helpReportIssueTitle => 'சிக்கலைப் புகாரளிக்கவும்';
+
+  @override
+  String get helpReportIssueBody =>
+      'சிக்கலை எதிர்கொள்கிறீர்களா? கீழே விவரங்களை நிரப்புங்கள், எங்கள் குழு விரைவில் உங்களைத் தொடர்பு கொள்ளும்.\n\nஉங்கள் புகார் நேரடியாக mssschemessearch@gmail.com-க்கு அனுப்பப்படும். நாங்கள் பதிலளிக்க உங்கள் மின்னஞ்சலைக் கீழே உள்ளிடுங்கள்.';
+
+  @override
+  String get helpCatMatcherBug => 'தகுதி பொருத்தி பிழை';
+
+  @override
+  String get helpCatWrongDetails => 'தவறான திட்ட விவரங்கள்';
+
+  @override
+  String get helpCatFeatureRequest => 'அம்சக் கோரிக்கை';
+
+  @override
+  String get helpTicketSubmitted =>
+      'நன்றி! உங்கள் கோரிக்கை சமர்ப்பிக்கப்பட்டது.';
+
+  @override
+  String get helpTicketSubmitFailed =>
+      'கோரிக்கையைச் சமர்ப்பிக்க முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.';
+
+  @override
+  String get helpSubmitTicket => 'கோரிக்கையைச் சமர்ப்பி';
+
+  @override
+  String get helpShareFeedbackTitle => 'கருத்தைப் பகிர்';
+
+  @override
+  String get helpFeedbackBody =>
+      'உங்கள் கருத்துக்கு நாங்கள் மதிப்பளிக்கிறோம். உங்கள் அனுபவத்தை எப்படி மேம்படுத்தலாம் என்று எங்களிடம் தெரிவியுங்கள்!';
+
+  @override
+  String get helpRateExperience => 'உங்கள் அனுபவத்தை மதிப்பிடுங்கள்';
+
+  @override
+  String helpRateStars(Object count) {
+    return '$count நட்சத்திரங்கள் தரவும்';
+  }
+
+  @override
+  String get helpFeedbackEmailHint =>
+      'எ.கா. mssschemessearch@gmail.com இலிருந்து தொடர்பு கொள்ள yourname@gmail.com';
+
+  @override
+  String get helpFeedbackThanks => 'உங்கள் மதிப்புமிக்க கருத்துக்கு நன்றி!';
+
+  @override
+  String get helpFeedbackSubmitFailed =>
+      'கருத்தைச் சமர்ப்பிக்க முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்க்கவும்.';
+
+  @override
+  String get helpSubmitFeedback => 'கருத்தைச் சமர்ப்பி';
+
+  @override
+  String get helpHeaderContact => 'எங்களைத் தொடர்பு கொள்ளுங்கள்';
+
+  @override
+  String get helpHeaderSupport => 'உதவி & ஆதரவு';
+
+  @override
+  String get helpHeaderSubtitle => 'உங்களுக்கு உதவ நாங்கள் இங்கே இருக்கிறோம்';
+
+  @override
+  String get helpFaqsGroupTitle => 'FAQ-கள்';
+
+  @override
+  String get helpFaqsGroupSubtitle =>
+      'பொதுவான கேள்விகளுக்கான பதில்களைக் காணுங்கள்';
+
+  @override
+  String get helpViewAllFaqs => 'அனைத்து FAQ-களையும் காண்க';
+
+  @override
+  String get helpContactGroupTitle => 'ஆதரவைத் தொடர்பு கொள்ளுங்கள்';
+
+  @override
+  String get helpContactGroupSubtitle =>
+      'எங்கள் ஆதரவுக் குழுவைத் தொடர்பு கொள்ளுங்கள்';
+
+  @override
+  String get helpEmailUs => 'எங்களுக்கு மின்னஞ்சல் அனுப்புங்கள்';
+
+  @override
+  String get helpSupportEmailCopied =>
+      'ஆதரவு மின்னஞ்சல் கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது!';
+
+  @override
+  String get helpReplyWindow => 'பொதுவாக 24 மணி நேரத்திற்குள் பதிலளிக்கிறோம்';
+
+  @override
+  String get helpReportIssueSubtitle =>
+      'சிக்கலை எதிர்கொள்கிறீர்களா? எங்களிடம் தெரிவியுங்கள்.';
+
+  @override
+  String get helpFeedbackTileTitle => 'கருத்து';
+
+  @override
+  String get helpFeedbackTileSubtitle =>
+      'நாங்கள் மேம்பட உங்கள் ஆலோசனைகளைப் பகிருங்கள்.';
+
+  @override
+  String get helpStillNeedHelp => 'இன்னும் உதவி தேவையா?';
+
+  @override
+  String get helpStillNeedHelpBody =>
+      'எங்கள் ஆதரவுக் குழு உங்களுக்கு உதவ எப்போதும் தயாராக உள்ளது.';
 }

@@ -5677,6 +5677,312 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Eligibility results copied to clipboard'**
   String get eligibilityResultsCopiedToClipboard;
+
+  /// No description provided for @faqEligibilityQ.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I check my eligibility for a scheme?'**
+  String get faqEligibilityQ;
+
+  /// No description provided for @faqEligibilityA.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to the \'Find My Schemes\' tab, fill out your profile details (age, gender, state, income, etc.), and the matcher engine will instantly show your eligibility score for all available schemes!'**
+  String get faqEligibilityA;
+
+  /// No description provided for @faqApplyQ.
+  ///
+  /// In en, this message translates to:
+  /// **'How can I apply for a scheme?'**
+  String get faqApplyQ;
+
+  /// No description provided for @faqApplyA.
+  ///
+  /// In en, this message translates to:
+  /// **'Select any scheme to see its detailed description, benefits, and required documents. Tap the \'Apply Now\' button to open the official government application portal in your browser.'**
+  String get faqApplyA;
+
+  /// No description provided for @faqTrackQ.
+  ///
+  /// In en, this message translates to:
+  /// **'Where can I track my application status?'**
+  String get faqTrackQ;
+
+  /// No description provided for @faqTrackA.
+  ///
+  /// In en, this message translates to:
+  /// **'Since application submissions are processed directly on official government portals, you can track your status by logging into the respective portal using the application ID provided during submission.'**
+  String get faqTrackA;
+
+  /// No description provided for @faqFreeQ.
+  ///
+  /// In en, this message translates to:
+  /// **'Is MSS app free to use?'**
+  String get faqFreeQ;
+
+  /// No description provided for @faqFreeA.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, MSS is completely free to use. Our goal is to make citizen benefits and government schemes accessible to everyone in India without any hidden fees.'**
+  String get faqFreeA;
+
+  /// No description provided for @faqDataFreshnessQ.
+  ///
+  /// In en, this message translates to:
+  /// **'How often is new data updated?'**
+  String get faqDataFreshnessQ;
+
+  /// No description provided for @faqDataFreshnessA.
+  ///
+  /// In en, this message translates to:
+  /// **'Our database is updated daily to reflect the latest announcements, schemes, subsidies, and application guidelines from the central and state ministries.'**
+  String get faqDataFreshnessA;
+
+  /// No description provided for @faqScoringQ.
+  ///
+  /// In en, this message translates to:
+  /// **'How does the recommendation scoring work?'**
+  String get faqScoringQ;
+
+  /// No description provided for @faqScoringA.
+  ///
+  /// In en, this message translates to:
+  /// **'We evaluate your profile (residency, age, gender, education, and community) against the criteria set by each scheme. A match score is calculated out of 100% depending on the percentage of conditions met.'**
+  String get faqScoringA;
+
+  /// No description provided for @faqDataSharingQ.
+  ///
+  /// In en, this message translates to:
+  /// **'Is my personal data shared with the government?'**
+  String get faqDataSharingQ;
+
+  /// No description provided for @faqDataSharingA.
+  ///
+  /// In en, this message translates to:
+  /// **'No. MSS is a recommendation tool that runs fully on your device. We do not share your profile details with external departments. You apply directly on official portals.'**
+  String get faqDataSharingA;
+
+  /// No description provided for @faqMissingDocsQ.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I obtain missing documents?'**
+  String get faqMissingDocsQ;
+
+  /// No description provided for @faqMissingDocsA.
+  ///
+  /// In en, this message translates to:
+  /// **'In the Scheme Details view, any document marked as \"Missing\" has a \"Get Document\" link that redirects you directly to the official portal (e.g., UIDAI for Aadhaar, NSDL for PAN).'**
+  String get faqMissingDocsA;
+
+  /// No description provided for @helpCatGeneralInquiry.
+  ///
+  /// In en, this message translates to:
+  /// **'General Inquiry'**
+  String get helpCatGeneralInquiry;
+
+  /// No description provided for @helpFaqAnswerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'FAQ Answer'**
+  String get helpFaqAnswerTitle;
+
+  /// No description provided for @helpAllFaqsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All FAQs'**
+  String get helpAllFaqsTitle;
+
+  /// No description provided for @helpReportIssueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Report an Issue'**
+  String get helpReportIssueTitle;
+
+  /// No description provided for @helpReportIssueBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Facing a problem? Fill out the details below and our team will get back to you shortly.\n\nYour report will be sent directly to mssschemessearch@gmail.com. Please enter your email below so we can reply.'**
+  String get helpReportIssueBody;
+
+  /// No description provided for @helpCatMatcherBug.
+  ///
+  /// In en, this message translates to:
+  /// **'Eligibility Matcher Bug'**
+  String get helpCatMatcherBug;
+
+  /// No description provided for @helpCatWrongDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong Scheme Details'**
+  String get helpCatWrongDetails;
+
+  /// No description provided for @helpCatFeatureRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Feature Request'**
+  String get helpCatFeatureRequest;
+
+  /// No description provided for @helpTicketSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you! Your ticket has been submitted.'**
+  String get helpTicketSubmitted;
+
+  /// No description provided for @helpTicketSubmitFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to submit ticket. Please check your connection and try again.'**
+  String get helpTicketSubmitFailed;
+
+  /// No description provided for @helpSubmitTicket.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Ticket'**
+  String get helpSubmitTicket;
+
+  /// No description provided for @helpShareFeedbackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Feedback'**
+  String get helpShareFeedbackTitle;
+
+  /// No description provided for @helpFeedbackBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We value your feedback. Let us know how we can improve your experience!'**
+  String get helpFeedbackBody;
+
+  /// No description provided for @helpRateExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate your experience'**
+  String get helpRateExperience;
+
+  /// No description provided for @helpRateStars.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate {count} stars'**
+  String helpRateStars(Object count);
+
+  /// No description provided for @helpFeedbackEmailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. yourname@gmail.com for follow-up from mssschemessearch@gmail.com'**
+  String get helpFeedbackEmailHint;
+
+  /// No description provided for @helpFeedbackThanks.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for your valuable feedback!'**
+  String get helpFeedbackThanks;
+
+  /// No description provided for @helpFeedbackSubmitFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to submit feedback. Please check your connection.'**
+  String get helpFeedbackSubmitFailed;
+
+  /// No description provided for @helpSubmitFeedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Feedback'**
+  String get helpSubmitFeedback;
+
+  /// No description provided for @helpHeaderContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Us'**
+  String get helpHeaderContact;
+
+  /// No description provided for @helpHeaderSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Help & Support'**
+  String get helpHeaderSupport;
+
+  /// No description provided for @helpHeaderSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'re here to help you'**
+  String get helpHeaderSubtitle;
+
+  /// No description provided for @helpFaqsGroupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'FAQs'**
+  String get helpFaqsGroupTitle;
+
+  /// No description provided for @helpFaqsGroupSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Find answers to common questions'**
+  String get helpFaqsGroupSubtitle;
+
+  /// No description provided for @helpViewAllFaqs.
+  ///
+  /// In en, this message translates to:
+  /// **'View all FAQs'**
+  String get helpViewAllFaqs;
+
+  /// No description provided for @helpContactGroupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Support'**
+  String get helpContactGroupTitle;
+
+  /// No description provided for @helpContactGroupSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get in touch with our support team'**
+  String get helpContactGroupSubtitle;
+
+  /// No description provided for @helpEmailUs.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Us'**
+  String get helpEmailUs;
+
+  /// No description provided for @helpSupportEmailCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Support email copied to clipboard!'**
+  String get helpSupportEmailCopied;
+
+  /// No description provided for @helpReplyWindow.
+  ///
+  /// In en, this message translates to:
+  /// **'We typically reply within 24 hours'**
+  String get helpReplyWindow;
+
+  /// No description provided for @helpReportIssueSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Facing a problem? Let us know.'**
+  String get helpReportIssueSubtitle;
+
+  /// No description provided for @helpFeedbackTileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback'**
+  String get helpFeedbackTileTitle;
+
+  /// No description provided for @helpFeedbackTileSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your suggestions to help us improve.'**
+  String get helpFeedbackTileSubtitle;
+
+  /// No description provided for @helpStillNeedHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Still need help?'**
+  String get helpStillNeedHelp;
+
+  /// No description provided for @helpStillNeedHelpBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Our support team is always ready to assist you.'**
+  String get helpStillNeedHelpBody;
 }
 
 class _AppLocalizationsDelegate

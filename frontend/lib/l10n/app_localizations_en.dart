@@ -2989,4 +2989,176 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get eligibilityResultsCopiedToClipboard =>
       'Eligibility results copied to clipboard';
+
+  @override
+  String get faqEligibilityQ => 'How do I check my eligibility for a scheme?';
+
+  @override
+  String get faqEligibilityA =>
+      'Go to the \'Find My Schemes\' tab, fill out your profile details (age, gender, state, income, etc.), and the matcher engine will instantly show your eligibility score for all available schemes!';
+
+  @override
+  String get faqApplyQ => 'How can I apply for a scheme?';
+
+  @override
+  String get faqApplyA =>
+      'Select any scheme to see its detailed description, benefits, and required documents. Tap the \'Apply Now\' button to open the official government application portal in your browser.';
+
+  @override
+  String get faqTrackQ => 'Where can I track my application status?';
+
+  @override
+  String get faqTrackA =>
+      'Since application submissions are processed directly on official government portals, you can track your status by logging into the respective portal using the application ID provided during submission.';
+
+  @override
+  String get faqFreeQ => 'Is MSS app free to use?';
+
+  @override
+  String get faqFreeA =>
+      'Yes, MSS is completely free to use. Our goal is to make citizen benefits and government schemes accessible to everyone in India without any hidden fees.';
+
+  @override
+  String get faqDataFreshnessQ => 'How often is new data updated?';
+
+  @override
+  String get faqDataFreshnessA =>
+      'Our database is updated daily to reflect the latest announcements, schemes, subsidies, and application guidelines from the central and state ministries.';
+
+  @override
+  String get faqScoringQ => 'How does the recommendation scoring work?';
+
+  @override
+  String get faqScoringA =>
+      'We evaluate your profile (residency, age, gender, education, and community) against the criteria set by each scheme. A match score is calculated out of 100% depending on the percentage of conditions met.';
+
+  @override
+  String get faqDataSharingQ =>
+      'Is my personal data shared with the government?';
+
+  @override
+  String get faqDataSharingA =>
+      'No. MSS is a recommendation tool that runs fully on your device. We do not share your profile details with external departments. You apply directly on official portals.';
+
+  @override
+  String get faqMissingDocsQ => 'How do I obtain missing documents?';
+
+  @override
+  String get faqMissingDocsA =>
+      'In the Scheme Details view, any document marked as \"Missing\" has a \"Get Document\" link that redirects you directly to the official portal (e.g., UIDAI for Aadhaar, NSDL for PAN).';
+
+  @override
+  String get helpCatGeneralInquiry => 'General Inquiry';
+
+  @override
+  String get helpFaqAnswerTitle => 'FAQ Answer';
+
+  @override
+  String get helpAllFaqsTitle => 'All FAQs';
+
+  @override
+  String get helpReportIssueTitle => 'Report an Issue';
+
+  @override
+  String get helpReportIssueBody =>
+      'Facing a problem? Fill out the details below and our team will get back to you shortly.\n\nYour report will be sent directly to mssschemessearch@gmail.com. Please enter your email below so we can reply.';
+
+  @override
+  String get helpCatMatcherBug => 'Eligibility Matcher Bug';
+
+  @override
+  String get helpCatWrongDetails => 'Wrong Scheme Details';
+
+  @override
+  String get helpCatFeatureRequest => 'Feature Request';
+
+  @override
+  String get helpTicketSubmitted =>
+      'Thank you! Your ticket has been submitted.';
+
+  @override
+  String get helpTicketSubmitFailed =>
+      'Failed to submit ticket. Please check your connection and try again.';
+
+  @override
+  String get helpSubmitTicket => 'Submit Ticket';
+
+  @override
+  String get helpShareFeedbackTitle => 'Share Feedback';
+
+  @override
+  String get helpFeedbackBody =>
+      'We value your feedback. Let us know how we can improve your experience!';
+
+  @override
+  String get helpRateExperience => 'Rate your experience';
+
+  @override
+  String helpRateStars(Object count) {
+    return 'Rate $count stars';
+  }
+
+  @override
+  String get helpFeedbackEmailHint =>
+      'e.g. yourname@gmail.com for follow-up from mssschemessearch@gmail.com';
+
+  @override
+  String get helpFeedbackThanks => 'Thank you for your valuable feedback!';
+
+  @override
+  String get helpFeedbackSubmitFailed =>
+      'Failed to submit feedback. Please check your connection.';
+
+  @override
+  String get helpSubmitFeedback => 'Submit Feedback';
+
+  @override
+  String get helpHeaderContact => 'Contact Us';
+
+  @override
+  String get helpHeaderSupport => 'Help & Support';
+
+  @override
+  String get helpHeaderSubtitle => 'We\'re here to help you';
+
+  @override
+  String get helpFaqsGroupTitle => 'FAQs';
+
+  @override
+  String get helpFaqsGroupSubtitle => 'Find answers to common questions';
+
+  @override
+  String get helpViewAllFaqs => 'View all FAQs';
+
+  @override
+  String get helpContactGroupTitle => 'Contact Support';
+
+  @override
+  String get helpContactGroupSubtitle => 'Get in touch with our support team';
+
+  @override
+  String get helpEmailUs => 'Email Us';
+
+  @override
+  String get helpSupportEmailCopied => 'Support email copied to clipboard!';
+
+  @override
+  String get helpReplyWindow => 'We typically reply within 24 hours';
+
+  @override
+  String get helpReportIssueSubtitle => 'Facing a problem? Let us know.';
+
+  @override
+  String get helpFeedbackTileTitle => 'Feedback';
+
+  @override
+  String get helpFeedbackTileSubtitle =>
+      'Share your suggestions to help us improve.';
+
+  @override
+  String get helpStillNeedHelp => 'Still need help?';
+
+  @override
+  String get helpStillNeedHelpBody =>
+      'Our support team is always ready to assist you.';
 }
