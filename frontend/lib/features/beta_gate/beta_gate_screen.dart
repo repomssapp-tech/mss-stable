@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n.dart';
 import '../../screens/login_screen.dart';
 import '../../screens/regular_mode/language_selection_screen.dart';
 import '../../services/session_cache_service.dart';
@@ -42,7 +43,7 @@ class _BetaGateScreenState extends State<BetaGateScreen> {
   Future<void> _handleVerify() async {
     final input = _passwordController.text.trim();
     if (input.isEmpty) {
-      _showErrorSnackBar('Please enter the beta password.');
+      _showErrorSnackBar(context.l10n.betaGateEnterPassword);
       _passwordFocusNode.requestFocus();
       return;
     }
@@ -59,13 +60,13 @@ class _BetaGateScreenState extends State<BetaGateScreen> {
       if (success) {
         await _routeToNextScreen();
       } else {
-        _showErrorSnackBar('Invalid beta password. Please try again.');
+        _showErrorSnackBar(context.l10n.betaGateInvalidPassword);
         _passwordController.clear();
         _passwordFocusNode.requestFocus();
       }
     } catch (_) {
       if (!mounted) return;
-      _showErrorSnackBar('Unable to verify password. Check your network.');
+      _showErrorSnackBar(context.l10n.betaGateVerifyFailed);
     } finally {
       if (mounted) {
         setState(() {
@@ -193,7 +194,7 @@ class _BetaGateScreenState extends State<BetaGateScreen> {
 
                             // Subtext disclaimer
                             Text(
-                              'Authorized Beta Testers Only',
+                              context.l10n.betaGateAuthorizedTestersOnly,
                               textAlign: TextAlign.center,
                               style: GoogleFonts.inter(
                                 fontSize: 11,
@@ -295,7 +296,7 @@ class _BetaGateCard extends StatelessWidget {
 
           // Title
           Text(
-            'Beta Access',
+            context.l10n.betaGateAccess,
             style: GoogleFonts.poppins(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -306,7 +307,7 @@ class _BetaGateCard extends StatelessWidget {
 
           // Subtitle
           Text(
-            'Enter the beta tester password to continue.',
+            context.l10n.betaGateEnterPasswordToContinue,
             textAlign: TextAlign.center,
             style: GoogleFonts.inter(
               fontSize: 12,
@@ -331,7 +332,7 @@ class _BetaGateCard extends StatelessWidget {
               color: const Color(0xFF0F172A),
             ),
             decoration: InputDecoration(
-              hintText: 'Enter password',
+              hintText: context.l10n.betaGatePasswordHint,
               hintStyle: GoogleFonts.inter(
                 fontSize: 13,
                 color: const Color(0xFF94A3B8), // Slate 400
@@ -407,7 +408,7 @@ class _BetaGateCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Verify & Enter',
+                          context.l10n.betaGateVerifyAndEnter,
                           style: GoogleFonts.inter(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,

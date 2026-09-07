@@ -196,7 +196,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (mounted) {
                         AppToast.showError(
                           context,
-                          'Unable to complete Google sign in. Please try again.',
+                          context.l10n.loginGoogleSignInFailed,
                         );
                       }
                     } finally {

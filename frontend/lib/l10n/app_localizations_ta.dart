@@ -3680,4 +3680,156 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get saarthiQLandholding => 'உங்களிடம் எவ்வளவு நிலம் உள்ளது?';
+
+  @override
+  String get profileHintSelectDob => 'பிறந்த தேதியைத் தேர்ந்தெடுக்கவும்';
+
+  @override
+  String get profileErrEnterPhone => 'உங்கள் தொலைபேசி எண்ணை உள்ளிடவும்';
+
+  @override
+  String get profileErrPhone10Digits => '10 இலக்க கைபேசி எண்ணை உள்ளிடவும்';
+
+  @override
+  String get profileErrPincode6Digits => '6 இலக்கங்களை உள்ளிடவும்';
+
+  @override
+  String get profileErrLocationFetchFailed =>
+      'இருப்பிடத்தைப் பெற முடியவில்லை. கைமுறையாக உள்ளிடவும்.';
+
+  @override
+  String get profileErrCompleteFieldsCorrectly =>
+      'தேவையான அனைத்துப் புலங்களையும் சரியாக நிரப்பவும்.';
+
+  @override
+  String get profileErrLocationFieldsCorrectly =>
+      'தேவையான அனைத்து இருப்பிடப் புலங்களையும் சரியாக நிரப்பவும்.';
+
+  @override
+  String get profileErrCompleteFieldsToContinue =>
+      'தொடர தேவையான அனைத்துப் புலங்களையும் நிரப்பவும்.';
+
+  @override
+  String get profileErrUnableToSave =>
+      'சுயவிவரத்தைச் சேமிக்க முடியவில்லை. இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.';
+
+  @override
+  String get profileErrEnterFullName => 'உங்கள் முழுப் பெயரை உள்ளிடவும்';
+
+  @override
+  String get profileErrValidEmail => 'சரியான மின்னஞ்சல் முகவரியை உள்ளிடவும்';
+
+  @override
+  String get profileHint10DigitMobile => '10 இலக்க கைபேசி எண்';
+
+  @override
+  String get profileErrSelectGender => 'உங்கள் பாலினத்தைத் தேர்ந்தெடுக்கவும்';
+
+  @override
+  String get profileErrSelectDob => 'உங்கள் பிறந்த தேதியைத் தேர்ந்தெடுக்கவும்';
+
+  @override
+  String get profileHintDdmmyyyy => 'நாள்/மாதம்/ஆண்டு';
+
+  @override
+  String get profileHintDoorStreetExample =>
+      'எ.கா. பிளாட் 402, ராயல் என்கிளேவ்';
+
+  @override
+  String get profileErrEnterHouseStreet =>
+      'உங்கள் வீடு/தெரு முகவரியை உள்ளிடவும்';
+
+  @override
+  String get profileHintAreaExample => 'எ.கா. அண்ணா நகர் மேற்கு';
+
+  @override
+  String get profileErrEnterArea => 'உங்கள் பகுதி அல்லது வட்டாரத்தை உள்ளிடவும்';
+
+  @override
+  String get profileHintCityExample => 'எ.கா. சென்னை';
+
+  @override
+  String get profileErrValidCity => 'சரியான நகரம் அல்லது மாவட்டத்தை உள்ளிடவும்';
+
+  @override
+  String get profileHintStateExample => 'எ.கா. தமிழ்நாடு';
+
+  @override
+  String get profileErrValidState => 'சரியான மாநிலத்தை உள்ளிடவும்';
+
+  @override
+  String get profileErrSelectOptionToContinue =>
+      'தொடர ஒரு விருப்பத்தைத் தேர்ந்தெடுக்கவும்.';
+
+  @override
+  String get profileErrSelectEducation =>
+      'உங்கள் கல்வி நிலையைத் தேர்ந்தெடுக்கவும்';
+
+  @override
+  String get profileErrSelectCommunity =>
+      'உங்கள் சமூகப் பிரிவைத் தேர்ந்தெடுக்கவும்';
+
+  @override
+  String get profileErrSelectIncome =>
+      'உங்கள் ஆண்டு வருமான வரம்பைத் தேர்ந்தெடுக்கவும்';
+
+  @override
+  String get settingsNavModeDialogBody =>
+      'திட்டங்கள் மற்றும் சேவைகளில் உலாவ உங்களுக்கு விருப்பமான தளவமைப்பு முறையைத் தேர்ந்தெடுக்கவும்.';
+
+  @override
+  String get settingsSwitchedToCompanion =>
+      'AI துணை (Saarthi) வழிசெலுத்தலுக்கு மாற்றப்பட்டது';
+
+  @override
+  String get settingsSwitchedToRegular =>
+      'வழக்கமான வழிசெலுத்தலுக்கு மாற்றப்பட்டது';
+
+  @override
+  String settingsAppVersion(Object version) {
+    return 'செயலி பதிப்பு $version';
+  }
+
+  @override
+  String get betaGateEnterPassword => 'பீட்டா கடவுச்சொல்லை உள்ளிடவும்.';
+
+  @override
+  String get betaGateInvalidPassword =>
+      'தவறான பீட்டா கடவுச்சொல். மீண்டும் முயற்சிக்கவும்.';
+
+  @override
+  String get betaGateVerifyFailed =>
+      'கடவுச்சொல்லைச் சரிபார்க்க முடியவில்லை. உங்கள் நெட்வொர்க்கைச் சரிபார்க்கவும்.';
+
+  @override
+  String get betaGateAuthorizedTestersOnly =>
+      'அங்கீகரிக்கப்பட்ட பீட்டா சோதனையாளர்களுக்கு மட்டும்';
+
+  @override
+  String get betaGateAccess => 'பீட்டா அணுகல்';
+
+  @override
+  String get betaGateEnterPasswordToContinue =>
+      'தொடர பீட்டா சோதனையாளர் கடவுச்சொல்லை உள்ளிடவும்.';
+
+  @override
+  String get betaGatePasswordHint => 'கடவுச்சொல்லை உள்ளிடவும்';
+
+  @override
+  String get betaGateVerifyAndEnter => 'சரிபார்த்து நுழையவும்';
+
+  @override
+  String get loginGoogleSignInFailed =>
+      'Google உள்நுழைவை முடிக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.';
+
+  @override
+  String get dialogConfirm => 'உறுதிப்படுத்து';
+
+  @override
+  String get monthAbbrList =>
+      'ஜன,பிப்,மார்,ஏப்,மே,ஜூன்,ஜூலை,ஆக,செப்,அக்,நவ,டிச';
+
+  @override
+  String get discoverEveryScheme =>
+      'இந்தியாவின் ஒவ்வொரு அரசுத் திட்டத்தையும் கண்டறியுங்கள்';
 }

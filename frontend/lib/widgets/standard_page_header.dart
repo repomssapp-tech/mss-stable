@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../l10n/l10n.dart';
 import '../utils/app_spacing.dart';
 
 /// StandardPageHeader
@@ -64,7 +65,7 @@ class StandardPageHeader extends StatelessWidget
                   splashRadius: 22,
                   onPressed:
                       onBackPressed ?? () => Navigator.of(context).maybePop(),
-                  tooltip: 'Back',
+                  tooltip: context.l10n.back,
                 )
               else
                 const SizedBox(width: AppSpacing.md),

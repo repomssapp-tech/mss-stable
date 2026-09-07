@@ -6811,6 +6811,264 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'How much land do you hold?'**
   String get saarthiQLandholding;
+
+  /// No description provided for @profileHintSelectDob.
+  ///
+  /// In en, this message translates to:
+  /// **'SELECT DATE OF BIRTH'**
+  String get profileHintSelectDob;
+
+  /// No description provided for @profileErrEnterPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your phone number'**
+  String get profileErrEnterPhone;
+
+  /// No description provided for @profileErrPhone10Digits.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a 10-digit mobile number'**
+  String get profileErrPhone10Digits;
+
+  /// No description provided for @profileErrPincode6Digits.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter 6 digits'**
+  String get profileErrPincode6Digits;
+
+  /// No description provided for @profileErrLocationFetchFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not fetch location. Please enter manually.'**
+  String get profileErrLocationFetchFailed;
+
+  /// No description provided for @profileErrCompleteFieldsCorrectly.
+  ///
+  /// In en, this message translates to:
+  /// **'Please complete all required fields correctly.'**
+  String get profileErrCompleteFieldsCorrectly;
+
+  /// No description provided for @profileErrLocationFieldsCorrectly.
+  ///
+  /// In en, this message translates to:
+  /// **'Please fill in all required location fields correctly.'**
+  String get profileErrLocationFieldsCorrectly;
+
+  /// No description provided for @profileErrCompleteFieldsToContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Please complete all required fields to continue.'**
+  String get profileErrCompleteFieldsToContinue;
+
+  /// No description provided for @profileErrUnableToSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to save profile. Please check connection and try again.'**
+  String get profileErrUnableToSave;
+
+  /// No description provided for @profileErrEnterFullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your full name'**
+  String get profileErrEnterFullName;
+
+  /// No description provided for @profileErrValidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address'**
+  String get profileErrValidEmail;
+
+  /// No description provided for @profileHint10DigitMobile.
+  ///
+  /// In en, this message translates to:
+  /// **'10-digit mobile number'**
+  String get profileHint10DigitMobile;
+
+  /// No description provided for @profileErrSelectGender.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select your gender'**
+  String get profileErrSelectGender;
+
+  /// No description provided for @profileErrSelectDob.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select your date of birth'**
+  String get profileErrSelectDob;
+
+  /// No description provided for @profileHintDdmmyyyy.
+  ///
+  /// In en, this message translates to:
+  /// **'DD/MM/YYYY'**
+  String get profileHintDdmmyyyy;
+
+  /// No description provided for @profileHintDoorStreetExample.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Flat 402, Royal Enclave'**
+  String get profileHintDoorStreetExample;
+
+  /// No description provided for @profileErrEnterHouseStreet.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your house/street address'**
+  String get profileErrEnterHouseStreet;
+
+  /// No description provided for @profileHintAreaExample.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Anna Nagar West'**
+  String get profileHintAreaExample;
+
+  /// No description provided for @profileErrEnterArea.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your area or locality'**
+  String get profileErrEnterArea;
+
+  /// No description provided for @profileHintCityExample.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Chennai'**
+  String get profileHintCityExample;
+
+  /// No description provided for @profileErrValidCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid city or district'**
+  String get profileErrValidCity;
+
+  /// No description provided for @profileHintStateExample.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Tamil Nadu'**
+  String get profileHintStateExample;
+
+  /// No description provided for @profileErrValidState.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid state'**
+  String get profileErrValidState;
+
+  /// No description provided for @profileErrSelectOptionToContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select an option to continue.'**
+  String get profileErrSelectOptionToContinue;
+
+  /// No description provided for @profileErrSelectEducation.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select your education level'**
+  String get profileErrSelectEducation;
+
+  /// No description provided for @profileErrSelectCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select your community category'**
+  String get profileErrSelectCommunity;
+
+  /// No description provided for @profileErrSelectIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select your annual income range'**
+  String get profileErrSelectIncome;
+
+  /// No description provided for @settingsNavModeDialogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your preferred layout mode for navigating schemes and services.'**
+  String get settingsNavModeDialogBody;
+
+  /// No description provided for @settingsSwitchedToCompanion.
+  ///
+  /// In en, this message translates to:
+  /// **'Switched to AI Companion (Saarthi) Navigation'**
+  String get settingsSwitchedToCompanion;
+
+  /// No description provided for @settingsSwitchedToRegular.
+  ///
+  /// In en, this message translates to:
+  /// **'Switched to Regular Navigation'**
+  String get settingsSwitchedToRegular;
+
+  /// No description provided for @settingsAppVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'App Version {version}'**
+  String settingsAppVersion(Object version);
+
+  /// No description provided for @betaGateEnterPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the beta password.'**
+  String get betaGateEnterPassword;
+
+  /// No description provided for @betaGateInvalidPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid beta password. Please try again.'**
+  String get betaGateInvalidPassword;
+
+  /// No description provided for @betaGateVerifyFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to verify password. Check your network.'**
+  String get betaGateVerifyFailed;
+
+  /// No description provided for @betaGateAuthorizedTestersOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Authorized Beta Testers Only'**
+  String get betaGateAuthorizedTestersOnly;
+
+  /// No description provided for @betaGateAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Beta Access'**
+  String get betaGateAccess;
+
+  /// No description provided for @betaGateEnterPasswordToContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the beta tester password to continue.'**
+  String get betaGateEnterPasswordToContinue;
+
+  /// No description provided for @betaGatePasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter password'**
+  String get betaGatePasswordHint;
+
+  /// No description provided for @betaGateVerifyAndEnter.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify & Enter'**
+  String get betaGateVerifyAndEnter;
+
+  /// No description provided for @loginGoogleSignInFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to complete Google sign in. Please try again.'**
+  String get loginGoogleSignInFailed;
+
+  /// No description provided for @dialogConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get dialogConfirm;
+
+  /// No description provided for @monthAbbrList.
+  ///
+  /// In en, this message translates to:
+  /// **'Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec'**
+  String get monthAbbrList;
+
+  /// No description provided for @discoverEveryScheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover every Government Scheme in India'**
+  String get discoverEveryScheme;
 }
 
 class _AppLocalizationsDelegate

@@ -200,7 +200,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
       initialDatePickerMode: DatePickerMode.year,
-      helpText: 'SELECT DATE OF BIRTH',
+      helpText: context.l10n.profileHintSelectDob,
     );
     if (picked != null && picked != _selectedDob) {
       setState(() {
@@ -213,16 +213,16 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   String? _phoneErrorText() {
     if (!_hasSubmittedStep1) return null;
     final phone = _phoneController.text.trim();
-    if (phone.isEmpty) return 'Please enter your phone number';
-    if (phone.length != 10) return 'Enter a 10-digit mobile number';
+    if (phone.isEmpty) return context.l10n.profileErrEnterPhone;
+    if (phone.length != 10) return context.l10n.profileErrPhone10Digits;
     return null;
   }
 
   String? _pincodeErrorText() {
     if (!_hasSubmittedStep2) return null;
     final pin = _pincodeController.text.trim();
-    if (pin.isEmpty) return 'Required';
-    if (pin.length != 6) return 'Enter 6 digits';
+    if (pin.isEmpty) return context.l10n.badgeRequired;
+    if (pin.length != 6) return context.l10n.profileErrPincode6Digits;
     return null;
   }
 
@@ -385,7 +385,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       if (mounted) {
         AppToast.showError(
           context,
-          'Could not fetch location. Please enter manually.',
+          context.l10n.profileErrLocationFetchFailed,
         );
       }
     } finally {
@@ -426,7 +426,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
           _selectedDob == null) {
         AppToast.showError(
           context,
-          'Please complete all required fields correctly.',
+          context.l10n.profileErrCompleteFieldsCorrectly,
         );
         return;
       }
@@ -449,7 +449,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       if (!_isStep2Valid) {
         AppToast.showError(
           context,
-          'Please fill in all required location fields correctly.',
+          context.l10n.profileErrLocationFieldsCorrectly,
         );
         return;
       }
@@ -503,7 +503,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       if (!_isStep4Valid) {
         AppToast.showError(
           context,
-          'Please complete all required fields to continue.',
+          context.l10n.profileErrCompleteFieldsToContinue,
         );
         return;
       }
@@ -540,7 +540,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       setState(() => _isSubmitting = false);
       AppToast.showError(
         context,
-        'Unable to save profile. Please check connection and try again.',
+        context.l10n.profileErrUnableToSave,
       );
     }
   }
@@ -597,7 +597,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                               color: kSlate800,
                               size: 24,
                             ),
-                            tooltip: 'Back',
+                            tooltip: l10n.back,
                             onPressed: _handleBack,
                           ),
                           const SizedBox(width: AppSpacing.xs),
@@ -819,7 +819,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
           leadingIcon: Icons.person_outline,
           trailingIcon: Icons.edit_outlined,
           errorText: _hasSubmittedStep1 && _nameController.text.trim().isEmpty
-              ? 'Please enter your full name'
+              ? l10n.profileErrEnterFullName
               : null,
           onChanged: (_) {
             if (_hasSubmittedStep1) setState(() {});
@@ -837,7 +837,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
           errorText: _hasSubmittedStep1 &&
                   (_emailController.text.trim().isEmpty ||
                       !_emailController.text.contains('@'))
-              ? 'Please enter a valid email address'
+              ? l10n.profileErrValidEmail
               : null,
           onChanged: (_) {
             if (_hasSubmittedStep1) setState(() {});
@@ -852,7 +852,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
           leadingIcon: Icons.phone_outlined,
           trailingIcon: Icons.edit_outlined,
           keyboardType: TextInputType.phone,
-          hintText: '10-digit mobile number',
+          hintText: l10n.profileHint10DigitMobile,
           prefixText: '+91 ',
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
@@ -912,7 +912,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                   const SizedBox(width: AppSpacing.xs),
                   Expanded(
                     child: Text(
-                      'Please select your gender',
+                      l10n.profileErrSelectGender,
                       style: GoogleFonts.inter(
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
@@ -934,10 +934,10 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
           leadingIcon: Icons.calendar_today_outlined,
           trailingIcon: Icons.arrow_drop_down,
           readOnly: true,
-          hintText: 'DD/MM/YYYY',
+          hintText: l10n.profileHintDdmmyyyy,
           onTap: () => _selectDob(context),
           errorText: _hasSubmittedStep1 && _selectedDob == null
-              ? 'Please select your date of birth'
+              ? l10n.profileErrSelectDob
               : null,
         ),
         const SizedBox(height: AppSpacing.xxl),
@@ -1146,11 +1146,11 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         const SizedBox(height: AppSpacing.tight),
         _buildTextField(
           controller: _doorStreetController,
-          hintText: 'e.g. Flat 402, Royal Enclave',
+          hintText: l10n.profileHintDoorStreetExample,
           icon: Icons.home_outlined,
           errorText: _hasSubmittedStep2 &&
                   _doorStreetController.text.trim().isEmpty
-              ? 'Please enter your house/street address'
+              ? l10n.profileErrEnterHouseStreet
               : null,
           onChanged: (_) => setState(() {}),
         ),
@@ -1161,11 +1161,11 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         const SizedBox(height: AppSpacing.tight),
         _buildTextField(
           controller: _areaLocalityController,
-          hintText: 'e.g. Anna Nagar West',
+          hintText: l10n.profileHintAreaExample,
           icon: Icons.location_on_outlined,
           errorText: _hasSubmittedStep2 &&
                   _areaLocalityController.text.trim().isEmpty
-              ? 'Please enter your area or locality'
+              ? l10n.profileErrEnterArea
               : null,
           onChanged: (_) => setState(() {}),
         ),
@@ -1176,11 +1176,11 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         const SizedBox(height: AppSpacing.tight),
         _buildTextField(
           controller: _cityDistrictController,
-          hintText: 'e.g. Chennai',
+          hintText: l10n.profileHintCityExample,
           icon: Icons.location_city_outlined,
           errorText: _hasSubmittedStep2 &&
                   !_looksLikePlaceName(_cityDistrictController.text, min: 2)
-              ? 'Please enter a valid city or district'
+              ? l10n.profileErrValidCity
               : null,
           onChanged: (_) => setState(() {}),
         ),
@@ -1191,12 +1191,12 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         const SizedBox(height: AppSpacing.tight),
         _buildTextField(
           controller: _stateController,
-          hintText: 'e.g. Tamil Nadu',
+          hintText: l10n.profileHintStateExample,
           icon: Icons.map_outlined,
           errorText:
               _hasSubmittedStep2 &&
                       !_looksLikePlaceName(_stateController.text, min: 3)
-                  ? 'Please enter a valid state'
+                  ? l10n.profileErrValidState
                   : null,
           onChanged: (_) => setState(() {}),
         ),
@@ -1375,7 +1375,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Text(
-                    'Please select an option to continue.',
+                    l10n.profileErrSelectOptionToContinue,
                     style: GoogleFonts.inter(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
@@ -1578,7 +1578,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
           },
         ),
         if (_hasSubmittedStep4 && _selectedEducation.isEmpty)
-          _buildFieldError('Please select your education level'),
+          _buildFieldError(l10n.profileErrSelectEducation),
         const SizedBox(height: AppSpacing.lg),
 
         // 2. Community category (required)
@@ -1599,7 +1599,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
           },
         ),
         if (_hasSubmittedStep4 && _selectedCommunity.isEmpty)
-          _buildFieldError('Please select your community category'),
+          _buildFieldError(l10n.profileErrSelectCommunity),
         const SizedBox(height: AppSpacing.lg),
 
         // 3. Annual household income (required)
@@ -1619,7 +1619,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
           },
         ),
         if (_hasSubmittedStep4 && _selectedIncome == null)
-          _buildFieldError('Please select your annual income range'),
+          _buildFieldError(l10n.profileErrSelectIncome),
         const SizedBox(height: AppSpacing.lg),
 
         // 4. Special categories (optional)

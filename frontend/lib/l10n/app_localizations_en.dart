@@ -3627,4 +3627,149 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get saarthiQLandholding => 'How much land do you hold?';
+
+  @override
+  String get profileHintSelectDob => 'SELECT DATE OF BIRTH';
+
+  @override
+  String get profileErrEnterPhone => 'Please enter your phone number';
+
+  @override
+  String get profileErrPhone10Digits => 'Enter a 10-digit mobile number';
+
+  @override
+  String get profileErrPincode6Digits => 'Enter 6 digits';
+
+  @override
+  String get profileErrLocationFetchFailed =>
+      'Could not fetch location. Please enter manually.';
+
+  @override
+  String get profileErrCompleteFieldsCorrectly =>
+      'Please complete all required fields correctly.';
+
+  @override
+  String get profileErrLocationFieldsCorrectly =>
+      'Please fill in all required location fields correctly.';
+
+  @override
+  String get profileErrCompleteFieldsToContinue =>
+      'Please complete all required fields to continue.';
+
+  @override
+  String get profileErrUnableToSave =>
+      'Unable to save profile. Please check connection and try again.';
+
+  @override
+  String get profileErrEnterFullName => 'Please enter your full name';
+
+  @override
+  String get profileErrValidEmail => 'Please enter a valid email address';
+
+  @override
+  String get profileHint10DigitMobile => '10-digit mobile number';
+
+  @override
+  String get profileErrSelectGender => 'Please select your gender';
+
+  @override
+  String get profileErrSelectDob => 'Please select your date of birth';
+
+  @override
+  String get profileHintDdmmyyyy => 'DD/MM/YYYY';
+
+  @override
+  String get profileHintDoorStreetExample => 'e.g. Flat 402, Royal Enclave';
+
+  @override
+  String get profileErrEnterHouseStreet =>
+      'Please enter your house/street address';
+
+  @override
+  String get profileHintAreaExample => 'e.g. Anna Nagar West';
+
+  @override
+  String get profileErrEnterArea => 'Please enter your area or locality';
+
+  @override
+  String get profileHintCityExample => 'e.g. Chennai';
+
+  @override
+  String get profileErrValidCity => 'Please enter a valid city or district';
+
+  @override
+  String get profileHintStateExample => 'e.g. Tamil Nadu';
+
+  @override
+  String get profileErrValidState => 'Please enter a valid state';
+
+  @override
+  String get profileErrSelectOptionToContinue =>
+      'Please select an option to continue.';
+
+  @override
+  String get profileErrSelectEducation => 'Please select your education level';
+
+  @override
+  String get profileErrSelectCommunity =>
+      'Please select your community category';
+
+  @override
+  String get profileErrSelectIncome => 'Please select your annual income range';
+
+  @override
+  String get settingsNavModeDialogBody =>
+      'Choose your preferred layout mode for navigating schemes and services.';
+
+  @override
+  String get settingsSwitchedToCompanion =>
+      'Switched to AI Companion (Saarthi) Navigation';
+
+  @override
+  String get settingsSwitchedToRegular => 'Switched to Regular Navigation';
+
+  @override
+  String settingsAppVersion(Object version) {
+    return 'App Version $version';
+  }
+
+  @override
+  String get betaGateEnterPassword => 'Please enter the beta password.';
+
+  @override
+  String get betaGateInvalidPassword =>
+      'Invalid beta password. Please try again.';
+
+  @override
+  String get betaGateVerifyFailed =>
+      'Unable to verify password. Check your network.';
+
+  @override
+  String get betaGateAuthorizedTestersOnly => 'Authorized Beta Testers Only';
+
+  @override
+  String get betaGateAccess => 'Beta Access';
+
+  @override
+  String get betaGateEnterPasswordToContinue =>
+      'Enter the beta tester password to continue.';
+
+  @override
+  String get betaGatePasswordHint => 'Enter password';
+
+  @override
+  String get betaGateVerifyAndEnter => 'Verify & Enter';
+
+  @override
+  String get loginGoogleSignInFailed =>
+      'Unable to complete Google sign in. Please try again.';
+
+  @override
+  String get dialogConfirm => 'Confirm';
+
+  @override
+  String get monthAbbrList => 'Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec';
+
+  @override
+  String get discoverEveryScheme => 'Discover every Government Scheme in India';
 }
