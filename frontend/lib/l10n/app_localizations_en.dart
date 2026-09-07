@@ -1330,8 +1330,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get voiceGroundingChecking => 'Checking official sources…';
 
   @override
-  String voiceGroundingFoundSources(Object count, Object sources) {
-    return 'Grounded online · $count official $sources';
+  String voiceGroundingFoundSources(Object count) {
+    return 'Grounded online · $count official source(s)';
   }
 
   @override
@@ -3475,4 +3475,156 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get msmeUdyamStep4Action =>
       'Final OTP submission; download instant e-Certificate.';
+
+  @override
+  String voiceRelevanceMatch(Object confidence) {
+    return '$confidence% relevance match';
+  }
+
+  @override
+  String voiceEditFact(Object label) {
+    return 'Edit $label';
+  }
+
+  @override
+  String get voiceNoiseControlSecure =>
+      'Device noise control • Secure live voice';
+
+  @override
+  String voiceSeeUncertainSchemes(Object count) {
+    return 'See $count uncertain or historical schemes';
+  }
+
+  @override
+  String get voiceAiReady => 'AI voice ready';
+
+  @override
+  String get voiceConversationTranscript => 'Conversation transcript';
+
+  @override
+  String voiceFoundCount(Object count) {
+    return '$count found';
+  }
+
+  @override
+  String get voiceShowTop3 => 'Show top 3';
+
+  @override
+  String voiceShowAllMatches(Object count) {
+    return 'Show all $count matches';
+  }
+
+  @override
+  String get voiceReviewDetails => 'Review details';
+
+  @override
+  String get voiceConfirmEligibility =>
+      'Confirm current eligibility before applying';
+
+  @override
+  String get voiceTapToInterrupt => 'Tap to interrupt';
+
+  @override
+  String get voiceSemInterrupt => 'Interrupt assistant';
+
+  @override
+  String get voiceSemMicHint => 'Double tap to control the microphone';
+
+  @override
+  String get voiceAiAssistant => 'AI assistant';
+
+  @override
+  String get voiceSemNoiseControlOn => 'Device echo and noise control is on';
+
+  @override
+  String get voiceTapWhenFinished => 'Tap when finished';
+
+  @override
+  String get voiceTypeInstead => 'Type instead...';
+
+  @override
+  String voiceFactCrore(Object value) {
+    return '₹$value crore';
+  }
+
+  @override
+  String voiceFactLakh(Object value) {
+    return '₹$value lakh';
+  }
+
+  @override
+  String get saarthiGreetingFriend => 'there';
+
+  @override
+  String get saarthiVoiceServiceUnavailable =>
+      'Voice service is unavailable. Tap retry.';
+
+  @override
+  String get saarthiCloudErrorSignIn =>
+      'Please sign in again, then retry voice.';
+
+  @override
+  String get saarthiCloudErrorNetwork =>
+      'Check your internet, then retry voice.';
+
+  @override
+  String get saarthiCloudErrorGeneric =>
+      'Voice service could not connect. Tap retry.';
+
+  @override
+  String get saarthiGenericError => 'An error occurred. Please try again.';
+
+  @override
+  String get saarthiStatusConnectionAttention => 'Connection needs attention';
+
+  @override
+  String saarthiVoiceControlLabel(Object label) {
+    return '$label voice control';
+  }
+
+  @override
+  String get saarthiQAge => 'What is your age?';
+
+  @override
+  String get saarthiQState => 'Which state are you in?';
+
+  @override
+  String get saarthiQDistrict => 'Which district are you in?';
+
+  @override
+  String get saarthiQIncome => 'Roughly what is your family\'s annual income?';
+
+  @override
+  String get saarthiQGender => 'What is your gender?';
+
+  @override
+  String get saarthiQCommunity => 'Which community category do you belong to?';
+
+  @override
+  String get saarthiQOccupation => 'What do you do for a living right now?';
+
+  @override
+  String get saarthiQEducation => 'What is your education level?';
+
+  @override
+  String get saarthiQDisability => 'Does any disability category apply to you?';
+
+  @override
+  String get saarthiQMaritalStatus => 'What is your marital status?';
+
+  @override
+  String get saarthiQIsStudent => 'Are you currently a student?';
+
+  @override
+  String get saarthiQBusinessStage =>
+      'Is this an idea, a new business, or an existing business?';
+
+  @override
+  String get saarthiQBusinessSector => 'Which business sector is it?';
+
+  @override
+  String get saarthiQFundingNeed => 'Roughly how much funding do you need?';
+
+  @override
+  String get saarthiQLandholding => 'How much land do you hold?';
 }

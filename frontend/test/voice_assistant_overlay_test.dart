@@ -288,7 +288,7 @@ void main() {
       );
       expect(find.byType(BackdropFilter), findsNothing);
       expect(find.byType(RepaintBoundary), findsWidgets);
-      expect(find.text('IN AI'), findsOneWidget);
+      expect(find.text('Ask AI'), findsOneWidget);
       expect(find.text('How can I help?'), findsOneWidget);
       expect(find.byKey(const Key('voice-assistant-image')), findsNothing);
       expect(find.text('Ready'), findsOneWidget);

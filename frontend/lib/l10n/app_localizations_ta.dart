@@ -1344,8 +1344,8 @@ class AppLocalizationsTa extends AppLocalizations {
   String get voiceGroundingChecking => 'அதிகாரப்பூர்வ மூலங்களை சரிபார்க்கிறது…';
 
   @override
-  String voiceGroundingFoundSources(Object count, Object sources) {
-    return 'ஆன்லைனில் உறுதிசெய்யப்பட்டது · $count அதிகாரப்பூர்வ $sources';
+  String voiceGroundingFoundSources(Object count) {
+    return 'ஆன்லைனில் உறுதிசெய்யப்பட்டது · $count அதிகாரப்பூர்வ மூலம்(கள்)';
   }
 
   @override
@@ -3523,4 +3523,161 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get msmeUdyamStep4Action =>
       'இறுதி OTP சமர்ப்பிப்பு; உடனடி மின்-சான்றிதழைப் பதிவிறக்கவும்.';
+
+  @override
+  String voiceRelevanceMatch(Object confidence) {
+    return '$confidence% பொருத்த நம்பகத்தன்மை';
+  }
+
+  @override
+  String voiceEditFact(Object label) {
+    return '$label ஐத் திருத்து';
+  }
+
+  @override
+  String get voiceNoiseControlSecure =>
+      'சாதன இரைச்சல் கட்டுப்பாடு • பாதுகாப்பான நேரடி குரல்';
+
+  @override
+  String voiceSeeUncertainSchemes(Object count) {
+    return '$count நிச்சயமற்ற அல்லது பழைய திட்டங்களைக் காண்க';
+  }
+
+  @override
+  String get voiceAiReady => 'AI குரல் தயார்';
+
+  @override
+  String get voiceConversationTranscript => 'உரையாடல் எழுத்துப் பிரதி';
+
+  @override
+  String voiceFoundCount(Object count) {
+    return '$count கண்டறியப்பட்டது';
+  }
+
+  @override
+  String get voiceShowTop3 => 'முதல் 3-ஐக் காட்டு';
+
+  @override
+  String voiceShowAllMatches(Object count) {
+    return 'அனைத்து $count பொருத்தங்களையும் காட்டு';
+  }
+
+  @override
+  String get voiceReviewDetails => 'விவரங்களைச் சரிபார்க்கவும்';
+
+  @override
+  String get voiceConfirmEligibility =>
+      'விண்ணப்பிக்கும் முன் தற்போதைய தகுதியை உறுதிப்படுத்தவும்';
+
+  @override
+  String get voiceTapToInterrupt => 'இடைமறிக்கத் தட்டவும்';
+
+  @override
+  String get voiceSemInterrupt => 'உதவியாளரை இடைமறிக்கவும்';
+
+  @override
+  String get voiceSemMicHint => 'மைக்ரோஃபோனைக் கட்டுப்படுத்த இருமுறை தட்டவும்';
+
+  @override
+  String get voiceAiAssistant => 'AI உதவியாளர்';
+
+  @override
+  String get voiceSemNoiseControlOn =>
+      'சாதன எதிரொலி மற்றும் இரைச்சல் கட்டுப்பாடு இயக்கத்தில் உள்ளது';
+
+  @override
+  String get voiceTapWhenFinished => 'முடிந்ததும் தட்டவும்';
+
+  @override
+  String get voiceTypeInstead => 'பதிலாக தட்டச்சு செய்யுங்கள்...';
+
+  @override
+  String voiceFactCrore(Object value) {
+    return '₹$value கோடி';
+  }
+
+  @override
+  String voiceFactLakh(Object value) {
+    return '₹$value லட்சம்';
+  }
+
+  @override
+  String get saarthiGreetingFriend => 'நண்பரே';
+
+  @override
+  String get saarthiVoiceServiceUnavailable =>
+      'குரல் சேவை கிடைக்கவில்லை. மீண்டும் முயற்சிக்கத் தட்டவும்.';
+
+  @override
+  String get saarthiCloudErrorSignIn =>
+      'மீண்டும் உள்நுழைந்து, பிறகு குரலை மீண்டும் முயற்சிக்கவும்.';
+
+  @override
+  String get saarthiCloudErrorNetwork =>
+      'உங்கள் இணைய இணைப்பைச் சரிபார்த்து, பிறகு குரலை மீண்டும் முயற்சிக்கவும்.';
+
+  @override
+  String get saarthiCloudErrorGeneric =>
+      'குரல் சேவையை இணைக்க முடியவில்லை. மீண்டும் முயற்சிக்கத் தட்டவும்.';
+
+  @override
+  String get saarthiGenericError =>
+      'ஒரு பிழை ஏற்பட்டது. மீண்டும் முயற்சிக்கவும்.';
+
+  @override
+  String get saarthiStatusConnectionAttention => 'இணைப்புக்குக் கவனம் தேவை';
+
+  @override
+  String saarthiVoiceControlLabel(Object label) {
+    return '$label குரல் கட்டுப்பாடு';
+  }
+
+  @override
+  String get saarthiQAge => 'உங்கள் வயது என்ன?';
+
+  @override
+  String get saarthiQState => 'நீங்கள் எந்த மாநிலத்தில் இருக்கிறீர்கள்?';
+
+  @override
+  String get saarthiQDistrict => 'நீங்கள் எந்த மாவட்டத்தில் இருக்கிறீர்கள்?';
+
+  @override
+  String get saarthiQIncome =>
+      'உங்கள் குடும்பத்தின் ஆண்டு வருமானம் தோராயமாக எவ்வளவு?';
+
+  @override
+  String get saarthiQGender => 'உங்கள் பாலினம் என்ன?';
+
+  @override
+  String get saarthiQCommunity => 'நீங்கள் எந்தச் சமூகப் பிரிவைச் சேர்ந்தவர்?';
+
+  @override
+  String get saarthiQOccupation => 'இப்போது நீங்கள் என்ன வேலை செய்கிறீர்கள்?';
+
+  @override
+  String get saarthiQEducation => 'உங்கள் கல்வித் தகுதி என்ன?';
+
+  @override
+  String get saarthiQDisability =>
+      'உங்களுக்கு ஏதேனும் மாற்றுத்திறனாளி பிரிவு பொருந்துமா?';
+
+  @override
+  String get saarthiQMaritalStatus => 'உங்கள் திருமண நிலை என்ன?';
+
+  @override
+  String get saarthiQIsStudent => 'நீங்கள் இப்போது மாணவரா?';
+
+  @override
+  String get saarthiQBusinessStage =>
+      'இது யோசனை நிலையா, புதிய தொழிலா, அல்லது ஏற்கனவே உள்ள தொழிலா?';
+
+  @override
+  String get saarthiQBusinessSector =>
+      'உங்கள் தொழில் எந்தத் துறையைச் சேர்ந்தது?';
+
+  @override
+  String get saarthiQFundingNeed => 'உங்களுக்குத் தோராயமாக எவ்வளவு நிதி தேவை?';
+
+  @override
+  String get saarthiQLandholding => 'உங்களிடம் எவ்வளவு நிலம் உள்ளது?';
 }

@@ -475,7 +475,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               scheme: scheme,
               score: ranked.score,
               reasons: [
-                if (confidence != null) '$confidence% relevance match',
+                if (confidence != null) _l10n.voiceRelevanceMatch(confidence),
                 ...ranked.reasons,
               ],
             );
@@ -1156,7 +1156,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           side: const BorderSide(color: Color(0xFFE2E8F0)),
         ),
         title: Text(
-          'Edit ${_factLabel(context, fact.key)}',
+          _l10n.voiceEditFact(_factLabel(context, fact.key)),
           style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
         ),
         content: TextField(
@@ -1220,7 +1220,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           side: const BorderSide(color: Color(0xFFE2E8F0)),
         ),
         title: Text(
-          'Review profile updates',
+          _l10n.voiceReviewProfileUpdates,
           style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
         ),
         content: ConstrainedBox(
@@ -1468,7 +1468,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                                 const SizedBox(width: AppSpacing.tight),
                                 Flexible(
                                   child: Text(
-                                    'Device noise control • Secure live voice',
+                                    _l10n.voiceNoiseControlSecure,
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.inter(
                                       color: const Color(0xFFCBD5E1),
@@ -1550,7 +1550,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                                   _sessionController?.setIncludeUncertain(true),
                               icon: const Icon(Icons.info_outline, size: 15),
                               label: Text(
-                                'See $count uncertain or historical schemes',
+                                _l10n.voiceSeeUncertainSchemes(count),
                               ),
                             ),
                           ],
@@ -1730,7 +1730,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'IN AI',
+                _l10n.askAi,
                 style: GoogleFonts.inter(
                   color: Colors.white,
                   fontSize: 15,
@@ -1777,7 +1777,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     return Center(
       child: Semantics(
         image: true,
-        label: active ? _statusLabel : 'IN AI voice ready',
+        label: active ? _statusLabel : _l10n.voiceAiReady,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 320),
           curve: Curves.easeOutCubic,
@@ -1863,7 +1863,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         : _conversationTurns.sublist(_conversationTurns.length - 3);
     return Semantics(
       container: true,
-      label: 'Conversation transcript',
+      label: _l10n.voiceConversationTranscript,
       child: Column(
         key: const Key('voice-conversation-transcript'),
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1874,7 +1874,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
 
   Widget _buildRegularTurn(_VoiceTranscriptTurn turn) {
     final isUser = turn.speaker == _VoiceTranscriptSpeaker.user;
-    final label = isUser ? _l10n.voiceSpeakerYou : 'IN AI';
+    final label = isUser ? _l10n.voiceSpeakerYou : _l10n.voiceSpeakerAssistant;
     return Container(
       key: Key('voice-turn-${turn.id}'),
       margin: const EdgeInsets.only(bottom: 22),
@@ -2024,7 +2024,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               ),
             ),
             Text(
-              '${all.length} found',
+              _l10n.voiceFoundCount(all.length),
               key: const Key('voice-result-count'),
               style: GoogleFonts.inter(
                 color: const Color(0xFF929DB2),
@@ -2048,8 +2048,8 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             ),
             label: Text(
               _showAllRecommendations
-                  ? 'Show top 3'
-                  : 'Show all ${all.length} matches',
+                  ? _l10n.voiceShowTop3
+                  : _l10n.voiceShowAllMatches(all.length),
             ),
           ),
         if (widget.onProfileConfirmed != null &&
@@ -2060,7 +2060,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             key: const Key('voice-review-profile'),
             onPressed: _reviewAndSaveFacts,
             icon: const Icon(Icons.tune_rounded, size: 17),
-            label: const Text('Review details'),
+            label: Text(_l10n.voiceReviewDetails),
           ),
       ],
     );
@@ -2126,8 +2126,8 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               const SizedBox(height: AppSpacing.tight),
               Text(
                 recommendation.isTrusted
-                    ? 'Current official source verified'
-                    : 'Confirm current eligibility before applying',
+                    ? _l10n.voiceSourceVerified
+                    : _l10n.voiceConfirmEligibility,
                 style: GoogleFonts.inter(
                   color: recommendation.isTrusted
                       ? const Color(0xFF70D6B2)
@@ -2168,10 +2168,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
       children: [
         Text(
           _speaking
-              ? 'Tap to interrupt'
+              ? _l10n.voiceTapToInterrupt
               : _isListening
-              ? 'Listening…'
-              : 'Tap to speak',
+              ? _l10n.voiceStatusListening
+              : _l10n.companionTapToSpeak,
           textAlign: TextAlign.center,
           style: GoogleFonts.inter(
             color: const Color(0xFFA8B0C2),
@@ -2183,11 +2183,11 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         Semantics(
           button: true,
           label: _speaking
-              ? 'Interrupt assistant'
+              ? _l10n.voiceSemInterrupt
               : _isListening
-              ? 'Stop listening'
-              : 'Start listening',
-          hint: 'Double tap to control the microphone',
+              ? _l10n.voiceStopListeningSemantic
+              : _l10n.voiceStartListeningSemantic,
+          hint: _l10n.voiceSemMicHint,
           onTap: _toggleListening,
           excludeSemantics: true,
           child: IconButton.filled(
@@ -2217,7 +2217,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         if (_cloudSessionInUse) ...[
           const SizedBox(height: 9),
           Text(
-            'Device noise control • Secure live voice',
+            _l10n.voiceNoiseControlSecure,
             key: const Key('voice-cloud-disclosure'),
             style: GoogleFonts.inter(
               color: const Color(0xFF707A91),
@@ -2234,7 +2234,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
       children: [
         Semantics(
           image: true,
-          label: 'IN AI assistant',
+          label: _l10n.voiceAiAssistant,
           child: SizedBox(
             width: 56,
             height: 56,
@@ -2253,7 +2253,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                _isCompanion ? _l10n.voiceHeaderTalkToSaarthi : 'Ask IN AI',
+                _isCompanion ? _l10n.voiceHeaderTalkToSaarthi : _l10n.askAi,
                 style: GoogleFonts.inter(
                   color: Colors.white,
                   fontSize: 15,
@@ -2379,7 +2379,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                   alignment: Alignment.centerRight,
                   child: _cloudSessionInUse
                       ? Semantics(
-                          label: 'Device echo and noise control is active',
+                          label: _l10n.voiceSemNoiseControlOn,
                           child: const Icon(
                             Icons.noise_control_off_rounded,
                             color: Color(0xFF34D399),
@@ -2393,11 +2393,11 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               Semantics(
                 button: true,
                 label: _speaking
-                    ? 'Interrupt assistant'
+                    ? _l10n.voiceSemInterrupt
                     : _isListening
-                    ? 'Stop listening'
-                    : 'Start listening',
-                hint: 'Double tap to control the microphone',
+                    ? _l10n.voiceStopListeningSemantic
+                    : _l10n.voiceStartListeningSemantic,
+                hint: _l10n.voiceSemMicHint,
                 onTap: _toggleListening,
                 excludeSemantics: true,
                 child: IconButton.filled(
@@ -2437,10 +2437,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           const SizedBox(height: AppSpacing.sm),
           Text(
             _speaking
-                ? 'Interrupt'
+                ? _l10n.companionInterrupt
                 : _isListening
-                ? 'Tap when finished'
-                : 'Tap to speak',
+                ? _l10n.voiceTapWhenFinished
+                : _l10n.companionTapToSpeak,
             textAlign: TextAlign.center,
             style: GoogleFonts.inter(
               color: _statusColor,
@@ -2451,7 +2451,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           if (_cloudSessionInUse) ...[
             const SizedBox(height: AppSpacing.tight),
             Semantics(
-              label: 'Device echo and noise control is on',
+              label: _l10n.voiceSemNoiseControlOn,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -2488,7 +2488,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                       isDense: true,
                       hintText: _isCompanion
                           ? _l10n.voiceTypeToSaarthiHint
-                          : 'Type instead...',
+                          : _l10n.voiceTypeInstead,
                       hintStyle: const TextStyle(color: Color(0xFF64748B)),
                       filled: true,
                       fillColor: Colors.white.withValues(alpha: 0.04),
@@ -2521,7 +2521,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         : _conversationTurns.sublist(_conversationTurns.length - turnLimit);
     return Semantics(
       container: true,
-      label: 'Conversation transcript',
+      label: _l10n.voiceConversationTranscript,
       child: Container(
         key: const Key('voice-conversation-transcript'),
         padding: const EdgeInsets.all(AppSpacing.md),
@@ -2814,7 +2814,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                         : const Color(0xFF60A5FA),
                   ),
                   label: Text(
-                    '${_factLabel(context, fact.key)}: ${_displayFactValue(fact)}',
+                    '${_factLabel(context, fact.key)}: ${_displayFactValue(_l10n, fact)}',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 11,
@@ -2874,7 +2874,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               ),
               IconButton(
                 key: const Key('voice-repeat-question'),
-                tooltip: 'Repeat question',
+                tooltip: _l10n.voiceRepeatQuestionTooltip,
                 onPressed: _speakQuestionAndListen,
                 icon: const Icon(
                   Icons.volume_up_outlined,
@@ -2953,7 +2953,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               ),
             ),
             Text(
-              '${allRecommendations.length} found',
+              _l10n.voiceFoundCount(allRecommendations.length),
               key: const Key('voice-result-count'),
               style: GoogleFonts.inter(
                 color: const Color(0xFF93C5FD),
@@ -2987,8 +2987,8 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             ),
             label: Text(
               _showAllRecommendations
-                  ? 'Show top 3'
-                  : 'Show all ${allRecommendations.length} matches',
+                  ? _l10n.voiceShowTop3
+                  : _l10n.voiceShowAllMatches(allRecommendations.length),
             ),
           ),
         if (widget.onProfileConfirmed != null &&
@@ -3031,7 +3031,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                 child: FitOneLine(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    _isCompanion ? 'Saarthi' : 'Ask IN AI',
+                    _isCompanion ? 'Saarthi' : _l10n.askAi,
                     style: GoogleFonts.inter(
                       color: Colors.white,
                       fontSize: 11.5,
@@ -3064,7 +3064,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               icon: const Icon(Icons.open_in_new, size: 14),
               label: Text(
                 reply.sourceLabel.isEmpty
-                    ? 'Open official source'
+                    ? _l10n.voiceOpenOfficialSource
                     : reply.sourceLabel,
                 style: const TextStyle(fontSize: 10.5),
               ),
@@ -3084,13 +3084,11 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         ? Icons.verified_outlined
         : Icons.cloud_off_outlined;
     final title = switch (_groundingPhase) {
-      _OnlineGroundingPhase.checking => 'Checking official sources…',
+      _OnlineGroundingPhase.checking => _l10n.voiceGroundingChecking,
       _OnlineGroundingPhase.found =>
-        'Grounded online · ${_groundedSources.length} official ${_groundedSources.length == 1 ? 'source' : 'sources'}',
-      _OnlineGroundingPhase.unavailable =>
-        'Offline · using private on-device knowledge',
-      _OnlineGroundingPhase.noSources =>
-        'Official page unavailable · using the verified local catalog',
+        _l10n.voiceGroundingFoundSources(_groundedSources.length),
+      _OnlineGroundingPhase.unavailable => _l10n.voiceGroundingUnavailable,
+      _OnlineGroundingPhase.noSources => _l10n.voiceGroundingNoSources,
       _OnlineGroundingPhase.idle => '',
     };
     if (!_isCompanion) {
@@ -3492,24 +3490,24 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     final l10n = context.l10n;
     return switch (key) {
       EligibilityFactKey.age => l10n.labelAge,
-      EligibilityFactKey.state => 'State',
+      EligibilityFactKey.state => l10n.voiceFactLabelState,
       EligibilityFactKey.district => l10n.filterDistrict,
       EligibilityFactKey.annualIncome => l10n.labelAnnualIncome,
       EligibilityFactKey.gender => l10n.labelGender,
       EligibilityFactKey.community => l10n.labelCommunity,
-      EligibilityFactKey.occupation => 'Situation',
+      EligibilityFactKey.occupation => l10n.voiceFactLabelSituation,
       EligibilityFactKey.education => l10n.labelEducation,
       EligibilityFactKey.disability => l10n.labelDisability,
-      EligibilityFactKey.maritalStatus => 'Marital status',
+      EligibilityFactKey.maritalStatus => l10n.voiceFactLabelMaritalStatus,
       EligibilityFactKey.studentStatus => l10n.empStudent,
       EligibilityFactKey.businessStage => l10n.labelBusinessStage,
-      EligibilityFactKey.businessSector => 'Sector',
-      EligibilityFactKey.fundingNeed => 'Funding need',
-      EligibilityFactKey.landholding => 'Landholding',
+      EligibilityFactKey.businessSector => l10n.voiceFactLabelSector,
+      EligibilityFactKey.fundingNeed => l10n.voiceFactLabelFundingNeed,
+      EligibilityFactKey.landholding => l10n.voiceFactLabelLandholding,
     };
   }
 
-  static String _displayFactValue(EligibilityFact fact) {
+  static String _displayFactValue(AppLocalizations l10n, EligibilityFact fact) {
     if ({
       EligibilityFactKey.annualIncome,
       EligibilityFactKey.fundingNeed,
@@ -3517,15 +3515,15 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
       final amount = double.tryParse(fact.value);
       if (amount != null) {
         if (amount >= 10000000) {
-          return '₹${(amount / 10000000).toStringAsFixed(1)} crore';
+          return l10n.voiceFactCrore((amount / 10000000).toStringAsFixed(1));
         }
         if (amount >= 100000) {
-          return '₹${(amount / 100000).toStringAsFixed(1)} lakh';
+          return l10n.voiceFactLakh((amount / 100000).toStringAsFixed(1));
         }
       }
     }
     return fact.hasConflict
-        ? '${fact.value} (profile: ${fact.conflictingValue})'
+        ? l10n.voiceFactConflictFormat(fact.conflictingValue!, fact.value)
         : fact.value;
   }
 }

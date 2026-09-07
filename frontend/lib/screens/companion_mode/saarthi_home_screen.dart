@@ -286,7 +286,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
       if (!mounted) return;
       setState(() {
         _voiceState = SaarthiVoiceState.idle;
-        _cloudConnectionError = 'Voice service is unavailable. Tap retry.';
+        _cloudConnectionError = context.l10n.saarthiVoiceServiceUnavailable;
       });
       return;
     }
@@ -339,18 +339,19 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   }
 
   String _cloudErrorMessage(Object? error) {
+    final l10n = context.l10n;
     final detail = error?.toString().toLowerCase() ?? '';
     if (detail.contains('sign in') ||
         detail.contains('401') ||
         detail.contains('session')) {
-      return 'Please sign in again, then retry voice.';
+      return l10n.saarthiCloudErrorSignIn;
     }
     if (detail.contains('network') ||
         detail.contains('socket') ||
         detail.contains('host lookup')) {
-      return 'Check your internet, then retry voice.';
+      return l10n.saarthiCloudErrorNetwork;
     }
-    return 'Voice service could not connect. Tap retry.';
+    return l10n.saarthiCloudErrorGeneric;
   }
 
   void _handleCloudAgentChanged() {
@@ -723,7 +724,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
         _voiceState = SaarthiVoiceState.idle;
       });
       _addAssistantMessage(
-        state.message ?? 'An error occurred. Please try again.',
+        state.message ?? context.l10n.saarthiGenericError,
       );
     }
   }
@@ -957,25 +958,25 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
       return question.tamil;
     }
     if (!state.isTamil) return question.english;
+    final l10n = context.l10n;
+    // TODO(review-tamil-register): confirm the polite spoken register of these
+    // voice-agent prompts with a native reviewer before release.
     return switch (question.factKey) {
-      EligibilityFactKey.age => 'Unga vayasu enna?',
-      EligibilityFactKey.state => 'Neenga entha state-la irukkeenga?',
-      EligibilityFactKey.district => 'Neenga entha district-la irukkeenga?',
-      EligibilityFactKey.annualIncome =>
-        'Unga family annual income approximately evlo?',
-      EligibilityFactKey.gender => 'Unga gender category enna?',
-      EligibilityFactKey.community => 'Unga community category enna?',
-      EligibilityFactKey.occupation => 'Ippo unga occupation enna?',
-      EligibilityFactKey.education => 'Unga education level enna?',
-      EligibilityFactKey.disability => 'Disability category apply aaguma?',
-      EligibilityFactKey.maritalStatus => 'Unga marital status enna?',
-      EligibilityFactKey.studentStatus =>
-        'Neenga ippo student-ah irukkeengala?',
-      EligibilityFactKey.businessStage =>
-        'Idhu idea stage-ah, new business-ah, illa existing business-ah?',
-      EligibilityFactKey.businessSector => 'Business sector enna?',
-      EligibilityFactKey.fundingNeed => 'Approximately evlo funding thevai?',
-      EligibilityFactKey.landholding => 'Unga landholding evlo?',
+      EligibilityFactKey.age => l10n.saarthiQAge,
+      EligibilityFactKey.state => l10n.saarthiQState,
+      EligibilityFactKey.district => l10n.saarthiQDistrict,
+      EligibilityFactKey.annualIncome => l10n.saarthiQIncome,
+      EligibilityFactKey.gender => l10n.saarthiQGender,
+      EligibilityFactKey.community => l10n.saarthiQCommunity,
+      EligibilityFactKey.occupation => l10n.saarthiQOccupation,
+      EligibilityFactKey.education => l10n.saarthiQEducation,
+      EligibilityFactKey.disability => l10n.saarthiQDisability,
+      EligibilityFactKey.maritalStatus => l10n.saarthiQMaritalStatus,
+      EligibilityFactKey.studentStatus => l10n.saarthiQIsStudent,
+      EligibilityFactKey.businessStage => l10n.saarthiQBusinessStage,
+      EligibilityFactKey.businessSector => l10n.saarthiQBusinessSector,
+      EligibilityFactKey.fundingNeed => l10n.saarthiQFundingNeed,
+      EligibilityFactKey.landholding => l10n.saarthiQLandholding,
     };
   }
 
@@ -994,17 +995,20 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   }
 
   String _getStatusLabel() {
-    if (_cloudConnectionError != null) return 'Connection needs attention';
-    if (_cloudRetrying) return 'Connecting';
+    final l10n = context.l10n;
+    if (_cloudConnectionError != null) {
+      return l10n.saarthiStatusConnectionAttention;
+    }
+    if (_cloudRetrying) return l10n.companionConnectingShort;
     switch (_voiceState) {
       case SaarthiVoiceState.listening:
-        return 'Listening to you';
+        return l10n.companionListeningToYou;
       case SaarthiVoiceState.processing:
-        return 'Checking your details';
+        return l10n.companionCheckingYourDetails;
       case SaarthiVoiceState.speaking:
-        return 'Speaking now';
+        return l10n.companionSpeakingNow;
       default:
-        return 'Ready to help';
+        return l10n.companionReadyToHelp;
     }
   }
 
@@ -1019,7 +1023,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
     final provider = Provider.of<AppProvider>(context);
     final userName = provider.profile.name.isNotEmpty
         ? provider.profile.name.split(' ')[0]
-        : 'Praveen';
+        : context.l10n.saarthiGreetingFriend;
 
     const Color kBrandBlue = Color(0xFF2563EB);
     const Color kDarkSlate = Color(0xFF0F172A);
@@ -1134,7 +1138,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                     color: Color(0xFF0F172A),
                     size: 24,
                   ),
-                  tooltip: 'Notifications',
+                  tooltip: context.l10n.notificationsGroupHeader,
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -1346,10 +1350,10 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                       child: FitOneLine(
                         child: Text(
                           _usingCloudVoice
-                              ? 'Voice connected'
+                              ? context.l10n.companionVoiceConnected
                               : _cloudRetrying
-                              ? 'Connecting'
-                              : 'Voice offline',
+                              ? context.l10n.companionConnectingShort
+                              : context.l10n.companionVoiceOffline,
                           style: GoogleFonts.inter(
                             fontSize: 9.5,
                             fontWeight: FontWeight.w700,
@@ -1445,16 +1449,16 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                     fontWeight: FontWeight.w500,
                     color: kDarkSlate,
                   ),
-                  children: const [
-                    TextSpan(text: "I'm "),
-                    TextSpan(
+                  children: [
+                    TextSpan(text: '${context.l10n.companionIntroPrefix} '),
+                    const TextSpan(
                       text: 'Saarthi',
                       style: TextStyle(
                         color: Color(0xFF2563EB),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    TextSpan(text: ', your AI companion for\nMSME success.'),
+                    TextSpan(text: context.l10n.companionIntroSuffix),
                   ],
                 ),
               ),
@@ -1490,7 +1494,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                         ),
                         const SizedBox(height: AppSpacing.tight),
                         Text(
-                          'Tell me what support you need. I will ask one detail at a time.',
+                          context.l10n.companionEmptyStateHint,
                           textAlign: TextAlign.center,
                           style: GoogleFonts.inter(
                             fontSize: 11.5,
@@ -1573,7 +1577,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(
-            'You  $timeStr',
+            context.l10n.companionYouTimestampLabel(timeStr),
             style: GoogleFonts.inter(
               fontSize: 9.5,
               fontWeight: FontWeight.w600,
@@ -1650,7 +1654,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'MSS Saarthi  $timeStr',
+                      context.l10n.companionAiTimestampLabel(timeStr),
                       style: GoogleFonts.inter(
                         fontSize: 9.5,
                         fontWeight: FontWeight.w600,
@@ -1699,7 +1703,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                                 Flexible(
                                   child: FitOneLine(
                                     child: Text(
-                                      'Speaking',
+                                      context.l10n.companionSpeakingBadge,
                                       style: GoogleFonts.inter(
                                         fontSize: 10.5,
                                         color: const Color(0xFF059669),
@@ -1750,7 +1754,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                   ),
                   const SizedBox(height: AppSpacing.xs),
                   Text(
-                    'Ranked from the details you shared. Final eligibility is confirmed by the department.',
+                    context.l10n.companionRankedResultsCaption,
                     style: GoogleFonts.inter(
                       fontSize: 9.5,
                       height: 1.35,
@@ -2062,7 +2066,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                 child: Column(
                   children: [
                     Text(
-                      'Ask Saarthi anything...',
+                      context.l10n.companionAskAnything,
                       style: GoogleFonts.poppins(
                         fontSize: 13.5,
                         fontWeight: FontWeight.bold,
@@ -2071,7 +2075,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                     ),
                     const SizedBox(height: AppSpacing.hairline),
                     Text(
-                      'Tap below and speak your question',
+                      context.l10n.companionTapToSpeakHint,
                       style: GoogleFonts.inter(fontSize: 10, color: kSlate500),
                     ),
                   ],
@@ -2145,8 +2149,8 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                   child: FitOneLine(
                     child: Text(
                       _usingCloudVoice
-                          ? 'Secure live voice session'
-                          : 'Live voice connection required',
+                          ? context.l10n.companionSecureLiveSession
+                          : context.l10n.companionLiveConnectionRequired,
                       style: GoogleFonts.inter(
                         fontSize: 9.5,
                         color: const Color(0xFF94A3B8),
@@ -2165,7 +2169,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   Widget _buildStartVoiceButton() {
     return Semantics(
       button: true,
-      label: 'Start speaking to Saarthi',
+      label: context.l10n.companionStartSpeakingSemantic,
       child: SizedBox(
         width: double.infinity,
         height: 64,
@@ -2184,7 +2188,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
           ),
           icon: const Icon(Icons.mic_rounded, size: 27),
           label: Text(
-            'Tap to speak',
+            context.l10n.companionTapToSpeak,
             style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w700),
           ),
         ),
@@ -2255,10 +2259,10 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
         ? Icons.front_hand_rounded
         : Icons.mic_rounded;
     final primaryLabel = listening
-        ? 'Stop'
+        ? context.l10n.companionStop
         : speaking
-        ? 'Interrupt'
-        : 'Speak';
+        ? context.l10n.companionInterrupt
+        : context.l10n.companionSpeak;
 
     return Container(
       key: const Key('saarthi-accessible-controls'),
@@ -2281,7 +2285,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
           Flexible(
             child: Semantics(
               button: true,
-              label: '$primaryLabel voice control',
+              label: context.l10n.saarthiVoiceControlLabel(primaryLabel),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -2318,7 +2322,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
             child: _buildLabeledControl(
               key: const Key('saarthi-end-control'),
               icon: Icons.call_end_rounded,
-              label: 'End',
+              label: context.l10n.companionEnd,
               color: const Color(0xFFB91C1C),
               onTap: () {
                 unawaited(HapticFeedback.mediumImpact());
@@ -2376,17 +2380,18 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   }
 
   String _getVoiceStatusText() {
-    if (_cloudConnectionError != null) return 'Voice is not connected';
-    if (_cloudRetrying) return 'Connecting securely';
+    final l10n = context.l10n;
+    if (_cloudConnectionError != null) return l10n.companionVoiceNotConnected;
+    if (_cloudRetrying) return l10n.companionConnectingSecurely;
     switch (_voiceState) {
       case SaarthiVoiceState.listening:
-        return 'Listening to you';
+        return l10n.companionListeningToYou;
       case SaarthiVoiceState.processing:
-        return 'Finding the best match';
+        return l10n.companionFindingBestMatch;
       case SaarthiVoiceState.speaking:
-        return 'Saarthi is speaking';
+        return l10n.companionSaarthiIsSpeaking;
       default:
-        return 'Ready';
+        return l10n.companionReadyShort;
     }
   }
 }

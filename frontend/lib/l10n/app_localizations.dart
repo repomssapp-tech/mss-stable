@@ -2561,8 +2561,8 @@ abstract class AppLocalizations {
   /// No description provided for @voiceGroundingFoundSources.
   ///
   /// In en, this message translates to:
-  /// **'Grounded online · {count} official {sources}'**
-  String voiceGroundingFoundSources(Object count, Object sources);
+  /// **'Grounded online · {count} official source(s)'**
+  String voiceGroundingFoundSources(Object count);
 
   /// No description provided for @voiceGroundingUnavailable.
   ///
@@ -6553,6 +6553,264 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Final OTP submission; download instant e-Certificate.'**
   String get msmeUdyamStep4Action;
+
+  /// No description provided for @voiceRelevanceMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'{confidence}% relevance match'**
+  String voiceRelevanceMatch(Object confidence);
+
+  /// No description provided for @voiceEditFact.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit {label}'**
+  String voiceEditFact(Object label);
+
+  /// No description provided for @voiceNoiseControlSecure.
+  ///
+  /// In en, this message translates to:
+  /// **'Device noise control • Secure live voice'**
+  String get voiceNoiseControlSecure;
+
+  /// No description provided for @voiceSeeUncertainSchemes.
+  ///
+  /// In en, this message translates to:
+  /// **'See {count} uncertain or historical schemes'**
+  String voiceSeeUncertainSchemes(Object count);
+
+  /// No description provided for @voiceAiReady.
+  ///
+  /// In en, this message translates to:
+  /// **'AI voice ready'**
+  String get voiceAiReady;
+
+  /// No description provided for @voiceConversationTranscript.
+  ///
+  /// In en, this message translates to:
+  /// **'Conversation transcript'**
+  String get voiceConversationTranscript;
+
+  /// No description provided for @voiceFoundCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} found'**
+  String voiceFoundCount(Object count);
+
+  /// No description provided for @voiceShowTop3.
+  ///
+  /// In en, this message translates to:
+  /// **'Show top 3'**
+  String get voiceShowTop3;
+
+  /// No description provided for @voiceShowAllMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all {count} matches'**
+  String voiceShowAllMatches(Object count);
+
+  /// No description provided for @voiceReviewDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Review details'**
+  String get voiceReviewDetails;
+
+  /// No description provided for @voiceConfirmEligibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm current eligibility before applying'**
+  String get voiceConfirmEligibility;
+
+  /// No description provided for @voiceTapToInterrupt.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to interrupt'**
+  String get voiceTapToInterrupt;
+
+  /// No description provided for @voiceSemInterrupt.
+  ///
+  /// In en, this message translates to:
+  /// **'Interrupt assistant'**
+  String get voiceSemInterrupt;
+
+  /// No description provided for @voiceSemMicHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Double tap to control the microphone'**
+  String get voiceSemMicHint;
+
+  /// No description provided for @voiceAiAssistant.
+  ///
+  /// In en, this message translates to:
+  /// **'AI assistant'**
+  String get voiceAiAssistant;
+
+  /// No description provided for @voiceSemNoiseControlOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Device echo and noise control is on'**
+  String get voiceSemNoiseControlOn;
+
+  /// No description provided for @voiceTapWhenFinished.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap when finished'**
+  String get voiceTapWhenFinished;
+
+  /// No description provided for @voiceTypeInstead.
+  ///
+  /// In en, this message translates to:
+  /// **'Type instead...'**
+  String get voiceTypeInstead;
+
+  /// No description provided for @voiceFactCrore.
+  ///
+  /// In en, this message translates to:
+  /// **'₹{value} crore'**
+  String voiceFactCrore(Object value);
+
+  /// No description provided for @voiceFactLakh.
+  ///
+  /// In en, this message translates to:
+  /// **'₹{value} lakh'**
+  String voiceFactLakh(Object value);
+
+  /// No description provided for @saarthiGreetingFriend.
+  ///
+  /// In en, this message translates to:
+  /// **'there'**
+  String get saarthiGreetingFriend;
+
+  /// No description provided for @saarthiVoiceServiceUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice service is unavailable. Tap retry.'**
+  String get saarthiVoiceServiceUnavailable;
+
+  /// No description provided for @saarthiCloudErrorSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign in again, then retry voice.'**
+  String get saarthiCloudErrorSignIn;
+
+  /// No description provided for @saarthiCloudErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your internet, then retry voice.'**
+  String get saarthiCloudErrorNetwork;
+
+  /// No description provided for @saarthiCloudErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice service could not connect. Tap retry.'**
+  String get saarthiCloudErrorGeneric;
+
+  /// No description provided for @saarthiGenericError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred. Please try again.'**
+  String get saarthiGenericError;
+
+  /// No description provided for @saarthiStatusConnectionAttention.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection needs attention'**
+  String get saarthiStatusConnectionAttention;
+
+  /// No description provided for @saarthiVoiceControlLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{label} voice control'**
+  String saarthiVoiceControlLabel(Object label);
+
+  /// No description provided for @saarthiQAge.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your age?'**
+  String get saarthiQAge;
+
+  /// No description provided for @saarthiQState.
+  ///
+  /// In en, this message translates to:
+  /// **'Which state are you in?'**
+  String get saarthiQState;
+
+  /// No description provided for @saarthiQDistrict.
+  ///
+  /// In en, this message translates to:
+  /// **'Which district are you in?'**
+  String get saarthiQDistrict;
+
+  /// No description provided for @saarthiQIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Roughly what is your family\'s annual income?'**
+  String get saarthiQIncome;
+
+  /// No description provided for @saarthiQGender.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your gender?'**
+  String get saarthiQGender;
+
+  /// No description provided for @saarthiQCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Which community category do you belong to?'**
+  String get saarthiQCommunity;
+
+  /// No description provided for @saarthiQOccupation.
+  ///
+  /// In en, this message translates to:
+  /// **'What do you do for a living right now?'**
+  String get saarthiQOccupation;
+
+  /// No description provided for @saarthiQEducation.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your education level?'**
+  String get saarthiQEducation;
+
+  /// No description provided for @saarthiQDisability.
+  ///
+  /// In en, this message translates to:
+  /// **'Does any disability category apply to you?'**
+  String get saarthiQDisability;
+
+  /// No description provided for @saarthiQMaritalStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your marital status?'**
+  String get saarthiQMaritalStatus;
+
+  /// No description provided for @saarthiQIsStudent.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you currently a student?'**
+  String get saarthiQIsStudent;
+
+  /// No description provided for @saarthiQBusinessStage.
+  ///
+  /// In en, this message translates to:
+  /// **'Is this an idea, a new business, or an existing business?'**
+  String get saarthiQBusinessStage;
+
+  /// No description provided for @saarthiQBusinessSector.
+  ///
+  /// In en, this message translates to:
+  /// **'Which business sector is it?'**
+  String get saarthiQBusinessSector;
+
+  /// No description provided for @saarthiQFundingNeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Roughly how much funding do you need?'**
+  String get saarthiQFundingNeed;
+
+  /// No description provided for @saarthiQLandholding.
+  ///
+  /// In en, this message translates to:
+  /// **'How much land do you hold?'**
+  String get saarthiQLandholding;
 }
 
 class _AppLocalizationsDelegate
