@@ -127,6 +127,35 @@ class _SplashScreenState extends State<SplashScreen>
       }
     }
 
+    // A Google sign-in redirect can cold-start the app straight into this
+    // screen while supabase_flutter is still exchanging the OAuth code for a
+    // session. Give that exchange a bounded window to land before treating the
+    // user as logged-out -- otherwise the cleanup on the login path below wipes
+    // the in-flight PKCE verifier and the sign-in silently fails (name/email
+    // never arrive because AuthChangeEvent.signedIn is never emitted).
+    if (session == null && await AuthService.isOAuthPending()) {
+      session = Supabase.instance.client.auth.currentSession;
+      if (session == null) {
+        debugPrint('[SplashScreen] OAuth redirect pending; awaiting signedIn.');
+        try {
+          final data = await Supabase.instance.client.auth.onAuthStateChange
+              .firstWhere(
+                (d) =>
+                    d.session != null &&
+                    (d.event == AuthChangeEvent.signedIn ||
+                        d.event == AuthChangeEvent.initialSession ||
+                        d.event == AuthChangeEvent.tokenRefreshed),
+              )
+              .timeout(const Duration(seconds: 12));
+          session = data.session;
+        } on TimeoutException {
+          debugPrint('[SplashScreen] OAuth redirect did not complete in time.');
+        }
+      }
+      await AuthService.clearOAuthPending();
+      if (!mounted) return;
+    }
+
     if (!mounted) return;
 
     // Beta Tester Gate Interception
@@ -173,11 +202,16 @@ class _SplashScreenState extends State<SplashScreen>
           return;
         }
 
-        // Session invalid or profile incomplete - clean auth cache
-        await cache.clearSession();
-        try {
-          await Supabase.instance.client.auth.signOut();
-        } catch (_) {}
+        // Only tear down auth state when a real (stale/invalid) session is
+        // lingering. When we're already signed out, prefs.clear() + signOut()
+        // is redundant -- and it can wipe the OAuth code verifier for a
+        // redirect that is still being processed.
+        if (Supabase.instance.client.auth.currentSession != null) {
+          await cache.clearSession();
+          try {
+            await Supabase.instance.client.auth.signOut();
+          } catch (_) {}
+        }
 
         if (!mounted) return;
         if (destination == StartupDestination.language) {
