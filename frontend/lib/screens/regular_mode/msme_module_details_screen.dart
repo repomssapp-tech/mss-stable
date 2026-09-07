@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../providers/app_state_provider.dart';
 import '../../utils/responsive.dart';
 import '../../services/centralized_translator.dart';
+import '../../l10n/l10n.dart';
 import '../../widgets/standard_page_header.dart';
 import 'search_results_screen.dart';
 import '../../utils/app_spacing.dart';
@@ -420,13 +421,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
               const SizedBox(width: AppSpacing.sm),
               Flexible(
                 child: Text(
-                  Provider.of<AppProvider>(
-                            context,
-                            listen: false,
-                          ).selectedLanguage ==
-                          'ta'
-                      ? 'பயனர் பெறும் நன்மைகள்'
-                      : 'WHAT THE USER GETS',
+                  context.l10n.msmeWhatTheUserGets,
                   softWrap: true,
                   style: GoogleFonts.inter(
                     fontSize: 12,
@@ -495,9 +490,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              provider.selectedLanguage == 'ta'
-                  ? 'ஊடாடும் கருவிகள் & நடவடிக்கைகள்'
-                  : 'Interactive Tools & Actions',
+              context.l10n.msmeInteractiveToolsActions,
               style: GoogleFonts.poppins(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -506,9 +499,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
-              provider.selectedLanguage == 'ta'
-                  ? 'உங்கள் சுயவிவரத்தை பூர்த்தி செய்து அல்லது தேடுபொறி மூலம் திட்டங்களை ஆராய்ந்து பொருத்தமான முடிவுகளைப் பெறுங்கள்.'
-                  : 'Complete your profile or explore schemes with the search engine to get smart matching results.',
+              context.l10n.msmeInteractiveToolsDesc,
               style: GoogleFonts.inter(
                 fontSize: 12.5,
                 color: const Color(0xFF64748B),
@@ -534,9 +525,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                       Navigator.of(context).pop(); // Dismiss detail
                     },
                     child: Text(
-                      provider.selectedLanguage == 'ta'
-                          ? 'திட்டங்களை தேடுக'
-                          : 'Search Schemes',
+                      context.l10n.msmeSearchSchemes,
                       style: GoogleFonts.inter(
                         fontSize: 13,
                         fontWeight: FontWeight.bold,
@@ -560,9 +549,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                       Navigator.of(context).pop();
                     },
                     child: Text(
-                      provider.selectedLanguage == 'ta'
-                          ? 'சுயவிவரத்தை பூர்த்தி செய்க'
-                          : 'Complete Profile',
+                      context.l10n.completeProfileTitle,
                       style: GoogleFonts.inter(
                         fontSize: 13,
                         fontWeight: FontWeight.bold,
@@ -690,13 +677,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Text(
-                    Provider.of<AppProvider>(
-                              context,
-                              listen: false,
-                            ).selectedLanguage ==
-                            'ta'
-                        ? 'தாமதமான செலுத்துகை வட்டி கால்குலேட்டர்'
-                        : 'Delayed Payment Interest Calculator',
+                    context.l10n.msmeDelayedPaymentCalcTitle,
                     style: GoogleFonts.poppins(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -708,13 +689,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(
-              Provider.of<AppProvider>(
-                        context,
-                        listen: false,
-                      ).selectedLanguage ==
-                      'ta'
-                  ? 'MSMED சட்டம் பிரிவு 15/16-ன் கீழ், 45 நாட்களுக்கு மேல் தாமதமாகும் செலுத்துகைகளுக்கு வாங்குபவர்கள் RBI வங்கி வீதத்தை விட 3 மடங்கு கூட்டு வட்டியை செலுத்த வேண்டும்.'
-                  : 'Under the MSMED Act Section 15/16, buyers must pay 3x the RBI Bank Rate as compound interest with monthly rests for delays exceeding 45 days.',
+              context.l10n.msmeDelayedPaymentCalcDesc,
               style: GoogleFonts.inter(
                 fontSize: 12,
                 color: const Color(0xFF64748B),
@@ -727,13 +702,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
               children: [
                 Expanded(
                   child: Text(
-                    Provider.of<AppProvider>(
-                              context,
-                              listen: false,
-                            ).selectedLanguage ==
-                            'ta'
-                        ? 'இன்வாய்ஸ் தொகை (₹)'
-                        : 'Invoice Amount (₹)',
+                    context.l10n.msmeInvoiceAmountRupees,
                     style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
@@ -744,13 +713,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 const SizedBox(width: AppSpacing.md),
                 Expanded(
                   child: Text(
-                    Provider.of<AppProvider>(
-                              context,
-                              listen: false,
-                            ).selectedLanguage ==
-                            'ta'
-                        ? 'தாமதமான நாட்கள் (45 நாட்களுக்கு பின்)'
-                        : 'Days Delayed (Post 45d)',
+                    context.l10n.msmeDaysDelayedPost45,
                     style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
@@ -818,13 +781,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                     children: [
                       Flexible(
                         child: Text(
-                          Provider.of<AppProvider>(
-                                    context,
-                                    listen: false,
-                                  ).selectedLanguage ==
-                                  'ta'
-                              ? 'வட்டி விகிதம் (3x வங்கி வீதம்):'
-                              : 'Interest Rate (3x Bank Rate):',
+                          context.l10n.msmeInterestRate3xBankRate,
                           softWrap: true,
                           style: GoogleFonts.inter(
                             fontSize: 12,
@@ -855,13 +812,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                     children: [
                       Flexible(
                         child: Text(
-                          Provider.of<AppProvider>(
-                                    context,
-                                    listen: false,
-                                  ).selectedLanguage ==
-                                  'ta'
-                              ? 'கணக்கிடப்பட்ட வட்டி:'
-                              : 'Calculated Interest:',
+                          context.l10n.msmeCalculatedInterestLabel,
                           softWrap: true,
                           style: GoogleFonts.inter(
                             fontSize: 12,
@@ -892,13 +843,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                     children: [
                       Flexible(
                         child: Text(
-                          Provider.of<AppProvider>(
-                                    context,
-                                    listen: false,
-                                  ).selectedLanguage ==
-                                  'ta'
-                              ? 'மொத்த உரிமைக்கோரக்கூடிய தொகை:'
-                              : 'Total Claimable Amount:',
+                          context.l10n.msmeTotalClaimableAmountLabel,
                           softWrap: true,
                           style: GoogleFonts.inter(
                             fontSize: 13,
@@ -1134,7 +1079,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                           borderRadius: BorderRadius.circular(24),
                         ),
                         child: Text(
-                          isTa ? 'படி ${idx + 1}' : 'Step ${idx + 1}',
+                          context.l10n.msmeStepNumber(idx + 1),
                           style: GoogleFonts.inter(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
@@ -1692,13 +1637,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              Provider.of<AppProvider>(
-                        context,
-                        listen: false,
-                      ).selectedLanguage ==
-                      'ta'
-                  ? 'ஆதரவு நிறுவனங்களைத் தேடுக'
-                  : 'Search Support Institutions',
+              context.l10n.msmeSearchSupportInstitutions,
               style: GoogleFonts.poppins(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -1715,14 +1654,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                   });
                 },
                 decoration: InputDecoration(
-                  hintText:
-                      Provider.of<AppProvider>(
-                            context,
-                            listen: false,
-                          ).selectedLanguage ==
-                          'ta'
-                      ? 'SIDBI, NSIC, DIC தேடுக...'
-                      : 'Search SIDBI, NSIC, DIC...',
+                  hintText: context.l10n.msmeSearchInstitutionsHint,
                   hintStyle: GoogleFonts.inter(
                     fontSize: 12,
                     color: const Color(0xFF94A3B8),
@@ -1800,17 +1732,17 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                         childrenPadding: const EdgeInsets.all(AppSpacing.md),
                         children: [
                           _buildExpansionItem(
-                            isTa ? 'பங்கு' : 'Role',
+                            context.l10n.msmeRoleLabel,
                             roleText,
                           ),
                           const SizedBox(height: AppSpacing.tight),
                           _buildExpansionItem(
-                            isTa ? 'முக்கிய சேவைகள்' : 'Key Services',
+                            context.l10n.msmeKeyServicesLabel,
                             servicesText,
                           ),
                           const SizedBox(height: AppSpacing.tight),
                           _buildExpansionItem(
-                            isTa ? 'முதன்மை திட்டங்கள்' : 'Top Schemes',
+                            context.l10n.msmeTopSchemesLabel,
                             schemesText,
                           ),
                         ],
@@ -1983,7 +1915,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          isTa ? 'முதன்மை அம்சங்கள்' : 'Main Features Inside',
+          context.l10n.msmeMainFeaturesInside,
           style: GoogleFonts.poppins(
             fontSize: 16.5,
             fontWeight: FontWeight.bold,

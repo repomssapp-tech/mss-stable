@@ -1987,4 +1987,161 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get voiceRecommendedForYou => 'Recommended for you';
+
+  @override
+  String get updatingSoon => 'Updating Soon';
+
+  @override
+  String get updatingSoonCount => 'Updating Soon';
+
+  @override
+  String get gotIt => 'Got it';
+
+  @override
+  String comingSoonSchemesBody(Object name) {
+    return 'Schemes under \"$name\" are currently being verified and will be updated soon. Stay tuned!';
+  }
+
+  @override
+  String get allCategories => 'All Categories';
+
+  @override
+  String get allMinistries => 'All Ministries';
+
+  @override
+  String get allStatesAndUts => 'All States & UTs';
+
+  @override
+  String get searchCategoriesHint => 'Search categories...';
+
+  @override
+  String get catBusinessMsme => 'Business & MSME';
+
+  @override
+  String get catStartupIncubation => 'Startup & Incubation';
+
+  @override
+  String get catLoansCreditSupport => 'Loans & Credit Support';
+
+  @override
+  String get catWomenEntrepreneurship => 'Women Entrepreneurship';
+
+  @override
+  String get catFinanceBanking => 'Finance & Banking';
+
+  @override
+  String get catSkillDevelopment => 'Skill Development';
+
+  @override
+  String get catArtisanCraftsmen => 'Artisan & Craftsmen';
+
+  @override
+  String get catDigitalIndiaTech => 'Digital India & Tech';
+
+  @override
+  String get catStudentYouthStartups => 'Student & Youth Startups';
+
+  @override
+  String get catManufacturingIndustry => 'Manufacturing & Industry';
+
+  @override
+  String get catExportTradePromotion => 'Export & Trade Promotion';
+
+  @override
+  String get catAgricultureAllied => 'Agriculture & Allied';
+
+  @override
+  String get catRuralDevelopmentShg => 'Rural Development & SHG';
+
+  @override
+  String get catTechnologyInnovation => 'Technology & Innovation';
+
+  @override
+  String get catKhadiVillageIndustries => 'Khadi & Village Industries';
+
+  @override
+  String get catScStMinority => 'SC / ST & Minority';
+
+  @override
+  String get catGreenEnergyEnvironment => 'Green Energy & Environment';
+
+  @override
+  String get catHealthHealthcare => 'Health & Healthcare';
+
+  @override
+  String get catFoodProcessing => 'Food Processing';
+
+  @override
+  String get catEducationFellowship => 'Education & Fellowship';
+
+  @override
+  String get catInfrastructureLogistics => 'Infrastructure & Logistics';
+
+  @override
+  String get catSocialWelfareSupport => 'Social Welfare & Support';
+
+  @override
+  String get catRenewableEnergyEfficiency => 'Renewable & Energy Efficiency';
+
+  @override
+  String get msmeWhatTheUserGets => 'WHAT THE USER GETS';
+
+  @override
+  String get msmeInteractiveToolsActions => 'Interactive Tools & Actions';
+
+  @override
+  String get msmeInteractiveToolsDesc =>
+      'Complete your profile or explore schemes with the search engine to get smart matching results.';
+
+  @override
+  String get msmeSearchSchemes => 'Search Schemes';
+
+  @override
+  String get msmeDelayedPaymentCalcTitle =>
+      'Delayed Payment Interest Calculator';
+
+  @override
+  String get msmeDelayedPaymentCalcDesc =>
+      'Under the MSMED Act Section 15/16, buyers must pay 3x the RBI Bank Rate as compound interest with monthly rests for delays exceeding 45 days.';
+
+  @override
+  String get msmeInvoiceAmountRupees => 'Invoice Amount (₹)';
+
+  @override
+  String get msmeDaysDelayedPost45 => 'Days Delayed (Post 45d)';
+
+  @override
+  String get msmeInterestRate3xBankRate => 'Interest Rate (3x Bank Rate):';
+
+  @override
+  String get msmeCalculatedInterestLabel => 'Calculated Interest:';
+
+  @override
+  String get msmeTotalClaimableAmountLabel => 'Total Claimable Amount:';
+
+  @override
+  String msmeStepNumber(Object number) {
+    return 'Step $number';
+  }
+
+  @override
+  String get msmeSearchSupportInstitutions => 'Search Support Institutions';
+
+  @override
+  String get msmeSearchInstitutionsHint => 'Search SIDBI, NSIC, DIC...';
+
+  @override
+  String get msmeRoleLabel => 'Role';
+
+  @override
+  String get msmeKeyServicesLabel => 'Key Services';
+
+  @override
+  String get msmeTopSchemesLabel => 'Top Schemes';
+
+  @override
+  String get msmeMainFeaturesInside => 'Main Features Inside';
+
+  @override
+  String get croreSuffix => 'Cr';
 }

@@ -3793,6 +3793,306 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recommended for you'**
   String get voiceRecommendedForYou;
+
+  /// No description provided for @updatingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating Soon'**
+  String get updatingSoon;
+
+  /// No description provided for @updatingSoonCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating Soon'**
+  String get updatingSoonCount;
+
+  /// No description provided for @gotIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get gotIt;
+
+  /// No description provided for @comingSoonSchemesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Schemes under \"{name}\" are currently being verified and will be updated soon. Stay tuned!'**
+  String comingSoonSchemesBody(Object name);
+
+  /// No description provided for @allCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'All Categories'**
+  String get allCategories;
+
+  /// No description provided for @allMinistries.
+  ///
+  /// In en, this message translates to:
+  /// **'All Ministries'**
+  String get allMinistries;
+
+  /// No description provided for @allStatesAndUts.
+  ///
+  /// In en, this message translates to:
+  /// **'All States & UTs'**
+  String get allStatesAndUts;
+
+  /// No description provided for @searchCategoriesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search categories...'**
+  String get searchCategoriesHint;
+
+  /// No description provided for @catBusinessMsme.
+  ///
+  /// In en, this message translates to:
+  /// **'Business & MSME'**
+  String get catBusinessMsme;
+
+  /// No description provided for @catStartupIncubation.
+  ///
+  /// In en, this message translates to:
+  /// **'Startup & Incubation'**
+  String get catStartupIncubation;
+
+  /// No description provided for @catLoansCreditSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Loans & Credit Support'**
+  String get catLoansCreditSupport;
+
+  /// No description provided for @catWomenEntrepreneurship.
+  ///
+  /// In en, this message translates to:
+  /// **'Women Entrepreneurship'**
+  String get catWomenEntrepreneurship;
+
+  /// No description provided for @catFinanceBanking.
+  ///
+  /// In en, this message translates to:
+  /// **'Finance & Banking'**
+  String get catFinanceBanking;
+
+  /// No description provided for @catSkillDevelopment.
+  ///
+  /// In en, this message translates to:
+  /// **'Skill Development'**
+  String get catSkillDevelopment;
+
+  /// No description provided for @catArtisanCraftsmen.
+  ///
+  /// In en, this message translates to:
+  /// **'Artisan & Craftsmen'**
+  String get catArtisanCraftsmen;
+
+  /// No description provided for @catDigitalIndiaTech.
+  ///
+  /// In en, this message translates to:
+  /// **'Digital India & Tech'**
+  String get catDigitalIndiaTech;
+
+  /// No description provided for @catStudentYouthStartups.
+  ///
+  /// In en, this message translates to:
+  /// **'Student & Youth Startups'**
+  String get catStudentYouthStartups;
+
+  /// No description provided for @catManufacturingIndustry.
+  ///
+  /// In en, this message translates to:
+  /// **'Manufacturing & Industry'**
+  String get catManufacturingIndustry;
+
+  /// No description provided for @catExportTradePromotion.
+  ///
+  /// In en, this message translates to:
+  /// **'Export & Trade Promotion'**
+  String get catExportTradePromotion;
+
+  /// No description provided for @catAgricultureAllied.
+  ///
+  /// In en, this message translates to:
+  /// **'Agriculture & Allied'**
+  String get catAgricultureAllied;
+
+  /// No description provided for @catRuralDevelopmentShg.
+  ///
+  /// In en, this message translates to:
+  /// **'Rural Development & SHG'**
+  String get catRuralDevelopmentShg;
+
+  /// No description provided for @catTechnologyInnovation.
+  ///
+  /// In en, this message translates to:
+  /// **'Technology & Innovation'**
+  String get catTechnologyInnovation;
+
+  /// No description provided for @catKhadiVillageIndustries.
+  ///
+  /// In en, this message translates to:
+  /// **'Khadi & Village Industries'**
+  String get catKhadiVillageIndustries;
+
+  /// No description provided for @catScStMinority.
+  ///
+  /// In en, this message translates to:
+  /// **'SC / ST & Minority'**
+  String get catScStMinority;
+
+  /// No description provided for @catGreenEnergyEnvironment.
+  ///
+  /// In en, this message translates to:
+  /// **'Green Energy & Environment'**
+  String get catGreenEnergyEnvironment;
+
+  /// No description provided for @catHealthHealthcare.
+  ///
+  /// In en, this message translates to:
+  /// **'Health & Healthcare'**
+  String get catHealthHealthcare;
+
+  /// No description provided for @catFoodProcessing.
+  ///
+  /// In en, this message translates to:
+  /// **'Food Processing'**
+  String get catFoodProcessing;
+
+  /// No description provided for @catEducationFellowship.
+  ///
+  /// In en, this message translates to:
+  /// **'Education & Fellowship'**
+  String get catEducationFellowship;
+
+  /// No description provided for @catInfrastructureLogistics.
+  ///
+  /// In en, this message translates to:
+  /// **'Infrastructure & Logistics'**
+  String get catInfrastructureLogistics;
+
+  /// No description provided for @catSocialWelfareSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Social Welfare & Support'**
+  String get catSocialWelfareSupport;
+
+  /// No description provided for @catRenewableEnergyEfficiency.
+  ///
+  /// In en, this message translates to:
+  /// **'Renewable & Energy Efficiency'**
+  String get catRenewableEnergyEfficiency;
+
+  /// No description provided for @msmeWhatTheUserGets.
+  ///
+  /// In en, this message translates to:
+  /// **'WHAT THE USER GETS'**
+  String get msmeWhatTheUserGets;
+
+  /// No description provided for @msmeInteractiveToolsActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Interactive Tools & Actions'**
+  String get msmeInteractiveToolsActions;
+
+  /// No description provided for @msmeInteractiveToolsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete your profile or explore schemes with the search engine to get smart matching results.'**
+  String get msmeInteractiveToolsDesc;
+
+  /// No description provided for @msmeSearchSchemes.
+  ///
+  /// In en, this message translates to:
+  /// **'Search Schemes'**
+  String get msmeSearchSchemes;
+
+  /// No description provided for @msmeDelayedPaymentCalcTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delayed Payment Interest Calculator'**
+  String get msmeDelayedPaymentCalcTitle;
+
+  /// No description provided for @msmeDelayedPaymentCalcDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Under the MSMED Act Section 15/16, buyers must pay 3x the RBI Bank Rate as compound interest with monthly rests for delays exceeding 45 days.'**
+  String get msmeDelayedPaymentCalcDesc;
+
+  /// No description provided for @msmeInvoiceAmountRupees.
+  ///
+  /// In en, this message translates to:
+  /// **'Invoice Amount (₹)'**
+  String get msmeInvoiceAmountRupees;
+
+  /// No description provided for @msmeDaysDelayedPost45.
+  ///
+  /// In en, this message translates to:
+  /// **'Days Delayed (Post 45d)'**
+  String get msmeDaysDelayedPost45;
+
+  /// No description provided for @msmeInterestRate3xBankRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Interest Rate (3x Bank Rate):'**
+  String get msmeInterestRate3xBankRate;
+
+  /// No description provided for @msmeCalculatedInterestLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculated Interest:'**
+  String get msmeCalculatedInterestLabel;
+
+  /// No description provided for @msmeTotalClaimableAmountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Claimable Amount:'**
+  String get msmeTotalClaimableAmountLabel;
+
+  /// No description provided for @msmeStepNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {number}'**
+  String msmeStepNumber(Object number);
+
+  /// No description provided for @msmeSearchSupportInstitutions.
+  ///
+  /// In en, this message translates to:
+  /// **'Search Support Institutions'**
+  String get msmeSearchSupportInstitutions;
+
+  /// No description provided for @msmeSearchInstitutionsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search SIDBI, NSIC, DIC...'**
+  String get msmeSearchInstitutionsHint;
+
+  /// No description provided for @msmeRoleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Role'**
+  String get msmeRoleLabel;
+
+  /// No description provided for @msmeKeyServicesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Key Services'**
+  String get msmeKeyServicesLabel;
+
+  /// No description provided for @msmeTopSchemesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Schemes'**
+  String get msmeTopSchemesLabel;
+
+  /// No description provided for @msmeMainFeaturesInside.
+  ///
+  /// In en, this message translates to:
+  /// **'Main Features Inside'**
+  String get msmeMainFeaturesInside;
+
+  /// No description provided for @croreSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **'Cr'**
+  String get croreSuffix;
 }
 
 class _AppLocalizationsDelegate

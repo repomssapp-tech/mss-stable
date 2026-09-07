@@ -12,90 +12,73 @@ import '../../widgets/smart_assessment_bottom_sheet.dart';
 import 'search_results_screen.dart';
 import '../../utils/app_spacing.dart';
 
-String _getLocalizedCategoryOrMinistry(String text, String langCode) {
-  if (langCode != 'ta') return text;
+/// Localized display label for a fixed app-taxonomy category / section name.
+///
+/// The category taxonomy is a fixed in-app list (not catalog rows), so its
+/// Tamil lives in the ARB. Unknown values (e.g. already-localized section
+/// headers) pass through unchanged.
+String _localizedCategoryLabel(BuildContext context, String enTitle) {
+  final l = context.l10n;
+  switch (enTitle) {
+    case 'Business & MSME':
+      return l.catBusinessMsme;
+    case 'Startup & Incubation':
+      return l.catStartupIncubation;
+    case 'Loans & Credit Support':
+      return l.catLoansCreditSupport;
+    case 'Women Entrepreneurship':
+      return l.catWomenEntrepreneurship;
+    case 'Finance & Banking':
+      return l.catFinanceBanking;
+    case 'Skill Development':
+      return l.catSkillDevelopment;
+    case 'Artisan & Craftsmen':
+      return l.catArtisanCraftsmen;
+    case 'Digital India & Tech':
+      return l.catDigitalIndiaTech;
+    case 'Student & Youth Startups':
+      return l.catStudentYouthStartups;
+    case 'Manufacturing & Industry':
+      return l.catManufacturingIndustry;
+    case 'Export & Trade Promotion':
+      return l.catExportTradePromotion;
+    case 'Agriculture & Allied':
+      return l.catAgricultureAllied;
+    case 'Rural Development & SHG':
+      return l.catRuralDevelopmentShg;
+    case 'Technology & Innovation':
+      return l.catTechnologyInnovation;
+    case 'Khadi & Village Industries':
+      return l.catKhadiVillageIndustries;
+    case 'SC / ST & Minority':
+      return l.catScStMinority;
+    case 'Green Energy & Environment':
+      return l.catGreenEnergyEnvironment;
+    case 'Health & Healthcare':
+      return l.catHealthHealthcare;
+    case 'Food Processing':
+      return l.catFoodProcessing;
+    case 'Education & Fellowship':
+      return l.catEducationFellowship;
+    case 'Infrastructure & Logistics':
+      return l.catInfrastructureLogistics;
+    case 'Social Welfare & Support':
+      return l.catSocialWelfareSupport;
+    case 'Renewable & Energy Efficiency':
+      return l.catRenewableEnergyEfficiency;
+    default:
+      return enTitle;
+  }
+}
 
-  final lower = text.toLowerCase().trim();
-  if (lower.contains('msme')) return 'MSME (குறு, சிறு & நடுத்தர தொழில்கள்)';
-  if (lower.contains('startup & incubation') || lower.contains('startup')) {
-    return 'ஸ்டார்ட்அப் & உறைவிடங்கள்';
-  }
-  if (lower.contains('loans & credit') ||
-      lower.contains('finance & banking') ||
-      lower.contains('finance') ||
-      lower.contains('credit')) {
-    return 'கடன்கள் & நிதி ஆதரவு';
-  }
-  if (lower.contains('women')) return 'பெண் தொழில்முனைவோர்';
-  if (lower.contains('skill')) return 'திறன் மேம்பாடு & பயிற்சி';
-  if (lower.contains('artisan') || lower.contains('craftsmen')) {
-    return 'கைவினைஞர்கள் & கைவினை';
-  }
-  if (lower.contains('digital')) return 'டிஜிட்டல் இந்தியா & தொழில்நுட்பம்';
-  if (lower.contains('student')) return 'மாணவர் & இளைஞர் ஸ்டார்ட்அப்கள்';
-  if (lower.contains('manufacturing')) return 'உற்பத்தி & தொழில் துறை';
-  if (lower.contains('export')) return 'ஏற்றுமதி & வர்த்தக ஊக்குவிப்பு';
-  if (lower.contains('agriculture') || lower.contains('farmer')) {
-    return 'விவசாயம் & சார்ந்த துறைகள்';
-  }
-  if (lower.contains('rural') || lower.contains('shg')) {
-    return 'ஊரக வளர்ச்சி & சுய உதவிக் குழுக்கள்';
-  }
-  if (lower.contains('technology') || lower.contains('innovation')) {
-    return 'தொழில்நுட்பம் & புதுமை';
-  }
-  if (lower.contains('khadi')) return 'கதர் & கிராமத் தொழில்கள்';
-  if (lower.contains('sc / st') || lower.contains('minority')) {
-    return 'SC / ST & சிறுபான்மையினர்';
-  }
-  if (lower.contains('green energy') || lower.contains('environment')) {
-    return 'பசுமை ஆற்றல் & சுற்றுச்சூழல்';
-  }
-  if (lower.contains('health')) return 'சுகாதாரம் & நல்வாழ்வு';
-  if (lower.contains('food processing')) return 'உணவு பதப்படுத்துதல்';
-  if (lower.contains('education') || lower.contains('fellowship')) {
-    return 'கல்வி & உதவித்தொகை';
-  }
-  if (lower.contains('infrastructure') || lower.contains('logistics')) {
-    return 'உள்கட்டமைப்பு & தளவாடங்கள்';
-  }
-  if (lower.contains('social welfare')) return 'சமூக நலம் & ஆதரவு';
-  if (lower.contains('renewable')) return 'புதுப்பிக்கத்தக்க ஆற்றல்';
-
-  if (lower.contains('ministry of msme')) return 'MSME அமைச்சகம்';
-  if (lower.contains('ministry of finance')) return 'நிதி அமைச்சகம்';
-  if (lower.contains('ministry of rural')) return 'ஊரக வளர்ச்சி அமைச்சகம்';
-  if (lower.contains('ministry of education')) return 'கல்வி அமைச்சகம்';
-  if (lower.contains('ministry of agriculture')) return 'விவசாய அமைச்சகம்';
-  if (lower.contains('ministry of skill')) return 'திறன் மேம்பாட்டு அமைச்சகம்';
-  if (lower.contains('ministry of social justice')) return 'சமூக நீதி அமைச்சகம்';
-  if (lower.contains('ministry of housing')) return 'வீட்டுவசதி & நகர்ப்புற அமைச்சகம்';
-  if (lower.contains('ministry of health')) return 'சுகாதார அமைச்சகம்';
-
-  if (lower.contains('tamil nadu')) return 'தமிழ்நாடு';
-  if (lower.contains('maharashtra')) return 'மகாராஷ்டிரா';
-  if (lower.contains('uttar pradesh')) return 'உத்தரப் பிரதேசம்';
-  if (lower.contains('karnataka')) return 'கர்நாடகா';
-  if (lower.contains('gujarat')) return 'குஜராத்';
-  if (lower.contains('andhra pradesh')) return 'ஆந்திரப் பிரதேசம்';
-  if (lower.contains('kerala')) return 'கேரளா';
-  if (lower.contains('delhi')) return 'டெல்லி';
-  if (lower.contains('punjab')) return 'பஞ்சாப்';
-  if (lower.contains('rajasthan')) return 'ராஜஸ்தான்';
-  if (lower.contains('telangana')) return 'தெலுங்கானா';
-  if (lower.contains('west bengal')) return 'மேற்கு வங்காளம்';
-
-  if (lower == 'by category') return 'பிரிவுகள் வாரியாக';
-  if (lower == 'by ministry') return 'அமைச்சகங்கள் வாரியாக';
-  if (lower == 'by state') return 'மாநிலங்கள் வாரியாக';
-  if (lower == 'all categories') return 'அனைத்து பிரிவுகளும்';
-  if (lower == 'all ministries') return 'அனைத்து அமைச்சகங்களும்';
-  if (lower == 'all states') return 'அனைத்து மாநிலங்களும்';
-  if (lower == 'by stage') return 'வளர்ச்சி நிலை வாரியாக';
-  if (lower == 'popular') return 'பிரபலமானவை';
-  if (lower == 'newly added') return 'சமீபத்தில் சேர்க்கப்பட்டவை';
-
-  return text;
+/// Localized display label for ministry / state names.
+///
+/// These are bounded catalog-derived proper nouns, so they route through the
+/// sanctioned runtime EN->TA engine ([CentralizedTranslator]) in Tamil mode
+/// and stay verbatim in English mode.
+String _localizedProperName(String enName, AppProvider provider) {
+  if (provider.selectedLanguage != 'ta') return enName;
+  return CentralizedTranslator.instance.translate(enName);
 }
 
 /// DiscoverCounts
@@ -712,9 +695,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   ];
 
   void _showComingSoonInfo(String name, String type) {
-    final provider = Provider.of<AppProvider>(context, listen: false);
-    final isTa = provider.selectedLanguage == 'ta';
-
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -737,7 +717,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             const SizedBox(width: AppSpacing.md),
             Expanded(
               child: Text(
-                isTa ? 'விரைவில் புதுப்பிக்கப்படும்' : 'Updating Soon',
+                context.l10n.updatingSoon,
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -748,9 +728,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           ],
         ),
         content: Text(
-          isTa
-              ? '$name பிரிவிற்கான திட்டங்கள் தற்போது சேர்க்கப்பட்டு வருகின்றன. விரைவில் புதுப்பிக்கப்படும்!'
-              : 'Schemes under "$name" are currently being verified and will be updated soon. Stay tuned!',
+          context.l10n.comingSoonSchemesBody(name),
           style: GoogleFonts.inter(
             fontSize: 13.5,
             color: const Color(0xFF475569),
@@ -768,7 +746,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl, vertical: AppSpacing.sm),
             ),
             child: Text(
-              isTa ? 'சரி' : 'Got it',
+              context.l10n.gotIt,
               style: GoogleFonts.poppins(
                 fontWeight: FontWeight.w600,
                 color: Colors.white,
@@ -783,9 +761,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   String _formatSchemeCount(int? cnt, AppProvider provider) {
     if (cnt == null) return '...';
     if (cnt == 0) {
-      return provider.selectedLanguage == 'ta'
-          ? 'விரைவில் வரும்'
-          : 'Updating Soon';
+      return context.l10n.updatingSoonCount;
     }
     return context.l10n.schemeCountFormat(cnt);
   }
@@ -984,10 +960,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     VoidCallback? onViewAll,
   }) {
     final provider = Provider.of<AppProvider>(context, listen: false);
-    final localizedTitle = _getLocalizedCategoryOrMinistry(
-      title,
-      provider.selectedLanguage,
-    );
+    // `title` is already a localized section header from the ARB.
+    final localizedTitle = title;
 
     return Padding(
       key: key,
@@ -1015,9 +989,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      provider.selectedLanguage == 'ta'
-                          ? 'அனைத்தையும் பார்க்க'
-                          : 'View All',
+                      context.l10n.viewAll,
                       style: GoogleFonts.inter(
                         fontSize: 12.5,
                         fontWeight: FontWeight.w600,
@@ -1052,10 +1024,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           final String title = item['title'] as String;
           final int? cnt = _dynamicCategoryCounts[title];
           final String countStr = _formatSchemeCount(cnt, provider);
-          final String localizedTitle = _getLocalizedCategoryOrMinistry(
-            title,
-            provider.selectedLanguage,
-          );
+          final String localizedTitle = _localizedCategoryLabel(context, title);
           final IconData icon = item['icon'] as IconData;
 
           return Container(
@@ -1141,10 +1110,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           final String title = item['title'] as String;
           final int? cnt = _dynamicCategoryCounts[title];
           final String countStr = _formatSchemeCount(cnt, provider);
-          final String localizedTitle = _getLocalizedCategoryOrMinistry(
-            title,
-            provider.selectedLanguage,
-          );
+          final String localizedTitle = _localizedProperName(title, provider);
 
           return Container(
             width: 134,
@@ -1324,10 +1290,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           final String title = item['title'] as String;
           final int? cnt = _dynamicCategoryCounts[title];
           final String countStr = _formatSchemeCount(cnt, provider);
-          final String localizedTitle = _getLocalizedCategoryOrMinistry(
-            title,
-            provider.selectedLanguage,
-          );
+          final String localizedTitle = _localizedProperName(title, provider);
 
           return Container(
             width: 134,
@@ -1447,9 +1410,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       children: [
                         FlexText(
                           child: Text(
-                            provider.selectedLanguage == 'ta'
-                                ? 'அனைத்து பிரிவுகளும்'
-                                : 'All Categories',
+                            context.l10n.allCategories,
                             softWrap: true,
                             style: GoogleFonts.poppins(
                               fontSize: 18,
@@ -1487,9 +1448,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         },
                         style: GoogleFonts.inter(fontSize: 14),
                         decoration: InputDecoration(
-                          hintText: provider.selectedLanguage == 'ta'
-                              ? 'பிரிவுகளைத் தேடுங்கள்...'
-                              : 'Search categories...',
+                          hintText: context.l10n.searchCategoriesHint,
                           prefixIcon: const Icon(
                             Icons.search,
                             color: Color(0xFF64748B),
@@ -1539,9 +1498,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   ) {
     final int? cnt = _dynamicCategoryCounts[category.title];
     final String countStr = _formatSchemeCount(cnt, provider);
-    final String localizedTitle = _getLocalizedCategoryOrMinistry(
+    final String localizedTitle = _localizedCategoryLabel(
+      context,
       category.title,
-      provider.selectedLanguage,
     );
 
     return Container(
@@ -1668,9 +1627,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   children: [
                     FlexText(
                       child: Text(
-                        provider.selectedLanguage == 'ta'
-                            ? 'அனைத்து அமைச்சகங்களும்'
-                            : 'All Ministries',
+                        context.l10n.allMinistries,
                         softWrap: true,
                         style: GoogleFonts.poppins(
                           fontSize: 18,
@@ -1695,11 +1652,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     final title = ministries[index];
                     final int? cnt = _dynamicCategoryCounts[title];
                     final String countStr = _formatSchemeCount(cnt, provider);
-                    final String localizedTitle =
-                        _getLocalizedCategoryOrMinistry(
-                          title,
-                          provider.selectedLanguage,
-                        );
+                    final String localizedTitle = _localizedProperName(
+                      title,
+                      provider,
+                    );
 
                     return Material(
                       type: MaterialType.transparency,
@@ -1825,9 +1781,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   children: [
                     FlexText(
                       child: Text(
-                        provider.selectedLanguage == 'ta'
-                            ? 'அனைத்து மாநிலங்களும்'
-                            : 'All States & UTs',
+                        context.l10n.allStatesAndUts,
                         softWrap: true,
                         style: GoogleFonts.poppins(
                           fontSize: 18,
@@ -1852,11 +1806,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     final title = states[index];
                     final int? cnt = _dynamicCategoryCounts[title];
                     final String countStr = _formatSchemeCount(cnt, provider);
-                    final String localizedTitle =
-                        _getLocalizedCategoryOrMinistry(
-                          title,
-                          provider.selectedLanguage,
-                        );
+                    final String localizedTitle = _localizedProperName(
+                      title,
+                      provider,
+                    );
 
                     return Material(
                       type: MaterialType.transparency,
@@ -2223,7 +2176,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         color: const Color(0xFF94A3B8),
                       ),
                       prefixText: '₹ ',
-                      suffixText: isTa ? 'கோடி' : 'Cr',
+                      suffixText: context.l10n.croreSuffix,
                       helperText: isTa
                           ? CentralizedTranslator.instance.translate(
                               'Enter original purchase value of machinery in Crores',
@@ -2288,7 +2241,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         color: const Color(0xFF94A3B8),
                       ),
                       prefixText: '₹ ',
-                      suffixText: isTa ? 'கோடி' : 'Cr',
+                      suffixText: context.l10n.croreSuffix,
                       helperText: isTa
                           ? CentralizedTranslator.instance.translate(
                               'Enter total revenue/sales of last financial year in Crores',

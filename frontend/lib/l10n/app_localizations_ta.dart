@@ -2015,4 +2015,162 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get voiceRecommendedForYou => 'உங்களுக்கு பொருத்தமானவை';
+
+  @override
+  String get updatingSoon => 'விரைவில் புதுப்பிக்கப்படும்';
+
+  @override
+  String get updatingSoonCount => 'விரைவில் வரும்';
+
+  @override
+  String get gotIt => 'சரி';
+
+  @override
+  String comingSoonSchemesBody(Object name) {
+    return '$name பிரிவிற்கான திட்டங்கள் தற்போது சேர்க்கப்பட்டு வருகின்றன. விரைவில் புதுப்பிக்கப்படும்!';
+  }
+
+  @override
+  String get allCategories => 'அனைத்து பிரிவுகளும்';
+
+  @override
+  String get allMinistries => 'அனைத்து அமைச்சகங்களும்';
+
+  @override
+  String get allStatesAndUts => 'அனைத்து மாநிலங்களும்';
+
+  @override
+  String get searchCategoriesHint => 'பிரிவுகளைத் தேடுங்கள்...';
+
+  @override
+  String get catBusinessMsme => 'தொழில் & MSME';
+
+  @override
+  String get catStartupIncubation => 'ஸ்டார்ட்அப் & இன்குபேஷன்';
+
+  @override
+  String get catLoansCreditSupport => 'கடன்கள் & கடன் உதவி';
+
+  @override
+  String get catWomenEntrepreneurship => 'பெண் தொழில்முனைவோர்';
+
+  @override
+  String get catFinanceBanking => 'நிதி & வங்கியியல்';
+
+  @override
+  String get catSkillDevelopment => 'திறன் மேம்பாடு';
+
+  @override
+  String get catArtisanCraftsmen => 'கைவினைஞர்கள் & கைவினைஞர்கள்';
+
+  @override
+  String get catDigitalIndiaTech => 'டிஜிட்டல் இந்தியா & தொழில்நுட்பம்';
+
+  @override
+  String get catStudentYouthStartups => 'மாணவர் & இளைஞர் ஸ்டார்ட்அப்கள்';
+
+  @override
+  String get catManufacturingIndustry => 'உற்பத்தி & தொழில்துறை';
+
+  @override
+  String get catExportTradePromotion => 'ஏற்றுமதி & வர்த்தக ஊக்குவிப்பு';
+
+  @override
+  String get catAgricultureAllied => 'விவசாயம் & சார்ந்த துறைகள்';
+
+  @override
+  String get catRuralDevelopmentShg => 'ஊரக வளர்ச்சி & சுய உதவிக் குழுக்கள்';
+
+  @override
+  String get catTechnologyInnovation => 'தொழில்நுட்பம் & புத்தாக்கம்';
+
+  @override
+  String get catKhadiVillageIndustries => 'கதர் & கிராமத் தொழில்கள்';
+
+  @override
+  String get catScStMinority => 'SC / ST & சிறுபான்மையினர்';
+
+  @override
+  String get catGreenEnergyEnvironment => 'பசுமை ஆற்றல் & சுற்றுச்சூழல்';
+
+  @override
+  String get catHealthHealthcare => 'சுகாதாரம் & நல்வாழ்வு';
+
+  @override
+  String get catFoodProcessing => 'உணவு பதப்படுத்துதல்';
+
+  @override
+  String get catEducationFellowship => 'கல்வி & உதவித்தொகை';
+
+  @override
+  String get catInfrastructureLogistics => 'உள்கட்டமைப்பு & தளவாடங்கள்';
+
+  @override
+  String get catSocialWelfareSupport => 'சமூக நலம் & ஆதரவு';
+
+  @override
+  String get catRenewableEnergyEfficiency =>
+      'புதுப்பிக்கத்தக்க ஆற்றல் & ஆற்றல் திறன்';
+
+  @override
+  String get msmeWhatTheUserGets => 'பயனர் பெறும் நன்மைகள்';
+
+  @override
+  String get msmeInteractiveToolsActions => 'ஊடாடும் கருவிகள் & நடவடிக்கைகள்';
+
+  @override
+  String get msmeInteractiveToolsDesc =>
+      'உங்கள் சுயவிவரத்தை பூர்த்தி செய்து அல்லது தேடுபொறி மூலம் திட்டங்களை ஆராய்ந்து பொருத்தமான முடிவுகளைப் பெறுங்கள்.';
+
+  @override
+  String get msmeSearchSchemes => 'திட்டங்களை தேடுக';
+
+  @override
+  String get msmeDelayedPaymentCalcTitle =>
+      'தாமதமான செலுத்துகை வட்டி கால்குலேட்டர்';
+
+  @override
+  String get msmeDelayedPaymentCalcDesc =>
+      'MSMED சட்டம் பிரிவு 15/16-ன் கீழ், 45 நாட்களுக்கு மேல் தாமதமாகும் செலுத்துகைகளுக்கு வாங்குபவர்கள் RBI வங்கி வீதத்தை விட 3 மடங்கு கூட்டு வட்டியை செலுத்த வேண்டும்.';
+
+  @override
+  String get msmeInvoiceAmountRupees => 'இன்வாய்ஸ் தொகை (₹)';
+
+  @override
+  String get msmeDaysDelayedPost45 => 'தாமதமான நாட்கள் (45 நாட்களுக்கு பின்)';
+
+  @override
+  String get msmeInterestRate3xBankRate => 'வட்டி விகிதம் (3x வங்கி வீதம்):';
+
+  @override
+  String get msmeCalculatedInterestLabel => 'கணக்கிடப்பட்ட வட்டி:';
+
+  @override
+  String get msmeTotalClaimableAmountLabel => 'மொத்த உரிமைக்கோரக்கூடிய தொகை:';
+
+  @override
+  String msmeStepNumber(Object number) {
+    return 'படி $number';
+  }
+
+  @override
+  String get msmeSearchSupportInstitutions => 'ஆதரவு நிறுவனங்களைத் தேடுக';
+
+  @override
+  String get msmeSearchInstitutionsHint => 'SIDBI, NSIC, DIC தேடுக...';
+
+  @override
+  String get msmeRoleLabel => 'பங்கு';
+
+  @override
+  String get msmeKeyServicesLabel => 'முக்கிய சேவைகள்';
+
+  @override
+  String get msmeTopSchemesLabel => 'முதன்மை திட்டங்கள்';
+
+  @override
+  String get msmeMainFeaturesInside => 'முதன்மை அம்சங்கள்';
+
+  @override
+  String get croreSuffix => 'கோடி';
 }
