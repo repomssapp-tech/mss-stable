@@ -3465,4 +3465,62 @@ class AppLocalizationsTa extends AppLocalizations {
   String subsidyLakhFmt(Object value) {
     return '₹ $value லட்சம்';
   }
+
+  @override
+  String msmeRatePerAnnum(Object rate) {
+    return '$rate% ஆண்டுக்கு';
+  }
+
+  @override
+  String get msmeUdyamFlowTitle => 'Udyam பதிவு வழிமுறை';
+
+  @override
+  String get msmeUdyamGoToPortal =>
+      'அதிகாரப்பூர்வ Udyam போர்ட்டலுக்குச் செல்லவும்';
+
+  @override
+  String get msmeUdyamStep1Title => '1. Aadhaar & PAN சரிபார்ப்பு';
+
+  @override
+  String get msmeUdyamStep1Desc =>
+      'தொழில்முனைவோரின் Aadhaar எண் மற்றும் Aadhaar-படி பெயரை உள்ளிடவும். OTP மூலம் சரிபார்க்கவும். அடுத்து, தானியங்கி GSTIN சரிபார்ப்புக்காக நிறுவன வகை மற்றும் PAN விவரங்களை உள்ளிடவும்.';
+
+  @override
+  String get msmeUdyamStep1Action =>
+      'Aadhaar OTP அங்கீகாரம் மற்றும் PAN விவரங்கள் உள்ளீடு.';
+
+  @override
+  String get msmeUdyamStep2Title => '2. நிறுவனம் மற்றும் இருப்பிட விவரங்கள்';
+
+  @override
+  String get msmeUdyamStep2Desc =>
+      'நிறுவனப் பெயர், ஆலை/அலகு முகவரிகள், அதிகாரப்பூர்வ மின்னஞ்சல், கைபேசி எண், வங்கிக் கணக்கு எண் மற்றும் IFSC குறியீட்டை வழங்கவும்.';
+
+  @override
+  String get msmeUdyamStep2Action =>
+      'அலகு முகவரிகள், கைபேசி, மின்னஞ்சல் மற்றும் வங்கி விவரங்களை நிரப்பவும்.';
+
+  @override
+  String get msmeUdyamStep3Title =>
+      '3. NIC குறியீடு மற்றும் முதலீட்டு விவரங்கள்';
+
+  @override
+  String get msmeUdyamStep3Desc =>
+      'முதன்மைச் செயல்பாட்டை (உற்பத்தி / சேவை) தேர்ந்தெடுத்து, 2/4/5-இலக்க NIC குறியீடுகளைத் தேடித் தேர்ந்தெடுக்கவும், பணியாளர்களின் எண்ணிக்கை மற்றும் ஆலை & இயந்திரங்களில் முதலீட்டை உள்ளிடவும்.';
+
+  @override
+  String get msmeUdyamStep3Action =>
+      'NIC வகைப்பாட்டுக் குறியீட்டைத் தேர்ந்தெடுத்து முதலீடு/வருவாயை உள்ளிடவும்.';
+
+  @override
+  String get msmeUdyamStep4Title =>
+      '4. இறுதிச் சமர்ப்பிப்பு மற்றும் மின்-சான்றிதழ்';
+
+  @override
+  String get msmeUdyamStep4Desc =>
+      'சுருக்கத்தை மதிப்பாய்வு செய்து, இறுதி OTP-ஐச் சமர்ப்பிக்கவும். தனிப்பட்ட 16-இலக்க Udyam பதிவு எண் (URN) மற்றும் QR குறியீட்டுடன் கூடிய மின்-சான்றிதழ் பதிவுக் கட்டணம் இன்றி உடனடியாக வழங்கப்படும்.';
+
+  @override
+  String get msmeUdyamStep4Action =>
+      'இறுதி OTP சமர்ப்பிப்பு; உடனடி மின்-சான்றிதழைப் பதிவிறக்கவும்.';
 }

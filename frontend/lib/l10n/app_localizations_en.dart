@@ -3420,4 +3420,59 @@ class AppLocalizationsEn extends AppLocalizations {
   String subsidyLakhFmt(Object value) {
     return '₹ $value Lakhs';
   }
+
+  @override
+  String msmeRatePerAnnum(Object rate) {
+    return '$rate% p.a.';
+  }
+
+  @override
+  String get msmeUdyamFlowTitle => 'Udyam Registration Flow';
+
+  @override
+  String get msmeUdyamGoToPortal => 'Go to Official Udyam Portal';
+
+  @override
+  String get msmeUdyamStep1Title => '1. Aadhaar & PAN Validation';
+
+  @override
+  String get msmeUdyamStep1Desc =>
+      'Enter entrepreneur Aadhaar Number & Name as per Aadhaar. Validate via OTP. Next, enter Organization Type & PAN details for automatic GSTIN verification.';
+
+  @override
+  String get msmeUdyamStep1Action =>
+      'Aadhaar OTP authentication & PAN details entry.';
+
+  @override
+  String get msmeUdyamStep2Title => '2. Enterprise & Location Details';
+
+  @override
+  String get msmeUdyamStep2Desc =>
+      'Provide Enterprise Name, Plant/Unit Addresses, Official Email, Mobile Number, Bank Account Number, and IFSC Code.';
+
+  @override
+  String get msmeUdyamStep2Action =>
+      'Fill unit addresses, mobile, email & bank details.';
+
+  @override
+  String get msmeUdyamStep3Title => '3. NIC Code & Investment Details';
+
+  @override
+  String get msmeUdyamStep3Desc =>
+      'Select Major Activity (Manufacturing / Service), search & select 2/4/5-digit NIC Codes, enter number of employees, and investment in Plant & Machinery.';
+
+  @override
+  String get msmeUdyamStep3Action =>
+      'Select NIC classification code & enter investment/turnover.';
+
+  @override
+  String get msmeUdyamStep4Title => '4. Final Submit & e-Certificate';
+
+  @override
+  String get msmeUdyamStep4Desc =>
+      'Review summary, submit final OTP. A unique 16-digit Udyam Registration Number (URN) and e-Certificate with QR code are issued instantly with zero registration fee.';
+
+  @override
+  String get msmeUdyamStep4Action =>
+      'Final OTP submission; download instant e-Certificate.';
 }

@@ -7,6 +7,7 @@ import '../../providers/app_state_provider.dart';
 import '../../utils/responsive.dart';
 import '../../services/centralized_translator.dart';
 import '../../l10n/l10n.dart';
+import '../../l10n/app_localizations.dart';
 import '../../widgets/standard_page_header.dart';
 import 'search_results_screen.dart';
 import '../../utils/app_spacing.dart';
@@ -110,32 +111,30 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
     },
   ];
 
-  // Udyam stepper current index & steps
+  // Udyam stepper current index
   int _udyamStepIndex = 0;
-  final List<Map<String, String>> _udyamSteps = [
+
+  // Udyam step data, localized from ARB (shape/order preserved).
+  List<Map<String, String>> _udyamSteps(AppLocalizations l10n) => [
     {
-      'title': '1. Aadhaar & PAN Validation',
-      'desc':
-          'Enter entrepreneur Aadhaar Number & Name as per Aadhaar. Validate via OTP. Next, enter Organization Type & PAN details for automatic GSTIN verification.',
-      'action': 'Aadhaar OTP authentication & PAN details entry.',
+      'title': l10n.msmeUdyamStep1Title,
+      'desc': l10n.msmeUdyamStep1Desc,
+      'action': l10n.msmeUdyamStep1Action,
     },
     {
-      'title': '2. Enterprise & Location Details',
-      'desc':
-          'Provide Enterprise Name, Plant/Unit Addresses, Official Email, Mobile Number, Bank Account Number, and IFSC Code.',
-      'action': 'Fill unit addresses, mobile, email & bank details.',
+      'title': l10n.msmeUdyamStep2Title,
+      'desc': l10n.msmeUdyamStep2Desc,
+      'action': l10n.msmeUdyamStep2Action,
     },
     {
-      'title': '3. NIC Code & Investment Details',
-      'desc':
-          'Select Major Activity (Manufacturing / Service), search & select 2/4/5-digit NIC Codes, enter number of employees, and investment in Plant & Machinery.',
-      'action': 'Select NIC classification code & enter investment/turnover.',
+      'title': l10n.msmeUdyamStep3Title,
+      'desc': l10n.msmeUdyamStep3Desc,
+      'action': l10n.msmeUdyamStep3Action,
     },
     {
-      'title': '4. Final Submit & e-Certificate',
-      'desc':
-          'Review summary, submit final OTP. A unique 16-digit Udyam Registration Number (URN) and e-Certificate with QR code are issued instantly with zero registration fee.',
-      'action': 'Final OTP submission; download instant e-Certificate.',
+      'title': l10n.msmeUdyamStep4Title,
+      'desc': l10n.msmeUdyamStep4Desc,
+      'action': l10n.msmeUdyamStep4Action,
     },
   ];
 
@@ -303,6 +302,9 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
   }
 
   Widget _buildModuleHeader() {
+    final isTa =
+        Provider.of<AppProvider>(context, listen: false).selectedLanguage ==
+        'ta';
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -330,7 +332,11 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.title,
+                      isTa
+                          ? CentralizedTranslator.instance.translate(
+                              widget.title,
+                            )
+                          : widget.title,
                       style: GoogleFonts.poppins(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -339,7 +345,11 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                     ),
                     const SizedBox(height: AppSpacing.xs),
                     Text(
-                      widget.description,
+                      isTa
+                          ? CentralizedTranslator.instance.translate(
+                              widget.description,
+                            )
+                          : widget.description,
                       style: GoogleFonts.inter(
                         fontSize: 13,
                         color: const Color(0xFF64748B),
@@ -795,7 +805,9 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                         child: FitOneLine(
                           alignment: Alignment.centerRight,
                           child: Text(
-                            '${(_annualRate * 100).toStringAsFixed(2)}% p.a.',
+                            context.l10n.msmeRatePerAnnum(
+                              (_annualRate * 100).toStringAsFixed(2),
+                            ),
                             style: GoogleFonts.inter(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
@@ -1169,6 +1181,8 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
   }
 
   Widget _buildUdyamInteractivePanel() {
+    final l10n = context.l10n;
+    final steps = _udyamSteps(l10n);
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
@@ -1181,7 +1195,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Udyam Registration Flow',
+              l10n.msmeUdyamFlowTitle,
               style: GoogleFonts.poppins(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -1198,7 +1212,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 borderRadius: BorderRadius.circular(24),
               ),
               child: Row(
-                children: List.generate(_udyamSteps.length, (idx) {
+                children: List.generate(steps.length, (idx) {
                   final isSelected = idx == _udyamStepIndex;
                   return Expanded(
                     child: GestureDetector(
@@ -1216,7 +1230,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                           borderRadius: BorderRadius.circular(24),
                         ),
                         child: Text(
-                          'Step ${idx + 1}',
+                          l10n.msmeStepNumber(idx + 1),
                           style: GoogleFonts.inter(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
@@ -1247,7 +1261,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    _udyamSteps[_udyamStepIndex]['title']!,
+                    steps[_udyamStepIndex]['title']!,
                     style: GoogleFonts.poppins(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -1256,7 +1270,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                   ),
                   const SizedBox(height: AppSpacing.tight),
                   Text(
-                    _udyamSteps[_udyamStepIndex]['desc']!,
+                    steps[_udyamStepIndex]['desc']!,
                     style: GoogleFonts.inter(
                       fontSize: 12,
                       color: const Color(0xFF334155),
@@ -1275,7 +1289,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                       const SizedBox(width: AppSpacing.tight),
                       Expanded(
                         child: Text(
-                          _udyamSteps[_udyamStepIndex]['action']!,
+                          steps[_udyamStepIndex]['action']!,
                           style: GoogleFonts.inter(
                             fontSize: 10.5,
                             fontStyle: FontStyle.italic,
@@ -1306,7 +1320,7 @@ class _MSMEModuleDetailsScreenState extends State<MSMEModuleDetailsScreen> {
                   padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
                 ),
                 child: Text(
-                  'Go to Official Udyam Portal',
+                  l10n.msmeUdyamGoToPortal,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.inter(
                     fontSize: 13,

@@ -1060,5 +1060,20 @@
   "subsidyNetCost": "Net Cost to Business",
   "subsidyInvalidValues": "Please enter valid values (Subsidy % must be between 0 and 100)",
   "subsidyCalculate": "Calculate Subsidy",
-  "subsidyLakhFmt": "₹ {value} Lakhs"
+  "subsidyLakhFmt": "₹ {value} Lakhs",
+  "msmeRatePerAnnum": "{rate}% p.a.",
+  "msmeUdyamFlowTitle": "Udyam Registration Flow",
+  "msmeUdyamGoToPortal": "Go to Official Udyam Portal",
+  "msmeUdyamStep1Title": "1. Aadhaar & PAN Validation",
+  "msmeUdyamStep1Desc": "Enter entrepreneur Aadhaar Number & Name as per Aadhaar. Validate via OTP. Next, enter Organization Type & PAN details for automatic GSTIN verification.",
+  "msmeUdyamStep1Action": "Aadhaar OTP authentication & PAN details entry.",
+  "msmeUdyamStep2Title": "2. Enterprise & Location Details",
+  "msmeUdyamStep2Desc": "Provide Enterprise Name, Plant/Unit Addresses, Official Email, Mobile Number, Bank Account Number, and IFSC Code.",
+  "msmeUdyamStep2Action": "Fill unit addresses, mobile, email & bank details.",
+  "msmeUdyamStep3Title": "3. NIC Code & Investment Details",
+  "msmeUdyamStep3Desc": "Select Major Activity (Manufacturing / Service), search & select 2/4/5-digit NIC Codes, enter number of employees, and investment in Plant & Machinery.",
+  "msmeUdyamStep3Action": "Select NIC classification code & enter investment/turnover.",
+  "msmeUdyamStep4Title": "4. Final Submit & e-Certificate",
+  "msmeUdyamStep4Desc": "Review summary, submit final OTP. A unique 16-digit Udyam Registration Number (URN) and e-Certificate with QR code are issued instantly with zero registration fee.",
+  "msmeUdyamStep4Action": "Final OTP submission; download instant e-Certificate."
 }

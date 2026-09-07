@@ -6463,6 +6463,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'₹ {value} Lakhs'**
   String subsidyLakhFmt(Object value);
+
+  /// No description provided for @msmeRatePerAnnum.
+  ///
+  /// In en, this message translates to:
+  /// **'{rate}% p.a.'**
+  String msmeRatePerAnnum(Object rate);
+
+  /// No description provided for @msmeUdyamFlowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Udyam Registration Flow'**
+  String get msmeUdyamFlowTitle;
+
+  /// No description provided for @msmeUdyamGoToPortal.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Official Udyam Portal'**
+  String get msmeUdyamGoToPortal;
+
+  /// No description provided for @msmeUdyamStep1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Aadhaar & PAN Validation'**
+  String get msmeUdyamStep1Title;
+
+  /// No description provided for @msmeUdyamStep1Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter entrepreneur Aadhaar Number & Name as per Aadhaar. Validate via OTP. Next, enter Organization Type & PAN details for automatic GSTIN verification.'**
+  String get msmeUdyamStep1Desc;
+
+  /// No description provided for @msmeUdyamStep1Action.
+  ///
+  /// In en, this message translates to:
+  /// **'Aadhaar OTP authentication & PAN details entry.'**
+  String get msmeUdyamStep1Action;
+
+  /// No description provided for @msmeUdyamStep2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'2. Enterprise & Location Details'**
+  String get msmeUdyamStep2Title;
+
+  /// No description provided for @msmeUdyamStep2Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Provide Enterprise Name, Plant/Unit Addresses, Official Email, Mobile Number, Bank Account Number, and IFSC Code.'**
+  String get msmeUdyamStep2Desc;
+
+  /// No description provided for @msmeUdyamStep2Action.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill unit addresses, mobile, email & bank details.'**
+  String get msmeUdyamStep2Action;
+
+  /// No description provided for @msmeUdyamStep3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'3. NIC Code & Investment Details'**
+  String get msmeUdyamStep3Title;
+
+  /// No description provided for @msmeUdyamStep3Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Major Activity (Manufacturing / Service), search & select 2/4/5-digit NIC Codes, enter number of employees, and investment in Plant & Machinery.'**
+  String get msmeUdyamStep3Desc;
+
+  /// No description provided for @msmeUdyamStep3Action.
+  ///
+  /// In en, this message translates to:
+  /// **'Select NIC classification code & enter investment/turnover.'**
+  String get msmeUdyamStep3Action;
+
+  /// No description provided for @msmeUdyamStep4Title.
+  ///
+  /// In en, this message translates to:
+  /// **'4. Final Submit & e-Certificate'**
+  String get msmeUdyamStep4Title;
+
+  /// No description provided for @msmeUdyamStep4Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Review summary, submit final OTP. A unique 16-digit Udyam Registration Number (URN) and e-Certificate with QR code are issued instantly with zero registration fee.'**
+  String get msmeUdyamStep4Desc;
+
+  /// No description provided for @msmeUdyamStep4Action.
+  ///
+  /// In en, this message translates to:
+  /// **'Final OTP submission; download instant e-Certificate.'**
+  String get msmeUdyamStep4Action;
 }
 
 class _AppLocalizationsDelegate
