@@ -10,3 +10,7 @@ const bool isBetaModeEnabled = true;
 
 /// SharedPreferences key that tracks whether this device has unlocked beta access.
 const String kBetaUnlockedKey = 'hasUnlockedBeta';
+
+/// SharedPreferences key for the specific password string that was unlocked.
+/// If the database password changes in Supabase, this is compared and invalidated.
+const String kBetaUnlockedPasswordKey = 'unlocked_beta_password';
