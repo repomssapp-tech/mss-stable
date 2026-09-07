@@ -27,9 +27,13 @@ name: Deploy Voice Agent
 # full list. This workflow ships image + config only.
 #
 # NOTE: the `lk agent deploy` invocation below matches the standard LiveKit
-# Cloud agents flow. If this project uses a self-hosted worker or a private
+# Cloud agents flow, where LiveKit builds the image server-side from this
+# context — the local `docker build` step is a pre-flight check, not the
+# artifact that ships. If this project uses a self-hosted worker or a private
 # registry instead, replace the "Deploy to LiveKit Cloud" step with the
 # push/rollout for that target — the build step above it stays as-is.
+# The CLI is installed via the official installer; pin it with the optional
+# LIVEKIT_CLI_VERSION repository variable.
 
 on:
   workflow_dispatch:
@@ -79,13 +83,16 @@ jobs:
       - name: Image summary
         run: docker image inspect saarthi-agent:${{ github.sha }} --format 'built {{.Id}} — size {{.Size}} bytes'
 
-      - name: Install LiveKit CLI (pinned)
+      - name: Install LiveKit CLI
         if: ${{ github.event.inputs.dry_run == 'false' }}
+        env:
+          # Optional: set to a tag like "v2.4.0" to pin. Empty = latest release.
+          LIVEKIT_CLI_VERSION: ${{ vars.LIVEKIT_CLI_VERSION }}
         run: |
           set -euo pipefail
-          curl -sSL https://github.com/livekit/livekit-cli/releases/download/v2.4.0/lk_2.4.0_linux_amd64.tar.gz \
-            | tar -xz -C /tmp
-          sudo install /tmp/lk /usr/local/bin/lk
+          # Official installer — resolves the correct asset name/arch itself, so
+          # it does not 404 on a version guess. Honours LIVEKIT_CLI_VERSION.
+          curl -sSL https://get.livekit.io/cli | bash
           lk --version
 
       - name: Deploy to LiveKit Cloud
