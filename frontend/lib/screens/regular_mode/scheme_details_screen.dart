@@ -65,7 +65,6 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
   bool _documentsExpanded = false;
   bool _servicesExpanded = false;
   bool _processExpanded = false;
-  bool _isBookmarked = false;
 
   // Enriched scheme loaded from the bundled catalog or repository fallback.
   Scheme? _detailedScheme;
@@ -562,11 +561,11 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
             left: 0,
             right: 0,
             child: _BottomActionBar(
-              isBookmarked: _isBookmarked,
+              isBookmarked:
+                  provider.bookmarkedIds.contains(widget.scheme.id) ||
+                  provider.bookmarkedIds.contains(widget.scheme.schemeCode),
               onBookmarkToggle: () {
-                setState(() {
-                  _isBookmarked = !_isBookmarked;
-                });
+                provider.toggleBookmark(widget.scheme.id);
               },
               onApply: () => _openOfficialUrl(_applicationDestination(scheme)),
               applyEnabled: _applicationDestination(scheme).isNotEmpty,
