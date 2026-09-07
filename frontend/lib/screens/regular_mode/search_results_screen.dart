@@ -362,7 +362,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                     color: Color(0xFF94A3B8),
                     size: 18,
                   ),
-                  tooltip: 'Clear search',
+                  tooltip: context.l10n.clearSearchTooltip,
                   onPressed: () {
                     _searchController.clear();
                     setState(() {});
@@ -394,7 +394,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
         elevation: 1,
         actions: [
           IconButton(
-            tooltip: 'Share results',
+            tooltip: context.l10n.shareResultsTooltip,
             icon: const Icon(
               Icons.share_outlined,
               size: 20,
@@ -402,7 +402,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
             ),
             onPressed: () async {
               final shareText =
-                  'Explore $displayedTitle on MSME Scheme Sahayak:\n'
+                  '${context.l10n.searchResultsShareHeader(displayedTitle)}\n'
                   '${filteredSchemes.take(5).map((e) => '• ${e.key.name}').join('\n')}';
               await Clipboard.setData(ClipboardData(text: shareText));
               if (context.mounted) {

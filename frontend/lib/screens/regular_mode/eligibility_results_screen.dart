@@ -36,10 +36,10 @@ class EligibilityResultsScreen extends StatelessWidget {
               size: 20,
               color: Color(0xFF2563EB),
             ),
-            tooltip: 'Share results',
+            tooltip: context.l10n.shareResultsTooltip,
             onPressed: () async {
               final shareText =
-                  'My Scheme Eligibility Results:\n${eligibleMatches.map((e) => '• ${e.key.name} (${(e.value.score * 100).toInt()}% Match)').take(5).join('\n')}';
+                  '${context.l10n.eligResShareHeader}\n${eligibleMatches.map((e) => context.l10n.eligResShareItem(e.key.name, (e.value.score * 100).toInt())).take(5).join('\n')}';
               await Clipboard.setData(ClipboardData(text: shareText));
               if (context.mounted) {
                 AppToast.showSuccess(
@@ -77,7 +77,7 @@ class EligibilityResultsScreen extends StatelessWidget {
 
                   // Great News Header
                   Text(
-                    'Great News! 🎉',
+                    context.l10n.eligResGreatNews,
                     style: GoogleFonts.poppins(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -95,9 +95,11 @@ class EligibilityResultsScreen extends StatelessWidget {
                         height: 1.25,
                       ),
                       children: [
-                        const TextSpan(text: 'You are eligible for\n'),
+                        TextSpan(text: context.l10n.eligResEligibleForPrefix),
                         TextSpan(
-                          text: '${eligibleMatches.length} Government Schemes',
+                          text: context.l10n.eligResGovernmentSchemesCount(
+                            eligibleMatches.length,
+                          ),
                           style: const TextStyle(color: Color(0xFF137C47)),
                         ),
                       ],
@@ -105,7 +107,7 @@ class EligibilityResultsScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: AppSpacing.tight),
                   Text(
-                    'based on the information you provided',
+                    context.l10n.eligResBasedOnInfo,
                     style: GoogleFonts.inter(
                       fontSize: 13,
                       color: const Color(0xFF64748B),
@@ -121,7 +123,7 @@ class EligibilityResultsScreen extends StatelessWidget {
                       children: [
                         Flexible(
                           child: Text(
-                            'Recommended Schemes',
+                            context.l10n.eligResRecommendedSchemes,
                             softWrap: true,
                             style: GoogleFonts.poppins(
                               fontSize: 15,
@@ -179,7 +181,7 @@ class EligibilityResultsScreen extends StatelessWidget {
                         border: Border.all(color: const Color(0xFFF1F5F9)),
                       ),
                       child: Text(
-                        'No matching schemes found. Adjust your profile details to expand matching rules.',
+                        context.l10n.eligResNoMatches,
                         style: GoogleFonts.inter(
                           color: const Color(0xFF64748B),
                         ),
@@ -232,7 +234,7 @@ class EligibilityResultsScreen extends StatelessWidget {
                           const SizedBox(width: AppSpacing.sm),
                           Expanded(
                             child: Text(
-                              'These schemes are sorted based on your profile match and eligibility criteria.',
+                              context.l10n.eligResSortedInfo,
                               style: GoogleFonts.inter(
                                 fontSize: 12,
                                 color: const Color(0xFF137C47),
@@ -282,12 +284,12 @@ class EligibilityResultsScreen extends StatelessWidget {
                     onPressed: () {
                       AppToast.showSuccess(
                         context,
-                        'Results saved to your eligibility profile!',
+                        context.l10n.eligResSavedToast,
                       );
                     },
                     icon: const Icon(Icons.bookmark_outline, size: 20),
                     label: Text(
-                      'Save Results',
+                      context.l10n.eligResSaveResults,
                       style: GoogleFonts.poppins(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -307,7 +309,7 @@ class EligibilityResultsScreen extends StatelessWidget {
                     const SizedBox(width: AppSpacing.xs),
                     Flexible(
                       child: Text(
-                        'Your information is secure and private',
+                        context.l10n.eligResSecurePrivate,
                         softWrap: true,
                         style: GoogleFonts.inter(
                           fontSize: 11,

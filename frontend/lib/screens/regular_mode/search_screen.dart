@@ -113,7 +113,9 @@ class SearchScreenState extends State<SearchScreen> {
   Map<String, int> _categoryCounts = {};
   bool _isLoadingCounts = true;
   int _matchingProfileCount = 0;
-  String _dynamicSearchHintText = "Search PMEGP, Startup India, MSME loans...";
+  // Null until the catalog-derived hint loads; render sites fall back to the
+  // localized `searchHintFallback` string so the placeholder is correct in ta too.
+  String? _dynamicSearchHintText;
   // Bumped on every _triggerSearch call; a stale request that resolves after
   // a newer one must not overwrite it (out-of-order async race -- the search
   // screen's state survives Home<->Search tab switches via IndexedStack, so
@@ -407,7 +409,7 @@ class SearchScreenState extends State<SearchScreen> {
     await showGeneralDialog<void>(
       context: context,
       barrierDismissible: false,
-      barrierLabel: 'Voice assistant',
+      barrierLabel: context.l10n.voiceAssistantLabel,
       barrierColor: Colors.transparent,
       transitionDuration: const Duration(milliseconds: 220),
       pageBuilder: (overlayContext, animation, secondaryAnimation) {
@@ -648,9 +650,11 @@ class SearchScreenState extends State<SearchScreen> {
                       // Try banner when idle
                       GestureDetector(
                         onTap: () {
-                          _searchController.text = _dynamicSearchHintText;
+                          final hint = _dynamicSearchHintText ??
+                              context.l10n.searchHintFallback;
+                          _searchController.text = hint;
                           _searchFocusNode.unfocus();
-                          _triggerSearch(_dynamicSearchHintText);
+                          _triggerSearch(hint);
                         },
                         child: Row(
                           children: [
@@ -665,7 +669,7 @@ class SearchScreenState extends State<SearchScreen> {
                                 fit: BoxFit.scaleDown,
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "${context.l10n.trySearchPrefix} $_dynamicSearchHintText",
+                                  "${context.l10n.trySearchPrefix} ${_dynamicSearchHintText ?? context.l10n.searchHintFallback}",
                                   style: GoogleFonts.inter(
                                     color: const Color(0xFF64748B),
                                     fontSize: _scaledFontSize(11),
@@ -841,7 +845,7 @@ class SearchScreenState extends State<SearchScreen> {
             fontSize: 12.5,
           ),
           prefixIcon: IconButton(
-            tooltip: 'Search',
+            tooltip: context.l10n.search,
             icon: const Icon(Icons.search, color: Color(0xFF2563EB), size: 20),
             onPressed: () {
               if (_searchController.text.trim().isNotEmpty) {
@@ -855,7 +859,7 @@ class SearchScreenState extends State<SearchScreen> {
             children: [
               if (hasText)
                 IconButton(
-                  tooltip: 'Clear search',
+                  tooltip: context.l10n.clearSearchTooltip,
                   icon: const Icon(
                     Icons.close,
                     color: Color(0xFF94A3B8),
@@ -876,7 +880,9 @@ class SearchScreenState extends State<SearchScreen> {
                 ),
               if (hasText) const SizedBox(width: AppSpacing.xs),
               IconButton(
-                tooltip: _isDictating ? 'Stop voice search' : 'Voice search',
+                tooltip: _isDictating
+                    ? context.l10n.stopVoiceSearchTooltip
+                    : context.l10n.voiceSearchTooltip,
                 icon: Icon(
                   _isDictating ? Icons.mic : Icons.mic_none,
                   color: _isDictating
@@ -1257,8 +1263,9 @@ class SearchScreenState extends State<SearchScreen> {
           final subtitleText = isForMe
               ? context.l10n.matchedStrictlyAgainstProfile
               : (_searchController.text.trim().isNotEmpty
-                    ? "Best matches for \"${_searchController.text.trim()}\""
-                    : "Best matches for your search criteria");
+                    ? context.l10n.searchBestMatchesForQuery(
+                        _searchController.text.trim())
+                    : context.l10n.searchBestMatchesForCriteria);
 
           return Padding(
             padding: const EdgeInsets.only(

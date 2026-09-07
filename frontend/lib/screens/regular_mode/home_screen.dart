@@ -360,7 +360,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildHeader(BuildContext context, AppProvider provider) {
     final displayName = provider.profile.name.isNotEmpty
         ? provider.profile.name.split(' ').first
-        : 'User';
+        : context.l10n.commonUserFallback;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1613,9 +1613,22 @@ class _HomeScreenState extends State<HomeScreen> {
         ? (latestUpdate['title'] as String? ?? '')
         : context.l10n.fallbackLatestUpdateTitle;
 
-    final String timeText = latestUpdate != null
-        ? (latestUpdate['time'] as String? ?? '')
-        : context.l10n.time2DaysAgo;
+    final String timeText;
+    if (latestUpdate != null) {
+      final count = latestUpdate['timeAgoCount'];
+      final unit = latestUpdate['timeAgoUnit'];
+      if (count is int && unit == 'd') {
+        timeText = context.l10n.timeAgoDays(count);
+      } else if (count is int && unit == 'h') {
+        timeText = context.l10n.timeAgoHours(count);
+      } else if (count is int && unit == 'm') {
+        timeText = context.l10n.timeAgoMinutes(count);
+      } else {
+        timeText = context.l10n.timeAgoJustNow;
+      }
+    } else {
+      timeText = context.l10n.time2DaysAgo;
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

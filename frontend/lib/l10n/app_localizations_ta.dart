@@ -3832,4 +3832,209 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get discoverEveryScheme =>
       'இந்தியாவின் ஒவ்வொரு அரசுத் திட்டத்தையும் கண்டறியுங்கள்';
+
+  @override
+  String get shareResultsTooltip => 'முடிவுகளைப் பகிர்';
+
+  @override
+  String get clearSearchTooltip => 'தேடலை அழி';
+
+  @override
+  String get voiceSearchTooltip => 'குரல் தேடல்';
+
+  @override
+  String get stopVoiceSearchTooltip => 'குரல் தேடலை நிறுத்து';
+
+  @override
+  String get voiceAssistantLabel => 'குரல் உதவியாளர்';
+
+  @override
+  String get eligResGreatNews => 'நல்ல செய்தி! 🎉';
+
+  @override
+  String get eligResEligibleForPrefix => 'நீங்கள் பெறத் தகுதியானவர்\n';
+
+  @override
+  String eligResGovernmentSchemesCount(Object count) {
+    return '$count அரசு திட்டங்கள்';
+  }
+
+  @override
+  String get eligResBasedOnInfo => 'நீங்கள் வழங்கிய தகவலின் அடிப்படையில்';
+
+  @override
+  String get eligResRecommendedSchemes => 'பரிந்துரைக்கப்பட்ட திட்டங்கள்';
+
+  @override
+  String get eligResNoMatches =>
+      'பொருந்தும் திட்டங்கள் எதுவும் இல்லை. பொருத்த விதிகளை விரிவுபடுத்த உங்கள் சுயவிவர விவரங்களைச் சரிசெய்யவும்.';
+
+  @override
+  String get eligResSortedInfo =>
+      'இந்த திட்டங்கள் உங்கள் சுயவிவரப் பொருத்தம் மற்றும் தகுதி அளவுகோல்களின் அடிப்படையில் வரிசைப்படுத்தப்பட்டுள்ளன.';
+
+  @override
+  String get eligResSavedToast =>
+      'முடிவுகள் உங்கள் தகுதி சுயவிவரத்தில் சேமிக்கப்பட்டன!';
+
+  @override
+  String get eligResSaveResults => 'முடிவுகளைச் சேமி';
+
+  @override
+  String get eligResSecurePrivate =>
+      'உங்கள் தகவல் பாதுகாப்பானது மற்றும் தனிப்பட்டது';
+
+  @override
+  String get eligResShareHeader => 'எனது திட்டத் தகுதி முடிவுகள்:';
+
+  @override
+  String eligResShareItem(Object name, Object percent) {
+    return '• $name ($percent% பொருத்தம்)';
+  }
+
+  @override
+  String get notifCatNewSchemes => 'புதிய திட்டங்கள்';
+
+  @override
+  String get notifCatReminders => 'நினைவூட்டல்கள்';
+
+  @override
+  String get notifCatUpdates => 'புதுப்பிப்புகள்';
+
+  @override
+  String get notifCatProfile => 'சுயவிவரம்';
+
+  @override
+  String get notifBadgeNew => 'புதியது';
+
+  @override
+  String get notifProfileCompletionLabel => 'சுயவிவரம் பூர்த்தி';
+
+  @override
+  String get notifCancelSelectionTooltip => 'தேர்வை ரத்துசெய்';
+
+  @override
+  String notifSelectedCount(Object count) {
+    return '$count தேர்ந்தெடுக்கப்பட்டது';
+  }
+
+  @override
+  String get notifMarkAllAsRead => 'அனைத்தையும் படித்ததாகக் குறி';
+
+  @override
+  String get notifDeleteAll => 'அனைத்தையும் நீக்கு';
+
+  @override
+  String get notifNoMatchingAlerts => 'பொருந்தும் அறிவிப்புகள் இல்லை';
+
+  @override
+  String get notifTagEducation => 'கல்வி';
+
+  @override
+  String get notifTagSkillDevelopment => 'திறன் மேம்பாடு';
+
+  @override
+  String timeAgoDays(Object count) {
+    return '$count நாட்களுக்கு முன்';
+  }
+
+  @override
+  String timeAgoHours(Object count) {
+    return '$count மணி நேரத்திற்கு முன்';
+  }
+
+  @override
+  String timeAgoMinutes(Object count) {
+    return '$count நிமிடங்களுக்கு முன்';
+  }
+
+  @override
+  String get timeAgoJustNow => 'இப்போதுதான்';
+
+  @override
+  String daysLeftFmt(Object count) {
+    return '$count நாட்கள் மீதம்';
+  }
+
+  @override
+  String get notifSeed1Body =>
+      'சலுகை நிதி வழங்குவதற்காக மீன்வளம் மற்றும் நீர்வாழ் உயிரின உள்கட்டமைப்பு வளர்ச்சி நிதியை அரசு அறிமுகப்படுத்தியுள்ளது.';
+
+  @override
+  String get notifSeed2Title => 'PM Vidyalaxmi கல்விக் கடன் திட்டம்';
+
+  @override
+  String get notifSeed2Body =>
+      'உயர்கல்விக்காக மாணவர்களுக்கு பிணையமற்ற கல்விக் கடன் வழங்கும் புதிய திட்டம்.';
+
+  @override
+  String get notifSeed3Title => 'PM Vishwakarma Yojana';
+
+  @override
+  String get notifSeed3Body =>
+      'பாரம்பரிய கைவினைஞர்கள் தங்கள் திறன்களையும் கருவிகளையும் மேம்படுத்த நிதி உதவி.';
+
+  @override
+  String get notifSeed4Title => 'Post Matric உதவித்தொகை திட்டம்';
+
+  @override
+  String get notifSeed4Body => 'விண்ணப்பிக்க கடைசி தேதி நெருங்குகிறது';
+
+  @override
+  String get notifSeed5Title => 'PM பயிற்சி திட்டம்';
+
+  @override
+  String get notifSeed5Body => 'விண்ணப்ப காலம் விரைவில் முடிவடையும்';
+
+  @override
+  String get notifSeed6Title =>
+      'Ayushman Bharat Yojana குறித்த புதிய புதுப்பிப்பு';
+
+  @override
+  String get notifSeed6Body =>
+      'மருத்துவமனைகளுக்கான பட்டியல் நடைமுறையில் மாற்றங்கள். முழு விவரங்களைப் பார்க்கவும்.';
+
+  @override
+  String get notifSeed7Title =>
+      'பல திட்டங்களுக்கு வருமான வரம்பு திருத்தப்பட்டது';
+
+  @override
+  String get notifSeed7Body =>
+      'பல திட்டங்களுக்கு 2024 ஏப்ரல் 1 முதல் திருத்தப்பட்ட வருமான அளவுகோல்கள் அமலுக்கு வரும்.';
+
+  @override
+  String get notifSeed8Body =>
+      'நீங்கள் தகுதியான திட்டங்களைக் கண்டறிய உங்கள் வருமான விவரங்களைச் சேர்க்கவும்.';
+
+  @override
+  String get commonUserFallback => 'பயனர்';
+
+  @override
+  String get searchHintFallback =>
+      'PMEGP, Startup India, MSME கடன்கள் தேடுங்கள்...';
+
+  @override
+  String searchBestMatchesForQuery(Object query) {
+    return '\"$query\"க்கான சிறந்த பொருத்தங்கள்';
+  }
+
+  @override
+  String get searchBestMatchesForCriteria =>
+      'உங்கள் தேடல் அளவுகோல்களுக்கான சிறந்த பொருத்தங்கள்';
+
+  @override
+  String searchResultsShareHeader(Object title) {
+    return 'MSME Scheme Sahayak இல் $title ஐ ஆராயுங்கள்:';
+  }
+
+  @override
+  String get savedRemoveFromSavedTooltip => 'சேமித்தவற்றிலிருந்து அகற்று';
+
+  @override
+  String get savedKeepListUpdated =>
+      'உங்கள் பட்டியலைப் புதுப்பித்து வைத்திருங்கள்!';
+
+  @override
+  String get savedRemoveNoLongerInterested =>
+      'இனி உங்களுக்கு விருப்பமில்லாத திட்டங்களை அகற்றவும்.';
 }

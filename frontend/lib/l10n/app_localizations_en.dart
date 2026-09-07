@@ -3772,4 +3772,203 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get discoverEveryScheme => 'Discover every Government Scheme in India';
+
+  @override
+  String get shareResultsTooltip => 'Share results';
+
+  @override
+  String get clearSearchTooltip => 'Clear search';
+
+  @override
+  String get voiceSearchTooltip => 'Voice search';
+
+  @override
+  String get stopVoiceSearchTooltip => 'Stop voice search';
+
+  @override
+  String get voiceAssistantLabel => 'Voice assistant';
+
+  @override
+  String get eligResGreatNews => 'Great News! 🎉';
+
+  @override
+  String get eligResEligibleForPrefix => 'You are eligible for\n';
+
+  @override
+  String eligResGovernmentSchemesCount(Object count) {
+    return '$count Government Schemes';
+  }
+
+  @override
+  String get eligResBasedOnInfo => 'based on the information you provided';
+
+  @override
+  String get eligResRecommendedSchemes => 'Recommended Schemes';
+
+  @override
+  String get eligResNoMatches =>
+      'No matching schemes found. Adjust your profile details to expand matching rules.';
+
+  @override
+  String get eligResSortedInfo =>
+      'These schemes are sorted based on your profile match and eligibility criteria.';
+
+  @override
+  String get eligResSavedToast => 'Results saved to your eligibility profile!';
+
+  @override
+  String get eligResSaveResults => 'Save Results';
+
+  @override
+  String get eligResSecurePrivate => 'Your information is secure and private';
+
+  @override
+  String get eligResShareHeader => 'My Scheme Eligibility Results:';
+
+  @override
+  String eligResShareItem(Object name, Object percent) {
+    return '• $name ($percent% Match)';
+  }
+
+  @override
+  String get notifCatNewSchemes => 'New Schemes';
+
+  @override
+  String get notifCatReminders => 'Reminders';
+
+  @override
+  String get notifCatUpdates => 'Updates';
+
+  @override
+  String get notifCatProfile => 'Profile';
+
+  @override
+  String get notifBadgeNew => 'NEW';
+
+  @override
+  String get notifProfileCompletionLabel => 'Profile Completion';
+
+  @override
+  String get notifCancelSelectionTooltip => 'Cancel selection';
+
+  @override
+  String notifSelectedCount(Object count) {
+    return '$count Selected';
+  }
+
+  @override
+  String get notifMarkAllAsRead => 'Mark all as read';
+
+  @override
+  String get notifDeleteAll => 'Delete all';
+
+  @override
+  String get notifNoMatchingAlerts => 'No matching alerts';
+
+  @override
+  String get notifTagEducation => 'Education';
+
+  @override
+  String get notifTagSkillDevelopment => 'Skill Development';
+
+  @override
+  String timeAgoDays(Object count) {
+    return '${count}d ago';
+  }
+
+  @override
+  String timeAgoHours(Object count) {
+    return '${count}h ago';
+  }
+
+  @override
+  String timeAgoMinutes(Object count) {
+    return '${count}m ago';
+  }
+
+  @override
+  String get timeAgoJustNow => 'Just now';
+
+  @override
+  String daysLeftFmt(Object count) {
+    return '$count days left';
+  }
+
+  @override
+  String get notifSeed1Body =>
+      'Government has launched the Fisheries and Aquaculture Infrastructure Development Fund to provide concessionary finance.';
+
+  @override
+  String get notifSeed2Title => 'PM Vidyalaxmi Education Loan Scheme';
+
+  @override
+  String get notifSeed2Body =>
+      'A new scheme for students to provide collateral-free education loans for higher studies.';
+
+  @override
+  String get notifSeed3Title => 'PM Vishwakarma Yojana';
+
+  @override
+  String get notifSeed3Body =>
+      'Financial support for traditional artisans and craftspeople to upgrade their skills and tools.';
+
+  @override
+  String get notifSeed4Title => 'Post Matric Scholarship Scheme';
+
+  @override
+  String get notifSeed4Body => 'Last date to apply is approaching';
+
+  @override
+  String get notifSeed5Title => 'PM Internship Scheme';
+
+  @override
+  String get notifSeed5Body => 'Application window will close soon';
+
+  @override
+  String get notifSeed6Title => 'New Update on Ayushman Bharat Yojana';
+
+  @override
+  String get notifSeed6Body =>
+      'Changes in empanelment process for hospitals. Check full details.';
+
+  @override
+  String get notifSeed7Title => 'Income Limit Revised for Several Schemes';
+
+  @override
+  String get notifSeed7Body =>
+      'Revised income criteria effective from 1st April 2024 for multiple schemes.';
+
+  @override
+  String get notifSeed8Body =>
+      'Add your income details to find schemes you are eligible for.';
+
+  @override
+  String get commonUserFallback => 'User';
+
+  @override
+  String get searchHintFallback => 'Search PMEGP, Startup India, MSME loans...';
+
+  @override
+  String searchBestMatchesForQuery(Object query) {
+    return 'Best matches for \"$query\"';
+  }
+
+  @override
+  String get searchBestMatchesForCriteria =>
+      'Best matches for your search criteria';
+
+  @override
+  String searchResultsShareHeader(Object title) {
+    return 'Explore $title on MSME Scheme Sahayak:';
+  }
+
+  @override
+  String get savedRemoveFromSavedTooltip => 'Remove from saved';
+
+  @override
+  String get savedKeepListUpdated => 'Keep your list updated!';
+
+  @override
+  String get savedRemoveNoLongerInterested =>
+      'Remove schemes you\'re no longer interested in.';
 }

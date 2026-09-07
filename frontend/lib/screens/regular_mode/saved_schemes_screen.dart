@@ -220,7 +220,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                               color: Color(0xFFEF4444),
                               size: 20,
                             ),
-                            tooltip: 'Remove from saved',
+                            tooltip: context.l10n.savedRemoveFromSavedTooltip,
                             onPressed: () {
                               provider.toggleBookmark(scheme.id);
                             },
@@ -391,7 +391,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Keep your list updated!",
+                  context.l10n.savedKeepListUpdated,
                   style: GoogleFonts.inter(
                     fontSize: 11.5,
                     fontWeight: FontWeight.bold,
@@ -400,7 +400,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                 ),
                 const SizedBox(height: AppSpacing.hairline),
                 Text(
-                  "Remove schemes you're no longer interested in.",
+                  context.l10n.savedRemoveNoLongerInterested,
                   style: GoogleFonts.inter(
                     fontSize: 10.0,
                     color: const Color(0xFF1E3A8A),

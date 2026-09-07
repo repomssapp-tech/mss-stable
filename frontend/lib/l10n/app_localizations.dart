@@ -7069,6 +7069,348 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Discover every Government Scheme in India'**
   String get discoverEveryScheme;
+
+  /// No description provided for @shareResultsTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Share results'**
+  String get shareResultsTooltip;
+
+  /// No description provided for @clearSearchTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get clearSearchTooltip;
+
+  /// No description provided for @voiceSearchTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice search'**
+  String get voiceSearchTooltip;
+
+  /// No description provided for @stopVoiceSearchTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop voice search'**
+  String get stopVoiceSearchTooltip;
+
+  /// No description provided for @voiceAssistantLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice assistant'**
+  String get voiceAssistantLabel;
+
+  /// No description provided for @eligResGreatNews.
+  ///
+  /// In en, this message translates to:
+  /// **'Great News! 🎉'**
+  String get eligResGreatNews;
+
+  /// No description provided for @eligResEligibleForPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'You are eligible for\n'**
+  String get eligResEligibleForPrefix;
+
+  /// No description provided for @eligResGovernmentSchemesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Government Schemes'**
+  String eligResGovernmentSchemesCount(Object count);
+
+  /// No description provided for @eligResBasedOnInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'based on the information you provided'**
+  String get eligResBasedOnInfo;
+
+  /// No description provided for @eligResRecommendedSchemes.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended Schemes'**
+  String get eligResRecommendedSchemes;
+
+  /// No description provided for @eligResNoMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching schemes found. Adjust your profile details to expand matching rules.'**
+  String get eligResNoMatches;
+
+  /// No description provided for @eligResSortedInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'These schemes are sorted based on your profile match and eligibility criteria.'**
+  String get eligResSortedInfo;
+
+  /// No description provided for @eligResSavedToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Results saved to your eligibility profile!'**
+  String get eligResSavedToast;
+
+  /// No description provided for @eligResSaveResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Results'**
+  String get eligResSaveResults;
+
+  /// No description provided for @eligResSecurePrivate.
+  ///
+  /// In en, this message translates to:
+  /// **'Your information is secure and private'**
+  String get eligResSecurePrivate;
+
+  /// No description provided for @eligResShareHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'My Scheme Eligibility Results:'**
+  String get eligResShareHeader;
+
+  /// No description provided for @eligResShareItem.
+  ///
+  /// In en, this message translates to:
+  /// **'• {name} ({percent}% Match)'**
+  String eligResShareItem(Object name, Object percent);
+
+  /// No description provided for @notifCatNewSchemes.
+  ///
+  /// In en, this message translates to:
+  /// **'New Schemes'**
+  String get notifCatNewSchemes;
+
+  /// No description provided for @notifCatReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get notifCatReminders;
+
+  /// No description provided for @notifCatUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Updates'**
+  String get notifCatUpdates;
+
+  /// No description provided for @notifCatProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get notifCatProfile;
+
+  /// No description provided for @notifBadgeNew.
+  ///
+  /// In en, this message translates to:
+  /// **'NEW'**
+  String get notifBadgeNew;
+
+  /// No description provided for @notifProfileCompletionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile Completion'**
+  String get notifProfileCompletionLabel;
+
+  /// No description provided for @notifCancelSelectionTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel selection'**
+  String get notifCancelSelectionTooltip;
+
+  /// No description provided for @notifSelectedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Selected'**
+  String notifSelectedCount(Object count);
+
+  /// No description provided for @notifMarkAllAsRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all as read'**
+  String get notifMarkAllAsRead;
+
+  /// No description provided for @notifDeleteAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete all'**
+  String get notifDeleteAll;
+
+  /// No description provided for @notifNoMatchingAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching alerts'**
+  String get notifNoMatchingAlerts;
+
+  /// No description provided for @notifTagEducation.
+  ///
+  /// In en, this message translates to:
+  /// **'Education'**
+  String get notifTagEducation;
+
+  /// No description provided for @notifTagSkillDevelopment.
+  ///
+  /// In en, this message translates to:
+  /// **'Skill Development'**
+  String get notifTagSkillDevelopment;
+
+  /// No description provided for @timeAgoDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}d ago'**
+  String timeAgoDays(Object count);
+
+  /// No description provided for @timeAgoHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}h ago'**
+  String timeAgoHours(Object count);
+
+  /// No description provided for @timeAgoMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}m ago'**
+  String timeAgoMinutes(Object count);
+
+  /// No description provided for @timeAgoJustNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Just now'**
+  String get timeAgoJustNow;
+
+  /// No description provided for @daysLeftFmt.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} days left'**
+  String daysLeftFmt(Object count);
+
+  /// No description provided for @notifSeed1Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Government has launched the Fisheries and Aquaculture Infrastructure Development Fund to provide concessionary finance.'**
+  String get notifSeed1Body;
+
+  /// No description provided for @notifSeed2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'PM Vidyalaxmi Education Loan Scheme'**
+  String get notifSeed2Title;
+
+  /// No description provided for @notifSeed2Body.
+  ///
+  /// In en, this message translates to:
+  /// **'A new scheme for students to provide collateral-free education loans for higher studies.'**
+  String get notifSeed2Body;
+
+  /// No description provided for @notifSeed3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'PM Vishwakarma Yojana'**
+  String get notifSeed3Title;
+
+  /// No description provided for @notifSeed3Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial support for traditional artisans and craftspeople to upgrade their skills and tools.'**
+  String get notifSeed3Body;
+
+  /// No description provided for @notifSeed4Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Post Matric Scholarship Scheme'**
+  String get notifSeed4Title;
+
+  /// No description provided for @notifSeed4Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Last date to apply is approaching'**
+  String get notifSeed4Body;
+
+  /// No description provided for @notifSeed5Title.
+  ///
+  /// In en, this message translates to:
+  /// **'PM Internship Scheme'**
+  String get notifSeed5Title;
+
+  /// No description provided for @notifSeed5Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Application window will close soon'**
+  String get notifSeed5Body;
+
+  /// No description provided for @notifSeed6Title.
+  ///
+  /// In en, this message translates to:
+  /// **'New Update on Ayushman Bharat Yojana'**
+  String get notifSeed6Title;
+
+  /// No description provided for @notifSeed6Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes in empanelment process for hospitals. Check full details.'**
+  String get notifSeed6Body;
+
+  /// No description provided for @notifSeed7Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Income Limit Revised for Several Schemes'**
+  String get notifSeed7Title;
+
+  /// No description provided for @notifSeed7Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Revised income criteria effective from 1st April 2024 for multiple schemes.'**
+  String get notifSeed7Body;
+
+  /// No description provided for @notifSeed8Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your income details to find schemes you are eligible for.'**
+  String get notifSeed8Body;
+
+  /// No description provided for @commonUserFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get commonUserFallback;
+
+  /// No description provided for @searchHintFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Search PMEGP, Startup India, MSME loans...'**
+  String get searchHintFallback;
+
+  /// No description provided for @searchBestMatchesForQuery.
+  ///
+  /// In en, this message translates to:
+  /// **'Best matches for \"{query}\"'**
+  String searchBestMatchesForQuery(Object query);
+
+  /// No description provided for @searchBestMatchesForCriteria.
+  ///
+  /// In en, this message translates to:
+  /// **'Best matches for your search criteria'**
+  String get searchBestMatchesForCriteria;
+
+  /// No description provided for @searchResultsShareHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore {title} on MSME Scheme Sahayak:'**
+  String searchResultsShareHeader(Object title);
+
+  /// No description provided for @savedRemoveFromSavedTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from saved'**
+  String get savedRemoveFromSavedTooltip;
+
+  /// No description provided for @savedKeepListUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your list updated!'**
+  String get savedKeepListUpdated;
+
+  /// No description provided for @savedRemoveNoLongerInterested.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove schemes you\'re no longer interested in.'**
+  String get savedRemoveNoLongerInterested;
 }
 
 class _AppLocalizationsDelegate
