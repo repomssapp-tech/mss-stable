@@ -60,13 +60,29 @@ void main() async {
 
   // Supabase connection config is injected at build time and never hard-coded.
   // Supply it with --dart-define-from-file=dart_defines.json (keys SUPABASE_URL
-  // / SUPABASE_PUBLISHABLE_KEY). Fails fast with actionable guidance if absent.
-  AppConfig.ensureValid();
+  // / SUPABASE_PUBLISHABLE_KEY). When absent, render a visible error instead of
+  // a blank screen so the cause is obvious.
+  final configError = AppConfig.validationError;
+  if (configError != null) {
+    debugPrint('[main] $configError ${AppConfig.setupHint}');
+    runApp(_StartupErrorApp(message: '$configError\n\n${AppConfig.setupHint}'));
+    return;
+  }
 
-  await Supabase.initialize(
-    url: AppConfig.supabaseUrl,
-    publishableKey: AppConfig.supabasePublishableKey,
-  );
+  try {
+    await Supabase.initialize(
+      url: AppConfig.supabaseUrl,
+      publishableKey: AppConfig.supabasePublishableKey,
+    );
+  } catch (e) {
+    debugPrint('[main] Supabase.initialize failed: $e');
+    runApp(
+      _StartupErrorApp(
+        message: 'Could not connect to Supabase.\n\n$e',
+      ),
+    );
+    return;
+  }
 
   // App Startup Recovery: Check for unsynced chat sessions in local storage and batch upload to Supabase
   unawaited(ChatLogService.syncPendingOfflineQueue());
@@ -90,6 +106,51 @@ void main() async {
       child: const InSchemesApp(),
     ),
   );
+}
+
+/// Shown in place of the app when startup cannot proceed (missing build-time
+/// configuration, or Supabase failed to initialise). Replaces what would
+/// otherwise be a blank screen with an actionable message.
+class _StartupErrorApp extends StatelessWidget {
+  const _StartupErrorApp({required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        backgroundColor: const Color(0xFF0F172A),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.error_outline, color: Colors.white, size: 48),
+                const SizedBox(height: 16),
+                const Text(
+                  'App configuration error',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  message,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white70, height: 1.5),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class InSchemesApp extends StatelessWidget {

@@ -22,25 +22,34 @@ class AppConfig {
   static const String supabasePublishableKey =
       String.fromEnvironment('SUPABASE_PUBLISHABLE_KEY');
 
-  static bool get _isBlank =>
-      supabaseUrl.isEmpty || supabasePublishableKey.isEmpty;
-
-  /// Throws a [StateError] with actionable guidance when required build-time
-  /// configuration is missing. Call once at the very start of `main()`.
-  static void ensureValid() {
-    if (!_isBlank && Uri.tryParse(supabaseUrl)?.hasScheme == true) return;
-
+  /// Human-readable reason the current build-time configuration is unusable,
+  /// or `null` when everything required is present and well-formed.
+  static String? get validationError {
     final missing = <String>[
       if (supabaseUrl.isEmpty) 'SUPABASE_URL',
       if (supabasePublishableKey.isEmpty) 'SUPABASE_PUBLISHABLE_KEY',
-      if (supabaseUrl.isNotEmpty && Uri.tryParse(supabaseUrl)?.hasScheme != true)
-        'SUPABASE_URL (not a valid absolute URL)',
     ];
+    if (missing.isNotEmpty) {
+      return 'Missing build-time configuration: ${missing.join(', ')}.';
+    }
+    if (Uri.tryParse(supabaseUrl)?.hasScheme != true) {
+      return 'SUPABASE_URL is not a valid absolute URL: "$supabaseUrl".';
+    }
+    return null;
+  }
 
-    throw StateError(
-      'Missing build-time configuration: ${missing.join(', ')}.\n'
-      'Run with:  --dart-define-from-file=dart_defines.json\n'
-      '(copy dart_defines.example.json to dart_defines.json and fill it in).',
-    );
+  static bool get isValid => validationError == null;
+
+  /// The guidance appended to any configuration error shown to a developer.
+  static const String setupHint =
+      'Run with --dart-define-from-file=dart_defines.json '
+      '(copy dart_defines.example.json to dart_defines.json and fill it in).';
+
+  /// Throws a [StateError] when required build-time configuration is missing.
+  /// Prefer [isValid] / [validationError] in `main()` so the app can render a
+  /// visible error instead of failing before `runApp`.
+  static void ensureValid() {
+    final error = validationError;
+    if (error != null) throw StateError('$error\n$setupHint');
   }
 }
