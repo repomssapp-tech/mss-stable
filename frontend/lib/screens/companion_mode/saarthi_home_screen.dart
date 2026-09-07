@@ -1425,8 +1425,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                   ),
                   children: [
                     TextSpan(
-                      text:
-                          '${AppConstants.getTimeGreeting(isTa: Provider.of<AppProvider>(context, listen: false).selectedLanguage == 'ta', withComma: true)} ',
+                      text: '${AppConstants.getTimeGreeting(context.l10n)} ',
                     ),
                     TextSpan(
                       text: '$userName! 👋',

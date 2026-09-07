@@ -19,8 +19,9 @@ void main() {
   });
 
   group('Time-of-day greeting tests', () {
-    test('AppConstants.getTimeGreeting returns expected strings across day brackets', () {
-      final greetingEn = AppConstants.getTimeGreeting(isTa: false, withComma: true);
+    test('AppConstants.getTimeGreeting returns expected strings across day brackets', () async {
+      final l10nEn = await AppLocalizations.delegate.load(const Locale('en'));
+      final greetingEn = AppConstants.getTimeGreeting(l10nEn);
       final hour = DateTime.now().hour;
       if (hour >= 5 && hour < 12) {
         expect(greetingEn, equals('Good Morning,'));
@@ -30,7 +31,8 @@ void main() {
         expect(greetingEn, equals('Good Evening,'));
       }
 
-      final greetingTa = AppConstants.getTimeGreeting(isTa: true, withComma: true);
+      final l10nTa = await AppLocalizations.delegate.load(const Locale('ta'));
+      final greetingTa = AppConstants.getTimeGreeting(l10nTa);
       if (hour >= 5 && hour < 12) {
         expect(greetingTa, equals('காலை வணக்கம்,'));
       } else if (hour >= 12 && hour < 17) {
@@ -38,15 +40,11 @@ void main() {
       } else {
         expect(greetingTa, equals('மாலை வணக்கம்,'));
       }
-    });
 
-    test('AppConstants.getTimeGreeting without comma works correctly', () {
-      final greeting = AppConstants.getTimeGreeting(isTa: false, withComma: false);
-      expect(greeting.endsWith(','), isFalse);
-      expect(
-        greeting == 'Good Morning' || greeting == 'Good Afternoon' || greeting == 'Good Evening',
-        isTrue,
-      );
+      // The greeting differs between locales and the ARB carries the comma.
+      expect(greetingEn == greetingTa, isFalse);
+      expect(greetingEn.endsWith(','), isTrue);
+      expect(greetingTa.endsWith(','), isTrue);
     });
   });
 
@@ -85,10 +83,8 @@ void main() {
       expect(find.text('Search Startup India'), findsOneWidget);
 
       // Verify dynamic time-of-day greeting is present
-      final currentGreeting = AppConstants.getTimeGreeting(
-        isTa: false,
-        withComma: true,
-      );
+      final l10nEn = await AppLocalizations.delegate.load(const Locale('en'));
+      final currentGreeting = AppConstants.getTimeGreeting(l10nEn);
       expect(find.text(currentGreeting), findsOneWidget);
 
       // Search bar placeholder should be visible

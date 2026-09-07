@@ -2934,4 +2934,93 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get assessSkipToResults => 'முடிவுகளுக்குச் செல்';
+
+  @override
+  String get goodAfternoon => 'மதிய வணக்கம்,';
+
+  @override
+  String get goodEvening => 'மாலை வணக்கம்,';
+
+  @override
+  String get splashPreparingSubtitle =>
+      'உங்களுக்காக அற்புதமான ஒன்றைத்\nதயார் செய்கிறோம், சற்று காத்திருக்கவும்';
+
+  @override
+  String get splashNoInternetTitle => 'இணைய இணைப்பு இல்லை';
+
+  @override
+  String get splashNoInternetBody =>
+      'உள்நுழைய அல்லது இந்த ஆப்ஸை மீட்டெடுக்க இணையத்துடன் இணைக்கவும்.';
+
+  @override
+  String get openSaarthiAiChat => 'சார்த்தி AI அரட்டை';
+
+  @override
+  String get sortLabel => 'வரிசைப்படுத்து';
+
+  @override
+  String get searchDiscoverSubtitle =>
+      'அனைத்து அரசுத் திட்டங்களையும் எளிதாகத் தேடுங்கள்';
+
+  @override
+  String get searchCompleteProfileTitle =>
+      'தனிப்பட்ட பரிந்துரைகளுக்கு உங்கள் சுயவிவரத்தை நிரப்பவும்';
+
+  @override
+  String get searchCompleteProfileSubtitle =>
+      'வயது, பாலினம் மற்றும் மாநிலம் சேர்த்தால் \"எனக்கானது\" உங்களுக்கு ஏற்ற திட்டங்களைக் காட்டும்.';
+
+  @override
+  String get searchNoProfileMatchesTitle =>
+      'உங்கள் சுயவிவரத்திற்கு இப்போது பொருந்தும் திட்டங்கள் இல்லை';
+
+  @override
+  String get searchNoProfileMatchesSubtitle =>
+      'வடிகட்டிகளை மாற்றவும் அல்லது சுயவிவரத்தைப் புதுப்பிக்கவும்.';
+
+  @override
+  String get searchNoFilterMatchesTitle =>
+      'தேர்ந்தெடுக்கப்பட்ட வடிகட்டிகளுக்கு பொருந்தும் திட்டங்கள் எதுவும் இல்லை';
+
+  @override
+  String get searchNoFilterMatchesSubtitle =>
+      'வடிகட்டிகளை மாற்றவும் அல்லது மீட்டமைக்கவும்.';
+
+  @override
+  String eligibleSchemesForYouCount(Object count) {
+    return 'உங்களுக்கான திட்டங்கள் ($count)';
+  }
+
+  @override
+  String matchingSchemesCount(Object count) {
+    return 'பொருந்தும் திட்டங்கள் ($count)';
+  }
+
+  @override
+  String get matchedStrictlyAgainstProfile =>
+      'உங்கள் சுயவிவரத் தகவலின் அடிப்படையில் பொருந்தும் திட்டங்கள்';
+
+  @override
+  String schemesAvailableCount(Object count) {
+    return 'அனைத்து திட்ட முடிவுகளும்';
+  }
+
+  @override
+  String get resultsCopiedToClipboard => 'முடிவுகள் நகலெடுக்கப்பட்டது';
+
+  @override
+  String get clearFiltersAndExplore => 'வடிகட்டிகளை அழித்து திட்டங்களைக் காண்க';
+
+  @override
+  String get removeSaved => 'சேமிக்கப்பட்டதை நீக்கு';
+
+  @override
+  String get viewDetails => 'விவரங்களைப் பார்க்க';
+
+  @override
+  String get eligibilityResultsTitle => 'தகுதி முடிவுகள்';
+
+  @override
+  String get eligibilityResultsCopiedToClipboard =>
+      'தகுதி முடிவுகள் நகலெடுக்கப்பட்டது';
 }

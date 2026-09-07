@@ -318,10 +318,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildChatButton(AppProvider provider) {
-    final isTamil = provider.selectedLanguage == 'ta';
     return Semantics(
       button: true,
-      label: isTamil ? 'சார்த்தி AI அரட்டை' : 'Open Saarthi AI chat',
+      label: context.l10n.openSaarthiAiChat,
       child: Material(
         color: const Color(0xFF2563EB),
         elevation: 5,
@@ -342,7 +341,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(width: AppSpacing.sm),
                 Text(
-                  isTamil ? 'AI அரட்டை' : 'Ask AI',
+                  context.l10n.askAi,
                   style: GoogleFonts.inter(
                     color: Colors.white,
                     fontSize: 13,
@@ -372,10 +371,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Row(
               children: [
                 Text(
-                  AppConstants.getTimeGreeting(
-                    isTa: provider.selectedLanguage == 'ta',
-                    withComma: true,
-                  ),
+                  AppConstants.getTimeGreeting(context.l10n),
                   style: GoogleFonts.inter(
                     fontSize: 14,
                     color: const Color(0xFF64748B),
@@ -1233,8 +1229,7 @@ class _HomeScreenState extends State<HomeScreen> {
           'id': sRaw.id,
           'title': s.name,
           'subtitle': s.overview.isNotEmpty ? s.overview : s.objectives,
-          'match':
-              "$match% ${provider.selectedLanguage == 'ta' ? 'பொருத்தம்' : 'Match'}",
+          'match': context.l10n.matchPercentageFormat(match),
           'isBookmarked':
               provider.bookmarkedIds.contains(sRaw.id) ||
               provider.bookmarkedIds.contains(sRaw.schemeCode),
@@ -1250,7 +1245,7 @@ class _HomeScreenState extends State<HomeScreen> {
           'id': 'pmegp_loan',
           'title': 'PMEGP Loan',
           'subtitle': "Prime Minister's Employment Generation Programme",
-          'match': '95% Match',
+          'match': context.l10n.matchPercentageFormat(95),
           'isBookmarked': false,
           'schemeCode': 'PMEGP',
           'chips': ['Central Scheme', 'Loan', 'Subsidy'],
@@ -1263,7 +1258,7 @@ class _HomeScreenState extends State<HomeScreen> {
           'id': 'msme_loan',
           'title': 'MSME Loan',
           'subtitle': 'Credit Guarantee Fund Trust for MSEs',
-          'match': '92% Match',
+          'match': context.l10n.matchPercentageFormat(92),
           'isBookmarked': true,
           'schemeCode': 'MSME',
           'chips': ['Central Scheme', 'Loan'],
@@ -1276,7 +1271,7 @@ class _HomeScreenState extends State<HomeScreen> {
           'id': 'standup_india',
           'title': 'Stand Up India',
           'subtitle': 'Bank Loans for SC/ST & Women Entrepreneurs',
-          'match': '88% Match',
+          'match': context.l10n.matchPercentageFormat(88),
           'isBookmarked': false,
           'schemeCode': 'SUI',
           'chips': ['Central Scheme', 'Loan'],
@@ -1289,7 +1284,7 @@ class _HomeScreenState extends State<HomeScreen> {
           'id': 'mudra_loan',
           'title': 'Mudra Loan',
           'subtitle': 'Loans up to ₹10 Lakhs Non-Corporate Business',
-          'match': '85% Match',
+          'match': context.l10n.matchPercentageFormat(85),
           'isBookmarked': false,
           'schemeCode': 'Mudra',
           'chips': ['Central Scheme', 'Loan'],
@@ -1403,12 +1398,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             child: FitOneLine(
                               child: Text(
-                                isTa
-                                    ? (item['match'] as String).replaceAll(
-                                        'Match',
-                                        'பொருத்தம்',
-                                      )
-                                    : (item['match'] as String),
+                                item['match'] as String,
                                 style: GoogleFonts.inter(
                                   color: const Color(0xFF15803D),
                                   fontSize: 9.5,

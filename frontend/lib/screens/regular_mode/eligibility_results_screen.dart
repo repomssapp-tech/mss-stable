@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../widgets/scheme_card.dart';
 import '../../widgets/standard_page_header.dart';
 import '../../providers/app_state_provider.dart';
-import '../../services/centralized_translator.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/responsive.dart';
 import '../../widgets/app_toast.dart';
@@ -18,7 +17,6 @@ class EligibilityResultsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
-    final isTa = provider.selectedLanguage == 'ta';
     final allMatches = provider.recommendedSchemes;
 
     // Eligible schemes are those with a match score > 0%
@@ -29,9 +27,7 @@ class EligibilityResultsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: StandardPageHeader(
-        title: isTa
-            ? CentralizedTranslator.instance.translate('Eligibility Results')
-            : 'Eligibility Results',
+        title: context.l10n.eligibilityResultsTitle,
         elevation: 1,
         actions: [
           IconButton(
@@ -48,9 +44,7 @@ class EligibilityResultsScreen extends StatelessWidget {
               if (context.mounted) {
                 AppToast.showSuccess(
                   context,
-                  provider.selectedLanguage == 'ta'
-                      ? 'தகுதி முடிவுகள் நகலெடுக்கப்பட்டது'
-                      : 'Eligibility results copied to clipboard',
+                  context.l10n.eligibilityResultsCopiedToClipboard,
                 );
               }
             },

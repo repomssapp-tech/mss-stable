@@ -241,11 +241,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                             itemBuilder: (context) => [
                               PopupMenuItem(
                                 value: 'remove',
-                                child: Text(
-                                  provider.selectedLanguage == 'ta'
-                                      ? 'சேமிக்கப்பட்டதை நீக்கு'
-                                      : 'Remove Saved',
-                                ),
+                                child: Text(context.l10n.removeSaved),
                               ),
                             ],
                           ),
@@ -341,9 +337,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                       Flexible(
                         child: FitOneLine(
                           child: Text(
-                            provider.selectedLanguage == 'ta'
-                                ? 'விவரங்களைப் பார்க்க'
-                                : 'View Details',
+                            context.l10n.viewDetails,
                             style: GoogleFonts.inter(
                               fontSize: 10.0,
                               color: const Color(0xFF2563EB),

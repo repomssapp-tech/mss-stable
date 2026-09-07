@@ -5533,6 +5533,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Skip to Results'**
   String get assessSkipToResults;
+
+  /// No description provided for @goodAfternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Good Afternoon,'**
+  String get goodAfternoon;
+
+  /// No description provided for @goodEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Good Evening,'**
+  String get goodEvening;
+
+  /// No description provided for @splashPreparingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait while we prepare\nsomething amazing for you'**
+  String get splashPreparingSubtitle;
+
+  /// No description provided for @splashNoInternetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection'**
+  String get splashNoInternetTitle;
+
+  /// No description provided for @splashNoInternetBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect to the internet to sign in or restore this app.'**
+  String get splashNoInternetBody;
+
+  /// No description provided for @openSaarthiAiChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Saarthi AI chat'**
+  String get openSaarthiAiChat;
+
+  /// No description provided for @sortLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get sortLabel;
+
+  /// No description provided for @searchDiscoverSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Find and explore all eligible government schemes'**
+  String get searchDiscoverSubtitle;
+
+  /// No description provided for @searchCompleteProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete your profile to see personalised matches'**
+  String get searchCompleteProfileTitle;
+
+  /// No description provided for @searchCompleteProfileSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your date of birth, gender and state so \"For Me\" can match schemes to you.'**
+  String get searchCompleteProfileSubtitle;
+
+  /// No description provided for @searchNoProfileMatchesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No schemes match your profile yet'**
+  String get searchNoProfileMatchesTitle;
+
+  /// No description provided for @searchNoProfileMatchesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Try adjusting the filters, or update your profile details.'**
+  String get searchNoProfileMatchesSubtitle;
+
+  /// No description provided for @searchNoFilterMatchesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No schemes found matching your filters'**
+  String get searchNoFilterMatchesTitle;
+
+  /// No description provided for @searchNoFilterMatchesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Try adjusting or clearing your filters to see more results.'**
+  String get searchNoFilterMatchesSubtitle;
+
+  /// No description provided for @eligibleSchemesForYouCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Eligible Schemes For You ({count})'**
+  String eligibleSchemesForYouCount(Object count);
+
+  /// No description provided for @matchingSchemesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Matching Schemes ({count})'**
+  String matchingSchemesCount(Object count);
+
+  /// No description provided for @matchedStrictlyAgainstProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Matched strictly against your profile data'**
+  String get matchedStrictlyAgainstProfile;
+
+  /// No description provided for @schemesAvailableCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} schemes available'**
+  String schemesAvailableCount(Object count);
+
+  /// No description provided for @resultsCopiedToClipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Results copied to clipboard'**
+  String get resultsCopiedToClipboard;
+
+  /// No description provided for @clearFiltersAndExplore.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Filters & Explore Schemes'**
+  String get clearFiltersAndExplore;
+
+  /// No description provided for @removeSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Saved'**
+  String get removeSaved;
+
+  /// No description provided for @viewDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'View Details'**
+  String get viewDetails;
+
+  /// No description provided for @eligibilityResultsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Eligibility Results'**
+  String get eligibilityResultsTitle;
+
+  /// No description provided for @eligibilityResultsCopiedToClipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Eligibility results copied to clipboard'**
+  String get eligibilityResultsCopiedToClipboard;
 }
 
 class _AppLocalizationsDelegate

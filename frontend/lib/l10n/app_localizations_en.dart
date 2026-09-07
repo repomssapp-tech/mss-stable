@@ -2901,4 +2901,92 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get assessSkipToResults => 'Skip to Results';
+
+  @override
+  String get goodAfternoon => 'Good Afternoon,';
+
+  @override
+  String get goodEvening => 'Good Evening,';
+
+  @override
+  String get splashPreparingSubtitle =>
+      'Please wait while we prepare\nsomething amazing for you';
+
+  @override
+  String get splashNoInternetTitle => 'No internet connection';
+
+  @override
+  String get splashNoInternetBody =>
+      'Connect to the internet to sign in or restore this app.';
+
+  @override
+  String get openSaarthiAiChat => 'Open Saarthi AI chat';
+
+  @override
+  String get sortLabel => 'Sort';
+
+  @override
+  String get searchDiscoverSubtitle =>
+      'Find and explore all eligible government schemes';
+
+  @override
+  String get searchCompleteProfileTitle =>
+      'Complete your profile to see personalised matches';
+
+  @override
+  String get searchCompleteProfileSubtitle =>
+      'Add your date of birth, gender and state so \"For Me\" can match schemes to you.';
+
+  @override
+  String get searchNoProfileMatchesTitle => 'No schemes match your profile yet';
+
+  @override
+  String get searchNoProfileMatchesSubtitle =>
+      'Try adjusting the filters, or update your profile details.';
+
+  @override
+  String get searchNoFilterMatchesTitle =>
+      'No schemes found matching your filters';
+
+  @override
+  String get searchNoFilterMatchesSubtitle =>
+      'Try adjusting or clearing your filters to see more results.';
+
+  @override
+  String eligibleSchemesForYouCount(Object count) {
+    return 'Eligible Schemes For You ($count)';
+  }
+
+  @override
+  String matchingSchemesCount(Object count) {
+    return 'Matching Schemes ($count)';
+  }
+
+  @override
+  String get matchedStrictlyAgainstProfile =>
+      'Matched strictly against your profile data';
+
+  @override
+  String schemesAvailableCount(Object count) {
+    return '$count schemes available';
+  }
+
+  @override
+  String get resultsCopiedToClipboard => 'Results copied to clipboard';
+
+  @override
+  String get clearFiltersAndExplore => 'Clear Filters & Explore Schemes';
+
+  @override
+  String get removeSaved => 'Remove Saved';
+
+  @override
+  String get viewDetails => 'View Details';
+
+  @override
+  String get eligibilityResultsTitle => 'Eligibility Results';
+
+  @override
+  String get eligibilityResultsCopiedToClipboard =>
+      'Eligibility results copied to clipboard';
 }

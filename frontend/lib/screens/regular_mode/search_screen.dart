@@ -720,7 +720,6 @@ class SearchScreenState extends State<SearchScreen> {
 
   // 1. Custom App Bar (Styled like Discover page header)
   Widget _buildCustomAppBar(BuildContext context, AppProvider provider) {
-    final isTa = provider.selectedLanguage == 'ta';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -734,9 +733,7 @@ class SearchScreenState extends State<SearchScreen> {
         ),
         const SizedBox(height: AppSpacing.hairline),
         Text(
-          isTa
-              ? 'அனைத்து அரசுத் திட்டங்களையும் எளிதாகத் தேடுங்கள்'
-              : 'Find and explore all eligible government schemes',
+          context.l10n.searchDiscoverSubtitle,
           style: GoogleFonts.inter(
             fontSize: 12,
             color: const Color(0xFF64748B),
@@ -1014,7 +1011,6 @@ class SearchScreenState extends State<SearchScreen> {
   // 3. Filters strip: Filter · For Me · Sort  (nothing else).
   Widget _buildDiscoverFiltersStrip() {
     final provider = Provider.of<AppProvider>(context);
-    final isTa = provider.selectedLanguage == 'ta';
     final int facetCount = activeSchemeFilterCount(provider.filters);
 
     return SingleChildScrollView(
@@ -1100,7 +1096,7 @@ class SearchScreenState extends State<SearchScreen> {
 
           // Sort
           _buildDropdownChip(
-            isTa ? 'வரிசைப்படுத்து' : 'Sort',
+            context.l10n.sortLabel,
             const [
               'Relevance',
               'Best match for me',
@@ -1180,7 +1176,6 @@ class SearchScreenState extends State<SearchScreen> {
     final String queryText = _searchController.text.trim();
 
     if (_searchResults.isEmpty) {
-      final isTa = provider.selectedLanguage == 'ta';
       final bool forMeNeedsProfile =
           _activeFilter == 'For Me' &&
           _forMeEmptyState == ForMeEmptyState.completeProfile;
@@ -1193,32 +1188,20 @@ class SearchScreenState extends State<SearchScreen> {
       final IconData icon;
       if (forMeNeedsProfile) {
         icon = Icons.assignment_ind_outlined;
-        title = isTa
-            ? 'தனிப்பட்ட பரிந்துரைகளுக்கு உங்கள் சுயவிவரத்தை நிரப்பவும்'
-            : 'Complete your profile to see personalised matches';
-        subtitle = isTa
-            ? 'வயது, பாலினம் மற்றும் மாநிலம் சேர்த்தால் "எனக்கானது" உங்களுக்கு ஏற்ற திட்டங்களைக் காட்டும்.'
-            : 'Add your date of birth, gender and state so "For Me" can match schemes to you.';
+        title = context.l10n.searchCompleteProfileTitle;
+        subtitle = context.l10n.searchCompleteProfileSubtitle;
       } else if (forMeNoMatches) {
         icon = Icons.search_off_rounded;
-        title = isTa
-            ? 'உங்கள் சுயவிவரத்திற்கு இப்போது பொருந்தும் திட்டங்கள் இல்லை'
-            : 'No schemes match your profile yet';
-        subtitle = isTa
-            ? 'வடிகட்டிகளை மாற்றவும் அல்லது சுயவிவரத்தைப் புதுப்பிக்கவும்.'
-            : 'Try adjusting the filters, or update your profile details.';
+        title = context.l10n.searchNoProfileMatchesTitle;
+        subtitle = context.l10n.searchNoProfileMatchesSubtitle;
       } else if (queryText.isNotEmpty) {
         icon = Icons.search_off_rounded;
         title = context.l10n.noSchemesFound(queryText);
         subtitle = context.l10n.tryDifferentKeyword;
       } else {
         icon = Icons.filter_alt_off_outlined;
-        title = isTa
-            ? 'தேர்ந்தெடுக்கப்பட்ட வடிகட்டிகளுக்கு பொருந்தும் திட்டங்கள் எதுவும் இல்லை'
-            : 'No schemes found matching your filters';
-        subtitle = isTa
-            ? 'வடிகட்டிகளை மாற்றவும் அல்லது மீட்டமைக்கவும்.'
-            : 'Try adjusting or clearing your filters to see more results.';
+        title = context.l10n.searchNoFilterMatchesTitle;
+        subtitle = context.l10n.searchNoFilterMatchesSubtitle;
       }
 
       return ListView(
@@ -1268,17 +1251,11 @@ class SearchScreenState extends State<SearchScreen> {
         if (index == 0) {
           final isForMe = _activeFilter == 'For Me';
           final titleText = isForMe
-              ? (provider.selectedLanguage == 'ta'
-                    ? "உங்களுக்கான திட்டங்கள் (${_searchResults.length})"
-                    : "Eligible Schemes For You (${_searchResults.length})")
-              : (provider.selectedLanguage == 'ta'
-                    ? "பொருந்தும் திட்டங்கள் (${_searchResults.length})"
-                    : "Matching Schemes (${_searchResults.length})");
+              ? context.l10n.eligibleSchemesForYouCount(_searchResults.length)
+              : context.l10n.matchingSchemesCount(_searchResults.length);
 
           final subtitleText = isForMe
-              ? (provider.selectedLanguage == 'ta'
-                    ? "உங்கள் சுயவிவரத் தகவலின் அடிப்படையில் பொருந்தும் திட்டங்கள்"
-                    : "Matched strictly against your profile data")
+              ? context.l10n.matchedStrictlyAgainstProfile
               : (_searchController.text.trim().isNotEmpty
                     ? "Best matches for \"${_searchController.text.trim()}\""
                     : "Best matches for your search criteria");
