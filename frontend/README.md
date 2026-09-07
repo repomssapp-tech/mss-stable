@@ -1,36 +1,47 @@
-# frontend
+# MSS App — Flutter frontend
 
-A new Flutter project.
+## First-time setup
 
-## Configuration
+1. `flutter pub get`
+2. Create `dart_defines.json` from the template and fill in the real values:
+   ```
+   cp dart_defines.example.json dart_defines.json
+   ```
+   | Key | Value |
+   |---|---|
+   | `SUPABASE_URL` | `https://<project-ref>.supabase.co` |
+   | `SUPABASE_PUBLISHABLE_KEY` | `sb_publishable_...` (anon key — safe in the client, RLS-protected) |
+   | `MSS_API_BASE_URL` | `https://<project-ref>.supabase.co/functions/v1` |
 
-Supabase connection settings are passed at build/run time via a dart-define
-file, not hardcoded. Copy the example and fill in the publishable key:
+   `dart_defines.json` is git-ignored. Ask a teammate for the values, or read
+   them from the Supabase dashboard → Project Settings → API.
 
-```console
-cp dart_defines.example.json dart_defines.json
-```
+## Running the app
 
-`dart_defines.json` is gitignored. Then run/build with:
+Connection config is injected at build time — it is **not** hard-coded in
+source. If you launch without it you get an "App configuration error" screen
+instead of the app. Use one of these so you never have to remember the flag:
 
-```console
-flutter run -d chrome --dart-define-from-file=dart_defines.json
-```
+| How | Command |
+|---|---|
+| Terminal (Windows) | `./run.ps1` &nbsp;·&nbsp; `./run.ps1 apk-release` |
+| Terminal (macOS/Linux/Git Bash) | `./run.sh` &nbsp;·&nbsp; `./run.sh apk-release` |
+| VS Code | Run panel → **"MSS App (debug)"** |
+| Android Studio | Run → Edit Configurations → *Additional run args*: `--dart-define-from-file=dart_defines.json` |
+| Raw Flutter | `flutter run --dart-define-from-file=dart_defines.json` |
 
-`SUPABASE_PUBLISHABLE_KEY` is the new-format publishable key (`sb_publishable_...`).
-`SUPABASE_URL` and `MSS_API_BASE_URL` fall back to the production project when
-omitted.
+`run.ps1` / `run.sh` accept: `run` (default), `run-release`, `apk`,
+`apk-release`, `appbundle`, `web`, `analyze`, `test`. They auto-create
+`dart_defines.json` from the example on first use and tell you to fill it in.
 
-## Getting Started
+## CI
 
-This project is a starting point for a Flutter application.
+`.github/workflows/build-app.yml` writes `dart_defines.json` from the repo
+secrets `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`, then passes
+`--dart-define-from-file` to the build steps. Without those secrets the
+workflow runs `analyze` + `test` only.
 
-A few resources to get you started if this is your first Flutter project:
+## Flutter resources
 
 - [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [Flutter documentation](https://docs.flutter.dev/) — tutorials, samples, API reference
