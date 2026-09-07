@@ -25,7 +25,7 @@ class FakeBetaGateService extends BetaGateService {
       throw Exception('Network unreachable');
     }
     if (shouldSucceed && userInput == '300708') {
-      await BetaGateService.setUnlocked(true);
+      await BetaGateService.setUnlocked(true, password: '300708');
       return true;
     }
     return false;
