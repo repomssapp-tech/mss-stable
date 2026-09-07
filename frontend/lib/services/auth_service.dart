@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../config/app_config.dart';
+
 class AuthService {
   static final client = Supabase.instance.client;
 
@@ -17,10 +19,7 @@ class AuthService {
   /// Past this age a pending marker is treated as an abandoned attempt.
   static const _oauthPendingTtl = Duration(minutes: 2);
 
-  static const _supabaseUrl = String.fromEnvironment(
-    'SUPABASE_URL',
-    defaultValue: 'https://houpzsxmwemoztpuigmo.supabase.co',
-  );
+  static String get _supabaseUrl => AppConfig.supabaseUrl;
 
   /// Used only before an online-only sign-in. Core catalog use never waits on
   /// this check.

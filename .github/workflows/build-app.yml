@@ -79,6 +79,22 @@ jobs:
       - name: Resolve dependencies
         run: flutter pub get
 
+      - name: Materialise dart_defines.json from secrets
+        id: dart_defines
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -z "${SUPABASE_URL:-}" ] || [ -z "${SUPABASE_PUBLISHABLE_KEY:-}" ]; then
+            echo "SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY secrets absent — release builds will be skipped."
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          jq -n --arg url "$SUPABASE_URL" --arg key "$SUPABASE_PUBLISHABLE_KEY" \
+            '{SUPABASE_URL: $url, SUPABASE_PUBLISHABLE_KEY: $key}' > dart_defines.json
+          echo "present=true" >> "$GITHUB_OUTPUT"
+
       - name: Analyze
         run: flutter analyze
 
@@ -109,21 +125,23 @@ jobs:
           echo "signed=true" >> "$GITHUB_OUTPUT"
 
       - name: Build release APK
-        if: ${{ steps.signing.outputs.signed == 'true' }}
-        run: flutter build apk --release
+        if: ${{ steps.dart_defines.outputs.present == 'true' && steps.signing.outputs.signed == 'true' }}
+        run: flutter build apk --release --dart-define-from-file=dart_defines.json
 
       - name: Build debug APK (no signing secrets)
-        if: ${{ steps.signing.outputs.signed != 'true' }}
-        run: flutter build apk --debug
+        if: ${{ steps.dart_defines.outputs.present == 'true' && steps.signing.outputs.signed != 'true' }}
+        run: flutter build apk --debug --dart-define-from-file=dart_defines.json
 
       - name: Build web bundle
-        run: flutter build web --release
+        if: ${{ steps.dart_defines.outputs.present == 'true' }}
+        run: flutter build web --release --dart-define-from-file=dart_defines.json
 
-      - name: Remove signing material
+      - name: Remove build secrets
         if: ${{ always() }}
-        run: rm -f android/key.properties android/app/upload-keystore.jks
+        run: rm -f android/key.properties android/app/upload-keystore.jks dart_defines.json
 
       - name: Upload APK
+        if: ${{ steps.dart_defines.outputs.present == 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: app-apk-${{ github.sha }}
@@ -132,6 +150,7 @@ jobs:
           retention-days: 14
 
       - name: Upload web bundle
+        if: ${{ steps.dart_defines.outputs.present == 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: app-web-${{ github.sha }}
@@ -141,7 +160,9 @@ jobs:
 
       - name: Promotable?
         run: |
-          if [ "${{ github.event.inputs.dry_run }}" = "false" ] && [ "${{ steps.signing.outputs.signed }}" = "true" ]; then
+          if [ "${{ steps.dart_defines.outputs.present }}" != "true" ]; then
+            echo "Not promotable: SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY secrets absent (analyze + test only)."
+          elif [ "${{ github.event.inputs.dry_run }}" = "false" ] && [ "${{ steps.signing.outputs.signed }}" = "true" ]; then
             echo "Signed release build — artifact app-apk-${{ github.sha }} is promotable."
           else
             echo "Not promotable: dry_run=${{ github.event.inputs.dry_run }}, signed=${{ steps.signing.outputs.signed }}."
