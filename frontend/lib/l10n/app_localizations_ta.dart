@@ -1186,10 +1186,10 @@ class AppLocalizationsTa extends AppLocalizations {
   String get welcomeVoiceLabel => 'குரல்';
 
   @override
-  String get welcomeVoiceNatural => 'இயல்பான';
+  String get welcomeVoiceNatural => 'இயற்கையான ஒலி';
 
   @override
-  String get welcomeVoiceClear => 'தெளிவான';
+  String get welcomeVoiceClear => 'தெளிவான ஒலி';
 
   @override
   String get welcomePreviewVoiceTooltip =>
@@ -1936,4 +1936,83 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get established => 'நிறுவப்பட்டது';
+
+  @override
+  String get howCanIHelp => 'நான் எப்படி உதவலாம்?';
+
+  @override
+  String get poweredBySarvamAi => 'Sarvam AI மூலம்';
+
+  @override
+  String get sarvamPromptFindSchemes => 'எனக்கான திட்டங்களைக் கண்டறியவும்';
+
+  @override
+  String get sarvamPromptExplainMsmeLoans => 'MSME கடன் பற்றி சொல்லுங்கள்';
+
+  @override
+  String get sarvamAskAboutSchemes =>
+      'திட்டங்கள், தகுதி மற்றும் விண்ணப்ப வழிமுறைகள் பற்றி கேளுங்கள்.';
+
+  @override
+  String get sarvamInputHint => 'சார்த்தியிடம் கேளுங்கள்…';
+
+  @override
+  String get send => 'அனுப்பு';
+
+  @override
+  String get sarvamCouldNotReach =>
+      'சார்த்தியை அணுக முடியவில்லை. மீண்டும் முயலவும்.';
+
+  @override
+  String get welcomePreviewVoice => 'கேட்க';
+
+  @override
+  String get welcomePreviewVoiceError =>
+      'குரலை முன்னோட்டம் காட்ட முடியவில்லை. உங்கள் ஒலி அமைப்புகளைச் சரிபார்க்கவும்.';
+
+  @override
+  String get welcomeSavePreferencesError =>
+      'விருப்பங்களை கிளவுட்டில் சேமிக்க முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.';
+
+  @override
+  String companionMatchPercent(Object percent) {
+    return '$percent% பொருத்தம்';
+  }
+
+  @override
+  String get voiceNeedOneMoreDetail =>
+      'உறுதியான பொருத்தம் இன்னும் கிடைக்கவில்லை. இன்னும் ஒரு விவரம் சொல்லுங்கள்.';
+
+  @override
+  String get voiceTellMeSituationFindSchemes =>
+      'உங்கள் நிலையைச் சொல்லுங்கள். பொருத்தமான அரசு திட்டங்களைக் கண்டுபிடிக்கிறேன்.';
+
+  @override
+  String get voiceSpeakerYou => 'நீங்கள்';
+
+  @override
+  String get voiceSpeakerAssistant => 'உதவியாளர்';
+
+  @override
+  String get voiceForYou => 'உங்களுக்கான திட்டங்கள்';
+
+  @override
+  String get voiceListenOrInterrupt =>
+      'பதிலை கேளுங்கள் அல்லது இடைமறிக்க தட்டுங்கள்';
+
+  @override
+  String get voiceSpeakNaturallyPause =>
+      'இயல்பாக பேசுங்கள்; முடிந்ததும் சிறிது நிறுத்துங்கள்';
+
+  @override
+  String get voiceReadyForNextQuestion => 'அடுத்த கேள்விக்கு தயாராக உள்ளது';
+
+  @override
+  String get voiceDeviceNoiseControl => 'சாதன சத்தக் கட்டுப்பாடு';
+
+  @override
+  String get voiceConversation => 'உரையாடல்';
+
+  @override
+  String get voiceRecommendedForYou => 'உங்களுக்கு பொருத்தமானவை';
 }

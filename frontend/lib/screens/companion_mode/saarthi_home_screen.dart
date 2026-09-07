@@ -1824,7 +1824,6 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
       listen: false,
     ).selectedLanguage;
     final locScheme = scheme.toLocalized(lang);
-    final isTa = lang == 'ta';
 
     final confidence = metadata?.matchConfidence;
     final confidenceColor = confidence == null
@@ -1905,10 +1904,8 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                       ),
                       child: Text(
                         confidence == null
-                            ? (isTa ? 'பொருத்தம் காண்க' : 'Review match')
-                            : (isTa
-                                  ? '$confidence% பொருத்தம்'
-                                  : '$confidence% match'),
+                            ? context.l10n.companionReviewMatch
+                            : context.l10n.companionMatchPercent(confidence),
                         style: GoogleFonts.inter(
                           fontSize: 9.5,
                           fontWeight: FontWeight.w800,
@@ -1948,9 +1945,12 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                       child: Text(
                         verified
                             ? sourceConfidence.isEmpty
-                                  ? 'Official source checked'
-                                  : 'Official source checked · ${sourceConfidence[0].toUpperCase()}${sourceConfidence.substring(1)} confidence'
-                            : 'Verify with the department',
+                                  ? context.l10n.companionOfficialSourceChecked
+                                  : context.l10n
+                                        .companionOfficialSourceCheckedConfidence(
+                                          '${sourceConfidence[0].toUpperCase()}${sourceConfidence.substring(1)}',
+                                        )
+                            : context.l10n.companionVerifyWithDepartment,
                         style: GoogleFonts.inter(
                           fontSize: 9.5,
                           fontWeight: FontWeight.w600,
@@ -1961,7 +1961,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                       ),
                     ),
                     Text(
-                      'View eligibility',
+                      context.l10n.companionViewEligibility,
                       style: GoogleFonts.inter(
                         fontSize: 9.5,
                         fontWeight: FontWeight.w700,

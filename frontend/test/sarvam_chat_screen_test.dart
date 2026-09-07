@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/models/user_profile.dart';
 import 'package:frontend/screens/regular_mode/sarvam_chat_screen.dart';
 import 'package:frontend/services/sarvam_chat_service.dart';
@@ -13,6 +14,8 @@ void main() {
     final client = _FakeSarvamChatClient();
     await tester.pumpWidget(
       MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: SarvamChatScreen(
           client: client,
           profile: UserProfile(name: 'Anto'),
@@ -46,6 +49,8 @@ void main() {
     final client = _FakeSarvamChatClient();
     await tester.pumpWidget(
       MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: SarvamChatScreen(
           client: client,
           profile: UserProfile(),

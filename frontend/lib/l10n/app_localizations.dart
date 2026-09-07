@@ -3655,6 +3655,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Established'**
   String get established;
+
+  /// No description provided for @howCanIHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'How can I help?'**
+  String get howCanIHelp;
+
+  /// No description provided for @poweredBySarvamAi.
+  ///
+  /// In en, this message translates to:
+  /// **'Powered by Sarvam AI'**
+  String get poweredBySarvamAi;
+
+  /// No description provided for @sarvamPromptFindSchemes.
+  ///
+  /// In en, this message translates to:
+  /// **'Find schemes for me'**
+  String get sarvamPromptFindSchemes;
+
+  /// No description provided for @sarvamPromptExplainMsmeLoans.
+  ///
+  /// In en, this message translates to:
+  /// **'Explain MSME loans'**
+  String get sarvamPromptExplainMsmeLoans;
+
+  /// No description provided for @sarvamAskAboutSchemes.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask about schemes, eligibility, or how to apply.'**
+  String get sarvamAskAboutSchemes;
+
+  /// No description provided for @sarvamInputHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask Saarthi…'**
+  String get sarvamInputHint;
+
+  /// No description provided for @send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get send;
+
+  /// No description provided for @sarvamCouldNotReach.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach Saarthi. Please try again.'**
+  String get sarvamCouldNotReach;
+
+  /// No description provided for @welcomePreviewVoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get welcomePreviewVoice;
+
+  /// No description provided for @welcomePreviewVoiceError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to preview voice. Please check your audio settings.'**
+  String get welcomePreviewVoiceError;
+
+  /// No description provided for @welcomeSavePreferencesError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to save preferences to the cloud. Please check your connection and try again.'**
+  String get welcomeSavePreferencesError;
+
+  /// No description provided for @companionMatchPercent.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% match'**
+  String companionMatchPercent(Object percent);
+
+  /// No description provided for @voiceNeedOneMoreDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'I need one more detail to find a confident match.'**
+  String get voiceNeedOneMoreDetail;
+
+  /// No description provided for @voiceTellMeSituationFindSchemes.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell me your situation. I’ll find relevant government schemes.'**
+  String get voiceTellMeSituationFindSchemes;
+
+  /// No description provided for @voiceSpeakerYou.
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get voiceSpeakerYou;
+
+  /// No description provided for @voiceSpeakerAssistant.
+  ///
+  /// In en, this message translates to:
+  /// **'Assistant'**
+  String get voiceSpeakerAssistant;
+
+  /// No description provided for @voiceForYou.
+  ///
+  /// In en, this message translates to:
+  /// **'For you'**
+  String get voiceForYou;
+
+  /// No description provided for @voiceListenOrInterrupt.
+  ///
+  /// In en, this message translates to:
+  /// **'Listen, or tap below to interrupt'**
+  String get voiceListenOrInterrupt;
+
+  /// No description provided for @voiceSpeakNaturallyPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Speak naturally, then pause when you are done'**
+  String get voiceSpeakNaturallyPause;
+
+  /// No description provided for @voiceReadyForNextQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready for your next question'**
+  String get voiceReadyForNextQuestion;
+
+  /// No description provided for @voiceDeviceNoiseControl.
+  ///
+  /// In en, this message translates to:
+  /// **'Device noise control'**
+  String get voiceDeviceNoiseControl;
+
+  /// No description provided for @voiceConversation.
+  ///
+  /// In en, this message translates to:
+  /// **'Conversation'**
+  String get voiceConversation;
+
+  /// No description provided for @voiceRecommendedForYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended for you'**
+  String get voiceRecommendedForYou;
 }
 
 class _AppLocalizationsDelegate

@@ -29,6 +29,8 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           home: VoiceAssistantOverlay(
             autoStart: false,
             sessionController: session,
@@ -95,6 +97,8 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: VoiceAssistantOverlay(
           autoStart: false,
           sessionController: session,
@@ -151,6 +155,8 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: VoiceAssistantOverlay(
           autoStart: false,
           sessionController: session,
@@ -899,8 +905,12 @@ void main() {
     await tester.pump();
 
     expect(find.byKey(const Key('voice-follow-up-question')), findsOneWidget);
+    // Tamil session (`emitLanguage('ta-IN')`) -> the notice now resolves from
+    // the ARB `voiceSpeechOutputUnavailable` key in Tamil.
     expect(
-      find.text('Speech output is unavailable; tap the microphone to answer.'),
+      find.text(
+        'குரல் வெளியீடு கிடைக்கவில்லை; பதிலளிக்க மைக்ரோஃபோனைத் தட்டவும்.',
+      ),
       findsOneWidget,
     );
     expect(speech.spokenTexts, isEmpty);

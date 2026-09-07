@@ -1909,4 +1909,82 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get established => 'Established';
+
+  @override
+  String get howCanIHelp => 'How can I help?';
+
+  @override
+  String get poweredBySarvamAi => 'Powered by Sarvam AI';
+
+  @override
+  String get sarvamPromptFindSchemes => 'Find schemes for me';
+
+  @override
+  String get sarvamPromptExplainMsmeLoans => 'Explain MSME loans';
+
+  @override
+  String get sarvamAskAboutSchemes =>
+      'Ask about schemes, eligibility, or how to apply.';
+
+  @override
+  String get sarvamInputHint => 'Ask Saarthi…';
+
+  @override
+  String get send => 'Send';
+
+  @override
+  String get sarvamCouldNotReach =>
+      'Could not reach Saarthi. Please try again.';
+
+  @override
+  String get welcomePreviewVoice => 'Preview';
+
+  @override
+  String get welcomePreviewVoiceError =>
+      'Unable to preview voice. Please check your audio settings.';
+
+  @override
+  String get welcomeSavePreferencesError =>
+      'Unable to save preferences to the cloud. Please check your connection and try again.';
+
+  @override
+  String companionMatchPercent(Object percent) {
+    return '$percent% match';
+  }
+
+  @override
+  String get voiceNeedOneMoreDetail =>
+      'I need one more detail to find a confident match.';
+
+  @override
+  String get voiceTellMeSituationFindSchemes =>
+      'Tell me your situation. I’ll find relevant government schemes.';
+
+  @override
+  String get voiceSpeakerYou => 'You';
+
+  @override
+  String get voiceSpeakerAssistant => 'Assistant';
+
+  @override
+  String get voiceForYou => 'For you';
+
+  @override
+  String get voiceListenOrInterrupt => 'Listen, or tap below to interrupt';
+
+  @override
+  String get voiceSpeakNaturallyPause =>
+      'Speak naturally, then pause when you are done';
+
+  @override
+  String get voiceReadyForNextQuestion => 'Ready for your next question';
+
+  @override
+  String get voiceDeviceNoiseControl => 'Device noise control';
+
+  @override
+  String get voiceConversation => 'Conversation';
+
+  @override
+  String get voiceRecommendedForYou => 'Recommended for you';
 }
