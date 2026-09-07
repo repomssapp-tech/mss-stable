@@ -6,6 +6,7 @@ import '../../models/scheme_model.dart';
 import '../../providers/app_state_provider.dart';
 import '../../services/scheme_repository.dart';
 import '../../l10n/l10n.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/centralized_translator.dart';
 import '../../utils/responsive.dart';
 import '../../widgets/smart_assessment_bottom_sheet.dart';
@@ -1427,7 +1428,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             Icons.close,
                             color: Color(0xFF64748B),
                           ),
-                          tooltip: 'Close',
+                          tooltip: context.l10n.close,
                         ),
                       ],
                     ),
@@ -1639,7 +1640,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     IconButton(
                       onPressed: () => Navigator.pop(context),
                       icon: const Icon(Icons.close, color: Color(0xFF64748B)),
-                      tooltip: 'Close',
+                      tooltip: context.l10n.close,
                     ),
                   ],
                 ),
@@ -1793,7 +1794,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     IconButton(
                       onPressed: () => Navigator.pop(context),
                       icon: const Icon(Icons.close, color: Color(0xFF64748B)),
-                      tooltip: 'Close',
+                      tooltip: context.l10n.close,
                     ),
                   ],
                 ),
@@ -2144,7 +2145,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           size: 18,
                           color: Color(0xFF64748B),
                         ),
-                        tooltip: 'Close',
+                        tooltip: context.l10n.close,
                       ),
                     ],
                   ),
@@ -2527,7 +2528,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           size: 18,
                           color: Color(0xFF64748B),
                         ),
-                        tooltip: 'Close',
+                        tooltip: context.l10n.close,
                       ),
                     ],
                   ),
@@ -2875,6 +2876,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   }
 
   void _openEmiCalculator() {
+    final l10n = context.l10n;
     final loanController = TextEditingController();
     final rateController = TextEditingController();
     final tenureController = TextEditingController();
@@ -2936,7 +2938,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Business Loan EMI Calculator',
+                              l10n.emiCalcTitle,
                               style: GoogleFonts.poppins(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -2944,7 +2946,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               ),
                             ),
                             Text(
-                              'Calculate monthly payments for your business loan.',
+                              l10n.emiCalcSubtitle,
                               style: GoogleFonts.inter(
                                 fontSize: 10,
                                 color: const Color(0xFF64748B),
@@ -2960,13 +2962,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           size: 18,
                           color: Color(0xFF64748B),
                         ),
-                        tooltip: 'Close',
+                        tooltip: context.l10n.close,
                       ),
                     ],
                   ),
                   const SizedBox(height: AppSpacing.xl),
                   Text(
-                    'Loan Amount',
+                    l10n.emiLoanAmount,
                     style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
@@ -2988,7 +2990,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         color: const Color(0xFF94A3B8),
                       ),
                       prefixText: '₹ ',
-                      helperText: 'Enter total business loan sum required',
+                      helperText: l10n.emiLoanAmountHelper,
                       helperStyle: GoogleFonts.inter(
                         fontSize: 9,
                         color: const Color(0xFF64748B),
@@ -3023,7 +3025,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Interest Rate (% p.a.)',
+                              l10n.emiInterestRate,
                               style: GoogleFonts.inter(
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,
@@ -3046,7 +3048,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   color: const Color(0xFF94A3B8),
                                 ),
                                 suffixText: '%',
-                                helperText: 'Enter annual rate',
+                                helperText: l10n.emiInterestRateHelper,
                                 helperStyle: GoogleFonts.inter(
                                   fontSize: 9,
                                   color: const Color(0xFF64748B),
@@ -3079,7 +3081,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Tenure (Months)',
+                              l10n.emiTenureMonths,
                               style: GoogleFonts.inter(
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,
@@ -3098,8 +3100,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   fontSize: 12,
                                   color: const Color(0xFF94A3B8),
                                 ),
-                                suffixText: 'Mo',
-                                helperText: 'Enter term in months',
+                                suffixText: l10n.emiTenureSuffixMo,
+                                helperText: l10n.emiTenureHelper,
                                 helperStyle: GoogleFonts.inter(
                                   fontSize: 9,
                                   color: const Color(0xFF64748B),
@@ -3165,7 +3167,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  'Monthly EMI',
+                                  l10n.emiMonthlyEmi,
                                   softWrap: true,
                                   style: GoogleFonts.inter(
                                     fontSize: 11.5,
@@ -3199,7 +3201,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  'Principal Amount',
+                                  l10n.emiPrincipal,
                                   softWrap: true,
                                   style: GoogleFonts.inter(
                                     fontSize: 11,
@@ -3229,7 +3231,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  'Total Interest Payable',
+                                  l10n.emiTotalInterest,
                                   softWrap: true,
                                   style: GoogleFonts.inter(
                                     fontSize: 11,
@@ -3262,7 +3264,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  'Total Amount (Principal + Int)',
+                                  l10n.emiTotalAmount,
                                   softWrap: true,
                                   style: GoogleFonts.inter(
                                     fontSize: 11,
@@ -3305,7 +3307,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
                         if (p <= 0 || annualRate <= 0 || n <= 0) {
                           setModalState(() {
-                            error = 'Please enter valid inputs';
+                            error = l10n.emiInvalidInputs;
                             emiVal = 0;
                           });
                           return;
@@ -3334,7 +3336,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         ),
                       ),
                       child: Text(
-                        'Calculate EMI',
+                        l10n.emiCalculate,
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.5,
@@ -3352,6 +3354,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   }
 
   void _openDpiitChecklist() {
+    final l10n = context.l10n;
     bool isPvtLtdOrLlp = false;
     bool isUnder10Years = false;
     bool turnoverUnder100Cr = false;
@@ -3411,7 +3414,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'DPIIT Recognition Checklist',
+                              l10n.dpiitTitle,
                               style: GoogleFonts.poppins(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -3419,7 +3422,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               ),
                             ),
                             Text(
-                              'Evaluate if your business qualifies as a startup under DPIIT rules.',
+                              l10n.dpiitSubtitle,
                               style: GoogleFonts.inter(
                                 fontSize: 10,
                                 color: const Color(0xFF64748B),
@@ -3435,7 +3438,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           size: 18,
                           color: Color(0xFF64748B),
                         ),
-                        tooltip: 'Close',
+                        tooltip: context.l10n.close,
                       ),
                     ],
                   ),
@@ -3449,14 +3452,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       children: [
                         CheckboxListTile(
                           title: Text(
-                            'Registered as Pvt Ltd / LLP / Partnership',
+                            l10n.dpiitCriteriaRegistered,
                             style: const TextStyle(
                               fontSize: 11.5,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           subtitle: Text(
-                            'Must be registered in India',
+                            l10n.dpiitCriteriaRegisteredSub,
                             style: const TextStyle(fontSize: 9.5),
                           ),
                           value: isPvtLtdOrLlp,
@@ -3473,14 +3476,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         const Divider(height: 1, color: Color(0xFFE2E8F0)),
                         CheckboxListTile(
                           title: Text(
-                            'Incorporation age is under 10 years',
+                            l10n.dpiitCriteriaAge,
                             style: const TextStyle(
                               fontSize: 11.5,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           subtitle: Text(
-                            'From incorporation date',
+                            l10n.dpiitCriteriaAgeSub,
                             style: const TextStyle(fontSize: 9.5),
                           ),
                           value: isUnder10Years,
@@ -3493,14 +3496,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         const Divider(height: 1, color: Color(0xFFE2E8F0)),
                         CheckboxListTile(
                           title: Text(
-                            'Annual turnover has never exceeded ₹100 Cr',
+                            l10n.dpiitCriteriaTurnover,
                             style: const TextStyle(
                               fontSize: 11.5,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           subtitle: Text(
-                            'For any financial year',
+                            l10n.dpiitCriteriaTurnoverSub,
                             style: const TextStyle(fontSize: 9.5),
                           ),
                           value: turnoverUnder100Cr,
@@ -3513,14 +3516,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         const Divider(height: 1, color: Color(0xFFE2E8F0)),
                         CheckboxListTile(
                           title: Text(
-                            'Working towards innovation/scaling',
+                            l10n.dpiitCriteriaInnovation,
                             style: const TextStyle(
                               fontSize: 11.5,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           subtitle: Text(
-                            'Developing new products/processes',
+                            l10n.dpiitCriteriaInnovationSub,
                             style: const TextStyle(fontSize: 9.5),
                           ),
                           value: isInnovative,
@@ -3588,12 +3591,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             isInnovative;
                         setModalState(() {
                           if (eligible) {
-                            result =
-                                'Highly Eligible for DPIIT Startup India Recognition!';
+                            result = l10n.dpiitResultEligible;
                             resultColor = const Color(0xFF0D9488); // Teal Green
                           } else {
-                            result =
-                                'Not Eligible. Startups must satisfy all 4 criteria to qualify.';
+                            result = l10n.dpiitResultNotEligible;
                             resultColor = const Color(0xFFDC2626); // Red
                           }
                         });
@@ -3607,7 +3608,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         ),
                       ),
                       child: Text(
-                        'Check Eligibility',
+                        l10n.dpiitCheckEligibility,
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.5,
@@ -3625,6 +3626,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   }
 
   void _openValuationEstimator() {
+    final l10n = context.l10n;
     final mrrController = TextEditingController();
     final growthController = TextEditingController();
     String selectedSector = 'SaaS / Tech';
@@ -3646,9 +3648,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           builder: (context, setModalState) {
             String formatVal(double val) {
               if (val >= 10000000) {
-                return '₹ ${(val / 10000000).toStringAsFixed(2)} Crores';
+                return l10n.valuationCroreFmt(
+                  (val / 10000000).toStringAsFixed(2),
+                );
               }
-              return '₹ ${(val / 100000).toStringAsFixed(2)} Lakhs';
+              return l10n.valuationLakhFmt((val / 100000).toStringAsFixed(2));
             }
 
             return Padding(
@@ -3693,7 +3697,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Startup Valuation Estimator',
+                              l10n.valuationTitle,
                               style: GoogleFonts.poppins(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -3701,7 +3705,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               ),
                             ),
                             Text(
-                              'Get a ballpark pre-seed/seed valuation range based on MRR.',
+                              l10n.valuationSubtitle,
                               style: GoogleFonts.inter(
                                 fontSize: 10,
                                 color: const Color(0xFF64748B),
@@ -3717,13 +3721,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           size: 18,
                           color: Color(0xFF64748B),
                         ),
-                        tooltip: 'Close',
+                        tooltip: context.l10n.close,
                       ),
                     ],
                   ),
                   const SizedBox(height: AppSpacing.xl),
                   Text(
-                    'Monthly Recurring Revenue (MRR)',
+                    l10n.valuationMrrLabel,
                     style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
@@ -3743,7 +3747,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         color: const Color(0xFF94A3B8),
                       ),
                       prefixText: '₹ ',
-                      helperText: 'Enter monthly revenue in Rupees',
+                      helperText: l10n.valuationMrrHelper,
                       helperStyle: GoogleFonts.inter(
                         fontSize: 9,
                         color: const Color(0xFF64748B),
@@ -3778,7 +3782,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'MoM Growth (%)',
+                              l10n.valuationMomGrowth,
                               style: GoogleFonts.inter(
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,
@@ -3801,7 +3805,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   color: const Color(0xFF94A3B8),
                                 ),
                                 suffixText: '%',
-                                helperText: 'Enter month-on-month rate',
+                                helperText: l10n.valuationMomHelper,
                                 helperStyle: GoogleFonts.inter(
                                   fontSize: 9,
                                   color: const Color(0xFF64748B),
@@ -3834,7 +3838,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Business Sector',
+                              l10n.valuationSector,
                               style: GoogleFonts.inter(
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,
@@ -3921,7 +3925,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  'Valuation Range',
+                                  l10n.valuationRange,
                                   softWrap: true,
                                   style: GoogleFonts.inter(
                                     fontSize: 11.5,
@@ -3955,7 +3959,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  'Calculated ARR',
+                                  l10n.valuationCalculatedArr,
                                   softWrap: true,
                                   style: GoogleFonts.inter(
                                     fontSize: 11,
@@ -3968,7 +3972,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                 child: FitOneLine(
                                   alignment: Alignment.centerRight,
                                   child: Text(
-                                    '₹ ${(arrVal / 100000).toStringAsFixed(1)} Lakhs',
+                                    l10n.valuationLakhFmt(
+                                      (arrVal / 100000).toStringAsFixed(1),
+                                    ),
                                     style: GoogleFonts.poppins(
                                       fontSize: 11.5,
                                       fontWeight: FontWeight.w600,
@@ -3985,7 +3991,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  'Applied ARR Multiple',
+                                  l10n.valuationAppliedMultiple,
                                   softWrap: true,
                                   style: GoogleFonts.inter(
                                     fontSize: 11,
@@ -4026,7 +4032,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
                         if (mrr <= 0) {
                           setModalState(() {
-                            error = 'Please enter a valid MRR';
+                            error = l10n.valuationInvalidMrr;
                             lowEstimate = 0;
                           });
                           return;
@@ -4061,7 +4067,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         ),
                       ),
                       child: Text(
-                        'Estimate Valuation',
+                        l10n.valuationEstimate,
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.5,
@@ -4078,16 +4084,38 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     );
   }
 
-  void _openDocumentChecklist() {
-    String selectedType = 'Private Limited';
-    List<String> checklist = [
-      'Digital Signature Certificate (DSC)',
-      'Director Identification Number (DIN)',
-      'MOA & AOA Drafting',
-      'Certificate of Incorporation (COI)',
-      'Company PAN & TAN Cards',
-      'Corporate Bank Account',
+  List<String> _docChecklist(AppLocalizations l10n, String entityType) {
+    if (entityType == 'Partnership') {
+      return [
+        l10n.docItemPartnershipDeed,
+        l10n.docItemDeedRegistration,
+        l10n.docItemFirmPanTan,
+        l10n.docItemFirmBankAccount,
+        l10n.docItemGstRegistrationOptional,
+      ];
+    } else if (entityType == 'LLP') {
+      return [
+        l10n.docItemLlpNameApproval,
+        l10n.docItemFillipForm,
+        l10n.docItemLlpAgreement,
+        l10n.docItemLlpPanTan,
+        l10n.docItemLlpBankAccount,
+      ];
+    }
+    return [
+      l10n.docItemDsc,
+      l10n.docItemDin,
+      l10n.docItemMoaAoa,
+      l10n.docItemCoi,
+      l10n.docItemCompanyPanTan,
+      l10n.docItemCorporateBankAccount,
     ];
+  }
+
+  void _openDocumentChecklist() {
+    final l10n = context.l10n;
+    String selectedType = 'Private Limited';
+    List<String> checklist = _docChecklist(l10n, selectedType);
 
     showModalBottomSheet(
       context: context,
@@ -4141,7 +4169,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Setup Document Checklist',
+                              l10n.docChecklistTitle,
                               style: GoogleFonts.poppins(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -4149,7 +4177,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               ),
                             ),
                             Text(
-                              'Checklist of documents needed to set up your business.',
+                              l10n.docChecklistSubtitle,
                               style: GoogleFonts.inter(
                                 fontSize: 10,
                                 color: const Color(0xFF64748B),
@@ -4165,13 +4193,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           size: 18,
                           color: Color(0xFF64748B),
                         ),
-                        tooltip: 'Close',
+                        tooltip: context.l10n.close,
                       ),
                     ],
                   ),
                   const SizedBox(height: AppSpacing.xl),
                   Text(
-                    'Business Entity Type',
+                    l10n.docEntityType,
                     style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
@@ -4194,16 +4222,16 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       ),
                     ),
                     items:
-                        [
-                          'Private Limited',
-                          'Partnership',
-                          'One Person Company (OPC)',
-                          'LLP',
-                        ].map((String type) {
+                        <String, String>{
+                          'Private Limited': l10n.docEntityPrivateLimited,
+                          'Partnership': l10n.docEntityPartnership,
+                          'One Person Company (OPC)': l10n.docEntityOpc,
+                          'LLP': l10n.docEntityLlp,
+                        }.entries.map((entry) {
                           return DropdownMenuItem<String>(
-                            value: type,
+                            value: entry.key,
                             child: Text(
-                              type,
+                              entry.value,
                               style: const TextStyle(fontSize: 12),
                             ),
                           );
@@ -4212,39 +4240,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       if (val != null) {
                         setModalState(() {
                           selectedType = val;
-                          if (val == 'Partnership') {
-                            checklist = [
-                              'Partnership Deed drafting',
-                              'Deed Registration with Registrar',
-                              'PAN & TAN cards of Firm',
-                              'Firm Bank Account',
-                              'GST Registration (Optional)',
-                            ];
-                          } else if (val == 'LLP') {
-                            checklist = [
-                              'LLP Name Approval (RUN-LLP)',
-                              'FiLLiP Form (LLP Incorporation)',
-                              'LLP Agreement Drafting',
-                              'LLP PAN & TAN Cards',
-                              'LLP Bank Account',
-                            ];
-                          } else {
-                            checklist = [
-                              'Digital Signature Certificate (DSC)',
-                              'Director Identification Number (DIN)',
-                              'MOA & AOA Drafting',
-                              'Certificate of Incorporation (COI)',
-                              'Company PAN & TAN Cards',
-                              'Corporate Bank Account',
-                            ];
-                          }
+                          checklist = _docChecklist(l10n, val);
                         });
                       }
                     },
                   ),
                   const SizedBox(height: AppSpacing.xl),
                   Text(
-                    'Required Documents',
+                    l10n.docRequiredDocuments,
                     style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
@@ -4308,7 +4311,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         ),
                       ),
                       child: Text(
-                        'Close Checklist',
+                        l10n.docCloseChecklist,
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.5,
@@ -4326,6 +4329,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   }
 
   void _openSubsidyEstimator() {
+    final l10n = context.l10n;
     final costController = TextEditingController();
     final subsidyController = TextEditingController();
     double costVal = 0.0;
@@ -4386,7 +4390,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Business Subsidy Estimator',
+                              l10n.subsidyTitle,
                               style: GoogleFonts.poppins(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -4394,7 +4398,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               ),
                             ),
                             Text(
-                              'Estimate capital subsidies and net loan commitments for machinery.',
+                              l10n.subsidySubtitle,
                               style: GoogleFonts.inter(
                                 fontSize: 10,
                                 color: const Color(0xFF64748B),
@@ -4410,13 +4414,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           size: 18,
                           color: Color(0xFF64748B),
                         ),
-                        tooltip: 'Close',
+                        tooltip: context.l10n.close,
                       ),
                     ],
                   ),
                   const SizedBox(height: AppSpacing.xl),
                   Text(
-                    'Project / Machinery Cost (Lakhs)',
+                    l10n.subsidyProjectCost,
                     style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
@@ -4438,8 +4442,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         color: const Color(0xFF94A3B8),
                       ),
                       prefixText: '₹ ',
-                      suffixText: 'Lakhs',
-                      helperText: 'Enter machinery or project cost in Lakhs',
+                      suffixText: l10n.subsidyProjectCostSuffix,
+                      helperText: l10n.subsidyProjectCostHelper,
                       helperStyle: GoogleFonts.inter(
                         fontSize: 9,
                         color: const Color(0xFF64748B),
@@ -4473,7 +4477,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   Text(
-                    'Expected Subsidy Percentage (%)',
+                    l10n.subsidyPercentLabel,
                     style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
@@ -4495,7 +4499,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         color: const Color(0xFF94A3B8),
                       ),
                       suffixText: '%',
-                      helperText: 'Enter expected subsidy rate percentage',
+                      helperText: l10n.subsidyPercentHelper,
                       helperStyle: GoogleFonts.inter(
                         fontSize: 9,
                         color: const Color(0xFF64748B),
@@ -4559,7 +4563,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  'Original Project Cost',
+                                  l10n.subsidyOriginalCost,
                                   softWrap: true,
                                   style: GoogleFonts.inter(
                                     fontSize: 11,
@@ -4572,7 +4576,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                 child: FitOneLine(
                                   alignment: Alignment.centerRight,
                                   child: Text(
-                                    '₹ ${costVal.toStringAsFixed(2)} Lakhs',
+                                    l10n.subsidyLakhFmt(
+                                      costVal.toStringAsFixed(2),
+                                    ),
                                     style: GoogleFonts.poppins(
                                       fontSize: 11.5,
                                       fontWeight: FontWeight.w600,
@@ -4589,7 +4595,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  'Expected Subsidy (${subsidyPercentVal.toStringAsFixed(1)}%)',
+                                  l10n.subsidyExpectedLabel(
+                                    subsidyPercentVal.toStringAsFixed(1),
+                                  ),
                                   softWrap: true,
                                   style: GoogleFonts.inter(
                                     fontSize: 11,
@@ -4602,7 +4610,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                 child: FitOneLine(
                                   alignment: Alignment.centerRight,
                                   child: Text(
-                                    '₹ ${subsidyAmountVal.toStringAsFixed(2)} Lakhs',
+                                    l10n.subsidyLakhFmt(
+                                      subsidyAmountVal.toStringAsFixed(2),
+                                    ),
                                     style: GoogleFonts.poppins(
                                       fontSize: 11.5,
                                       fontWeight: FontWeight.bold,
@@ -4622,7 +4632,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  'Net Cost to Business',
+                                  l10n.subsidyNetCost,
                                   softWrap: true,
                                   style: GoogleFonts.inter(
                                     fontSize: 12,
@@ -4636,7 +4646,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                 child: FitOneLine(
                                   alignment: Alignment.centerRight,
                                   child: Text(
-                                    '₹ ${netCostVal.toStringAsFixed(2)} Lakhs',
+                                    l10n.subsidyLakhFmt(
+                                      netCostVal.toStringAsFixed(2),
+                                    ),
                                     style: GoogleFonts.poppins(
                                       fontSize: 13.5,
                                       fontWeight: FontWeight.bold,
@@ -4664,8 +4676,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
                         if (cost <= 0 || percent <= 0 || percent > 100) {
                           setModalState(() {
-                            error =
-                                'Please enter valid values (Subsidy % must be between 0 and 100)';
+                            error = l10n.subsidyInvalidValues;
                             costVal = 0;
                           });
                           return;
@@ -4691,7 +4702,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         ),
                       ),
                       child: Text(
-                        'Calculate Subsidy',
+                        l10n.subsidyCalculate,
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.5,

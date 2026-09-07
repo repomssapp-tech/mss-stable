@@ -5983,6 +5983,486 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Our support team is always ready to assist you.'**
   String get helpStillNeedHelpBody;
+
+  /// No description provided for @emiCalcTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Business Loan EMI Calculator'**
+  String get emiCalcTitle;
+
+  /// No description provided for @emiCalcSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculate monthly payments for your business loan.'**
+  String get emiCalcSubtitle;
+
+  /// No description provided for @emiLoanAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Loan Amount'**
+  String get emiLoanAmount;
+
+  /// No description provided for @emiLoanAmountHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter total business loan sum required'**
+  String get emiLoanAmountHelper;
+
+  /// No description provided for @emiInterestRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Interest Rate (% p.a.)'**
+  String get emiInterestRate;
+
+  /// No description provided for @emiInterestRateHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter annual rate'**
+  String get emiInterestRateHelper;
+
+  /// No description provided for @emiTenureMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'Tenure (Months)'**
+  String get emiTenureMonths;
+
+  /// No description provided for @emiTenureSuffixMo.
+  ///
+  /// In en, this message translates to:
+  /// **'Mo'**
+  String get emiTenureSuffixMo;
+
+  /// No description provided for @emiTenureHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter term in months'**
+  String get emiTenureHelper;
+
+  /// No description provided for @emiMonthlyEmi.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly EMI'**
+  String get emiMonthlyEmi;
+
+  /// No description provided for @emiPrincipal.
+  ///
+  /// In en, this message translates to:
+  /// **'Principal Amount'**
+  String get emiPrincipal;
+
+  /// No description provided for @emiTotalInterest.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Interest Payable'**
+  String get emiTotalInterest;
+
+  /// No description provided for @emiTotalAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Amount (Principal + Int)'**
+  String get emiTotalAmount;
+
+  /// No description provided for @emiInvalidInputs.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter valid inputs'**
+  String get emiInvalidInputs;
+
+  /// No description provided for @emiCalculate.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculate EMI'**
+  String get emiCalculate;
+
+  /// No description provided for @dpiitTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'DPIIT Recognition Checklist'**
+  String get dpiitTitle;
+
+  /// No description provided for @dpiitSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Evaluate if your business qualifies as a startup under DPIIT rules.'**
+  String get dpiitSubtitle;
+
+  /// No description provided for @dpiitCriteriaRegistered.
+  ///
+  /// In en, this message translates to:
+  /// **'Registered as Pvt Ltd / LLP / Partnership'**
+  String get dpiitCriteriaRegistered;
+
+  /// No description provided for @dpiitCriteriaRegisteredSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Must be registered in India'**
+  String get dpiitCriteriaRegisteredSub;
+
+  /// No description provided for @dpiitCriteriaAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorporation age is under 10 years'**
+  String get dpiitCriteriaAge;
+
+  /// No description provided for @dpiitCriteriaAgeSub.
+  ///
+  /// In en, this message translates to:
+  /// **'From incorporation date'**
+  String get dpiitCriteriaAgeSub;
+
+  /// No description provided for @dpiitCriteriaTurnover.
+  ///
+  /// In en, this message translates to:
+  /// **'Annual turnover has never exceeded ₹100 Cr'**
+  String get dpiitCriteriaTurnover;
+
+  /// No description provided for @dpiitCriteriaTurnoverSub.
+  ///
+  /// In en, this message translates to:
+  /// **'For any financial year'**
+  String get dpiitCriteriaTurnoverSub;
+
+  /// No description provided for @dpiitCriteriaInnovation.
+  ///
+  /// In en, this message translates to:
+  /// **'Working towards innovation/scaling'**
+  String get dpiitCriteriaInnovation;
+
+  /// No description provided for @dpiitCriteriaInnovationSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Developing new products/processes'**
+  String get dpiitCriteriaInnovationSub;
+
+  /// No description provided for @dpiitResultEligible.
+  ///
+  /// In en, this message translates to:
+  /// **'Highly Eligible for DPIIT Startup India Recognition!'**
+  String get dpiitResultEligible;
+
+  /// No description provided for @dpiitResultNotEligible.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Eligible. Startups must satisfy all 4 criteria to qualify.'**
+  String get dpiitResultNotEligible;
+
+  /// No description provided for @dpiitCheckEligibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Check Eligibility'**
+  String get dpiitCheckEligibility;
+
+  /// No description provided for @valuationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Startup Valuation Estimator'**
+  String get valuationTitle;
+
+  /// No description provided for @valuationSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get a ballpark pre-seed/seed valuation range based on MRR.'**
+  String get valuationSubtitle;
+
+  /// No description provided for @valuationMrrLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Recurring Revenue (MRR)'**
+  String get valuationMrrLabel;
+
+  /// No description provided for @valuationMrrHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter monthly revenue in Rupees'**
+  String get valuationMrrHelper;
+
+  /// No description provided for @valuationMomGrowth.
+  ///
+  /// In en, this message translates to:
+  /// **'MoM Growth (%)'**
+  String get valuationMomGrowth;
+
+  /// No description provided for @valuationMomHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter month-on-month rate'**
+  String get valuationMomHelper;
+
+  /// No description provided for @valuationSector.
+  ///
+  /// In en, this message translates to:
+  /// **'Business Sector'**
+  String get valuationSector;
+
+  /// No description provided for @valuationRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Valuation Range'**
+  String get valuationRange;
+
+  /// No description provided for @valuationCalculatedArr.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculated ARR'**
+  String get valuationCalculatedArr;
+
+  /// No description provided for @valuationAppliedMultiple.
+  ///
+  /// In en, this message translates to:
+  /// **'Applied ARR Multiple'**
+  String get valuationAppliedMultiple;
+
+  /// No description provided for @valuationInvalidMrr.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid MRR'**
+  String get valuationInvalidMrr;
+
+  /// No description provided for @valuationEstimate.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimate Valuation'**
+  String get valuationEstimate;
+
+  /// No description provided for @valuationCroreFmt.
+  ///
+  /// In en, this message translates to:
+  /// **'₹ {value} Crores'**
+  String valuationCroreFmt(Object value);
+
+  /// No description provided for @valuationLakhFmt.
+  ///
+  /// In en, this message translates to:
+  /// **'₹ {value} Lakhs'**
+  String valuationLakhFmt(Object value);
+
+  /// No description provided for @docChecklistTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Setup Document Checklist'**
+  String get docChecklistTitle;
+
+  /// No description provided for @docChecklistSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Checklist of documents needed to set up your business.'**
+  String get docChecklistSubtitle;
+
+  /// No description provided for @docEntityType.
+  ///
+  /// In en, this message translates to:
+  /// **'Business Entity Type'**
+  String get docEntityType;
+
+  /// No description provided for @docRequiredDocuments.
+  ///
+  /// In en, this message translates to:
+  /// **'Required Documents'**
+  String get docRequiredDocuments;
+
+  /// No description provided for @docCloseChecklist.
+  ///
+  /// In en, this message translates to:
+  /// **'Close Checklist'**
+  String get docCloseChecklist;
+
+  /// No description provided for @docEntityPrivateLimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Private Limited'**
+  String get docEntityPrivateLimited;
+
+  /// No description provided for @docEntityPartnership.
+  ///
+  /// In en, this message translates to:
+  /// **'Partnership'**
+  String get docEntityPartnership;
+
+  /// No description provided for @docEntityOpc.
+  ///
+  /// In en, this message translates to:
+  /// **'One Person Company (OPC)'**
+  String get docEntityOpc;
+
+  /// No description provided for @docEntityLlp.
+  ///
+  /// In en, this message translates to:
+  /// **'LLP'**
+  String get docEntityLlp;
+
+  /// No description provided for @docItemDsc.
+  ///
+  /// In en, this message translates to:
+  /// **'Digital Signature Certificate (DSC)'**
+  String get docItemDsc;
+
+  /// No description provided for @docItemDin.
+  ///
+  /// In en, this message translates to:
+  /// **'Director Identification Number (DIN)'**
+  String get docItemDin;
+
+  /// No description provided for @docItemMoaAoa.
+  ///
+  /// In en, this message translates to:
+  /// **'MOA & AOA Drafting'**
+  String get docItemMoaAoa;
+
+  /// No description provided for @docItemCoi.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificate of Incorporation (COI)'**
+  String get docItemCoi;
+
+  /// No description provided for @docItemCompanyPanTan.
+  ///
+  /// In en, this message translates to:
+  /// **'Company PAN & TAN Cards'**
+  String get docItemCompanyPanTan;
+
+  /// No description provided for @docItemCorporateBankAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Corporate Bank Account'**
+  String get docItemCorporateBankAccount;
+
+  /// No description provided for @docItemPartnershipDeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Partnership Deed drafting'**
+  String get docItemPartnershipDeed;
+
+  /// No description provided for @docItemDeedRegistration.
+  ///
+  /// In en, this message translates to:
+  /// **'Deed Registration with Registrar'**
+  String get docItemDeedRegistration;
+
+  /// No description provided for @docItemFirmPanTan.
+  ///
+  /// In en, this message translates to:
+  /// **'PAN & TAN cards of Firm'**
+  String get docItemFirmPanTan;
+
+  /// No description provided for @docItemFirmBankAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Firm Bank Account'**
+  String get docItemFirmBankAccount;
+
+  /// No description provided for @docItemGstRegistrationOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'GST Registration (Optional)'**
+  String get docItemGstRegistrationOptional;
+
+  /// No description provided for @docItemLlpNameApproval.
+  ///
+  /// In en, this message translates to:
+  /// **'LLP Name Approval (RUN-LLP)'**
+  String get docItemLlpNameApproval;
+
+  /// No description provided for @docItemFillipForm.
+  ///
+  /// In en, this message translates to:
+  /// **'FiLLiP Form (LLP Incorporation)'**
+  String get docItemFillipForm;
+
+  /// No description provided for @docItemLlpAgreement.
+  ///
+  /// In en, this message translates to:
+  /// **'LLP Agreement Drafting'**
+  String get docItemLlpAgreement;
+
+  /// No description provided for @docItemLlpPanTan.
+  ///
+  /// In en, this message translates to:
+  /// **'LLP PAN & TAN Cards'**
+  String get docItemLlpPanTan;
+
+  /// No description provided for @docItemLlpBankAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'LLP Bank Account'**
+  String get docItemLlpBankAccount;
+
+  /// No description provided for @subsidyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Business Subsidy Estimator'**
+  String get subsidyTitle;
+
+  /// No description provided for @subsidySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimate capital subsidies and net loan commitments for machinery.'**
+  String get subsidySubtitle;
+
+  /// No description provided for @subsidyProjectCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Project / Machinery Cost (Lakhs)'**
+  String get subsidyProjectCost;
+
+  /// No description provided for @subsidyProjectCostSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **'Lakhs'**
+  String get subsidyProjectCostSuffix;
+
+  /// No description provided for @subsidyProjectCostHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter machinery or project cost in Lakhs'**
+  String get subsidyProjectCostHelper;
+
+  /// No description provided for @subsidyPercentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Expected Subsidy Percentage (%)'**
+  String get subsidyPercentLabel;
+
+  /// No description provided for @subsidyPercentHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter expected subsidy rate percentage'**
+  String get subsidyPercentHelper;
+
+  /// No description provided for @subsidyOriginalCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Original Project Cost'**
+  String get subsidyOriginalCost;
+
+  /// No description provided for @subsidyExpectedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Expected Subsidy ({percent}%)'**
+  String subsidyExpectedLabel(Object percent);
+
+  /// No description provided for @subsidyNetCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Net Cost to Business'**
+  String get subsidyNetCost;
+
+  /// No description provided for @subsidyInvalidValues.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter valid values (Subsidy % must be between 0 and 100)'**
+  String get subsidyInvalidValues;
+
+  /// No description provided for @subsidyCalculate.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculate Subsidy'**
+  String get subsidyCalculate;
+
+  /// No description provided for @subsidyLakhFmt.
+  ///
+  /// In en, this message translates to:
+  /// **'₹ {value} Lakhs'**
+  String subsidyLakhFmt(Object value);
 }
 
 class _AppLocalizationsDelegate

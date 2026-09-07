@@ -3200,4 +3200,269 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get helpStillNeedHelpBody =>
       'எங்கள் ஆதரவுக் குழு உங்களுக்கு உதவ எப்போதும் தயாராக உள்ளது.';
+
+  @override
+  String get emiCalcTitle => 'தொழில் கடன் EMI கால்குலேட்டர்';
+
+  @override
+  String get emiCalcSubtitle =>
+      'உங்கள் தொழில் கடனுக்கான மாதாந்திரக் கட்டணங்களைக் கணக்கிடுங்கள்.';
+
+  @override
+  String get emiLoanAmount => 'கடன் தொகை';
+
+  @override
+  String get emiLoanAmountHelper =>
+      'தேவையான மொத்த தொழில் கடன் தொகையை உள்ளிடுங்கள்';
+
+  @override
+  String get emiInterestRate => 'வட்டி விகிதம் (% ஆண்டுக்கு)';
+
+  @override
+  String get emiInterestRateHelper => 'ஆண்டு விகிதத்தை உள்ளிடுங்கள்';
+
+  @override
+  String get emiTenureMonths => 'காலம் (மாதங்கள்)';
+
+  @override
+  String get emiTenureSuffixMo => 'மா';
+
+  @override
+  String get emiTenureHelper => 'காலத்தை மாதங்களில் உள்ளிடுங்கள்';
+
+  @override
+  String get emiMonthlyEmi => 'மாதாந்திர EMI';
+
+  @override
+  String get emiPrincipal => 'அசல் தொகை';
+
+  @override
+  String get emiTotalInterest => 'செலுத்த வேண்டிய மொத்த வட்டி';
+
+  @override
+  String get emiTotalAmount => 'மொத்த தொகை (அசல் + வட்டி)';
+
+  @override
+  String get emiInvalidInputs => 'சரியான மதிப்புகளை உள்ளிடுங்கள்';
+
+  @override
+  String get emiCalculate => 'EMI கணக்கிடுங்கள்';
+
+  @override
+  String get dpiitTitle => 'DPIIT அங்கீகார சரிபார்ப்புப் பட்டியல்';
+
+  @override
+  String get dpiitSubtitle =>
+      'DPIIT விதிகளின் கீழ் உங்கள் தொழில் ஸ்டார்ட்அப்பாக தகுதி பெறுகிறதா என மதிப்பிடுங்கள்.';
+
+  @override
+  String get dpiitCriteriaRegistered =>
+      'Pvt Ltd / LLP / கூட்டாண்மையாக பதிவு செய்யப்பட்டுள்ளது';
+
+  @override
+  String get dpiitCriteriaRegisteredSub =>
+      'இந்தியாவில் பதிவு செய்யப்பட்டிருக்க வேண்டும்';
+
+  @override
+  String get dpiitCriteriaAge =>
+      'நிறுவனத் தொடக்க வயது 10 ஆண்டுகளுக்கு உட்பட்டது';
+
+  @override
+  String get dpiitCriteriaAgeSub => 'நிறுவனம் தொடங்கிய தேதியிலிருந்து';
+
+  @override
+  String get dpiitCriteriaTurnover =>
+      'ஆண்டு வருவாய் ₹100 Cr-ஐ ஒருபோதும் தாண்டவில்லை';
+
+  @override
+  String get dpiitCriteriaTurnoverSub => 'எந்த நிதியாண்டிலும்';
+
+  @override
+  String get dpiitCriteriaInnovation =>
+      'புத்தாக்கம்/வளர்ச்சியை நோக்கிச் செயல்படுகிறது';
+
+  @override
+  String get dpiitCriteriaInnovationSub =>
+      'புதிய தயாரிப்புகள்/செயல்முறைகளை உருவாக்குகிறது';
+
+  @override
+  String get dpiitResultEligible =>
+      'DPIIT Startup India அங்கீகாரத்திற்கு மிகவும் தகுதியானது!';
+
+  @override
+  String get dpiitResultNotEligible =>
+      'தகுதியில்லை. தகுதிபெற ஸ்டார்ட்அப்கள் 4 நிபந்தனைகளையும் பூர்த்தி செய்ய வேண்டும்.';
+
+  @override
+  String get dpiitCheckEligibility => 'தகுதியைச் சரிபார்க்கவும்';
+
+  @override
+  String get valuationTitle => 'ஸ்டார்ட்அப் மதிப்பீட்டு கணிப்பான்';
+
+  @override
+  String get valuationSubtitle =>
+      'MRR அடிப்படையில் தோராயமான ப்ரீ-சீட்/சீட் மதிப்பீட்டு வரம்பைப் பெறுங்கள்.';
+
+  @override
+  String get valuationMrrLabel => 'மாதாந்திர தொடர் வருவாய் (MRR)';
+
+  @override
+  String get valuationMrrHelper => 'மாதாந்திர வருவாயை ரூபாயில் உள்ளிடுங்கள்';
+
+  @override
+  String get valuationMomGrowth => 'மாதத்திற்கு மாதம் வளர்ச்சி (%)';
+
+  @override
+  String get valuationMomHelper => 'மாதத்திற்கு மாத விகிதத்தை உள்ளிடுங்கள்';
+
+  @override
+  String get valuationSector => 'தொழில் துறை';
+
+  @override
+  String get valuationRange => 'மதிப்பீட்டு வரம்பு';
+
+  @override
+  String get valuationCalculatedArr => 'கணக்கிடப்பட்ட ARR';
+
+  @override
+  String get valuationAppliedMultiple => 'பயன்படுத்தப்பட்ட ARR மடங்கு';
+
+  @override
+  String get valuationInvalidMrr => 'சரியான MRR-ஐ உள்ளிடுங்கள்';
+
+  @override
+  String get valuationEstimate => 'மதிப்பீட்டைக் கணக்கிடுங்கள்';
+
+  @override
+  String valuationCroreFmt(Object value) {
+    return '₹ $value கோடி';
+  }
+
+  @override
+  String valuationLakhFmt(Object value) {
+    return '₹ $value லட்சம்';
+  }
+
+  @override
+  String get docChecklistTitle => 'அமைப்பு ஆவணப் பட்டியல்';
+
+  @override
+  String get docChecklistSubtitle =>
+      'உங்கள் தொழிலை அமைக்கத் தேவையான ஆவணங்களின் பட்டியல்.';
+
+  @override
+  String get docEntityType => 'தொழில் நிறுவன வகை';
+
+  @override
+  String get docRequiredDocuments => 'தேவையான ஆவணங்கள்';
+
+  @override
+  String get docCloseChecklist => 'பட்டியலை மூடு';
+
+  @override
+  String get docEntityPrivateLimited => 'தனியார் லிமிடெட்';
+
+  @override
+  String get docEntityPartnership => 'கூட்டாண்மை';
+
+  @override
+  String get docEntityOpc => 'ஒரு நபர் நிறுவனம் (OPC)';
+
+  @override
+  String get docEntityLlp => 'LLP';
+
+  @override
+  String get docItemDsc => 'மின்னணு கையொப்பச் சான்றிதழ் (DSC)';
+
+  @override
+  String get docItemDin => 'இயக்குநர் அடையாள எண் (DIN)';
+
+  @override
+  String get docItemMoaAoa => 'MOA & AOA வரைவு';
+
+  @override
+  String get docItemCoi => 'நிறுவன பதிவுச் சான்றிதழ் (COI)';
+
+  @override
+  String get docItemCompanyPanTan => 'நிறுவன PAN & TAN அட்டைகள்';
+
+  @override
+  String get docItemCorporateBankAccount => 'பெருநிறுவன வங்கிக் கணக்கு';
+
+  @override
+  String get docItemPartnershipDeed => 'கூட்டாண்மை பத்திர வரைவு';
+
+  @override
+  String get docItemDeedRegistration => 'பதிவாளரிடம் பத்திரப் பதிவு';
+
+  @override
+  String get docItemFirmPanTan => 'நிறுவனத்தின் PAN & TAN அட்டைகள்';
+
+  @override
+  String get docItemFirmBankAccount => 'நிறுவன வங்கிக் கணக்கு';
+
+  @override
+  String get docItemGstRegistrationOptional => 'GST பதிவு (விருப்பத்தேர்வு)';
+
+  @override
+  String get docItemLlpNameApproval => 'LLP பெயர் ஒப்புதல் (RUN-LLP)';
+
+  @override
+  String get docItemFillipForm => 'FiLLiP படிவம் (LLP பதிவு)';
+
+  @override
+  String get docItemLlpAgreement => 'LLP ஒப்பந்த வரைவு';
+
+  @override
+  String get docItemLlpPanTan => 'LLP PAN & TAN அட்டைகள்';
+
+  @override
+  String get docItemLlpBankAccount => 'LLP வங்கிக் கணக்கு';
+
+  @override
+  String get subsidyTitle => 'தொழில் மானிய கணிப்பான்';
+
+  @override
+  String get subsidySubtitle =>
+      'இயந்திரங்களுக்கான மூலதன மானியங்கள் மற்றும் நிகர கடன் தொகையை மதிப்பிடுங்கள்.';
+
+  @override
+  String get subsidyProjectCost => 'திட்டம் / இயந்திர செலவு (லட்சம்)';
+
+  @override
+  String get subsidyProjectCostSuffix => 'லட்சம்';
+
+  @override
+  String get subsidyProjectCostHelper =>
+      'இயந்திர அல்லது திட்டச் செலவை லட்சத்தில் உள்ளிடுங்கள்';
+
+  @override
+  String get subsidyPercentLabel => 'எதிர்பார்க்கப்படும் மானிய சதவீதம் (%)';
+
+  @override
+  String get subsidyPercentHelper =>
+      'எதிர்பார்க்கப்படும் மானிய விகித சதவீதத்தை உள்ளிடுங்கள்';
+
+  @override
+  String get subsidyOriginalCost => 'அசல் திட்டச் செலவு';
+
+  @override
+  String subsidyExpectedLabel(Object percent) {
+    return 'எதிர்பார்க்கப்படும் மானியம் ($percent%)';
+  }
+
+  @override
+  String get subsidyNetCost => 'தொழிலுக்கான நிகர செலவு';
+
+  @override
+  String get subsidyInvalidValues =>
+      'சரியான மதிப்புகளை உள்ளிடுங்கள் (மானிய % 0 முதல் 100 வரை இருக்க வேண்டும்)';
+
+  @override
+  String get subsidyCalculate => 'மானியத்தைக் கணக்கிடுங்கள்';
+
+  @override
+  String subsidyLakhFmt(Object value) {
+    return '₹ $value லட்சம்';
+  }
 }

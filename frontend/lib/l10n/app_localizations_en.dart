@@ -3161,4 +3161,263 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get helpStillNeedHelpBody =>
       'Our support team is always ready to assist you.';
+
+  @override
+  String get emiCalcTitle => 'Business Loan EMI Calculator';
+
+  @override
+  String get emiCalcSubtitle =>
+      'Calculate monthly payments for your business loan.';
+
+  @override
+  String get emiLoanAmount => 'Loan Amount';
+
+  @override
+  String get emiLoanAmountHelper => 'Enter total business loan sum required';
+
+  @override
+  String get emiInterestRate => 'Interest Rate (% p.a.)';
+
+  @override
+  String get emiInterestRateHelper => 'Enter annual rate';
+
+  @override
+  String get emiTenureMonths => 'Tenure (Months)';
+
+  @override
+  String get emiTenureSuffixMo => 'Mo';
+
+  @override
+  String get emiTenureHelper => 'Enter term in months';
+
+  @override
+  String get emiMonthlyEmi => 'Monthly EMI';
+
+  @override
+  String get emiPrincipal => 'Principal Amount';
+
+  @override
+  String get emiTotalInterest => 'Total Interest Payable';
+
+  @override
+  String get emiTotalAmount => 'Total Amount (Principal + Int)';
+
+  @override
+  String get emiInvalidInputs => 'Please enter valid inputs';
+
+  @override
+  String get emiCalculate => 'Calculate EMI';
+
+  @override
+  String get dpiitTitle => 'DPIIT Recognition Checklist';
+
+  @override
+  String get dpiitSubtitle =>
+      'Evaluate if your business qualifies as a startup under DPIIT rules.';
+
+  @override
+  String get dpiitCriteriaRegistered =>
+      'Registered as Pvt Ltd / LLP / Partnership';
+
+  @override
+  String get dpiitCriteriaRegisteredSub => 'Must be registered in India';
+
+  @override
+  String get dpiitCriteriaAge => 'Incorporation age is under 10 years';
+
+  @override
+  String get dpiitCriteriaAgeSub => 'From incorporation date';
+
+  @override
+  String get dpiitCriteriaTurnover =>
+      'Annual turnover has never exceeded ₹100 Cr';
+
+  @override
+  String get dpiitCriteriaTurnoverSub => 'For any financial year';
+
+  @override
+  String get dpiitCriteriaInnovation => 'Working towards innovation/scaling';
+
+  @override
+  String get dpiitCriteriaInnovationSub => 'Developing new products/processes';
+
+  @override
+  String get dpiitResultEligible =>
+      'Highly Eligible for DPIIT Startup India Recognition!';
+
+  @override
+  String get dpiitResultNotEligible =>
+      'Not Eligible. Startups must satisfy all 4 criteria to qualify.';
+
+  @override
+  String get dpiitCheckEligibility => 'Check Eligibility';
+
+  @override
+  String get valuationTitle => 'Startup Valuation Estimator';
+
+  @override
+  String get valuationSubtitle =>
+      'Get a ballpark pre-seed/seed valuation range based on MRR.';
+
+  @override
+  String get valuationMrrLabel => 'Monthly Recurring Revenue (MRR)';
+
+  @override
+  String get valuationMrrHelper => 'Enter monthly revenue in Rupees';
+
+  @override
+  String get valuationMomGrowth => 'MoM Growth (%)';
+
+  @override
+  String get valuationMomHelper => 'Enter month-on-month rate';
+
+  @override
+  String get valuationSector => 'Business Sector';
+
+  @override
+  String get valuationRange => 'Valuation Range';
+
+  @override
+  String get valuationCalculatedArr => 'Calculated ARR';
+
+  @override
+  String get valuationAppliedMultiple => 'Applied ARR Multiple';
+
+  @override
+  String get valuationInvalidMrr => 'Please enter a valid MRR';
+
+  @override
+  String get valuationEstimate => 'Estimate Valuation';
+
+  @override
+  String valuationCroreFmt(Object value) {
+    return '₹ $value Crores';
+  }
+
+  @override
+  String valuationLakhFmt(Object value) {
+    return '₹ $value Lakhs';
+  }
+
+  @override
+  String get docChecklistTitle => 'Setup Document Checklist';
+
+  @override
+  String get docChecklistSubtitle =>
+      'Checklist of documents needed to set up your business.';
+
+  @override
+  String get docEntityType => 'Business Entity Type';
+
+  @override
+  String get docRequiredDocuments => 'Required Documents';
+
+  @override
+  String get docCloseChecklist => 'Close Checklist';
+
+  @override
+  String get docEntityPrivateLimited => 'Private Limited';
+
+  @override
+  String get docEntityPartnership => 'Partnership';
+
+  @override
+  String get docEntityOpc => 'One Person Company (OPC)';
+
+  @override
+  String get docEntityLlp => 'LLP';
+
+  @override
+  String get docItemDsc => 'Digital Signature Certificate (DSC)';
+
+  @override
+  String get docItemDin => 'Director Identification Number (DIN)';
+
+  @override
+  String get docItemMoaAoa => 'MOA & AOA Drafting';
+
+  @override
+  String get docItemCoi => 'Certificate of Incorporation (COI)';
+
+  @override
+  String get docItemCompanyPanTan => 'Company PAN & TAN Cards';
+
+  @override
+  String get docItemCorporateBankAccount => 'Corporate Bank Account';
+
+  @override
+  String get docItemPartnershipDeed => 'Partnership Deed drafting';
+
+  @override
+  String get docItemDeedRegistration => 'Deed Registration with Registrar';
+
+  @override
+  String get docItemFirmPanTan => 'PAN & TAN cards of Firm';
+
+  @override
+  String get docItemFirmBankAccount => 'Firm Bank Account';
+
+  @override
+  String get docItemGstRegistrationOptional => 'GST Registration (Optional)';
+
+  @override
+  String get docItemLlpNameApproval => 'LLP Name Approval (RUN-LLP)';
+
+  @override
+  String get docItemFillipForm => 'FiLLiP Form (LLP Incorporation)';
+
+  @override
+  String get docItemLlpAgreement => 'LLP Agreement Drafting';
+
+  @override
+  String get docItemLlpPanTan => 'LLP PAN & TAN Cards';
+
+  @override
+  String get docItemLlpBankAccount => 'LLP Bank Account';
+
+  @override
+  String get subsidyTitle => 'Business Subsidy Estimator';
+
+  @override
+  String get subsidySubtitle =>
+      'Estimate capital subsidies and net loan commitments for machinery.';
+
+  @override
+  String get subsidyProjectCost => 'Project / Machinery Cost (Lakhs)';
+
+  @override
+  String get subsidyProjectCostSuffix => 'Lakhs';
+
+  @override
+  String get subsidyProjectCostHelper =>
+      'Enter machinery or project cost in Lakhs';
+
+  @override
+  String get subsidyPercentLabel => 'Expected Subsidy Percentage (%)';
+
+  @override
+  String get subsidyPercentHelper => 'Enter expected subsidy rate percentage';
+
+  @override
+  String get subsidyOriginalCost => 'Original Project Cost';
+
+  @override
+  String subsidyExpectedLabel(Object percent) {
+    return 'Expected Subsidy ($percent%)';
+  }
+
+  @override
+  String get subsidyNetCost => 'Net Cost to Business';
+
+  @override
+  String get subsidyInvalidValues =>
+      'Please enter valid values (Subsidy % must be between 0 and 100)';
+
+  @override
+  String get subsidyCalculate => 'Calculate Subsidy';
+
+  @override
+  String subsidyLakhFmt(Object value) {
+    return '₹ $value Lakhs';
+  }
 }
