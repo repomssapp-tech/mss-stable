@@ -299,6 +299,10 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final mediaQuery = MediaQuery.of(context);
+    final minContentHeight =
+        size.height - mediaQuery.padding.top - mediaQuery.padding.bottom;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -313,99 +317,215 @@ class _SplashScreenState extends State<SplashScreen>
           // 2. Animated Content
           Positioned.fill(
             child: SafeArea(
-              child: Column(
-                children: [
-                  const Spacer(flex: 2),
-
-                  // Brand Logo centered
-                  AnimatedBuilder(
-                    animation: _controller,
-                    builder: (context, child) {
-                      return Opacity(
-                        opacity: _fadeAnimation.value,
-                        child: Transform.scale(
-                          scale: _scaleAnimation.value,
-                          child: child,
-                        ),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                      child: Image.asset(
-                        'assets/images/Logo/Logo.webp',
-                        width: size.width * 0.60,
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(
-                                Icons.account_balance,
-                                size: 80,
-                                color: AppConstants.primaryColor,
-                              ),
-                              const SizedBox(height: AppSpacing.lg),
-                              Text(
-                                'MSS',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppConstants.primaryColor,
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-
-                  const Spacer(flex: 5),
-
-                  // Loading Section at the bottom overlaying the blue wave
-                  FadeTransition(
-                    opacity: _fadeAnimation,
+              child: SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: minContentHeight),
+                  child: IntrinsicHeight(
                     child: Column(
-                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        SizedBox(
-                          width: size.width * 0.5,
-                          child: const ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            child: LinearProgressIndicator(
-                              minHeight: 4,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.white,
+                        const Spacer(flex: 2),
+
+                        // Brand Logo centered
+                        AnimatedBuilder(
+                          animation: _controller,
+                          builder: (context, child) {
+                            return Opacity(
+                              opacity: _fadeAnimation.value,
+                              child: Transform.scale(
+                                scale: _scaleAnimation.value,
+                                child: child,
                               ),
-                              backgroundColor: Colors.white24,
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 40.0,
+                            ),
+                            child: Image.asset(
+                              'assets/images/Logo/Logo.webp',
+                              width: size.width * 0.60,
+                              fit: BoxFit.contain,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(
+                                      Icons.account_balance,
+                                      size: 80,
+                                      color: AppConstants.primaryColor,
+                                    ),
+                                    const SizedBox(height: AppSpacing.lg),
+                                    Text(
+                                      'MSS',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 32,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppConstants.primaryColor,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
                             ),
                           ),
                         ),
+
+                        const Spacer(flex: 5),
+
+                        // Loading Section
+                        FadeTransition(
+                          opacity: _fadeAnimation,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(
+                                width: size.width * 0.45,
+                                child: const ClipRRect(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                  child: LinearProgressIndicator(
+                                    minHeight: 3.5,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white,
+                                    ),
+                                    backgroundColor: Colors.white24,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: AppSpacing.md),
+                              Text(
+                                context.l10n.loading,
+                                style: GoogleFonts.inter(
+                                  fontSize: 12.5,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                  letterSpacing: 0.3,
+                                ),
+                              ),
+                              const SizedBox(height: AppSpacing.xs),
+                              Text(
+                                context.l10n.splashPreparingSubtitle,
+                                style: GoogleFonts.inter(
+                                  fontSize: 10.5,
+                                  color: Colors.white70,
+                                  height: 1.4,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+
                         const SizedBox(height: AppSpacing.xl),
-                        Text(
-                          context.l10n.loading,
-                          style: GoogleFonts.inter(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            letterSpacing: 0.5,
+
+                        // Developer Partner Logos Section ("App developed by")
+                        FadeTransition(
+                          opacity: _fadeAnimation,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: AppSpacing.xxxl,
+                                ),
+                                child: Row(
+                                  children: [
+                                    const Expanded(
+                                      child: Divider(
+                                        color: Color(0x40FFFFFF),
+                                        thickness: 0.8,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: AppSpacing.md,
+                                      ),
+                                      child: Text(
+                                        'App developed by',
+                                        style: GoogleFonts.inter(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w500,
+                                          color: const Color(0xCCFFFFFF),
+                                          letterSpacing: 0.3,
+                                        ),
+                                      ),
+                                    ),
+                                    const Expanded(
+                                      child: Divider(
+                                        color: Color(0x40FFFFFF),
+                                        thickness: 0.8,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: AppSpacing.md),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: AppSpacing.xl,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    // Rajalakshmi Institute of Technology (RIT) White Logo
+                                    Flexible(
+                                      flex: 5,
+                                      child: Image.asset(
+                                        'assets/images/Logo/rit_logo_white.png',
+                                        height: 32,
+                                        fit: BoxFit.contain,
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                Image.asset(
+                                                  'assets/images/Logo/rit_logo.webp',
+                                                  height: 32,
+                                                  fit: BoxFit.contain,
+                                                  color: Colors.white,
+                                                  colorBlendMode:
+                                                      BlendMode.srcIn,
+                                                ),
+                                      ),
+                                    ),
+                                    // Divider line
+                                    Container(
+                                      height: 32,
+                                      width: 1,
+                                      margin: const EdgeInsets.symmetric(
+                                        horizontal: AppSpacing.lg,
+                                      ),
+                                      color: const Color(0x40FFFFFF),
+                                    ),
+                                    // Swadeshi Shodh Sansthan (SSS TN Chapter) logo
+                                    Flexible(
+                                      flex: 3,
+                                      child: Image.asset(
+                                        'assets/images/Logo/sss_tn_chapter_logo.webp',
+                                        height: 44,
+                                        fit: BoxFit.contain,
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                Image.asset(
+                                                  'assets/images/Logo/TN Chapter_20260805_153307_0000.webp',
+                                                  height: 44,
+                                                  fit: BoxFit.contain,
+                                                ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(height: AppSpacing.sm),
-                        Text(
-                          context.l10n.splashPreparingSubtitle,
-                          style: GoogleFonts.inter(
-                            fontSize: 12,
-                            color: Colors.white70,
-                            height: 1.5,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+
+                        const SizedBox(height: AppSpacing.xxl),
                       ],
                     ),
                   ),
-                  const SizedBox(height: AppSpacing.xxxl),
-                ],
+                ),
               ),
             ),
           ),
