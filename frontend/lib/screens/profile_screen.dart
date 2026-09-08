@@ -1354,7 +1354,8 @@ class ProfileScreen extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (_) => const LanguageSelectionScreen(),
+                      builder: (_) =>
+                          const LanguageSelectionScreen(isOnboarding: false),
                     ),
                   );
                 },

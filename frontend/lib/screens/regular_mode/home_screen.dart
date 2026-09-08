@@ -223,6 +223,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 290,
                   fit: BoxFit.cover,
                   alignment: Alignment.topCenter,
+                  // Source is 2160x1260; only ever painted at screen width.
+                  cacheWidth:
+                      (MediaQuery.of(context).size.width *
+                              MediaQuery.of(context).devicePixelRatio)
+                          .round(),
                 ),
                 Container(
                   height: 290,
@@ -638,8 +643,11 @@ class _HomeScreenState extends State<HomeScreen> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             image: const DecorationImage(
-              image: AssetImage(
-                'assets/images/Background/profile process banner.webp',
+              image: ResizeImage(
+                AssetImage(
+                  'assets/images/Background/profile process banner.webp',
+                ),
+                width: 1080,
               ),
               fit: BoxFit.cover,
             ),
@@ -955,7 +963,10 @@ class _HomeScreenState extends State<HomeScreen> {
           decoration: BoxDecoration(
             gradient: bgImage != null ? null : bgGradient,
             image: bgImage != null
-                ? DecorationImage(image: AssetImage(bgImage), fit: BoxFit.cover)
+                ? DecorationImage(
+                    image: ResizeImage(AssetImage(bgImage), width: 1080),
+                    fit: BoxFit.cover,
+                  )
                 : null,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
@@ -1523,7 +1534,10 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       decoration: BoxDecoration(
         image: const DecorationImage(
-          image: AssetImage('assets/images/Background/tip banner.webp'),
+          image: ResizeImage(
+            AssetImage('assets/images/Background/tip banner.webp'),
+            width: 1080,
+          ),
           fit: BoxFit.cover,
         ),
         borderRadius: BorderRadius.circular(18),

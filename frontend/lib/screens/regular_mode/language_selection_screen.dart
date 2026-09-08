@@ -27,7 +27,14 @@ class LanguageOption {
 }
 
 class LanguageSelectionScreen extends StatefulWidget {
-  const LanguageSelectionScreen({super.key});
+  /// True during first-run onboarding (splash / beta gate / navigation-mode
+  /// screen): "Continue" moves the user forward to the login flow. False when
+  /// opened later from Settings or Profile: "Continue" just applies the
+  /// language and pops back — it must NOT re-enter the onboarding /
+  /// navigation-mode flow.
+  final bool isOnboarding;
+
+  const LanguageSelectionScreen({super.key, this.isOnboarding = true});
 
   @override
   State<LanguageSelectionScreen> createState() =>
@@ -254,11 +261,15 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                                   ),
                                   onPressed: () {
                                     provider.changeLanguage(_selectedLang);
-                                    Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                        builder: (_) => const LoginScreen(),
-                                      ),
-                                    );
+                                    if (widget.isOnboarding) {
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (_) => const LoginScreen(),
+                                        ),
+                                      );
+                                    } else {
+                                      Navigator.of(context).pop();
+                                    }
                                   },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,

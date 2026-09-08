@@ -408,7 +408,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (_) => const LanguageSelectionScreen(),
+                      builder: (_) =>
+                          const LanguageSelectionScreen(isOnboarding: false),
                     ),
                   );
                 },

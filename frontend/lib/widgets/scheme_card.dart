@@ -76,7 +76,11 @@ class SchemeCard extends StatelessWidget {
     return uniqueList.take(3).toList();
   }
 
-  Widget _buildSchemeLogo(Scheme scheme, {double size = 48}) {
+  Widget _buildSchemeLogo(
+    BuildContext context,
+    Scheme scheme, {
+    double size = 48,
+  }) {
     final emblemAsset = EmblemHelper.getEmblemAsset(
       governmentLevel: scheme.governmentLevel,
       state: scheme.state,
@@ -85,17 +89,25 @@ class SchemeCard extends StatelessWidget {
       name: scheme.name,
     );
 
+    // Emblem source WebPs are ~900-1024px square but render at `size` dp.
+    // Cap the decode to the physical pixels actually shown so a scrolling
+    // results list doesn't hold a multi-MB bitmap per card.
+    final int decodePx = (size * MediaQuery.devicePixelRatioOf(context))
+        .round();
+
     return Image.asset(
       emblemAsset,
       fit: BoxFit.contain,
       width: size,
       height: size,
+      cacheWidth: decodePx,
       errorBuilder: (context, error, stackTrace) {
         return Image.asset(
           'assets/images/States assets/Indian emblem.webp',
           fit: BoxFit.contain,
           width: size,
           height: size,
+          cacheWidth: decodePx,
         );
       },
     );
@@ -182,7 +194,10 @@ class SchemeCard extends StatelessWidget {
     ].join(' • ');
 
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: AppSpacing.sm, horizontal: AppSpacing.lg),
+      margin: const EdgeInsets.symmetric(
+        vertical: AppSpacing.sm,
+        horizontal: AppSpacing.lg,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
@@ -218,7 +233,9 @@ class SchemeCard extends StatelessWidget {
                     ),
                   ),
                   padding: EdgeInsets.zero,
-                  child: ClipOval(child: _buildSchemeLogo(scheme, size: 72)),
+                  child: ClipOval(
+                    child: _buildSchemeLogo(context, scheme, size: 72),
+                  ),
                 ),
                 const SizedBox(width: AppSpacing.lg),
 
