@@ -203,12 +203,10 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
   }
 
   String _applicationDestination(LocalizedScheme scheme) {
-    return [
-      scheme.applicationUrl,
-      scheme.officialWebsite,
-      scheme.guidelinesUrl,
-      scheme.sourceUrl,
-    ].firstWhere(_isSafeWebUrl, orElse: () => '');
+    // catalog.scheme.scheme_url is the sole, authoritative "Apply Now"
+    // destination -- every scheme has one, so there is no fallback chain.
+    final url = scheme.schemeUrl.trim();
+    return _isSafeWebUrl(url) ? url : '';
   }
 
   bool _isSafeWebUrl(String value) {

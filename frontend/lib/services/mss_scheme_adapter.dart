@@ -865,6 +865,10 @@ class MssSchemeAdapter {
     final guidelinesUrl = guidelinesUrlRaw ?? '';
     final logoUrl = (resources['logoUrl'] as String?) ?? '';
 
+    // catalog.scheme.scheme_url, mirrored into record_json.content.schemeUrl.
+    // Authoritative "Apply Now" destination -- used directly, no fallback.
+    final schemeUrl = (content['schemeUrl'] as String?)?.trim() ?? '';
+
     final helplineContactsMap = <String, String>{};
     if (contactsObj['helplines'] is List) {
       for (final h in contactsObj['helplines']) {
@@ -920,6 +924,7 @@ class MssSchemeAdapter {
       applicationUrl: applicationUrl,
       guidelinesUrl: guidelinesUrl,
       sourceUrl: officialWebsite,
+      schemeUrl: schemeUrl,
       districtApplicable: (gov['districtsText'] as String?) ?? '',
       subsidyAmount: subsidyAmountText,
       verificationStatus:

@@ -157,6 +157,12 @@ class Scheme {
   final String applicationUrl;
   final String guidelinesUrl;
   final String sourceUrl;
+
+  /// Canonical official application/landing URL for the scheme, from
+  /// catalog.scheme.scheme_url (mirrored into record_json.content.schemeUrl).
+  /// This is the sole source for the "Apply Now" action.
+  final String schemeUrl;
+
   final String districtApplicable;
   final String subsidyAmount;
   final String verificationStatus;
@@ -251,6 +257,7 @@ class Scheme {
     this.applicationUrl = '',
     this.guidelinesUrl = '',
     this.sourceUrl = '',
+    this.schemeUrl = '',
     this.districtApplicable = '',
     this.subsidyAmount = '',
     this.verificationStatus = '',
@@ -346,6 +353,7 @@ class Scheme {
       applicationUrl: row['application_url'] as String? ?? '',
       guidelinesUrl: row['guidelines_url'] as String? ?? '',
       sourceUrl: row['source_url'] as String? ?? '',
+      schemeUrl: row['scheme_url'] as String? ?? '',
       districtApplicable: row['district_applicable'] as String? ?? '',
       subsidyAmount:
           row['subsidy_amount_display']?.toString() ??
@@ -406,6 +414,7 @@ class Scheme {
       applicationUrl: applicationUrl ?? this.applicationUrl,
       guidelinesUrl: guidelinesUrl,
       sourceUrl: sourceUrl,
+      schemeUrl: schemeUrl,
       districtApplicable: districtApplicable,
       subsidyAmount: subsidyAmount,
       verificationStatus: verificationStatus,
@@ -522,6 +531,7 @@ class Scheme {
       applicationUrl: applicationUrl,
       guidelinesUrl: guidelinesUrl,
       sourceUrl: sourceUrl,
+      schemeUrl: schemeUrl,
       districtApplicable: districtApplicable,
       subsidyAmount: subsidyAmount,
       verificationStatus: verificationStatus,
