@@ -186,8 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildLoginForm(bool isTa) {
-    String l(String key) => ProfileL10n.t(key, isTa);
+  Widget _buildLoginForm() {
     final bool canConsent = _hasViewedTerms && _hasViewedPrivacy;
     final bool isLoginEnabled =
         canConsent && _hasAgreedToConsent && !_isLoading;
@@ -294,7 +293,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Flexible(
                     child: FitOneLine(
                       child: Text(
-                        l('continue_with_google'),
+                        context.l10n.continueWithGoogle,
                         style: GoogleFonts.inter(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,

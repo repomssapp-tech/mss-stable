@@ -190,23 +190,9 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     super.dispose();
   }
 
-  String _formatDob(DateTime d) {
-    final dd = d.day.toString().padLeft(2, '0');
-    final mm = d.month.toString().padLeft(2, '0');
-    final yyyy = d.year.toString();
-    return '$dd/$mm/$yyyy';
-  }
-
-  Future<void> _selectDob(BuildContext context) async {
-    final DateTime? picked = await showThemedDatePicker(
-      context: context,
-      initialDate: _selectedDob ?? DateTime(2000, 1, 1),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-      initialDatePickerMode: DatePickerMode.year,
-      helpText: context.l10n.profileHintSelectDob,
-    );
-    if (picked != null && picked != _selectedDob) {
+  Future<void> _openDataProcessingConsentModal() async {
+    final consented = await DataProcessingConsentModal.show(context);
+    if (consented != null && mounted) {
       setState(() {
         _hasConsentedDataProcessing = consented;
       });
@@ -221,11 +207,14 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     return null;
   }
 
-  String? _pincodeErrorText() {
-    if (!_hasSubmittedStep2) return null;
-    final pin = _pincodeController.text.trim();
-    if (pin.isEmpty) return context.l10n.badgeRequired;
-    if (pin.length != 6) return context.l10n.profileErrPincode6Digits;
+  String? _ageErrorText() {
+    if (!_hasSubmittedStep1) return null;
+    final ageStr = _ageController.text.trim();
+    if (ageStr.isEmpty) return context.l10n.profileErrEnterAge;
+    final age = int.tryParse(ageStr);
+    if (age == null || age < 1 || age > 120) {
+      return context.l10n.profileErrValidAge;
+    }
     return null;
   }
 
@@ -953,21 +942,32 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
 
         // Age
         CustomInputField(
-          label: '${l10n.dateOfBirth} *',
-          controller: _dobController,
-          leadingIcon: Icons.calendar_today_outlined,
-          trailingIcon: Icons.arrow_drop_down,
-          readOnly: true,
-          hintText: l10n.profileHintDdmmyyyy,
-          onTap: () => _selectDob(context),
-          errorText: _hasSubmittedStep1 && _selectedDob == null
-              ? l10n.profileErrSelectDob
-              : null,
+          label: '${l10n.labelAge} *',
+          controller: _ageController,
+          leadingIcon: Icons.cake_outlined,
+          trailingIcon: Icons.edit_outlined,
+          keyboardType: TextInputType.number,
+          hintText: 'e.g. 25',
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+            LengthLimitingTextInputFormatter(3),
+          ],
+          errorText: _ageErrorText(),
+          onChanged: (val) {
+            final age = int.tryParse(val.trim());
+            if (age != null && age > 0 && age <= 120) {
+              final now = DateTime.now();
+              _selectedDob = DateTime(now.year - age, now.month, now.day);
+            } else {
+              _selectedDob = null;
+            }
+            if (_hasSubmittedStep1) setState(() {});
+          },
         ),
         const SizedBox(height: AppSpacing.xxl),
 
-        // Info Box
-        _buildInfoBox(),
+        // Consent Section
+        _buildConsentSection(),
         const SizedBox(height: AppSpacing.md),
       ],
     );
@@ -1019,12 +1019,13 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     );
   }
 
-  Widget _buildConsentSection(bool isTa) {
+  Widget _buildConsentSection() {
+    final l10n = context.l10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          isTa ? 'தனியுரிமை & தரவு' : 'Privacy & Data',
+          l10n.privacyAndData,
           style: GoogleFonts.inter(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -1066,9 +1067,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                   });
                 },
                 child: Text(
-                  isTa
-                      ? 'எனது சுயவிவரத்தை உருவாக்கவும் தனிப்பயனாக்கப்பட்ட அரசு திட்ட பரிந்துரைகளை வழங்கவும் எனது தகவலை MSS சேகரித்து செயலாக்க நான் ஒப்புக்கொள்கிறேன்.'
-                      : 'I consent to MSS collecting and processing my information to create my profile and provide personalized Government scheme recommendations.',
+                  l10n.dataProcessingConsent,
                   style: GoogleFonts.inter(
                     fontSize: 13,
                     color: kSlate800,
@@ -1088,9 +1087,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
               child: Text(
-                isTa
-                    ? 'உங்கள் தரவு எவ்வாறு பயன்படுத்தப்படுகிறது என்பதைப் படியுங்கள் →'
-                    : 'Read how your data is used →',
+                l10n.readHowDataUsed,
                 style: GoogleFonts.inter(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
@@ -1116,9 +1113,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                 const SizedBox(width: AppSpacing.xs),
                 Expanded(
                   child: Text(
-                    isTa
-                        ? 'தொடர தயவுசெய்து உங்கள் ஒப்புதலை வழங்கவும்'
-                        : 'Please consent to continue',
+                    l10n.pleaseConsentToContinue,
                     style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
@@ -1248,48 +1243,48 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         ),
         const SizedBox(height: AppSpacing.xl),
 
-        // Door / House No / Street Address Field
-        _buildLabel('${l10n.doorNoStreet} *'),
+        // Full Address Multi-line Text Area
+        _buildLabel('${l10n.fullAddress} *'),
         const SizedBox(height: AppSpacing.tight),
         _buildTextField(
-          controller: _doorStreetController,
-          hintText: l10n.profileHintDoorStreetExample,
+          controller: _addressController,
+          hintText: 'e.g. Door/Flat No, Street Name, Locality',
           icon: Icons.home_outlined,
           minLines: 2,
           maxLines: 4,
           errorText: _hasSubmittedStep2 &&
-                  _doorStreetController.text.trim().isEmpty
-              ? l10n.profileErrEnterHouseStreet
+                  _addressController.text.trim().isEmpty
+              ? 'Please enter your address'
               : null,
           onChanged: (_) => setState(() {}),
         ),
         const SizedBox(height: AppSpacing.lg),
 
-        // Area / Locality Field
-        _buildLabel('${l10n.areaLocality} *'),
+        // City / Town Field
+        _buildLabel('${l10n.cityTown} *'),
         const SizedBox(height: AppSpacing.tight),
         _buildTextField(
-          controller: _areaLocalityController,
-          hintText: l10n.profileHintAreaExample,
-          icon: Icons.location_on_outlined,
-          errorText: _hasSubmittedStep2 &&
-                  _areaLocalityController.text.trim().isEmpty
-              ? l10n.profileErrEnterArea
-              : null,
-          onChanged: (_) => setState(() {}),
-        ),
-        const SizedBox(height: AppSpacing.lg),
-
-        // City / District Field
-        _buildLabel('${l10n.cityDistrict} *'),
-        const SizedBox(height: AppSpacing.tight),
-        _buildTextField(
-          controller: _cityDistrictController,
-          hintText: l10n.profileHintCityExample,
+          controller: _cityController,
+          hintText: 'e.g. Chennai',
           icon: Icons.location_city_outlined,
           errorText: _hasSubmittedStep2 &&
-                  !_looksLikePlaceName(_cityDistrictController.text, min: 2)
+                  !_looksLikePlaceName(_cityController.text, min: 2)
               ? l10n.profileErrValidCity
+              : null,
+          onChanged: (_) => setState(() {}),
+        ),
+        const SizedBox(height: AppSpacing.lg),
+
+        // District Field
+        _buildLabel('${l10n.district} *'),
+        const SizedBox(height: AppSpacing.tight),
+        _buildTextField(
+          controller: _districtController,
+          hintText: 'e.g. Chennai',
+          icon: Icons.domain_outlined,
+          errorText: _hasSubmittedStep2 &&
+                  !_looksLikePlaceName(_districtController.text, min: 2)
+              ? 'Please enter a valid district'
               : null,
           onChanged: (_) => setState(() {}),
         ),
@@ -1307,23 +1302,6 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                       !_looksLikePlaceName(_stateController.text, min: 3)
                   ? l10n.profileErrValidState
                   : null,
-          onChanged: (_) => setState(() {}),
-        ),
-        const SizedBox(height: AppSpacing.lg),
-
-        // Pincode Field (below State)
-        _buildLabel('${l10n.pincode} *'),
-        const SizedBox(height: AppSpacing.tight),
-        _buildTextField(
-          controller: _pincodeController,
-          hintText: '600040',
-          icon: Icons.pin_drop_outlined,
-          keyboardType: TextInputType.number,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-            LengthLimitingTextInputFormatter(6),
-          ],
-          errorText: _pincodeErrorText(),
           onChanged: (_) => setState(() {}),
         ),
         const SizedBox(height: AppSpacing.xxl),

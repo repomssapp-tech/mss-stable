@@ -1649,6 +1649,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pincode => 'Pincode';
 
   @override
+  String get fullAddress => 'Full Address';
+
+  @override
+  String get cityTown => 'City / Town';
+
+  @override
+  String get district => 'District';
+
+  @override
+  String get profileErrEnterAge => 'Please enter your age';
+
+  @override
+  String get profileErrValidAge => 'Please enter a valid age (1-120)';
+
+  @override
+  String get dataProcessingConsent =>
+      'I consent to MSS collecting and processing my information to create my profile and provide personalized Government scheme recommendations.';
+
+  @override
+  String get privacyAndData => 'Privacy & Data';
+
+  @override
+  String get readHowDataUsed => 'Read how your data is used →';
+
+  @override
+  String get pleaseConsentToContinue => 'Please consent to continue';
+
+  @override
   String get tellUsAboutYou => 'Tell Us About You';
 
   @override

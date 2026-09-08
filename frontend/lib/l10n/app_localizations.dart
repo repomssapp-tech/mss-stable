@@ -761,7 +761,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileSettingsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Profile & Settings'**
+  /// **'Settings'**
   String get profileSettingsTitle;
 
   /// No description provided for @profileGroupHeader.
@@ -1115,7 +1115,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutAppDescription.
   ///
   /// In en, this message translates to:
-  /// **'Empowering citizens with real-time tracking, eligibility scanning and downloads for all state and central Government schemes in India.'**
+  /// **'MSS is an intelligent digital platform to discover, verify eligibility, and access Central and State Government schemes across India.'**
   String get aboutAppDescription;
 
   /// No description provided for @profilePhotoTitle.
@@ -3145,6 +3145,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pincode'**
   String get pincode;
+
+  /// No description provided for @fullAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Address'**
+  String get fullAddress;
+
+  /// No description provided for @cityTown.
+  ///
+  /// In en, this message translates to:
+  /// **'City / Town'**
+  String get cityTown;
+
+  /// No description provided for @district.
+  ///
+  /// In en, this message translates to:
+  /// **'District'**
+  String get district;
+
+  /// No description provided for @profileErrEnterAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your age'**
+  String get profileErrEnterAge;
+
+  /// No description provided for @profileErrValidAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid age (1-120)'**
+  String get profileErrValidAge;
+
+  /// No description provided for @dataProcessingConsent.
+  ///
+  /// In en, this message translates to:
+  /// **'I consent to MSS collecting and processing my information to create my profile and provide personalized Government scheme recommendations.'**
+  String get dataProcessingConsent;
+
+  /// No description provided for @privacyAndData.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy & Data'**
+  String get privacyAndData;
+
+  /// No description provided for @readHowDataUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Read how your data is used →'**
+  String get readHowDataUsed;
+
+  /// No description provided for @pleaseConsentToContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Please consent to continue'**
+  String get pleaseConsentToContinue;
 
   /// No description provided for @tellUsAboutYou.
   ///
