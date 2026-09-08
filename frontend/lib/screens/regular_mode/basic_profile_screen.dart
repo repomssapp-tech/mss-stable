@@ -47,17 +47,17 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   late final TextEditingController _emailController;
   late final TextEditingController _phoneController;
   late final TextEditingController _dobController;
+  late final TextEditingController _ageController;
   String _selectedGender = '';
   DateTime? _selectedDob;
   bool _hasSubmittedStep1 = false;
   bool _hasConsentedDataProcessing = false;
 
   // --- Step 2: Location Controllers & State ---
-  late final TextEditingController _doorStreetController;
-  late final TextEditingController _areaLocalityController;
-  late final TextEditingController _cityDistrictController;
+  late final TextEditingController _addressController;
+  late final TextEditingController _cityController;
+  late final TextEditingController _districtController;
   late final TextEditingController _stateController;
-  late final TextEditingController _pincodeController;
   bool _isLoadingLocation = false;
   bool _hasSubmittedStep2 = false;
 
@@ -120,25 +120,29 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     if (profile.dob != null) {
       _selectedDob = profile.dob;
       _dobController = TextEditingController(text: _formatDob(_selectedDob!));
+      _ageController = TextEditingController(text: profile.age.toString());
     } else {
       _dobController = TextEditingController();
+      _ageController = TextEditingController();
     }
     _selectedGender = profile.profileCompleted ? profile.gender : '';
 
     // 2. Initialize Step 2 controllers
-    _doorStreetController = TextEditingController(text: profile.house.trim());
-    _areaLocalityController = TextEditingController(text: profile.area);
-    String cityDistrict = profile.district;
-    if (profile.city.isNotEmpty && profile.city != profile.district) {
-      if (cityDistrict.isNotEmpty) {
-        cityDistrict = '${profile.city}, $cityDistrict';
-      } else {
-        cityDistrict = profile.city;
+    _addressController = TextEditingController(
+      text: profile.house.isNotEmpty ? profile.house : profile.area,
+    );
+    String initialCity = profile.city;
+    String initialDistrict = profile.district;
+    if (initialCity.isEmpty && initialDistrict.isNotEmpty) {
+      if (initialDistrict.contains(',')) {
+        final parts = initialDistrict.split(',');
+        initialCity = parts.first.trim();
+        initialDistrict = parts.sublist(1).join(',').trim();
       }
     }
-    _cityDistrictController = TextEditingController(text: cityDistrict);
+    _cityController = TextEditingController(text: initialCity);
+    _districtController = TextEditingController(text: initialDistrict);
     _stateController = TextEditingController(text: profile.state);
-    _pincodeController = TextEditingController(text: profile.pinCode);
 
     // 3. Initialize Step 3 role
     if (profile.profileCompleted && profile.employmentStatus.isNotEmpty) {
@@ -183,20 +187,43 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     _emailController.dispose();
     _phoneController.dispose();
     _dobController.dispose();
-    _doorStreetController.dispose();
-    _areaLocalityController.dispose();
-    _cityDistrictController.dispose();
+    _ageController.dispose();
+    _addressController.dispose();
+    _cityController.dispose();
+    _districtController.dispose();
     _stateController.dispose();
-    _pincodeController.dispose();
     super.dispose();
+  }
+
+  String _formatDob(DateTime d) {
+    final dd = d.day.toString().padLeft(2, '0');
+    final mm = d.month.toString().padLeft(2, '0');
+    final yyyy = d.year.toString();
+    return '$dd/$mm/$yyyy';
+  }
+
+  Future<void> selectDob(BuildContext context) async {
+    final DateTime? picked = await showThemedDatePicker(
+      context: context,
+      initialDate: _selectedDob ?? DateTime(2000, 1, 1),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+      initialDatePickerMode: DatePickerMode.year,
+      helpText: context.l10n.profileHintSelectDob,
+    );
+    if (picked != null && picked != _selectedDob) {
+      setState(() {
+        _selectedDob = picked;
+        _dobController.text = _formatDob(picked);
+      });
+    }
   }
 
   Future<void> _openDataProcessingConsentModal() async {
     final consented = await DataProcessingConsentModal.show(context);
     if (consented != null && mounted) {
       setState(() {
-        _selectedDob = picked;
-        _dobController.text = _formatDob(picked);
+        _hasConsentedDataProcessing = consented;
       });
     }
   }
@@ -229,11 +256,10 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   }
 
   bool get _isStep2Valid =>
-      _doorStreetController.text.trim().isNotEmpty &&
-      _areaLocalityController.text.trim().isNotEmpty &&
-      _looksLikePlaceName(_cityDistrictController.text, min: 2) &&
-      _looksLikePlaceName(_stateController.text, min: 3) &&
-      _pincodeController.text.trim().length == 6;
+      _addressController.text.trim().isNotEmpty &&
+      _looksLikePlaceName(_cityController.text, min: 2) &&
+      _looksLikePlaceName(_districtController.text, min: 2) &&
+      _looksLikePlaceName(_stateController.text, min: 3);
 
   // Step 4 (Eligibility) now requires education, community and income --
   // these drive scheme matching, so the profile is not "complete" without
@@ -359,20 +385,27 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       if (placemarks.isNotEmpty) {
         Placemark place = placemarks.first;
         setState(() {
-          _areaLocalityController.text =
-              place.subLocality ?? place.locality ?? '';
-
-          String district = place.subAdministrativeArea ?? '';
-          String city = place.locality ?? '';
-          if (district.isEmpty) {
-            district = city;
-          } else if (city.isNotEmpty && city != district) {
-            district = '$city, $district';
+          final addressParts = <String>[];
+          if (place.subThoroughfare != null &&
+              place.subThoroughfare!.isNotEmpty) {
+            addressParts.add(place.subThoroughfare!);
           }
-          _cityDistrictController.text = district;
+          if (place.thoroughfare != null && place.thoroughfare!.isNotEmpty) {
+            addressParts.add(place.thoroughfare!);
+          }
+          if (place.subLocality != null && place.subLocality!.isNotEmpty) {
+            addressParts.add(place.subLocality!);
+          }
+          if (addressParts.isNotEmpty) {
+            _addressController.text = addressParts.join(', ');
+          } else if ((place.street ?? '').isNotEmpty) {
+            _addressController.text = place.street!;
+          }
 
+          _cityController.text = place.locality ?? place.subLocality ?? '';
+          _districtController.text =
+              place.subAdministrativeArea ?? place.locality ?? '';
           _stateController.text = place.administrativeArea ?? '';
-          _pincodeController.text = place.postalCode ?? '';
         });
       }
     } catch (e) {
@@ -405,14 +438,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     }
   }
 
-  Future<void> _openDataProcessingConsentModal() async {
-    final consented = await DataProcessingConsentModal.show(context);
-    if (consented != null && mounted) {
-      setState(() {
-        _hasConsentedDataProcessing = consented;
-      });
-    }
-  }
+
 
   void _handleContinue() {
     if (_currentStep == 1) {
@@ -465,29 +491,19 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         return;
       }
 
-      final doorStreet = _doorStreetController.text.trim();
-      final area = _areaLocalityController.text.trim();
-      final cityDistrict = _cityDistrictController.text.trim();
+      final address = _addressController.text.trim();
+      final city = _cityController.text.trim();
+      final district = _districtController.text.trim();
       final state = _stateController.text.trim();
-      final pincode = _pincodeController.text.trim();
-
-      String city = cityDistrict;
-      String district = cityDistrict;
-      if (cityDistrict.contains(',')) {
-        final parts = cityDistrict.split(',');
-        city = parts.first.trim();
-        district = parts.sublist(1).join(',').trim();
-      }
 
       final provider = Provider.of<AppProvider>(context, listen: false);
       provider.updateProfile(
         provider.profile.copyWith(
-          house: doorStreet,
-          area: area,
+          house: address,
+          area: address,
           city: city,
           district: district,
           state: state,
-          pinCode: pincode,
         ),
         requireCloudSync: false,
       );
@@ -1285,7 +1301,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
           icon: Icons.home_outlined,
           errorText: _hasSubmittedStep2 &&
                   _addressController.text.trim().isEmpty
-              ? 'Please enter your address'
+              ? l10n.profileErrEnterHouseStreet
               : null,
           onChanged: (_) => setState(() {}),
         ),
@@ -1315,7 +1331,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
           icon: Icons.domain_outlined,
           errorText: _hasSubmittedStep2 &&
                   !_looksLikePlaceName(_districtController.text, min: 2)
-              ? 'Please enter a valid district'
+              ? l10n.profileErrValidCity
               : null,
           onChanged: (_) => setState(() {}),
         ),
