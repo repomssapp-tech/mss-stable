@@ -1255,5 +1255,6 @@
   "profileConsentCheckboxLabel": "I consent to MSS collecting and processing my information to create my profile and provide personalized Government scheme recommendations.",
   "profileConsentReadMore": "Read how your data is used →",
   "profileConsentPleaseConsent": "Please consent to continue",
-  "profileConsentRequiredToast": "Please consent to data processing to continue."
+  "profileConsentRequiredToast": "Please consent to data processing to continue.",
+  "legalAccept": "Accept"
 }

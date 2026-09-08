@@ -4157,4 +4157,7 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get profileConsentRequiredToast =>
       'தொடர தயவுசெய்து தரவு செயலாக்கத்திற்கு ஒப்புதல் அளிக்கவும்.';
+
+  @override
+  String get legalAccept => 'ஏற்கிறேன்';
 }

@@ -24,10 +24,13 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _hasViewedTerms = false;
   bool _hasViewedPrivacy = false;
   bool _hasAgreedToConsent = false;
+  bool _acceptedTerms = false;
+  bool _acceptedPrivacy = false;
 
   Future<void> _openTermsModal() async {
+    bool? accepted;
     try {
-      await LegalDocumentModal.showTermsOfUse(context);
+      accepted = await LegalDocumentModal.showTermsOfUse(context);
     } catch (_) {
       if (mounted) {
         await Navigator.of(context).push(
@@ -38,13 +41,17 @@ class _LoginScreenState extends State<LoginScreen> {
     if (mounted) {
       setState(() {
         _hasViewedTerms = true;
+        if (accepted == true) _acceptedTerms = true;
+        // Tapping "Accept" on both legal documents auto-confirms consent.
+        if (_acceptedTerms && _acceptedPrivacy) _hasAgreedToConsent = true;
       });
     }
   }
 
   Future<void> _openPrivacyModal() async {
+    bool? accepted;
     try {
-      await LegalDocumentModal.showPrivacyPolicy(context);
+      accepted = await LegalDocumentModal.showPrivacyPolicy(context);
     } catch (_) {
       if (mounted) {
         await Navigator.of(context).push(
@@ -55,6 +62,8 @@ class _LoginScreenState extends State<LoginScreen> {
     if (mounted) {
       setState(() {
         _hasViewedPrivacy = true;
+        if (accepted == true) _acceptedPrivacy = true;
+        if (_acceptedTerms && _acceptedPrivacy) _hasAgreedToConsent = true;
       });
     }
   }

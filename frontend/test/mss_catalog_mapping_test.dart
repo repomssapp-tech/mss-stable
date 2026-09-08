@@ -111,4 +111,36 @@ void main() {
       expect(explicitWorkflows + generatedWorkflows, equals(totalSchemes));
     });
   });
+
+  group('scheme_url -> Apply Now wiring', () {
+    // Mirrors scheme_details_screen._isSafeWebUrl / _applicationDestination.
+    bool isSafeWebUrl(String value) {
+      final uri = Uri.tryParse(value);
+      return uri != null && (uri.scheme == 'https' || uri.scheme == 'http');
+    }
+
+    test('every bundle scheme exposes a valid http(s) schemeUrl', () {
+      final bad = <String>[];
+      for (final sEntity in bundle.schemes) {
+        final rawUrl =
+            (sEntity.content['schemeUrl'] as String?)?.trim() ?? '';
+        final scheme = MssSchemeAdapter.toScheme(sEntity, bundle);
+
+        // Adapter carries content.schemeUrl through verbatim.
+        expect(scheme.schemeUrl, equals(rawUrl), reason: sEntity.id);
+
+        // Apply Now destination = schemeUrl only, and it must be launchable.
+        final applyDestination =
+            isSafeWebUrl(scheme.schemeUrl.trim()) ? scheme.schemeUrl.trim() : '';
+        if (applyDestination.isEmpty) bad.add('${sEntity.id} -> "$rawUrl"');
+      }
+      expect(
+        bad,
+        isEmpty,
+        reason:
+            'Apply Now would be disabled for these schemes (no valid schemeUrl):\n'
+            '${bad.join("\n")}',
+      );
+    });
+  });
 }

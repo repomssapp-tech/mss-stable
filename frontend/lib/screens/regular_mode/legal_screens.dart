@@ -212,8 +212,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                 intro: 'For privacy questions, grievances or requests concerning your personal data, contact:',
                 content: [
                   '• Data Protection / Grievance Contact: MSS Grievance Officer',
-                  '• Email: mssapp@gmail.com',
-                  '• Phone: +91 44 2681 1999',
+                  '• Email: mssschemessearch@gmail.com',
                 ],
               ),
               const SizedBox(height: AppSpacing.lg),
@@ -260,7 +259,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: AppSpacing.tight),
                     Text(
-                      'If you have questions regarding data privacy, rights, or grievances, contact our Grievance Officer at mssapp@gmail.com or call +91 44 2681 1999.',
+                      'If you have questions regarding data privacy, rights, or grievances, contact our Grievance Officer at mssschemessearch@gmail.com.',
                       style: GoogleFonts.inter(
                         fontSize: 12.5,
                         color: kSlate500,
@@ -576,9 +575,8 @@ class TermsConditionsScreen extends StatelessWidget {
                 icon: Icons.contact_support_outlined,
                 title: '10. Contact',
                 content: [
-                  '• For questions regarding these Terms of Use, please contact MSS Support through the contact information provided within the application.',
-                  '• Support Email: mssapp@gmail.com',
-                  '• Support Phone: +91 44 2681 1999',
+                  '• For questions regarding these Terms of Use, please contact MSS Support at mssschemessearch@gmail.com.',
+                  '• Support Email: mssschemessearch@gmail.com',
                 ],
               ),
               const SizedBox(height: AppSpacing.xxl),

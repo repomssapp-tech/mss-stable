@@ -87,6 +87,7 @@ class LocalizedScheme {
   String get applicationUrl => rawScheme.applicationUrl;
   String get guidelinesUrl => rawScheme.guidelinesUrl;
   String get sourceUrl => rawScheme.sourceUrl;
+  String get schemeUrl => rawScheme.schemeUrl;
   String get districtApplicable => rawScheme.districtApplicable;
   String get searchKeywords => rawScheme.searchKeywords;
   String get status => rawScheme.status;

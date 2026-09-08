@@ -8,6 +8,7 @@ import '../../l10n/app_localizations.dart';
 import '../../widgets/app_toast.dart';
 import '../../utils/app_spacing.dart';
 import '../../services/support_ticket_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HelpSupportScreen extends StatefulWidget {
   final String initialMode; // 'faq', 'contact', 'both'
@@ -20,6 +21,35 @@ class HelpSupportScreen extends StatefulWidget {
 class _HelpSupportScreenState extends State<HelpSupportScreen> {
   final _feedbackController = TextEditingController();
   final _emailController = TextEditingController();
+
+  static const String _kSupportEmail = 'mssschemessearch@gmail.com';
+
+  /// Fallback path when the Supabase ticket insert fails (e.g. the
+  /// `support_tickets` table is not yet deployed): open the user's mail client
+  /// pre-addressed to support so the message is not lost.
+  Future<void> _emailSupportFallback({
+    required String subject,
+    required String body,
+  }) async {
+    final uri = Uri(
+      scheme: 'mailto',
+      path: _kSupportEmail,
+      query:
+          'subject=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(body)}',
+    );
+    try {
+      final ok = await launchUrl(uri, mode: LaunchMode.externalApplication);
+      if (!ok) throw Exception('no mail client');
+    } catch (_) {
+      await Clipboard.setData(const ClipboardData(text: _kSupportEmail));
+      if (mounted) {
+        AppToast.showInfo(
+          context,
+          '$_kSupportEmail copied — please email us directly.',
+        );
+      }
+    }
+  }
   // Backend category values are kept as stable English literals; only the
   // dropdown display labels are localized.
   String _issueCategory = 'General Inquiry';
@@ -489,10 +519,18 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                                   AppToast.showWarning(context, e.message);
                                 }
                               } catch (e) {
+                                debugPrint(
+                                  '[HelpSupport] ticket submit failed: $e',
+                                );
                                 if (context.mounted) {
                                   AppToast.showError(
                                     context,
                                     l10n.helpTicketSubmitFailed,
+                                  );
+                                  await _emailSupportFallback(
+                                    subject:
+                                        'MSS App — Issue Report: $_issueCategory',
+                                    body: '$text\n\nReply to: $email',
                                   );
                                 }
                               } finally {
@@ -744,10 +782,18 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                                   AppToast.showWarning(context, e.message);
                                 }
                               } catch (e) {
+                                debugPrint(
+                                  '[HelpSupport] feedback submit failed: $e',
+                                );
                                 if (context.mounted) {
                                   AppToast.showError(
                                     context,
                                     l10n.helpFeedbackSubmitFailed,
+                                  );
+                                  await _emailSupportFallback(
+                                    subject: 'MSS App Feedback',
+                                    body:
+                                        'Rating: ${rating.toInt()}/5\n\n$text\n\nReply to: $email',
                                   );
                                 }
                               } finally {

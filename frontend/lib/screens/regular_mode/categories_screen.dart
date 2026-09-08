@@ -2078,7 +2078,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 top: 14,
                 bottom: MediaQuery.of(context).viewInsets.bottom + 24,
               ),
-              child: Column(
+              child: SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
+                child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -2424,6 +2426,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     ),
                   ),
                 ],
+                ),
               ),
             );
           },
@@ -2461,7 +2464,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 top: 14,
                 bottom: MediaQuery.of(context).viewInsets.bottom + 24,
               ),
-              child: Column(
+              child: SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
+                child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -2867,6 +2872,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     ),
                   ),
                 ],
+                ),
               ),
             );
           },
@@ -2903,7 +2909,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 top: 14,
                 bottom: MediaQuery.of(context).viewInsets.bottom + 24,
               ),
-              child: Column(
+              child: SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
+                child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -3345,6 +3353,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     ),
                   ),
                 ],
+                ),
               ),
             );
           },
@@ -3379,7 +3388,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 top: 14,
                 bottom: MediaQuery.of(context).viewInsets.bottom + 24,
               ),
-              child: Column(
+              child: SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
+                child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -3617,6 +3628,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     ),
                   ),
                 ],
+                ),
               ),
             );
           },
@@ -3662,7 +3674,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 top: 14,
                 bottom: MediaQuery.of(context).viewInsets.bottom + 24,
               ),
-              child: Column(
+              child: SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
+                child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -4076,6 +4090,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     ),
                   ),
                 ],
+                ),
               ),
             );
           },
@@ -4134,7 +4149,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 top: 14,
                 bottom: MediaQuery.of(context).viewInsets.bottom + 24,
               ),
-              child: Column(
+              child: SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
+                child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -4320,6 +4337,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     ),
                   ),
                 ],
+                ),
               ),
             );
           },
@@ -4355,7 +4373,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 top: 14,
                 bottom: MediaQuery.of(context).viewInsets.bottom + 24,
               ),
-              child: Column(
+              child: SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
+                child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -4711,6 +4731,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     ),
                   ),
                 ],
+                ),
               ),
             );
           },

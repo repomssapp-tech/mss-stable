@@ -60,7 +60,7 @@ void main() {
     expect(find.text('v1.0.0'), findsOneWidget);
     expect(find.textContaining('Rajalakshmi Institute of Technology'), findsOneWidget);
     expect(find.textContaining('Swadeshi Shodh Sansthan'), findsOneWidget);
-    expect(find.textContaining('mssapp@gmail.com'), findsOneWidget);
+    expect(find.textContaining('mssschemessearch@gmail.com'), findsOneWidget);
 
     // Verify "View licenses" is completely removed
     expect(find.text('View licenses'), findsNothing);
