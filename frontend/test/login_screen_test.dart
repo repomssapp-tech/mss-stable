@@ -45,7 +45,11 @@ void main() {
       await tester.pumpWidget(
         ChangeNotifierProvider(
           create: (_) => AppProvider(),
-          child: const MaterialApp(home: LoginScreen()),
+          child: MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: const LoginScreen(),
+          ),
         ),
       );
       await tester.pump();
@@ -174,7 +178,11 @@ void main() {
       await tester.pumpWidget(
         ChangeNotifierProvider(
           create: (_) => AppProvider(),
-          child: const MaterialApp(home: LoginScreen()),
+          child: MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: const LoginScreen(),
+          ),
         ),
       );
       await tester.pump();

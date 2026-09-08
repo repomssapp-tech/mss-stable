@@ -761,7 +761,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileSettingsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Profile & Settings'**
+  /// **'Settings'**
   String get profileSettingsTitle;
 
   /// No description provided for @profileGroupHeader.
@@ -1115,7 +1115,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutAppDescription.
   ///
   /// In en, this message translates to:
-  /// **'Empowering citizens with real-time tracking, eligibility scanning and downloads for all state and central Government schemes in India.'**
+  /// **'MSS is an intelligent digital platform to discover, verify eligibility, and access Central and State Government schemes across India.'**
   String get aboutAppDescription;
 
   /// No description provided for @profilePhotoTitle.
@@ -7549,6 +7549,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'DPDPA 2023: Used only to match you with welfare schemes. Never shared.'**
   String get profilePrivacyNoteDpdpa;
+
+  /// No description provided for @profileConsentSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy & Data'**
+  String get profileConsentSectionTitle;
+
+  /// No description provided for @profileConsentCheckboxLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'I consent to MSS collecting and processing my information to create my profile and provide personalized Government scheme recommendations.'**
+  String get profileConsentCheckboxLabel;
+
+  /// No description provided for @profileConsentReadMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Read how your data is used →'**
+  String get profileConsentReadMore;
+
+  /// No description provided for @profileConsentPleaseConsent.
+  ///
+  /// In en, this message translates to:
+  /// **'Please consent to continue'**
+  String get profileConsentPleaseConsent;
+
+  /// No description provided for @profileConsentRequiredToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Please consent to data processing to continue.'**
+  String get profileConsentRequiredToast;
 }
 
 class _AppLocalizationsDelegate

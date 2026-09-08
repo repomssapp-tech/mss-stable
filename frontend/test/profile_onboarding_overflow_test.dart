@@ -100,15 +100,15 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('Step 1 age field shows the e.g. 25 placeholder', (
+  testWidgets('Step 1 date-of-birth field shows the DD/MM/YYYY placeholder', (
     tester,
   ) async {
     await _pumpStep(tester, const BasicProfileScreen());
-    expect(find.text('e.g. 25'), findsOneWidget);
+    expect(find.text('DD/MM/YYYY'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('Step 2 Continue is disabled until address, city, district, and state are valid', (
+  testWidgets('Step 2 Continue is disabled until the pincode is 6 digits', (
     tester,
   ) async {
     await _pumpStep(tester, const LocationProfileScreen());
@@ -121,39 +121,46 @@ void main() {
     // Nothing filled in -> greyed.
     expect(bg(), Colors.grey.shade300);
 
-    // Enter Full Address
-    final addressField = find.byType(TextFormField).at(0);
-    await tester.enterText(addressField, 'Flat 402, Anna Nagar');
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'e.g. Flat 402, Royal Enclave'),
+      'Flat 402',
+    );
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'e.g. Anna Nagar West'),
+      'Anna Nagar West',
+    );
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'e.g. Chennai'),
+      'Chennai',
+    );
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'e.g. Tamil Nadu'),
+      'Tamil Nadu',
+    );
+
+    // Pincode is the last field on the step; its hint disappears once it has
+    // text, so address it by position.
+    final pincode = find.byType(TextFormField).at(4);
+
+    // Five-digit pincode -> still greyed (this is the reported defect).
+    await tester.enterText(pincode, '60004');
     await tester.pump();
     expect(bg(), Colors.grey.shade300);
 
-    // Enter City / Town
-    final cityField = find.byType(TextFormField).at(1);
-    await tester.enterText(cityField, 'Chennai');
-    await tester.pump();
-    expect(bg(), Colors.grey.shade300);
-
-    // Enter District
-    final districtField = find.byType(TextFormField).at(2);
-    await tester.enterText(districtField, 'Chennai');
-    await tester.pump();
-    expect(bg(), Colors.grey.shade300);
-
-    // Enter State
-    final stateField = find.byType(TextFormField).at(3);
-    await tester.enterText(stateField, 'Tamil Nadu');
+    // Sixth digit -> enabled.
+    await tester.enterText(pincode, '600040');
     await tester.pump();
     expect(bg(), const Color(0xFF2563EB));
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('Step 1 age field rejects non-digits and caps at 3', (
+  testWidgets('Step 2 pincode field rejects non-digits and caps at 6', (
     tester,
   ) async {
-    await _pumpStep(tester, const BasicProfileScreen());
-    final ageField = find.widgetWithText(TextFormField, 'e.g. 25');
-    await tester.enterText(ageField, 'ab12cd3456789');
+    await _pumpStep(tester, const LocationProfileScreen());
+    final pincode = find.byType(TextFormField).at(4);
+    await tester.enterText(pincode, 'ab12cd3456789');
     await tester.pump();
-    expect(tester.widget<TextFormField>(ageField).controller!.text, '123');
+    expect(tester.widget<TextFormField>(pincode).controller!.text, '123456');
   });
 }

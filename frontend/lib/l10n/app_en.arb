@@ -1241,5 +1241,10 @@
   "income3to6L": "₹3L - ₹6 Lakhs",
   "income6to10L": "₹6L - ₹10 Lakhs",
   "incomeAbove10L": "Above ₹10 Lakhs",
-  "profilePrivacyNoteDpdpa": "DPDPA 2023: Used only to match you with welfare schemes. Never shared."
+  "profilePrivacyNoteDpdpa": "DPDPA 2023: Used only to match you with welfare schemes. Never shared.",
+  "profileConsentSectionTitle": "Privacy & Data",
+  "profileConsentCheckboxLabel": "I consent to MSS collecting and processing my information to create my profile and provide personalized Government scheme recommendations.",
+  "profileConsentReadMore": "Read how your data is used →",
+  "profileConsentPleaseConsent": "Please consent to continue",
+  "profileConsentRequiredToast": "Please consent to data processing to continue."
 }
