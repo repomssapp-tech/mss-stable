@@ -3986,4 +3986,59 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get savedRemoveNoLongerInterested =>
       'Remove schemes you\'re no longer interested in.';
+
+  @override
+  String get eduSchool => 'School (10th / 12th)';
+
+  @override
+  String get eduDiploma => 'Diploma / ITI';
+
+  @override
+  String get eduUndergraduate => 'Undergraduate (Degree)';
+
+  @override
+  String get eduPostgraduate => 'Postgraduate (Master)';
+
+  @override
+  String get eduPhd => 'Ph.D. / Doctorate';
+
+  @override
+  String get commGeneralOc => 'General (OC)';
+
+  @override
+  String get commObcBcMbc => 'OBC / BC / MBC';
+
+  @override
+  String get commScCategory => 'SC';
+
+  @override
+  String get commStCategory => 'ST';
+
+  @override
+  String get commEwsCategory => 'EWS';
+
+  @override
+  String get commMinority => 'Minority';
+
+  @override
+  String get incomeNone => 'No Income';
+
+  @override
+  String get incomeUnder15L => 'Under ₹1.5 Lakhs';
+
+  @override
+  String get income15to3L => '₹1.5L - ₹3 Lakhs';
+
+  @override
+  String get income3to6L => '₹3L - ₹6 Lakhs';
+
+  @override
+  String get income6to10L => '₹6L - ₹10 Lakhs';
+
+  @override
+  String get incomeAbove10L => 'Above ₹10 Lakhs';
+
+  @override
+  String get profilePrivacyNoteDpdpa =>
+      'DPDPA 2023: Used only to match you with welfare schemes. Never shared.';
 }
