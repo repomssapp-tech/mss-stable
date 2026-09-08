@@ -292,7 +292,7 @@ class DataProcessingConsentModal extends StatelessWidget {
                       _LinkButton(
                         title: 'Privacy Notice',
                         onTap: () =>
-                            LegalDocumentModal.showPrivacyPolicy(context),
+                            LegalDocumentModal.showPrivacyNotice(context),
                       ),
                       const Text(
                         ' | ',

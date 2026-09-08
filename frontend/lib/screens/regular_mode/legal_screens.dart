@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../utils/app_spacing.dart';
 
-/// Full-page detailed Privacy Policy Screen for IN Schemes
+/// Full-page detailed Privacy Policy Screen for MSS App
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
 
@@ -86,7 +86,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'IN Schemes Privacy Commitment',
+                            'MSS App Privacy Commitment',
                             style: GoogleFonts.poppins(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
@@ -95,7 +95,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: AppSpacing.xs),
                           Text(
-                            'Last Updated: August 2026 • Version 2.0',
+                            'Effective Date: 1 September 2026 • DPDPA 2023',
                             style: GoogleFonts.inter(
                               fontSize: 11.5,
                               color: kSlate500,
@@ -111,7 +111,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               const SizedBox(height: AppSpacing.xxl),
 
               Text(
-                'Your privacy and data protection are fundamental to our mission. This policy outlines how IN Schemes handles, stores, and protects your information.',
+                'MSS App (“MSS”, “we”, “us”) respects your privacy and is committed to protecting your personal data in accordance with the Digital Personal Data Protection Act, 2023 and applicable rules.',
                 style: GoogleFonts.inter(
                   fontSize: 13.5,
                   color: kSlate700,
@@ -120,60 +120,110 @@ class PrivacyPolicyScreen extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.xl),
 
-              // Section 1: Information We Collect
+              // Section 1: Personal Data We Collect
               _buildSectionCard(
                 icon: Icons.person_search_rounded,
-                title: '1. Information We Collect',
+                title: '1. Personal Data We Collect',
+                intro: 'When you use MSS, we may collect:',
                 content: [
-                  '• Profile Details: Name, Mobile Number, Email Address, Gender, and Date of Birth provided during profile setup.',
-                  '• Location Data: State, District, Area, and Pincode collected via GPS or manual input to filter regional government schemes.',
-                  '• Enterprise & Category Details: Target Role (Student, Entrepreneur, MSME, Farmer) and income bracket used for eligibility matching.',
+                  '• Google Sign-In information: Name, email address and other basic information made available through Google Sign-In, as permitted by you.',
+                  '• Profile information provided by you: Name, City/town, District, State, age, gender, preferred language, type of occupation/business and income range.',
+                  '• Technical information: Limited device, security, diagnostic or usage information necessary for secure and reliable operation of the App, where applicable. We use cookies to save your preferences and related technical information.',
                 ],
               ),
               const SizedBox(height: AppSpacing.lg),
 
-              // Section 2: How We Use Your Data
+              // Section 2: Why We Use Your Data
               _buildSectionCard(
                 icon: Icons.tune_rounded,
-                title: '2. How We Use Your Information',
+                title: '2. Why We Use Your Data',
+                intro: 'Your personal data is used to:',
                 content: [
-                  '• Scheme Eligibility Assessment: To evaluate your profile against 1000+ Central and State Government schemes.',
-                  '• Personalization & Localization: To deliver tailored notifications and app content in your preferred language.',
-                  '• System Improvement: Anonymized operational metrics to enhance scheme search speed.',
+                  '• Authenticate you and maintain your account.',
+                  '• Create and maintain your profile.',
+                  '• Identify and display Government schemes that may be relevant to your profile.',
+                  '• Provide the App in your preferred language.',
+                  '• Improve security and prevent misuse.',
+                  '• Meet applicable legal requirements.',
+                  '• Zero Data Monetization: MSS does not sell your personal data.',
                 ],
               ),
               const SizedBox(height: AppSpacing.lg),
 
-              // Section 3: Data Security & Storage
-              _buildSectionCard(
-                icon: Icons.lock_outline_rounded,
-                title: '3. Data Security & Storage',
-                content: [
-                  '• Local Device Encryption: Your personal profile data is cached securely on your local device.',
-                  '• Encrypted Backend: Authentication and cloud synchronization use SSL/TLS encrypted pathways via Supabase.',
-                  '• Zero Data Monetization: Your data is never sold, leased, or rented to third-party marketing brokers.',
-                ],
-              ),
-              const SizedBox(height: AppSpacing.lg),
-
-              // Section 4: Official External Links
+              // Section 3: Government Scheme Applications
               _buildSectionCard(
                 icon: Icons.open_in_browser_rounded,
-                title: '4. External Official Portals',
+                title: '3. Government Scheme Applications',
                 content: [
-                  '• Redirection to Official Webpages: Tapping registration links (such as Udyam Registration, PMEGP, or MUDRA) opens official government domains (.gov.in / .nic.in).',
-                  '• Independent Credentials: IN Schemes does not store or access your credentials on external government portals.',
+                  '• Discovery & Guidance: MSS helps you discover Government schemes based on the information provided by you. If you select a scheme, MSS may direct you to the relevant Government or other official website to continue the application process.',
+                  '• Consent-Gated Transfers: MSS does not submit your application or transfer your MSS profile information to such website unless this is specifically disclosed to you and permitted by you.',
+                  '• External Portals: Once you leave MSS and access an external website, the collection and processing of information by that website will be governed by its own privacy practices and terms.',
                 ],
               ),
               const SizedBox(height: AppSpacing.lg),
 
-              // Section 5: Your Rights & Control
+              // Section 4: Service Providers
+              _buildSectionCard(
+                icon: Icons.hub_outlined,
+                title: '4. Service Providers',
+                content: [
+                  '• Authorised Providers: We may use authorised service providers, including technology, hosting, security or authentication providers, where necessary to operate MSS. They may process personal data only for providing such services and subject to appropriate safeguards.',
+                  '• Third-Party Terms: Google Sign-In is also subject to Google\'s applicable privacy terms.',
+                ],
+              ),
+              const SizedBox(height: AppSpacing.lg),
+
+              // Section 5: Retention and Security
+              _buildSectionCard(
+                icon: Icons.lock_outline_rounded,
+                title: '5. Retention and Security',
+                content: [
+                  '• Data Retention: We retain personal data only for as long as necessary for the purposes for which it was collected or as required by law.',
+                  '• Technical Safeguards: We use reasonable technical and organisational security measures designed to protect personal data against unauthorised access, disclosure, alteration, loss or misuse.',
+                ],
+              ),
+              const SizedBox(height: AppSpacing.lg),
+
+              // Section 6: Your Rights
               _buildSectionCard(
                 icon: Icons.account_circle_outlined,
-                title: '5. Your Rights & Control',
+                title: '6. Your Rights',
                 content: [
-                  '• Right to Access & Edit: You can update your profile details at any time from the Settings screen.',
-                  '• Right to Erasure: You can permanently delete your profile and account history using the "Delete Account" button.',
+                  '• Data Principal Rights: Subject to applicable law, you may exercise your rights relating to your personal data, including access to information about its processing, correction, completion or updating, erasure, withdrawal of consent, and grievance redressal.',
+                  '• Prior Lawful Processing: Withdrawal of consent will not affect processing already lawfully undertaken before withdrawal.',
+                ],
+              ),
+              const SizedBox(height: AppSpacing.lg),
+
+              // Section 7: Children
+              _buildSectionCard(
+                icon: Icons.family_restroom_rounded,
+                title: '7. Children',
+                content: [
+                  '• Minimum Age: If MSS is not intended for persons below 18 years of age, they should not create an account or provide personal data through the App.',
+                ],
+              ),
+              const SizedBox(height: AppSpacing.lg),
+
+              // Section 8: Grievance Contact
+              _buildSectionCard(
+                icon: Icons.contact_mail_outlined,
+                title: '8. Grievance Contact',
+                intro: 'For privacy questions, grievances or requests concerning your personal data, contact:',
+                content: [
+                  '• Data Protection / Grievance Contact: MSS Grievance Officer',
+                  '• Email: mssapp@gmail.com',
+                  '• Phone: +91 44 2681 1999',
+                ],
+              ),
+              const SizedBox(height: AppSpacing.lg),
+
+              // Section 9: Changes
+              _buildSectionCard(
+                icon: Icons.history_rounded,
+                title: '9. Changes',
+                content: [
+                  '• Policy Updates: We may update this Privacy Policy from time to time. Material changes will be appropriately communicated through the App.',
                 ],
               ),
               const SizedBox(height: AppSpacing.xxl),
@@ -210,7 +260,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: AppSpacing.tight),
                     Text(
-                      'If you have questions regarding data privacy or consent, contact our support desk at support@inschemes.gov.in.',
+                      'If you have questions regarding data privacy, rights, or grievances, contact our Grievance Officer at mssapp@gmail.com or call +91 44 2681 1999.',
                       style: GoogleFonts.inter(
                         fontSize: 12.5,
                         color: kSlate500,
@@ -231,6 +281,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
   Widget _buildSectionCard({
     required IconData icon,
     required String title,
+    String? intro,
     required List<String> content,
   }) {
     return Container(
@@ -267,7 +318,18 @@ class PrivacyPolicyScreen extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.md),
+          if (intro != null) ...[
+            const SizedBox(height: AppSpacing.sm),
+            Text(
+              intro,
+              style: GoogleFonts.inter(
+                fontSize: 12.5,
+                fontWeight: FontWeight.w600,
+                color: kSlate700,
+              ),
+            ),
+          ],
+          const SizedBox(height: AppSpacing.sm),
           ...content.map(
             (point) => Padding(
               padding: const EdgeInsets.only(bottom: AppSpacing.sm),
@@ -287,7 +349,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
   }
 }
 
-/// Full-page detailed Terms & Conditions Screen for IN Schemes
+/// Full-page detailed Terms of Use Screen for MSS App
 class TermsConditionsScreen extends StatelessWidget {
   const TermsConditionsScreen({super.key});
 
@@ -316,7 +378,7 @@ class TermsConditionsScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Terms & Conditions',
+          'Terms of Use',
           style: GoogleFonts.poppins(
             color: kSlate900,
             fontSize: 18,
@@ -371,7 +433,7 @@ class TermsConditionsScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'IN Schemes Terms of Service',
+                            'MSS App Terms of Use',
                             style: GoogleFonts.poppins(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
@@ -380,7 +442,7 @@ class TermsConditionsScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: AppSpacing.xs),
                           Text(
-                            'Last Updated: August 2026 • Version 2.0',
+                            'Effective Date: 1 September 2026',
                             style: GoogleFonts.inter(
                               fontSize: 11.5,
                               color: kSlate500,
@@ -396,7 +458,7 @@ class TermsConditionsScreen extends StatelessWidget {
               const SizedBox(height: AppSpacing.xxl),
 
               Text(
-                'By accessing or using the IN Schemes application, you agree to be bound by these Terms & Conditions. Please read them carefully.',
+                'Welcome to MSS. MSS is a digital platform designed to help users discover, understand and explore Government schemes that may be relevant to them. By accessing or using the MSS application, you acknowledge that you have read, understood and agree to be bound by these Terms of Use.',
                 style: GoogleFonts.inter(
                   fontSize: 13.5,
                   color: kSlate700,
@@ -405,46 +467,118 @@ class TermsConditionsScreen extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.xl),
 
-              // Section 1: Purpose & Scope
+              // Section 1: Use of the MSS App
+              _buildSectionCard(
+                icon: Icons.apps_rounded,
+                title: '1. Use of the MSS App',
+                content: [
+                  '• Lawful Purpose: You agree to use MSS responsibly and only for lawful purposes.',
+                  '• Accurate Details: Information provided by you should be accurate and, where applicable, kept up to date.',
+                ],
+              ),
+              const SizedBox(height: AppSpacing.lg),
+
+              // Section 2: Government Scheme Information
               _buildSectionCard(
                 icon: Icons.info_outline_rounded,
-                title: '1. App Purpose & Guidance',
+                title: '2. Government Scheme Information',
                 content: [
-                  '• Platform Role: IN Schemes is an independent digital assistance platform designed to help citizens and businesses discover, understand, and navigate Indian Central and State Government schemes.',
-                  '• Non-Governmental Entity: IN Schemes provides scheme aggregation and eligibility guidance. Final sanction and approval rest exclusively with respective Government Departments.',
+                  '• Informational Purpose: MSS provides information about Government schemes for informational, discovery and awareness purposes.',
+                  '• Scheme Changes: Scheme eligibility, benefits, application requirements, deadlines and other details may change over time.',
                 ],
               ),
               const SizedBox(height: AppSpacing.lg),
 
-              // Section 2: User Responsibilities
+              // Section 3: Scheme Recommendations
               _buildSectionCard(
-                icon: Icons.assignment_ind_outlined,
-                title: '2. User Responsibilities',
+                icon: Icons.recommend_outlined,
+                title: '3. Scheme Recommendations',
                 content: [
-                  '• Accurate Profile Setup: Users are responsible for providing accurate profile details (location, income, role) to ensure reliable scheme recommendation results.',
-                  '• Fair Usage: Users agree not to attempt unauthorized access, reverse engineering, or automated scraping of the IN Schemes database.',
+                  '• Personalized Recommendations: MSS may provide personalized scheme recommendations based on information provided by you.',
+                  '• No Guarantee: A recommendation or eligibility indication does not constitute a guarantee of eligibility, approval or receipt of benefits.',
+                  '• Final Authority: Final decisions regarding eligibility, applications and benefits are made by the respective Government authority.',
                 ],
               ),
               const SizedBox(height: AppSpacing.lg),
 
-              // Section 3: Intellectual Property & Emblems
+              // Section 4: Applications
               _buildSectionCard(
-                icon: Icons.verified_user_outlined,
-                title: '3. Intellectual Property & Emblems',
+                icon: Icons.open_in_browser_rounded,
+                title: '4. Applications',
                 content: [
-                  '• Official Emblems & Trademarks: Government emblems, state seals, and scheme logos displayed within the app belong to their respective Ministries and State Authorities.',
-                  '• Application Content: Interface designs, matching algorithms, and curated guides are protected under intellectual property rights.',
+                  '• Official Redirection: When you choose to apply for a scheme, MSS may redirect you to the relevant Government or official website.',
+                  '• No Third-Party Submission: Unless expressly stated otherwise, MSS does not submit applications on your behalf or guarantee the outcome of an application.',
                 ],
               ),
               const SizedBox(height: AppSpacing.lg),
 
-              // Section 4: External Links & Disclaimer
+              // Section 5: External Websites
               _buildSectionCard(
                 icon: Icons.link_rounded,
-                title: '4. External Links & Disclaimer',
+                title: '5. External Websites',
                 content: [
-                  '• Official Government Links: Direct application routes open official government portals (.gov.in / .nic.in). We are not responsible for external site downtime or server maintenance.',
-                  '• Policy Updates: IN Schemes reserves the right to update these terms to reflect legal or feature changes.',
+                  '• Independent Portals: Government and official websites accessed through MSS are independently operated and may have their own terms, privacy policies and application procedures.',
+                  '• User Review: Users should review those policies before providing information on external websites.',
+                ],
+              ),
+              const SizedBox(height: AppSpacing.lg),
+
+              // Section 6: AI Assistant
+              _buildSectionCard(
+                icon: Icons.smart_toy_outlined,
+                title: '6. AI Assistant',
+                content: [
+                  '• Navigation Guidance: MSS may provide an AI-powered assistant to help users navigate the application, understand scheme information and access relevant features.',
+                  '• Non-Legal Assistance: AI-generated responses are intended for assistance and should not be considered a final Government decision, legal advice or a guarantee of scheme eligibility.',
+                  '• Official Verification: Users should verify important information with the relevant official Government source.',
+                ],
+              ),
+              const SizedBox(height: AppSpacing.lg),
+
+              // Section 7: User Responsibilities
+              _buildSectionCard(
+                icon: Icons.assignment_ind_outlined,
+                title: '7. User Responsibilities',
+                intro: 'You agree not to:',
+                content: [
+                  '• Provide intentionally false or misleading information.',
+                  '• Misuse or interfere with the MSS App.',
+                  '• Attempt unauthorized access to the application or its systems.',
+                  '• Use MSS for unlawful or fraudulent purposes.',
+                  '• Attempt to disrupt or manipulate the application\'s services.',
+                ],
+              ),
+              const SizedBox(height: AppSpacing.lg),
+
+              // Section 8: Service Availability
+              _buildSectionCard(
+                icon: Icons.cloud_done_outlined,
+                title: '8. Service Availability',
+                content: [
+                  '• Service Continuity: We aim to provide a reliable service but do not guarantee that MSS will always be available, uninterrupted or error-free.',
+                  '• Modifications: Features may be modified, suspended or discontinued when necessary.',
+                ],
+              ),
+              const SizedBox(height: AppSpacing.lg),
+
+              // Section 9: Changes to the Terms
+              _buildSectionCard(
+                icon: Icons.history_rounded,
+                title: '9. Changes to the Terms',
+                content: [
+                  '• Updates: These Terms of Use may be updated from time to time. Updated terms will be made available through the MSS App.',
+                ],
+              ),
+              const SizedBox(height: AppSpacing.lg),
+
+              // Section 10: Contact
+              _buildSectionCard(
+                icon: Icons.contact_support_outlined,
+                title: '10. Contact',
+                content: [
+                  '• For questions regarding these Terms of Use, please contact MSS Support through the contact information provided within the application.',
+                  '• Support Email: mssapp@gmail.com',
+                  '• Support Phone: +91 44 2681 1999',
                 ],
               ),
               const SizedBox(height: AppSpacing.xxl),
@@ -481,7 +615,7 @@ class TermsConditionsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: AppSpacing.tight),
                     Text(
-                      'Continued use of IN Schemes signifies your acceptance of these Terms & Conditions.',
+                      'Continued use of the MSS App signifies your acceptance of these Terms of Use.',
                       style: GoogleFonts.inter(
                         fontSize: 12.5,
                         color: kSlate500,
@@ -502,6 +636,7 @@ class TermsConditionsScreen extends StatelessWidget {
   Widget _buildSectionCard({
     required IconData icon,
     required String title,
+    String? intro,
     required List<String> content,
   }) {
     return Container(
@@ -538,7 +673,18 @@ class TermsConditionsScreen extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.md),
+          if (intro != null) ...[
+            const SizedBox(height: AppSpacing.sm),
+            Text(
+              intro,
+              style: GoogleFonts.inter(
+                fontSize: 12.5,
+                fontWeight: FontWeight.w600,
+                color: kSlate700,
+              ),
+            ),
+          ],
+          const SizedBox(height: AppSpacing.sm),
           ...content.map(
             (point) => Padding(
               padding: const EdgeInsets.only(bottom: AppSpacing.sm),

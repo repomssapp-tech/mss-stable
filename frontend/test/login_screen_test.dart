@@ -118,7 +118,7 @@ void main() {
         find.text('How MSS collects, uses and protects your information'),
         findsOneWidget,
       );
-      expect(find.text('Information We Collect'), findsOneWidget);
+      expect(find.text('Personal Data We Collect'), findsOneWidget);
 
       // Close Privacy modal
       await tester.tap(find.widgetWithText(ElevatedButton, 'Close'));

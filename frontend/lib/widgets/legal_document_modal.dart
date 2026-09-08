@@ -41,6 +41,15 @@ class LegalDocumentModal extends StatelessWidget {
     );
   }
 
+  static Future<void> showPrivacyNotice(BuildContext context) {
+    return showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => LegalDocumentModal.privacyNotice(),
+    );
+  }
+
   static Future<void> showPrivacyPolicy(BuildContext context) {
     return showModalBottomSheet<void>(
       context: context,
@@ -124,69 +133,113 @@ class LegalDocumentModal extends StatelessWidget {
     );
   }
 
+  factory LegalDocumentModal.privacyNotice() {
+    return const LegalDocumentModal(
+      title: 'Privacy Notice',
+      subtitle: 'Personal data processing notice under DPDPA 2023',
+      effectiveDate: '1 September 2026',
+      acknowledgmentText:
+          'MSS uses your personal information to create your profile and identify Government schemes that may be relevant to you.',
+      introText:
+          'This Privacy Notice outlines how your personal data is collected, used, and protected while using the MSS App.',
+      sections: [
+        LegalSectionItem(
+          number: 1,
+          title: 'What We Collect',
+          body:
+              'We collect: your Google Sign-In details and information provided by you, including name, City/town, District, State, date of birth / age, gender, preferred language, occupation/business type and income range.',
+        ),
+        LegalSectionItem(
+          number: 2,
+          title: 'Why We Use This Information',
+          body:
+              'We use this information to: authenticate you, maintain your profile, match your profile with potentially relevant Government schemes, provide language preferences, maintain security and operate the MSS App.\n\nMSS does not sell your personal data.',
+        ),
+        LegalSectionItem(
+          number: 3,
+          title: 'External Government Schemes',
+          body:
+              'When you choose to apply for a scheme, MSS redirects you to the relevant Government or official website. Your MSS profile information is not automatically transferred to that website. Information subsequently provided by you on the external website is governed by that website\'s privacy practices.',
+        ),
+        LegalSectionItem(
+          number: 4,
+          title: 'Data Retention & Security',
+          body:
+              'Your data will be retained only for as long as necessary for these purposes or as required by applicable law and will be protected using reasonable security safeguards.',
+        ),
+        LegalSectionItem(
+          number: 5,
+          title: 'Your Rights & Grievances',
+          body:
+              'You may exercise applicable rights regarding your personal data, including correction, updating, erasure, withdrawal of consent and grievance redressal.\n\nFor privacy requests or grievances, contact: MSS Grievance Officer at mssapp@gmail.com (+91 44 2681 1999).\n\nPlease read our full Privacy Policy for further information.',
+        ),
+      ],
+    );
+  }
+
   factory LegalDocumentModal.privacyPolicy() {
     return const LegalDocumentModal(
       title: 'Privacy Policy',
       subtitle: 'How MSS collects, uses and protects your information',
       effectiveDate: '1 September 2026',
       acknowledgmentText:
-          'By accessing or using the MSS application, you acknowledge that you have read, understood and agree to this Privacy Policy.',
+          'MSS App (“MSS”, “we”, “us”) respects your privacy and is committed to protecting your personal data in accordance with the Digital Personal Data Protection Act, 2023 and applicable rules.',
       introText:
           'MSS respects your privacy and is committed to protecting the personal information you provide while using the MSS App.',
       sections: [
         LegalSectionItem(
           number: 1,
-          title: 'Information We Collect',
+          title: 'Personal Data We Collect',
           body:
-              'Depending on how you use MSS, we may collect:\n\n• Name\n• Email address and basic information provided through Google Sign-In\n• Date of birth or age\n• Gender\n• State, district and city/village\n• Preferred language\n• Occupation or business type\n• Income information\n• Category or community information\n• Other eligibility-related information voluntarily provided by you\n• Limited technical, diagnostic, security or usage information required to operate and protect the application',
+              'When you use MSS, we may collect:\n\n• Google Sign-In information: name, email address and other basic information made available through Google Sign-In, as permitted by you.\n• Profile information provided by you: name, City/town, District, State, age, gender, preferred language, type of occupation/business and income range.\n• Technical information: limited device, security, diagnostic or usage information necessary for secure and reliable operation of the App, where applicable. We use cookies to save your preferences and related technical information.',
         ),
         LegalSectionItem(
           number: 2,
-          title: 'How We Use Your Information',
+          title: 'Why We Use Your Data',
           body:
-              'Your information may be used to:\n\n• Authenticate and maintain your account.\n• Create and maintain your MSS profile.\n• Identify Government schemes that may be relevant to you.\n• Provide personalized scheme recommendations.\n• Provide language and application preferences.\n• Maintain application security.\n• Prevent misuse of the service.\n• Improve and maintain MSS.\n• Comply with applicable legal requirements.\n\nMSS does not sell your personal data.',
+              'Your personal data is used to:\n\n• Authenticate you and maintain your account;\n• Create and maintain your profile;\n• Identify and display Government schemes that may be relevant to your profile;\n• Provide the App in your preferred language;\n• Improve security and prevent misuse; and\n• Meet applicable legal requirements.\n\nMSS does not sell your personal data.',
         ),
         LegalSectionItem(
           number: 3,
           title: 'Government Scheme Applications',
           body:
-              'MSS may redirect you to a relevant Government or official website when you choose to apply for a scheme.\n\nYour MSS profile information is not automatically transferred to an external website unless such transfer is specifically disclosed and permitted.\n\nAny information you subsequently provide on an external website will be subject to that website\'s own privacy policy and terms.',
+              'MSS helps you discover Government schemes based on the information provided by you. If you select a scheme, MSS may direct you to the relevant Government or other official website to continue the application process.\n\nMSS does not submit your application or transfer your MSS profile information to such website unless this is specifically disclosed to you and permitted by you.\n\nOnce you leave MSS and access an external website, the collection and processing of information by that website will be governed by its own privacy practices and terms.',
         ),
         LegalSectionItem(
           number: 4,
-          title: 'Data Security',
+          title: 'Service Providers',
           body:
-              'MSS uses reasonable technical and organizational safeguards designed to protect personal information against unauthorized access, misuse, alteration, loss or disclosure.\n\nHowever, no digital service can guarantee absolute security.',
+              'We may use authorised service providers, including technology, hosting, security or authentication providers, where necessary to operate MSS. They may process personal data only for providing such services and subject to appropriate safeguards.\n\nGoogle Sign-In is also subject to Google\'s applicable privacy terms.',
         ),
         LegalSectionItem(
           number: 5,
-          title: 'Data Retention',
+          title: 'Retention and Security',
           body:
-              'Personal information will be retained only for as long as necessary to provide MSS services, maintain your account and profile, fulfill legitimate operational requirements, or comply with applicable legal obligations.',
+              'We retain personal data only for as long as necessary for the purposes for which it was collected or as required by law.\n\nWe use reasonable technical and organisational security measures designed to protect personal data against unauthorised access, disclosure, alteration, loss or misuse.',
         ),
         LegalSectionItem(
           number: 6,
-          title: 'Your Rights and Choices',
+          title: 'Your Rights',
           body:
-              'Subject to applicable law, you may have rights relating to your personal data, including:\n\n• Access to information about its processing\n• Correction or updating of inaccurate information\n• Erasure where applicable\n• Withdrawal of consent\n• Grievance redressal',
+              'Subject to applicable law, you may exercise your rights relating to your personal data, including access to information about its processing, correction, completion or updating, erasure, withdrawal of consent, and grievance redressal.\n\nWithdrawal of consent will not affect processing already lawfully undertaken before withdrawal.',
         ),
         LegalSectionItem(
           number: 7,
-          title: 'External Services',
+          title: 'Children',
           body:
-              'MSS may use authorized service providers for authentication, hosting, security, analytics or other operational purposes where required to provide and maintain the service.\n\nGoogle Sign-In and external Government websites may have their own applicable privacy policies.',
+              'If MSS is not intended for persons below 18 years of age, they should not create an account or provide personal data through the App.',
         ),
         LegalSectionItem(
           number: 8,
-          title: 'Changes to This Privacy Policy',
+          title: 'Grievance Contact',
           body:
-              'This Privacy Policy may be updated when necessary. Updated versions will be made available through the MSS App.',
+              'For privacy questions, grievances or requests concerning your personal data, contact:\n\nData Protection / Grievance Contact:\nMSS Grievance Officer\n\nEmail:\nmssapp@gmail.com\n\nPhone:\n+91 44 2681 1999',
         ),
         LegalSectionItem(
           number: 9,
-          title: 'Contact and Grievance Redressal',
+          title: 'Changes',
           body:
-              'For privacy-related requests, questions or grievances:\n\nData Protection / Grievance Contact:\nMSS Grievance Officer\n\nEmail:\nmssapp@gmail.com\n\nPhone:\n+91 44 2681 1999\n\nLast Updated:\n1 September 2026',
+              'We may update this Privacy Policy from time to time. Material changes will be appropriately communicated through the App.\n\nLast Updated: 1 September 2026',
         ),
       ],
     );
