@@ -11,7 +11,7 @@ import '../utils/emblem_helper.dart';
 import 'app_toast.dart';
 import '../utils/app_spacing.dart';
 
-class SchemeCard extends StatelessWidget {
+class SchemeCard extends StatefulWidget {
   final Scheme scheme;
   final RecommendationResult result;
   final bool isBookmarked;
@@ -30,6 +30,58 @@ class SchemeCard extends StatelessWidget {
     this.showActions = true,
     this.showMatchPercentage = true,
   });
+
+  @override
+  State<SchemeCard> createState() => _SchemeCardState();
+}
+
+class _SchemeCardState extends State<SchemeCard> {
+  // toLocalized() plus the tag/subtitle derivation is expensive in Tamil mode
+  // (dozens of translator calls, several list maps). This widget rebuilds
+  // whenever its parent results list rebuilds -- i.e. on every AppProvider
+  // notifyListeners() -- so cache the derived values and only recompute them
+  // when the source scheme or the active language actually changes.
+  String? _lang;
+  LocalizedScheme? _loc;
+  List<String>? _tags;
+  String? _subtitle;
+
+  @override
+  void didUpdateWidget(covariant SchemeCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!identical(oldWidget.scheme, widget.scheme)) {
+      _lang = null; // invalidate; build() recomputes for the new scheme
+    }
+  }
+
+  void _recomputeDerived(String lang) {
+    final loc = widget.scheme.toLocalized(lang);
+    final isTa = lang == 'ta';
+
+    final rawTags = List<String>.from(_getOtherTags(loc))
+      ..sort((a, b) => a.length.compareTo(b.length));
+    final tags = isTa
+        ? rawTags
+              .map((t) => CentralizedTranslator.instance.translateTag(t))
+              .toList()
+        : rawTags;
+
+    final department = loc.sponsoringBody.isNotEmpty
+        ? loc.sponsoringBody
+        : loc.issuingBody;
+    final level = loc.state.isNotEmpty && loc.state != 'All India'
+        ? loc.state
+        : loc.governmentLevel;
+    final subtitle = [
+      if (department.isNotEmpty) department,
+      if (level.isNotEmpty) level,
+    ].join(' • ');
+
+    _lang = lang;
+    _loc = loc;
+    _tags = tags;
+    _subtitle = subtitle;
+  }
 
   List<String> _getOtherTags(LocalizedScheme locScheme) {
     final List<String> list = [];
@@ -171,27 +223,16 @@ class SchemeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<AppProvider>(context);
-    final isTa = provider.selectedLanguage == 'ta';
-    final locScheme = scheme.toLocalized(provider.selectedLanguage);
-    final rawTags = List<String>.from(_getOtherTags(locScheme))
-      ..sort((a, b) => a.length.compareTo(b.length));
-    final tags = isTa
-        ? rawTags
-              .map((t) => CentralizedTranslator.instance.translateTag(t))
-              .toList()
-        : rawTags;
+    // Only the active language drives this card's content. Listening to the
+    // whole AppProvider rebuilt (and re-localized) every visible card on any
+    // notifyListeners(); bookmark/profile state arrives via widget props.
+    final lang = context.select<AppProvider, String>((p) => p.selectedLanguage);
+    if (_lang != lang) _recomputeDerived(lang);
 
-    final department = locScheme.sponsoringBody.isNotEmpty
-        ? locScheme.sponsoringBody
-        : locScheme.issuingBody;
-    final level = locScheme.state.isNotEmpty && locScheme.state != 'All India'
-        ? locScheme.state
-        : locScheme.governmentLevel;
-    final subtitleText = [
-      if (department.isNotEmpty) department,
-      if (level.isNotEmpty) level,
-    ].join(' • ');
+    final isTa = lang == 'ta';
+    final locScheme = _loc!;
+    final tags = _tags!;
+    final subtitleText = _subtitle!;
 
     return Container(
       margin: const EdgeInsets.symmetric(
@@ -213,7 +254,7 @@ class SchemeCard extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: onTap,
+          onTap: widget.onTap,
           borderRadius: BorderRadius.circular(18),
           child: Padding(
             padding: const EdgeInsets.all(AppSpacing.lg),
@@ -234,7 +275,7 @@ class SchemeCard extends StatelessWidget {
                   ),
                   padding: EdgeInsets.zero,
                   child: ClipOval(
-                    child: _buildSchemeLogo(context, scheme, size: 72),
+                    child: _buildSchemeLogo(context, widget.scheme, size: 72),
                   ),
                 ),
                 const SizedBox(width: AppSpacing.lg),
@@ -252,20 +293,16 @@ class SchemeCard extends StatelessWidget {
                             child: Text(
                               locScheme.name,
                               style: GoogleFonts.poppins(
-                                fontSize: provider.selectedLanguage == 'ta'
-                                    ? 13.0
-                                    : 14.0,
+                                fontSize: isTa ? 13.0 : 14.0,
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFF0F172A),
-                                height: provider.selectedLanguage == 'ta'
-                                    ? 1.35
-                                    : 1.25,
+                                height: isTa ? 1.35 : 1.25,
                               ),
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          if (showMatchPercentage) ...[
+                          if (widget.showMatchPercentage) ...[
                             const SizedBox(width: AppSpacing.tight),
                             Container(
                               padding: const EdgeInsets.symmetric(
@@ -277,7 +314,7 @@ class SchemeCard extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
-                                "${RecommendationEngine.evaluate(provider.profile, scheme).percentage}% ${provider.selectedLanguage == 'ta' ? 'பொருத்தம்' : 'Match'}",
+                                "${widget.result.percentage}% ${isTa ? 'பொருத்தம்' : 'Match'}",
                                 style: GoogleFonts.inter(
                                   color: const Color(0xFF2E7D32),
                                   fontSize: 8.5,
@@ -293,9 +330,7 @@ class SchemeCard extends StatelessWidget {
                         Text(
                           subtitleText,
                           style: GoogleFonts.inter(
-                            fontSize: provider.selectedLanguage == 'ta'
-                                ? 10.5
-                                : 11.0,
+                            fontSize: isTa ? 10.5 : 11.0,
                             color: const Color(0xFF64748B),
                             fontWeight: FontWeight.w500,
                             height: 1.3,
@@ -311,7 +346,10 @@ class SchemeCard extends StatelessWidget {
                         spacing: AppSpacing.tight,
                         runSpacing: AppSpacing.tight,
                         children: tags.map((tag) {
-                          final colors = _getTagColors(tag, scheme.category);
+                          final colors = _getTagColors(
+                            tag,
+                            widget.scheme.category,
+                          );
                           return Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: AppSpacing.sm,
@@ -324,9 +362,7 @@ class SchemeCard extends StatelessWidget {
                             child: Text(
                               tag,
                               style: GoogleFonts.inter(
-                                fontSize: provider.selectedLanguage == 'ta'
-                                    ? 9.0
-                                    : 9.5,
+                                fontSize: isTa ? 9.0 : 9.5,
                                 fontWeight: FontWeight.bold,
                                 color: colors['text'],
                               ),
@@ -339,13 +375,13 @@ class SchemeCard extends StatelessWidget {
                 ),
 
                 // Far Right Actions Column
-                if (showActions) ...[
+                if (widget.showActions) ...[
                   const SizedBox(width: AppSpacing.sm),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       GestureDetector(
-                        onTap: onBookmarkToggle,
+                        onTap: widget.onBookmarkToggle,
                         child: Container(
                           width: 30,
                           height: 30,
@@ -355,7 +391,7 @@ class SchemeCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Icon(
-                            isBookmarked
+                            widget.isBookmarked
                                 ? Icons.bookmark
                                 : Icons.bookmark_border,
                             color: const Color(0xFF2563EB),
@@ -366,9 +402,10 @@ class SchemeCard extends StatelessWidget {
                       const SizedBox(height: AppSpacing.sm),
                       GestureDetector(
                         onTap: () async {
-                          final destination = scheme.applicationUrl.isNotEmpty
-                              ? scheme.applicationUrl
-                              : scheme.officialWebsite;
+                          final destination =
+                              widget.scheme.applicationUrl.isNotEmpty
+                              ? widget.scheme.applicationUrl
+                              : widget.scheme.officialWebsite;
                           final shareText = destination.isNotEmpty
                               ? '${locScheme.name}\n$destination'
                               : locScheme.name;
@@ -378,7 +415,7 @@ class SchemeCard extends StatelessWidget {
                           if (context.mounted) {
                             AppToast.showSuccess(
                               context,
-                              provider.selectedLanguage == 'ta'
+                              isTa
                                   ? 'திட்ட விவரங்கள் நகலெடுக்கப்பட்டது'
                                   : 'Scheme details copied to clipboard',
                             );
