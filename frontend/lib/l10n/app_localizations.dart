@@ -7172,6 +7172,36 @@ abstract class AppLocalizations {
   /// **'• {name} ({percent}% Match)'**
   String eligResShareItem(Object name, Object percent);
 
+  /// No description provided for @eligResEligibleSchemesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Eligible Schemes'**
+  String get eligResEligibleSchemesTitle;
+
+  /// No description provided for @eligResExploreAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore All Schemes'**
+  String get eligResExploreAll;
+
+  /// No description provided for @eligResSaving.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get eligResSaving;
+
+  /// No description provided for @eligResSavedToProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to Profile'**
+  String get eligResSavedToProfile;
+
+  /// No description provided for @eligResSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save results. Please try again.'**
+  String get eligResSaveFailed;
+
   /// No description provided for @notifCatNewSchemes.
   ///
   /// In en, this message translates to:

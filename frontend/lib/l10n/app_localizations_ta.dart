@@ -3893,6 +3893,22 @@ class AppLocalizationsTa extends AppLocalizations {
   }
 
   @override
+  String get eligResEligibleSchemesTitle => 'பொருந்தும் திட்டங்கள்';
+
+  @override
+  String get eligResExploreAll => 'அனைத்து திட்டங்களையும் காண்க';
+
+  @override
+  String get eligResSaving => 'சேமிக்கப்படுகிறது...';
+
+  @override
+  String get eligResSavedToProfile => 'சுயவிவரத்தில் சேமிக்கப்பட்டது';
+
+  @override
+  String get eligResSaveFailed =>
+      'சேமிக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.';
+
+  @override
   String get notifCatNewSchemes => 'புதிய திட்டங்கள்';
 
   @override

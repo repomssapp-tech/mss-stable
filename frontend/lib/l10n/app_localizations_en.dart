@@ -3831,6 +3831,21 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get eligResEligibleSchemesTitle => 'Eligible Schemes';
+
+  @override
+  String get eligResExploreAll => 'Explore All Schemes';
+
+  @override
+  String get eligResSaving => 'Saving...';
+
+  @override
+  String get eligResSavedToProfile => 'Saved to Profile';
+
+  @override
+  String get eligResSaveFailed => 'Failed to save results. Please try again.';
+
+  @override
   String get notifCatNewSchemes => 'New Schemes';
 
   @override
