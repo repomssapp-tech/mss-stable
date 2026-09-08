@@ -328,7 +328,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
                   dbProfile.employmentStatus != _profile.employmentStatus ||
                   dbProfile.profileCompleted != _profile.profileCompleted) {
                 _profile = _profile.mergeFrom(dbProfile);
-                _selectedLanguage = _reconcileServerLanguage(dbProfile.language);
+                _selectedLanguage = _reconcileServerLanguage(
+                  dbProfile.language,
+                );
                 _profile = _profile.copyWith(language: _selectedLanguage);
                 _navigationMode = dbProfile.navigationMode;
 
@@ -863,8 +865,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           await SessionCacheService.instance.getRecentlyViewed() ?? [];
       _savedEligibilitySchemeIds =
           await SessionCacheService.instance.getSavedEligibilityResults() ?? [];
-      _lastEligibilitySavedAt =
-          await SessionCacheService.instance.getLastEligibilitySavedAt();
+      _lastEligibilitySavedAt = await SessionCacheService.instance
+          .getLastEligibilitySavedAt();
 
       final downloadedDocsStr = await SessionCacheService.instance
           .getDownloadedDocs();
@@ -951,7 +953,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     // Only touch startup_profiles when the user has actually given business
     // data -- no more writing 'Technology' / 'Idea' / 'Student' placeholders
     // that then round-trip back as if they were real answers.
-    final hasBusinessData = cloudProfile.businessIndustry.trim().isNotEmpty ||
+    final hasBusinessData =
+        cloudProfile.businessIndustry.trim().isNotEmpty ||
         cloudProfile.businessStage.trim().isNotEmpty ||
         cloudProfile.existingBusiness ||
         cloudProfile.fundingRequired > 0 ||
@@ -1364,8 +1367,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
               .from('profiles')
               .update({
                 'saved_eligibility_schemes': _savedEligibilitySchemeIds,
-                'last_eligibility_saved_at':
-                    _lastEligibilitySavedAt!.toIso8601String(),
+                'last_eligibility_saved_at': _lastEligibilitySavedAt!
+                    .toIso8601String(),
               })
               .eq('id', user.id)
               .catchError((e) {
@@ -1536,14 +1539,16 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   int get profileCompletionPercentage {
     final List<bool> checks = [];
 
-    // Personal Info (6)
+    // Personal Info (5)
+    // Onboarding collects age (persisted as `dob`), not a photo. A profile
+    // photo is optional and never requested in the onboarding flow, so it is
+    // deliberately excluded — including it capped completion at ~95% forever
+    // for anyone who never set one.
     checks.add(_profile.name.trim().isNotEmpty);
     checks.add(_profile.mobile.trim().isNotEmpty);
     checks.add(_profile.email.trim().isNotEmpty);
     checks.add(_profile.dob != null);
     checks.add(_profile.gender.trim().isNotEmpty);
-    final hasPhoto = effectiveProfilePhoto.isNotEmpty || _profile.profilePhoto.trim().isNotEmpty;
-    checks.add(hasPhoto);
 
     // Address Info (6)
     checks.add(_profile.house.trim().isNotEmpty);
@@ -1557,13 +1562,18 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     checks.add(_profile.employmentStatus.trim().isNotEmpty);
 
     // Eligibility & Social (Step 4) (4)
-    checks.add(_profile.qualification.trim().isNotEmpty || _profile.educationLevel.trim().isNotEmpty);
+    checks.add(
+      _profile.qualification.trim().isNotEmpty ||
+          _profile.educationLevel.trim().isNotEmpty,
+    );
     checks.add(_profile.community.trim().isNotEmpty);
     checks.add(_profile.disability == 'Yes' || _profile.disability == 'No');
-    
+
     // Eligibility Booleans (Income, Veteran, First Gen)
     // Counted as filled if they completed Step 4
-    final completedStep4 = _profile.qualification.trim().isNotEmpty || _profile.educationLevel.trim().isNotEmpty;
+    final completedStep4 =
+        _profile.qualification.trim().isNotEmpty ||
+        _profile.educationLevel.trim().isNotEmpty;
     checks.add(completedStep4);
 
     // Preferences (2)
@@ -1584,14 +1594,13 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
   List<String> get missingProfileSections {
     final missing = <String>[];
-    
+
     // Check Basic Details
     if (_profile.name.trim().isEmpty ||
         _profile.mobile.trim().isEmpty ||
         _profile.email.trim().isEmpty ||
         _profile.dob == null ||
-        _profile.gender.trim().isEmpty ||
-        (effectiveProfilePhoto.isEmpty && _profile.profilePhoto.trim().isEmpty)) {
+        _profile.gender.trim().isEmpty) {
       missing.add('Basic Details');
     }
 
@@ -1608,7 +1617,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     if (_profile.employmentStatus.trim().isEmpty) missing.add('Employment');
 
     // Eligibility
-    if ((_profile.qualification.trim().isEmpty && _profile.educationLevel.trim().isEmpty) ||
+    if ((_profile.qualification.trim().isEmpty &&
+            _profile.educationLevel.trim().isEmpty) ||
         _profile.community.trim().isEmpty ||
         (_profile.disability != 'Yes' && _profile.disability != 'No')) {
       missing.add('Eligibility');
