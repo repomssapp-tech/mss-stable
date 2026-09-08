@@ -259,33 +259,6 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
       provider.selectedLanguage,
     );
 
-    debugPrint('\n========== [SCHEME DETAILS LOCALIZATION TRACE] ==========');
-    debugPrint('Selected App Language: ${provider.selectedLanguage}');
-    debugPrint('Raw Scheme ID: ${rawScheme.id}');
-    debugPrint('Raw Scheme En Title: ${rawScheme.name}');
-    debugPrint('Raw Scheme Ta Title: ${rawScheme.nameTa}');
-    debugPrint('Localized Widget Title: ${scheme.name}');
-    debugPrint(
-      'Localized Widget Overview: ${scheme.overview.length > 50 ? "${scheme.overview.substring(0, 47)}..." : scheme.overview}',
-    );
-    debugPrint(
-      'Localized Widget Benefits: ${scheme.benefits.length > 50 ? "${scheme.benefits.substring(0, 47)}..." : scheme.benefits}',
-    );
-    if (scheme.documents.isNotEmpty) {
-      debugPrint('Localized Widget First Doc: ${scheme.documents.first.name}');
-    }
-    if (scheme.requiredServices.isNotEmpty) {
-      debugPrint(
-        'Localized Widget First Service: ${scheme.requiredServices.first.name}',
-      );
-    }
-    if (scheme.applicationProcess.isNotEmpty) {
-      debugPrint(
-        'Localized Widget First Step: ${scheme.applicationProcess.first}',
-      );
-    }
-    debugPrint('=========================================================\n');
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
