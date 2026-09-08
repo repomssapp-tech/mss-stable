@@ -11,7 +11,6 @@ import 'help_support_screen.dart';
 import 'legal_screens.dart';
 import '../../widgets/custom_confirm_dialog.dart';
 import '../../utils/responsive.dart';
-import '../../widgets/app_toast.dart';
 import '../../widgets/catalog_freshness_footer.dart';
 import '../../utils/app_spacing.dart';
 
@@ -37,181 +36,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       confirmColor: AppConstants.errorColor,
       onConfirm: () => provider.deleteAccount(context),
       isDestructive: true,
-    );
-  }
-
-  void _showNavigationModePopup(BuildContext context, AppProvider provider) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Dialog(
-          insetPadding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.lg,
-            vertical: AppSpacing.xxl,
-          ),
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
-            side: const BorderSide(color: Color(0xFFE2E8F0)),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.xxl),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(AppSpacing.sm),
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFEFF6FF),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.explore_outlined,
-                        color: Color(0xFF2563EB),
-                        size: 20,
-                      ),
-                    ),
-                    const SizedBox(width: AppSpacing.md),
-                    Expanded(
-                      child: Text(
-                        context.l10n.navigationModeSetting,
-                        style: GoogleFonts.poppins(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF0F172A),
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.close_rounded,
-                        color: Color(0xFF94A3B8),
-                      ),
-                      tooltip: context.l10n.close,
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: AppSpacing.lg),
-                Text(
-                  context.l10n.settingsNavModeDialogBody,
-                  style: GoogleFonts.inter(
-                    fontSize: 11.5,
-                    color: const Color(0xFF64748B),
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.xl),
-                _buildModeOption(
-                  context: context,
-                  provider: provider,
-                  mode: 'regular',
-                  title: context.l10n.navRegularNavigationTitle,
-                  subtitle: context.l10n.settingsRegularSubtitle,
-                  icon: Icons.layers_outlined,
-                ),
-                const SizedBox(height: AppSpacing.md),
-                _buildModeOption(
-                  context: context,
-                  provider: provider,
-                  mode: 'companion',
-                  title: context.l10n.settingsCompanionTitle,
-                  subtitle: context.l10n.settingsCompanionSubtitle,
-                  icon: Icons.chat_bubble_outline_rounded,
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildModeOption({
-    required BuildContext context,
-    required AppProvider provider,
-    required String mode,
-    required String title,
-    required String subtitle,
-    required IconData icon,
-  }) {
-    final isSelected = provider.navigationMode == mode;
-    return InkWell(
-      onTap: () async {
-        final navigator = Navigator.of(context, rootNavigator: true);
-        navigator.pop();
-        await provider.changeNavigationMode(mode);
-        provider.updateTabIndex(0);
-        navigator.popUntil((route) => route.isFirst);
-        if (context.mounted) {
-          AppToast.showSuccess(
-            context,
-            mode == 'companion'
-                ? context.l10n.settingsSwitchedToCompanion
-                : context.l10n.settingsSwitchedToRegular,
-          );
-        }
-      },
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        padding: const EdgeInsets.all(AppSpacing.lg),
-        decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFFEFF6FF) : Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: isSelected
-                ? const Color(0xFF2563EB)
-                : const Color(0xFFE2E8F0),
-            width: 1.5,
-          ),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              color: isSelected
-                  ? const Color(0xFF2563EB)
-                  : const Color(0xFF64748B),
-              size: 24,
-            ),
-            const SizedBox(width: AppSpacing.lg),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: GoogleFonts.inter(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 13,
-                      color: isSelected
-                          ? const Color(0xFF1E3A8A)
-                          : const Color(0xFF0F172A),
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.hairline),
-                  Text(
-                    subtitle,
-                    style: GoogleFonts.inter(
-                      fontSize: 10.5,
-                      color: const Color(0xFF64748B),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Icon(
-              isSelected ? Icons.check_circle_rounded : Icons.circle_outlined,
-              color: isSelected
-                  ? const Color(0xFF2563EB)
-                  : const Color(0xFFCBD5E1),
-              size: 22,
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -412,14 +236,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   );
                 },
-              ),
-              _buildSettingRow(
-                icon: Icons.explore_outlined,
-                title: context.l10n.navigationModeSetting,
-                value: provider.navigationMode == 'companion'
-                    ? context.l10n.navigationModeCompanion
-                    : context.l10n.navigationModeRegular,
-                onTap: () => _showNavigationModePopup(context, provider),
                 isLast: true,
               ),
             ]),

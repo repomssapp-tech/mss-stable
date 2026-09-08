@@ -1088,45 +1088,8 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
     Color kSlate500,
   ) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        // Language Pill selector
-        Flexible(
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.md,
-              vertical: AppSpacing.tight,
-            ),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: const Color(0xFFE2E8F0)),
-            ),
-            child: Row(
-              children: [
-                const Icon(Icons.language, color: Color(0xFF2563EB), size: 16),
-                const SizedBox(width: AppSpacing.tight),
-                Flexible(
-                  child: FitOneLine(
-                    child: Text(
-                      provider.selectedLanguage == 'ta' ? 'தமிழ்' : 'English',
-                      style: GoogleFonts.inter(
-                        fontSize: 12.5,
-                        fontWeight: FontWeight.bold,
-                        color: kDarkSlate,
-                      ),
-                    ),
-                  ),
-                ),
-                const Icon(
-                  Icons.arrow_drop_down,
-                  color: Color(0xFF64748B),
-                  size: 16,
-                ),
-              ],
-            ),
-          ),
-        ),
         // Notification icon & Profile photo
         Row(
           children: [
