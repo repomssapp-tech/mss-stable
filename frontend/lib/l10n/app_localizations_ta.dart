@@ -4053,4 +4053,59 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get savedRemoveNoLongerInterested =>
       'இனி உங்களுக்கு விருப்பமில்லாத திட்டங்களை அகற்றவும்.';
+
+  @override
+  String get eduSchool => 'பள்ளி (10 / 12ம்)';
+
+  @override
+  String get eduDiploma => 'டிப்ளமோ / ITI';
+
+  @override
+  String get eduUndergraduate => 'இளங்கலை (பட்டப்படிப்பு)';
+
+  @override
+  String get eduPostgraduate => 'முதுகலை (மாஸ்டர்)';
+
+  @override
+  String get eduPhd => 'முனைவர் பட்டம் (Ph.D.)';
+
+  @override
+  String get commGeneralOc => 'பொதுப் பிரிவு (OC)';
+
+  @override
+  String get commObcBcMbc => 'OBC / BC / MBC';
+
+  @override
+  String get commScCategory => 'பட்டியலினம் (SC)';
+
+  @override
+  String get commStCategory => 'பழங்குடியினர் (ST)';
+
+  @override
+  String get commEwsCategory => 'பொருளாதார நலிந்தோர் (EWS)';
+
+  @override
+  String get commMinority => 'சிறுபான்மையினர்';
+
+  @override
+  String get incomeNone => 'வருமானம் இல்லை';
+
+  @override
+  String get incomeUnder15L => '₹1.5 லட்சத்திற்கு கீழ்';
+
+  @override
+  String get income15to3L => '₹1.5L - ₹3 லட்சம்';
+
+  @override
+  String get income3to6L => '₹3L - ₹6 லட்சம்';
+
+  @override
+  String get income6to10L => '₹6L - ₹10 லட்சம்';
+
+  @override
+  String get incomeAbove10L => '₹10 லட்சத்திற்கு மேல்';
+
+  @override
+  String get profilePrivacyNoteDpdpa =>
+      'DPDPA 2023: சமூகப் பிரிவு தகவல் அரசு நலத்திட்டத் தகுதி சரிபார்ப்பிற்கு மட்டுமே பயன்படுத்தப்படும்; பகிரப்படாது.';
 }

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/app_state_provider.dart';
 import '../../l10n/l10n.dart';
+import '../../l10n/app_localizations.dart';
 import '../../utils/permission_helper.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/constants.dart';
@@ -73,30 +74,32 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   bool _isSubmitting = false;
 
   // Step 4 Options
+  // Labels resolve through gen-l10n (`_optionLabel`) via the `key` field, so
+  // Tamil copy lives in the ARB files, not inline here.
   final List<Map<String, String>> _educationOptions = [
-    {'id': 'School', 'label': 'School (10th / 12th)', 'labelTa': 'பள்ளி (10 / 12ம்)'},
-    {'id': 'Diploma', 'label': 'Diploma / ITI', 'labelTa': 'டிப்ளமோ / ITI'},
-    {'id': 'Undergraduate', 'label': 'Undergraduate (Degree)', 'labelTa': 'இளங்கலை (பட்டப்படிப்பு)'},
-    {'id': 'Postgraduate', 'label': 'Postgraduate (Master)', 'labelTa': 'முதுகலை (மாஸ்டர்)'},
-    {'id': 'Ph.D.', 'label': 'Ph.D. / Doctorate', 'labelTa': 'முனைவர் பட்டம் (Ph.D.)'},
+    {'id': 'School', 'key': 'eduSchool'},
+    {'id': 'Diploma', 'key': 'eduDiploma'},
+    {'id': 'Undergraduate', 'key': 'eduUndergraduate'},
+    {'id': 'Postgraduate', 'key': 'eduPostgraduate'},
+    {'id': 'Ph.D.', 'key': 'eduPhd'},
   ];
 
   final List<Map<String, String>> _communityOptions = [
-    {'id': 'General', 'label': 'General (OC)', 'labelTa': 'பொதுப் பிரிவு (OC)'},
-    {'id': 'OBC', 'label': 'OBC / BC / MBC', 'labelTa': 'OBC / BC / MBC'},
-    {'id': 'SC', 'label': 'SC', 'labelTa': 'பட்டியலினம் (SC)'},
-    {'id': 'ST', 'label': 'ST', 'labelTa': 'பழங்குடியினர் (ST)'},
-    {'id': 'EWS', 'label': 'EWS', 'labelTa': 'பொருளாதார நலிந்தோர் (EWS)'},
-    {'id': 'Minority', 'label': 'Minority', 'labelTa': 'சிறுபான்மையினர்'},
+    {'id': 'General', 'key': 'commGeneralOc'},
+    {'id': 'OBC', 'key': 'commObcBcMbc'},
+    {'id': 'SC', 'key': 'commScCategory'},
+    {'id': 'ST', 'key': 'commStCategory'},
+    {'id': 'EWS', 'key': 'commEwsCategory'},
+    {'id': 'Minority', 'key': 'commMinority'},
   ];
 
   final List<Map<String, dynamic>> _incomeOptions = [
-    {'value': 0.0, 'label': 'No Income', 'labelTa': 'வருமானம் இல்லை'},
-    {'value': 100000.0, 'label': 'Under ₹1.5 Lakhs', 'labelTa': '₹1.5 லட்சத்திற்கு கீழ்'},
-    {'value': 250000.0, 'label': '₹1.5L - ₹3 Lakhs', 'labelTa': '₹1.5L - ₹3 லட்சம்'},
-    {'value': 450000.0, 'label': '₹3L - ₹6 Lakhs', 'labelTa': '₹3L - ₹6 லட்சம்'},
-    {'value': 800000.0, 'label': '₹6L - ₹10 Lakhs', 'labelTa': '₹6L - ₹10 லட்சம்'},
-    {'value': 1500000.0, 'label': 'Above ₹10 Lakhs', 'labelTa': '₹10 லட்சத்திற்கு மேல்'},
+    {'value': 0.0, 'key': 'incomeNone'},
+    {'value': 100000.0, 'key': 'incomeUnder15L'},
+    {'value': 250000.0, 'key': 'income15to3L'},
+    {'value': 450000.0, 'key': 'income3to6L'},
+    {'value': 800000.0, 'key': 'income6to10L'},
+    {'value': 1500000.0, 'key': 'incomeAbove10L'},
   ];
 
   @override
@@ -548,10 +551,6 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    // `isTa` still feeds the inline label ternaries in Step 4 (opt['labelTa'])
-    // and the DPDPA privacy note -- those are migrated in a later batch.
-    final isTa =
-        Provider.of<AppProvider>(context).selectedLanguage == 'ta';
 
     return PopScope(
       canPop: _currentStep == 1,
@@ -649,7 +648,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                               Expanded(
                                 child: SingleChildScrollView(
                                   physics: const ClampingScrollPhysics(),
-                                  child: _buildStepForm(_currentStep, isTa),
+                                  child: _buildStepForm(_currentStep),
                                 ),
                               ),
 
@@ -777,7 +776,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
 
   // --- Step Forms ---
 
-  Widget _buildStepForm(int step, bool isTa) {
+  Widget _buildStepForm(int step) {
     switch (step) {
       case 1:
         return _buildStep1Form();
@@ -786,7 +785,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       case 3:
         return _buildStep3Form();
       case 4:
-        return _buildStep4Form(isTa);
+        return _buildStep4Form();
       default:
         return _buildStep1Form();
     }
@@ -1497,10 +1496,53 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     );
   }
 
+  // Maps a Step 4 option `key` to its localized label. Kept as an explicit
+  // switch because gen-l10n getters can't be looked up dynamically by name.
+  String _optionLabel(AppLocalizations l10n, String key) {
+    switch (key) {
+      case 'eduSchool':
+        return l10n.eduSchool;
+      case 'eduDiploma':
+        return l10n.eduDiploma;
+      case 'eduUndergraduate':
+        return l10n.eduUndergraduate;
+      case 'eduPostgraduate':
+        return l10n.eduPostgraduate;
+      case 'eduPhd':
+        return l10n.eduPhd;
+      case 'commGeneralOc':
+        return l10n.commGeneralOc;
+      case 'commObcBcMbc':
+        return l10n.commObcBcMbc;
+      case 'commScCategory':
+        return l10n.commScCategory;
+      case 'commStCategory':
+        return l10n.commStCategory;
+      case 'commEwsCategory':
+        return l10n.commEwsCategory;
+      case 'commMinority':
+        return l10n.commMinority;
+      case 'incomeNone':
+        return l10n.incomeNone;
+      case 'incomeUnder15L':
+        return l10n.incomeUnder15L;
+      case 'income15to3L':
+        return l10n.income15to3L;
+      case 'income3to6L':
+        return l10n.income3to6L;
+      case 'income6to10L':
+        return l10n.income6to10L;
+      case 'incomeAbove10L':
+        return l10n.incomeAbove10L;
+      default:
+        return key;
+    }
+  }
+
   // ---------------------------------------------------------------------------
   // STEP 4 FORM: Eligibility
   // ---------------------------------------------------------------------------
-  Widget _buildStep4Form(bool isTa) {
+  Widget _buildStep4Form() {
     final l10n = context.l10n;
 
     // Two-column grid of selectable cards -- same visual language as the
@@ -1523,8 +1565,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         ),
         itemBuilder: (context, index) {
           final opt = options[index];
-          final text =
-              isTa ? opt['labelTa'] as String : opt['label'] as String;
+          final text = _optionLabel(l10n, opt['key'] as String);
           return _buildSelectCard(
             label: text,
             isSelected: isSelected(opt),
@@ -1584,7 +1625,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         // 2. Community category (required)
         _buildLabel('${l10n.community} *'),
         const SizedBox(height: AppSpacing.tight),
-        _buildPrivacyNote(isTa),
+        _buildPrivacyNote(),
         const SizedBox(height: AppSpacing.sm),
         optionGrid(
           options: _communityOptions,
@@ -1648,7 +1689,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   }
 
   // Slim privacy reassurance, styled like the Step 1 info box.
-  Widget _buildPrivacyNote(bool isTa) {
+  Widget _buildPrivacyNote() {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.sm),
       decoration: BoxDecoration(
@@ -1667,9 +1708,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
           const SizedBox(width: AppSpacing.tight),
           Expanded(
             child: Text(
-              isTa
-                  ? 'DPDPA 2023: சமூகப் பிரிவு தகவல் அரசு நலத்திட்டத் தகுதி சரிபார்ப்பிற்கு மட்டுமே பயன்படுத்தப்படும்; பகிரப்படாது.'
-                  : 'DPDPA 2023: Used only to match you with welfare schemes. Never shared.',
+              context.l10n.profilePrivacyNoteDpdpa,
               style: GoogleFonts.inter(
                 fontSize: 10.5,
                 color: kSlate800,

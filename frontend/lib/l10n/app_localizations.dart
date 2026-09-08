@@ -7441,6 +7441,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Remove schemes you\'re no longer interested in.'**
   String get savedRemoveNoLongerInterested;
+
+  /// No description provided for @eduSchool.
+  ///
+  /// In en, this message translates to:
+  /// **'School (10th / 12th)'**
+  String get eduSchool;
+
+  /// No description provided for @eduDiploma.
+  ///
+  /// In en, this message translates to:
+  /// **'Diploma / ITI'**
+  String get eduDiploma;
+
+  /// No description provided for @eduUndergraduate.
+  ///
+  /// In en, this message translates to:
+  /// **'Undergraduate (Degree)'**
+  String get eduUndergraduate;
+
+  /// No description provided for @eduPostgraduate.
+  ///
+  /// In en, this message translates to:
+  /// **'Postgraduate (Master)'**
+  String get eduPostgraduate;
+
+  /// No description provided for @eduPhd.
+  ///
+  /// In en, this message translates to:
+  /// **'Ph.D. / Doctorate'**
+  String get eduPhd;
+
+  /// No description provided for @commGeneralOc.
+  ///
+  /// In en, this message translates to:
+  /// **'General (OC)'**
+  String get commGeneralOc;
+
+  /// No description provided for @commObcBcMbc.
+  ///
+  /// In en, this message translates to:
+  /// **'OBC / BC / MBC'**
+  String get commObcBcMbc;
+
+  /// No description provided for @commScCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'SC'**
+  String get commScCategory;
+
+  /// No description provided for @commStCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'ST'**
+  String get commStCategory;
+
+  /// No description provided for @commEwsCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'EWS'**
+  String get commEwsCategory;
+
+  /// No description provided for @commMinority.
+  ///
+  /// In en, this message translates to:
+  /// **'Minority'**
+  String get commMinority;
+
+  /// No description provided for @incomeNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No Income'**
+  String get incomeNone;
+
+  /// No description provided for @incomeUnder15L.
+  ///
+  /// In en, this message translates to:
+  /// **'Under ₹1.5 Lakhs'**
+  String get incomeUnder15L;
+
+  /// No description provided for @income15to3L.
+  ///
+  /// In en, this message translates to:
+  /// **'₹1.5L - ₹3 Lakhs'**
+  String get income15to3L;
+
+  /// No description provided for @income3to6L.
+  ///
+  /// In en, this message translates to:
+  /// **'₹3L - ₹6 Lakhs'**
+  String get income3to6L;
+
+  /// No description provided for @income6to10L.
+  ///
+  /// In en, this message translates to:
+  /// **'₹6L - ₹10 Lakhs'**
+  String get income6to10L;
+
+  /// No description provided for @incomeAbove10L.
+  ///
+  /// In en, this message translates to:
+  /// **'Above ₹10 Lakhs'**
+  String get incomeAbove10L;
+
+  /// No description provided for @profilePrivacyNoteDpdpa.
+  ///
+  /// In en, this message translates to:
+  /// **'DPDPA 2023: Used only to match you with welfare schemes. Never shared.'**
+  String get profilePrivacyNoteDpdpa;
 }
 
 class _AppLocalizationsDelegate
