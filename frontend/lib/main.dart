@@ -76,11 +76,7 @@ void main() async {
     );
   } catch (e) {
     debugPrint('[main] Supabase.initialize failed: $e');
-    runApp(
-      _StartupErrorApp(
-        message: 'Could not connect to Supabase.\n\n$e',
-      ),
-    );
+    runApp(_StartupErrorApp(message: 'Could not connect to Supabase.\n\n$e'));
     return;
   }
 
@@ -158,141 +154,142 @@ class InSchemesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppProvider>(
-      builder: (context, provider, child) {
-        return MaterialApp(
-          title: 'MSS',
-          debugShowCheckedModeBanner: false,
-          scrollBehavior: const AppScrollBehavior(),
-          locale: Locale(provider.selectedLanguage),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          builder: (context, child) {
-            final mediaQueryData = MediaQuery.of(context);
-            // Respect the device's own accessibility text-scale setting
-            // instead of discarding it, but keep an app design floor and a
-            // ceiling so layouts stay intact. Tamil glyphs are taller and
-            // denser than Latin, so the +20% floor made Tamil screens feel
-            // cramped -- drop the floor (and lower the ceiling) for `ta`.
-            final isTamil = provider.selectedLanguage == 'ta';
-            final deviceScale = mediaQueryData.textScaler.scale(1.0);
-            final boundedScale = deviceScale.clamp(
-              isTamil ? 1.0 : 1.20,
-              isTamil ? 1.12 : 1.30,
-            );
-            return MediaQuery(
-              data: mediaQueryData.copyWith(
-                textScaler: TextScaler.linear(boundedScale),
-              ),
-              child: child!,
-            );
-          },
-          theme: ThemeData(
-            primaryColor: AppConstants.primaryColor,
-            scaffoldBackgroundColor: AppConstants.backgroundColor,
-            colorScheme: ColorScheme.fromSeed(
-              seedColor: AppConstants.primaryColor,
-              primary: AppConstants.primaryColor,
-              secondary: AppConstants.secondaryColor,
-              error: AppConstants.errorColor,
-            ),
-            useMaterial3: true,
-            textTheme: TextTheme(
-              // Poppins for App Logo & Titles
-              headlineLarge: GoogleFonts.poppins(
-                fontSize: 34,
-                fontWeight: FontWeight.bold,
-                color: AppConstants.primaryText,
-              ),
-              titleLarge: GoogleFonts.poppins(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: AppConstants.primaryText,
-              ),
-              titleMedium: GoogleFonts.poppins(
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
-                color: AppConstants.primaryText,
-              ),
-              titleSmall: GoogleFonts.poppins(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: AppConstants.primaryText,
-              ),
-
-              // Inter for Body and Form Elements (height >= 1.4 prevents Tamil diacritic clipping)
-              bodyLarge: GoogleFonts.inter(
-                fontSize: 16,
-                fontWeight: FontWeight.normal,
-                color: AppConstants.primaryText,
-                height: 1.45,
-              ),
-              bodyMedium: GoogleFonts.inter(
-                fontSize: 15,
-                fontWeight: FontWeight.normal,
-                color: AppConstants.primaryText,
-                height: 1.45,
-              ),
-              bodySmall: GoogleFonts.inter(
-                fontSize: 13,
-                fontWeight: FontWeight.normal,
-                color: AppConstants.secondaryText,
-                height: 1.4,
-              ),
-
-              labelLarge: GoogleFonts.inter(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ), // Button
-              labelMedium: GoogleFonts.inter(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: AppConstants.secondaryText,
-              ), // Form Label
-              labelSmall: GoogleFonts.inter(
-                fontSize: 12,
-                fontWeight: FontWeight.normal,
-                color: AppConstants.secondaryText,
-              ), // Small Info
-            ),
-            // Styling for premium light cards
-            cardTheme: CardThemeData(
-              color: AppConstants.surfaceColor,
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-                side: const BorderSide(color: AppConstants.cardBorderColor),
-              ),
-            ),
-            datePickerTheme: AppTheme.datePickerTheme,
+    // Only the locale depends on AppProvider here. Selecting the single field
+    // keeps the whole MaterialApp from rebuilding on unrelated notifyListeners().
+    final selectedLanguage = context.select<AppProvider, String>(
+      (p) => p.selectedLanguage,
+    );
+    return MaterialApp(
+      title: 'MSS',
+      debugShowCheckedModeBanner: false,
+      scrollBehavior: const AppScrollBehavior(),
+      locale: Locale(selectedLanguage),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      builder: (context, child) {
+        final mediaQueryData = MediaQuery.of(context);
+        // Respect the device's own accessibility text-scale setting
+        // instead of discarding it, but keep an app design floor and a
+        // ceiling so layouts stay intact. Tamil glyphs are taller and
+        // denser than Latin, so the +20% floor made Tamil screens feel
+        // cramped -- drop the floor (and lower the ceiling) for `ta`.
+        final isTamil = selectedLanguage == 'ta';
+        final deviceScale = mediaQueryData.textScaler.scale(1.0);
+        final boundedScale = deviceScale.clamp(
+          isTamil ? 1.0 : 1.20,
+          isTamil ? 1.12 : 1.30,
+        );
+        return MediaQuery(
+          data: mediaQueryData.copyWith(
+            textScaler: TextScaler.linear(boundedScale),
           ),
-          // Set initial screen based on login state
-          home: const SplashScreen(),
-          // The platform forwards incoming deep-link intents (e.g. the
-          // Supabase OAuth callback "com.inschemes.app://login-callback/
-          // ?code=...") as a named-route push, even though
-          // supabase_flutter's own listener (registered in
-          // Supabase.initialize) already completes the auth code exchange
-          // independently of the Navigator. This app has no named-route
-          // table (only `home:`), so without a route generator Flutter's
-          // default onUnknownRoute throws "Could not find a generator for
-          // route". Absorb it: push nothing visible and pop immediately.
-          onGenerateRoute: (settings) => null,
-          onUnknownRoute: (settings) => PageRouteBuilder(
-            settings: settings,
-            opaque: false,
-            pageBuilder: (context, animation, secondaryAnimation) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                if (Navigator.of(context).canPop()) {
-                  Navigator.of(context).pop();
-                }
-              });
-              return const SizedBox.shrink();
-            },
-          ),
+          child: child!,
         );
       },
+      theme: ThemeData(
+        primaryColor: AppConstants.primaryColor,
+        scaffoldBackgroundColor: AppConstants.backgroundColor,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: AppConstants.primaryColor,
+          primary: AppConstants.primaryColor,
+          secondary: AppConstants.secondaryColor,
+          error: AppConstants.errorColor,
+        ),
+        useMaterial3: true,
+        textTheme: TextTheme(
+          // Poppins for App Logo & Titles
+          headlineLarge: GoogleFonts.poppins(
+            fontSize: 34,
+            fontWeight: FontWeight.bold,
+            color: AppConstants.primaryText,
+          ),
+          titleLarge: GoogleFonts.poppins(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            color: AppConstants.primaryText,
+          ),
+          titleMedium: GoogleFonts.poppins(
+            fontSize: 22,
+            fontWeight: FontWeight.w600,
+            color: AppConstants.primaryText,
+          ),
+          titleSmall: GoogleFonts.poppins(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: AppConstants.primaryText,
+          ),
+
+          // Inter for Body and Form Elements (height >= 1.4 prevents Tamil diacritic clipping)
+          bodyLarge: GoogleFonts.inter(
+            fontSize: 16,
+            fontWeight: FontWeight.normal,
+            color: AppConstants.primaryText,
+            height: 1.45,
+          ),
+          bodyMedium: GoogleFonts.inter(
+            fontSize: 15,
+            fontWeight: FontWeight.normal,
+            color: AppConstants.primaryText,
+            height: 1.45,
+          ),
+          bodySmall: GoogleFonts.inter(
+            fontSize: 13,
+            fontWeight: FontWeight.normal,
+            color: AppConstants.secondaryText,
+            height: 1.4,
+          ),
+
+          labelLarge: GoogleFonts.inter(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ), // Button
+          labelMedium: GoogleFonts.inter(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: AppConstants.secondaryText,
+          ), // Form Label
+          labelSmall: GoogleFonts.inter(
+            fontSize: 12,
+            fontWeight: FontWeight.normal,
+            color: AppConstants.secondaryText,
+          ), // Small Info
+        ),
+        // Styling for premium light cards
+        cardTheme: CardThemeData(
+          color: AppConstants.surfaceColor,
+          elevation: 2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+            side: const BorderSide(color: AppConstants.cardBorderColor),
+          ),
+        ),
+        datePickerTheme: AppTheme.datePickerTheme,
+      ),
+      // Set initial screen based on login state
+      home: const SplashScreen(),
+      // The platform forwards incoming deep-link intents (e.g. the
+      // Supabase OAuth callback "com.inschemes.app://login-callback/
+      // ?code=...") as a named-route push, even though
+      // supabase_flutter's own listener (registered in
+      // Supabase.initialize) already completes the auth code exchange
+      // independently of the Navigator. This app has no named-route
+      // table (only `home:`), so without a route generator Flutter's
+      // default onUnknownRoute throws "Could not find a generator for
+      // route". Absorb it: push nothing visible and pop immediately.
+      onGenerateRoute: (settings) => null,
+      onUnknownRoute: (settings) => PageRouteBuilder(
+        settings: settings,
+        opaque: false,
+        pageBuilder: (context, animation, secondaryAnimation) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+            }
+          });
+          return const SizedBox.shrink();
+        },
+      ),
     );
   }
 }
@@ -314,9 +311,11 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
     IconData icon,
     IconData activeIcon,
     String label,
+    int currentTabIndex,
+    String selectedLanguage,
     AppProvider provider,
   ) {
-    final isSelected = provider.currentTabIndex == index;
+    final isSelected = currentTabIndex == index;
     final color = isSelected
         ? const Color(0xFF2563EB)
         : const Color(0xFF64748B);
@@ -331,7 +330,7 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {
-          if (provider.currentTabIndex == index && index == 1) {
+          if (currentTabIndex == index && index == 1) {
             searchTabKey.currentState?.resetToIdle();
           }
           provider.updateTabIndex(index);
@@ -352,7 +351,7 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.inter(
                   color: color,
-                  fontSize: provider.selectedLanguage == 'ta' ? 9.5 : 10.5,
+                  fontSize: selectedLanguage == 'ta' ? 9.5 : 10.5,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                 ),
               ),
@@ -365,12 +364,25 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<AppProvider>(context);
+    // Listen only to the fields this shell renders. Listening to the whole
+    // AppProvider meant every notifyListeners() (profile sync, bookmarks,
+    // search state, ...) rebuilt all five tabs in the IndexedStack. Callbacks
+    // below use the non-listening reference.
+    final provider = Provider.of<AppProvider>(context, listen: false);
+    final navigationMode = context.select<AppProvider, String>(
+      (p) => p.navigationMode,
+    );
+    final currentTabIndex = context.select<AppProvider, int>(
+      (p) => p.currentTabIndex,
+    );
+    final selectedLanguage = context.select<AppProvider, String>(
+      (p) => p.selectedLanguage,
+    );
     final l10n = AppLocalizations.of(context)!;
 
     // List of screens matching tabs
     final List<Widget> tabs = [
-      provider.navigationMode == 'companion'
+      navigationMode == 'companion'
           ? const SaarthiHomeScreen()
           : HomeScreen(
               onVoiceQuery: (query) {
@@ -413,7 +425,7 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
           if (didPop) return;
 
           // 1. If searching, clear query first
-          if (provider.currentTabIndex == 1 &&
+          if (currentTabIndex == 1 &&
               searchTabKey.currentState != null &&
               searchTabKey.currentState!.isSearching) {
             searchTabKey.currentState!.resetToIdle();
@@ -431,8 +443,8 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
         },
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          body: IndexedStack(index: provider.currentTabIndex, children: tabs),
-          bottomNavigationBar: provider.navigationMode == 'companion'
+          body: IndexedStack(index: currentTabIndex, children: tabs),
+          bottomNavigationBar: navigationMode == 'companion'
               ? null
               : Container(
                   decoration: const BoxDecoration(
@@ -455,6 +467,8 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
                           Icons.home_outlined,
                           Icons.home,
                           l10n.navHome,
+                          currentTabIndex,
+                          selectedLanguage,
                           provider,
                         ),
                         _buildNavItem(
@@ -462,6 +476,8 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
                           Icons.search,
                           Icons.search_sharp,
                           l10n.navSearch,
+                          currentTabIndex,
+                          selectedLanguage,
                           provider,
                         ),
                         _buildNavItem(
@@ -469,6 +485,8 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
                           Icons.explore_outlined,
                           Icons.explore,
                           l10n.navDiscover,
+                          currentTabIndex,
+                          selectedLanguage,
                           provider,
                         ),
                         _buildNavItem(
@@ -476,6 +494,8 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
                           Icons.bookmark_border,
                           Icons.bookmark,
                           l10n.navSaved,
+                          currentTabIndex,
+                          selectedLanguage,
                           provider,
                         ),
                         _buildNavItem(
@@ -483,6 +503,8 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
                           Icons.person_outline,
                           Icons.person,
                           l10n.navProfile,
+                          currentTabIndex,
+                          selectedLanguage,
                           provider,
                         ),
                       ],

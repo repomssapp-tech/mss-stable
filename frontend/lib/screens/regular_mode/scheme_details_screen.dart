@@ -70,6 +70,24 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
   Scheme? _detailedScheme;
   bool _detailsLoading = true;
 
+  // toLocalized() allocates a full LocalizedScheme wrapper on every call.
+  // build() runs on each bookmark toggle / tab tap / provider notify, so cache
+  // the result and only rebuild it when the source scheme or language changes.
+  LocalizedScheme? _localizedCache;
+  Scheme? _localizedCacheSource;
+  String? _localizedCacheLang;
+
+  LocalizedScheme _localized(Scheme raw, String lang) {
+    if (identical(_localizedCacheSource, raw) && _localizedCacheLang == lang) {
+      return _localizedCache!;
+    }
+    final localized = raw.toLocalized(lang);
+    _localizedCache = localized;
+    _localizedCacheSource = raw;
+    _localizedCacheLang = lang;
+    return localized;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -190,10 +208,13 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
       // scroll range (the trailing spacer sliver gives the last sections
       // enough room to actually reach the top).
       final position = Scrollable.of(ctx).position;
-      final reveal =
-          RenderAbstractViewport.of(box).getOffsetToReveal(box, 0.0).offset;
-      final target = (reveal - _StickyTabBarDelegate.kHeight - 12.0)
-          .clamp(position.minScrollExtent, position.maxScrollExtent);
+      final reveal = RenderAbstractViewport.of(
+        box,
+      ).getOffsetToReveal(box, 0.0).offset;
+      final target = (reveal - _StickyTabBarDelegate.kHeight - 12.0).clamp(
+        position.minScrollExtent,
+        position.maxScrollExtent,
+      );
       position.animateTo(
         target,
         duration: const Duration(milliseconds: 320),
@@ -255,7 +276,8 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
   Widget build(BuildContext context) {
     final rawScheme = _detailedScheme ?? widget.scheme;
     final provider = Provider.of<AppProvider>(context);
-    final LocalizedScheme scheme = rawScheme.toLocalized(
+    final LocalizedScheme scheme = _localized(
+      rawScheme,
       provider.selectedLanguage,
     );
 
@@ -330,7 +352,9 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         physics: const ClampingScrollPhysics(),
-                        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.lg,
+                        ),
                         child: Row(
                           children: List.generate(_getTabs(context).length, (
                             index,
@@ -339,7 +363,9 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                             return GestureDetector(
                               onTap: () => _onTabTapped(index),
                               child: Container(
-                                margin: const EdgeInsets.only(right: AppSpacing.xxl),
+                                margin: const EdgeInsets.only(
+                                  right: AppSpacing.xxl,
+                                ),
                                 padding: const EdgeInsets.symmetric(
                                   vertical: AppSpacing.md,
                                 ),
@@ -407,7 +433,9 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                       // Show a loading indicator while enriched details load
                       if (_detailsLoading)
                         const Padding(
-                          padding: EdgeInsets.symmetric(vertical: AppSpacing.xxl),
+                          padding: EdgeInsets.symmetric(
+                            vertical: AppSpacing.xxl,
+                          ),
                           child: Center(
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
@@ -599,7 +627,10 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
             children: matches.map((match) {
               return Container(
                 constraints: BoxConstraints(maxWidth: maxPillWidth),
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.sm,
+                  vertical: AppSpacing.xs,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFFEFF6FF),
                   borderRadius: BorderRadius.circular(6),
@@ -769,7 +800,10 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                     return Container(
                       width: cardWidth,
                       height: cardHeight,
-                      margin: const EdgeInsets.only(right: AppSpacing.md, bottom: AppSpacing.xs),
+                      margin: const EdgeInsets.only(
+                        right: AppSpacing.md,
+                        bottom: AppSpacing.xs,
+                      ),
                       padding: const EdgeInsets.symmetric(
                         horizontal: AppSpacing.sm,
                         vertical: AppSpacing.sm,
@@ -1243,7 +1277,10 @@ class _HeroSection extends StatelessWidget {
     }
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
+      margin: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.sm,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14),
@@ -1470,7 +1507,10 @@ class _HeroSection extends StatelessWidget {
 
   Widget _buildMiniTag(String label, Color bg, Color text) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.tight, vertical: AppSpacing.hairline),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.tight,
+        vertical: AppSpacing.hairline,
+      ),
       decoration: BoxDecoration(
         color: bg,
         borderRadius: BorderRadius.circular(4),
@@ -1555,52 +1595,52 @@ class _ExpandableSection extends StatelessWidget {
       child: Material(
         type: MaterialType.transparency,
         child: Theme(
-        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-        child: ExpansionTile(
-          controller: controller,
-          initiallyExpanded: isExpanded,
-          onExpansionChanged: (_) => onToggle(),
-          tilePadding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.hairline),
-          leading: Container(
-            width: 32,
-            height: 32,
-            decoration: BoxDecoration(shape: BoxShape.circle, color: iconBg),
-            alignment: Alignment.center,
-            child: Icon(icon, color: iconColor, size: 16),
-          ),
-          title: Text(
-            title,
-            style: GoogleFonts.poppins(
-              fontSize: 13.0,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF0F172A),
+          data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+          child: ExpansionTile(
+            controller: controller,
+            initiallyExpanded: isExpanded,
+            onExpansionChanged: (_) => onToggle(),
+            tilePadding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.lg,
+              vertical: AppSpacing.hairline,
             ),
-          ),
-          trailing: Icon(
-            isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-            color: const Color(0xFF2563EB),
-          ),
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                left: AppSpacing.lg,
-                right: AppSpacing.lg,
-                bottom: AppSpacing.lg,
-                top: AppSpacing.xs,
-              ),
-              // The section's own opaque white Container above sits between
-              // any ListTile in `child` (services/documents content) and the
-              // nearest real Material ancestor, which trips Flutter's
-              // ListTile._debugCheckBackgroundIsHidden assertion. A
-              // transparency-type Material gives those tiles a proper
-              // compositing surface without changing appearance.
-              child: Material(
-                type: MaterialType.transparency,
-                child: child,
+            leading: Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(shape: BoxShape.circle, color: iconBg),
+              alignment: Alignment.center,
+              child: Icon(icon, color: iconColor, size: 16),
+            ),
+            title: Text(
+              title,
+              style: GoogleFonts.poppins(
+                fontSize: 13.0,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFF0F172A),
               ),
             ),
-          ],
-        ),
+            trailing: Icon(
+              isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+              color: const Color(0xFF2563EB),
+            ),
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: AppSpacing.lg,
+                  right: AppSpacing.lg,
+                  bottom: AppSpacing.lg,
+                  top: AppSpacing.xs,
+                ),
+                // The section's own opaque white Container above sits between
+                // any ListTile in `child` (services/documents content) and the
+                // nearest real Material ancestor, which trips Flutter's
+                // ListTile._debugCheckBackgroundIsHidden assertion. A
+                // transparency-type Material gives those tiles a proper
+                // compositing surface without changing appearance.
+                child: Material(type: MaterialType.transparency, child: child),
+              ),
+            ],
+          ),
         ),
       ),
     );
