@@ -103,8 +103,8 @@ void main() {
       expect(find.text('Effective Date: 1 September 2026'), findsOneWidget);
       expect(find.text('Use of the MSS App'), findsOneWidget);
 
-      // Close Terms modal
-      await tester.tap(find.widgetWithText(ElevatedButton, 'Close'));
+      // Accept Terms modal
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Accept'));
       await tester.pumpAndSettle();
 
       // Checkbox and button still disabled (Privacy Policy not yet viewed)
@@ -129,26 +129,17 @@ void main() {
       );
       expect(find.text('Personal Data We Collect'), findsOneWidget);
 
-      // Close Privacy modal
-      await tester.tap(find.widgetWithText(ElevatedButton, 'Close'));
+      // Accept Privacy modal
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Accept'));
       await tester.pumpAndSettle();
 
-      // Button is still disabled because checkbox is not yet checked
-      button = tester.widget(buttonFinder);
-      expect(button.onPressed, isNull);
-
-      // 5. Check the consent checkbox (now enabled because both are viewed)
-      await tester.tap(checkboxFinder);
-      await tester.pumpAndSettle();
-
+      // 5. Accepting BOTH legal documents auto-checks consent and enables login
       checkbox = tester.widget(checkboxFinder);
       expect(checkbox.value, isTrue);
-
-      // Button is now ENABLED
       button = tester.widget(buttonFinder);
       expect(button.onPressed, isNotNull);
 
-      // 6. Unchecking checkbox disables button again
+      // 6. Unchecking consent disables the button again
       await tester.tap(checkboxFinder);
       await tester.pumpAndSettle();
 

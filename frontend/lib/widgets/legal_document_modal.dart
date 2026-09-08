@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../l10n/l10n.dart';
 import '../utils/app_spacing.dart';
 
 class LegalSectionItem {
@@ -32,8 +33,10 @@ class LegalDocumentModal extends StatelessWidget {
     required this.sections,
   });
 
-  static Future<void> showTermsOfUse(BuildContext context) {
-    return showModalBottomSheet<void>(
+  /// Returns `true` when the user tapped "Accept", otherwise `null`
+  /// (dismissed via the X icon, drag, or back gesture).
+  static Future<bool?> showTermsOfUse(BuildContext context) {
+    return showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -41,8 +44,8 @@ class LegalDocumentModal extends StatelessWidget {
     );
   }
 
-  static Future<void> showPrivacyNotice(BuildContext context) {
-    return showModalBottomSheet<void>(
+  static Future<bool?> showPrivacyNotice(BuildContext context) {
+    return showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -50,8 +53,8 @@ class LegalDocumentModal extends StatelessWidget {
     );
   }
 
-  static Future<void> showPrivacyPolicy(BuildContext context) {
-    return showModalBottomSheet<void>(
+  static Future<bool?> showPrivacyPolicy(BuildContext context) {
+    return showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -171,7 +174,7 @@ class LegalDocumentModal extends StatelessWidget {
           number: 5,
           title: 'Your Rights & Grievances',
           body:
-              'You may exercise applicable rights regarding your personal data, including correction, updating, erasure, withdrawal of consent and grievance redressal.\n\nFor privacy requests or grievances, contact: MSS Grievance Officer at mssapp@gmail.com (+91 44 2681 1999).\n\nPlease read our full Privacy Policy for further information.',
+              'You may exercise applicable rights regarding your personal data, including correction, updating, erasure, withdrawal of consent and grievance redressal.\n\nFor privacy requests or grievances, contact: MSS Grievance Officer at mssschemessearch@gmail.com.\n\nPlease read our full Privacy Policy for further information.',
         ),
       ],
     );
@@ -233,7 +236,7 @@ class LegalDocumentModal extends StatelessWidget {
           number: 8,
           title: 'Grievance Contact',
           body:
-              'For privacy questions, grievances or requests concerning your personal data, contact:\n\nData Protection / Grievance Contact:\nMSS Grievance Officer\n\nEmail:\nmssapp@gmail.com\n\nPhone:\n+91 44 2681 1999',
+              'For privacy questions, grievances or requests concerning your personal data, contact:\n\nData Protection / Grievance Contact:\nMSS Grievance Officer\n\nEmail:\nmssschemessearch@gmail.com',
         ),
         LegalSectionItem(
           number: 9,
@@ -468,9 +471,9 @@ class LegalDocumentModal extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  onPressed: () => Navigator.of(context).pop(),
+                  onPressed: () => Navigator.of(context).pop(true),
                   child: Text(
-                    'Close',
+                    context.l10n.legalAccept,
                     style: GoogleFonts.inter(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,

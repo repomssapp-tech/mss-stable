@@ -7579,6 +7579,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please consent to data processing to continue.'**
   String get profileConsentRequiredToast;
+
+  /// No description provided for @legalAccept.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get legalAccept;
 }
 
 class _AppLocalizationsDelegate

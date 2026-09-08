@@ -4058,4 +4058,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get profileConsentRequiredToast =>
       'Please consent to data processing to continue.';
+
+  @override
+  String get legalAccept => 'Accept';
 }

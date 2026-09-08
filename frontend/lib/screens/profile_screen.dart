@@ -260,7 +260,7 @@ class ProfileScreen extends StatelessWidget {
                         const SizedBox(width: AppSpacing.sm),
                         Expanded(
                           child: Text(
-                            'Support: mssapp@gmail.com',
+                            'Support: mssschemessearch@gmail.com',
                             style: GoogleFonts.inter(
                               fontSize: 11,
                               color: const Color(0xFF475569),
