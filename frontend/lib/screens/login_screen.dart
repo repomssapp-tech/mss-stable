@@ -5,6 +5,8 @@ import '../providers/app_state_provider.dart';
 import '../l10n/l10n.dart';
 import '../utils/responsive.dart';
 import '../widgets/app_toast.dart';
+import '../widgets/legal_consent_section.dart';
+import '../widgets/legal_document_modal.dart';
 import 'navigation_mode_screen.dart';
 import 'regular_mode/legal_screens.dart';
 import '../utils/app_spacing.dart';
@@ -19,6 +21,50 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
   bool _navigationScheduled = false;
+  bool _hasViewedTerms = false;
+  bool _hasViewedPrivacy = false;
+  bool _hasAgreedToConsent = false;
+
+  Future<void> _openTermsModal() async {
+    try {
+      await LegalDocumentModal.showTermsOfUse(context);
+    } catch (_) {
+      if (mounted) {
+        await Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => const TermsConditionsScreen()),
+        );
+      }
+    }
+    if (mounted) {
+      setState(() {
+        _hasViewedTerms = true;
+      });
+    }
+  }
+
+  Future<void> _openPrivacyModal() async {
+    try {
+      await LegalDocumentModal.showPrivacyPolicy(context);
+    } catch (_) {
+      if (mounted) {
+        await Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => const PrivacyPolicyScreen()),
+        );
+      }
+    }
+    if (mounted) {
+      setState(() {
+        _hasViewedPrivacy = true;
+      });
+    }
+  }
+
+  void _showNoticeBeforeContinuing() {
+    AppToast.showInfo(
+      context,
+      'Please review the Terms of Use and Privacy Policy before continuing.',
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +186,12 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildLoginForm() {
+  Widget _buildLoginForm(bool isTa) {
+    String l(String key) => ProfileL10n.t(key, isTa);
+    final bool canConsent = _hasViewedTerms && _hasViewedPrivacy;
+    final bool isLoginEnabled =
+        canConsent && _hasAgreedToConsent && !_isLoading;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
@@ -164,20 +215,45 @@ class _LoginScreenState extends State<LoginScreen> {
             height: 1.4,
           ),
         ),
-        const SizedBox(height: AppSpacing.xl),
+        const SizedBox(height: AppSpacing.md),
+
+        // Legal & Privacy Consent Section
+        LegalConsentSection(
+          hasViewedTerms: _hasViewedTerms,
+          hasViewedPrivacy: _hasViewedPrivacy,
+          hasAgreedToConsent: _hasAgreedToConsent,
+          onOpenTerms: _openTermsModal,
+          onOpenPrivacy: _openPrivacyModal,
+          onConsentChanged: (val) {
+            setState(() {
+              _hasAgreedToConsent = val ?? false;
+            });
+          },
+          onDisabledConsentTap: _showNoticeBeforeContinuing,
+        ),
+
+        const SizedBox(height: AppSpacing.md),
+
+        // Google Sign-In Button (strictly gated behind mandatory consent)
         SizedBox(
           width: double.infinity,
           height: 52,
           child: OutlinedButton(
             style: OutlinedButton.styleFrom(
-              side: const BorderSide(color: Color(0xFFE2E8F0)),
+              side: BorderSide(
+                color: isLoginEnabled
+                    ? const Color(0xFFE2E8F0)
+                    : const Color(0xFFF1F5F9),
+              ),
+              backgroundColor: isLoginEnabled
+                  ? Colors.white
+                  : const Color(0xFFF8FAFC),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
-            onPressed: _isLoading
-                ? null
-                : () async {
+            onPressed: isLoginEnabled
+                ? () async {
                     setState(() {
                       _isLoading = true;
                     });
@@ -206,25 +282,31 @@ class _LoginScreenState extends State<LoginScreen> {
                         });
                       }
                     }
-                  },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const GoogleIcon(size: 18),
-                const SizedBox(width: AppSpacing.sm),
-                Flexible(
-                  child: FitOneLine(
-                    child: Text(
-                      context.l10n.continueWithGoogle,
-                      style: GoogleFonts.inter(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF475569), // Slate 600
+                  }
+                : null,
+            child: Opacity(
+              opacity: isLoginEnabled ? 1.0 : 0.45,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const GoogleIcon(size: 18),
+                  const SizedBox(width: AppSpacing.sm),
+                  Flexible(
+                    child: FitOneLine(
+                      child: Text(
+                        l('continue_with_google'),
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: isLoginEnabled
+                              ? const Color(0xFF475569) // Slate 600
+                              : const Color(0xFF94A3B8), // Slate 400
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

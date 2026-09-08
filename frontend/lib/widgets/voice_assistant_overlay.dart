@@ -1623,11 +1623,11 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                 key: const Key('voice-assistant-panel'),
                 width: double.infinity,
                 height: double.infinity,
-                padding: EdgeInsets.fromLTRB( // spacing-ok — responsive inset, mixed on/off-scale
-                  media.size.width < 360 ? 16 : 22,
-                  8,
-                  media.size.width < 360 ? 16 : 22,
-                  14,
+                padding: EdgeInsets.fromLTRB(
+                  media.size.width < 360 ? AppSpacing.lg : AppSpacing.xl,
+                  AppSpacing.sm,
+                  media.size.width < 360 ? AppSpacing.lg : AppSpacing.xl,
+                  AppSpacing.sm,
                 ),
                 child: Column(
                   children: [
@@ -3097,7 +3097,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           : null;
       return Container(
         key: const Key('voice-online-grounding'),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: AppSpacing.sm),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
           color: const Color(0xFF0F1D2E),
           borderRadius: BorderRadius.circular(12),
