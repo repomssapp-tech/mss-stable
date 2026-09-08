@@ -38,6 +38,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   UserProfile _profile = UserProfile();
   List<String> _bookmarkedIds = [];
   List<String> _recentlyViewedIds = [];
+  List<String> _savedEligibilitySchemeIds = [];
+  DateTime? _lastEligibilitySavedAt;
   List<Map<String, dynamic>> _downloadedDocs = [];
   String _searchQuery = '';
 
@@ -530,6 +532,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         _profile = UserProfile();
         _bookmarkedIds.clear();
         _recentlyViewedIds.clear();
+        _savedEligibilitySchemeIds.clear();
+        _lastEligibilitySavedAt = null;
         _currentTabIndex = 0;
         _promoAlerts = [];
         _draftSessions = [];
@@ -552,6 +556,17 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   @visibleForTesting
   void setLoggedInForTesting(bool val) {
     _isLoggedIn = val;
+    notifyListeners();
+  }
+
+  bool _recommendationsOverriddenForTesting = false;
+
+  @visibleForTesting
+  void setRecommendedSchemesForTesting(
+    List<MapEntry<Scheme, RecommendationResult>> schemes,
+  ) {
+    _recommendationsOverriddenForTesting = true;
+    _recommendedSchemes = schemes;
     notifyListeners();
   }
 
@@ -661,6 +676,21 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
   List<String> get bookmarkedIds => _bookmarkedIds;
   List<String> get recentlyViewedIds => _recentlyViewedIds;
+  List<String> get savedEligibilitySchemeIds => _savedEligibilitySchemeIds;
+  DateTime? get lastEligibilitySavedAt => _lastEligibilitySavedAt;
+  bool get hasSavedEligibilityResults => _savedEligibilitySchemeIds.isNotEmpty;
+
+  // Saved eligibility schemes list
+  List<Scheme> get savedEligibilitySchemes {
+    return _allSchemes
+        .where(
+          (s) =>
+              _savedEligibilitySchemeIds.contains(s.id) ||
+              _savedEligibilitySchemeIds.contains(s.schemeCode),
+        )
+        .toList();
+  }
+
   String get searchQuery => _searchQuery;
   Map<String, dynamic> get filters => _filters;
   Map<String, dynamic> get wizardAnswers => _wizardAnswers;
@@ -718,10 +748,12 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       _allSchemes = await SchemeRepository.instance.getAllSchemes(
         langCode: _selectedLanguage,
       );
-      _recommendedSchemes = RecommendationEngine.getRecommendations(
-        _profile,
-        _allSchemes,
-      );
+      if (!_recommendationsOverriddenForTesting) {
+        _recommendedSchemes = RecommendationEngine.getRecommendations(
+          _profile,
+          _allSchemes,
+        );
+      }
 
       // Update announcements dynamically based on latest central/state schemes
       if (_allSchemes.isNotEmpty) {
@@ -805,6 +837,10 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       _bookmarkedIds = await SessionCacheService.instance.getBookmarks() ?? [];
       _recentlyViewedIds =
           await SessionCacheService.instance.getRecentlyViewed() ?? [];
+      _savedEligibilitySchemeIds =
+          await SessionCacheService.instance.getSavedEligibilityResults() ?? [];
+      _lastEligibilitySavedAt =
+          await SessionCacheService.instance.getLastEligibilitySavedAt();
 
       final downloadedDocsStr = await SessionCacheService.instance
           .getDownloadedDocs();
@@ -1046,6 +1082,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _profile = UserProfile();
     _bookmarkedIds.clear();
     _recentlyViewedIds.clear();
+    _savedEligibilitySchemeIds.clear();
+    _lastEligibilitySavedAt = null;
     _currentTabIndex = 0;
     _tabHistory.clear();
     _unsubscribeFromProfile();
@@ -1110,6 +1148,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _profile = UserProfile();
     _bookmarkedIds.clear();
     _recentlyViewedIds.clear();
+    _savedEligibilitySchemeIds.clear();
+    _lastEligibilitySavedAt = null;
     _currentTabIndex = 0;
     _tabHistory.clear();
     _unsubscribeFromProfile();
@@ -1240,6 +1280,36 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     notifyListeners();
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList('recentlyViewed', _recentlyViewedIds);
+  }
+
+  Future<void> saveEligibilityResults(List<String> schemeIds) async {
+    _savedEligibilitySchemeIds = List<String>.from(schemeIds);
+    _lastEligibilitySavedAt = DateTime.now();
+    notifyListeners();
+
+    await SessionCacheService.instance.saveSavedEligibilityResults(
+      _savedEligibilitySchemeIds,
+      _lastEligibilitySavedAt!,
+    );
+
+    if (_isLoggedIn) {
+      final user = Supabase.instance.client.auth.currentUser;
+      if (user != null) {
+        unawaited(
+          Supabase.instance.client
+              .from('profiles')
+              .update({
+                'saved_eligibility_schemes': _savedEligibilitySchemeIds,
+                'last_eligibility_saved_at':
+                    _lastEligibilitySavedAt!.toIso8601String(),
+              })
+              .eq('id', user.id)
+              .catchError((e) {
+                debugPrint('[AppProvider] Remote eligibility sync notice: $e');
+              }),
+        );
+      }
+    }
   }
 
   // Search & Filter Operations

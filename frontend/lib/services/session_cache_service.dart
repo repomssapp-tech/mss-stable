@@ -16,6 +16,9 @@ class SessionCacheService {
   static const String _keyLastProfileSync = 'last_profile_sync';
   static const String _keyIsLoggedIn = 'isLoggedIn';
   static const String _keyIsGuest = 'isGuest';
+  static const String _keySavedEligibilitySchemeIds =
+      'savedEligibilitySchemeIds';
+  static const String _keyLastEligibilitySavedAt = 'lastEligibilitySavedAt';
 
   /// Loads the cached user profile.
   Future<UserProfile?> loadProfile() async {
@@ -217,6 +220,63 @@ class SessionCacheService {
       await prefs.setString('downloadedDocs', downloadedDocs);
     } catch (e) {
       debugPrint('[SessionCacheService] Error saving downloaded docs: $e');
+    }
+  }
+
+  Future<List<String>?> getSavedEligibilityResults() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getStringList(_keySavedEligibilitySchemeIds);
+    } catch (e) {
+      debugPrint(
+        '[SessionCacheService] Error getting saved eligibility results: $e',
+      );
+      return null;
+    }
+  }
+
+  Future<void> saveSavedEligibilityResults(
+    List<String> schemeIds,
+    DateTime timestamp,
+  ) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setStringList(_keySavedEligibilitySchemeIds, schemeIds);
+      await prefs.setString(
+        _keyLastEligibilitySavedAt,
+        timestamp.toIso8601String(),
+      );
+    } catch (e) {
+      debugPrint(
+        '[SessionCacheService] Error saving saved eligibility results: $e',
+      );
+    }
+  }
+
+  Future<DateTime?> getLastEligibilitySavedAt() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final str = prefs.getString(_keyLastEligibilitySavedAt);
+      if (str != null) {
+        return DateTime.tryParse(str);
+      }
+    } catch (e) {
+      debugPrint(
+        '[SessionCacheService] Error getting last eligibility saved at: $e',
+      );
+    }
+    return null;
+  }
+
+  Future<void> clearSavedEligibilityResults() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_keySavedEligibilitySchemeIds);
+      await prefs.remove(_keyLastEligibilitySavedAt);
+    } catch (e) {
+      debugPrint(
+        '[SessionCacheService] Error clearing saved eligibility results: $e',
+      );
     }
   }
 }
