@@ -54,6 +54,8 @@ void main() {
           expect(find.byType(TextFormField), findsNothing);
           expect(find.textContaining('OTP'), findsNothing);
           expect(find.textContaining('Mobile number'), findsNothing);
+          // Google sign-in is gated behind the mandatory legal-consent
+          // checkbox, so it starts disabled.
           expect(
             tester.widget<OutlinedButton>(googleButton).onPressed,
             isNull,
@@ -159,7 +161,7 @@ void main() {
           expect(find.textContaining('Full Name'), findsOneWidget);
           expect(find.textContaining('Email Address'), findsOneWidget);
           expect(find.textContaining('Gender'), findsOneWidget);
-          expect(find.textContaining('Age'), findsOneWidget);
+          expect(find.textContaining('Date of Birth (DOB)'), findsOneWidget);
           expect(find.byType(TextFormField), findsAtLeastNWidgets(3));
 
           var continueButton = find.widgetWithText(ElevatedButton, 'Continue');
@@ -175,13 +177,13 @@ void main() {
           await tester.pump();
           expect(find.text('Where Are You Located?'), findsOneWidget);
           expect(find.text('Use Current Location'), findsOneWidget);
-          expect(find.byType(TextFormField), findsNWidgets(4));
+          expect(find.byType(TextFormField), findsNWidgets(5));
           continueButton = find.widgetWithText(ElevatedButton, 'Continue');
           await tester.ensureVisible(continueButton);
           _expectTappableSemantics(tester, continueButton, 'Continue');
           await tester.tap(continueButton);
           await tester.pump();
-          expect(find.text('Please enter your address'), findsOneWidget);
+          expect(find.text('Please enter your area or locality'), findsOneWidget);
           expect(find.byType(AboutYouProfileScreen), findsNothing);
           expect(tester.takeException(), isNull);
 

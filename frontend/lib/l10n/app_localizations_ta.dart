@@ -4138,4 +4138,23 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get profilePrivacyNoteDpdpa =>
       'DPDPA 2023: சமூகப் பிரிவு தகவல் அரசு நலத்திட்டத் தகுதி சரிபார்ப்பிற்கு மட்டுமே பயன்படுத்தப்படும்; பகிரப்படாது.';
+
+  @override
+  String get profileConsentSectionTitle => 'தனியுரிமை & தரவு';
+
+  @override
+  String get profileConsentCheckboxLabel =>
+      'எனது சுயவிவரத்தை உருவாக்கவும் தனிப்பயனாக்கப்பட்ட அரசு திட்ட பரிந்துரைகளை வழங்கவும் எனது தகவலை MSS சேகரித்து செயலாக்க நான் ஒப்புக்கொள்கிறேன்.';
+
+  @override
+  String get profileConsentReadMore =>
+      'உங்கள் தரவு எவ்வாறு பயன்படுத்தப்படுகிறது என்பதைப் படியுங்கள் →';
+
+  @override
+  String get profileConsentPleaseConsent =>
+      'தொடர தயவுசெய்து உங்கள் ஒப்புதலை வழங்கவும்';
+
+  @override
+  String get profileConsentRequiredToast =>
+      'தொடர தயவுசெய்து தரவு செயலாக்கத்திற்கு ஒப்புதல் அளிக்கவும்.';
 }

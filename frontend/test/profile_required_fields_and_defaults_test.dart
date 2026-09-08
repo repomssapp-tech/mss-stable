@@ -138,24 +138,14 @@ void main() {
       );
       expect(centerAncestor, findsOneWidget);
 
-      // Verify Full Address, City / Town, District, and State are ordered vertically
-      await tester.ensureVisible(find.text('Full Address *'));
-      await tester.pumpAndSettle();
-      await tester.ensureVisible(find.text('City / Town *'));
-      await tester.pumpAndSettle();
-      final addressOffset = tester.getTopLeft(find.text('Full Address *'));
-      final cityOffset = tester.getTopLeft(find.text('City / Town *'));
-      expect(cityOffset.dy, greaterThan(addressOffset.dy));
-
-      await tester.ensureVisible(find.text('District *'));
-      await tester.pumpAndSettle();
-      final districtOffset = tester.getTopLeft(find.text('District *'));
-      expect(districtOffset.dy, greaterThan(cityOffset.dy));
-
+      // Verify Pincode is placed below State vertically
       await tester.ensureVisible(find.text('State *'));
       await tester.pumpAndSettle();
+      await tester.ensureVisible(find.text('Pincode *'));
+      await tester.pumpAndSettle();
       final stateOffset = tester.getTopLeft(find.text('State *'));
-      expect(stateOffset.dy, greaterThan(districtOffset.dy));
+      final pincodeOffset = tester.getTopLeft(find.text('Pincode *'));
+      expect(pincodeOffset.dy, greaterThan(stateOffset.dy));
     },
   );
 

@@ -4069,4 +4069,21 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get profilePrivacyNoteDpdpa =>
       'DPDPA 2023: Used only to match you with welfare schemes. Never shared.';
+
+  @override
+  String get profileConsentSectionTitle => 'Privacy & Data';
+
+  @override
+  String get profileConsentCheckboxLabel =>
+      'I consent to MSS collecting and processing my information to create my profile and provide personalized Government scheme recommendations.';
+
+  @override
+  String get profileConsentReadMore => 'Read how your data is used →';
+
+  @override
+  String get profileConsentPleaseConsent => 'Please consent to continue';
+
+  @override
+  String get profileConsentRequiredToast =>
+      'Please consent to data processing to continue.';
 }

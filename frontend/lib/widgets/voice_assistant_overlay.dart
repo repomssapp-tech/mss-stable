@@ -3097,7 +3097,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           : null;
       return Container(
         key: const Key('voice-online-grounding'),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: AppSpacing.sm,
+        ),
         decoration: BoxDecoration(
           color: const Color(0xFF0F1D2E),
           borderRadius: BorderRadius.circular(12),

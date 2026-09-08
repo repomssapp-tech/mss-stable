@@ -300,7 +300,6 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: const Color(0xFF0D47A1),
       body: Stack(
         children: [
           // 1. Full screen background
@@ -314,259 +313,100 @@ class _SplashScreenState extends State<SplashScreen>
           // 2. Animated Content
           Positioned.fill(
             child: SafeArea(
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  return SingleChildScrollView(
-                    physics: constraints.maxHeight < 560
-                        ? const ClampingScrollPhysics()
-                        : const NeverScrollableScrollPhysics(),
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        minHeight: constraints.maxHeight,
-                      ),
-                      child: IntrinsicHeight(
-                        child: Column(
-                          children: [
-                            const Spacer(flex: 3),
-                            _BrandLogoSection(
-                              fadeAnimation: _fadeAnimation,
-                              scaleAnimation: _scaleAnimation,
-                              screenWidth: size.width,
-                              maxHeight: constraints.maxHeight * 0.24,
-                            ),
-                            const Spacer(flex: 4),
-                            _SplashBottomSection(
-                              fadeAnimation: _fadeAnimation,
-                              screenWidth: size.width,
-                            ),
-                            const SizedBox(height: AppSpacing.sm),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _BrandLogoSection extends StatelessWidget {
-  final Animation<double> fadeAnimation;
-  final Animation<double> scaleAnimation;
-  final double screenWidth;
-  final double maxHeight;
-
-  const _BrandLogoSection({
-    required this.fadeAnimation,
-    required this.scaleAnimation,
-    required this.screenWidth,
-    required this.maxHeight,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: fadeAnimation,
-      builder: (context, child) {
-        return Opacity(
-          opacity: fadeAnimation.value,
-          child: Transform.scale(
-            scale: scaleAnimation.value,
-            child: child,
-          ),
-        );
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxl),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxWidth: (screenWidth * 0.58).clamp(160.0, 240.0),
-            maxHeight: maxHeight > 60 ? maxHeight : 140,
-          ),
-          child: Image.asset(
-            'assets/images/Logo/Logo.webp',
-            fit: BoxFit.contain,
-            errorBuilder: (context, error, stackTrace) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
+              child: Column(
                 children: [
-                  const Icon(
-                    Icons.account_balance,
-                    size: 80,
-                    color: AppConstants.primaryColor,
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  Text(
-                    'MSS',
-                    style: GoogleFonts.poppins(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: AppConstants.primaryColor,
+                  const Spacer(flex: 2),
+
+                  // Brand Logo centered
+                  AnimatedBuilder(
+                    animation: _controller,
+                    builder: (context, child) {
+                      return Opacity(
+                        opacity: _fadeAnimation.value,
+                        child: Transform.scale(
+                          scale: _scaleAnimation.value,
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                      child: Image.asset(
+                        'assets/images/Logo/Logo.webp',
+                        width: size.width * 0.60,
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.account_balance,
+                                size: 80,
+                                color: AppConstants.primaryColor,
+                              ),
+                              const SizedBox(height: AppSpacing.lg),
+                              Text(
+                                'MSS',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppConstants.primaryColor,
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
                     ),
                   ),
+
+                  const Spacer(flex: 5),
+
+                  // Loading Section at the bottom overlaying the blue wave
+                  FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          width: size.width * 0.5,
+                          child: const ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            child: LinearProgressIndicator(
+                              minHeight: 4,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
+                              backgroundColor: Colors.white24,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: AppSpacing.xl),
+                        Text(
+                          context.l10n.loading,
+                          style: GoogleFonts.inter(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                        const SizedBox(height: AppSpacing.sm),
+                        Text(
+                          context.l10n.splashPreparingSubtitle,
+                          style: GoogleFonts.inter(
+                            fontSize: 12,
+                            color: Colors.white70,
+                            height: 1.5,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.xxxl),
                 ],
-              );
-            },
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _SplashBottomSection extends StatelessWidget {
-  final Animation<double> fadeAnimation;
-  final double screenWidth;
-
-  const _SplashBottomSection({
-    required this.fadeAnimation,
-    required this.screenWidth,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: fadeAnimation,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Linear Progress Indicator
-          SizedBox(
-            width: (screenWidth * 0.48).clamp(140.0, 220.0),
-            child: const ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              child: LinearProgressIndicator(
-                minHeight: 4,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                backgroundColor: Colors.white24,
               ),
-            ),
-          ),
-          const SizedBox(height: AppSpacing.lg),
-
-          // Loading Title
-          Text(
-            context.l10n.loading,
-            style: GoogleFonts.inter(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
-              letterSpacing: 0.3,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.tight),
-
-          // Subtitle
-          Text(
-            context.l10n.splashPreparingSubtitle,
-            style: GoogleFonts.inter(
-              fontSize: 12.5,
-              fontWeight: FontWeight.w400,
-              color: const Color(0xD9FFFFFF),
-              height: 1.45,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: AppSpacing.xl),
-
-          // "App developed by" section with divider lines
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxxl),
-            child: Row(
-              children: [
-                const Expanded(
-                  child: Divider(
-                    color: Color(0x59FFFFFF),
-                    thickness: 0.8,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.md,
-                  ),
-                  child: Text(
-                    'App developed by',
-                    style: GoogleFonts.inter(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xE6FFFFFF),
-                      letterSpacing: 0.2,
-                    ),
-                  ),
-                ),
-                const Expanded(
-                  child: Divider(
-                    color: Color(0x59FFFFFF),
-                    thickness: 0.8,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: AppSpacing.md),
-
-          // Developer Partner Logos Row
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Rajalakshmi Institute of Technology (RIT) logo
-                Flexible(
-                  flex: 5,
-                  child: Image.asset(
-                    'assets/images/Logo/rit_logo.webp',
-                    height: 32,
-                    fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) => Image.asset(
-                      'assets/images/Logo/TN Chapter_20260805_153104_0000.webp',
-                      height: 32,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ),
-                // Vertical divider line
-                Container(
-                  height: 36,
-                  width: 1,
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg,
-                  ),
-                  color: const Color(0x59FFFFFF),
-                ),
-                // Swadeshi Shodh Sansthan (SSS TN Chapter) logo
-                Flexible(
-                  flex: 3,
-                  child: Image.asset(
-                    'assets/images/Logo/sss_tn_chapter_logo.webp',
-                    height: 48,
-                    fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) => Image.asset(
-                      'assets/images/Logo/TN Chapter_20260805_153307_0000.webp',
-                      height: 48,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: AppSpacing.lg),
-
-          // Version Footer
-          Text(
-            'v1.0.0',
-            style: GoogleFonts.inter(
-              fontSize: 11.5,
-              fontWeight: FontWeight.w400,
-              color: const Color(0xA6FFFFFF),
-              letterSpacing: 0.5,
             ),
           ),
         ],
@@ -574,4 +414,3 @@ class _SplashBottomSection extends StatelessWidget {
     );
   }
 }
-

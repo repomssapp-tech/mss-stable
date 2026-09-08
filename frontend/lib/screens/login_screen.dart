@@ -167,9 +167,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                               const Spacer(flex: 2),
 
-                              // Bottom Privacy Policy & Terms Section
-                              _buildPrivacySection(),
-
                               const SizedBox(height: AppSpacing.sm),
                             ],
                           ),
@@ -322,61 +319,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildPrivacySection() {
-    final linkStyle = GoogleFonts.inter(
-      fontSize: 11,
-      color: Colors.white,
-      fontWeight: FontWeight.bold,
-      decoration: TextDecoration.underline,
-      decorationColor: Colors.white,
-    );
-    return Column(
-      children: [
-        Text(
-          context.l10n.privacyNote,
-          textAlign: TextAlign.center,
-          style: GoogleFonts.inter(fontSize: 11, color: Colors.white70),
-        ),
-        Wrap(
-          alignment: WrapAlignment.center,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: [
-            TextButton(
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => const TermsConditionsScreen(),
-                ),
-              ),
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.white,
-                minimumSize: const Size(48, 48),
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
-              ),
-              child: Text(context.l10n.terms, style: linkStyle),
-            ),
-            Text(
-              context.l10n.and,
-              style: GoogleFonts.inter(fontSize: 11, color: Colors.white70),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const PrivacyPolicyScreen()),
-              ),
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.white,
-                minimumSize: const Size(48, 48),
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
-              ),
-              child: Text(
-                context.l10n.privacyPolicy,
-                style: linkStyle,
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
 }
 
 class GoogleIcon extends StatelessWidget {
