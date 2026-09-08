@@ -1224,7 +1224,11 @@ class _HeroSection extends StatelessWidget {
 
   const _HeroSection({required this.scheme, required this.imagePath});
 
-  Widget _buildSchemeLogo(LocalizedScheme scheme, {double size = 48}) {
+  Widget _buildSchemeLogo(
+    BuildContext context,
+    LocalizedScheme scheme, {
+    double size = 48,
+  }) {
     final emblemAsset = EmblemHelper.getEmblemAsset(
       governmentLevel: scheme.governmentLevel,
       state: scheme.state,
@@ -1233,17 +1237,24 @@ class _HeroSection extends StatelessWidget {
       name: scheme.name,
     );
 
+    // Emblem WebPs are ~900-1024px square; cap the decode to the physical
+    // pixels shown (size dp x devicePixelRatio) instead of full resolution.
+    final int decodePx = (size * MediaQuery.devicePixelRatioOf(context))
+        .round();
+
     return Image.asset(
       emblemAsset,
       fit: BoxFit.contain,
       width: size,
       height: size,
+      cacheWidth: decodePx,
       errorBuilder: (context, error, stackTrace) {
         return Image.asset(
           'assets/images/States assets/Indian emblem.webp',
           fit: BoxFit.contain,
           width: size,
           height: size,
+          cacheWidth: decodePx,
         );
       },
     );
@@ -1327,7 +1338,9 @@ class _HeroSection extends StatelessWidget {
                     ],
                   ),
                   padding: EdgeInsets.zero,
-                  child: ClipOval(child: _buildSchemeLogo(scheme, size: 120)),
+                  child: ClipOval(
+                    child: _buildSchemeLogo(context, scheme, size: 120),
+                  ),
                 ),
               ),
             ),
