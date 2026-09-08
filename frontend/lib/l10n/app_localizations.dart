@@ -3146,6 +3146,60 @@ abstract class AppLocalizations {
   /// **'Pincode'**
   String get pincode;
 
+  /// No description provided for @fullAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Address'**
+  String get fullAddress;
+
+  /// No description provided for @cityTown.
+  ///
+  /// In en, this message translates to:
+  /// **'City / Town'**
+  String get cityTown;
+
+  /// No description provided for @district.
+  ///
+  /// In en, this message translates to:
+  /// **'District'**
+  String get district;
+
+  /// No description provided for @profileErrEnterAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your age'**
+  String get profileErrEnterAge;
+
+  /// No description provided for @profileErrValidAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid age (1-120)'**
+  String get profileErrValidAge;
+
+  /// No description provided for @dataProcessingConsent.
+  ///
+  /// In en, this message translates to:
+  /// **'I consent to MSS collecting and processing my information to create my profile and provide personalized Government scheme recommendations.'**
+  String get dataProcessingConsent;
+
+  /// No description provided for @privacyAndData.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy & Data'**
+  String get privacyAndData;
+
+  /// No description provided for @readHowDataUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Read how your data is used →'**
+  String get readHowDataUsed;
+
+  /// No description provided for @pleaseConsentToContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Please consent to continue'**
+  String get pleaseConsentToContinue;
+
   /// No description provided for @tellUsAboutYou.
   ///
   /// In en, this message translates to:

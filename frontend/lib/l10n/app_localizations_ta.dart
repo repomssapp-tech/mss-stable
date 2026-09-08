@@ -1673,6 +1673,36 @@ class AppLocalizationsTa extends AppLocalizations {
   String get pincode => 'அஞ்சல் குறியீடு';
 
   @override
+  String get fullAddress => 'முழு முகவரி';
+
+  @override
+  String get cityTown => 'நகரம் / ஊர்';
+
+  @override
+  String get district => 'மாவட்டம்';
+
+  @override
+  String get profileErrEnterAge => 'தயவுசெய்து உங்கள் வயதை உள்ளிடவும்';
+
+  @override
+  String get profileErrValidAge => 'சரியான வயதை உள்ளிடவும் (1-120)';
+
+  @override
+  String get dataProcessingConsent =>
+      'எனது சுயவிவரத்தை உருவாக்கவும் தனிப்பயனாக்கப்பட்ட அரசு திட்ட பரிந்துரைகளை வழங்கவும் எனது தகவலை MSS சேகரித்து செயலாக்க நான் ஒப்புக்கொள்கிறேன்.';
+
+  @override
+  String get privacyAndData => 'தனியுரிமை & தரவு';
+
+  @override
+  String get readHowDataUsed =>
+      'உங்கள் தரவு எவ்வாறு பயன்படுத்தப்படுகிறது என்பதைப் படியுங்கள் →';
+
+  @override
+  String get pleaseConsentToContinue =>
+      'தொடர தயவுசெய்து உங்கள் ஒப்புதலை வழங்கவும்';
+
+  @override
   String get tellUsAboutYou => 'உங்களைப் பற்றி சொல்லுங்கள்';
 
   @override
