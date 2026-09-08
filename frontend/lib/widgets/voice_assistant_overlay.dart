@@ -1626,9 +1626,9 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                 width: double.infinity,
                 height: double.infinity,
                 padding: EdgeInsets.fromLTRB(
-                  media.size.width < 360 ? 16 : 22,
-                  8,
-                  media.size.width < 360 ? 16 : 22,
+                  media.size.width < 360 ? AppSpacing.lg : 22,
+                  AppSpacing.sm,
+                  media.size.width < 360 ? AppSpacing.lg : 22,
                   14,
                 ),
                 child: Column(
@@ -1638,7 +1638,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                       child: SingleChildScrollView(
                         controller: _panelScrollController,
                         physics: const ClampingScrollPhysics(),
-                        padding: const EdgeInsets.only(top: 20, bottom: 20),
+                        padding: const EdgeInsets.only(
+                          top: AppSpacing.xl,
+                          bottom: AppSpacing.xl,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
@@ -1654,11 +1657,11 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                                 child: _buildRegularTranscript(),
                               ),
                             if (_message != null) ...[
-                              const SizedBox(height: 16),
+                              const SizedBox(height: AppSpacing.lg),
                               _buildRegularNotice(_message!),
                             ],
                             if (_session?.question case final question?) ...[
-                              const SizedBox(height: 20),
+                              const SizedBox(height: AppSpacing.xl),
                               _buildRegularQuestionCard(question),
                             ],
                             if (_session?.recommendations.isNotEmpty ==
@@ -1689,7 +1692,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                             ],
                             if (_groundingPhase !=
                                 _OnlineGroundingPhase.idle) ...[
-                              const SizedBox(height: 16),
+                              const SizedBox(height: AppSpacing.lg),
                               _buildOnlineGrounding(),
                             ],
                           ],
@@ -1758,7 +1761,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           ),
         ),
         _buildLanguageSelector(),
-        const SizedBox(width: 4),
+        const SizedBox(width: AppSpacing.xs),
         IconButton(
           key: const Key('voice-close-button'),
           tooltip: 'Cancel assistant',
@@ -1833,7 +1836,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             letterSpacing: -0.7,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: AppSpacing.sm),
         Text(
           _presentInTamil
               ? 'உங்கள் நிலையைச் சொல்லுங்கள். பொருத்தமான அரசு திட்டங்களைக் கண்டுபிடிக்கிறேன்.'
@@ -1881,7 +1884,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     return Container(
       key: Key('voice-turn-${turn.id}'),
       margin: const EdgeInsets.only(bottom: 22),
-      padding: EdgeInsets.only(left: isUser ? 34 : 0),
+      padding: EdgeInsets.only(left: isUser ? 34 : AppSpacing.none),
       child: Column(
         crossAxisAlignment: isUser
             ? CrossAxisAlignment.end
@@ -1944,7 +1947,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     final state = _session!;
     return Container(
       key: const Key('voice-follow-up-question'),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
         color: const Color(0xFF111624),
         borderRadius: BorderRadius.circular(20),
@@ -1963,7 +1966,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             ),
           ),
           if (question.options.isNotEmpty) ...[
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.md),
             Wrap(
               spacing: 8,
               runSpacing: 8,
@@ -2103,7 +2106,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: AppSpacing.sm),
                   const Icon(
                     Icons.arrow_outward_rounded,
                     size: 17,
@@ -2126,7 +2129,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                   ),
                 ),
               ],
-              const SizedBox(height: 6),
+              const SizedBox(height: AppSpacing.tight),
               Text(
                 recommendation.isTrusted
                     ? 'Current official source verified'
@@ -2648,7 +2651,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
   Widget _buildTurnSchemeCard(SchemeSearchMatch match) {
     final scheme = match.scheme.toLocalized(_presentInTamil ? 'ta' : 'en');
     return Padding(
-      padding: const EdgeInsets.only(top: 6),
+      padding: const EdgeInsets.only(top: AppSpacing.tight),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
@@ -2679,7 +2682,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                         ),
                       ),
                       if (match.reasons.isNotEmpty) ...[
-                        const SizedBox(height: 2),
+                        const SizedBox(height: AppSpacing.hairline),
                         Text(
                           match.reasons.join(' • '),
                           maxLines: 2,
@@ -2976,7 +2979,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(width: 6),
+            const SizedBox(width: AppSpacing.tight),
             TextButton(
               key: const Key('voice-view-all-results'),
               onPressed: () => widget.onSubmit(_session!.statement),
@@ -3114,7 +3117,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           : null;
       return Container(
         key: const Key('voice-online-grounding'),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: AppSpacing.sm,
+        ),
         decoration: BoxDecoration(
           color: const Color(0xFF0F1D2E),
           borderRadius: BorderRadius.circular(12),
@@ -3134,7 +3140,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                   size: 14,
                   color: isFound ? const Color(0xFF4ADE80) : _accent,
                 ),
-                const SizedBox(width: 6),
+                const SizedBox(width: AppSpacing.tight),
                 Expanded(
                   child: Text(
                     title,
@@ -3158,7 +3164,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               ],
             ),
             if (firstSource != null) ...[
-              const SizedBox(height: 4),
+              const SizedBox(height: AppSpacing.xs),
               InkWell(
                 key: Key('voice-grounded-source-${firstSource.url}'),
                 onTap: () => _openReplySource(firstSource.url.toString()),

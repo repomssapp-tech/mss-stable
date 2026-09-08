@@ -315,7 +315,7 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
                 fillColor: const Color(0xFFF8FAFC),
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: AppSpacing.lg,
-                  vertical: 12,
+                  vertical: AppSpacing.md,
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(24),
@@ -372,7 +372,7 @@ class _MessageBubble extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: AppSpacing.md),
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.lg,
-          vertical: 12,
+          vertical: AppSpacing.md,
         ),
         decoration: BoxDecoration(
           color: isUser ? const Color(0xFF2563EB) : Colors.white,
@@ -526,7 +526,10 @@ class _ThinkingBubble extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: Container(
         margin: const EdgeInsets.only(bottom: AppSpacing.md),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.lg,
+          vertical: 14,
+        ),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(18),
