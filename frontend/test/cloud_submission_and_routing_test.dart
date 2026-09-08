@@ -51,7 +51,14 @@ void main() {
         expect(saveIndex, greaterThanOrEqualTo(0));
         expect(cloudIndex, greaterThan(saveIndex));
         expect(routeIndex, greaterThan(cloudIndex));
-        expect(source.toLowerCase(), contains('unable to save'));
+        // The save-failure notice is either an inline literal or, once the
+        // screen is migrated onto gen-l10n, an ARB key reference.
+        expect(
+          source.toLowerCase().contains('unable to save') ||
+              source.contains('welcomeSavePreferencesError'),
+          isTrue,
+          reason: 'expected a visible save-failure message in $path',
+        );
       });
     }
 

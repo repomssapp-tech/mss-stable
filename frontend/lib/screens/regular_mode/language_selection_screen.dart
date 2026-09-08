@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../providers/app_state_provider.dart';
 import '../../widgets/floating_logo.dart';
-import '../../utils/profile_l10n.dart';
+import '../../l10n/l10n.dart';
 import '../login_screen.dart';
 import '../../utils/responsive.dart';
 import '../../utils/app_spacing.dart';
@@ -60,9 +60,18 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       final provider = Provider.of<AppProvider>(context, listen: false);
+      // Seed from the ambient locale (driven by MaterialApp.locale) so the
+      // preview defaults to the language the app is currently showing, then
+      // fall back to the provider value / 'en'.
+      final ambient = Localizations.localeOf(context).languageCode;
       setState(() {
-        _selectedLang = provider.selectedLanguage;
+        _selectedLang = (ambient == 'ta' || ambient == 'en')
+            ? ambient
+            : (provider.selectedLanguage.isEmpty
+                ? 'en'
+                : provider.selectedLanguage);
       });
     });
   }
@@ -76,10 +85,8 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context, listen: false);
-    final isTa = _selectedLang == 'ta';
-    String l(String key) => ProfileL10n.t(key, isTa);
 
-    return Scaffold(
+    final scaffold = Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [
@@ -121,7 +128,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                               Column(
                                 children: [
                                   Text(
-                                    l('choose_your_language'),
+                                    context.l10n.chooseYourLanguage,
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.poppins(
                                       fontSize: 24,
@@ -131,7 +138,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                                   ),
                                   const SizedBox(height: AppSpacing.sm),
                                   Text(
-                                    l('language_subtitle'),
+                                    context.l10n.languageSubtitle,
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.inter(
                                       fontSize: 13,
@@ -194,7 +201,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            l('your_language_experience'),
+                                            context.l10n.yourLanguageExperience,
                                             style: GoogleFonts.inter(
                                               fontSize: 13,
                                               fontWeight: FontWeight.bold,
@@ -203,7 +210,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                                           ),
                                           const SizedBox(height: AppSpacing.hairline),
                                           Text(
-                                            l('change_anytime'),
+                                            context.l10n.changeAnytime,
                                             style: GoogleFonts.inter(
                                               fontSize: 11,
                                               color: const Color(0xFF1D4ED8),
@@ -259,7 +266,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                                       Flexible(
                                         child: FitOneLine(
                                           child: Text(
-                                            l('continue'),
+                                            context.l10n.navContinueButton,
                                             style: GoogleFonts.inter(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
@@ -292,6 +299,14 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
           ),
         ],
       ),
+    );
+
+    // Live per-tap preview: content inside resolves `context.l10n` to the
+    // currently tapped language before Continue commits it via the provider.
+    return Localizations.override(
+      context: context,
+      locale: Locale(_selectedLang),
+      child: scaffold,
     );
   }
 

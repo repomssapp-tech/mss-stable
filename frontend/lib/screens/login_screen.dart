@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../providers/app_state_provider.dart';
-import '../utils/profile_l10n.dart';
+import '../l10n/l10n.dart';
 import '../utils/responsive.dart';
 import '../widgets/app_toast.dart';
 import '../widgets/legal_consent_section.dart';
@@ -68,10 +68,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isTa = context.select<AppProvider, bool>(
-      (provider) => provider.selectedLanguage == 'ta',
-    );
-    String l(String key) => ProfileL10n.t(key, isTa);
     final isLoggedIn = context.select<AppProvider, bool>(
       (provider) => provider.isLoggedIn,
     );
@@ -127,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                               // Title
                               Text(
-                                l('welcome'),
+                                context.l10n.welcome,
                                 style: GoogleFonts.poppins(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -138,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                               // Subtitle
                               Text(
-                                l('login_subtitle'),
+                                context.l10n.loginSubtitle,
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.inter(
                                   fontSize: 9.5,
@@ -166,10 +162,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   ],
                                 ),
-                                child: _buildLoginForm(isTa),
+                                child: _buildLoginForm(),
                               ),
 
                               const Spacer(flex: 2),
+
+                              // Bottom Privacy Policy & Terms Section
+                              _buildPrivacySection(),
 
                               const SizedBox(height: AppSpacing.sm),
                             ],
@@ -198,7 +197,7 @@ class _LoginScreenState extends State<LoginScreen> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          l('continue_securely'),
+          context.l10n.continueSecurely,
           textAlign: TextAlign.center,
           style: GoogleFonts.poppins(
             fontSize: 15,
@@ -208,7 +207,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         const SizedBox(height: AppSpacing.xs),
         Text(
-          l('google_account_continue'),
+          context.l10n.googleAccountContinue,
           textAlign: TextAlign.center,
           style: GoogleFonts.inter(
             fontSize: 11,
@@ -273,7 +272,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (mounted) {
                         AppToast.showError(
                           context,
-                          'Unable to complete Google sign in. Please try again.',
+                          context.l10n.loginGoogleSignInFailed,
                         );
                       }
                     } finally {
@@ -313,12 +312,68 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         const SizedBox(height: AppSpacing.md),
         Text(
-          l('secure_browser_auth'),
+          context.l10n.secureBrowserAuth,
           textAlign: TextAlign.center,
           style: GoogleFonts.inter(
             fontSize: 10,
             color: const Color(0xFF64748B),
           ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPrivacySection() {
+    final linkStyle = GoogleFonts.inter(
+      fontSize: 11,
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+      decoration: TextDecoration.underline,
+      decorationColor: Colors.white,
+    );
+    return Column(
+      children: [
+        Text(
+          context.l10n.privacyNote,
+          textAlign: TextAlign.center,
+          style: GoogleFonts.inter(fontSize: 11, color: Colors.white70),
+        ),
+        Wrap(
+          alignment: WrapAlignment.center,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            TextButton(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const TermsConditionsScreen(),
+                ),
+              ),
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
+                minimumSize: const Size(48, 48),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
+              ),
+              child: Text(context.l10n.terms, style: linkStyle),
+            ),
+            Text(
+              context.l10n.and,
+              style: GoogleFonts.inter(fontSize: 11, color: Colors.white70),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const PrivacyPolicyScreen()),
+              ),
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
+                minimumSize: const Size(48, 48),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
+              ),
+              child: Text(
+                context.l10n.privacyPolicy,
+                style: linkStyle,
+              ),
+            ),
+          ],
         ),
       ],
     );

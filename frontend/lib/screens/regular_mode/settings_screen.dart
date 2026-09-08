@@ -90,14 +90,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         Icons.close_rounded,
                         color: Color(0xFF94A3B8),
                       ),
-                      tooltip: 'Close',
+                      tooltip: context.l10n.close,
                       onPressed: () => Navigator.pop(context),
                     ),
                   ],
                 ),
                 const SizedBox(height: AppSpacing.lg),
                 Text(
-                  'Choose your preferred layout mode for navigating schemes and services.',
+                  context.l10n.settingsNavModeDialogBody,
                   style: GoogleFonts.inter(
                     fontSize: 11.5,
                     color: const Color(0xFF64748B),
@@ -149,8 +149,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           AppToast.showSuccess(
             context,
             mode == 'companion'
-                ? 'Switched to AI Companion (Saarthi) Navigation'
-                : 'Switched to Regular Navigation',
+                ? context.l10n.settingsSwitchedToCompanion
+                : context.l10n.settingsSwitchedToRegular,
           );
         }
       },
@@ -226,7 +226,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         elevation: 0.5,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Color(0xFF0F172A)),
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -548,7 +548,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             // Centered App Version Footer
             Center(
               child: Text(
-                "App Version 1.2.0",
+                context.l10n.settingsAppVersion('1.2.0'),
                 style: GoogleFonts.inter(
                   fontSize: 11,
                   fontWeight: FontWeight.bold,

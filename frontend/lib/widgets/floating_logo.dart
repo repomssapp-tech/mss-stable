@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/l10n.dart';
 import '../utils/responsive.dart';
 import '../utils/app_spacing.dart';
 
@@ -27,9 +28,9 @@ class FloatingLogo extends StatelessWidget {
             const SizedBox(width: AppSpacing.sm),
             Flexible(
               child: FitOneLine(
-                child: const Text(
-                  'Discover every Government Scheme in India',
-                  style: TextStyle(
+                child: Text(
+                  context.l10n.discoverEveryScheme,
+                  style: const TextStyle(
                     fontSize: 9.0,
                     fontWeight: FontWeight.w600,
                     color: Color(0xFF475569),

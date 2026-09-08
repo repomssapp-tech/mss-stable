@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../utils/constants.dart';
-import '../../services/centralized_translator.dart';
 import '../../l10n/l10n.dart';
+import '../../l10n/app_localizations.dart';
 import '../../widgets/app_toast.dart';
 import '../../utils/app_spacing.dart';
 import '../../services/support_ticket_service.dart';
@@ -20,34 +20,30 @@ class HelpSupportScreen extends StatefulWidget {
 class _HelpSupportScreenState extends State<HelpSupportScreen> {
   final _feedbackController = TextEditingController();
   final _emailController = TextEditingController();
+  // Backend category values are kept as stable English literals; only the
+  // dropdown display labels are localized.
   String _issueCategory = 'General Inquiry';
-  bool _isSubmitting = false;
 
-  final List<Map<String, String>> _faqs = [
+  List<Map<String, String>> _faqs(AppLocalizations l10n) => [
     {
-      'question': 'How do I check my eligibility for a scheme?',
-      'answer':
-          'Go to the \'Find My Schemes\' tab, fill out your profile details (age, gender, state, income, etc.), and the matcher engine will instantly show your eligibility score for all available schemes!',
+      'question': l10n.faqEligibilityQ,
+      'answer': l10n.faqEligibilityA,
     },
     {
-      'question': 'How can I apply for a scheme?',
-      'answer':
-          'Select any scheme to see its detailed description, benefits, and required documents. Tap the \'Apply Now\' button to open the official government application portal in your browser.',
+      'question': l10n.faqApplyQ,
+      'answer': l10n.faqApplyA,
     },
     {
-      'question': 'Where can I track my application status?',
-      'answer':
-          'Since application submissions are processed directly on official government portals, you can track your status by logging into the respective portal using the application ID provided during submission.',
+      'question': l10n.faqTrackQ,
+      'answer': l10n.faqTrackA,
     },
     {
-      'question': 'Is MSS app free to use?',
-      'answer':
-          'Yes, MSS is completely free to use. Our goal is to make citizen benefits and government schemes accessible to everyone in India without any hidden fees.',
+      'question': l10n.faqFreeQ,
+      'answer': l10n.faqFreeA,
     },
     {
-      'question': 'How often is new data updated?',
-      'answer':
-          'Our database is updated daily to reflect the latest announcements, schemes, subsidies, and application guidelines from the central and state ministries.',
+      'question': l10n.faqDataFreshnessQ,
+      'answer': l10n.faqDataFreshnessA,
     },
   ];
 
@@ -64,6 +60,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
   }
 
   void _showFAQBottomSheet(String question, String answer) {
+    final l10n = context.l10n;
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.white,
@@ -97,7 +94,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                   const SizedBox(width: AppSpacing.md),
                   Expanded(
                     child: Text(
-                      'FAQ Answer',
+                      l10n.helpFaqAnswerTitle,
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -110,7 +107,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       Icons.close_rounded,
                       color: Color(0xFF94A3B8),
                     ),
-                    tooltip: 'Close',
+                    tooltip: l10n.close,
                     onPressed: () => Navigator.pop(context),
                   ),
                 ],
@@ -142,22 +139,20 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
   }
 
   void _showAllFAQsBottomSheet() {
+    final l10n = context.l10n;
     final allFaqs = [
-      ..._faqs,
+      ..._faqs(l10n),
       {
-        'question': 'How does the recommendation scoring work?',
-        'answer':
-            'We evaluate your profile (residency, age, gender, education, and community) against the criteria set by each scheme. A match score is calculated out of 100% depending on the percentage of conditions met.',
+        'question': l10n.faqScoringQ,
+        'answer': l10n.faqScoringA,
       },
       {
-        'question': 'Is my personal data shared with the government?',
-        'answer':
-            'No. MSS is a recommendation tool that runs fully on your device. We do not share your profile details with external departments. You apply directly on official portals.',
+        'question': l10n.faqDataSharingQ,
+        'answer': l10n.faqDataSharingA,
       },
       {
-        'question': 'How do I obtain missing documents?',
-        'answer':
-            'In the Scheme Details view, any document marked as "Missing" has a "Get Document" link that redirects you directly to the official portal (e.g., UIDAI for Aadhaar, NSDL for PAN).',
+        'question': l10n.faqMissingDocsQ,
+        'answer': l10n.faqMissingDocsA,
       },
     ];
 
@@ -198,7 +193,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       ),
                       const SizedBox(width: AppSpacing.md),
                       Text(
-                        'All FAQs',
+                        l10n.helpAllFaqsTitle,
                         style: GoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -211,7 +206,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                           Icons.close_rounded,
                           color: Color(0xFF94A3B8),
                         ),
-                        tooltip: 'Close',
+                        tooltip: l10n.close,
                         onPressed: () => Navigator.pop(context),
                       ),
                     ],
@@ -273,12 +268,19 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
   }
 
   void _showReportIssueBottomSheet() {
+    final l10n = context.l10n;
     if (_emailController.text.trim().isEmpty) {
       final userEmail = Supabase.instance.client.auth.currentUser?.email;
       if (userEmail != null && userEmail.isNotEmpty) {
         _emailController.text = userEmail;
       }
     }
+    // Kept local (like the Feedback sheet's `submittingFeedback`) so it always
+    // starts false on each open. As a State field it could stick at `true` --
+    // the success path pops the sheet before the `finally` runs, so the
+    // `context.mounted` guard skipped the reset and every later open showed a
+    // permanently disabled Submit button.
+    bool submitting = false;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -321,7 +323,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       ),
                       const SizedBox(width: AppSpacing.md),
                       Text(
-                        'Report an Issue',
+                        l10n.helpReportIssueTitle,
                         style: GoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -334,14 +336,14 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                           Icons.close_rounded,
                           color: Color(0xFF94A3B8),
                         ),
-                        tooltip: 'Close',
+                        tooltip: l10n.close,
                         onPressed: () => Navigator.pop(context),
                       ),
                     ],
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   Text(
-                    'Facing a problem? Fill out the details below and our team will get back to you shortly.\n\nYour report will be sent directly to mssschemessearch@gmail.com. Please enter your email below so we can reply.',
+                    l10n.helpReportIssueBody,
                     style: GoogleFonts.inter(
                       fontSize: 13,
                       color: const Color(0xFF64748B),
@@ -368,17 +370,15 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       ),
                     ),
                     items:
-                        [
-                          'General Inquiry',
-                          'Eligibility Matcher Bug',
-                          'Wrong Scheme Details',
-                          'Feature Request',
+                        <({String value, String label})>[
+                          (value: 'General Inquiry', label: l10n.helpCatGeneralInquiry),
+                          (value: 'Eligibility Matcher Bug', label: l10n.helpCatMatcherBug),
+                          (value: 'Wrong Scheme Details', label: l10n.helpCatWrongDetails),
+                          (value: 'Feature Request', label: l10n.helpCatFeatureRequest),
                         ].map((cat) {
                           return DropdownMenuItem(
-                            value: cat,
-                            child: Text(
-                              CentralizedTranslator.instance.translate(cat),
-                            ),
+                            value: cat.value,
+                            child: Text(cat.label),
                           );
                         }).toList(),
                     onChanged: (val) {
@@ -446,7 +446,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                         ),
                         elevation: 0,
                       ),
-                      onPressed: _isSubmitting
+                      onPressed: submitting
                           ? null
                           : () async {
                               final email = _emailController.text.trim();
@@ -463,7 +463,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                                 return;
                               }
 
-                              setModalState(() => _isSubmitting = true);
+                              setModalState(() => submitting = true);
 
                               try {
                                 await SupportTicketService.instance.submitTicket(
@@ -476,9 +476,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                                   Navigator.pop(context);
                                   AppToast.showSuccess(
                                     context,
-                                    CentralizedTranslator.instance.translate(
-                                      'Thank you! Your ticket has been submitted.',
-                                    ),
+                                    l10n.helpTicketSubmitted,
                                   );
                                   _feedbackController.clear();
                                 }
@@ -494,18 +492,16 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                                 if (context.mounted) {
                                   AppToast.showError(
                                     context,
-                                    CentralizedTranslator.instance.translate(
-                                      'Failed to submit ticket. Please check your connection and try again.',
-                                    ),
+                                    l10n.helpTicketSubmitFailed,
                                   );
                                 }
                               } finally {
                                 if (context.mounted) {
-                                  setModalState(() => _isSubmitting = false);
+                                  setModalState(() => submitting = false);
                                 }
                               }
                             },
-                      child: _isSubmitting
+                      child: submitting
                           ? const SizedBox(
                               width: 20,
                               height: 20,
@@ -515,7 +511,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                               ),
                             )
                           : Text(
-                              'Submit Ticket',
+                              l10n.helpSubmitTicket,
                               style: GoogleFonts.inter(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
@@ -534,6 +530,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
   }
 
   void _showFeedbackBottomSheet() {
+    final l10n = context.l10n;
     double rating = 5.0;
     final feedbackTextController = TextEditingController();
     final emailController = TextEditingController();
@@ -588,7 +585,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       ),
                       const SizedBox(width: AppSpacing.md),
                       Text(
-                        'Share Feedback',
+                        l10n.helpShareFeedbackTitle,
                         style: GoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -601,14 +598,14 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                           Icons.close_rounded,
                           color: Color(0xFF94A3B8),
                         ),
-                        tooltip: 'Close',
+                        tooltip: l10n.close,
                         onPressed: () => Navigator.pop(context),
                       ),
                     ],
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   Text(
-                    'We value your feedback. Let us know how we can improve your experience!',
+                    l10n.helpFeedbackBody,
                     style: GoogleFonts.inter(
                       fontSize: 13,
                       color: const Color(0xFF64748B),
@@ -619,7 +616,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                     child: Column(
                       children: [
                         Text(
-                          'Rate your experience',
+                          l10n.helpRateExperience,
                           style: GoogleFonts.inter(
                             fontWeight: FontWeight.w600,
                             fontSize: 14,
@@ -639,7 +636,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                                 color: const Color(0xFFF59E0B),
                                 size: 36,
                               ),
-                              tooltip: 'Rate $starRating star${starRating == 1 ? '' : 's'}',
+                              tooltip: l10n.helpRateStars(starRating),
                               onPressed: () {
                                 setModalState(() {
                                   rating = starRating.toDouble();
@@ -661,7 +658,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                     ),
                     decoration: InputDecoration(
                       labelText: context.l10n.helpContactEmailLabel,
-                      hintText: 'e.g. yourname@gmail.com for follow-up from mssschemessearch@gmail.com',
+                      hintText: l10n.helpFeedbackEmailHint,
                       labelStyle: const TextStyle(color: Color(0xFF64748B)),
                       hintStyle: const TextStyle(color: Color(0xFF94A3B8)),
                       enabledBorder: OutlineInputBorder(
@@ -739,7 +736,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                                   Navigator.pop(context);
                                   AppToast.showSuccess(
                                     context,
-                                    'Thank you for your valuable feedback!',
+                                    l10n.helpFeedbackThanks,
                                   );
                                 }
                               } on SupportTicketRateLimitException catch (e) {
@@ -750,7 +747,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                                 if (context.mounted) {
                                   AppToast.showError(
                                     context,
-                                    'Failed to submit feedback. Please check your connection.',
+                                    l10n.helpFeedbackSubmitFailed,
                                   );
                                 }
                               } finally {
@@ -769,7 +766,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                               ),
                             )
                           : Text(
-                              'Submit Feedback',
+                              l10n.helpSubmitFeedback,
                               style: GoogleFonts.inter(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
@@ -830,6 +827,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
       backgroundColor: AppConstants.backgroundColor,
       body: SafeArea(
@@ -858,10 +856,10 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       Flexible(
                         child: Text(
                           widget.initialMode == 'faq'
-                              ? 'Help & FAQ'
+                              ? l10n.helpFaqSetting
                               : widget.initialMode == 'contact'
-                              ? 'Contact Us'
-                              : 'Help & Support',
+                              ? l10n.helpHeaderContact
+                              : l10n.helpHeaderSupport,
                           softWrap: true,
                           style: GoogleFonts.poppins(
                             fontSize: 20.0,
@@ -874,7 +872,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                   ),
                   const SizedBox(height: AppSpacing.sm),
                   Text(
-                    "We're here to help you",
+                    l10n.helpHeaderSubtitle,
                     style: GoogleFonts.inter(
                       fontSize: 14,
                       color: const Color(0xFF64748B),
@@ -905,7 +903,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'FAQs',
+                                l10n.helpFaqsGroupTitle,
                                 style: GoogleFonts.inter(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -914,7 +912,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                               ),
                               const SizedBox(height: AppSpacing.hairline),
                               Text(
-                                'Find answers to common questions',
+                                l10n.helpFaqsGroupSubtitle,
                                 style: GoogleFonts.inter(
                                   fontSize: 12.5,
                                   color: const Color(0xFF64748B),
@@ -932,7 +930,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                     ),
                   ),
                   const Divider(color: Color(0xFFF1F5F9), height: 1),
-                  ..._faqs.map((faq) {
+                  ..._faqs(l10n).map((faq) {
                     return Column(
                       children: [
                         ListTile(
@@ -968,7 +966,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       vertical: AppSpacing.hairline,
                     ),
                     title: Text(
-                      'View all FAQs',
+                      l10n.helpViewAllFaqs,
                       style: GoogleFonts.inter(
                         fontSize: 13.5,
                         fontWeight: FontWeight.bold,
@@ -1004,7 +1002,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Contact Support',
+                                l10n.helpContactGroupTitle,
                                 style: GoogleFonts.inter(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -1013,7 +1011,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                               ),
                               const SizedBox(height: AppSpacing.hairline),
                               Text(
-                                'Get in touch with our support team',
+                                l10n.helpContactGroupSubtitle,
                                 style: GoogleFonts.inter(
                                   fontSize: 12.5,
                                   color: const Color(0xFF64748B),
@@ -1047,7 +1045,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                           ),
                           const SizedBox(height: AppSpacing.md),
                           Text(
-                            'Email Us',
+                            l10n.helpEmailUs,
                             style: GoogleFonts.inter(
                               fontWeight: FontWeight.bold,
                               fontSize: 13.5,
@@ -1058,7 +1056,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                           GestureDetector(
                             onTap: () => _copyToClipboard(
                               'mssschemessearch@gmail.com',
-                              'Support email copied to clipboard!',
+                              l10n.helpSupportEmailCopied,
                             ),
                             child: Text(
                               'mssschemessearch@gmail.com',
@@ -1071,7 +1069,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                           ),
                           const SizedBox(height: AppSpacing.sm),
                           Text(
-                            'We typically reply within 24 hours',
+                            l10n.helpReplyWindow,
                             style: GoogleFonts.inter(
                               fontSize: 10,
                               color: const Color(0xFF64748B),
@@ -1099,7 +1097,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       iconColor: const Color(0xFF16A34A),
                     ),
                     title: Text(
-                      'Report an Issue',
+                      l10n.helpReportIssueTitle,
                       style: GoogleFonts.inter(
                         fontSize: 14.5,
                         fontWeight: FontWeight.bold,
@@ -1107,7 +1105,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       ),
                     ),
                     subtitle: Text(
-                      'Facing a problem? Let us know.',
+                      l10n.helpReportIssueSubtitle,
                       style: GoogleFonts.inter(
                         fontSize: 11.5,
                         color: const Color(0xFF64748B),
@@ -1132,7 +1130,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       iconColor: const Color(0xFFEA580C),
                     ),
                     title: Text(
-                      'Feedback',
+                      l10n.helpFeedbackTileTitle,
                       style: GoogleFonts.inter(
                         fontSize: 14.5,
                         fontWeight: FontWeight.bold,
@@ -1140,7 +1138,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                       ),
                     ),
                     subtitle: Text(
-                      'Share your suggestions to help us improve.',
+                      l10n.helpFeedbackTileSubtitle,
                       style: GoogleFonts.inter(
                         fontSize: 11.5,
                         color: const Color(0xFF64748B),
@@ -1186,7 +1184,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Still need help?',
+                                  l10n.helpStillNeedHelp,
                                   style: GoogleFonts.inter(
                                     fontSize: 14.5,
                                     fontWeight: FontWeight.bold,
@@ -1195,7 +1193,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                                 ),
                                 const SizedBox(height: AppSpacing.xs),
                                 Text(
-                                  'Our support team is always ready to assist you.',
+                                  l10n.helpStillNeedHelpBody,
                                   style: GoogleFonts.inter(
                                     fontSize: 11.5,
                                     color: const Color(0xFF64748B),

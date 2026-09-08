@@ -10,6 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/models/user_profile.dart';
 import 'package:frontend/widgets/smart_assessment_bottom_sheet.dart';
@@ -31,6 +32,11 @@ void main() {
       ChangeNotifierProvider.value(
         value: provider,
         child: MaterialApp(
+          // smart_assessment_bottom_sheet.dart now resolves its strings via
+          // AppLocalizations (context.l10n); a bare MaterialApp returns null
+          // and build() throws. Delegates added, no explicit locale -> en.
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           home: Scaffold(
             body: Builder(
               builder: (ctx) => ElevatedButton(

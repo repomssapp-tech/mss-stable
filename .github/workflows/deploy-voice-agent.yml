@@ -1,0 +1,112 @@
+name: Deploy Voice Agent
+
+# Finding 8.3 (audit_fix.md) — deployment automation for the saarthi-agent
+# (Python LiveKit voice agent) component. Companion workflows:
+# deploy-edge-functions.yml, build-app.yml.
+#
+# ─── Rollout state: MANUAL / DRY-RUN FIRST ────────────────────────────────────
+# workflow_dispatch-only by design. dry_run=true builds the image and stops;
+# dry_run=false additionally deploys it to LiveKit Cloud. Do NOT add a push
+# trigger until one real deploy has succeeded and the agent has been confirmed
+# taking jobs. Promotion path afterwards:
+#
+#   push:
+#     branches: [main]
+#     paths: ['saarthi-agent/**', '.github/workflows/deploy-voice-agent.yml']
+#
+# ─── Required configuration ──────────────────────────────────────────────────
+# Repository → Settings → Environments → "production" (required reviewers set
+# there). Environment secrets:
+#   LIVEKIT_URL         — wss://<subdomain>.livekit.cloud for the project in
+#                         saarthi-agent/livekit.toml (subdomain mss-kqp2428o).
+#   LIVEKIT_API_KEY     — project API key with agent-deploy rights.
+#   LIVEKIT_API_SECRET  — matching secret.
+#
+# The agent's own runtime secrets (SARVAM_API_KEY, SUPABASE_*, …) are configured
+# on the LiveKit Cloud agent, not here — see saarthi-agent/.env.example for the
+# full list. This workflow ships image + config only.
+#
+# NOTE: the `lk agent deploy` invocation below matches the standard LiveKit
+# Cloud agents flow, where LiveKit builds the image server-side from this
+# context — the local `docker build` step is a pre-flight check, not the
+# artifact that ships. If this project uses a self-hosted worker or a private
+# registry instead, replace the "Deploy to LiveKit Cloud" step with the
+# push/rollout for that target — the build step above it stays as-is.
+# The CLI is installed via the official installer; pin it with the optional
+# LIVEKIT_CLI_VERSION repository variable.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Build the Docker image only — do not deploy."
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-voice-agent
+  cancel-in-progress: false
+
+defaults:
+  run:
+    working-directory: saarthi-agent
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: ${{ github.event.inputs.dry_run == 'false' && 'production' || '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Build always — this is the dry-run's whole job, and it must also pass
+      # before any deploy. Load into the local daemon so we can inspect it.
+      - name: Build agent image
+        uses: docker/build-push-action@v6
+        with:
+          context: saarthi-agent
+          file: saarthi-agent/Dockerfile
+          push: false
+          load: true
+          tags: |
+            saarthi-agent:${{ github.sha }}
+            saarthi-agent:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Image summary
+        run: docker image inspect saarthi-agent:${{ github.sha }} --format 'built {{.Id}} — size {{.Size}} bytes'
+
+      - name: Install LiveKit CLI
+        if: ${{ github.event.inputs.dry_run == 'false' }}
+        env:
+          # Optional: set to a tag like "v2.4.0" to pin. Empty = latest release.
+          LIVEKIT_CLI_VERSION: ${{ vars.LIVEKIT_CLI_VERSION }}
+        run: |
+          set -euo pipefail
+          # Official installer — resolves the correct asset name/arch itself, so
+          # it does not 404 on a version guess. Honours LIVEKIT_CLI_VERSION.
+          curl -sSL https://get.livekit.io/cli | bash
+          lk --version
+
+      - name: Deploy to LiveKit Cloud
+        if: ${{ github.event.inputs.dry_run == 'false' }}
+        env:
+          LIVEKIT_URL: ${{ secrets.LIVEKIT_URL }}
+          LIVEKIT_API_KEY: ${{ secrets.LIVEKIT_API_KEY }}
+          LIVEKIT_API_SECRET: ${{ secrets.LIVEKIT_API_SECRET }}
+        run: |
+          set -euo pipefail
+          # livekit.toml in this directory carries the project subdomain and
+          # agent id; `lk agent deploy` reads it and ships the current context.
+          lk agent deploy
+
+      - name: Dry-run summary
+        if: ${{ github.event.inputs.dry_run != 'false' }}
+        run: echo "Dry run only — image built, nothing deployed. Re-run with dry_run=false to ship."

@@ -23,6 +23,7 @@ import '../services/voice_agent_controller.dart';
 import '../services/centralized_translator.dart';
 import '../services/chat_log_service.dart';
 import '../utils/responsive.dart';
+import '../l10n/app_localizations.dart';
 import '../l10n/l10n.dart';
 import '../utils/app_spacing.dart';
 
@@ -213,6 +214,13 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     return _showFallbackPicker && _fallbackLanguage == VoiceInputLanguage.tamil;
   }
 
+  // Voice-assistant chrome follows the language the user is actually speaking
+  // (`_presentInTamil`), which is detected per-utterance and can differ from the
+  // ambient `MaterialApp` locale — so strings resolve through an explicit
+  // lookup rather than `context.l10n`.
+  AppLocalizations get _l10n =>
+      lookupAppLocalizations(Locale(_presentInTamil ? 'ta' : 'en'));
+
   String get _languageBadgeLabel {
     if (_detectedLanguage?.toLowerCase().startsWith('ta') == true ||
         _session?.isTamil == true) {
@@ -221,28 +229,31 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     if (_detectedLanguage?.toLowerCase().startsWith('en') == true) {
       return 'English';
     }
-    return 'Auto';
+    return _l10n.voiceLanguageAuto;
   }
 
   String get _statusLabel {
-    if (_speaking) return _presentInTamil ? 'பேசுகிறது...' : 'Speaking...';
-    if (_isListening) return _presentInTamil ? 'கேட்கிறது...' : 'Listening...';
+    final l10n = _l10n;
+    if (_speaking) return l10n.voiceStatusSpeaking;
+    if (_isListening) return l10n.voiceStatusListening;
     if (_voicePhase == _VoiceAssistantPhase.processing) {
-      return _presentInTamil ? 'செயலாக்குகிறது...' : 'Processing...';
+      return l10n.voiceStatusProcessing;
     }
     switch (_session?.phase) {
       case AssistantSessionPhase.understanding:
-        return _presentInTamil ? 'புரிந்துகொள்கிறது...' : 'Understanding...';
+        return l10n.voiceStatusUnderstanding;
       case AssistantSessionPhase.asking:
-        return _presentInTamil ? 'ஒரு கேள்வி' : 'One question';
+        return l10n.voiceStatusOneQuestion;
       case AssistantSessionPhase.results:
-        return _presentInTamil ? 'திட்டங்கள் கிடைத்தன' : 'Matches found';
+        return l10n.voiceStatusMatchesFound;
       case AssistantSessionPhase.noConfidentMatch:
-        return _presentInTamil ? 'மேலும் தகவல் தேவை' : 'Needs more detail';
+        return l10n.voiceStatusNeedsMoreDetail;
       default:
-        if (_legacySearching) return 'Finding...';
-        if (_legacyMatches.isNotEmpty) return 'Found ${_legacyMatches.length}';
-        return _presentInTamil ? 'தயார்' : 'Ready';
+        if (_legacySearching) return l10n.voiceStatusFinding;
+        if (_legacyMatches.isNotEmpty) {
+          return l10n.voiceStatusFoundCount(_legacyMatches.length);
+        }
+        return l10n.companionReadyShort;
     }
   }
 
@@ -464,7 +475,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               scheme: scheme,
               score: ranked.score,
               reasons: [
-                if (confidence != null) '$confidence% relevance match',
+                if (confidence != null) _l10n.voiceRelevanceMatch(confidence),
                 ...ranked.reasons,
               ],
             );
@@ -780,8 +791,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         setState(() {
           _voicePhase = _VoiceAssistantPhase.unavailable;
           _message =
-              capabilities.reason ??
-              'Voice recognition is not available on this device.';
+              capabilities.reason ?? _l10n.voiceRecognitionUnavailable;
         });
         return;
       }
@@ -814,7 +824,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
       _setListeningAnimations(false);
       setState(() {
         _voicePhase = _VoiceAssistantPhase.unavailable;
-        _message = 'Voice recognition could not start. Please try again.';
+        _message = _l10n.voiceRecognitionStartFailed;
       });
     } finally {
       _startingRecognition = false;
@@ -898,7 +908,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
       setState(() {
         _legacySearching = false;
         _legacyMatches = const [];
-        _message = 'I could not search right now. Please try again.';
+        _message = _l10n.voiceSearchFailed;
       });
     }
   }
@@ -1146,7 +1156,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           side: const BorderSide(color: Color(0xFFE2E8F0)),
         ),
         title: Text(
-          'Edit ${_factLabel(context, fact.key)}',
+          _l10n.voiceEditFact(_factLabel(context, fact.key)),
           style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
         ),
         content: TextField(
@@ -1210,7 +1220,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           side: const BorderSide(color: Color(0xFFE2E8F0)),
         ),
         title: Text(
-          'Review profile updates',
+          _l10n.voiceReviewProfileUpdates,
           style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
         ),
         content: ConstrainedBox(
@@ -1239,13 +1249,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             style: TextButton.styleFrom(
               foregroundColor: const Color(0xFF64748B),
             ),
-            child: Text(
-              _presentInTamil
-                  ? CentralizedTranslator.instance.translate(
-                      'Keep session only',
-                    )
-                  : 'Keep session only',
-            ),
+            child: Text(_l10n.voiceKeepSessionOnly),
           ),
           FilledButton(
             onPressed: () => Navigator.of(context).pop(true),
@@ -1256,11 +1260,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            child: Text(
-              _presentInTamil
-                  ? CentralizedTranslator.instance.translate('Save confirmed')
-                  : 'Save confirmed',
-            ),
+            child: Text(_l10n.voiceSaveConfirmed),
           ),
         ],
       ),
@@ -1271,7 +1271,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     }
     callback(controller.buildUpdatedProfile());
     if (mounted) {
-      setState(() => _message = 'Confirmed details saved to your profile.');
+      setState(() => _message = _l10n.voiceProfileSavedMessage);
     }
   }
 
@@ -1468,7 +1468,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                                 const SizedBox(width: AppSpacing.tight),
                                 Flexible(
                                   child: Text(
-                                    'Device noise control • Secure live voice',
+                                    _l10n.voiceNoiseControlSecure,
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.inter(
                                       color: const Color(0xFFCBD5E1),
@@ -1532,9 +1532,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                                   !_legacySearching)) ...[
                             const SizedBox(height: AppSpacing.sm),
                             Text(
-                              _presentInTamil
-                                  ? 'நம்பகமான பொருத்தம் கிடைக்கவில்லை. உங்கள் நிலையை வேறு வார்த்தைகளில் சொல்லுங்கள்.'
-                                  : 'No confident scheme match yet. Tell me a little more about your situation.',
+                              _l10n.voiceNoConfidentMatch,
                               key: const Key('voice-no-results'),
                               textAlign: TextAlign.center,
                               style: GoogleFonts.inter(
@@ -1552,7 +1550,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                                   _sessionController?.setIncludeUncertain(true),
                               icon: const Icon(Icons.info_outline, size: 15),
                               label: Text(
-                                'See $count uncertain or historical schemes',
+                                _l10n.voiceSeeUncertainSchemes(count),
                               ),
                             ),
                           ],
@@ -1626,10 +1624,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                 width: double.infinity,
                 height: double.infinity,
                 padding: EdgeInsets.fromLTRB(
-                  media.size.width < 360 ? AppSpacing.lg : 22,
+                  media.size.width < 360 ? AppSpacing.lg : AppSpacing.xl,
                   AppSpacing.sm,
-                  media.size.width < 360 ? AppSpacing.lg : 22,
-                  14,
+                  media.size.width < 360 ? AppSpacing.lg : AppSpacing.xl,
+                  AppSpacing.sm,
                 ),
                 child: Column(
                   children: [
@@ -1678,9 +1676,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                                     !_legacySearching)) ...[
                               const SizedBox(height: 18),
                               Text(
-                                _presentInTamil
-                                    ? 'உறுதியான பொருத்தம் இன்னும் கிடைக்கவில்லை. இன்னும் ஒரு விவரம் சொல்லுங்கள்.'
-                                    : 'I need one more detail to find a confident match.',
+                                _l10n.voiceNeedOneMoreDetail,
                                 key: const Key('voice-no-results'),
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.inter(
@@ -1734,7 +1730,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'IN AI',
+                _l10n.askAi,
                 style: GoogleFonts.inter(
                   color: Colors.white,
                   fontSize: 15,
@@ -1764,7 +1760,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         const SizedBox(width: AppSpacing.xs),
         IconButton(
           key: const Key('voice-close-button'),
-          tooltip: 'Cancel assistant',
+          tooltip: _l10n.voiceCancelAssistantTooltip,
           onPressed: _close,
           style: IconButton.styleFrom(
             minimumSize: const Size(48, 48),
@@ -1781,7 +1777,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     return Center(
       child: Semantics(
         image: true,
-        label: active ? _statusLabel : 'IN AI voice ready',
+        label: active ? _statusLabel : _l10n.voiceAiReady,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 320),
           curve: Curves.easeOutCubic,
@@ -1825,7 +1821,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     return Column(
       children: [
         Text(
-          _presentInTamil ? 'நான் எப்படி உதவலாம்?' : 'How can I help?',
+          _l10n.howCanIHelp,
           key: const Key('voice-transcript'),
           textAlign: TextAlign.center,
           style: GoogleFonts.inter(
@@ -1838,9 +1834,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         ),
         const SizedBox(height: AppSpacing.sm),
         Text(
-          _presentInTamil
-              ? 'உங்கள் நிலையைச் சொல்லுங்கள். பொருத்தமான அரசு திட்டங்களைக் கண்டுபிடிக்கிறேன்.'
-              : 'Tell me your situation. I’ll find relevant government schemes.',
+          _l10n.voiceTellMeSituationFindSchemes,
           textAlign: TextAlign.center,
           style: GoogleFonts.inter(
             color: const Color(0xFF9CA6BA),
@@ -1854,9 +1848,9 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           runSpacing: 8,
           alignment: WrapAlignment.center,
           children: [
-            _suggestionChip('Business loans'),
-            _suggestionChip('College scholarship'),
-            _suggestionChip('Farmer subsidy'),
+            _suggestionChip(_l10n.voiceSuggestionBusinessLoans),
+            _suggestionChip(_l10n.voiceSuggestionCollegeScholarship),
+            _suggestionChip(_l10n.voiceSuggestionFarmerSubsidy),
           ],
         ),
       ],
@@ -1869,7 +1863,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         : _conversationTurns.sublist(_conversationTurns.length - 3);
     return Semantics(
       container: true,
-      label: 'Conversation transcript',
+      label: _l10n.voiceConversationTranscript,
       child: Column(
         key: const Key('voice-conversation-transcript'),
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1880,7 +1874,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
 
   Widget _buildRegularTurn(_VoiceTranscriptTurn turn) {
     final isUser = turn.speaker == _VoiceTranscriptSpeaker.user;
-    final label = isUser ? (_presentInTamil ? 'நீங்கள்' : 'You') : 'IN AI';
+    final label = isUser ? _l10n.voiceSpeakerYou : _l10n.voiceSpeakerAssistant;
     return Container(
       key: Key('voice-turn-${turn.id}'),
       margin: const EdgeInsets.only(bottom: 22),
@@ -1996,7 +1990,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               false) ...[
             const SizedBox(height: 10),
             Text(
-              'Speech output is unavailable; tap the microphone to answer.',
+              _l10n.voiceSpeechOutputUnavailable,
               style: GoogleFonts.inter(
                 color: const Color(0xFFFFC46B),
                 fontSize: 10.5,
@@ -2021,7 +2015,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           children: [
             Expanded(
               child: Text(
-                _presentInTamil ? 'உங்களுக்கான திட்டங்கள்' : 'For you',
+                _l10n.voiceForYou,
                 style: GoogleFonts.inter(
                   color: Colors.white,
                   fontSize: 16,
@@ -2030,7 +2024,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               ),
             ),
             Text(
-              '${all.length} found',
+              _l10n.voiceFoundCount(all.length),
               key: const Key('voice-result-count'),
               style: GoogleFonts.inter(
                 color: const Color(0xFF929DB2),
@@ -2054,8 +2048,8 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             ),
             label: Text(
               _showAllRecommendations
-                  ? 'Show top 3'
-                  : 'Show all ${all.length} matches',
+                  ? _l10n.voiceShowTop3
+                  : _l10n.voiceShowAllMatches(all.length),
             ),
           ),
         if (widget.onProfileConfirmed != null &&
@@ -2066,7 +2060,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             key: const Key('voice-review-profile'),
             onPressed: _reviewAndSaveFacts,
             icon: const Icon(Icons.tune_rounded, size: 17),
-            label: const Text('Review details'),
+            label: Text(_l10n.voiceReviewDetails),
           ),
       ],
     );
@@ -2117,9 +2111,9 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               if (recommendation.reasons.isNotEmpty) ...[
                 const SizedBox(height: 7),
                 Text(
-                  _presentInTamil
-                      ? 'ஏன் பொருந்துகிறது: ${recommendation.reasons.join(' • ')}'
-                      : 'Why this fits: ${recommendation.reasons.join(' • ')}',
+                  _l10n.voiceWhyThisFits(
+                    recommendation.reasons.join(' • '),
+                  ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
@@ -2132,8 +2126,8 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               const SizedBox(height: AppSpacing.tight),
               Text(
                 recommendation.isTrusted
-                    ? 'Current official source verified'
-                    : 'Confirm current eligibility before applying',
+                    ? _l10n.voiceSourceVerified
+                    : _l10n.voiceConfirmEligibility,
                 style: GoogleFonts.inter(
                   color: recommendation.isTrusted
                       ? const Color(0xFF70D6B2)
@@ -2155,7 +2149,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          _presentInTamil ? 'உங்களுக்கான திட்டங்கள்' : 'For you',
+          _l10n.voiceForYou,
           style: GoogleFonts.inter(
             color: Colors.white,
             fontSize: 16,
@@ -2174,10 +2168,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
       children: [
         Text(
           _speaking
-              ? 'Tap to interrupt'
+              ? _l10n.voiceTapToInterrupt
               : _isListening
-              ? 'Listening…'
-              : 'Tap to speak',
+              ? _l10n.voiceStatusListening
+              : _l10n.companionTapToSpeak,
           textAlign: TextAlign.center,
           style: GoogleFonts.inter(
             color: const Color(0xFFA8B0C2),
@@ -2189,11 +2183,11 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         Semantics(
           button: true,
           label: _speaking
-              ? 'Interrupt assistant'
+              ? _l10n.voiceSemInterrupt
               : _isListening
-              ? 'Stop listening'
-              : 'Start listening',
-          hint: 'Double tap to control the microphone',
+              ? _l10n.voiceStopListeningSemantic
+              : _l10n.voiceStartListeningSemantic,
+          hint: _l10n.voiceSemMicHint,
           onTap: _toggleListening,
           excludeSemantics: true,
           child: IconButton.filled(
@@ -2223,7 +2217,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         if (_cloudSessionInUse) ...[
           const SizedBox(height: 9),
           Text(
-            'Device noise control • Secure live voice',
+            _l10n.voiceNoiseControlSecure,
             key: const Key('voice-cloud-disclosure'),
             style: GoogleFonts.inter(
               color: const Color(0xFF707A91),
@@ -2240,7 +2234,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
       children: [
         Semantics(
           image: true,
-          label: 'IN AI assistant',
+          label: _l10n.voiceAiAssistant,
           child: SizedBox(
             width: 56,
             height: 56,
@@ -2259,7 +2253,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                _isCompanion ? 'Talk to Saarthi' : 'Ask IN AI',
+                _isCompanion ? _l10n.voiceHeaderTalkToSaarthi : _l10n.askAi,
                 style: GoogleFonts.inter(
                   color: Colors.white,
                   fontSize: 15,
@@ -2306,7 +2300,9 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         if (_cloudSessionInUse)
           IconButton(
             key: const Key('voice-mute-button'),
-            tooltip: _voiceAgentController!.state.isMuted ? 'Unmute' : 'Mute',
+            tooltip: _voiceAgentController!.state.isMuted
+                ? _l10n.voiceUnmute
+                : _l10n.voiceMute,
             onPressed: () => _voiceAgentController!.setMuted(
               !_voiceAgentController!.state.isMuted,
             ),
@@ -2319,7 +2315,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           ),
         IconButton(
           key: const Key('voice-close-button'),
-          tooltip: 'Cancel assistant',
+          tooltip: _l10n.voiceCancelAssistantTooltip,
           onPressed: _close,
           icon: const Icon(Icons.close_rounded, color: Color(0xFFCBD5E1)),
         ),
@@ -2342,20 +2338,12 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           Text(
             _conversationTurns.isNotEmpty
                 ? (_speaking
-                      ? (_presentInTamil
-                            ? 'பதிலை கேளுங்கள் அல்லது இடைமறிக்க தட்டுங்கள்'
-                            : 'Listen, or tap below to interrupt')
+                      ? _l10n.voiceListenOrInterrupt
                       : _isListening
-                      ? (_presentInTamil
-                            ? 'இயல்பாக பேசுங்கள்; முடிந்ததும் சிறிது நிறுத்துங்கள்'
-                            : 'Speak naturally, then pause when you are done')
-                      : (_presentInTamil
-                            ? 'அடுத்த கேள்விக்கு தயாராக உள்ளது'
-                            : 'Ready for your next question'))
+                      ? _l10n.voiceSpeakNaturallyPause
+                      : _l10n.voiceReadyForNextQuestion)
                 : _transcript.isEmpty
-                ? (_presentInTamil
-                      ? 'உங்கள் நிலையை இயல்பாக சொல்லுங்கள்...'
-                      : 'Tell me your situation naturally...')
+                ? _l10n.voiceTellMeNaturally
                 : _transcript,
             key: const Key('voice-transcript'),
             maxLines: 4,
@@ -2377,9 +2365,9 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               runSpacing: AppSpacing.tight,
               alignment: WrapAlignment.center,
               children: [
-                _suggestionChip('Business loans'),
-                _suggestionChip('College scholarship'),
-                _suggestionChip('Farmer subsidy'),
+                _suggestionChip(_l10n.voiceSuggestionBusinessLoans),
+                _suggestionChip(_l10n.voiceSuggestionCollegeScholarship),
+                _suggestionChip(_l10n.voiceSuggestionFarmerSubsidy),
               ],
             ),
           ],
@@ -2391,7 +2379,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                   alignment: Alignment.centerRight,
                   child: _cloudSessionInUse
                       ? Semantics(
-                          label: 'Device echo and noise control is active',
+                          label: _l10n.voiceSemNoiseControlOn,
                           child: const Icon(
                             Icons.noise_control_off_rounded,
                             color: Color(0xFF34D399),
@@ -2405,11 +2393,11 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               Semantics(
                 button: true,
                 label: _speaking
-                    ? 'Interrupt assistant'
+                    ? _l10n.voiceSemInterrupt
                     : _isListening
-                    ? 'Stop listening'
-                    : 'Start listening',
-                hint: 'Double tap to control the microphone',
+                    ? _l10n.voiceStopListeningSemantic
+                    : _l10n.voiceStartListeningSemantic,
+                hint: _l10n.voiceSemMicHint,
                 onTap: _toggleListening,
                 excludeSemantics: true,
                 child: IconButton.filled(
@@ -2449,10 +2437,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           const SizedBox(height: AppSpacing.sm),
           Text(
             _speaking
-                ? 'Interrupt'
+                ? _l10n.companionInterrupt
                 : _isListening
-                ? 'Tap when finished'
-                : 'Tap to speak',
+                ? _l10n.voiceTapWhenFinished
+                : _l10n.companionTapToSpeak,
             textAlign: TextAlign.center,
             style: GoogleFonts.inter(
               color: _statusColor,
@@ -2463,7 +2451,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           if (_cloudSessionInUse) ...[
             const SizedBox(height: AppSpacing.tight),
             Semantics(
-              label: 'Device echo and noise control is on',
+              label: _l10n.voiceSemNoiseControlOn,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -2474,9 +2462,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                   ),
                   const SizedBox(width: AppSpacing.tight),
                   Text(
-                    _presentInTamil
-                        ? 'சாதன சத்தக் கட்டுப்பாடு'
-                        : 'Device noise control',
+                    _l10n.voiceDeviceNoiseControl,
                     style: GoogleFonts.inter(
                       color: const Color(0xFF6EE7B7),
                       fontSize: 9.5,
@@ -2501,8 +2487,8 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                     decoration: InputDecoration(
                       isDense: true,
                       hintText: _isCompanion
-                          ? 'Type to Saarthi...'
-                          : 'Type instead...',
+                          ? _l10n.voiceTypeToSaarthiHint
+                          : _l10n.voiceTypeInstead,
                       hintStyle: const TextStyle(color: Color(0xFF64748B)),
                       filled: true,
                       fillColor: Colors.white.withValues(alpha: 0.04),
@@ -2516,7 +2502,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                 const SizedBox(width: AppSpacing.tight),
                 IconButton(
                   key: const Key('voice-send-text'),
-                  tooltip: 'Send message',
+                  tooltip: _l10n.voiceSendMessageTooltip,
                   onPressed: _sendTypedInput,
                   icon: Icon(Icons.send_rounded, color: _accent),
                 ),
@@ -2535,7 +2521,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         : _conversationTurns.sublist(_conversationTurns.length - turnLimit);
     return Semantics(
       container: true,
-      label: 'Conversation transcript',
+      label: _l10n.voiceConversationTranscript,
       child: Container(
         key: const Key('voice-conversation-transcript'),
         padding: const EdgeInsets.all(AppSpacing.md),
@@ -2552,7 +2538,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                 Icon(Icons.forum_outlined, color: _accent, size: 16),
                 const SizedBox(width: AppSpacing.sm),
                 Text(
-                  _presentInTamil ? 'உரையாடல்' : 'Conversation',
+                  _l10n.voiceConversation,
                   style: GoogleFonts.inter(
                     color: const Color(0xFFCBD5E1),
                     fontSize: 11,
@@ -2575,8 +2561,8 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         ? _accent.withValues(alpha: 0.24)
         : Colors.white.withValues(alpha: 0.075);
     final label = isUser
-        ? (_presentInTamil ? 'நீங்கள்' : 'You')
-        : (_presentInTamil ? 'உதவியாளர்' : 'Assistant');
+        ? _l10n.voiceSpeakerYou
+        : _l10n.voiceSpeakerAssistant;
     return Align(
       alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Semantics(
@@ -2630,9 +2616,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               if (turn.schemeMatches.isNotEmpty) ...[
                 const SizedBox(height: 9),
                 Text(
-                  _presentInTamil
-                      ? 'உங்களுக்கு பொருத்தமானவை'
-                      : 'Recommended for you',
+                  _l10n.voiceRecommendedForYou,
                   style: GoogleFonts.inter(
                     color: const Color(0xFF86EFAC),
                     fontSize: 10,
@@ -2726,7 +2710,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
   Widget _buildLanguageSelector() {
     if (!_showFallbackPicker) {
       return Semantics(
-        label: 'Voice language $_languageBadgeLabel',
+        label: _l10n.voiceLanguageSemantic(_languageBadgeLabel),
         child: Container(
           key: const Key('voice-language-auto-badge'),
           padding: const EdgeInsets.symmetric(
@@ -2804,7 +2788,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          _presentInTamil ? 'நான் புரிந்துகொண்டது' : 'What I understood',
+          _l10n.voiceWhatIUnderstood,
           style: GoogleFonts.inter(
             color: const Color(0xFFCBD5E1),
             fontSize: 10.5,
@@ -2830,7 +2814,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                         : const Color(0xFF60A5FA),
                   ),
                   label: Text(
-                    '${_factLabel(context, fact.key)}: ${_displayFactValue(fact)}',
+                    '${_factLabel(context, fact.key)}: ${_displayFactValue(_l10n, fact)}',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 11,
@@ -2890,7 +2874,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               ),
               IconButton(
                 key: const Key('voice-repeat-question'),
-                tooltip: 'Repeat question',
+                tooltip: _l10n.voiceRepeatQuestionTooltip,
                 onPressed: _speakQuestionAndListen,
                 icon: const Icon(
                   Icons.volume_up_outlined,
@@ -2935,7 +2919,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             Padding(
               padding: const EdgeInsets.only(top: AppSpacing.tight),
               child: Text(
-                'Speech output is unavailable; tap the microphone to answer.',
+                _l10n.voiceSpeechOutputUnavailable,
                 style: GoogleFonts.inter(
                   color: const Color(0xFFFBBF24),
                   fontSize: 9.5,
@@ -2960,9 +2944,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           children: [
             Expanded(
               child: Text(
-                _presentInTamil
-                    ? 'உங்களுக்கு பொருத்தமான திட்டங்கள்'
-                    : 'Schemes suited to your situation',
+                _l10n.voiceSchemesSuitedToSituation,
                 style: GoogleFonts.inter(
                   color: Colors.white,
                   fontSize: 11.5,
@@ -2971,7 +2953,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               ),
             ),
             Text(
-              '${allRecommendations.length} found',
+              _l10n.voiceFoundCount(allRecommendations.length),
               key: const Key('voice-result-count'),
               style: GoogleFonts.inter(
                 color: const Color(0xFF93C5FD),
@@ -3005,8 +2987,8 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             ),
             label: Text(
               _showAllRecommendations
-                  ? 'Show top 3'
-                  : 'Show all ${allRecommendations.length} matches',
+                  ? _l10n.voiceShowTop3
+                  : _l10n.voiceShowAllMatches(allRecommendations.length),
             ),
           ),
         if (widget.onProfileConfirmed != null &&
@@ -3049,7 +3031,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                 child: FitOneLine(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    _isCompanion ? 'Saarthi' : 'Ask IN AI',
+                    _isCompanion ? 'Saarthi' : _l10n.askAi,
                     style: GoogleFonts.inter(
                       color: Colors.white,
                       fontSize: 11.5,
@@ -3082,7 +3064,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               icon: const Icon(Icons.open_in_new, size: 14),
               label: Text(
                 reply.sourceLabel.isEmpty
-                    ? 'Open official source'
+                    ? _l10n.voiceOpenOfficialSource
                     : reply.sourceLabel,
                 style: const TextStyle(fontSize: 10.5),
               ),
@@ -3102,13 +3084,11 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         ? Icons.verified_outlined
         : Icons.cloud_off_outlined;
     final title = switch (_groundingPhase) {
-      _OnlineGroundingPhase.checking => 'Checking official sources…',
+      _OnlineGroundingPhase.checking => _l10n.voiceGroundingChecking,
       _OnlineGroundingPhase.found =>
-        'Grounded online · ${_groundedSources.length} official ${_groundedSources.length == 1 ? 'source' : 'sources'}',
-      _OnlineGroundingPhase.unavailable =>
-        'Offline · using private on-device knowledge',
-      _OnlineGroundingPhase.noSources =>
-        'Official page unavailable · using the verified local catalog',
+        _l10n.voiceGroundingFoundSources(_groundedSources.length),
+      _OnlineGroundingPhase.unavailable => _l10n.voiceGroundingUnavailable,
+      _OnlineGroundingPhase.noSources => _l10n.voiceGroundingNoSources,
       _OnlineGroundingPhase.idle => '',
     };
     if (!_isCompanion) {
@@ -3117,10 +3097,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           : null;
       return Container(
         key: const Key('voice-online-grounding'),
-        padding: const EdgeInsets.symmetric(
-          horizontal: 10,
-          vertical: AppSpacing.sm,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
           color: const Color(0xFF0F1D2E),
           borderRadius: BorderRadius.circular(12),
@@ -3183,7 +3160,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             if (isChecking || isFound) ...[
               const SizedBox(height: 3),
               Text(
-                'Only the topic and official links are checked. Your statement and profile stay on this device.',
+                _l10n.voiceGroundingPrivacyNote,
                 key: const Key('voice-grounding-privacy-note'),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -3309,7 +3286,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           if (isChecking || isFound) ...[
             const SizedBox(height: AppSpacing.tight),
             Text(
-              'Only the topic and official links are checked. Your statement and profile stay on this device.',
+              _l10n.voiceGroundingPrivacyNote,
               key: const Key('voice-grounding-privacy-note'),
               style: GoogleFonts.inter(
                 color: const Color(0xFF94A3B8),
@@ -3328,18 +3305,18 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     if (uri == null || !uri.hasScheme) return;
     final opened = await launchUrl(uri, mode: LaunchMode.externalApplication);
     if (!opened && mounted) {
-      setState(() => _message = 'Could not open the official source.');
+      setState(() => _message = _l10n.voiceCouldNotOpenSource);
     }
   }
 
   Widget _buildRecommendationCard(SchemeRecommendation recommendation) {
     final scheme = recommendation.scheme;
     final label = switch (recommendation.state) {
-      SchemeMatchState.strongMatch => 'Strong match',
-      SchemeMatchState.likelyMatch => 'Likely match',
-      SchemeMatchState.needsInformation => 'Needs confirmation',
-      SchemeMatchState.notSuitable => 'Not suitable',
-      SchemeMatchState.noConfidentMatch => 'No confident match',
+      SchemeMatchState.strongMatch => _l10n.voiceMatchStrong,
+      SchemeMatchState.likelyMatch => _l10n.voiceMatchLikely,
+      SchemeMatchState.needsInformation => _l10n.voiceMatchNeedsConfirmation,
+      SchemeMatchState.notSuitable => _l10n.voiceMatchNotSuitable,
+      SchemeMatchState.noConfidentMatch => _l10n.voiceMatchNoConfident,
     };
     final color = switch (recommendation.state) {
       SchemeMatchState.strongMatch => const Color(0xFF22C55E),
@@ -3403,17 +3380,17 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
               if (recommendation.reasons.isNotEmpty)
                 _resultLine(
                   Icons.check_circle_outline,
-                  _presentInTamil
-                      ? 'ஏன் பொருந்துகிறது: ${recommendation.reasons.join(' • ')}'
-                      : 'Why this fits: ${recommendation.reasons.join(' • ')}',
+                  _l10n.voiceWhyThisFits(
+                    recommendation.reasons.join(' • '),
+                  ),
                   const Color(0xFF86EFAC),
                 ),
               if (recommendation.unknownRequirements.isNotEmpty)
                 _resultLine(
                   Icons.help_outline,
-                  _presentInTamil
-                      ? 'சரிபார்க்க வேண்டியவை: ${recommendation.unknownRequirements.take(2).join(' • ')}'
-                      : 'Still confirm: ${recommendation.unknownRequirements.take(2).join(' • ')}',
+                  _l10n.voiceStillConfirm(
+                    recommendation.unknownRequirements.take(2).join(' • '),
+                  ),
                   const Color(0xFFFCD34D),
                 ),
               _resultLine(
@@ -3421,12 +3398,8 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                     ? Icons.verified_outlined
                     : Icons.warning_amber_outlined,
                 recommendation.isTrusted
-                    ? (_presentInTamil
-                          ? 'அதிகாரப்பூர்வ மூலத்தில் சரிபார்க்கப்பட்டது'
-                          : 'Current official source verified')
-                    : (_presentInTamil
-                          ? 'விண்ணப்பிக்கும் முன் சரிபார்க்கவும்'
-                          : 'Uncertain or historical — verify before applying'),
+                    ? _l10n.voiceSourceVerified
+                    : _l10n.voiceSourceUnverified,
                 recommendation.isTrusted
                     ? const Color(0xFF93C5FD)
                     : const Color(0xFFFCA5A5),
@@ -3467,9 +3440,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          _presentInTamil
-              ? 'உங்களுக்கான சிறந்த திட்டங்கள்'
-              : 'Best matching schemes',
+          _l10n.voiceBestMatchingSchemes,
           style: GoogleFonts.inter(
             color: Colors.white,
             fontSize: 11.5,
@@ -3519,24 +3490,24 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     final l10n = context.l10n;
     return switch (key) {
       EligibilityFactKey.age => l10n.labelAge,
-      EligibilityFactKey.state => 'State',
+      EligibilityFactKey.state => l10n.voiceFactLabelState,
       EligibilityFactKey.district => l10n.filterDistrict,
       EligibilityFactKey.annualIncome => l10n.labelAnnualIncome,
       EligibilityFactKey.gender => l10n.labelGender,
       EligibilityFactKey.community => l10n.labelCommunity,
-      EligibilityFactKey.occupation => 'Situation',
+      EligibilityFactKey.occupation => l10n.voiceFactLabelSituation,
       EligibilityFactKey.education => l10n.labelEducation,
       EligibilityFactKey.disability => l10n.labelDisability,
-      EligibilityFactKey.maritalStatus => 'Marital status',
+      EligibilityFactKey.maritalStatus => l10n.voiceFactLabelMaritalStatus,
       EligibilityFactKey.studentStatus => l10n.empStudent,
       EligibilityFactKey.businessStage => l10n.labelBusinessStage,
-      EligibilityFactKey.businessSector => 'Sector',
-      EligibilityFactKey.fundingNeed => 'Funding need',
-      EligibilityFactKey.landholding => 'Landholding',
+      EligibilityFactKey.businessSector => l10n.voiceFactLabelSector,
+      EligibilityFactKey.fundingNeed => l10n.voiceFactLabelFundingNeed,
+      EligibilityFactKey.landholding => l10n.voiceFactLabelLandholding,
     };
   }
 
-  static String _displayFactValue(EligibilityFact fact) {
+  static String _displayFactValue(AppLocalizations l10n, EligibilityFact fact) {
     if ({
       EligibilityFactKey.annualIncome,
       EligibilityFactKey.fundingNeed,
@@ -3544,15 +3515,15 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
       final amount = double.tryParse(fact.value);
       if (amount != null) {
         if (amount >= 10000000) {
-          return '₹${(amount / 10000000).toStringAsFixed(1)} crore';
+          return l10n.voiceFactCrore((amount / 10000000).toStringAsFixed(1));
         }
         if (amount >= 100000) {
-          return '₹${(amount / 100000).toStringAsFixed(1)} lakh';
+          return l10n.voiceFactLakh((amount / 100000).toStringAsFixed(1));
         }
       }
     }
     return fact.hasConflict
-        ? '${fact.value} (profile: ${fact.conflictingValue})'
+        ? l10n.voiceFactConflictFormat(fact.conflictingValue!, fact.value)
         : fact.value;
   }
 }

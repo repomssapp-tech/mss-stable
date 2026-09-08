@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../l10n/l10n.dart';
 import '../utils/app_spacing.dart';
 
 class CustomConfirmDialog extends StatelessWidget {
@@ -8,8 +9,10 @@ class CustomConfirmDialog extends StatelessWidget {
   final Color iconBgColor;
   final String title;
   final String message;
-  final String cancelLabel;
-  final String confirmLabel;
+  /// When null, falls back to the localized default in [build].
+  final String? cancelLabel;
+  /// When null, falls back to the localized default in [build].
+  final String? confirmLabel;
   final Color confirmColor;
   final VoidCallback onConfirm;
   final bool isDestructive;
@@ -21,8 +24,8 @@ class CustomConfirmDialog extends StatelessWidget {
     required this.iconBgColor,
     required this.title,
     required this.message,
-    this.cancelLabel = 'Cancel',
-    this.confirmLabel = 'Confirm',
+    this.cancelLabel,
+    this.confirmLabel,
     required this.confirmColor,
     required this.onConfirm,
     this.isDestructive = false,
@@ -35,8 +38,8 @@ class CustomConfirmDialog extends StatelessWidget {
     required Color iconBgColor,
     required String title,
     required String message,
-    String cancelLabel = 'Cancel',
-    String confirmLabel = 'Confirm',
+    String? cancelLabel,
+    String? confirmLabel,
     required Color confirmColor,
     required VoidCallback onConfirm,
     bool isDestructive = false,
@@ -65,6 +68,8 @@ class CustomConfirmDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final resolvedCancelLabel = cancelLabel ?? context.l10n.dialogCancel;
+    final resolvedConfirmLabel = confirmLabel ?? context.l10n.dialogConfirm;
     return Container(
       padding: const EdgeInsets.all(AppSpacing.xxl),
       decoration: BoxDecoration(
@@ -133,7 +138,7 @@ class CustomConfirmDialog extends StatelessWidget {
                   ),
                   onPressed: () => Navigator.pop(context),
                   child: Text(
-                    cancelLabel,
+                    resolvedCancelLabel,
                     style: GoogleFonts.inter(
                       fontSize: 13.5,
                       fontWeight: FontWeight.w600,
@@ -161,7 +166,7 @@ class CustomConfirmDialog extends StatelessWidget {
                     onConfirm();
                   },
                   child: Text(
-                    confirmLabel,
+                    resolvedConfirmLabel,
                     style: GoogleFonts.inter(
                       fontSize: 13.5,
                       fontWeight: FontWeight.bold,
