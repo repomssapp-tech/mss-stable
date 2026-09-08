@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'regular_mode/language_selection_screen.dart';
 import 'login_screen.dart';
 import 'navigation_mode_screen.dart';
+import '../l10n/l10n.dart';
 import '../providers/app_state_provider.dart';
 import '../services/auth_service.dart';
 import '../services/session_cache_service.dart';
@@ -253,7 +254,7 @@ class _SplashScreenState extends State<SplashScreen>
               ),
               const SizedBox(height: AppSpacing.lg),
               Text(
-                'No internet connection',
+                context.l10n.splashNoInternetTitle,
                 style: GoogleFonts.poppins(
                   fontSize: 17,
                   fontWeight: FontWeight.w700,
@@ -262,7 +263,7 @@ class _SplashScreenState extends State<SplashScreen>
               ),
               const SizedBox(height: AppSpacing.sm),
               Text(
-                'Connect to the internet to sign in or restore this app.',
+                context.l10n.splashNoInternetBody,
                 textAlign: TextAlign.center,
                 style: GoogleFonts.inter(
                   fontSize: 13,
@@ -278,7 +279,7 @@ class _SplashScreenState extends State<SplashScreen>
                     Navigator.of(dialogContext).pop();
                     _continueStartup();
                   },
-                  child: const Text('Retry'),
+                  child: Text(context.l10n.retry),
                 ),
               ),
             ],
@@ -382,7 +383,7 @@ class _SplashScreenState extends State<SplashScreen>
                         ),
                         const SizedBox(height: AppSpacing.xl),
                         Text(
-                          'Loading...',
+                          context.l10n.loading,
                           style: GoogleFonts.inter(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
@@ -392,7 +393,7 @@ class _SplashScreenState extends State<SplashScreen>
                         ),
                         const SizedBox(height: AppSpacing.sm),
                         Text(
-                          'Please wait while we prepare\nsomething amazing for you',
+                          context.l10n.splashPreparingSubtitle,
                           style: GoogleFonts.inter(
                             fontSize: 12,
                             color: Colors.white70,

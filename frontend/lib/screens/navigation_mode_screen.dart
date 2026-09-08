@@ -77,7 +77,7 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                                     color: kSlate800,
                                     size: 24,
                                   ),
-                                  tooltip: 'Back',
+                                  tooltip: context.l10n.back,
                                   onPressed: () {
                                     Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(

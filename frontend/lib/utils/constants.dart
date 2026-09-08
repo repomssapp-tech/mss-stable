@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
+
 class AppConstants {
   // App Color Palette (New Light-Themed Premium Palette)
   static const Color primaryColor = Color(0xFF2563EB); // Royal Blue
@@ -78,20 +80,20 @@ class AppConstants {
     return translations[lang]?[key] ?? translations['en']?[key] ?? key;
   }
 
-  /// Returns localized greeting matching the actual time of day:
-  /// - Morning (05:00 - 11:59): Good Morning / காலை வணக்கம்
-  /// - Afternoon (12:00 - 16:59): Good Afternoon / மதிய வணக்கம்
-  /// - Evening / Night (17:00 - 04:59): Good Evening / மாலை வணக்கம்
-  static String getTimeGreeting({bool isTa = false, bool withComma = true}) {
+  /// Returns the localized greeting matching the actual time of day:
+  /// - Morning (05:00 - 11:59): goodMorning
+  /// - Afternoon (12:00 - 16:59): goodAfternoon
+  /// - Evening / Night (17:00 - 04:59): goodEvening
+  ///
+  /// The ARB values already carry the trailing comma (e.g. "Good Morning,").
+  static String getTimeGreeting(AppLocalizations l10n) {
     final hour = DateTime.now().hour;
-    final String greeting;
     if (hour >= 5 && hour < 12) {
-      greeting = isTa ? 'காலை வணக்கம்' : 'Good Morning';
+      return l10n.goodMorning;
     } else if (hour >= 12 && hour < 17) {
-      greeting = isTa ? 'மதிய வணக்கம்' : 'Good Afternoon';
+      return l10n.goodAfternoon;
     } else {
-      greeting = isTa ? 'மாலை வணக்கம்' : 'Good Evening';
+      return l10n.goodEvening;
     }
-    return withComma ? '$greeting,' : greeting;
   }
 }

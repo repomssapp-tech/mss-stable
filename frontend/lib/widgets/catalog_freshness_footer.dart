@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../l10n/l10n.dart';
 import '../services/mss_catalog_bundle.dart';
 import '../utils/app_spacing.dart';
 
@@ -12,16 +13,13 @@ class CatalogFreshnessFooter extends StatelessWidget {
 
   final bool isTa;
 
-  String _formatDate(DateTime date) {
-    const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-    ];
+  String _formatDate(DateTime date, List<String> months) {
     return '${months[date.month - 1]} ${date.day}, ${date.year}';
   }
 
   @override
   Widget build(BuildContext context) {
+    final months = context.l10n.monthAbbrList.split(',');
     return FutureBuilder<MssCatalogBundle>(
       future: MssCatalogBundle.load(),
       builder: (context, snapshot) {
@@ -29,7 +27,7 @@ class CatalogFreshnessFooter extends StatelessWidget {
         if (bundle == null) return const SizedBox.shrink();
 
         final dateText = bundle.releasedAt != null
-            ? _formatDate(bundle.releasedAt!.toLocal())
+            ? _formatDate(bundle.releasedAt!.toLocal(), months)
             : null;
         final label = isTa
             ? 'உள்ளூர் பட்டியல் பதிப்பு ${bundle.releaseTag}'

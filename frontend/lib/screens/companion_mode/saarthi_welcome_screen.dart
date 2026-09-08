@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import '../../l10n/l10n.dart';
 import '../../main.dart';
 import '../../providers/app_state_provider.dart';
 import '../../services/voice_agent_preferences.dart';
@@ -46,7 +47,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
       if (!mounted) return;
       AppToast.showError(
         context,
-        'Unable to preview voice. Please check your audio settings.',
+        context.l10n.welcomePreviewVoiceError,
       );
     } finally {
       if (mounted) setState(() => _previewingVoice = false);
@@ -60,7 +61,13 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    // Live per-tap preview: content inside resolves `context.l10n` to the
+    // currently selected language before "Let's Begin" commits it via the
+    // provider. Helper builders that need it take the below-override context.
+    return Localizations.override(
+      context: context,
+      locale: Locale(_selectedLang),
+      child: Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       body: SafeArea(
         child: LayoutBuilder(
@@ -116,7 +123,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Meet',
+                                              context.l10n.welcomeMeetPrefix,
                                               style: GoogleFonts.poppins(
                                                 fontSize: 26,
                                                 fontWeight: FontWeight.bold,
@@ -209,7 +216,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                "I'm Saarthi, your smart assistant.",
+                                                context.l10n.welcomeIntroLine1,
                                                 style: GoogleFonts.inter(
                                                   fontSize: 13.5,
                                                   fontWeight: FontWeight.bold,
@@ -218,7 +225,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                               ),
                                               const SizedBox(height: AppSpacing.xs),
                                               Text(
-                                                "I'll help you discover the right schemes, explain everything simply, and guide you at every step.",
+                                                context.l10n.welcomeIntroLine2,
                                                 style: GoogleFonts.inter(
                                                   fontSize: 11,
                                                   color: kSlate500,
@@ -254,7 +261,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                   children: [
                                     Flexible(
                                       child: Text(
-                                        'Saarthi can help you with',
+                                        context.l10n.welcomeSectionHeader,
                                         style: GoogleFonts.inter(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
@@ -277,14 +284,14 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                     Expanded(
                                       child: _buildFeatureCard(
                                         icon: Icons.mic_none_rounded,
-                                        title: 'Talk Naturally',
+                                        title: context.l10n.welcomeFeatureTalkNaturally,
                                       ),
                                     ),
                                     const SizedBox(width: AppSpacing.sm),
                                     Expanded(
                                       child: _buildFeatureCard(
                                         icon: Icons.language_outlined,
-                                        title: 'Find Right Schemes',
+                                        title: context.l10n.welcomeFeatureFindSchemes,
                                       ),
                                     ),
                                   ],
@@ -295,14 +302,14 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                     Expanded(
                                       child: _buildFeatureCard(
                                         icon: Icons.alt_route_outlined,
-                                        title: 'Business Roadmap',
+                                        title: context.l10n.welcomeFeatureBusinessRoadmap,
                                       ),
                                     ),
                                     const SizedBox(width: AppSpacing.sm),
                                     Expanded(
                                       child: _buildFeatureCard(
                                         icon: Icons.assignment_outlined,
-                                        title: 'Application Support',
+                                        title: context.l10n.welcomeFeatureApplicationSupport,
                                       ),
                                     ),
                                   ],
@@ -326,7 +333,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                     const SizedBox(width: AppSpacing.sm),
                                     Flexible(
                                       child: Text(
-                                        "Choose Language",
+                                        context.l10n.welcomeChooseLanguage,
                                         softWrap: true,
                                         style: GoogleFonts.inter(
                                           fontSize: 14.5,
@@ -339,7 +346,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                 ),
                                 const SizedBox(height: AppSpacing.xs),
                                 Text(
-                                  "Choose your preferred language so Saarthi can talk to you better.",
+                                  context.l10n.welcomeChooseLanguageSubtitle,
                                   style: GoogleFonts.inter(
                                     fontSize: 11,
                                     color: kSlate500,
@@ -363,9 +370,9 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                   circleTextColor: const Color(0xFFEA580C),
                                 ),
                                 const SizedBox(height: AppSpacing.xs),
-                                _buildVoiceSelector(),
+                                _buildVoiceSelector(context),
                                 const SizedBox(height: AppSpacing.sm),
-                                _buildInfoBanner(),
+                                _buildInfoBanner(context),
                               ],
                             ),
                           ],
@@ -424,7 +431,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                     setState(() => _isSubmitting = false);
                                     AppToast.showError(
                                       context,
-                                      'Unable to save preferences to the cloud. Please check your connection and try again.',
+                                      context.l10n.welcomeSavePreferencesError,
                                     );
                                   }
                                 },
@@ -443,7 +450,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                                     Flexible(
                                       child: FitOneLine(
                                         child: Text(
-                                          "Let's Begin",
+                                          context.l10n.welcomeLetsBegin,
                                           style: GoogleFonts.inter(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
@@ -464,6 +471,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
             );
           },
         ),
+      ),
       ),
     );
   }
@@ -600,11 +608,10 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
     );
   }
 
-  Widget _buildVoiceSelector() {
-    final isTamil = _selectedLang == 'ta';
-    final voiceLabel = isTamil ? 'குரல்' : 'Voice';
-    final naturalLabel = isTamil ? 'இயற்கையான ஒலி' : 'Natural';
-    final clearLabel = isTamil ? 'தெளிவான ஒலி' : 'Clear';
+  Widget _buildVoiceSelector(BuildContext context) {
+    final voiceLabel = context.l10n.welcomeVoiceLabel;
+    final naturalLabel = context.l10n.welcomeVoiceNatural;
+    final clearLabel = context.l10n.welcomeVoiceClear;
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
@@ -671,7 +678,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
                               ),
                         const SizedBox(width: AppSpacing.xs),
                         Text(
-                          isTamil ? 'கேட்க' : 'Preview',
+                          context.l10n.welcomePreviewVoice,
                           style: GoogleFonts.inter(
                             fontSize: 11.5,
                             fontWeight: FontWeight.w600,
@@ -757,8 +764,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
     );
   }
 
-  Widget _buildInfoBanner() {
-    final isTamil = _selectedLang == 'ta';
+  Widget _buildInfoBanner(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -773,9 +779,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
         const SizedBox(width: AppSpacing.tight),
         Expanded(
           child: Text(
-            isTamil
-                ? "இதை நீங்கள் எப்போது வேண்டுமானாலும் அமைப்புகளில் மாற்றலாம்."
-                : "You can change this anytime in settings.",
+            context.l10n.welcomeChangeAnytimeNote,
             style: GoogleFonts.inter(
               fontSize: 11,
               color: kSlate500,

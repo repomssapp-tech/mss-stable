@@ -31,6 +31,12 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   bool _isLoggingOut = false;
   String _mobileNumber = '';
   String _selectedLanguage = 'en'; // 'en', 'ta'
+  // After an explicit changeLanguage(), the just-chosen value and when it was
+  // set. A realtime echo or a not-yet-updated profile row can still carry the
+  // OLD language for a moment; _reconcileServerLanguage() ignores a server
+  // value that contradicts this choice within a short window.
+  String? _pendingLanguage;
+  DateTime? _pendingLanguageSince;
   String _navigationMode = 'regular'; // 'regular', 'companion'
   int _currentTabIndex =
       0; // Bottom Navigation: 0: Home, 1: Search, 2: Categories, 3: Saved Schemes, 4: Profile
@@ -88,7 +94,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     },
   ];
 
-  // Notifications state
+  // Notifications state (temporary seed; replaced by the Supabase stream).
+  // TODO(review-seed-content): scheme title/body prose below is real-scheme
+  // communication -- Tamil in app_ta.arb (notifSeed*) is best-effort, not final.
   List<Map<String, dynamic>> _notificationsList = [
     {
       'id': 'latest_fisheries_update',
@@ -96,7 +104,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           'Fisheries and Aquaculture Infra Development Fund Scheme Launched',
       'body':
           'Government has launched the Fisheries and Aquaculture Infrastructure Development Fund to provide concessionary finance.',
-      'time': '2d ago',
+      'timeAgoCount': 2,
+      'timeAgoUnit': 'd',
       'read': false,
       'category': 'updates',
       'iconType': 'emblem',
@@ -106,7 +115,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       'title': 'PM Vidyalaxmi Education Loan Scheme',
       'body':
           'A new scheme for students to provide collateral-free education loans for higher studies.',
-      'time': '2h ago',
+      'timeAgoCount': 2,
+      'timeAgoUnit': 'h',
       'read': false,
       'category': 'new_schemes',
       'tag': 'Education',
@@ -117,7 +127,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       'title': 'PM Vishwakarma Yojana',
       'body':
           'Financial support for traditional artisans and craftspeople to upgrade their skills and tools.',
-      'time': '1d ago',
+      'timeAgoCount': 1,
+      'timeAgoUnit': 'd',
       'read': false,
       'category': 'new_schemes',
       'tag': 'Skill Development',
@@ -127,28 +138,31 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       'id': '3',
       'title': 'Post Matric Scholarship Scheme',
       'body': 'Last date to apply is approaching',
-      'time': '10m ago',
+      'timeAgoCount': 10,
+      'timeAgoUnit': 'm',
       'read': false,
       'category': 'reminders',
       'deadline': '31 May 2024',
-      'daysLeft': '5 days left',
+      'daysLeftCount': 5,
     },
     {
       'id': '4',
       'title': 'PM Internship Scheme',
       'body': 'Application window will close soon',
-      'time': '3h ago',
+      'timeAgoCount': 3,
+      'timeAgoUnit': 'h',
       'read': false,
       'category': 'reminders',
       'deadline': '15 Jun 2024',
-      'daysLeft': '20 days left',
+      'daysLeftCount': 20,
     },
     {
       'id': '5',
       'title': 'New Update on Ayushman Bharat Yojana',
       'body':
           'Changes in empanelment process for hospitals. Check full details.',
-      'time': '1d ago',
+      'timeAgoCount': 1,
+      'timeAgoUnit': 'd',
       'read': false,
       'category': 'updates',
       'iconType': 'emblem',
@@ -158,7 +172,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       'title': 'Income Limit Revised for Several Schemes',
       'body':
           'Revised income criteria effective from 1st April 2024 for multiple schemes.',
-      'time': '2d ago',
+      'timeAgoCount': 2,
+      'timeAgoUnit': 'd',
       'read': false,
       'category': 'updates',
       'iconType': 'bank',
@@ -167,7 +182,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       'id': '7',
       'title': 'Complete Your Profile',
       'body': 'Add your income details to find schemes you are eligible for.',
-      'time': '5h ago',
+      'timeAgoCount': 5,
+      'timeAgoUnit': 'h',
       'read': false,
       'category': 'profile',
       'progress': 70,
@@ -312,7 +328,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
                   dbProfile.employmentStatus != _profile.employmentStatus ||
                   dbProfile.profileCompleted != _profile.profileCompleted) {
                 _profile = _profile.mergeFrom(dbProfile);
-                _selectedLanguage = dbProfile.language;
+                _selectedLanguage = _reconcileServerLanguage(dbProfile.language);
+                _profile = _profile.copyWith(language: _selectedLanguage);
                 _navigationMode = dbProfile.navigationMode;
 
                 _recommendedSchemes = RecommendationEngine.getRecommendations(
@@ -381,13 +398,19 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
               final createdAt =
                   DateTime.tryParse(n['created_at'] ?? '') ?? DateTime.now();
               final difference = DateTime.now().difference(createdAt);
-              String timeStr = 'Just now';
+              // Store a structured (count, unit) pair; the notifications screen
+              // formats it via parameterized ARB keys so it renders in ta too.
+              int? timeAgoCount;
+              String timeAgoUnit = 'now';
               if (difference.inDays > 0) {
-                timeStr = '${difference.inDays}d ago';
+                timeAgoCount = difference.inDays;
+                timeAgoUnit = 'd';
               } else if (difference.inHours > 0) {
-                timeStr = '${difference.inHours}h ago';
+                timeAgoCount = difference.inHours;
+                timeAgoUnit = 'h';
               } else if (difference.inMinutes > 0) {
-                timeStr = '${difference.inMinutes}m ago';
+                timeAgoCount = difference.inMinutes;
+                timeAgoUnit = 'm';
               }
 
               final type = n['notification_type'] ?? 'updates';
@@ -396,7 +419,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
                 'id': n['id'].toString(),
                 'title': n['title'] ?? '',
                 'body': n['message'] ?? '',
-                'time': timeStr,
+                'timeAgoCount': timeAgoCount,
+                'timeAgoUnit': timeAgoUnit,
                 'read': n['is_read'] ?? false,
                 'category': type,
                 'created_at': n['created_at'],
@@ -411,9 +435,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
                 mapped['deadline'] = n['title'].toString().contains('Matric')
                     ? '31 May 2026'
                     : '15 Jun 2026';
-                mapped['daysLeft'] = n['title'].toString().contains('Matric')
-                    ? '5 days left'
-                    : '20 days left';
+                mapped['daysLeftCount'] =
+                    n['title'].toString().contains('Matric') ? 5 : 20;
               } else if (type == 'updates') {
                 mapped['iconType'] = n['title'].toString().contains('Ayushman')
                     ? 'emblem'
@@ -467,7 +490,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           final dbProfile = await SchemeRepository.instance.getProfile(user.id);
           if (dbProfile != null) {
             _profile = _profile.mergeFrom(dbProfile);
-            _selectedLanguage = dbProfile.language;
+            _selectedLanguage = _reconcileServerLanguage(dbProfile.language);
+            _profile = _profile.copyWith(language: _selectedLanguage);
             _navigationMode = dbProfile.navigationMode;
             // Persist the merged (most complete) profile locally, and push
             // back to Supabase any field the DB row was missing.
@@ -974,9 +998,43 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     );
   }
 
+  /// Resolve the language to apply when a server profile row / realtime echo
+  /// arrives. If the user just switched language explicitly, a server value
+  /// that still shows the OLD language is a stale echo — keep the user's
+  /// choice for a short window. Once the server agrees (or the window lapses)
+  /// go back to trusting it.
+  String _reconcileServerLanguage(String serverLang) {
+    final pending = _pendingLanguage;
+    final since = _pendingLanguageSince;
+    if (pending == null || since == null) return serverLang;
+    if (serverLang == pending) {
+      _pendingLanguage = null;
+      _pendingLanguageSince = null;
+      return serverLang;
+    }
+    if (DateTime.now().difference(since) < const Duration(seconds: 20)) {
+      return pending;
+    }
+    _pendingLanguage = null;
+    _pendingLanguageSince = null;
+    return serverLang;
+  }
+
+  @visibleForTesting
+  void debugMarkLanguagePending(String lang) {
+    _pendingLanguage = lang;
+    _pendingLanguageSince = DateTime.now();
+  }
+
+  @visibleForTesting
+  String debugReconcileServerLanguage(String serverLang) =>
+      _reconcileServerLanguage(serverLang);
+
   // Setters & Actions
   Future<void> changeLanguage(String lang) async {
     _selectedLanguage = lang;
+    _pendingLanguage = lang;
+    _pendingLanguageSince = DateTime.now();
     _profile = _profile.copyWith(language: lang, updatedAt: DateTime.now());
     await loadSchemes(forceRefresh: true);
     notifyListeners();
@@ -1030,7 +1088,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     final dbProfile = await SchemeRepository.instance.getProfile(user.id);
     if (dbProfile != null) {
       _profile = _profile.mergeFrom(dbProfile);
-      _selectedLanguage = dbProfile.language;
+      _selectedLanguage = _reconcileServerLanguage(dbProfile.language);
+      _profile = _profile.copyWith(language: _selectedLanguage);
       _navigationMode = dbProfile.navigationMode;
 
       if ((_profile.profilePhoto.isEmpty ||
@@ -1078,6 +1137,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _isLoggedIn = false;
     _mobileNumber = '';
     _selectedLanguage = 'en';
+    _pendingLanguage = null;
+    _pendingLanguageSince = null;
     _navigationMode = 'regular';
     _profile = UserProfile();
     _bookmarkedIds.clear();
@@ -1144,6 +1205,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _isLoggedIn = false;
     _mobileNumber = '';
     _selectedLanguage = 'en';
+    _pendingLanguage = null;
+    _pendingLanguageSince = null;
     _navigationMode = 'regular';
     _profile = UserProfile();
     _bookmarkedIds.clear();
@@ -1228,7 +1291,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
         if (remoteUpdated.isAfter(localUpdated)) {
           _profile = syncProfile;
-          _selectedLanguage = syncProfile.language;
+          _selectedLanguage = _reconcileServerLanguage(syncProfile.language);
+          _profile = _profile.copyWith(language: _selectedLanguage);
           _navigationMode = syncProfile.navigationMode;
           await SessionCacheService.instance.saveProfile(_profile);
           notifyListeners();

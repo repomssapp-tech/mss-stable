@@ -113,7 +113,9 @@ class SearchScreenState extends State<SearchScreen> {
   Map<String, int> _categoryCounts = {};
   bool _isLoadingCounts = true;
   int _matchingProfileCount = 0;
-  String _dynamicSearchHintText = "Search PMEGP, Startup India, MSME loans...";
+  // Null until the catalog-derived hint loads; render sites fall back to the
+  // localized `searchHintFallback` string so the placeholder is correct in ta too.
+  String? _dynamicSearchHintText;
   // Bumped on every _triggerSearch call; a stale request that resolves after
   // a newer one must not overwrite it (out-of-order async race -- the search
   // screen's state survives Home<->Search tab switches via IndexedStack, so
@@ -407,7 +409,7 @@ class SearchScreenState extends State<SearchScreen> {
     await showGeneralDialog<void>(
       context: context,
       barrierDismissible: false,
-      barrierLabel: 'Voice assistant',
+      barrierLabel: context.l10n.voiceAssistantLabel,
       barrierColor: Colors.transparent,
       transitionDuration: const Duration(milliseconds: 220),
       pageBuilder: (overlayContext, animation, secondaryAnimation) {
@@ -648,9 +650,11 @@ class SearchScreenState extends State<SearchScreen> {
                       // Try banner when idle
                       GestureDetector(
                         onTap: () {
-                          _searchController.text = _dynamicSearchHintText;
+                          final hint = _dynamicSearchHintText ??
+                              context.l10n.searchHintFallback;
+                          _searchController.text = hint;
                           _searchFocusNode.unfocus();
-                          _triggerSearch(_dynamicSearchHintText);
+                          _triggerSearch(hint);
                         },
                         child: Row(
                           children: [
@@ -665,7 +669,7 @@ class SearchScreenState extends State<SearchScreen> {
                                 fit: BoxFit.scaleDown,
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "${context.l10n.trySearchPrefix} $_dynamicSearchHintText",
+                                  "${context.l10n.trySearchPrefix} ${_dynamicSearchHintText ?? context.l10n.searchHintFallback}",
                                   style: GoogleFonts.inter(
                                     color: const Color(0xFF64748B),
                                     fontSize: _scaledFontSize(11),
@@ -720,7 +724,6 @@ class SearchScreenState extends State<SearchScreen> {
 
   // 1. Custom App Bar (Styled like Discover page header)
   Widget _buildCustomAppBar(BuildContext context, AppProvider provider) {
-    final isTa = provider.selectedLanguage == 'ta';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -734,9 +737,7 @@ class SearchScreenState extends State<SearchScreen> {
         ),
         const SizedBox(height: AppSpacing.hairline),
         Text(
-          isTa
-              ? 'அனைத்து அரசுத் திட்டங்களையும் எளிதாகத் தேடுங்கள்'
-              : 'Find and explore all eligible government schemes',
+          context.l10n.searchDiscoverSubtitle,
           style: GoogleFonts.inter(
             fontSize: 12,
             color: const Color(0xFF64748B),
@@ -844,7 +845,7 @@ class SearchScreenState extends State<SearchScreen> {
             fontSize: 12.5,
           ),
           prefixIcon: IconButton(
-            tooltip: 'Search',
+            tooltip: context.l10n.search,
             icon: const Icon(Icons.search, color: Color(0xFF2563EB), size: 20),
             onPressed: () {
               if (_searchController.text.trim().isNotEmpty) {
@@ -858,7 +859,7 @@ class SearchScreenState extends State<SearchScreen> {
             children: [
               if (hasText)
                 IconButton(
-                  tooltip: 'Clear search',
+                  tooltip: context.l10n.clearSearchTooltip,
                   icon: const Icon(
                     Icons.close,
                     color: Color(0xFF94A3B8),
@@ -879,7 +880,9 @@ class SearchScreenState extends State<SearchScreen> {
                 ),
               if (hasText) const SizedBox(width: AppSpacing.xs),
               IconButton(
-                tooltip: _isDictating ? 'Stop voice search' : 'Voice search',
+                tooltip: _isDictating
+                    ? context.l10n.stopVoiceSearchTooltip
+                    : context.l10n.voiceSearchTooltip,
                 icon: Icon(
                   _isDictating ? Icons.mic : Icons.mic_none,
                   color: _isDictating
@@ -1014,7 +1017,6 @@ class SearchScreenState extends State<SearchScreen> {
   // 3. Filters strip: Filter · For Me · Sort  (nothing else).
   Widget _buildDiscoverFiltersStrip() {
     final provider = Provider.of<AppProvider>(context);
-    final isTa = provider.selectedLanguage == 'ta';
     final int facetCount = activeSchemeFilterCount(provider.filters);
 
     return SingleChildScrollView(
@@ -1100,7 +1102,7 @@ class SearchScreenState extends State<SearchScreen> {
 
           // Sort
           _buildDropdownChip(
-            isTa ? 'வரிசைப்படுத்து' : 'Sort',
+            context.l10n.sortLabel,
             const [
               'Relevance',
               'Best match for me',
@@ -1180,7 +1182,6 @@ class SearchScreenState extends State<SearchScreen> {
     final String queryText = _searchController.text.trim();
 
     if (_searchResults.isEmpty) {
-      final isTa = provider.selectedLanguage == 'ta';
       final bool forMeNeedsProfile =
           _activeFilter == 'For Me' &&
           _forMeEmptyState == ForMeEmptyState.completeProfile;
@@ -1193,32 +1194,20 @@ class SearchScreenState extends State<SearchScreen> {
       final IconData icon;
       if (forMeNeedsProfile) {
         icon = Icons.assignment_ind_outlined;
-        title = isTa
-            ? 'தனிப்பட்ட பரிந்துரைகளுக்கு உங்கள் சுயவிவரத்தை நிரப்பவும்'
-            : 'Complete your profile to see personalised matches';
-        subtitle = isTa
-            ? 'வயது, பாலினம் மற்றும் மாநிலம் சேர்த்தால் "எனக்கானது" உங்களுக்கு ஏற்ற திட்டங்களைக் காட்டும்.'
-            : 'Add your date of birth, gender and state so "For Me" can match schemes to you.';
+        title = context.l10n.searchCompleteProfileTitle;
+        subtitle = context.l10n.searchCompleteProfileSubtitle;
       } else if (forMeNoMatches) {
         icon = Icons.search_off_rounded;
-        title = isTa
-            ? 'உங்கள் சுயவிவரத்திற்கு இப்போது பொருந்தும் திட்டங்கள் இல்லை'
-            : 'No schemes match your profile yet';
-        subtitle = isTa
-            ? 'வடிகட்டிகளை மாற்றவும் அல்லது சுயவிவரத்தைப் புதுப்பிக்கவும்.'
-            : 'Try adjusting the filters, or update your profile details.';
+        title = context.l10n.searchNoProfileMatchesTitle;
+        subtitle = context.l10n.searchNoProfileMatchesSubtitle;
       } else if (queryText.isNotEmpty) {
         icon = Icons.search_off_rounded;
         title = context.l10n.noSchemesFound(queryText);
         subtitle = context.l10n.tryDifferentKeyword;
       } else {
         icon = Icons.filter_alt_off_outlined;
-        title = isTa
-            ? 'தேர்ந்தெடுக்கப்பட்ட வடிகட்டிகளுக்கு பொருந்தும் திட்டங்கள் எதுவும் இல்லை'
-            : 'No schemes found matching your filters';
-        subtitle = isTa
-            ? 'வடிகட்டிகளை மாற்றவும் அல்லது மீட்டமைக்கவும்.'
-            : 'Try adjusting or clearing your filters to see more results.';
+        title = context.l10n.searchNoFilterMatchesTitle;
+        subtitle = context.l10n.searchNoFilterMatchesSubtitle;
       }
 
       return ListView(
@@ -1268,20 +1257,15 @@ class SearchScreenState extends State<SearchScreen> {
         if (index == 0) {
           final isForMe = _activeFilter == 'For Me';
           final titleText = isForMe
-              ? (provider.selectedLanguage == 'ta'
-                    ? "உங்களுக்கான திட்டங்கள் (${_searchResults.length})"
-                    : "Eligible Schemes For You (${_searchResults.length})")
-              : (provider.selectedLanguage == 'ta'
-                    ? "பொருந்தும் திட்டங்கள் (${_searchResults.length})"
-                    : "Matching Schemes (${_searchResults.length})");
+              ? context.l10n.eligibleSchemesForYouCount(_searchResults.length)
+              : context.l10n.matchingSchemesCount(_searchResults.length);
 
           final subtitleText = isForMe
-              ? (provider.selectedLanguage == 'ta'
-                    ? "உங்கள் சுயவிவரத் தகவலின் அடிப்படையில் பொருந்தும் திட்டங்கள்"
-                    : "Matched strictly against your profile data")
+              ? context.l10n.matchedStrictlyAgainstProfile
               : (_searchController.text.trim().isNotEmpty
-                    ? "Best matches for \"${_searchController.text.trim()}\""
-                    : "Best matches for your search criteria");
+                    ? context.l10n.searchBestMatchesForQuery(
+                        _searchController.text.trim())
+                    : context.l10n.searchBestMatchesForCriteria);
 
           return Padding(
             padding: const EdgeInsets.only(

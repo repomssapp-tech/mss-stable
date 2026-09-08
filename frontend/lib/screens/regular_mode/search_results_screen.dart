@@ -264,7 +264,6 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
   }
 
   Widget _buildFiltersStrip(AppProvider provider) {
-    final isTa = provider.selectedLanguage == 'ta';
     return Container(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.tight, horizontal: AppSpacing.lg),
       child: SingleChildScrollView(
@@ -304,7 +303,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
 
             // Sort
             _buildDropdownChip(
-              isTa ? 'வரிசைப்படுத்து' : 'Sort',
+              context.l10n.sortLabel,
               const [
                 'Relevance',
                 'Best match for me',
@@ -363,7 +362,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                     color: Color(0xFF94A3B8),
                     size: 18,
                   ),
-                  tooltip: 'Clear search',
+                  tooltip: context.l10n.clearSearchTooltip,
                   onPressed: () {
                     _searchController.clear();
                     setState(() {});
@@ -391,13 +390,11 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: StandardPageHeader(
         title: displayedTitle,
-        subtitle: isTa
-            ? 'அனைத்து திட்ட முடிவுகளும்'
-            : '${filteredSchemes.length} schemes available',
+        subtitle: context.l10n.schemesAvailableCount(filteredSchemes.length),
         elevation: 1,
         actions: [
           IconButton(
-            tooltip: 'Share results',
+            tooltip: context.l10n.shareResultsTooltip,
             icon: const Icon(
               Icons.share_outlined,
               size: 20,
@@ -405,15 +402,13 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
             ),
             onPressed: () async {
               final shareText =
-                  'Explore $displayedTitle on MSME Scheme Sahayak:\n'
+                  '${context.l10n.searchResultsShareHeader(displayedTitle)}\n'
                   '${filteredSchemes.take(5).map((e) => '• ${e.key.name}').join('\n')}';
               await Clipboard.setData(ClipboardData(text: shareText));
               if (context.mounted) {
                 AppToast.showSuccess(
                   context,
-                  isTa
-                      ? 'முடிவுகள் நகலெடுக்கப்பட்டது'
-                      : 'Results copied to clipboard',
+                  context.l10n.resultsCopiedToClipboard,
                 );
               }
             },
@@ -465,9 +460,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                         widget.title.toLowerCase() != 'all') {
                                       return context.l10n.noSchemesFound(widget.title);
                                     }
-                                    return provider.selectedLanguage == 'ta'
-                                        ? 'தேர்ந்தெடுக்கப்பட்ட வடிகட்டிகளுக்கு பொருந்தும் திட்டங்கள் எதுவும் இல்லை'
-                                        : 'No schemes found matching your filters';
+                                    return context.l10n.searchNoFilterMatchesTitle;
                                   }(),
                                   style: GoogleFonts.poppins(
                                     fontSize: 15,
@@ -494,9 +487,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                     color: Color(0xFF2563EB),
                                   ),
                                   label: Text(
-                                    isTa
-                                        ? 'வடிகட்டிகளை அழித்து திட்டங்களைக் காண்க'
-                                        : 'Clear Filters & Explore Schemes',
+                                    context.l10n.clearFiltersAndExplore,
                                     style: GoogleFonts.inter(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,

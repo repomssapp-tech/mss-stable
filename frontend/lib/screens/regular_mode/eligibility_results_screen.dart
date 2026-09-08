@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../widgets/scheme_card.dart';
 import '../../widgets/standard_page_header.dart';
 import '../../providers/app_state_provider.dart';
-import '../../services/centralized_translator.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/responsive.dart';
 import '../../widgets/app_toast.dart';
@@ -28,7 +27,6 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
-    final isTa = provider.selectedLanguage == 'ta';
     final allMatches = provider.recommendedSchemes;
 
     // Eligible schemes are those with a match score > 0%
@@ -48,9 +46,7 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: StandardPageHeader(
-        title: isTa
-            ? CentralizedTranslator.instance.translate('Eligibility Results')
-            : 'Eligibility Results',
+        title: context.l10n.eligibilityResultsTitle,
         elevation: 1,
         actions: [
           IconButton(
@@ -59,17 +55,15 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
               size: 20,
               color: Color(0xFF2563EB),
             ),
-            tooltip: 'Share results',
+            tooltip: context.l10n.shareResultsTooltip,
             onPressed: () async {
               final shareText =
-                  'My Scheme Eligibility Results:\n${eligibleMatches.map((e) => '• ${e.key.name} (${(e.value.score * 100).toInt()}% Match)').take(5).join('\n')}';
+                  '${context.l10n.eligResShareHeader}\n${eligibleMatches.map((e) => context.l10n.eligResShareItem(e.key.name, (e.value.score * 100).toInt())).take(5).join('\n')}';
               await Clipboard.setData(ClipboardData(text: shareText));
               if (context.mounted) {
                 AppToast.showSuccess(
                   context,
-                  isTa
-                      ? 'தகுதி முடிவுகள் நகலெடுக்கப்பட்டது'
-                      : 'Eligibility results copied to clipboard',
+                  context.l10n.eligibilityResultsCopiedToClipboard,
                 );
               }
             },
@@ -103,7 +97,7 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
 
                     // Great News Header
                     Text(
-                      isTa ? 'சிறந்த செய்தி! 🎉' : 'Great News! 🎉',
+                      context.l10n.eligResGreatNews,
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -121,15 +115,11 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                           height: 1.25,
                         ),
                         children: [
+                          TextSpan(text: context.l10n.eligResEligibleForPrefix),
                           TextSpan(
-                            text: isTa
-                                ? 'நீங்கள் தகுதி பெற்றுள்ளீர்கள்:\n'
-                                : 'You are eligible for\n',
-                          ),
-                          TextSpan(
-                            text: isTa
-                                ? '${eligibleMatches.length} அரசு நலத்திட்டங்கள்'
-                                : '${eligibleMatches.length} Government Schemes',
+                            text: context.l10n.eligResGovernmentSchemesCount(
+                              eligibleMatches.length,
+                            ),
                             style: const TextStyle(color: Color(0xFF137C47)),
                           ),
                         ],
@@ -137,9 +127,7 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                     ),
                     const SizedBox(height: AppSpacing.tight),
                     Text(
-                      isTa
-                          ? 'நீங்கள் வழங்கிய தகவலின் அடிப்படையில்'
-                          : 'based on the information you provided',
+                      context.l10n.eligResBasedOnInfo,
                       style: GoogleFonts.inter(
                         fontSize: 13,
                         color: const Color(0xFF64748B),
@@ -157,9 +145,7 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                         children: [
                           Flexible(
                             child: Text(
-                              isTa
-                                  ? 'பரிந்துரைக்கப்பட்ட திட்டங்கள்'
-                                  : 'Recommended Schemes',
+                              context.l10n.eligResRecommendedSchemes,
                               softWrap: true,
                               style: GoogleFonts.poppins(
                                 fontSize: 15,
@@ -174,9 +160,9 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (_) => SearchResultsScreen(
-                                      title: isTa
-                                          ? 'பொருந்தும் திட்டங்கள்'
-                                          : 'Eligible Schemes',
+                                      title: context
+                                          .l10n
+                                          .eligResEligibleSchemesTitle,
                                       type: 'eligible',
                                       initialSchemes: eligibleMatches
                                           .map((e) => e.key)
@@ -238,9 +224,7 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                             ),
                             const SizedBox(height: AppSpacing.md),
                             Text(
-                              isTa
-                                  ? 'பொருந்தும் திட்டங்கள் எதுவும் கிடைக்கவில்லை. மேலும் திட்டங்களைக் காண சுயவிவர விவரங்களை மாற்றவும்.'
-                                  : 'No matching schemes found. Adjust your profile details to expand matching rules.',
+                              context.l10n.eligResNoMatches,
                               style: GoogleFonts.inter(
                                 color: const Color(0xFF64748B),
                                 fontSize: 13,
@@ -266,9 +250,7 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                               ),
                               icon: const Icon(Icons.explore_outlined, size: 18),
                               label: Text(
-                                isTa
-                                    ? 'அனைத்து திட்டங்களையும் காண்க'
-                                    : 'Explore All Schemes',
+                                context.l10n.eligResExploreAll,
                                 style: GoogleFonts.inter(
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold,
@@ -328,9 +310,7 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                             const SizedBox(width: AppSpacing.sm),
                             Expanded(
                               child: Text(
-                                isTa
-                                    ? 'இந்த திட்டங்கள் உங்கள் சுயவிவரப் பொருத்தம் மற்றும் தகுதி அளவுகோல்களின் அடிப்படையில் வரிசைப்படுத்தப்பட்டுள்ளன.'
-                                    : 'These schemes are sorted based on your profile match and eligibility criteria.',
+                                context.l10n.eligResSortedInfo,
                                 style: GoogleFonts.inter(
                                   fontSize: 12,
                                   color: const Color(0xFF137C47),
@@ -388,7 +368,8 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                           ),
                           elevation: 0,
                         ),
-                        onPressed: eligibleMatches.isEmpty ||
+                        onPressed:
+                            eligibleMatches.isEmpty ||
                                 _isSaving ||
                                 isAlreadySaved
                             ? null
@@ -406,18 +387,14 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                                   });
                                   AppToast.showSuccess(
                                     context,
-                                    isTa
-                                        ? 'தகுதி முடிவுகள் உங்கள் சுயவிவரத்தில் சேமிக்கப்பட்டன!'
-                                        : 'Results saved to your eligibility profile!',
+                                    context.l10n.eligResSavedToast,
                                   );
                                 } catch (e) {
                                   if (!context.mounted) return;
                                   setState(() => _isSaving = false);
                                   AppToast.showError(
                                     context,
-                                    isTa
-                                        ? 'சேமிக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.'
-                                        : 'Failed to save results. Please try again.',
+                                    context.l10n.eligResSaveFailed,
                                   );
                                 }
                               },
@@ -438,14 +415,10 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                               ),
                         label: Text(
                           _isSaving
-                              ? (isTa ? 'சேமிக்கப்படுகிறது...' : 'Saving...')
+                              ? context.l10n.eligResSaving
                               : (isAlreadySaved
-                                  ? (isTa
-                                      ? 'சுயவிவரத்தில் சேமிக்கப்பட்டது'
-                                      : 'Saved to Profile')
-                                  : (isTa
-                                      ? 'முடிவுகளைச் சேமிக்கவும்'
-                                      : 'Save Results')),
+                                    ? context.l10n.eligResSavedToProfile
+                                    : context.l10n.eligResSaveResults),
                           style: GoogleFonts.poppins(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -465,9 +438,7 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                         const SizedBox(width: AppSpacing.xs),
                         Flexible(
                           child: Text(
-                            isTa
-                                ? 'உங்கள் தகவல் பாதுகாப்பானது மற்றும் தனிப்பட்டது'
-                                : 'Your information is secure and private',
+                            context.l10n.eligResSecurePrivate,
                             softWrap: true,
                             style: GoogleFonts.inter(
                               fontSize: 11,

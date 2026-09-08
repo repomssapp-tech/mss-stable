@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../l10n/l10n.dart';
 import '../../models/user_profile.dart';
 import '../../services/chat_log_service.dart';
 import '../../services/sarvam_chat_service.dart';
@@ -34,8 +35,6 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
   final List<SarvamChatMessage> _messages = [];
   bool _sending = false;
   String? _error;
-
-  bool get _isTamil => widget.language == 'ta';
 
   @override
   void initState() {
@@ -88,9 +87,7 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
         _sending = false;
         _error = error is SarvamChatException
             ? error.message
-            : (_isTamil
-                  ? 'சார்த்தியை அணுக முடியவில்லை. மீண்டும் முயலவும்.'
-                  : 'Could not reach Saarthi. Please try again.');
+            : context.l10n.sarvamCouldNotReach;
       });
     }
     _scrollToEnd();
@@ -153,7 +150,7 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
                   ),
                 ),
                 Text(
-                  _isTamil ? 'Sarvam AI மூலம்' : 'Powered by Sarvam AI',
+                  context.l10n.poweredBySarvamAi,
                   style: GoogleFonts.inter(
                     fontSize: 11,
                     color: const Color(0xFF64748B),
@@ -195,7 +192,6 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
                         }
                         return _ErrorBubble(
                           message: _error!,
-                          isTamil: _isTamil,
                           onRetry: _retry,
                         );
                       },
@@ -211,15 +207,12 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
   Widget _buildWelcome() {
     final trimmedName = widget.profile.name.trim();
     final name = trimmedName.isEmpty ? '' : trimmedName.split(' ').first;
-    final title = _isTamil
-        ? '${name.isNotEmpty ? '$name, ' : ''}நான் எப்படி உதவலாம்?'
-        : '${name.isNotEmpty ? '$name, ' : ''}How can I help?';
-    final prompts = _isTamil
-        ? const [
-            'எனக்கான திட்டங்களைக் கண்டறியவும்',
-            'MSME கடன் பற்றி சொல்லுங்கள்',
-          ]
-        : const ['Find schemes for me', 'Explain MSME loans'];
+    final title =
+        '${name.isNotEmpty ? '$name, ' : ''}${context.l10n.howCanIHelp}';
+    final prompts = [
+      context.l10n.sarvamPromptFindSchemes,
+      context.l10n.sarvamPromptExplainMsmeLoans,
+    ];
     return Center(
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(AppSpacing.xl),
@@ -244,9 +237,7 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(
-              _isTamil
-                  ? 'திட்டங்கள், தகுதி மற்றும் விண்ணப்ப வழிமுறைகள் பற்றி கேளுங்கள்.'
-                  : 'Ask about schemes, eligibility, or how to apply.',
+              context.l10n.sarvamAskAboutSchemes,
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
                 fontSize: 14,
@@ -307,9 +298,7 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
               textInputAction: TextInputAction.newline,
               decoration: InputDecoration(
                 counterText: '',
-                hintText: _isTamil
-                    ? 'சார்த்தியிடம் கேளுங்கள்…'
-                    : 'Ask Saarthi…',
+                hintText: context.l10n.sarvamInputHint,
                 hintStyle: GoogleFonts.inter(color: const Color(0xFF94A3B8)),
                 filled: true,
                 fillColor: const Color(0xFFF8FAFC),
@@ -341,7 +330,7 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
               disabledBackgroundColor: const Color(0xFFCBD5E1),
               minimumSize: const Size(46, 46),
             ),
-            tooltip: _isTamil ? 'அனுப்பு' : 'Send',
+            tooltip: context.l10n.send,
             icon: const Icon(Icons.arrow_upward_rounded, color: Colors.white),
           ),
         ],
@@ -545,12 +534,10 @@ class _ThinkingBubble extends StatelessWidget {
 class _ErrorBubble extends StatelessWidget {
   const _ErrorBubble({
     required this.message,
-    required this.isTamil,
     required this.onRetry,
   });
 
   final String message;
-  final bool isTamil;
   final VoidCallback onRetry;
 
   @override
@@ -580,7 +567,7 @@ class _ErrorBubble extends StatelessWidget {
             TextButton(
               key: const Key('sarvam-chat-retry'),
               onPressed: onRetry,
-              child: Text(isTamil ? 'மீண்டும்' : 'Retry'),
+              child: Text(context.l10n.retry),
             ),
           ],
         ),

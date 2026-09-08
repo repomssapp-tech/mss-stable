@@ -1,9 +1,10 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/services/scheme_repository.dart';
 import 'package:frontend/models/scheme_model.dart';
 import 'package:frontend/models/localized_scheme.dart';
 import 'package:frontend/services/centralized_translator.dart';
-import 'package:frontend/utils/profile_l10n.dart';
+import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/models/user_profile.dart';
 
 void main() {
@@ -102,27 +103,35 @@ void main() {
       },
     );
 
-    test('3. ProfileL10n returns Tamil for all profile role keys', () {
-      final roleKeys = [
-        'student',
-        'student_subtitle',
-        'aspiring_entrepreneur',
-        'aspiring_entrepreneur_subtitle',
-        'existing_business',
-        'existing_business_subtitle',
-        'msme_owner',
-        'msme_owner_subtitle',
-        'farmer',
-        'farmer_subtitle',
-        'artisan_shg',
-        'artisan_shg_subtitle',
-      ];
+    test('3. AppLocalizations returns distinct non-empty Tamil for all profile '
+        'role strings', () async {
+      final ta = await AppLocalizations.delegate.load(const Locale('ta'));
+      final en = await AppLocalizations.delegate.load(const Locale('en'));
 
-      for (final key in roleKeys) {
-        final translated = ProfileL10n.t(key, true);
-        expect(translated.trim(), isNotEmpty);
-        expect(translated, isNot(equals(key)));
-      }
+      final roleStrings = <String, String Function(AppLocalizations)>{
+        'empStudent': (l) => l.empStudent,
+        'studentSubtitle': (l) => l.studentSubtitle,
+        'aspiringEntrepreneur': (l) => l.aspiringEntrepreneur,
+        'aspiringEntrepreneurSubtitle': (l) => l.aspiringEntrepreneurSubtitle,
+        'existingBusiness': (l) => l.existingBusiness,
+        'existingBusinessSubtitle': (l) => l.existingBusinessSubtitle,
+        'msmeOwner': (l) => l.msmeOwner,
+        'msmeOwnerSubtitle': (l) => l.msmeOwnerSubtitle,
+        'empFarmer': (l) => l.empFarmer,
+        'farmerSubtitle': (l) => l.farmerSubtitle,
+        'artisanShg': (l) => l.artisanShg,
+        'artisanShgSubtitle': (l) => l.artisanShgSubtitle,
+      };
+
+      roleStrings.forEach((name, getter) {
+        final taValue = getter(ta);
+        expect(taValue.trim(), isNotEmpty, reason: '$name Tamil is empty');
+        expect(
+          taValue,
+          isNot(equals(getter(en))),
+          reason: '$name Tamil should differ from English',
+        );
+      });
     });
   });
 }
