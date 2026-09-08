@@ -369,7 +369,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Are you sure you want to remove all saved schemes?';
 
   @override
-  String get profileSettingsTitle => 'Profile & Settings';
+  String get profileSettingsTitle => 'Settings';
 
   @override
   String get profileGroupHeader => 'Profile';
@@ -553,7 +553,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutAppDescription =>
-      'Empowering citizens with real-time tracking, eligibility scanning and downloads for all state and central Government schemes in India.';
+      'MSS is an intelligent digital platform to discover, verify eligibility, and access Central and State Government schemes across India.';
 
   @override
   String get profilePhotoTitle => 'Profile Photo';

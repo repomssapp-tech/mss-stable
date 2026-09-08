@@ -373,7 +373,7 @@ class AppLocalizationsTa extends AppLocalizations {
       'சேமித்த அனைத்து திட்டங்களையும் நீக்க விரும்புகிறீர்களா?';
 
   @override
-  String get profileSettingsTitle => 'சுயவிவரம் & அமைப்புகள்';
+  String get profileSettingsTitle => 'அமைப்புகள்';
 
   @override
   String get profileGroupHeader => 'சுயவிவரம்';
@@ -557,7 +557,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get aboutAppDescription =>
-      'இந்தியாவில் உள்ள அனைத்து மத்திய, மாநில அரசு திட்டங்கள் மற்றும் தகுதிகளை நிகழ்நேரத்தில் அறிய உதவும் செயலி.';
+      'MSS என்பது இந்திய தொழில்முனைவோர், பெண்கள், விவசாயிகள் மற்றும் மாணவர்களுக்கான மத்திய மற்றும் மாநில அரசு திட்டங்களை எளிதாகக் கண்டறிந்து பயன்பெற உதவும் ஒரு அறிவார்ந்த டிஜிட்டல் தளமாகும்.';
 
   @override
   String get profilePhotoTitle => 'சுயவிவரப் படம்';
