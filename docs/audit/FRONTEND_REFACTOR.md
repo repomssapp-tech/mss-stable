@@ -63,7 +63,11 @@ Fix these when C4 reaches `basic_profile_screen.dart` — update assertions to t
   - [x] **C1.2** (`80ea968`) — extracted `extractGooglePhoto` / `extractGoogleName` (pure static) to `services/account/google_identity.dart`; folded the two key-scan loops into one helper; updated `google_profile_photo_test.dart`. 1829 -> 1769. analyze clean; 434/1/6.
   - [x] **C1.3** (`d179a1a`) — removed dead code: `fetchLocationAndPopulate()` (public, 0 callers/0 tests, orphaned by `b9b0867`) + `_getFallbackLocation()` + the `geolocator`/`geocoding` imports (still used elsewhere, so pubspec deps stay). 1769 -> 1638. analyze clean; 434/1/6.
   - [ ] **C1.4 — the tangled core split (next; user-ordered).** ~1638 lines: `_setupAuthListener` / `_subscribeToProfile` / `logout` / `deleteAccount` / `changeLanguage` each mutate profile + language + navMode + recommendations + subscriptions + promos + drafts + notifications together. Prereqs, in order:
-    1. **Fix the 6 red onboarding tests** (see diagnosis below).
+    1. [x] **Fix the red onboarding tests** — done. Was actually **6 reds across 3 files** (the diagnosis below missed the 3rd file). All test rot from pre-branch product changes, re-pointed to the current UI:
+       - `production_surface_accessibility_test.dart` (narrow phone + wide tablet): DOB label finder -> `find.text('Age *')`; Step-2 `findsNWidgets(5)` -> `4`; empty-address error `'Please enter your area or locality'` -> `'Please enter your house/street address'`.
+       - `profile_onboarding_overflow_test.dart`: "DD/MM/YYYY placeholder" test -> "e.g. 25" (Step 1 is now an Age field, DOB derived); pincode-gating test rewritten to characterize the current 4-field address gating; **"pincode rejects non-digits / caps at 6" test deleted** — the pincode control was removed from Step 2 entirely (pre-branch), nothing to re-point it to.
+       - `profile_required_fields_and_defaults_test.dart` — "LocationProfileScreen: required asterisks... not defaulted to Tamil Nadu": dropped the "Pincode below State" positional assertion, replaced with `expect(find.text('Pincode *'), findsNothing)`.
+       - Net: baseline **434/1/6 -> 439/1/0** (6 fixed, 1 obsolete test deleted). `flutter analyze` clean.
     2. Add characterization tests: auth sign-in hydration, `logout` full-reset, `deleteAccount`, `_reconcileServerLanguage`, lifecycle `resumed` -> catalog sync.
     3. Split into controllers behind an `AppProvider` facade, one slice per commit, preserving `notifyListeners` topology (23 `context.select` sites). Device-smoke each transition.
 
@@ -90,3 +94,4 @@ C2 `categories_screen.dart` 4822 · C3 `voice_assistant_overlay.dart` 3907 · C4
 | 2026-09-10 | C1.1 | `1ccdaac` | clean | 434 / 1 / 6 | not needed (pure data move) | seed lists -> app_state_seed_data.dart; provider 1978 -> 1829 |
 | 2026-09-10 | C1.2 | `80ea968` | clean | 434 / 1 / 6 | not needed (pure static helpers) | extractGoogle{Photo,Name} -> services/account/google_identity.dart; provider 1829 -> 1769 |
 | 2026-09-10 | C1.3 | `d179a1a` | clean | 434 / 1 / 6 | not needed (dead-code delete) | removed dead fetchLocationAndPopulate + _getFallbackLocation; provider 1769 -> 1638 |
+| 2026-09-10 | C1.4 prereq 1 | `<pending>` | clean | 439 / 1 / 0 | not needed (test-only) | re-pointed 6 rotten onboarding tests to current UI (DOB->Age, Step-2 pincode removed); deleted 1 obsolete pincode test |

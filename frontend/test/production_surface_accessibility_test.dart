@@ -161,7 +161,8 @@ void main() {
           expect(find.textContaining('Full Name'), findsOneWidget);
           expect(find.textContaining('Email Address'), findsOneWidget);
           expect(find.textContaining('Gender'), findsOneWidget);
-          expect(find.textContaining('Date of Birth (DOB)'), findsOneWidget);
+          // Step 1 collects age (DOB is derived from it), not a DOB field.
+          expect(find.text('Age *'), findsOneWidget);
           expect(find.byType(TextFormField), findsAtLeastNWidgets(3));
 
           var continueButton = find.widgetWithText(ElevatedButton, 'Continue');
@@ -177,13 +178,17 @@ void main() {
           await tester.pump();
           expect(find.text('Where Are You Located?'), findsOneWidget);
           expect(find.text('Use Current Location'), findsOneWidget);
-          expect(find.byType(TextFormField), findsNWidgets(5));
+          // Address, city/town, district, state — pincode was removed.
+          expect(find.byType(TextFormField), findsNWidgets(4));
           continueButton = find.widgetWithText(ElevatedButton, 'Continue');
           await tester.ensureVisible(continueButton);
           _expectTappableSemantics(tester, continueButton, 'Continue');
           await tester.tap(continueButton);
           await tester.pump();
-          expect(find.text('Please enter your area or locality'), findsOneWidget);
+          expect(
+            find.text('Please enter your house/street address'),
+            findsOneWidget,
+          );
           expect(find.byType(AboutYouProfileScreen), findsNothing);
           expect(tester.takeException(), isNull);
 

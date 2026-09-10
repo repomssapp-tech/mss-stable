@@ -138,14 +138,10 @@ void main() {
       );
       expect(centerAncestor, findsOneWidget);
 
-      // Verify Pincode is placed below State vertically
+      // State is the final address field on this step; Pincode was removed.
       await tester.ensureVisible(find.text('State *'));
       await tester.pumpAndSettle();
-      await tester.ensureVisible(find.text('Pincode *'));
-      await tester.pumpAndSettle();
-      final stateOffset = tester.getTopLeft(find.text('State *'));
-      final pincodeOffset = tester.getTopLeft(find.text('Pincode *'));
-      expect(pincodeOffset.dy, greaterThan(stateOffset.dy));
+      expect(find.text('Pincode *'), findsNothing);
     },
   );
 
