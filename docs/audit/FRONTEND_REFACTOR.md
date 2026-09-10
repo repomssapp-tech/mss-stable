@@ -94,4 +94,4 @@ C2 `categories_screen.dart` 4822 · C3 `voice_assistant_overlay.dart` 3907 · C4
 | 2026-09-10 | C1.1 | `1ccdaac` | clean | 434 / 1 / 6 | not needed (pure data move) | seed lists -> app_state_seed_data.dart; provider 1978 -> 1829 |
 | 2026-09-10 | C1.2 | `80ea968` | clean | 434 / 1 / 6 | not needed (pure static helpers) | extractGoogle{Photo,Name} -> services/account/google_identity.dart; provider 1829 -> 1769 |
 | 2026-09-10 | C1.3 | `d179a1a` | clean | 434 / 1 / 6 | not needed (dead-code delete) | removed dead fetchLocationAndPopulate + _getFallbackLocation; provider 1769 -> 1638 |
-| 2026-09-10 | C1.4 prereq 1 | `<pending>` | clean | 439 / 1 / 0 | not needed (test-only) | re-pointed 6 rotten onboarding tests to current UI (DOB->Age, Step-2 pincode removed); deleted 1 obsolete pincode test |
+| 2026-09-10 | C1.4 prereq 1 | `f7244a9` | clean | 439 / 1 / 0 | not needed (test-only) | re-pointed 6 rotten onboarding tests to current UI (DOB->Age, Step-2 pincode removed); deleted 1 obsolete pincode test |
