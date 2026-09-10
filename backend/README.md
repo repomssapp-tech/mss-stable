@@ -53,7 +53,7 @@ npx supabase functions deploy db-change-notify
 ```
 
 `recommend` and `search` are still deployed but are superseded by `v1`; see the
-`(DEAD)` row in `CUTOVER.md`. Do not redeploy them without checking that first.
+`(DEAD)` row in `docs/runbooks/CUTOVER.md`. Do not redeploy them without checking that first.
 
 ## Published mobile scheme catalog
 
