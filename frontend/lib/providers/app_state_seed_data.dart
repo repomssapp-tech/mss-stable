@@ -10,29 +10,6 @@
 /// (notifSeed*) are best-effort, not final.
 library;
 
-/// Home-screen announcement carousel fallback (used until the live scheme
-/// feed populates `announcements`).
-final List<Map<String, String>> kDefaultAnnouncements = [
-  {
-    'title': 'National Entrepreneurs\' Day Celebration',
-    'date': '16-Jan-2026',
-    'content':
-        'Prime Minister launches a new seed grant portal for tech startups and students.',
-  },
-  {
-    'title': 'Tamil Nadu MSME Department Subsidy Hike',
-    'date': '04-Jul-2026',
-    'content':
-        'NEEDS scheme subsidy ceiling raised to ₹75 Lakhs for women and minority entrepreneurs.',
-  },
-  {
-    'title': 'Mudra Loan Shishu Limit Extended',
-    'date': '29-May-2026',
-    'content':
-        'Collateral-free micro loans under Shishu category increased to ₹1 Lakh.',
-  },
-];
-
 /// Initial notification list, replaced wholesale by the Supabase
 /// `notifications` stream once it emits. [AppProvider] deep-copies this so the
 /// seed is never mutated by in-place `read` toggles.

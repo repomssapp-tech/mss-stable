@@ -15,6 +15,7 @@ import '../widgets/common/app_toast.dart';
 import 'app_state_seed_data.dart';
 import 'controllers/library_controller.dart';
 import 'controllers/notifications_controller.dart';
+import 'controllers/promo_content_controller.dart';
 import 'controllers/search_filter_controller.dart';
 import 'controllers/tab_navigation_controller.dart';
 
@@ -27,6 +28,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _library.addListener(notifyListeners);
     _searchFilter.addListener(notifyListeners);
     _notifications.addListener(notifyListeners);
+    _promos.addListener(notifyListeners);
     _loadState();
     _setupAuthListener();
   }
@@ -50,6 +52,12 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   /// read/delete mutations, forwarded through this provider's own
   /// `notifyListeners` (frontend refactor C1.4).
   final NotificationsController _notifications = NotificationsController();
+
+  /// Home-screen promo carousel source data (`promo_alerts` rows + in-progress
+  /// draft sessions) and its fetch throttles, forwarded through this provider's
+  /// own `notifyListeners` (frontend refactor C1.4). The profile-derived
+  /// `carouselItems` getter stays here.
+  final PromoContentController _promos = PromoContentController();
   StreamSubscription<List<Map<String, dynamic>>>? _profileSubscription;
   bool _isLoggedIn = false;
   bool _isLoggingOut = false;
@@ -72,21 +80,10 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   CatalogSyncResult? _catalogSyncResult;
   bool _catalogSyncing = false;
 
-  // Dynamic/Mock Announcements fallback
-  List<Map<String, String>> _announcementsList = [];
-
-  List<Map<String, String>> get announcements {
-    if (_announcementsList.isNotEmpty) return _announcementsList;
-    return kDefaultAnnouncements;
-  }
-
   List<Map<String, dynamic>> get notifications => _notifications.notifications;
 
-  List<Map<String, dynamic>> _promoAlerts = [];
-  List<Map<String, dynamic>> _draftSessions = [];
-
   List<Map<String, dynamic>> get carouselItems {
-    final filteredPromos = _promoAlerts.where((promo) {
+    final filteredPromos = _promos.promoAlerts.where((promo) {
       if (promo['target_gender'] != null &&
           promo['target_gender'].toString().isNotEmpty &&
           _profile.gender.isNotEmpty) {
@@ -117,7 +114,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     final basePromos = filteredPromos.isNotEmpty
         ? filteredPromos
         : kDefaultPromoAlerts;
-    return [...basePromos, ..._draftSessions];
+    return [...basePromos, ..._promos.draftSessions];
   }
 
   // Guards against redundant re-subscription. `_subscribeToProfile` (and
@@ -307,13 +304,10 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         _profile = UserProfile();
         _library.reset();
         _tabs.resetIndexOnly();
-        _promoAlerts = [];
-        _draftSessions = [];
-        // Clear the throttle stamps too, or the next account to sign in on
-        // this device would be served the previous user's empty state until
-        // the throttle window expired.
-        _lastPromoFetch = null;
-        _lastDraftFetch = null;
+        // reset() also clears the fetch-throttle stamps, or the next account to
+        // sign in on this device would be served the previous user's empty
+        // state until the throttle window expired.
+        _promos.reset();
         _unsubscribeFromProfile();
         _notifications.reset();
         notifyListeners();
@@ -453,24 +447,6 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           _profile,
           _allSchemes,
         );
-      }
-
-      // Update announcements dynamically based on latest central/state schemes
-      if (_allSchemes.isNotEmpty) {
-        final recent = List<Scheme>.from(_allSchemes)
-          ..sort((a, b) => b.id.compareTo(a.id));
-        _announcementsList = recent.take(3).map((s) {
-          final isCentral = s.governmentLevel.toLowerCase() == 'central';
-          final sponsor = s.sponsoringBody.isNotEmpty
-              ? s.sponsoringBody
-              : (isCentral ? 'Govt of India' : s.state);
-          return {
-            'title': 'Updated: ${s.name}',
-            'date': 'Realtime Live Feed',
-            'content':
-                '${s.overview.length > 120 ? "${s.overview.substring(0, 117)}..." : s.overview} (Source: $sponsor)',
-          };
-        }).toList();
       }
     } catch (e) {
       _schemesError = e.toString();
@@ -1152,120 +1128,12 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _syncProfileToSupabaseInBackground(_profile);
   }
 
-  DateTime? _lastPromoFetch;
-  static const Duration _promoFetchThrottle = Duration(minutes: 30);
+  // Promo carousel content — delegate to PromoContentController.
+  Future<void> fetchPromoAlerts({bool force = false}) =>
+      _promos.fetchPromoAlerts(force: force);
 
-  Future<void> fetchPromoAlerts({bool force = false}) async {
-    final now = DateTime.now();
-    if (!force &&
-        _lastPromoFetch != null &&
-        now.difference(_lastPromoFetch!) < _promoFetchThrottle) {
-      return;
-    }
-    _lastPromoFetch = now;
-    try {
-      final res = await Supabase.instance.client.from('promo_alerts').select();
-
-      final mapped = List<Map<String, dynamic>>.from(res).map((item) {
-        final mutable = Map<String, dynamic>.from(item);
-        if (mutable['bg_image'] == null ||
-            mutable['bg_image'].toString().isEmpty) {
-          final title = (mutable['title'] ?? '').toString().toLowerCase();
-          final badge = (mutable['badge_text'] ?? '').toString().toLowerCase();
-          if (badge.contains('alert') ||
-              title.contains('closing') ||
-              title.contains('deadline')) {
-            mutable['bg_image'] = 'assets/images/Background/alert banner.webp';
-            mutable['badge_text_color'] = '#EA580C';
-            mutable['badge_bg_color'] = '#FFF7ED';
-          } else if (badge.contains('new') ||
-              title.contains('new scheme') ||
-              title.contains('export')) {
-            mutable['bg_image'] =
-                'assets/images/Background/new scheme banner.webp';
-            mutable['badge_text_color'] = '#16A34A';
-            mutable['badge_bg_color'] = '#DCFCE7';
-          } else if (badge.contains('notify') ||
-              title.contains('update') ||
-              title.contains('udyam')) {
-            mutable['bg_image'] =
-                'assets/images/Background/notification banner.webp';
-            mutable['badge_text_color'] = '#2563EB';
-            mutable['badge_bg_color'] = '#EFF6FF';
-          } else {
-            mutable['bg_image'] =
-                'assets/images/Background/suggestion banner.webp';
-            mutable['badge_text_color'] = '#7C3AED';
-            mutable['badge_bg_color'] = '#F5F3FF';
-          }
-        }
-        return mutable;
-      }).toList();
-
-      _promoAlerts = mapped;
-      notifyListeners();
-    } catch (e) {
-      debugPrint('[AppProvider] Error fetching promo alerts: $e');
-    }
-  }
-
-  DateTime? _lastDraftFetch;
-  static const Duration _draftFetchThrottle = Duration(minutes: 5);
-
-  /// Throttled like [fetchPromoAlerts]. This is called from four places --
-  /// the realtime profile stream, the auth-state listener, `_loadState`, and
-  /// `checkSessionAndFetchProfile` -- so an unthrottled version re-queried
-  /// `questionnaire_sessions` on every profile row change and several times
-  /// per app launch. Pass `force: true` after the user actually edits a draft.
-  Future<void> fetchDraftSessions({bool force = false}) async {
-    final now = DateTime.now();
-    if (!force &&
-        _lastDraftFetch != null &&
-        now.difference(_lastDraftFetch!) < _draftFetchThrottle) {
-      return;
-    }
-
-    try {
-      final userId = Supabase.instance.client.auth.currentUser?.id;
-      if (userId == null) {
-        _draftSessions = [];
-        _lastDraftFetch = null;
-        notifyListeners();
-        return;
-      }
-      _lastDraftFetch = now;
-
-      final res = await Supabase.instance.client
-          .from('questionnaire_sessions')
-          .select(
-            'id, completed_percentage, status, startup_profiles!inner(user_id, profile_name)',
-          )
-          .eq('status', 'IN_PROGRESS')
-          .eq('startup_profiles.user_id', userId);
-
-      _draftSessions = List<Map<String, dynamic>>.from(res).map((item) {
-        final startup = item['startup_profiles'] as Map<String, dynamic>;
-        final pct = (item['completed_percentage'] as num?)?.toDouble() ?? 0.0;
-        return {
-          'id': item['id'],
-          'title': '${startup['profile_name']} Setup',
-          'badge_text': 'Draft',
-          'badge_text_color': '#2563EB',
-          'badge_bg_color': '#EFF6FF',
-          'bg_gradient_start': '#EFF6FF',
-          'bg_gradient_end': '#DBEAFE',
-          'btn_text': 'Continue',
-          'btn_color': '#2563EB',
-          'target_route': 'draft_session',
-          'graphic_type': 'progress',
-          'progress': pct,
-        };
-      }).toList();
-      notifyListeners();
-    } catch (e) {
-      debugPrint('[AppProvider] Error fetching draft sessions: $e');
-    }
-  }
+  Future<void> fetchDraftSessions({bool force = false}) =>
+      _promos.fetchDraftSessions(force: force);
 
   @override
   void dispose() {
@@ -1278,6 +1146,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _searchFilter.dispose();
     _notifications.removeListener(notifyListeners);
     _notifications.dispose();
+    _promos.removeListener(notifyListeners);
+    _promos.dispose();
     _unsubscribeFromProfile();
     super.dispose();
   }
