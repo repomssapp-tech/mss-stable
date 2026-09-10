@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:frontend/services/scheme_repository.dart';
+import 'package:frontend/services/catalog/scheme_repository.dart';
 import 'package:frontend/models/scheme_model.dart';
 import 'package:frontend/models/localized_scheme.dart';
-import 'package:frontend/services/centralized_translator.dart';
+import 'package:frontend/services/catalog/centralized_translator.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/models/user_profile.dart';
 

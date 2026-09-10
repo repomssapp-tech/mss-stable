@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:frontend/services/edge_model_pack.dart';
+import 'package:frontend/services/edge_ai/edge_model_pack.dart';
 
 void main() {
   test(

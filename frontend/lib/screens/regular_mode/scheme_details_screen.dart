@@ -6,14 +6,14 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../models/scheme_model.dart';
 import '../../models/localized_scheme.dart';
-import '../../services/scheme_repository.dart';
+import '../../services/catalog/scheme_repository.dart';
 import '../../providers/app_state_provider.dart';
 import '../../utils/constants.dart';
 import '../../l10n/l10n.dart';
-import '../../services/centralized_translator.dart';
+import '../../services/catalog/centralized_translator.dart';
 import '../../utils/responsive.dart';
 import '../../utils/emblem_helper.dart';
-import '../../widgets/app_toast.dart';
+import '../../widgets/common/app_toast.dart';
 import '../../utils/app_spacing.dart';
 
 class SchemeDetailsScreen extends StatefulWidget {

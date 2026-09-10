@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:frontend/services/speech_output_controller.dart';
+import 'package:frontend/services/voice/speech_output_controller.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

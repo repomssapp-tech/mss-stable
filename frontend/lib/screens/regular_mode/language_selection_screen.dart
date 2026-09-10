@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../providers/app_state_provider.dart';
-import '../../widgets/floating_logo.dart';
+import '../../widgets/common/floating_logo.dart';
 import '../../l10n/l10n.dart';
 import '../login_screen.dart';
 import '../../utils/responsive.dart';

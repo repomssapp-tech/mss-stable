@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/app_state_provider.dart';
-import '../../services/scheme_repository.dart';
-import '../../services/voice_agent_controller.dart';
-import '../../widgets/voice_assistant_overlay.dart';
+import '../../services/catalog/scheme_repository.dart';
+import '../../services/voice/voice_agent_controller.dart';
+import '../../widgets/assistant/voice_assistant_overlay.dart';
 import '../regular_mode/scheme_details_screen.dart';
 import '../regular_mode/search_results_screen.dart';
 

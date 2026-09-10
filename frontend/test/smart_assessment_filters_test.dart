@@ -13,7 +13,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/models/user_profile.dart';
-import 'package:frontend/widgets/smart_assessment_bottom_sheet.dart';
+import 'package:frontend/widgets/assistant/smart_assessment_bottom_sheet.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

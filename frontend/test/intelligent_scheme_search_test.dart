@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/models/scheme_model.dart';
-import 'package:frontend/services/intelligent_scheme_search.dart';
-import 'package:frontend/services/scheme_repository.dart';
+import 'package:frontend/services/search/intelligent_scheme_search.dart';
+import 'package:frontend/services/catalog/scheme_repository.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

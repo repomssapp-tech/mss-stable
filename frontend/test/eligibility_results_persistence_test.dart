@@ -7,7 +7,7 @@ import 'package:frontend/engine/recommendation_engine.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/regular_mode/eligibility_results_screen.dart';
 import 'package:frontend/screens/regular_mode/search_results_screen.dart';
-import 'package:frontend/services/session_cache_service.dart';
+import 'package:frontend/services/account/session_cache_service.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

@@ -3,23 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../providers/app_state_provider.dart';
-import '../../widgets/filter_panel.dart';
+import '../../widgets/scheme/filter_panel.dart';
 import '../../models/scheme_model.dart';
 import '../../models/scheme_filter.dart';
 export '../../models/scheme_filter.dart'
     show schemeIsNationwide, applySchemeFilters;
 import '../../models/user_profile.dart';
-import '../../services/scheme_repository.dart';
+import '../../services/catalog/scheme_repository.dart';
 import 'scheme_details_screen.dart';
 import 'search_results_screen.dart';
 import '../../engine/recommendation_engine.dart';
 import '../../l10n/l10n.dart';
-import '../../services/centralized_translator.dart';
-import '../../widgets/voice_assistant_overlay.dart';
-import '../../widgets/app_toast.dart';
-import '../../widgets/scheme_card.dart';
+import '../../services/catalog/centralized_translator.dart';
+import '../../widgets/assistant/voice_assistant_overlay.dart';
+import '../../widgets/common/app_toast.dart';
+import '../../widgets/scheme/scheme_card.dart';
 import '../../utils/app_spacing.dart';
-import '../../services/voice_recognition_controller.dart';
+import '../../services/voice/voice_recognition_controller.dart';
 
 String _getLocalizedTagOrCategory(String text, String langCode) {
   if (langCode != 'ta') return text;

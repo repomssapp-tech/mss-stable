@@ -9,10 +9,10 @@ import 'language_selection_screen.dart';
 import 'basic_profile_screen.dart';
 import 'help_support_screen.dart';
 import 'legal_screens.dart';
-import '../../widgets/custom_confirm_dialog.dart';
+import '../../widgets/common/custom_confirm_dialog.dart';
 import '../../utils/responsive.dart';
-import '../../widgets/app_toast.dart';
-import '../../widgets/catalog_freshness_footer.dart';
+import '../../widgets/common/app_toast.dart';
+import '../../widgets/scheme/catalog_freshness_footer.dart';
 import '../../utils/app_spacing.dart';
 
 class SettingsScreen extends StatefulWidget {

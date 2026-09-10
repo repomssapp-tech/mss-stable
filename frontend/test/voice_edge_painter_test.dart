@@ -3,7 +3,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:frontend/widgets/voice_assistant_overlay.dart';
+import 'package:frontend/widgets/assistant/voice_assistant_overlay.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:frontend/services/official_grounded_search.dart';
+import 'package:frontend/services/search/official_grounded_search.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 

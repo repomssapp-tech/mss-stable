@@ -9,12 +9,12 @@ import 'package:geocoding/geocoding.dart';
 import '../models/user_profile.dart';
 import '../models/scheme_model.dart';
 import '../engine/recommendation_engine.dart';
-import '../services/auth_service.dart';
-import '../services/scheme_repository.dart';
-import '../services/scheme_catalog_sync_service.dart';
-import '../services/session_cache_service.dart';
+import '../services/account/auth_service.dart';
+import '../services/catalog/scheme_repository.dart';
+import '../services/catalog/scheme_catalog_sync_service.dart';
+import '../services/account/session_cache_service.dart';
 import '../screens/splash_screen.dart';
-import '../widgets/app_toast.dart';
+import '../widgets/common/app_toast.dart';
 
 class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   AppProvider({SchemeCatalogSyncService? catalogSyncService})

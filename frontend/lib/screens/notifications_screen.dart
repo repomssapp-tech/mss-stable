@@ -3,10 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/utils/constants.dart';
-import 'package:frontend/services/centralized_translator.dart';
+import 'package:frontend/services/catalog/centralized_translator.dart';
 import 'package:frontend/l10n/l10n.dart';
 import 'package:frontend/utils/responsive.dart';
-import 'package:frontend/widgets/app_toast.dart';
+import 'package:frontend/widgets/common/app_toast.dart';
 import 'regular_mode/basic_profile_screen.dart';
 import '../utils/app_spacing.dart';
 

@@ -20,7 +20,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
-import 'package:frontend/widgets/smart_assessment_bottom_sheet.dart';
+import 'package:frontend/widgets/assistant/smart_assessment_bottom_sheet.dart';
 
 // Exact values that used to be hardcoded in smart_assessment_bottom_sheet.dart.
 // Education flow, first question (edu_q1) + its first option.

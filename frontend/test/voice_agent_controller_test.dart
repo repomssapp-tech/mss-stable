@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/models/scheme_model.dart';
 import 'package:frontend/models/user_profile.dart';
-import 'package:frontend/services/assistant_session_controller.dart';
-import 'package:frontend/services/livekit_voice_agent_controller.dart';
-import 'package:frontend/services/scheme_understanding_engine.dart';
-import 'package:frontend/services/voice_agent_controller.dart';
+import 'package:frontend/services/voice/assistant_session_controller.dart';
+import 'package:frontend/services/voice/livekit_voice_agent_controller.dart';
+import 'package:frontend/services/search/scheme_understanding_engine.dart';
+import 'package:frontend/services/voice/voice_agent_controller.dart';
 
 void main() {
   test('cloud scheme result state parses only valid compact records', () {

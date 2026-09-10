@@ -6,7 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/regular_mode/categories_screen.dart';
-import 'package:frontend/services/centralized_translator.dart';
+import 'package:frontend/services/catalog/centralized_translator.dart';
 import 'package:provider/provider.dart';
 
 void main() {

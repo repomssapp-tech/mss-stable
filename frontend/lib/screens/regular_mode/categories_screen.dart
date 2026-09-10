@@ -4,12 +4,12 @@ import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../models/scheme_model.dart';
 import '../../providers/app_state_provider.dart';
-import '../../services/scheme_repository.dart';
+import '../../services/catalog/scheme_repository.dart';
 import '../../l10n/l10n.dart';
 import '../../l10n/app_localizations.dart';
-import '../../services/centralized_translator.dart';
+import '../../services/catalog/centralized_translator.dart';
 import '../../utils/responsive.dart';
-import '../../widgets/smart_assessment_bottom_sheet.dart';
+import '../../widgets/assistant/smart_assessment_bottom_sheet.dart';
 import 'search_results_screen.dart';
 import '../../utils/app_spacing.dart';
 

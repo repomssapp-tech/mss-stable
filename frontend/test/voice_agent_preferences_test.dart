@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:frontend/services/voice_agent_preferences.dart';
+import 'package:frontend/services/voice/voice_agent_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {

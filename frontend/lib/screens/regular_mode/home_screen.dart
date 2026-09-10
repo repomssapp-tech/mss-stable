@@ -6,14 +6,14 @@ import '../../providers/app_state_provider.dart';
 import '../../l10n/l10n.dart';
 import '../../models/scheme_model.dart';
 import '../../models/localized_scheme.dart';
-import '../../services/scheme_repository.dart';
-import '../../services/centralized_translator.dart';
+import '../../services/catalog/scheme_repository.dart';
+import '../../services/catalog/centralized_translator.dart';
 import '../../utils/responsive.dart';
 
 import 'scheme_details_screen.dart';
 import '../notifications_screen.dart';
 import '../login_screen.dart';
-import '../../widgets/smart_assessment_bottom_sheet.dart';
+import '../../widgets/assistant/smart_assessment_bottom_sheet.dart';
 import 'search_results_screen.dart';
 import 'basic_profile_screen.dart';
 import 'msme_module_details_screen.dart';
