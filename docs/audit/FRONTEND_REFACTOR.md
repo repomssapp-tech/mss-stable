@@ -68,7 +68,13 @@ Fix these when C4 reaches `basic_profile_screen.dart` — update assertions to t
        - `profile_onboarding_overflow_test.dart`: "DD/MM/YYYY placeholder" test -> "e.g. 25" (Step 1 is now an Age field, DOB derived); pincode-gating test rewritten to characterize the current 4-field address gating; **"pincode rejects non-digits / caps at 6" test deleted** — the pincode control was removed from Step 2 entirely (pre-branch), nothing to re-point it to.
        - `profile_required_fields_and_defaults_test.dart` — "LocationProfileScreen: required asterisks... not defaulted to Tamil Nadu": dropped the "Pincode below State" positional assertion, replaced with `expect(find.text('Pincode *'), findsNothing)`.
        - Net: baseline **434/1/6 -> 439/1/0** (6 fixed, 1 obsolete test deleted). `flutter analyze` clean.
-    2. Add characterization tests: auth sign-in hydration, `logout` full-reset, `deleteAccount`, `_reconcileServerLanguage`, lifecycle `resumed` -> catalog sync.
+    2. [x] **Characterization tests** — done. New `test/app_provider_characterization_test.dart` (4 tests, 439/1/0 -> 443/1/0):
+       - `logout()` — dirties every session field via the public API, then asserts the full signed-out reset (`_expectSignedOutDefaults`) + `SessionCacheService` wipe. `testWidgets` + `runAsync` (needs a Navigator).
+       - `deleteAccount()` with no server session — `currentUser == null` under a stub Supabase, so `delete_user` is skipped and the same reset runs. (The branch where a live RPC throws and state must be *preserved* still needs a mock client — noted in the file.)
+       - `changeLanguage()` — `selectedLanguage` / `profile.language` / cache all move to `ta`; then the `_reconcileServerLanguage` stale-echo guard (echo of `en` held off, `ta` confirmation clears the marker, later `en` trusted). Complements `l10n_language_reconcile_batch6_test.dart`.
+       - `didChangeAppLifecycleState` — `resumed` triggers exactly one `syncIfNeeded` (via an injected `_RecordingSyncService`); `inactive`/`paused`/`detached` trigger none; a second `resumed` triggers a second.
+       - Harness gotchas baked into the file: provider methods do real I/O so these use plain `test()` / `runAsync` (fake-async deadlocks on their timers); every test waits for the constructor's `_loadState()` to settle before mutating (it re-reads `_selectedLanguage` from cache and would clobber); providers are not disposed (the Supabase auth stream's async first emit races `dispose`).
+       - **Not covered** (needs a mock Supabase auth stream): the signed-in hydration branch of `_setupAuthListener`. Carry into step 3 as an integration-style fake, or accept device-smoke coverage there.
     3. Split into controllers behind an `AppProvider` facade, one slice per commit, preserving `notifyListeners` topology (23 `context.select` sites). Device-smoke each transition.
 
 #### The 6 red tests — diagnosis (test rot from the Step-4 i18n migration + a Step-2 field-count change)
@@ -95,3 +101,4 @@ C2 `categories_screen.dart` 4822 · C3 `voice_assistant_overlay.dart` 3907 · C4
 | 2026-09-10 | C1.2 | `80ea968` | clean | 434 / 1 / 6 | not needed (pure static helpers) | extractGoogle{Photo,Name} -> services/account/google_identity.dart; provider 1829 -> 1769 |
 | 2026-09-10 | C1.3 | `d179a1a` | clean | 434 / 1 / 6 | not needed (dead-code delete) | removed dead fetchLocationAndPopulate + _getFallbackLocation; provider 1769 -> 1638 |
 | 2026-09-10 | C1.4 prereq 1 | `f7244a9` | clean | 439 / 1 / 0 | not needed (test-only) | re-pointed 6 rotten onboarding tests to current UI (DOB->Age, Step-2 pincode removed); deleted 1 obsolete pincode test |
+| 2026-09-10 | C1.4 prereq 2 | `<pending>` | clean | 443 / 1 / 0 | not needed (test-only) | new app_provider_characterization_test.dart: logout / deleteAccount reset, changeLanguage + stale-echo guard, lifecycle-resume sync |
