@@ -14,6 +14,7 @@ import '../screens/splash_screen.dart';
 import '../widgets/common/app_toast.dart';
 import 'app_state_seed_data.dart';
 import 'controllers/library_controller.dart';
+import 'controllers/notifications_controller.dart';
 import 'controllers/search_filter_controller.dart';
 import 'controllers/tab_navigation_controller.dart';
 
@@ -25,6 +26,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _tabs.addListener(notifyListeners);
     _library.addListener(notifyListeners);
     _searchFilter.addListener(notifyListeners);
+    _notifications.addListener(notifyListeners);
     _loadState();
     _setupAuthListener();
   }
@@ -43,6 +45,11 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   /// Transient search query + active facet filters, forwarded through this
   /// provider's own `notifyListeners` (frontend refactor C1.4).
   final SearchFilterController _searchFilter = SearchFilterController();
+
+  /// In-app notifications list + its Supabase realtime subscription and
+  /// read/delete mutations, forwarded through this provider's own
+  /// `notifyListeners` (frontend refactor C1.4).
+  final NotificationsController _notifications = NotificationsController();
   StreamSubscription<List<Map<String, dynamic>>>? _profileSubscription;
   bool _isLoggedIn = false;
   bool _isLoggingOut = false;
@@ -73,15 +80,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     return kDefaultAnnouncements;
   }
 
-  // Notifications state (temporary seed; replaced by the Supabase stream).
-  // Seed content lives in app_state_seed_data.dart; deep-copied here so the
-  // shared seed is never mutated by in-place `read` toggles.
-  List<Map<String, dynamic>> _notificationsList = kSeedNotifications
-      .map((m) => Map<String, dynamic>.of(m))
-      .toList();
-
-  List<Map<String, dynamic>> get notifications => _notificationsList;
-  StreamSubscription<List<Map<String, dynamic>>>? _notificationsSubscription;
+  List<Map<String, dynamic>> get notifications => _notifications.notifications;
 
   List<Map<String, dynamic>> _promoAlerts = [];
   List<Map<String, dynamic>> _draftSessions = [];
@@ -121,14 +120,13 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     return [...basePromos, ..._draftSessions];
   }
 
-  // Guards against redundant re-subscription. `_subscribeToProfile` /
-  // `_subscribeToNotifications` are each called from the auth-state listener,
-  // `_loadState`, and `checkSessionAndFetchProfile`, which can all run on a
-  // single launch. Every re-subscribe tears down the socket and replays an
-  // initial full-table fetch, so the old unconditional version paid for the
-  // same rows two or three times per launch.
+  // Guards against redundant re-subscription. `_subscribeToProfile` (and
+  // `NotificationsController.subscribe`) are each called from the auth-state
+  // listener, `_loadState`, and `checkSessionAndFetchProfile`, which can all
+  // run on a single launch. Every re-subscribe tears down the socket and
+  // replays an initial full-table fetch, so the old unconditional version
+  // paid for the same rows two or three times per launch.
   String? _subscribedProfileUserId;
-  String? _subscribedNotificationsUserId;
 
   void _subscribeToProfile(String userId) {
     if (_profileSubscription != null && _subscribedProfileUserId == userId) {
@@ -217,106 +215,6 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _subscribedProfileUserId = null;
   }
 
-  void _subscribeToNotifications(String userId) {
-    if (_notificationsSubscription != null &&
-        _subscribedNotificationsUserId == userId) {
-      return;
-    }
-    _subscribedNotificationsUserId = userId;
-    _notificationsSubscription?.cancel();
-    _notificationsSubscription = Supabase.instance.client
-        .from('notifications')
-        .stream(primaryKey: ['id'])
-        .eq('user_id', userId)
-        .listen(
-          (data) async {
-            if (data.isEmpty) {
-              _notificationsList = [];
-              notifyListeners();
-              return;
-            }
-
-            final sortedData = List<Map<String, dynamic>>.from(data);
-            sortedData.sort((a, b) {
-              final aTime =
-                  DateTime.tryParse(a['created_at'] ?? '') ??
-                  DateTime.fromMillisecondsSinceEpoch(0);
-              final bTime =
-                  DateTime.tryParse(b['created_at'] ?? '') ??
-                  DateTime.fromMillisecondsSinceEpoch(0);
-              return bTime.compareTo(aTime);
-            });
-
-            _notificationsList = sortedData.map((n) {
-              final createdAt =
-                  DateTime.tryParse(n['created_at'] ?? '') ?? DateTime.now();
-              final difference = DateTime.now().difference(createdAt);
-              // Store a structured (count, unit) pair; the notifications screen
-              // formats it via parameterized ARB keys so it renders in ta too.
-              int? timeAgoCount;
-              String timeAgoUnit = 'now';
-              if (difference.inDays > 0) {
-                timeAgoCount = difference.inDays;
-                timeAgoUnit = 'd';
-              } else if (difference.inHours > 0) {
-                timeAgoCount = difference.inHours;
-                timeAgoUnit = 'h';
-              } else if (difference.inMinutes > 0) {
-                timeAgoCount = difference.inMinutes;
-                timeAgoUnit = 'm';
-              }
-
-              final type = n['notification_type'] ?? 'updates';
-
-              final Map<String, dynamic> mapped = {
-                'id': n['id'].toString(),
-                'title': n['title'] ?? '',
-                'body': n['message'] ?? '',
-                'timeAgoCount': timeAgoCount,
-                'timeAgoUnit': timeAgoUnit,
-                'read': n['is_read'] ?? false,
-                'category': type,
-                'created_at': n['created_at'],
-              };
-
-              if (type == 'new_schemes') {
-                mapped['tag'] = n['title'].toString().contains('Vidyalaxmi')
-                    ? 'Education'
-                    : 'Skill Development';
-                mapped['isNew'] = true;
-              } else if (type == 'reminders') {
-                mapped['deadline'] = n['title'].toString().contains('Matric')
-                    ? '31 May 2026'
-                    : '15 Jun 2026';
-                mapped['daysLeftCount'] =
-                    n['title'].toString().contains('Matric') ? 5 : 20;
-              } else if (type == 'updates') {
-                mapped['iconType'] = n['title'].toString().contains('Ayushman')
-                    ? 'emblem'
-                    : 'bank';
-              } else if (type == 'profile') {
-                mapped['progress'] = 70;
-              }
-
-              return mapped;
-            }).toList();
-
-            notifyListeners();
-          },
-          onError: (err) {
-            debugPrint(
-              '[AppProvider] Real-time notifications subscription error: $err',
-            );
-          },
-        );
-  }
-
-  void _unsubscribeFromNotifications() {
-    _notificationsSubscription?.cancel();
-    _notificationsSubscription = null;
-    _subscribedNotificationsUserId = null;
-  }
-
   void _setupAuthListener() {
     Supabase.instance.client.auth.onAuthStateChange.listen((data) async {
       final Session? session = data.session;
@@ -392,7 +290,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           }
 
           _subscribeToProfile(user.id);
-          _subscribeToNotifications(user.id);
+          _notifications.subscribe(user.id);
           fetchPromoAlerts();
           fetchDraftSessions();
           await _saveProfile();
@@ -417,8 +315,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         _lastPromoFetch = null;
         _lastDraftFetch = null;
         _unsubscribeFromProfile();
-        _unsubscribeFromNotifications();
-        _notificationsList = [];
+        _notifications.reset();
         notifyListeners();
       }
     });
@@ -659,7 +556,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         }
 
         _subscribeToProfile(session.user.id);
-        _subscribeToNotifications(session.user.id);
+        _notifications.subscribe(session.user.id);
         fetchPromoAlerts();
         fetchDraftSessions();
       } else {
@@ -971,7 +868,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _library.reset();
     _tabs.reset();
     _unsubscribeFromProfile();
-    _unsubscribeFromNotifications();
+    _notifications.unsubscribe();
 
     await SessionCacheService.instance.clearSession();
 
@@ -1096,84 +993,21 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
   void clearFilters() => _searchFilter.clearFilters();
 
-  // Notification action
-  Future<void> markNotificationRead(String id) async {
-    final index = _notificationsList.indexWhere((n) => n['id'] == id);
-    if (index != -1) {
-      _notificationsList[index]['read'] = true;
-      notifyListeners();
-    }
-    try {
-      await Supabase.instance.client
-          .from('notifications')
-          .update({'is_read': true})
-          .eq('id', id);
-    } catch (e) {
-      debugPrint('[AppProvider] Error marking notification read: $e');
-    }
-  }
+  // Notification actions — delegate to NotificationsController.
+  Future<void> markNotificationRead(String id) =>
+      _notifications.markNotificationRead(id);
 
-  Future<void> markAllNotificationsRead() async {
-    for (var n in _notificationsList) {
-      n['read'] = true;
-    }
-    notifyListeners();
-    final userId = Supabase.instance.client.auth.currentUser?.id;
-    if (userId == null) return;
-    try {
-      await Supabase.instance.client
-          .from('notifications')
-          .update({'is_read': true})
-          .eq('user_id', userId);
-    } catch (e) {
-      debugPrint('[AppProvider] Error marking all notifications read: $e');
-    }
-  }
+  Future<void> markAllNotificationsRead() =>
+      _notifications.markAllNotificationsRead();
 
-  Future<void> deleteAllNotifications() async {
-    _notificationsList.clear();
-    notifyListeners();
-    final userId = Supabase.instance.client.auth.currentUser?.id;
-    if (userId == null) return;
-    try {
-      await Supabase.instance.client
-          .from('notifications')
-          .delete()
-          .eq('user_id', userId);
-    } catch (e) {
-      debugPrint('[AppProvider] Error deleting all notifications: $e');
-    }
-  }
+  Future<void> deleteAllNotifications() =>
+      _notifications.deleteAllNotifications();
 
-  Future<void> deleteNotifications(List<String> ids) async {
-    _notificationsList.removeWhere((n) => ids.contains(n['id']));
-    notifyListeners();
-    try {
-      await Supabase.instance.client
-          .from('notifications')
-          .delete()
-          .inFilter('id', ids);
-    } catch (e) {
-      debugPrint('[AppProvider] Error deleting notifications: $e');
-    }
-  }
+  Future<void> deleteNotifications(List<String> ids) =>
+      _notifications.deleteNotifications(ids);
 
-  Future<void> markNotificationsRead(List<String> ids) async {
-    for (var n in _notificationsList) {
-      if (ids.contains(n['id'])) {
-        n['read'] = true;
-      }
-    }
-    notifyListeners();
-    try {
-      await Supabase.instance.client
-          .from('notifications')
-          .update({'is_read': true})
-          .inFilter('id', ids);
-    } catch (e) {
-      debugPrint('[AppProvider] Error marking notifications read: $e');
-    }
-  }
+  Future<void> markNotificationsRead(List<String> ids) =>
+      _notifications.markNotificationsRead(ids);
 
   // Completion calculation
   int get profileCompletionPercentage {
@@ -1442,8 +1276,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _library.dispose();
     _searchFilter.removeListener(notifyListeners);
     _searchFilter.dispose();
+    _notifications.removeListener(notifyListeners);
+    _notifications.dispose();
     _unsubscribeFromProfile();
-    _unsubscribeFromNotifications();
     super.dispose();
   }
 }
