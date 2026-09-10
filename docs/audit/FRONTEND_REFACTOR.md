@@ -95,7 +95,33 @@ Fix these when C4 reaches `basic_profile_screen.dart` — update assertions to t
 
 ### Backlog (not this pass — user prioritises)
 
-C2 `categories_screen.dart` 4822 · C3 `voice_assistant_overlay.dart` 3907 · C4 `basic_profile_screen.dart` 2209 + fix the 6 reds · C5 `smart_assessment_bottom_sheet.dart` 2118 / `saarthi_home_screen.dart` 2360 / `home_screen.dart` 1965 / `msme_module_details_screen.dart` 1973 / `scheme_details_screen.dart` 1798 / `search_screen.dart` 1738 / `profile_screen.dart` 1422 / `notifications_screen.dart` 1302 / `help_support_screen.dart` 1272 · C6 `centralized_translator.dart` 1050 (dictionary -> JSON asset) · C7 `mss_scheme_adapter.dart` 1041 + `scheme_understanding_engine.dart` 1333 (parity-risk — characterization tests first; may defer).
+C2 `categories_screen.dart` 4822 — **IN PROGRESS (see C2 section below)** · C3 `voice_assistant_overlay.dart` 3907 · C4 `basic_profile_screen.dart` 2209 + fix the 6 reds · C5 `smart_assessment_bottom_sheet.dart` 2118 / `saarthi_home_screen.dart` 2360 / `home_screen.dart` 1965 / `msme_module_details_screen.dart` 1973 / `scheme_details_screen.dart` 1798 / `search_screen.dart` 1738 / `profile_screen.dart` 1422 / `notifications_screen.dart` 1302 / `help_support_screen.dart` 1272 · C6 `centralized_translator.dart` 1050 (dictionary -> JSON asset) · C7 `mss_scheme_adapter.dart` 1041 + `scheme_understanding_engine.dart` 1333 (parity-risk — characterization tests first; may defer).
+
+---
+
+## C2 — `categories_screen.dart` (4822 lines)
+
+**Started:** 2026-09-10 (user-ordered after C1.4 complete). Gate = `flutter analyze` clean + `flutter test` no new fails (baseline 443/1/0) + device-smoke each slice.
+
+### Shape
+
+`_CategoriesScreenState` (lines ~425–4742, ~4300 lines) is the god-class. ~56% of the file is **7 self-contained "Business Utilities & Tools"**, each a `void _open<Tool>()` that declares a few local `TextEditingController`s / vars and calls `showModalBottomSheet(... builder: (_) => StatefulBuilder(...))`. They touch **only** `context`, `Provider.of<AppProvider>(context, listen: false).selectedLanguage`, `CentralizedTranslator`, `AppSpacing`, `GoogleFonts`, `AppLocalizations` — **no `_CategoriesScreenState` fields**. Invoked from `_buildBusinessUtilitiesSection()` (~1867) via `_buildUtilityCard(onTap:)` (~1996).
+
+Top-level `DiscoverCounts` (121–400) and `StateMapPainter` (4744–4822) are already isolated — leave them. The category/ministry/state list builders + bottom sheets (~958–1866) stay for now (they use section `GlobalKey`s + `_dynamicCategoryCounts`).
+
+### Plan — one tool per slice, extract to `lib/screens/regular_mode/categories/`
+
+Each: new file exposing `void show<Tool>Sheet(BuildContext context)` (the ex-`_open*` body verbatim, `showModalBottomSheet` + `StatefulBuilder` unchanged); `_CategoriesScreenState._open<Tool>` becomes a one-line delegate `=> show<Tool>Sheet(context);` (keeps the `onTap:` refs in `_buildUtilityCard` untouched). Pure UI move — no state topology change. Device-smoke = open sheet, run one calc, close.
+
+- [ ] **Slice 1 — Udyam Classifier** (~2054–2438, 384 l)
+- [ ] **Slice 2 — Subsidy Estimator** (~4349–4744, 395 l)
+- [ ] **Slice 3 — GST Calculator** (~2438–2884, 446 l)
+- [ ] **Slice 4 — EMI Calculator** (~2884–3365, 481 l)
+- [ ] **Slice 5 — DPIIT Eligibility checklist** (~3365–3640, 275 l)
+- [ ] **Slice 6 — Valuation Estimator** (~3640–4102, 462 l)
+- [ ] **Slice 7 — Document Checklist** + the `_docChecklist(l10n, entityType)` helper (~4102–4349, 247 l)
+
+Target: `categories_screen.dart` ~4822 → ~2100. Consumers: only `main.dart:408` (`CategoriesScreen()` const ctor — unchanged) + l10n/ARB tests (key-existence only, unaffected) + `discover_counts_test.dart` (`DiscoverCounts`, untouched). `l10n_categories_calc_t2_test.dart` pumps `CategoriesScreen` and asserts it builds — must stay green each slice.
 
 ---
 
