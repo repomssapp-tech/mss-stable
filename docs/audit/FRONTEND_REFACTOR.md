@@ -58,8 +58,10 @@ Fix these when C4 reaches `basic_profile_screen.dart` — update assertions to t
 
 ### Track C — decomposition (incremental; gate = analyze + test + device)
 
-- [ ] **C1 — `app_state_provider.dart` (1977 lines, 23 lib consumers, ~48 test files)**
-  Extract cohesive controllers; keep `AppProvider` as a **thin facade** delegating to them so consumers/tests don't churn. Candidate slices: Auth/Session · Profile+Sync · Language · Tab/Nav · Bookmarks · SearchState · Filters · Wizard · Announcements · Notifications · CatalogSync. ~3–5 commits.
+- **C1 — `app_state_provider.dart` (was 1977 lines, 23 lib consumers, ~29 test files)**
+  - [x] **C1.1** (`1ccdaac`) — extracted seed data (`kDefaultAnnouncements` / `kSeedNotifications` / `kDefaultPromoAlerts`) to `app_state_seed_data.dart`. 1978 → 1829 lines. Pure data move; analyze clean; 434/1/6.
+  - [ ] **C1.2 — DEFERRED to a dedicated session.** The remaining ~1829 lines are the *tangled core*: `_setupAuthListener` / `_subscribeToProfile` / `logout` / `deleteAccount` / `changeLanguage` each mutate profile + language + navMode + recommendations + subscriptions + promos + drafts + notifications together. A clean controller split is genuine design work (threading listeners between controllers, preserving `notifyListeners` topology for 23 `context.select` call sites) and the safety net is weak (6 pre-existing reds, no PR CI). **Do this only with: (a) the 6 reds fixed first, (b) added characterization tests for auth/logout/language-reconcile/lifecycle-resume, (c) device smoke of each state transition.** Not to be rushed at the tail of a long session.
+    Safe next increments if picked up: extract `extractGooglePhoto`/`extractGoogleName` (pure, 1 test to update) → `services/account/google_identity.dart`; extract `fetchLocationAndPopulate`/`_getFallbackLocation` (writes only profile address fields) → a location helper.
 
 ### Backlog (not this pass — user prioritises)
 
@@ -73,3 +75,4 @@ C2 `categories_screen.dart` 4822 · C3 `voice_assistant_overlay.dart` 3907 · C4
 |---|---|---|---|---|---|---|
 | 2026-09-10 | baseline | `ca0ea49` | clean | 434 / 1 / 6 | — | 6 reds = test rot in basic_profile onboarding (C4) |
 | 2026-09-10 | B1+B2 | `e1e6f85` | clean | 434 / 1 / 6 | not needed (no behaviour change) | services/ -> 6 folders, widgets/ -> 4; 42 renames via codemod |
+| 2026-09-10 | C1.1 | `1ccdaac` | clean | 434 / 1 / 6 | not needed (pure data move) | seed lists -> app_state_seed_data.dart; provider 1978 -> 1829 |
