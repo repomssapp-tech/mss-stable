@@ -10,6 +10,7 @@ import '../models/user_profile.dart';
 import '../models/scheme_model.dart';
 import '../engine/recommendation_engine.dart';
 import '../services/account/auth_service.dart';
+import '../services/account/google_identity.dart';
 import '../services/catalog/scheme_repository.dart';
 import '../services/catalog/scheme_catalog_sync_service.dart';
 import '../services/account/session_cache_service.dart';
@@ -455,67 +456,6 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   String get navigationMode => _navigationMode;
   int get currentTabIndex => _currentTabIndex;
   UserProfile get profile => _profile;
-
-  /// Extracts the Google account profile image URL from Supabase Auth user metadata or identities.
-  static String extractGooglePhoto(User? user) {
-    if (user == null) return '';
-    final meta = user.userMetadata;
-    if (meta != null) {
-      for (final key in ['avatar_url', 'picture', 'photo_url', 'avatarUrl']) {
-        final val = meta[key];
-        if (val is String && val.trim().isNotEmpty) {
-          return val.trim();
-        }
-      }
-    }
-    if (user.identities != null) {
-      for (final identity in user.identities!) {
-        final idData = identity.identityData;
-        if (idData != null) {
-          for (final key in [
-            'avatar_url',
-            'picture',
-            'photo_url',
-            'avatarUrl',
-          ]) {
-            final val = idData[key];
-            if (val is String && val.trim().isNotEmpty) {
-              return val.trim();
-            }
-          }
-        }
-      }
-    }
-    return '';
-  }
-
-  /// Extracts the Google account name from Supabase Auth user metadata or identities.
-  static String extractGoogleName(User? user) {
-    if (user == null) return '';
-    final meta = user.userMetadata;
-    if (meta != null) {
-      for (final key in ['full_name', 'name', 'user_name']) {
-        final val = meta[key];
-        if (val is String && val.trim().isNotEmpty) {
-          return val.trim();
-        }
-      }
-    }
-    if (user.identities != null) {
-      for (final identity in user.identities!) {
-        final idData = identity.identityData;
-        if (idData != null) {
-          for (final key in ['full_name', 'name', 'user_name']) {
-            final val = idData[key];
-            if (val is String && val.trim().isNotEmpty) {
-              return val.trim();
-            }
-          }
-        }
-      }
-    }
-    return '';
-  }
 
   /// Returns the effective profile photo URL or local file path.
   /// Priority:
