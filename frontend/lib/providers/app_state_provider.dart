@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,7 +48,6 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   List<String> _recentlyViewedIds = [];
   List<String> _savedEligibilitySchemeIds = [];
   DateTime? _lastEligibilitySavedAt;
-  List<Map<String, dynamic>> _downloadedDocs = [];
   String _searchQuery = '';
 
   // ── Scheme data (loaded from Supabase via SchemeRepository) ──────────
@@ -659,16 +657,6 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           await SessionCacheService.instance.getSavedEligibilityResults() ?? [];
       _lastEligibilitySavedAt = await SessionCacheService.instance
           .getLastEligibilitySavedAt();
-
-      final downloadedDocsStr = await SessionCacheService.instance
-          .getDownloadedDocs();
-      if (downloadedDocsStr != null) {
-        _downloadedDocs = List<Map<String, dynamic>>.from(
-          jsonDecode(downloadedDocsStr),
-        );
-      } else {
-        _downloadedDocs = [];
-      }
 
       final session = Supabase.instance.client.auth.currentSession;
       if (session != null) {
@@ -1447,51 +1435,6 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     await _saveProfile();
 
     _syncProfileToSupabaseInBackground(_profile);
-  }
-
-  List<Map<String, dynamic>> get downloadedDocs => _downloadedDocs;
-
-  Future<void> _saveDownloadedDocs() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('downloadedDocs', jsonEncode(_downloadedDocs));
-  }
-
-  void downloadDoc(String id, String title, String size) {
-    if (!_downloadedDocs.any((doc) => doc['id'] == id)) {
-      final now = DateTime.now();
-      final months = [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
-      ];
-      final dateStr =
-          'Downloaded on ${now.day} ${months[now.month - 1]} ${now.year}';
-
-      _downloadedDocs.add({
-        'id': id,
-        'title': title,
-        'size': size,
-        'date': dateStr,
-        'fileType': 'PDF',
-      });
-      _saveDownloadedDocs();
-      notifyListeners();
-    }
-  }
-
-  void removeDownloadedDoc(String id) {
-    _downloadedDocs.removeWhere((doc) => doc['id'] == id);
-    _saveDownloadedDocs();
-    notifyListeners();
   }
 
   DateTime? _lastPromoFetch;

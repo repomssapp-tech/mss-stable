@@ -204,25 +204,6 @@ class SessionCacheService {
     }
   }
 
-  Future<String?> getDownloadedDocs() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      return prefs.getString('downloadedDocs');
-    } catch (e) {
-      debugPrint('[SessionCacheService] Error getting downloaded docs: $e');
-      return null;
-    }
-  }
-
-  Future<void> saveDownloadedDocs(String downloadedDocs) async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('downloadedDocs', downloadedDocs);
-    } catch (e) {
-      debugPrint('[SessionCacheService] Error saving downloaded docs: $e');
-    }
-  }
-
   Future<List<String>?> getSavedEligibilityResults() async {
     try {
       final prefs = await SharedPreferences.getInstance();
