@@ -61,8 +61,19 @@ Fix these when C4 reaches `basic_profile_screen.dart` — update assertions to t
 - **C1 — `app_state_provider.dart` (was 1977 lines, 23 lib consumers, ~29 test files)**
   - [x] **C1.1** (`1ccdaac`) — extracted seed data (`kDefaultAnnouncements` / `kSeedNotifications` / `kDefaultPromoAlerts`) to `app_state_seed_data.dart`. 1978 -> 1829. Pure data move; analyze clean; 434/1/6.
   - [x] **C1.2** (`80ea968`) — extracted `extractGooglePhoto` / `extractGoogleName` (pure static) to `services/account/google_identity.dart`; folded the two key-scan loops into one helper; updated `google_profile_photo_test.dart`. 1829 -> 1769. analyze clean; 434/1/6.
-  - [ ] **C1.3** (next, safe) — extract device-location resolution (`fetchLocationAndPopulate` + `_getFallbackLocation`, ~130 lines of Geolocator/geocoding) to a resolver returning the address fields + locData; provider keeps a thin wrapper that applies the patch + notify/save/sync. Check for a covering test first.
-  - [ ] **C1.4 — DEFERRED to a dedicated session.** The remaining core (~1640 lines) is *tangled*: `_setupAuthListener` / `_subscribeToProfile` / `logout` / `deleteAccount` / `changeLanguage` each mutate profile + language + navMode + recommendations + subscriptions + promos + drafts + notifications together. A clean controller split is genuine design work (threading listeners between controllers, preserving `notifyListeners` topology for 23 `context.select` sites) and the safety net is weak (6 pre-existing reds, no PR CI). **Do it only with: (a) the 6 reds fixed first, (b) characterization tests for auth/logout/language-reconcile/lifecycle-resume, (c) device smoke of each state transition.**
+  - [x] **C1.3** (`d179a1a`) — removed dead code: `fetchLocationAndPopulate()` (public, 0 callers/0 tests, orphaned by `b9b0867`) + `_getFallbackLocation()` + the `geolocator`/`geocoding` imports (still used elsewhere, so pubspec deps stay). 1769 -> 1638. analyze clean; 434/1/6.
+  - [ ] **C1.4 — the tangled core split (next; user-ordered).** ~1638 lines: `_setupAuthListener` / `_subscribeToProfile` / `logout` / `deleteAccount` / `changeLanguage` each mutate profile + language + navMode + recommendations + subscriptions + promos + drafts + notifications together. Prereqs, in order:
+    1. **Fix the 6 red onboarding tests** (see diagnosis below).
+    2. Add characterization tests: auth sign-in hydration, `logout` full-reset, `deleteAccount`, `_reconcileServerLanguage`, lifecycle `resumed` -> catalog sync.
+    3. Split into controllers behind an `AppProvider` facade, one slice per commit, preserving `notifyListeners` topology (23 `context.select` sites). Device-smoke each transition.
+
+#### The 6 red tests — diagnosis (test rot from the Step-4 i18n migration + a Step-2 field-count change)
+
+| Test | Cause | Fix |
+|---|---|---|
+| `production_surface_accessibility_test.dart` — "profile onboarding controls validate safely on narrow phone / wide tablet" | `find.textContaining('Date of Birth (DOB)')` finds 0 — the visible DOB label/text changed (ARB key `dateOfBirth` still holds the string, but it is no longer rendered as plain matchable text, or the field is on a step the test's `_withSemantics` flow doesn't reach). | Re-point the finder at the current DOB control (by key or by the localized label actually rendered). |
+| `profile_onboarding_overflow_test.dart` — "Step 1 date-of-birth field shows the DD/MM/YYYY placeholder" | `find.text('DD/MM/YYYY')` finds 0 — DOB placeholder was localized / changed / replaced by a date-picker affordance. | Assert on the current placeholder (or the date-picker trigger). |
+| `profile_onboarding_overflow_test.dart` — "Step 2 Continue disabled until pincode 6 digits" & "pincode rejects non-digits, caps at 6" | `find.byType(TextFormField).at(4)` → RangeError: Step 2 (`LocationProfileScreen`) now renders only **4** `TextFormField`s, not 5. A field was removed/moved or retyped (e.g. state is now a dropdown). | Re-map the address fields to their current widgets; address the pincode field by key/hint rather than index. |
 
 ### Backlog (not this pass — user prioritises)
 
@@ -78,3 +89,4 @@ C2 `categories_screen.dart` 4822 · C3 `voice_assistant_overlay.dart` 3907 · C4
 | 2026-09-10 | B1+B2 | `e1e6f85` | clean | 434 / 1 / 6 | not needed (no behaviour change) | services/ -> 6 folders, widgets/ -> 4; 42 renames via codemod |
 | 2026-09-10 | C1.1 | `1ccdaac` | clean | 434 / 1 / 6 | not needed (pure data move) | seed lists -> app_state_seed_data.dart; provider 1978 -> 1829 |
 | 2026-09-10 | C1.2 | `80ea968` | clean | 434 / 1 / 6 | not needed (pure static helpers) | extractGoogle{Photo,Name} -> services/account/google_identity.dart; provider 1829 -> 1769 |
+| 2026-09-10 | C1.3 | `d179a1a` | clean | 434 / 1 / 6 | not needed (dead-code delete) | removed dead fetchLocationAndPopulate + _getFallbackLocation; provider 1769 -> 1638 |
