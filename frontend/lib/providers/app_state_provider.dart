@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/user_profile.dart';
 import '../models/scheme_model.dart';
@@ -14,6 +13,7 @@ import '../services/account/session_cache_service.dart';
 import '../screens/splash_screen.dart';
 import '../widgets/common/app_toast.dart';
 import 'app_state_seed_data.dart';
+import 'controllers/library_controller.dart';
 import 'controllers/tab_navigation_controller.dart';
 
 class AppProvider with ChangeNotifier, WidgetsBindingObserver {
@@ -22,6 +22,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           catalogSyncService ?? SchemeCatalogSyncService.instance {
     WidgetsBinding.instance.addObserver(this);
     _tabs.addListener(notifyListeners);
+    _library.addListener(notifyListeners);
     _loadState();
     _setupAuthListener();
   }
@@ -31,6 +32,11 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   /// Bottom-navigation state (index + back-stack), forwarded through this
   /// provider's own `notifyListeners` (frontend refactor C1.4).
   final TabNavigationController _tabs = TabNavigationController();
+
+  /// Saved-content lists (bookmarks, recently viewed, saved eligibility set)
+  /// and their persistence, forwarded through this provider's own
+  /// `notifyListeners` (frontend refactor C1.4).
+  final LibraryController _library = LibraryController();
   StreamSubscription<List<Map<String, dynamic>>>? _profileSubscription;
   bool _isLoggedIn = false;
   bool _isLoggingOut = false;
@@ -44,10 +50,6 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   DateTime? _pendingLanguageSince;
   String _navigationMode = 'regular'; // 'regular', 'companion'
   UserProfile _profile = UserProfile();
-  List<String> _bookmarkedIds = [];
-  List<String> _recentlyViewedIds = [];
-  List<String> _savedEligibilitySchemeIds = [];
-  DateTime? _lastEligibilitySavedAt;
   String _searchQuery = '';
 
   // ── Scheme data (loaded from Supabase via SchemeRepository) ──────────
@@ -408,10 +410,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         _isLoggedIn = false;
         _mobileNumber = '';
         _profile = UserProfile();
-        _bookmarkedIds.clear();
-        _recentlyViewedIds.clear();
-        _savedEligibilitySchemeIds.clear();
-        _lastEligibilitySavedAt = null;
+        _library.reset();
         _tabs.resetIndexOnly();
         _promoAlerts = [];
         _draftSessions = [];
@@ -491,20 +490,18 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     return google.isNotEmpty && photo != google;
   }
 
-  List<String> get bookmarkedIds => _bookmarkedIds;
-  List<String> get recentlyViewedIds => _recentlyViewedIds;
-  List<String> get savedEligibilitySchemeIds => _savedEligibilitySchemeIds;
-  DateTime? get lastEligibilitySavedAt => _lastEligibilitySavedAt;
-  bool get hasSavedEligibilityResults => _savedEligibilitySchemeIds.isNotEmpty;
+  List<String> get bookmarkedIds => _library.bookmarkedIds;
+  List<String> get recentlyViewedIds => _library.recentlyViewedIds;
+  List<String> get savedEligibilitySchemeIds =>
+      _library.savedEligibilitySchemeIds;
+  DateTime? get lastEligibilitySavedAt => _library.lastEligibilitySavedAt;
+  bool get hasSavedEligibilityResults => _library.hasSavedEligibilityResults;
 
   // Saved eligibility schemes list
   List<Scheme> get savedEligibilitySchemes {
+    final ids = _library.savedEligibilitySchemeIds;
     return _allSchemes
-        .where(
-          (s) =>
-              _savedEligibilitySchemeIds.contains(s.id) ||
-              _savedEligibilitySchemeIds.contains(s.schemeCode),
-        )
+        .where((s) => ids.contains(s.id) || ids.contains(s.schemeCode))
         .toList();
   }
 
@@ -532,23 +529,17 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
   // Bookmarked schemes list
   List<Scheme> get bookmarkedSchemes {
+    final ids = _library.bookmarkedIds;
     return _allSchemes
-        .where(
-          (s) =>
-              _bookmarkedIds.contains(s.id) ||
-              _bookmarkedIds.contains(s.schemeCode),
-        )
+        .where((s) => ids.contains(s.id) || ids.contains(s.schemeCode))
         .toList();
   }
 
   // Recently viewed schemes list
   List<Scheme> get recentlyViewedSchemes {
+    final ids = _library.recentlyViewedIds;
     return _allSchemes
-        .where(
-          (s) =>
-              _recentlyViewedIds.contains(s.id) ||
-              _recentlyViewedIds.contains(s.schemeCode),
-        )
+        .where((s) => ids.contains(s.id) || ids.contains(s.schemeCode))
         .toList();
   }
 
@@ -650,13 +641,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         _navigationMode = cachedNavMode;
       }
 
-      _bookmarkedIds = await SessionCacheService.instance.getBookmarks() ?? [];
-      _recentlyViewedIds =
-          await SessionCacheService.instance.getRecentlyViewed() ?? [];
-      _savedEligibilitySchemeIds =
-          await SessionCacheService.instance.getSavedEligibilityResults() ?? [];
-      _lastEligibilitySavedAt = await SessionCacheService.instance
-          .getLastEligibilitySavedAt();
+      await _library.hydrate();
 
       final session = Supabase.instance.client.auth.currentSession;
       if (session != null) {
@@ -924,10 +909,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _pendingLanguageSince = null;
     _navigationMode = 'regular';
     _profile = UserProfile();
-    _bookmarkedIds.clear();
-    _recentlyViewedIds.clear();
-    _savedEligibilitySchemeIds.clear();
-    _lastEligibilitySavedAt = null;
+    _library.reset();
     _tabs.reset();
     _unsubscribeFromProfile();
 
@@ -991,10 +973,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _pendingLanguageSince = null;
     _navigationMode = 'regular';
     _profile = UserProfile();
-    _bookmarkedIds.clear();
-    _recentlyViewedIds.clear();
-    _savedEligibilitySchemeIds.clear();
-    _lastEligibilitySavedAt = null;
+    _library.reset();
     _tabs.reset();
     _unsubscribeFromProfile();
     _unsubscribeFromNotifications();
@@ -1086,37 +1065,12 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
   bool popTabIndex() => _tabs.popTabIndex();
 
-  void toggleBookmark(String id) async {
-    if (_bookmarkedIds.contains(id)) {
-      _bookmarkedIds.remove(id);
-    } else {
-      _bookmarkedIds.add(id);
-    }
-    notifyListeners();
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('bookmarks', _bookmarkedIds);
-  }
+  void toggleBookmark(String id) => _library.toggleBookmark(id);
 
-  void addToRecentlyViewed(String id) async {
-    _recentlyViewedIds.remove(id); // Move to front
-    _recentlyViewedIds.insert(0, id);
-    if (_recentlyViewedIds.length > 5) {
-      _recentlyViewedIds = _recentlyViewedIds.sublist(0, 5);
-    }
-    notifyListeners();
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('recentlyViewed', _recentlyViewedIds);
-  }
+  void addToRecentlyViewed(String id) => _library.addToRecentlyViewed(id);
 
   Future<void> saveEligibilityResults(List<String> schemeIds) async {
-    _savedEligibilitySchemeIds = List<String>.from(schemeIds);
-    _lastEligibilitySavedAt = DateTime.now();
-    notifyListeners();
-
-    await SessionCacheService.instance.saveSavedEligibilityResults(
-      _savedEligibilitySchemeIds,
-      _lastEligibilitySavedAt!,
-    );
+    await _library.saveEligibilityResults(schemeIds);
 
     if (_isLoggedIn) {
       final user = Supabase.instance.client.auth.currentUser;
@@ -1125,8 +1079,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           Supabase.instance.client
               .from('profiles')
               .update({
-                'saved_eligibility_schemes': _savedEligibilitySchemeIds,
-                'last_eligibility_saved_at': _lastEligibilitySavedAt!
+                'saved_eligibility_schemes':
+                    _library.savedEligibilitySchemeIds,
+                'last_eligibility_saved_at': _library.lastEligibilitySavedAt!
                     .toIso8601String(),
               })
               .eq('id', user.id)
@@ -1557,6 +1512,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     WidgetsBinding.instance.removeObserver(this);
     _tabs.removeListener(notifyListeners);
     _tabs.dispose();
+    _library.removeListener(notifyListeners);
+    _library.dispose();
     _unsubscribeFromProfile();
     _unsubscribeFromNotifications();
     super.dispose();
