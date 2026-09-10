@@ -33,9 +33,15 @@ Fix these when C4 reaches `basic_profile_screen.dart` — update assertions to t
 
 ## Plan (agreed scope for this pass: B1 + B2 + C1, then reassess)
 
-### Track B — folder sub-grouping (mechanical; gate = `flutter analyze`)
+### Track B — folder sub-grouping (mechanical; gate = `flutter analyze`)  — DONE (`e1e6f85`)
 
-- [ ] **B1 — `lib/services/` (25 files -> 6 folders)**
+- [x] **B1 — `lib/services/` (26 files -> 6 folders)** — done via codemod; analyze clean; 434/1/6
+- [x] **B2 — `lib/widgets/` (16 files -> 4 folders)** — done via codemod; analyze clean; 434/1/6
+- Decision: `lib/features/beta_gate/` left as-is (cohesive feature module, not a defect).
+
+<details><summary>original B1 spec</summary>
+
+- **B1 — `lib/services/` (25 files -> 6 folders)**
   - `catalog/` — scheme_repository, mss_catalog_bundle, scheme_catalog_store, scheme_catalog_sync_service, mss_scheme_adapter, centralized_translator
   - `search/` — hybrid_scheme_search, intelligent_scheme_search, scheme_understanding_engine, official_grounded_search, private_ai_knowledge_base
   - `voice/` — livekit_voice_agent_controller, voice_agent_controller, voice_agent_preferences, voice_agent_preview_service, voice_recognition_controller, speech_output_controller, assistant_session_controller
@@ -47,9 +53,8 @@ Fix these when C4 reaches `basic_profile_screen.dart` — update assertions to t
   - `legal/` — legal_document_modal, legal_consent_section, data_processing_consent_modal
   - `assistant/` — voice_assistant_overlay, smart_assessment_bottom_sheet
   - `common/` — app_toast, custom_button, custom_confirm_dialog, gradient_scaffold, standard_page_header, floating_logo, anti_gravity_hero_section
-  - Also normalise `lib/features/beta_gate/` (lone feature-first outlier) — TBD in B2.
 
-Imports: `lib/` uses ~281 relative import lines / 55 files; `test/` uses ~245 `package:frontend/...` lines / 79 files. Every move rewrites the file's own relative imports + all references. `flutter analyze` (currently clean) is the miss-detector.
+</details>
 
 ### Track C — decomposition (incremental; gate = analyze + test + device)
 
@@ -67,3 +72,4 @@ C2 `categories_screen.dart` 4822 · C3 `voice_assistant_overlay.dart` 3907 · C4
 | Date | Phase | Commit | analyze | test (pass/skip/fail) | device | notes |
 |---|---|---|---|---|---|---|
 | 2026-09-10 | baseline | `ca0ea49` | clean | 434 / 1 / 6 | — | 6 reds = test rot in basic_profile onboarding (C4) |
+| 2026-09-10 | B1+B2 | `e1e6f85` | clean | 434 / 1 / 6 | not needed (no behaviour change) | services/ -> 6 folders, widgets/ -> 4; 42 renames via codemod |
