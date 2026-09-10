@@ -16,24 +16,31 @@ import 'app_state_seed_data.dart';
 import 'controllers/library_controller.dart';
 import 'controllers/notifications_controller.dart';
 import 'controllers/promo_content_controller.dart';
+import 'controllers/scheme_catalog_controller.dart';
 import 'controllers/search_filter_controller.dart';
 import 'controllers/tab_navigation_controller.dart';
 
 class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   AppProvider({SchemeCatalogSyncService? catalogSyncService})
-    : _catalogSyncService =
-          catalogSyncService ?? SchemeCatalogSyncService.instance {
+    : _catalog = SchemeCatalogController(
+        catalogSyncService: catalogSyncService,
+      ) {
     WidgetsBinding.instance.addObserver(this);
     _tabs.addListener(notifyListeners);
     _library.addListener(notifyListeners);
     _searchFilter.addListener(notifyListeners);
     _notifications.addListener(notifyListeners);
     _promos.addListener(notifyListeners);
+    _catalog.addListener(notifyListeners);
     _loadState();
     _setupAuthListener();
   }
 
-  final SchemeCatalogSyncService _catalogSyncService;
+  /// Loaded scheme catalog + ranked recommendations + catalog-sync state and
+  /// the `loadSchemes` / `syncSchemeCatalog` flows, forwarded through this
+  /// provider's own `notifyListeners` (frontend refactor C1.4). The current
+  /// language + profile are passed in at each call site.
+  final SchemeCatalogController _catalog;
 
   /// Bottom-navigation state (index + back-stack), forwarded through this
   /// provider's own `notifyListeners` (frontend refactor C1.4).
@@ -71,14 +78,6 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   DateTime? _pendingLanguageSince;
   String _navigationMode = 'regular'; // 'regular', 'companion'
   UserProfile _profile = UserProfile();
-
-  // ── Scheme data (loaded from Supabase via SchemeRepository) ──────────
-  List<Scheme> _allSchemes = [];
-  List<MapEntry<Scheme, RecommendationResult>> _recommendedSchemes = [];
-  bool _schemesLoading = false;
-  String? _schemesError;
-  CatalogSyncResult? _catalogSyncResult;
-  bool _catalogSyncing = false;
 
   List<Map<String, dynamic>> get notifications => _notifications.notifications;
 
@@ -180,10 +179,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
                 _profile = _profile.copyWith(language: _selectedLanguage);
                 _navigationMode = dbProfile.navigationMode;
 
-                _recommendedSchemes = RecommendationEngine.getRecommendations(
-                  _profile,
-                  _allSchemes,
-                );
+                _catalog.recomputeRecommendations(_profile);
                 fetchPromoAlerts();
                 fetchDraftSessions();
                 notifyListeners();
@@ -279,11 +275,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           // this, "Recommended For You" keeps showing scores computed
           // against the pre-sign-in default profile until something else
           // happens to recompute it.
-          if (_allSchemes.isNotEmpty) {
-            _recommendedSchemes = RecommendationEngine.getRecommendations(
-              _profile,
-              _allSchemes,
-            );
+          if (_catalog.hasSchemes) {
+            _catalog.recomputeRecommendations(_profile);
           }
 
           _subscribeToProfile(user.id);
@@ -324,16 +317,10 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     notifyListeners();
   }
 
-  bool _recommendationsOverriddenForTesting = false;
-
   @visibleForTesting
   void setRecommendedSchemesForTesting(
     List<MapEntry<Scheme, RecommendationResult>> schemes,
-  ) {
-    _recommendationsOverriddenForTesting = true;
-    _recommendedSchemes = schemes;
-    notifyListeners();
-  }
+  ) => _catalog.setRecommendedSchemesForTesting(schemes);
 
   bool get isGuest => false;
   bool get isLoggingOut => _isLoggingOut;
@@ -388,7 +375,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   // Saved eligibility schemes list
   List<Scheme> get savedEligibilitySchemes {
     final ids = _library.savedEligibilitySchemeIds;
-    return _allSchemes
+    return _catalog.allSchemes
         .where((s) => ids.contains(s.id) || ids.contains(s.schemeCode))
         .toList();
   }
@@ -396,27 +383,22 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   String get searchQuery => _searchFilter.searchQuery;
   Map<String, dynamic> get filters => _searchFilter.filters;
 
-  // Scheme loading state
-  bool get schemesLoading => _schemesLoading;
-  String? get schemesError => _schemesError;
-  List<Scheme> get allSchemes => _allSchemes;
-  CatalogSyncResult? get catalogSyncResult => _catalogSyncResult;
-  bool get catalogSyncing => _catalogSyncing;
-  String get catalogStatusLabel {
-    final manifest = _catalogSyncResult?.manifest;
-    if (manifest == null) return 'Bundled · ${_allSchemes.length} schemes';
-    final date = manifest.publishedAt.toLocal();
-    return 'v${manifest.version} · ${date.day}/${date.month}/${date.year}';
-  }
+  // Scheme loading state — delegate to SchemeCatalogController.
+  bool get schemesLoading => _catalog.schemesLoading;
+  String? get schemesError => _catalog.schemesError;
+  List<Scheme> get allSchemes => _catalog.allSchemes;
+  CatalogSyncResult? get catalogSyncResult => _catalog.catalogSyncResult;
+  bool get catalogSyncing => _catalog.catalogSyncing;
+  String get catalogStatusLabel => _catalog.catalogStatusLabel;
 
   // Recommended schemes (ranked by RecommendationEngine against cached list)
   List<MapEntry<Scheme, RecommendationResult>> get recommendedSchemes =>
-      _recommendedSchemes;
+      _catalog.recommendedSchemes;
 
   // Bookmarked schemes list
   List<Scheme> get bookmarkedSchemes {
     final ids = _library.bookmarkedIds;
-    return _allSchemes
+    return _catalog.allSchemes
         .where((s) => ids.contains(s.id) || ids.contains(s.schemeCode))
         .toList();
   }
@@ -424,65 +406,25 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   // Recently viewed schemes list
   List<Scheme> get recentlyViewedSchemes {
     final ids = _library.recentlyViewedIds;
-    return _allSchemes
+    return _catalog.allSchemes
         .where((s) => ids.contains(s.id) || ids.contains(s.schemeCode))
         .toList();
   }
 
-  // Load (or reload) all schemes and recompute recommendations
-  Future<void> loadSchemes({bool forceRefresh = false}) async {
-    if (_schemesLoading) return;
-    if (forceRefresh) SchemeRepository.instance.clearCache();
+  // Catalog load / sync — delegate to SchemeCatalogController, passing the
+  // current language + profile (which stay on this facade).
+  Future<void> loadSchemes({bool forceRefresh = false}) => _catalog.loadSchemes(
+    langCode: _selectedLanguage,
+    profile: _profile,
+    forceRefresh: forceRefresh,
+  );
 
-    _schemesLoading = true;
-    _schemesError = null;
-    notifyListeners();
-
-    try {
-      _allSchemes = await SchemeRepository.instance.getAllSchemes(
+  Future<CatalogSyncResult> syncSchemeCatalog({bool force = false}) =>
+      _catalog.syncSchemeCatalog(
         langCode: _selectedLanguage,
+        profile: _profile,
+        force: force,
       );
-      if (!_recommendationsOverriddenForTesting) {
-        _recommendedSchemes = RecommendationEngine.getRecommendations(
-          _profile,
-          _allSchemes,
-        );
-      }
-    } catch (e) {
-      _schemesError = e.toString();
-      debugPrint('[AppProvider] loadSchemes error: $e');
-    } finally {
-      _schemesLoading = false;
-      notifyListeners();
-    }
-  }
-
-  Future<CatalogSyncResult> syncSchemeCatalog({bool force = false}) async {
-    if (_catalogSyncing) {
-      return _catalogSyncResult ??
-          const CatalogSyncResult(CatalogSyncOutcome.throttled);
-    }
-    _catalogSyncing = true;
-    notifyListeners();
-    CatalogSyncResult result;
-    try {
-      result = await _catalogSyncService.syncIfNeeded(force: force);
-    } catch (error) {
-      result = CatalogSyncResult(
-        CatalogSyncOutcome.rejected,
-        manifest: _catalogSyncResult?.manifest,
-        message: error.toString(),
-      );
-    }
-    _catalogSyncResult = result;
-    _catalogSyncing = false;
-    if (result.changed) {
-      await loadSchemes(forceRefresh: true);
-    } else {
-      notifyListeners();
-    }
-    return result;
-  }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -1099,10 +1041,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _profile = candidate;
 
     // Recalculate recommendations based on updated profile
-    _recommendedSchemes = RecommendationEngine.getRecommendations(
-      _profile,
-      _allSchemes,
-    );
+    _catalog.recomputeRecommendations(_profile);
 
     notifyListeners();
     await _saveProfile();
@@ -1148,6 +1087,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _notifications.dispose();
     _promos.removeListener(notifyListeners);
     _promos.dispose();
+    _catalog.removeListener(notifyListeners);
+    _catalog.dispose();
     _unsubscribeFromProfile();
     super.dispose();
   }
