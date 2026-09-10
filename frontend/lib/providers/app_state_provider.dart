@@ -15,17 +15,23 @@ import '../services/account/session_cache_service.dart';
 import '../screens/splash_screen.dart';
 import '../widgets/common/app_toast.dart';
 import 'app_state_seed_data.dart';
+import 'controllers/tab_navigation_controller.dart';
 
 class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   AppProvider({SchemeCatalogSyncService? catalogSyncService})
     : _catalogSyncService =
           catalogSyncService ?? SchemeCatalogSyncService.instance {
     WidgetsBinding.instance.addObserver(this);
+    _tabs.addListener(notifyListeners);
     _loadState();
     _setupAuthListener();
   }
 
   final SchemeCatalogSyncService _catalogSyncService;
+
+  /// Bottom-navigation state (index + back-stack), forwarded through this
+  /// provider's own `notifyListeners` (frontend refactor C1.4).
+  final TabNavigationController _tabs = TabNavigationController();
   StreamSubscription<List<Map<String, dynamic>>>? _profileSubscription;
   bool _isLoggedIn = false;
   bool _isLoggingOut = false;
@@ -38,9 +44,6 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   String? _pendingLanguage;
   DateTime? _pendingLanguageSince;
   String _navigationMode = 'regular'; // 'regular', 'companion'
-  int _currentTabIndex =
-      0; // Bottom Navigation: 0: Home, 1: Search, 2: Categories, 3: Saved Schemes, 4: Profile
-  final List<int> _tabHistory = [];
   UserProfile _profile = UserProfile();
   List<String> _bookmarkedIds = [];
   List<String> _recentlyViewedIds = [];
@@ -411,7 +414,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         _recentlyViewedIds.clear();
         _savedEligibilitySchemeIds.clear();
         _lastEligibilitySavedAt = null;
-        _currentTabIndex = 0;
+        _tabs.resetIndexOnly();
         _promoAlerts = [];
         _draftSessions = [];
         // Clear the throttle stamps too, or the next account to sign in on
@@ -452,7 +455,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   String get mobileNumber => _mobileNumber;
   String get selectedLanguage => _selectedLanguage;
   String get navigationMode => _navigationMode;
-  int get currentTabIndex => _currentTabIndex;
+  int get currentTabIndex => _tabs.currentTabIndex;
   UserProfile get profile => _profile;
 
   /// Returns the effective profile photo URL or local file path.
@@ -636,8 +639,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     try {
       _selectedLanguage =
           await SessionCacheService.instance.getLanguage() ?? 'en';
-      _currentTabIndex = await SessionCacheService.instance
-          .getCurrentTabIndex();
+      await _tabs.hydrate();
 
       final cachedProfile = await SessionCacheService.instance.loadProfile();
       if (cachedProfile != null) {
@@ -938,8 +940,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _recentlyViewedIds.clear();
     _savedEligibilitySchemeIds.clear();
     _lastEligibilitySavedAt = null;
-    _currentTabIndex = 0;
-    _tabHistory.clear();
+    _tabs.reset();
     _unsubscribeFromProfile();
 
     await SessionCacheService.instance.clearSession();
@@ -1006,8 +1007,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _recentlyViewedIds.clear();
     _savedEligibilitySchemeIds.clear();
     _lastEligibilitySavedAt = null;
-    _currentTabIndex = 0;
-    _tabHistory.clear();
+    _tabs.reset();
     _unsubscribeFromProfile();
     _unsubscribeFromNotifications();
 
@@ -1030,16 +1030,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     );
   }
 
-  void updateTabIndex(int index, {bool addToHistory = true}) async {
-    if (_currentTabIndex == index) return;
-    if (addToHistory) {
-      if (_tabHistory.isEmpty || _tabHistory.last != _currentTabIndex) {
-        _tabHistory.add(_currentTabIndex);
-      }
-    }
-    _currentTabIndex = index;
-    notifyListeners();
-    await SessionCacheService.instance.saveCurrentTabIndex(index);
+  void updateTabIndex(int index, {bool addToHistory = true}) {
+    _tabs.updateTabIndex(index, addToHistory: addToHistory);
   }
 
   Future<void> fetchLatestProfile() async {
@@ -1102,20 +1094,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     }
   }
 
-  bool get hasTabHistory => _tabHistory.isNotEmpty;
+  bool get hasTabHistory => _tabs.hasTabHistory;
 
-  bool popTabIndex() {
-    if (_tabHistory.isNotEmpty) {
-      final prevIndex = _tabHistory.removeLast();
-      _currentTabIndex = prevIndex;
-      notifyListeners();
-      SharedPreferences.getInstance().then((prefs) {
-        prefs.setInt('currentTabIndex', prevIndex);
-      });
-      return true;
-    }
-    return false;
-  }
+  bool popTabIndex() => _tabs.popTabIndex();
 
   void toggleBookmark(String id) async {
     if (_bookmarkedIds.contains(id)) {
@@ -1631,6 +1612,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _tabs.removeListener(notifyListeners);
+    _tabs.dispose();
     _unsubscribeFromProfile();
     _unsubscribeFromNotifications();
     super.dispose();
