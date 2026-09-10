@@ -14,6 +14,7 @@ import '../screens/splash_screen.dart';
 import '../widgets/common/app_toast.dart';
 import 'app_state_seed_data.dart';
 import 'controllers/library_controller.dart';
+import 'controllers/search_filter_controller.dart';
 import 'controllers/tab_navigation_controller.dart';
 
 class AppProvider with ChangeNotifier, WidgetsBindingObserver {
@@ -23,6 +24,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     _tabs.addListener(notifyListeners);
     _library.addListener(notifyListeners);
+    _searchFilter.addListener(notifyListeners);
     _loadState();
     _setupAuthListener();
   }
@@ -37,6 +39,10 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   /// and their persistence, forwarded through this provider's own
   /// `notifyListeners` (frontend refactor C1.4).
   final LibraryController _library = LibraryController();
+
+  /// Transient search query + active facet filters, forwarded through this
+  /// provider's own `notifyListeners` (frontend refactor C1.4).
+  final SearchFilterController _searchFilter = SearchFilterController();
   StreamSubscription<List<Map<String, dynamic>>>? _profileSubscription;
   bool _isLoggedIn = false;
   bool _isLoggingOut = false;
@@ -50,7 +56,6 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   DateTime? _pendingLanguageSince;
   String _navigationMode = 'regular'; // 'regular', 'companion'
   UserProfile _profile = UserProfile();
-  String _searchQuery = '';
 
   // ── Scheme data (loaded from Supabase via SchemeRepository) ──────────
   List<Scheme> _allSchemes = [];
@@ -59,14 +64,6 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   String? _schemesError;
   CatalogSyncResult? _catalogSyncResult;
   bool _catalogSyncing = false;
-
-  // Active scheme facet filters (see lib/models/scheme_filter.dart). Empty by
-  // default -- regular search is never silently narrowed by the profile.
-  Map<String, dynamic> _filters = {};
-
-  // Temporary wizard answers during the "Find My Schemes" Assessment
-  Map<String, dynamic> _wizardAnswers = {};
-  int _wizardStep = 0;
 
   // Dynamic/Mock Announcements fallback
   List<Map<String, String>> _announcementsList = [];
@@ -505,10 +502,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         .toList();
   }
 
-  String get searchQuery => _searchQuery;
-  Map<String, dynamic> get filters => _filters;
-  Map<String, dynamic> get wizardAnswers => _wizardAnswers;
-  int get wizardStep => _wizardStep;
+  String get searchQuery => _searchFilter.searchQuery;
+  Map<String, dynamic> get filters => _searchFilter.filters;
 
   // Scheme loading state
   bool get schemesLoading => _schemesLoading;
@@ -1093,82 +1088,13 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     }
   }
 
-  // Search & Filter Operations
-  void updateSearchQuery(String query) {
-    _searchQuery = query;
-    notifyListeners();
-  }
+  // Search & Filter Operations — delegate to SearchFilterController.
+  void updateSearchQuery(String query) => _searchFilter.updateSearchQuery(query);
 
-  void updateFilter(String key, dynamic value) {
-    _filters[key] = value;
-    notifyListeners();
-  }
+  void updateFilter(String key, dynamic value) =>
+      _searchFilter.updateFilter(key, value);
 
-  void clearFilters() {
-    _filters = {};
-    notifyListeners();
-  }
-
-  // Wizard state management
-  void startWizard() {
-    _wizardStep = 0;
-    _wizardAnswers = {
-      'name': _profile.name,
-      'gender': _profile.gender,
-      'dob': _profile.dob ?? DateTime(1998, 1, 1),
-      'state': _profile.state,
-      'district': _profile.district,
-      'city': _profile.city,
-      'pinCode': _profile.pinCode,
-      'community': _profile.community,
-      'religion': _profile.religion,
-      'educationLevel': _profile.educationLevel,
-      'firstGenGraduate': _profile.firstGenGraduate,
-      'annualIncome': _profile.annualIncome,
-    };
-    notifyListeners();
-  }
-
-  void updateWizardAnswer(String key, dynamic value) {
-    _wizardAnswers[key] = value;
-    notifyListeners();
-  }
-
-  void nextWizardStep() {
-    if (_wizardStep < 2) {
-      _wizardStep++;
-      notifyListeners();
-    }
-  }
-
-  void previousWizardStep() {
-    if (_wizardStep > 0) {
-      _wizardStep--;
-      notifyListeners();
-    }
-  }
-
-  void submitWizard() {
-    // Commit wizard answers to UserProfile
-    _profile = UserProfile(
-      name: _wizardAnswers['name'] ?? '',
-      gender: _wizardAnswers['gender'] ?? '',
-      dob: _wizardAnswers['dob'] as DateTime?,
-      state: _wizardAnswers['state'] ?? '',
-      district: _wizardAnswers['district'] ?? '',
-      city: _wizardAnswers['city'] ?? '',
-      pinCode: _wizardAnswers['pinCode'] ?? '',
-      community: _wizardAnswers['community'] ?? '',
-      religion: _wizardAnswers['religion'] ?? '',
-      educationLevel: _wizardAnswers['educationLevel'] ?? '',
-      firstGenGraduate: _wizardAnswers['firstGenGraduate'] ?? false,
-      annualIncome: (_wizardAnswers['annualIncome'] ?? 0.0) as double,
-      mobile: _mobileNumber,
-      updatedAt: DateTime.now(),
-    );
-    notifyListeners();
-    _saveProfile();
-  }
+  void clearFilters() => _searchFilter.clearFilters();
 
   // Notification action
   Future<void> markNotificationRead(String id) async {
@@ -1514,6 +1440,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _tabs.dispose();
     _library.removeListener(notifyListeners);
     _library.dispose();
+    _searchFilter.removeListener(notifyListeners);
+    _searchFilter.dispose();
     _unsubscribeFromProfile();
     _unsubscribeFromNotifications();
     super.dispose();
