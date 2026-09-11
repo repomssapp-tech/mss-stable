@@ -25,83 +25,9 @@ import '../../l10n/l10n.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/constants.dart';
 import '../../services/chat/chat_log_service.dart';
+import 'saarthi_message.dart';
 
-enum SaarthiVoiceState { idle, listening, processing, speaking, ended }
-
-class SaarthiMessage {
-  final String id;
-  final String role; // 'user' | 'assistant'
-  final String text;
-  final DateTime timestamp;
-  final String? status; // 'transcribing' | null
-  final List<Scheme>? schemeResults;
-  final List<CloudSchemeResult>? cloudSchemeResults;
-  final String? speakingState; // 'speaking' | null
-
-  SaarthiMessage({
-    required this.id,
-    required this.role,
-    required this.text,
-    required this.timestamp,
-    this.status,
-    this.schemeResults,
-    this.cloudSchemeResults,
-    this.speakingState,
-  });
-
-  SaarthiMessage copyWith({
-    String? text,
-    String? status,
-    bool clearStatus = false,
-    List<Scheme>? schemeResults,
-    List<CloudSchemeResult>? cloudSchemeResults,
-    String? speakingState,
-    bool clearSpeakingState = false,
-  }) {
-    return SaarthiMessage(
-      id: id,
-      role: role,
-      text: text ?? this.text,
-      timestamp: timestamp,
-      status: clearStatus ? null : status ?? this.status,
-      schemeResults: schemeResults ?? this.schemeResults,
-      cloudSchemeResults: cloudSchemeResults ?? this.cloudSchemeResults,
-      speakingState: clearSpeakingState
-          ? null
-          : speakingState ?? this.speakingState,
-    );
-  }
-}
-
-@visibleForTesting
-int cloudAssistantMessageTargetIndex(List<SaarthiMessage> messages) =>
-    messages.isNotEmpty && messages.last.role == 'assistant'
-    ? messages.length - 1
-    : -1;
-
-@visibleForTesting
-int cloudSchemeResultTargetIndex(List<SaarthiMessage> messages) =>
-    messages.isNotEmpty && messages.last.role == 'assistant'
-    ? messages.length - 1
-    : -1;
-
-@visibleForTesting
-bool isTransientCloudConnectionFailure(Object? error) {
-  final detail = error?.toString().toLowerCase() ?? '';
-  return detail.contains('network') ||
-      detail.contains('socket') ||
-      detail.contains('timeout') ||
-      detail.contains('timed out') ||
-      detail.contains('disconnected') ||
-      detail.contains('host lookup') ||
-      detail.contains('connection reset');
-}
-
-@visibleForTesting
-bool shouldApplyCloudOutput({
-  required String output,
-  required String previousOutput,
-}) => output.trim().isNotEmpty && output.trim() != previousOutput;
+export 'saarthi_message.dart';
 
 class SaarthiHomeScreen extends StatefulWidget {
   const SaarthiHomeScreen({super.key});
