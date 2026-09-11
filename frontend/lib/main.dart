@@ -18,6 +18,7 @@ import 'screens/regular_mode/search_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/regular_mode/saved_schemes_screen.dart';
 import 'screens/companion_mode/saarthi_home_screen.dart';
+import 'services/catalog/centralized_translator.dart';
 import 'services/chat/chat_log_service.dart';
 import 'utils/constants.dart';
 import 'utils/app_theme.dart';
@@ -38,6 +39,9 @@ class AppScrollBehavior extends MaterialScrollBehavior {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Preload translation dictionary JSON into memory for synchronous catalog translations
+  await CentralizedTranslator.instance.ensureLoaded();
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
