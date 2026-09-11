@@ -95,7 +95,7 @@ Fix these when C4 reaches `basic_profile_screen.dart` — update assertions to t
 
 ### Backlog (not this pass — user prioritises)
 
-C2 `categories_screen.dart` 4822 → 2152 — **DONE**. C3–C5 — **safe-slice pass done 2026-09-11, deep splits deferred** (see "C3–C5 safe-slice pass" section below). C6 `centralized_translator.dart` 1055 → 369 (dictionary -> JSON asset) — **DONE**. C7 `mss_scheme_adapter.dart` 1041 + `scheme_understanding_engine.dart` 1333 (parity-risk — characterization tests first; may defer) — not started.
+C2 `categories_screen.dart` 4822 → 2152 — **DONE**. C3–C5 — **safe-slice pass done 2026-09-11, deep splits deferred** (see "C3–C5 safe-slice pass" section below). C6 `centralized_translator.dart` 1055 → 369 (dictionary -> JSON asset) — **DONE**. C7 `scheme_understanding_engine.dart` 1334 → 1175 + `mss_scheme_adapter.dart` 1042 — **Phase 1 DONE** (2026-09-11).
 
 ---
 
@@ -113,7 +113,7 @@ C2 `categories_screen.dart` 4822 → 2152 — **DONE**. C3–C5 — **safe-slice
   - `profile_screen.dart` 1423 → 1403: `TimeoutHttpClient` + `avatarCacheManager` extracted to `screens/profile/avatar_cache_manager.dart` with re-export shim; dropped unused `flutter_cache_manager` and `http` imports from screen.
 - [ ] **Monolithic screens with no safe slice** — `home_screen.dart` (1965 l), `msme_module_details_screen.dart` (1973 l), `notifications_screen.dart` (1302 l), `help_support_screen.dart` (1272 l) — grep-verified: each is purely `StatefulWidget` + one `State` class, nothing else at top level. These need the characterization-tests-first treatment before any split, same as the remainder of C3/C4.
 - [x] **C6 `centralized_translator.dart`** (1055 → 369 l, dictionary → JSON asset) — **DONE** (2026-09-11). Extracted 93 tags, 428 phrases, 141 terms (~800 lines of hardcoded static maps) into `assets/catalog/translation_dictionary.json` (74.8 KB); added async `ensureLoaded()` with sync `File` fallback for tests/VM; pre-sorted phrases and terms upon loading to eliminate per-call allocation and sort overhead; preloaded during app bootstrap in `main.dart`; verified with `test/translation_dictionary_parity_test.dart`; analyze clean, 448/1/0 tests pass.
-- [ ] **C7 `mss_scheme_adapter.dart`** (1041 l) + `scheme_understanding_engine.dart` (1333 l) — not started; tracker already flags this as parity-risk, characterization tests first.
+- [x] **C7 `scheme_understanding_engine.dart` (1334 → 1175 l) + `mss_scheme_adapter.dart` (1042 l)** — **Phase 1 DONE** (2026-09-11). Extracted 9 decoupled data models & engine interfaces into `services/search/scheme_understanding_models.dart` with re-export shim in `scheme_understanding_engine.dart` (0 caller changes); created characterization test suite `test/mss_scheme_adapter_characterization_test.dart` (7 tests covering PMEGP canonical mapping, graph authorities/institutions, benefits metrics, closed status, sparse entity fallbacks, document checklists, and application steps); full suite 455/1/0 tests pass; smoke-tested on live `emulator-5554` (Impeller OpenGLES, 0 crashes, catalog 1.34.3-alpha loaded, legal modal interaction verified).
 
 ---
 
@@ -165,4 +165,5 @@ Each: new file exposing `void show<Tool>Sheet(BuildContext context)` (the ex-`_o
 | 2026-09-11 | C3–C5 safe-slice pass | `23d2e11`..`155f1c8` | clean (full lib) | 443 / 1 / 0 | not needed (pure class moves) | VoiceEdgePainter, CustomInputField+RoleModel, QuestionNode, SearchSkeletonBar, SaarthiMessage extracted with re-export shims |
 | 2026-09-11 | C5 safe-slice tail (scheme_details + profile) | `7048c56` | clean (full lib) | 443 / 1 / 0 | not needed (pure class moves) | scheme_details_screen 1799 -> 1227 (4 tail widgets to scheme_details/); profile_screen TimeoutHttpClient + avatarCacheManager to profile/ |
 | 2026-09-11 | C6 (translation dictionary -> JSON asset) | `76f7d1d` | clean (full lib) | 448 / 1 / 0 | not needed (pure data extraction + asset loader) | centralized_translator.dart 1055 -> 369 lines; extracted 93 tags, 428 phrases, 141 terms to assets/catalog/translation_dictionary.json; preloaded in main.dart; translation_dictionary_parity_test.dart added |
+| 2026-09-11 | C7 Phase 1 (scheme_understanding_models + adapter characterization) | `f252fcc` | clean (full lib) | 455 / 1 / 0 | **PASS** (emulator-5554) — Impeller OpenGLES clean boot; bundled catalog 1.34.3-alpha loads; Tamil login welcome renders; Terms of Use modal opens, scrolls & accepts | extracted 9 models/interfaces to scheme_understanding_models.dart with re-export shim in scheme_understanding_engine.dart (1334 -> 1175 l); added mss_scheme_adapter_characterization_test.dart (7 tests); full suite 455/1/0 |
 
