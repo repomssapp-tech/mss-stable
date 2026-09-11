@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/l10n/app_localizations.dart';
-import 'package:frontend/services/voice_agent_controller.dart';
-import 'package:frontend/widgets/voice_assistant_overlay.dart';
+import 'package:frontend/services/voice/voice_agent_controller.dart';
+import 'package:frontend/widgets/assistant/voice_assistant_overlay.dart';
 
 void main() {
   testWidgets('Companion surface uses Saarthi theme and typed conversation', (

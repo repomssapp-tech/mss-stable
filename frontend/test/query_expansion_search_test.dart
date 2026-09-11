@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:frontend/services/hybrid_scheme_search.dart';
-import 'package:frontend/services/mss_catalog_bundle.dart';
+import 'package:frontend/services/search/hybrid_scheme_search.dart';
+import 'package:frontend/services/catalog/mss_catalog_bundle.dart';
 
 /// Tests verifying that the query expansion dictionary correctly resolves
 /// acronyms, Tanglish transliterations, multi-word phrases, and colloquial

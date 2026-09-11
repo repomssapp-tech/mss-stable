@@ -12,7 +12,7 @@
 // screen back to getSchemesByCategory), this test breaks.
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/models/scheme_model.dart';
-import 'package:frontend/services/scheme_repository.dart';
+import 'package:frontend/services/catalog/scheme_repository.dart';
 import 'package:frontend/screens/regular_mode/categories_screen.dart'
     show DiscoverCounts;
 

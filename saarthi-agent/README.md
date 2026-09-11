@@ -94,7 +94,7 @@ SUPABASE_SECRET_KEY=sb_secret_...
 
 `SUPABASE_SECRET_KEY` is the new-format secret key. During the API-key migration
 the legacy `SUPABASE_SERVICE_ROLE_KEY` variable is still accepted as a fallback
-(see `CUTOVER.md` at the repo root). If no key is configured, chat logging is
+(see `docs/runbooks/CUTOVER.md`). If no key is configured, chat logging is
 disabled and the agent logs one clear error on the first turn — voice sessions
 are unaffected.
 

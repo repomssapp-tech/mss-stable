@@ -5,15 +5,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/models/scheme_model.dart';
 import 'package:frontend/models/user_profile.dart';
-import 'package:frontend/services/assistant_session_controller.dart';
-import 'package:frontend/services/intelligent_scheme_search.dart';
-import 'package:frontend/services/livekit_voice_agent_controller.dart';
-import 'package:frontend/services/official_grounded_search.dart';
-import 'package:frontend/services/scheme_understanding_engine.dart';
-import 'package:frontend/services/speech_output_controller.dart';
-import 'package:frontend/services/voice_recognition_controller.dart';
-import 'package:frontend/services/voice_agent_controller.dart';
-import 'package:frontend/widgets/voice_assistant_overlay.dart';
+import 'package:frontend/services/voice/assistant_session_controller.dart';
+import 'package:frontend/services/search/intelligent_scheme_search.dart';
+import 'package:frontend/services/voice/livekit_voice_agent_controller.dart';
+import 'package:frontend/services/search/official_grounded_search.dart';
+import 'package:frontend/services/search/scheme_understanding_engine.dart';
+import 'package:frontend/services/voice/speech_output_controller.dart';
+import 'package:frontend/services/voice/voice_recognition_controller.dart';
+import 'package:frontend/services/voice/voice_agent_controller.dart';
+import 'package:frontend/widgets/assistant/voice_assistant_overlay.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 
 void main() {

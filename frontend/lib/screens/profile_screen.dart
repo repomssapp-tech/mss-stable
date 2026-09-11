@@ -15,7 +15,7 @@ import 'regular_mode/language_selection_screen.dart';
 import 'regular_mode/settings_screen.dart';
 import 'regular_mode/help_support_screen.dart';
 import 'notifications_screen.dart';
-import '../widgets/custom_confirm_dialog.dart';
+import '../widgets/common/custom_confirm_dialog.dart';
 import '../utils/responsive.dart';
 import '../utils/app_spacing.dart';
 

@@ -7,7 +7,7 @@
 // tapping the tile actually shows.
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/models/user_profile.dart';
-import 'package:frontend/services/scheme_repository.dart';
+import 'package:frontend/services/catalog/scheme_repository.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

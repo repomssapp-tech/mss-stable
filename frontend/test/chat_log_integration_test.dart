@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:frontend/services/chat_log_service.dart';
+import 'package:frontend/services/chat/chat_log_service.dart';
 
 class _RealNetworkHttpOverrides extends HttpOverrides {
   @override

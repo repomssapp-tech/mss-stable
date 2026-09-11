@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/login_screen.dart';
-import 'package:frontend/widgets/legal_consent_section.dart';
+import 'package:frontend/widgets/legal/legal_consent_section.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

@@ -1,31 +1,70 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:geocoding/geocoding.dart';
 import '../models/user_profile.dart';
 import '../models/scheme_model.dart';
 import '../engine/recommendation_engine.dart';
-import '../services/auth_service.dart';
-import '../services/scheme_repository.dart';
-import '../services/scheme_catalog_sync_service.dart';
-import '../services/session_cache_service.dart';
+import '../services/account/auth_service.dart';
+import '../services/account/google_identity.dart';
+import '../services/catalog/scheme_repository.dart';
+import '../services/catalog/scheme_catalog_sync_service.dart';
+import '../services/account/session_cache_service.dart';
 import '../screens/splash_screen.dart';
-import '../widgets/app_toast.dart';
+import '../widgets/common/app_toast.dart';
+import 'app_state_seed_data.dart';
+import 'controllers/library_controller.dart';
+import 'controllers/notifications_controller.dart';
+import 'controllers/promo_content_controller.dart';
+import 'controllers/scheme_catalog_controller.dart';
+import 'controllers/search_filter_controller.dart';
+import 'controllers/tab_navigation_controller.dart';
 
 class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   AppProvider({SchemeCatalogSyncService? catalogSyncService})
-    : _catalogSyncService =
-          catalogSyncService ?? SchemeCatalogSyncService.instance {
+    : _catalog = SchemeCatalogController(
+        catalogSyncService: catalogSyncService,
+      ) {
     WidgetsBinding.instance.addObserver(this);
+    _tabs.addListener(notifyListeners);
+    _library.addListener(notifyListeners);
+    _searchFilter.addListener(notifyListeners);
+    _notifications.addListener(notifyListeners);
+    _promos.addListener(notifyListeners);
+    _catalog.addListener(notifyListeners);
     _loadState();
     _setupAuthListener();
   }
 
-  final SchemeCatalogSyncService _catalogSyncService;
+  /// Loaded scheme catalog + ranked recommendations + catalog-sync state and
+  /// the `loadSchemes` / `syncSchemeCatalog` flows, forwarded through this
+  /// provider's own `notifyListeners` (frontend refactor C1.4). The current
+  /// language + profile are passed in at each call site.
+  final SchemeCatalogController _catalog;
+
+  /// Bottom-navigation state (index + back-stack), forwarded through this
+  /// provider's own `notifyListeners` (frontend refactor C1.4).
+  final TabNavigationController _tabs = TabNavigationController();
+
+  /// Saved-content lists (bookmarks, recently viewed, saved eligibility set)
+  /// and their persistence, forwarded through this provider's own
+  /// `notifyListeners` (frontend refactor C1.4).
+  final LibraryController _library = LibraryController();
+
+  /// Transient search query + active facet filters, forwarded through this
+  /// provider's own `notifyListeners` (frontend refactor C1.4).
+  final SearchFilterController _searchFilter = SearchFilterController();
+
+  /// In-app notifications list + its Supabase realtime subscription and
+  /// read/delete mutations, forwarded through this provider's own
+  /// `notifyListeners` (frontend refactor C1.4).
+  final NotificationsController _notifications = NotificationsController();
+
+  /// Home-screen promo carousel source data (`promo_alerts` rows + in-progress
+  /// draft sessions) and its fetch throttles, forwarded through this provider's
+  /// own `notifyListeners` (frontend refactor C1.4). The profile-derived
+  /// `carouselItems` getter stays here.
+  final PromoContentController _promos = PromoContentController();
   StreamSubscription<List<Map<String, dynamic>>>? _profileSubscription;
   bool _isLoggedIn = false;
   bool _isLoggingOut = false;
@@ -38,166 +77,12 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   String? _pendingLanguage;
   DateTime? _pendingLanguageSince;
   String _navigationMode = 'regular'; // 'regular', 'companion'
-  int _currentTabIndex =
-      0; // Bottom Navigation: 0: Home, 1: Search, 2: Categories, 3: Saved Schemes, 4: Profile
-  final List<int> _tabHistory = [];
   UserProfile _profile = UserProfile();
-  List<String> _bookmarkedIds = [];
-  List<String> _recentlyViewedIds = [];
-  List<String> _savedEligibilitySchemeIds = [];
-  DateTime? _lastEligibilitySavedAt;
-  List<Map<String, dynamic>> _downloadedDocs = [];
-  String _searchQuery = '';
 
-  // ── Scheme data (loaded from Supabase via SchemeRepository) ──────────
-  List<Scheme> _allSchemes = [];
-  List<MapEntry<Scheme, RecommendationResult>> _recommendedSchemes = [];
-  bool _schemesLoading = false;
-  String? _schemesError;
-  CatalogSyncResult? _catalogSyncResult;
-  bool _catalogSyncing = false;
-
-  // Active scheme facet filters (see lib/models/scheme_filter.dart). Empty by
-  // default -- regular search is never silently narrowed by the profile.
-  Map<String, dynamic> _filters = {};
-
-  // Temporary wizard answers during the "Find My Schemes" Assessment
-  Map<String, dynamic> _wizardAnswers = {};
-  int _wizardStep = 0;
-
-  // Dynamic/Mock Announcements fallback
-  List<Map<String, String>> _announcementsList = [];
-
-  List<Map<String, String>> get announcements {
-    if (_announcementsList.isNotEmpty) return _announcementsList;
-    return _defaultAnnouncements;
-  }
-
-  static final List<Map<String, String>> _defaultAnnouncements = [
-    {
-      'title': 'National Entrepreneurs\' Day Celebration',
-      'date': '16-Jan-2026',
-      'content':
-          'Prime Minister launches a new seed grant portal for tech startups and students.',
-    },
-    {
-      'title': 'Tamil Nadu MSME Department Subsidy Hike',
-      'date': '04-Jul-2026',
-      'content':
-          'NEEDS scheme subsidy ceiling raised to ₹75 Lakhs for women and minority entrepreneurs.',
-    },
-    {
-      'title': 'Mudra Loan Shishu Limit Extended',
-      'date': '29-May-2026',
-      'content':
-          'Collateral-free micro loans under Shishu category increased to ₹1 Lakh.',
-    },
-  ];
-
-  // Notifications state (temporary seed; replaced by the Supabase stream).
-  // TODO(review-seed-content): scheme title/body prose below is real-scheme
-  // communication -- Tamil in app_ta.arb (notifSeed*) is best-effort, not final.
-  List<Map<String, dynamic>> _notificationsList = [
-    {
-      'id': 'latest_fisheries_update',
-      'title':
-          'Fisheries and Aquaculture Infra Development Fund Scheme Launched',
-      'body':
-          'Government has launched the Fisheries and Aquaculture Infrastructure Development Fund to provide concessionary finance.',
-      'timeAgoCount': 2,
-      'timeAgoUnit': 'd',
-      'read': false,
-      'category': 'updates',
-      'iconType': 'emblem',
-    },
-    {
-      'id': '1',
-      'title': 'PM Vidyalaxmi Education Loan Scheme',
-      'body':
-          'A new scheme for students to provide collateral-free education loans for higher studies.',
-      'timeAgoCount': 2,
-      'timeAgoUnit': 'h',
-      'read': false,
-      'category': 'new_schemes',
-      'tag': 'Education',
-      'isNew': true,
-    },
-    {
-      'id': '2',
-      'title': 'PM Vishwakarma Yojana',
-      'body':
-          'Financial support for traditional artisans and craftspeople to upgrade their skills and tools.',
-      'timeAgoCount': 1,
-      'timeAgoUnit': 'd',
-      'read': false,
-      'category': 'new_schemes',
-      'tag': 'Skill Development',
-      'isNew': true,
-    },
-    {
-      'id': '3',
-      'title': 'Post Matric Scholarship Scheme',
-      'body': 'Last date to apply is approaching',
-      'timeAgoCount': 10,
-      'timeAgoUnit': 'm',
-      'read': false,
-      'category': 'reminders',
-      'deadline': '31 May 2024',
-      'daysLeftCount': 5,
-    },
-    {
-      'id': '4',
-      'title': 'PM Internship Scheme',
-      'body': 'Application window will close soon',
-      'timeAgoCount': 3,
-      'timeAgoUnit': 'h',
-      'read': false,
-      'category': 'reminders',
-      'deadline': '15 Jun 2024',
-      'daysLeftCount': 20,
-    },
-    {
-      'id': '5',
-      'title': 'New Update on Ayushman Bharat Yojana',
-      'body':
-          'Changes in empanelment process for hospitals. Check full details.',
-      'timeAgoCount': 1,
-      'timeAgoUnit': 'd',
-      'read': false,
-      'category': 'updates',
-      'iconType': 'emblem',
-    },
-    {
-      'id': '6',
-      'title': 'Income Limit Revised for Several Schemes',
-      'body':
-          'Revised income criteria effective from 1st April 2024 for multiple schemes.',
-      'timeAgoCount': 2,
-      'timeAgoUnit': 'd',
-      'read': false,
-      'category': 'updates',
-      'iconType': 'bank',
-    },
-    {
-      'id': '7',
-      'title': 'Complete Your Profile',
-      'body': 'Add your income details to find schemes you are eligible for.',
-      'timeAgoCount': 5,
-      'timeAgoUnit': 'h',
-      'read': false,
-      'category': 'profile',
-      'progress': 70,
-    },
-  ];
-
-  List<Map<String, dynamic>> get notifications => _notificationsList;
-  StreamSubscription<List<Map<String, dynamic>>>? _notificationsSubscription;
-
-  List<Map<String, dynamic>> _promoAlerts = [];
-  List<Map<String, dynamic>> _draftSessions = [];
+  List<Map<String, dynamic>> get notifications => _notifications.notifications;
 
   List<Map<String, dynamic>> get carouselItems {
-    final filteredPromos = _promoAlerts.where((promo) {
+    final filteredPromos = _promos.promoAlerts.where((promo) {
       if (promo['target_gender'] != null &&
           promo['target_gender'].toString().isNotEmpty &&
           _profile.gender.isNotEmpty) {
@@ -227,57 +112,17 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
     final basePromos = filteredPromos.isNotEmpty
         ? filteredPromos
-        : _defaultPromoAlerts;
-    return [...basePromos, ..._draftSessions];
+        : kDefaultPromoAlerts;
+    return [...basePromos, ..._promos.draftSessions];
   }
 
-  static final List<Map<String, dynamic>> _defaultPromoAlerts = [
-    {
-      'title': 'Applications Closing Soon',
-      'subtitle': 'PMEGP · 2 days left',
-      'badge_text': 'Alert',
-      'badge_text_color': '#EA580C',
-      'badge_bg_color': '#FFF7ED',
-      'target_route': 'notifications',
-      'bg_image': 'assets/images/Background/alert banner.webp',
-    },
-    {
-      'title': 'New Scheme',
-      'subtitle': 'TN Export Promotion Scheme',
-      'badge_text': 'New Scheme',
-      'badge_text_color': '#16A34A',
-      'badge_bg_color': '#DCFCE7',
-      'target_route': 'discover_results',
-      'bg_image': 'assets/images/Background/new scheme banner.webp',
-    },
-    {
-      'title': 'Important Update',
-      'subtitle': 'UDYAM registration process updated',
-      'badge_text': 'Notify',
-      'badge_text_color': '#2563EB',
-      'badge_bg_color': '#EFF6FF',
-      'target_route': 'discover_results',
-      'bg_image': 'assets/images/Background/notification banner.webp',
-    },
-    {
-      'title': 'For Women Entrepreneurs',
-      'subtitle': 'Explore special funding schemes',
-      'badge_text': 'Featured',
-      'badge_text_color': '#7C3AED',
-      'badge_bg_color': '#F5F3FF',
-      'target_route': 'discover_results',
-      'bg_image': 'assets/images/Background/suggestion banner.webp',
-    },
-  ];
-
-  // Guards against redundant re-subscription. `_subscribeToProfile` /
-  // `_subscribeToNotifications` are each called from the auth-state listener,
-  // `_loadState`, and `checkSessionAndFetchProfile`, which can all run on a
-  // single launch. Every re-subscribe tears down the socket and replays an
-  // initial full-table fetch, so the old unconditional version paid for the
-  // same rows two or three times per launch.
+  // Guards against redundant re-subscription. `_subscribeToProfile` (and
+  // `NotificationsController.subscribe`) are each called from the auth-state
+  // listener, `_loadState`, and `checkSessionAndFetchProfile`, which can all
+  // run on a single launch. Every re-subscribe tears down the socket and
+  // replays an initial full-table fetch, so the old unconditional version
+  // paid for the same rows two or three times per launch.
   String? _subscribedProfileUserId;
-  String? _subscribedNotificationsUserId;
 
   void _subscribeToProfile(String userId) {
     if (_profileSubscription != null && _subscribedProfileUserId == userId) {
@@ -334,10 +179,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
                 _profile = _profile.copyWith(language: _selectedLanguage);
                 _navigationMode = dbProfile.navigationMode;
 
-                _recommendedSchemes = RecommendationEngine.getRecommendations(
-                  _profile,
-                  _allSchemes,
-                );
+                _catalog.recomputeRecommendations(_profile);
                 fetchPromoAlerts();
                 fetchDraftSessions();
                 notifyListeners();
@@ -364,106 +206,6 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _profileSubscription?.cancel();
     _profileSubscription = null;
     _subscribedProfileUserId = null;
-  }
-
-  void _subscribeToNotifications(String userId) {
-    if (_notificationsSubscription != null &&
-        _subscribedNotificationsUserId == userId) {
-      return;
-    }
-    _subscribedNotificationsUserId = userId;
-    _notificationsSubscription?.cancel();
-    _notificationsSubscription = Supabase.instance.client
-        .from('notifications')
-        .stream(primaryKey: ['id'])
-        .eq('user_id', userId)
-        .listen(
-          (data) async {
-            if (data.isEmpty) {
-              _notificationsList = [];
-              notifyListeners();
-              return;
-            }
-
-            final sortedData = List<Map<String, dynamic>>.from(data);
-            sortedData.sort((a, b) {
-              final aTime =
-                  DateTime.tryParse(a['created_at'] ?? '') ??
-                  DateTime.fromMillisecondsSinceEpoch(0);
-              final bTime =
-                  DateTime.tryParse(b['created_at'] ?? '') ??
-                  DateTime.fromMillisecondsSinceEpoch(0);
-              return bTime.compareTo(aTime);
-            });
-
-            _notificationsList = sortedData.map((n) {
-              final createdAt =
-                  DateTime.tryParse(n['created_at'] ?? '') ?? DateTime.now();
-              final difference = DateTime.now().difference(createdAt);
-              // Store a structured (count, unit) pair; the notifications screen
-              // formats it via parameterized ARB keys so it renders in ta too.
-              int? timeAgoCount;
-              String timeAgoUnit = 'now';
-              if (difference.inDays > 0) {
-                timeAgoCount = difference.inDays;
-                timeAgoUnit = 'd';
-              } else if (difference.inHours > 0) {
-                timeAgoCount = difference.inHours;
-                timeAgoUnit = 'h';
-              } else if (difference.inMinutes > 0) {
-                timeAgoCount = difference.inMinutes;
-                timeAgoUnit = 'm';
-              }
-
-              final type = n['notification_type'] ?? 'updates';
-
-              final Map<String, dynamic> mapped = {
-                'id': n['id'].toString(),
-                'title': n['title'] ?? '',
-                'body': n['message'] ?? '',
-                'timeAgoCount': timeAgoCount,
-                'timeAgoUnit': timeAgoUnit,
-                'read': n['is_read'] ?? false,
-                'category': type,
-                'created_at': n['created_at'],
-              };
-
-              if (type == 'new_schemes') {
-                mapped['tag'] = n['title'].toString().contains('Vidyalaxmi')
-                    ? 'Education'
-                    : 'Skill Development';
-                mapped['isNew'] = true;
-              } else if (type == 'reminders') {
-                mapped['deadline'] = n['title'].toString().contains('Matric')
-                    ? '31 May 2026'
-                    : '15 Jun 2026';
-                mapped['daysLeftCount'] =
-                    n['title'].toString().contains('Matric') ? 5 : 20;
-              } else if (type == 'updates') {
-                mapped['iconType'] = n['title'].toString().contains('Ayushman')
-                    ? 'emblem'
-                    : 'bank';
-              } else if (type == 'profile') {
-                mapped['progress'] = 70;
-              }
-
-              return mapped;
-            }).toList();
-
-            notifyListeners();
-          },
-          onError: (err) {
-            debugPrint(
-              '[AppProvider] Real-time notifications subscription error: $err',
-            );
-          },
-        );
-  }
-
-  void _unsubscribeFromNotifications() {
-    _notificationsSubscription?.cancel();
-    _notificationsSubscription = null;
-    _subscribedNotificationsUserId = null;
   }
 
   void _setupAuthListener() {
@@ -533,15 +275,12 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           // this, "Recommended For You" keeps showing scores computed
           // against the pre-sign-in default profile until something else
           // happens to recompute it.
-          if (_allSchemes.isNotEmpty) {
-            _recommendedSchemes = RecommendationEngine.getRecommendations(
-              _profile,
-              _allSchemes,
-            );
+          if (_catalog.hasSchemes) {
+            _catalog.recomputeRecommendations(_profile);
           }
 
           _subscribeToProfile(user.id);
-          _subscribeToNotifications(user.id);
+          _notifications.subscribe(user.id);
           fetchPromoAlerts();
           fetchDraftSessions();
           await _saveProfile();
@@ -556,21 +295,14 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         _isLoggedIn = false;
         _mobileNumber = '';
         _profile = UserProfile();
-        _bookmarkedIds.clear();
-        _recentlyViewedIds.clear();
-        _savedEligibilitySchemeIds.clear();
-        _lastEligibilitySavedAt = null;
-        _currentTabIndex = 0;
-        _promoAlerts = [];
-        _draftSessions = [];
-        // Clear the throttle stamps too, or the next account to sign in on
-        // this device would be served the previous user's empty state until
-        // the throttle window expired.
-        _lastPromoFetch = null;
-        _lastDraftFetch = null;
+        _library.reset();
+        _tabs.resetIndexOnly();
+        // reset() also clears the fetch-throttle stamps, or the next account to
+        // sign in on this device would be served the previous user's empty
+        // state until the throttle window expired.
+        _promos.reset();
         _unsubscribeFromProfile();
-        _unsubscribeFromNotifications();
-        _notificationsList = [];
+        _notifications.reset();
         notifyListeners();
       }
     });
@@ -585,85 +317,18 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     notifyListeners();
   }
 
-  bool _recommendationsOverriddenForTesting = false;
-
   @visibleForTesting
   void setRecommendedSchemesForTesting(
     List<MapEntry<Scheme, RecommendationResult>> schemes,
-  ) {
-    _recommendationsOverriddenForTesting = true;
-    _recommendedSchemes = schemes;
-    notifyListeners();
-  }
+  ) => _catalog.setRecommendedSchemesForTesting(schemes);
 
   bool get isGuest => false;
   bool get isLoggingOut => _isLoggingOut;
   String get mobileNumber => _mobileNumber;
   String get selectedLanguage => _selectedLanguage;
   String get navigationMode => _navigationMode;
-  int get currentTabIndex => _currentTabIndex;
+  int get currentTabIndex => _tabs.currentTabIndex;
   UserProfile get profile => _profile;
-
-  /// Extracts the Google account profile image URL from Supabase Auth user metadata or identities.
-  static String extractGooglePhoto(User? user) {
-    if (user == null) return '';
-    final meta = user.userMetadata;
-    if (meta != null) {
-      for (final key in ['avatar_url', 'picture', 'photo_url', 'avatarUrl']) {
-        final val = meta[key];
-        if (val is String && val.trim().isNotEmpty) {
-          return val.trim();
-        }
-      }
-    }
-    if (user.identities != null) {
-      for (final identity in user.identities!) {
-        final idData = identity.identityData;
-        if (idData != null) {
-          for (final key in [
-            'avatar_url',
-            'picture',
-            'photo_url',
-            'avatarUrl',
-          ]) {
-            final val = idData[key];
-            if (val is String && val.trim().isNotEmpty) {
-              return val.trim();
-            }
-          }
-        }
-      }
-    }
-    return '';
-  }
-
-  /// Extracts the Google account name from Supabase Auth user metadata or identities.
-  static String extractGoogleName(User? user) {
-    if (user == null) return '';
-    final meta = user.userMetadata;
-    if (meta != null) {
-      for (final key in ['full_name', 'name', 'user_name']) {
-        final val = meta[key];
-        if (val is String && val.trim().isNotEmpty) {
-          return val.trim();
-        }
-      }
-    }
-    if (user.identities != null) {
-      for (final identity in user.identities!) {
-        final idData = identity.identityData;
-        if (idData != null) {
-          for (final key in ['full_name', 'name', 'user_name']) {
-            final val = idData[key];
-            if (val is String && val.trim().isNotEmpty) {
-              return val.trim();
-            }
-          }
-        }
-      }
-    }
-    return '';
-  }
 
   /// Returns the effective profile photo URL or local file path.
   /// Priority:
@@ -700,139 +365,66 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     return google.isNotEmpty && photo != google;
   }
 
-  List<String> get bookmarkedIds => _bookmarkedIds;
-  List<String> get recentlyViewedIds => _recentlyViewedIds;
-  List<String> get savedEligibilitySchemeIds => _savedEligibilitySchemeIds;
-  DateTime? get lastEligibilitySavedAt => _lastEligibilitySavedAt;
-  bool get hasSavedEligibilityResults => _savedEligibilitySchemeIds.isNotEmpty;
+  List<String> get bookmarkedIds => _library.bookmarkedIds;
+  List<String> get recentlyViewedIds => _library.recentlyViewedIds;
+  List<String> get savedEligibilitySchemeIds =>
+      _library.savedEligibilitySchemeIds;
+  DateTime? get lastEligibilitySavedAt => _library.lastEligibilitySavedAt;
+  bool get hasSavedEligibilityResults => _library.hasSavedEligibilityResults;
 
   // Saved eligibility schemes list
   List<Scheme> get savedEligibilitySchemes {
-    return _allSchemes
-        .where(
-          (s) =>
-              _savedEligibilitySchemeIds.contains(s.id) ||
-              _savedEligibilitySchemeIds.contains(s.schemeCode),
-        )
+    final ids = _library.savedEligibilitySchemeIds;
+    return _catalog.allSchemes
+        .where((s) => ids.contains(s.id) || ids.contains(s.schemeCode))
         .toList();
   }
 
-  String get searchQuery => _searchQuery;
-  Map<String, dynamic> get filters => _filters;
-  Map<String, dynamic> get wizardAnswers => _wizardAnswers;
-  int get wizardStep => _wizardStep;
+  String get searchQuery => _searchFilter.searchQuery;
+  Map<String, dynamic> get filters => _searchFilter.filters;
 
-  // Scheme loading state
-  bool get schemesLoading => _schemesLoading;
-  String? get schemesError => _schemesError;
-  List<Scheme> get allSchemes => _allSchemes;
-  CatalogSyncResult? get catalogSyncResult => _catalogSyncResult;
-  bool get catalogSyncing => _catalogSyncing;
-  String get catalogStatusLabel {
-    final manifest = _catalogSyncResult?.manifest;
-    if (manifest == null) return 'Bundled · ${_allSchemes.length} schemes';
-    final date = manifest.publishedAt.toLocal();
-    return 'v${manifest.version} · ${date.day}/${date.month}/${date.year}';
-  }
+  // Scheme loading state — delegate to SchemeCatalogController.
+  bool get schemesLoading => _catalog.schemesLoading;
+  String? get schemesError => _catalog.schemesError;
+  List<Scheme> get allSchemes => _catalog.allSchemes;
+  CatalogSyncResult? get catalogSyncResult => _catalog.catalogSyncResult;
+  bool get catalogSyncing => _catalog.catalogSyncing;
+  String get catalogStatusLabel => _catalog.catalogStatusLabel;
 
   // Recommended schemes (ranked by RecommendationEngine against cached list)
   List<MapEntry<Scheme, RecommendationResult>> get recommendedSchemes =>
-      _recommendedSchemes;
+      _catalog.recommendedSchemes;
 
   // Bookmarked schemes list
   List<Scheme> get bookmarkedSchemes {
-    return _allSchemes
-        .where(
-          (s) =>
-              _bookmarkedIds.contains(s.id) ||
-              _bookmarkedIds.contains(s.schemeCode),
-        )
+    final ids = _library.bookmarkedIds;
+    return _catalog.allSchemes
+        .where((s) => ids.contains(s.id) || ids.contains(s.schemeCode))
         .toList();
   }
 
   // Recently viewed schemes list
   List<Scheme> get recentlyViewedSchemes {
-    return _allSchemes
-        .where(
-          (s) =>
-              _recentlyViewedIds.contains(s.id) ||
-              _recentlyViewedIds.contains(s.schemeCode),
-        )
+    final ids = _library.recentlyViewedIds;
+    return _catalog.allSchemes
+        .where((s) => ids.contains(s.id) || ids.contains(s.schemeCode))
         .toList();
   }
 
-  // Load (or reload) all schemes and recompute recommendations
-  Future<void> loadSchemes({bool forceRefresh = false}) async {
-    if (_schemesLoading) return;
-    if (forceRefresh) SchemeRepository.instance.clearCache();
+  // Catalog load / sync — delegate to SchemeCatalogController, passing the
+  // current language + profile (which stay on this facade).
+  Future<void> loadSchemes({bool forceRefresh = false}) => _catalog.loadSchemes(
+    langCode: _selectedLanguage,
+    profile: _profile,
+    forceRefresh: forceRefresh,
+  );
 
-    _schemesLoading = true;
-    _schemesError = null;
-    notifyListeners();
-
-    try {
-      _allSchemes = await SchemeRepository.instance.getAllSchemes(
+  Future<CatalogSyncResult> syncSchemeCatalog({bool force = false}) =>
+      _catalog.syncSchemeCatalog(
         langCode: _selectedLanguage,
+        profile: _profile,
+        force: force,
       );
-      if (!_recommendationsOverriddenForTesting) {
-        _recommendedSchemes = RecommendationEngine.getRecommendations(
-          _profile,
-          _allSchemes,
-        );
-      }
-
-      // Update announcements dynamically based on latest central/state schemes
-      if (_allSchemes.isNotEmpty) {
-        final recent = List<Scheme>.from(_allSchemes)
-          ..sort((a, b) => b.id.compareTo(a.id));
-        _announcementsList = recent.take(3).map((s) {
-          final isCentral = s.governmentLevel.toLowerCase() == 'central';
-          final sponsor = s.sponsoringBody.isNotEmpty
-              ? s.sponsoringBody
-              : (isCentral ? 'Govt of India' : s.state);
-          return {
-            'title': 'Updated: ${s.name}',
-            'date': 'Realtime Live Feed',
-            'content':
-                '${s.overview.length > 120 ? "${s.overview.substring(0, 117)}..." : s.overview} (Source: $sponsor)',
-          };
-        }).toList();
-      }
-    } catch (e) {
-      _schemesError = e.toString();
-      debugPrint('[AppProvider] loadSchemes error: $e');
-    } finally {
-      _schemesLoading = false;
-      notifyListeners();
-    }
-  }
-
-  Future<CatalogSyncResult> syncSchemeCatalog({bool force = false}) async {
-    if (_catalogSyncing) {
-      return _catalogSyncResult ??
-          const CatalogSyncResult(CatalogSyncOutcome.throttled);
-    }
-    _catalogSyncing = true;
-    notifyListeners();
-    CatalogSyncResult result;
-    try {
-      result = await _catalogSyncService.syncIfNeeded(force: force);
-    } catch (error) {
-      result = CatalogSyncResult(
-        CatalogSyncOutcome.rejected,
-        manifest: _catalogSyncResult?.manifest,
-        message: error.toString(),
-      );
-    }
-    _catalogSyncResult = result;
-    _catalogSyncing = false;
-    if (result.changed) {
-      await loadSchemes(forceRefresh: true);
-    } else {
-      notifyListeners();
-    }
-    return result;
-  }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -846,8 +438,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     try {
       _selectedLanguage =
           await SessionCacheService.instance.getLanguage() ?? 'en';
-      _currentTabIndex = await SessionCacheService.instance
-          .getCurrentTabIndex();
+      await _tabs.hydrate();
 
       final cachedProfile = await SessionCacheService.instance.loadProfile();
       if (cachedProfile != null) {
@@ -860,23 +451,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         _navigationMode = cachedNavMode;
       }
 
-      _bookmarkedIds = await SessionCacheService.instance.getBookmarks() ?? [];
-      _recentlyViewedIds =
-          await SessionCacheService.instance.getRecentlyViewed() ?? [];
-      _savedEligibilitySchemeIds =
-          await SessionCacheService.instance.getSavedEligibilityResults() ?? [];
-      _lastEligibilitySavedAt = await SessionCacheService.instance
-          .getLastEligibilitySavedAt();
-
-      final downloadedDocsStr = await SessionCacheService.instance
-          .getDownloadedDocs();
-      if (downloadedDocsStr != null) {
-        _downloadedDocs = List<Map<String, dynamic>>.from(
-          jsonDecode(downloadedDocsStr),
-        );
-      } else {
-        _downloadedDocs = [];
-      }
+      await _library.hydrate();
 
       final session = Supabase.instance.client.auth.currentSession;
       if (session != null) {
@@ -899,7 +474,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         }
 
         _subscribeToProfile(session.user.id);
-        _subscribeToNotifications(session.user.id);
+        _notifications.subscribe(session.user.id);
         fetchPromoAlerts();
         fetchDraftSessions();
       } else {
@@ -1144,12 +719,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _pendingLanguageSince = null;
     _navigationMode = 'regular';
     _profile = UserProfile();
-    _bookmarkedIds.clear();
-    _recentlyViewedIds.clear();
-    _savedEligibilitySchemeIds.clear();
-    _lastEligibilitySavedAt = null;
-    _currentTabIndex = 0;
-    _tabHistory.clear();
+    _library.reset();
+    _tabs.reset();
     _unsubscribeFromProfile();
 
     await SessionCacheService.instance.clearSession();
@@ -1212,14 +783,10 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _pendingLanguageSince = null;
     _navigationMode = 'regular';
     _profile = UserProfile();
-    _bookmarkedIds.clear();
-    _recentlyViewedIds.clear();
-    _savedEligibilitySchemeIds.clear();
-    _lastEligibilitySavedAt = null;
-    _currentTabIndex = 0;
-    _tabHistory.clear();
+    _library.reset();
+    _tabs.reset();
     _unsubscribeFromProfile();
-    _unsubscribeFromNotifications();
+    _notifications.unsubscribe();
 
     await SessionCacheService.instance.clearSession();
 
@@ -1240,16 +807,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     );
   }
 
-  void updateTabIndex(int index, {bool addToHistory = true}) async {
-    if (_currentTabIndex == index) return;
-    if (addToHistory) {
-      if (_tabHistory.isEmpty || _tabHistory.last != _currentTabIndex) {
-        _tabHistory.add(_currentTabIndex);
-      }
-    }
-    _currentTabIndex = index;
-    notifyListeners();
-    await SessionCacheService.instance.saveCurrentTabIndex(index);
+  void updateTabIndex(int index, {bool addToHistory = true}) {
+    _tabs.updateTabIndex(index, addToHistory: addToHistory);
   }
 
   Future<void> fetchLatestProfile() async {
@@ -1312,52 +871,16 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     }
   }
 
-  bool get hasTabHistory => _tabHistory.isNotEmpty;
+  bool get hasTabHistory => _tabs.hasTabHistory;
 
-  bool popTabIndex() {
-    if (_tabHistory.isNotEmpty) {
-      final prevIndex = _tabHistory.removeLast();
-      _currentTabIndex = prevIndex;
-      notifyListeners();
-      SharedPreferences.getInstance().then((prefs) {
-        prefs.setInt('currentTabIndex', prevIndex);
-      });
-      return true;
-    }
-    return false;
-  }
+  bool popTabIndex() => _tabs.popTabIndex();
 
-  void toggleBookmark(String id) async {
-    if (_bookmarkedIds.contains(id)) {
-      _bookmarkedIds.remove(id);
-    } else {
-      _bookmarkedIds.add(id);
-    }
-    notifyListeners();
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('bookmarks', _bookmarkedIds);
-  }
+  void toggleBookmark(String id) => _library.toggleBookmark(id);
 
-  void addToRecentlyViewed(String id) async {
-    _recentlyViewedIds.remove(id); // Move to front
-    _recentlyViewedIds.insert(0, id);
-    if (_recentlyViewedIds.length > 5) {
-      _recentlyViewedIds = _recentlyViewedIds.sublist(0, 5);
-    }
-    notifyListeners();
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('recentlyViewed', _recentlyViewedIds);
-  }
+  void addToRecentlyViewed(String id) => _library.addToRecentlyViewed(id);
 
   Future<void> saveEligibilityResults(List<String> schemeIds) async {
-    _savedEligibilitySchemeIds = List<String>.from(schemeIds);
-    _lastEligibilitySavedAt = DateTime.now();
-    notifyListeners();
-
-    await SessionCacheService.instance.saveSavedEligibilityResults(
-      _savedEligibilitySchemeIds,
-      _lastEligibilitySavedAt!,
-    );
+    await _library.saveEligibilityResults(schemeIds);
 
     if (_isLoggedIn) {
       final user = Supabase.instance.client.auth.currentUser;
@@ -1366,8 +889,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           Supabase.instance.client
               .from('profiles')
               .update({
-                'saved_eligibility_schemes': _savedEligibilitySchemeIds,
-                'last_eligibility_saved_at': _lastEligibilitySavedAt!
+                'saved_eligibility_schemes':
+                    _library.savedEligibilitySchemeIds,
+                'last_eligibility_saved_at': _library.lastEligibilitySavedAt!
                     .toIso8601String(),
               })
               .eq('id', user.id)
@@ -1379,161 +903,29 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     }
   }
 
-  // Search & Filter Operations
-  void updateSearchQuery(String query) {
-    _searchQuery = query;
-    notifyListeners();
-  }
+  // Search & Filter Operations — delegate to SearchFilterController.
+  void updateSearchQuery(String query) => _searchFilter.updateSearchQuery(query);
 
-  void updateFilter(String key, dynamic value) {
-    _filters[key] = value;
-    notifyListeners();
-  }
+  void updateFilter(String key, dynamic value) =>
+      _searchFilter.updateFilter(key, value);
 
-  void clearFilters() {
-    _filters = {};
-    notifyListeners();
-  }
+  void clearFilters() => _searchFilter.clearFilters();
 
-  // Wizard state management
-  void startWizard() {
-    _wizardStep = 0;
-    _wizardAnswers = {
-      'name': _profile.name,
-      'gender': _profile.gender,
-      'dob': _profile.dob ?? DateTime(1998, 1, 1),
-      'state': _profile.state,
-      'district': _profile.district,
-      'city': _profile.city,
-      'pinCode': _profile.pinCode,
-      'community': _profile.community,
-      'religion': _profile.religion,
-      'educationLevel': _profile.educationLevel,
-      'firstGenGraduate': _profile.firstGenGraduate,
-      'annualIncome': _profile.annualIncome,
-    };
-    notifyListeners();
-  }
+  // Notification actions — delegate to NotificationsController.
+  Future<void> markNotificationRead(String id) =>
+      _notifications.markNotificationRead(id);
 
-  void updateWizardAnswer(String key, dynamic value) {
-    _wizardAnswers[key] = value;
-    notifyListeners();
-  }
+  Future<void> markAllNotificationsRead() =>
+      _notifications.markAllNotificationsRead();
 
-  void nextWizardStep() {
-    if (_wizardStep < 2) {
-      _wizardStep++;
-      notifyListeners();
-    }
-  }
+  Future<void> deleteAllNotifications() =>
+      _notifications.deleteAllNotifications();
 
-  void previousWizardStep() {
-    if (_wizardStep > 0) {
-      _wizardStep--;
-      notifyListeners();
-    }
-  }
+  Future<void> deleteNotifications(List<String> ids) =>
+      _notifications.deleteNotifications(ids);
 
-  void submitWizard() {
-    // Commit wizard answers to UserProfile
-    _profile = UserProfile(
-      name: _wizardAnswers['name'] ?? '',
-      gender: _wizardAnswers['gender'] ?? '',
-      dob: _wizardAnswers['dob'] as DateTime?,
-      state: _wizardAnswers['state'] ?? '',
-      district: _wizardAnswers['district'] ?? '',
-      city: _wizardAnswers['city'] ?? '',
-      pinCode: _wizardAnswers['pinCode'] ?? '',
-      community: _wizardAnswers['community'] ?? '',
-      religion: _wizardAnswers['religion'] ?? '',
-      educationLevel: _wizardAnswers['educationLevel'] ?? '',
-      firstGenGraduate: _wizardAnswers['firstGenGraduate'] ?? false,
-      annualIncome: (_wizardAnswers['annualIncome'] ?? 0.0) as double,
-      mobile: _mobileNumber,
-      updatedAt: DateTime.now(),
-    );
-    notifyListeners();
-    _saveProfile();
-  }
-
-  // Notification action
-  Future<void> markNotificationRead(String id) async {
-    final index = _notificationsList.indexWhere((n) => n['id'] == id);
-    if (index != -1) {
-      _notificationsList[index]['read'] = true;
-      notifyListeners();
-    }
-    try {
-      await Supabase.instance.client
-          .from('notifications')
-          .update({'is_read': true})
-          .eq('id', id);
-    } catch (e) {
-      debugPrint('[AppProvider] Error marking notification read: $e');
-    }
-  }
-
-  Future<void> markAllNotificationsRead() async {
-    for (var n in _notificationsList) {
-      n['read'] = true;
-    }
-    notifyListeners();
-    final userId = Supabase.instance.client.auth.currentUser?.id;
-    if (userId == null) return;
-    try {
-      await Supabase.instance.client
-          .from('notifications')
-          .update({'is_read': true})
-          .eq('user_id', userId);
-    } catch (e) {
-      debugPrint('[AppProvider] Error marking all notifications read: $e');
-    }
-  }
-
-  Future<void> deleteAllNotifications() async {
-    _notificationsList.clear();
-    notifyListeners();
-    final userId = Supabase.instance.client.auth.currentUser?.id;
-    if (userId == null) return;
-    try {
-      await Supabase.instance.client
-          .from('notifications')
-          .delete()
-          .eq('user_id', userId);
-    } catch (e) {
-      debugPrint('[AppProvider] Error deleting all notifications: $e');
-    }
-  }
-
-  Future<void> deleteNotifications(List<String> ids) async {
-    _notificationsList.removeWhere((n) => ids.contains(n['id']));
-    notifyListeners();
-    try {
-      await Supabase.instance.client
-          .from('notifications')
-          .delete()
-          .inFilter('id', ids);
-    } catch (e) {
-      debugPrint('[AppProvider] Error deleting notifications: $e');
-    }
-  }
-
-  Future<void> markNotificationsRead(List<String> ids) async {
-    for (var n in _notificationsList) {
-      if (ids.contains(n['id'])) {
-        n['read'] = true;
-      }
-    }
-    notifyListeners();
-    try {
-      await Supabase.instance.client
-          .from('notifications')
-          .update({'is_read': true})
-          .inFilter('id', ids);
-    } catch (e) {
-      debugPrint('[AppProvider] Error marking notifications read: $e');
-    }
-  }
+  Future<void> markNotificationsRead(List<String> ids) =>
+      _notifications.markNotificationsRead(ids);
 
   // Completion calculation
   int get profileCompletionPercentage {
@@ -1649,10 +1041,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _profile = candidate;
 
     // Recalculate recommendations based on updated profile
-    _recommendedSchemes = RecommendationEngine.getRecommendations(
-      _profile,
-      _allSchemes,
-    );
+    _catalog.recomputeRecommendations(_profile);
 
     notifyListeners();
     await _saveProfile();
@@ -1678,300 +1067,29 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _syncProfileToSupabaseInBackground(_profile);
   }
 
-  Future<Map<String, dynamic>> _getFallbackLocation() async {
-    final locData = {
-      'house': 'Flat 402',
-      'street': 'Royal Enclave',
-      'area': 'Anna Nagar West',
-      'village': '',
-      'state': 'Tamil Nadu',
-      'district': 'Chennai',
-      'city': 'Chennai',
-      'pinCode': '600040',
-      'latitude': 13.0827,
-      'longitude': 80.2707,
-      'isFallback': true,
-    };
+  // Promo carousel content — delegate to PromoContentController.
+  Future<void> fetchPromoAlerts({bool force = false}) =>
+      _promos.fetchPromoAlerts(force: force);
 
-    _profile = _profile.copyWith(
-      area: locData['area'] as String,
-      state: locData['state'] as String,
-      district: locData['district'] as String,
-      city: locData['city'] as String,
-      pinCode: locData['pinCode'] as String,
-    );
-
-    notifyListeners();
-    await _saveProfile();
-    _syncProfileToSupabaseInBackground(_profile);
-    return locData;
-  }
-
-  // Location/GPS Helper
-  Future<Map<String, dynamic>?> fetchLocationAndPopulate() async {
-    try {
-      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      if (!serviceEnabled) {
-        debugPrint('Location services are disabled. Using Chennai fallback.');
-        return await _getFallbackLocation();
-      }
-
-      LocationPermission permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          debugPrint(
-            'Location permissions are denied. Using Chennai fallback.',
-          );
-          return await _getFallbackLocation();
-        }
-      }
-
-      if (permission == LocationPermission.deniedForever) {
-        debugPrint(
-          'Location permissions are permanently denied. Using Chennai fallback.',
-        );
-        return await _getFallbackLocation();
-      }
-
-      Position? position;
-      try {
-        // Try getting current position with medium accuracy (faster, works indoors)
-        position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.medium,
-          timeLimit: const Duration(seconds: 7),
-        );
-      } catch (e) {
-        debugPrint(
-          'getCurrentPosition failed: $e. Trying getLastKnownPosition as fallback...',
-        );
-        try {
-          position = await Geolocator.getLastKnownPosition();
-        } catch (err) {
-          debugPrint('getLastKnownPosition failed: $err');
-        }
-      }
-
-      if (position == null) {
-        debugPrint('No position found. Using Chennai fallback.');
-        return await _getFallbackLocation();
-      }
-
-      final placemarks = await placemarkFromCoordinates(
-        position.latitude,
-        position.longitude,
-      );
-
-      if (placemarks.isNotEmpty) {
-        final placemark = placemarks.first;
-
-        final locData = {
-          'house': placemark.subThoroughfare ?? '',
-          'street': placemark.thoroughfare ?? '',
-          'area': placemark.subLocality ?? placemark.name ?? '',
-          'village':
-              placemark.subLocality != null &&
-                  placemark.name != null &&
-                  placemark.subLocality != placemark.name
-              ? placemark.name
-              : '',
-          'state': placemark.administrativeArea ?? '',
-          'district':
-              (placemark.subAdministrativeArea != null &&
-                  placemark.subAdministrativeArea!.isNotEmpty)
-              ? placemark.subAdministrativeArea!
-              : (placemark.locality ?? ''),
-          'city': placemark.locality ?? placemark.subLocality ?? '',
-          'pinCode': placemark.postalCode ?? '',
-          'latitude': position.latitude,
-          'longitude': position.longitude,
-          'isFallback': false,
-        };
-
-        _profile = _profile.copyWith(
-          area: locData['area'] as String,
-          state: locData['state'] as String,
-          district: locData['district'] as String,
-          city: locData['city'] as String,
-          pinCode: locData['pinCode'] as String,
-        );
-
-        notifyListeners();
-        await _saveProfile();
-        _syncProfileToSupabaseInBackground(_profile);
-        return locData;
-      }
-    } catch (e) {
-      debugPrint('Error fetching location: $e. Using Chennai fallback.');
-    }
-    return await _getFallbackLocation();
-  }
-
-  List<Map<String, dynamic>> get downloadedDocs => _downloadedDocs;
-
-  Future<void> _saveDownloadedDocs() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('downloadedDocs', jsonEncode(_downloadedDocs));
-  }
-
-  void downloadDoc(String id, String title, String size) {
-    if (!_downloadedDocs.any((doc) => doc['id'] == id)) {
-      final now = DateTime.now();
-      final months = [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
-      ];
-      final dateStr =
-          'Downloaded on ${now.day} ${months[now.month - 1]} ${now.year}';
-
-      _downloadedDocs.add({
-        'id': id,
-        'title': title,
-        'size': size,
-        'date': dateStr,
-        'fileType': 'PDF',
-      });
-      _saveDownloadedDocs();
-      notifyListeners();
-    }
-  }
-
-  void removeDownloadedDoc(String id) {
-    _downloadedDocs.removeWhere((doc) => doc['id'] == id);
-    _saveDownloadedDocs();
-    notifyListeners();
-  }
-
-  DateTime? _lastPromoFetch;
-  static const Duration _promoFetchThrottle = Duration(minutes: 30);
-
-  Future<void> fetchPromoAlerts({bool force = false}) async {
-    final now = DateTime.now();
-    if (!force &&
-        _lastPromoFetch != null &&
-        now.difference(_lastPromoFetch!) < _promoFetchThrottle) {
-      return;
-    }
-    _lastPromoFetch = now;
-    try {
-      final res = await Supabase.instance.client.from('promo_alerts').select();
-
-      final mapped = List<Map<String, dynamic>>.from(res).map((item) {
-        final mutable = Map<String, dynamic>.from(item);
-        if (mutable['bg_image'] == null ||
-            mutable['bg_image'].toString().isEmpty) {
-          final title = (mutable['title'] ?? '').toString().toLowerCase();
-          final badge = (mutable['badge_text'] ?? '').toString().toLowerCase();
-          if (badge.contains('alert') ||
-              title.contains('closing') ||
-              title.contains('deadline')) {
-            mutable['bg_image'] = 'assets/images/Background/alert banner.webp';
-            mutable['badge_text_color'] = '#EA580C';
-            mutable['badge_bg_color'] = '#FFF7ED';
-          } else if (badge.contains('new') ||
-              title.contains('new scheme') ||
-              title.contains('export')) {
-            mutable['bg_image'] =
-                'assets/images/Background/new scheme banner.webp';
-            mutable['badge_text_color'] = '#16A34A';
-            mutable['badge_bg_color'] = '#DCFCE7';
-          } else if (badge.contains('notify') ||
-              title.contains('update') ||
-              title.contains('udyam')) {
-            mutable['bg_image'] =
-                'assets/images/Background/notification banner.webp';
-            mutable['badge_text_color'] = '#2563EB';
-            mutable['badge_bg_color'] = '#EFF6FF';
-          } else {
-            mutable['bg_image'] =
-                'assets/images/Background/suggestion banner.webp';
-            mutable['badge_text_color'] = '#7C3AED';
-            mutable['badge_bg_color'] = '#F5F3FF';
-          }
-        }
-        return mutable;
-      }).toList();
-
-      _promoAlerts = mapped;
-      notifyListeners();
-    } catch (e) {
-      debugPrint('[AppProvider] Error fetching promo alerts: $e');
-    }
-  }
-
-  DateTime? _lastDraftFetch;
-  static const Duration _draftFetchThrottle = Duration(minutes: 5);
-
-  /// Throttled like [fetchPromoAlerts]. This is called from four places --
-  /// the realtime profile stream, the auth-state listener, `_loadState`, and
-  /// `checkSessionAndFetchProfile` -- so an unthrottled version re-queried
-  /// `questionnaire_sessions` on every profile row change and several times
-  /// per app launch. Pass `force: true` after the user actually edits a draft.
-  Future<void> fetchDraftSessions({bool force = false}) async {
-    final now = DateTime.now();
-    if (!force &&
-        _lastDraftFetch != null &&
-        now.difference(_lastDraftFetch!) < _draftFetchThrottle) {
-      return;
-    }
-
-    try {
-      final userId = Supabase.instance.client.auth.currentUser?.id;
-      if (userId == null) {
-        _draftSessions = [];
-        _lastDraftFetch = null;
-        notifyListeners();
-        return;
-      }
-      _lastDraftFetch = now;
-
-      final res = await Supabase.instance.client
-          .from('questionnaire_sessions')
-          .select(
-            'id, completed_percentage, status, startup_profiles!inner(user_id, profile_name)',
-          )
-          .eq('status', 'IN_PROGRESS')
-          .eq('startup_profiles.user_id', userId);
-
-      _draftSessions = List<Map<String, dynamic>>.from(res).map((item) {
-        final startup = item['startup_profiles'] as Map<String, dynamic>;
-        final pct = (item['completed_percentage'] as num?)?.toDouble() ?? 0.0;
-        return {
-          'id': item['id'],
-          'title': '${startup['profile_name']} Setup',
-          'badge_text': 'Draft',
-          'badge_text_color': '#2563EB',
-          'badge_bg_color': '#EFF6FF',
-          'bg_gradient_start': '#EFF6FF',
-          'bg_gradient_end': '#DBEAFE',
-          'btn_text': 'Continue',
-          'btn_color': '#2563EB',
-          'target_route': 'draft_session',
-          'graphic_type': 'progress',
-          'progress': pct,
-        };
-      }).toList();
-      notifyListeners();
-    } catch (e) {
-      debugPrint('[AppProvider] Error fetching draft sessions: $e');
-    }
-  }
+  Future<void> fetchDraftSessions({bool force = false}) =>
+      _promos.fetchDraftSessions(force: force);
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _tabs.removeListener(notifyListeners);
+    _tabs.dispose();
+    _library.removeListener(notifyListeners);
+    _library.dispose();
+    _searchFilter.removeListener(notifyListeners);
+    _searchFilter.dispose();
+    _notifications.removeListener(notifyListeners);
+    _notifications.dispose();
+    _promos.removeListener(notifyListeners);
+    _promos.dispose();
+    _catalog.removeListener(notifyListeners);
+    _catalog.dispose();
     _unsubscribeFromProfile();
-    _unsubscribeFromNotifications();
     super.dispose();
   }
 }

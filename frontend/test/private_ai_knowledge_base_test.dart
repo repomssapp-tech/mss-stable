@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:frontend/services/private_ai_knowledge_base.dart';
-import 'package:frontend/services/scheme_repository.dart';
-import 'package:frontend/services/scheme_understanding_engine.dart';
+import 'package:frontend/services/search/private_ai_knowledge_base.dart';
+import 'package:frontend/services/catalog/scheme_repository.dart';
+import 'package:frontend/services/search/scheme_understanding_engine.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

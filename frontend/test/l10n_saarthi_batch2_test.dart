@@ -20,7 +20,7 @@ import 'package:frontend/models/user_profile.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/companion_mode/saarthi_welcome_screen.dart';
 import 'package:frontend/screens/regular_mode/sarvam_chat_screen.dart';
-import 'package:frontend/services/sarvam_chat_service.dart';
+import 'package:frontend/services/chat/sarvam_chat_service.dart';
 
 // Exact values copied from the old hardcoded `isTamil ? '…' : '…'` literals.
 const _poweredByEn = 'Powered by Sarvam AI';

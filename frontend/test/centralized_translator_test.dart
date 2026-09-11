@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/models/scheme_model.dart';
 import 'package:frontend/models/localized_scheme.dart';
-import 'package:frontend/services/centralized_translator.dart';
+import 'package:frontend/services/catalog/centralized_translator.dart';
 
 void main() {
   group('CentralizedTranslator Priority Pipeline & Protection Rules', () {

@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/l10n.dart';
 import '../../screens/login_screen.dart';
 import '../../screens/regular_mode/language_selection_screen.dart';
-import '../../services/session_cache_service.dart';
+import '../../services/account/session_cache_service.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/constants.dart';
 import 'beta_gate_service.dart';

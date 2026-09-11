@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:frontend/widgets/smart_assessment_bottom_sheet.dart';
-import 'package:frontend/services/centralized_translator.dart';
+import 'package:frontend/widgets/assistant/smart_assessment_bottom_sheet.dart';
+import 'package:frontend/services/catalog/centralized_translator.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

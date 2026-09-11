@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/models/scheme_model.dart';
-import 'package:frontend/services/edge_model_pack.dart';
-import 'package:frontend/services/edge_slm_runtime.dart';
-import 'package:frontend/services/edge_slm_understanding_engine.dart';
-import 'package:frontend/services/scheme_understanding_engine.dart';
+import 'package:frontend/services/edge_ai/edge_model_pack.dart';
+import 'package:frontend/services/edge_ai/edge_slm_runtime.dart';
+import 'package:frontend/services/edge_ai/edge_slm_understanding_engine.dart';
+import 'package:frontend/services/search/scheme_understanding_engine.dart';
 
 void main() {
   const businessScheme = Scheme(

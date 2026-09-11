@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:frontend/services/centralized_translator.dart';
-import 'package:frontend/services/scheme_repository.dart';
+import 'package:frontend/services/catalog/centralized_translator.dart';
+import 'package:frontend/services/catalog/scheme_repository.dart';
 import 'package:frontend/models/user_profile.dart';
 import 'package:frontend/models/scheme_model.dart';
 import 'package:frontend/models/localized_scheme.dart';
-import 'package:frontend/widgets/standard_page_header.dart';
+import 'package:frontend/widgets/common/standard_page_header.dart';
 import 'package:frontend/utils/app_card_style.dart';
 
 void main() {

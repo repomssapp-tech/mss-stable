@@ -5,9 +5,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../utils/constants.dart';
 import '../../l10n/l10n.dart';
 import '../../l10n/app_localizations.dart';
-import '../../widgets/app_toast.dart';
+import '../../widgets/common/app_toast.dart';
 import '../../utils/app_spacing.dart';
-import '../../services/support_ticket_service.dart';
+import '../../services/account/support_ticket_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HelpSupportScreen extends StatefulWidget {

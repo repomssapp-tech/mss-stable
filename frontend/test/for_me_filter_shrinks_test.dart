@@ -18,7 +18,7 @@ import 'package:frontend/screens/regular_mode/search_screen.dart'
         schemeIsNationwide,
         computeForMeView,
         ForMeEmptyState;
-import 'package:frontend/services/scheme_repository.dart';
+import 'package:frontend/services/catalog/scheme_repository.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

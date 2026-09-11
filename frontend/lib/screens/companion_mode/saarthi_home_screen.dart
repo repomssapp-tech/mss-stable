@@ -9,99 +9,25 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../providers/app_state_provider.dart';
 import '../../models/scheme_model.dart';
 import '../../models/localized_scheme.dart';
-import '../../services/assistant_session_controller.dart';
-import '../../services/livekit_voice_agent_controller.dart';
-import '../../services/intelligent_scheme_search.dart';
-import '../../services/scheme_understanding_engine.dart';
-import '../../services/speech_output_controller.dart';
-import '../../services/voice_recognition_controller.dart';
-import '../../services/voice_agent_controller.dart';
+import '../../services/voice/assistant_session_controller.dart';
+import '../../services/voice/livekit_voice_agent_controller.dart';
+import '../../services/search/intelligent_scheme_search.dart';
+import '../../services/search/scheme_understanding_engine.dart';
+import '../../services/voice/speech_output_controller.dart';
+import '../../services/voice/voice_recognition_controller.dart';
+import '../../services/voice/voice_agent_controller.dart';
 import '../profile_screen.dart';
 import '../notifications_screen.dart';
 import '../regular_mode/scheme_details_screen.dart';
-import '../../services/centralized_translator.dart';
+import '../../services/catalog/centralized_translator.dart';
 import '../../utils/responsive.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/constants.dart';
-import '../../services/chat_log_service.dart';
+import '../../services/chat/chat_log_service.dart';
+import 'saarthi_message.dart';
 
-enum SaarthiVoiceState { idle, listening, processing, speaking, ended }
-
-class SaarthiMessage {
-  final String id;
-  final String role; // 'user' | 'assistant'
-  final String text;
-  final DateTime timestamp;
-  final String? status; // 'transcribing' | null
-  final List<Scheme>? schemeResults;
-  final List<CloudSchemeResult>? cloudSchemeResults;
-  final String? speakingState; // 'speaking' | null
-
-  SaarthiMessage({
-    required this.id,
-    required this.role,
-    required this.text,
-    required this.timestamp,
-    this.status,
-    this.schemeResults,
-    this.cloudSchemeResults,
-    this.speakingState,
-  });
-
-  SaarthiMessage copyWith({
-    String? text,
-    String? status,
-    bool clearStatus = false,
-    List<Scheme>? schemeResults,
-    List<CloudSchemeResult>? cloudSchemeResults,
-    String? speakingState,
-    bool clearSpeakingState = false,
-  }) {
-    return SaarthiMessage(
-      id: id,
-      role: role,
-      text: text ?? this.text,
-      timestamp: timestamp,
-      status: clearStatus ? null : status ?? this.status,
-      schemeResults: schemeResults ?? this.schemeResults,
-      cloudSchemeResults: cloudSchemeResults ?? this.cloudSchemeResults,
-      speakingState: clearSpeakingState
-          ? null
-          : speakingState ?? this.speakingState,
-    );
-  }
-}
-
-@visibleForTesting
-int cloudAssistantMessageTargetIndex(List<SaarthiMessage> messages) =>
-    messages.isNotEmpty && messages.last.role == 'assistant'
-    ? messages.length - 1
-    : -1;
-
-@visibleForTesting
-int cloudSchemeResultTargetIndex(List<SaarthiMessage> messages) =>
-    messages.isNotEmpty && messages.last.role == 'assistant'
-    ? messages.length - 1
-    : -1;
-
-@visibleForTesting
-bool isTransientCloudConnectionFailure(Object? error) {
-  final detail = error?.toString().toLowerCase() ?? '';
-  return detail.contains('network') ||
-      detail.contains('socket') ||
-      detail.contains('timeout') ||
-      detail.contains('timed out') ||
-      detail.contains('disconnected') ||
-      detail.contains('host lookup') ||
-      detail.contains('connection reset');
-}
-
-@visibleForTesting
-bool shouldApplyCloudOutput({
-  required String output,
-  required String previousOutput,
-}) => output.trim().isNotEmpty && output.trim() != previousOutput;
+export 'saarthi_message.dart';
 
 class SaarthiHomeScreen extends StatefulWidget {
   const SaarthiHomeScreen({super.key});

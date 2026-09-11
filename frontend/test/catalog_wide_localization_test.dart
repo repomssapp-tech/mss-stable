@@ -1,8 +1,8 @@
 // ignore_for_file: avoid_print
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/models/localized_scheme.dart';
-import 'package:frontend/services/mss_catalog_bundle.dart';
-import 'package:frontend/services/mss_scheme_adapter.dart';
+import 'package:frontend/services/catalog/mss_catalog_bundle.dart';
+import 'package:frontend/services/catalog/mss_scheme_adapter.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

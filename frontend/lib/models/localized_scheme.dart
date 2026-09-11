@@ -1,4 +1,4 @@
-import '../services/centralized_translator.dart';
+import '../services/catalog/centralized_translator.dart';
 import 'scheme_model.dart';
 
 /// LocalizedScheme

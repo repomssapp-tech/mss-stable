@@ -6,8 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../l10n/l10n.dart';
 import '../../models/user_profile.dart';
-import '../../services/chat_log_service.dart';
-import '../../services/sarvam_chat_service.dart';
+import '../../services/chat/chat_log_service.dart';
+import '../../services/chat/sarvam_chat_service.dart';
 import '../../utils/app_spacing.dart';
 
 class SarvamChatScreen extends StatefulWidget {

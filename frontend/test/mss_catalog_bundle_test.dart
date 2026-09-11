@@ -6,8 +6,8 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:frontend/models/mss_entity.dart';
-import 'package:frontend/services/mss_catalog_bundle.dart';
-import 'package:frontend/services/mss_scheme_adapter.dart';
+import 'package:frontend/services/catalog/mss_catalog_bundle.dart';
+import 'package:frontend/services/catalog/mss_scheme_adapter.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

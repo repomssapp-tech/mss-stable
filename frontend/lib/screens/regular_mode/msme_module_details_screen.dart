@@ -5,10 +5,10 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../providers/app_state_provider.dart';
 import '../../utils/responsive.dart';
-import '../../services/centralized_translator.dart';
+import '../../services/catalog/centralized_translator.dart';
 import '../../l10n/l10n.dart';
 import '../../l10n/app_localizations.dart';
-import '../../widgets/standard_page_header.dart';
+import '../../widgets/common/standard_page_header.dart';
 import 'search_results_screen.dart';
 import '../../utils/app_spacing.dart';
 

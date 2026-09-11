@@ -100,67 +100,45 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('Step 1 date-of-birth field shows the DD/MM/YYYY placeholder', (
+  testWidgets('Step 1 age field shows the "e.g. 25" placeholder', (
     tester,
   ) async {
     await _pumpStep(tester, const BasicProfileScreen());
-    expect(find.text('DD/MM/YYYY'), findsOneWidget);
+    expect(find.text('e.g. 25'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('Step 2 Continue is disabled until the pincode is 6 digits', (
-    tester,
-  ) async {
-    await _pumpStep(tester, const LocationProfileScreen());
+  testWidgets(
+    'Step 2 Continue stays disabled until every address field is valid',
+    (tester) async {
+      await _pumpStep(tester, const LocationProfileScreen());
 
-    ElevatedButton button() => tester.widget<ElevatedButton>(
-      find.widgetWithText(ElevatedButton, 'Continue'),
-    );
-    Color? bg() => button().style?.backgroundColor?.resolve(<WidgetState>{});
+      ElevatedButton button() => tester.widget<ElevatedButton>(
+        find.widgetWithText(ElevatedButton, 'Continue'),
+      );
+      Color? bg() => button().style?.backgroundColor?.resolve(<WidgetState>{});
 
-    // Nothing filled in -> greyed.
-    expect(bg(), Colors.grey.shade300);
+      // Step 2 fields, in tree order: address, city/town, district, state.
+      final fields = find.byType(TextFormField);
+      expect(fields, findsNWidgets(4));
 
-    await tester.enterText(
-      find.widgetWithText(TextFormField, 'e.g. Flat 402, Royal Enclave'),
-      'Flat 402',
-    );
-    await tester.enterText(
-      find.widgetWithText(TextFormField, 'e.g. Anna Nagar West'),
-      'Anna Nagar West',
-    );
-    await tester.enterText(
-      find.widgetWithText(TextFormField, 'e.g. Chennai'),
-      'Chennai',
-    );
-    await tester.enterText(
-      find.widgetWithText(TextFormField, 'e.g. Tamil Nadu'),
-      'Tamil Nadu',
-    );
+      // Nothing filled in -> greyed.
+      expect(bg(), Colors.grey.shade300);
 
-    // Pincode is the last field on the step; its hint disappears once it has
-    // text, so address it by position.
-    final pincode = find.byType(TextFormField).at(4);
+      await tester.enterText(fields.at(0), 'Flat 402, Royal Enclave');
+      await tester.enterText(fields.at(1), 'Anna Nagar West');
+      await tester.enterText(fields.at(2), 'Chennai');
+      await tester.pump();
 
-    // Five-digit pincode -> still greyed (this is the reported defect).
-    await tester.enterText(pincode, '60004');
-    await tester.pump();
-    expect(bg(), Colors.grey.shade300);
+      // State still blank -> still greyed.
+      expect(bg(), Colors.grey.shade300);
 
-    // Sixth digit -> enabled.
-    await tester.enterText(pincode, '600040');
-    await tester.pump();
-    expect(bg(), const Color(0xFF2563EB));
-    expect(tester.takeException(), isNull);
-  });
+      await tester.enterText(fields.at(3), 'Tamil Nadu');
+      await tester.pump();
 
-  testWidgets('Step 2 pincode field rejects non-digits and caps at 6', (
-    tester,
-  ) async {
-    await _pumpStep(tester, const LocationProfileScreen());
-    final pincode = find.byType(TextFormField).at(4);
-    await tester.enterText(pincode, 'ab12cd3456789');
-    await tester.pump();
-    expect(tester.widget<TextFormField>(pincode).controller!.text, '123456');
-  });
+      // All four valid -> enabled.
+      expect(bg(), const Color(0xFF2563EB));
+      expect(tester.takeException(), isNull);
+    },
+  );
 }

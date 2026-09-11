@@ -3,23 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../providers/app_state_provider.dart';
-import '../../widgets/filter_panel.dart';
+import '../../widgets/scheme/filter_panel.dart';
 import '../../models/scheme_model.dart';
 import '../../models/scheme_filter.dart';
 export '../../models/scheme_filter.dart'
     show schemeIsNationwide, applySchemeFilters;
 import '../../models/user_profile.dart';
-import '../../services/scheme_repository.dart';
+import '../../services/catalog/scheme_repository.dart';
 import 'scheme_details_screen.dart';
 import 'search_results_screen.dart';
 import '../../engine/recommendation_engine.dart';
 import '../../l10n/l10n.dart';
-import '../../services/centralized_translator.dart';
-import '../../widgets/voice_assistant_overlay.dart';
-import '../../widgets/app_toast.dart';
-import '../../widgets/scheme_card.dart';
+import '../../services/catalog/centralized_translator.dart';
+import '../../widgets/assistant/voice_assistant_overlay.dart';
+import '../../widgets/common/app_toast.dart';
+import '../../widgets/scheme/scheme_card.dart';
 import '../../utils/app_spacing.dart';
-import '../../services/voice_recognition_controller.dart';
+import '../../services/voice/voice_recognition_controller.dart';
+import 'search/shimmer_skeleton_card.dart';
 
 String _getLocalizedTagOrCategory(String text, String langCode) {
   if (langCode != 'ta') return text;
@@ -1171,7 +1172,7 @@ class SearchScreenState extends State<SearchScreen> {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: 5,
       itemBuilder: (context, index) {
-        return const _ShimmerSkeletonCard();
+        return const ShimmerSkeletonCard();
       },
     );
   }
@@ -1579,7 +1580,7 @@ class SearchScreenState extends State<SearchScreen> {
             subtitle: _isLoadingCounts
                 ? const Padding(
                     padding: EdgeInsets.only(top: AppSpacing.hairline),
-                    child: _SkeletonBar(width: 70, height: 10),
+                    child: SearchSkeletonBar(width: 70, height: 10),
                   )
                 : Text(
                     category["count"] as String,
@@ -1594,143 +1595,6 @@ class SearchScreenState extends State<SearchScreen> {
               size: 20,
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-// A small reusable static skeleton bar, for inline loading placeholders
-// (e.g. a category tile's count while getCategoryCounts() is still
-// computing) that are too small to warrant a full _ShimmerSkeletonCard.
-// Deliberately NOT animated, unlike _ShimmerSkeletonCard below: this shows
-// during the idle Browse Categories view, which is on screen by default
-// (not just during a transient results-loading state), so an indefinitely-
-// repeating animation here would leave every widget test that pumps this
-// screen unable to ever reach `pumpAndSettle()` -- there would always be a
-// pending frame. A static box still reads as "loading" via its shape/color.
-class _SkeletonBar extends StatelessWidget {
-  const _SkeletonBar({required this.width, required this.height});
-
-  final double width;
-  final double height;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        color: const Color(0xFFE2E8F0),
-        borderRadius: BorderRadius.circular(4),
-      ),
-    );
-  }
-}
-
-// 5. self-contained Shimmer Skeleton Card Widget
-class _ShimmerSkeletonCard extends StatefulWidget {
-  const _ShimmerSkeletonCard();
-
-  @override
-  State<_ShimmerSkeletonCard> createState() => _ShimmerSkeletonCardState();
-}
-
-class _ShimmerSkeletonCardState extends State<_ShimmerSkeletonCard>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 900),
-    )..repeat(reverse: true);
-    _animation = Tween<double>(
-      begin: 0.35,
-      end: 0.85,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _animation,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: AppSpacing.lg),
-        padding: const EdgeInsets.all(AppSpacing.lg),
-        height: 140,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Shimmer Logo Box
-            Container(
-              width: 56,
-              height: 56,
-              decoration: BoxDecoration(
-                color: const Color(0xFFE2E8F0),
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            const SizedBox(width: AppSpacing.lg),
-
-            // Shimmer Content Lines
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 160,
-                    height: 16,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE2E8F0),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  Container(
-                    width: 100,
-                    height: 14,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE2E8F0),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-                  Container(
-                    width: double.infinity,
-                    height: 12,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE2E8F0),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.tight),
-                  Container(
-                    width: 180,
-                    height: 12,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE2E8F0),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
         ),
       ),
     );

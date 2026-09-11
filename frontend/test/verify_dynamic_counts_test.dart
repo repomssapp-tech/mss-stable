@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_print
 import 'package:flutter_test/flutter_test.dart';
-import 'package:frontend/services/scheme_repository.dart';
+import 'package:frontend/services/catalog/scheme_repository.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

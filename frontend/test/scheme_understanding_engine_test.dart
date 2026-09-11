@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/models/scheme_model.dart';
 import 'package:frontend/models/user_profile.dart';
-import 'package:frontend/services/assistant_session_controller.dart';
-import 'package:frontend/services/scheme_understanding_engine.dart';
+import 'package:frontend/services/voice/assistant_session_controller.dart';
+import 'package:frontend/services/search/scheme_understanding_engine.dart';
 
 void main() {
   const engine = LocalSchemeUnderstandingEngine();

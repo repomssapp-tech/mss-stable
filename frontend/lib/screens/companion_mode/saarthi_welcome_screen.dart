@@ -4,10 +4,10 @@ import 'package:provider/provider.dart';
 import '../../l10n/l10n.dart';
 import '../../main.dart';
 import '../../providers/app_state_provider.dart';
-import '../../services/voice_agent_preferences.dart';
-import '../../services/voice_agent_preview_service.dart';
+import '../../services/voice/voice_agent_preferences.dart';
+import '../../services/voice/voice_agent_preview_service.dart';
 import '../../utils/responsive.dart';
-import '../../widgets/app_toast.dart';
+import '../../widgets/common/app_toast.dart';
 import '../../utils/app_spacing.dart';
 
 class SaarthiWelcomeScreen extends StatefulWidget {
