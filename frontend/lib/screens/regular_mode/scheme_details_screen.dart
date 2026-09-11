@@ -12,9 +12,17 @@ import '../../utils/constants.dart';
 import '../../l10n/l10n.dart';
 import '../../services/catalog/centralized_translator.dart';
 import '../../utils/responsive.dart';
-import '../../utils/emblem_helper.dart';
 import '../../widgets/common/app_toast.dart';
 import '../../utils/app_spacing.dart';
+import 'scheme_details/scheme_hero_section.dart';
+import 'scheme_details/sticky_tab_bar_delegate.dart';
+import 'scheme_details/scheme_expandable_section.dart';
+import 'scheme_details/scheme_bottom_action_bar.dart';
+
+export 'scheme_details/scheme_hero_section.dart';
+export 'scheme_details/sticky_tab_bar_delegate.dart';
+export 'scheme_details/scheme_expandable_section.dart';
+export 'scheme_details/scheme_bottom_action_bar.dart';
 
 class SchemeDetailsScreen extends StatefulWidget {
   final Scheme scheme;
@@ -211,7 +219,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
       final reveal = RenderAbstractViewport.of(
         box,
       ).getOffsetToReveal(box, 0.0).offset;
-      final target = (reveal - _StickyTabBarDelegate.kHeight - 12.0).clamp(
+      final target = (reveal - StickyTabBarDelegate.kHeight - 12.0).clamp(
         position.minScrollExtent,
         position.maxScrollExtent,
       );
@@ -329,7 +337,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
 
                 // 2. Hero Section
                 SliverToBoxAdapter(
-                  child: _HeroSection(
+                  child: SchemeHeroSection(
                     scheme: scheme,
                     imagePath: _getImageForCategory(scheme.category),
                   ),
@@ -338,7 +346,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                 // 3. Sticky Tab Bar Header
                 SliverPersistentHeader(
                   pinned: true,
-                  delegate: _StickyTabBarDelegate(
+                  delegate: StickyTabBarDelegate(
                     child: Container(
                       decoration: const BoxDecoration(
                         color: Colors.white,
@@ -451,7 +459,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                       // state when its data is missing.
                       ...[
                         // Benefits Expandable Section
-                        _ExpandableSection(
+                        SchemeExpandableSection(
                           key: _benefitsKey,
                           controller: _benefitsController,
                           title: context.l10n.benefitsDetails,
@@ -469,7 +477,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                         const SizedBox(height: AppSpacing.md),
 
                         // Eligibility Expandable Section
-                        _ExpandableSection(
+                        SchemeExpandableSection(
                           key: _eligibilityKey,
                           controller: _eligibilityController,
                           title: context.l10n.eligibilityCriteria,
@@ -487,7 +495,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                         const SizedBox(height: AppSpacing.md),
 
                         // Required Documents Expandable Section
-                        _ExpandableSection(
+                        SchemeExpandableSection(
                           key: _documentsKey,
                           controller: _documentsController,
                           title: context.l10n.requiredDocuments,
@@ -505,7 +513,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                         const SizedBox(height: AppSpacing.md),
 
                         // Required Services Expandable Section
-                        _ExpandableSection(
+                        SchemeExpandableSection(
                           key: _servicesKey,
                           controller: _servicesController,
                           title: context.l10n.requiredServices,
@@ -523,7 +531,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                         const SizedBox(height: AppSpacing.md),
 
                         // Process Expandable Section
-                        _ExpandableSection(
+                        SchemeExpandableSection(
                           key: _processKey,
                           controller: _processController,
                           title: context.l10n.applicationProcessHeader,
@@ -559,7 +567,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
             bottom: 0,
             left: 0,
             right: 0,
-            child: _BottomActionBar(
+            child: SchemeBottomActionBar(
               isBookmarked:
                   provider.bookmarkedIds.contains(widget.scheme.id) ||
                   provider.bookmarkedIds.contains(widget.scheme.schemeCode),
@@ -1217,582 +1225,3 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
   }
 }
 
-// 2. Extracted Hero Section Widget
-class _HeroSection extends StatelessWidget {
-  final LocalizedScheme scheme;
-  final String imagePath;
-
-  const _HeroSection({required this.scheme, required this.imagePath});
-
-  Widget _buildSchemeLogo(
-    BuildContext context,
-    LocalizedScheme scheme, {
-    double size = 48,
-  }) {
-    final emblemAsset = EmblemHelper.getEmblemAsset(
-      governmentLevel: scheme.governmentLevel,
-      state: scheme.state,
-      schemeCode: scheme.schemeCode,
-      sponsoringBody: scheme.sponsoringBody,
-      name: scheme.name,
-    );
-
-    // Emblem WebPs are ~900-1024px square; cap the decode to the physical
-    // pixels shown (size dp x devicePixelRatio) instead of full resolution.
-    final int decodePx = (size * MediaQuery.devicePixelRatioOf(context))
-        .round();
-
-    return Image.asset(
-      emblemAsset,
-      fit: BoxFit.contain,
-      width: size,
-      height: size,
-      cacheWidth: decodePx,
-      errorBuilder: (context, error, stackTrace) {
-        return Image.asset(
-          'assets/images/States assets/Indian emblem.webp',
-          fit: BoxFit.contain,
-          width: size,
-          height: size,
-          cacheWidth: decodePx,
-        );
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final title = scheme.name;
-    final regex = RegExp(r'\(([^)]+)\)');
-    final matchObj = regex.firstMatch(title);
-    String shortForm = title;
-    String fullName = '';
-
-    final bracketText = matchObj?.group(1)?.trim() ?? '';
-    if (bracketText.isNotEmpty) {
-      final outsideText = title
-          .replaceAll(regex, '')
-          .replaceAll(RegExp(r'\s+'), ' ')
-          .trim();
-      final isBracketAcronym =
-          bracketText.length <= 10 &&
-          !bracketText.contains(' ') &&
-          bracketText == bracketText.toUpperCase();
-      if (isBracketAcronym) {
-        shortForm = bracketText;
-        fullName = outsideText;
-      } else if (bracketText.length > outsideText.length) {
-        shortForm = outsideText;
-        fullName = bracketText;
-      }
-    }
-
-    return Container(
-      margin: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.lg,
-        vertical: AppSpacing.sm,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Left Image (Emblem Container)
-            Expanded(
-              flex: 2,
-              child: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Color(0xFFF1F5F9), Color(0xFFEFF6FF)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(14),
-                    bottomLeft: Radius.circular(14),
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.04),
-                        blurRadius: 6,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  padding: EdgeInsets.zero,
-                  child: ClipOval(
-                    child: _buildSchemeLogo(context, scheme, size: 120),
-                  ),
-                ),
-              ),
-            ),
-
-            // Right Content Block
-            Expanded(
-              flex: 3,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.sm,
-                  vertical: AppSpacing.sm,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppSpacing.tight,
-                            vertical: AppSpacing.hairline,
-                          ),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFEFF6FF),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            context.l10n.levelSchemeFormat(
-                              scheme.governmentLevel.isNotEmpty
-                                  ? scheme.governmentLevel
-                                  : 'Central',
-                            ),
-                            style: GoogleFonts.inter(
-                              color: const Color(0xFF2563EB),
-                              fontSize: 8.5,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: AppSpacing.xs),
-                        Text(
-                          shortForm,
-                          style: GoogleFonts.poppins(
-                            fontSize: 13.5,
-                            fontWeight: FontWeight.bold,
-                            color: const Color(0xFF0F172A),
-                            height: 1.3,
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        if (fullName.isNotEmpty) ...[
-                          const SizedBox(height: AppSpacing.hairline),
-                          Text(
-                            "($fullName)",
-                            style: GoogleFonts.inter(
-                              fontSize: 10.0,
-                              fontWeight: FontWeight.w500,
-                              color: const Color(0xFF64748B),
-                              height: 1.25,
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                        const SizedBox(height: AppSpacing.hairline),
-                        Text(
-                          scheme.sponsoringBody,
-                          style: GoogleFonts.inter(
-                            fontSize: 10.5,
-                            color: const Color(0xFF64748B),
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: AppSpacing.tight),
-
-                    // Sponsoring theme tags
-                    Wrap(
-                      spacing: AppSpacing.xs,
-                      runSpacing: AppSpacing.xs,
-                      children: [
-                        if (scheme.schemeType.isNotEmpty)
-                          _buildMiniTag(
-                            scheme.schemeType,
-                            const Color(0xFFEFF6FF),
-                            const Color(0xFF1D4ED8),
-                          ),
-                        if (scheme.sector.isNotEmpty)
-                          _buildMiniTag(
-                            scheme.sector,
-                            const Color(0xFFECFDF5),
-                            const Color(0xFF047857),
-                          ),
-                        if (scheme.schemeType.isEmpty &&
-                            scheme.sector.isEmpty) ...[
-                          _buildMiniTag(
-                            "Loan",
-                            const Color(0xFFEFF6FF),
-                            const Color(0xFF1D4ED8),
-                          ),
-                          _buildMiniTag(
-                            "Subsidy",
-                            const Color(0xFFECFDF5),
-                            const Color(0xFF047857),
-                          ),
-                        ],
-                      ],
-                    ),
-                    const SizedBox(height: AppSpacing.tight),
-
-                    // Match Banner (Single-row layout)
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.sm,
-                        vertical: AppSpacing.xs,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFEFF6FF),
-                        borderRadius: BorderRadius.circular(6),
-                        border: Border.all(
-                          color: const Color(
-                            0xFF2563EB,
-                          ).withValues(alpha: 0.15),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.auto_awesome,
-                            color: Color(0xFF2563EB),
-                            size: 12,
-                          ),
-                          const SizedBox(width: AppSpacing.xs),
-                          Expanded(
-                            child: RichText(
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              text: TextSpan(
-                                style: GoogleFonts.inter(fontSize: 10),
-                                children: [
-                                  TextSpan(
-                                    text: context.l10n.matchPercentageFormat(
-                                      96,
-                                    ),
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF2563EB),
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: " • ${context.l10n.highlyRelevant}",
-                                    style: const TextStyle(
-                                      color: Color(0xFF64748B),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildMiniTag(String label, Color bg, Color text) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.tight,
-        vertical: AppSpacing.hairline,
-      ),
-      decoration: BoxDecoration(
-        color: bg,
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Text(
-        label,
-        style: GoogleFonts.inter(
-          color: text,
-          fontSize: 9.0,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
-}
-
-// 3. Custom SliverPersistentHeaderDelegate for Sticky Tab Bar
-class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
-  final Widget child;
-
-  static const double kHeight = 48.0;
-
-  const _StickyTabBarDelegate({required this.child});
-
-  @override
-  double get minExtent => kHeight;
-
-  @override
-  double get maxExtent => kHeight;
-
-  @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) {
-    return Container(color: Colors.white, height: kHeight, child: child);
-  }
-
-  @override
-  bool shouldRebuild(covariant _StickyTabBarDelegate oldDelegate) {
-    return oldDelegate.child != child;
-  }
-}
-
-// 4. Reusable ExpandableSection Widget
-class _ExpandableSection extends StatelessWidget {
-  final String title;
-  final IconData icon;
-  final Color iconColor;
-  final Color iconBg;
-  final bool isExpanded;
-  // ignore: deprecated_member_use
-  final ExpansionTileController controller;
-  final VoidCallback onToggle;
-  final Widget child;
-
-  const _ExpandableSection({
-    super.key,
-    required this.title,
-    required this.icon,
-    required this.iconColor,
-    required this.iconBg,
-    required this.isExpanded,
-    required this.controller,
-    required this.onToggle,
-    required this.child,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
-      ),
-      // The ExpansionTile header is a ListTile; without a Material between it
-      // and this coloured Container it asserts "background may be invisible"
-      // once the section is mounted during loading. A transparency Material
-      // gives it a compositing surface without changing appearance.
-      child: Material(
-        type: MaterialType.transparency,
-        child: Theme(
-          data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-          child: ExpansionTile(
-            controller: controller,
-            initiallyExpanded: isExpanded,
-            onExpansionChanged: (_) => onToggle(),
-            tilePadding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.lg,
-              vertical: AppSpacing.hairline,
-            ),
-            leading: Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: iconBg),
-              alignment: Alignment.center,
-              child: Icon(icon, color: iconColor, size: 16),
-            ),
-            title: Text(
-              title,
-              style: GoogleFonts.poppins(
-                fontSize: 13.0,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF0F172A),
-              ),
-            ),
-            trailing: Icon(
-              isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-              color: const Color(0xFF2563EB),
-            ),
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: AppSpacing.lg,
-                  right: AppSpacing.lg,
-                  bottom: AppSpacing.lg,
-                  top: AppSpacing.xs,
-                ),
-                // The section's own opaque white Container above sits between
-                // any ListTile in `child` (services/documents content) and the
-                // nearest real Material ancestor, which trips Flutter's
-                // ListTile._debugCheckBackgroundIsHidden assertion. A
-                // transparency-type Material gives those tiles a proper
-                // compositing surface without changing appearance.
-                child: Material(type: MaterialType.transparency, child: child),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// 5. Extracted Bottom Action Bar Widget
-class _BottomActionBar extends StatelessWidget {
-  final bool isBookmarked;
-  final VoidCallback onBookmarkToggle;
-  final VoidCallback onApply;
-  final bool applyEnabled;
-
-  const _BottomActionBar({
-    required this.isBookmarked,
-    required this.onBookmarkToggle,
-    required this.onApply,
-    required this.applyEnabled,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    // Tamil button labels are ~2x longer than English; size the text for the
-    // active language (with a readable floor) instead of letting a FittedBox
-    // shrink it to nothing.
-    final bool isTamil = Localizations.localeOf(context).languageCode == 'ta';
-    final double labelSize = isTamil ? 11.5 : 14.0;
-    return Container(
-      padding: EdgeInsets.only(
-        left: 16,
-        right: 16,
-        top: 16,
-        bottom: MediaQuery.of(context).padding.bottom + 16,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 16,
-            offset: const Offset(0, -4),
-          ),
-        ],
-        border: const Border(
-          top: BorderSide(color: Color(0xFFE2E8F0), width: 1),
-        ),
-      ),
-      child: Row(
-        children: [
-          // Save Scheme Button — Fix 2: FittedBox prevents overflow
-          Expanded(
-            child: SizedBox(
-              height: 54,
-              child: OutlinedButton(
-                onPressed: onBookmarkToggle,
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Color(0xFF2563EB), width: 1.5),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                      color: const Color(0xFF2563EB),
-                      size: 20,
-                    ),
-                    const SizedBox(width: AppSpacing.xs),
-                    Flexible(
-                      child: Text(
-                        isBookmarked
-                            ? context.l10n.savedSchemeButton
-                            : context.l10n.saveSchemeButton,
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.inter(
-                          color: const Color(0xFF2563EB),
-                          fontWeight: FontWeight.bold,
-                          fontSize: labelSize,
-                          height: 1.15,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: AppSpacing.lg),
-
-          // Apply Now Button — Fix 2: FittedBox prevents overflow
-          Expanded(
-            child: SizedBox(
-              height: 54,
-              child: ElevatedButton(
-                onPressed: applyEnabled ? onApply : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF2563EB),
-                  disabledBackgroundColor: const Color(0xFFCBD5E1),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 0,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Flexible(
-                      child: Text(
-                        context.l10n.applyNowButton,
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.inter(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: labelSize,
-                          height: 1.15,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: AppSpacing.xs),
-                    const Icon(
-                      Icons.arrow_forward,
-                      color: Colors.white,
-                      size: 16,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}

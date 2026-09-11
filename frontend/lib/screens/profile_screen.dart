@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart' as fcm;
-import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'profile/avatar_cache_manager.dart';
+
+export 'profile/avatar_cache_manager.dart';
 import '../providers/app_state_provider.dart';
 import '../utils/constants.dart';
 import '../l10n/l10n.dart';
@@ -19,24 +20,6 @@ import '../widgets/common/custom_confirm_dialog.dart';
 import '../utils/responsive.dart';
 import '../utils/app_spacing.dart';
 
-/// Avatar loads use a client that fails fast instead of hanging
-/// indefinitely -- flutter_cache_manager's default HttpFileService has no
-/// built-in request timeout.
-class _TimeoutHttpClient extends http.BaseClient {
-  final http.Client _inner = http.Client();
-
-  @override
-  Future<http.StreamedResponse> send(http.BaseRequest request) {
-    return _inner.send(request).timeout(const Duration(seconds: 10));
-  }
-}
-
-final fcm.CacheManager _avatarCacheManager = fcm.CacheManager(
-  fcm.Config(
-    'profileAvatarCache',
-    fileService: fcm.HttpFileService(httpClient: _TimeoutHttpClient()),
-  ),
-);
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -768,7 +751,7 @@ class ProfileScreen extends StatelessWidget {
                                             photo.startsWith('https://')) {
                                           return CachedNetworkImage(
                                             imageUrl: photo,
-                                            cacheManager: _avatarCacheManager,
+                                            cacheManager: avatarCacheManager,
                                             width: 76,
                                             height: 76,
                                             fit: BoxFit.cover,
