@@ -95,7 +95,7 @@ Fix these when C4 reaches `basic_profile_screen.dart` — update assertions to t
 
 ### Backlog (not this pass — user prioritises)
 
-C2 `categories_screen.dart` 4822 → 2152 — **DONE**. C3–C5 — **safe-slice pass done 2026-09-11, deep splits deferred** (see "C3–C5 safe-slice pass" section below). C6 `centralized_translator.dart` 1050 (dictionary -> JSON asset) — not started. C7 `mss_scheme_adapter.dart` 1041 + `scheme_understanding_engine.dart` 1333 (parity-risk — characterization tests first; may defer) — not started.
+C2 `categories_screen.dart` 4822 → 2152 — **DONE**. C3–C5 — **safe-slice pass done 2026-09-11, deep splits deferred** (see "C3–C5 safe-slice pass" section below). C6 `centralized_translator.dart` 1055 → 369 (dictionary -> JSON asset) — **DONE**. C7 `mss_scheme_adapter.dart` 1041 + `scheme_understanding_engine.dart` 1333 (parity-risk — characterization tests first; may defer) — not started.
 
 ---
 
@@ -112,7 +112,7 @@ C2 `categories_screen.dart` 4822 → 2152 — **DONE**. C3–C5 — **safe-slice
   - `scheme_details_screen.dart` 1799 → 1227: 4 tail classes (`SchemeHeroSection`, `StickyTabBarDelegate`, `SchemeExpandableSection`, `SchemeBottomActionBar`, ~572 lines / 32% of file) extracted to `screens/regular_mode/scheme_details/` with re-export shims; dropped unused `emblem_helper.dart` import from screen.
   - `profile_screen.dart` 1423 → 1403: `TimeoutHttpClient` + `avatarCacheManager` extracted to `screens/profile/avatar_cache_manager.dart` with re-export shim; dropped unused `flutter_cache_manager` and `http` imports from screen.
 - [ ] **Monolithic screens with no safe slice** — `home_screen.dart` (1965 l), `msme_module_details_screen.dart` (1973 l), `notifications_screen.dart` (1302 l), `help_support_screen.dart` (1272 l) — grep-verified: each is purely `StatefulWidget` + one `State` class, nothing else at top level. These need the characterization-tests-first treatment before any split, same as the remainder of C3/C4.
-- [ ] **C6 `centralized_translator.dart`** (1050 l, dictionary → JSON asset) — not started.
+- [x] **C6 `centralized_translator.dart`** (1055 → 369 l, dictionary → JSON asset) — **DONE** (2026-09-11). Extracted 93 tags, 428 phrases, 141 terms (~800 lines of hardcoded static maps) into `assets/catalog/translation_dictionary.json` (74.8 KB); added async `ensureLoaded()` with sync `File` fallback for tests/VM; pre-sorted phrases and terms upon loading to eliminate per-call allocation and sort overhead; preloaded during app bootstrap in `main.dart`; verified with `test/translation_dictionary_parity_test.dart`; analyze clean, 448/1/0 tests pass.
 - [ ] **C7 `mss_scheme_adapter.dart`** (1041 l) + `scheme_understanding_engine.dart` (1333 l) — not started; tracker already flags this as parity-risk, characterization tests first.
 
 ---
@@ -164,4 +164,5 @@ Each: new file exposing `void show<Tool>Sheet(BuildContext context)` (the ex-`_o
 | 2026-09-10 | C2 slices 1–7 (categories_screen business-utility sheets) | `da1fd38`..`3f6eb03` | clean (full lib) | 443 / 1 / 0 | **PASS** (emulator-5554) — Discover builds/navigates; Udyam + Subsidy + Doc Checklist sheets open & render; Subsidy calc end-to-end ₹25 L @ 15% → ₹3.75 L / ₹21.25 L; Doc Checklist entity-type dropdown recomputes list | extracted all 7 Business Utilities modals to `lib/screens/regular_mode/categories/` as `show*Sheet(BuildContext)`; each `_open*` kept as a one-line delegate (onTap wiring untouched); pure UI move, no state topology change; `categories_screen.dart` 4822 → 2152 |
 | 2026-09-11 | C3–C5 safe-slice pass | `23d2e11`..`155f1c8` | clean (full lib) | 443 / 1 / 0 | not needed (pure class moves) | VoiceEdgePainter, CustomInputField+RoleModel, QuestionNode, SearchSkeletonBar, SaarthiMessage extracted with re-export shims |
 | 2026-09-11 | C5 safe-slice tail (scheme_details + profile) | `7048c56` | clean (full lib) | 443 / 1 / 0 | not needed (pure class moves) | scheme_details_screen 1799 -> 1227 (4 tail widgets to scheme_details/); profile_screen TimeoutHttpClient + avatarCacheManager to profile/ |
+| 2026-09-11 | C6 (translation dictionary -> JSON asset) | `76f7d1d` | clean (full lib) | 448 / 1 / 0 | not needed (pure data extraction + asset loader) | centralized_translator.dart 1055 -> 369 lines; extracted 93 tags, 428 phrases, 141 terms to assets/catalog/translation_dictionary.json; preloaded in main.dart; translation_dictionary_parity_test.dart added |
 
