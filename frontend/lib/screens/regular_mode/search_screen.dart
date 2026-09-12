@@ -1,90 +1,32 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../../providers/app_state_provider.dart';
-import '../../widgets/scheme/filter_panel.dart';
-import '../../models/scheme_model.dart';
-import '../../models/scheme_filter.dart';
-export '../../models/scheme_filter.dart'
-    show schemeIsNationwide, applySchemeFilters;
-import '../../models/user_profile.dart';
-import '../../services/catalog/scheme_repository.dart';
-import 'scheme_details_screen.dart';
-import 'search_results_screen.dart';
 import '../../engine/recommendation_engine.dart';
 import '../../l10n/l10n.dart';
-import '../../services/catalog/centralized_translator.dart';
+import '../../models/scheme_model.dart';
+import '../../providers/app_state_provider.dart';
+import '../../services/catalog/scheme_repository.dart';
+import '../../services/voice/voice_recognition_controller.dart';
+import '../../utils/app_spacing.dart';
 import '../../widgets/assistant/voice_assistant_overlay.dart';
 import '../../widgets/common/app_toast.dart';
-import '../../widgets/scheme/scheme_card.dart';
-import '../../utils/app_spacing.dart';
-import '../../services/voice/voice_recognition_controller.dart';
-import 'search/shimmer_skeleton_card.dart';
+import '../../widgets/scheme/filter_panel.dart';
+import 'scheme_details_screen.dart';
+import 'search/search_filter_strip.dart';
+import 'search/search_idle_content.dart';
+import 'search/search_input_section.dart';
+import 'search/search_models.dart';
+import 'search/search_results_view.dart';
 
-String _getLocalizedTagOrCategory(String text, String langCode) {
-  if (langCode != 'ta') return text;
-  return CentralizedTranslator.instance.translateTag(text);
-}
-
-enum SearchState { idle, loading, results }
-
-/// Which empty state the "For Me" results view should render.
-enum ForMeEmptyState {
-  /// There are matches to show.
-  none,
-
-  /// Profile is too sparse to personalise — show "complete your profile".
-  completeProfile,
-
-  /// Profile is usable but nothing cleared the score gate / facet filters.
-  noMatches,
-}
-
-/// Result of resolving the "For Me" view: the schemes to show plus which
-/// empty state (if any) applies. Pure data, unit-tested.
-class ForMeViewResult {
-  const ForMeViewResult(this.schemes, this.emptyState);
-  final List<Scheme> schemes;
-  final ForMeEmptyState emptyState;
-}
-
-/// Legacy name kept for [computeForMeView] and existing tests. The one
-/// matcher now lives in `models/scheme_filter.dart`.
-List<Scheme> applyProviderFacetFilters(
-  List<Scheme> input,
-  Map<String, dynamic> filters,
-) =>
-    applySchemeFilters(input, filters);
-
-/// Resolves the "For Me" results view from the master result set. Additive:
-/// score gate (>= RecommendationEngine.forMeThreshold) INTERSECTED with the
-/// FilterPanel facets. Returns an empty list — never the catalog — with a
-/// [ForMeEmptyState] the caller renders:
-///  - [ForMeEmptyState.completeProfile] when the profile is too sparse;
-///  - [ForMeEmptyState.noMatches] when it is usable but nothing qualifies.
-/// Pure — no BuildContext.
-ForMeViewResult computeForMeView({
-  required List<Scheme> master,
-  required UserProfile profile,
-  required Map<String, dynamic> filters,
-}) {
-  if (!RecommendationEngine.hasEnoughProfileForRecommendation(profile)) {
-    return const ForMeViewResult(<Scheme>[], ForMeEmptyState.completeProfile);
-  }
-  final gated = master
-      .where(
-        (s) =>
-            RecommendationEngine.evaluate(profile, s).score >=
-            RecommendationEngine.forMeThreshold,
-      )
-      .toList();
-  final filtered = applyProviderFacetFilters(gated, filters);
-  return ForMeViewResult(
-    filtered,
-    filtered.isEmpty ? ForMeEmptyState.noMatches : ForMeEmptyState.none,
-  );
-}
+// Re-exports for backwards compatibility and tests
+export '../../models/scheme_filter.dart'
+    show schemeIsNationwide, applySchemeFilters;
+export 'search/search_filter_strip.dart';
+export 'search/search_idle_content.dart';
+export 'search/search_input_section.dart';
+export 'search/search_models.dart';
+export 'search/search_results_view.dart';
+export 'search/shimmer_skeleton_card.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -140,16 +82,6 @@ class SearchScreenState extends State<SearchScreen> {
 
   List<Scheme> _computeEligibleSchemes(AppProvider provider, List<Scheme> all) {
     final list = all.isNotEmpty ? all : provider.allSchemes;
-    // Single source of truth for the "For Me" set: routes through the exact
-    // same computeForMeView used to build the results list (score gate
-    // INTERSECTED with provider.filters), so the `_matchingProfileCount`
-    // badge can never drift from what the list actually shows. Previously
-    // this called RecommendationEngine.forMeSchemes() directly, which
-    // applied the score gate only and ignored provider.filters entirely --
-    // whenever a facet (state/category/ministry/etc.) was active, the badge
-    // showed the full score-gated count while the real list additionally
-    // filtered by that facet, e.g. "5 schemes match your profile" opening to
-    // a list of only 2.
     return computeForMeView(
       master: list,
       profile: provider.profile,
@@ -256,10 +188,6 @@ class SearchScreenState extends State<SearchScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // didChangeDependencies always fires once immediately after initState on
-    // the very first build (in addition to firing on later InheritedWidget
-    // changes, e.g. locale), so this alone covers both the initial load and
-    // future recounts -- no separate initState call needed.
     _loadCategoryCounts();
   }
 
@@ -285,9 +213,6 @@ class SearchScreenState extends State<SearchScreen> {
         provider.selectedLanguage,
       );
 
-      // Deferred for the same reason as the results setState in
-      // _triggerSearch: this can land mid-layout during a keyboard-dismiss
-      // animation and trip the re-entrant-layout assertion.
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
         setState(() {
@@ -310,10 +235,7 @@ class SearchScreenState extends State<SearchScreen> {
     }
   }
 
-  /// Direct search-bar dictation: transcribes speech straight into the
-  /// search field via the device's speech recognizer (Android's
-  /// SpeechRecognizer, Google-backed), distinct from the full "Ask IN AI"
-  /// conversational overlay [_openVoiceAssistant] opens elsewhere.
+  /// Direct search-bar dictation.
   Future<void> _toggleDictation() async {
     if (_isDictating) {
       await _dictationController.stop();
@@ -387,15 +309,6 @@ class SearchScreenState extends State<SearchScreen> {
     _openFilterPanel();
   }
 
-  /// Requests focus (and, via the platform's normal focus->keyboard behavior,
-  /// opens the keyboard) on the real search TextField. Called by HomeScreen
-  /// via searchTabKey right after switching to this tab, the same
-  /// GlobalKey-based pattern already used for submitVoiceQuery/
-  /// openFilterBottomSheet -- so a single tap on the home search bar lands
-  /// the user here with the keyboard already up, instead of the previous
-  /// fake "tap once to reveal pills, tap again to navigate" two-step (which
-  /// never actually opened a keyboard, because the home search bar was a
-  /// plain Text widget, not a TextField).
   void focusSearchField() {
     if (!mounted) return;
     FocusScope.of(context).requestFocus(_searchFocusNode);
@@ -458,13 +371,11 @@ class SearchScreenState extends State<SearchScreen> {
   }
 
   void _onSearchTextChanged() {
-    // Rebuild immediately so the clear-icon reflects the current text.
     setState(() {});
 
     _searchDebounce?.cancel();
     _searchDebounce = Timer(const Duration(milliseconds: 300), () {
       if (!mounted) return;
-      // If text gets cleared, revert to idle if no filters are active; otherwise re-apply filters
       if (_searchController.text.isEmpty && _currentState != SearchState.idle) {
         final provider = Provider.of<AppProvider>(context, listen: false);
         final bool hasActiveFilter = _activeFilter == 'For Me' ||
@@ -483,7 +394,6 @@ class SearchScreenState extends State<SearchScreen> {
   }
 
   void _triggerSearch(String query) async {
-    // If query is empty and no active filters, go back to idle Categories screen
     final provider0 = Provider.of<AppProvider>(context, listen: false);
     if (query.isEmpty &&
         _activeFilter == 'All' &&
@@ -503,10 +413,6 @@ class SearchScreenState extends State<SearchScreen> {
       _currentState = SearchState.loading;
     });
 
-    // Regular search is a pure relevance lookup -- never pre-filtered or
-    // re-ranked by the user's profile. The profile-based "For Me" view is
-    // applied afterwards, and only when the user has enabled its filter
-    // chip (see _applyFiltersAndSort step 6).
     final String normalQuery = query.toLowerCase().trim();
 
     try {
@@ -535,12 +441,21 @@ class SearchScreenState extends State<SearchScreen> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final provider = Provider.of<AppProvider>(context);
+  void _openFilterPanel() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => FilterPanel(
+        onApplied: () {
+          _applyFiltersAndSort();
+        },
+      ),
+    );
+  }
 
-    // List of categories matching mockup
-    final List<Map<String, dynamic>> categories = [
+  List<Map<String, dynamic>> _getCategories(BuildContext context) {
+    return [
       {
         "title": "MSME",
         "count": _isLoadingCounts
@@ -614,14 +529,60 @@ class SearchScreenState extends State<SearchScreen> {
         "iconBg": const Color(0xFFFFEDD5),
       },
     ];
+  }
+
+  Widget _buildDynamicContent(List<Map<String, dynamic>> categories) {
+    switch (_currentState) {
+      case SearchState.loading:
+        return const KeyedSubtree(
+          key: ValueKey('SearchLoadingState'),
+          child: SearchLoadingSkeleton(),
+        );
+      case SearchState.results:
+        final provider = Provider.of<AppProvider>(context);
+        return KeyedSubtree(
+          key: const ValueKey('SearchResultsState'),
+          child: SearchResultsList(
+            searchResults: _searchResults,
+            queryText: _searchController.text.trim(),
+            isForMe: _activeFilter == 'For Me',
+            forMeEmptyState: _forMeEmptyState,
+            provider: provider,
+            scaledFontSize: _scaledFontSize,
+          ),
+        );
+      case SearchState.idle:
+        return KeyedSubtree(
+          key: const ValueKey('SearchIdleState'),
+          child: SearchIdleContent(
+            categories: categories,
+            isLoadingCounts: _isLoadingCounts,
+            matchingProfileCount: _matchingProfileCount,
+            onHighlightTap: () {
+              setState(() {
+                _activeFilter = 'For Me';
+                _sortBy = 'Relevance';
+              });
+              _searchController.clear();
+              _triggerSearch('For Me');
+            },
+            scaledFontSize: _scaledFontSize,
+            scaledFontWeight: _scaledFontWeight,
+          ),
+        );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<AppProvider>(context);
+    final categories = _getCategories(context);
+
     return Scaffold(
-      backgroundColor: const Color(
-        0xFFF8FAFC,
-      ), // Crisp clean background without blue shade
+      backgroundColor: const Color(0xFFF8FAFC),
       body: SafeArea(
         child: Column(
           children: [
-            // Fixed top header elements
             Padding(
               padding: const EdgeInsets.fromLTRB(
                 AppSpacing.lg,
@@ -634,22 +595,50 @@ class SearchScreenState extends State<SearchScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // 1. Custom App Bar matching Discover Header
-                    _buildCustomAppBar(context, provider),
-
+                    const SearchHeaderBar(),
                     const SizedBox(height: AppSpacing.lg),
-
-                    // 2. Search Input Container with dynamic trailing icon
-                    _buildSearchInput(context),
-
+                    SearchInputField(
+                      controller: _searchController,
+                      focusNode: _searchFocusNode,
+                      isDictating: _isDictating,
+                      onToggleDictation: _toggleDictation,
+                      onSubmitted: (val) => _triggerSearch(_searchController.text),
+                      onClear: () {
+                        _searchController.clear();
+                        setState(() {
+                          _sortBy = 'Relevance';
+                          _activeFilter = "All";
+                          _currentState = SearchState.idle;
+                          _searchResults = [];
+                          _masterSearchResults = [];
+                        });
+                      },
+                      onSubmitTap: () => _triggerSearch(_searchController.text),
+                      scaledFontSize: _scaledFontSize,
+                    ),
                     const SizedBox(height: AppSpacing.sm),
-
                     if (isSearching) ...[
-                      // Discover Filters Strip (Filter, Sort, Type, Benefit Type, Ministry, Clear All)
-                      _buildDiscoverFiltersStrip(),
+                      SearchFilterStrip(
+                        facetCount: activeSchemeFilterCount(provider.filters),
+                        isForMeActive: _activeFilter == 'For Me',
+                        sortBy: _sortBy,
+                        onOpenFilterPanel: _openFilterPanel,
+                        onToggleForMe: () {
+                          setState(() {
+                            _activeFilter =
+                                _activeFilter == 'For Me' ? 'All' : 'For Me';
+                          });
+                          _applyFiltersAndSort();
+                        },
+                        onSortChanged: (v) {
+                          setState(() => _sortBy = v);
+                          _applyFiltersAndSort();
+                        },
+                      ),
                     ] else ...[
-                      // Try banner when idle
-                      GestureDetector(
+                      SearchTryBanner(
+                        hintText: _dynamicSearchHintText ??
+                            context.l10n.searchHintFallback,
                         onTap: () {
                           final hint = _dynamicSearchHintText ??
                               context.l10n.searchHintFallback;
@@ -657,42 +646,18 @@ class SearchScreenState extends State<SearchScreen> {
                           _searchFocusNode.unfocus();
                           _triggerSearch(hint);
                         },
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.search,
-                              color: Color(0xFF64748B),
-                              size: 12,
-                            ),
-                            const SizedBox(width: AppSpacing.xs),
-                            Expanded(
-                              child: FittedBox(
-                                fit: BoxFit.scaleDown,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  "${context.l10n.trySearchPrefix} ${_dynamicSearchHintText ?? context.l10n.searchHintFallback}",
-                                  style: GoogleFonts.inter(
-                                    color: const Color(0xFF64748B),
-                                    fontSize: _scaledFontSize(11),
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        scaledFontSize: _scaledFontSize,
                       ),
                       const SizedBox(height: AppSpacing.sm),
-                      _buildQuickPills(context),
+                      SearchQuickPills(
+                        onPillSelected: (query) => submitVoiceQuery(query),
+                      ),
                     ],
                   ],
                 ),
               ),
             ),
-
             const SizedBox(height: AppSpacing.tight),
-
-            // 4. DYNAMIC AREA (AnimatedSwitcher)
             Expanded(
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
@@ -705,896 +670,6 @@ class SearchScreenState extends State<SearchScreen> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  void _openFilterPanel() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => FilterPanel(
-        onApplied: () {
-          _applyFiltersAndSort();
-        },
-      ),
-    );
-  }
-
-  // 1. Custom App Bar (Styled like Discover page header)
-  Widget _buildCustomAppBar(BuildContext context, AppProvider provider) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          context.l10n.searchTitle,
-          style: GoogleFonts.poppins(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: const Color(0xFF0F172A),
-          ),
-        ),
-        const SizedBox(height: AppSpacing.hairline),
-        Text(
-          context.l10n.searchDiscoverSubtitle,
-          style: GoogleFonts.inter(
-            fontSize: 12,
-            color: const Color(0xFF64748B),
-          ),
-        ),
-      ],
-    );
-  }
-
-  // Quick Search Horizontal Pills
-  Widget _buildQuickPills(BuildContext context) {
-    final pills = [
-      context.l10n.quickPillPmegp,
-      context.l10n.quickPillStartup,
-      context.l10n.quickPillLoans,
-      context.l10n.quickPillWomen,
-      context.l10n.quickPillAscend,
-    ];
-
-    return SizedBox(
-      height: 38,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        physics: const ClampingScrollPhysics(),
-        itemCount: pills.length,
-        itemBuilder: (context, index) {
-          final text = pills[index];
-          return GestureDetector(
-            onTap: () {
-              final query = text
-                  .replaceAll("Search ", "")
-                  .replaceAll("தேடுக", "")
-                  .trim();
-              submitVoiceQuery(query);
-            },
-            child: Container(
-              margin: const EdgeInsets.only(right: AppSpacing.sm),
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.md,
-                vertical: AppSpacing.sm,
-              ),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: const Color(0xFFE2E8F0)),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.search, size: 13, color: Color(0xFF64748B)),
-                  const SizedBox(width: AppSpacing.tight),
-                  Text(
-                    text,
-                    style: GoogleFonts.inter(
-                      fontSize: 11.5,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF334155),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  // 2. Search Input Container
-  Widget _buildSearchInput(BuildContext context) {
-    final bool hasText = _searchController.text.isNotEmpty;
-
-    return Container(
-      height: 48,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-        border: Border.all(color: const Color(0xFFE2E8F0)),
-      ),
-      child: TextField(
-        controller: _searchController,
-        focusNode: _searchFocusNode,
-        textInputAction: TextInputAction.search,
-        onSubmitted: (val) {
-          _triggerSearch(_searchController.text);
-        },
-        // Text-change handling (debounce + idle reset) lives solely in
-        // _onSearchTextChanged via the controller listener, so there is
-        // only one path reacting to keystrokes.
-        style: GoogleFonts.inter(
-          fontSize: _scaledFontSize(13),
-          color: const Color(0xFF1E293B),
-        ),
-        decoration: InputDecoration(
-          hintText: context.l10n.searchPlaceholder,
-          hintStyle: GoogleFonts.inter(
-            color: const Color(0xFF94A3B8),
-            fontSize: 12.5,
-          ),
-          prefixIcon: IconButton(
-            tooltip: context.l10n.search,
-            icon: const Icon(Icons.search, color: Color(0xFF2563EB), size: 20),
-            onPressed: () {
-              if (_searchController.text.trim().isNotEmpty) {
-                _searchFocusNode.unfocus();
-                _triggerSearch(_searchController.text);
-              }
-            },
-          ),
-          suffixIcon: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (hasText)
-                IconButton(
-                  tooltip: context.l10n.clearSearchTooltip,
-                  icon: const Icon(
-                    Icons.close,
-                    color: Color(0xFF94A3B8),
-                    size: 18,
-                  ),
-                  onPressed: () {
-                    _searchController.clear();
-                    setState(() {
-                      _sortBy = 'Relevance';
-                      _activeFilter = "All";
-                      _currentState = SearchState.idle;
-                      _searchResults = [];
-                      _masterSearchResults = [];
-                    });
-                  },
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                ),
-              if (hasText) const SizedBox(width: AppSpacing.xs),
-              IconButton(
-                tooltip: _isDictating
-                    ? context.l10n.stopVoiceSearchTooltip
-                    : context.l10n.voiceSearchTooltip,
-                icon: Icon(
-                  _isDictating ? Icons.mic : Icons.mic_none,
-                  color: _isDictating
-                      ? const Color(0xFFDC2626)
-                      : const Color(0xFF2563EB),
-                  size: 20,
-                ),
-                onPressed: _toggleDictation,
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-              ),
-              const SizedBox(width: AppSpacing.md),
-            ],
-          ),
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-        ),
-      ),
-    );
-  }
-
-  /// Localized display for a sort value. `_sortBy` keeps the stable English
-  /// key (compared in _applyFiltersAndSort); only the label is translated.
-  String _sortLabel(String value) {
-    switch (value) {
-      case 'Best match for me':
-        return context.l10n.sortBestMatch;
-      case 'Scheme name (A-Z)':
-        return context.l10n.sortSchemeNameAz;
-      case 'Relevance':
-      default:
-        return context.l10n.sortRelevance;
-    }
-  }
-
-  Widget _buildDropdownChip(
-    String label,
-    List<String> options,
-    String currentValue,
-    ValueChanged<String> onChanged, {
-    String Function(String value)? displayOf,
-  }) {
-    String show(String v) => displayOf?.call(v) ?? v;
-    final bool isActive =
-        currentValue.isNotEmpty &&
-        currentValue != 'All' &&
-        currentValue != 'Relevance';
-    return Container(
-      margin: const EdgeInsets.only(right: AppSpacing.sm),
-      child: PopupMenuButton<String>(
-        onSelected: onChanged,
-        color: Colors.white,
-        elevation: 8,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
-          side: const BorderSide(color: Color(0xFFE2E8F0)),
-        ),
-        itemBuilder: (context) => options
-            .map(
-              (opt) => PopupMenuItem(
-                value: opt,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      show(opt),
-                      style: GoogleFonts.inter(
-                        fontSize: 12.5,
-                        fontWeight: opt == currentValue
-                            ? FontWeight.bold
-                            : FontWeight.w500,
-                        color: opt == currentValue
-                            ? const Color(0xFF2563EB)
-                            : const Color(0xFF0F172A),
-                      ),
-                    ),
-                    if (opt == currentValue)
-                      const Icon(
-                        Icons.check,
-                        size: 14,
-                        color: Color(0xFF2563EB),
-                      ),
-                  ],
-                ),
-              ),
-            )
-            .toList(),
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.md,
-            vertical: AppSpacing.sm,
-          ),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: isActive
-                  ? const Color(0xFF2563EB)
-                  : const Color(0xFFE2E8F0),
-            ),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                (currentValue.isEmpty || currentValue == 'All')
-                    ? label
-                    : '$label: ${show(currentValue)}',
-                style: GoogleFonts.inter(
-                  fontSize: 11.5,
-                  fontWeight: FontWeight.w500,
-                  color: isActive
-                      ? const Color(0xFF2563EB)
-                      : const Color(0xFF475569),
-                ),
-              ),
-              const SizedBox(width: AppSpacing.xs),
-              Icon(
-                Icons.keyboard_arrow_down,
-                size: 14,
-                color: isActive
-                    ? const Color(0xFF2563EB)
-                    : const Color(0xFF64748B),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // 3. Filters strip: Filter · For Me · Sort  (nothing else).
-  Widget _buildDiscoverFiltersStrip() {
-    final provider = Provider.of<AppProvider>(context);
-    final int facetCount = activeSchemeFilterCount(provider.filters);
-
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      physics: const ClampingScrollPhysics(),
-      child: Row(
-        children: [
-          // Filter Button
-          OutlinedButton.icon(
-            onPressed: _openFilterPanel,
-            icon: const Icon(
-              Icons.filter_list,
-              size: 14,
-              color: Color(0xFF2563EB),
-            ),
-            label: Text(
-              facetCount > 0
-                  ? '${context.l10n.filterButton} · $facetCount'
-                  : context.l10n.filterButton,
-              style: GoogleFonts.inter(
-                fontSize: 11.5,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF2563EB),
-              ),
-            ),
-            style: OutlinedButton.styleFrom(
-              backgroundColor: Colors.white,
-              side: const BorderSide(color: Color(0xFFE2E8F0)),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.md,
-                vertical: AppSpacing.tight,
-              ),
-            ),
-          ),
-          const SizedBox(width: AppSpacing.sm),
-
-          // "For Me" -- opt-in profile-eligibility filter. Off by default;
-          // regular search results are never profile-weighted. Turning it
-          // on drops schemes the user is not eligible for, keeping the
-          // relevance order (see _applyFiltersAndSort step 6).
-          OutlinedButton.icon(
-            onPressed: () {
-              setState(() {
-                _activeFilter = _activeFilter == 'For Me' ? 'All' : 'For Me';
-              });
-              _applyFiltersAndSort();
-            },
-            icon: Icon(
-              Icons.auto_awesome,
-              size: 14,
-              color: _activeFilter == 'For Me'
-                  ? Colors.white
-                  : const Color(0xFF2563EB),
-            ),
-            label: Text(
-              context.l10n.forMe,
-              style: GoogleFonts.inter(
-                fontSize: 11.5,
-                fontWeight: FontWeight.bold,
-                color: _activeFilter == 'For Me'
-                    ? Colors.white
-                    : const Color(0xFF2563EB),
-              ),
-            ),
-            style: OutlinedButton.styleFrom(
-              backgroundColor: _activeFilter == 'For Me'
-                  ? const Color(0xFF2563EB)
-                  : Colors.white,
-              side: const BorderSide(color: Color(0xFFE2E8F0)),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.md,
-                vertical: AppSpacing.tight,
-              ),
-            ),
-          ),
-          const SizedBox(width: AppSpacing.sm),
-
-          // Sort
-          _buildDropdownChip(
-            context.l10n.sortLabel,
-            const [
-              'Relevance',
-              'Best match for me',
-              'Scheme name (A-Z)',
-            ],
-            _sortBy,
-            (v) {
-              setState(() => _sortBy = v);
-              _applyFiltersAndSort();
-            },
-            displayOf: _sortLabel,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDynamicContent(List<Map<String, dynamic>> categories) {
-    switch (_currentState) {
-      case SearchState.loading:
-        return KeyedSubtree(
-          key: const ValueKey('SearchLoadingState'),
-          child: _buildLoadingSkeleton(),
-        );
-      case SearchState.results:
-        return KeyedSubtree(
-          key: const ValueKey('SearchResultsState'),
-          child: _buildResultsList(),
-        );
-      case SearchState.idle:
-        return KeyedSubtree(
-          key: const ValueKey('SearchIdleState'),
-          child: _buildIdleContent(categories),
-        );
-    }
-  }
-
-  Widget _buildIdleContent(List<Map<String, dynamic>> categories) {
-    return ListView(
-      key: const ValueKey("IdleContent"),
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      physics: const ClampingScrollPhysics(),
-      children: [
-        _buildHighlightSummaryCard(),
-        const SizedBox(height: AppSpacing.xxl),
-        Text(
-          context.l10n.browseCategories,
-          style: GoogleFonts.poppins(
-            fontSize: _scaledFontSize(16),
-            fontWeight: _scaledFontWeight(FontWeight.bold),
-            color: const Color(0xFF0F172A),
-          ),
-        ),
-        const SizedBox(height: AppSpacing.md),
-        ...categories.map((cat) => _buildCategoryCard(cat)),
-      ],
-    );
-  }
-
-  // State 2: Shimmer Skeleton List
-  Widget _buildLoadingSkeleton() {
-    return ListView.builder(
-      key: const ValueKey("LoadingContent"),
-      primary: false,
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: 5,
-      itemBuilder: (context, index) {
-        return const ShimmerSkeletonCard();
-      },
-    );
-  }
-
-  // State 3: Search Results List (Matching Discover Results Screen style)
-  Widget _buildResultsList() {
-    final provider = Provider.of<AppProvider>(context);
-    final String queryText = _searchController.text.trim();
-
-    if (_searchResults.isEmpty) {
-      final bool forMeNeedsProfile =
-          _activeFilter == 'For Me' &&
-          _forMeEmptyState == ForMeEmptyState.completeProfile;
-      final bool forMeNoMatches =
-          _activeFilter == 'For Me' &&
-          _forMeEmptyState != ForMeEmptyState.completeProfile;
-
-      final String title;
-      final String subtitle;
-      final IconData icon;
-      if (forMeNeedsProfile) {
-        icon = Icons.assignment_ind_outlined;
-        title = context.l10n.searchCompleteProfileTitle;
-        subtitle = context.l10n.searchCompleteProfileSubtitle;
-      } else if (forMeNoMatches) {
-        icon = Icons.search_off_rounded;
-        title = context.l10n.searchNoProfileMatchesTitle;
-        subtitle = context.l10n.searchNoProfileMatchesSubtitle;
-      } else if (queryText.isNotEmpty) {
-        icon = Icons.search_off_rounded;
-        title = context.l10n.noSchemesFound(queryText);
-        subtitle = context.l10n.tryDifferentKeyword;
-      } else {
-        icon = Icons.filter_alt_off_outlined;
-        title = context.l10n.searchNoFilterMatchesTitle;
-        subtitle = context.l10n.searchNoFilterMatchesSubtitle;
-      }
-
-      return ListView(
-        key: const ValueKey('ResultsContent'),
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.lg,
-          vertical: 48,
-        ),
-        children: [
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(icon, size: 48, color: Colors.grey[400]),
-                const SizedBox(height: AppSpacing.md),
-                Text(
-                  title,
-                  style: GoogleFonts.poppins(
-                    fontSize: _scaledFontSize(15),
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF334155),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: AppSpacing.tight),
-                Text(
-                  subtitle,
-                  style: GoogleFonts.inter(
-                    fontSize: _scaledFontSize(12),
-                    color: const Color(0xFF64748B),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
-    }
-
-    return ListView.builder(
-      key: const ValueKey('ResultsContent'),
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-      physics: const ClampingScrollPhysics(),
-      itemCount: _searchResults.length + 1,
-      itemBuilder: (context, index) {
-        if (index == 0) {
-          final isForMe = _activeFilter == 'For Me';
-          final titleText = isForMe
-              ? context.l10n.eligibleSchemesForYouCount(_searchResults.length)
-              : context.l10n.matchingSchemesCount(_searchResults.length);
-
-          final subtitleText = isForMe
-              ? context.l10n.matchedStrictlyAgainstProfile
-              : (_searchController.text.trim().isNotEmpty
-                    ? context.l10n.searchBestMatchesForQuery(
-                        _searchController.text.trim())
-                    : context.l10n.searchBestMatchesForCriteria);
-
-          return Padding(
-            padding: const EdgeInsets.only(
-              left: AppSpacing.lg,
-              right: AppSpacing.lg,
-              bottom: AppSpacing.md,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  titleText,
-                  style: GoogleFonts.poppins(
-                    fontSize: 15.5,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF0F172A),
-                  ),
-                ),
-                Text(
-                  subtitleText,
-                  style: GoogleFonts.inter(
-                    fontSize: 11.5,
-                    color: const Color(0xFF64748B),
-                  ),
-                ),
-              ],
-            ),
-          );
-        }
-
-        final scheme = _searchResults[index - 1];
-        final recResult = RecommendationEngine.evaluate(
-          provider.profile,
-          scheme,
-        );
-
-        return SchemeCard(
-          scheme: scheme,
-          result: recResult,
-          isBookmarked: provider.bookmarkedIds.contains(scheme.id),
-          onBookmarkToggle: () => provider.toggleBookmark(scheme.id),
-          showActions: false,
-          showMatchPercentage: _activeFilter == 'For Me',
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => SchemeDetailsScreen(scheme: scheme),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  // Highlight Card from Idle State
-  Widget _buildHighlightSummaryCard() {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _activeFilter = 'For Me';
-          _sortBy = 'Relevance';
-        });
-        _searchController.clear();
-        _triggerSearch('For Me');
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.lg,
-          vertical: AppSpacing.md,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: const Color(0xFF2563EB).withValues(alpha: 0.15),
-            width: 1.2,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.02),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Color(0xFFEFF6FF),
-              ),
-              alignment: Alignment.center,
-              child: const Icon(
-                Icons.auto_awesome,
-                color: Color(0xFF2563EB),
-                size: 20,
-              ),
-            ),
-            const SizedBox(width: AppSpacing.sm),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          context.l10n.forMe,
-                          style: GoogleFonts.poppins(
-                            fontSize: _scaledFontSize(14.5),
-                            fontWeight: FontWeight.bold,
-                            color: const Color(0xFF0F172A),
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      const SizedBox(width: AppSpacing.tight),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: AppSpacing.tight,
-                          vertical: AppSpacing.hairline,
-                        ),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFECFDF5),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Text(
-                          context.l10n.activeBadge,
-                          style: GoogleFonts.inter(
-                            color: const Color(0xFF047857),
-                            fontSize: _scaledFontSize(8.5),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: AppSpacing.xs),
-                  Text(
-                    _isLoadingCounts
-                        ? context.l10n.calculatingMatches
-                        : context.l10n.schemesMatchProfile(
-                            _matchingProfileCount,
-                          ),
-                    style: GoogleFonts.inter(
-                      fontSize: _scaledFontSize(10.5),
-                      color: const Color(0xFF64748B),
-                      height: 1.3,
-                    ),
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: AppSpacing.sm),
-            SizedBox(
-              width: 48,
-              height: 48,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Positioned(
-                    top: 2,
-                    child: Container(
-                      width: 32,
-                      height: 42,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFEFF6FF),
-                        border: Border.all(
-                          color: const Color(0xFFDBEAFE),
-                          width: 1.5,
-                        ),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: AppSpacing.sm,
-                          left: AppSpacing.xs,
-                          right: AppSpacing.xs,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 16,
-                              height: 2.5,
-                              color: const Color(0xFF93C5FD),
-                            ),
-                            const SizedBox(height: AppSpacing.xs),
-                            Container(
-                              width: 20,
-                              height: 2.5,
-                              color: const Color(0xFF93C5FD),
-                            ),
-                            const SizedBox(height: AppSpacing.xs),
-                            Container(
-                              width: 12,
-                              height: 2.5,
-                              color: const Color(0xFF93C5FD),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 0,
-                    child: Container(
-                      width: 12,
-                      height: 5,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF93C5FD),
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      width: 24,
-                      height: 24,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                      ),
-                      alignment: Alignment.center,
-                      child: const Icon(
-                        Icons.search,
-                        color: Color(0xFF2563EB),
-                        size: 15,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // Browse Category Card
-  Widget _buildCategoryCard(Map<String, dynamic> category) {
-    final provider = Provider.of<AppProvider>(context, listen: false);
-    return Container(
-      margin: const EdgeInsets.only(bottom: AppSpacing.md),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(12),
-          onTap: () async {
-            final categoryTitle = category["title"] as String;
-            final schemes = await SchemeRepository.instance
-                .getSchemesByCategory(categoryTitle);
-            if (!mounted) return;
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => SearchResultsScreen(
-                  title: categoryTitle,
-                  type: 'category',
-                  initialSchemes: schemes,
-                ),
-              ),
-            );
-          },
-          child: ListTile(
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.lg,
-              vertical: AppSpacing.xs,
-            ),
-            leading: Container(
-              width: 42,
-              height: 42,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: category["iconBg"] as Color,
-              ),
-              alignment: Alignment.center,
-              child: Icon(
-                category["icon"] as IconData,
-                color: category["iconColor"] as Color,
-                size: 20,
-              ),
-            ),
-            title: Text(
-              _getLocalizedTagOrCategory(
-                category["title"] as String,
-                provider.selectedLanguage,
-              ),
-              style: GoogleFonts.inter(
-                fontSize: _scaledFontSize(12.5),
-                fontWeight: _scaledFontWeight(FontWeight.bold),
-                color: const Color(0xFF0F172A),
-              ),
-            ),
-            subtitle: _isLoadingCounts
-                ? const Padding(
-                    padding: EdgeInsets.only(top: AppSpacing.hairline),
-                    child: SearchSkeletonBar(width: 70, height: 10),
-                  )
-                : Text(
-                    category["count"] as String,
-                    style: GoogleFonts.inter(
-                      fontSize: _scaledFontSize(10),
-                      color: const Color(0xFF64748B),
-                    ),
-                  ),
-            trailing: const Icon(
-              Icons.chevron_right,
-              color: Color(0xFF94A3B8),
-              size: 20,
-            ),
-          ),
         ),
       ),
     );

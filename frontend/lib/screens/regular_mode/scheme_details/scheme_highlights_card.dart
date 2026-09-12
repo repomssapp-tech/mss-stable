@@ -1,0 +1,176 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../../l10n/l10n.dart';
+import '../../../models/localized_scheme.dart';
+import '../../../utils/app_spacing.dart';
+
+/// Card presenting key scheme metadata pills (government level, state, sector, target).
+class SchemeHighlightsCard extends StatelessWidget {
+  final LocalizedScheme scheme;
+
+  const SchemeHighlightsCard({
+    super.key,
+    required this.scheme,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final matches = [
+      scheme.governmentLevel.isNotEmpty ? scheme.governmentLevel : '',
+      scheme.state,
+      scheme.sector,
+      scheme.targetBeneficiary,
+    ].where((value) => value.isNotEmpty).toSet().toList();
+    matches.sort((a, b) => a.length.compareTo(b.length));
+
+    final maxPillWidth = MediaQuery.of(context).size.width - 56;
+
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: const Color(0xFF2563EB).withValues(alpha: 0.15),
+          width: 1.2,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(
+                Icons.track_changes,
+                color: Color(0xFF2563EB),
+                size: 16,
+              ),
+              const SizedBox(width: AppSpacing.tight),
+              Flexible(
+                child: Text(
+                  context.l10n.schemeAtAGlance,
+                  softWrap: true,
+                  style: GoogleFonts.poppins(
+                    fontSize: 13.0,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF0F172A),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.md),
+          Wrap(
+            spacing: AppSpacing.sm,
+            runSpacing: AppSpacing.sm,
+            children: matches.map((match) {
+              return Container(
+                constraints: BoxConstraints(maxWidth: maxPillWidth),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.sm,
+                  vertical: AppSpacing.xs,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFEFF6FF),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.check_circle,
+                      color: Color(0xFF2563EB),
+                      size: 11,
+                    ),
+                    const SizedBox(width: AppSpacing.xs),
+                    Flexible(
+                      child: Text(
+                        match,
+                        style: GoogleFonts.inter(
+                          color: const Color(0xFF2563EB),
+                          fontSize: 10.5,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Card showing scheme verification status, last updated stamp, and official source link.
+class SchemeOfficialSourceCard extends StatelessWidget {
+  final LocalizedScheme scheme;
+  final ValueChanged<String> onOpenUrl;
+  final bool Function(String) isSafeWebUrl;
+
+  const SchemeOfficialSourceCard({
+    super.key,
+    required this.scheme,
+    required this.onOpenUrl,
+    required this.isSafeWebUrl,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final sourceUrl = [
+      scheme.sourceUrl,
+      scheme.guidelinesUrl,
+      scheme.officialWebsite,
+    ].firstWhere(isSafeWebUrl, orElse: () => '');
+
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFFE2E8F0)),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.verified_outlined, color: Color(0xFF047857)),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  scheme.verificationStatus.isEmpty
+                      ? context.l10n.officialInformation
+                      : scheme.verificationStatus,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF0F172A),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 11.0,
+                  ),
+                ),
+                if (scheme.lastUpdated.isNotEmpty)
+                  Text(
+                    context.l10n.lastUpdatedFormat(scheme.lastUpdated),
+                    style: GoogleFonts.inter(
+                      color: const Color(0xFF64748B),
+                      fontSize: 9.5,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          TextButton.icon(
+            onPressed: sourceUrl.isEmpty ? null : () => onOpenUrl(sourceUrl),
+            icon: const Icon(Icons.open_in_new_rounded, size: 15),
+            label: Text(context.l10n.sourceButton),
+          ),
+        ],
+      ),
+    );
+  }
+}

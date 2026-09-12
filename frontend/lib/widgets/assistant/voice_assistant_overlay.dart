@@ -8,7 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../models/scheme_model.dart';
-import '../../models/localized_scheme.dart';
 import '../../models/user_profile.dart';
 import '../../services/voice/assistant_session_controller.dart';
 import '../../services/edge_ai/edge_slm_understanding_engine.dart';
@@ -22,52 +21,32 @@ import '../../services/voice/voice_recognition_controller.dart';
 import '../../services/voice/voice_agent_controller.dart';
 import '../../services/catalog/centralized_translator.dart';
 import '../../services/chat/chat_log_service.dart';
-import '../../utils/responsive.dart';
 import '../../l10n/app_localizations.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/app_spacing.dart';
 import 'voice_edge_painter.dart';
 
 export 'voice_edge_painter.dart';
+export 'voice/companion_voice_header.dart';
+export 'voice/regular_voice_backdrop.dart';
+export 'voice/regular_voice_experience.dart';
+export 'voice/voice_interactive_widgets.dart';
+export 'voice/voice_overlay_models.dart';
+export 'voice/voice_recommendation_cards.dart';
+export 'voice/voice_transcript_widgets.dart';
 
-enum _VoiceAssistantPhase {
-  starting,
-  listening,
-  processing,
-  ready,
-  unavailable,
-}
+import 'voice/companion_voice_header.dart';
+import 'voice/regular_voice_backdrop.dart';
+import 'voice/regular_voice_experience.dart';
+import 'voice/voice_interactive_widgets.dart';
+import 'voice/voice_overlay_models.dart';
+import 'voice/voice_recommendation_cards.dart';
+import 'voice/voice_transcript_widgets.dart';
 
-enum VoiceInputLanguage { english, tamil }
-
-enum _OnlineGroundingPhase { idle, checking, found, unavailable, noSources }
-
-enum _VoiceTranscriptSpeaker { user, assistant }
-
-@immutable
-class _VoiceTranscriptTurn {
-  const _VoiceTranscriptTurn({
-    required this.id,
-    required this.speaker,
-    required this.text,
-    this.schemeMatches = const [],
-  });
-
-  final String id;
-  final _VoiceTranscriptSpeaker speaker;
-  final String text;
-  final List<SchemeSearchMatch> schemeMatches;
-
-  _VoiceTranscriptTurn copyWith({
-    String? text,
-    List<SchemeSearchMatch>? schemeMatches,
-  }) => _VoiceTranscriptTurn(
-    id: id,
-    speaker: speaker,
-    text: text ?? this.text,
-    schemeMatches: schemeMatches ?? this.schemeMatches,
-  );
-}
+typedef _VoiceAssistantPhase = VoiceAssistantPhase;
+typedef _OnlineGroundingPhase = OnlineGroundingPhase;
+typedef _VoiceTranscriptTurn = VoiceTranscriptTurn;
+typedef _VoiceTranscriptSpeaker = VoiceTranscriptSpeaker;
 
 class VoiceAssistantOverlay extends StatefulWidget {
   const VoiceAssistantOverlay({
@@ -1419,11 +1398,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                   child: Container(
                     key: const Key('voice-assistant-panel'),
                     decoration: BoxDecoration(
-                      color:
-                          (_isCompanion
-                                  ? const Color(0xFF1C1008)
-                                  : const Color(0xFF07111F))
-                              .withValues(alpha: 0.98),
+                      color: (_isCompanion
+                              ? const Color(0xFF1C1008)
+                              : const Color(0xFF07111F))
+                          .withValues(alpha: 0.98),
                       borderRadius: BorderRadius.circular(28),
                       border: Border.all(
                         color: _accent.withValues(alpha: 0.34),
@@ -1448,12 +1426,51 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          _buildHeader(),
+                          CompanionVoiceHeader(
+                            isCompanion: _isCompanion,
+                            statusLabel: _statusLabel,
+                            statusColor: _statusColor,
+                            l10n: _l10n,
+                            languageSelector: _buildLanguageSelector(),
+                            cloudSessionInUse: _cloudSessionInUse,
+                            isMuted: _voiceAgentController?.state.isMuted ?? false,
+                            onToggleMute: _cloudSessionInUse
+                                ? () => _voiceAgentController!.setMuted(
+                                      !_voiceAgentController!.state.isMuted,
+                                    )
+                                : null,
+                            onClose: _close,
+                          ),
                           const SizedBox(height: AppSpacing.md),
-                          _buildListeningArea(),
+                          CompanionVoiceListeningArea(
+                            isCompanion: _isCompanion,
+                            transcript: _transcript,
+                            hasConversationTurns: _conversationTurns.isNotEmpty,
+                            speaking: _speaking,
+                            isListening: _isListening,
+                            cloudSessionInUse: _cloudSessionInUse,
+                            statusColor: _statusColor,
+                            accent: _accent,
+                            waveController: _waveController,
+                            soundLevel: _soundLevel,
+                            typedController: _typedController,
+                            l10n: _l10n,
+                            onToggleListening: _toggleListening,
+                            onSendTypedInput: _sendTypedInput,
+                            onSuggestionSelected: _useSuggestion,
+                            showSuggestions: _transcript.isEmpty &&
+                                _session?.statement.isEmpty != false,
+                          ),
                           if (_conversationTurns.isNotEmpty) ...[
                             const SizedBox(height: AppSpacing.md),
-                            _buildConversationTranscript(),
+                            CompanionVoiceTranscriptSection(
+                              conversationTurns: _conversationTurns,
+                              isCompanion: _isCompanion,
+                              accent: _accent,
+                              l10n: _l10n,
+                              presentInTamil: _presentInTamil,
+                              onSchemeSelected: widget.onSchemeSelected,
+                            ),
                           ],
                           if (_cloudSessionInUse) ...[
                             const SizedBox(height: AppSpacing.sm),
@@ -1494,27 +1511,50 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                           if (_session?.reply case final reply?
                               when !_replyAlreadyInTranscript(reply)) ...[
                             const SizedBox(height: AppSpacing.md),
-                            _buildAssistantReply(reply),
+                            VoiceAssistantReplyCard(
+                              reply: reply,
+                              accentColor: _accent,
+                              isCompanion: _isCompanion,
+                              l10n: _l10n,
+                              onOpenSource: _openReplySource,
+                            ),
                           ],
-                          if (_groundingPhase !=
-                              _OnlineGroundingPhase.idle) ...[
+                          if (_groundingPhase != _OnlineGroundingPhase.idle) ...[
                             const SizedBox(height: AppSpacing.sm),
-                            _buildOnlineGrounding(),
+                            VoiceOnlineGroundingPill(
+                              groundingPhase: _groundingPhase,
+                              groundedSources: _groundedSources,
+                              accentColor: _accent,
+                              isCompanion: true,
+                              l10n: _l10n,
+                              onOpenSource: _openReplySource,
+                            ),
                           ],
                           if (_session?.facts.isNotEmpty == true) ...[
                             const SizedBox(height: AppSpacing.md),
-                            _buildFactChips(),
+                            VoiceFactChips(
+                              facts: _session!.facts,
+                              isCompanion: true,
+                              l10n: _l10n,
+                              onEditFact: _editFact,
+                            ),
                           ],
                           if (_session?.question != null) ...[
                             const SizedBox(height: AppSpacing.md),
-                            _buildQuestionCard(_session!.question!),
+                            VoiceQuestionCard(
+                              question: _session!.question!,
+                              questionText: _questionText(_session!, _session!.question!),
+                              l10n: _l10n,
+                              onOptionSelected: _answerOption,
+                              onRepeatQuestion: _speakQuestionAndListen,
+                            ),
                           ],
                           if (_legacySearching ||
                               _session?.phase ==
                                   AssistantSessionPhase.understanding) ...[
                             const SizedBox(height: AppSpacing.md),
                             LinearProgressIndicator(
-                              key: Key('voice-search-progress'),
+                              key: const Key('voice-search-progress'),
                               minHeight: 2,
                               color: _accent,
                               backgroundColor: _accent.withValues(alpha: 0.20),
@@ -1522,10 +1562,33 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                           ] else if (_session?.recommendations.isNotEmpty ==
                               true) ...[
                             const SizedBox(height: AppSpacing.md),
-                            _buildConversationalResults(),
+                            VoiceConversationalResultsSection(
+                              session: _session!,
+                              showAllRecommendations: _showAllRecommendations,
+                              presentInTamil: _presentInTamil,
+                              l10n: _l10n,
+                              onToggleAllResults: () => setState(
+                                () => _showAllRecommendations =
+                                    !_showAllRecommendations,
+                              ),
+                              onOpenSearch: () =>
+                                  widget.onSubmit(_session!.statement),
+                              onSchemeSelected: widget.onSchemeSelected,
+                              onReviewProfile: widget.onProfileConfirmed != null
+                                  ? _reviewAndSaveFacts
+                                  : null,
+                              hasUnsavedProfileFacts: _session!.facts.values.any(
+                                (f) => f.source != EligibilityFactSource.profile,
+                              ),
+                            ),
                           ] else if (_legacyMatches.isNotEmpty) ...[
                             const SizedBox(height: AppSpacing.md),
-                            _buildLegacyResults(),
+                            VoiceLegacyResultsSection(
+                              matches: _legacyMatches,
+                              presentInTamil: _presentInTamil,
+                              l10n: _l10n,
+                              onSchemeSelected: widget.onSchemeSelected,
+                            ),
                           ] else if (_session?.phase ==
                                   AssistantSessionPhase.noConfidentMatch ||
                               (_transcript.isNotEmpty &&
@@ -1600,7 +1663,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         ),
         child: Stack(
           children: [
-            const Positioned.fill(child: _RegularVoiceBackdrop()),
+            const Positioned.fill(child: RegularVoiceBackdrop()),
             Positioned.fill(
               child: IgnorePointer(
                 child: RepaintBoundary(
@@ -1608,7 +1671,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                     key: const Key('voice-edge-outline'),
                     animation: _edgeRepaint,
                     builder: (context, child) => CustomPaint(
-                      painter: _RegularVoiceAmbientPainter(
+                      painter: RegularVoiceAmbientPainter(
                         progress: _edgeController.value,
                         intensity: _edgeIntensity.value,
                         active: _isListening || _speaking || isGenerating,
@@ -1632,7 +1695,12 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                 ),
                 child: Column(
                   children: [
-                    _buildRegularTopBar(),
+                    RegularVoiceTopBar(
+                      statusLabel: _statusLabel,
+                      l10n: _l10n,
+                      languageSelector: _buildLanguageSelector(),
+                      onClose: _close,
+                    ),
                     Expanded(
                       child: SingleChildScrollView(
                         controller: _panelScrollController,
@@ -1644,32 +1712,76 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            _buildRegularPresence(isGenerating),
+                            RegularVoicePresence(
+                              isGenerating: isGenerating,
+                              isListening: _isListening,
+                              speaking: _speaking,
+                              statusLabel: _statusLabel,
+                              waveController: _waveController,
+                              soundLevel: _soundLevel,
+                              l10n: _l10n,
+                            ),
                             const SizedBox(height: 28),
                             if (!hasConversation)
-                              _buildRegularWelcome()
+                              RegularVoiceWelcome(
+                                l10n: _l10n,
+                                onSuggestionSelected: _useSuggestion,
+                              )
                             else
                               Container(
                                 key: _session?.reply != null
                                     ? const Key('voice-assistant-reply')
                                     : null,
-                                child: _buildRegularTranscript(),
+                                child: RegularVoiceTranscript(
+                                  conversationTurns: _conversationTurns,
+                                  presentInTamil: _presentInTamil,
+                                  l10n: _l10n,
+                                  onSchemeSelected: widget.onSchemeSelected,
+                                ),
                               ),
                             if (_message != null) ...[
                               const SizedBox(height: AppSpacing.lg),
-                              _buildRegularNotice(_message!),
+                              RegularVoiceNotice(text: _message!),
                             ],
                             if (_session?.question case final question?) ...[
                               const SizedBox(height: AppSpacing.xl),
-                              _buildRegularQuestionCard(question),
+                              RegularVoiceQuestionCard(
+                                question: question,
+                                questionText: _questionText(_session!, question),
+                                l10n: _l10n,
+                                speechOutputSupported: _speechCapabilities?.supports(
+                                  _session!.isTamil ? 'ta-IN' : 'en-IN',
+                                ) ?? true,
+                                onOptionSelected: _answerOption,
+                              ),
                             ],
-                            if (_session?.recommendations.isNotEmpty ==
-                                true) ...[
+                            if (_session?.recommendations.isNotEmpty == true) ...[
                               const SizedBox(height: 22),
-                              _buildRegularRecommendations(),
+                              RegularVoiceRecommendationsSection(
+                                session: _session!,
+                                showAllRecommendations: _showAllRecommendations,
+                                presentInTamil: _presentInTamil,
+                                l10n: _l10n,
+                                onToggleAllResults: () => setState(
+                                  () => _showAllRecommendations =
+                                      !_showAllRecommendations,
+                                ),
+                                onSchemeSelected: widget.onSchemeSelected,
+                                onReviewProfile: widget.onProfileConfirmed != null
+                                    ? _reviewAndSaveFacts
+                                    : null,
+                                hasUnsavedProfileFacts: _session!.facts.values.any(
+                                  (f) => f.source != EligibilityFactSource.profile,
+                                ),
+                              ),
                             ] else if (_legacyMatches.isNotEmpty) ...[
                               const SizedBox(height: 22),
-                              _buildRegularLegacyResults(),
+                              RegularVoiceLegacyResultsSection(
+                                matches: _legacyMatches,
+                                presentInTamil: _presentInTamil,
+                                l10n: _l10n,
+                                onSchemeSelected: widget.onSchemeSelected,
+                              ),
                             ] else if (_session?.phase ==
                                     AssistantSessionPhase.noConfidentMatch ||
                                 (_transcript.isNotEmpty &&
@@ -1687,1620 +1799,45 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                                 ),
                               ),
                             ],
-                            if (_groundingPhase !=
-                                _OnlineGroundingPhase.idle) ...[
+                            if (_groundingPhase != _OnlineGroundingPhase.idle) ...[
                               const SizedBox(height: AppSpacing.lg),
-                              _buildOnlineGrounding(),
+                              VoiceOnlineGroundingPill(
+                                groundingPhase: _groundingPhase,
+                                groundedSources: _groundedSources,
+                                accentColor: _accent,
+                                isCompanion: false,
+                                l10n: _l10n,
+                                onOpenSource: _openReplySource,
+                              ),
                             ],
                           ],
                         ),
                       ),
                     ),
-                    _buildRegularControls(),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRegularTopBar() {
-    return Row(
-      children: [
-        Container(
-          width: 34,
-          height: 34,
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFF6D5DFB), Color(0xFF36C5F0)],
-            ),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: const Icon(
-            Icons.auto_awesome_rounded,
-            color: Colors.white,
-            size: 18,
-          ),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                _l10n.askAi,
-                style: GoogleFonts.inter(
-                  color: Colors.white,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: -0.2,
-                ),
-              ),
-              Semantics(
-                liveRegion: true,
-                label: _statusLabel,
-                child: Text(
-                  _statusLabel,
-                  key: const Key('voice-live-status'),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.inter(
-                    color: const Color(0xFFA8B0C2),
-                    fontSize: 10.5,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        _buildLanguageSelector(),
-        const SizedBox(width: AppSpacing.xs),
-        IconButton(
-          key: const Key('voice-close-button'),
-          tooltip: _l10n.voiceCancelAssistantTooltip,
-          onPressed: _close,
-          style: IconButton.styleFrom(
-            minimumSize: const Size(48, 48),
-            foregroundColor: const Color(0xFFD7DCE8),
-          ),
-          icon: const Icon(Icons.close_rounded),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildRegularPresence(bool isGenerating) {
-    final active = _isListening || _speaking || isGenerating;
-    return Center(
-      child: Semantics(
-        image: true,
-        label: active ? _statusLabel : _l10n.voiceAiReady,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 320),
-          curve: Curves.easeOutCubic,
-          width: active ? 154 : 138,
-          height: active ? 154 : 138,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: RadialGradient(
-              colors: [
-                const Color(0xFF8B7CFF).withValues(alpha: active ? 0.95 : 0.72),
-                const Color(0xFF3E7BFA).withValues(alpha: 0.58),
-                const Color(0xFF17C4D8).withValues(alpha: 0.08),
-              ],
-              stops: const [0, 0.52, 1],
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(
-                  0xFF6D5DFB,
-                ).withValues(alpha: active ? 0.42 : 0.20),
-                blurRadius: active ? 54 : 34,
-                spreadRadius: active ? 10 : 2,
-              ),
-            ],
-          ),
-          child: Center(
-            child: VoiceLevelBars(
-              key: const Key('voice-level-bars'),
-              animation: _waveController,
-              level: _soundLevel,
-              active: _isListening,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRegularWelcome() {
-    return Column(
-      children: [
-        Text(
-          _l10n.howCanIHelp,
-          key: const Key('voice-transcript'),
-          textAlign: TextAlign.center,
-          style: GoogleFonts.inter(
-            color: Colors.white,
-            fontSize: 26,
-            height: 1.2,
-            fontWeight: FontWeight.w600,
-            letterSpacing: -0.7,
-          ),
-        ),
-        const SizedBox(height: AppSpacing.sm),
-        Text(
-          _l10n.voiceTellMeSituationFindSchemes,
-          textAlign: TextAlign.center,
-          style: GoogleFonts.inter(
-            color: const Color(0xFF9CA6BA),
-            fontSize: 13,
-            height: 1.45,
-          ),
-        ),
-        const SizedBox(height: 22),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          alignment: WrapAlignment.center,
-          children: [
-            _suggestionChip(_l10n.voiceSuggestionBusinessLoans),
-            _suggestionChip(_l10n.voiceSuggestionCollegeScholarship),
-            _suggestionChip(_l10n.voiceSuggestionFarmerSubsidy),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildRegularTranscript() {
-    final visibleTurns = _conversationTurns.length <= 3
-        ? _conversationTurns
-        : _conversationTurns.sublist(_conversationTurns.length - 3);
-    return Semantics(
-      container: true,
-      label: _l10n.voiceConversationTranscript,
-      child: Column(
-        key: const Key('voice-conversation-transcript'),
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [for (final turn in visibleTurns) _buildRegularTurn(turn)],
-      ),
-    );
-  }
-
-  Widget _buildRegularTurn(_VoiceTranscriptTurn turn) {
-    final isUser = turn.speaker == _VoiceTranscriptSpeaker.user;
-    final label = isUser ? _l10n.voiceSpeakerYou : _l10n.voiceSpeakerAssistant;
-    return Container(
-      key: Key('voice-turn-${turn.id}'),
-      margin: const EdgeInsets.only(bottom: 22),
-      padding: EdgeInsets.only(left: isUser ? 34 : AppSpacing.none),
-      child: Column(
-        crossAxisAlignment: isUser
-            ? CrossAxisAlignment.end
-            : CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: GoogleFonts.inter(
-              color: isUser ? const Color(0xFF7F8AA1) : const Color(0xFF8B9BFF),
-              fontSize: 10,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 0.3,
-            ),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            turn.text,
-            textAlign: isUser ? TextAlign.right : TextAlign.left,
-            style: GoogleFonts.inter(
-              color: isUser ? const Color(0xFFC5CBD8) : const Color(0xFFF4F6FA),
-              fontSize: isUser ? 15 : 17,
-              fontWeight: isUser ? FontWeight.w500 : FontWeight.w400,
-              height: 1.48,
-              letterSpacing: -0.15,
-            ),
-          ),
-          if (turn.schemeMatches.isNotEmpty) ...[
-            const SizedBox(height: 14),
-            ...turn.schemeMatches.take(3).map(_buildTurnSchemeCard),
-          ],
-        ],
-      ),
-    );
-  }
-
-  Widget _buildRegularNotice(String text) {
-    return Semantics(
-      liveRegion: true,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
-        decoration: BoxDecoration(
-          color: const Color(0xFF151A27),
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: const Color(0xFF2A3142)),
-        ),
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: GoogleFonts.inter(
-            color: const Color(0xFFD4D9E5),
-            fontSize: 12,
-            height: 1.4,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRegularQuestionCard(FollowUpQuestion question) {
-    final state = _session!;
-    return Container(
-      key: const Key('voice-follow-up-question'),
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      decoration: BoxDecoration(
-        color: const Color(0xFF111624),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFF303A58)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            _questionText(state, question),
-            style: GoogleFonts.inter(
-              color: Colors.white,
-              fontSize: 15,
-              height: 1.4,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          if (question.options.isNotEmpty) ...[
-            const SizedBox(height: AppSpacing.md),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: question.options
-                  .map(
-                    (option) => ActionChip(
-                      key: Key(
-                        'voice-answer-${option.toLowerCase().replaceAll(' ', '-')}',
-                      ),
-                      label: Text(option),
-                      onPressed: () => _answerOption(option),
-                      backgroundColor: const Color(0xFF222A42),
-                      side: const BorderSide(color: Color(0xFF46537B)),
-                      labelStyle: const TextStyle(
-                        color: Color(0xFFF2F4F8),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  )
-                  .toList(growable: false),
-            ),
-          ],
-          if (_speechCapabilities?.supports(
-                state.isTamil ? 'ta-IN' : 'en-IN',
-              ) ==
-              false) ...[
-            const SizedBox(height: 10),
-            Text(
-              _l10n.voiceSpeechOutputUnavailable,
-              style: GoogleFonts.inter(
-                color: const Color(0xFFFFC46B),
-                fontSize: 10.5,
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-
-  Widget _buildRegularRecommendations() {
-    final all = _session!.recommendations;
-    final visible = _showAllRecommendations
-        ? all
-        : all.take(3).toList(growable: false);
-    return Column(
-      key: const Key('voice-search-results'),
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                _l10n.voiceForYou,
-                style: GoogleFonts.inter(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            Text(
-              _l10n.voiceFoundCount(all.length),
-              key: const Key('voice-result-count'),
-              style: GoogleFonts.inter(
-                color: const Color(0xFF929DB2),
-                fontSize: 11,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        ...visible.map(_buildRegularRecommendationCard),
-        if (all.length > 3)
-          TextButton.icon(
-            key: const Key('voice-toggle-all-results'),
-            onPressed: () => setState(
-              () => _showAllRecommendations = !_showAllRecommendations,
-            ),
-            icon: Icon(
-              _showAllRecommendations
-                  ? Icons.expand_less_rounded
-                  : Icons.expand_more_rounded,
-            ),
-            label: Text(
-              _showAllRecommendations
-                  ? _l10n.voiceShowTop3
-                  : _l10n.voiceShowAllMatches(all.length),
-            ),
-          ),
-        if (widget.onProfileConfirmed != null &&
-            _session!.facts.values.any(
-              (fact) => fact.source != EligibilityFactSource.profile,
-            ))
-          TextButton.icon(
-            key: const Key('voice-review-profile'),
-            onPressed: _reviewAndSaveFacts,
-            icon: const Icon(Icons.tune_rounded, size: 17),
-            label: Text(_l10n.voiceReviewDetails),
-          ),
-      ],
-    );
-  }
-
-  Widget _buildRegularRecommendationCard(SchemeRecommendation recommendation) {
-    final localized = recommendation.scheme.toLocalized(
-      _presentInTamil ? 'ta' : 'en',
-    );
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 9),
-      child: InkWell(
-        key: Key('voice-result-${recommendation.scheme.id}'),
-        onTap: () => widget.onSchemeSelected?.call(recommendation.scheme),
-        borderRadius: BorderRadius.circular(18),
-        child: Container(
-          padding: const EdgeInsets.all(15),
-          decoration: BoxDecoration(
-            color: const Color(0xFF111624),
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: const Color(0xFF29334E)),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Text(
-                      localized.name,
-                      style: GoogleFonts.inter(
-                        color: Colors.white,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w700,
-                        height: 1.35,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: AppSpacing.sm),
-                  const Icon(
-                    Icons.arrow_outward_rounded,
-                    size: 17,
-                    color: Color(0xFF8B9BFF),
-                  ),
-                ],
-              ),
-              if (recommendation.reasons.isNotEmpty) ...[
-                const SizedBox(height: 7),
-                Text(
-                  _l10n.voiceWhyThisFits(
-                    recommendation.reasons.join(' • '),
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.inter(
-                    color: const Color(0xFFB7C0D2),
-                    fontSize: 10.5,
-                    height: 1.4,
-                  ),
-                ),
-              ],
-              const SizedBox(height: AppSpacing.tight),
-              Text(
-                recommendation.isTrusted
-                    ? _l10n.voiceSourceVerified
-                    : _l10n.voiceConfirmEligibility,
-                style: GoogleFonts.inter(
-                  color: recommendation.isTrusted
-                      ? const Color(0xFF70D6B2)
-                      : const Color(0xFFFFC46B),
-                  fontSize: 9.5,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRegularLegacyResults() {
-    return Column(
-      key: const Key('voice-search-results'),
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
-          _l10n.voiceForYou,
-          style: GoogleFonts.inter(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        const SizedBox(height: 10),
-        ..._legacyMatches.take(3).map(_buildTurnSchemeCard),
-      ],
-    );
-  }
-
-  Widget _buildRegularControls() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          _speaking
-              ? _l10n.voiceTapToInterrupt
-              : _isListening
-              ? _l10n.voiceStatusListening
-              : _l10n.companionTapToSpeak,
-          textAlign: TextAlign.center,
-          style: GoogleFonts.inter(
-            color: const Color(0xFFA8B0C2),
-            fontSize: 11,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const SizedBox(height: 9),
-        Semantics(
-          button: true,
-          label: _speaking
-              ? _l10n.voiceSemInterrupt
-              : _isListening
-              ? _l10n.voiceStopListeningSemantic
-              : _l10n.voiceStartListeningSemantic,
-          hint: _l10n.voiceSemMicHint,
-          onTap: _toggleListening,
-          excludeSemantics: true,
-          child: IconButton.filled(
-            key: const Key('voice-primary-control'),
-            onPressed: _toggleListening,
-            style: IconButton.styleFrom(
-              minimumSize: const Size(68, 68),
-              backgroundColor: _isListening
-                  ? const Color(0xFFF1F3F8)
-                  : const Color(0xFF6D5DFB),
-              foregroundColor: _isListening
-                  ? const Color(0xFF121622)
-                  : Colors.white,
-              shadowColor: const Color(0xFF6D5DFB),
-              elevation: 10,
-            ),
-            icon: Icon(
-              _speaking
-                  ? Icons.front_hand_rounded
-                  : _isListening
-                  ? Icons.stop_rounded
-                  : Icons.mic_rounded,
-              size: 28,
-            ),
-          ),
-        ),
-        if (_cloudSessionInUse) ...[
-          const SizedBox(height: 9),
-          Text(
-            _l10n.voiceNoiseControlSecure,
-            key: const Key('voice-cloud-disclosure'),
-            style: GoogleFonts.inter(
-              color: const Color(0xFF707A91),
-              fontSize: 9,
-            ),
-          ),
-        ],
-      ],
-    );
-  }
-
-  Widget _buildHeader() {
-    return Row(
-      children: [
-        Semantics(
-          image: true,
-          label: _l10n.voiceAiAssistant,
-          child: SizedBox(
-            width: 56,
-            height: 56,
-            child: ClipOval(
-              child: Image.asset(
-                'assets/images/saarthi/sarathi.webp',
-                key: const Key('voice-assistant-image'),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(width: AppSpacing.sm),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                _isCompanion ? _l10n.voiceHeaderTalkToSaarthi : _l10n.askAi,
-                style: GoogleFonts.inter(
-                  color: Colors.white,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              Semantics(
-                liveRegion: true,
-                label: _statusLabel,
-                child: Row(
-                  children: [
-                    Container(
-                      width: 6,
-                      height: 6,
-                      decoration: BoxDecoration(
-                        color: _statusColor,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                    const SizedBox(width: AppSpacing.tight),
-                    Flexible(
-                      child: FitOneLine(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          _statusLabel,
-                          key: const Key('voice-live-status'),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.inter(
-                            color: _statusColor,
-                            fontSize: 10.5,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
+                    RegularVoiceControls(
+                      speaking: _speaking,
+                      isListening: _isListening,
+                      cloudSessionInUse: _cloudSessionInUse,
+                      l10n: _l10n,
+                      onToggleListening: _toggleListening,
                     ),
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
-        _buildLanguageSelector(),
-        if (_cloudSessionInUse)
-          IconButton(
-            key: const Key('voice-mute-button'),
-            tooltip: _voiceAgentController!.state.isMuted
-                ? _l10n.voiceUnmute
-                : _l10n.voiceMute,
-            onPressed: () => _voiceAgentController!.setMuted(
-              !_voiceAgentController!.state.isMuted,
-            ),
-            icon: Icon(
-              _voiceAgentController!.state.isMuted
-                  ? Icons.mic_off_rounded
-                  : Icons.mic_rounded,
-              color: const Color(0xFFCBD5E1),
-            ),
-          ),
-        IconButton(
-          key: const Key('voice-close-button'),
-          tooltip: _l10n.voiceCancelAssistantTooltip,
-          onPressed: _close,
-          icon: const Icon(Icons.close_rounded, color: Color(0xFFCBD5E1)),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildListeningArea() {
-    final showSuggestions =
-        _transcript.isEmpty && _session?.statement.isEmpty != false;
-    return Container(
-      padding: const EdgeInsets.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.045),
-        borderRadius: BorderRadius.circular(18),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            _conversationTurns.isNotEmpty
-                ? (_speaking
-                      ? _l10n.voiceListenOrInterrupt
-                      : _isListening
-                      ? _l10n.voiceSpeakNaturallyPause
-                      : _l10n.voiceReadyForNextQuestion)
-                : _transcript.isEmpty
-                ? _l10n.voiceTellMeNaturally
-                : _transcript,
-            key: const Key('voice-transcript'),
-            maxLines: 4,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.inter(
-              color: _transcript.isEmpty
-                  ? const Color(0xFF94A3B8)
-                  : Colors.white,
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              height: 1.4,
-            ),
-          ),
-          if (showSuggestions) ...[
-            const SizedBox(height: AppSpacing.lg),
-            Wrap(
-              spacing: AppSpacing.tight,
-              runSpacing: AppSpacing.tight,
-              alignment: WrapAlignment.center,
-              children: [
-                _suggestionChip(_l10n.voiceSuggestionBusinessLoans),
-                _suggestionChip(_l10n.voiceSuggestionCollegeScholarship),
-                _suggestionChip(_l10n.voiceSuggestionFarmerSubsidy),
-              ],
             ),
           ],
-          const SizedBox(height: AppSpacing.lg),
-          Row(
-            children: [
-              Expanded(
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: _cloudSessionInUse
-                      ? Semantics(
-                          label: _l10n.voiceSemNoiseControlOn,
-                          child: const Icon(
-                            Icons.noise_control_off_rounded,
-                            color: Color(0xFF34D399),
-                            size: 22,
-                          ),
-                        )
-                      : const SizedBox(),
-                ),
-              ),
-              const SizedBox(width: AppSpacing.xxl),
-              Semantics(
-                button: true,
-                label: _speaking
-                    ? _l10n.voiceSemInterrupt
-                    : _isListening
-                    ? _l10n.voiceStopListeningSemantic
-                    : _l10n.voiceStartListeningSemantic,
-                hint: _l10n.voiceSemMicHint,
-                onTap: _toggleListening,
-                excludeSemantics: true,
-                child: IconButton.filled(
-                  key: const Key('voice-primary-control'),
-                  onPressed: _toggleListening,
-                  style: IconButton.styleFrom(
-                    backgroundColor: _isListening
-                        ? const Color(0xFF10B981)
-                        : _accent,
-                    minimumSize: const Size(56, 56),
-                  ),
-                  icon: Icon(
-                    _speaking
-                        ? Icons.front_hand_rounded
-                        : _isListening
-                        ? Icons.stop_rounded
-                        : Icons.mic_none_rounded,
-                    color: Colors.white,
-                    size: 26,
-                  ),
-                ),
-              ),
-              const SizedBox(width: AppSpacing.xxl),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: VoiceLevelBars(
-                    key: const Key('voice-level-bars'),
-                    animation: _waveController,
-                    level: _soundLevel,
-                    active: _isListening,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            _speaking
-                ? _l10n.companionInterrupt
-                : _isListening
-                ? _l10n.voiceTapWhenFinished
-                : _l10n.companionTapToSpeak,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.inter(
-              color: _statusColor,
-              fontSize: 11,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          if (_cloudSessionInUse) ...[
-            const SizedBox(height: AppSpacing.tight),
-            Semantics(
-              label: _l10n.voiceSemNoiseControlOn,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.shield_outlined,
-                    color: Color(0xFF34D399),
-                    size: 13,
-                  ),
-                  const SizedBox(width: AppSpacing.tight),
-                  Text(
-                    _l10n.voiceDeviceNoiseControl,
-                    style: GoogleFonts.inter(
-                      color: const Color(0xFF6EE7B7),
-                      fontSize: 9.5,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-          if (_isCompanion) ...[
-            const SizedBox(height: AppSpacing.sm),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    key: const Key('voice-typed-input'),
-                    controller: _typedController,
-                    textInputAction: TextInputAction.send,
-                    onSubmitted: (_) => _sendTypedInput(),
-                    style: GoogleFonts.inter(color: Colors.white, fontSize: 12),
-                    decoration: InputDecoration(
-                      isDense: true,
-                      hintText: _isCompanion
-                          ? _l10n.voiceTypeToSaarthiHint
-                          : _l10n.voiceTypeInstead,
-                      hintStyle: const TextStyle(color: Color(0xFF64748B)),
-                      filled: true,
-                      fillColor: Colors.white.withValues(alpha: 0.04),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.tight),
-                IconButton(
-                  key: const Key('voice-send-text'),
-                  tooltip: _l10n.voiceSendMessageTooltip,
-                  onPressed: _sendTypedInput,
-                  icon: Icon(Icons.send_rounded, color: _accent),
-                ),
-              ],
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-
-  Widget _buildConversationTranscript() {
-    final turnLimit = _isCompanion ? 8 : 3;
-    final visibleTurns = _conversationTurns.length <= turnLimit
-        ? _conversationTurns
-        : _conversationTurns.sublist(_conversationTurns.length - turnLimit);
-    return Semantics(
-      container: true,
-      label: _l10n.voiceConversationTranscript,
-      child: Container(
-        key: const Key('voice-conversation-transcript'),
-        padding: const EdgeInsets.all(AppSpacing.md),
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.035),
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              children: [
-                Icon(Icons.forum_outlined, color: _accent, size: 16),
-                const SizedBox(width: AppSpacing.sm),
-                Text(
-                  _l10n.voiceConversation,
-                  style: GoogleFonts.inter(
-                    color: const Color(0xFFCBD5E1),
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            for (final turn in visibleTurns) _buildTranscriptBubble(turn),
-          ],
         ),
       ),
     );
   }
-
-  Widget _buildTranscriptBubble(_VoiceTranscriptTurn turn) {
-    final isUser = turn.speaker == _VoiceTranscriptSpeaker.user;
-    final bubbleColor = isUser
-        ? _accent.withValues(alpha: 0.24)
-        : Colors.white.withValues(alpha: 0.075);
-    final label = isUser
-        ? _l10n.voiceSpeakerYou
-        : _l10n.voiceSpeakerAssistant;
-    return Align(
-      alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
-      child: Semantics(
-        label: '$label: ${turn.text}',
-        child: Container(
-          key: Key('voice-turn-${turn.id}'),
-          constraints: const BoxConstraints(maxWidth: 440),
-          margin: const EdgeInsets.only(bottom: AppSpacing.sm),
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.md,
-            vertical: AppSpacing.sm,
-          ),
-          decoration: BoxDecoration(
-            color: bubbleColor,
-            borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(16),
-              topRight: const Radius.circular(16),
-              bottomLeft: Radius.circular(isUser ? 16 : 4),
-              bottomRight: Radius.circular(isUser ? 4 : 16),
-            ),
-            border: Border.all(
-              color: isUser
-                  ? _accent.withValues(alpha: 0.34)
-                  : Colors.white.withValues(alpha: 0.08),
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                label,
-                style: GoogleFonts.inter(
-                  color: isUser ? const Color(0xFF93C5FD) : _accent,
-                  fontSize: 9.5,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.xs),
-              Text(
-                turn.text,
-                maxLines: _isCompanion ? null : (isUser ? 3 : 5),
-                overflow: _isCompanion ? null : TextOverflow.ellipsis,
-                style: GoogleFonts.inter(
-                  color: Colors.white,
-                  fontSize: 13.5,
-                  height: 1.42,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              if (turn.schemeMatches.isNotEmpty) ...[
-                const SizedBox(height: 9),
-                Text(
-                  _l10n.voiceRecommendedForYou,
-                  style: GoogleFonts.inter(
-                    color: const Color(0xFF86EFAC),
-                    fontSize: 10,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                ...turn.schemeMatches.take(3).map(_buildTurnSchemeCard),
-              ],
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTurnSchemeCard(SchemeSearchMatch match) {
-    final scheme = match.scheme.toLocalized(_presentInTamil ? 'ta' : 'en');
-    return Padding(
-      padding: const EdgeInsets.only(top: AppSpacing.tight),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          key: Key('voice-result-${match.scheme.id}'),
-          onTap: () => widget.onSchemeSelected?.call(match.scheme),
-          borderRadius: BorderRadius.circular(11),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
-            decoration: BoxDecoration(
-              color: _accent.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(11),
-              border: Border.all(color: _accent.withValues(alpha: 0.24)),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        scheme.name,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      if (match.reasons.isNotEmpty) ...[
-                        const SizedBox(height: AppSpacing.hairline),
-                        Text(
-                          match.reasons.join(' • '),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: Color(0xFFCBD5E1),
-                            fontSize: 9.5,
-                            height: 1.25,
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 5),
-                Icon(Icons.arrow_forward_rounded, size: 15, color: _accent),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _suggestionChip(String label) => ActionChip(
-    label: Text(
-      label,
-      style: const TextStyle(
-        color: Colors.white,
-        fontSize: 11.5,
-        fontWeight: FontWeight.w600,
-      ),
-    ),
-    onPressed: () => _useSuggestion(label),
-    side: BorderSide(color: _accent),
-    backgroundColor: _accent.withValues(alpha: 0.18),
-    labelStyle: const TextStyle(color: Colors.white),
-    visualDensity: VisualDensity.compact,
-  );
 
   Widget _buildLanguageSelector() {
-    if (!_showFallbackPicker) {
-      return Semantics(
-        label: _l10n.voiceLanguageSemantic(_languageBadgeLabel),
-        child: Container(
-          key: const Key('voice-language-auto-badge'),
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.sm,
-            vertical: AppSpacing.xs,
-          ),
-          decoration: BoxDecoration(
-            color: const Color(0xFFDBEAFE),
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: const Color(0xFF93C5FD)),
-          ),
-          child: Text(
-            _languageBadgeLabel,
-            style: GoogleFonts.inter(
-              color: const Color(0xFF172554),
-              fontSize: 11,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
-      );
-    }
-    return Container(
-      key: const Key('voice-language-fallback-picker'),
-      padding: const EdgeInsets.all(AppSpacing.hairline),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.06),
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _languageOption('EN', VoiceInputLanguage.english),
-          _languageOption('தமிழ்', VoiceInputLanguage.tamil),
-        ],
-      ),
-    );
-  }
-
-  Widget _languageOption(String label, VoiceInputLanguage language) {
-    final selected = _fallbackLanguage == language;
-    return InkWell(
-      key: Key('voice-language-${language.name}'),
-      onTap: () => _changeLanguage(language),
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        constraints: const BoxConstraints(minHeight: 36),
-        alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.sm,
-          vertical: AppSpacing.xs,
-        ),
-        decoration: BoxDecoration(
-          color: selected ? const Color(0xFF2563EB) : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Text(
-          label,
-          style: GoogleFonts.inter(
-            color: selected ? Colors.white : const Color(0xFF94A3B8),
-            fontSize: 10,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFactChips() {
-    final allFacts = _session!.facts.values.toList(growable: false);
-    final facts = _isCompanion
-        ? allFacts
-        : allFacts.take(3).toList(growable: false);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          _l10n.voiceWhatIUnderstood,
-          style: GoogleFonts.inter(
-            color: const Color(0xFFCBD5E1),
-            fontSize: 10.5,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        const SizedBox(height: AppSpacing.tight),
-        Wrap(
-          spacing: AppSpacing.tight,
-          runSpacing: AppSpacing.tight,
-          children: facts
-              .map((fact) {
-                final conflict = fact.hasConflict;
-                return InputChip(
-                  key: Key('voice-fact-${fact.key.name}'),
-                  avatar: Icon(
-                    conflict
-                        ? Icons.warning_amber_rounded
-                        : Icons.check_circle_outline,
-                    size: 15,
-                    color: conflict
-                        ? const Color(0xFFFBBF24)
-                        : const Color(0xFF60A5FA),
-                  ),
-                  label: Text(
-                    '${_factLabel(context, fact.key)}: ${_displayFactValue(_l10n, fact)}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  onPressed: () => _editFact(fact),
-                  side: BorderSide(
-                    color: conflict
-                        ? const Color(0xFFFBBF24)
-                        : const Color(0xFF334155),
-                  ),
-                  backgroundColor: const Color(0xFF172554),
-                  labelStyle: const TextStyle(color: Colors.white),
-                  visualDensity: VisualDensity.compact,
-                );
-              })
-              .toList(growable: false),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildQuestionCard(FollowUpQuestion question) {
-    final text = _questionText(_session!, question);
-    return Container(
-      key: const Key('voice-follow-up-question'),
-      padding: const EdgeInsets.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: const Color(0xFF1D4ED8).withValues(alpha: 0.16),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: const Color(0xFF60A5FA).withValues(alpha: 0.24),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              const Icon(
-                Icons.chat_bubble_outline,
-                color: Color(0xFF60A5FA),
-                size: 17,
-              ),
-              const SizedBox(width: AppSpacing.sm),
-              Expanded(
-                child: Text(
-                  text,
-                  style: GoogleFonts.inter(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    height: 1.35,
-                  ),
-                ),
-              ),
-              IconButton(
-                key: const Key('voice-repeat-question'),
-                tooltip: _l10n.voiceRepeatQuestionTooltip,
-                onPressed: _speakQuestionAndListen,
-                icon: const Icon(
-                  Icons.volume_up_outlined,
-                  color: Color(0xFF93C5FD),
-                  size: 20,
-                ),
-              ),
-            ],
-          ),
-          if (question.options.isNotEmpty) ...[
-            const SizedBox(height: AppSpacing.sm),
-            Wrap(
-              spacing: AppSpacing.tight,
-              runSpacing: AppSpacing.tight,
-              children: question.options
-                  .map(
-                    (option) => ActionChip(
-                      key: Key(
-                        'voice-answer-${option.toLowerCase().replaceAll(' ', '-')}',
-                      ),
-                      label: Text(
-                        option,
-                        style: const TextStyle(
-                          color: Color(0xFF172554),
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      onPressed: () => _answerOption(option),
-                      backgroundColor: const Color(0xFFDBEAFE),
-                      side: const BorderSide(color: Color(0xFF93C5FD)),
-                      labelStyle: const TextStyle(color: Color(0xFF172554)),
-                    ),
-                  )
-                  .toList(growable: false),
-            ),
-          ],
-          if (_speechCapabilities?.supports(
-                _session!.isTamil ? 'ta-IN' : 'en-IN',
-              ) ==
-              false)
-            Padding(
-              padding: const EdgeInsets.only(top: AppSpacing.tight),
-              child: Text(
-                _l10n.voiceSpeechOutputUnavailable,
-                style: GoogleFonts.inter(
-                  color: const Color(0xFFFBBF24),
-                  fontSize: 9.5,
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildConversationalResults() {
-    final allRecommendations = _session!.recommendations;
-    final recommendations = _showAllRecommendations
-        ? allRecommendations
-        : allRecommendations.take(3).toList(growable: false);
-    return Column(
-      key: const Key('voice-search-results'),
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                _l10n.voiceSchemesSuitedToSituation,
-                style: GoogleFonts.inter(
-                  color: Colors.white,
-                  fontSize: 11.5,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            Text(
-              _l10n.voiceFoundCount(allRecommendations.length),
-              key: const Key('voice-result-count'),
-              style: GoogleFonts.inter(
-                color: const Color(0xFF93C5FD),
-                fontSize: 10.5,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(width: AppSpacing.tight),
-            TextButton(
-              key: const Key('voice-view-all-results'),
-              onPressed: () => widget.onSubmit(_session!.statement),
-              child: Text(
-                CentralizedTranslator.instance.translate('Open search'),
-                style: const TextStyle(fontSize: 10.5),
-              ),
-            ),
-          ],
-        ),
-        ...recommendations.map(_buildRecommendationCard),
-        if (allRecommendations.length > 3)
-          TextButton.icon(
-            key: const Key('voice-toggle-all-results'),
-            onPressed: () => setState(
-              () => _showAllRecommendations = !_showAllRecommendations,
-            ),
-            icon: Icon(
-              _showAllRecommendations
-                  ? Icons.expand_less_rounded
-                  : Icons.expand_more_rounded,
-              size: 17,
-            ),
-            label: Text(
-              _showAllRecommendations
-                  ? _l10n.voiceShowTop3
-                  : _l10n.voiceShowAllMatches(allRecommendations.length),
-            ),
-          ),
-        if (widget.onProfileConfirmed != null &&
-            _session!.facts.values.any(
-              (fact) => fact.source != EligibilityFactSource.profile,
-            )) ...[
-          const SizedBox(height: AppSpacing.sm),
-          OutlinedButton.icon(
-            key: const Key('voice-review-profile'),
-            onPressed: _reviewAndSaveFacts,
-            icon: const Icon(Icons.person_add_alt_1_outlined, size: 17),
-            label: Text(
-              CentralizedTranslator.instance.translate(
-                'Review and save confirmed details',
-              ),
-            ),
-          ),
-        ],
-      ],
-    );
-  }
-
-  Widget _buildAssistantReply(GroundedAssistantReply reply) {
-    return Container(
-      key: const Key('voice-assistant-reply'),
-      padding: const EdgeInsets.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: _accent.withValues(alpha: 0.11),
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: _accent.withValues(alpha: 0.32)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(Icons.auto_awesome, size: 15, color: _accent),
-              const SizedBox(width: AppSpacing.tight),
-              Flexible(
-                child: FitOneLine(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    _isCompanion ? 'Saarthi' : _l10n.askAi,
-                    style: GoogleFonts.inter(
-                      color: Colors.white,
-                      fontSize: 11.5,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            reply.displayText,
-            style: GoogleFonts.inter(
-              color: const Color(0xFFE2E8F0),
-              fontSize: 11,
-              height: 1.45,
-            ),
-          ),
-          if (reply.sourceUrl.isNotEmpty) ...[
-            const SizedBox(height: AppSpacing.sm),
-            TextButton.icon(
-              key: const Key('voice-assistant-source'),
-              onPressed: () => _openReplySource(reply.sourceUrl),
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.zero,
-                minimumSize: const Size(0, 30),
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-              icon: const Icon(Icons.open_in_new, size: 14),
-              label: Text(
-                reply.sourceLabel.isEmpty
-                    ? _l10n.voiceOpenOfficialSource
-                    : reply.sourceLabel,
-                style: const TextStyle(fontSize: 10.5),
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-
-  Widget _buildOnlineGrounding() {
-    final isChecking = _groundingPhase == _OnlineGroundingPhase.checking;
-    final isFound = _groundingPhase == _OnlineGroundingPhase.found;
-    final icon = isChecking
-        ? Icons.travel_explore
-        : isFound
-        ? Icons.verified_outlined
-        : Icons.cloud_off_outlined;
-    final title = switch (_groundingPhase) {
-      _OnlineGroundingPhase.checking => _l10n.voiceGroundingChecking,
-      _OnlineGroundingPhase.found =>
-        _l10n.voiceGroundingFoundSources(_groundedSources.length),
-      _OnlineGroundingPhase.unavailable => _l10n.voiceGroundingUnavailable,
-      _OnlineGroundingPhase.noSources => _l10n.voiceGroundingNoSources,
-      _OnlineGroundingPhase.idle => '',
-    };
-    if (!_isCompanion) {
-      final firstSource = isFound && _groundedSources.isNotEmpty
-          ? _groundedSources.first
-          : null;
-      return Container(
-        key: const Key('voice-online-grounding'),
-        padding: const EdgeInsets.symmetric(
-          horizontal: 10,
-          vertical: AppSpacing.sm,
-        ),
-        decoration: BoxDecoration(
-          color: const Color(0xFF0F1D2E),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: (isFound ? const Color(0xFF22C55E) : _accent).withValues(
-              alpha: 0.25,
-            ),
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  icon,
-                  size: 14,
-                  color: isFound ? const Color(0xFF4ADE80) : _accent,
-                ),
-                const SizedBox(width: AppSpacing.tight),
-                Expanded(
-                  child: Text(
-                    title,
-                    style: GoogleFonts.inter(
-                      color: const Color(0xFFE2E8F0),
-                      fontSize: 10,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-                if (isChecking)
-                  SizedBox(
-                    width: 12,
-                    height: 12,
-                    child: CircularProgressIndicator(
-                      key: const Key('voice-online-grounding-progress'),
-                      strokeWidth: 1.5,
-                      color: _accent,
-                    ),
-                  ),
-              ],
-            ),
-            if (firstSource != null) ...[
-              const SizedBox(height: AppSpacing.xs),
-              InkWell(
-                key: Key('voice-grounded-source-${firstSource.url}'),
-                onTap: () => _openReplySource(firstSource.url.toString()),
-                child: Text(
-                  firstSource.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.inter(
-                    color: const Color(0xFF93C5FD),
-                    fontSize: 9.5,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ],
-            if (isChecking || isFound) ...[
-              const SizedBox(height: 3),
-              Text(
-                _l10n.voiceGroundingPrivacyNote,
-                key: const Key('voice-grounding-privacy-note'),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.inter(
-                  color: const Color(0xFF64748B),
-                  fontSize: 8,
-                ),
-              ),
-            ],
-          ],
-        ),
-      );
-    }
-    return Container(
-      key: const Key('voice-online-grounding'),
-      padding: const EdgeInsets.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: const Color(0xFF0F1D2E),
-        borderRadius: BorderRadius.circular(13),
-        border: Border.all(
-          color: (isFound ? const Color(0xFF22C55E) : _accent).withValues(
-            alpha: 0.30,
-          ),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(
-                icon,
-                size: 15,
-                color: isFound ? const Color(0xFF4ADE80) : _accent,
-              ),
-              const SizedBox(width: AppSpacing.sm),
-              Expanded(
-                child: Text(
-                  title,
-                  style: GoogleFonts.inter(
-                    color: const Color(0xFFE2E8F0),
-                    fontSize: 10.5,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-              if (isChecking)
-                SizedBox(
-                  width: 13,
-                  height: 13,
-                  child: CircularProgressIndicator(
-                    key: const Key('voice-online-grounding-progress'),
-                    strokeWidth: 1.5,
-                    color: _accent,
-                  ),
-                ),
-            ],
-          ),
-          if (isFound) ...[
-            const SizedBox(height: AppSpacing.tight),
-            ..._groundedSources.map(
-              (source) => Padding(
-                padding: const EdgeInsets.only(top: AppSpacing.tight),
-                child: InkWell(
-                  key: Key('voice-grounded-source-${source.url}'),
-                  onTap: () => _openReplySource(source.url.toString()),
-                  borderRadius: BorderRadius.circular(9),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.sm,
-                      vertical: AppSpacing.tight,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                source.title,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.inter(
-                                  color: const Color(0xFF93C5FD),
-                                  fontSize: 10.5,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                            const Icon(
-                              Icons.open_in_new,
-                              size: 12,
-                              color: Color(0xFF94A3B8),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: AppSpacing.hairline),
-                        Text(
-                          source.snippet,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.inter(
-                            color: const Color(0xFFCBD5E1),
-                            fontSize: 9.5,
-                            height: 1.35,
-                          ),
-                        ),
-                        const SizedBox(height: AppSpacing.hairline),
-                        Text(
-                          source.host,
-                          style: GoogleFonts.inter(
-                            color: const Color(0xFF4ADE80),
-                            fontSize: 8.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-          if (isChecking || isFound) ...[
-            const SizedBox(height: AppSpacing.tight),
-            Text(
-              _l10n.voiceGroundingPrivacyNote,
-              key: const Key('voice-grounding-privacy-note'),
-              style: GoogleFonts.inter(
-                color: const Color(0xFF94A3B8),
-                fontSize: 8.5,
-                height: 1.3,
-              ),
-            ),
-          ],
-        ],
-      ),
+    return VoiceLanguageSelector(
+      showFallbackPicker: _showFallbackPicker,
+      languageBadgeLabel: _languageBadgeLabel,
+      fallbackLanguage: _fallbackLanguage,
+      l10n: _l10n,
+      onChangeLanguage: _changeLanguage,
     );
   }
 
@@ -3313,323 +1850,5 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     }
   }
 
-  Widget _buildRecommendationCard(SchemeRecommendation recommendation) {
-    final scheme = recommendation.scheme;
-    final label = switch (recommendation.state) {
-      SchemeMatchState.strongMatch => _l10n.voiceMatchStrong,
-      SchemeMatchState.likelyMatch => _l10n.voiceMatchLikely,
-      SchemeMatchState.needsInformation => _l10n.voiceMatchNeedsConfirmation,
-      SchemeMatchState.notSuitable => _l10n.voiceMatchNotSuitable,
-      SchemeMatchState.noConfidentMatch => _l10n.voiceMatchNoConfident,
-    };
-    final color = switch (recommendation.state) {
-      SchemeMatchState.strongMatch => const Color(0xFF22C55E),
-      SchemeMatchState.likelyMatch => const Color(0xFF60A5FA),
-      SchemeMatchState.needsInformation => const Color(0xFFF59E0B),
-      _ => const Color(0xFFF87171),
-    };
-    return Padding(
-      padding: const EdgeInsets.only(top: AppSpacing.sm),
-      child: InkWell(
-        key: Key('voice-result-${scheme.id}'),
-        onTap: () => widget.onSchemeSelected?.call(scheme),
-        borderRadius: BorderRadius.circular(14),
-        child: Container(
-          padding: const EdgeInsets.all(AppSpacing.md),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.052),
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: color.withValues(alpha: 0.28)),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      scheme.toLocalized(_presentInTamil ? 'ta' : 'en').name,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.inter(
-                        color: Colors.white,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: AppSpacing.sm),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.sm,
-                      vertical: AppSpacing.tight,
-                    ),
-                    decoration: BoxDecoration(
-                      color: color.withValues(alpha: 0.24),
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: color.withValues(alpha: 0.62)),
-                    ),
-                    child: Text(
-                      label,
-                      style: TextStyle(
-                        color: color,
-                        fontSize: 10.5,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: AppSpacing.tight),
-              if (recommendation.reasons.isNotEmpty)
-                _resultLine(
-                  Icons.check_circle_outline,
-                  _l10n.voiceWhyThisFits(
-                    recommendation.reasons.join(' • '),
-                  ),
-                  const Color(0xFF86EFAC),
-                ),
-              if (recommendation.unknownRequirements.isNotEmpty)
-                _resultLine(
-                  Icons.help_outline,
-                  _l10n.voiceStillConfirm(
-                    recommendation.unknownRequirements.take(2).join(' • '),
-                  ),
-                  const Color(0xFFFCD34D),
-                ),
-              _resultLine(
-                recommendation.isTrusted
-                    ? Icons.verified_outlined
-                    : Icons.warning_amber_outlined,
-                recommendation.isTrusted
-                    ? _l10n.voiceSourceVerified
-                    : _l10n.voiceSourceUnverified,
-                recommendation.isTrusted
-                    ? const Color(0xFF93C5FD)
-                    : const Color(0xFFFCA5A5),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _resultLine(IconData icon, String text, Color color) => Padding(
-    padding: const EdgeInsets.only(top: AppSpacing.xs),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, color: color, size: 13),
-        const SizedBox(width: AppSpacing.tight),
-        Expanded(
-          child: Text(
-            text,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.inter(
-              color: const Color(0xFFF1F5F9),
-              fontSize: 10.5,
-              height: 1.35,
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-
-  Widget _buildLegacyResults() {
-    return Column(
-      key: const Key('voice-search-results'),
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
-          _l10n.voiceBestMatchingSchemes,
-          style: GoogleFonts.inter(
-            color: Colors.white,
-            fontSize: 11.5,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        ..._legacyMatches
-            .take(3)
-            .map(
-              (match) => Padding(
-                padding: const EdgeInsets.only(top: AppSpacing.tight),
-                child: Material(
-                  color: Colors.transparent,
-                  child: ListTile(
-                    key: Key('voice-result-${match.scheme.id}'),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    tileColor: Colors.white.withValues(alpha: 0.055),
-                    title: Text(
-                      match.scheme
-                          .toLocalized(_presentInTamil ? 'ta' : 'en')
-                          .name,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    subtitle: Text(
-                      match.reasons.join(' • '),
-                      style: const TextStyle(
-                        color: Color(0xFF94A3B8),
-                        fontSize: 9.5,
-                      ),
-                    ),
-                    onTap: () => widget.onSchemeSelected?.call(match.scheme),
-                  ),
-                ),
-              ),
-            ),
-      ],
-    );
-  }
-
-  static String _factLabel(BuildContext context, EligibilityFactKey key) {
-    final l10n = context.l10n;
-    return switch (key) {
-      EligibilityFactKey.age => l10n.labelAge,
-      EligibilityFactKey.state => l10n.voiceFactLabelState,
-      EligibilityFactKey.district => l10n.filterDistrict,
-      EligibilityFactKey.annualIncome => l10n.labelAnnualIncome,
-      EligibilityFactKey.gender => l10n.labelGender,
-      EligibilityFactKey.community => l10n.labelCommunity,
-      EligibilityFactKey.occupation => l10n.voiceFactLabelSituation,
-      EligibilityFactKey.education => l10n.labelEducation,
-      EligibilityFactKey.disability => l10n.labelDisability,
-      EligibilityFactKey.maritalStatus => l10n.voiceFactLabelMaritalStatus,
-      EligibilityFactKey.studentStatus => l10n.empStudent,
-      EligibilityFactKey.businessStage => l10n.labelBusinessStage,
-      EligibilityFactKey.businessSector => l10n.voiceFactLabelSector,
-      EligibilityFactKey.fundingNeed => l10n.voiceFactLabelFundingNeed,
-      EligibilityFactKey.landholding => l10n.voiceFactLabelLandholding,
-    };
-  }
-
-  static String _displayFactValue(AppLocalizations l10n, EligibilityFact fact) {
-    if ({
-      EligibilityFactKey.annualIncome,
-      EligibilityFactKey.fundingNeed,
-    }.contains(fact.key)) {
-      final amount = double.tryParse(fact.value);
-      if (amount != null) {
-        if (amount >= 10000000) {
-          return l10n.voiceFactCrore((amount / 10000000).toStringAsFixed(1));
-        }
-        if (amount >= 100000) {
-          return l10n.voiceFactLakh((amount / 100000).toStringAsFixed(1));
-        }
-      }
-    }
-    return fact.hasConflict
-        ? l10n.voiceFactConflictFormat(fact.conflictingValue!, fact.value)
-        : fact.value;
-  }
-}
-
-class _RegularVoiceBackdrop extends StatelessWidget {
-  const _RegularVoiceBackdrop();
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color(0xFF0B1020), Color(0xFF070A12), Color(0xFF05070C)],
-          stops: [0, 0.46, 1],
-        ),
-      ),
-      child: Stack(
-        children: [
-          Positioned(
-            top: -150,
-            right: -120,
-            child: Container(
-              width: 330,
-              height: 330,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: const Color(0xFF5D52E8).withValues(alpha: 0.10),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF5D52E8).withValues(alpha: 0.16),
-                    blurRadius: 120,
-                    spreadRadius: 45,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: -170,
-            left: -130,
-            child: Container(
-              width: 350,
-              height: 350,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: const Color(0xFF18BBD0).withValues(alpha: 0.07),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF18BBD0).withValues(alpha: 0.12),
-                    blurRadius: 130,
-                    spreadRadius: 50,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _RegularVoiceAmbientPainter extends CustomPainter {
-  const _RegularVoiceAmbientPainter({
-    required this.progress,
-    required this.intensity,
-    required this.active,
-    required this.reduceMotion,
-  });
-
-  final double progress;
-  final double intensity;
-  final bool active;
-  final bool reduceMotion;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final phase = reduceMotion ? 0.35 : progress;
-    final pulse = active ? 0.6 + math.sin(phase * math.pi * 2) * 0.12 : 0.35;
-    final center = Offset(size.width / 2, math.min(size.height * 0.31, 270));
-    final radius = math.min(size.width * 0.38, 170) + intensity * 18;
-    final paint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.2
-      ..shader = RadialGradient(
-        colors: [
-          const Color(0xFF8B7CFF).withValues(alpha: 0.0),
-          const Color(0xFF8B7CFF).withValues(alpha: 0.16 * pulse),
-          const Color(0xFF22D3EE).withValues(alpha: 0.0),
-        ],
-        stops: const [0.66, 0.86, 1],
-      ).createShader(Rect.fromCircle(center: center, radius: radius));
-    canvas.drawCircle(center, radius, paint);
-    canvas.drawCircle(center, radius + 18, paint..strokeWidth = 0.7);
-  }
-
-  @override
-  bool shouldRepaint(covariant _RegularVoiceAmbientPainter oldDelegate) =>
-      oldDelegate.progress != progress ||
-      oldDelegate.intensity != intensity ||
-      oldDelegate.active != active ||
-      oldDelegate.reduceMotion != reduceMotion;
+  static const _factLabel = factLabel;
 }
