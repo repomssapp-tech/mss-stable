@@ -129,8 +129,16 @@ C2 `categories_screen.dart` 4822 → 2152 — **DONE**. C3–C5 — **safe-slice
     - `profile_eligibility_details_card.dart` (249 lines): education level, employment, community category, annual income, special categories (disability/veteran), and optional business details.
     - `profile_navigation_sections.dart` (134 lines): `ProfileNavigationCard1` (saved schemes, language), `ProfileNavigationCard2` (settings, help & support, about), and `ProfileLogoutCard` (logout with confirmation dialog).
   - `profile_screen.dart` converted into a lightweight coordinator (115 lines) with re-export shims for full backwards compatibility.
-  - Full test suite verified green (455 pass, 1 skip, 0 fail), `spacing_scale_test.dart` passes with 0 violations, `flutter analyze` clean.
-- [ ] **Monolithic screens remaining** — `search_screen.dart` (1,513 lines), `scheme_details_screen.dart` (1,173 lines remaining), and `categories_screen.dart` (2,067 lines remaining).
+- [x] **Search Screen Decomposition (`search_screen.dart`)** — 1,603 → 542 lines (-1,061 lines, **~66% reduction**).
+  - Decomposed into 5 modular components under `screens/regular_mode/search/`:
+    - `search_models.dart` (88 lines): `SearchState`, `ForMeEmptyState`, `ForMeViewResult`, `applyProviderFacetFilters`, and `computeForMeView`.
+    - `search_input_section.dart` (215 lines): `SearchHeaderBar`, `SearchInputField` with dictation and clear controls, `SearchQuickPills`, and `SearchTryBanner`.
+    - `search_filter_strip.dart` (197 lines): `SearchFilterStrip` and `SearchDropdownChip` (Filter facet count, For Me toggle, localized Sort popup menu).
+    - `search_idle_content.dart` (377 lines): `SearchHighlightSummaryCard`, `SearchCategoryCard`, and `SearchIdleContent` with category metadata.
+    - `search_results_view.dart` (186 lines): `SearchLoadingSkeleton` (shimmer cards) and `SearchResultsList` (empty states and scheme cards).
+  - `search_screen.dart` retained as the clean state coordinator (542 lines) managing the search lifecycle, debounce, speech recognition, and category count queries, with complete re-exports for backwards compatibility.
+  - All tests passing (455 pass, 1 skip, 0 fail), `spacing_scale_test.dart` passes with 0 violations, `flutter analyze` clean with 0 issues.
+- [ ] **Monolithic screens remaining** — `scheme_details_screen.dart` (1,173 lines remaining), and `categories_screen.dart` (2,067 lines remaining).
 - [x] **C6 `centralized_translator.dart`** (1055 → 369 l, dictionary → JSON asset) — **DONE** (2026-09-11). Extracted 93 tags, 428 phrases, 141 terms (~800 lines of hardcoded static maps) into `assets/catalog/translation_dictionary.json` (74.8 KB); added async `ensureLoaded()` with sync `File` fallback for tests/VM; pre-sorted phrases and terms upon loading to eliminate per-call allocation and sort overhead; preloaded during app bootstrap in `main.dart`; verified with `test/translation_dictionary_parity_test.dart`; analyze clean, 448/1/0 tests pass.
 - [x] **C7 `scheme_understanding_engine.dart` (1334 → 1175 l) + `mss_scheme_adapter.dart` (1042 → 215 l)** — **Phase 1 & Phase 2 DONE** (2026-09-11).
   - **Phase 1**: Extracted 9 decoupled data models & engine interfaces into `services/search/scheme_understanding_models.dart` with re-export shim in `scheme_understanding_engine.dart` (0 caller changes); created characterization test suite `test/mss_scheme_adapter_characterization_test.dart` (7 tests covering PMEGP canonical mapping, graph authorities/institutions, benefits metrics, closed status, sparse entity fallbacks, document checklists, and application steps); full suite 455/1/0 tests pass; smoke-tested on live `emulator-5554`.
