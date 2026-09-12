@@ -137,8 +137,18 @@ C2 `categories_screen.dart` 4822 → 2152 — **DONE**. C3–C5 — **safe-slice
     - `search_idle_content.dart` (377 lines): `SearchHighlightSummaryCard`, `SearchCategoryCard`, and `SearchIdleContent` with category metadata.
     - `search_results_view.dart` (186 lines): `SearchLoadingSkeleton` (shimmer cards) and `SearchResultsList` (empty states and scheme cards).
   - `search_screen.dart` retained as the clean state coordinator (542 lines) managing the search lifecycle, debounce, speech recognition, and category count queries, with complete re-exports for backwards compatibility.
+- [x] **Scheme Details Screen Decomposition (`scheme_details_screen.dart`)** — 1,799 → 1,228 → 442 lines (-1,357 lines total from initial monolith, **~75% total reduction**).
+  - Decomposed into 6 focused modular widgets in `screens/regular_mode/scheme_details/`:
+    - `scheme_highlights_card.dart` (177 lines): `SchemeHighlightsCard` metadata pills and `SchemeOfficialSourceCard` verification status with official external link.
+    - `scheme_benefits_section.dart` (147 lines): `SchemeBenefitsContent` with subsidy percentage, amount, max funding chips, and `formatFunding` utility.
+    - `scheme_eligibility_section.dart` (72 lines): `SchemeEligibilityContent` with checklist rules and official verification notes.
+    - `scheme_documents_section.dart` (197 lines): `SchemeDocumentsContent` with mandatory badges, issuing authorities, cost, and official portal deep links.
+    - `scheme_services_section.dart` (65 lines): `SchemeServicesContent` with required service badges and descriptions.
+    - `scheme_process_section.dart` (77 lines): `SchemeProcessContent` vertical stepper timeline with step circles and subtitles.
+  - `scheme_details_screen.dart` retained as the clean coordinator (442 lines) managing sticky tab state, smooth scroll animation, and bottom action bar.
+  - Preserved critical code references asserted by `cloud_submission_and_routing_test.dart` (`_copySchemeDetails`, `Clipboard.setData`).
   - All tests passing (455 pass, 1 skip, 0 fail), `spacing_scale_test.dart` passes with 0 violations, `flutter analyze` clean with 0 issues.
-- [ ] **Monolithic screens remaining** — `scheme_details_screen.dart` (1,173 lines remaining), and `categories_screen.dart` (2,067 lines remaining).
+- [ ] **Monolithic screens remaining** — `categories_screen.dart` (2,067 lines remaining).
 - [x] **C6 `centralized_translator.dart`** (1055 → 369 l, dictionary → JSON asset) — **DONE** (2026-09-11). Extracted 93 tags, 428 phrases, 141 terms (~800 lines of hardcoded static maps) into `assets/catalog/translation_dictionary.json` (74.8 KB); added async `ensureLoaded()` with sync `File` fallback for tests/VM; pre-sorted phrases and terms upon loading to eliminate per-call allocation and sort overhead; preloaded during app bootstrap in `main.dart`; verified with `test/translation_dictionary_parity_test.dart`; analyze clean, 448/1/0 tests pass.
 - [x] **C7 `scheme_understanding_engine.dart` (1334 → 1175 l) + `mss_scheme_adapter.dart` (1042 → 215 l)** — **Phase 1 & Phase 2 DONE** (2026-09-11).
   - **Phase 1**: Extracted 9 decoupled data models & engine interfaces into `services/search/scheme_understanding_models.dart` with re-export shim in `scheme_understanding_engine.dart` (0 caller changes); created characterization test suite `test/mss_scheme_adapter_characterization_test.dart` (7 tests covering PMEGP canonical mapping, graph authorities/institutions, benefits metrics, closed status, sparse entity fallbacks, document checklists, and application steps); full suite 455/1/0 tests pass; smoke-tested on live `emulator-5554`.
