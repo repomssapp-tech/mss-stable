@@ -8,7 +8,6 @@ import '../../l10n/l10n.dart';
 import '../../models/scheme_model.dart';
 import '../../providers/app_state_provider.dart';
 import '../../services/chat/chat_log_service.dart';
-import '../../services/search/intelligent_scheme_search.dart';
 import '../../services/search/scheme_understanding_engine.dart';
 import '../../services/voice/assistant_session_controller.dart';
 import '../../services/voice/livekit_voice_agent_controller.dart';
@@ -19,8 +18,10 @@ import '../../utils/app_spacing.dart';
 import 'saarthi_home/saarthi_bottom_panel.dart';
 import 'saarthi_home/saarthi_character_header.dart';
 import 'saarthi_home/saarthi_home_models.dart';
+import 'saarthi_home/saarthi_response_helpers.dart';
 import 'saarthi_home/saarthi_top_bar.dart';
 import 'saarthi_home/saarthi_transcript_view.dart';
+import 'saarthi_home/saarthi_voice_animations.dart';
 import 'saarthi_message.dart';
 
 export 'saarthi_message.dart';
@@ -52,8 +53,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   StreamSubscription<VoiceAgentEvent>? _voiceAgentEvents;
 
   // Animation controllers
-  late final AnimationController _pulseController;
-  late final AnimationController _waveController;
+  late final SaarthiVoiceAnimations _voiceAnimations;
   late final ValueNotifier<double> _soundLevel;
 
   // Internal states
@@ -87,17 +87,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
       onDetach: _syncChatSession,
     );
     // Initialize animation controllers immediately for vsync
-    _pulseController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 800),
-      lowerBound: 0.82,
-      upperBound: 1.0,
-      value: 1.0,
-    );
-    _waveController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 900),
-    );
+    _voiceAnimations = SaarthiVoiceAnimations(this);
     _soundLevel = ValueNotifier<double>(0.1);
   }
 
@@ -114,8 +104,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
       unawaited(_recognitionController.dispose());
       unawaited(_speechOutputController.dispose());
     }
-    _pulseController.dispose();
-    _waveController.dispose();
+    _voiceAnimations.dispose();
     _soundLevel.dispose();
     _scrollController.dispose();
     super.dispose();
@@ -256,24 +245,11 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
     if (!mounted || _usingCloudVoice) return;
     setState(() {
       _voiceState = SaarthiVoiceState.idle;
-      _cloudConnectionError = _cloudErrorMessage(lastError);
+      _cloudConnectionError = SaarthiResponseHelpers.cloudErrorMessage(
+        context,
+        lastError,
+      );
     });
-  }
-
-  String _cloudErrorMessage(Object? error) {
-    final l10n = context.l10n;
-    final detail = error?.toString().toLowerCase() ?? '';
-    if (detail.contains('sign in') ||
-        detail.contains('401') ||
-        detail.contains('session')) {
-      return l10n.saarthiCloudErrorSignIn;
-    }
-    if (detail.contains('network') ||
-        detail.contains('socket') ||
-        detail.contains('host lookup')) {
-      return l10n.saarthiCloudErrorNetwork;
-    }
-    return l10n.saarthiCloudErrorGeneric;
   }
 
   void _handleCloudAgentChanged() {
@@ -326,14 +302,13 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
           .map((message) => message.text.trim())
           .where((text) => text.isNotEmpty)
           .toList(growable: false);
-      final recentQuery = userTurns
-          .skip(math.max(0, userTurns.length - 3))
-          .join(' ');
-      final schemes = IntelligentSchemeSearch.rank(
-        recentQuery,
-        catalogMatches,
-        limit: 3,
-      ).map((match) => match.scheme).toList(growable: false);
+      final schemes = SaarthiResponseHelpers.rankCloudSchemeResults(
+        results: results,
+        catalogMatches: catalogMatches,
+        recentUserTurns: userTurns
+            .skip(math.max(0, userTurns.length - 3))
+            .toList(growable: false),
+      );
       if (schemes.isEmpty) return;
       final index = cloudSchemeResultTargetIndex(_messages);
       if (index < 0) {
@@ -614,7 +589,11 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
     } else if (state.phase == AssistantSessionPhase.asking &&
         state.question != null) {
       final question = state.question!;
-      final questionText = _questionText(state, question);
+      final questionText = SaarthiResponseHelpers.questionText(
+        context,
+        state,
+        question,
+      );
 
       final turnKey = 'asking|${state.questionsAsked}|${question.factKey.name}';
       if (_lastSpokenTurn != turnKey) {
@@ -773,22 +752,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   void _setListeningAnimations(bool listening) {
     final reduceMotion =
         MediaQuery.maybeOf(context)?.disableAnimations ?? false;
-    if (reduceMotion) {
-      _pulseController.stop();
-      _pulseController.value = 1.0;
-      _waveController.stop();
-      _waveController.value = 0.0;
-      return;
-    }
-    if (listening) {
-      if (!_pulseController.isAnimating) _pulseController.repeat(reverse: true);
-      if (!_waveController.isAnimating) _waveController.repeat();
-    } else {
-      _pulseController.stop();
-      _pulseController.value = 1.0;
-      _waveController.stop();
-      _waveController.value = 0.0;
-    }
+    _voiceAnimations.setListening(listening, reduceMotion: reduceMotion);
   }
 
   void _handleStatus(String status) {
@@ -875,33 +839,6 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
     }
   }
 
-  String _questionText(AssistantSessionState state, FollowUpQuestion question) {
-    if (RegExp(r'[\u0B80-\u0BFF]').hasMatch(state.statement)) {
-      return question.tamil;
-    }
-    if (!state.isTamil) return question.english;
-    final l10n = context.l10n;
-    // TODO(review-tamil-register): confirm the polite spoken register of these
-    // voice-agent prompts with a native reviewer before release.
-    return switch (question.factKey) {
-      EligibilityFactKey.age => l10n.saarthiQAge,
-      EligibilityFactKey.state => l10n.saarthiQState,
-      EligibilityFactKey.district => l10n.saarthiQDistrict,
-      EligibilityFactKey.annualIncome => l10n.saarthiQIncome,
-      EligibilityFactKey.gender => l10n.saarthiQGender,
-      EligibilityFactKey.community => l10n.saarthiQCommunity,
-      EligibilityFactKey.occupation => l10n.saarthiQOccupation,
-      EligibilityFactKey.education => l10n.saarthiQEducation,
-      EligibilityFactKey.disability => l10n.saarthiQDisability,
-      EligibilityFactKey.maritalStatus => l10n.saarthiQMaritalStatus,
-      EligibilityFactKey.studentStatus => l10n.saarthiQIsStudent,
-      EligibilityFactKey.businessStage => l10n.saarthiQBusinessStage,
-      EligibilityFactKey.businessSector => l10n.saarthiQBusinessSector,
-      EligibilityFactKey.fundingNeed => l10n.saarthiQFundingNeed,
-      EligibilityFactKey.landholding => l10n.saarthiQLandholding,
-    };
-  }
-
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
@@ -950,7 +887,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
                         scrollController: _scrollController,
                         isUserScrolling: _isUserScrolling,
                         onScrollToLatest: _scrollToLatest,
-                        waveController: _waveController,
+                        waveController: _voiceAnimations.waveController,
                         voiceStatusText: SaarthiHomeHelpers.voiceStatusText(
                           context,
                           _voiceState,

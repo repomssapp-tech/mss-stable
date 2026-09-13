@@ -63,8 +63,12 @@ void main() {
     }
 
     test('completion flag is finalized after startup profile upsert', () {
+      // Relocated from app_state_provider.dart to
+      // providers/controllers/profile_cloud_sync.dart during the
+      // decomposition follow-up (docs/audit/AUDIT.md) — same logic, same
+      // order, new file.
       final source = File(
-        'lib/providers/app_state_provider.dart',
+        'lib/providers/controllers/profile_cloud_sync.dart',
       ).readAsStringSync();
       final stagedIndex = source.indexOf('final stagedProfile');
       final startupIndex = source.indexOf(

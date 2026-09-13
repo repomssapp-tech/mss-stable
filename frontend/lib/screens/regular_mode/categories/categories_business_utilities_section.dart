@@ -17,7 +17,12 @@ class CategoriesBusinessUtilitiesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<AppProvider>(context, listen: false);
+    // Must listen: this widget is instantiated `const` by its parent
+    // (categories_screen.dart), so without an InheritedWidget dependency
+    // here it would never rebuild on a language change -- a `listen: false`
+    // read here previously went stale indefinitely (bug: Discover's
+    // "Business Utilities & Tools" kept rendering in the old language).
+    final provider = Provider.of<AppProvider>(context);
     final isTa = provider.selectedLanguage == 'ta';
 
     return Column(

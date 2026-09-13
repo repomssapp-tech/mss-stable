@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/app_state_provider.dart';
 import '../../l10n/l10n.dart';
-import '../../utils/permission_helper.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/app_theme.dart';
 import '../../widgets/common/app_toast.dart';
 import '../../widgets/legal/data_processing_consent_modal.dart';
-import '../../utils/responsive.dart';
 import '../navigation_mode_screen.dart';
 import '../../main.dart';
+import 'basic_profile/location_geocoding.dart';
+import 'basic_profile/profile_continue_button.dart';
+import 'basic_profile/profile_progress_indicator.dart';
 import 'basic_profile/step1_basic_details_form.dart';
 import 'basic_profile/step2_location_form.dart';
 import 'basic_profile/step3_about_you_form.dart';
@@ -43,10 +42,8 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   late int _currentStep;
 
   // Theme Constants
-  static const Color kPrimaryBlue = Color(0xFF2563EB);
   static const Color kSlate900 = Color(0xFF0F172A);
   static const Color kSlate800 = Color(0xFF1E293B);
-  static const Color kBorderGrey = Color(0xFFE2E8F0);
 
   // --- Step 1: Basic Details Controllers & State ---
   late final TextEditingController _nameController;
@@ -236,85 +233,18 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   static String? _roleIdFromEmploymentStatus(String status) =>
       Step3AboutYouForm.roleIdFromEmploymentStatus(status);
 
-  // Geocoding live fetch for Step 2
-  Future<void> _fetchAndGeocodeLocation() async {
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) return;
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      if (mounted) {
-        await showLocationServiceOffDialog(context);
-      }
-      return;
-    }
-
-    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      if (mounted) {
-        await showLocationServiceOffDialog(context);
-      }
-      return;
-    }
-
-    setState(() {
-      _isLoadingLocation = true;
-    });
-
-    try {
-      Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-        timeLimit: const Duration(seconds: 5),
+  // Geocoding live fetch for Step 2 -- see basic_profile/location_geocoding.dart
+  Future<void> _fetchAndGeocodeLocation() => fetchAndGeocodeLocation(
+        context: context,
+        addressController: _addressController,
+        cityController: _cityController,
+        districtController: _districtController,
+        stateController: _stateController,
+        isMounted: () => mounted,
+        setLoading: (loading) {
+          if (mounted) setState(() => _isLoadingLocation = loading);
+        },
       );
-
-      List<Placemark> placemarks = await placemarkFromCoordinates(
-        position.latitude,
-        position.longitude,
-      );
-
-      if (placemarks.isNotEmpty) {
-        Placemark place = placemarks.first;
-        setState(() {
-          final addressParts = <String>[];
-          if (place.subThoroughfare != null &&
-              place.subThoroughfare!.isNotEmpty) {
-            addressParts.add(place.subThoroughfare!);
-          }
-          if (place.thoroughfare != null && place.thoroughfare!.isNotEmpty) {
-            addressParts.add(place.thoroughfare!);
-          }
-          if (place.subLocality != null && place.subLocality!.isNotEmpty) {
-            addressParts.add(place.subLocality!);
-          }
-          if (addressParts.isNotEmpty) {
-            _addressController.text = addressParts.join(', ');
-          } else if ((place.street ?? '').isNotEmpty) {
-            _addressController.text = place.street!;
-          }
-
-          _cityController.text = place.locality ?? place.subLocality ?? '';
-          _districtController.text =
-              place.subAdministrativeArea ?? place.locality ?? '';
-          _stateController.text = place.administrativeArea ?? '';
-        });
-      }
-    } catch (e) {
-      if (mounted) {
-        AppToast.showError(
-          context,
-          context.l10n.profileErrLocationFetchFailed,
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoadingLocation = false;
-        });
-      }
-    }
-  }
 
   void _handleBack() {
     if (_currentStep > 1) {
@@ -550,17 +480,12 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              // 1. Static 4-segment Stepper
-                              _buildStepper(_currentStep),
+                              // 1. Static Stepper + Progress Fraction
+                              ProfileProgressIndicator(
+                                  currentStep: _currentStep),
                               const SizedBox(height: AppSpacing.sm),
 
-                              // 2. Static Progress Fraction
-                              Center(
-                                child: _buildProgressFraction(_currentStep),
-                              ),
-                              const SizedBox(height: AppSpacing.sm),
-
-                              // 3. Scrollable Form Content (Only forms scroll and change!)
+                              // 2. Scrollable Form Content (Only forms scroll and change!)
                               Expanded(
                                 child: SingleChildScrollView(
                                   physics: const ClampingScrollPhysics(),
@@ -570,68 +495,16 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
 
                               const SizedBox(height: AppSpacing.md),
 
-                              // 4. Static Continue Button
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      (_currentStep == 1 &&
-                                              !_hasConsentedDataProcessing)
-                                          ? Colors.grey.shade300
-                                          : (_currentStep == 2 && !_isStep2Valid)
-                                          ? Colors.grey.shade300
-                                          : (_currentStep == 3 &&
-                                                  _selectedRole == null)
-                                              ? Colors.grey.shade300
-                                              : (_currentStep == 4 &&
-                                                      !_isStep4Valid)
-                                                  ? Colors.grey.shade300
-                                                  : kPrimaryBlue,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  minimumSize: const Size.fromHeight(52),
-                                  elevation: 0,
-                                ),
-                                onPressed:
-                                    _isSubmitting ? null : _handleContinue,
-                                child: _isSubmitting
-                                    ? const SizedBox(
-                                        width: 22,
-                                        height: 22,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2.5,
-                                          color: Colors.white,
-                                        ),
-                                      )
-                                    : Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Flexible(
-                                            child: FitOneLine(
-                                              child: Text(
-                                                _currentStep == 4
-                                                    ? l10n.completeProfile
-                                                    : l10n.navContinueButton,
-                                                style: GoogleFonts.inter(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          if (_currentStep < 4) ...[
-                                            const SizedBox(
-                                                width: AppSpacing.xs),
-                                            const Icon(
-                                              Icons.arrow_forward_rounded,
-                                              size: 18,
-                                              color: Colors.white,
-                                            ),
-                                          ],
-                                        ],
-                                      ),
+                              // 3. Static Continue Button
+                              ProfileContinueButton(
+                                currentStep: _currentStep,
+                                isSubmitting: _isSubmitting,
+                                hasConsentedDataProcessing:
+                                    _hasConsentedDataProcessing,
+                                isStep2Valid: _isStep2Valid,
+                                selectedRole: _selectedRole,
+                                isStep4Valid: _isStep4Valid,
+                                onPressed: _handleContinue,
                               ),
                             ],
                           ),
@@ -644,51 +517,6 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  // --- Static Stepper & Progress Fraction ---
-
-  Widget _buildStepper(int step) {
-    return Row(
-      children: [
-        Expanded(child: _buildProgressSegment(step >= 1)),
-        const SizedBox(width: AppSpacing.xs),
-        Expanded(child: _buildProgressSegment(step >= 2)),
-        const SizedBox(width: AppSpacing.xs),
-        Expanded(child: _buildProgressSegment(step >= 3)),
-        const SizedBox(width: AppSpacing.xs),
-        Expanded(child: _buildProgressSegment(step >= 4)),
-      ],
-    );
-  }
-
-  Widget _buildProgressSegment(bool isCompleted) {
-    return Container(
-      height: 6,
-      decoration: BoxDecoration(
-        color: isCompleted ? kPrimaryBlue : kBorderGrey,
-        borderRadius: BorderRadius.circular(3),
-      ),
-    );
-  }
-
-  Widget _buildProgressFraction(int step) {
-    final l10n = context.l10n;
-    final text = switch (step) {
-      1 => l10n.step1Of4,
-      2 => l10n.step2Of4,
-      3 => l10n.step3Of4,
-      4 => l10n.step4Of4,
-      _ => l10n.step1Of4,
-    };
-    return Text(
-      text,
-      style: GoogleFonts.inter(
-        fontSize: 13,
-        fontWeight: FontWeight.w600,
-        color: kPrimaryBlue,
       ),
     );
   }

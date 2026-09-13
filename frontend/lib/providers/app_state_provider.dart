@@ -13,8 +13,12 @@ import '../services/account/session_cache_service.dart';
 import '../screens/splash_screen.dart';
 import '../widgets/common/app_toast.dart';
 import 'app_state_seed_data.dart';
+import 'controllers/language_reconciler.dart';
 import 'controllers/library_controller.dart';
+import 'controllers/navigation_mode_reconciler.dart';
 import 'controllers/notifications_controller.dart';
+import 'controllers/profile_cloud_sync.dart' as profile_cloud_sync;
+import 'controllers/profile_completion.dart' as profile_completion;
 import 'controllers/promo_content_controller.dart';
 import 'controllers/scheme_catalog_controller.dart';
 import 'controllers/search_filter_controller.dart';
@@ -70,12 +74,12 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   bool _isLoggingOut = false;
   String _mobileNumber = '';
   String _selectedLanguage = 'en'; // 'en', 'ta'
-  // After an explicit changeLanguage(), the just-chosen value and when it was
-  // set. A realtime echo or a not-yet-updated profile row can still carry the
-  // OLD language for a moment; _reconcileServerLanguage() ignores a server
-  // value that contradicts this choice within a short window.
-  String? _pendingLanguage;
-  DateTime? _pendingLanguageSince;
+  // Ignores a server language value that contradicts a just-made explicit
+  // changeLanguage() choice for a short window (a realtime echo or a
+  // not-yet-updated profile row can still carry the OLD language briefly).
+  final LanguageReconciler _languageReconciler = LanguageReconciler();
+  final NavigationModeReconciler _navigationModeReconciler =
+      NavigationModeReconciler();
   String _navigationMode = 'regular'; // 'regular', 'companion'
   UserProfile _profile = UserProfile();
 
@@ -173,11 +177,14 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
                   dbProfile.employmentStatus != _profile.employmentStatus ||
                   dbProfile.profileCompleted != _profile.profileCompleted) {
                 _profile = _profile.mergeFrom(dbProfile);
-                _selectedLanguage = _reconcileServerLanguage(
+                _selectedLanguage = _languageReconciler.reconcile(
                   dbProfile.language,
                 );
                 _profile = _profile.copyWith(language: _selectedLanguage);
-                _navigationMode = dbProfile.navigationMode;
+                _navigationMode = _navigationModeReconciler.reconcile(
+                  dbProfile.navigationMode,
+                );
+                _profile = _profile.copyWith(navigationMode: _navigationMode);
 
                 _catalog.recomputeRecommendations(_profile);
                 fetchPromoAlerts();
@@ -234,7 +241,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           final dbProfile = await SchemeRepository.instance.getProfile(user.id);
           if (dbProfile != null) {
             _profile = _profile.mergeFrom(dbProfile);
-            _selectedLanguage = _reconcileServerLanguage(dbProfile.language);
+            _selectedLanguage = _languageReconciler.reconcile(dbProfile.language);
             _profile = _profile.copyWith(language: _selectedLanguage);
             _navigationMode = dbProfile.navigationMode;
             // Persist the merged (most complete) profile locally, and push
@@ -498,75 +505,11 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     await SessionCacheService.instance.saveProfile(_profile);
   }
 
-  Future<void> _syncProfileToSupabase(UserProfile profileToSync) async {
-    if (!_isLoggedIn) {
-      throw StateError('Sign in is required before saving profile data.');
-    }
-    final user = Supabase.instance.client.auth.currentUser;
-    if (user == null) {
-      throw StateError('Your session expired. Please sign in again.');
-    }
-
-    final cloudProfile = profileToSync.copyWith(googleUserId: user.id);
-    debugPrint('[AppProvider] Syncing profile to Supabase...');
-    // Keep the completion flag false until every related cloud write succeeds.
-    // The initial upsert also guarantees the startup_profiles foreign-key
-    // parent exists for first-time users.
-    final stagedProfile = cloudProfile.profileCompleted
-        ? cloudProfile.copyWith(profileCompleted: false)
-        : cloudProfile;
-    await SchemeRepository.instance.createProfile(stagedProfile);
-
-    // Sync startup_profiles table so the collected applicant/business fields
-    // are committed in the same submission before the UI moves forward.
-    final existingStartups = await Supabase.instance.client
-        .from('startup_profiles')
-        .select('id')
-        .eq('user_id', user.id)
-        .limit(1);
-
-    // Only touch startup_profiles when the user has actually given business
-    // data -- no more writing 'Technology' / 'Idea' / 'Student' placeholders
-    // that then round-trip back as if they were real answers.
-    final hasBusinessData =
-        cloudProfile.businessIndustry.trim().isNotEmpty ||
-        cloudProfile.businessStage.trim().isNotEmpty ||
-        cloudProfile.existingBusiness ||
-        cloudProfile.fundingRequired > 0 ||
-        cloudProfile.registrationNumbers.trim().isNotEmpty;
-
-    if (hasBusinessData) {
-      final Map<String, dynamic> startupData = {
-        'user_id': user.id,
-        'profile_name': '${cloudProfile.name} Business',
-        'industry': cloudProfile.businessIndustry.trim().isNotEmpty
-            ? cloudProfile.businessIndustry
-            : 'Unspecified',
-        'applicant_type': cloudProfile.employmentStatus.trim().isNotEmpty
-            ? cloudProfile.employmentStatus
-            : 'Unspecified',
-        'business_stage': cloudProfile.businessStage.trim().isNotEmpty
-            ? cloudProfile.businessStage
-            : 'Unspecified',
-        'business_registered': cloudProfile.existingBusiness,
-        'funding_required_amount': cloudProfile.fundingRequired,
-        'registration_numbers': cloudProfile.registrationNumbers,
-        'is_first_generation_entrepreneur': cloudProfile.firstGenGraduate,
-        'is_active': true,
-      };
-      if (existingStartups.isNotEmpty) {
-        startupData['id'] = existingStartups.first['id'];
-      }
-      await Supabase.instance.client
-          .from('startup_profiles')
-          .upsert(startupData);
-    }
-
-    if (cloudProfile.profileCompleted) {
-      await SchemeRepository.instance.createProfile(cloudProfile);
-    }
-    debugPrint('[AppProvider] Supabase profile sync completed.');
-  }
+  Future<void> _syncProfileToSupabase(UserProfile profileToSync) =>
+      profile_cloud_sync.syncProfileToSupabase(
+        profileToSync,
+        isLoggedIn: _isLoggedIn,
+      );
 
   void _syncProfileToSupabaseInBackground(UserProfile profileToSync) {
     unawaited(
@@ -576,43 +519,18 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     );
   }
 
-  /// Resolve the language to apply when a server profile row / realtime echo
-  /// arrives. If the user just switched language explicitly, a server value
-  /// that still shows the OLD language is a stale echo — keep the user's
-  /// choice for a short window. Once the server agrees (or the window lapses)
-  /// go back to trusting it.
-  String _reconcileServerLanguage(String serverLang) {
-    final pending = _pendingLanguage;
-    final since = _pendingLanguageSince;
-    if (pending == null || since == null) return serverLang;
-    if (serverLang == pending) {
-      _pendingLanguage = null;
-      _pendingLanguageSince = null;
-      return serverLang;
-    }
-    if (DateTime.now().difference(since) < const Duration(seconds: 20)) {
-      return pending;
-    }
-    _pendingLanguage = null;
-    _pendingLanguageSince = null;
-    return serverLang;
-  }
-
   @visibleForTesting
-  void debugMarkLanguagePending(String lang) {
-    _pendingLanguage = lang;
-    _pendingLanguageSince = DateTime.now();
-  }
+  void debugMarkLanguagePending(String lang) =>
+      _languageReconciler.markPending(lang);
 
   @visibleForTesting
   String debugReconcileServerLanguage(String serverLang) =>
-      _reconcileServerLanguage(serverLang);
+      _languageReconciler.reconcile(serverLang);
 
   // Setters & Actions
   Future<void> changeLanguage(String lang) async {
     _selectedLanguage = lang;
-    _pendingLanguage = lang;
-    _pendingLanguageSince = DateTime.now();
+    _languageReconciler.markPending(lang);
     _profile = _profile.copyWith(language: lang, updatedAt: DateTime.now());
     await loadSchemes(forceRefresh: true);
     notifyListeners();
@@ -624,6 +542,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
   Future<void> changeNavigationMode(String mode) async {
     _navigationMode = mode;
+    _navigationModeReconciler.markPending(mode);
     _profile = _profile.copyWith(
       navigationMode: mode,
       updatedAt: DateTime.now(),
@@ -666,7 +585,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     final dbProfile = await SchemeRepository.instance.getProfile(user.id);
     if (dbProfile != null) {
       _profile = _profile.mergeFrom(dbProfile);
-      _selectedLanguage = _reconcileServerLanguage(dbProfile.language);
+      _selectedLanguage = _languageReconciler.reconcile(dbProfile.language);
       _profile = _profile.copyWith(language: _selectedLanguage);
       _navigationMode = dbProfile.navigationMode;
 
@@ -715,9 +634,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _isLoggedIn = false;
     _mobileNumber = '';
     _selectedLanguage = 'en';
-    _pendingLanguage = null;
-    _pendingLanguageSince = null;
+    _languageReconciler.reset();
     _navigationMode = 'regular';
+    _navigationModeReconciler.reset();
     _profile = UserProfile();
     _library.reset();
     _tabs.reset();
@@ -779,9 +698,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _isLoggedIn = false;
     _mobileNumber = '';
     _selectedLanguage = 'en';
-    _pendingLanguage = null;
-    _pendingLanguageSince = null;
+    _languageReconciler.reset();
     _navigationMode = 'regular';
+    _navigationModeReconciler.reset();
     _profile = UserProfile();
     _library.reset();
     _tabs.reset();
@@ -853,7 +772,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
         if (remoteUpdated.isAfter(localUpdated)) {
           _profile = syncProfile;
-          _selectedLanguage = _reconcileServerLanguage(syncProfile.language);
+          _selectedLanguage = _languageReconciler.reconcile(
+            syncProfile.language,
+          );
           _profile = _profile.copyWith(language: _selectedLanguage);
           _navigationMode = syncProfile.navigationMode;
           await SessionCacheService.instance.saveProfile(_profile);
@@ -927,103 +848,13 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   Future<void> markNotificationsRead(List<String> ids) =>
       _notifications.markNotificationsRead(ids);
 
-  // Completion calculation
-  int get profileCompletionPercentage {
-    final List<bool> checks = [];
+  // Completion calculation — delegates to pure functions in
+  // controllers/profile_completion.dart.
+  int get profileCompletionPercentage =>
+      profile_completion.calculateProfileCompletionPercentage(_profile);
 
-    // Personal Info (5)
-    // Onboarding collects age (persisted as `dob`), not a photo. A profile
-    // photo is optional and never requested in the onboarding flow, so it is
-    // deliberately excluded — including it capped completion at ~95% forever
-    // for anyone who never set one.
-    checks.add(_profile.name.trim().isNotEmpty);
-    checks.add(_profile.mobile.trim().isNotEmpty);
-    checks.add(_profile.email.trim().isNotEmpty);
-    checks.add(_profile.dob != null);
-    checks.add(_profile.gender.trim().isNotEmpty);
-
-    // Address Info (6)
-    checks.add(_profile.house.trim().isNotEmpty);
-    checks.add(_profile.area.trim().isNotEmpty);
-    checks.add(_profile.city.trim().isNotEmpty);
-    checks.add(_profile.district.trim().isNotEmpty);
-    checks.add(_profile.state.trim().isNotEmpty);
-    checks.add(_profile.pinCode.trim().isNotEmpty);
-
-    // Role / Employment (1)
-    checks.add(_profile.employmentStatus.trim().isNotEmpty);
-
-    // Eligibility & Social (Step 4) (4)
-    checks.add(
-      _profile.qualification.trim().isNotEmpty ||
-          _profile.educationLevel.trim().isNotEmpty,
-    );
-    checks.add(_profile.community.trim().isNotEmpty);
-    checks.add(_profile.disability == 'Yes' || _profile.disability == 'No');
-
-    // Eligibility Booleans (Income, Veteran, First Gen)
-    // Counted as filled if they completed Step 4
-    final completedStep4 =
-        _profile.qualification.trim().isNotEmpty ||
-        _profile.educationLevel.trim().isNotEmpty;
-    checks.add(completedStep4);
-
-    // Preferences (2)
-    checks.add(_profile.language.trim().isNotEmpty);
-    checks.add(_profile.navigationMode.trim().isNotEmpty);
-
-    // Business (conditional)
-    if (_profile.existingBusiness) {
-      checks.add(_profile.businessStage.trim().isNotEmpty);
-      checks.add(_profile.businessIndustry.trim().isNotEmpty);
-    }
-
-    final total = checks.length;
-    final filled = checks.where((c) => c).length;
-
-    return total == 0 ? 0 : ((filled / total) * 100).round();
-  }
-
-  List<String> get missingProfileSections {
-    final missing = <String>[];
-
-    // Check Basic Details
-    if (_profile.name.trim().isEmpty ||
-        _profile.mobile.trim().isEmpty ||
-        _profile.email.trim().isEmpty ||
-        _profile.dob == null ||
-        _profile.gender.trim().isEmpty) {
-      missing.add('Basic Details');
-    }
-
-    // Address
-    if (_profile.house.trim().isEmpty ||
-        _profile.area.trim().isEmpty ||
-        _profile.state.trim().isEmpty ||
-        _profile.district.trim().isEmpty ||
-        _profile.city.trim().isEmpty ||
-        _profile.pinCode.trim().isEmpty) {
-      missing.add('Address Details');
-    }
-
-    if (_profile.employmentStatus.trim().isEmpty) missing.add('Employment');
-
-    // Eligibility
-    if ((_profile.qualification.trim().isEmpty &&
-            _profile.educationLevel.trim().isEmpty) ||
-        _profile.community.trim().isEmpty ||
-        (_profile.disability != 'Yes' && _profile.disability != 'No')) {
-      missing.add('Eligibility');
-    }
-
-    if (_profile.existingBusiness) {
-      if (_profile.businessStage.trim().isEmpty ||
-          _profile.businessIndustry.trim().isEmpty) {
-        missing.add('Business Details');
-      }
-    }
-    return missing;
-  }
+  List<String> get missingProfileSections =>
+      profile_completion.calculateMissingProfileSections(_profile);
 
   Future<void> updateProfile(
     UserProfile updated, {

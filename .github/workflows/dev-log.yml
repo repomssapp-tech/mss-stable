@@ -1,0 +1,53 @@
+name: Developer Change Log
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  append-dev-log:
+    name: Append merged PR to docs/audit/DEV_LOG.md
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Append log entry
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_USER: ${{ github.event.pull_request.user.login }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          MERGE_DATE: ${{ github.event.pull_request.merged_at }}
+        run: |
+          LOG_FILE="docs/audit/DEV_LOG.md"
+
+          # Pull "## Area" / "## Summary" sections out of the PR body (template in
+          # .github/pull_request_template.md); fall back to the PR title if empty
+          # or if the template wasn't used.
+          AREA=$(printf '%s\n' "$PR_BODY" | awk '/^## Area/{flag=1;next}/^## /{flag=0}flag' | grep -v '^<!--' | grep -v '^-->' | sed '/^\s*$/d' | head -n1 | xargs)
+          SUMMARY=$(printf '%s\n' "$PR_BODY" | awk '/^## Summary/{flag=1;next}/^## /{flag=0}flag' | grep -v '^<!--' | grep -v '^-->' | sed '/^\s*$/d' | head -n1 | xargs)
+
+          AREA="${AREA:-unspecified}"
+          SUMMARY="${SUMMARY:-$PR_TITLE}"
+          DATE="${MERGE_DATE%%T*}"
+
+          ROW="| ${DATE} | ${PR_USER} | #${PR_NUMBER} | ${AREA} | ${SUMMARY} |"
+
+          echo "$ROW" >> "$LOG_FILE"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "$LOG_FILE"
+          git commit -m "docs(devlog): log PR #${PR_NUMBER} by ${PR_USER}"
+          git push origin HEAD:main

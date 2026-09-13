@@ -246,31 +246,36 @@ class Step1BasicDetailsForm extends StatelessWidget {
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 24,
-              height: 24,
-              child: Checkbox(
-                value: hasConsented,
-                activeColor: kPrimaryBlue,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4),
+        // Whole row is one tap target (matches the login screen's consent
+        // row pattern in legal_consent_section.dart) so users don't have to
+        // hit the small 24x24 checkbox glyph precisely -- tapping anywhere
+        // on the row or its label toggles consent.
+        GestureDetector(
+          onTap: () => onConsentChanged(!hasConsented),
+          behavior: HitTestBehavior.opaque,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 24,
+                height: 24,
+                child: Checkbox(
+                  value: hasConsented,
+                  activeColor: kPrimaryBlue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  side: BorderSide(
+                    color: (hasSubmitted && !hasConsented)
+                        ? const Color(0xFFDC2626)
+                        : const Color(0xFF94A3B8),
+                    width: 1.5,
+                  ),
+                  onChanged: (val) => onConsentChanged(val ?? false),
                 ),
-                side: BorderSide(
-                  color: (hasSubmitted && !hasConsented)
-                      ? const Color(0xFFDC2626)
-                      : const Color(0xFF94A3B8),
-                  width: 1.5,
-                ),
-                onChanged: (val) => onConsentChanged(val ?? false),
               ),
-            ),
-            const SizedBox(width: AppSpacing.sm),
-            Expanded(
-              child: GestureDetector(
-                onTap: () => onConsentChanged(!hasConsented),
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(
                 child: Text(
                   l10n.profileConsentCheckboxLabel,
                   style: GoogleFonts.inter(
@@ -280,8 +285,8 @@ class Step1BasicDetailsForm extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         const SizedBox(height: AppSpacing.xs),
         Padding(

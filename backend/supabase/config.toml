@@ -387,9 +387,10 @@ deno_version = 2
 
 # Gateway JWT verification, pinned so a plain `functions deploy` cannot
 # silently regress it. `v1` previously ran with verify_jwt = false, leaving
-# every /v1/* route invokable with no credential at all; the Flutter client
-# now sends apikey + Authorization on every call (see
-# frontend/lib/services/mss_api_client.dart).
+# every /v1/* route invokable with no credential at all. As of the
+# offline-first refactor there is no Flutter caller for `v1` at all (search
+# is served entirely on-device); this stays pinned to true for when a
+# caller (e.g. the Saarthi voice agent) is wired up. See docs/audit/AUDIT.md.
 [functions.v1]
 verify_jwt = true
 

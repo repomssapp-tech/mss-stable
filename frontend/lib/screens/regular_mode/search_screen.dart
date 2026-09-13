@@ -447,6 +447,7 @@ class SearchScreenState extends State<SearchScreen> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => FilterPanel(
+        baseSchemes: _masterSearchResults,
         onApplied: () {
           _applyFiltersAndSort();
         },

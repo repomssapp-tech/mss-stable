@@ -18,10 +18,8 @@ import '../../services/search/scheme_understanding_engine.dart';
 import '../../services/voice/speech_output_controller.dart';
 import '../../services/voice/voice_recognition_controller.dart';
 import '../../services/voice/voice_agent_controller.dart';
-import '../../services/catalog/centralized_translator.dart';
 import '../../services/chat/chat_log_service.dart';
 import '../../l10n/app_localizations.dart';
-import '../../l10n/l10n.dart';
 import '../../utils/app_spacing.dart';
 import 'voice_edge_painter.dart';
 
@@ -29,6 +27,7 @@ export 'voice_edge_painter.dart';
 export 'voice/companion_voice_header.dart';
 export 'voice/regular_voice_backdrop.dart';
 export 'voice/regular_voice_experience.dart';
+export 'voice/voice_fact_dialogs.dart';
 export 'voice/voice_interactive_widgets.dart';
 export 'voice/voice_overlay_models.dart';
 export 'voice/voice_recommendation_cards.dart';
@@ -37,6 +36,7 @@ export 'voice/voice_transcript_widgets.dart';
 import 'voice/companion_voice_header.dart';
 import 'voice/regular_voice_backdrop.dart';
 import 'voice/regular_voice_experience.dart';
+import 'voice/voice_fact_dialogs.dart';
 import 'voice/voice_interactive_widgets.dart';
 import 'voice/voice_overlay_models.dart';
 import 'voice/voice_recommendation_cards.dart';
@@ -1113,49 +1113,11 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
   }
 
   Future<void> _editFact(EligibilityFact fact) async {
-    final controller = TextEditingController(text: fact.value);
-    final value = await showDialog<String>(
+    final value = await showVoiceEditFactDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: const BorderSide(color: Color(0xFFE2E8F0)),
-        ),
-        title: Text(
-          _l10n.voiceEditFact(_factLabel(context, fact.key)),
-          style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
-        ),
-        content: TextField(
-          key: const Key('voice-fact-editor'),
-          controller: controller,
-          autofocus: true,
-          textInputAction: TextInputAction.done,
-          onSubmitted: (value) => Navigator.of(context).pop(value),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            style: TextButton.styleFrom(
-              foregroundColor: const Color(0xFF64748B),
-            ),
-            child: Text(context.l10n.dialogCancel),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(context).pop(controller.text),
-            style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF2563EB),
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            child: Text(CentralizedTranslator.instance.translate('Use value')),
-          ),
-        ],
-      ),
+      l10n: _l10n,
+      fact: fact,
     );
-    controller.dispose();
     if (value != null && mounted) {
       await _sessionController?.editFact(fact.key, value);
     }
@@ -1177,60 +1139,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         )
         .toList(growable: false);
     if (candidates.isEmpty) return;
-    final confirmed = await showDialog<bool>(
+    final confirmed = await showVoiceProfileReviewDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        key: const Key('voice-profile-review'),
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: const BorderSide(color: Color(0xFFE2E8F0)),
-        ),
-        title: Text(
-          _l10n.voiceReviewProfileUpdates,
-          style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
-        ),
-        content: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 360),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: candidates
-                .map(
-                  (fact) => ListTile(
-                    dense: true,
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(_factLabel(context, fact.key)),
-                    subtitle: Text(fact.value),
-                    trailing: const Icon(
-                      Icons.check_circle,
-                      color: Color(0xFF16A34A),
-                    ),
-                  ),
-                )
-                .toList(growable: false),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            style: TextButton.styleFrom(
-              foregroundColor: const Color(0xFF64748B),
-            ),
-            child: Text(_l10n.voiceKeepSessionOnly),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF2563EB),
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            child: Text(_l10n.voiceSaveConfirmed),
-          ),
-        ],
-      ),
+      l10n: _l10n,
+      candidates: candidates,
     );
     if (confirmed != true || !mounted) return;
     for (final fact in candidates) {
@@ -1832,6 +1744,4 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
       setState(() => _message = _l10n.voiceCouldNotOpenSource);
     }
   }
-
-  static const _factLabel = factLabel;
 }

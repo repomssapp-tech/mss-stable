@@ -42,6 +42,9 @@ flutter test
 
 # Run a single test file
 flutter test test/<test_file_name>_test.dart
+
+# Run on connected Android device/emulator
+flutter run -d emulator-5554
 ```
 
 ### Backend (`backend/`)
@@ -51,6 +54,10 @@ npm run supabase:start
 
 # Reset local database and replay migrations
 npm run db:reset
+
+# Test database and run RLS linter
+npm run db:test
+npm run db:lint
 
 # Test Edge Functions & Parity
 npm run functions:test
@@ -103,7 +110,12 @@ uv run pytest -v
    - All PostgreSQL tables in Supabase must have Row Level Security (RLS) enabled.
    - Secrets (`SARVAM_API_KEY`, `LIVEKIT_API_SECRET`, etc.) must never be committed to source control.
 
-7. **Voice AI Agent Standards (`saarthi-agent/`)**:
+7. **Monolithic Decomposition**:
+   - Keep files small, focused, and under ~500 lines — this ceiling applies to the coordinator/entrypoint file **after** decomposition too, not just before it. Extracting sub-widgets into a subdirectory while leaving the parent coordinator at 1000+ lines does not satisfy this rule.
+   - When a screen, widget, or provider grows large, decompose it into focused sub-components under a dedicated subdirectory matching its name (e.g. `screens/regular_mode/home/` for `home_screen.dart`, `providers/controllers/` for `AppProvider` sub-state).
+   - See `docs/audit/AUDIT.md` for files currently over this ceiling.
+
+8. **Voice AI Agent Standards (`saarthi-agent/`)**:
    - Manage dependencies and execution strictly via `uv` (`uv sync`, `uv run pytest`, `uv run ruff`).
    - App code resides under `src/` with `agent.py` as entrypoint; maintain test coverage in `tests/`.
    - Never guess LiveKit APIs or behaviors; verify with official LiveKit CLI (`lk docs`) or docs.

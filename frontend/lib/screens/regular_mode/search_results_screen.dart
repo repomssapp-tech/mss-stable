@@ -97,6 +97,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => FilterPanel(
+        baseSchemes: _baseSchemes,
         onApplied: () {
           setState(() {});
         },

@@ -13,7 +13,14 @@ import '../../utils/app_spacing.dart';
 /// panel and the dead FilterBottomSheet.
 class FilterPanel extends StatefulWidget {
   final VoidCallback? onApplied;
-  const FilterPanel({super.key, this.onApplied});
+
+  /// The scheme list this panel's counts and "Show N schemes" button should
+  /// be scoped to -- e.g. the caller's current text-search results. Falls
+  /// back to the full catalog (`AppProvider.allSchemes`) when the caller has
+  /// no active scope (browsing categories/ministries/states directly).
+  final List<Scheme>? baseSchemes;
+
+  const FilterPanel({super.key, this.onApplied, this.baseSchemes});
 
   @override
   State<FilterPanel> createState() => _FilterPanelState();
@@ -125,7 +132,7 @@ class _FilterPanelState extends State<FilterPanel> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
-    final catalog = provider.allSchemes;
+    final catalog = widget.baseSchemes ?? provider.allSchemes;
     final profileState = provider.profile.state.trim();
 
     if (catalog.length != _countsForLen) {
