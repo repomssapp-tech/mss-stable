@@ -19,7 +19,7 @@ Project ref: `houpzsxmwemoztpuigmo`.
 | Edge fn `livekit-token` | injected `SUPABASE_ANON_KEY` | `SB_PUBLISHABLE_KEY` | publishable | project function secret |
 | Edge fns `recommend` / `schemes-api` / `search` (DEAD) | injected `SUPABASE_ANON_KEY` | `SB_PUBLISHABLE_KEY` | publishable | project function secret |
 | Agent `saarthi-agent` (chat logging) | env `SUPABASE_SERVICE_ROLE_KEY` | `SUPABASE_SECRET_KEY` | secret | `.env.sarvam` -> `lk agent update-secrets` |
-| `backend/scripts/import_catalog.mjs` | `SUPABASE_SECRET_KEY` (already) | `SUPABASE_SECRET_KEY` | secret | `backend/.env` / CI |
+| `backend/scripts/import_catalog.mjs` (superseded) | `SUPABASE_SECRET_KEY` (already) | `SUPABASE_SECRET_KEY` | secret | `docs/archive/superseded-scripts/` |
 | `backend/scripts/benchmark_search_pipeline.mjs` | hardcoded `sb_publishable_...` | `SUPABASE_PUBLISHABLE_KEY` | publishable | `backend/.env` / local |
 | `tools/publish_catalog_release.py` | hardcoded `sb_publishable_...` | `SUPABASE_PUBLISHABLE_KEY` | publishable | `backend/.env` / local |
 

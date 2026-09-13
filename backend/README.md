@@ -10,18 +10,21 @@ taxonomies, and append-only audit storage.
 
 ```text
 backend/
-├── docs/                    Product requirements, ADRs, and API notes
 ├── openapi/openapi.yaml     Draft `/v1` administration and sync contract
+├── catalog/                 Canonical search_taxonomy.json & search_parity_golden.json
 ├── supabase/
-│   ├── functions/           db-change-notify, livekit-token, publishCatalog,
-│   │                        recommend, search, and v1 Edge Functions
-│   ├── migrations/          Forward-only database migrations
+│   ├── functions/           Active Edge Functions: v1, livekit-token, publishCatalog,
+│   │                        rollbackRelease, sarvam-chat, db-change-notify;
+│   │                        Retired (410 GONE): recommend, search
+│   │   └── _shared/         Shared CORS handling and search taxonomy
+│   ├── migrations/          76 forward-only database migrations
 │   ├── seed/                Scheme data and organization fixtures
 │   └── tests/database/      pgTAP schema and RLS tests
-├── voice/                   Offline Tamil ASR benchmark lab
 ├── package.json             Pinned Supabase and OpenAPI tooling
 └── README.md
 ```
+
+Architecture documentation lives at the repository root in `docs/` (e.g. `docs/DATABASE_ARCHITECTURE.md`, `docs/SEARCH_AND_CATALOG_ARCHITECTURE.md`). Offline Tamil ASR research tooling lives at `tools/voice-lab/`.
 
 ## Local database
 
@@ -42,56 +45,41 @@ Stop the local services without deleting their data:
 npm run supabase:stop
 ```
 
-To deploy after linking the intended Supabase project:
+To deploy functions after linking the intended Supabase project:
 
 ```powershell
 npx supabase db push
 npx supabase functions deploy v1
 npx supabase functions deploy livekit-token
 npx supabase functions deploy publishCatalog
+npx supabase functions deploy rollbackRelease
+npx supabase functions deploy sarvam-chat
 npx supabase functions deploy db-change-notify
 ```
 
-`recommend` and `search` are still deployed but are superseded by `v1`; see the
-`(DEAD)` row in `docs/runbooks/CUTOVER.md`. Do not redeploy them without checking that first.
+> **Note:** `recommend` and `search` are retired (`410 GONE`) and superseded by `v1` (see `docs/runbooks/CUTOVER.md`).
 
 ## Published mobile scheme catalog
 
 The relational scheme tables are the editorial source of truth. The mobile app
-reads only a validated, immutable release snapshot and keeps the bundled JSON as
-its factory fallback.
+reads a validated, immutable release snapshot (`1.34.3-alpha`, 219 schemes / 1,220 entities)
+and keeps the bundled JSON (`catalog_bundle.json.gz`) as its factory fallback.
 
-Validate the bundled 217-scheme source before importing it:
+Bundles are compiled by `tools/generate_catalog_bundle.py` and published to the
+Supabase Storage bucket `catalogs` under `releases/<release_version>/catalog_bundle.json.gz`.
 
-```powershell
-npm run catalog:validate
+After publishing an artifact, broadcast the catalog sync notification via the
+`publishCatalog` Edge Function:
+
+```bash
+curl -X POST https://<project-ref>.supabase.co/functions/v1/publishCatalog \
+  -H "Authorization: Bearer $SUPABASE_SECRET_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"releaseTag": "1.34.3-alpha"}'
 ```
 
-For the initial production import, set `SUPABASE_URL` and a server-only
-`SUPABASE_SECRET_KEY`, apply the forward migrations, then run:
-
-```powershell
-npm run catalog:bootstrap
-```
-
-Never put the secret key in Flutter or commit it to a file. The bootstrap keeps
-legacy rows for referential history but marks codes outside the imported catalog
-inactive.
-
-For subsequent edits, use the Supabase Table Editor. After reviewing a complete
-batch, publish one atomic release from the Dashboard SQL editor:
-
-```sql
-select private.publish_scheme_catalog('Describe the catalog update', false);
-```
-
-Publishing refuses empty/invalid catalogs and scheme-count drops greater than
-10 percent. After an intentional large withdrawal, pass `true` as the second
-argument. To roll back without altering release contents:
-
-```sql
-select private.promote_catalog_release('<release-uuid>');
-```
+To roll back to a previous release without altering release contents, invoke the
+`rollbackRelease` Edge Function or call the `public.mss_rollback_release(uuid)` RPC.
 
 ## Administration foundation
 
@@ -107,14 +95,13 @@ production use.
 
 ## Tamil voice lab
 
-The voice package compares Whisper and AI4Bharat Tamil ASR options and includes
-deterministic scheme-vocabulary tests. It is research tooling, not a production
-service. See [`voice/README.md`](voice/README.md) for setup, benchmark results,
-and model limitations.
+Offline Tamil ASR benchmarks (Whisper vs. AI4Bharat) and deterministic
+scheme-vocabulary tests live in `tools/voice-lab/`. See [`tools/voice-lab/README.md`](../tools/voice-lab/README.md)
+for setup, benchmark results, and model limitations.
 
 ## Product status
 
 The administration and offline-sync endpoints in `openapi/openapi.yaml` are a
 draft contract; their Edge Function implementations are future milestones. See
-`docs/decisions/0001-backend-governance-baseline.md` for adopted engineering
-decisions and the product defaults that still require stakeholder approval.
+`docs/DATABASE_ARCHITECTURE.md` and `docs/SEARCH_AND_CATALOG_ARCHITECTURE.md`
+for authoritative system specifications.

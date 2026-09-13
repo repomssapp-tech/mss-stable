@@ -1,0 +1,53 @@
+﻿name: Saarthi Voice Agent CI
+
+on:
+  pull_request:
+    paths:
+      - 'saarthi-agent/**'
+      - '.github/workflows/saarthi-agent.yml'
+  push:
+    branches: [main, 'chore/**', 'feat/**', 'fix/**', 'codex/**']
+    paths:
+      - 'saarthi-agent/**'
+      - '.github/workflows/saarthi-agent.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  lint-and-test:
+    name: Lint & Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: saarthi-agent
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: UV_GIT_LFS=1 uv sync --dev
+
+      - name: Run ruff linter
+        run: uv run ruff check --output-format=github .
+
+      - name: Run ruff formatter check
+        run: uv run ruff format --check --diff .
+
+      - name: Run pytest
+        env:
+          LIVEKIT_URL: "ws://127.0.0.1:7880"
+          LIVEKIT_API_KEY: "test_dev_key"
+          LIVEKIT_API_SECRET: "test_dev_secret_key_mock_safe"
+        run: uv run pytest -v

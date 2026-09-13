@@ -78,14 +78,14 @@ To add Tamil later, populate the existing `localization.ta` fields and replace
 `{"metadata": ..., "data": [...]}` structure, run `uv run pytest`, and deploy
 again. Tamil names and summaries are already included in the search index.
 
-## Supabase chat logging
+## Supabase catalog synchronization
 
-Each conversation turn (user input + agent reply) is written to the Supabase
-`public.chat_logs` table for review. That table denies client reads and only a
-server-side key may write to it, so the agent needs a **secret** Supabase key —
-never a publishable/anon key, and never one shipped in a client.
+The agent's `CatalogSyncService` (`src/catalog_sync.py`) checks for catalog updates
+at startup and periodically (throttled to once per hour via `data/last_sync_check.json`).
+It queries `mss_current_release()` and downloads updated bundles from the `catalogs`
+Storage bucket, verifying SHA-256 integrity before replacing local files.
 
-Add these to the ignored `.env.sarvam` file beside this README:
+Configure these in the ignored `.env.sarvam` file beside this README:
 
 ```dotenv
 SUPABASE_URL=https://<project-ref>.supabase.co
@@ -94,9 +94,8 @@ SUPABASE_SECRET_KEY=sb_secret_...
 
 `SUPABASE_SECRET_KEY` is the new-format secret key. During the API-key migration
 the legacy `SUPABASE_SERVICE_ROLE_KEY` variable is still accepted as a fallback
-(see `docs/runbooks/CUTOVER.md`). If no key is configured, chat logging is
-disabled and the agent logs one clear error on the first turn — voice sessions
-are unaffected.
+(see `docs/runbooks/CUTOVER.md`). If no key is configured, OTA sync is skipped
+and the agent safely falls back to the bundled catalog in `data/`.
 
 Push the secrets to the deployed agent with:
 
@@ -104,24 +103,16 @@ Push the secrets to the deployed agent with:
 lk agent update-secrets --secrets-file .env.sarvam --overwrite
 ```
 
-## LiveKit starter reference
+## LiveKit architecture reference
 
-A complete starter project for building voice AI apps with [LiveKit Agents for Python](https://github.com/livekit/agents) and [LiveKit Cloud](https://cloud.livekit.io/).
+Built with [LiveKit Agents for Python](https://github.com/livekit/agents) and [LiveKit Cloud](https://cloud.livekit.io/):
 
-The starter project includes:
-
-- A simple voice AI assistant, ready for extension and customization
-- A voice AI pipeline built on [LiveKit Inference](https://docs.livekit.io/agents/models/inference), providing zero-configuration access to [models](https://docs.livekit.io/agents/models) from top labs
-  - Uses the fast, open-weight Gemma 4 31B model, [hosted by LiveKit](https://docs.livekit.io/agents/models/llm/livekit/) and tuned for optimal performance in voice AI, as the default LLM
-  - Supports more than 50 models from OpenAI, Cartesia, Deepgram, and other providers
-  - Access to a wide range of other models, including [Realtime models](https://docs.livekit.io/agents/models/realtime), through extensive plugin ecosystem
-- Eval suite based on the LiveKit Agents [testing & evaluation framework](https://docs.livekit.io/agents/start/testing/)
-- [LiveKit Turn Detector](https://docs.livekit.io/agents/logic/turns/turn-detector/), an end-of-turn model that listens to the user's audio directly, combining semantic understanding with acoustic cues for state-of-the-art accuracy across 14 languages
-- [Background voice cancellation](https://docs.livekit.io/transport/media/noise-cancellation/)
-- Deep session insights from LiveKit [Agent Observability](https://docs.livekit.io/deploy/observability/)
-- A Dockerfile ready for [production deployment to LiveKit Cloud](https://docs.livekit.io/deploy/agents/)
-
-This starter app is compatible with any [custom web/mobile frontend](https://docs.livekit.io/frontends/) or [telephony](https://docs.livekit.io/telephony/).
+- Dedicated voice AI assistant tuned for bilingual Tamil and Indian English government scheme navigation
+- Voice AI pipeline powered by Sarvam AI (`saaras:v3` STT, `sarvam-105b-conversations` LLM, `bulbul:v3` TTS)
+- LiveKit Turn Detector combining acoustic cues and semantic understanding
+- ai-coustics Voice Focus background noise suppression
+- Agent Observability and session insights via LiveKit Cloud
+- Containerized deployment using `Dockerfile` via `lk agent deploy`
 
 ## Using coding agents
 

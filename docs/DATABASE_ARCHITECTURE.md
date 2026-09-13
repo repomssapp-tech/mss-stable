@@ -78,7 +78,7 @@ erDiagram
 #### Table: `catalog.scheme`
 * **Description:** Government financial and assistance support schemes master database.
 * **Relational Columns:**
-  - `scheme_code` `TEXT` (Unique) - Reference code (e.g. `'IN001'`).
+  - `scheme_code` `TEXT` - Reference code (e.g. `'IN001'`).
   - `name_en` `TEXT` - English scheme name.
   - `name_ta` `TEXT` - Tamil scheme name.
   - `government_level` `TEXT` - e.g. Central / State / District.
@@ -86,10 +86,10 @@ erDiagram
   - `department` `TEXT` - Issuing department.
   - `state` `TEXT` - Target geographic state.
   - `scheme_type` `TEXT` - e.g. Grant / Subsidy / Loan.
-  - `max_funding_amount` `NUMERIC(15,2)`.
-  - `minimum_funding_amount` `NUMERIC(15,2)`.
+  - `scheme_url` `TEXT` - Official scheme application portal URL (added 2026-09-08).
   - `is_active` `BOOLEAN` - Match availability indicator.
   - `search_keywords` `TEXT`.
+  *(Note: funding range fields are maintained directly within `record_json` and `catalog.finance`).*
 
 #### Table: `catalog.authority`
 * **Description:** Administrative and government ministries or state-level overseeing bodies.
@@ -179,7 +179,7 @@ All 16 `record_json`-carrying `catalog.*` tables (the above 5 plus the ten in §
 ### 3.2. `public` Schema
 
 #### Table: `public.profiles`
-* **Description:** Individual user account preferences and demographics.
+* **Description:** Individual user account preferences, demographics, and scoring attributes.
 
 #### Table: `public.startup_profiles`
 * **Description:** Venture details, sector, development stage, and target requirements.
@@ -187,38 +187,24 @@ All 16 `record_json`-carrying `catalog.*` tables (the above 5 plus the ten in §
 #### Table: `public.saved_schemes`
 * **Description:** Citizen user favorites list mapping to `catalog.scheme(id)`.
 
-#### Table: `public.recent_schemes`
-* **Description:** Audit-log of recently viewed schemes.
+#### Table: `public.voice_chat_sessions`
+* **Description:** Live session telemetry and turn tracking for the Saarthi voice agent (supersedes legacy `chat_logs`, added 2026-09-05).
 
-#### Table: `public.ai_conversations` / `public.ai_messages`
-* **Description:** Thread and message records for natural language search helpers.
+#### Table: `public.support_tickets`
+* **Description:** User feedback and issue reporting with rate-limit protection (added 2026-09-06).
 
-#### Table: `public.sync_history`
-* **Description:** Synchronization logs submitted by client apps.
-* **Columns:**
-  - `id` `UUID`.
-  - `user_id` `UUID` (FK -> `public.profiles(id)`).
-  - `device_id` `TEXT`.
-  - `platform` `TEXT`.
-  - `previous_release_version` `BIGINT`.
-  - `synced_release_version` `BIGINT`.
-  - `status` `TEXT` - `'SUCCESS'`, `'FAILED'`.
-  - `error_message` `TEXT`.
-  - `duration_ms` `INTEGER`.
-
-#### Table: `public.chat_logs`
-* **Description:** Write-only telemetry sink for the saarthi-agent voice/chat assistant -- one row per conversation turn (`conversation_uid`, `turn_index`, `mode` voice/text, `user_message`, `ai_message`, `metadata`). Not the user-facing chat store (that's `ai_conversations`/`ai_messages` above, with real own-row RLS). Formally captured into a migration and locked down 2026-08-28/09-01 (see §5.2) after being found world-readable via the app's own anon key.
+#### Table: `public.beta_gate_config`
+* **Description:** Dynamic feature flags and beta invitation codes (added 2026-09-07).
 
 #### Table: `public.api_rate_limits`
 * **Description:** Persistent, race-safe backing store for `public.mss_check_rate_limit()` -- an atomic `INSERT ... ON CONFLICT DO UPDATE` per `(bucket, identifier)` sliding window, with opportunistic GC on ~1% of calls. `service_role`-only by design (RLS enabled, deliberately zero client policies -- see §5.1). Replaces an earlier in-memory-only limiter that didn't survive Edge Function cold starts.
 
-#### Other `public.*` tables (brief)
-* `public.questionnaire_sessions` / `public.user_responses` / `public.recommendations` -- onboarding questionnaire flow and its derived recommendations, own-row RLS via `startup_profiles.user_id`.
-* `public.questions` / `public.question_options` -- static questionnaire content, public read.
-* `public.notifications`, `public.feedback`, `public.search_logs`, `public.bug_reports`, `public.feature_requests` -- app telemetry/support tables, authenticated-only read (tightened 2026-09-01, see §5.2).
-* `public.organizations`, `public.organization_memberships`, `public.roles`, `public.user_roles`, `public.regions`, `public.user_regions`, `public.departments`, `public.beneficiary_categories`, `public.audit_log` -- an admin/RBAC subsystem (distinct from the `admin.*` schema's publishing-pipeline RBAC) gated by the `private.has_role()` / `private.belongs_to_organization()` helper functions.
+#### Other `public.*` tables & Deprecations
+* `public.notifications` -- app notifications and status alerts, authenticated-only read.
+* `public.organizations`, `public.organization_memberships`, `public.roles`, `public.user_roles`, `public.regions`, `public.user_regions`, `public.departments`, `public.audit_log` -- admin/RBAC subsystem gated by `private.has_role()` / `private.belongs_to_organization()`.
+* **Deprecated tables (prefixed `_deprecated_*` in 2026-09-05 cleanups):** `_deprecated_chat_logs`, `_deprecated_recent_schemes`, `_deprecated_ai_conversations`, `_deprecated_ai_messages`, `_deprecated_sync_history`, `_deprecated_search_logs`, `_deprecated_bug_reports`, `_deprecated_feature_requests`, `_deprecated_user_responses`, `_deprecated_question_options`, `_deprecated_beneficiary_categories`.
 
-> `public.auth_user_id` (a 1-column, no-PK/FK table with no migration and no code reference) existed on the live project from before this reconciliation. Inspected 2026-09-04: exactly 1 orphaned row not matching any current profile, RLS-enabled with zero policies (unreadable regardless). Confirmed dead and dropped.
+> `public.auth_user_id` (a 1-column, no-PK/FK table with no migration and no code reference) existed on the live project from before this reconciliation. Inspected 2026-09-04: confirmed dead and dropped.
 
 ---
 
