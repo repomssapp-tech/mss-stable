@@ -1,149 +1,104 @@
-# MSS App — Data Layer Integration: Handoff Brief
+﻿# CLAUDE.md — Developer Guidance Brief
 
-This file is a handoff brief for continuing the MSS catalog/API data-layer
-integration in Claude Code, directly in this repo. It summarizes what's
-already done, what's verified, what's still open, and hard constraints that
-have applied throughout. A companion phase-by-phase log with full prompt/
-result history lives at
-`C:\Users\roger\OneDrive\Documents\Plan\ANTIGRAVITY_HANDOFF_SESSION_TRACKER.md`
-if you need more detail than this summary — read it if you need the
-blow-by-blow, but this file should be enough to keep working.
+This document serves as the primary guidance for AI coding assistants and developers working in the `MSS_App` repository.
 
-## Two separate workspaces — don't confuse them
+---
 
-- **`C:\Users\roger\OneDrive\Documents\Plan`** — the catalog-engineering
-  workspace. Contains the original data-generation work: scheme
-  verification batches, search benchmarks, localization reports, release
-  audits, and its own copies of `MSS_API_DATA_PACKAGE/` and
-  `MSS_API_INTEGRATION_PACKAGE/`.
-- **This repo (`C:\development\MSS App\MSS_App`)** — the production Flutter
-  app. Contains its own copy of the handoff package at
-  `MSS_ANTIGRAVITY_HANDOFF/`.
+## 🏛️ Monorepo Structure & Key Directories
 
-**Important:** these two locations both have an `API_CONTRACT.md`, and they
-are NOT the same content. `Plan/MSS_API_INTEGRATION_PACKAGE/API_CONTRACT.md`
-is an **older, uncorrected draft** that still marks several endpoints
-`[SPEC]`. The copy already in this repo at
-`MSS_ANTIGRAVITY_HANDOFF/api_docs/API_CONTRACT.md` is the **corrected**
-version — it explicitly documents that those endpoints were verified `[LIVE]`
-against `mss_api_rc1.py` (119/119 tests passing). **Always use the docs
-inside this repo's `MSS_ANTIGRAVITY_HANDOFF/`, not the `Plan/` workspace's
-copies**, if the two ever seem to disagree.
+- **`frontend/`**: Multi-platform Flutter application (Dart 3.5+, Flutter 3.44.2).
+  - `lib/config/`: Routes, theme definitions, and environment config.
+  - `lib/engine/`: Core algorithmic recommendation logic (`recommendation_engine.dart`).
+  - `lib/l10n/`: Localization ARB templates (`app_en.arb`, `app_ta.arb`) and generated classes.
+  - `lib/models/`: Strongly-typed data structures (`scheme_model.dart`, `user_profile.dart`).
+  - `lib/providers/`: State management (`app_state_provider.dart` with dedicated controller sub-modules).
+  - `lib/screens/`: Screen coordinators split by mode (`regular_mode/`, `companion_mode/`, `profile/`, `notifications/`).
+  - `lib/services/`: Service layer partitioned by domain (`catalog/`, `search/`, `voice/`, `account/`, `chat/`, `edge_ai/`).
+  - `lib/utils/`: Design tokens (`app_spacing.dart`), helpers, and global constants.
+  - `lib/widgets/`: Shared UI components organized by category (`buttons/`, `cards/`, `dialogs/`, `inputs/`, `layout/`, `assistant/`).
+  - `assets/catalog/`: Canonical offline scheme catalog (`catalog_bundle.json.gz`, `release.json`).
+  - `test/`: 480+ widget, unit, and characterization tests.
+- **`backend/`**: Supabase infrastructure.
+  - `supabase/migrations/`: Immutable, sequential SQL migrations.
+  - `supabase/functions/`: Deno-based Edge Functions (`sarvam-chat`, `livekit-token`, `publishCatalog`, `db-change-notify`, `v1`, `rollbackRelease`).
+  - `catalog/`: Backend catalog definitions and search taxonomy (`search_taxonomy.json`).
+- **`saarthi-agent/`**: Python LiveKit voice agent worker.
+  - `src/`: Agent entrypoint (`main.py`, `agent.py`) and hybrid search engine.
+  - `tests/`: Pytest suite verifying catalog sync, parity, and voice agent handling.
 
-The catalog *data* itself (`MSS_API_DATA_PACKAGE/*.json`) is verified
-byte-identical between both locations (same `1.33.0-alpha` release,
-checksums match) — no conflict there, just the docs.
+---
 
-## What's already done (Phases 1-6, verified)
+## ⚡ Primary Development Commands
 
-All of this was built phase-by-phase via Antigravity (Gemini Flash), with
-each phase's output checked before moving on. Constraints held throughout:
-no UI/UX changes, no search-ranking changes, no new backend endpoints, no
-Supabase tables/GraphQL created, no catalog source data altered.
+### Flutter Application (`frontend/`)
+```bash
+# Analyze (must be 0 errors, 0 warnings)
+flutter analyze
 
-1. **Investigation** — confirmed app conventions: models in flat
-   `frontend/lib/models/`, `SchemeRepository` (singleton) at
-   `frontend/lib/services/scheme_repository.dart` is the single class all
-   screens call, `package:http` (no dio/chopper) is the HTTP convention.
-2. **API client** — `frontend/lib/services/mss_api_client.dart`. All 15
-   endpoints in `API_ENDPOINT_REFERENCE.md` mapped, returns raw JSON,
-   matches the app's existing `http.Client` injection pattern. `flutter
-   analyze` clean.
-3. **Models** — `frontend/lib/models/mss_contract.dart` +
-   `mss_models.dart` installed (moved from `test/flutter_models/`, which
-   still holds the verification harnesses). 4 real-vs-fixture mismatches
-   found and fixed (notably: `FinanceBenefit.collateral.status` is nested,
-   not flat `collateralStatus`; `/v1/search` wraps results in a `data`
-   envelope). `dart verify_contract.dart` 67/67,
-   `verify_models.dart` 63/63.
-4. **Repository wiring** — `SchemeRepository` now does online-first (via
-   `MssApiClient`) with offline fallback (via `MssCatalogBundle` +
-   `frontend/assets/catalog/catalog_bundle.json.gz`) for all 13 public
-   methods, through `MssSchemeAdapter` (extended, not duplicated) into the
-   existing UI-facing `Scheme` model. Public method signatures unchanged.
-   Non-retryable errors (404/`UNKNOWN_SCHEME`) correctly return
-   not-found instead of silently falling back. New test:
-   `test/flutter_models/verify_repository.dart`, 17/17 passing (actually
-   exercises offline-fallback, online-routing, and the 404 case with
-   mocked HTTP, not just claimed).
-5. **Cleanup** — full-project `flutter analyze`: 0 issues. Deleted 2
-   confirmed-superseded docs (`backend/docs/api_docs.md`,
-   `MSS_Supabase_Database_Architecture_v2.0.md`); everything else audited
-   and correctly left alone.
-6. **Dual-copy architecture spec (docs only, no implementation)** — wrote
-   `MSS_ANTIGRAVITY_HANDOFF/architecture_docs/
-   DUAL_COPY_CATALOG_RELEASE_SPECIFICATION.md` describing the
-   offline-bundle + future-Supabase-copy architecture with hash
-   verification. Did a **read-only** inspection of the real Supabase
-   project (same one used for profiles/auth) — confirmed `catalog.*` and
-   `admin.*` schemas, `public.sync_logs`, and any Storage buckets **do
-   not exist yet** in the live project; only planned in a migration file
-   not yet applied. No tables/rows were created — this was explicitly
-   scoped as read-only.
+# Verify design token compliance (must be 0 violations)
+flutter test test/spacing_scale_test.dart
 
-## Two open issues found (not yet fixed — need a decision or fix)
+# Run entire test suite
+flutter test
 
-### 1. The app is currently 100% offline in practice, silently
+# Run a single test file
+flutter test test/<test_file_name>_test.dart
 
-`MssApiClient.defaultBaseUrl` defaults to `http://localhost:8000`, only
-overridable via `--dart-define=MSS_API_BASE_URL=...`. Grepped the whole
-repo — that dart-define is set **nowhere** (no `.env`, no launch config, no
-CI/build script). So every "online-first" call fails to connect (localhost
-unreachable from any real device/emulator), is classified retryable, and
-silently falls back to the offline bundle. No visible error — it just quietly
-serves `catalog_bundle.json.gz` (969 entities/217 schemes) and the offline
-`IntelligentSchemeSearch.rank()` scorer instead of the real API, always.
-**Needs**: a real backend base URL from the user, and a decision on how to
-configure it (dart-define in the release build command vs. an `.env`
-loaded at startup vs. something else).
+# Run on connected Android device/emulator
+flutter run -d emulator-5554
+```
 
-### 2. The offline bundle is missing 5 of 15 catalog files
+### Backend (`backend/`)
+```bash
+# Start local Supabase containers
+npm run supabase:start
 
-`catalog_bundle.json.gz` only packages 11 of the 15 catalog files present in
-`MSS_ANTIGRAVITY_HANDOFF/data/MSS_API_DATA_PACKAGE/`. Missing entirely:
-`applicability_matrix_catalog.json` (219 records),
-`enterprise_classification_catalog.json` (11),
-`msme_privilege_catalog.json` (1), `business_enablement_catalog.json` (4),
-`cluster_assistance_catalog.json` (10). Combined with issue #1, this means
-`MssApiClient.getClusters()` / `getPrivileges()` and anything relying on
-business-enablement or applicability-matrix data have **zero offline
-fallback** — those UI surfaces show empty whenever the live API isn't
-reachable, which today is always. Also: `manifest.json` says
-`scheme_catalog.json` has 219 records; the bundle's `release.json` says 217
-— a 2-record discrepancy not yet explained.
-**Needs**: regenerate `catalog_bundle.json.gz` from the full 15-file
-package (or decide those 5 catalogs don't need offline support), and
-investigate the 217-vs-219 scheme gap.
+# Reset local database and replay migrations
+npm run db:reset
 
-## Genuinely not-yet-done (gap vs. a broader integration checklist)
+# Test database and run RLS linter
+npm run db:test
+npm run db:lint
 
-A separate, more exhaustive integration checklist (data-integrity tests
-across scheme/finance/tax/cluster reference resolution, a fixed list of
-representative search queries in both `en`/`ta`, a real production build,
-and a formal `MSS_API_FLUTTER_INTEGRATION_REPORT.md` deliverable) has NOT
-been run yet. `verify_repository.dart` covers the core online/offline/
-error-path logic but not that specific broader checklist. If picking this
-up, treat it as the next real task — but skip re-doing Phases 1-6 above,
-they're done and verified.
+# Test Edge Functions
+npm run functions:test
+```
 
-## Standing constraints (still apply to anything further)
+### Saarthi Voice Agent (`saarthi-agent/`)
+```bash
+# Lint and format checks
+uv run ruff check .
+uv run ruff format --check .
 
-> 2026-09-04: the former "no second search/ranking engine in Dart" constraint was
-> removed at the user's explicit direction, to allow an offline-first scheme-discovery
-> refactor that promotes the existing local `HybridSchemeSearch` ranking to be the
-> primary/live path (server-side search remains authoritative only for background
-> catalog sync, not live queries).
+# Run test suite
+uv run pytest -v
+```
 
-- Do not modify UI/UX, layouts, spacing, typography, colors, navigation,
-  or existing screens/cards unless technically required for integration —
-  and if so, document exactly what and why.
-- Do not re-translate catalog content in Flutter — Tamil localization
-  already lives in the catalog data (`localization.ta` fields); consume it,
-  don't regenerate it. Static UI strings (ARB files) are a separate system
-  from dynamic catalog content — don't mix the two.
-- Do not create Supabase tables/migrations/GraphQL unless explicitly
-  authorized for that specific step (the dual-copy Supabase work is
-  design-only so far, confirmed nothing exists live yet).
-- Do not alter verified catalog source data to make integration easier.
-- Preserve protected technical terms (GST, MSME, PMEGP, SIDBI, CGTMSE,
-  TReDS, EMI, DPIIT, etc.) untranslated.
+---
+
+## 🛡️ Architecture Invariants & Coding Standards
+
+1. **Strict Offline-First Data Layer**:
+   - `SchemeRepository` reads from `MssCatalogBundle` (`assets/catalog/catalog_bundle.json.gz`).
+   - Do not introduce synchronous network calls into the primary scheme browsing, search, or recommendation paths.
+   - Catalog updates happen via OTA bundle downloads verified by SHA-256 against `mss_current_release()`.
+
+2. **Design Tokens (`AppSpacing`)**:
+   - Never use raw numeric literals for padding, margins, or SizedBox dimensions (e.g. `EdgeInsets.all(16.0)` or `SizedBox(height: 8.0)`).
+   - Always use semantic tokens from `package:frontend/utils/app_spacing.dart`:
+     - `AppSpacing.xs` (4.0), `AppSpacing.sm` (8.0), `AppSpacing.md` (12.0), `AppSpacing.lg` (16.0), `AppSpacing.xl` (20.0), `AppSpacing.xxl` (24.0), `AppSpacing.v_32` (32.0), etc.
+     - `AppSpacing.gapVerticalSm`, `AppSpacing.gapHorizontalMd`, etc.
+   - Guarded by `test/spacing_scale_test.dart`.
+
+3. **Bilingual Localization (`en` & `ta`)**:
+   - Never hardcode user-visible UI strings in Dart files.
+   - Add keys to both `frontend/lib/l10n/app_en.arb` and `frontend/lib/l10n/app_ta.arb`.
+   - Access via `AppLocalizations.of(context)!.<key>`.
+
+4. **Monolithic Decomposition**:
+   - Keep files small, focused, and under ~500 lines.
+   - When a screen or coordinator grows large, decompose it into focused sub-components under a dedicated subdirectory matching the screen name (e.g. `screens/regular_mode/home/` for `home_screen.dart`).
+
+5. **Security & RLS**:
+   - All PostgreSQL tables in Supabase must have Row Level Security (RLS) enabled.
+   - Secrets (`SARVAM_API_KEY`, `LIVEKIT_API_SECRET`, etc.) must never be committed to source control. Use environment variables or Supabase secrets vault.

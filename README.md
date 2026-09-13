@@ -1,130 +1,160 @@
-# IN Schemes: AI-Powered Government Scheme Recommendation Platform
+﻿# IN Schemes: AI-Powered Government Scheme Platform
 
-An intelligent, self-contained Flutter application designed to bridge the awareness gap and simplify the discovery, eligibility matching, and documentation requirements of Central and State Government schemes for Indian entrepreneurs, women, and students. Developed for launch on **National Entrepreneurs' Day**.
+An intelligent, self-contained multi-platform application designed to simplify the discovery, eligibility verification, and documentation requirements of Central and State Government schemes for Indian entrepreneurs, MSMEs, women, and students.
+
+Built with an **offline-first architecture**, bilingual **English & Tamil (`en`/`ta`)** localization, and an integrated **multilingual voice assistant (Saarthi)** powered by LiveKit and Sarvam AI.
+
+---
+
+## 🏛️ Monorepo Architecture
+
+The repository is structured into three self-contained, production-grade components:
+
+```
+MSS_App/
+├── frontend/             # Flutter Multi-Platform Application (Android, iOS, Web)
+├── backend/              # Supabase Infrastructure (PostgreSQL, RLS, Edge Functions)
+├── saarthi-agent/        # LiveKit Python Multilingual Voice Agent Worker
+├── tools/                # Catalog bundling, seed data, and ML evaluation utilities
+├── docs/                 # System architecture, database schemas, runbooks, and audit logs
+└── .github/workflows/    # Automated CI/CD pipelines (Flutter, Backend, Voice Agent)
+```
 
 ---
 
 ## 🚀 Key Features
 
-- **Language Support:** English & Hindi localization.
-- **Onboarding:** Quick login via mobile number + OTP verification or guest entry.
-- **Collapsible Profile Setup:** Collateral fields (Personal, Location, Community, Education, Income) to build a robust eligibility profile.
-- **Bottom Navigation Hub:** Seamless routing across 5 persistent tabs (Home, Categories, Search, Find Schemes, Profile).
-- **Horizontal Wide Categories Layout:** 22 customized focus area cards (MSME, Startup, Finance, Agriculture, Education, and more).
-- **Smart Filtering & Search:** Real-time text search, popular query tags, voice-command simulation, and detailed multi-criteria filter sheet.
-- **Guided Eligibility Matcher (Find My Schemes):** An interactive 3-step wizard that reviews and commits user answers to recalculate matches.
-- **Ranked Match Engine:** Visual circular percentage badges (e.g. NEEDS 96%) showing compatibility.
-- **Explainability Feed:** Clear, natural language bullet points detailing *why* the applicant is qualified for each scheme.
-- **Required Documents Checklist:** Visual check/warning marks mapping scheme prerequisites (e.g. Aadhaar, Nativity) against user inputs.
-- **Missing Document Assistant:** Directional buttons (e.g., "Get Document") that open deep links directly to official government portals (e.g., NSDL, UIDAI, e-Sevai).
+### 1. Dual User Experience (UX) Modes
+- **Regular Mode**: Standard modern mobile experience featuring 5 persistent navigation tabs:
+  - **Home**: Personalized recommendations, profile completion metrics, MSME support widgets, and trending announcements.
+  - **Search**: 300ms debounced real-time hybrid search with query expansion, multi-attribute filter bottom sheets, and instant facet counting.
+  - **Discover**: State schemes explorer (interactive Tamil Nadu map), central ministries, and 7 business utility calculators (Udyam Classifier, Subsidy Estimator, GST Calculator, EMI Calculator, DPIIT Checklist, Valuation Estimator, and Document Checklist).
+  - **Saved Schemes**: Fast offline access to bookmarked schemes, recently viewed items, and cached eligibility assessments.
+  - **Profile**: Comprehensive eligibility profile management (personal, location, education, community, business details) with Google OAuth account sync.
+- **Companion Mode (Saarthi)**: Simplified, high-contrast, accessibility-focused interface designed for seniors, non-tech-savvy users, and rural entrepreneurs:
+  - Large-target touch cards with prominent voice prompts.
+  - Full Tamil audio guidance and automatic speech recognition.
+  - Streamlined step-by-step questionnaire flow.
+
+### 2. Verified Offline-First Catalog Engine
+- Bundles release **`1.34.3-alpha`** with **219 verified schemes**, **1,220 catalog entities**, and **971 search-indexed profiles** in a compressed gzip archive (`frontend/assets/catalog/catalog_bundle.json.gz`).
+- Guaranteed sub-250ms query evaluation with zero network requests and zero user telemetry leakage.
+- Automatic SHA-256 integrity verification with safe rollback to bundled assets if OTA updates fail.
+- Over-the-air (OTA) catalog updates via Supabase Storage releases without requiring an app store update.
+
+### 3. Intelligent Scheme Understanding & Reasoning
+- **Deterministic Rules Engine**: Offline matching engine analyzing applicant age boundaries, gender restrictions, community categories, income ceilings, landholdings, and occupation criteria.
+- **Explainability**: Plain-language justification for every recommendation explaining *why* the user qualifies.
+- **Interactive Document Checklists**: Prerequisite document tracking (Aadhaar, Udyam, Nativity, Income Certificate) with direct links to official government issuance portals.
+
+### 4. Saarthi Voice Agent (LiveKit + Sarvam AI)
+- Real-time conversational voice assistant supporting English and Tamil.
+- Ultra-low latency voice streaming using WebRTC (LiveKit Cloud).
+- Domain-specific speech recognition (STT) and expressive text-to-speech (TTS) via Sarvam AI.
+- Local on-device fallback for speech recognition and synthesized voice when offline.
 
 ---
 
-## 🛠️ File Structure
+## 🛠️ Technology Stack
 
-The project code is fully localized within the `frontend/` directory:
-
-```
-frontend/
-├── assets/
-│   └── images/
-│       └── splash_screen.png           # Visual brand logo
-├── lib/
-│   ├── main.dart                       # Entry point, theme definitions, and tabs shell
-│   ├── models/
-│   │   ├── scheme_model.dart            # Scheme data structures and Phase 1 seed data
-│   │   └── user_profile.dart            # User profile answers and age computation logic
-│   ├── engine/
-│   │   └── recommendation_engine.dart   # Rules-based eligibility scoring and matching engine
-│   ├── providers/
-│   │   └── app_state_provider.dart      # SharedPreferences persistence and state manager
-│   ├── widgets/                         # Reusable UI components
-│   │   ├── custom_button.dart           # Loading and gradient-supported action buttons
-│   │   ├── category_card.dart           # Wide category cards with emoji icons
-│   │   ├── scheme_card.dart             # Match score gauges and explainability previews
-│   │   ├── filter_panel.dart            # Multi-parameter bottom search sheet
-│   │   └── gradient_scaffold.dart       # Thematic indigo-gradient background layout
-│   └── screens/                         # The 17 core pages of the application
-│       ├── splash_screen.dart           # Brand intro and launch animations
-│       ├── language_selection_screen.dart # English/Hindi locale selector
-│       ├── login_screen.dart            # Phone authentication and guest entry
-│       ├── profile_setup_screen.dart    # Collapsible profile creator
-│       ├── home_screen.dart             # Greeting dashboard, banner, announcements
-│       ├── categories_screen.dart       # List of 22 horizontal category cards
-│       ├── search_screen.dart           # Bar with mic, history, and suggestions
-│       ├── search_results_screen.dart   # List view sorted by score or name
-│       ├── find_my_schemes_screen.dart  # Multi-step guided wizard
-│       ├── eligibility_results_screen.dart # Match results success page
-│       ├── scheme_details_screen.dart   # Tabbed view: overview, checklist, FAQ
-│       ├── saved_schemes_screen.dart    # Bookmarked and recently viewed tabs
-│       ├── notifications_screen.dart    # Deadline and alert cards
-│       ├── profile_screen.dart          # Edit profile, saved schemes, settings navigation
-│       ├── settings_screen.dart         # Preferences toggles, delete account
-│       └── help_support_screen.dart     # General FAQs and ticket feedback submission
-```
+| Layer | Technologies |
+|:---|:---|
+| **Frontend** | Flutter 3.44.2 (Dart 3.5+), Material 3, Provider, Flutter Localizations (ARB) |
+| **Backend** | Supabase (PostgreSQL 15+), Supabase Auth (Google OAuth), PostgREST, Deno Edge Functions |
+| **Voice Agent** | Python 3.12+, LiveKit Agents SDK, Sarvam AI Voice APIs, `uv` Package Manager |
+| **CI / CD** | GitHub Actions (Matrix builds, RLS drift checks, automated function deployments) |
 
 ---
 
-## 🏛️ Sponsoring Schemes Seeded (Phase 1)
-
-1. **NEEDS (New Entrepreneur cum Enterprise Development Scheme - TN):** Supports first-generation graduates starting manufacturing/service projects in Tamil Nadu with up to ₹75 Lakhs (25%) subsidy and 3% interest subvention.
-2. **PMEGP (Prime Minister's Employment Generation Programme - Central):** Micro-enterprise credit-linked subsidies (15-35%) for new units costing up to ₹50 Lakhs.
-3. **Stand-Up India (Central):** Collateral-free greenfield loans between ₹10 Lakhs and ₹1 Crore for women and SC/ST entrepreneurs.
-4. **Mudra Yojana (Central):** Collateral-free micro loans up to ₹10 Lakhs categorized under Shishu, Kishor, and Tarun.
-5. **WEP (Women Entrepreneurship Platform - NITI Aayog):** Aggregator services for mentoring, funding, and incubation networks.
-6. **TREAD (Trade Related Entrepreneurship Assistance - Central):** 30% Government grants routed through NGOs to assist women self-employment.
-7. **Kalaignar Kaivinai Thittam (Tamil Nadu):** Free modern toolkits, training, and welfare benefits for local artisans.
-8. **StartupTN (TANSIM - Tamil Nadu):** TANSEED grants (equity-free, up to ₹15 Lakhs) for innovative, DPIIT-registered startups.
-
----
-
-## 🧮 Recommendation Engine Scoring Rules
-
-The matching score (0-100%) in `recommendation_engine.dart` is computed on-the-fly:
-- **Residency checks:** A score of 0% is assigned to NEEDS, StartupTN, and Kalaignar Kaivinai Thittam if the user's state is not "Tamil Nadu".
-- **Category restrictions:** A score of 0% is assigned to Stand-Up India and TREAD if the user gender is male and community is not SC/ST.
-- **Education thresholds:** A penalty is applied to NEEDS if the user does not hold a college degree/diploma.
-- **Age compliance:** Rules check boundary boxes (e.g. 21-35 for General and 21-45 for Special category in NEEDS).
-- **First-Gen Graduate bonus:** Adds a priority matching increment to the score.
-- **Documentation index:** The matching score is adjusted by the ratio of available documents to required documents to reward users with complete profiles.
-
----
-
-## 💻 How to Compile and Run
+## 💻 Getting Started
 
 ### Prerequisites
-- Flutter SDK (stable channel) installed on your machine.
-- Google Chrome browser (for Web target) or Windows Desktop compilation tools.
-
-### Setup and Launch Commands
-Open your terminal in the `frontend/` directory and execute:
-
-1. **Install and verify dependencies:**
-   ```bash
-   flutter pub get
-   ```
-
-2. **Verify available target devices:**
-   ```bash
-   flutter devices
-   ```
-
-3. **Run the application on Web (Google Chrome):**
-   ```bash
-   flutter run -d chrome
-   ```
-
-4. **Build a production web bundle (optional):**
-   ```bash
-    flutter build web --release
-    ```
+- **Flutter SDK**: 3.44.2 stable ([Installation Guide](https://flutter.dev/docs/get-started/install))
+- **Node.js**: >= 20.19.0 ([nodejs.org](https://nodejs.org/))
+- **Python**: >= 3.10, < 3.15 with `uv` ([astral.sh/uv](https://astral.sh/uv))
+- **Supabase CLI**: Pinned via npm in `backend/`
 
 ---
 
-## 📱 UX & Screen Architecture
+### 1. Running the Flutter App
 
-The detailed user experience design, screen interactions, and navigation flow mapping all 33 screens of the application are documented in the [UX.md](file:///c:/Projects/IN_Schemes/UX.md) specification file. This includes:
-- Authentication & Onboarding flow
-- AI Companion conversational and voice ecosystem
-- Profile completion and progressive eligibility updates
-- Document checklist and OCR assistance workflows
+```bash
+# Navigate to the frontend
+cd frontend
+
+# Fetch dependencies
+flutter pub get
+
+# Run static analysis (must be 0 issues)
+flutter analyze
+
+# Run full automated test suite (480+ tests)
+flutter test
+
+# Launch on connected device or emulator
+flutter run
+```
+
+---
+
+### 2. Running the Backend Locally
+
+```bash
+# Navigate to backend
+cd backend
+
+# Install dependencies (pinned supabase CLI)
+npm ci
+
+# Start local Supabase containers (excluding heavy analytics)
+npm run supabase:start
+
+# Reset and seed local database
+npm run db:reset
+
+# Run database tests and RLS linter
+npm run db:test
+npm run db:lint
+
+# Run Edge Function tests
+npm run functions:test
+```
+
+---
+
+### 3. Running the Saarthi Voice Agent Worker
+
+```bash
+# Navigate to saarthi-agent
+cd saarthi-agent
+
+# Install dependencies using uv
+uv sync --dev
+
+# Run linter and formatter checks
+uv run ruff check .
+uv run ruff format --check .
+
+# Run agent unit tests
+uv run pytest -v
+
+# Start the agent worker locally (requires local or cloud LiveKit server)
+uv run python src/main.py dev
+```
+
+---
+
+## 🧪 Testing & Code Quality Gates
+
+Every commit in this repository enforces strict regression standards:
+
+- **Static Analysis**: `flutter analyze` must report **0 errors and 0 warnings**.
+- **Design Tokens**: `flutter test test/spacing_scale_test.dart` enforces 100% adherence to `AppSpacing` tokens with zero hardcoded visual spacing literals.
+- **Regression Suite**: `flutter test` must pass 100% (480 passed, 0 failed).
+- **Security & RLS**: All PostgreSQL tables must have Row Level Security enabled with automated drift detection via `.github/workflows/rls-drift-check.yml`.
+
+---
+
+## 📄 License & Compliance
+
+All government scheme data bundled in this repository is sourced from verified official Central and State government portals (PIB, MSME, Startup India, and Government of Tamil Nadu). Content is intended for public awareness and entrepreneurship enablement.
