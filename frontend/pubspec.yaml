@@ -54,7 +54,6 @@ dependencies:
   crypto: ^3.0.7
   livekit_client: ^2.8.0
   archive: ^3.6.1
-  llama_flutter_android: 0.2.6
   cached_network_image: ^3.4.1
   flutter_cache_manager: ^3.4.1
 

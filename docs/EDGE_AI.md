@@ -1,8 +1,15 @@
-# Namma Edge AI
+# Namma Edge AI (Archived / Superseded)
 
-The assistant uses a task-specific, quantized Qwen3 0.6B parser on supported
-Android devices. The model extracts intent and unconfirmed eligibility facts;
-the existing deterministic matcher remains authoritative for scheme ranking,
+> [!NOTE]
+> **Status: Formally Retired & Archived**
+> The on-device SLM experimental path (`Qwen3-0.6B`, `llama_flutter_android: 0.2.6`, and `edge_slm_*` services) has been formally retired in favor of the 100% deterministic, rule-based `LocalSchemeUnderstandingEngine` + `HybridSchemeSearch` offline discovery path.
+>
+> The experimental services, tests, and conversion/training tools have been archived under `docs/archive/experimental-edge-slm/`.
+> See `docs/OFFLINE_FIRST_AND_RECOMMENDATION_ARCHITECTURE.md` and `docs/SEARCH_AND_CATALOG_ARCHITECTURE.md` for the active production architecture.
+
+Historically, the assistant explored a task-specific, quantized Qwen3 0.6B parser on supported
+Android devices. The model extracted intent and unconfirmed eligibility facts;
+the existing deterministic matcher remained authoritative for scheme ranking,
 hard exclusions, follow-up selection, and recommendation explanations.
 
 ## Runtime contract

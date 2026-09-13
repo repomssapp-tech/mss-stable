@@ -89,8 +89,19 @@ Reconciled project documentation across the 3-tier monorepo to accurately match 
 
 ---
 
-## 7. Remaining items awaiting product decisions
+## 7. Product decisions resolved (Cleaned Up & Archived)
 
-- Retired `search`/`recommend` edge functions (HTTP 410 GONE) — leave or delete.
-- `edge_slm_*` on-device-SLM experimental code and `llama_flutter_android` dependency — dead-code candidate requiring product sign-off.
+Both discretionary items flagged during the audit have received product sign-off and were cleaned up:
+
+1. **Retired Edge Functions (`backend/supabase/functions/{search,recommend}/`)**:
+   - Archived to `docs/archive/superseded-edge-functions/search/` and `docs/archive/superseded-edge-functions/recommend/` preserving git history.
+   - Removed 410 GONE stubs from active Edge Functions deployment directory.
+
+2. **On-Device SLM Experimental Code (`edge_slm_*` & `llama_flutter_android`)**:
+   - Removed `llama_flutter_android: 0.2.6` dependency from `frontend/pubspec.yaml` and refreshed lockfile.
+   - Removed ~60 lines of OpenMP/NDK runtime copy workarounds from `frontend/android/app/build.gradle.kts`.
+   - Wired `VoiceAssistantOverlay` to default cleanly to `const LocalSchemeUnderstandingEngine()`.
+   - Archived `frontend/lib/services/edge_ai/` services and tests (`edge_slm_understanding_engine_test.dart`, `edge_model_pack_test.dart`) to `docs/archive/experimental-edge-slm/`.
+   - Archived Python edge parser tools (`train_edge_parser.py`, `evaluate_edge_parser.py`, `export_edge_parser.py`, `evaluate_edge_gguf.py`) to `docs/archive/experimental-edge-slm/tools/`.
+   - Updated `docs/EDGE_AI.md` to note formal retirement in favor of rule-based `LocalSchemeUnderstandingEngine` + `HybridSchemeSearch`.
 

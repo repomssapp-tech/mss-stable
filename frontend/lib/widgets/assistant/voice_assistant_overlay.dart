@@ -10,7 +10,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../models/scheme_model.dart';
 import '../../models/user_profile.dart';
 import '../../services/voice/assistant_session_controller.dart';
-import '../../services/edge_ai/edge_slm_understanding_engine.dart';
 import '../../services/search/intelligent_scheme_search.dart';
 import '../../services/voice/livekit_voice_agent_controller.dart';
 import '../../services/search/official_grounded_search.dart';
@@ -99,8 +98,6 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
   late final bool _ownsSessionController;
   late final OfficialGroundedSearch _groundedSearch;
   late final bool _ownsGroundedSearch;
-  bool _ownsUnderstandingEngine = false;
-  EdgeSlmUnderstandingEngine? _edgeSlmEngine;
   VoiceAgentController? _voiceAgentController;
   bool _ownsVoiceAgentController = false;
   StreamSubscription<VoiceAgentEvent>? _voiceAgentEvents;
@@ -263,13 +260,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
       _sessionController = widget.sessionController;
     } else if (widget.schemes.isNotEmpty) {
       final engine =
-          widget.understandingEngine ?? EdgeSlmUnderstandingEngine.standard();
-      _ownsUnderstandingEngine = widget.understandingEngine == null;
-      if (engine is EdgeSlmUnderstandingEngine) {
-        _edgeSlmEngine = engine;
-        engine.addListener(_handleEdgeSlmChanged);
-        unawaited(engine.prepare());
-      }
+          widget.understandingEngine ?? const LocalSchemeUnderstandingEngine();
       _sessionController = AssistantSessionController(
         engine: engine,
         schemes: widget.schemes,
@@ -381,10 +372,6 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     } else if (mounted) {
       setState(() => _voicePhase = _VoiceAssistantPhase.ready);
     }
-  }
-
-  void _handleEdgeSlmChanged() {
-    if (mounted) setState(() {});
   }
 
   void _handleVoiceAgentChanged() {
@@ -1298,10 +1285,6 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     if (_ownsSessionController) _sessionController?.dispose();
     _groundingGeneration++;
     if (_ownsGroundedSearch) _groundedSearch.close();
-    _edgeSlmEngine?.removeListener(_handleEdgeSlmChanged);
-    if (_ownsUnderstandingEngine) {
-      unawaited(_edgeSlmEngine?.close());
-    }
     if (_ownsRecognitionController) {
       unawaited(_recognitionController.dispose());
     } else {
