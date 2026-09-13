@@ -105,3 +105,23 @@ Both discretionary items flagged during the audit have received product sign-off
    - Archived Python edge parser tools (`train_edge_parser.py`, `evaluate_edge_parser.py`, `export_edge_parser.py`, `evaluate_edge_gguf.py`) to `docs/archive/experimental-edge-slm/tools/`.
    - Updated `docs/EDGE_AI.md` to note formal retirement in favor of rule-based `LocalSchemeUnderstandingEngine` + `HybridSchemeSearch`.
 
+---
+
+## 8. Stale & Unused Markdown Documentation Cleanup (Executed 2026-09-13)
+
+Removed 36 unused, obsolete, and historical markdown files across three categories:
+
+1. **Temporary Worklogs & Sprint Notes (`docs/worklog/`)**:
+   - Removed `DEV_2_JOB_ASSIGNMENT.md`, `Search_Index_Count_Bug_Context.md`, `SPACING.md`, `STALE_DOCS.md`, and `WORK_STATUS.md`. Removed empty `docs/worklog/` directory.
+
+2. **Obsolete API & Flutter Handoff Documents (`docs/handoff/`)**:
+   - Removed `api_docs/` (`API_CONTRACT.md`, `API_ENDPOINT_REFERENCE.md`, `ERROR_HANDLING_GUIDE.md`, `LOCALIZATION_IMPLEMENTATION_GUIDE.md`, `PAGINATION_AND_FILTER_GUIDE.md`, `SEARCH_IMPLEMENTATION_GUIDE.md`) which described the obsolete 15-endpoint online architecture.
+   - Removed `flutter_docs/` (`FLUTTER_INTEGRATION_PLAN.md`, `MODEL_MAPPING_GUIDE.md`, `SCREEN_DATA_MAPPING.md`, `STATE_MANAGEMENT_GUIDE.md`).
+   - Removed `HANDOFF_README.md` and `data/MSS_API_DATA_PACKAGE/README.md`.
+   - Preserved `architecture_docs/` (`DUAL_COPY_CATALOG_RELEASE_SPECIFICATION.md`, `HASH_VERIFICATION_SPECIFICATION.md`, `OFFLINE_CLOUD_SYNC_ARCHITECTURE.md`, `RELEASE_MANIFEST_SPECIFICATION.md`, `UPDATE_FLOW_SPECIFICATION.md`) which serve as active catalog release architecture specifications.
+
+3. **Historical Point-in-Time Audit Reports from August 2026 (`docs/archive/`)**:
+   - Removed `backend-reports-2026-08/` (7 files).
+   - Removed `security-2026-08/` (10 files).
+   - Removed `design-review-2026-08.md` and `l10n-notes/companion_mode_string_inventory.md`.
+   - Preserved code archives in `docs/archive/` (`experimental-edge-slm/`, `superseded-edge-functions/`, `superseded-scripts/`).
