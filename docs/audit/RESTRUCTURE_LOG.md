@@ -61,6 +61,19 @@ Three references pointed at `CUTOVER.md` "at the repo root"; updated to the new 
 
 ---
 
-## 5. Not done — deferred as decisions (see `RESTRUCTURE_PLAN.md` section 5)
+## 5. Decision items completed (Section 5 follow-ups)
 
-Unchanged and still awaiting a call: dead `saarthi-agent/.github/workflows/`, dead `backend/scripts/import_catalog.mjs`, retired `search`/`recommend` edge functions, `edge_slm_*` on-device-SLM code, orphaned `scripts/migrate_chat_logs.js`, the legacy in-code i18n map. Outer-directory files (`C:\development\MSS App\*`) remain out of scope (outside the git repo).
+| Item | Old location | Action taken |
+|---|---|---|
+| Legacy in-code i18n map | `frontend/lib/utils/constants.dart` | Removed dead `AppConstants.translations` and `AppConstants.get()` (superseded by ARB). |
+| Orphaned migration scripts | `scripts/{migrate_chat_logs,test_migration}.js` | Archived to `docs/archive/superseded-scripts/` via `git mv`; empty `scripts/` directory removed. |
+| Superseded catalog import | `backend/scripts/import_catalog.mjs` | Archived to `docs/archive/superseded-scripts/` via `git mv`; removed broken `catalog:import\|validate\|bootstrap` from `backend/package.json`. |
+| Dead nested CI workflows | `saarthi-agent/.github/workflows/` | Removed dead nested workflow files (`ruff.yml`, `tests.yml`, `tag-version.yml`, `template-check.yml`); added active root CI workflow `.github/workflows/saarthi-agent.yml` running ruff and pytest on changes to `saarthi-agent/**`. |
+
+---
+
+## 6. Remaining items awaiting product decisions
+
+- Retired `search`/`recommend` edge functions (HTTP 410 GONE).
+- `edge_slm_*` on-device-SLM experimental code and `llama_flutter_android` dependency.
+

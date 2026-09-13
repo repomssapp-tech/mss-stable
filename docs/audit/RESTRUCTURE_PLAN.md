@@ -103,14 +103,14 @@ No new `/docs/legacy/` folder is needed — `docs/archive/` is the existing conv
 
 These are real cleanup opportunities from the audit, but each is a **code / deployment / product decision**, not a file relocation. Left for a follow-up once you've decided:
 
-| Item | Location | Decision needed |
+| Item | Location | Status / Decision |
 |---|---|---|
-| Dead nested CI | `saarthi-agent/.github/workflows/{ruff,tests,tag-version,template-check}.yml` | GitHub never runs these (only repo-root `.github/workflows/`). Delete them, **or** wire an agent lint/test job into `.github/workflows/`. `template-check.yml` would fail if it ran. |
-| Dead script | `backend/scripts/import_catalog.mjs` | Calls RPCs dropped in migration `20260818000000`; reads a non-existent input file. `npm run catalog:import\|validate\|bootstrap` are all broken. Delete + drop the npm scripts, or rewrite against `generate_catalog_import_sql.js`. |
+| Dead nested CI | `saarthi-agent/.github/workflows/` | **DONE**: Deleted dead nested workflows; wired root CI workflow `.github/workflows/saarthi-agent.yml` running ruff and pytest. |
+| Dead script | `backend/scripts/import_catalog.mjs` | **DONE**: Archived to `docs/archive/superseded-scripts/import_catalog.mjs`; removed broken `catalog:*` npm scripts from `backend/package.json`. |
 | Retired edge functions | `backend/supabase/functions/{search,recommend}/` | Return `410 GONE`. Removing them changes deployed surface — coordinate with a deploy. |
 | On-device SLM code | `frontend/lib/services/{edge_model_pack,edge_slm_runtime,edge_slm_understanding_engine}.dart` + `llama_flutter_android` dep + `tools/{train,evaluate,export}_edge_parser.py` | Newer docs imply the offline path is lexical-only. Dead-code candidate — needs a product call before removal. |
-| Legacy in-code i18n map | `frontend/lib/utils/constants.dart:54-81` (`AppConstants.translations` / `.get()`) | Superseded by ARB. Code change, not a move. |
-| Orphaned migration scripts | `scripts/migrate_chat_logs.js`, `scripts/test_migration.js` | One-shot migration + ad-hoc test, referenced by neither `package.json` nor CI. Delete once the `chat_logs` -> `voice_chat_sessions` migration is confirmed done. |
+| Legacy in-code i18n map | `frontend/lib/utils/constants.dart` | **DONE**: Removed dead `AppConstants.translations` and `.get()` (superseded by ARB). |
+| Orphaned migration scripts | `scripts/migrate_chat_logs.js`, `scripts/test_migration.js` | **DONE**: Archived to `docs/archive/superseded-scripts/`; empty `scripts/` directory removed. |
 | Redirect stubs | `saarthi-agent/CLAUDE.md`, `saarthi-agent/GEMINI.md` | Two-line pointers to `AGENTS.md`. Harmless; leave unless you want them gone. |
 | 4x `search_taxonomy.json` copies | `backend/catalog/`, `backend/supabase/functions/_shared/`, `frontend/assets/search/`, `saarthi-agent/data/` | **By design** (parity-tested). Do not consolidate. |
 
