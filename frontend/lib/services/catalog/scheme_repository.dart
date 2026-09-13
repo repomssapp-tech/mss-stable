@@ -262,8 +262,8 @@ class SchemeRepository {
 
   // ── 6. searchSchemes() ────────────────────────────────────────────────
   /// Intelligently ranks natural-language English and Tamil queries.
-  /// Online-first via POST /v1/search with offline fallback.
-  /// Deduplicated in-flight and memoized for 15s to prevent redundant network calls.
+  /// 100% on-device search via HybridSchemeSearch over MssCatalogBundle.
+  /// Deduplicated in-flight and memoized for 15s to eliminate redundant CPU ranking work.
   Future<List<Scheme>> searchSchemes(
     String query, {
     String langCode = 'en',
@@ -307,8 +307,8 @@ class SchemeRepository {
 
   // ── 7. searchSchemeMatches() ──────────────────────────────────────────
   /// Returns scored matches for conversational search and voice result UIs.
-  /// Online-first via POST /v1/search with offline fallback.
-  /// Deduplicated in-flight and memoized for 15s.
+  /// 100% on-device search via HybridSchemeSearch over MssCatalogBundle.
+  /// Deduplicated in-flight and memoized for 15s to eliminate redundant CPU ranking work.
   Future<List<SchemeSearchMatch>> searchSchemeMatches(
     String query, {
     int? limit,

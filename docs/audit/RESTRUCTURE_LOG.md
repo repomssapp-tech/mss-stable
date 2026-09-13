@@ -72,8 +72,25 @@ Three references pointed at `CUTOVER.md` "at the repo root"; updated to the new 
 
 ---
 
-## 6. Remaining items awaiting product decisions
+## 6. Stage 3 — Documentation Reconciliation (Executed 2026-09-13)
 
-- Retired `search`/`recommend` edge functions (HTTP 410 GONE).
-- `edge_slm_*` on-device-SLM experimental code and `llama_flutter_android` dependency.
+Reconciled project documentation across the 3-tier monorepo to accurately match production source code and architecture (resolving audit findings §12):
+
+| Document | Location | Reconciliation performed |
+|---|---|---|
+| Root `README.md` | `README.md` | Replaced obsolete Hindi/OTP prototype text with true 3-tier architecture, dual UX modes (Regular + Companion), offline-first catalog `1.34.3-alpha`, Sarvam AI voice pipeline, and verified setup commands. |
+| Root `CLAUDE.md` | `CLAUDE.md` | Replaced stale `MssApiClient` / 15-endpoint claims with active developer guide: directory layout, invariants (`AppSpacing`, ARB localization, parity tests), build/test commands, and monolithic size guardrails. |
+| Database architecture | `docs/DATABASE_ARCHITECTURE.md` | Reconciled schema changes (`catalog.scheme` columns updated, deprecated tables documented, `voice_chat_sessions`, `support_tickets`, `beta_gate_config` added). |
+| Offline-first architecture | `docs/OFFLINE_FIRST_AND_RECOMMENDATION_ARCHITECTURE.md` | Updated version to `1.34.3-alpha` (219 schemes / 1,220 entities / 971 search records) and updated module map paths to match decomposed folders. |
+| Search & catalog architecture | `docs/SEARCH_AND_CATALOG_ARCHITECTURE.md` | Updated `hybrid_scheme_search.dart` path to `services/search/`, added `rollbackRelease` and `sarvam-chat` to Edge Functions inventory. |
+| Scheme repository doc-comments | `frontend/lib/services/catalog/scheme_repository.dart` | Corrected doc-comments on `searchSchemes()` and `searchSchemeMatches()` from "online-first via POST /v1/search" to 100% on-device search with CPU memoization. |
+| Backend README | `backend/README.md` | Fixed directory layout (docs at repo root, voice lab at `tools/voice-lab/`), updated Edge Functions list, removed obsolete npm script references, updated catalog version to `1.34.3-alpha`. |
+| Saarthi agent README | `saarthi-agent/README.md` | Corrected LLM model to `sarvam-105b-conversations` (removed leftover Gemma template text); updated Supabase section from deprecated chat logging to OTA catalog sync. |
+
+---
+
+## 7. Remaining items awaiting product decisions
+
+- Retired `search`/`recommend` edge functions (HTTP 410 GONE) — leave or delete.
+- `edge_slm_*` on-device-SLM experimental code and `llama_flutter_android` dependency — dead-code candidate requiring product sign-off.
 

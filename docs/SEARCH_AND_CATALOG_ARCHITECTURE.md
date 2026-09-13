@@ -64,7 +64,7 @@ its siblings and re-running the parity suite (§4).
 | Runtime | File | Role |
 |---|---|---|
 | TypeScript (Supabase Edge Function) | `backend/supabase/functions/v1/search_engine.ts` | Server-side `/v1/search` route |
-| Dart (Flutter app) | `frontend/lib/services/hybrid_scheme_search.dart` | Offline, on-device search — the actual live search path for regular users today |
+| Dart (Flutter app) | `frontend/lib/services/search/hybrid_scheme_search.dart` | Offline, on-device search — the actual live search path for regular users today |
 | Python (Saarthi voice agent) | `saarthi-agent/src/hybrid_search.py` | Voice-driven catalog lookup (`search_scheme_catalog` tool) |
 
 All three implement the **exact same algorithm**: taxonomy-based query
@@ -297,6 +297,8 @@ All HTTP routes are Deno-based Supabase Edge Functions under
 | `v1` | The real API gateway — `/v1/meta`, `/v1/health`, `POST /v1/search`, `/v1/schemes/{id}[...]`, etc. Deployed as a function literally named `v1` so the client's hardcoded `/v1/meta` path resolves through Supabase's `.../functions/v1/v1/meta` routing quirk — see the header comment in `v1/index.ts` before renaming anything. |
 | `livekit-token` | Issues LiveKit room tokens for the voice agent, after authenticating the caller's Supabase session and attaching their profile as job metadata. |
 | `publishCatalog` | Broadcasts a realtime `catalog_sync` channel event after a new release is published — a notification hook, not a data-import function. Requires presenting the service-role key itself (not just a valid user session) since it's meant only for trusted backend/admin callers. |
+| `rollbackRelease` | Promotes a previous catalog release by UUID via `public.mss_rollback_release(uuid)` and broadcasts a catalog sync event. Requires service-role authentication. |
+| `sarvam-chat` | Proxies conversational queries to Sarvam AI text chat completion API with temperature, token ceiling, and rate limiting. |
 | `db-change-notify` | Generic Postgres-trigger-driven realtime broadcaster. |
 | `search`, `recommend` | **Retired** (`410 GONE`) — kept only so old clients get a clear error instead of a 404. Do not resurrect these; their target RPCs (`search_schemes`, `recommend_schemes`) were dropped as dead code. |
 

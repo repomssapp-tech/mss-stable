@@ -53,12 +53,12 @@ manifest.json                    1
 `releaseTag`, `bundleSha256`, `entityCount`, `searchIndexCount`, and a
 per-file SHA-256 map.
 
-Current release: **`1.34.2-alpha`**, 219 schemes / 1220 entities / 971
+Current release: **`1.34.3-alpha`**, 219 schemes / 1220 entities / 971
 search-index records.
 
 ### 2.2 How it loads — `MssCatalogBundle.load()`
 
-`frontend/lib/services/mss_catalog_bundle.dart`
+`frontend/lib/services/catalog/mss_catalog_bundle.dart`
 
 ```
 load()  ── once per app lifespan (memoised in a static Future) ──►
@@ -82,7 +82,7 @@ Decompression + JSON parse run OFF the UI isolate via `compute()`.
 - `MssCatalogBundle.invalidate()` clears the memoised future (used after a
   catalog sync so the next `load()` picks up the new installed release).
 - **Practical consequence:** on a real device the app is usually serving a
-  runtime-fetched `1.34.2-alpha` from `mss_catalog_cache/`, not the asset.
+  runtime-fetched `1.34.3-alpha` from `mss_catalog_cache/`, not the asset.
   Tests always use the asset with the checksum override.
 
 ### 2.3 What the bundle exposes
@@ -488,9 +488,8 @@ Strip "For Me" chip  OR  idle "For Me" highlight card
 | `search_taxonomy.json` byte-identical in `frontend/assets/search/`, `backend/supabase/functions/_shared/`, `backend/catalog/` | the three engines share one ranking vocabulary |
 | RLS `auth.uid() = id` on `public.profiles` | a user can only read/write their own profile row |
 
-**Version note.** The bundled asset is `1.34.0-alpha` (217 schemes in older
-`release.json` text); the runtime-cached bundle on devices is
-`1.34.2-alpha` (219 schemes). Tests run against the asset with
+**Version note.** The bundled asset is `1.34.3-alpha` (219 schemes, 1,220 entities,
+971 search records, released 2026-09-08). Tests run against the asset with
 `overrideChecksumForTest: true`.
 
 ---
@@ -514,23 +513,24 @@ Strip "For Me" chip  OR  idle "For Me" highlight card
 
 | Concern | File |
 |---|---|
-| Offline catalog load + integrity | `lib/services/mss_catalog_bundle.dart` |
+| Offline catalog load + integrity | `lib/services/catalog/mss_catalog_bundle.dart` |
 | Raw entity model | `lib/models/mss_entity.dart` |
-| Entity → UI model | `lib/services/mss_scheme_adapter.dart` |
+| Entity → UI model | `lib/services/catalog/mss_scheme_adapter.dart` (+ sub-parsers in `adapter/`) |
 | UI scheme model | `lib/models/scheme_model.dart` |
-| Single scheme access point | `lib/services/scheme_repository.dart` |
-| Search engine (parity-locked core + `rank` wrapper) | `lib/services/hybrid_scheme_search.dart` |
+| Single scheme access point | `lib/services/catalog/scheme_repository.dart` |
+| Search engine (parity-locked core + `rank` wrapper) | `lib/services/search/hybrid_scheme_search.dart` |
 | Search taxonomy / expansions | `assets/search/search_taxonomy.json`, `assets/search/query_expansion.json` |
-| Voice/conversational search (separate) | `lib/services/intelligent_scheme_search.dart` |
+| Natural language query understanding | `lib/services/search/scheme_understanding_engine.dart` (+ rules, extractor, evaluator) |
+| Voice/conversational search | `lib/services/search/intelligent_scheme_search.dart` |
 | Facet filter model + matcher + `schemeIsNationwide` | `lib/models/scheme_filter.dart` |
-| Filter sheet UI | `lib/widgets/filter_panel.dart` |
+| Filter sheet UI | `lib/widgets/scheme/filter_panel.dart` |
 | Recommendation engine | `lib/engine/recommendation_engine.dart` |
-| "For Me" view composition + search screen | `lib/screens/regular_mode/search_screen.dart` |
+| "For Me" view composition + search screen | `lib/screens/regular_mode/search_screen.dart` (+ `search/` sub-widgets) |
 | Results / drill-down screen | `lib/screens/regular_mode/search_results_screen.dart` |
 | User profile model + 3 serialisers + `mergeFrom` | `lib/models/user_profile.dart` |
-| Local profile cache | `lib/services/session_cache_service.dart` |
-| App state, profile sync, subscriptions | `lib/providers/app_state_provider.dart` |
-| Onboarding | `lib/screens/regular_mode/basic_profile_screen.dart`, `about_you_profile_screen.dart`, `location_profile_screen.dart`, `eligibility_profile_screen.dart` |
+| Local profile cache | `lib/services/account/session_cache_service.dart` |
+| App state, profile sync, controllers | `lib/providers/app_state_provider.dart` (+ 7 sub-controllers in `controllers/`) |
+| Onboarding wizard | `lib/screens/regular_mode/basic_profile_screen.dart` (+ 4 modular step forms in `basic_profile/`) |
 | Server search (deployed, no runtime caller) | `backend/supabase/functions/v1/search_engine.ts`, `v1/index.ts` |
 | Profile tables | `backend/supabase/migrations/*profiles*.sql` |
 
