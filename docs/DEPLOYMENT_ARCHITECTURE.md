@@ -97,7 +97,7 @@ Recommendation: **option 2** — matches the project's existing "gated, validate
 
 **Observability — use Supabase-native.** No separate tool (e.g. Sentry) for now. Use Supabase's built-in **Logs** (Postgres logs, Edge Function invocation logs, API logs) and the project's built-in **usage/error alerting** (e.g. alerts on Edge Function error rate, database CPU/connection thresholds) from the Supabase dashboard. Revisit if 500-user scale later shows this isn't enough signal.
 
-**Region.** Target Tamil Nadu users now, all-India later. Supabase has no Tamil Nadu/Chennai region; closest available is **`ap-south-1` (Mumbai, AWS)** — use that for the single project now. When expanding pan-India, the realistic lever (once on a plan that supports it) is a **read replica** in a second region for read-heavy `/v1/*` traffic, not a project migration — writes stay in `ap-south-1`. Not needed until usage data justifies it.
+**Region.** The live Supabase project is hosted in **`ap-southeast-2` (Sydney)**. For India-resident MSME users, target migration is **`ap-south-1` (Mumbai, AWS)**, which would reduce round-trip network latency. A migration requires creating a new project, migrating data/auth, and updating keys. When expanding pan-India, read replicas can further reduce read latency.
 
 **Capacity — sized for 500 users.** At this scale, Supabase's default connection pooler (Supavisor, transaction mode) and default Edge Function concurrency are sufficient — no dedicated pooler tuning, no reserved compute add-on needed yet. Re-evaluate only if actual usage approaches limits; don't pre-provision for a scale that isn't happening yet.
 
@@ -122,7 +122,7 @@ Triggered manually (`workflow_dispatch` with a version input), never automatical
 Currently has no CI or release pipeline at all. Proposed, in order of what unblocks what:
 1. **CI first** (safe, no store impact): `flutter analyze` + `flutter test` on every PR touching `frontend/**`, mirroring the pattern already used for `backend/` and `saarthi-agent/`.
 2. **Build pipeline**: Android App Bundle signing via a GitHub Actions workflow (keystore as a base64 secret) or a managed service (Codemagic/fastlane) if you'd rather not hand-roll signing in Actions.
-3. **Release channel strategy**: Play Store internal testing → closed testing → production, gated manually at each promotion (not auto-promoted). App version should carry the `catalogVersion`/`releaseVersion` it was built against for support/debugging, since the app and catalog now version independently (per the offline/cloud sync architecture already documented in `MSS_ANTIGRAVITY_HANDOFF/architecture_docs/OFFLINE_CLOUD_SYNC_ARCHITECTURE.md`).
+3. **Release channel strategy**: Play Store internal testing → closed testing → production, gated manually at each promotion (not auto-promoted). App version should carry the `catalogVersion`/`releaseVersion` it was built against for support/debugging, since the app and catalog now version independently (per the offline/cloud sync architecture already documented in `docs/specs/OFFLINE_CLOUD_SYNC_ARCHITECTURE.md`).
 
 No UI/UX work is implied by any of this — it's packaging and CI only.
 

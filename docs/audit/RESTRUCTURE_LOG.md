@@ -125,3 +125,28 @@ Removed 36 unused, obsolete, and historical markdown files across three categori
    - Removed `security-2026-08/` (10 files).
    - Removed `design-review-2026-08.md` and `l10n-notes/companion_mode_string_inventory.md`.
    - Preserved code archives in `docs/archive/` (`experimental-edge-slm/`, `superseded-edge-functions/`, `superseded-scripts/`).
+
+## 9. Documentation Flattening, Wrong File Removal & Architecture Reconciliation (Executed 2026-09-13)
+
+### 9.1 Removal of Broken, Superseded & Scratchpad Files
+1. `docs/handoff/data/MSS_API_DATA_PACKAGE/validate_package.py` — deleted (broken validation script for dead 15-endpoint API).
+2. `docs/design/SEARCH_OPTIONS.md` — deleted (obsolete options memo contradicted by production implementation).
+3. `docs/audit/FRONTEND_REFACTOR.md` & `docs/audit/RESTRUCTURE_PLAN.md` — deleted (stale temporary planning scratchpads).
+4. `docs/archive/verification-harnesses/` (7 files) — deleted (broken standalone verification scripts with unresolvable relative imports and duplicate contract models).
+
+### 9.2 Flattening to Strictly 1 Level of Subdirectories
+Flattened all subdirectories inside `docs/` so that every directory is exactly 1 level deep with zero nested subdirectories:
+1. `docs/handoff/architecture_docs/*` -> moved to `docs/specs/*`. Empty `docs/handoff/` removed.
+2. `docs/backend/decisions/*` and `docs/backend/product/*` -> moved directly to `docs/backend/*`. Empty subdirectories removed.
+3. `docs/archive/*/*` -> flattened directly to `docs/archive/*` (all 28 archived files now live directly in `docs/archive/` without nested subdirectories).
+4. `docs/EDGE_AI.md` -> moved to `docs/archive/EDGE_AI.md`.
+
+### 9.3 Code & Documentation Link Reconciliation
+1. Updated `tools/publish_catalog_release.py` and `docs/SEARCH_AND_CATALOG_ARCHITECTURE.md` to point to `docs/specs/`.
+2. Updated `frontend/lib/models/catalog_manifest.dart`, `frontend/lib/services/catalog/scheme_catalog_store.dart`, and `frontend/lib/services/catalog/mss_catalog_bundle.dart` to point to `docs/specs/`.
+3. Updated `backend/supabase/seed/seed.sql` to reference `docs/specs/`.
+4. Updated `docs/runbooks/CUTOVER.md` to reference `docs/archive/` and clarify retired functions.
+5. Updated `docs/design/Query_Expansion.md` to decouple from deleted `SEARCH_OPTIONS.md`.
+6. Updated `docs/DEPLOYMENT_ARCHITECTURE.md` to document the active production region (`ap-southeast-2` Sydney) and fix reference to `docs/specs/OFFLINE_CLOUD_SYNC_ARCHITECTURE.md`.
+7. Updated `docs/UX.md` to eliminate phantom OCR/standalone screens and accurately describe Flutter components.
+

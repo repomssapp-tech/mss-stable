@@ -4,7 +4,7 @@
 > **Status: Formally Retired & Archived**
 > The on-device SLM experimental path (`Qwen3-0.6B`, `llama_flutter_android: 0.2.6`, and `edge_slm_*` services) has been formally retired in favor of the 100% deterministic, rule-based `LocalSchemeUnderstandingEngine` + `HybridSchemeSearch` offline discovery path.
 >
-> The experimental services, tests, and conversion/training tools have been archived under `docs/archive/experimental-edge-slm/`.
+> The experimental services, tests, and conversion/training tools have been archived under `docs/archive/`.
 > See `docs/OFFLINE_FIRST_AND_RECOMMENDATION_ARCHITECTURE.md` and `docs/SEARCH_AND_CATALOG_ARCHITECTURE.md` for the active production architecture.
 
 Historically, the assistant explored a task-specific, quantized Qwen3 0.6B parser on supported

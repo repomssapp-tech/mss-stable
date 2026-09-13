@@ -6,7 +6,7 @@
 -- public.eligibility_rules / public.scheme_documents -- the legacy
 -- pre-v2-architecture tables. Those tables were dropped by
 -- 20260805000000_database_architecture_v2.sql in favor of the
--- catalog.* schema (see docs/handoff/architecture_docs/), and
+-- catalog.* schema (see docs/specs/), and
 -- this seed script was never updated to match, which broke
 -- `supabase db reset` / CI once that migration ran.
 --

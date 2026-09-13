@@ -20,7 +20,7 @@ In the MSS (Micro & Small Scheme) application, users search for government busin
 Because the underlying search engine is lexical (TF-IDF keyword matching + taxonomy scoring), queries that miss on *vocabulary* rather than *concept* score low or fail completely.
 
 ### 1.2 Why Option A (Query Expansion)?
-As evaluated and documented in `SEARCH_OPTIONS.md`, three architectural paths were scoped for Phase 4:
+During the Phase 4 architectural evaluation, three architectural paths were scoped:
 1. **Option A (Lexical Query Expansion):** Client & server dictionary expansion. Zero latency impact, zero API cost, completely offline-safe, preserves the 100% offline contract, +4–8% top-1 accuracy improvement.
 2. **Option B (pgvector in Supabase):** Online-only vector search with hosted embeddings. Adds 300–500ms network latency to Sydney (`ap-southeast-2`), incurs per-query API costs, and creates a bimodal UX where offline users get worse results than online users.
 3. **Option C (Bundled Embeddings + Edge Model):** Reintroduces on-device SLMs (Qwen / MiniLM) requiring a 20–90 MB download and first-run cold starts, contradicting the project's explicit architectural decision to remove edge AI models.

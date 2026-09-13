@@ -31,14 +31,13 @@ graph TD
     AICompanion --> VoiceListen["22. Voice Listening"]
     AICompanion --> AIThinking["23. AI Thinking"]
     AICompanion --> AIExplain["24. AI Explanation"]
-    AICompanion --> OCRScan["26. OCR Scan"]
     
     SearchRes --> Details["13. Scheme Details"]
     AISearchRes --> Details
     
     Details --> AppGuide["14. Application Guide"]
     Details --> Saved["15. Saved Schemes"]
-    Details --> DocChecklist["25. Document Checklist"]
+    Details --> DocChecklist["25. Document Checklist Sheet"]
     
     %% Profile & Settings
     Home --> Profile["16. Profile Screen"]
@@ -49,17 +48,14 @@ graph TD
     
     Home --> Notifications["19. Notifications"]
     
-    Home --> RecDashboard["27. Recommendation Dashboard"]
-    Home --> GovUpdates["28. Government Updates"]
-    
     %% Styles
     classDef onboarding fill:#EFF6FF,stroke:#2563EB,stroke-width:2px;
     classDef main fill:#F0FDF4,stroke:#16A34A,stroke-width:2px;
     classDef companion fill:#F5F3FF,stroke:#7C3AED,stroke-width:2px;
     
     class Splash,Lang,Signin,NavMode,ProfileSetup onboarding;
-    class Home,Search,AdvFilter,SearchRes,Discover,Details,AppGuide,Saved,Profile,EditProfile,ProfileComp,Notifications,Settings,Support,RecDashboard,GovUpdates,DocChecklist main;
-    class AICompanion,AISearchRes,VoiceListen,AIThinking,AIExplain,OCRScan companion;
+    class Home,Search,AdvFilter,SearchRes,Discover,Details,AppGuide,Saved,Profile,EditProfile,ProfileComp,Notifications,Settings,Support,DocChecklist main;
+    class AICompanion,AISearchRes,VoiceListen,AIThinking,AIExplain companion;
 ```
 
 ---
@@ -150,7 +146,6 @@ An immersive assistant page supporting:
 *   **Text Chat:** Standard keyboard text inputs.
 *   **Quick Suggestions:** Contextual prompts (e.g., "What schemes match agriculture?").
 *   **Recent Conversations:** Conversation history.
-*   **OCR Integration:** Launches camera scan to extract profile details from documents.
 
 ### 12. Companion Search Results
 A conversational recommendation view including:
@@ -262,51 +257,42 @@ An active audio input page showing:
 
 ---
 
-## 📂 12. Documents & OCR
+## 📂 12. Documents & Requirements
 
-### 25. Document Checklist
-*   List of required documents mapped by state.
-*   Divided into **Completed**, **Missing**, and **Upload Later**.
-
-### 26. OCR Scan Screen
-*   Camera frame interface.
-*   Cropping bounds overlay.
-*   Auto-extraction of profile details for form autofill.
+### 25. Document Checklist Sheet
+*   Bottom sheet checklist of required application documents.
+*   Categorized into **Completed**, **Missing**, and **Upload Later**.
+*   Direct access from Scheme Details view.
 
 ---
 
-## 📊 13. Recommendation Dashboard
+## 📊 13. Home Dashboard Widgets
 
-### 27. Recommendation Dashboard
-An analytics dashboard showing:
-*   Overall eligibility percentage.
-*   Total matching schemes count.
-*   Required pending information and missing documents.
-*   Overall profile strength score.
+### 26. Recommended Schemes Carousel
+Integrated home dashboard section:
+*   Scrollable carousel of top matching schemes computed locally or fetched via API.
+*   Match percentage badge and category indicators.
 
----
-
-## 🌐 14. Government Updates Feed
-
-### 28. Government Updates Screen
-*   Latest Central & State government scheme updates.
-*   Live announcements feed and upcoming deadlines list.
+### 27. Government Updates Section
+Integrated home dashboard section:
+*   Latest Central & State government scheme notices and announcements.
+*   Direct deep-links into scheme details or ministry notices.
 
 ---
 
-## 🧩 15. Utility Screens
+## 🧩 14. Utility Components & Handlers
 
-### 29. Empty State
+### 28. Empty State
 *   Polished visual assets showing "No results found" with suggestion prompts.
 
-### 30. No Internet
-*   Offline state handler with retry buttons.
+### 29. No Internet / Offline Mode
+*   Offline state handler with auto-fallback to local catalog search and retry buttons.
 
-### 31. Error Page
-*   Polished error boundary with detailed logs and diagnostic helpers.
+### 30. Inline Error States & Dialogs
+*   Standardized error cards, snackbars, and retry buttons for graceful failure handling.
 
-### 32. Loading Skeleton
-*   Content-matched skeleton UI grids and list bars.
+### 31. Loading Skeleton
+*   Content-matched skeleton UI grids and list shimmer bars.
 
-### 33. Permission Request
-*   Pre-request dialogue cards for Camera, Microphone, and Notification access.
+### 32. Permission Request
+*   Pre-request dialogue cards for Microphone and Notification access.

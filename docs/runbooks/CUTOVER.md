@@ -17,9 +17,9 @@ Project ref: `houpzsxmwemoztpuigmo`.
 | Edge fn `v1` (x2 sites) | injected `SUPABASE_SERVICE_ROLE_KEY` | `SB_SECRET_KEY` | secret | project function secret |
 | Edge fn `publishCatalog` | injected `SUPABASE_SERVICE_ROLE_KEY` (dropped a wrong anon fallback) | `SB_SECRET_KEY` | secret | project function secret |
 | Edge fn `livekit-token` | injected `SUPABASE_ANON_KEY` | `SB_PUBLISHABLE_KEY` | publishable | project function secret |
-| Edge fns `recommend` / `schemes-api` / `search` (DEAD) | injected `SUPABASE_ANON_KEY` | `SB_PUBLISHABLE_KEY` | publishable | project function secret |
+| Edge fns `recommend` / `schemes-api` / `search` (RETIRED) | archived in `docs/archive/` | `SB_PUBLISHABLE_KEY` | publishable | retired / superseded |
 | Agent `saarthi-agent` (chat logging) | env `SUPABASE_SERVICE_ROLE_KEY` | `SUPABASE_SECRET_KEY` | secret | `.env.sarvam` -> `lk agent update-secrets` |
-| `backend/scripts/import_catalog.mjs` (superseded) | `SUPABASE_SECRET_KEY` (already) | `SUPABASE_SECRET_KEY` | secret | `docs/archive/superseded-scripts/` |
+| `backend/scripts/import_catalog.mjs` (superseded) | `SUPABASE_SECRET_KEY` (already) | `SUPABASE_SECRET_KEY` | secret | `docs/archive/` |
 | `backend/scripts/benchmark_search_pipeline.mjs` | hardcoded `sb_publishable_...` | `SUPABASE_PUBLISHABLE_KEY` | publishable | `backend/.env` / local |
 | `tools/publish_catalog_release.py` | hardcoded `sb_publishable_...` | `SUPABASE_PUBLISHABLE_KEY` | publishable | `backend/.env` / local |
 

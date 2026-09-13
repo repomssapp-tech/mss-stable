@@ -141,7 +141,7 @@ There is **no** `routes/`, `di/`, or `state/` folder — routing is imperative `
 | `supabase/functions/livekit-token/` | Validates the caller's Supabase session, mints a LiveKit `AccessToken` (10 min) with a `RoomAgentDispatch` for `saarthi-agent`. |
 | `supabase/functions/publishCatalog/`, `rollbackRelease/`, `db-change-notify/` | Realtime broadcast on `catalog_sync` after a publish; atomic release pointer-flip via `mss_rollback_release(uuid)`; generic table-change broadcaster. |
 | `supabase/functions/search/`, `recommend/` | **Retired** — return `410 GONE`. |
-| `supabase/migrations/` | 76 forward-only SQL migrations — the authoritative schema (`docs/backend/decisions/0002`). |
+| `supabase/migrations/` | 76 forward-only SQL migrations — the authoritative schema (`docs/backend/0002-migrations-as-source-of-truth.md`). |
 | `supabase/schema.sql` | 132 KB generated snapshot — "point-in-time reference, not a migration"; **stale** (see §12). |
 | `catalog/` | `search_taxonomy.json` (canonical search-tuning params) + `search_parity_golden.json` (25-query golden fixture). No catalog data. |
 | `openapi/openapi.yaml` | OpenAPI 3.1 draft for an **unbuilt** admin/sync API — does not describe the live routes (see §12). |

@@ -229,7 +229,7 @@ path:   releases/<release_version>/catalog_bundle.json.gz
 - **Load path**: `MssCatalogBundle.load()` prefers the installed OTA
   release if present and its checksum re-verifies; falls back to the
   shipped asset on any failure. See §2.4 of
-  `docs/handoff/architecture_docs/OFFLINE_CLOUD_SYNC_ARCHITECTURE.md` for
+  `docs/specs/OFFLINE_CLOUD_SYNC_ARCHITECTURE.md` for
   the full state machine.
 
 #### `v1` Edge Function (TypeScript)
