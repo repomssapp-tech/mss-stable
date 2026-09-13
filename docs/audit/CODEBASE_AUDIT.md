@@ -51,7 +51,6 @@
 - Runtime deps: `livekit-agents[sarvam]~=1.7`, `livekit-plugins-ai-coustics~=0.2`, `python-dotenv`. Dev: `pytest`, `pytest-asyncio`, `ruff`. Constraint workaround `yarl<1.24`.
 
 ### Root
-- `package.json` (root): single dep `@supabase/supabase-js ^2.115.0`, no scripts; only consumer is `scripts/migrate_chat_logs.js`.
 - `.mcp.json`: one MCP server `supabase` pinned to `project_ref=houpzsxmwemoztpuigmo`.
 
 ---
