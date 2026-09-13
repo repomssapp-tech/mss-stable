@@ -155,7 +155,7 @@ class MssCatalogBundle {
 
     // Prefer a downloaded, hash-verified release over the shipped asset, if
     // one has been installed by SchemeCatalogSyncService -- see
-    // docs/specs/OFFLINE_CLOUD_SYNC_ARCHITECTURE.md.
+    // docs/specs/CATALOG_SPECIFICATIONS.md (Part 5).
     // The installed release's own SHA-256 was already verified at install
     // time (SchemeCatalogStore.install); re-verifying here too costs little
     // and guards against on-disk corruption between install and load.

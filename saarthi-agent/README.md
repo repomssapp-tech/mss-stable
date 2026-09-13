@@ -94,7 +94,7 @@ SUPABASE_SECRET_KEY=sb_secret_...
 
 `SUPABASE_SECRET_KEY` is the new-format secret key. During the API-key migration
 the legacy `SUPABASE_SERVICE_ROLE_KEY` variable is still accepted as a fallback
-(see `docs/runbooks/CUTOVER.md`). If no key is configured, OTA sync is skipped
+(see `docs/runbooks/OPERATIONS_RUNBOOK.md`). If no key is configured, OTA sync is skipped
 and the agent safely falls back to the bundled catalog in `data/`.
 
 Push the secrets to the deployed agent with:

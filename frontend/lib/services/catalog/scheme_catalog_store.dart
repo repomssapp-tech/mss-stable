@@ -30,15 +30,15 @@ class StoredSchemeCatalog {
 }
 
 /// Real on-device persistence for downloaded catalog releases, per
-/// docs/specs/UPDATE_FLOW_SPECIFICATION.md:
+/// docs/specs/CATALOG_SPECIFICATIONS.md (Part 6):
 /// download to a versioned directory, verify SHA-256, and only then flip an
 /// "active" pointer file -- so a failed or partial install can never corrupt
 /// or replace a working installed release. The previously active release's
-/// files are left on disk (not deleted) until a new install has fully
-/// succeeded, matching the spec's rollback-safety requirement.
+/// directory is NOT deleted, enabling instant rollback if needed.
 ///
-/// Replaces a prior stub of the same name that always returned null --
-/// see UPDATE_FLOW_SPECIFICATION.md §6 for why that made the whole sync
+/// Note on prior state: SchemeCatalogSyncService used to fetch against the
+/// legacy `public.catalog_releases` table, which was dropped in V2-B1 --
+/// see docs/specs/CATALOG_SPECIFICATIONS.md for why that made the whole sync
 /// mechanism a no-op end-to-end even when its data source worked.
 class SchemeCatalogStore {
   SchemeCatalogStore();

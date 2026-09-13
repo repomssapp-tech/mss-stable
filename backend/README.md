@@ -57,7 +57,7 @@ npx supabase functions deploy sarvam-chat
 npx supabase functions deploy db-change-notify
 ```
 
-> **Note:** `recommend` and `search` are retired (`410 GONE`) and superseded by `v1` (see `docs/runbooks/CUTOVER.md`).
+> **Note:** `recommend` and `search` are retired (`410 GONE`) and superseded by `v1` (see `docs/runbooks/OPERATIONS_RUNBOOK.md`).
 
 ## Published mobile scheme catalog
 

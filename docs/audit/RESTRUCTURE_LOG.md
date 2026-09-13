@@ -150,3 +150,30 @@ Flattened all subdirectories inside `docs/` so that every directory is exactly 1
 6. Updated `docs/DEPLOYMENT_ARCHITECTURE.md` to document the active production region (`ap-southeast-2` Sydney) and fix reference to `docs/specs/OFFLINE_CLOUD_SYNC_ARCHITECTURE.md`.
 7. Updated `docs/UX.md` to eliminate phantom OCR/standalone screens and accurately describe Flutter components.
 
+## 10. Content-Based Documentation Bundling & Consolidation (Executed 2026-09-13)
+
+Consolidated documentation files based on topical domain, reducing the total active documentation count from 22 files to 11 without losing any content or adding extraneous material:
+
+1. **Catalog Release & Sync Specifications (`docs/specs/`)**:
+   - Bundled 6 separate spec files (`MSS_Catalog_Import_Specification_v1.0.md`, `DUAL_COPY_CATALOG_RELEASE_SPECIFICATION.md`, `RELEASE_MANIFEST_SPECIFICATION.md`, `HASH_VERIFICATION_SPECIFICATION.md`, `OFFLINE_CLOUD_SYNC_ARCHITECTURE.md`, `UPDATE_FLOW_SPECIFICATION.md`) into a single comprehensive document: `docs/specs/CATALOG_SPECIFICATIONS.md`.
+   - Updated references across `frontend/lib/models/catalog_manifest.dart`, `frontend/lib/services/catalog/scheme_catalog_store.dart`, `frontend/lib/services/catalog/mss_catalog_bundle.dart`, `tools/publish_catalog_release.py`, `backend/supabase/seed/seed.sql`, `docs/SEARCH_AND_CATALOG_ARCHITECTURE.md`, and `docs/DEPLOYMENT_ARCHITECTURE.md`.
+
+2. **Search Architecture & Query Expansion**:
+   - Integrated `docs/design/Query_Expansion.md` directly into `docs/SEARCH_AND_CATALOG_ARCHITECTURE.md` as subsection `§2.5 Deep Dive: Lexical Query Expansion Architecture & Implementation`.
+   - Removed `docs/design/` directory.
+
+3. **UI / UX Design System & Screen Flows**:
+   - Bundled `docs/DESIGN.md` (visual design system, tokens, typography) and `docs/UX.md` (screen architecture, navigation flow, journeys) into `docs/UI_UX_DESIGN_SYSTEM.md`.
+
+4. **Backend Architecture, ADRs & Product Requirements (`docs/backend/`)**:
+   - Bundled ADR 0001, ADR 0002, `BACKEND_ONLY_PRD.md`, and `BACKEND_MLOPS_PRD.md` into `docs/backend/BACKEND_SPECIFICATION.md`.
+   - Updated reference in `docs/audit/CODEBASE_AUDIT.md`.
+
+5. **Operational Runbooks (`docs/runbooks/`)**:
+   - Bundled `docs/runbooks/PRODUCTION_CATALOG_PUBLISH_CHECKLIST.md` and `docs/runbooks/CUTOVER.md` into `docs/runbooks/OPERATIONS_RUNBOOK.md`.
+   - Updated references in `backend/README.md`, `backend/.env.example`, and `saarthi-agent/README.md`.
+
+6. **Archive Tamil Catalog Backfill (`docs/archive/`)**:
+   - Consolidated 5 separate `.ta.json` files (`csr_catalog.ta.json`, `export_catalog.ta.json`, `institution_catalog.ta.json`, `tax_catalog.ta.json`, `treds_catalog.ta.json`) into a single structured JSON bundle: `docs/archive/catalog_ta_backfill.json`.
+
+

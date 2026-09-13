@@ -122,7 +122,7 @@ Triggered manually (`workflow_dispatch` with a version input), never automatical
 Currently has no CI or release pipeline at all. Proposed, in order of what unblocks what:
 1. **CI first** (safe, no store impact): `flutter analyze` + `flutter test` on every PR touching `frontend/**`, mirroring the pattern already used for `backend/` and `saarthi-agent/`.
 2. **Build pipeline**: Android App Bundle signing via a GitHub Actions workflow (keystore as a base64 secret) or a managed service (Codemagic/fastlane) if you'd rather not hand-roll signing in Actions.
-3. **Release channel strategy**: Play Store internal testing → closed testing → production, gated manually at each promotion (not auto-promoted). App version should carry the `catalogVersion`/`releaseVersion` it was built against for support/debugging, since the app and catalog now version independently (per the offline/cloud sync architecture already documented in `docs/specs/OFFLINE_CLOUD_SYNC_ARCHITECTURE.md`).
+3. **Release channel strategy**: Play Store internal testing → closed testing → production, gated manually at each promotion (not auto-promoted). App version should carry the `catalogVersion`/`releaseVersion` it was built against for support/debugging, since the app and catalog now version independently (per the offline/cloud sync architecture already documented in `docs/specs/CATALOG_SPECIFICATIONS.md` (Part 5)).
 
 No UI/UX work is implied by any of this — it's packaging and CI only.
 
