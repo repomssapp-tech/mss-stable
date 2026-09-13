@@ -102,3 +102,8 @@ uv run pytest -v
 6. **Security & RLS**:
    - All PostgreSQL tables in Supabase must have Row Level Security (RLS) enabled.
    - Secrets (`SARVAM_API_KEY`, `LIVEKIT_API_SECRET`, etc.) must never be committed to source control.
+
+7. **Voice AI Agent Standards (`saarthi-agent/`)**:
+   - Manage dependencies and execution strictly via `uv` (`uv sync`, `uv run pytest`, `uv run ruff`).
+   - App code resides under `src/` with `agent.py` as entrypoint; maintain test coverage in `tests/`.
+   - Never guess LiveKit APIs or behaviors; verify with official LiveKit CLI (`lk docs`) or docs.
