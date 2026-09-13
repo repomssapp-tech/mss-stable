@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: catalog_row_checksum_trigger
--- Project : IN Schemes (MSS App)
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : `catalog.*` row `checksum` (see HASH_VERIFICATION_SPECIFICATION.md
 --           §2) was only ever set by the Node import pipeline
 --           (backend/scripts/generate_catalog_import_sql.js's

@@ -1,7 +1,7 @@
-# IN Schemes backend
+# MSS - MSME Schemes Search Backend
 
 Supabase backend, administration contracts, and Tamil voice research for the
-IN Schemes Flutter application. The existing citizen-facing scheme,
+MSS - MSME Schemes Search Flutter application. The existing citizen-facing scheme,
 recommendation, and search schema remains intact; the additive administration
 foundation introduces tenant-aware staff roles, region assignments,
 taxonomies, and append-only audit storage.
@@ -24,7 +24,7 @@ backend/
 └── README.md
 ```
 
-Architecture documentation lives at the repository root in `docs/` (e.g. `docs/DATABASE_ARCHITECTURE.md`, `docs/SEARCH_AND_CATALOG_ARCHITECTURE.md`). Offline Tamil ASR research tooling lives at `tools/voice-lab/`.
+Architecture documentation lives in `docs/` (e.g. `docs/backend/BACKEND_SPECIFICATION.md`, `docs/OFFLINE_DISCOVERY_AND_SEARCH_ARCHITECTURE.md`). Offline Tamil ASR research tooling lives at `tools/voice-lab/`.
 
 ## Local database
 
@@ -57,7 +57,7 @@ npx supabase functions deploy sarvam-chat
 npx supabase functions deploy db-change-notify
 ```
 
-> **Note:** `recommend` and `search` are retired (`410 GONE`) and superseded by `v1` (see `docs/runbooks/CUTOVER.md`).
+> **Note:** `recommend` and `search` are retired (`410 GONE`) and superseded by `v1` (see `docs/runbooks/OPERATIONS_RUNBOOK.md`).
 
 ## Published mobile scheme catalog
 
@@ -103,5 +103,5 @@ for setup, benchmark results, and model limitations.
 
 The administration and offline-sync endpoints in `openapi/openapi.yaml` are a
 draft contract; their Edge Function implementations are future milestones. See
-`docs/DATABASE_ARCHITECTURE.md` and `docs/SEARCH_AND_CATALOG_ARCHITECTURE.md`
+`docs/backend/BACKEND_SPECIFICATION.md` and `docs/OFFLINE_DISCOVERY_AND_SEARCH_ARCHITECTURE.md`
 for authoritative system specifications.

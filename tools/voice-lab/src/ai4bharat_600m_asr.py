@@ -14,7 +14,7 @@ DEFAULT_HF_CACHE = Path.home() / ".cache/in-schemes-hf/hub"
 
 def validate_decode_args(language: str, decoder: str) -> None:
     if language != "ta":
-        raise ValueError("this IN Schemes wrapper currently supports Tamil ('ta')")
+        raise ValueError("this MSS wrapper currently supports Tamil ('ta')")
     if decoder not in {"ctc", "rnnt"}:
         raise ValueError("decoder must be 'ctc' or 'rnnt'")
 

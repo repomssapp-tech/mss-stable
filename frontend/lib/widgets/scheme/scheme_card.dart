@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../models/scheme_model.dart';
 import '../../models/localized_scheme.dart';
-import '../../engine/recommendation_engine.dart';
+import '../../services/recommendation/recommendation_engine.dart';
 import '../../providers/app_state_provider.dart';
 import '../../services/catalog/centralized_translator.dart';
 import '../../utils/emblem_helper.dart';

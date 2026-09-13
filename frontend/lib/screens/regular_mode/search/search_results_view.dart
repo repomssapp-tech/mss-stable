@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../engine/recommendation_engine.dart';
+import '../../../services/recommendation/recommendation_engine.dart';
 import '../../../l10n/l10n.dart';
 import '../../../models/scheme_model.dart';
 import '../../../providers/app_state_provider.dart';

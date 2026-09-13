@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: 008_recommendations
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Recommendation results
 -- ===========================================================
 

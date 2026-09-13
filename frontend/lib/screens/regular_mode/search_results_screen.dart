@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../providers/app_state_provider.dart';
 import '../../models/scheme_model.dart';
 import '../../models/scheme_filter.dart';
-import '../../engine/recommendation_engine.dart';
+import '../../services/recommendation/recommendation_engine.dart';
 import '../../services/catalog/scheme_repository.dart';
 import '../../widgets/scheme/scheme_card.dart';
 import '../../widgets/scheme/filter_panel.dart';

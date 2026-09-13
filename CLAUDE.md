@@ -1,4 +1,4 @@
-﻿# CLAUDE.md — Developer Guidance Brief
+# CLAUDE.md — Developer Guidance Brief
 
 This document serves as the primary guidance for AI coding assistants and developers working in the `MSS_App` repository.
 
@@ -7,14 +7,13 @@ This document serves as the primary guidance for AI coding assistants and develo
 ## 🏛️ Monorepo Structure & Key Directories
 
 - **`frontend/`**: Multi-platform Flutter application (Dart 3.5+, Flutter 3.44.2).
-  - `lib/config/`: Routes, theme definitions, and environment config.
-  - `lib/engine/`: Core algorithmic recommendation logic (`recommendation_engine.dart`).
+  - `lib/config/`: Theme definitions, environment config, and startup verification.
   - `lib/l10n/`: Localization ARB templates (`app_en.arb`, `app_ta.arb`) and generated classes.
-  - `lib/models/`: Strongly-typed data structures (`scheme_model.dart`, `user_profile.dart`).
+  - `lib/models/`: Strongly-typed data structures (`scheme_model.dart`, `mss_contract.dart`, `user_profile.dart`).
   - `lib/providers/`: State management (`app_state_provider.dart` with dedicated controller sub-modules).
-  - `lib/screens/`: Screen coordinators split by mode (`regular_mode/`, `companion_mode/`, `profile/`, `notifications/`).
-  - `lib/services/`: Service layer partitioned by domain (`catalog/`, `search/`, `voice/`, `account/`, `chat/`, `edge_ai/`).
-  - `lib/utils/`: Design tokens (`app_spacing.dart`), helpers, and global constants.
+  - `lib/screens/`: Screen coordinators split by mode (`regular_mode/`, `companion_mode/`, `profile/`, `notifications/`, `beta_gate_screen.dart`).
+  - `lib/services/`: Service layer partitioned by domain (`catalog/`, `search/`, `recommendation/`, `beta_gate/`, `voice/`, `account/`, `chat/`).
+  - `lib/utils/`: Design tokens (`app_spacing.dart`), helpers, and global constants (`constants.dart`).
   - `lib/widgets/`: Shared UI components organized by category (`buttons/`, `cards/`, `dialogs/`, `inputs/`, `layout/`, `assistant/`).
   - `assets/catalog/`: Canonical offline scheme catalog (`catalog_bundle.json.gz`, `release.json`).
   - `test/`: 480+ widget, unit, and characterization tests.

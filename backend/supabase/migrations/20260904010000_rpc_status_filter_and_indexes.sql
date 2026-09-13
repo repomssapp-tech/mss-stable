@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: rpc_status_filter_and_indexes
--- Project : IN Schemes (MSS App)
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Close three findings from the 2026-09-04 backend architecture/
 --           security audit.
 --

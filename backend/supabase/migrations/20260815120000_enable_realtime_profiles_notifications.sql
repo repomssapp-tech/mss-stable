@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: enable_realtime_profiles_notifications
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : AppProvider subscribes to realtime changes on
 --           public.profiles and public.notifications
 --           (see frontend/lib/providers/app_state_provider.dart), but

@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: create_voice_chat_sessions_table
--- Project  : IN Schemes (MSS App)
+-- Project  : MSS - MSME Schemes Search
 -- Purpose  : Create dedicated structured document table for voice assistant
 --            sessions (public.voice_chat_sessions). Replaces legacy flat
 --            public.chat_logs table with a single JSONB document per session,

@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: document_voice_chat_transcript_recommendations
--- Project  : IN Schemes (MSS App)
+-- Project  : MSS - MSME Schemes Search
 -- Purpose  : Document the new contract for the public.voice_chat_sessions
 --            transcript JSONB array where 'ai' role turns now include a
 --            'recommendations' property.

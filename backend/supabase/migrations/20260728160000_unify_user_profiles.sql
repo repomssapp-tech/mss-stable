@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: unify_user_profiles
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Add columns from public.users to public.profiles, repoint constraints, and drop public.users.
 -- ===========================================================
 

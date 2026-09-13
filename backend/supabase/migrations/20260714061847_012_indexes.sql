@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: 012_indexes
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Performance Indexes
 -- ===========================================================
 

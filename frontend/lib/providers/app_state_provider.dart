@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/user_profile.dart';
 import '../models/scheme_model.dart';
-import '../engine/recommendation_engine.dart';
+import '../services/recommendation/recommendation_engine.dart';
 import '../services/account/auth_service.dart';
 import '../services/account/google_identity.dart';
 import '../services/catalog/scheme_repository.dart';

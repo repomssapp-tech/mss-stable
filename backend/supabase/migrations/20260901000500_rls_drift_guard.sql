@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: rls_drift_guard
--- Project : IN Schemes (MSS App)
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : M8 -- the recurrence guard in 20260818000000 is a one-shot
 --           migration-time DO block covering only "RLS on, zero policies".
 --           Replace it with a reusable function that also catches:

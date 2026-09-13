@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: lockdown_chat_logs_and_profiles_anon
--- Project : IN Schemes (MSS App)
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Close two confirmed-live RLS gaps found in the 2026-09-01 audit.
 --
 --   C1. public.profiles still carries table-level SELECT/INSERT/UPDATE/DELETE

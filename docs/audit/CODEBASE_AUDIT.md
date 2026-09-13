@@ -16,11 +16,11 @@
 
 **Stack.** Flutter (Dart SDK `^3.11.1`, bleeding-edge channel), `provider` for state (one ~1977-line `AppProvider` `ChangeNotifier`), `supabase_flutter`. Backend: Deno 2 edge functions on a 2.5-year-old `std@0.168.0` `serve`, `@supabase/supabase-js@2.39.0`, Postgres 17 with 76 forward-only migrations across 4 schemas (`public`, `catalog`, `admin`, `private`). Agent: Python 3.10–3.14, `uv`, `livekit-agents~=1.7`, Sarvam AI for STT/LLM/TTS.
 
-**Where truth lives.** The code, then `docs/OFFLINE_FIRST_AND_RECOMMENDATION_ARCHITECTURE.md` (the most accurate doc). **Do not trust** root `README.md` (describes a different, older app — Hindi/OTP), and treat `CLAUDE.md` and `docs/DATABASE_ARCHITECTURE.md` as partly stale (see §12).
+**Where truth lives.** The code, then `docs/OFFLINE_DISCOVERY_AND_SEARCH_ARCHITECTURE.md` (the most accurate doc). **Do not trust** root `README.md` (describes a different, older app — Hindi/OTP), and consult `CLAUDE.md` and `docs/backend/BACKEND_SPECIFICATION.md` (Part 4) for database schema (see §12).
 
 **Biggest risks.** (1) A **live Supabase secret key sits in plaintext** in two untracked working-tree files (`backend/.env`, `saarthi-agent/.env.sarvam`) — not in git, but full DB admin. (2) **No CI on PRs** for Flutter or the agent. (3) Search ranking is implemented **three times** (Dart/TS/Python) with 4 copies of a taxonomy JSON, kept in sync only by parity tests. (4) Several DB objects and a `catalog.search_index.search_doc` column exist only in production, not in any migration — a fresh replay diverges from prod. (5) God-object `AppProvider`; 4000–4800-line screen files.
 
-**First 5 files to read:** `frontend/lib/main.dart`, `docs/OFFLINE_FIRST_AND_RECOMMENDATION_ARCHITECTURE.md`, `frontend/lib/providers/app_state_provider.dart`, `frontend/lib/services/scheme_repository.dart`, `backend/supabase/functions/v1/index.ts`.
+**First 5 files to read:** `frontend/lib/main.dart`, `docs/OFFLINE_DISCOVERY_AND_SEARCH_ARCHITECTURE.md`, `frontend/lib/providers/app_state_provider.dart`, `frontend/lib/services/catalog/scheme_repository.dart`, `backend/supabase/functions/v1/index.ts`.
 
 ---
 
@@ -121,13 +121,11 @@
 | Folder | Responsibility |
 |---|---|
 | `config/` | `app_config.dart` — build-time config from `String.fromEnvironment` (`SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`) + a `validationError` startup gate. |
-| `engine/` | `recommendation_engine.dart` (~750 lines) — pure, explainable "For Me" eligibility scorer over `UserProfile` × `Scheme`. |
-| `features/beta_gate/` | The only feature-first module: password gate (config/service/screen) backed by a Supabase table with local unlock state. |
-| `l10n/` | ARB source (`app_en.arb`, `app_ta.arb`) + **committed** generated Dart (`app_localizations*.dart`, ~232 KB) + `context.l10n` extension. |
-| `models/` | Flat data models: `scheme_model.dart` (UI `Scheme`), `mss_entity.dart`/`mss_contract.dart`/`mss_models.dart` (raw catalog contract), `user_profile.dart`, `scheme_filter.dart`, `catalog_manifest.dart`. |
+| `l10n/` | Flutter l10n package conventions: ARB source (`app_en.arb`, `app_ta.arb`) + **committed** generated Dart (`app_localizations*.dart`, ~232 KB) + `context.l10n` extension. |
+| `models/` | Flat data models: `scheme_model.dart` (UI `Scheme`), `mss_entity.dart`/`mss_contract.dart` (canonical catalog contract DTOs), `user_profile.dart`, `scheme_filter.dart`, `catalog_manifest.dart`. |
 | `providers/` | `app_state_provider.dart` — **one** `ChangeNotifier` (`AppProvider`, ~1977 lines) owning auth, profile, language, tabs, bookmarks, search state, filters, wizard, announcements, notifications, catalog sync. |
-| `screens/` | Top-level screens + `regular_mode/` (main product) and `companion_mode/` ("Saarthi" voice shell). |
-| `services/` | 25 files — `scheme_repository.dart` (sole data gateway), catalog bundle/sync/store, 5 overlapping search/understanding engines, translator, auth, chat log, LiveKit/voice controllers, edge-SLM runtime. |
+| `screens/` | Top-level screens (incl. `beta_gate_screen.dart`), `regular_mode/` (main product), and `companion_mode/` ("Saarthi" voice shell). |
+| `services/` | Sub-packaged services — `catalog/`, `recommendation/` (`recommendation_engine.dart`), `beta_gate/`, `scheme_repository.dart` (sole data gateway), catalog bundle/sync/store, search engines, translator, auth, chat log, LiveKit/voice controllers. |
 | `utils/` | `constants.dart` (colors/gradients + legacy en-only translation map), `app_spacing.dart`, `app_theme.dart`, `responsive.dart`, permission/location helpers. |
 | `widgets/` | 17 shared widgets incl. `scheme_card.dart`, `filter_panel.dart`, `voice_assistant_overlay.dart` (3907 lines), `smart_assessment_bottom_sheet.dart` (2118 lines). |
 
@@ -141,7 +139,7 @@ There is **no** `routes/`, `di/`, or `state/` folder — routing is imperative `
 | `supabase/functions/livekit-token/` | Validates the caller's Supabase session, mints a LiveKit `AccessToken` (10 min) with a `RoomAgentDispatch` for `saarthi-agent`. |
 | `supabase/functions/publishCatalog/`, `rollbackRelease/`, `db-change-notify/` | Realtime broadcast on `catalog_sync` after a publish; atomic release pointer-flip via `mss_rollback_release(uuid)`; generic table-change broadcaster. |
 | `supabase/functions/search/`, `recommend/` | **Retired** — return `410 GONE`. |
-| `supabase/migrations/` | 76 forward-only SQL migrations — the authoritative schema (`docs/backend/decisions/0002`). |
+| `supabase/migrations/` | 76 forward-only SQL migrations — the authoritative schema (`docs/backend/BACKEND_SPECIFICATION.md#adr-0002-migrations-as-source-of-truth-and-schema-regeneration-discipline`). |
 | `supabase/schema.sql` | 132 KB generated snapshot — "point-in-time reference, not a migration"; **stale** (see §12). |
 | `catalog/` | `search_taxonomy.json` (canonical search-tuning params) + `search_parity_golden.json` (25-query golden fixture). No catalog data. |
 | `openapi/openapi.yaml` | OpenAPI 3.1 draft for an **unbuilt** admin/sync API — does not describe the live routes (see §12). |
@@ -158,8 +156,8 @@ Edge-parser LoRA pipeline (`train_/evaluate_/export_edge_parser.py`, `evaluate_e
 ## 4. Entry Points
 
 ### Frontend
-- **`frontend/lib/main.dart:39-105` — `main()`** (async): lock portrait + edge-to-edge UI → **config gate** (`AppConfig.validationError` at `main.dart:65`; missing/invalid `SUPABASE_URL`/`SUPABASE_PUBLISHABLE_KEY` → `_StartupErrorApp`, nothing else runs) → `Supabase.initialize` (`main.dart:73-76`) → fire-and-forget `ChatLogService.syncPendingOfflineQueue()` + `LiveKitClient.initialize` → `runApp(ChangeNotifierProvider(create: (_) => AppProvider(), child: InSchemesApp()))`.
-- **`InSchemesApp`** (`main.dart:152-295`): `MaterialApp`, locale from `AppProvider`, text-scale clamp (`main.dart:169-188`), M3 theme with GoogleFonts Poppins/Inter, `home: SplashScreen()`.
+- **`frontend/lib/main.dart:39-105` — `main()`** (async): lock portrait + edge-to-edge UI → **config gate** (`AppConfig.validationError` at `main.dart:65`; missing/invalid `SUPABASE_URL`/`SUPABASE_PUBLISHABLE_KEY` → `_StartupErrorApp`, nothing else runs) → `Supabase.initialize` (`main.dart:73-76`) → fire-and-forget `ChatLogService.syncPendingOfflineQueue()` + `LiveKitClient.initialize` → `runApp(ChangeNotifierProvider(create: (_) => AppProvider(), child: MSSApp()))`.
+- **`MSSApp`** (`main.dart:152-295`): `MaterialApp`, locale from `AppProvider`, text-scale clamp (`main.dart:169-188`), M3 theme with GoogleFonts Poppins/Inter, `home: SplashScreen()`.
 - **Routing:** **no named-route table.** `onGenerateRoute: (_) => null` (`main.dart:280`); `onUnknownRoute` (`main.dart:281-292`) exists **only** to absorb the Supabase OAuth deep-link (`com.inschemes.app://login-callback/?code=...`) that the platform pushes as a named route — it renders nothing and pops. All navigation is imperative; main shell is a 5-tab `IndexedStack` in `MainTabsContainer` driven by `AppProvider.currentTabIndex`.
 - **`SplashScreen`** (`frontend/lib/screens/splash_screen.dart`): pure `resolveStartupDestination({hasSession, hasCachedLanguage, profileCompleted})` → `home`/`navigationMode`/`language`/`login`; validates the Supabase session server-side but keeps the cached session on `AuthRetryableFetchException` (offline); routes through the beta gate.
 - **Config injection:** `--dart-define-from-file=dart_defines.json` via `run.sh`/`run.ps1` (subcommands `run|run-release|apk|apk-release|appbundle|web|analyze|test`), `.vscode/launch.json`, and `.github/workflows/build-app.yml`. `dart_defines.json` is git-ignored. **`MSS_API_BASE_URL` is defined there but read nowhere in `lib/`** — dead config.
@@ -259,7 +257,7 @@ Invoked at `https://<ref>.supabase.co/functions/v1/<name>/…`. The function lit
 | Singleton via private ctor + static `instance` | `SchemeRepository._()` / `.instance` (`scheme_repository.dart:19-21`); also `CentralizedTranslator`, `SchemeCatalogSyncService`. |
 | Repository (single gateway) | `SchemeRepository` — every screen's scheme-data entry point (`scheme_repository.dart:11-18`). |
 | Adapter | `MssSchemeAdapter.toScheme()` maps raw `MssEntity` → UI `Scheme` (`mss_scheme_adapter.dart`, ~1041 lines). |
-| Pure, deterministic, explainable engine | `RecommendationEngine.evaluate(profile, scheme)` (`engine/recommendation_engine.dart:20+`); `HybridSchemeSearch.search()`. |
+| Pure, deterministic, explainable engine | `RecommendationEngine.evaluate(profile, scheme)` (`services/recommendation/recommendation_engine.dart`); `HybridSchemeSearch.search()`. |
 | Result object + outcome enum | `CatalogSyncResult` + `CatalogSyncOutcome {unchanged,updated,offline,incompatible,rejected,throttled}` (`scheme_catalog_sync_service.dart:9-26`); `GroundedSearchOutcome`. |
 | Constructor-param DI (test seams) | `SchemeCatalogSyncService({source, store, clock})`, `BetaGateService({client})`, `AppProvider({syncService})`. |
 | Extension method for ergonomics | `AppLocalizationsX` → `context.l10n` (`l10n/l10n.dart:4-7`). |
@@ -294,8 +292,7 @@ Invoked at `https://<ref>.supabase.co/functions/v1/<name>/…`. The function lit
 
 ### Dart / Flutter
 - **Files** `snake_case.dart`; role suffixes carry meaning: `_screen`, `_service`, `_engine`, `_controller`, `_helper`, `_modal`, `_card`, `_sheet`.
-- **Classes/widgets** `PascalCase`; private `State` classes `_XScreenState`; private ctors `ClassName._()`.
-- **Layout is layer-first** (`models/`, `services/`, `providers/`, `engine/`, `widgets/`, `utils/`); screens split by product mode (`regular_mode/` vs `companion_mode/`); `models/` and `services/` are flat (no sub-namespacing). One exception: `features/beta_gate/` is feature-first.
+- **Layout is layer-first** (`models/`, `services/`, `providers/`, `screens/`, `widgets/`, `utils/`); screens split by product mode (`regular_mode/` vs `companion_mode/`); services sub-packaged logically (`catalog/`, `recommendation/`, `beta_gate/`).
 - **Docs:** heavy dartdoc header blocks with box-drawing rules on nearly every service/model; rationale comments are extensive and current.
 - **Modern API discipline:** `Color.withValues(alpha:)` used 152×, `withOpacity(` 0× (fully migrated); `WidgetStateProperty` not `MaterialStateProperty`.
 - **No file-size discipline** — median service/model 200–600 lines, but extreme outliers: `categories_screen.dart` 4822, `voice_assistant_overlay.dart` 3907, `saarthi_home_screen.dart` 2360, `basic_profile_screen.dart` 2209, `smart_assessment_bottom_sheet.dart` 2118, `app_state_provider.dart` 1977, `centralized_translator.dart` ~1050 (88 KB). Total `lib/` (excl. generated l10n) ≈ 56k lines.
@@ -328,13 +325,13 @@ Invoked at `https://<ref>.supabase.co/functions/v1/<name>/…`. The function lit
 | # | File | Why |
 |---|---|---|
 | 1 | `frontend/lib/main.dart` | Bootstrap, config gate, Supabase/LiveKit init, single-provider wiring, theme, the 5-tab `IndexedStack` shell, and the deep-link `onUnknownRoute` hack. |
-| 2 | `docs/OFFLINE_FIRST_AND_RECOMMENDATION_ARCHITECTURE.md` | The most accurate architecture doc; §11 module map is the fastest route into the data/search/recommendation layer (ignore the one-patch-stale version string). |
+| 2 | `docs/OFFLINE_DISCOVERY_AND_SEARCH_ARCHITECTURE.md` | The most accurate architecture doc; §12 module map is the fastest route into the data/search/recommendation layer. |
 | 3 | `frontend/lib/providers/app_state_provider.dart` | The god `ChangeNotifier` — app state, auth flow, profile sync/merge, filters, catalog sync all live here. |
 | 4 | `frontend/lib/services/scheme_repository.dart` | The single data gateway; shows the offline-only discovery model and the Supabase-only-for-profile split. (Ignore its stale "online-first" docstrings.) |
 | 5 | `backend/supabase/functions/v1/index.ts` | The whole server API surface: routing, JWT + service-role auth, fail-closed rate limiting, response envelopes. Header explains why `/v1/search` has no caller. |
 | 6 | `frontend/lib/services/mss_catalog_bundle.dart` | How the offline catalog is loaded, SHA-256-integrity-checked vs `release.json`, and swapped for a runtime-synced newer release. |
 | 7 | `frontend/lib/services/hybrid_scheme_search.dart` | The parity-locked ranker; header comments spell out the invariants you must not break. |
-| 8 | `frontend/lib/engine/recommendation_engine.dart` | The pure "For Me" eligibility scorer; the weight design and `forMeThreshold` gate. |
+| 8 | `frontend/lib/services/recommendation/recommendation_engine.dart` | The pure "For Me" eligibility scorer; the weight design and `forMeThreshold` gate. |
 | 9 | `backend/supabase/migrations/20260805000000_database_architecture_v2.sql` | The v2 rewrite — drops 24 tables and rebuilds into 4 schemas. Everything current descends from here. (Note: it was edited a day after commit — see §12.) |
 | 10 | `saarthi-agent/src/agent.py` | The voice agent end-to-end: Sarvam pipeline, LiveKit session, profile injection hardening, `find_schemes` local search, pre-job catalog sync. |
 

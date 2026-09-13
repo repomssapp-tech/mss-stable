@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: 005_documents
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Required documents for government schemes
 -- ===========================================================
 

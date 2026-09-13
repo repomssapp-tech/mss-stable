@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: catalog_meta_function_v2
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : catalog_parity_closure (20260817000000) added 5 new catalog
 --           tables (applicability_matrix, enterprise_classification,
 --           msme_privilege, business_enablement, cluster_assistance).

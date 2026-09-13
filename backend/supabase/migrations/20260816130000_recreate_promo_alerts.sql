@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: recreate_promo_alerts
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : database_architecture_v2 (20260805000000) dropped public.promo_alerts
 --           as part of its legacy-table cleanup sweep, but never recreated it --
 --           it isn't part of the catalog/admin schema. This table is still

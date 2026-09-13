@@ -24,7 +24,7 @@ class CatalogManifest {
 
   /// Semantic release identity (e.g. "1.33.0-alpha"), distinct from [version]
   /// (a bare sequence number) -- see
-  /// docs/handoff/architecture_docs/RELEASE_MANIFEST_SPECIFICATION.md.
+  /// docs/specs/CATALOG_SPECIFICATIONS.md (Part 3).
   /// Null for manifests sourced from the legacy `public.catalog_releases`
   /// shape (kept for backward compatibility with [fromSupabase]).
   final String? releaseVersion;

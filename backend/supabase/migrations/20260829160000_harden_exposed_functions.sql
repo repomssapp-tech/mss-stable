@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: harden_exposed_functions
--- Project : IN Schemes (MSS APP)
+-- Project  : MSS - MSME Schemes Search (MSS APP)
 -- Purpose : Clear the remaining Supabase security-advisor findings that
 --           relate to the exposed PostgREST surface.
 --

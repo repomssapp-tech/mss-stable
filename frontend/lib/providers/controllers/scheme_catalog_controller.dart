@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../../engine/recommendation_engine.dart';
+import '../../services/recommendation/recommendation_engine.dart';
 import '../../models/scheme_model.dart';
 import '../../models/user_profile.dart';
 import '../../services/catalog/scheme_catalog_sync_service.dart';

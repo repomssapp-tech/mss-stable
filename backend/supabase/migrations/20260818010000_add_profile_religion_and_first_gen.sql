@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: add_profile_religion_and_first_gen
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : `religion` and `firstGenGraduate` are collected during
 --           onboarding, cached locally, and actively used in
 --           RecommendationEngine scoring (recommendation_engine.dart:118,

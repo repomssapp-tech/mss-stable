@@ -26,7 +26,7 @@ void main() {
     await tester.pumpWidget(
       ChangeNotifierProvider(
         create: (_) => AppProvider(),
-        child: const InSchemesApp(),
+        child: const MSSApp(),
       ),
     );
 

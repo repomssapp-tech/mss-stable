@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: reconcile_orphan_tables
--- Project : IN Schemes (MSS App)
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Drop public.auth_user_id -- a 1-column, no-PK/FK/comment table
 --           that exists only on the hosted DB, is defined by no migration,
 --           and is referenced by no code anywhere in this repo. Dropped only

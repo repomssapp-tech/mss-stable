@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: persistent_rate_limiter
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Replace the Edge Function's in-memory rate limiter with a
 --           database-backed one.
 --

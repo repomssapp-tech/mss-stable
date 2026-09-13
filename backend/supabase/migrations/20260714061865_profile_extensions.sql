@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: 014_profile_extensions
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Add missing onboarding and profile fields to users and startup_profiles
 -- ===========================================================
 

@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: IN Schemes Backend API
+  title: MSS - MSME Schemes Search Backend API
   version: 0.1.0
   license:
     name: Proprietary

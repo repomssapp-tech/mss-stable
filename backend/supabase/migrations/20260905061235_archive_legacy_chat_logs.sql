@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: archive_legacy_chat_logs
--- Project  : IN Schemes (MSS App)
+-- Project  : MSS - MSME Schemes Search
 -- Purpose  : Retire the superseded flat public.chat_logs table by rename,
 --            per the archive-not-drop rule (a rename is reversible for a
 --            release cycle; a drop is not).

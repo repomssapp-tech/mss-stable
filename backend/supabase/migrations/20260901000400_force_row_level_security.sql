@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: force_row_level_security
--- Project : IN Schemes (MSS App)
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : M7 -- every RLS-enabled table in this project has
 --           relforcerowsecurity = false, so the table OWNER (and any future
 --           SECURITY DEFINER function owned by it) bypasses RLS silently.

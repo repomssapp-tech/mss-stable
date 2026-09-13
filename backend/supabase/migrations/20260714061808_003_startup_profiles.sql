@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: 003_startup_profiles
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Stores multiple startup ideas created by a user
 -- ===========================================================
 

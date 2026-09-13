@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: remaining_api_rpcs
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : V2-B4 (API port continued). Backs GET /v1/finance-products,
 --           GET /v1/schemes/{id}/finance, GET /v1/clusters, GET /v1/tax,
 --           GET /v1/privileges, GET /v1/relationships/{id},

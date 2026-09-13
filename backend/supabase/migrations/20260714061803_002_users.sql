@@ -1,6 +1,6 @@
 -- =====================================================
 -- Migration: 002_users
--- Project: IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Description: Application user profiles
 -- =====================================================
 

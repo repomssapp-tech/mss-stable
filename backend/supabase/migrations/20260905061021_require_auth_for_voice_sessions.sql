@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: require_auth_for_voice_sessions
--- Project  : IN Schemes (MSS App)
+-- Project  : MSS - MSME Schemes Search
 -- Purpose  : Close the anonymous write surface on
 --            public.voice_chat_sessions, bind every row to its owner,
 --            and bound the JSONB payload size.

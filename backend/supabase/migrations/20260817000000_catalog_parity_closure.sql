@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: catalog_parity_closure
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : The offline Flutter bundle ships 15 catalog files (1216
 --           entities). Supabase's catalog schema only ever imported 10 of
 --           them (971 entities) -- applicability_matrix,

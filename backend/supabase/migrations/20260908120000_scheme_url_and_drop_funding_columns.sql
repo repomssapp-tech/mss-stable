@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: scheme_url_and_drop_funding_columns
--- Project  : IN Schemes (MSS App)
+-- Project  : MSS - MSME Schemes Search
 -- Purpose  : Formalise the manually-added catalog.scheme.scheme_url column,
 --            mirror it into record_json so it flows to the offline bundle /
 --            mss_scheme_detail, and drop the two unused denormalised funding

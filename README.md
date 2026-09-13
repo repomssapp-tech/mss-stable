@@ -1,4 +1,4 @@
-﻿# IN Schemes: AI-Powered Government Scheme Platform
+# MSS - MSME Schemes Search: AI-Powered Government Scheme Platform
 
 An intelligent, self-contained multi-platform application designed to simplify the discovery, eligibility verification, and documentation requirements of Central and State Government schemes for Indian entrepreneurs, MSMEs, women, and students.
 

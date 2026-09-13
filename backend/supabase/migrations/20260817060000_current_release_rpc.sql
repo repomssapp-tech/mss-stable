@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: current_release_rpc
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : V2-B6 (corrected architecture). Exposes the published release
 --           artifact's identity (releaseVersion, packageSha256) via a
 --           dedicated RPC, kept deliberately separate from
