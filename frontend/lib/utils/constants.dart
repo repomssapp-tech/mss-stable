@@ -50,35 +50,6 @@ class AppConstants {
         'https://www.nsic.co.in/',
   };
 
-  // UI Translation Map for English & Tamil
-  static const Map<String, Map<String, String>> translations = {
-    'en': {
-      'app_name': 'MSS',
-      'tagline': 'Discover every Government Scheme in India',
-      'launch_info': 'National Entrepreneurs\' Day Special Release',
-      'continue': 'Continue',
-      'login_title': 'Continue securely',
-      'login_subtitle': 'Use your Google account to continue',
-      'login_btn': 'Continue with Google',
-      'guest_btn': 'Continue as Guest',
-      'welcome_back': 'Welcome Back,',
-      'recent_searches': 'Recent Searches',
-      'popular_searches': 'Popular Searches',
-      'recommended': 'Recommended for You',
-      'categories': 'Scheme Categories',
-      'search_placeholder': 'Search schemes, ministries, or keywords...',
-      'check_eligibility': 'Check Eligibility',
-      'saved_schemes': 'Saved Schemes',
-      'notifications': 'Notifications',
-      'profile': 'My Profile',
-      'settings': 'Settings',
-      'help_support': 'Help & Support',
-    },
-  };
-
-  static String get(String key, String lang) {
-    return translations[lang]?[key] ?? translations['en']?[key] ?? key;
-  }
 
   /// Returns the localized greeting matching the actual time of day:
   /// - Morning (05:00 - 11:59): goodMorning
