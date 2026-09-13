@@ -1,6 +1,6 @@
 -- ============================================================================
 -- Migration: database_architecture_v2
--- Project : IN Schemes (MSS)
+-- Project  : MSS - MSME Schemes Search
 -- Version : v2.0 Production-grade Database Update (Phase 1)
 -- ============================================================================
 

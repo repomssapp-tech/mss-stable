@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: 010_notifications
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : User notifications
 -- ===========================================================
 

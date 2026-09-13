@@ -1,8 +1,8 @@
 {
-  "name": "in-schemes-backend",
+  "name": "mss-backend",
   "version": "0.1.0",
   "private": true,
-  "description": "Supabase backend tooling and contracts for IN Schemes",
+  "description": "Supabase backend tooling and contracts for MSS - MSME Schemes Search",
   "scripts": {
     "supabase:start": "supabase start --exclude analytics",
     "supabase:stop": "supabase stop",

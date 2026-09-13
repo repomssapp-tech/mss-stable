@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: fix_mistagged_scheme_intent_tags
--- Project : IN Schemes (MSS App)
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : catalog.search_index.record_json->schemeSearchProfile.userIntentTags
 --           carried a 'TAX_REQUEST' tag on 4 schemes that have no tax-related
 --           nature at all (no linked catalog.tax record, and

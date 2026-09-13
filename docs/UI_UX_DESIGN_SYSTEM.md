@@ -1,6 +1,6 @@
-# MSS (IN Schemes) — Comprehensive UI/UX Design System & Screen Architecture
+# MSS - MSME Schemes Search — Comprehensive UI/UX Design System & Screen Architecture
 
-**Audience:** Flutter engineers, designers, and product owners building and maintaining the citizen user experience for IN Schemes.
+**Audience:** Flutter engineers, designers, and product owners building and maintaining the citizen user experience for MSS - MSME Schemes Search.
 
 ## Table of Contents
 1. [Part 1: Canonical Design System, Semantic Tokens & Typography](#part-1-canonical-design-system-semantic-tokens--typography)
@@ -10,7 +10,7 @@
 
 # Part 1: Canonical Design System, Semantic Tokens & Typography
 
-# MSS (IN Schemes) — Canonical Design System & UI/UX Guidelines
+# MSS - MSME Schemes Search — Canonical Design System & UI/UX Guidelines
 
 **Version:** 2.0.0  
 **Target Platform:** Mobile Flutter (Android & iOS) + Web / PWA  
@@ -130,9 +130,9 @@ All color tokens are calibrated to achieve $\ge 8.5:1$ contrast against card and
 
 # Part 2: UX Architecture, Screen Flow & User Journeys
 
-# 📱 IN Schemes: UX & Screen Architecture Specification
+# 📱 MSS - MSME Schemes Search: UX & Screen Architecture Specification
 
-This document details the comprehensive user experience design, screen architecture, and navigation flow of the **IN Schemes** platform.
+This document details the comprehensive user experience design, screen architecture, and navigation flow of the **MSS - MSME Schemes Search** platform.
 
 ---
 

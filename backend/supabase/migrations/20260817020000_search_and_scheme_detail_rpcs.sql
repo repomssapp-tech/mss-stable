@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: search_and_scheme_detail_rpcs
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : V2-B3 (API port). The v1 Edge Function's /v1/search and
 --           /v1/schemes/{id} routes need to read catalog.* tables, but that
 --           schema isn't exposed to PostgREST (config.toml only exposes

@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: lock_down_remaining_catalog_rpcs
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Close the rest of the bulk-catalog scrape surface.
 --
 --           revoke_public_search_rpc_execute closed mss_search_data, but the

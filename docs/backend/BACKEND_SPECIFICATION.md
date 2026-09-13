@@ -4,7 +4,7 @@
 
 ## Table of Contents
 1. [Part 1: Architecture Decision Records (ADRs)](#part-1-architecture-decision-records-adrs)
-   - [ADR 0001: Backend Governance Baseline](#adr-0001-in-schemes-backend-governance-baseline)
+   - [ADR 0001: Backend Governance Baseline](#adr-0001-mss---msme-schemes-search-backend-governance-baseline)
    - [ADR 0002: Migrations as Source of Truth](#adr-0002-migrations-as-source-of-truth-and-schema-regeneration-discipline)
 2. [Part 2: Core Backend Product Requirements Document (PRD)](#part-2-core-backend-product-requirements-document-prd)
 3. [Part 3: Backend Search, Taxonomy & MLOps PRD](#part-3-backend-search-taxonomy--mlops-prd)
@@ -14,9 +14,9 @@
 
 # Part 1: Architecture Decision Records (ADRs)
 
-## ADR 0001: IN Schemes backend governance baseline
+## ADR 0001: MSS - MSME Schemes Search backend governance baseline
 
-# ADR 0001: IN Schemes backend governance baseline
+# ADR 0001: MSS - MSME Schemes Search backend governance baseline
 
 - Status: Proposed; engineering scaffold adopted, product defaults pending
 - Date: 2026-07-21
@@ -24,7 +24,7 @@
 
 ## Context
 
-The existing IN Schemes repository already contains a Flutter client, Supabase
+The existing MSS - MSME Schemes Search repository already contains a Flutter client, Supabase
 schema, and public recommendation APIs. The next backend milestones depend on a
 repeatable Supabase environment, a reviewable administration API contract, and
 explicit answers to the open product decisions in PRD section 16.
@@ -139,7 +139,7 @@ invisible until an audit or the weekly `rls-drift-check.yml` job finds it.
 
 # Product Requirements Document: Backend-Only MVP
 
-**Product:** IN Schemes
+**Product:** MSS - MSME Schemes Search
 **Document version:** 1.0
 **Status:** Ready for engineering review
 **Initial delivery scope:** Backend services and agency administration only
@@ -147,7 +147,7 @@ invisible until an audit or the weekly `rls-drift-check.yml` job finds it.
 
 ## 1. Purpose
 
-Extend the IN Schemes backend into the authoritative, secure, auditable source for government schemes, eligibility information, regional applicability, approved colloquial Tamil content, publication history, and incremental client synchronization.
+Extend the MSS backend into the authoritative, secure, auditable source for government schemes, eligibility information, regional applicability, approved colloquial Tamil content, publication history, and incremental client synchronization.
 
 The first release must be usable by agency administrators through a complete internal API. A minimal administration interface is optional and must be explicitly selected during Sprint 0. The backend must expose stable contracts that the existing Flutter client and future MLOps components can consume without requiring a database redesign.
 
@@ -640,7 +640,7 @@ The backend-only MVP is complete when the full scheme lifecycle works in product
 
 # Product Requirements Document: Backend and MLOps Platform
 
-**Product:** IN Schemes Regional Offline AI
+**Product:** MSS - MSME Schemes Search Regional Offline AI
 **Document status:** Corrected draft for engineering review (Rev. 1.1)
 **Source:** Regional Offline AI Architecture System Design Specification, Rev. 2-Corrected
 **Scope:** Agency Hub backend, scheme-data synchronization, MLOps, vocabulary delivery, telemetry, and over-the-air model delivery
@@ -648,7 +648,7 @@ The backend-only MVP is complete when the full scheme lifecycle works in product
 
 ## 1. Executive summary
 
-IN Schemes is a Flutter application that helps users discover government schemes. Its regional offline AI track adds colloquial Tamil voice and text support. The backend and MLOps platform must keep regional scheme data and narrow-domain language models current without making the mobile experience dependent on connectivity.
+MSS - MSME Schemes Search is a Flutter application that helps users discover government schemes. Its regional offline AI track adds colloquial Tamil voice and text support. The backend and MLOps platform must keep regional scheme data and narrow-domain language models current without making the mobile experience dependent on connectivity.
 
 The platform will allow authorized agency staff to ingest and review government-scheme information, generate colloquial Tamil and code-mixed search phrases, publish region-scoped scheme deltas, train and evaluate compact intent/scheme-matching models, and safely distribute approved model artifacts to compatible devices. Mobile clients must remain usable when the backend is unavailable.
 
@@ -1136,7 +1136,7 @@ The backend and MLOps scope is production-ready when all acceptance criteria pas
 
 ## 1. Executive Summary & Design Principles
 
-The **IN Schemes** database is organized to support citizen scheme searches and administrative governance. The system operates on the following core principles:
+The **MSS - MSME Schemes Search** database is organized to support citizen scheme searches and administrative governance. The system operates on the following core principles:
 
 1. **Schema Partitioning:**
    - `catalog`: Contains all government catalog data, structured for offline compilation and search optimization.

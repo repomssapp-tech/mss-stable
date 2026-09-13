@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: lock_down_catalogs_storage_bucket
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Close the largest remaining egress hole.
 --
 --           The `catalogs` bucket was public:true AND carried a blanket

@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: release_artifact_columns
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : V2-B6 (corrected architecture). Extends admin.catalog_releases
 --           with the fields OFFLINE_CLOUD_SYNC_ARCHITECTURE.md /
 --           RELEASE_MANIFEST_SPECIFICATION.md require that the table

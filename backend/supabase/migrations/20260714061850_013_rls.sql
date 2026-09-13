@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: 013_rls
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Row Level Security
 -- ===========================================================
 

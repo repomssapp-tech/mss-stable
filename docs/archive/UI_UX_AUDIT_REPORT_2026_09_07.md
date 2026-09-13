@@ -1,5 +1,5 @@
 # Forensic UI/UX, Accessibility & Architecture Audit Report
-**Target Application:** IN Schemes (MSS - Scheme Discovery & Eligibility Engine)  
+**Target Application:** MSS - MSME Schemes Search (MSS - Scheme Discovery & Eligibility Engine)  
 **Codebase Base Path:** `frontend/lib/`  
 **Audit Date:** September 7, 2026  
 **Auditor:** Principal UI/UX Engineer, Mobile Interaction Specialist & Accessibility Reviewer  
@@ -10,7 +10,7 @@
 ## 1. EXECUTIVE SUMMARY
 
 ### Overall Quality Assessment
-IN Schemes (MSS) presents a strong feature foundation aimed at connecting micro, small, and medium enterprises (MSMEs) in Tamil Nadu with government welfare schemes. The codebase demonstrates high code cleanliness (passing static analysis with 0 lints and 372 passing tests). However, from a **pre-production user experience, accessibility, and interactive design perspective**, the app suffers from major production-blocking defects.
+MSS - MSME Schemes Search (MSS) presents a strong feature foundation aimed at connecting micro, small, and medium enterprises (MSMEs) in Tamil Nadu with government welfare schemes. The codebase demonstrates high code cleanliness (passing static analysis with 0 lints and 372 passing tests). However, from a **pre-production user experience, accessibility, and interactive design perspective**, the app suffers from major production-blocking defects.
 
 While the app exhibits modern visual styling in places (glassmorphism cards, vibrant accents, dark/light mode foundations), it exhibits critical state-disconnections (e.g., scheme bookmarking changes widget state locally without persisting to global storage; eligibility results saving triggers only a visual toast without persistence), harsh accessibility restrictions (hard-clamped text scaling that blocks low-vision users), friction-heavy onboarding (mandatory door numbers blocking address entry), and platform architecture drift (imperative navigation and standard Provider vs. Riverpod/go_router guidelines).
 

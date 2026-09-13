@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "saarthi-agent"
 version = "1.0.0"
-description = "Multilingual government-scheme voice guide for IN Schemes"
+description = "Multilingual government-scheme voice guide for MSS - MSME Schemes Search"
 requires-python = ">=3.10, <3.15"
 
 dependencies = [

@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: 009_search
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Semantic Search using OpenAI Embeddings + pgvector
 -- ===========================================================
 

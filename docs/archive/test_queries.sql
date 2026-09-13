@@ -1,6 +1,6 @@
 -- ===========================================================
 -- SQL Test Verification Queries
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Verification of DB functions, integrity, RLS & performance
 -- ===========================================================
 

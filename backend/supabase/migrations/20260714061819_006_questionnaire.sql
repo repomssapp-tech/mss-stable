@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: 006_questionnaire
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Dynamic questionnaire engine
 -- ===========================================================
 

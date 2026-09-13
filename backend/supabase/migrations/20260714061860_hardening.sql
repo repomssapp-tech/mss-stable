@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: 015_hardening
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Database hardening, safe evaluation, constraint validation, RLS, and HNSW index.
 -- ===========================================================
 

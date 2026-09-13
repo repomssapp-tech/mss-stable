@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: eligibility_rpc
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : V2-B5 (API port). Backs POST /v1/eligibility, the port of
 --           IntelligenceResolver.match_applicability(). Extends
 --           mss_lookup_catalog() (added in 20260817030000) with an

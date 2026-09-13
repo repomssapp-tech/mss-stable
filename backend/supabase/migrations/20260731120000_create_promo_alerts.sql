@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: create_promo_alerts
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Add database-driven promotional alerts for the Home screen
 -- ===========================================================
 

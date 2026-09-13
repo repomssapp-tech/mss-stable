@@ -8,7 +8,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 # Helper function to generate clean UUIDs
 def make_uuid(name_seed):
-    return str(uuid.uuid5(uuid.NAMESPACE_DNS, f"inschemes.{name_seed}"))
+    return str(uuid.uuid5(uuid.NAMESPACE_DNS, f"mss.{name_seed}"))
 
 # 35 Schemes data definition
 schemes_list = [

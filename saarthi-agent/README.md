@@ -4,7 +4,7 @@
 
 # Saarthi Voice Agent
 
-Saarthi is the multilingual voice guide for the IN Schemes application. LiveKit
+Saarthi is the multilingual voice guide for the MSS - MSME Schemes Search application. LiveKit
 provides realtime rooms, turn handling, noise cancellation, and cloud deployment;
 Sarvam AI provides the voice pipeline:
 

@@ -103,7 +103,7 @@ void main() async {
   runApp(
     ChangeNotifierProvider(
       create: (_) => AppProvider(),
-      child: const InSchemesApp(),
+      child: const MSSApp(),
     ),
   );
 }
@@ -153,8 +153,8 @@ class _StartupErrorApp extends StatelessWidget {
   }
 }
 
-class InSchemesApp extends StatelessWidget {
-  const InSchemesApp({super.key});
+class MSSApp extends StatelessWidget {
+  const MSSApp({super.key});
 
   @override
   Widget build(BuildContext context) {

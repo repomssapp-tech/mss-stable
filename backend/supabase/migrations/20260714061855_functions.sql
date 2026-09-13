@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: 014_functions
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Database functions for recommendation and search
 -- ===========================================================
 

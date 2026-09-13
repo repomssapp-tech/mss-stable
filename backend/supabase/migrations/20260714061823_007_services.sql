@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: 007_services
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Entrepreneur support services
 -- ===========================================================
 

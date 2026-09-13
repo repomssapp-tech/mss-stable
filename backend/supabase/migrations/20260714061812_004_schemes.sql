@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: 004_schemes
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Master table for all Government Schemes
 -- ===========================================================
 

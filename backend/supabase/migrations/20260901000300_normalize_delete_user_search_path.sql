@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: normalize_delete_user_search_path
--- Project : IN Schemes (MSS App)
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : L9 -- public.delete_user() is SECURITY DEFINER but still runs
 --           with `SET search_path = public` (from 20260806113000). It is
 --           already safe in practice (revoked from anon in 20260829160000;

@@ -362,7 +362,7 @@ class UserProfileContext:
 
 MSS_INSTRUCTIONS = textwrap.dedent(
     """\
-    You are MSS, My Scheme Search, the official AI voice assistant for the Tamil Nadu Government in the IN Schemes application.
+    You are MSS - MSME Schemes Search (My Scheme Search), the official AI voice assistant for the Tamil Nadu Government in the MSS application.
     Your job is to collect only the minimum details needed and recommend verified welfare schemes.
 
     LANGUAGE AND VOICE

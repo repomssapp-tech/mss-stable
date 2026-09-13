@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: optimize_search_rpc_and_security
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Performance & Security Optimization for /v1/search
 --           1. Prunes mss_search_data() payload from 5.15MB down to <250KB (>95% reduction)
 --              by returning only fields consumed by HybridSearchEngine:

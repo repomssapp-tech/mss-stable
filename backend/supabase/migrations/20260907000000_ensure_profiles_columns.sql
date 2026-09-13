@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: ensure_profiles_columns
--- Project  : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose  : Ensure all expected columns exist on public.profiles and reload PostgREST schema cache
 -- ===========================================================
 

@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: catalog_meta_function
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Expose a live, checksum-derived catalog version/checksum so the
 --           Flutter app's /v1/meta call (MssMeta.isStaleAgainst) can detect
 --           when the Supabase-side catalog has changed since the app's last

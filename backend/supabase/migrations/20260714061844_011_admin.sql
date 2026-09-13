@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: 011_admin
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Admin management
 -- ===========================================================
 

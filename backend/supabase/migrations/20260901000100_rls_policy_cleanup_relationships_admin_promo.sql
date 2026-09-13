@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: rls_policy_cleanup_relationships_admin_promo
--- Project : IN Schemes (MSS App)
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : Medium-severity RLS cleanups from the 2026-09-01 audit. None of
 --           these are exploitable today (catalog.* and admin.* are not in
 --           config.toml `schemas`, and the app is JWT-gated), but each is a

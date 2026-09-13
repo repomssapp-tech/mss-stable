@@ -1,7 +1,7 @@
-# IN Schemes backend
+# MSS - MSME Schemes Search Backend
 
 Supabase backend, administration contracts, and Tamil voice research for the
-IN Schemes Flutter application. The existing citizen-facing scheme,
+MSS - MSME Schemes Search Flutter application. The existing citizen-facing scheme,
 recommendation, and search schema remains intact; the additive administration
 foundation introduces tenant-aware staff roles, region assignments,
 taxonomies, and append-only audit storage.

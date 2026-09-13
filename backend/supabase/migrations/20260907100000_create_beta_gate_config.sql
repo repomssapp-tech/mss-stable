@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: create_beta_gate_config
--- Project  : IN Schemes (MSS App)
+-- Project  : MSS - MSME Schemes Search
 -- Purpose  : Beta Tester Password Gate table storing plain-text
 --            password to gate app access before user login.
 --            Includes Primary Key and single-row check constraint

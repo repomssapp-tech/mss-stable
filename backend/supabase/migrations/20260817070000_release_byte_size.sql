@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: release_byte_size
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : V2-B6. CatalogManifest (Flutter) needs the release artifact's
 --           byte size for its structural-validity check; add it and
 --           extend mss_current_release() to expose it.

@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: create_support_tickets_table
--- Project  : IN Schemes (MSS App)
+-- Project  : MSS - MSME Schemes Search
 -- Purpose  : Create dedicated table for user bug reports and support tickets
 --            with anti-bot rate limiting and strict RLS policies.
 -- ===========================================================

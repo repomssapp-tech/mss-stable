@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: restore_orphaned_rls_policies
--- Project : IN Schemes
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : 20260805000000_database_architecture_v2.sql's blanket
 --           `drop policy` loop (line ~629) wiped every RLS policy in
 --           public/catalog/admin/storage, then only recreated a subset.

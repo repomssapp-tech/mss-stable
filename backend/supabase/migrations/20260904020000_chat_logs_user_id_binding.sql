@@ -1,6 +1,6 @@
 -- ===========================================================
 -- Migration: chat_logs_user_id_binding
--- Project : IN Schemes (MSS App)
+-- Project  : MSS - MSME Schemes Search
 -- Purpose : public.chat_logs' INSERT policy is `with check (true)` for
 --           authenticated -- any signed-in user can insert a row and
 --           attribute it to any conversation_uid, including someone else's.
