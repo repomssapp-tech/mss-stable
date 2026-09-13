@@ -9,7 +9,7 @@
 // disqualifications return 0.0 early), and "For Me" is gated on both a
 // usable profile and score >= RecommendationEngine.forMeThreshold.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:frontend/engine/recommendation_engine.dart';
+import 'package:frontend/services/recommendation/recommendation_engine.dart';
 import 'package:frontend/models/scheme_model.dart';
 import 'package:frontend/models/user_profile.dart';
 import 'package:frontend/screens/regular_mode/search_screen.dart'

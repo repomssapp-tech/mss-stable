@@ -246,7 +246,7 @@ Filter state lives in `AppProvider.filters` (`Map<String, dynamic>`, empty by de
 
 ## 7. Recommendation Engine: "For Me" Eligibility Scorer
 
-`frontend/lib/engine/recommendation_engine.dart` is a **pure, additive, explainable eligibility engine**. It is not a filter; it answers "how well does this scheme fit my profile?"
+`frontend/lib/services/recommendation/recommendation_engine.dart` is a **pure, additive, explainable eligibility engine**. It is not a filter; it answers "how well does this scheme fit my profile?"
 
 ### 7.1 Recommendation Result
 ```dart
@@ -408,11 +408,11 @@ frontend/lib/
 │   │   ├── scheme_repository.dart    # Singleton access point for schemes
 │   │   ├── scheme_catalog_store.dart # OTA catalog installation & manifest store
 │   │   └── scheme_catalog_sync_service.dart # Background update polling
+│   ├── recommendation/
+│   │   └── recommendation_engine.dart # Pure "For Me" eligibility scoring engine
 │   └── search/
 │       ├── hybrid_scheme_search.dart # Parity-locked search ranker
 │       └── scheme_understanding_engine.dart # Natural language query understanding
-├── engine/
-│   └── recommendation_engine.dart    # Pure "For Me" eligibility scoring engine
 └── providers/
     └── app_state_provider.dart       # State management & profile synchronization
 ```

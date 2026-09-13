@@ -6,7 +6,7 @@ import '../search/hybrid_scheme_search.dart';
 import '../search/intelligent_scheme_search.dart' show SchemeSearchMatch;
 import 'mss_catalog_bundle.dart';
 import 'mss_scheme_adapter.dart';
-import '../../engine/recommendation_engine.dart';
+import '../recommendation/recommendation_engine.dart';
 
 /// SchemeRepository
 /// ─────────────────

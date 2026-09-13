@@ -13,9 +13,9 @@ import '../services/account/session_cache_service.dart';
 import '../utils/constants.dart';
 import '../main.dart';
 import '../utils/app_spacing.dart';
-import '../features/beta_gate/beta_config.dart';
-import '../features/beta_gate/beta_gate_service.dart';
-import '../features/beta_gate/beta_gate_screen.dart';
+import '../services/beta_gate/beta_config.dart';
+import '../services/beta_gate/beta_gate_service.dart';
+import 'beta_gate_screen.dart';
 
 enum StartupDestination { home, navigationMode, language, login }
 

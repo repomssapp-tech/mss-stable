@@ -5,9 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
-import 'package:frontend/features/beta_gate/beta_config.dart';
-import 'package:frontend/features/beta_gate/beta_gate_service.dart';
-import 'package:frontend/features/beta_gate/beta_gate_screen.dart';
+import 'package:frontend/services/beta_gate/beta_config.dart';
+import 'package:frontend/services/beta_gate/beta_gate_service.dart';
+import 'package:frontend/screens/beta_gate_screen.dart';
 
 class FakeBetaGateService extends BetaGateService {
   final bool shouldSucceed;

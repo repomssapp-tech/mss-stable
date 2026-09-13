@@ -1,5 +1,5 @@
 import '../../models/mss_entity.dart';
-import '../../models/mss_models.dart';
+import '../../models/mss_contract.dart';
 import '../../models/scheme_model.dart';
 import 'adapter/scheme_benefits_resolver.dart';
 import 'adapter/scheme_eligibility_resolver.dart';

@@ -4,8 +4,9 @@
 /// password before accessing the application. Once successfully verified,
 /// their device persists the unlock state locally.
 ///
-/// Set [isBetaModeEnabled] to `false` or delete the `lib/features/beta_gate/`
-/// directory when beta testing concludes.
+/// To decommission the beta gate before public launch:
+/// Set [isBetaModeEnabled] to `false` or delete `lib/services/beta_gate/`
+/// and `lib/screens/beta_gate_screen.dart` when beta testing concludes.
 const bool isBetaModeEnabled = true;
 
 /// SharedPreferences key that tracks whether this device has unlocked beta access.

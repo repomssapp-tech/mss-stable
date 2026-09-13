@@ -1,5 +1,5 @@
-import '../models/user_profile.dart';
-import '../models/scheme_model.dart';
+import '../../models/user_profile.dart';
+import '../../models/scheme_model.dart';
 
 class RecommendationResult {
   final double score; // 0.0 to 1.0

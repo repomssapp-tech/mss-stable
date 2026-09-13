@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../l10n/l10n.dart';
-import '../../screens/login_screen.dart';
-import '../../screens/regular_mode/language_selection_screen.dart';
-import '../../services/account/session_cache_service.dart';
-import '../../utils/app_spacing.dart';
-import '../../utils/constants.dart';
-import 'beta_gate_service.dart';
+import '../l10n/l10n.dart';
+import 'login_screen.dart';
+import 'regular_mode/language_selection_screen.dart';
+import '../services/account/session_cache_service.dart';
+import '../utils/app_spacing.dart';
+import '../utils/constants.dart';
+import '../services/beta_gate/beta_gate_service.dart';
 
 /// Screen displayed immediately following the splash screen when [isBetaModeEnabled]
 /// is true and the device has not yet entered the valid beta password.

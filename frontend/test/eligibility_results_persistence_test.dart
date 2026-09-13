@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:frontend/models/scheme_model.dart';
-import 'package:frontend/engine/recommendation_engine.dart';
+import 'package:frontend/services/recommendation/recommendation_engine.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/regular_mode/eligibility_results_screen.dart';
 import 'package:frontend/screens/regular_mode/search_results_screen.dart';
