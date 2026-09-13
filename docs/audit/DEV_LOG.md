@@ -14,3 +14,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-09-13 | Roger-Chris | #105 | backend/tooling | Removed redundant root `package.json`/`package-lock.json`. |
 
 <!-- Automated entries start here — .github/workflows/dev-log.yml appends below this line -->
+| 2026-09-13 | Roger-Chris | #107 | unspecified | Chore/audit rules skills devlog |
