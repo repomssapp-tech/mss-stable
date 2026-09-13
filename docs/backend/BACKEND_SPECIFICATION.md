@@ -8,6 +8,7 @@
    - [ADR 0002: Migrations as Source of Truth](#adr-0002-migrations-as-source-of-truth-and-schema-regeneration-discipline)
 2. [Part 2: Core Backend Product Requirements Document (PRD)](#part-2-core-backend-product-requirements-document-prd)
 3. [Part 3: Backend Search, Taxonomy & MLOps PRD](#part-3-backend-search-taxonomy--mlops-prd)
+4. [Part 4: Supabase Database Architecture & Technical Reference](#part-4-supabase-database-architecture--technical-reference)
 
 ---
 
@@ -1122,3 +1123,267 @@ The infrastructure topology, generated-content review policy, cursor strategy, c
 ## 17. Definition of done
 
 The backend and MLOps scope is production-ready when all acceptance criteria pass; security, privacy, RLS, migration, recovery, and compatibility reviews are signed off; at least one real scheme correction has completed the full publish-to-device flow; at least one candidate model has completed reproducible distillation through staged OTA activation; rollback has been exercised on a representative low-end Android device; and operating dashboards, alerts, ownership, and runbooks are active.
+
+---
+
+# Part 4: Supabase Database Architecture & Technical Reference (v2.1)
+
+> **Database Engine:** PostgreSQL 17 (Supabase)  
+> **Architecture Scope:** Hybrid Relational + JSONB Offline-Sync  
+> **Source of truth:** `backend/supabase/migrations/`. `backend/supabase/schema.sql` is a point-in-time snapshot of the live project for reference/diffing.
+
+---
+
+## 1. Executive Summary & Design Principles
+
+The **IN Schemes** database is organized to support citizen scheme searches and administrative governance. The system operates on the following core principles:
+
+1. **Schema Partitioning:**
+   - `catalog`: Contains all government catalog data, structured for offline compilation and search optimization.
+   - `public`: Stores client/user application state (profiles, saved items, chat histories).
+   - `admin`: Manages publishing workflows, translations, change audits, and RBAC security.
+   - `private`: Secure internal database utilities, membership scopes, and audits.
+2. **Hybrid Relational + JSONB Catalog Data:**
+   - To combine the flexibility of document-oriented schemas with high-performance querying, catalog tables store the full canonical document in a `record_json` column.
+   - Critical search and filter parameters (e.g. `name_en`, `name_ta`, `government_level`, `max_funding_amount`) are mirrored in indexed relational columns.
+3. **Mostly triggerless, with one deliberate exception:**
+   - Compilation and serialization are handled asynchronously by an application-level **Catalog Service**, keeping the database mostly free of complex lock conditions.
+   - The one exception: `catalog.*` row `checksum` is kept in sync with `record_json` by a `BEFORE INSERT OR UPDATE` trigger (`catalog.mss_recompute_row_checksum()`, added 2026-09-04). The trigger closes any drift gap at the DB layer regardless of how a row gets written.
+4. **Defense-in-depth RLS, not just app-layer checks:**
+   - Every RLS-enabled table carries at least one policy (enforced by recurrence guard `private.rls_coverage_violations()`).
+   - `FORCE ROW LEVEL SECURITY` is set on the PII/RBAC table set so even a `SECURITY DEFINER` bug cannot silently bypass RLS.
+   - Weekly CI job (`rls-drift-check.yml`) re-checks the live project against drift.
+
+---
+
+## 2. Entity-Relationship Diagram (ERD)
+
+```mermaid
+erDiagram
+    catalog_entity_registry ||--o| catalog_scheme : "registers"
+    catalog_entity_registry ||--o| catalog_authority : "registers"
+    catalog_entity_registry ||--o| catalog_institution : "registers"
+    catalog_entity_registry ||--o| catalog_ai_metadata : "describes"
+    
+    catalog_scheme ||--o{ catalog_finance : "has financial detail"
+    catalog_scheme ||--o{ catalog_tax : "has tax detail"
+    catalog_scheme ||--o{ catalog_export : "has export detail"
+    catalog_scheme ||--o{ catalog_csr : "has csr detail"
+    catalog_scheme ||--o{ catalog_treds : "has treds detail"
+    catalog_scheme ||--o| catalog_search_index : "indexed in"
+    
+    public_profiles ||--o{ public_saved_schemes : "saves"
+    public_profiles ||--o{ public_recent_schemes : "views"
+    public_profiles ||--o{ public_ai_conversations : "starts"
+    public_ai_conversations ||--o{ public_ai_messages : "contains"
+    
+    admin_admins ||--o{ admin_import_batches : "imports"
+    admin_catalog_releases ||--o{ admin_catalog_files : "bundles"
+```
+
+---
+
+## 3. Comprehensive Schema & Table Specifications
+
+### 3.1. `catalog` Schema
+
+#### Table: `catalog.entity_registry`
+* **Description:** Global index of all catalog items across all categories for validation, tracking, and soft-deletes.
+* **Columns:**
+  - `entity_id` `TEXT` (PK) - Stable ID.
+  - `entity_type` `TEXT` - e.g. `'scheme'`, `'authority'`, `'institution'`.
+  - `catalog_name` `TEXT` - e.g. `'scheme_catalog'`.
+  - `current_version` `TEXT` - Record version.
+  - `status` `TEXT` - `'DRAFT'`, `'READY_FOR_REVIEW'`, `'REVIEWED'`, `'APPROVED'`, `'PUBLISHED'`, `'ARCHIVED'`.
+  - `validation_status` `TEXT` - `'PASSED'`, `'FAILED'`, `'WARNING'`, `'NOT_VALIDATED'`.
+  - `is_deleted` `BOOLEAN`.
+  - `deleted_at` `TIMESTAMPTZ`.
+  - `deleted_reason` `TEXT`.
+  - `updated_at` `TIMESTAMPTZ`.
+
+#### Table: `catalog.scheme`
+* **Description:** Government financial and assistance support schemes master database.
+* **Relational Columns:**
+  - `scheme_code` `TEXT` - Reference code (e.g. `'IN001'`).
+  - `name_en` `TEXT` - English scheme name.
+  - `name_ta` `TEXT` - Tamil scheme name.
+  - `government_level` `TEXT` - e.g. Central / State / District.
+  - `ministry` `TEXT` - UNION Ministry name.
+  - `department` `TEXT` - Issuing department.
+  - `state` `TEXT` - Target geographic state.
+  - `scheme_type` `TEXT` - e.g. Grant / Subsidy / Loan.
+  - `scheme_url` `TEXT` - Official scheme application portal URL.
+  - `is_active` `BOOLEAN` - Match availability indicator.
+  - `search_keywords` `TEXT`.
+  *(Note: funding range fields are maintained directly within `record_json` and `catalog.finance`).*
+
+#### Table: `catalog.authority`
+* **Description:** Administrative and government ministries or state-level overseeing bodies.
+* **Columns:**
+  - `code` `TEXT` (Unique) - Authority unique code.
+  - `name_en` `TEXT`.
+  - `name_ta` `TEXT`.
+
+#### Table: `catalog.institution`
+* **Description:** Specific implementing bodies or departments (e.g., SIDBI, NABARD).
+* **Columns:**
+  - `code` `TEXT` (Unique).
+  - `name_en` `TEXT`.
+  - `name_ta` `TEXT`.
+  - `authority_id` `TEXT` (FK -> `catalog.authority(id)`).
+
+#### Table: `catalog.finance`
+* **Description:** Detail finance structures and credit incentives mapping to schemes.
+* **Columns:**
+  - `scheme_id` `TEXT` (FK -> `catalog.scheme(id)`).
+  - `interest_subvention_rate` `NUMERIC(5,2)`.
+  - `max_loan_amount` `NUMERIC(15,2)`.
+
+#### Table: `catalog.tax`
+* **Description:** Direct/indirect tax exemptions and subventions.
+* **Columns:**
+  - `scheme_id` `TEXT` (FK -> `catalog.scheme(id)`).
+  - `exemption_percentage` `NUMERIC(5,2)`.
+
+#### Table: `catalog.export`
+* **Description:** Export subsidies, duty-drawbacks, and international trade assistance.
+* **Columns:**
+  - `scheme_id` `TEXT` (FK -> `catalog.scheme(id)`).
+  - `target_countries` `TEXT[]`.
+
+#### Table: `catalog.csr`
+* **Description:** Corporate Social Responsibility grants and focus areas.
+* **Columns:**
+  - `scheme_id` `TEXT` (FK -> `catalog.scheme(id)`).
+  - `focus_areas` `TEXT[]`.
+
+#### Table: `catalog.treds`
+* **Description:** Platform mappings for Trade Receivables Discounting System.
+* **Columns:**
+  - `scheme_id` `TEXT` (FK -> `catalog.scheme(id)`).
+  - `interest_rate_range` `TEXT`.
+
+#### Table: `catalog.search_index`
+* **Description:** Content text chunks alongside 1536-dimensional embeddings.
+* **Columns:**
+  - `scheme_id` `TEXT` (Unique FK -> `catalog.scheme(id)`).
+  - `content` `TEXT`.
+  - `embedding` `extensions.vector(1536)` - OpenAI vectors.
+
+#### Table: `catalog.relationships`
+* **Description:** Dynamic, typed dependency graph mapping between registry entities.
+* **Columns:**
+  - `id` `UUID`.
+  - `source_type` `TEXT`.
+  - `source_id` `TEXT`.
+  - `target_type` `TEXT`.
+  - `target_id` `TEXT`.
+  - `relationship_type` `TEXT` - e.g. `'depends_on'`, `'requires_service'`.
+
+#### Table: `catalog.ai_metadata`
+* **Description:** AI-generated metadata, translations, and summaries.
+* **Columns:**
+  - `entity_id` `TEXT` (PK -> `catalog.entity_registry(entity_id)`).
+  - `summary_en` `TEXT`.
+  - `summary_ta` `TEXT`.
+  - `keywords` `TEXT[]`.
+  - `embedding_status` `TEXT`.
+  - `approved` `BOOLEAN`.
+
+#### Tables added by the `catalog_parity_closure` migration:
+Same shape as the tables above (`id`, `version`, `status`, `checksum`, `record_json`, plus mirrored relational columns):
+* `catalog.applicability_matrix` -- `scheme_id`, `government_level`, `department_authority_id`, `sector_text`, `district_text`.
+* `catalog.enterprise_classification` -- `code`, `dimension`, `investment_max_inr`, `turnover_max_inr`.
+* `catalog.msme_privilege` -- `privilege_type`, `statute`.
+* `catalog.business_enablement` -- `enablement_type`, `provider_authority_id`, `online_url`.
+* `catalog.cluster_assistance` -- `cluster_name`, `sector`, `administering_authority_id`.
+
+All 16 `record_json`-carrying `catalog.*` tables are covered by the row-checksum trigger and aggregated by `public.mss_catalog_meta()`.
+
+---
+
+### 3.2. `public` Schema
+
+#### Table: `public.profiles`
+* **Description:** Individual user account preferences, demographics, and scoring attributes.
+
+#### Table: `public.startup_profiles`
+* **Description:** Venture details, sector, development stage, and target requirements.
+
+#### Table: `public.saved_schemes`
+* **Description:** Citizen user favorites list mapping to `catalog.scheme(id)`.
+
+#### Table: `public.voice_chat_sessions`
+* **Description:** Live session telemetry and turn tracking for the Saarthi voice agent (supersedes legacy `chat_logs`).
+
+#### Table: `public.support_tickets`
+* **Description:** User feedback and issue reporting with rate-limit protection.
+
+#### Table: `public.beta_gate_config`
+* **Description:** Dynamic feature flags and beta invitation codes.
+
+#### Table: `public.api_rate_limits`
+* **Description:** Persistent, race-safe backing store for `public.mss_check_rate_limit()` -- atomic `INSERT ... ON CONFLICT DO UPDATE` sliding window. `service_role`-only by design.
+
+#### Other `public.*` tables & Deprecations
+* `public.notifications` -- app notifications and status alerts, authenticated-only read.
+* `public.organizations`, `public.organization_memberships`, `public.roles`, `public.user_roles`, `public.regions`, `public.user_regions`, `public.departments`, `public.audit_log` -- admin/RBAC subsystem gated by `private.has_role()` / `private.belongs_to_organization()`.
+* **Deprecated tables (prefixed `_deprecated_*`):** `_deprecated_chat_logs`, `_deprecated_recent_schemes`, `_deprecated_ai_conversations`, `_deprecated_ai_messages`, `_deprecated_sync_history`, `_deprecated_search_logs`, `_deprecated_bug_reports`, `_deprecated_feature_requests`, `_deprecated_user_responses`, `_deprecated_question_options`, `_deprecated_beneficiary_categories`.
+
+---
+
+### 3.3. `admin` Schema
+
+#### Table: `admin.roles` / `admin.admins`
+* **Description:** Role-Based Access Control (RBAC) mapping staff members to scopes.
+
+#### Table: `admin.import_batches`
+* **Description:** Logs catalog import operations.
+
+#### Table: `admin.catalog_releases`
+* **Description:** Immutable release manifestations targeting specific app schema versions.
+
+#### Table: `admin.catalog_files`
+* **Description:** Specific catalog parts (e.g. `scheme_catalog.json`) generated in a release.
+
+#### Table: `admin.translation_jobs` / `admin.translation_memory`
+* **Description:** Asynchronous localization tasks and translation memories.
+
+#### Table: `admin.record_locks`
+* **Description:** CMS lockouts preventing admins from overwriting concurrent edits.
+
+#### Table: `admin.job_queue`
+* **Description:** Generic background execution queue.
+
+#### Table: `admin.event_log`
+* **Description:** Audit ledger tracking administrative updates.
+
+---
+
+## 4. Migration/Live Drift Reconciliation
+
+All migrations in `backend/supabase/migrations/` are forward-only and timestamped. The live project was reconciled on 2026-09-04:
+- Ledger entries for out-of-band changes were closed.
+- Pending migrations were made idempotent and pushed.
+- `backend/supabase/schema.sql` reflects the confirmed-live schema snapshot.
+- Routine drift is guarded against via `supabase migration list --linked` and weekly CI checks.
+
+---
+
+## 5. Security Posture
+
+### 5.1. RLS Coverage & FORCE RLS
+- Every RLS-enabled table across `public`, `catalog`, and `admin` must carry at least one policy. Enforced by `private.rls_coverage_violations()` and weekly CI.
+- `FORCE ROW LEVEL SECURITY` is set on `profiles`, `startup_profiles`, and the RBAC set (`organizations`, `roles`, `regions`, `departments`, etc.) so even a table-owner context or `SECURITY DEFINER` function cannot accidentally bypass RLS.
+- Excluded from FORCE RLS: `admin.*` and `catalog.*` (owner-context bulk import/publish jobs require table-owner execution).
+
+### 5.2. Locked Down Surfaces
+- `public.chat_logs` / `voice_chat_sessions`: `anon` access revoked; `authenticated`-only inserts, no client selects.
+- `public.profiles`: Table-level grants to `anon` revoked; users can only read/write their own profile (`auth.uid() = id`).
+- `catalogs` Storage bucket: Private access only; clients may only read `releases/<version>/catalog_bundle.json.gz`.
+- `public.mss_current_release()`, `public.mss_scheme_detail()`: `SECURITY DEFINER` with fixed `search_path = ''`.
+- Edge functions run with `verify_jwt = true` in `config.toml`.
+
+### 5.3. Deliberate Exceptions
+- **Project region: `ap-southeast-2` (Sydney):** The live production project is hosted in Sydney. Target migration for India-resident MSMEs is `ap-south-1` (Mumbai).
+- **`public.mss_current_release()` is anon-callable:** Enables pre-authentication catalog freshness checks without credential barriers.

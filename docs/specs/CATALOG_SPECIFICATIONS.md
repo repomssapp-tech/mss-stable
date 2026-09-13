@@ -337,7 +337,7 @@ Phase 2 is complete only when:
 > **Document Status:** Architectural Specification & Manifest Proposal (Phase 5)  
 > **Target System:** MSS Platform (Flutter Offline Catalog + Supabase Online Catalog)  
 > **Aligned References:**  
->  - `DATABASE_ARCHITECTURE.md` (Repo Root — Supabase v2.0 Schema & Tables)  
+>  - `docs/backend/BACKEND_SPECIFICATION.md` (Part 4 — Supabase v2.1 Schema & Tables)  
 >  - `MSS_Catalog_Import_Specification_v1.0.md` (Repo Root — Deterministic Importer Spec)  
 >  - `MSS_ANTIGRAVITY_HANDOFF/api_docs/API_ENDPOINT_REFERENCE.md` (REST API Contract)  
 

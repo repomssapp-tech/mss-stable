@@ -24,7 +24,7 @@ backend/
 └── README.md
 ```
 
-Architecture documentation lives at the repository root in `docs/` (e.g. `docs/DATABASE_ARCHITECTURE.md`, `docs/SEARCH_AND_CATALOG_ARCHITECTURE.md`). Offline Tamil ASR research tooling lives at `tools/voice-lab/`.
+Architecture documentation lives in `docs/` (e.g. `docs/backend/BACKEND_SPECIFICATION.md`, `docs/OFFLINE_DISCOVERY_AND_SEARCH_ARCHITECTURE.md`). Offline Tamil ASR research tooling lives at `tools/voice-lab/`.
 
 ## Local database
 
@@ -103,5 +103,5 @@ for setup, benchmark results, and model limitations.
 
 The administration and offline-sync endpoints in `openapi/openapi.yaml` are a
 draft contract; their Edge Function implementations are future milestones. See
-`docs/DATABASE_ARCHITECTURE.md` and `docs/SEARCH_AND_CATALOG_ARCHITECTURE.md`
+`docs/backend/BACKEND_SPECIFICATION.md` and `docs/OFFLINE_DISCOVERY_AND_SEARCH_ARCHITECTURE.md`
 for authoritative system specifications.

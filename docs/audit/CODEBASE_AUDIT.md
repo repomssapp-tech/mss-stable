@@ -16,11 +16,11 @@
 
 **Stack.** Flutter (Dart SDK `^3.11.1`, bleeding-edge channel), `provider` for state (one ~1977-line `AppProvider` `ChangeNotifier`), `supabase_flutter`. Backend: Deno 2 edge functions on a 2.5-year-old `std@0.168.0` `serve`, `@supabase/supabase-js@2.39.0`, Postgres 17 with 76 forward-only migrations across 4 schemas (`public`, `catalog`, `admin`, `private`). Agent: Python 3.10–3.14, `uv`, `livekit-agents~=1.7`, Sarvam AI for STT/LLM/TTS.
 
-**Where truth lives.** The code, then `docs/OFFLINE_FIRST_AND_RECOMMENDATION_ARCHITECTURE.md` (the most accurate doc). **Do not trust** root `README.md` (describes a different, older app — Hindi/OTP), and treat `CLAUDE.md` and `docs/DATABASE_ARCHITECTURE.md` as partly stale (see §12).
+**Where truth lives.** The code, then `docs/OFFLINE_DISCOVERY_AND_SEARCH_ARCHITECTURE.md` (the most accurate doc). **Do not trust** root `README.md` (describes a different, older app — Hindi/OTP), and consult `CLAUDE.md` and `docs/backend/BACKEND_SPECIFICATION.md` (Part 4) for database schema (see §12).
 
 **Biggest risks.** (1) A **live Supabase secret key sits in plaintext** in two untracked working-tree files (`backend/.env`, `saarthi-agent/.env.sarvam`) — not in git, but full DB admin. (2) **No CI on PRs** for Flutter or the agent. (3) Search ranking is implemented **three times** (Dart/TS/Python) with 4 copies of a taxonomy JSON, kept in sync only by parity tests. (4) Several DB objects and a `catalog.search_index.search_doc` column exist only in production, not in any migration — a fresh replay diverges from prod. (5) God-object `AppProvider`; 4000–4800-line screen files.
 
-**First 5 files to read:** `frontend/lib/main.dart`, `docs/OFFLINE_FIRST_AND_RECOMMENDATION_ARCHITECTURE.md`, `frontend/lib/providers/app_state_provider.dart`, `frontend/lib/services/scheme_repository.dart`, `backend/supabase/functions/v1/index.ts`.
+**First 5 files to read:** `frontend/lib/main.dart`, `docs/OFFLINE_DISCOVERY_AND_SEARCH_ARCHITECTURE.md`, `frontend/lib/providers/app_state_provider.dart`, `frontend/lib/services/catalog/scheme_repository.dart`, `backend/supabase/functions/v1/index.ts`.
 
 ---
 
@@ -328,7 +328,7 @@ Invoked at `https://<ref>.supabase.co/functions/v1/<name>/…`. The function lit
 | # | File | Why |
 |---|---|---|
 | 1 | `frontend/lib/main.dart` | Bootstrap, config gate, Supabase/LiveKit init, single-provider wiring, theme, the 5-tab `IndexedStack` shell, and the deep-link `onUnknownRoute` hack. |
-| 2 | `docs/OFFLINE_FIRST_AND_RECOMMENDATION_ARCHITECTURE.md` | The most accurate architecture doc; §11 module map is the fastest route into the data/search/recommendation layer (ignore the one-patch-stale version string). |
+| 2 | `docs/OFFLINE_DISCOVERY_AND_SEARCH_ARCHITECTURE.md` | The most accurate architecture doc; §12 module map is the fastest route into the data/search/recommendation layer. |
 | 3 | `frontend/lib/providers/app_state_provider.dart` | The god `ChangeNotifier` — app state, auth flow, profile sync/merge, filters, catalog sync all live here. |
 | 4 | `frontend/lib/services/scheme_repository.dart` | The single data gateway; shows the offline-only discovery model and the Supabase-only-for-profile split. (Ignore its stale "online-first" docstrings.) |
 | 5 | `backend/supabase/functions/v1/index.ts` | The whole server API surface: routing, JWT + service-role auth, fail-closed rate limiting, response envelopes. Header explains why `/v1/search` has no caller. |
