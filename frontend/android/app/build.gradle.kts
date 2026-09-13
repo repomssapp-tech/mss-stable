@@ -114,65 +114,6 @@ if (appReleaseRequested && !hasReleaseSigning) {
     )
 }
 
-// llama_flutter_android 0.2.6 links its ARM64 CPU backend against OpenMP but
-// does not package the NDK runtime. Copy the matching runtime at build time so
-// libllama_jni.so can load on a physical device without committing a binary.
-val androidLocalProperties = Properties().apply {
-    val localPropertiesFile = rootProject.file("local.properties")
-    if (localPropertiesFile.exists()) {
-        localPropertiesFile.inputStream().use(::load)
-    }
-}
-
-val androidSdkPath = androidLocalProperties.getProperty("sdk.dir")
-    ?: System.getenv("ANDROID_SDK_ROOT")
-    ?: System.getenv("ANDROID_HOME")
-    ?: error("Android SDK path is not configured.")
-
-val ndkHostTag = System.getProperty("os.name").lowercase().let { osName ->
-    when {
-        osName.contains("win") -> "windows-x86_64"
-        osName.contains("mac") -> "darwin-x86_64"
-        else -> "linux-x86_64"
-    }
-}
-
-val openMpRuntime = providers.provider {
-    val clangRoot = File(
-        androidSdkPath,
-        "ndk/${android.ndkVersion}/toolchains/llvm/prebuilt/$ndkHostTag/lib/clang",
-    )
-    val clangVersionDirectory = clangRoot.listFiles()
-        ?.filter(File::isDirectory)
-        ?.maxByOrNull(File::getName)
-        ?: error("Unable to find the NDK Clang runtime under $clangRoot")
-    File(clangVersionDirectory, "lib/linux/aarch64/libomp.so").also { runtime ->
-        check(runtime.isFile) {
-            "The ARM64 OpenMP runtime is missing from the configured NDK: $runtime"
-        }
-    }
-}
-
-val generatedOpenMpJniDirectory = layout.buildDirectory
-    .dir("generated/openmpJni")
-    .get()
-    .asFile
-val copyOpenMpRuntime by tasks.registering(Copy::class) {
-    from(openMpRuntime)
-    into(File(generatedOpenMpJniDirectory, "arm64-v8a"))
-}
-
-android.sourceSets.getByName("main").jniLibs.srcDir(generatedOpenMpJniDirectory)
-
-tasks.configureEach {
-    if (
-        name.startsWith("merge") &&
-        (name.endsWith("NativeLibs") || name.endsWith("JniLibFolders"))
-    ) {
-        dependsOn(copyOpenMpRuntime)
-    }
-}
-
 kotlin {
     compilerOptions {
         jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
