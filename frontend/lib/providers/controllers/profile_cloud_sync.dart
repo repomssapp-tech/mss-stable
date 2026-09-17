@@ -21,7 +21,24 @@ Future<void> syncProfileToSupabase(
     throw StateError('Your session expired. Please sign in again.');
   }
 
-  final cloudProfile = profileToSync.copyWith(googleUserId: user.id);
+  final effectiveEmail = profileToSync.email.trim().isNotEmpty
+      ? profileToSync.email.trim()
+      : (user.email != null && user.email!.trim().isNotEmpty
+          ? user.email!.trim()
+          : '${user.id}@mss.app');
+  final effectiveName = profileToSync.name.trim().isNotEmpty
+      ? profileToSync.name.trim()
+      : (user.userMetadata?['full_name']?.toString().trim().isNotEmpty == true
+          ? user.userMetadata!['full_name'].toString().trim()
+          : (user.userMetadata?['name']?.toString().trim().isNotEmpty == true
+              ? user.userMetadata!['name'].toString().trim()
+              : 'User'));
+
+  final cloudProfile = profileToSync.copyWith(
+    googleUserId: user.id,
+    email: effectiveEmail,
+    name: effectiveName,
+  );
   debugPrint('[AppProvider] Syncing profile to Supabase...');
   // Keep the completion flag false until every related cloud write succeeds.
   // The initial upsert also guarantees the startup_profiles foreign-key
@@ -41,27 +58,44 @@ Future<void> syncProfileToSupabase(
 
   // Only touch startup_profiles when the user has actually given business
   // data -- no more writing 'Technology' / 'Idea' / 'Student' placeholders
-  // that then round-trip back as if they were real answers.
-  final hasBusinessData =
-      cloudProfile.businessIndustry.trim().isNotEmpty ||
-      cloudProfile.businessStage.trim().isNotEmpty ||
-      cloudProfile.existingBusiness ||
-      cloudProfile.fundingRequired > 0 ||
-      cloudProfile.registrationNumbers.trim().isNotEmpty;
+  // that then round-trip back as if they were real answers. Exclude students
+  // who do not run an existing venture.
+  final isStudentWithoutBusiness =
+      cloudProfile.employmentStatus.trim().toLowerCase() == 'student' &&
+      !cloudProfile.existingBusiness &&
+      cloudProfile.fundingRequired <= 0 &&
+      cloudProfile.registrationNumbers.trim().isEmpty;
+
+  final hasBusinessData = !isStudentWithoutBusiness &&
+      (cloudProfile.businessIndustry.trim().isNotEmpty ||
+          cloudProfile.businessStage.trim().isNotEmpty ||
+          cloudProfile.existingBusiness ||
+          cloudProfile.fundingRequired > 0 ||
+          cloudProfile.registrationNumbers.trim().isNotEmpty);
 
   if (hasBusinessData) {
+    const allowedStages = {
+      'Idea',
+      'Prototype',
+      'Registered',
+      'Operational',
+      'Expansion',
+    };
+    final rawStage = cloudProfile.businessStage.trim();
+    final sanitizedStage = allowedStages.contains(rawStage)
+        ? rawStage
+        : (cloudProfile.existingBusiness ? 'Operational' : 'Idea');
+
     final Map<String, dynamic> startupData = {
       'user_id': user.id,
-      'profile_name': '${cloudProfile.name} Business',
+      'profile_name': '${cloudProfile.name.isNotEmpty ? cloudProfile.name : "User"} Business',
       'industry': cloudProfile.businessIndustry.trim().isNotEmpty
           ? cloudProfile.businessIndustry
-          : 'Unspecified',
+          : 'General',
       'applicant_type': cloudProfile.employmentStatus.trim().isNotEmpty
           ? cloudProfile.employmentStatus
-          : 'Unspecified',
-      'business_stage': cloudProfile.businessStage.trim().isNotEmpty
-          ? cloudProfile.businessStage
-          : 'Unspecified',
+          : 'Individual',
+      'business_stage': sanitizedStage,
       'business_registered': cloudProfile.existingBusiness,
       'funding_required_amount': cloudProfile.fundingRequired,
       'registration_numbers': cloudProfile.registrationNumbers,

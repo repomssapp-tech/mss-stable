@@ -4160,4 +4160,191 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get legalAccept => 'ஏற்கிறேன்';
+
+  @override
+  String get simpleProfileTitle => 'சுயவிவர அமைவு';
+
+  @override
+  String get simpleProfileSubtitle =>
+      'உங்களுக்கான திட்டங்களைக் கண்டறிய 6 எளிய கேள்விகளுக்குப் பதிலளிக்கவும்';
+
+  @override
+  String get simpleProfileStepStateTitle => 'நீங்கள் எங்கு வசிக்கிறீர்கள்?';
+
+  @override
+  String get simpleProfileStepStateSubtitle =>
+      'மாநில அரசு திட்டங்களுக்கு உங்கள் சொந்த மாநிலத்தைத் தேர்ந்தெடுக்கவும்';
+
+  @override
+  String get simpleProfileStepGenderAgeTitle => 'உங்களைப் பற்றி';
+
+  @override
+  String get simpleProfileStepGenderAgeSubtitle =>
+      'உங்கள் பாலினம் மற்றும் வயதைத் தேர்ந்தெடுக்கவும்';
+
+  @override
+  String get simpleProfileStepWorkTitle => 'உங்கள் தொழில் அல்லது திட்டம் என்ன?';
+
+  @override
+  String get simpleProfileStepWorkSubtitle =>
+      'உங்களைச் சிறந்த முறையில் விவரிக்கும் விருப்பத்தைத் தேர்ந்தெடுக்கவும்';
+
+  @override
+  String get simpleProfileStepSectorTitle => 'எந்த துறை அல்லது தொழில்?';
+
+  @override
+  String get simpleProfileStepSectorSubtitle =>
+      'உங்கள் முதன்மை வணிகம் அல்லது பணி ஆர்வத்தைத் தேர்ந்தெடுக்கவும்';
+
+  @override
+  String get simpleProfileStepCommunityTitle => 'உங்கள் சமூகப் பிரிவு';
+
+  @override
+  String get simpleProfileStepCommunitySubtitle =>
+      'குறிப்பிட்ட பிரிவுகளுக்கு அரசு சிறப்பு மானியங்களை வழங்குகிறது';
+
+  @override
+  String get simpleProfileStepEducationTitle => 'உங்கள் கல்வித் தகுதி';
+
+  @override
+  String get simpleProfileStepEducationSubtitle =>
+      'உங்கள் உயர்ந்தபட்ச கல்வித் தகுதியைத் தேர்ந்தெடுக்கவும்';
+
+  @override
+  String get stateTamilNadu => 'தமிழ்நாடு';
+
+  @override
+  String get stateMaharashtra => 'மகாராஷ்டிரா';
+
+  @override
+  String get stateUttarPradesh => 'உத்தரப் பிரதேசம்';
+
+  @override
+  String get stateKarnataka => 'கர்நாடகா';
+
+  @override
+  String get stateGujarat => 'குஜராத்';
+
+  @override
+  String get stateOther => 'மற்ற மாநிலங்கள்';
+
+  @override
+  String get ageYearsLabel => 'வயது';
+
+  @override
+  String get workNewBusiness => 'தொழில் தொடங்க விரும்புகிறேன்';
+
+  @override
+  String get workNewBusinessDesc =>
+      'புதிய தொழில் யோசனை உள்ளது அல்லது தொடங்குகிறேன்';
+
+  @override
+  String get workExistingBusiness => 'தொழில் / கடை நடத்துகிறேன்';
+
+  @override
+  String get workExistingBusinessDesc => 'ஏற்கனவே வணிகம் அல்லது கடை உள்ளது';
+
+  @override
+  String get workFarmer => 'விவசாயம் & வேளாண்மை';
+
+  @override
+  String get workFarmerDesc => 'பயிர் சாகுபடி, பால்பண்ணை அல்லது விவசாயம்';
+
+  @override
+  String get workArtisan => 'கைவினைஞர் & கைத்தறி';
+
+  @override
+  String get workArtisanDesc => 'நெசவு, மண்பாண்டம் அல்லது கைவினைப் பொருட்கள்';
+
+  @override
+  String get workStudent => 'மாணவர்';
+
+  @override
+  String get workStudentDesc => 'பள்ளி, கல்லூரி அல்லது தொழிற்பயிற்சி';
+
+  @override
+  String get sectorAgri => 'விவசாயம் & பால்பண்ணை';
+
+  @override
+  String get sectorManufacturing => 'உற்பத்தி & தொழிற்கூடம்';
+
+  @override
+  String get sectorRetail => 'சில்லறை வர்த்தகம் & கடை';
+
+  @override
+  String get sectorTextiles => 'ஜவுளி & கைத்தறி';
+
+  @override
+  String get sectorFood => 'உணவு பதப்படுத்துதல் & உணவகம்';
+
+  @override
+  String get sectorServices => 'சேவைகள் & தகவல் தொழில்நுட்பம்';
+
+  @override
+  String get sectorHandicrafts => 'கைவினைப் பொருட்கள் & கலை';
+
+  @override
+  String get sectorGeneral => 'அனைத்துத் துறைகளும்';
+
+  @override
+  String simpleProfileStepIndicator(int current, int total) {
+    return 'படி $current / $total';
+  }
+
+  @override
+  String get actionNext => 'அடுத்து';
+
+  @override
+  String get actionBack => 'பின்செல்';
+
+  @override
+  String get actionFinish => 'எனக்கான திட்டங்களைக் காட்டு';
+
+  @override
+  String get actionSaving => 'சேமிக்கிறது...';
+
+  @override
+  String get regionSouthIndia => 'தென் இந்தியா';
+
+  @override
+  String get regionWestIndia => 'மேற்கு இந்தியா';
+
+  @override
+  String get regionNorthIndia => 'வட இந்தியா';
+
+  @override
+  String get regionAllIndia => 'அனைத்து இந்தியா';
+
+  @override
+  String get ageSelectLabel => 'உங்கள் வயது';
+
+  @override
+  String get commDescObc =>
+      'பிற்படுத்தப்பட்ட / மிகவும் பிற்படுத்தப்பட்ட வகுப்பு';
+
+  @override
+  String get commDescSc => 'பட்டியலின வகுப்பு (SC)';
+
+  @override
+  String get commDescSt => 'பழங்குடியினர் (ST)';
+
+  @override
+  String get commDescMinority =>
+      'முஸ்லிம், கிறிஸ்தவர், சீக்கியர், ஜெயின், பௌத்தர், பார்சி';
+
+  @override
+  String get commDescGeneral => 'பொதுப் பிரிவு (General / OC)';
+
+  @override
+  String get eduDescSchool => '10 அல்லது 12-ஆம் வகுப்பு வரை';
+
+  @override
+  String get eduDescDiploma => 'பாலிடெக்னிக் அல்லது தொழிற்பயிற்சி';
+
+  @override
+  String get eduDescUndergraduate =>
+      'இளங்கலை பட்டப்படிப்பு (BA, BSc, BCom, BE...)';
+
+  @override
+  String get eduDescPostgraduate => 'முதுகலை பட்டப்படிப்பு, MPhil அல்லது Ph.D.';
 }

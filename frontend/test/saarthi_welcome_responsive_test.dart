@@ -53,32 +53,37 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      // Ensure no exceptions / RenderFlex overflows
+      // Ensure no exceptions / RenderFlex overflows on Step 1 (State)
       expect(tester.takeException(), isNull);
+      expect(find.text('Tamil Nadu'), findsOneWidget);
+      expect(find.text('Maharashtra'), findsOneWidget);
 
-      // Verify voice options exist and are selectable
-      final clearOption = find.text('Clear');
-      await tester.ensureVisible(clearOption);
-      await tester.tap(clearOption);
+      // Select Maharashtra and continue
+      final mahaOption = find.text('Maharashtra');
+      await tester.ensureVisible(mahaOption);
+      await tester.tap(mahaOption);
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
 
-      // Switch to Tamil
-      final tamilCard = find.text('தமிழ்');
-      await tester.ensureVisible(tamilCard);
-      await tester.tap(tamilCard);
+      final nextButton = find.text('Next');
+      await tester.ensureVisible(nextButton);
+      await tester.tap(nextButton);
       await tester.pumpAndSettle();
+
+      // Ensure no exceptions on Step 2 (Gender & Age)
       expect(tester.takeException(), isNull);
+      expect(find.text('Female'), findsOneWidget);
+      expect(find.text('Male'), findsOneWidget);
 
-      // Verify Tamil voice options
-      expect(find.text('குரல்'), findsOneWidget);
-      expect(find.text('இயற்கையான ஒலி'), findsOneWidget);
-      expect(find.text('தெளிவான ஒலி'), findsOneWidget);
+      // Select Female and adjust age
+      final femaleOption = find.text('Female');
+      await tester.ensureVisible(femaleOption);
+      await tester.tap(femaleOption);
+      await tester.pumpAndSettle();
 
-      // Tap Natural voice in Tamil
-      final naturalOption = find.text('இயற்கையான ஒலி');
-      await tester.ensureVisible(naturalOption);
-      await tester.tap(naturalOption);
+      final plusButton = find.byIcon(Icons.add_rounded);
+      await tester.ensureVisible(plusButton);
+      await tester.tap(plusButton);
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
     });
