@@ -901,7 +901,7 @@ class SchemeRepository {
       await _db
           .from('profiles')
           .upsert(profile.toSupabase())
-          .timeout(const Duration(seconds: 8));
+          .timeout(const Duration(seconds: 15));
       debugPrint('[SchemeRepository] Profile successfully created.');
     } catch (e) {
       debugPrint('[SchemeRepository] Error creating profile: $e');
@@ -919,7 +919,7 @@ class SchemeRepository {
           .from('profiles')
           .update(profile.toSupabase())
           .eq('id', profile.googleUserId)
-          .timeout(const Duration(seconds: 8));
+          .timeout(const Duration(seconds: 15));
       debugPrint('[SchemeRepository] Profile successfully updated.');
     } catch (e) {
       debugPrint('[SchemeRepository] Error updating profile: $e');

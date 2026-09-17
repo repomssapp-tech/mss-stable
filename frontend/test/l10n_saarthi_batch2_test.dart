@@ -27,10 +27,6 @@ const _poweredByEn = 'Powered by Sarvam AI';
 const _poweredByTa = 'Sarvam AI மூலம்';
 const _askAboutEn = 'Ask about schemes, eligibility, or how to apply.';
 const _askAboutTa = 'திட்டங்கள், தகுதி மற்றும் விண்ணப்ப வழிமுறைகள் பற்றி கேளுங்கள்.';
-const _voiceLabelEn = 'Voice';
-const _voiceLabelTa = 'குரல்';
-const _voiceNaturalTa = 'இயற்கையான ஒலி';
-const _letsBeginEn = "Let's Begin";
 
 class _NoopSarvamChatClient implements SarvamChatClient {
   @override
@@ -55,13 +51,14 @@ Widget _sarvamHost(Locale locale) {
   );
 }
 
-Widget _welcomeHost() {
+Widget _welcomeHost([Locale locale = const Locale('en')]) {
   return ChangeNotifierProvider<AppProvider>(
     create: (_) => AppProvider(),
-    child: const MaterialApp(
+    child: MaterialApp(
+      locale: locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: SaarthiWelcomeScreen(),
+      home: const SaarthiWelcomeScreen(),
     ),
   );
 }
@@ -102,8 +99,8 @@ void main() {
     });
   });
 
-  group('SaarthiWelcomeScreen renders ARB strings for the selected language', () {
-    testWidgets('default (English) selection shows English voice labels', (
+  group('SaarthiWelcomeScreen renders ARB strings for the active locale', () {
+    testWidgets('default (English) selection shows English step 1 labels', (
       tester,
     ) async {
       tester.view.physicalSize = const Size(412, 1200);
@@ -113,15 +110,17 @@ void main() {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(_welcomeHost());
+      await tester.pumpWidget(_welcomeHost(const Locale('en')));
       await tester.pumpAndSettle();
 
-      expect(find.text(_voiceLabelEn), findsOneWidget);
-      expect(find.text(_letsBeginEn), findsOneWidget);
-      expect(find.text(_voiceLabelTa), findsNothing);
+      expect(find.text('Where do you live?'), findsOneWidget);
+      expect(find.text('Tamil Nadu'), findsOneWidget);
+      expect(find.text('South India'), findsWidgets);
+      expect(find.text('Next'), findsOneWidget);
+      expect(find.text('தமிழ்நாடு'), findsNothing);
     });
 
-    testWidgets('tapping the தமிழ் card live-previews the Tamil ARB strings', (
+    testWidgets('Tamil locale renders Tamil ARB strings', (
       tester,
     ) async {
       tester.view.physicalSize = const Size(412, 1200);
@@ -131,19 +130,15 @@ void main() {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(_welcomeHost());
+      await tester.pumpWidget(_welcomeHost(const Locale('ta')));
       await tester.pumpAndSettle();
 
-      expect(find.text(_voiceLabelEn), findsOneWidget);
-
-      final tamilCard = find.text('தமிழ்');
-      await tester.ensureVisible(tamilCard);
-      await tester.tap(tamilCard);
-      await tester.pumpAndSettle();
-
-      expect(find.text(_voiceLabelTa), findsOneWidget);
-      expect(find.text(_voiceNaturalTa), findsOneWidget);
-      expect(find.text(_voiceLabelEn), findsNothing);
+      expect(find.text('நீங்கள் எங்கு வசிக்கிறீர்கள்?'), findsOneWidget);
+      expect(find.text('தமிழ்நாடு'), findsOneWidget);
+      expect(find.text('தென் இந்தியா'), findsWidgets);
+      expect(find.text('அடுத்து'), findsOneWidget);
+      expect(find.text('Tamil Nadu'), findsNothing);
+      expect(find.text('South India'), findsNothing);
     });
   });
 }

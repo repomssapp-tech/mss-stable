@@ -4089,4 +4089,190 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get legalAccept => 'Accept';
+
+  @override
+  String get simpleProfileTitle => 'Quick Profile Setup';
+
+  @override
+  String get simpleProfileSubtitle =>
+      'Answer 6 simple questions to discover your schemes';
+
+  @override
+  String get simpleProfileStepStateTitle => 'Where do you live?';
+
+  @override
+  String get simpleProfileStepStateSubtitle =>
+      'Select your home state for local state schemes';
+
+  @override
+  String get simpleProfileStepGenderAgeTitle => 'About You';
+
+  @override
+  String get simpleProfileStepGenderAgeSubtitle => 'Select your gender and age';
+
+  @override
+  String get simpleProfileStepWorkTitle => 'What is your work or plan?';
+
+  @override
+  String get simpleProfileStepWorkSubtitle =>
+      'Choose the option that describes you best';
+
+  @override
+  String get simpleProfileStepSectorTitle => 'Which sector or field?';
+
+  @override
+  String get simpleProfileStepSectorSubtitle =>
+      'Select your primary trade or work area';
+
+  @override
+  String get simpleProfileStepCommunityTitle => 'Your Social Category';
+
+  @override
+  String get simpleProfileStepCommunitySubtitle =>
+      'Government schemes provide special subsidies for specific categories';
+
+  @override
+  String get simpleProfileStepEducationTitle => 'Your Education Level';
+
+  @override
+  String get simpleProfileStepEducationSubtitle =>
+      'Select your highest completed qualification';
+
+  @override
+  String get stateTamilNadu => 'Tamil Nadu';
+
+  @override
+  String get stateMaharashtra => 'Maharashtra';
+
+  @override
+  String get stateUttarPradesh => 'Uttar Pradesh';
+
+  @override
+  String get stateKarnataka => 'Karnataka';
+
+  @override
+  String get stateGujarat => 'Gujarat';
+
+  @override
+  String get stateOther => 'Other States';
+
+  @override
+  String get ageYearsLabel => 'years';
+
+  @override
+  String get workNewBusiness => 'Want to start a business';
+
+  @override
+  String get workNewBusinessDesc => 'Have an idea or starting a new venture';
+
+  @override
+  String get workExistingBusiness => 'Running a shop or business';
+
+  @override
+  String get workExistingBusinessDesc =>
+      'Own an operational trade or enterprise';
+
+  @override
+  String get workFarmer => 'Farming & Agriculture';
+
+  @override
+  String get workFarmerDesc => 'Crops, dairy, poultry, or allied farming';
+
+  @override
+  String get workArtisan => 'Artisan, Handloom & Crafts';
+
+  @override
+  String get workArtisanDesc =>
+      'Weaving, pottery, handicrafts, or trade crafts';
+
+  @override
+  String get workStudent => 'Student';
+
+  @override
+  String get workStudentDesc => 'Enrolled in school, college, or training';
+
+  @override
+  String get sectorAgri => 'Agriculture & Dairy';
+
+  @override
+  String get sectorManufacturing => 'Manufacturing & Workshop';
+
+  @override
+  String get sectorRetail => 'Retail, Shop & Trading';
+
+  @override
+  String get sectorTextiles => 'Textiles & Handloom';
+
+  @override
+  String get sectorFood => 'Food Processing & Eatery';
+
+  @override
+  String get sectorServices => 'Services & Digital Tech';
+
+  @override
+  String get sectorHandicrafts => 'Handicrafts & Art';
+
+  @override
+  String get sectorGeneral => 'General / Any Sector';
+
+  @override
+  String simpleProfileStepIndicator(int current, int total) {
+    return 'Step $current of $total';
+  }
+
+  @override
+  String get actionNext => 'Next';
+
+  @override
+  String get actionBack => 'Back';
+
+  @override
+  String get actionFinish => 'Find My Schemes';
+
+  @override
+  String get actionSaving => 'Saving...';
+
+  @override
+  String get regionSouthIndia => 'South India';
+
+  @override
+  String get regionWestIndia => 'West India';
+
+  @override
+  String get regionNorthIndia => 'North India';
+
+  @override
+  String get regionAllIndia => 'All India';
+
+  @override
+  String get ageSelectLabel => 'Your Age';
+
+  @override
+  String get commDescObc => 'Backward / Most Backward Class';
+
+  @override
+  String get commDescSc => 'Scheduled Caste';
+
+  @override
+  String get commDescSt => 'Scheduled Tribe';
+
+  @override
+  String get commDescMinority =>
+      'Muslim, Christian, Sikh, Jain, Buddhist, Parsi';
+
+  @override
+  String get commDescGeneral => 'Open Category';
+
+  @override
+  String get eduDescSchool => 'Up to 10th or 12th standard';
+
+  @override
+  String get eduDescDiploma => 'Polytechnic or vocational certificate';
+
+  @override
+  String get eduDescUndergraduate =>
+      'Bachelor degree (BA, BSc, BCom, BE, etc.)';
+
+  @override
+  String get eduDescPostgraduate => 'Master degree, MPhil, or Ph.D.';
 }

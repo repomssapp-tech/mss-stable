@@ -7639,6 +7639,354 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Accept'**
   String get legalAccept;
+
+  /// No description provided for @simpleProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Profile Setup'**
+  String get simpleProfileTitle;
+
+  /// No description provided for @simpleProfileSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer 6 simple questions to discover your schemes'**
+  String get simpleProfileSubtitle;
+
+  /// No description provided for @simpleProfileStepStateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Where do you live?'**
+  String get simpleProfileStepStateTitle;
+
+  /// No description provided for @simpleProfileStepStateSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your home state for local state schemes'**
+  String get simpleProfileStepStateSubtitle;
+
+  /// No description provided for @simpleProfileStepGenderAgeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'About You'**
+  String get simpleProfileStepGenderAgeTitle;
+
+  /// No description provided for @simpleProfileStepGenderAgeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your gender and age'**
+  String get simpleProfileStepGenderAgeSubtitle;
+
+  /// No description provided for @simpleProfileStepWorkTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your work or plan?'**
+  String get simpleProfileStepWorkTitle;
+
+  /// No description provided for @simpleProfileStepWorkSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the option that describes you best'**
+  String get simpleProfileStepWorkSubtitle;
+
+  /// No description provided for @simpleProfileStepSectorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Which sector or field?'**
+  String get simpleProfileStepSectorTitle;
+
+  /// No description provided for @simpleProfileStepSectorSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your primary trade or work area'**
+  String get simpleProfileStepSectorSubtitle;
+
+  /// No description provided for @simpleProfileStepCommunityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Social Category'**
+  String get simpleProfileStepCommunityTitle;
+
+  /// No description provided for @simpleProfileStepCommunitySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Government schemes provide special subsidies for specific categories'**
+  String get simpleProfileStepCommunitySubtitle;
+
+  /// No description provided for @simpleProfileStepEducationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Education Level'**
+  String get simpleProfileStepEducationTitle;
+
+  /// No description provided for @simpleProfileStepEducationSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your highest completed qualification'**
+  String get simpleProfileStepEducationSubtitle;
+
+  /// No description provided for @stateTamilNadu.
+  ///
+  /// In en, this message translates to:
+  /// **'Tamil Nadu'**
+  String get stateTamilNadu;
+
+  /// No description provided for @stateMaharashtra.
+  ///
+  /// In en, this message translates to:
+  /// **'Maharashtra'**
+  String get stateMaharashtra;
+
+  /// No description provided for @stateUttarPradesh.
+  ///
+  /// In en, this message translates to:
+  /// **'Uttar Pradesh'**
+  String get stateUttarPradesh;
+
+  /// No description provided for @stateKarnataka.
+  ///
+  /// In en, this message translates to:
+  /// **'Karnataka'**
+  String get stateKarnataka;
+
+  /// No description provided for @stateGujarat.
+  ///
+  /// In en, this message translates to:
+  /// **'Gujarat'**
+  String get stateGujarat;
+
+  /// No description provided for @stateOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other States'**
+  String get stateOther;
+
+  /// No description provided for @ageYearsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'years'**
+  String get ageYearsLabel;
+
+  /// No description provided for @workNewBusiness.
+  ///
+  /// In en, this message translates to:
+  /// **'Want to start a business'**
+  String get workNewBusiness;
+
+  /// No description provided for @workNewBusinessDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Have an idea or starting a new venture'**
+  String get workNewBusinessDesc;
+
+  /// No description provided for @workExistingBusiness.
+  ///
+  /// In en, this message translates to:
+  /// **'Running a shop or business'**
+  String get workExistingBusiness;
+
+  /// No description provided for @workExistingBusinessDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Own an operational trade or enterprise'**
+  String get workExistingBusinessDesc;
+
+  /// No description provided for @workFarmer.
+  ///
+  /// In en, this message translates to:
+  /// **'Farming & Agriculture'**
+  String get workFarmer;
+
+  /// No description provided for @workFarmerDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Crops, dairy, poultry, or allied farming'**
+  String get workFarmerDesc;
+
+  /// No description provided for @workArtisan.
+  ///
+  /// In en, this message translates to:
+  /// **'Artisan, Handloom & Crafts'**
+  String get workArtisan;
+
+  /// No description provided for @workArtisanDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Weaving, pottery, handicrafts, or trade crafts'**
+  String get workArtisanDesc;
+
+  /// No description provided for @workStudent.
+  ///
+  /// In en, this message translates to:
+  /// **'Student'**
+  String get workStudent;
+
+  /// No description provided for @workStudentDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Enrolled in school, college, or training'**
+  String get workStudentDesc;
+
+  /// No description provided for @sectorAgri.
+  ///
+  /// In en, this message translates to:
+  /// **'Agriculture & Dairy'**
+  String get sectorAgri;
+
+  /// No description provided for @sectorManufacturing.
+  ///
+  /// In en, this message translates to:
+  /// **'Manufacturing & Workshop'**
+  String get sectorManufacturing;
+
+  /// No description provided for @sectorRetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Retail, Shop & Trading'**
+  String get sectorRetail;
+
+  /// No description provided for @sectorTextiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Textiles & Handloom'**
+  String get sectorTextiles;
+
+  /// No description provided for @sectorFood.
+  ///
+  /// In en, this message translates to:
+  /// **'Food Processing & Eatery'**
+  String get sectorFood;
+
+  /// No description provided for @sectorServices.
+  ///
+  /// In en, this message translates to:
+  /// **'Services & Digital Tech'**
+  String get sectorServices;
+
+  /// No description provided for @sectorHandicrafts.
+  ///
+  /// In en, this message translates to:
+  /// **'Handicrafts & Art'**
+  String get sectorHandicrafts;
+
+  /// No description provided for @sectorGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General / Any Sector'**
+  String get sectorGeneral;
+
+  /// No description provided for @simpleProfileStepIndicator.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {current} of {total}'**
+  String simpleProfileStepIndicator(int current, int total);
+
+  /// No description provided for @actionNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get actionNext;
+
+  /// No description provided for @actionBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get actionBack;
+
+  /// No description provided for @actionFinish.
+  ///
+  /// In en, this message translates to:
+  /// **'Find My Schemes'**
+  String get actionFinish;
+
+  /// No description provided for @actionSaving.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get actionSaving;
+
+  /// No description provided for @regionSouthIndia.
+  ///
+  /// In en, this message translates to:
+  /// **'South India'**
+  String get regionSouthIndia;
+
+  /// No description provided for @regionWestIndia.
+  ///
+  /// In en, this message translates to:
+  /// **'West India'**
+  String get regionWestIndia;
+
+  /// No description provided for @regionNorthIndia.
+  ///
+  /// In en, this message translates to:
+  /// **'North India'**
+  String get regionNorthIndia;
+
+  /// No description provided for @regionAllIndia.
+  ///
+  /// In en, this message translates to:
+  /// **'All India'**
+  String get regionAllIndia;
+
+  /// No description provided for @ageSelectLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Age'**
+  String get ageSelectLabel;
+
+  /// No description provided for @commDescObc.
+  ///
+  /// In en, this message translates to:
+  /// **'Backward / Most Backward Class'**
+  String get commDescObc;
+
+  /// No description provided for @commDescSc.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled Caste'**
+  String get commDescSc;
+
+  /// No description provided for @commDescSt.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled Tribe'**
+  String get commDescSt;
+
+  /// No description provided for @commDescMinority.
+  ///
+  /// In en, this message translates to:
+  /// **'Muslim, Christian, Sikh, Jain, Buddhist, Parsi'**
+  String get commDescMinority;
+
+  /// No description provided for @commDescGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Category'**
+  String get commDescGeneral;
+
+  /// No description provided for @eduDescSchool.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to 10th or 12th standard'**
+  String get eduDescSchool;
+
+  /// No description provided for @eduDescDiploma.
+  ///
+  /// In en, this message translates to:
+  /// **'Polytechnic or vocational certificate'**
+  String get eduDescDiploma;
+
+  /// No description provided for @eduDescUndergraduate.
+  ///
+  /// In en, this message translates to:
+  /// **'Bachelor degree (BA, BSc, BCom, BE, etc.)'**
+  String get eduDescUndergraduate;
+
+  /// No description provided for @eduDescPostgraduate.
+  ///
+  /// In en, this message translates to:
+  /// **'Master degree, MPhil, or Ph.D.'**
+  String get eduDescPostgraduate;
 }
 
 class _AppLocalizationsDelegate
