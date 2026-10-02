@@ -4,6 +4,8 @@
 
 **Not re-verified this pass** (carried forward unchanged from the 2026-09-10 baseline, not re-checked here): live Supabase project state (`houpzsxmwemoztpuigmo`), `saarthi-agent` runtime behavior, secrets-on-disk findings, and the full database-migration content review (§4/§7/§11/§12 of `CODEBASE_AUDIT.md`). `flutter analyze` and `flutter test` **were** run as part of the 2026-09-13 decomposition follow-up below (full ~470-test suite, clean analyze) — that coverage is current as of this doc's date. Treat this document as scoped to: recent decomposition integrity, `v1` API routing, and docs/governance hygiene.
 
+**See also:** `docs/production-readiness/STATUS.md` for the current state of the production-readiness sweep on `fix/production-readiness` (Phases 1–3, correctness fixes + design system + the in-progress screen-by-screen sweep).
+
 ---
 
 ## 0. Manual full-app QA pass (2026-09-13, English, on `emulator-5554`)
@@ -88,7 +90,7 @@ None of the four follow-up passes changed any public API, and each was verified 
 | # | Issue | Location | Fix needed |
 |---|---|---|---|
 | 1 | Stale comment references a deleted Flutter class | `backend/supabase/config.toml:388-392` — cites `frontend/lib/services/mss_api_client.dart`, deleted in commit `aef431b` | Update or remove the comment; `v1` currently has no Flutter caller at all. |
-| 2 | API spec has zero overlap with real routes | `backend/openapi/openapi.yaml` — documents an admin/sync API (`/v1/admin/schemes`, `/v1/sync/*`, `/v1/admin/audit`, etc.) with **zero overlap** with the real `/v1/*` routes above. It does self-disclose as "planned contracts until their Edge Functions are implemented" (line 8-10), so it isn't presented as live — but it also doesn't document any of the routes that *are* live, so it's not useful as API documentation today. | Per `docs/RULES.md` §2: either add the real live routes to this spec, or rename/relocate it to make clear it's a future-API design doc, not current API documentation. |
+| 2 | ✅ Resolved — API spec has zero overlap with real routes | `backend/openapi/openapi.planned.yaml` (renamed from `openapi.yaml`) — documents an admin/sync API (`/v1/admin/schemes`, `/v1/sync/*`, `/v1/admin/audit`, etc.) with **zero overlap** with the real `/v1/*` routes above. | Renamed to `openapi.planned.yaml` and its header now states explicitly it is a planned, not-yet-built API design and points readers to this section (§2) for the live routes. See `docs/RULES.md` §2. |
 
 ---
 

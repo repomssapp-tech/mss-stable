@@ -1,0 +1,15 @@
+{
+  "lib/screens/companion_mode/saarthi_home/saarthi_response_helpers.dart": 2,
+  "lib/screens/profile/profile_about_dialog.dart": 219,
+  "lib/screens/profile/profile_navigation_sections.dart": 5,
+  "lib/screens/profile/profile_value_formatters.dart": 5,
+  "lib/screens/regular_mode/basic_profile/step2_location_form.dart": 2,
+  "lib/screens/regular_mode/home/home_journey_section.dart": 11,
+  "lib/screens/regular_mode/language_selection_screen.dart": 10,
+  "lib/screens/regular_mode/scheme_details_screen.dart": 1,
+  "lib/screens/regular_mode/search/search_input_section.dart": 5,
+  "lib/screens/regular_mode/settings_screen.dart": 5,
+  "lib/widgets/assistant/voice/voice_interactive_widgets.dart": 5,
+  "lib/widgets/assistant/voice_assistant_overlay.dart": 5,
+  "lib/widgets/scheme/catalog_freshness_footer.dart": 22
+}

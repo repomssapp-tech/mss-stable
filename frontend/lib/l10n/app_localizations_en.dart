@@ -37,10 +37,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportSupport => 'Export Support';
 
   @override
+  String get exportModuleDescription =>
+      'Global Trade Readiness & Export Incentives';
+
+  @override
   String get growBusiness => 'Grow Business';
 
   @override
   String get registerUdyam => 'Register UDYAM';
+
+  @override
+  String get udyamModuleDescription =>
+      'Official MSME Registration Guide & Direct Portal Link';
 
   @override
   String get findFunding => 'Find Funding';
@@ -77,6 +85,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recommendedForYou => 'Recommended For You';
+
+  @override
+  String get homeRecommendationsEmptyMessage =>
+      'Complete your profile to see recommendations';
 
   @override
   String get viewAll => 'View All';
@@ -340,7 +352,148 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get recentlyAddedTab => 'Recently Added';
+  String get recentlyViewedTab => 'Recently viewed';
+
+  @override
+  String get loginChecklistTerms => 'Read the Terms of Use';
+
+  @override
+  String get loginChecklistPrivacy => 'Read the Privacy Policy';
+
+  @override
+  String get loginChecklistAgree => 'Agree to continue';
+
+  @override
+  String get loginOpeningGoogle => 'Opening Google…';
+
+  @override
+  String get betaGatePasswordLabel => 'Beta password';
+
+  @override
+  String get showPassword => 'Show password';
+
+  @override
+  String get hidePassword => 'Hide password';
+
+  @override
+  String get notificationsTooltip => 'Notifications';
+
+  @override
+  String notificationsUnreadCount(Object n) {
+    return '$n unread';
+  }
+
+  @override
+  String get quickPillPmegpQuery => 'PMEGP';
+
+  @override
+  String get quickPillStartupQuery => 'Startup';
+
+  @override
+  String get quickPillLoansQuery => 'Loans';
+
+  @override
+  String get quickPillWomenQuery => 'Women';
+
+  @override
+  String get quickPillAscendQuery => 'ASCEND';
+
+  @override
+  String get homeRecommendedEmptyTitle =>
+      'Complete your profile to see schemes for you';
+
+  @override
+  String get homeRecommendedEmptyBody =>
+      'Add a few details and we will show schemes you may be eligible for.';
+
+  @override
+  String get completeProfileCta => 'Complete profile';
+
+  @override
+  String get saveSchemeTooltip => 'Save scheme';
+
+  @override
+  String get removeSavedTooltip => 'Remove from saved';
+
+  @override
+  String get copyLinkTooltip => 'Copy link';
+
+  @override
+  String get shareSchemeTooltip => 'Copy scheme details';
+
+  @override
+  String get clearFilters => 'Clear filters';
+
+  @override
+  String get clearSearch => 'Clear search';
+
+  @override
+  String get forMeTooltip =>
+      'Show only schemes you are eligible for (uses your profile)';
+
+  @override
+  String get sortBestMatchNeedsProfile => 'Complete your profile to use this';
+
+  @override
+  String get recentlyViewedEmptyTitle => 'Nothing viewed yet';
+
+  @override
+  String get recentlyViewedEmptyDesc => 'Schemes you open will appear here.';
+
+  @override
+  String get browseSchemes => 'Browse schemes';
+
+  @override
+  String get schemeRemovedToast => 'Removed from saved';
+
+  @override
+  String get undo => 'Undo';
+
+  @override
+  String get moreOptions => 'More options';
+
+  @override
+  String get applyUnavailableHint => 'No official application link yet';
+
+  @override
+  String get assistedChooseOne => 'Choose one option to continue';
+
+  @override
+  String get ageIncrease => 'Increase age';
+
+  @override
+  String get ageDecrease => 'Decrease age';
+
+  @override
+  String get changeProfilePhoto => 'Change profile photo';
+
+  @override
+  String get notifEmptyBody =>
+      'New scheme updates and reminders will show up here.';
+
+  @override
+  String get aboutTagline =>
+      'Government Scheme Discovery & Eligibility Platform';
+
+  @override
+  String get aboutDescription =>
+      'MSS is an intelligent digital platform designed to bridge the awareness gap and simplify the discovery, eligibility matching, and application process for Central and State Government schemes for Indian entrepreneurs, women, farmers, and students.';
+
+  @override
+  String get aboutCreatedBy => 'Developed in collaboration with:';
+
+  @override
+  String get sarvamPromptDocuments => 'Which documents do I need?';
+
+  @override
+  String get sarvamPromptEligibility => 'Am I eligible for a loan?';
+
+  @override
+  String get noStatesMatch => 'No states match your search';
+
+  @override
+  String get homeRecommendationsNoMatches =>
+      'No matches yet — try Search or Discover';
 
   @override
   String get noSavedSchemes => 'No Saved Schemes Yet';
@@ -348,6 +501,23 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get noSavedSchemesDesc =>
       'Bookmark schemes while browsing to view them offline anytime.';
+
+  @override
+  String savedSubtitleCountFormat(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count schemes saved',
+      one: '1 scheme saved',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get savedRecentlyViewedEmptyTitle => 'No Schemes Viewed Yet';
+
+  @override
+  String get savedRecentlyViewedEmptyDesc => 'Schemes you open appear here';
 
   @override
   String get manageSaved => 'Manage';
@@ -467,7 +637,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileTitle => 'Profile';
 
   @override
-  String get profileVerified => 'Profile Verified';
+  String get profileVerified => 'Profile complete';
 
   @override
   String get profileIncomplete => 'Incomplete';
@@ -741,6 +911,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String matchPercentageFormat(Object percent) {
     return '$percent% Match';
   }
+
+  @override
+  String get schemeCopiedToast => 'Scheme details copied to clipboard';
 
   @override
   String get highlyRelevant => 'Highly relevant';
@@ -1540,6 +1713,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Login or sign up to discover and explore government schemes that empower you.';
 
   @override
+  String get loginReviewTermsNotice =>
+      'Please review the Terms of Use and Privacy Policy before continuing.';
+
+  @override
   String get continueSecurely => 'Continue securely';
 
   @override
@@ -1955,6 +2132,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Ask about schemes, eligibility, or how to apply.';
 
   @override
+  String get aiDisclaimerNotice =>
+      'AI can make mistakes. Check details on the official scheme website.';
+
+  @override
   String get sarvamInputHint => 'Ask Saarthi…';
 
   @override
@@ -2169,6 +2350,234 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get msmeMainFeaturesInside => 'Main Features Inside';
+
+  @override
+  String get msmeFeatureSchemes1 =>
+      'Personalized schemes matched to business profile';
+
+  @override
+  String get msmeFeatureSchemes2 => 'Central vs. State schemes filter';
+
+  @override
+  String get msmeFeatureSchemes3 => 'Comprehensive eligibility checker';
+
+  @override
+  String get msmeFeatureSchemes4 => 'Search by scheme categories';
+
+  @override
+  String get msmeFeatureSchemes5 =>
+      'Capital subsidies, grants & interest subventions';
+
+  @override
+  String get msmeFeatureSchemes6 => 'Lists of required documents & checklists';
+
+  @override
+  String get msmeFeatureSchemes7 =>
+      'Clear, step-by-step application guidelines';
+
+  @override
+  String get msmeFeatureSchemes8 => 'Save schemes for later';
+
+  @override
+  String get msmeFeatureFinance1 =>
+      'Collateral-free business term loans & working capital';
+
+  @override
+  String get msmeFeatureFinance2 =>
+      'SIDBI specialized credit schemes for machinery & tools';
+
+  @override
+  String get msmeFeatureFinance3 =>
+      'Credit Guarantees (CGTMSE) for collateral-free bank options';
+
+  @override
+  String get msmeFeatureFinance4 => 'Equipment & machinery financing models';
+
+  @override
+  String get msmeFeatureFinance5 =>
+      'Detailed comparisons of loan interest rates';
+
+  @override
+  String get msmeFeatureFinance6 =>
+      'Direct contact pathways to SIDBI & partner commercial banks';
+
+  @override
+  String get msmeFeatureFinance7 =>
+      'SME IPO listing requirements (BSE SME & NSE Emerge)';
+
+  @override
+  String get msmeFeatureTaxGst1 => 'MSME Corporate Income-Tax benefits';
+
+  @override
+  String get msmeFeatureTaxGst2 =>
+      'GST registration threshold limits (₹40/₹20 Lakhs exemptions)';
+
+  @override
+  String get msmeFeatureTaxGst3 =>
+      'GST Composition Scheme parameters (1% tax, easier filings)';
+
+  @override
+  String get msmeFeatureTaxGst4 =>
+      'Section 43B(h) Income Tax protection (45-day payment rule)';
+
+  @override
+  String get msmeFeatureTaxGst5 =>
+      'Late payment interest claim calculator (3x Bank Rate)';
+
+  @override
+  String get msmeFeatureTaxGst6 =>
+      'Export tax refunds & LUT (Letter of Undertaking) rules';
+
+  @override
+  String get msmeFeatureTaxGst7 => 'MSME Samadhaan portal recovery guidelines';
+
+  @override
+  String get msmeFeatureExport1 =>
+      'Duty refund schemes (RoDTEP, RoSCTL) & Drawbacks';
+
+  @override
+  String get msmeFeatureExport2 =>
+      'Pre-shipment & Post-shipment export credit financing';
+
+  @override
+  String get msmeFeatureExport3 =>
+      'Interest subvention on foreign currency loans';
+
+  @override
+  String get msmeFeatureExport4 =>
+      'ECGC credit risk insurance coverage policies';
+
+  @override
+  String get msmeFeatureExport5 =>
+      'MDA & MAI schemes for foreign exhibition participation';
+
+  @override
+  String get msmeFeatureExport6 =>
+      'Directory of Export Councils & DGFT field offices';
+
+  @override
+  String get msmeFeatureExport7 =>
+      'HS Code classifications & AD Code registration guide';
+
+  @override
+  String get msmeFeatureTreds1 =>
+      'Invoice Discounting multi-party platforms explainer';
+
+  @override
+  String get msmeFeatureTreds2 => 'Onboarding guidelines for MSME Sellers';
+
+  @override
+  String get msmeFeatureTreds3 =>
+      'RXIL, M1xchange & Invoicemart registration steps';
+
+  @override
+  String get msmeFeatureTreds4 => 'Acceptance guidelines for Corporate Buyers';
+
+  @override
+  String get msmeFeatureTreds5 =>
+      'Financier bidding flow (anonymized auction for best rates)';
+
+  @override
+  String get msmeFeatureTreds6 =>
+      'Payment settlement pathways (T+1 credit cycles)';
+
+  @override
+  String get msmeFeatureTreds7 =>
+      'Recourse vs. Non-recourse factoring definitions';
+
+  @override
+  String get msmeFeatureCsr1 =>
+      'Corporate CSR-backed cluster development funding';
+
+  @override
+  String get msmeFeatureCsr2 =>
+      'Access to corporate incubation grants for prototype support';
+
+  @override
+  String get msmeFeatureCsr3 =>
+      'Specialized green-energy & waste-management cluster programs';
+
+  @override
+  String get msmeFeatureCsr4 =>
+      'Skill development & technology upgrade programs';
+
+  @override
+  String get msmeFeatureCsr5 => 'List of CSR implementing agencies & NGOs';
+
+  @override
+  String get msmeFeatureCsr6 => 'Eligibility checklists & application pathways';
+
+  @override
+  String get msmeFeatureGovt1 =>
+      'Ministry of MSME (Central Govt) policies & initiatives';
+
+  @override
+  String get msmeFeatureGovt2 =>
+      'State Directorate of Industries / Dept of Commerce role';
+
+  @override
+  String get msmeFeatureGovt3 =>
+      'District Industries Centre (DIC) local assistance offices';
+
+  @override
+  String get msmeFeatureGovt4 =>
+      'Clear hierarchies: Central -> State -> District levels';
+
+  @override
+  String get msmeFeatureGovt5 =>
+      'Key contact directories & nodal officer lists';
+
+  @override
+  String get msmeFeatureGovt6 =>
+      'Authority-specific schemes (PMEGP vs State subsidies)';
+
+  @override
+  String get msmeFeatureInstitutions1 =>
+      'SIDBI (Small Industries Development Bank of India) credit portals';
+
+  @override
+  String get msmeFeatureInstitutions2 =>
+      'NSIC (National Small Industries Corporation) raw material support';
+
+  @override
+  String get msmeFeatureInstitutions3 =>
+      'DIC (District Industries Centre) single-window registrations';
+
+  @override
+  String get msmeFeatureInstitutions4 =>
+      'KVIC (Khadi and Village Industries Commission) rural projects';
+
+  @override
+  String get msmeFeatureInstitutions5 =>
+      'TIIC, StartupTN, FaMeTN, SIPCOT regional service descriptions';
+
+  @override
+  String get msmeFeatureInstitutions6 =>
+      'Program services catalog & contact application routes';
+
+  @override
+  String get msmeFeatureUdyam1 =>
+      '100% Free & Paperless Instant Portal Registration';
+
+  @override
+  String get msmeFeatureUdyam2 =>
+      'Lifetime Validity with QR Code e-Certificate';
+
+  @override
+  String get msmeFeatureUdyam3 =>
+      'Automatic CGTMSE Collateral-Free Credit & TReDS Eligibility';
+
+  @override
+  String get msmeFeatureUdyam4 =>
+      'Exemption from Earnest Money Deposit (EMD) in Govt Tenders';
+
+  @override
+  String get msmeFeatureUdyam5 =>
+      'Eligible for 15% CLCSS Technology & Capital Subsidies';
+
+  @override
+  String get msmeFeatureUdyam6 =>
+      'Concessional Electricity & Patent Registration Fee Waiver';
 
   @override
   String get croreSuffix => 'Cr';
@@ -4155,6 +4564,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get stateOther => 'Other States';
+
+  @override
+  String get searchStateOrUtPlaceholder => 'Search state or UT';
 
   @override
   String get ageYearsLabel => 'years';

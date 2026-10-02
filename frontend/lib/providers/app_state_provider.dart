@@ -329,6 +329,10 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     List<MapEntry<Scheme, RecommendationResult>> schemes,
   ) => _catalog.setRecommendedSchemesForTesting(schemes);
 
+  @visibleForTesting
+  void setAllSchemesForTesting(List<Scheme> schemes) =>
+      _catalog.setAllSchemesForTesting(schemes);
+
   bool get isGuest => false;
   bool get isLoggingOut => _isLoggingOut;
   String get mobileNumber => _mobileNumber;
@@ -420,11 +424,17 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
   // Catalog load / sync — delegate to SchemeCatalogController, passing the
   // current language + profile (which stay on this facade).
-  Future<void> loadSchemes({bool forceRefresh = false}) => _catalog.loadSchemes(
-    langCode: _selectedLanguage,
-    profile: _profile,
-    forceRefresh: forceRefresh,
-  );
+  Future<void> loadSchemes({bool forceRefresh = false}) async {
+    await _catalog.loadSchemes(
+      langCode: _selectedLanguage,
+      profile: _profile,
+      forceRefresh: forceRefresh,
+    );
+    // Needs the just-loaded catalog to map schemeCode -> id (H7), so it runs
+    // here rather than at _loadState's earlier cache hydration.
+    _library.normalizeBookmarkKeys(_catalog.allSchemes);
+    notifyListeners();
+  }
 
   Future<CatalogSyncResult> syncSchemeCatalog({bool force = false}) =>
       _catalog.syncSchemeCatalog(

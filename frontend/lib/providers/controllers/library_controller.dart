@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 
+import '../../models/scheme_model.dart';
 import '../../services/account/session_cache_service.dart';
 
 /// Owns the user's saved-content lists — bookmarked schemes, the recently
@@ -47,6 +48,47 @@ class LibraryController extends ChangeNotifier {
         await SessionCacheService.instance.getSavedEligibilityResults() ?? [];
     _lastEligibilitySavedAt =
         await SessionCacheService.instance.getLastEligibilitySavedAt();
+  }
+
+  /// Rewrites any stored bookmark / recently-viewed entry that is actually a
+  /// `schemeCode` (not an `id`) to the matching scheme's `id`, so `id` is the
+  /// single canonical key going forward (H7: in the real catalog `id` and
+  /// `schemeCode` always differ -- e.g. "SCH000001" vs "TN001" -- so an older
+  /// entry saved by code would otherwise never match anything looked up by
+  /// id). Idempotent and silent -- the caller (`AppProvider.loadSchemes`,
+  /// once the catalog it needs for the id/code mapping is loaded) notifies.
+  void normalizeBookmarkKeys(List<Scheme> allSchemes) {
+    final codeToId = <String, String>{
+      for (final s in allSchemes)
+        if (s.schemeCode.isNotEmpty) s.schemeCode: s.id,
+    };
+    if (codeToId.isEmpty) return;
+
+    bool remap(List<String> ids) {
+      var changed = false;
+      for (var i = 0; i < ids.length; i++) {
+        final mapped = codeToId[ids[i]];
+        if (mapped != null && mapped != ids[i]) {
+          ids[i] = mapped;
+          changed = true;
+        }
+      }
+      return changed;
+    }
+
+    final bookmarksChanged = remap(_bookmarkedIds);
+    final recentlyViewedChanged = remap(_recentlyViewedIds);
+
+    if (bookmarksChanged) {
+      _bookmarkedIds = _bookmarkedIds.toSet().toList();
+      unawaited(SessionCacheService.instance.saveBookmarks(_bookmarkedIds));
+    }
+    if (recentlyViewedChanged) {
+      _recentlyViewedIds = _recentlyViewedIds.toSet().toList();
+      unawaited(
+        SessionCacheService.instance.saveRecentlyViewed(_recentlyViewedIds),
+      );
+    }
   }
 
   void toggleBookmark(String id) {

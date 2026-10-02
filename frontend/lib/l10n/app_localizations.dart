@@ -152,6 +152,12 @@ abstract class AppLocalizations {
   /// **'Export Support'**
   String get exportSupport;
 
+  /// No description provided for @exportModuleDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Global Trade Readiness & Export Incentives'**
+  String get exportModuleDescription;
+
   /// No description provided for @growBusiness.
   ///
   /// In en, this message translates to:
@@ -163,6 +169,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Register UDYAM'**
   String get registerUdyam;
+
+  /// No description provided for @udyamModuleDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Official MSME Registration Guide & Direct Portal Link'**
+  String get udyamModuleDescription;
 
   /// No description provided for @findFunding.
   ///
@@ -235,6 +247,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recommended For You'**
   String get recommendedForYou;
+
+  /// No description provided for @homeRecommendationsEmptyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete your profile to see recommendations'**
+  String get homeRecommendationsEmptyMessage;
 
   /// No description provided for @viewAll.
   ///
@@ -704,11 +722,275 @@ abstract class AppLocalizations {
   /// **'All Saved ({count})'**
   String allSavedTabFormat(Object count);
 
-  /// No description provided for @recentlyAddedTab.
+  /// No description provided for @recentlyViewedTab.
   ///
   /// In en, this message translates to:
-  /// **'Recently Added'**
-  String get recentlyAddedTab;
+  /// **'Recently viewed'**
+  String get recentlyViewedTab;
+
+  /// No description provided for @loginChecklistTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Read the Terms of Use'**
+  String get loginChecklistTerms;
+
+  /// No description provided for @loginChecklistPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Read the Privacy Policy'**
+  String get loginChecklistPrivacy;
+
+  /// No description provided for @loginChecklistAgree.
+  ///
+  /// In en, this message translates to:
+  /// **'Agree to continue'**
+  String get loginChecklistAgree;
+
+  /// No description provided for @loginOpeningGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening Google…'**
+  String get loginOpeningGoogle;
+
+  /// No description provided for @betaGatePasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Beta password'**
+  String get betaGatePasswordLabel;
+
+  /// No description provided for @showPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Show password'**
+  String get showPassword;
+
+  /// No description provided for @hidePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide password'**
+  String get hidePassword;
+
+  /// No description provided for @notificationsTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsTooltip;
+
+  /// No description provided for @notificationsUnreadCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} unread'**
+  String notificationsUnreadCount(Object n);
+
+  /// No description provided for @quickPillPmegpQuery.
+  ///
+  /// In en, this message translates to:
+  /// **'PMEGP'**
+  String get quickPillPmegpQuery;
+
+  /// No description provided for @quickPillStartupQuery.
+  ///
+  /// In en, this message translates to:
+  /// **'Startup'**
+  String get quickPillStartupQuery;
+
+  /// No description provided for @quickPillLoansQuery.
+  ///
+  /// In en, this message translates to:
+  /// **'Loans'**
+  String get quickPillLoansQuery;
+
+  /// No description provided for @quickPillWomenQuery.
+  ///
+  /// In en, this message translates to:
+  /// **'Women'**
+  String get quickPillWomenQuery;
+
+  /// No description provided for @quickPillAscendQuery.
+  ///
+  /// In en, this message translates to:
+  /// **'ASCEND'**
+  String get quickPillAscendQuery;
+
+  /// No description provided for @homeRecommendedEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete your profile to see schemes for you'**
+  String get homeRecommendedEmptyTitle;
+
+  /// No description provided for @homeRecommendedEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a few details and we will show schemes you may be eligible for.'**
+  String get homeRecommendedEmptyBody;
+
+  /// No description provided for @completeProfileCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete profile'**
+  String get completeProfileCta;
+
+  /// No description provided for @saveSchemeTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Save scheme'**
+  String get saveSchemeTooltip;
+
+  /// No description provided for @removeSavedTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from saved'**
+  String get removeSavedTooltip;
+
+  /// No description provided for @copyLinkTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link'**
+  String get copyLinkTooltip;
+
+  /// No description provided for @shareSchemeTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy scheme details'**
+  String get shareSchemeTooltip;
+
+  /// No description provided for @clearFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filters'**
+  String get clearFilters;
+
+  /// No description provided for @clearSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get clearSearch;
+
+  /// No description provided for @forMeTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Show only schemes you are eligible for (uses your profile)'**
+  String get forMeTooltip;
+
+  /// No description provided for @sortBestMatchNeedsProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete your profile to use this'**
+  String get sortBestMatchNeedsProfile;
+
+  /// No description provided for @recentlyViewedEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing viewed yet'**
+  String get recentlyViewedEmptyTitle;
+
+  /// No description provided for @recentlyViewedEmptyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Schemes you open will appear here.'**
+  String get recentlyViewedEmptyDesc;
+
+  /// No description provided for @browseSchemes.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse schemes'**
+  String get browseSchemes;
+
+  /// No description provided for @schemeRemovedToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed from saved'**
+  String get schemeRemovedToast;
+
+  /// No description provided for @undo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get undo;
+
+  /// No description provided for @moreOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get moreOptions;
+
+  /// No description provided for @applyUnavailableHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No official application link yet'**
+  String get applyUnavailableHint;
+
+  /// No description provided for @assistedChooseOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose one option to continue'**
+  String get assistedChooseOne;
+
+  /// No description provided for @ageIncrease.
+  ///
+  /// In en, this message translates to:
+  /// **'Increase age'**
+  String get ageIncrease;
+
+  /// No description provided for @ageDecrease.
+  ///
+  /// In en, this message translates to:
+  /// **'Decrease age'**
+  String get ageDecrease;
+
+  /// No description provided for @changeProfilePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Change profile photo'**
+  String get changeProfilePhoto;
+
+  /// No description provided for @notifEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'New scheme updates and reminders will show up here.'**
+  String get notifEmptyBody;
+
+  /// No description provided for @aboutTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Government Scheme Discovery & Eligibility Platform'**
+  String get aboutTagline;
+
+  /// No description provided for @aboutDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'MSS is an intelligent digital platform designed to bridge the awareness gap and simplify the discovery, eligibility matching, and application process for Central and State Government schemes for Indian entrepreneurs, women, farmers, and students.'**
+  String get aboutDescription;
+
+  /// No description provided for @aboutCreatedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Developed in collaboration with:'**
+  String get aboutCreatedBy;
+
+  /// No description provided for @sarvamPromptDocuments.
+  ///
+  /// In en, this message translates to:
+  /// **'Which documents do I need?'**
+  String get sarvamPromptDocuments;
+
+  /// No description provided for @sarvamPromptEligibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Am I eligible for a loan?'**
+  String get sarvamPromptEligibility;
+
+  /// No description provided for @noStatesMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'No states match your search'**
+  String get noStatesMatch;
+
+  /// No description provided for @homeRecommendationsNoMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'No matches yet — try Search or Discover'**
+  String get homeRecommendationsNoMatches;
 
   /// No description provided for @noSavedSchemes.
   ///
@@ -721,6 +1003,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Bookmark schemes while browsing to view them offline anytime.'**
   String get noSavedSchemesDesc;
+
+  /// No description provided for @savedSubtitleCountFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 scheme saved} other{{count} schemes saved}}'**
+  String savedSubtitleCountFormat(int count);
+
+  /// No description provided for @savedRecentlyViewedEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No Schemes Viewed Yet'**
+  String get savedRecentlyViewedEmptyTitle;
+
+  /// No description provided for @savedRecentlyViewedEmptyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Schemes you open appear here'**
+  String get savedRecentlyViewedEmptyDesc;
 
   /// No description provided for @manageSaved.
   ///
@@ -947,7 +1247,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileVerified.
   ///
   /// In en, this message translates to:
-  /// **'Profile Verified'**
+  /// **'Profile complete'**
   String get profileVerified;
 
   /// No description provided for @profileIncomplete.
@@ -1471,6 +1771,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{percent}% Match'**
   String matchPercentageFormat(Object percent);
+
+  /// No description provided for @schemeCopiedToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheme details copied to clipboard'**
+  String get schemeCopiedToast;
 
   /// No description provided for @highlyRelevant.
   ///
@@ -2936,6 +3242,12 @@ abstract class AppLocalizations {
   /// **'Login or sign up to discover and explore government schemes that empower you.'**
   String get loginSubtitle;
 
+  /// No description provided for @loginReviewTermsNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Please review the Terms of Use and Privacy Policy before continuing.'**
+  String get loginReviewTermsNotice;
+
   /// No description provided for @continueSecurely.
   ///
   /// In en, this message translates to:
@@ -3740,6 +4052,12 @@ abstract class AppLocalizations {
   /// **'Ask about schemes, eligibility, or how to apply.'**
   String get sarvamAskAboutSchemes;
 
+  /// No description provided for @aiDisclaimerNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'AI can make mistakes. Check details on the official scheme website.'**
+  String get aiDisclaimerNotice;
+
   /// No description provided for @sarvamInputHint.
   ///
   /// In en, this message translates to:
@@ -4141,6 +4459,366 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Main Features Inside'**
   String get msmeMainFeaturesInside;
+
+  /// No description provided for @msmeFeatureSchemes1.
+  ///
+  /// In en, this message translates to:
+  /// **'Personalized schemes matched to business profile'**
+  String get msmeFeatureSchemes1;
+
+  /// No description provided for @msmeFeatureSchemes2.
+  ///
+  /// In en, this message translates to:
+  /// **'Central vs. State schemes filter'**
+  String get msmeFeatureSchemes2;
+
+  /// No description provided for @msmeFeatureSchemes3.
+  ///
+  /// In en, this message translates to:
+  /// **'Comprehensive eligibility checker'**
+  String get msmeFeatureSchemes3;
+
+  /// No description provided for @msmeFeatureSchemes4.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by scheme categories'**
+  String get msmeFeatureSchemes4;
+
+  /// No description provided for @msmeFeatureSchemes5.
+  ///
+  /// In en, this message translates to:
+  /// **'Capital subsidies, grants & interest subventions'**
+  String get msmeFeatureSchemes5;
+
+  /// No description provided for @msmeFeatureSchemes6.
+  ///
+  /// In en, this message translates to:
+  /// **'Lists of required documents & checklists'**
+  String get msmeFeatureSchemes6;
+
+  /// No description provided for @msmeFeatureSchemes7.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear, step-by-step application guidelines'**
+  String get msmeFeatureSchemes7;
+
+  /// No description provided for @msmeFeatureSchemes8.
+  ///
+  /// In en, this message translates to:
+  /// **'Save schemes for later'**
+  String get msmeFeatureSchemes8;
+
+  /// No description provided for @msmeFeatureFinance1.
+  ///
+  /// In en, this message translates to:
+  /// **'Collateral-free business term loans & working capital'**
+  String get msmeFeatureFinance1;
+
+  /// No description provided for @msmeFeatureFinance2.
+  ///
+  /// In en, this message translates to:
+  /// **'SIDBI specialized credit schemes for machinery & tools'**
+  String get msmeFeatureFinance2;
+
+  /// No description provided for @msmeFeatureFinance3.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit Guarantees (CGTMSE) for collateral-free bank options'**
+  String get msmeFeatureFinance3;
+
+  /// No description provided for @msmeFeatureFinance4.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment & machinery financing models'**
+  String get msmeFeatureFinance4;
+
+  /// No description provided for @msmeFeatureFinance5.
+  ///
+  /// In en, this message translates to:
+  /// **'Detailed comparisons of loan interest rates'**
+  String get msmeFeatureFinance5;
+
+  /// No description provided for @msmeFeatureFinance6.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct contact pathways to SIDBI & partner commercial banks'**
+  String get msmeFeatureFinance6;
+
+  /// No description provided for @msmeFeatureFinance7.
+  ///
+  /// In en, this message translates to:
+  /// **'SME IPO listing requirements (BSE SME & NSE Emerge)'**
+  String get msmeFeatureFinance7;
+
+  /// No description provided for @msmeFeatureTaxGst1.
+  ///
+  /// In en, this message translates to:
+  /// **'MSME Corporate Income-Tax benefits'**
+  String get msmeFeatureTaxGst1;
+
+  /// No description provided for @msmeFeatureTaxGst2.
+  ///
+  /// In en, this message translates to:
+  /// **'GST registration threshold limits (₹40/₹20 Lakhs exemptions)'**
+  String get msmeFeatureTaxGst2;
+
+  /// No description provided for @msmeFeatureTaxGst3.
+  ///
+  /// In en, this message translates to:
+  /// **'GST Composition Scheme parameters (1% tax, easier filings)'**
+  String get msmeFeatureTaxGst3;
+
+  /// No description provided for @msmeFeatureTaxGst4.
+  ///
+  /// In en, this message translates to:
+  /// **'Section 43B(h) Income Tax protection (45-day payment rule)'**
+  String get msmeFeatureTaxGst4;
+
+  /// No description provided for @msmeFeatureTaxGst5.
+  ///
+  /// In en, this message translates to:
+  /// **'Late payment interest claim calculator (3x Bank Rate)'**
+  String get msmeFeatureTaxGst5;
+
+  /// No description provided for @msmeFeatureTaxGst6.
+  ///
+  /// In en, this message translates to:
+  /// **'Export tax refunds & LUT (Letter of Undertaking) rules'**
+  String get msmeFeatureTaxGst6;
+
+  /// No description provided for @msmeFeatureTaxGst7.
+  ///
+  /// In en, this message translates to:
+  /// **'MSME Samadhaan portal recovery guidelines'**
+  String get msmeFeatureTaxGst7;
+
+  /// No description provided for @msmeFeatureExport1.
+  ///
+  /// In en, this message translates to:
+  /// **'Duty refund schemes (RoDTEP, RoSCTL) & Drawbacks'**
+  String get msmeFeatureExport1;
+
+  /// No description provided for @msmeFeatureExport2.
+  ///
+  /// In en, this message translates to:
+  /// **'Pre-shipment & Post-shipment export credit financing'**
+  String get msmeFeatureExport2;
+
+  /// No description provided for @msmeFeatureExport3.
+  ///
+  /// In en, this message translates to:
+  /// **'Interest subvention on foreign currency loans'**
+  String get msmeFeatureExport3;
+
+  /// No description provided for @msmeFeatureExport4.
+  ///
+  /// In en, this message translates to:
+  /// **'ECGC credit risk insurance coverage policies'**
+  String get msmeFeatureExport4;
+
+  /// No description provided for @msmeFeatureExport5.
+  ///
+  /// In en, this message translates to:
+  /// **'MDA & MAI schemes for foreign exhibition participation'**
+  String get msmeFeatureExport5;
+
+  /// No description provided for @msmeFeatureExport6.
+  ///
+  /// In en, this message translates to:
+  /// **'Directory of Export Councils & DGFT field offices'**
+  String get msmeFeatureExport6;
+
+  /// No description provided for @msmeFeatureExport7.
+  ///
+  /// In en, this message translates to:
+  /// **'HS Code classifications & AD Code registration guide'**
+  String get msmeFeatureExport7;
+
+  /// No description provided for @msmeFeatureTreds1.
+  ///
+  /// In en, this message translates to:
+  /// **'Invoice Discounting multi-party platforms explainer'**
+  String get msmeFeatureTreds1;
+
+  /// No description provided for @msmeFeatureTreds2.
+  ///
+  /// In en, this message translates to:
+  /// **'Onboarding guidelines for MSME Sellers'**
+  String get msmeFeatureTreds2;
+
+  /// No description provided for @msmeFeatureTreds3.
+  ///
+  /// In en, this message translates to:
+  /// **'RXIL, M1xchange & Invoicemart registration steps'**
+  String get msmeFeatureTreds3;
+
+  /// No description provided for @msmeFeatureTreds4.
+  ///
+  /// In en, this message translates to:
+  /// **'Acceptance guidelines for Corporate Buyers'**
+  String get msmeFeatureTreds4;
+
+  /// No description provided for @msmeFeatureTreds5.
+  ///
+  /// In en, this message translates to:
+  /// **'Financier bidding flow (anonymized auction for best rates)'**
+  String get msmeFeatureTreds5;
+
+  /// No description provided for @msmeFeatureTreds6.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment settlement pathways (T+1 credit cycles)'**
+  String get msmeFeatureTreds6;
+
+  /// No description provided for @msmeFeatureTreds7.
+  ///
+  /// In en, this message translates to:
+  /// **'Recourse vs. Non-recourse factoring definitions'**
+  String get msmeFeatureTreds7;
+
+  /// No description provided for @msmeFeatureCsr1.
+  ///
+  /// In en, this message translates to:
+  /// **'Corporate CSR-backed cluster development funding'**
+  String get msmeFeatureCsr1;
+
+  /// No description provided for @msmeFeatureCsr2.
+  ///
+  /// In en, this message translates to:
+  /// **'Access to corporate incubation grants for prototype support'**
+  String get msmeFeatureCsr2;
+
+  /// No description provided for @msmeFeatureCsr3.
+  ///
+  /// In en, this message translates to:
+  /// **'Specialized green-energy & waste-management cluster programs'**
+  String get msmeFeatureCsr3;
+
+  /// No description provided for @msmeFeatureCsr4.
+  ///
+  /// In en, this message translates to:
+  /// **'Skill development & technology upgrade programs'**
+  String get msmeFeatureCsr4;
+
+  /// No description provided for @msmeFeatureCsr5.
+  ///
+  /// In en, this message translates to:
+  /// **'List of CSR implementing agencies & NGOs'**
+  String get msmeFeatureCsr5;
+
+  /// No description provided for @msmeFeatureCsr6.
+  ///
+  /// In en, this message translates to:
+  /// **'Eligibility checklists & application pathways'**
+  String get msmeFeatureCsr6;
+
+  /// No description provided for @msmeFeatureGovt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Ministry of MSME (Central Govt) policies & initiatives'**
+  String get msmeFeatureGovt1;
+
+  /// No description provided for @msmeFeatureGovt2.
+  ///
+  /// In en, this message translates to:
+  /// **'State Directorate of Industries / Dept of Commerce role'**
+  String get msmeFeatureGovt2;
+
+  /// No description provided for @msmeFeatureGovt3.
+  ///
+  /// In en, this message translates to:
+  /// **'District Industries Centre (DIC) local assistance offices'**
+  String get msmeFeatureGovt3;
+
+  /// No description provided for @msmeFeatureGovt4.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear hierarchies: Central -> State -> District levels'**
+  String get msmeFeatureGovt4;
+
+  /// No description provided for @msmeFeatureGovt5.
+  ///
+  /// In en, this message translates to:
+  /// **'Key contact directories & nodal officer lists'**
+  String get msmeFeatureGovt5;
+
+  /// No description provided for @msmeFeatureGovt6.
+  ///
+  /// In en, this message translates to:
+  /// **'Authority-specific schemes (PMEGP vs State subsidies)'**
+  String get msmeFeatureGovt6;
+
+  /// No description provided for @msmeFeatureInstitutions1.
+  ///
+  /// In en, this message translates to:
+  /// **'SIDBI (Small Industries Development Bank of India) credit portals'**
+  String get msmeFeatureInstitutions1;
+
+  /// No description provided for @msmeFeatureInstitutions2.
+  ///
+  /// In en, this message translates to:
+  /// **'NSIC (National Small Industries Corporation) raw material support'**
+  String get msmeFeatureInstitutions2;
+
+  /// No description provided for @msmeFeatureInstitutions3.
+  ///
+  /// In en, this message translates to:
+  /// **'DIC (District Industries Centre) single-window registrations'**
+  String get msmeFeatureInstitutions3;
+
+  /// No description provided for @msmeFeatureInstitutions4.
+  ///
+  /// In en, this message translates to:
+  /// **'KVIC (Khadi and Village Industries Commission) rural projects'**
+  String get msmeFeatureInstitutions4;
+
+  /// No description provided for @msmeFeatureInstitutions5.
+  ///
+  /// In en, this message translates to:
+  /// **'TIIC, StartupTN, FaMeTN, SIPCOT regional service descriptions'**
+  String get msmeFeatureInstitutions5;
+
+  /// No description provided for @msmeFeatureInstitutions6.
+  ///
+  /// In en, this message translates to:
+  /// **'Program services catalog & contact application routes'**
+  String get msmeFeatureInstitutions6;
+
+  /// No description provided for @msmeFeatureUdyam1.
+  ///
+  /// In en, this message translates to:
+  /// **'100% Free & Paperless Instant Portal Registration'**
+  String get msmeFeatureUdyam1;
+
+  /// No description provided for @msmeFeatureUdyam2.
+  ///
+  /// In en, this message translates to:
+  /// **'Lifetime Validity with QR Code e-Certificate'**
+  String get msmeFeatureUdyam2;
+
+  /// No description provided for @msmeFeatureUdyam3.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic CGTMSE Collateral-Free Credit & TReDS Eligibility'**
+  String get msmeFeatureUdyam3;
+
+  /// No description provided for @msmeFeatureUdyam4.
+  ///
+  /// In en, this message translates to:
+  /// **'Exemption from Earnest Money Deposit (EMD) in Govt Tenders'**
+  String get msmeFeatureUdyam4;
+
+  /// No description provided for @msmeFeatureUdyam5.
+  ///
+  /// In en, this message translates to:
+  /// **'Eligible for 15% CLCSS Technology & Capital Subsidies'**
+  String get msmeFeatureUdyam5;
+
+  /// No description provided for @msmeFeatureUdyam6.
+  ///
+  /// In en, this message translates to:
+  /// **'Concessional Electricity & Patent Registration Fee Waiver'**
+  String get msmeFeatureUdyam6;
 
   /// No description provided for @croreSuffix.
   ///
@@ -7759,6 +8437,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Other States'**
   String get stateOther;
+
+  /// No description provided for @searchStateOrUtPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Search state or UT'**
+  String get searchStateOrUtPlaceholder;
 
   /// No description provided for @ageYearsLabel.
   ///

@@ -6,8 +6,11 @@ info:
     name: Proprietary
     identifier: LicenseRef-Proprietary
   description: >-
-    Administration and synchronization extension contract. These endpoints
-    operations are planned contracts until their Edge Functions are implemented.
+    PLANNED, NOT LIVE. This is a design for a future admin/sync API --
+    these endpoints and their Edge Functions do not exist yet. It has no
+    overlap with the live `/v1/*` routes.
+    For the live, currently-deployed API routes, see `docs/audit/AUDIT.md`
+    §2 ("Backend API routing") instead of this file.
 servers:
   - url: https://api.example.gov.in
     description: Placeholder production URL

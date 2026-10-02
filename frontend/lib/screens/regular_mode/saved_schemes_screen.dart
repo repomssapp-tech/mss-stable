@@ -96,7 +96,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                 ),
                 child: Center(
                   child: Text(
-                    context.l10n.recentlyAddedTab,
+                    context.l10n.recentlyViewedTab,
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -120,8 +120,9 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
   Widget _buildSchemeCard(
     BuildContext context,
     Scheme scheme,
-    AppProvider provider,
-  ) {
+    AppProvider provider, {
+    required bool showBookmarkMenu,
+  }) {
     final locScheme = scheme.toLocalized(provider.selectedLanguage);
     IconData iconData = Icons.rocket_launch_rounded;
     Color iconColor = const Color(0xFF2563EB);
@@ -207,46 +208,49 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(width: AppSpacing.sm),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _isManageMode
-                        ? IconButton(
-                            constraints: const BoxConstraints(),
-                            padding: EdgeInsets.zero,
-                            icon: const Icon(
-                              Icons.delete_outline_rounded,
-                              color: Color(0xFFEF4444),
-                              size: 20,
-                            ),
-                            tooltip: context.l10n.savedRemoveFromSavedTooltip,
-                            onPressed: () {
-                              provider.toggleBookmark(scheme.id);
-                            },
-                          )
-                        : PopupMenuButton<String>(
-                            constraints: const BoxConstraints(),
-                            padding: EdgeInsets.zero,
-                            icon: const Icon(
-                              Icons.more_vert_rounded,
-                              color: Color(0xFF64748B),
-                              size: 20,
-                            ),
-                            onSelected: (value) {
-                              if (value == 'remove') {
-                                provider.toggleBookmark(scheme.id);
-                              }
-                            },
-                            itemBuilder: (context) => [
-                              PopupMenuItem(
-                                value: 'remove',
-                                child: Text(context.l10n.removeSaved),
+                if (showBookmarkMenu) ...[
+                  const SizedBox(width: AppSpacing.sm),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _isManageMode
+                          ? IconButton(
+                              constraints: const BoxConstraints(),
+                              padding: EdgeInsets.zero,
+                              icon: const Icon(
+                                Icons.delete_outline_rounded,
+                                color: Color(0xFFEF4444),
+                                size: 20,
                               ),
-                            ],
-                          ),
-                  ],
-                ),
+                              tooltip:
+                                  context.l10n.savedRemoveFromSavedTooltip,
+                              onPressed: () {
+                                provider.toggleBookmark(scheme.id);
+                              },
+                            )
+                          : PopupMenuButton<String>(
+                              constraints: const BoxConstraints(),
+                              padding: EdgeInsets.zero,
+                              icon: const Icon(
+                                Icons.more_vert_rounded,
+                                color: Color(0xFF64748B),
+                                size: 20,
+                              ),
+                              onSelected: (value) {
+                                if (value == 'remove') {
+                                  provider.toggleBookmark(scheme.id);
+                                }
+                              },
+                              itemBuilder: (context) => [
+                                PopupMenuItem(
+                                  value: 'remove',
+                                  child: Text(context.l10n.removeSaved),
+                                ),
+                              ],
+                            ),
+                    ],
+                  ),
+                ],
               ],
             ),
             const SizedBox(height: AppSpacing.md),
@@ -452,7 +456,12 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
     );
   }
 
-  Widget _buildEmptyState(BuildContext context, AppProvider provider) {
+  Widget _buildEmptyState(
+    BuildContext context,
+    AppProvider provider, {
+    required String title,
+    required String description,
+  }) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.xxl),
@@ -474,7 +483,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
             ),
             const SizedBox(height: AppSpacing.lg),
             Text(
-              context.l10n.noSavedSchemes,
+              title,
               style: GoogleFonts.poppins(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
@@ -483,7 +492,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
             ),
             const SizedBox(height: AppSpacing.tight),
             Text(
-              context.l10n.noSavedSchemesDesc,
+              description,
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
                 fontSize: 13,
@@ -554,7 +563,11 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                     ),
                     const SizedBox(height: AppSpacing.xs),
                     Text(
-                      context.l10n.noSavedSchemesDesc,
+                      bookmarks.isNotEmpty
+                          ? context.l10n.savedSubtitleCountFormat(
+                              bookmarks.length,
+                            )
+                          : context.l10n.noSavedSchemesDesc,
                       style: GoogleFonts.inter(
                         fontSize: 12,
                         color: const Color(0xFF64748B),
@@ -568,7 +581,16 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
             _buildTabBar(bookmarks.length),
             Expanded(
               child: displaySchemes.isEmpty
-                  ? _buildEmptyState(context, provider)
+                  ? _buildEmptyState(
+                      context,
+                      provider,
+                      title: _activeTab == 0
+                          ? context.l10n.noSavedSchemes
+                          : context.l10n.savedRecentlyViewedEmptyTitle,
+                      description: _activeTab == 0
+                          ? context.l10n.noSavedSchemesDesc
+                          : context.l10n.savedRecentlyViewedEmptyDesc,
+                    )
                   : ListView.builder(
                       physics: const ClampingScrollPhysics(),
                       itemCount: displaySchemes.length + 1,
@@ -580,6 +602,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                           context,
                           displaySchemes[index],
                           provider,
+                          showBookmarkMenu: _activeTab == 0,
                         );
                       },
                     ),

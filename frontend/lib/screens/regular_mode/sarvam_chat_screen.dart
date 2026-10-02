@@ -197,8 +197,28 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
                       },
                     ),
             ),
+            _buildDisclaimer(),
             _buildComposer(),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDisclaimer() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.xs,
+      ),
+      color: const Color(0xFFF8FAFC),
+      child: Text(
+        context.l10n.aiDisclaimerNotice,
+        textAlign: TextAlign.center,
+        style: GoogleFonts.inter(
+          fontSize: 11,
+          color: const Color(0xFF64748B),
         ),
       ),
     );

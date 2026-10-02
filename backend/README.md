@@ -10,7 +10,7 @@ taxonomies, and append-only audit storage.
 
 ```text
 backend/
-├── openapi/openapi.yaml     Draft `/v1` administration and sync contract
+├── openapi/openapi.planned.yaml  Planned, not-yet-built admin/sync contract (see docs/audit/AUDIT.md §2 for the live /v1 routes)
 ├── catalog/                 Canonical search_taxonomy.json & search_parity_golden.json
 ├── supabase/
 │   ├── functions/           Active Edge Functions: v1, livekit-token, publishCatalog,
@@ -101,7 +101,9 @@ for setup, benchmark results, and model limitations.
 
 ## Product status
 
-The administration and offline-sync endpoints in `openapi/openapi.yaml` are a
-draft contract; their Edge Function implementations are future milestones. See
-`docs/backend/BACKEND_SPECIFICATION.md` and `docs/OFFLINE_DISCOVERY_AND_SEARCH_ARCHITECTURE.md`
-for authoritative system specifications.
+The administration and offline-sync endpoints in `openapi/openapi.planned.yaml`
+are a planned contract, not live -- their Edge Function implementations are
+future milestones. For the live, currently-deployed `/v1/*` routes, see
+`docs/audit/AUDIT.md` §2. See also `docs/backend/BACKEND_SPECIFICATION.md` and
+`docs/OFFLINE_DISCOVERY_AND_SEARCH_ARCHITECTURE.md` for authoritative system
+specifications.

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import '../../l10n/l10n.dart';
 import '../../models/scheme_model.dart';
 import '../../models/localized_scheme.dart';
 import '../../services/recommendation/recommendation_engine.dart';
@@ -314,7 +315,9 @@ class _SchemeCardState extends State<SchemeCard> {
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
-                                "${widget.result.percentage}% ${isTa ? 'பொருத்தம்' : 'Match'}",
+                                context.l10n.matchPercentageFormat(
+                                  widget.result.percentage,
+                                ),
                                 style: GoogleFonts.inter(
                                   color: const Color(0xFF2E7D32),
                                   fontSize: 8.5,
@@ -415,9 +418,7 @@ class _SchemeCardState extends State<SchemeCard> {
                           if (context.mounted) {
                             AppToast.showSuccess(
                               context,
-                              isTa
-                                  ? 'திட்ட விவரங்கள் நகலெடுக்கப்பட்டது'
-                                  : 'Scheme details copied to clipboard',
+                              context.l10n.schemeCopiedToast,
                             );
                           }
                         },

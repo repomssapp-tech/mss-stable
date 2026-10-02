@@ -9,6 +9,7 @@ import '../../../providers/app_state_provider.dart';
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/responsive.dart';
+import '../basic_profile_screen.dart';
 import '../scheme_details_screen.dart';
 
 class HomeRecommendedSection extends StatefulWidget {
@@ -38,98 +39,47 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
   Widget build(BuildContext context) {
     final appProvider = widget.provider ?? Provider.of<AppProvider>(context);
 
-    List<Scheme> schemesList;
+    // `widget.schemes` is a test-only seam with no associated
+    // RecommendationResult, so items built from it never get a match badge
+    // (see the badge-suppression rule below). Production always goes
+    // through `appProvider.recommendedSchemes`, which carries a real score.
+    final List<MapEntry<Scheme, int?>> scoredSchemes;
     if (widget.schemes != null) {
-      schemesList = widget.schemes!;
+      scoredSchemes = widget.schemes!.map((s) => MapEntry(s, null)).toList();
     } else {
-      final recommendedScored = appProvider.recommendedSchemes
+      scoredSchemes = appProvider.recommendedSchemes
           .where((entry) => entry.value.score > 0)
+          .take(5)
+          .map((entry) => MapEntry(entry.key, entry.value.percentage))
           .toList();
-      schemesList =
-          (recommendedScored.isNotEmpty
-                  ? recommendedScored
-                  : appProvider.recommendedSchemes)
-              .take(5)
-              .map((entry) => entry.key)
-              .toList();
     }
 
-    final List<Map<String, dynamic>> items = [];
+    final List<Map<String, dynamic>> items = [
+      for (final entry in scoredSchemes)
+        () {
+          final sRaw = entry.key;
+          final s = sRaw.toLocalized(appProvider.selectedLanguage);
+          return {
+            'id': sRaw.id,
+            'title': s.name,
+            'subtitle': s.overview.isNotEmpty ? s.overview : s.objectives,
+            'matchPercentage': entry.value,
+            'isBookmarked':
+                appProvider.bookmarkedIds.contains(sRaw.id) ||
+                appProvider.bookmarkedIds.contains(sRaw.schemeCode),
+            'chips': s.glanceChips.take(3).toList(),
+            'location': s.state.isNotEmpty ? s.state : context.l10n.regionAllIndia,
+            'scheme': sRaw,
+          };
+        }(),
+    ];
 
-    if (schemesList.isNotEmpty) {
-      for (int i = 0; i < schemesList.length; i++) {
-        final sRaw = schemesList[i];
-        final s = sRaw.toLocalized(appProvider.selectedLanguage);
-        final match = 95 - (i * 3);
-        items.add({
-          'id': sRaw.id,
-          'title': s.name,
-          'subtitle': s.overview.isNotEmpty ? s.overview : s.objectives,
-          'match': context.l10n.matchPercentageFormat(match),
-          'isBookmarked':
-              appProvider.bookmarkedIds.contains(sRaw.id) ||
-              appProvider.bookmarkedIds.contains(sRaw.schemeCode),
-          'schemeCode': sRaw.schemeCode,
-          'chips': s.glanceChips.take(3).toList(),
-          'location': s.state.isNotEmpty ? s.state : 'All India',
-          'scheme': sRaw,
-        });
-      }
-    } else {
-      items.addAll([
-        {
-          'id': 'pmegp_loan',
-          'title': 'PMEGP Loan',
-          'subtitle': "Prime Minister's Employment Generation Programme",
-          'match': context.l10n.matchPercentageFormat(95),
-          'isBookmarked': false,
-          'schemeCode': 'PMEGP',
-          'chips': ['Central Scheme', 'Loan', 'Subsidy'],
-          'location': 'All India',
-          'scheme': null,
-          'logoText': 'PMEGP',
-          'logoColor': const Color(0xFF9A3412),
-        },
-        {
-          'id': 'msme_loan',
-          'title': 'MSME Loan',
-          'subtitle': 'Credit Guarantee Fund Trust for MSEs',
-          'match': context.l10n.matchPercentageFormat(92),
-          'isBookmarked': true,
-          'schemeCode': 'MSME',
-          'chips': ['Central Scheme', 'Loan'],
-          'location': 'All India',
-          'scheme': null,
-          'logoText': 'MSME',
-          'logoColor': const Color(0xFF1E3A8A),
-        },
-        {
-          'id': 'standup_india',
-          'title': 'Stand Up India',
-          'subtitle': 'Bank Loans for SC/ST & Women Entrepreneurs',
-          'match': context.l10n.matchPercentageFormat(88),
-          'isBookmarked': false,
-          'schemeCode': 'SUI',
-          'chips': ['Central Scheme', 'Loan'],
-          'location': 'All India',
-          'scheme': null,
-          'logoText': 'UP India',
-          'logoColor': const Color(0xFF15803D),
-        },
-        {
-          'id': 'mudra_loan',
-          'title': 'Mudra Loan',
-          'subtitle': 'Loans up to ₹10 Lakhs Non-Corporate Business',
-          'match': context.l10n.matchPercentageFormat(85),
-          'isBookmarked': false,
-          'schemeCode': 'Mudra',
-          'chips': ['Central Scheme', 'Loan'],
-          'location': 'All India',
-          'scheme': null,
-          'logoText': 'Mudra',
-          'logoColor': const Color(0xFFB91C1C),
-        },
-      ]);
+    // No other Home section (promo carousel, journey, MSME support) gates
+    // its content on `schemesLoading`, so this doesn't invent a new loading
+    // branch either -- it shows the empty state whenever there's nothing to
+    // recommend, same as every sibling section does with its own data.
+    if (items.isEmpty) {
+      return _buildEmptyState(context);
     }
 
     return Column(
@@ -155,6 +105,7 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
               final item = items[index];
               final Scheme? schemeObj = item['scheme'] as Scheme?;
               final isBookmarked = item['isBookmarked'] as bool;
+              final matchPercentage = item['matchPercentage'] as int?;
               final isTa = appProvider.selectedLanguage == 'ta';
 
               final double screenWidth = MediaQuery.of(context).size.width;
@@ -223,31 +174,41 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: AppSpacing.sm,
-                              vertical: AppSpacing.xs,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFDCFCE7),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: FitOneLine(
-                              child: Text(
-                                item['match'] as String,
-                                style: GoogleFonts.inter(
-                                  color: const Color(0xFF15803D),
-                                  fontSize: 9.5,
-                                  fontWeight: FontWeight.bold,
+                          // Only shown when this item carries a real
+                          // RecommendationResult score -- never fabricated.
+                          if (matchPercentage != null)
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: AppSpacing.sm,
+                                vertical: AppSpacing.xs,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFDCFCE7),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: FitOneLine(
+                                child: Text(
+                                  context.l10n.matchPercentageFormat(
+                                    matchPercentage,
+                                  ),
+                                  style: GoogleFonts.inter(
+                                    color: const Color(0xFF15803D),
+                                    fontSize: 9.5,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
+                            )
+                          else
+                            const SizedBox.shrink(),
                           const SizedBox(width: AppSpacing.tight),
                           GestureDetector(
                             onTap: () {
-                              final sCode = item['schemeCode'] as String;
-                              appProvider.toggleBookmark(sCode);
+                              // H7: bookmark by `id`, the single canonical
+                              // key everywhere -- `schemeCode` always
+                              // differs from `id` in the real catalog.
+                              final schemeId = item['id'] as String;
+                              appProvider.toggleBookmark(schemeId);
                             },
                             child: Icon(
                               isBookmarked
@@ -344,6 +305,71 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
                 ),
               );
             },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildEmptyState(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          context.l10n.recommendedForYou,
+          style: GoogleFonts.poppins(
+            fontSize: 16.5,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF0F172A),
+          ),
+        ),
+        const SizedBox(height: AppSpacing.lg),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(AppSpacing.lg),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: const Color(0xFFE2E8F0)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                context.l10n.homeRecommendationsEmptyMessage,
+                style: GoogleFonts.inter(
+                  fontSize: 13,
+                  color: const Color(0xFF475569),
+                ),
+              ),
+              const SizedBox(height: AppSpacing.md),
+              SizedBox(
+                height: 48,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const BasicProfileScreen(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF2563EB),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Text(
+                    context.l10n.completeProfile,
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],

@@ -21,6 +21,7 @@ import 'screens/companion_mode/saarthi_home_screen.dart';
 import 'services/catalog/centralized_translator.dart';
 import 'services/chat/chat_log_service.dart';
 import 'utils/constants.dart';
+import 'utils/app_colors.dart';
 import 'utils/app_theme.dart';
 import 'utils/app_spacing.dart';
 
@@ -39,6 +40,16 @@ class AppScrollBehavior extends MaterialScrollBehavior {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // 2.2 (design system): Inter, Poppins and Noto Sans Tamil are now bundled
+  // as local assets (pubspec.yaml `fonts:`) under the same family names
+  // google_fonts' own helpers request, so GoogleFonts.inter()/.poppins()
+  // resolve locally and never need the network. Disabling runtime fetching
+  // outright removes the offline-first bug where a cold start with no
+  // connectivity fell back to Roboto everywhere. google_fonts itself is
+  // still used at ~108 existing call sites pending the Phase 3 AppText
+  // codemod; this line is the one the spec calls for in the meantime.
+  GoogleFonts.config.allowRuntimeFetching = false;
 
   // Preload translation dictionary JSON into memory for synchronous catalog translations
   await CentralizedTranslator.instance.ensureLoaded();
@@ -171,6 +182,14 @@ class MSSApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       builder: (context, child) {
+        // Reverted from the Phase 3 group 1 (G2/G3) 1.0-1.6 symmetric clamp
+        // (batch-1 review B1): that clamp is meant to ship together with
+        // the Phase 3 screen-by-screen size sweep (spec_phase3.md §1a says
+        // so explicitly) -- landing it ahead of the sweep makes the
+        // interim app less readable, not more, since the old English 1.2x
+        // floor is gone but the unswept screens' fixed-height containers
+        // and sub-12sp literals aren't fixed yet. Restored the pre-Phase-3
+        // per-language floor/ceiling until the sweep lands.
         final mediaQueryData = MediaQuery.of(context);
         // Respect the device's own accessibility text-scale setting
         // instead of discarding it, but keep an app design floor and a
@@ -190,86 +209,12 @@ class MSSApp extends StatelessWidget {
           child: child!,
         );
       },
-      theme: ThemeData(
-        primaryColor: AppConstants.primaryColor,
-        scaffoldBackgroundColor: AppConstants.backgroundColor,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: AppConstants.primaryColor,
-          primary: AppConstants.primaryColor,
-          secondary: AppConstants.secondaryColor,
-          error: AppConstants.errorColor,
-        ),
-        useMaterial3: true,
-        textTheme: TextTheme(
-          // Poppins for App Logo & Titles
-          headlineLarge: GoogleFonts.poppins(
-            fontSize: 34,
-            fontWeight: FontWeight.bold,
-            color: AppConstants.primaryText,
-          ),
-          titleLarge: GoogleFonts.poppins(
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-            color: AppConstants.primaryText,
-          ),
-          titleMedium: GoogleFonts.poppins(
-            fontSize: 22,
-            fontWeight: FontWeight.w600,
-            color: AppConstants.primaryText,
-          ),
-          titleSmall: GoogleFonts.poppins(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: AppConstants.primaryText,
-          ),
-
-          // Inter for Body and Form Elements (height >= 1.4 prevents Tamil diacritic clipping)
-          bodyLarge: GoogleFonts.inter(
-            fontSize: 16,
-            fontWeight: FontWeight.normal,
-            color: AppConstants.primaryText,
-            height: 1.45,
-          ),
-          bodyMedium: GoogleFonts.inter(
-            fontSize: 15,
-            fontWeight: FontWeight.normal,
-            color: AppConstants.primaryText,
-            height: 1.45,
-          ),
-          bodySmall: GoogleFonts.inter(
-            fontSize: 13,
-            fontWeight: FontWeight.normal,
-            color: AppConstants.secondaryText,
-            height: 1.4,
-          ),
-
-          labelLarge: GoogleFonts.inter(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-          ), // Button
-          labelMedium: GoogleFonts.inter(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: AppConstants.secondaryText,
-          ), // Form Label
-          labelSmall: GoogleFonts.inter(
-            fontSize: 12,
-            fontWeight: FontWeight.normal,
-            color: AppConstants.secondaryText,
-          ), // Small Info
-        ),
-        // Styling for premium light cards
-        cardTheme: CardThemeData(
-          color: AppConstants.surfaceColor,
-          elevation: 2,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-            side: const BorderSide(color: AppConstants.cardBorderColor),
-          ),
-        ),
-        datePickerTheme: AppTheme.datePickerTheme,
-      ),
+      // 2.3 (design system): the whole ThemeData moved to AppTheme.light.
+      // The old dead textTheme here (never referenced by any screen, all of
+      // which pass their own explicit GoogleFonts.X() styles) is gone;
+      // AppTheme.light's textTheme is built from the new AppTextStyles
+      // scale instead.
+      theme: AppTheme.light,
       // Set initial screen based on login state
       home: const SplashScreen(),
       // The platform forwards incoming deep-link intents (e.g. the
@@ -310,62 +255,6 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
   final GlobalKey<SearchScreenState> searchTabKey =
       GlobalKey<SearchScreenState>();
 
-  Widget _buildNavItem(
-    int index,
-    IconData icon,
-    IconData activeIcon,
-    String label,
-    int currentTabIndex,
-    String selectedLanguage,
-    AppProvider provider,
-  ) {
-    final isSelected = currentTabIndex == index;
-    final color = isSelected
-        ? const Color(0xFF2563EB)
-        : const Color(0xFF64748B);
-
-    Widget iconWidget = Icon(
-      isSelected ? activeIcon : icon,
-      color: color,
-      size: 24,
-    );
-
-    return Expanded(
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () {
-          if (currentTabIndex == index && index == 1) {
-            searchTabKey.currentState?.resetToIdle();
-          }
-          provider.updateTabIndex(index);
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              iconWidget,
-              const SizedBox(height: AppSpacing.xs),
-              Text(
-                label,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.inter(
-                  color: color,
-                  fontSize: selectedLanguage == 'ta' ? 9.5 : 10.5,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     // Listen only to the fields this shell renders. Listening to the whole
@@ -378,9 +267,6 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
     );
     final currentTabIndex = context.select<AppProvider, int>(
       (p) => p.currentTabIndex,
-    );
-    final selectedLanguage = context.select<AppProvider, String>(
-      (p) => p.selectedLanguage,
     );
     final l10n = AppLocalizations.of(context)!;
 
@@ -450,69 +336,47 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
           body: IndexedStack(index: currentTabIndex, children: tabs),
           bottomNavigationBar: navigationMode == 'companion'
               ? null
-              : Container(
+              : DecoratedBox(
                   decoration: const BoxDecoration(
-                    color: Colors.white,
-                    border: Border(
-                      top: BorderSide(color: Color(0xFFE2E8F0), width: 1),
-                    ),
+                    border: Border(top: BorderSide(color: AppColors.border)),
                   ),
-                  padding: const EdgeInsets.only(
-                    top: AppSpacing.sm,
-                    bottom: AppSpacing.sm,
-                  ),
-                  child: SafeArea(
-                    top: false,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        _buildNavItem(
-                          0,
-                          Icons.home_outlined,
-                          Icons.home,
-                          l10n.navHome,
-                          currentTabIndex,
-                          selectedLanguage,
-                          provider,
-                        ),
-                        _buildNavItem(
-                          1,
-                          Icons.search,
-                          Icons.search_sharp,
-                          l10n.navSearch,
-                          currentTabIndex,
-                          selectedLanguage,
-                          provider,
-                        ),
-                        _buildNavItem(
-                          2,
-                          Icons.explore_outlined,
-                          Icons.explore,
-                          l10n.navDiscover,
-                          currentTabIndex,
-                          selectedLanguage,
-                          provider,
-                        ),
-                        _buildNavItem(
-                          3,
-                          Icons.bookmark_border,
-                          Icons.bookmark,
-                          l10n.navSaved,
-                          currentTabIndex,
-                          selectedLanguage,
-                          provider,
-                        ),
-                        _buildNavItem(
-                          4,
-                          Icons.person_outline,
-                          Icons.person,
-                          l10n.navProfile,
-                          currentTabIndex,
-                          selectedLanguage,
-                          provider,
-                        ),
-                      ],
-                    ),
+                  child: NavigationBar(
+                    selectedIndex: currentTabIndex,
+                    onDestinationSelected: (i) {
+                      if (currentTabIndex == i && i == 1) {
+                        searchTabKey.currentState?.resetToIdle();
+                      }
+                      provider.updateTabIndex(i);
+                    },
+                    destinations: [
+                      NavigationDestination(
+                        icon: const Icon(Icons.home_outlined),
+                        selectedIcon: const Icon(Icons.home_rounded),
+                        label: l10n.navHome,
+                      ),
+                      NavigationDestination(
+                        // G7: same glyph selected/unselected -- the pill
+                        // indicator carries the selected state instead.
+                        icon: const Icon(Icons.search_rounded),
+                        selectedIcon: const Icon(Icons.search_rounded),
+                        label: l10n.navSearch,
+                      ),
+                      NavigationDestination(
+                        icon: const Icon(Icons.explore_outlined),
+                        selectedIcon: const Icon(Icons.explore_rounded),
+                        label: l10n.navDiscover,
+                      ),
+                      NavigationDestination(
+                        icon: const Icon(Icons.bookmark_border_rounded),
+                        selectedIcon: const Icon(Icons.bookmark_rounded),
+                        label: l10n.navSaved,
+                      ),
+                      NavigationDestination(
+                        icon: const Icon(Icons.person_outline_rounded),
+                        selectedIcon: const Icon(Icons.person_rounded),
+                        label: l10n.navProfile,
+                      ),
+                    ],
                   ),
                 ),
         ),

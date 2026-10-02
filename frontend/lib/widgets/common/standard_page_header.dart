@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/l10n.dart';
-import '../../utils/app_spacing.dart';
+import '../../utils/app_colors.dart';
+import '../../utils/app_text.dart';
+import 'app_icon_button.dart';
 
 /// StandardPageHeader
 /// ──────────────────
 /// Unified header widget ensuring consistent top padding, SafeArea compliance,
 /// vertically centered back button, aligned titles & subtitles, and action icons.
+///
+/// `PreferredSizeWidget.preferredSize` can't see a `BuildContext`, so this is
+/// a thin wrapper around `AppBar` instead of building its own bar: the real,
+/// text-scale-aware height comes from [_height], and [preferredSize] only
+/// reports an upper bound for the `Scaffold` (spec_phase3.md group 4, G6).
 class StandardPageHeader extends StatelessWidget
     implements PreferredSizeWidget {
   final String title;
@@ -24,92 +30,63 @@ class StandardPageHeader extends StatelessWidget
     this.showBackButton = true,
     this.onBackPressed,
     this.actions,
-    this.backgroundColor = Colors.white,
+    this.backgroundColor = AppColors.surface,
     this.elevation = 0,
   });
 
+  bool get _hasSubtitle => subtitle != null && subtitle!.isNotEmpty;
+
   @override
-  Size get preferredSize =>
-      Size.fromHeight(subtitle != null && subtitle!.isNotEmpty ? 64.0 : 56.0);
+  Size get preferredSize => const Size.fromHeight(96);
+
+  double _height(BuildContext context) {
+    final scale = MediaQuery.textScalerOf(context).scale(1.0);
+    final height = 56.0 * scale + (_hasSubtitle ? 18.0 * scale : 0.0);
+    return height.clamp(56.0, 96.0);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: backgroundColor,
-      child: SafeArea(
-        bottom: false,
-        child: Container(
-          height: preferredSize.height,
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
-          decoration: BoxDecoration(
-            color: backgroundColor,
-            border: Border(
-              bottom: BorderSide(
-                color: elevation > 0
-                    ? const Color(0xFFE2E8F0)
-                    : Colors.transparent,
-                width: 1.0,
-              ),
+    final l10n = context.l10n;
+    return AppBar(
+      toolbarHeight: _height(context),
+      titleSpacing: 0,
+      backgroundColor: backgroundColor,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      leading: showBackButton
+          ? AppIconButton(
+              icon: Icons.arrow_back_rounded,
+              semanticLabel: l10n.back,
+              onPressed: onBackPressed ?? () => Navigator.of(context).maybePop(),
+            )
+          : null,
+      title: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: context.text.titleMedium.copyWith(color: AppColors.textPrimary),
+            maxLines: _hasSubtitle ? 1 : 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          if (_hasSubtitle)
+            Text(
+              subtitle!,
+              style: context.text.bodySmall.copyWith(color: AppColors.textMuted),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              if (showBackButton)
-                IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Color(0xFF0F172A),
-                    size: 22,
-                  ),
-                  splashRadius: 22,
-                  onPressed:
-                      onBackPressed ?? () => Navigator.of(context).maybePop(),
-                  tooltip: context.l10n.back,
-                )
-              else
-                const SizedBox(width: AppSpacing.md),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: GoogleFonts.poppins(
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFF0F172A),
-                        height: 1.2,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    if (subtitle != null && subtitle!.isNotEmpty) ...[
-                      const SizedBox(height: AppSpacing.hairline),
-                      Text(
-                        subtitle!,
-                        style: GoogleFonts.inter(
-                          fontSize: 11.5,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFF64748B),
-                          height: 1.2,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-              if (actions != null && actions!.isNotEmpty)
-                Row(mainAxisSize: MainAxisSize.min, children: actions!)
-              else
-                const SizedBox(width: AppSpacing.sm),
-            ],
-          ),
-        ),
+        ],
       ),
+      actions: actions,
+      bottom: elevation > 0
+          ? PreferredSize(
+              preferredSize: const Size.fromHeight(1),
+              child: Divider(height: 1, color: AppColors.border),
+            )
+          : null,
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n.dart';
 import '../../providers/app_state_provider.dart';
 import '../../utils/app_spacing.dart';
 
@@ -233,7 +234,7 @@ void showAboutAppDialog(BuildContext context) {
                     ),
                     onPressed: () => Navigator.pop(context),
                     child: Text(
-                      isTa ? 'மூடுக' : 'Close',
+                      context.l10n.close,
                       style: GoogleFonts.inter(
                         fontSize: 13,
                         fontWeight: FontWeight.bold,

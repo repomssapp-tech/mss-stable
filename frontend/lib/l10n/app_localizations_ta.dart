@@ -39,10 +39,18 @@ class AppLocalizationsTa extends AppLocalizations {
   String get exportSupport => 'ஏற்றுமதி ஆதரவு';
 
   @override
+  String get exportModuleDescription =>
+      'உலகளாவிய வர்த்தக தயார்நிலை மற்றும் ஏற்றுமதி சலுகைகள்';
+
+  @override
   String get growBusiness => 'தொழிலை வளர்க்க';
 
   @override
   String get registerUdyam => 'உத்யம் பதிவு';
+
+  @override
+  String get udyamModuleDescription =>
+      'அதிகாரப்பூர்வ எம்எஸ்எம்இ பதிவு வழிகாட்டி மற்றும் நேரடி போர்டல் இணைப்பு';
 
   @override
   String get findFunding => 'நிதி கண்டறிக';
@@ -79,6 +87,10 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get recommendedForYou => 'உங்களுக்கான பரிந்துரைகள்';
+
+  @override
+  String get homeRecommendationsEmptyMessage =>
+      'பரிந்துரைகளைக் காண உங்கள் சுயவிவரத்தை முழுமையாக்கவும்';
 
   @override
   String get viewAll => 'அனைத்தையும் காண்க';
@@ -343,7 +355,150 @@ class AppLocalizationsTa extends AppLocalizations {
   }
 
   @override
-  String get recentlyAddedTab => 'சமீபத்தில் சேர்க்கப்பட்டவை';
+  String get recentlyViewedTab => 'சமீபத்தில் பார்த்தவை';
+
+  @override
+  String get loginChecklistTerms => 'பயன்பாட்டு விதிமுறைகளைப் படிக்கவும்';
+
+  @override
+  String get loginChecklistPrivacy => 'தனியுரிமைக் கொள்கையைப் படிக்கவும்';
+
+  @override
+  String get loginChecklistAgree => 'தொடர ஒப்புக்கொள்ளவும்';
+
+  @override
+  String get loginOpeningGoogle => 'Google-ஐத் திறக்கிறது…';
+
+  @override
+  String get betaGatePasswordLabel => 'பீட்டா கடவுச்சொல்';
+
+  @override
+  String get showPassword => 'கடவுச்சொல்லைக் காட்டு';
+
+  @override
+  String get hidePassword => 'கடவுச்சொல்லை மறை';
+
+  @override
+  String get notificationsTooltip => 'அறிவிப்புகள்';
+
+  @override
+  String notificationsUnreadCount(Object n) {
+    return '$n படிக்காதவை';
+  }
+
+  @override
+  String get quickPillPmegpQuery => 'PMEGP';
+
+  @override
+  String get quickPillStartupQuery => 'தொடக்க நிறுவனம்';
+
+  @override
+  String get quickPillLoansQuery => 'கடன்';
+
+  @override
+  String get quickPillWomenQuery => 'பெண்கள்';
+
+  @override
+  String get quickPillAscendQuery => 'ASCEND';
+
+  @override
+  String get homeRecommendedEmptyTitle =>
+      'உங்களுக்கான திட்டங்களைக் காண சுயவிவரத்தை நிறைவு செய்யுங்கள்';
+
+  @override
+  String get homeRecommendedEmptyBody =>
+      'சில விவரங்களைச் சேர்த்தால், நீங்கள் தகுதி பெறக்கூடிய திட்டங்களைக் காட்டுவோம்.';
+
+  @override
+  String get completeProfileCta => 'சுயவிவரத்தை நிறைவு செய்';
+
+  @override
+  String get saveSchemeTooltip => 'திட்டத்தைச் சேமி';
+
+  @override
+  String get removeSavedTooltip => 'சேமிப்பிலிருந்து நீக்கு';
+
+  @override
+  String get copyLinkTooltip => 'இணைப்பை நகலெடு';
+
+  @override
+  String get shareSchemeTooltip => 'திட்ட விவரங்களை நகலெடு';
+
+  @override
+  String get clearFilters => 'வடிகட்டிகளை அழி';
+
+  @override
+  String get clearSearch => 'தேடலை அழி';
+
+  @override
+  String get forMeTooltip =>
+      'உங்கள் சுயவிவரத்தின்படி தகுதியான திட்டங்களை மட்டும் காட்டு';
+
+  @override
+  String get sortBestMatchNeedsProfile =>
+      'இதைப் பயன்படுத்த சுயவிவரத்தை நிறைவு செய்யவும்';
+
+  @override
+  String get recentlyViewedEmptyTitle => 'இன்னும் எதுவும் பார்க்கவில்லை';
+
+  @override
+  String get recentlyViewedEmptyDesc =>
+      'நீங்கள் திறக்கும் திட்டங்கள் இங்கே தோன்றும்.';
+
+  @override
+  String get browseSchemes => 'திட்டங்களைப் பார்க்க';
+
+  @override
+  String get schemeRemovedToast => 'சேமிப்பிலிருந்து நீக்கப்பட்டது';
+
+  @override
+  String get undo => 'செயல்தவிர்';
+
+  @override
+  String get moreOptions => 'மேலும் விருப்பங்கள்';
+
+  @override
+  String get applyUnavailableHint =>
+      'அதிகாரப்பூர்வ விண்ணப்ப இணைப்பு இன்னும் இல்லை';
+
+  @override
+  String get assistedChooseOne => 'தொடர ஒரு விருப்பத்தைத் தேர்ந்தெடுக்கவும்';
+
+  @override
+  String get ageIncrease => 'வயதைக் கூட்டு';
+
+  @override
+  String get ageDecrease => 'வயதைக் குறை';
+
+  @override
+  String get changeProfilePhoto => 'சுயவிவரப் படத்தை மாற்று';
+
+  @override
+  String get notifEmptyBody =>
+      'புதிய திட்ட அறிவிப்புகள் மற்றும் நினைவூட்டல்கள் இங்கே தோன்றும்.';
+
+  @override
+  String get aboutTagline => 'அரசு திட்டங்கள் & வழிகாட்டி தளம்';
+
+  @override
+  String get aboutDescription =>
+      'MSS என்பது இந்திய தொழில்முனைவோர், பெண்கள், விவசாயிகள் மற்றும் மாணவர்களுக்கான மத்திய மற்றும் மாநில அரசு திட்டங்களை எளிதாகக் கண்டறிந்து, தகுதிகளை சரிபார்த்து பயன்பெற உதவும் ஒரு அறிவார்ந்த டிஜிட்டல் தளமாகும்.';
+
+  @override
+  String get aboutCreatedBy => 'உருவாக்கியவர்கள்:';
+
+  @override
+  String get sarvamPromptDocuments => 'எனக்கு என்ன ஆவணங்கள் தேவை?';
+
+  @override
+  String get sarvamPromptEligibility => 'நான் கடனுக்குத் தகுதியானவரா?';
+
+  @override
+  String get noStatesMatch => 'உங்கள் தேடலுக்கு பொருந்தும் மாநிலங்கள் இல்லை';
+
+  @override
+  String get homeRecommendationsNoMatches =>
+      'இன்னும் பொருத்தங்கள் இல்லை — தேடல் அல்லது கண்டறிதலைப் பயன்படுத்துங்கள்';
 
   @override
   String get noSavedSchemes => 'சேமித்த திட்டங்கள் எதுவும் இல்லை';
@@ -351,6 +506,24 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get noSavedSchemesDesc =>
       'திட்டங்களை சேமித்து வைத்தால் எப்போது வேண்டுமானாலும் ஆஃப்லைனில் பார்க்கலாம்.';
+
+  @override
+  String savedSubtitleCountFormat(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count திட்டங்கள் சேமிக்கப்பட்டுள்ளன',
+      one: '1 திட்டம் சேமிக்கப்பட்டுள்ளது',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get savedRecentlyViewedEmptyTitle => 'பார்வையிட்ட திட்டங்கள் இல்லை';
+
+  @override
+  String get savedRecentlyViewedEmptyDesc =>
+      'நீங்கள் திறக்கும் திட்டங்கள் இங்கே தோன்றும்';
 
   @override
   String get manageSaved => 'நிர்வகித்தல்';
@@ -472,7 +645,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get profileTitle => 'சுயவிவரம்';
 
   @override
-  String get profileVerified => 'சுயவிவரம் சரிபார்க்கப்பட்டது';
+  String get profileVerified => 'சுயவிவரம் முழுமையானது';
 
   @override
   String get profileIncomplete => 'பூர்த்தியாகவில்லை';
@@ -747,6 +920,9 @@ class AppLocalizationsTa extends AppLocalizations {
   String matchPercentageFormat(Object percent) {
     return '$percent% பொருத்தம்';
   }
+
+  @override
+  String get schemeCopiedToast => 'திட்ட விவரங்கள் நகலெடுக்கப்பட்டது';
 
   @override
   String get highlyRelevant => 'மிகவும் பொருத்தமானது';
@@ -1562,6 +1738,10 @@ class AppLocalizationsTa extends AppLocalizations {
       'உங்களை மேம்படுத்தும் அரசாங்க திட்டங்களை கண்டறிய உள்நுழைக அல்லது பதிவு செய்யுங்கள்.';
 
   @override
+  String get loginReviewTermsNotice =>
+      'தொடர்வதற்கு முன் பயன்பாட்டு விதிமுறைகள் மற்றும் தனியுரிமைக் கொள்கையை மதிப்பாய்வு செய்யவும்.';
+
+  @override
   String get continueSecurely => 'பாதுகாப்பாகத் தொடரவும்';
 
   @override
@@ -1984,6 +2164,10 @@ class AppLocalizationsTa extends AppLocalizations {
       'திட்டங்கள், தகுதி மற்றும் விண்ணப்ப வழிமுறைகள் பற்றி கேளுங்கள்.';
 
   @override
+  String get aiDisclaimerNotice =>
+      'AI தவறாகக் கூறலாம். அதிகாரப்பூர்வ இணையதளத்தில் சரிபார்க்கவும்.';
+
+  @override
   String get sarvamInputHint => 'சார்த்தியிடம் கேளுங்கள்…';
 
   @override
@@ -2200,6 +2384,233 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeMainFeaturesInside => 'முதன்மை அம்சங்கள்';
+
+  @override
+  String get msmeFeatureSchemes1 =>
+      'உங்கள் வணிக சுயவிவரத்திற்கு ஏற்ற தனிப்பயனாக்கப்பட்ட திட்டங்கள்';
+
+  @override
+  String get msmeFeatureSchemes2 => 'மத்திய vs. மாநில திட்டங்கள் வடிகட்டி';
+
+  @override
+  String get msmeFeatureSchemes3 => 'முழுமையான தகுதி சரிபார்ப்பான்';
+
+  @override
+  String get msmeFeatureSchemes4 => 'திட்ட வகைகள் வாரியாக தேடுக';
+
+  @override
+  String get msmeFeatureSchemes5 =>
+      'மூலதன மானியங்கள், நிதி உதவிகள் & வட்டி சலுகைகள்';
+
+  @override
+  String get msmeFeatureSchemes6 =>
+      'தேவையான ஆவணங்கள் & சரிபார்ப்பு பட்டியல்கள்';
+
+  @override
+  String get msmeFeatureSchemes7 => 'தெளிவான, படி-படியான விண்ணப்ப வழிமுறைகள்';
+
+  @override
+  String get msmeFeatureSchemes8 => 'பின்னர் பார்க்க திட்டங்களைச் சேமிக்கவும்';
+
+  @override
+  String get msmeFeatureFinance1 =>
+      'அடமானம் இல்லாத வணிக கால கடன்கள் & செயல்பாட்டு மூலதனம்';
+
+  @override
+  String get msmeFeatureFinance2 =>
+      'இயந்திரங்கள் & கருவிகளுக்கான SIDBI சிறப்பு கடன் திட்டங்கள்';
+
+  @override
+  String get msmeFeatureFinance3 =>
+      'அடமானம் இல்லா வங்கி விருப்பங்களுக்கான கடன் உத்தரவாதங்கள் (CGTMSE)';
+
+  @override
+  String get msmeFeatureFinance4 => 'உபகரணம் & இயந்திர நிதி மாதிரிகள்';
+
+  @override
+  String get msmeFeatureFinance5 =>
+      'கடன் வட்டி விகிதங்களின் விரிவான ஒப்பீடுகள்';
+
+  @override
+  String get msmeFeatureFinance6 =>
+      'SIDBI & கூட்டாண்மை வணிக வங்கிகளுக்கான நேரடி தொடர்பு வழிகள்';
+
+  @override
+  String get msmeFeatureFinance7 =>
+      'SME IPO பட்டியல் தேவைகள் (BSE SME & NSE Emerge)';
+
+  @override
+  String get msmeFeatureTaxGst1 => 'MSME கார்ப்பரேட் வருமான வரி சலுகைகள்';
+
+  @override
+  String get msmeFeatureTaxGst2 =>
+      'GST பதிவு வரம்புகள் (₹40/₹20 லட்சம் விலக்குகள்)';
+
+  @override
+  String get msmeFeatureTaxGst3 =>
+      'GST கூட்டு திட்ட அளவுருக்கள் (1% வரி, எளிய தாக்கல்கள்)';
+
+  @override
+  String get msmeFeatureTaxGst4 =>
+      'பிரிவு 43B(h) வருமான வரி பாதுகாப்பு (45-நாள் கட்டண விதி)';
+
+  @override
+  String get msmeFeatureTaxGst5 =>
+      'தாமத கட்டண வட்டி கோரிக்கை கணிப்பான் (3x வங்கி வீதம்)';
+
+  @override
+  String get msmeFeatureTaxGst6 =>
+      'ஏற்றுமதி வரி திருப்பிச் செலுத்துதல் & LUT விதிகள்';
+
+  @override
+  String get msmeFeatureTaxGst7 =>
+      'MSME சமாதான் போர்டல் மீட்பு வழிகாட்டுதல்கள்';
+
+  @override
+  String get msmeFeatureExport1 =>
+      'கடமை திருப்பிச் செலுத்தும் திட்டங்கள் (RoDTEP, RoSCTL) & திரும்பப்பெறல்கள்';
+
+  @override
+  String get msmeFeatureExport2 =>
+      'ஏற்றுமதிக்கு முன் & ஏற்றுமதிக்குப் பின் கடன் நிதி';
+
+  @override
+  String get msmeFeatureExport3 => 'அந்நிய செலாவணி கடன்களுக்கான வட்டி சலுகை';
+
+  @override
+  String get msmeFeatureExport4 => 'ECGC கடன் அபாய காப்பீட்டு திட்டங்கள்';
+
+  @override
+  String get msmeFeatureExport5 =>
+      'வெளிநாட்டு கண்காட்சி பங்கேற்புக்கான MDA & MAI திட்டங்கள்';
+
+  @override
+  String get msmeFeatureExport6 =>
+      'ஏற்றுமதி கவுன்சில்கள் & DGFT அலுவலகங்களின் அடைவு';
+
+  @override
+  String get msmeFeatureExport7 =>
+      'HS கோட் வகைப்பாடுகள் & AD கோட் பதிவு வழிகாட்டி';
+
+  @override
+  String get msmeFeatureTreds1 =>
+      'விலைப்பட்டியல் தள்ளுபடி: பல தரப்பு தளங்கள் விளக்கம்';
+
+  @override
+  String get msmeFeatureTreds2 =>
+      'MSME விற்பனையாளர்களுக்கான இணைவு வழிகாட்டுதல்கள்';
+
+  @override
+  String get msmeFeatureTreds3 => 'RXIL, M1xchange & Invoicemart பதிவு படிகள்';
+
+  @override
+  String get msmeFeatureTreds4 =>
+      'கார்ப்பரேட் வாங்குபவர்களுக்கான ஏற்புடைமை வழிகாட்டுதல்கள்';
+
+  @override
+  String get msmeFeatureTreds5 =>
+      'நிதியாளர் ஏல முறை (சிறந்த விகிதங்களுக்கான அநாமதேய ஏலம்)';
+
+  @override
+  String get msmeFeatureTreds6 => 'கட்டண தீர்வு வழிகள் (T+1 கடன் சுழற்சிகள்)';
+
+  @override
+  String get msmeFeatureTreds7 =>
+      'திரும்பப்பெறும் vs. திரும்பப்பெறாத கடன் வசூல் (factoring) வரையறைகள்';
+
+  @override
+  String get msmeFeatureCsr1 =>
+      'கார்ப்பரேட் CSR-ஆதரவு கிளஸ்டர் மேம்பாட்டு நிதி';
+
+  @override
+  String get msmeFeatureCsr2 =>
+      'முன்மாதிரி ஆதரவுக்கான கார்ப்பரேட் இன்குபேஷன் மானியங்கள்';
+
+  @override
+  String get msmeFeatureCsr3 =>
+      'சிறப்பு பசுமை-எரிசக்தி & கழிவு-மேலாண்மை கிளஸ்டர் திட்டங்கள்';
+
+  @override
+  String get msmeFeatureCsr4 =>
+      'திறன் மேம்பாடு & தொழில்நுட்ப மேம்படுத்தல் திட்டங்கள்';
+
+  @override
+  String get msmeFeatureCsr5 =>
+      'CSR செயல்படுத்தும் நிறுவனங்கள் & NGO-க்களின் பட்டியல்';
+
+  @override
+  String get msmeFeatureCsr6 =>
+      'தகுதி சரிபார்ப்பு பட்டியல்கள் & விண்ணப்ப வழிகள்';
+
+  @override
+  String get msmeFeatureGovt1 =>
+      'MSME அமைச்சகத்தின் (மத்திய அரசு) கொள்கைகள் & முயற்சிகள்';
+
+  @override
+  String get msmeFeatureGovt2 =>
+      'மாநில தொழில் இயக்குநரகம் / வணிகத் துறையின் பங்கு';
+
+  @override
+  String get msmeFeatureGovt3 =>
+      'மாவட்ட தொழில் மையம் (DIC) உள்ளூர் உதவி அலுவலகங்கள்';
+
+  @override
+  String get msmeFeatureGovt4 =>
+      'தெளிவான படிநிலைகள்: மத்திய -> மாநிலம் -> மாவட்டம்';
+
+  @override
+  String get msmeFeatureGovt5 =>
+      'முக்கிய தொடர்பு அடைவுகள் & அதிகாரிகள் பட்டியல்';
+
+  @override
+  String get msmeFeatureGovt6 =>
+      'அதிகார-சார்ந்த திட்டங்கள் (PMEGP vs மாநில மானியங்கள்)';
+
+  @override
+  String get msmeFeatureInstitutions1 =>
+      'SIDBI (சிறு தொழில் வளர்ச்சி வங்கி) கடன் போர்டல்கள்';
+
+  @override
+  String get msmeFeatureInstitutions2 =>
+      'NSIC (தேசிய சிறு தொழில் கூட்டமைப்பு) மூலப்பொருள் ஆதரவு';
+
+  @override
+  String get msmeFeatureInstitutions3 =>
+      'DIC (மாவட்ட தொழில் மையம்) ஒருங்கிணைந்த பதிவுகள்';
+
+  @override
+  String get msmeFeatureInstitutions4 =>
+      'KVIC (கதர் மற்றும் கிராம தொழில்கள் ஆணையம்) கிராமப்புற திட்டங்கள்';
+
+  @override
+  String get msmeFeatureInstitutions5 =>
+      'TIIC, StartupTN, FaMeTN, SIPCOT பிராந்திய சேவை விவரங்கள்';
+
+  @override
+  String get msmeFeatureInstitutions6 =>
+      'திட்ட சேவைகள் அடைவு & தொடர்பு விண்ணப்ப வழிகள்';
+
+  @override
+  String get msmeFeatureUdyam1 => '100% இலவச & காகிதமற்ற உடனடி போர்டல் பதிவு';
+
+  @override
+  String get msmeFeatureUdyam2 => 'QR கோட் இ-சான்றிதழுடன் வாழ்நாள் செல்லுபடி';
+
+  @override
+  String get msmeFeatureUdyam3 =>
+      'தானியங்கி CGTMSE அடமானமில்லா கடன் & TReDS தகுதி';
+
+  @override
+  String get msmeFeatureUdyam4 =>
+      'அரசு டெண்டர்களில் முன்வைப்புத் தொகை (EMD) விலக்கு';
+
+  @override
+  String get msmeFeatureUdyam5 =>
+      '15% CLCSS தொழில்நுட்பம் & மூலதன மானியங்களுக்கு தகுதி';
+
+  @override
+  String get msmeFeatureUdyam6 =>
+      'சலுகை மின்சாரம் & காப்புரிமை பதிவு கட்டண விலக்கு';
 
   @override
   String get croreSuffix => 'கோடி';
@@ -4227,6 +4638,9 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get stateOther => 'மற்ற மாநிலங்கள்';
+
+  @override
+  String get searchStateOrUtPlaceholder => 'மாநிலம்/யூனியன் பிரதேசத்தைத் தேடுக';
 
   @override
   String get ageYearsLabel => 'வயது';

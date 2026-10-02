@@ -69,6 +69,7 @@ class SchemeCatalogController extends ChangeNotifier {
   }
 
   bool _recommendationsOverriddenForTesting = false;
+  bool _allSchemesOverriddenForTesting = false;
 
   /// Test-only seam, reached through `AppProvider.setRecommendedSchemesForTesting`
   /// (which carries the `@visibleForTesting` annotation). Pins the ranked list
@@ -78,6 +79,16 @@ class SchemeCatalogController extends ChangeNotifier {
   ) {
     _recommendationsOverriddenForTesting = true;
     _recommendedSchemes = schemes;
+    notifyListeners();
+  }
+
+  /// Test-only seam, reached through `AppProvider.setAllSchemesForTesting`.
+  /// Pins `allSchemes` (and therefore `bookmarkedSchemes` /
+  /// `recentlyViewedSchemes`, which filter it by id) without a network call,
+  /// and makes `loadSchemes` stop overwriting it.
+  void setAllSchemesForTesting(List<Scheme> schemes) {
+    _allSchemesOverriddenForTesting = true;
+    _allSchemes = schemes;
     notifyListeners();
   }
 
@@ -106,9 +117,11 @@ class SchemeCatalogController extends ChangeNotifier {
     notifyListeners();
 
     try {
-      _allSchemes = await SchemeRepository.instance.getAllSchemes(
-        langCode: langCode,
-      );
+      if (!_allSchemesOverriddenForTesting) {
+        _allSchemes = await SchemeRepository.instance.getAllSchemes(
+          langCode: langCode,
+        );
+      }
       if (!_recommendationsOverriddenForTesting) {
         _recommendedSchemes = RecommendationEngine.getRecommendations(
           profile,

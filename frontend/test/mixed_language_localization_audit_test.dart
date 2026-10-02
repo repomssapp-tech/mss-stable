@@ -1,11 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/services/catalog/centralized_translator.dart';
 import 'package:frontend/services/catalog/scheme_repository.dart';
 import 'package:frontend/models/user_profile.dart';
 import 'package:frontend/models/scheme_model.dart';
 import 'package:frontend/models/localized_scheme.dart';
 import 'package:frontend/widgets/common/standard_page_header.dart';
-import 'package:frontend/utils/app_card_style.dart';
+import 'package:frontend/utils/app_radius.dart';
+import 'package:frontend/utils/app_spacing.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -96,22 +99,57 @@ void main() {
       }
     });
 
-    test('2. Verify standard page header widget preferred height', () {
+    testWidgets('2. Verify standard page header widget grows with text scale', (
+      tester,
+    ) async {
+      // Phase 3 group 4 (G6): preferredSize is now a fixed upper bound for
+      // the Scaffold (PreferredSizeWidget can't see a BuildContext); the
+      // real, text-scale-aware height comes from the AppBar's toolbarHeight
+      // at build time, verified here via the rendered size instead.
       const headerNormal = StandardPageHeader(title: 'Test Header');
-      expect(headerNormal.preferredSize.height, equals(56.0));
+      expect(headerNormal.preferredSize.height, equals(96.0));
 
-      const headerWithSub = StandardPageHeader(
-        title: 'Test Header',
-        subtitle: 'Test Subtitle',
+      // Read the AppBar widget's own `toolbarHeight` property directly --
+      // its rendered box size depends on the ancestor (a Scaffold's
+      // `appBar:` slot always stretches to `preferredSize.height`, the
+      // fixed 96 upper bound), but `toolbarHeight` itself is exactly what
+      // `_height(context)` computed, independent of that ancestor.
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: const Scaffold(
+            appBar: StandardPageHeader(title: 'Test Header'),
+          ),
+        ),
       );
-      expect(headerWithSub.preferredSize.height, equals(64.0));
+      final normalHeight = tester.widget<AppBar>(find.byType(AppBar)).toolbarHeight;
+      expect(normalHeight, closeTo(56.0, 0.5));
+
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: Scaffold(
+            appBar: const StandardPageHeader(
+              title: 'Test Header',
+              subtitle: 'Test Subtitle',
+            ),
+          ),
+        ),
+      );
+      final withSubtitleHeight = tester.widget<AppBar>(find.byType(AppBar)).toolbarHeight;
+      expect(withSubtitleHeight, greaterThan(normalHeight!));
     });
 
-    test('3. Verify AppCardStyle design tokens', () {
-      expect(AppCardStyle.borderRadiusValue, equals(16.0));
-      expect(AppCardStyle.cardMargin.horizontal, equals(32.0));
-      expect(AppCardStyle.chipSpacing, equals(6.0));
-    });
+    test(
+      '3. Verify card design tokens (AppCardStyle deleted 2.4; now AppRadius/AppSpacing)',
+      () {
+        expect(AppRadius.lg, equals(16.0));
+        expect(AppSpacing.lg * 2, equals(32.0));
+        expect(AppSpacing.tight, equals(6.0));
+      },
+    );
 
     test(
       '4. Verify catalog scheme descriptions translate cleanly without mixed-language artifacts',

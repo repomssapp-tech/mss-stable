@@ -27,7 +27,7 @@ This is the single entry point for "what rules apply here." It does not restate 
 
 ### 2. API routing pattern
 - New backend HTTP routes go into the existing `v1` single-router (`backend/supabase/functions/v1/index.ts`) unless the route needs a genuinely distinct auth model or runtime boundary — that's why `sarvam-chat`, `livekit-token`, `publishCatalog`, `rollbackRelease`, and `db-change-notify` are separate Edge Functions instead of `v1` routes. Don't create a new top-level function for something that's just another authenticated catalog/search lookup.
-- `backend/openapi/openapi.yaml` must be updated in the same PR that adds, removes, or changes a `/v1/*` route. If a documented route is aspirational (not yet implemented), it must say so explicitly in the spec rather than being presented as live — the current file was found to document a fictional admin/sync API with zero overlap with the real routes (see `docs/audit/AUDIT.md`).
+- `backend/openapi/openapi.planned.yaml` (renamed from `openapi.yaml` -- it documents a *planned*, not-yet-built admin/sync API with zero overlap with the real `/v1/*` routes, so the name now says so) must be updated in the same PR that adds, removes, or changes anything in that planned contract. The live, currently-deployed `/v1/*` routes are documented in `docs/audit/AUDIT.md` §2, not here.
 - Comments referencing specific caller files (e.g. a service class name) must be checked for staleness when that file is deleted or renamed — `backend/supabase/config.toml` was found referencing a Flutter service class that no longer exists.
 
 ### 3. Decomposition doesn't leave orphans

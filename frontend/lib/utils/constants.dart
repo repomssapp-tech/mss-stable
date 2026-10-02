@@ -1,29 +1,41 @@
 import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
+import 'app_colors.dart';
 
 class AppConstants {
-  // App Color Palette (New Light-Themed Premium Palette)
-  static const Color primaryColor = Color(0xFF2563EB); // Royal Blue
-  static const Color secondaryColor = Color(0xFF1565C0); // Azure Blue
-  static const Color accentColor = Color(0xFFFF9933); // Saffron Orange
-  static const Color successColor = Color(0xFF2E7D32); // Emerald Green
-  static const Color warningColor = Color(0xFFFB8C00); // Amber Orange
-  static const Color errorColor = Color(0xFFD32F2F); // Crimson Red
+  // Deprecated (2.3): forwards to AppColors so the 118-file sweep (Phase 3+)
+  // can land screen by screen instead of all at once. New code should use
+  // AppColors directly. Values differ very slightly from the old hardcoded
+  // hex (e.g. primaryText 111827 -> textPrimary 0F172A) -- that's the new
+  // token's value, per spec_design_system.md §3.2/§3.3.
+  @Deprecated('Use AppColors.primary')
+  static const Color primaryColor = AppColors.primary;
+  @Deprecated('Use AppColors.primaryStrong')
+  static const Color secondaryColor = AppColors.primaryStrong;
+  @Deprecated('Use AppColors.accent')
+  static const Color accentColor = AppColors.accent;
+  @Deprecated('Use AppColors.success')
+  static const Color successColor = AppColors.success;
+  @Deprecated('Use AppColors.warning')
+  static const Color warningColor = AppColors.warning;
+  @Deprecated('Use AppColors.danger')
+  static const Color errorColor = AppColors.danger;
 
-  static const Color backgroundColor = Color(0xFFF8FAFC); // Ice White
-  static const Color surfaceColor = Color(0xFFFFFFFF); // Pure White
-  static const Color cardBorderColor = Color(0xFFE5E7EB); // Mist Gray
+  @Deprecated('Use AppColors.background')
+  static const Color backgroundColor = AppColors.background;
+  @Deprecated('Use AppColors.surface')
+  static const Color surfaceColor = AppColors.surface;
+  @Deprecated('Use AppColors.border')
+  static const Color cardBorderColor = AppColors.border;
 
-  static const Color primaryText = Color(0xFF111827); // Charcoal Black
-  static const Color secondaryText = Color(0xFF6B7280); // Slate Gray
+  @Deprecated('Use AppColors.textPrimary')
+  static const Color primaryText = AppColors.textPrimary;
+  @Deprecated('Use AppColors.textMuted')
+  static const Color secondaryText = AppColors.textMuted;
 
-  // Adjusted soft light blue gradient for scaffold background
-  static const LinearGradient blueGradient = LinearGradient(
-    colors: [Color(0xFFF8FAFC), Color(0xFFE0F2FE), Color(0xFFEFF6FF)],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-  );
+  @Deprecated('Use AppColors.scaffoldGradient')
+  static const LinearGradient blueGradient = AppColors.scaffoldGradient;
 
   static const LinearGradient glassGradient = LinearGradient(
     colors: [Colors.white70, Colors.white60],

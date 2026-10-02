@@ -23,8 +23,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool _pushNotifications = true;
-
   void _handleDeleteAccount(BuildContext context, AppProvider provider) {
     CustomConfirmDialog.show(
       context,
@@ -425,27 +423,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ]),
 
-            // GROUP 3: Notifications
-            _buildGroupHeader(context.l10n.notificationsGroupHeader),
-            _buildGroupContainer([
-              _buildSettingRow(
-                icon: Icons.notifications_none,
-                title: context.l10n.pushNotificationsSetting,
-                widget: SizedBox(
-                  height: 24,
-                  child: Switch(
-                    value: _pushNotifications,
-                    onChanged: (val) {
-                      setState(() => _pushNotifications = val);
-                    },
-                    activeThumbColor: Colors.white,
-                    activeTrackColor: const Color(0xFF2563EB),
-                    inactiveThumbColor: Colors.white,
-                    inactiveTrackColor: const Color(0xFFE2E8F0),
-                  ),
-                ),
-              ),
-            ]),
+            // GROUP 3 (Notifications) removed (2.0): the switch controlled
+            // nothing -- no push delivery exists anywhere in this app. Re-add
+            // it here, wired to provider.profile.notificationsEnabled (kept,
+            // still persisted), once a real push-delivery path reads that
+            // field server-side.
 
             // GROUP 4: Security & Privacy
             _buildGroupHeader(context.l10n.securityPrivacyGroupHeader),

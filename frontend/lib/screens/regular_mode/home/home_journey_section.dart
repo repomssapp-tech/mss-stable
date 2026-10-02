@@ -89,14 +89,13 @@ class HomeJourneySection extends StatelessWidget {
         if (moduleId == 'udyam') {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (_) => const MSMEModuleDetailsScreen(
+              builder: (_) => MSMEModuleDetailsScreen(
                 moduleId: 'udyam',
-                title: 'Register UDYAM',
-                description:
-                    'Official MSME Registration Guide & Direct Portal Link',
+                title: context.l10n.registerUdyam,
+                description: context.l10n.udyamModuleDescription,
                 icon: Icons.app_registration_rounded,
-                iconColor: Color(0xFF2563EB),
-                themeColor: Color(0xFFEFF6FF),
+                iconColor: const Color(0xFF2563EB),
+                themeColor: const Color(0xFFEFF6FF),
               ),
             ),
           );
@@ -107,13 +106,13 @@ class HomeJourneySection extends StatelessWidget {
         if (moduleId == 'export') {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (_) => const MSMEModuleDetailsScreen(
+              builder: (_) => MSMEModuleDetailsScreen(
                 moduleId: 'export',
-                title: 'Export Support',
-                description: 'Global Trade Readiness & Export Incentives',
+                title: context.l10n.exportSupport,
+                description: context.l10n.exportModuleDescription,
                 icon: Icons.public_rounded,
-                iconColor: Color(0xFF047857),
-                themeColor: Color(0xFFECFDF5),
+                iconColor: const Color(0xFF047857),
+                themeColor: const Color(0xFFECFDF5),
               ),
             ),
           );

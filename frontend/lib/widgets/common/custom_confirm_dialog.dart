@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/l10n.dart';
+import '../../utils/app_colors.dart';
+import '../../utils/app_radius.dart';
+import '../../utils/app_size.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/app_text.dart';
 
 class CustomConfirmDialog extends StatelessWidget {
   final IconData icon;
@@ -73,9 +76,9 @@ class CustomConfirmDialog extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.xxl),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFEFF6FF), width: 1.5),
+        color: AppColors.surface,
+        borderRadius: AppRadius.xlAll,
+        border: Border.all(color: AppColors.border, width: AppSize.borderWidthSelected),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.08),
@@ -88,14 +91,21 @@ class CustomConfirmDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           // Icon Container
+          // B3 (batch-1 review): destructive confirms must use AppColors.danger,
+          // not whatever raw colour (e.g. #EF4444, 3.76:1 with white) the caller
+          // passed -- that combination fails WCAG contrast.
           Container(
-            width: 56,
-            height: 56,
+            width: AppSize.avatar,
+            height: AppSize.avatar,
             decoration: BoxDecoration(
-              color: iconBgColor,
+              color: isDestructive ? AppColors.dangerSoft : iconBgColor,
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, color: iconColor, size: 28),
+            child: Icon(
+              icon,
+              color: isDestructive ? AppColors.danger : iconColor,
+              size: AppSize.iconLg,
+            ),
           ),
           const SizedBox(height: AppSpacing.xl),
 
@@ -103,11 +113,9 @@ class CustomConfirmDialog extends StatelessWidget {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF0F172A),
-            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: context.text.titleSmall.copyWith(color: AppColors.textPrimary),
           ),
           const SizedBox(height: AppSpacing.sm),
 
@@ -115,11 +123,7 @@ class CustomConfirmDialog extends StatelessWidget {
           Text(
             message,
             textAlign: TextAlign.center,
-            style: GoogleFonts.inter(
-              fontSize: 12.5,
-              height: 1.5,
-              color: const Color(0xFF64748B),
-            ),
+            style: context.text.bodySmall.copyWith(color: AppColors.textMuted),
           ),
           const SizedBox(height: AppSpacing.xxl),
 
@@ -129,20 +133,21 @@ class CustomConfirmDialog extends StatelessWidget {
               // Cancel Button
               Expanded(
                 child: TextButton(
-                  style: TextButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                  style: TextButton.styleFrom( // style-ok: dialog-local shape/hit-area, not a theme-wide button variant
+                    minimumSize: const Size(0, AppSize.tapTarget),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      side: const BorderSide(color: Color(0xFFE2E8F0)),
+                      borderRadius: AppRadius.mdAll,
+                      side: const BorderSide(color: AppColors.border),
                     ),
                   ),
                   onPressed: () => Navigator.pop(context),
                   child: Text(
                     resolvedCancelLabel,
-                    style: GoogleFonts.inter(
-                      fontSize: 13.5,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: context.text.body.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: const Color(0xFF64748B),
+                      color: AppColors.textMuted,
                     ),
                   ),
                 ),
@@ -152,13 +157,14 @@ class CustomConfirmDialog extends StatelessWidget {
               // Confirm Button
               Expanded(
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: confirmColor,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+                  style: ElevatedButton.styleFrom( // style-ok: confirmColor is caller-supplied per call (danger/primary/success), not a static theme variant
+                    // B3: a destructive confirm always uses the vetted
+                    // AppColors.danger (4.83:1 with white), never the
+                    // caller's raw colour -- no call-site changes needed.
+                    backgroundColor: isDestructive ? AppColors.danger : confirmColor,
+                    foregroundColor: AppColors.textOnPrimary,
+                    minimumSize: const Size(0, AppSize.tapTarget),
+                    shape: RoundedRectangleBorder(borderRadius: AppRadius.mdAll),
                     elevation: 0,
                   ),
                   onPressed: () {
@@ -167,10 +173,11 @@ class CustomConfirmDialog extends StatelessWidget {
                   },
                   child: Text(
                     resolvedConfirmLabel,
-                    style: GoogleFonts.inter(
-                      fontSize: 13.5,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: context.text.body.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: AppColors.textOnPrimary,
                     ),
                   ),
                 ),

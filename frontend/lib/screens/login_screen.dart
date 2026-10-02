@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../providers/app_state_provider.dart';
 import '../l10n/l10n.dart';
-import '../utils/responsive.dart';
 import '../widgets/common/app_toast.dart';
 import '../widgets/legal/legal_consent_section.dart';
 import '../widgets/legal/legal_document_modal.dart';
 import 'navigation_mode_screen.dart';
 import 'regular_mode/legal_screens.dart';
 import '../utils/app_spacing.dart';
+import '../utils/app_colors.dart';
+import '../utils/app_radius.dart';
+import '../utils/app_text.dart';
+import '../utils/app_elevation.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -71,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _showNoticeBeforeContinuing() {
     AppToast.showInfo(
       context,
-      'Please review the Terms of Use and Privacy Policy before continuing.',
+      context.l10n.loginReviewTermsNotice,
     );
   }
 
@@ -99,6 +101,11 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Image.asset(
               'assets/images/Background/splash_screen.webp',
               fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => Container(
+                decoration: const BoxDecoration(
+                  gradient: AppColors.scaffoldGradient,
+                ),
+              ),
             ),
           ),
 
@@ -127,28 +134,54 @@ class _LoginScreenState extends State<LoginScreen> {
                                 'assets/images/Logo/Logo.webp',
                                 height: 125,
                                 fit: BoxFit.contain,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    const Icon(
+                                      Icons.verified_user_rounded,
+                                      size: 80,
+                                      color: AppColors.primary,
+                                    ),
                               ),
                               const SizedBox(height: AppSpacing.md),
 
-                              // Title
-                              Text(
-                                context.l10n.welcome,
-                                style: GoogleFonts.poppins(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: const Color(0xFF0F172A), // Slate 900
+                              // Title + subtitle sit directly on the
+                              // background photo, so they get a translucent
+                              // surface backing for legibility.
+                              DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: AppColors.surface.withValues(
+                                    alpha: .85,
+                                  ),
+                                  borderRadius: AppRadius.mdAll,
                                 ),
-                              ),
-                              const SizedBox(height: AppSpacing.xs),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: AppSpacing.md,
+                                    vertical: AppSpacing.sm,
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      // Title
+                                      Text(
+                                        context.l10n.welcome,
+                                        textAlign: TextAlign.center,
+                                        style: context.text.titleMedium
+                                            .copyWith(
+                                              color: AppColors.textPrimary,
+                                            ),
+                                      ),
+                                      const SizedBox(height: AppSpacing.xs),
 
-                              // Subtitle
-                              Text(
-                                context.l10n.loginSubtitle,
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.inter(
-                                  fontSize: 9.5,
-                                  color: const Color(0xFF64748B), // Slate 500
-                                  height: 1.3,
+                                      // Subtitle
+                                      Text(
+                                        context.l10n.loginSubtitle,
+                                        textAlign: TextAlign.center,
+                                        style: context.text.bodySmall
+                                            .copyWith(
+                                              color: AppColors.textMuted,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
 
@@ -158,18 +191,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               Container(
                                 padding: const EdgeInsets.all(AppSpacing.xl),
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(
-                                    color: const Color(0xFFE2E8F0),
-                                  ), // Slate 200
-                                  boxShadow: [
-                                    const BoxShadow(
-                                      color: Color(0x08000000), // 3% opacity
-                                      blurRadius: 12,
-                                      offset: Offset(0, 6),
-                                    ),
-                                  ],
+                                  color: AppColors.surface,
+                                  borderRadius: AppRadius.lgAll,
+                                  border: Border.all(color: AppColors.border),
+                                  boxShadow: AppShadows.card,
                                 ),
                                 child: _buildLoginForm(),
                               ),
@@ -192,10 +217,35 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Future<void> _signIn() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      final provider = Provider.of<AppProvider>(context, listen: false);
+      final launched = await provider.loginWithGoogle();
+      if (!launched && mounted) {
+        throw StateError('Unable to open Google authentication.');
+      }
+    } catch (e) {
+      if (mounted) {
+        AppToast.showError(context, context.l10n.loginGoogleSignInFailed);
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
   Widget _buildLoginForm() {
     final bool canConsent = _hasViewedTerms && _hasViewedPrivacy;
-    final bool isLoginEnabled =
-        canConsent && _hasAgreedToConsent && !_isLoading;
+    // Does NOT include !_isLoading: the button must keep its "enabled" look
+    // (not greyed out) while a sign-in is already in flight; onPressed below
+    // separately swallows taps during loading.
+    final bool isLoginEnabled = canConsent && _hasAgreedToConsent;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -204,21 +254,15 @@ class _LoginScreenState extends State<LoginScreen> {
         Text(
           context.l10n.continueSecurely,
           textAlign: TextAlign.center,
-          style: GoogleFonts.poppins(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-            color: const Color(0xFF0F172A), // Slate 900
+          style: context.text.titleSmall.copyWith(
+            color: AppColors.textPrimary,
           ),
         ),
         const SizedBox(height: AppSpacing.xs),
         Text(
           context.l10n.googleAccountContinue,
           textAlign: TextAlign.center,
-          style: GoogleFonts.inter(
-            fontSize: 11,
-            color: const Color(0xFF64748B), // Slate 500
-            height: 1.4,
-          ),
+          style: context.text.bodySmall.copyWith(color: AppColors.textMuted),
         ),
         const SizedBox(height: AppSpacing.md),
 
@@ -237,97 +281,144 @@ class _LoginScreenState extends State<LoginScreen> {
           onDisabledConsentTap: _showNoticeBeforeContinuing,
         ),
 
+        const SizedBox(height: AppSpacing.sm),
+
+        // Gate checklist: shows what's left before sign-in unlocks, hides
+        // itself once terms + privacy have been viewed and consent is given.
+        _SignInChecklist(
+          hasViewedTerms: _hasViewedTerms,
+          hasViewedPrivacy: _hasViewedPrivacy,
+          hasAgreedToConsent: _hasAgreedToConsent,
+        ),
+
         const SizedBox(height: AppSpacing.md),
 
         // Google Sign-In Button (strictly gated behind mandatory consent)
         SizedBox(
           width: double.infinity,
-          height: 52,
           child: OutlinedButton(
-            style: OutlinedButton.styleFrom(
-              side: BorderSide(
-                color: isLoginEnabled
-                    ? const Color(0xFFE2E8F0)
-                    : const Color(0xFFF1F5F9),
-              ),
-              backgroundColor: isLoginEnabled
-                  ? Colors.white
-                  : const Color(0xFFF8FAFC),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
+            style: OutlinedButton.styleFrom( // style-ok: CTA height + explicit loading foreground colour
+              minimumSize: const Size.fromHeight(52),
+              foregroundColor: _isLoading ? AppColors.primary : null,
             ),
-            onPressed: isLoginEnabled
-                ? () async {
-                    setState(() {
-                      _isLoading = true;
-                    });
-                    try {
-                      final provider = Provider.of<AppProvider>(
-                        context,
-                        listen: false,
-                      );
-                      final launched = await provider.loginWithGoogle();
-                      if (!launched && mounted) {
-                        throw StateError(
-                          'Unable to open Google authentication.',
-                        );
-                      }
-                    } catch (e) {
-                      if (mounted) {
-                        AppToast.showError(
-                          context,
-                          context.l10n.loginGoogleSignInFailed,
-                        );
-                      }
-                    } finally {
-                      if (mounted) {
-                        setState(() {
-                          _isLoading = false;
-                        });
-                      }
-                    }
-                  }
-                : null,
-            child: Opacity(
-              opacity: isLoginEnabled ? 1.0 : 0.45,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const GoogleIcon(size: 18),
-                  const SizedBox(width: AppSpacing.sm),
-                  Flexible(
-                    child: FitOneLine(
-                      child: Text(
-                        context.l10n.continueWithGoogle,
-                        style: GoogleFonts.inter(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: isLoginEnabled
-                              ? const Color(0xFF475569) // Slate 600
-                              : const Color(0xFF94A3B8), // Slate 400
+            // Swallow taps while loading (so a stray tap can't double-fire
+            // sign-in) without visually disabling the button.
+            onPressed: _isLoading ? () {} : (isLoginEnabled ? _signIn : null),
+            child: _isLoading
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                      const SizedBox(width: AppSpacing.sm),
+                      Flexible(
+                        child: Text(
+                          context.l10n.loginOpeningGoogle,
+                          maxLines: 2,
+                          textAlign: TextAlign.center,
                         ),
                       ),
-                    ),
+                    ],
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const GoogleIcon(size: 18),
+                      const SizedBox(width: AppSpacing.sm),
+                      Flexible(
+                        child: Text(
+                          context.l10n.continueWithGoogle,
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
           ),
         ),
         const SizedBox(height: AppSpacing.md),
         Text(
           context.l10n.secureBrowserAuth,
           textAlign: TextAlign.center,
-          style: GoogleFonts.inter(
-            fontSize: 10,
-            color: const Color(0xFF64748B),
-          ),
+          style: context.text.bodySmall.copyWith(color: AppColors.textMuted),
         ),
       ],
     );
   }
+}
 
+class _SignInChecklist extends StatelessWidget {
+  const _SignInChecklist({
+    required this.hasViewedTerms,
+    required this.hasViewedPrivacy,
+    required this.hasAgreedToConsent,
+  });
+
+  final bool hasViewedTerms;
+  final bool hasViewedPrivacy;
+  final bool hasAgreedToConsent;
+
+  @override
+  Widget build(BuildContext context) {
+    if (hasViewedTerms && hasViewedPrivacy && hasAgreedToConsent) {
+      return const SizedBox.shrink();
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _CheckRow(
+          done: hasViewedTerms,
+          label: context.l10n.loginChecklistTerms,
+        ),
+        const SizedBox(height: AppSpacing.xs),
+        _CheckRow(
+          done: hasViewedPrivacy,
+          label: context.l10n.loginChecklistPrivacy,
+        ),
+        const SizedBox(height: AppSpacing.xs),
+        _CheckRow(
+          done: hasAgreedToConsent,
+          label: context.l10n.loginChecklistAgree,
+        ),
+      ],
+    );
+  }
+}
+
+class _CheckRow extends StatelessWidget {
+  const _CheckRow({required this.done, required this.label});
+
+  final bool done;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      checked: done,
+      label: label,
+      child: Row(
+        children: [
+          Icon(
+            done ? Icons.check_circle_rounded : Icons.radio_button_unchecked,
+            size: 18,
+            color: done ? AppColors.success : AppColors.iconMuted,
+          ),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(
+            child: Text(
+              label,
+              style: context.text.bodySmall.copyWith(
+                color: done ? AppColors.textBody : AppColors.textMuted,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class GoogleIcon extends StatelessWidget {

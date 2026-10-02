@@ -3,8 +3,16 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../providers/app_state_provider.dart';
+import '../../../utils/app_colors.dart';
+import '../../../utils/app_elevation.dart';
+import '../../../utils/app_radius.dart';
+import '../../../utils/app_size.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 import '../../../utils/constants.dart';
+import '../../../widgets/common/app_icon_button.dart';
+import '../../../widgets/common/app_tappable.dart';
+import '../../../widgets/common/quick_pills.dart';
 
 class HomeHeaderSection extends StatelessWidget {
   final AppProvider provider;
@@ -31,7 +39,16 @@ class HomeHeaderSection extends StatelessWidget {
         const SizedBox(height: AppSpacing.md),
         _buildSearchAndFilter(context),
         const SizedBox(height: AppSpacing.sm),
-        _buildQuickPills(context),
+        QuickPills(
+          onSelected: (q) {
+            if (onVoiceQuery != null) {
+              onVoiceQuery!(q);
+            } else {
+              provider.updateSearchQuery(q);
+              provider.updateTabIndex(1);
+            }
+          },
+        ),
       ],
     );
   }
@@ -40,6 +57,9 @@ class HomeHeaderSection extends StatelessWidget {
     final displayName = provider.profile.name.isNotEmpty
         ? provider.profile.name.split(' ').first
         : context.l10n.commonUserFallback;
+    final unread = provider.notifications
+        .where((n) => n['read'] == false)
+        .length;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -51,14 +71,15 @@ class HomeHeaderSection extends StatelessWidget {
               children: [
                 Text(
                   AppConstants.getTimeGreeting(context.l10n),
-                  style: GoogleFonts.inter(
-                    fontSize: 14,
-                    color: const Color(0xFF64748B),
+                  style: context.text.body.copyWith(
                     fontWeight: FontWeight.w500,
+                    color: AppColors.textMuted,
                   ),
                 ),
                 const SizedBox(width: AppSpacing.xs),
-                Text("👋", style: GoogleFonts.inter(fontSize: 14)),
+                ExcludeSemantics(
+                  child: Text("👋", style: GoogleFonts.inter(fontSize: 14)),
+                ),
               ],
             ),
             const SizedBox(height: AppSpacing.hairline),
@@ -68,11 +89,10 @@ class HomeHeaderSection extends StatelessWidget {
                 Flexible(
                   child: Text(
                     displayName,
-                    style: GoogleFonts.poppins(
-                      fontSize: provider.isGuest ? 18.0 : 24.0,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF0F172A),
-                    ),
+                    style: (provider.isGuest
+                            ? context.text.titleMedium
+                            : context.text.headline)
+                        .copyWith(color: AppColors.textPrimary),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -91,47 +111,18 @@ class HomeHeaderSection extends StatelessWidget {
         ),
         Row(
           children: [
-            GestureDetector(
-              onTap: onNotificationTap,
-              child: Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: const Color(0xFFE2E8F0)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.03),
-                      blurRadius: 6,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    const Icon(
-                      Icons.notifications_none_outlined,
-                      color: Color(0xFF0F172A),
-                      size: 22,
-                    ),
-                    if (provider.notifications.any((n) => n['read'] == false))
-                      Positioned(
-                        top: 10,
-                        right: 10,
-                        child: Container(
-                          width: 8,
-                          height: 8,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFEF4444),
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
+            AppIconButton(
+              icon: Icons.notifications_none_rounded,
+              semanticLabel: context.l10n.notificationsTooltip,
+              badgeSemantics: unread > 0
+                  ? context.l10n.notificationsUnreadCount(unread)
+                  : null,
+              badgeCount: unread > 0 ? unread : null,
+              size: AppSize.iconLg,
+              color: AppColors.textPrimary,
+              backgroundColor: AppColors.surface,
+              backgroundSize: 40,
+              onPressed: onNotificationTap,
             ),
           ],
         ),
@@ -143,47 +134,43 @@ class HomeHeaderSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
-        vertical: AppSpacing.sm,
+        vertical: AppSpacing.xs,
       ),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-        border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        borderRadius: AppRadius.pillAll,
+        border: Border.all(color: AppColors.border, width: AppSize.borderWidth),
+        boxShadow: AppShadows.card,
       ),
       child: Row(
         children: [
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () => onSearchBarTap?.call(),
-            child: const Icon(Icons.search, color: Color(0xFF2563EB), size: 22),
-          ),
-          const SizedBox(width: AppSpacing.sm),
           Expanded(
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
+            child: AppTappable(
               onTap: () => onSearchBarTap?.call(),
-              child: Text(
-                context.l10n.searchPlaceholder,
-                style: GoogleFonts.inter(
-                  color: const Color(0xFF94A3B8),
-                  fontSize: 13.5,
-                  fontWeight: FontWeight.w400,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+              semanticLabel: context.l10n.searchPlaceholder,
+              minSize: const Size(AppSize.tapTarget, AppSize.tapTarget),
+              alignment: Alignment.centerLeft,
+              child: Row(
+                children: [
+                  const Icon(Icons.search, color: Color(0xFF2563EB), size: 22),
+                  const SizedBox(width: AppSpacing.sm),
+                  Expanded(
+                    child: Text(
+                      context.l10n.searchPlaceholder,
+                      style: context.text.body.copyWith(
+                        color: AppColors.textMuted,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-          Container(height: 20, width: 1, color: const Color(0xFFE2E8F0)),
+          Container(height: 20, width: 1, color: AppColors.border),
           const SizedBox(width: AppSpacing.sm),
-          GestureDetector(
+          AppTappable(
             onTap: () {
               if (onFilterPressed != null) {
                 onFilterPressed!();
@@ -191,28 +178,28 @@ class HomeHeaderSection extends StatelessWidget {
                 provider.updateTabIndex(1);
               }
             },
+            semanticLabel: context.l10n.filter,
+            borderRadius: AppRadius.pillAll,
             child: Container(
               padding: const EdgeInsets.symmetric(
                 horizontal: AppSpacing.md,
                 vertical: AppSpacing.tight,
               ),
               decoration: BoxDecoration(
-                border: Border.all(color: const Color(0xFFCBD5E1)),
-                borderRadius: BorderRadius.circular(18),
+                border: Border.all(color: AppColors.borderStrong),
+                borderRadius: AppRadius.pillAll,
               ),
               child: Row(
                 children: [
                   const Icon(
                     Icons.filter_list,
-                    size: 14,
+                    size: AppSize.iconSm,
                     color: Color(0xFF1E293B),
                   ),
                   const SizedBox(width: AppSpacing.xs),
                   Text(
                     context.l10n.filter,
-                    style: GoogleFonts.inter(
-                      fontSize: 12.5,
-                      fontWeight: FontWeight.w600,
+                    style: context.text.label.copyWith(
                       color: const Color(0xFF1E293B),
                     ),
                   ),
@@ -221,69 +208,6 @@ class HomeHeaderSection extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildQuickPills(BuildContext context) {
-    final pills = [
-      context.l10n.quickPillPmegp,
-      context.l10n.quickPillStartup,
-      context.l10n.quickPillLoans,
-      context.l10n.quickPillWomen,
-      context.l10n.quickPillAscend,
-    ];
-
-    return SizedBox(
-      height: 38,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        physics: const ClampingScrollPhysics(),
-        itemCount: pills.length,
-        itemBuilder: (context, index) {
-          final text = pills[index];
-          return GestureDetector(
-            onTap: () {
-              final query = text
-                  .replaceAll("Search ", "")
-                  .replaceAll("தேடுக", "")
-                  .trim();
-              if (onVoiceQuery != null) {
-                onVoiceQuery!(query);
-              } else {
-                provider.updateSearchQuery(query);
-                provider.updateTabIndex(1);
-              }
-            },
-            child: Container(
-              margin: const EdgeInsets.only(right: AppSpacing.sm),
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.md,
-                vertical: AppSpacing.sm,
-              ),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: const Color(0xFFE2E8F0)),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.search, size: 13, color: Color(0xFF64748B)),
-                  const SizedBox(width: AppSpacing.tight),
-                  Text(
-                    text,
-                    style: GoogleFonts.inter(
-                      fontSize: 11.5,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF475569),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
       ),
     );
   }

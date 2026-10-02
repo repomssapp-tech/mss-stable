@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 import '../../../l10n/l10n.dart';
-import '../../../providers/app_state_provider.dart';
-import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
 
 class MsmeMainFeaturesSection extends StatelessWidget {
@@ -19,115 +16,116 @@ class MsmeMainFeaturesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> features = [];
+    final l10n = context.l10n;
+    List<String> localizedFeatures = [];
     switch (moduleId) {
       case 'schemes':
-        features = [
-          'Personalized schemes matched to business profile',
-          'Central vs. State schemes filter',
-          'Comprehensive eligibility checker',
-          'Search by scheme categories',
-          'Capital subsidies, grants & interest subventions',
-          'Reminders for registration deadlines',
-          'Lists of required documents & checklists',
-          'Clear, step-by-step application guidelines',
-          'Scheme save & side-by-side comparison',
+        localizedFeatures = [
+          l10n.msmeFeatureSchemes1,
+          l10n.msmeFeatureSchemes2,
+          l10n.msmeFeatureSchemes3,
+          l10n.msmeFeatureSchemes4,
+          l10n.msmeFeatureSchemes5,
+          l10n.msmeFeatureSchemes6,
+          l10n.msmeFeatureSchemes7,
+          // 'Reminders for registration deadlines' and 'side-by-side
+          // comparison' were removed (MS1/MS2): grepped the codebase and
+          // found no deadline-tracking logic (only static 2024 seed-data
+          // dates) and no comparison UI anywhere. Saving a scheme IS real
+          // (AppProvider.toggleBookmark), so that half of the old combined
+          // claim stays.
+          l10n.msmeFeatureSchemes8,
         ];
         break;
       case 'finance':
-        features = [
-          'Collateral-free business term loans & working capital',
-          'SIDBI specialized credit schemes for machinery & tools',
-          'Credit Guarantees (CGTMSE) for collateral-free bank options',
-          'Equipment & machinery financing models',
-          'Detailed comparisons of loan interest rates',
-          'Direct contact pathways to SIDBI & partner commercial banks',
-          'SME IPO listing requirements (BSE SME & NSE Emerge)',
+        localizedFeatures = [
+          l10n.msmeFeatureFinance1,
+          l10n.msmeFeatureFinance2,
+          l10n.msmeFeatureFinance3,
+          l10n.msmeFeatureFinance4,
+          l10n.msmeFeatureFinance5,
+          l10n.msmeFeatureFinance6,
+          l10n.msmeFeatureFinance7,
         ];
         break;
       case 'tax_gst':
-        features = [
-          'MSME Corporate Income-Tax benefits',
-          'GST registration threshold limits (₹40/₹20 Lakhs exemptions)',
-          'GST Composition Scheme parameters (1% tax, easier filings)',
-          'Section 43B(h) Income Tax protection (45-day payment rule)',
-          'Late payment interest claim calculator (3x Bank Rate)',
-          'Export tax refunds & LUT (Letter of Undertaking) rules',
-          'MSME Samadhaan portal recovery guidelines',
+        localizedFeatures = [
+          l10n.msmeFeatureTaxGst1,
+          l10n.msmeFeatureTaxGst2,
+          l10n.msmeFeatureTaxGst3,
+          l10n.msmeFeatureTaxGst4,
+          // Verified real: msme_tax_gst_panel.dart has two live TextFields
+          // (invoice amount, days delayed) wired to
+          // _calculateLateInterest() -- an actual interactive calculator,
+          // not just informational text. Kept.
+          l10n.msmeFeatureTaxGst5,
+          l10n.msmeFeatureTaxGst6,
+          l10n.msmeFeatureTaxGst7,
         ];
         break;
       case 'export':
-        features = [
-          'Duty refund schemes (RoDTEP, RoSCTL) & Drawbacks',
-          'Pre-shipment & Post-shipment export credit financing',
-          'Interest subvention on foreign currency loans',
-          'ECGC credit risk insurance coverage policies',
-          'MDA & MAI schemes for foreign exhibition participation',
-          'Directory of Export Councils & DGFT field offices',
-          'HS Code classifications & AD Code registration guide',
+        localizedFeatures = [
+          l10n.msmeFeatureExport1,
+          l10n.msmeFeatureExport2,
+          l10n.msmeFeatureExport3,
+          l10n.msmeFeatureExport4,
+          l10n.msmeFeatureExport5,
+          l10n.msmeFeatureExport6,
+          l10n.msmeFeatureExport7,
         ];
         break;
       case 'treds':
-        features = [
-          'Invoice Discounting multi-party platforms explainer',
-          'Onboarding guidelines for MSME Sellers',
-          'RXIL, M1xchange & Invoicemart registration steps',
-          'Acceptance guidelines for Corporate Buyers',
-          'Financier bidding flow (anonymized auction for best rates)',
-          'Payment settlement pathways (T+1 credit cycles)',
-          'Recourse vs. Non-recourse factoring definitions',
+        localizedFeatures = [
+          l10n.msmeFeatureTreds1,
+          l10n.msmeFeatureTreds2,
+          l10n.msmeFeatureTreds3,
+          l10n.msmeFeatureTreds4,
+          l10n.msmeFeatureTreds5,
+          l10n.msmeFeatureTreds6,
+          l10n.msmeFeatureTreds7,
         ];
         break;
       case 'csr':
-        features = [
-          'Corporate CSR-backed cluster development funding',
-          'Access to corporate incubation grants for prototype support',
-          'Specialized green-energy & waste-management cluster programs',
-          'Skill development & technology upgrade programs',
-          'List of CSR implementing agencies & NGOs',
-          'Eligibility checklists & application pathways',
+        localizedFeatures = [
+          l10n.msmeFeatureCsr1,
+          l10n.msmeFeatureCsr2,
+          l10n.msmeFeatureCsr3,
+          l10n.msmeFeatureCsr4,
+          l10n.msmeFeatureCsr5,
+          l10n.msmeFeatureCsr6,
         ];
         break;
       case 'govt':
-        features = [
-          'Ministry of MSME (Central Govt) policies & initiatives',
-          'State Directorate of Industries / Dept of Commerce role',
-          'District Industries Centre (DIC) local assistance offices',
-          'Clear hierarchies: Central -> State -> District levels',
-          'Key contact directories & nodal officer lists',
-          'Authority-specific schemes (PMEGP vs State subsidies)',
+        localizedFeatures = [
+          l10n.msmeFeatureGovt1,
+          l10n.msmeFeatureGovt2,
+          l10n.msmeFeatureGovt3,
+          l10n.msmeFeatureGovt4,
+          l10n.msmeFeatureGovt5,
+          l10n.msmeFeatureGovt6,
         ];
         break;
       case 'institutions':
-        features = [
-          'SIDBI (Small Industries Development Bank of India) credit portals',
-          'NSIC (National Small Industries Corporation) raw material support',
-          'DIC (District Industries Centre) single-window registrations',
-          'KVIC (Khadi and Village Industries Commission) rural projects',
-          'TIIC, StartupTN, FaMeTN, SIPCOT regional service descriptions',
-          'Program services catalog & contact application routes',
+        localizedFeatures = [
+          l10n.msmeFeatureInstitutions1,
+          l10n.msmeFeatureInstitutions2,
+          l10n.msmeFeatureInstitutions3,
+          l10n.msmeFeatureInstitutions4,
+          l10n.msmeFeatureInstitutions5,
+          l10n.msmeFeatureInstitutions6,
         ];
         break;
       case 'udyam':
-        features = [
-          '100% Free & Paperless Instant Portal Registration',
-          'Lifetime Validity with QR Code e-Certificate',
-          'Automatic CGTMSE Collateral-Free Credit & TReDS Eligibility',
-          'Exemption from Earnest Money Deposit (EMD) in Govt Tenders',
-          'Eligible for 15% CLCSS Technology & Capital Subsidies',
-          'Concessional Electricity & Patent Registration Fee Waiver',
+        localizedFeatures = [
+          l10n.msmeFeatureUdyam1,
+          l10n.msmeFeatureUdyam2,
+          l10n.msmeFeatureUdyam3,
+          l10n.msmeFeatureUdyam4,
+          l10n.msmeFeatureUdyam5,
+          l10n.msmeFeatureUdyam6,
         ];
         break;
     }
-
-    final isTa =
-        Provider.of<AppProvider>(context, listen: false).selectedLanguage ==
-        'ta';
-    final localizedFeatures = isTa
-        ? features
-              .map((f) => CentralizedTranslator.instance.translate(f))
-              .toList()
-        : features;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

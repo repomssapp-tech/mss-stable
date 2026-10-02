@@ -1,0 +1,12 @@
+{
+  "lib/screens/navigation_mode_screen.dart": 1,
+  "lib/screens/regular_mode/basic_profile/step3_about_you_form.dart": 1,
+  "lib/screens/regular_mode/home/home_recommended_section.dart": 1,
+  "lib/screens/regular_mode/saved_schemes_screen.dart": 1,
+  "lib/screens/regular_mode/scheme_details_screen.dart": 1,
+  "lib/widgets/assistant/voice/regular_voice_experience.dart": 2,
+  "lib/widgets/assistant/voice/voice_interactive_widgets.dart": 2,
+  "lib/widgets/assistant/voice/voice_recommendation_cards.dart": 1,
+  "lib/widgets/assistant/voice/voice_transcript_widgets.dart": 1,
+  "lib/widgets/assistant/voice_assistant_overlay.dart": 1
+}
