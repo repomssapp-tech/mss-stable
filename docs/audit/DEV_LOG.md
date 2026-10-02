@@ -16,3 +16,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 <!-- Automated entries start here — .github/workflows/dev-log.yml appends below this line -->
 | 2026-09-13 | Roger-Chris | #107 | unspecified | Chore/audit rules skills devlog |
 | 2026-09-17 | PaulBrytonRaj18 | #109 | frontend/companion_mode | Replaced the static marketing welcome screen with an accessible, zero-keyboard 6-step Assisted Profile Creation wizard for AI Companion Mode that feeds directly into the scheme recommendation engine, and resolved PostgreSQL check-constraint failures during cloud profile submission. |
+| 2026-10-02 | Roger-Chris | #110 | unspecified | Production readiness: correctness, design system, accessibility (Phases 1–2, partial 3) |
