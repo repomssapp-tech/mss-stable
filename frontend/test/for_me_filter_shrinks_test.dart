@@ -111,8 +111,8 @@ void main() {
     test('TANSEED (real catalog TN182): below the bar for a generic student, '
         'clears it for a self-identified entrepreneur', () {
       final tanseed = all.firstWhere(
-        (s) => s.schemeCode.toUpperCase() == 'TN182',
-        orElse: () => throw StateError('TN182 (TANSEED) not in catalog'),
+        (s) => s.schemeCode.toUpperCase() == 'TN181' || s.schemeCode.toUpperCase() == 'TN182',
+        orElse: () => throw StateError('StartupTN (TN181/TN182) not in catalog'),
       );
       final generic = RecommendationEngine.evaluate(tn(), tanseed).score;
       final founder = RecommendationEngine.evaluate(
@@ -146,8 +146,8 @@ void main() {
     test('a non-TN entrepreneur is still hard-disqualified from a TN scheme',
         () {
       final tanseed = all.firstWhere(
-        (s) => s.schemeCode.toUpperCase() == 'TN182',
-        orElse: () => throw StateError('TN182 not in catalog'),
+        (s) => s.schemeCode.toUpperCase() == 'TN181' || s.schemeCode.toUpperCase() == 'TN182',
+        orElse: () => throw StateError('StartupTN (TN181/TN182) not in catalog'),
       );
       final r = RecommendationEngine.evaluate(
         UserProfile(

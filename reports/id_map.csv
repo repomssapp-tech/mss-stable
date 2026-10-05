@@ -1,0 +1,84 @@
+v3_1_id,allocated_catalog_id,scheme_name,action,parent_id,proposed_status
+MSME2526-002,SCH000220,2nd Loan for Upgradation of existing PMEGP/REGP/MUDRA units,ADD_CHILD,SCH000130,DRAFT
+MSME2526-008,SCH000221,Entrepreneurship Awareness Programme (EAP),ADD_CHILD,SCH000095,PUBLISHED
+MSME2526-009,SCH000222,Entrepreneurship cum Skill Development Programme (E-SDP),ADD_CHILD,SCH000095,PUBLISHED
+MSME2526-010,SCH000223,Advance Entrepreneurship cum Skill Development Programme (Advance E-SDP),ADD_CHILD,SCH000095,PUBLISHED
+MSME2526-011,SCH000224,Management Development Programme (MDP),ADD_CHILD,SCH000095,PUBLISHED
+MSME2526-012,SCH000225,Advance Management Development Programme (Advance MDP),ADD_CHILD,SCH000095,PUBLISHED
+MSME2526-022,SCH000226,Science & Technology,ADD_CHILD,SCH000033,DRAFT
+MSME2526-025,SCH000227,Domestic Market Promotion,ADD_CHILD,SCH000033,PUBLISHED
+MSME2526-026,SCH000228,Trade and Industry Related Functional Support Services,ADD_CHILD,SCH000033,DRAFT
+MSME2526-027,SCH000229,Welfare Measures (Pradhan Mantri Suraksha Bima Yojana for coir workers),ADD_CHILD,SCH000033,DRAFT
+MSME2526-030,SCH000230,Market Development Assistance of MSMEs (MDA),ADD_CHILD,SCH000071,PUBLISHED
+MSME2526-031,SCH000231,Capacity Building of First Time MSE Exporters (CBFTE),ADD_CHILD,SCH000071,PUBLISHED
+MSME2526-032,SCH000232,Framework for International Market Intelligence Dissemination (IMID),ADD_CHILD,SCH000071,DRAFT
+MSME2526-051,SCH000233,Special Credit Linked Capital Subsidy Scheme (SCLCSS),ADD_CHILD,SCH000113,PUBLISHED
+MSME2526-052,SCH000234,Special Marketing Assistance Scheme (SMAS),ADD_CHILD,SCH000113,PUBLISHED
+MSME2526-053,SCH000235,Single Point Registration Scheme (SPRS) under NSSH,ADD_CHILD,SCH000113,PUBLISHED
+MSME2526-054,SCH000236,Reimbursement of Bank Loan Processing Fee (NSSH),ADD_CHILD,SCH000113,PUBLISHED
+MSME2526-055,SCH000237,Reimbursement of Performance Bank Guarantee charges (NSSH),ADD_CHILD,SCH000113,PUBLISHED
+MSME2526-056,SCH000238,Reimbursement of Testing Fee (NSSH),ADD_CHILD,SCH000113,PUBLISHED
+MSME2526-057,SCH000239,Reimbursement of Export Promotion Council Membership Fee (NSSH),ADD_CHILD,SCH000113,PUBLISHED
+MSME2526-058,SCH000240,Reimbursement of Government e-Commerce Portals Membership Fee (NSSH),ADD_CHILD,SCH000113,PUBLISHED
+MSME2526-059,SCH000241,Reimbursement of Management Training Programme Fee (NSSH),ADD_CHILD,SCH000113,PUBLISHED
+MSME2526-063,SCH000242,Modified Market Development Assistance (MMDA),ADD_CHILD,SCH000076,DRAFT
+MSME2526-064,SCH000243,Interest Subsidy Eligibility Certificate Scheme (ISEC),ADD_CHILD,SCH000076,DRAFT
+MSME2526-065,SCH000244,Work-shed Scheme for Khadi Artisans,ADD_CHILD,SCH000076,PUBLISHED
+MSME2526-066,SCH000245,Strengthening Infrastructure of Existing Weak Khadi Institutions,ADD_CHILD,SCH000076,DRAFT
+MSME2526-067,SCH000246,Marketing Infrastructure (Khadi),ADD_CHILD,SCH000076,DRAFT
+MSME2526-068,SCH000247,Gramodyog Vikas Yojana (GVY),ADD_CHILD,SCH000075,PUBLISHED
+MSME2526-070,SCH000248,Leather Footwear Programme – Gramodyog Vikas Yojana,ADD_CHILD,SCH000247,PUBLISHED
+MSME2526-073,SCH000249,Waste Wood / Turn Wood Craft Programme – Gramodyog Vikas Yojana,ADD_CHILD,SCH000247,PUBLISHED
+MSME2526-074,SCH000250,Hand Made Paper & Fibre Activities – Gramodyog Vikas Yojana,ADD_CHILD,SCH000247,PUBLISHED
+MSME2526-075,SCH000251,Agro-Food Processing Programme – Gramodyog Vikas Yojana,ADD_CHILD,SCH000247,PUBLISHED
+MSME2526-076,SCH000252,"Service Industry Programme (Electrician, Plumber, DigniTEA) – Gramodyog Vikas Yojana",ADD_CHILD,SCH000247,PUBLISHED
+MSME2526-083,SCH000253,"MSME Innovative Scheme (Incubation, Design and IPR)",ADD_CHILD,SCH000099,PUBLISHED
+MSME2526-088,SCH000254,Digital MSME,ADD_CHILD,SCH000099,DRAFT
+NEW2026-001,SCH000255,Mutual Credit Guarantee Scheme for MSMEs (MCGS-MSME),ADD_NEW,,PUBLISHED
+NEW2026-002,SCH000256,Export Promotion Mission (EPM),ADD_NEW,,PUBLISHED
+NEW2026-003,SCH000257,Niryat Protsahan (EPM financial enablers),ADD_CHILD,SCH000256,PUBLISHED
+NEW2026-004,SCH000258,Interest Subvention on Pre- and Post-Shipment Export Credit (EPM – Niryat Protsahan),ADD_CHILD,SCH000257,PUBLISHED
+NEW2026-005,SCH000259,Collateral Support for Export Credit (EPM – Niryat Protsahan),ADD_CHILD,SCH000257,PUBLISHED
+NEW2026-006,SCH000260,Export Factoring Support (EPM – Niryat Protsahan),ADD_CHILD,SCH000257,PUBLISHED
+NEW2026-007,SCH000261,E-Commerce Export Credit Facility (EPM – Niryat Protsahan),ADD_CHILD,SCH000257,PUBLISHED
+NEW2026-008,SCH000262,Emerging Export Opportunities – Risk Sharing (EPM – Niryat Protsahan),ADD_CHILD,SCH000257,PUBLISHED
+NEW2026-009,SCH000263,Niryat Disha (EPM non-financial & market access enablers),ADD_CHILD,SCH000256,PUBLISHED
+NEW2026-010,SCH000264,"TRACE – Trade Regulations, Accreditation & Compliance Support (EPM – Niryat Disha)",ADD_CHILD,SCH000263,PUBLISHED
+NEW2026-011,SCH000265,LIFT – Logistics Interventions for Freight & Transport (EPM – Niryat Disha),ADD_CHILD,SCH000263,PUBLISHED
+NEW2026-012,SCH000266,INSIGHT – Trade Intelligence & Facilitation (EPM – Niryat Disha),ADD_CHILD,SCH000263,DRAFT
+NEW2026-013,SCH000267,FLOW – Overseas Warehousing & Fulfilment (EPM – Niryat Disha),ADD_CHILD,SCH000263,DRAFT
+NEW2026-014,SCH000268,Market Access Support (MAS) (EPM – Niryat Disha),ADD_CHILD,SCH000263,PUBLISHED
+NEW2026-017,SCH000269,Credit Cards for Micro Enterprises Scheme,ADD_NEW,,PUBLISHED
+NEW2026-018,SCH000270,"Scheme for First-Time Entrepreneurs (Women, SC and ST) – Budget 2025-26",ADD_NEW,,DRAFT
+NEW2026-019,SCH000271,Startup India Fund of Funds 2.0 (Startup India FoF 2.0),ADD_NEW,,PUBLISHED
+NEW2026-020,SCH000272,"Research, Development and Innovation (RDI) Scheme",ADD_NEW,,PUBLISHED
+NEW2026-021,SCH000273,Credit Assessment Model (CAM) for MSMEs based on Digital Footprints,ADD_NEW,,PUBLISHED
+NEW2026-022,SCH000274,Trade Receivables Discounting System (TReDS),ADD_NEW,,PUBLISHED
+NEW2026-024,SCH000275,GENESIS – Gen-Next Support for Innovative Startups,ADD_NEW,,PUBLISHED
+NEW2026-025,SCH000276,SME Growth Fund (Budget 2026-27),ADD_NEW,,DRAFT
+NEW2026-026,SCH000277,National Manufacturing Mission,ADD_NEW,,DRAFT
+NEW2026-050,SCH000278,Pradhan Mantri Viksit Bharat Rozgar Yojana (PM-VBRY) – Employment Linked Incentive Scheme,ADD_NEW,,PUBLISHED
+NEW2026-051,SCH000279,Prime Minister's Internship Scheme (PMIS),ADD_NEW,,PUBLISHED
+NEW2026-052,SCH000280,"Skill India Programme (restructured: PMKVY 4.0, PM-NAPS, JSS)",ADD_NEW,,PUBLISHED
+NEW2026-053,SCH000281,Pradhan Mantri National Apprenticeship Promotion Scheme (PM-NAPS),ADD_CHILD,SCH000280,PUBLISHED
+NEW2026-054,SCH000282,Jan Shikshan Sansthan (JSS) Scheme,ADD_CHILD,SCH000280,PUBLISHED
+NEW2026-055,SCH000283,Prime Minister Dhan-Dhaanya Krishi Yojana (PMDDKY),ADD_NEW,,PUBLISHED
+NEW2026-056,SCH000284,Mission for Aatmanirbharta in Pulses,ADD_NEW,,PUBLISHED
+NEW2026-057,SCH000285,National Mission on Natural Farming (NMNF),ADD_NEW,,PUBLISHED
+NEW2026-058,SCH000286,Pradhan Mantri Matsya Kisan Samridhi Sah-Yojana (PM-MKSSY),ADD_NEW,,PUBLISHED
+NEW2026-059,SCH000287,Agriculture Infrastructure Fund (AIF),ADD_NEW,,PUBLISHED
+NEW2026-060,SCH000288,Pradhan Mantri Kisan Urja Suraksha evam Utthaan Mahabhiyan (PM-KUSUM),ADD_NEW,,PUBLISHED
+NEW2026-061,SCH000289,PM Surya Ghar: Muft Bijli Yojana,ADD_NEW,,PUBLISHED
+NEW2026-062,SCH000290,PM Electric Drive Revolution in Innovative Vehicle Enhancement (PM E-DRIVE) Scheme,ADD_NEW,,DRAFT
+NEW2026-063,SCH000291,Dharti Aaba Janjatiya Gram Utkarsh Abhiyan (DAJGUA),ADD_NEW,,PUBLISHED
+NEW2026-064,SCH000292,Pradhan Mantri Dakshta Aur Kushalta Sampann Hitgrahi (PM-DAKSH) Yojana,ADD_NEW,,PUBLISHED
+NEW2026-065,SCH000293,Scheme for Residential Education for Students in High Schools in Targeted Areas (SHRESHTA),ADD_NEW,,DRAFT
+NEW2026-066,SCH000294,Support for Marginalized Individuals for Livelihood and Enterprise (SMILE),ADD_NEW,,PUBLISHED
+NEW2026-067,SCH000295,National Action for Mechanised Sanitation Ecosystem (NAMASTE),ADD_NEW,,PUBLISHED
+NEW2026-068,SCH000296,Silk Samagra-2 (Integrated Scheme for Development of Silk Industry),ADD_NEW,,DRAFT
+NEW2026-069,SCH000297,Samarth – Scheme for Capacity Building in Textiles Sector,ADD_NEW,,DRAFT
+NEW2026-070,SCH000298,PM Mega Integrated Textile Region and Apparel (PM MITRA) Parks,ADD_NEW,,DRAFT
+NEW2026-071,SCH000299,National Livestock Mission – Entrepreneurship Development Programme (NLM-EDP),ADD_NEW,,PUBLISHED
+NEW2026-072,SCH000300,Animal Husbandry Infrastructure Development Fund (AHIDF),ADD_NEW,,DRAFT
+NEW2026-073,SCH000301,"Formation and Promotion of 10,000 Farmer Producer Organisations (FPOs)",ADD_NEW,,PUBLISHED
+NEW2026-074,SCH000302,Deendayal Jan Aajeevika Yojana – Shehari (DJAY-S),ADD_NEW,,DRAFT

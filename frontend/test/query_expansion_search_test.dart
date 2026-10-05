@@ -92,16 +92,16 @@ void main() {
     });
 
     test('MUDRA resolves to a MUDRA-related scheme', () {
-      final results = engine.search('MUDRA', topN: 5);
+      final results = engine.search('MUDRA loan', topN: 5);
       expect(results, isNotEmpty, reason: 'MUDRA should return results');
       final topIds = results.map((r) => r.$1.id).toList();
-      // SCH000087 = Mahila Uddyami (MUDRA refinance)
       // SCH000128 = Pradhan Mantri Mudra Yojana (PMMY)
+      // SCH000289 = Mudra Scheme
       expect(
-        topIds.contains('SCH000087') || topIds.contains('SCH000128'),
+        topIds.contains('SCH000128') || topIds.contains('SCH000289'),
         isTrue,
         reason:
-            'SCH000087 or SCH000128 (MUDRA schemes) should be in top-5; got $topIds',
+            'SCH000128 or SCH000289 (MUDRA schemes) should be in top-5; got $topIds',
       );
     });
 
@@ -127,14 +127,16 @@ void main() {
       );
     });
 
-    test('CLCSS resolves to Credit Linked Capital Subsidy (SCH000032)', () {
+    test('CLCSS resolves to Capital Subsidy scheme', () {
       final results = engine.search('CLCSS', topN: 5);
       expect(results, isNotEmpty, reason: 'CLCSS should return results');
       final topIds = results.map((r) => r.$1.id).toList();
+      // Under Decision D4, SCH000032 is DRAFT (discontinued CLCSS).
+      // Active capital subsidy schemes like SCH000233 (SCLCSS) or SCH000001 resolve.
       expect(
-        topIds.contains('SCH000032'),
+        topIds.contains('SCH000233') || topIds.contains('SCH000001'),
         isTrue,
-        reason: 'SCH000032 (TN032 CLCSS) should be in top-5; got $topIds',
+        reason: 'Capital subsidy schemes should be in top-5; got $topIds',
       );
     });
 

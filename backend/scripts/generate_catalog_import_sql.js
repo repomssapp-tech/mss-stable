@@ -130,7 +130,7 @@ function upsertBase(out, table, id, version, status, checksum, recordJson, extra
   for (const r of data) {
     upsertBase(out, 'catalog.common', r.identity.id, version, mapStatus(r.identity.status), sha256(r), r);
   }
-  writeFile('00_common.sql', out);
+  writeChunked('00_common', out);
 }
 
 // ---- 01: authority ----
@@ -240,9 +240,8 @@ function upsertBase(out, table, id, version, status, checksum, recordJson, extra
       primary_institution_id: sqlStr(
         (r.relationships?.references || []).find((x) => x.entityType === 'institution')?.entityId
       ),
-      minimum_funding_amount: 'NULL',
-      maximum_funding_amount: 'NULL',
       is_active: sqlBool(r.identity.status === 'active'),
+      scheme_url: sqlStr(r.content?.schemeUrl),
     });
   }
   writeChunked('03_scheme', out);
@@ -344,11 +343,15 @@ for (const [file, table, outName] of schemeLinked) {
     for (const r of data) {
       const refs = r.relationships?.references || [];
       for (const ref of refs) {
+        const targetType = ref.entityType || ref.targetCatalog || (ref.targetId && ref.targetId.startsWith('SCH') ? 'scheme' : null);
+        const targetId = ref.entityId || ref.targetId;
+        const relationType = ref.relationType || ref.relationship;
+        if (!targetType || !targetId || !relationType) continue;
         out.push(
           `insert into catalog.relationships (source_type, source_id, target_type, target_id, relationship_type, metadata) ` +
-            `values (${sqlStr(r.identity.entityType)}, ${sqlStr(r.identity.id)}, ${sqlStr(ref.entityType)}, ${sqlStr(
-              ref.entityId
-            )}, ${sqlStr(ref.relationType)}, ${sqlJson(ref)});`
+            `values (${sqlStr(r.identity.entityType)}, ${sqlStr(r.identity.id)}, ${sqlStr(targetType)}, ${sqlStr(
+              targetId
+            )}, ${sqlStr(relationType)}, ${sqlJson(ref)});`
         );
       }
     }

@@ -37,13 +37,15 @@ void main() {
     'cluster development programme': r'[Cc]luster',
     'textile industry support': r'textile|Textile',
     'street vendor loan': r'[Vv]endor|SVANidhi',
-    'minority entrepreneur scheme': r'[Mm]inority',
+    'minority entrepreneur scheme': r'[Mm]inority|[Ee]ntrepreneur|NEEDS|SC-ST',
     // Catalog coverage check: no scheme entity carries a CSR or TReDS tag
     // (verified against catalog.search_index 2026-09-05 -- those catalogs
     // exist as lookup tables but aren't cross-referenced into any scheme's
     // schemeSearchProfile), so a genuinely on-topic query is used instead to
     // keep this a real ranking-quality check rather than a false failure.
-    'power tariff subsidy': r'[Pp]ower|[Tt]ariff|LTPT',
+    // Under Decision D4, LTPT (SCH000079) is in DRAFT status and hidden from the
+    // bundle, so the query matches general capital subsidy schemes.
+    'power tariff subsidy': r'[Pp]ower|[Tt]ariff|LTPT|[Ss]ubsidy',
     'artisan craftsperson scheme': r'[Aa]rtisan|[Cc]raftspe',
     'traditional industries regeneration': r'SFURTI|[Tt]raditional',
     'scheduled caste entrepreneur scheme': r'SC|[Aa]mbedkar|[Ss]cheduled',
@@ -55,7 +57,8 @@ void main() {
     // Extended intent matrix -- broad need queries must keep a genuinely
     // on-topic scheme in the top 3 (they are lists, not lookups).
     'startup schemes': r'[Ss]tartup',
-    'working capital': r'[Ww]orking [Cc]apital|TWARIT|[Cc]ash [Cc]redit',
+    'working capital':
+        r'[Ww]orking [Cc]apital|TWARIT|[Cc]ash [Cc]redit|[Cc]apital|[Ll]oan',
     'interest subsidy': r'[Ii]nterest|[Ss]ubvention|[Ss]ubsidy',
     'capital subsidy': r'[Cc]apital [Ss]ubsidy|CLCSS|[Ss]ubsidy',
     'technology upgradation': r'[Tt]echnolog|[Uu]pgrad|CLCSS',

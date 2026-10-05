@@ -1,0 +1,855 @@
+{
+  "identity": {
+    "id": "SCH000124",
+    "entityType": "scheme",
+    "code": "TN124",
+    "legacyCodes": [
+      {
+        "system": "tn_spreadsheet",
+        "code": "TN124"
+      },
+      {
+        "system": "legacy_json",
+        "code": "IN124"
+      },
+      {
+        "system": "mss_v3_1",
+        "code": "MSME2526-078"
+      }
+    ],
+    "name": "PM Vishwakarma- Enabling Artisans & Craftspeople to scale-up their Enterprises",
+    "shortName": null,
+    "acronym": null,
+    "slug": "pm-vishwakarma-enabling-artisans-craftspeople-to-scale-up-their-enterprises",
+    "language": "en",
+    "status": "active"
+  },
+  "content": {
+    "classification": {
+      "government": {
+        "level": "central",
+        "levelText": "Central",
+        "country": "IN",
+        "states": [],
+        "statesText": "Pan-India",
+        "districts": [],
+        "districtsText": "Not district-specific",
+        "ministryId": "AUTH000003",
+        "ministryText": "Ministry of Micro, Small & Medium Enterprises",
+        "departmentId": null,
+        "departmentText": null,
+        "implementingAgencyIds": [],
+        "implementingAgencyText": "Government of India / designated PM Vishwakarma implementation ecosystem"
+      },
+      "schemeType": "loan",
+      "schemeTypeText": "Skill, toolkit, credit, digital and marketing support",
+      "sectors": [],
+      "sectorsText": "Traditional artisans and craftspeople",
+      "categories": [],
+      "tags": []
+    },
+    "overview": {
+      "summary": "Integrated support programme for traditional artisans and craftspeople.",
+      "description": "Integrated support programme for traditional artisans and craftspeople.",
+      "objective": "Improve skills, tools, credit access, digital adoption, market linkages and enterprise scale.",
+      "background": null,
+      "legalBasis": [],
+      "validity": {
+        "from": null,
+        "to": null,
+        "isOpenEnded": null,
+        "text": null
+      },
+      "version": "PM Vishwakarma",
+      "lastUpdated": null,
+      "lastUpdatedText": "Current"
+    },
+    "objectives": [
+      "Improve skills, tools, credit access, digital adoption, market linkages and enterprise scale."
+    ],
+    "targetBeneficiaries": {
+      "description": "Eligible artisans/craftspeople in notified traditional trades under PM Vishwakarma",
+      "beneficiaryTypes": [],
+      "enterpriseTypes": [],
+      "businessStages": [],
+      "specialCategories": []
+    },
+    "eligibility": {
+      "structured": {
+        "age": {
+          "text": "aged 18+",
+          "applies": true,
+          "minYears": 18,
+          "maxYears": null
+        },
+        "gender": {
+          "text": null,
+          "applies": null,
+          "values": []
+        },
+        "enterprise": {
+          "text": null,
+          "applies": null,
+          "types": [],
+          "constitution": []
+        },
+        "businessStage": {
+          "text": null,
+          "applies": null,
+          "values": []
+        },
+        "sector": {
+          "text": null,
+          "applies": null,
+          "included": [],
+          "excluded": []
+        },
+        "turnover": {
+          "text": null,
+          "applies": null,
+          "minInr": null,
+          "maxInr": null
+        },
+        "investment": {
+          "text": null,
+          "applies": null,
+          "minInr": null,
+          "maxInr": null
+        },
+        "location": {
+          "text": null,
+          "applies": null,
+          "country": null,
+          "states": [],
+          "districts": [],
+          "areaTypes": []
+        },
+        "community": {
+          "text": null,
+          "applies": null,
+          "values": []
+        },
+        "specialCategory": {
+          "text": null,
+          "applies": null,
+          "values": []
+        },
+        "existingRegistration": {
+          "text": null,
+          "applies": null,
+          "required": []
+        },
+        "otherConditions": []
+      },
+      "narrative": {
+        "criteria": "Artisans and craftspeople aged 18+ working in one of the notified traditional trades can apply. Only one member per family is eligible, and specified government employees/families and recent beneficiaries of similar self-employment credit schemes are excluded.",
+        "verifiedCriteria": null,
+        "exclusions": [],
+        "relaxations": []
+      }
+    },
+    "benefits": {
+      "summary": "Scheme includes recognition, skill training, toolkit support, concessional collateral-free enterprise-development credit, digital incentives and marketing support. Exact current component values should follow official guidelines.",
+      "benefitTypes": [
+        "loan"
+      ],
+      "capitalSubsidy": {
+        "applicable": null,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [],
+        "description": null
+      },
+      "interestSubvention": {
+        "applicable": true,
+        "percentage": 8.0,
+        "percentageText": "8%",
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [
+          "GoI interest subvention up to 8%; borrower pays 5%"
+        ],
+        "description": "at a concessional rate of interest fixed at 5%, with Government of India subvention to the extent of 8%"
+      },
+      "marginMoney": {
+        "applicable": null,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [],
+        "description": null
+      },
+      "grant": {
+        "applicable": true,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": 15000,
+        "amountText": "₹15,000",
+        "maxAmountInr": 15000,
+        "maxAmountText": "₹15,000",
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [
+          "e-voucher"
+        ],
+        "description": "A toolkit incentive of up to Rs. 15,000 through e-vouchers"
+      },
+      "taxBenefit": {
+        "applicable": null,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [],
+        "description": null
+      },
+      "reimbursement": {
+        "applicable": null,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [],
+        "description": null
+      },
+      "equitySupport": {
+        "applicable": null,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [],
+        "description": null
+      },
+      "insurance": {
+        "applicable": null,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [],
+        "description": null
+      },
+      "loan": {
+        "applicable": true,
+        "percentage": null,
+        "percentageText": "Component-specific",
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": "Guideline-specific",
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": true,
+        "variesBy": "Component-specific",
+        "conditions": [
+          "First tranche, collateral free, 18 months tenure, 5% interest",
+          "Second tranche, collateral free, 30 months tenure, 5% interest"
+        ],
+        "description": "Scheme includes recognition, skill training, toolkit support, concessional collateral-free enterprise-development credit, digital incentives and marketing support. Exact current component values should follow official guidelines.",
+        "tenureMonths": null,
+        "moratoriumMonths": null,
+        "interestRatePercent": null,
+        "interestRateText": null,
+        "collateralRequired": null,
+        "repaymentText": null
+      },
+      "guarantee": {
+        "applicable": null,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [],
+        "description": null,
+        "coveragePercent": null,
+        "maxCoverInr": null,
+        "guarantorId": null,
+        "guarantorText": null,
+        "feePercent": null
+      },
+      "trainingSupport": {
+        "applicable": null,
+        "modalities": [],
+        "durationText": null,
+        "providerIds": [],
+        "providerText": null,
+        "conditions": [],
+        "description": null
+      },
+      "marketSupport": {
+        "applicable": null,
+        "modalities": [],
+        "durationText": null,
+        "providerIds": [],
+        "providerText": null,
+        "conditions": [],
+        "description": null
+      },
+      "technologySupport": {
+        "applicable": null,
+        "modalities": [],
+        "durationText": null,
+        "providerIds": [],
+        "providerText": null,
+        "conditions": [],
+        "description": null
+      },
+      "currency": "INR",
+      "disbursement": {
+        "mode": null,
+        "modeText": null,
+        "instalments": null,
+        "text": null
+      }
+    },
+    "requiredDocuments": [
+      {
+        "documentId": "SCH000124-DOC001",
+        "documentTypeId": "CMN000203",
+        "name": "Aadhaar-based registration / e-KYC",
+        "mandatory": "required",
+        "mandatoryText": "Yes",
+        "issuingAuthorityId": null,
+        "issuingAuthorityText": "UIDAI / Common Service Centre / PM Vishwakarma system",
+        "description": "Identity verification for beneficiary registration.",
+        "estimatedCostInr": null,
+        "estimatedCostText": "Registration is free",
+        "validityMonths": null,
+        "remarks": "Registration is facilitated through CSCs under scheme process.",
+        "downloadTemplateUrl": null,
+        "sampleCopyUrl": null,
+        "verificationPortalUrl": null,
+        "sourceUrl": "https://pmvishwakarma.gov.in/"
+      },
+      {
+        "documentId": "SCH000124-DOC002",
+        "documentTypeId": null,
+        "name": "Mobile number",
+        "mandatory": "required",
+        "mandatoryText": "Yes",
+        "issuingAuthorityId": null,
+        "issuingAuthorityText": "Applicant",
+        "description": "Mobile details for registration and communication.",
+        "estimatedCostInr": null,
+        "estimatedCostText": "Telecom cost varies",
+        "validityMonths": null,
+        "remarks": "Used with beneficiary registration.",
+        "downloadTemplateUrl": null,
+        "sampleCopyUrl": null,
+        "verificationPortalUrl": null,
+        "sourceUrl": "https://pmvishwakarma.gov.in/"
+      },
+      {
+        "documentId": "SCH000124-DOC003",
+        "documentTypeId": "CMN000208",
+        "name": "Bank account details",
+        "mandatory": "required",
+        "mandatoryText": "Yes",
+        "issuingAuthorityId": null,
+        "issuingAuthorityText": "Bank",
+        "description": "Bank details for scheme benefits/credit linkage.",
+        "estimatedCostInr": null,
+        "estimatedCostText": "Bank charges vary",
+        "validityMonths": null,
+        "remarks": "Account verification applies.",
+        "downloadTemplateUrl": null,
+        "sampleCopyUrl": null,
+        "verificationPortalUrl": null,
+        "sourceUrl": "https://pmvishwakarma.gov.in/"
+      },
+      {
+        "documentId": "SCH000124-DOC004",
+        "documentTypeId": "CMN000204",
+        "name": "Ration card / family details",
+        "mandatory": "conditional",
+        "mandatoryText": "Conditional",
+        "issuingAuthorityId": null,
+        "issuingAuthorityText": "State food/civil supplies authority / applicant",
+        "description": "Family information used for scheme eligibility and one-beneficiary-per-family condition.",
+        "estimatedCostInr": null,
+        "estimatedCostText": "Varies",
+        "validityMonths": null,
+        "remarks": "Exact current registration workflow controls.",
+        "downloadTemplateUrl": null,
+        "sampleCopyUrl": null,
+        "verificationPortalUrl": null,
+        "sourceUrl": "https://pmvishwakarma.gov.in/"
+      },
+      {
+        "documentId": "SCH000124-DOC005",
+        "documentTypeId": "CMN000204",
+        "name": "Trade / artisan declaration and verification",
+        "mandatory": "required",
+        "mandatoryText": "Yes",
+        "issuingAuthorityId": null,
+        "issuingAuthorityText": "Applicant / Gram Panchayat or ULB / District Implementation Committee",
+        "description": "Declared traditional trade and eligibility are verified through the scheme's multi-stage verification process.",
+        "estimatedCostInr": null,
+        "estimatedCostText": "No application fee",
+        "validityMonths": null,
+        "remarks": "Not a substitute for any current portal field.",
+        "downloadTemplateUrl": null,
+        "sampleCopyUrl": null,
+        "verificationPortalUrl": null,
+        "sourceUrl": "https://pmvishwakarma.gov.in/"
+      }
+    ],
+    "applicationProcess": {
+      "mode": "online",
+      "modeText": "Through PM Vishwakarma implementation process",
+      "onlineUrl": "https://pmvishwakarma.gov.in/",
+      "offlineDetails": null,
+      "applicationFeeInr": null,
+      "applicationFeeText": null,
+      "steps": [
+        {
+          "step": 1,
+          "title": "Step 1",
+          "description": "Visit the nearest Common Service Centre (CSC) for submission of the online application",
+          "mode": "both",
+          "url": "https://pmvishwakarma.gov.in/",
+          "documents": []
+        }
+      ],
+      "services": []
+    },
+    "applicationTimeline": {
+      "opensOn": null,
+      "closesOn": null,
+      "isRollingIntake": null,
+      "processingDurationDays": null,
+      "cycles": [],
+      "text": null
+    },
+    "contacts": {
+      "national": [],
+      "state": [],
+      "district": [],
+      "helplines": []
+    },
+    "faqs": [],
+    "sources": [
+      {
+        "sourceId": "SCH000124-SRC001",
+        "sourceType": "guideline",
+        "title": "Primary source",
+        "reference": null,
+        "publisherId": null,
+        "publisherText": "MSME Schemes 2025-26",
+        "url": "https://pmvishwakarma.gov.in/",
+        "documentFormat": "html",
+        "language": "en",
+        "publishedOn": null,
+        "accessedOn": null,
+        "isPrimary": true,
+        "isCurrent": true
+      },
+      {
+        "id": "SCH000124-SRC002",
+        "name": "Ministry of MSME Schemes Booklet 2025-26",
+        "url": "https://www.dcmsme.gov.in/ebook/MSMESchemebooklet2025-26.pdf",
+        "publisherText": "Ministry of MSME Schemes Booklet 2025-26",
+        "type": "official_booklet",
+        "isPrimary": false
+      }
+    ],
+    "schemeUrl": "https://pmvishwakarma.gov.in/"
+  },
+  "relationships": {
+    "references": [
+      {
+        "entityId": "AUTH000003",
+        "entityType": "authority",
+        "relationType": "administered_by",
+        "role": null,
+        "note": "Resolved by exact normalised-name join (rule R1)"
+      },
+      {
+        "entityId": "FIN000075",
+        "entityType": "finance_product",
+        "relationType": "offers",
+        "role": null,
+        "note": "Inverse of offered_under declared on FIN000075 (Phase 3, rule C1)",
+        "generated": true
+      }
+    ]
+  },
+  "localization": {
+    "en": {
+      "name": "PM Vishwakarma- Enabling Artisans & Craftspeople to scale-up their Enterprises",
+      "shortName": null,
+      "summary": "Integrated support programme for traditional artisans and craftspeople.",
+      "description": "Integrated support programme for traditional artisans and craftspeople.",
+      "objective": "Improve skills, tools, credit access, digital adoption, market linkages and enterprise scale.",
+      "eligibilityText": "Artisans and craftspeople aged 18+ working in one of the notified traditional trades can apply. Only one member per family is eligible, and specified government employees/families and recent beneficiaries of similar self-employment credit schemes are excluded.",
+      "benefitsText": "Scheme includes recognition, skill training, toolkit support, concessional collateral-free enterprise-development credit, digital incentives and marketing support. Exact current component values should follow official guidelines.",
+      "applicationText": "Through PM Vishwakarma implementation process"
+    },
+    "ta": {
+      "name": "PM விஸ்வகர்மா — கைவினைஞர்கள் மற்றும் கலைஞர்கள் தங்கள் நிறுவனங்களை விரிவுபடுத்த வழிவகை செய்தல்",
+      "shortName": null,
+      "summary": "பாரம்பரியக் கைவினைஞர்கள் மற்றும் கலைஞர்களுக்கான ஒருங்கிணைந்த ஆதரவுத் திட்டம்.",
+      "description": "பாரம்பரியக் கைவினைஞர்கள் மற்றும் கலைஞர்களுக்கான ஒருங்கிணைந்த ஆதரவுத் திட்டம்.",
+      "objective": "திறன்கள், கருவிகள், கடன் அணுகல், இணையவழிப் பயன்பாடு, சந்தை இணைப்புகள் மற்றும் நிறுவன அளவை மேம்படுத்துதல்.",
+      "eligibilityText": "அறிவிக்கப்பட்ட பாரம்பரியத் தொழில்களில் ஒன்றில் பணியாற்றும் 18 வயது நிரம்பிய கைவினைஞர்களும் கலைஞர்களும் விண்ணப்பிக்கலாம். ஒரு குடும்பத்திற்கு ஒரு உறுப்பினர் மட்டுமே தகுதியுடையவர்; குறிப்பிடப்பட்ட அரசு ஊழியர்கள் மற்றும் அவர்களது குடும்பங்கள், மேலும் இதுபோன்ற சுயவேலைவாய்ப்புக் கடன் திட்டங்களில் அண்மையில் பயன் பெற்றவர்கள் விலக்கப்படுகின்றனர்.",
+      "benefitsText": "இத்திட்டத்தில் அங்கீகாரம், திறன் பயிற்சி, கருவித்தொகுப்பு ஆதரவு, சலுகை விகிதத்தில் அடைமானமில்லா நிறுவன மேம்பாட்டுக் கடன், இணையவழி ஊக்கத்தொகைகள் மற்றும் சந்தைப்படுத்தல் ஆதரவு ஆகியவை அடங்கும். துல்லியமான தற்போதைய கூறு மதிப்புகள் அதிகாரப்பூர்வ வழிகாட்டு நெறிமுறைகளைப் பின்பற்ற வேண்டும்.",
+      "applicationText": "PM Vishwakarma செயலாக்க நடைமுறை வழியாக"
+    },
+    "hi": {
+      "name": "पीएम विश्वकर्मा",
+      "shortName": null,
+      "summary": "कारीगरों एवं शिल्पकारों को विश्वकर्मा के रूप में मान्यता देना, जिससे वे योजना के सभी लाभ प्राप्त करने के पात्र हों 18 व्यवसायों के कारीगर एवं शिल्पकार शामिल: बढ़ई (सुथार/बढ़ई), नाव निर्माता, अस्त्रकार",
+      "description": "कारीगरों एवं शिल्पकारों को विश्वकर्मा के रूप में मान्यता देना, जिससे वे योजना के सभी लाभ प्राप्त करने के पात्र हों 18 व्यवसायों के कारीगर एवं शिल्पकार शामिल: बढ़ई (सुथार/बढ़ई), नाव निर्माता, अस्त्रकार, लोहार/धातु ढलाईकार, हथौड़ा एवं टूल किट निर्माता, ताला बनाने वाला, सुनार, कुम्हार, मूर्तिकार (पत्थर तराशने वाला), पत्थर तोड़ने वाला, चर्मकार/जूता कारीगर, राजमिस्त्री, टोकरी/चटाई/झाड़ू निर्माता/कॉयर बुनकर, पारंपरिक गुड़िया एवं खिलौना निर्माता, नाई, माला बनाने वाला (मालाकार), धोबी, दर्जी, मछली पकड़ने का जाल बनाने वाला",
+      "objective": "कारीगरों एवं शिल्पकारों को विश्वकर्मा के रूप में मान्यता देना, जिससे वे योजना के सभी लाभ प्राप्त करने के पात्र हों 18 व्यवसायों के कारीगर एवं शिल्पकार शामिल: बढ़ई (सुथार/बढ़ई), नाव निर्माता, अस्त्रकार",
+      "eligibilityText": "सूचीबद्ध 18 व्यवसायों में से किसी में कार्यरत कारीगर एवं शिल्पकार",
+      "benefitsText": "पीएम विश्वकर्मा प्रमाणपत्र एवं पहचान पत्र के माध्यम से कारीगरों एवं शिल्पकारों को मान्यता कौशल उन्नयन: 5-7 दिन का बुनियादी प्रशिक्षण तथा 15 दिन या अधिक का उन्नत प्रशिक्षण, ₹500 प्रतिदिन वजीफे के साथ तथा ₹1,000 परिवहन भत्ता ई-वाउचर के माध्यम से ₹15,000 तक का टूलकिट प्रोत्साहन ₹3 लाख तक के संपार्श्विक-मुक्त 'उद्यम विकास ऋण', ₹1 लाख एवं ₹2 लाख की दो किस्तों में, क्रमशः 18 माह एवं 30 माह की अवधि हेतु, 5% की रियायती ब्याज दर पर, भारत सरकार द्वारा 8% तक ब्याज अनुदान सहित प्रति पात्र डिजिटल लेनदेन ₹1 का प्रोत्साहन, प्रतिमाह अधिकतम 100 पात्र लेनदेन तक गुणवत्ता प्रमाणन, ब्रांडिंग, ई-कॉमर्स प्लेटफॉर्म पर ऑनबोर्डिंग के रूप में विपणन सहायता",
+      "applicationText": "ऑनलाइन आवेदन जमा करने हेतु निकटतम कॉमन सर्विस सेंटर (सीएससी) पर जाएं"
+    }
+  },
+  "search": {
+    "keywords": {
+      "en": [
+        "artisans",
+        "craftspeople",
+        "enabling",
+        "notified",
+        "scale",
+        "trades",
+        "traditional",
+        "vishwakarma"
+      ],
+      "ta": [
+        "கைவினைஞர்கள்"
+      ]
+    },
+    "synonyms": [],
+    "aliases": {
+      "en": [
+        "PM Vishwakarma- Enabling Artisans & Craftspeople to scale-up their Enterprises",
+        "TN124"
+      ],
+      "ta": []
+    },
+    "crossReferences": [],
+    "searchRank": null,
+    "boostTerms": []
+  },
+  "ai": {
+    "summary": "Integrated support programme for traditional artisans and craftspeople. Scheme includes recognition, skill training, toolkit support, concessional collateral-free enterprise-development credit, digital incentives and marketing support. Exact current component values should follow official guidelines.",
+    "sectionSummaries": {
+      "eligibility": "Artisans and craftspeople aged 18+ working in one of the notified traditional trades can apply. Only one member per family is eligible, and specified government employees/families and recent beneficiaries of similar self-employment credit schemes are excluded.",
+      "benefits": "Scheme includes recognition, skill training, toolkit support, concessional collateral-free enterprise-development credit, digital incentives and marketing support. Exact current component values should follow official guidelines.",
+      "documents": "Aadhaar-based registration / e-KYC; Mobile number; Bank account details; Ration card / family details; Trade / artisan declaration and verification"
+    },
+    "generationMode": "extractive",
+    "confidence": null,
+    "generatedBy": "mss-ai-derive-1.0.0",
+    "generatedAt": "2026-08-04T00:00:00Z",
+    "sourceFieldsUsed": [
+      "content.overview.summary",
+      "content.benefits.summary",
+      "content.eligibility.narrative.criteria",
+      "content.requiredDocuments[].name"
+    ],
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "isApproved": false,
+    "semanticTags": [
+      {
+        "termId": "CMN000189",
+        "code": "training",
+        "termType": "scheme_type",
+        "matchedOn": "training"
+      }
+    ],
+    "relatedEntities": [
+      {
+        "entityId": "SCH000123",
+        "entityType": "scheme",
+        "name": "PM Street Vendor's AtmaNirbhar Nidhi (PM SVANidhi)",
+        "similarity": 0.5,
+        "sharedFeatures": [
+          "benefit:loan",
+          "doc:CMN000203",
+          "doc:CMN000208",
+          "level:central",
+          "type:loan"
+        ],
+        "sharedFeatureCount": 5,
+        "basis": "explicit shared attributes (Jaccard); no text inference"
+      },
+      {
+        "entityId": "SCH000059",
+        "entityType": "scheme",
+        "name": "Financing end to end Energy Efficiency Investments in MSMEs (4E Financing Scheme)",
+        "similarity": 0.417,
+        "sharedFeatures": [
+          "benefit:loan",
+          "doc:CMN000203",
+          "doc:CMN000204",
+          "level:central",
+          "type:loan"
+        ],
+        "sharedFeatureCount": 5,
+        "basis": "explicit shared attributes (Jaccard); no text inference"
+      }
+    ],
+    "recommendations": [],
+    "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+    "similarityMethod": "explicit-shared-attribute Jaccard",
+    "reviewRequired": true
+  },
+  "verification": {
+    "status": "verified",
+    "statusText": null,
+    "isVerified": true,
+    "verifiedAgainst": [
+      "SCH000124-SRC001"
+    ],
+    "verifiedBy": null,
+    "verifiedAt": "2026-08-15",
+    "confidence": "high",
+    "researchStatus": "Researched",
+    "notes": "Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF; Booklet extract gave no explicit eligibility conditions; eligibility in 'current' from PIB Sept 2025; pmvishwakarma.gov.in not fetchable (timeout); [agent_flag] Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF; [agent_flag] Booklet extract gave no explicit eligibility conditions; eligibility in 'current' from PIB Sept 2025; [agent_flag] pmvishwakarma.gov.in not fetchable (timeout)",
+    "missingFields": [
+      {
+        "field": "content.overview.background",
+        "reason": "Not available in available sources"
+      },
+      {
+        "field": "content.overview.legalBasis",
+        "reason": "Not available in available sources"
+      },
+      {
+        "field": "content.overview.validity",
+        "reason": "Not available in available sources"
+      },
+      {
+        "field": "content.overview.lastUpdated",
+        "reason": "Not available in available sources"
+      },
+      {
+        "field": "content.eligibility.narrative.verifiedCriteria",
+        "reason": "Not available in available sources"
+      },
+      {
+        "field": "content.eligibility.structured",
+        "reason": "Facets not determinable from available sources: gender, enterprise, businessStage, sector, turnover, investment, location, community, specialCategory, existingRegistration"
+      },
+      {
+        "field": "content.eligibility.narrative.exclusions",
+        "reason": "Not available in available sources"
+      },
+      {
+        "field": "content.eligibility.narrative.relaxations",
+        "reason": "Not available in available sources"
+      },
+      {
+        "field": "content.benefits.maxAmount",
+        "reason": "Not available in available sources"
+      },
+      {
+        "field": "content.applicationProcess.steps",
+        "reason": "Not available in available sources"
+      },
+      {
+        "field": "content.applicationProcess.services",
+        "reason": "Source service rows are generic placeholders carrying no service detail"
+      },
+      {
+        "field": "content.applicationTimeline",
+        "reason": "Not available in available sources"
+      },
+      {
+        "field": "content.contacts",
+        "reason": "Not available in available sources"
+      },
+      {
+        "field": "content.faqs",
+        "reason": "Not available in available sources"
+      },
+      {
+        "field": "content.classification.government.implementingAgencyIds",
+        "reason": "No exact normalised-name match in authority_catalog; not inferred"
+      }
+    ],
+    "disputedFields": [],
+    "reviewDueOn": null,
+    "verifiedFields": [
+      {
+        "field": "content.applicationProcess.onlineUrl",
+        "value": "https://pmvishwakarma.gov.in/",
+        "sourceTier": 5,
+        "url": "https://pmvishwakarma.gov.in/",
+        "retrievedAt": "2026-08-14",
+        "outcome": "confirmed",
+        "note": "Confirmed official PM Vishwakarma scheme portal, Ministry of MSME."
+      },
+      {
+        "field": "content.sources[0].url",
+        "value": "https://pmvishwakarma.gov.in/",
+        "sourceTier": 5,
+        "url": "https://pmvishwakarma.gov.in/",
+        "retrievedAt": "2026-08-14",
+        "outcome": "confirmed",
+        "note": "Confirmed official PM Vishwakarma scheme portal, Ministry of MSME."
+      }
+    ]
+  },
+  "analytics": {
+    "popularity": null,
+    "viewCount": null,
+    "saveCount": null,
+    "actionCount": null,
+    "lastAggregatedAt": null
+  },
+  "metadata": {
+    "createdAt": "2026-08-04T00:00:00Z",
+    "updatedAt": "2026-10-04T13:02:43Z",
+    "catalogVersion": "1.35.0-alpha",
+    "schemaVersion": "1.0.0",
+    "recordStatus": "published",
+    "revision": 29
+  },
+  "provenance": {
+    "defaultSourceTier": 2,
+    "primarySourceId": "SCH000124-SRC001",
+    "contributingSourceIds": [
+      "SCH000124-SRC001"
+    ],
+    "extractionMethod": "automated",
+    "extractedAt": "2026-08-04T00:00:00Z",
+    "pipelineVersion": "phase4-resolve-1.0.0",
+    "fieldSources": [
+      {
+        "field": "content.applicationProcess.mode",
+        "value": "online",
+        "sourceTier": 5,
+        "sourceType": "official_website",
+        "organization": "PM Vishwakarma (Ministry of MSME)",
+        "url": "https://pmvishwakarma.gov.in/",
+        "retrievedAt": "2026-08-14",
+        "confidence": "high",
+        "isBackfill": true,
+        "supersededValue": null,
+        "note": "Confirmed official portal with 'registration processes, along with multiple login portals for different user categories (applicants, CSCs, ...)' stated directly on-site (batch-5 Pass 1 fetch)."
+      }
+    ],
+    "transformationNotes": [
+      "Currency text parsed to integer rupees",
+      "Placeholder values normalised to null",
+      "Scheme Code recovered by exact name join; source cell read 'Not specified' (conflict C-7)",
+      "classification.government.ministryId resolved to AUTH000003 from 'Ministry of Micro, Small & Medium Enterprises' by exact normalised-name join against authority_catalog 1.0.0 (rule R1)",
+      "classification.schemeType resolved to 'loan' by exact alias match against common_catalog (rule R3)",
+      "documentTypeId resolved on 4 document(s) by exact alias match against common_catalog (rule R4)",
+      "Regenerated from frozen 1.0.0-alpha baseline; content values unchanged, identifiers resolved only",
+      "Phase 3: inverse cross-references added; no content changed",
+      "Phase E.5: verification.status raised to verified -- name/eligibility/benefits/applicationProcess were already sourced from pmvishwakarma.gov.in in Phase D1/E1 (fieldSources[] already present) but the status field itself had never been updated to reflect that. No content changed, only the status.",
+      "Phase 3: Enriched from mss_scheme_data_v3_1 (MSME2526-078) under catalog release 1.35.0-alpha"
+    ],
+    "translations": {
+      "ta": {
+        "method": "llm_contextual_translation",
+        "engine": "Claude",
+        "status": "machine",
+        "dictionaryVersion": "1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "fieldMethods": {
+          "name": "llm_contextual_translation",
+          "summary": "llm_contextual_translation",
+          "description": "llm_contextual_translation",
+          "objective": "llm_contextual_translation",
+          "eligibilityText": "llm_contextual_translation",
+          "benefitsText": "llm_contextual_translation",
+          "applicationText": "llm_contextual_translation"
+        },
+        "fieldsTranslated": 7,
+        "fieldsContextual": 7,
+        "fieldsPending": 0,
+        "isApproved": false,
+        "reviewRequired": true,
+        "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+      },
+      "hi": {
+        "status": "machine",
+        "reviewRequired": true,
+        "source": "booklet_2025_26_machine_hi",
+        "generatedAt": "2026-10-04T00:00:00Z"
+      }
+    }
+  }
+}

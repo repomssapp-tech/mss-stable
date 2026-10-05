@@ -3,44 +3,44 @@
     "query": "tax exemption manufacturing",
     "results": [
       {
-        "schemeId": "SCH000081",
-        "score": 17.5157
-      },
-      {
         "schemeId": "SCH000050",
-        "score": 16.3859
-      },
-      {
-        "schemeId": "SCH000070",
-        "score": 8.2399
-      },
-      {
-        "schemeId": "SCH000142",
-        "score": 7.246
+        "score": 16.582
       },
       {
         "schemeId": "SCH000200",
-        "score": 6.7281
+        "score": 6.8309
       },
       {
-        "schemeId": "SCH000122",
-        "score": 6.4847
+        "schemeId": "SCH000070",
+        "score": 5.9543
       },
       {
         "schemeId": "SCH000001",
-        "score": 6.1274
+        "score": 5.933
       },
       {
         "schemeId": "SCH000002",
-        "score": 6.1274
+        "score": 5.933
       },
       {
         "schemeId": "SCH000003",
-        "score": 6.1274
+        "score": 5.933
       },
       {
         "schemeId": "SCH000004",
-        "score": 6.1274
+        "score": 5.933
+      },
+      {
+        "schemeId": "SCH000028",
+        "score": 5.933
+      },
+      {
+        "schemeId": "SCH000036",
+        "score": 5.933
+      },
+      {
+        "schemeId": "SCH000100",
+        "score": 5.933
       }
     ]
   },
@@ -48,44 +48,44 @@
     "query": "gst registration msme",
     "results": [
       {
-        "schemeId": "SCH000081",
-        "score": 12.5483
-      },
-      {
         "schemeId": "SCH000104",
-        "score": 10.3485
+        "score": 10.681
       },
       {
         "schemeId": "SCH000101",
-        "score": 8.7666
+        "score": 8.9688
       },
       {
         "schemeId": "SCH000197",
-        "score": 8.5218
+        "score": 8.7102
       },
       {
         "schemeId": "SCH000034",
-        "score": 5.7467
+        "score": 5.9198
       },
       {
         "schemeId": "SCH000063",
-        "score": 5.7467
+        "score": 5.9198
       },
       {
         "schemeId": "SCH000071",
-        "score": 5.7467
+        "score": 5.9198
       },
       {
         "schemeId": "SCH000090",
-        "score": 5.7467
+        "score": 5.9198
       },
       {
         "schemeId": "SCH000100",
-        "score": 5.7467
+        "score": 5.9198
       },
       {
         "schemeId": "SCH000102",
-        "score": 5.7467
+        "score": 5.9198
+      },
+      {
+        "schemeId": "SCH000106",
+        "score": 5.9198
       }
     ]
   },
@@ -93,44 +93,44 @@
     "query": "income tax rebate startup",
     "results": [
       {
-        "schemeId": "SCH000081",
-        "score": 13.6879
-      },
-      {
-        "schemeId": "SCH000007",
-        "score": 8.1623
-      },
-      {
-        "schemeId": "SCH000031",
-        "score": 8.1623
-      },
-      {
         "schemeId": "SCH000074",
-        "score": 8.1623
+        "score": 8.5108
       },
       {
         "schemeId": "SCH000200",
-        "score": 8.1623
+        "score": 8.5108
       },
       {
         "schemeId": "SCH000050",
-        "score": 6.9527
+        "score": 7.2743
       },
       {
         "schemeId": "SCH000039",
-        "score": 6.567
+        "score": 7.1073
       },
       {
         "schemeId": "SCH000195",
-        "score": 5.8768
+        "score": 6.1278
       },
       {
         "schemeId": "SCH000014",
-        "score": 4.0748
+        "score": 4.4825
       },
       {
-        "schemeId": "SCH000021",
-        "score": 4.0748
+        "schemeId": "SCH000023",
+        "score": 4.4825
+      },
+      {
+        "schemeId": "SCH000025",
+        "score": 4.4825
+      },
+      {
+        "schemeId": "SCH000026",
+        "score": 4.4825
+      },
+      {
+        "schemeId": "SCH000027",
+        "score": 4.4825
       }
     ]
   },
@@ -138,44 +138,44 @@
     "query": "women entrepreneur loan",
     "results": [
       {
-        "schemeId": "SCH000087",
-        "score": 13.2843
-      },
-      {
-        "schemeId": "SCH000029",
-        "score": 13.0669
-      },
-      {
-        "schemeId": "SCH000168",
-        "score": 10.8102
-      },
-      {
         "schemeId": "SCH000212",
-        "score": 10.8102
+        "score": 11.3197
       },
       {
         "schemeId": "SCH000115",
-        "score": 10.5102
-      },
-      {
-        "schemeId": "SCH000021",
-        "score": 9.7643
-      },
-      {
-        "schemeId": "SCH000080",
-        "score": 9.4643
+        "score": 11.0197
       },
       {
         "schemeId": "SCH000218",
-        "score": 8.8817
+        "score": 9.1334
       },
       {
-        "schemeId": "SCH000117",
-        "score": 8.1709
+        "schemeId": "SCH000004",
+        "score": 8.4219
       },
       {
-        "schemeId": "SCH000198",
-        "score": 8.1709
+        "schemeId": "SCH000168",
+        "score": 8.1502
+      },
+      {
+        "schemeId": "SCH000018",
+        "score": 7.8298
+      },
+      {
+        "schemeId": "SCH000097",
+        "score": 7.8112
+      },
+      {
+        "schemeId": "SCH000044",
+        "score": 7.6549
+      },
+      {
+        "schemeId": "SCH000152",
+        "score": 7.5298
+      },
+      {
+        "schemeId": "SCH000200",
+        "score": 7.5112
       }
     ]
   },
@@ -184,43 +184,43 @@
     "results": [
       {
         "schemeId": "SCH000219",
-        "score": 14.6185
+        "score": 14.248
       },
       {
-        "schemeId": "SCH000065",
-        "score": 11.1023
-      },
-      {
-        "schemeId": "SCH000166",
-        "score": 6.4612
+        "schemeId": "SCH000251",
+        "score": 10.6101
       },
       {
         "schemeId": "SCH000001",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
         "schemeId": "SCH000002",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
         "schemeId": "SCH000003",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
         "schemeId": "SCH000004",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
         "schemeId": "SCH000017",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
         "schemeId": "SCH000028",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
-        "schemeId": "SCH000032",
-        "score": 5.6612
+        "schemeId": "SCH000233",
+        "score": 5.9352
+      },
+      {
+        "schemeId": "SCH000236",
+        "score": 4.7612
       }
     ]
   },
@@ -229,43 +229,43 @@
     "results": [
       {
         "schemeId": "SCH000152",
-        "score": 16.1262
-      },
-      {
-        "schemeId": "SCH000061",
-        "score": 11.7988
+        "score": 16.0283
       },
       {
         "schemeId": "SCH000128",
-        "score": 9.6247
-      },
-      {
-        "schemeId": "SCH000158",
-        "score": 8.1666
+        "score": 9.7757
       },
       {
         "schemeId": "SCH000018",
-        "score": 7.9701
-      },
-      {
-        "schemeId": "SCH000078",
-        "score": 7.9701
+        "score": 7.8298
       },
       {
         "schemeId": "SCH000008",
-        "score": 7.368
-      },
-      {
-        "schemeId": "SCH000164",
-        "score": 7.368
+        "score": 7.5658
       },
       {
         "schemeId": "SCH000200",
-        "score": 7.368
+        "score": 7.5658
       },
       {
         "schemeId": "SCH000017",
-        "score": 6.0134
+        "score": 5.9199
+      },
+      {
+        "schemeId": "SCH000159",
+        "score": 5.6374
+      },
+      {
+        "schemeId": "SCH000218",
+        "score": 5.6199
+      },
+      {
+        "schemeId": "SCH000236",
+        "score": 5.6199
+      },
+      {
+        "schemeId": "SCH000123",
+        "score": 5.4076
       }
     ]
   },
@@ -273,44 +273,44 @@
     "query": "startup funding",
     "results": [
       {
-        "schemeId": "SCH000021",
-        "score": 5.5748
-      },
-      {
         "schemeId": "SCH000026",
-        "score": 4.9748
+        "score": 5.3825
       },
       {
         "schemeId": "SCH000039",
-        "score": 4.9748
-      },
-      {
-        "schemeId": "SCH000052",
-        "score": 4.9748
-      },
-      {
-        "schemeId": "SCH000054",
-        "score": 4.9748
-      },
-      {
-        "schemeId": "SCH000137",
-        "score": 4.9748
+        "score": 5.3825
       },
       {
         "schemeId": "SCH000169",
-        "score": 4.9748
-      },
-      {
-        "schemeId": "SCH000170",
-        "score": 4.9748
+        "score": 5.3825
       },
       {
         "schemeId": "SCH000181",
-        "score": 4.9748
+        "score": 5.3825
       },
       {
-        "schemeId": "SCH000182",
-        "score": 4.9748
+        "schemeId": "SCH000014",
+        "score": 4.4825
+      },
+      {
+        "schemeId": "SCH000023",
+        "score": 4.4825
+      },
+      {
+        "schemeId": "SCH000025",
+        "score": 4.4825
+      },
+      {
+        "schemeId": "SCH000027",
+        "score": 4.4825
+      },
+      {
+        "schemeId": "SCH000060",
+        "score": 4.4825
+      },
+      {
+        "schemeId": "SCH000271",
+        "score": 4.4825
       }
     ]
   },
@@ -319,43 +319,43 @@
     "results": [
       {
         "schemeId": "SCH000104",
-        "score": 10.3485
+        "score": 10.681
       },
       {
         "schemeId": "SCH000034",
-        "score": 5.7467
+        "score": 5.9198
       },
       {
         "schemeId": "SCH000063",
-        "score": 5.7467
+        "score": 5.9198
       },
       {
         "schemeId": "SCH000071",
-        "score": 5.7467
+        "score": 5.9198
       },
       {
         "schemeId": "SCH000090",
-        "score": 5.7467
+        "score": 5.9198
       },
       {
         "schemeId": "SCH000100",
-        "score": 5.7467
+        "score": 5.9198
       },
       {
         "schemeId": "SCH000102",
-        "score": 5.7467
+        "score": 5.9198
       },
       {
         "schemeId": "SCH000106",
-        "score": 5.7467
+        "score": 5.9198
       },
       {
         "schemeId": "SCH000132",
-        "score": 5.7467
+        "score": 5.9198
       },
       {
         "schemeId": "SCH000152",
-        "score": 5.7467
+        "score": 5.9198
       }
     ]
   },
@@ -364,43 +364,43 @@
     "results": [
       {
         "schemeId": "SCH000040",
-        "score": 7.2707
+        "score": 7.0773
       },
       {
         "schemeId": "SCH000050",
-        "score": 7.2707
+        "score": 7.0773
       },
       {
         "schemeId": "SCH000057",
-        "score": 7.2707
-      },
-      {
-        "schemeId": "SCH000158",
-        "score": 7.2707
+        "score": 7.0773
       },
       {
         "schemeId": "SCH000001",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
         "schemeId": "SCH000002",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
         "schemeId": "SCH000003",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
         "schemeId": "SCH000004",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
         "schemeId": "SCH000017",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
         "schemeId": "SCH000028",
-        "score": 5.6612
+        "score": 5.9352
+      },
+      {
+        "schemeId": "SCH000233",
+        "score": 5.9352
       }
     ]
   },
@@ -409,43 +409,43 @@
     "results": [
       {
         "schemeId": "SCH000013",
-        "score": 14.0586
-      },
-      {
-        "schemeId": "SCH000163",
-        "score": 14.0586
+        "score": 12.7118
       },
       {
         "schemeId": "SCH000193",
-        "score": 11.5568
+        "score": 10.2779
       },
       {
         "schemeId": "SCH000035",
-        "score": 8.6895
+        "score": 7.8916
       },
       {
         "schemeId": "SCH000041",
-        "score": 8.6895
+        "score": 7.8916
       },
       {
         "schemeId": "SCH000095",
-        "score": 8.6895
+        "score": 7.8916
       },
       {
         "schemeId": "SCH000126",
-        "score": 8.6895
+        "score": 7.8916
       },
       {
-        "schemeId": "SCH000055",
-        "score": 8.0895
+        "schemeId": "SCH000222",
+        "score": 7.2916
       },
       {
-        "schemeId": "SCH000082",
-        "score": 7.5611
+        "schemeId": "SCH000223",
+        "score": 7.2916
       },
       {
-        "schemeId": "SCH000109",
-        "score": 7.5611
+        "schemeId": "SCH000280",
+        "score": 7.2916
+      },
+      {
+        "schemeId": "SCH000144",
+        "score": 6.743
       }
     ]
   },
@@ -454,43 +454,43 @@
     "results": [
       {
         "schemeId": "SCH000038",
-        "score": 16.7614
+        "score": 15.0334
       },
       {
         "schemeId": "SCH000039",
-        "score": 16.7614
+        "score": 15.0334
+      },
+      {
+        "schemeId": "SCH000255",
+        "score": 13.9334
+      },
+      {
+        "schemeId": "SCH000269",
+        "score": 10.4939
       },
       {
         "schemeId": "SCH000064",
-        "score": 15.8614
-      },
-      {
-        "schemeId": "SCH000180",
-        "score": 15.8614
+        "score": 10.176
       },
       {
         "schemeId": "SCH000140",
-        "score": 9.3639
+        "score": 8.191
+      },
+      {
+        "schemeId": "SCH000259",
+        "score": 8.06
+      },
+      {
+        "schemeId": "SCH000261",
+        "score": 8.06
       },
       {
         "schemeId": "SCH000018",
-        "score": 8.4975
+        "score": 7.9424
       },
       {
-        "schemeId": "SCH000032",
-        "score": 8.2975
-      },
-      {
-        "schemeId": "SCH000070",
-        "score": 8.2975
-      },
-      {
-        "schemeId": "SCH000218",
-        "score": 7.5746
-      },
-      {
-        "schemeId": "SCH000061",
-        "score": 5.9957
+        "schemeId": "SCH000233",
+        "score": 7.7424
       }
     ]
   },
@@ -498,44 +498,44 @@
     "query": "collateral free loan",
     "results": [
       {
+        "schemeId": "SCH000259",
+        "score": 8.9521
+      },
+      {
         "schemeId": "SCH000018",
-        "score": 7.9701
-      },
-      {
-        "schemeId": "SCH000061",
-        "score": 7.9701
-      },
-      {
-        "schemeId": "SCH000078",
-        "score": 7.9701
+        "score": 7.8298
       },
       {
         "schemeId": "SCH000152",
-        "score": 7.6701
+        "score": 7.5298
       },
       {
         "schemeId": "SCH000128",
-        "score": 6.696
+        "score": 6.6076
       },
       {
         "schemeId": "SCH000124",
-        "score": 6.396
+        "score": 6.3076
       },
       {
         "schemeId": "SCH000017",
-        "score": 6.0134
+        "score": 5.9199
       },
       {
-        "schemeId": "SCH000087",
-        "score": 6.0134
+        "schemeId": "SCH000159",
+        "score": 5.6374
       },
       {
-        "schemeId": "SCH000190",
-        "score": 6.0134
+        "schemeId": "SCH000218",
+        "score": 5.6199
       },
       {
-        "schemeId": "SCH000021",
-        "score": 5.796
+        "schemeId": "SCH000236",
+        "score": 5.6199
+      },
+      {
+        "schemeId": "SCH000050",
+        "score": 5.4543
       }
     ]
   },
@@ -544,43 +544,43 @@
     "results": [
       {
         "schemeId": "SCH000092",
-        "score": 11.8122
-      },
-      {
-        "schemeId": "SCH000094",
-        "score": 11.8122
-      },
-      {
-        "schemeId": "SCH000020",
-        "score": 6.128
-      },
-      {
-        "schemeId": "SCH000024",
-        "score": 6.128
-      },
-      {
-        "schemeId": "SCH000055",
-        "score": 6.128
-      },
-      {
-        "schemeId": "SCH000095",
-        "score": 6.128
-      },
-      {
-        "schemeId": "SCH000126",
-        "score": 6.128
-      },
-      {
-        "schemeId": "SCH000189",
-        "score": 6.128
-      },
-      {
-        "schemeId": "SCH000066",
-        "score": 5.6842
+        "score": 11.7516
       },
       {
         "schemeId": "SCH000144",
-        "score": 4.0926
+        "score": 5.9489
+      },
+      {
+        "schemeId": "SCH000020",
+        "score": 5.8027
+      },
+      {
+        "schemeId": "SCH000024",
+        "score": 5.8027
+      },
+      {
+        "schemeId": "SCH000095",
+        "score": 5.8027
+      },
+      {
+        "schemeId": "SCH000126",
+        "score": 5.8027
+      },
+      {
+        "schemeId": "SCH000222",
+        "score": 5.8027
+      },
+      {
+        "schemeId": "SCH000223",
+        "score": 5.8027
+      },
+      {
+        "schemeId": "SCH000224",
+        "score": 5.8027
+      },
+      {
+        "schemeId": "SCH000225",
+        "score": 5.8027
       }
     ]
   },
@@ -588,44 +588,44 @@
     "query": "textile industry support",
     "results": [
       {
-        "schemeId": "SCH000194",
-        "score": 7.6997
-      },
-      {
         "schemeId": "SCH000156",
-        "score": 5.036
-      },
-      {
-        "schemeId": "SCH000166",
-        "score": 5.036
+        "score": 5.1635
       },
       {
         "schemeId": "SCH000024",
-        "score": 4.1964
+        "score": 4.0681
       },
       {
         "schemeId": "SCH000033",
-        "score": 4.1964
-      },
-      {
-        "schemeId": "SCH000056",
-        "score": 4.1964
+        "score": 4.0681
       },
       {
         "schemeId": "SCH000090",
-        "score": 4.1964
+        "score": 4.0681
       },
       {
         "schemeId": "SCH000121",
-        "score": 4.1964
+        "score": 4.0681
       },
       {
         "schemeId": "SCH000150",
-        "score": 4.1964
+        "score": 4.0681
       },
       {
         "schemeId": "SCH000151",
-        "score": 4.1964
+        "score": 4.0681
+      },
+      {
+        "schemeId": "SCH000252",
+        "score": 4.0681
+      },
+      {
+        "schemeId": "SCH000023",
+        "score": 3.5825
+      },
+      {
+        "schemeId": "SCH000026",
+        "score": 3.5825
       }
     ]
   },
@@ -634,43 +634,43 @@
     "results": [
       {
         "schemeId": "SCH000123",
-        "score": 28.2979
+        "score": 27.225
       },
       {
         "schemeId": "SCH000018",
-        "score": 8.2701
-      },
-      {
-        "schemeId": "SCH000061",
-        "score": 8.2701
-      },
-      {
-        "schemeId": "SCH000078",
-        "score": 8.2701
+        "score": 8.1298
       },
       {
         "schemeId": "SCH000152",
-        "score": 7.6701
+        "score": 7.5298
       },
       {
         "schemeId": "SCH000017",
-        "score": 6.3134
+        "score": 6.2199
       },
       {
-        "schemeId": "SCH000087",
-        "score": 6.3134
+        "schemeId": "SCH000128",
+        "score": 6.0076
       },
       {
-        "schemeId": "SCH000190",
-        "score": 6.3134
+        "schemeId": "SCH000159",
+        "score": 5.8534
       },
       {
-        "schemeId": "SCH000021",
-        "score": 6.096
+        "schemeId": "SCH000218",
+        "score": 5.6199
       },
       {
-        "schemeId": "SCH000029",
-        "score": 6.096
+        "schemeId": "SCH000236",
+        "score": 5.6199
+      },
+      {
+        "schemeId": "SCH000124",
+        "score": 5.4076
+      },
+      {
+        "schemeId": "SCH000012",
+        "score": 4.3255
       }
     ]
   },
@@ -678,44 +678,44 @@
     "query": "minority entrepreneur scheme",
     "results": [
       {
-        "schemeId": "SCH000109",
-        "score": 7.6005
-      },
-      {
-        "schemeId": "SCH000087",
-        "score": 5.8044
-      },
-      {
         "schemeId": "SCH000113",
-        "score": 5.8044
+        "score": 5.9424
       },
       {
         "schemeId": "SCH000115",
-        "score": 5.8044
+        "score": 5.9424
       },
       {
         "schemeId": "SCH000151",
-        "score": 5.8044
+        "score": 5.9424
       },
       {
         "schemeId": "SCH000044",
-        "score": 4.1792
+        "score": 4.2785
       },
       {
         "schemeId": "SCH000004",
-        "score": 3.3026
+        "score": 3.5084
       },
       {
-        "schemeId": "SCH000029",
-        "score": 3.3026
+        "schemeId": "SCH000095",
+        "score": 3.5084
       },
       {
-        "schemeId": "SCH000054",
-        "score": 3.3026
+        "schemeId": "SCH000101",
+        "score": 3.5084
       },
       {
-        "schemeId": "SCH000055",
-        "score": 3.3026
+        "schemeId": "SCH000169",
+        "score": 3.5084
+      },
+      {
+        "schemeId": "SCH000181",
+        "score": 3.5084
+      },
+      {
+        "schemeId": "SCH000212",
+        "score": 3.5084
       }
     ]
   },
@@ -723,44 +723,44 @@
     "query": "power tariff subsidy",
     "results": [
       {
-        "schemeId": "SCH000079",
-        "score": 16.3691
-      },
-      {
-        "schemeId": "SCH000062",
-        "score": 10.6686
-      },
-      {
-        "schemeId": "SCH000155",
-        "score": 8.5234
-      },
-      {
         "schemeId": "SCH000001",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
         "schemeId": "SCH000002",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
         "schemeId": "SCH000003",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
         "schemeId": "SCH000004",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
         "schemeId": "SCH000017",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
         "schemeId": "SCH000028",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
-        "schemeId": "SCH000032",
-        "score": 5.6612
+        "schemeId": "SCH000233",
+        "score": 5.9352
+      },
+      {
+        "schemeId": "SCH000008",
+        "score": 3.6379
+      },
+      {
+        "schemeId": "SCH000015",
+        "score": 3.6379
+      },
+      {
+        "schemeId": "SCH000036",
+        "score": 3.6379
       }
     ]
   },
@@ -769,43 +769,43 @@
     "results": [
       {
         "schemeId": "SCH000144",
-        "score": 4.9075
+        "score": 6.7897
+      },
+      {
+        "schemeId": "SCH000244",
+        "score": 6.7897
       },
       {
         "schemeId": "SCH000035",
-        "score": 4.3142
+        "score": 4.3557
       },
       {
         "schemeId": "SCH000076",
-        "score": 4.3142
-      },
-      {
-        "schemeId": "SCH000082",
-        "score": 4.3142
-      },
-      {
-        "schemeId": "SCH000089",
-        "score": 4.3142
+        "score": 4.3557
       },
       {
         "schemeId": "SCH000124",
-        "score": 4.3142
-      },
-      {
-        "schemeId": "SCH000125",
-        "score": 4.3142
-      },
-      {
-        "schemeId": "SCH000005",
-        "score": 2.5018
-      },
-      {
-        "schemeId": "SCH000007",
-        "score": 2.5018
+        "score": 4.3557
       },
       {
         "schemeId": "SCH000008",
-        "score": 2.5018
+        "score": 2.4339
+      },
+      {
+        "schemeId": "SCH000013",
+        "score": 2.4339
+      },
+      {
+        "schemeId": "SCH000018",
+        "score": 2.4339
+      },
+      {
+        "schemeId": "SCH000036",
+        "score": 2.4339
+      },
+      {
+        "schemeId": "SCH000038",
+        "score": 2.4339
       }
     ]
   },
@@ -814,31 +814,19 @@
     "results": [
       {
         "schemeId": "SCH000144",
-        "score": 10.912
-      },
-      {
-        "schemeId": "SCH000125",
-        "score": 9.4551
+        "score": 15.2644
       },
       {
         "schemeId": "SCH000124",
-        "score": 5.0073
-      },
-      {
-        "schemeId": "SCH000019",
-        "score": 4.4477
+        "score": 5.0489
       },
       {
         "schemeId": "SCH000075",
-        "score": 4.4477
+        "score": 4.7612
       },
       {
         "schemeId": "SCH000150",
-        "score": 4.4477
-      },
-      {
-        "schemeId": "SCH000192",
-        "score": 4.4477
+        "score": 4.7612
       }
     ]
   },
@@ -847,43 +835,43 @@
     "results": [
       {
         "schemeId": "SCH000048",
-        "score": 8.2023
+        "score": 7.8883
       },
       {
         "schemeId": "SCH000113",
-        "score": 7.1044
+        "score": 7.2424
       },
       {
         "schemeId": "SCH000115",
-        "score": 7.1044
-      },
-      {
-        "schemeId": "SCH000087",
-        "score": 5.8044
+        "score": 7.2424
       },
       {
         "schemeId": "SCH000151",
-        "score": 5.8044
+        "score": 5.9424
       },
       {
         "schemeId": "SCH000004",
-        "score": 4.6026
-      },
-      {
-        "schemeId": "SCH000168",
-        "score": 4.6026
-      },
-      {
-        "schemeId": "SCH000044",
-        "score": 4.1792
+        "score": 4.8084
       },
       {
         "schemeId": "SCH000101",
-        "score": 4.1026
+        "score": 4.3084
       },
       {
-        "schemeId": "SCH000201",
-        "score": 4.1026
+        "schemeId": "SCH000044",
+        "score": 4.2785
+      },
+      {
+        "schemeId": "SCH000008",
+        "score": 3.7339
+      },
+      {
+        "schemeId": "SCH000233",
+        "score": 3.7339
+      },
+      {
+        "schemeId": "SCH000234",
+        "score": 3.7339
       }
     ]
   },
@@ -891,44 +879,44 @@
     "query": "agriculture equipment subsidy",
     "results": [
       {
-        "schemeId": "SCH000062",
-        "score": 10.6686
-      },
-      {
         "schemeId": "SCH000131",
-        "score": 8.5234
-      },
-      {
-        "schemeId": "SCH000165",
-        "score": 8.5234
+        "score": 8.3991
       },
       {
         "schemeId": "SCH000001",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
         "schemeId": "SCH000002",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
         "schemeId": "SCH000003",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
         "schemeId": "SCH000004",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
         "schemeId": "SCH000017",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
         "schemeId": "SCH000028",
-        "score": 5.6612
+        "score": 5.9352
       },
       {
-        "schemeId": "SCH000032",
-        "score": 5.6612
+        "schemeId": "SCH000233",
+        "score": 5.9352
+      },
+      {
+        "schemeId": "SCH000128",
+        "score": 4.7612
+      },
+      {
+        "schemeId": "SCH000287",
+        "score": 4.7612
       }
     ]
   },
@@ -937,43 +925,43 @@
     "results": [
       {
         "schemeId": "SCH000115",
-        "score": 14.0104
+        "score": 13.3185
+      },
+      {
+        "schemeId": "SCH000231",
+        "score": 5.0489
       },
       {
         "schemeId": "SCH000130",
-        "score": 5.0073
+        "score": 4.7612
       },
       {
         "schemeId": "SCH000200",
-        "score": 5.0073
+        "score": 4.7612
       },
       {
         "schemeId": "SCH000004",
-        "score": 3.3026
+        "score": 3.5084
       },
       {
-        "schemeId": "SCH000029",
-        "score": 3.3026
+        "schemeId": "SCH000095",
+        "score": 3.5084
       },
       {
-        "schemeId": "SCH000054",
-        "score": 3.3026
+        "schemeId": "SCH000101",
+        "score": 3.5084
       },
       {
-        "schemeId": "SCH000055",
-        "score": 3.3026
+        "schemeId": "SCH000113",
+        "score": 3.5084
       },
       {
-        "schemeId": "SCH000067",
-        "score": 3.3026
+        "schemeId": "SCH000151",
+        "score": 3.5084
       },
       {
-        "schemeId": "SCH000087",
-        "score": 3.3026
-      },
-      {
-        "schemeId": "SCH000091",
-        "score": 3.3026
+        "schemeId": "SCH000169",
+        "score": 3.5084
       }
     ]
   },
@@ -982,43 +970,43 @@
     "results": [
       {
         "schemeId": "SCH000130",
-        "score": 5.8558
+        "score": 5.302
       },
       {
         "schemeId": "SCH000015",
-        "score": 2.9279
+        "score": 2.651
       },
       {
         "schemeId": "SCH000020",
-        "score": 2.9279
+        "score": 2.651
       },
       {
         "schemeId": "SCH000023",
-        "score": 2.9279
+        "score": 2.651
       },
       {
         "schemeId": "SCH000024",
-        "score": 2.9279
-      },
-      {
-        "schemeId": "SCH000031",
-        "score": 2.9279
+        "score": 2.651
       },
       {
         "schemeId": "SCH000041",
-        "score": 2.9279
+        "score": 2.651
       },
       {
-        "schemeId": "SCH000043",
-        "score": 2.9279
+        "schemeId": "SCH000084",
+        "score": 2.651
       },
       {
-        "schemeId": "SCH000046",
-        "score": 2.9279
+        "schemeId": "SCH000092",
+        "score": 2.651
       },
       {
-        "schemeId": "SCH000052",
-        "score": 2.9279
+        "schemeId": "SCH000095",
+        "score": 2.651
+      },
+      {
+        "schemeId": "SCH000096",
+        "score": 2.651
       }
     ]
   },
@@ -1026,44 +1014,44 @@
     "query": "mudra loan",
     "results": [
       {
-        "schemeId": "SCH000087",
-        "score": 13.1092
-      },
-      {
         "schemeId": "SCH000128",
-        "score": 9.4939
+        "score": 8.8229
       },
       {
         "schemeId": "SCH000018",
-        "score": 8.2701
-      },
-      {
-        "schemeId": "SCH000061",
-        "score": 8.2701
-      },
-      {
-        "schemeId": "SCH000078",
-        "score": 8.2701
+        "score": 8.1298
       },
       {
         "schemeId": "SCH000152",
-        "score": 7.6701
+        "score": 7.5298
+      },
+      {
+        "schemeId": "SCH000283",
+        "score": 6.313
+      },
+      {
+        "schemeId": "SCH000288",
+        "score": 6.313
+      },
+      {
+        "schemeId": "SCH000289",
+        "score": 6.313
       },
       {
         "schemeId": "SCH000017",
-        "score": 6.3134
+        "score": 6.2199
       },
       {
-        "schemeId": "SCH000190",
-        "score": 6.3134
+        "schemeId": "SCH000159",
+        "score": 5.8534
       },
       {
-        "schemeId": "SCH000021",
-        "score": 6.096
+        "schemeId": "SCH000218",
+        "score": 5.6199
       },
       {
-        "schemeId": "SCH000029",
-        "score": 6.096
+        "schemeId": "SCH000236",
+        "score": 5.6199
       }
     ]
   },
@@ -1071,44 +1059,44 @@
     "query": "stand up india",
     "results": [
       {
-        "schemeId": "SCH000168",
-        "score": 11.7366
-      },
-      {
         "schemeId": "SCH000218",
-        "score": 11.7366
+        "score": 11.6809
       },
       {
-        "schemeId": "SCH000081",
-        "score": 6.4416
-      },
-      {
-        "schemeId": "SCH000198",
-        "score": 6.4416
+        "schemeId": "SCH000168",
+        "score": 8.4103
       },
       {
         "schemeId": "SCH000060",
-        "score": 4.091
+        "score": 3.9503
       },
       {
         "schemeId": "SCH000153",
-        "score": 4.091
+        "score": 3.9503
       },
       {
         "schemeId": "SCH000169",
-        "score": 4.091
+        "score": 3.9503
       },
       {
-        "schemeId": "SCH000170",
-        "score": 4.091
+        "schemeId": "SCH000271",
+        "score": 3.9503
+      },
+      {
+        "schemeId": "SCH000280",
+        "score": 3.9503
       },
       {
         "schemeId": "SCH000159",
-        "score": 2.9456
+        "score": 2.8442
       },
       {
         "schemeId": "SCH000004",
-        "score": 2.3506
+        "score": 2.6818
+      },
+      {
+        "schemeId": "SCH000020",
+        "score": 2.6818
       }
     ]
   }

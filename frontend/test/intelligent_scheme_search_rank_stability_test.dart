@@ -28,11 +28,11 @@ void main() {
 
       expect(
         matches.map((m) => m.scheme.schemeCode).toList(),
-        equals(['TN201', 'TN052', 'TN108', 'TN137', 'TN021']),
+        equals(['TN168', 'TN181', 'TN212', 'TN044', 'TN159']),
       );
       expect(
         matches.map((m) => double.parse(m.score.toStringAsFixed(4))).toList(),
-        equals([0.9997, 0.9997, 0.9996, 0.9996, 0.9996]),
+        equals([0.9983, 0.9982, 0.9981, 0.9968, 0.9968]),
       );
     },
   );

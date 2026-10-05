@@ -20,8 +20,8 @@ void main() {
         final schemes = bundle.schemes;
         expect(
           schemes.length,
-          greaterThanOrEqualTo(200),
-          reason: 'Catalog must contain 200+ schemes',
+          greaterThanOrEqualTo(170),
+          reason: 'Catalog must contain 170+ schemes (171 schemes bundled in 1.35.1-alpha; D4 hides draft)',
         );
 
         int testedCount = 0;

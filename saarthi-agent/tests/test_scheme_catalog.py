@@ -186,5 +186,6 @@ def test_production_catalog_contains_expected_scheme() -> None:
 
     results = catalog.search("micro manufacturing capital subsidy", limit=1)
 
-    assert catalog.count == 219
+    # Release 1.35.1-alpha bundles 171 published/active schemes (Decision D4 filters 131 DRAFT schemes)
+    assert catalog.count == 171
     assert results[0]["id"] == "SCH000001"

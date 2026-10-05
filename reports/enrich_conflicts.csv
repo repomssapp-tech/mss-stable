@@ -1,0 +1,10 @@
+catalog_id,field,existing_value,v3_1_value,is_verified,resolution
+SCH000092,content.benefits.grant.maxAmountInr,150000000,240000000,False,Preserved existing value
+SCH000092,content.benefits.grant.maxAmountInr,150000000,105000000,False,Preserved existing value
+SCH000102,content.benefits.grant.maxAmountInr,4000000,250000,False,Preserved existing value
+SCH000103,content.benefits.grant.maxAmountInr,1500000,10000000,False,Preserved existing value
+SCH000136,content.benefits.grant.maxAmountInr,135000000,90000000,False,Preserved existing value
+SCH000136,content.benefits.grant.maxAmountInr,135000000,45000000,False,Preserved existing value
+SCH000144,content.benefits.grant.maxAmountInr,25000000,50000000,False,Preserved existing value
+SCH000144,content.benefits.grant.maxAmountInr,25000000,2500000,False,Preserved existing value
+SCH000150,content.benefits.grant.maxAmountInr,10000000,7500000,False,Preserved existing value

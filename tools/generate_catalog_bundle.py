@@ -61,14 +61,6 @@ def main() -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     bundle: dict[str, dict] = {}
-    record_counts: dict[str, int] = {}
-    per_file_sha256: dict[str, str] = {}
-    entity_count = 0
-
-    # per-file hashes cover the indexed catalogs plus search_index.json (the
-    # other externally-relevant artifact in the bundle); manifest.json is the
-    # release descriptor itself and isn't hashed here to avoid circularity.
-    hashed_files = INDEXED_CATALOGS + ["search_index.json"]
 
     for filename in INDEXED_CATALOGS + EXTRA_FILES:
         path = source / filename
@@ -77,10 +69,71 @@ def main() -> None:
         raw_bytes = path.read_bytes()
         catalog = json.loads(raw_bytes)
         bundle[filename] = catalog
+
+    # Decision D4: Hide DRAFT schemes from the offline app bundle
+    # Preserves PUBLISHED (active) and ARCHIVED (closed) schemes (171 schemes).
+    scheme_catalog = bundle["scheme_catalog.json"]
+    kept_schemes = [
+        s for s in scheme_catalog.get("data", [])
+        if s.get("identity", {}).get("status") != "unknown"
+    ]
+    kept_scheme_ids = {s["identity"]["id"] for s in kept_schemes}
+
+    # Clean references to hidden schemes from kept schemes
+    for s in kept_schemes:
+        refs = s.get("relationships", {}).get("references", [])
+        s["relationships"]["references"] = [
+            r for r in refs
+            if not (
+                (r.get("entityType") == "scheme" or str(r.get("entityId", "")).startswith("SCH"))
+                and (r.get("entityId") or r.get("targetId")) not in kept_scheme_ids
+            )
+        ]
+    scheme_catalog["data"] = kept_schemes
+
+    # Filter applicability_matrix to match kept schemes
+    if "applicability_matrix_catalog.json" in bundle:
+        matrix_catalog = bundle["applicability_matrix_catalog.json"]
+        matrix_catalog["data"] = [
+            m for m in matrix_catalog.get("data", [])
+            if m.get("content", {}).get("schemeId") in kept_scheme_ids
+        ]
+
+    # Filter search_index to match kept schemes (keep all non-schemes)
+    if "search_index.json" in bundle:
+        search_catalog = bundle["search_index.json"]
+        search_catalog["data"] = [
+            item for item in search_catalog.get("data", [])
+            if item.get("entityType") != "scheme" or item.get("entityId") in kept_scheme_ids
+        ]
+
+    # Clean references in all other catalogs pointing to hidden schemes
+    for fn in INDEXED_CATALOGS:
+        if fn in ("scheme_catalog.json", "applicability_matrix_catalog.json"):
+            continue
+        for ent in bundle[fn].get("data", []):
+            refs = ent.get("relationships", {}).get("references", [])
+            if refs:
+                ent["relationships"]["references"] = [
+                    r for r in refs
+                    if not (
+                        (r.get("entityType") == "scheme" or str(r.get("entityId", "")).startswith("SCH"))
+                        and (r.get("entityId") or r.get("targetId")) not in kept_scheme_ids
+                    )
+                ]
+
+    record_counts: dict[str, int] = {}
+    per_file_sha256: dict[str, str] = {}
+    entity_count = 0
+    hashed_files = INDEXED_CATALOGS + ["search_index.json"]
+
+    for filename in INDEXED_CATALOGS + EXTRA_FILES:
+        cat_obj = bundle[filename]
+        cat_bytes = json.dumps(cat_obj, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
         if filename in hashed_files:
-            per_file_sha256[filename] = hashlib.sha256(raw_bytes).hexdigest()
+            per_file_sha256[filename] = hashlib.sha256(cat_bytes).hexdigest()
         if filename in INDEXED_CATALOGS:
-            data = catalog.get("data", [])
+            data = cat_obj.get("data", [])
             record_counts[filename] = len(data)
             entity_count += len(data)
 

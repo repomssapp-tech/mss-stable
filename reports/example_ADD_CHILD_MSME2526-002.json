@@ -1,0 +1,507 @@
+{
+  "identity": {
+    "id": "SCH000221",
+    "code": "SCH000221",
+    "slug": "2nd-loan-for-upgradation-of-existing-pmegpregpmudra-units",
+    "name": "2nd Loan for Upgradation of existing PMEGP/REGP/MUDRA units",
+    "fullName": "2nd Loan for Upgradation of existing PMEGP/REGP/MUDRA units",
+    "shortName": null,
+    "status": "active",
+    "legacyCodes": [
+      {
+        "system": "mss_v3_1",
+        "code": "MSME2526-002"
+      }
+    ]
+  },
+  "classification": {
+    "government": {
+      "level": "central",
+      "ministryId": "AUTH000003",
+      "ministryText": "Ministry of Micro, Small and Medium Enterprises",
+      "departmentText": "Khadi and Village Industries Commission (KVIC)",
+      "implementingAgencyIds": []
+    },
+    "schemeType": "capital_subsidy",
+    "category": "financial_support",
+    "tags": [
+      "capital_subsidy",
+      "khadi_village",
+      "manufacturing",
+      "micro_enterprise",
+      "services",
+      "small_enterprise"
+    ]
+  },
+  "content": {
+    "overview": {
+      "summary": "Assists existing well-performing PMEGP/REGP/MUDRA units for expansion and upgradation.",
+      "description": "Assists existing well-performing PMEGP/REGP/MUDRA units for expansion and upgradation. Supports bringing new technology/automation to modernise the existing unit. Component of PMEGP.",
+      "objectives": [
+        "Supports bringing new technology/automation to modernise the existing unit.",
+        "Component of PMEGP."
+      ],
+      "keyPointers": []
+    },
+    "eligibility": {
+      "narrative": {
+        "criteria": [
+          "Existing well-performing PMEGP/REGP/MUDRA units.",
+          "Margin money claim adjusted and first loan repaid in stipulated time.",
+          "Unit should have been making profit for the last three years.",
+          "The 2nd loan should lead to additional employment generation.",
+          "UAM/Udyam Registration is mandatory.",
+          "May apply to the same or any other financing bank, and choose any implementing agency."
+        ],
+        "exclusions": []
+      },
+      "structured": {
+        "age": {
+          "min": null,
+          "max": null
+        },
+        "gender": {
+          "applicable": false,
+          "values": []
+        },
+        "community": {
+          "applicable": false,
+          "values": []
+        },
+        "specialCategory": {
+          "applicable": false,
+          "values": []
+        },
+        "location": {
+          "areaTypes": [
+            "rural"
+          ],
+          "states": [
+            "Assam",
+            "Arunachal Pradesh",
+            "Manipur",
+            "Meghalaya",
+            "Mizoram",
+            "Nagaland",
+            "Sikkim",
+            "Tripura"
+          ]
+        },
+        "sector": {
+          "applicable": true,
+          "included": [
+            "manufacturing",
+            "services",
+            "khadi_village"
+          ],
+          "excluded": []
+        },
+        "enterprise": {
+          "types": [
+            "micro",
+            "small"
+          ]
+        },
+        "turnover": {
+          "applicable": false,
+          "maxAmountInr": null
+        },
+        "investment": {
+          "applicable": false,
+          "maxAmountInr": null
+        },
+        "landHolding": {
+          "applicable": false
+        },
+        "existingRegistration": {
+          "applicable": true,
+          "requiredTypes": [
+            "Udyam Registration"
+          ]
+        }
+      }
+    },
+    "benefits": {
+      "summary": "Maximum project cost for upgradation: Rs. 1.00 crore (manufacturing) and Rs. 25.00 lakh (service/trading). Subsidy: 15% of project cost (maximum Rs. 15 lakh); 20% for NER and Hill States (maximum Rs. 20 lakh). Balance of project cost is provided by banks as term loan.",
+      "grant": {
+        "applicable": null,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [],
+        "description": null
+      },
+      "capitalSubsidy": {
+        "applicable": true,
+        "percentage": 15.0,
+        "percentageText": "15%",
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": 1500000,
+        "maxAmountText": "₹15 lakh",
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [
+          "general areas; max Rs. 15 lakh",
+          "NER and Hill States; max Rs. 20 lakh"
+        ],
+        "description": "Maximum subsidy would be 15% of the project cost"
+      },
+      "interestSubvention": {
+        "applicable": null,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [],
+        "description": null
+      },
+      "marginMoney": {
+        "applicable": null,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [],
+        "description": null
+      },
+      "loan": {
+        "applicable": true,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": 10000000,
+        "maxAmountText": "₹1 crore",
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [
+          "maximum project cost, manufacturing",
+          "maximum project cost, service/trading"
+        ],
+        "description": "maximum cost of the project under manufacturing sector for up-gradation is Rs.1.00 crore",
+        "tenureMonths": null,
+        "moratoriumMonths": null,
+        "interestRatePercent": null,
+        "interestRateText": null,
+        "collateralRequired": false,
+        "repaymentText": null
+      },
+      "guarantee": {
+        "applicable": null,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [],
+        "description": null,
+        "coveragePercent": null,
+        "maxCoverInr": null,
+        "guarantorId": null,
+        "guarantorText": null,
+        "feePercent": null
+      },
+      "trainingSupport": {
+        "applicable": null,
+        "modalities": [],
+        "durationText": null,
+        "providerIds": [],
+        "providerText": null,
+        "conditions": [],
+        "description": null
+      },
+      "reimbursement": {
+        "applicable": null,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [],
+        "description": null
+      },
+      "taxBenefit": {
+        "applicable": null,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [],
+        "description": null
+      },
+      "insurance": {
+        "applicable": null,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [],
+        "description": null
+      },
+      "marketSupport": {
+        "applicable": null,
+        "modalities": [],
+        "durationText": null,
+        "providerIds": [],
+        "providerText": null,
+        "conditions": [],
+        "description": null
+      },
+      "technologySupport": {
+        "applicable": null,
+        "modalities": [],
+        "durationText": null,
+        "providerIds": [],
+        "providerText": null,
+        "conditions": [],
+        "description": null
+      },
+      "currency": "INR",
+      "disbursement": {
+        "mode": null,
+        "modeText": null,
+        "instalments": null,
+        "text": null
+      }
+    },
+    "requiredDocuments": [
+      {
+        "documentTypeId": "CMN000163",
+        "name": "Udyam Registration",
+        "mandatory": true
+      }
+    ],
+    "applicationProcess": {
+      "mode": "both",
+      "modeText": "Application via both channel",
+      "onlineUrl": "https://www.kviconline.gov.in/pmegpeportal/pmegphome",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Step 1",
+          "description": "Apply online for 2nd loan for upgradation on the PMEGP e-portal.",
+          "mode": "online",
+          "url": "https://www.kviconline.gov.in/pmegpeportal/pmegphome",
+          "documents": [
+            "Udyam Registration"
+          ]
+        },
+        {
+          "step": 2,
+          "title": "Step 2",
+          "description": "Choose the financing bank (same or different) and implementing agency; bank provides balance cost as term loan.",
+          "mode": "both",
+          "url": null,
+          "documents": []
+        }
+      ],
+      "services": []
+    },
+    "contacts": {
+      "national": [
+        {
+          "url": "https://www.kviconline.gov.in/pmegpeportal/pmegphome",
+          "title": "PMEGP e-portal"
+        }
+      ],
+      "helplines": []
+    },
+    "sources": [
+      {
+        "id": "SCH000221-SRC001",
+        "name": "Ministry of MSME Schemes Booklet 2025-26",
+        "url": "https://www.dcmsme.gov.in/ebook/MSMESchemebooklet2025-26.pdf",
+        "publisherText": "Ministry of MSME Schemes Booklet 2025-26, p. 5",
+        "type": "official_booklet",
+        "isPrimary": true
+      }
+    ],
+    "schemeUrl": "https://www.kviconline.gov.in/pmegpeportal/pmegphome"
+  },
+  "relationships": {
+    "references": [
+      {
+        "entityId": "AUTH000003",
+        "entityType": "authority",
+        "relationType": "administered_by"
+      },
+      {
+        "entityId": "SCH000130",
+        "entityType": "scheme",
+        "relationType": "child_of"
+      }
+    ]
+  },
+  "localization": {
+    "en": {
+      "name": "2nd Loan for Upgradation of existing PMEGP/REGP/MUDRA units",
+      "shortName": null,
+      "summary": "Assists existing well-performing PMEGP/REGP/MUDRA units for expansion and upgradation.",
+      "description": "Assists existing well-performing PMEGP/REGP/MUDRA units for expansion and upgradation. Supports bringing new technology/automation to modernise the existing unit. Component of PMEGP.",
+      "objective": "Supports bringing new technology/automation to modernise the existing unit.",
+      "eligibilityText": "Existing well-performing PMEGP/REGP/MUDRA units. Margin money claim adjusted and first loan repaid in stipulated time. Unit should have been making profit for the last three years. The 2nd loan should lead to additional employment generation. UAM/Udyam Registration is mandatory. May apply to the same or any other financing bank, and choose any implementing agency.",
+      "benefitsText": "Maximum project cost for upgradation: Rs. 1.00 crore (manufacturing) and Rs. 25.00 lakh (service/trading). Subsidy: 15% of project cost (maximum Rs. 15 lakh); 20% for NER and Hill States (maximum Rs. 20 lakh). Balance of project cost is provided by banks as term loan.",
+      "applicationText": "Apply online for 2nd loan for upgradation on the PMEGP e-portal. Choose the financing bank (same or different) and implementing agency; bank provides balance cost as term loan."
+    },
+    "ta": {
+      "name": null,
+      "shortName": null,
+      "summary": null,
+      "description": null,
+      "objective": null,
+      "eligibilityText": null,
+      "benefitsText": null,
+      "applicationText": null
+    },
+    "hi": {
+      "name": "मौजूदा पीएमईजीपी/आरईजीपी/मुद्रा इकाइयों के उन्नयन हेतु द्वितीय ऋण",
+      "shortName": null,
+      "summary": "मौजूदा अच्छा प्रदर्शन करने वाली पीएमईजीपी/आरईजीपी/मुद्रा इकाइयों को विस्तार एवं उन्नयन हेतु सहायता।",
+      "description": "मौजूदा अच्छा प्रदर्शन करने वाली पीएमईजीपी/आरईजीपी/मुद्रा इकाइयों को विस्तार एवं उन्नयन हेतु सहायता। मौजूदा इकाई के आधुनिकीकरण हेतु नई प्रौद्योगिकी/स्वचालन लाने में सहायता। पीएमईजीपी का घटक।",
+      "objective": "मौजूदा अच्छा प्रदर्शन करने वाली पीएमईजीपी/आरईजीपी/मुद्रा इकाइयों को विस्तार एवं उन्नयन हेतु सहायता।",
+      "eligibilityText": "मौजूदा अच्छा प्रदर्शन करने वाली पीएमईजीपी/आरईजीपी/मुद्रा इकाइयाँ। मार्जिन मनी दावा समायोजित हो चुका हो तथा पहला ऋण निर्धारित समय में चुकाया गया हो। इकाई पिछले तीन वर्षों से लाभ में हो। द्वितीय ऋण से अतिरिक्त रोजगार सृजन होना चाहिए। यूएएम/उद्यम पंजीकरण अनिवार्य है। उसी या किसी अन्य वित्तपोषक बैंक में आवेदन कर सकते हैं तथा कोई भी कार्यान्वयन एजेंसी चुन सकते हैं।",
+      "benefitsText": "उन्नयन हेतु अधिकतम परियोजना लागत: ₹1.00 करोड़ (विनिर्माण) तथा ₹25.00 लाख (सेवा/व्यापार)। सब्सिडी: परियोजना लागत का 15% (अधिकतम ₹15 लाख); पूर्वोत्तर क्षेत्र एवं पहाड़ी राज्यों में 20% (अधिकतम ₹20 लाख)। शेष परियोजना लागत बैंकों द्वारा सावधि ऋण के रूप में दी जाती है।",
+      "applicationText": "पीएमईजीपी ई-पोर्टल पर उन्नयन हेतु द्वितीय ऋण के लिए ऑनलाइन आवेदन करें। वित्तपोषक बैंक (वही या अन्य) एवं कार्यान्वयन एजेंसी चुनें; बैंक शेष लागत सावधि ऋण के रूप में देता है।"
+    }
+  },
+  "search": {
+    "aliases": {
+      "en": [
+        "2nd Loan for Upgradation of existing PMEGP/REGP/MUDRA units"
+      ],
+      "ta": [],
+      "hi": [
+        "मौजूदा पीएमईजीपी/आरईजीपी/मुद्रा इकाइयों के उन्नयन हेतु द्वितीय ऋण"
+      ]
+    },
+    "keywords": {
+      "en": [
+        "loan",
+        "upgradation",
+        "existing",
+        "pmegp",
+        "regp",
+        "mudra",
+        "units"
+      ],
+      "ta": [],
+      "hi": []
+    },
+    "synonyms": []
+  },
+  "verification": {
+    "status": "partially_verified",
+    "confidence": "low",
+    "verifiedAt": "2026-10-04",
+    "verifiedAgainst": [
+      "SCH000221-SRC001"
+    ],
+    "verifiedFields": [
+      {
+        "field": "content.schemeUrl",
+        "value": "https://www.kviconline.gov.in/pmegpeportal/pmegphome",
+        "sourceTier": 5,
+        "url": "https://www.kviconline.gov.in/pmegpeportal/pmegphome",
+        "retrievedAt": "2026-10-04",
+        "outcome": "confirmed",
+        "note": "Official scheme portal"
+      }
+    ],
+    "disputedFields": [],
+    "missingFields": [],
+    "notes": "Listed in Booklet 2025-26 as PMEGP component; depends on PMEGP continuation beyond 31.03.2026 (unconfirmed).; Booklet text obtained via WebFetch extraction (fetch model declined full verbatim reproduction); quotes are short phrases returned as evidence, not checked against the PDF by eye.; Max subsidy caps Rs. 15 lakh / Rs. 20 lakh from WebFetch summary (derived as 15%/20% of max project cost); verify against PDF p05.; TOC lists title as '2nd Loan for up-gradation of the existing PMEGP/MUDRA units'; body text includes REGP.; [agent_flag] Booklet text obtained via WebFetch extraction (fetch model declined full verbatim reproduction); quotes are short phrases returned as evidence, not checked against the PDF by eye.; [agent_flag] Max subsidy caps Rs. 15 lakh / Rs. 20 lakh from WebFetch summary (derived as 15%/20% of max project cost); verify against PDF p05.; [agent_flag] TOC lists title as '2nd Loan for up-gradation of the existing PMEGP/MUDRA units'; body text includes REGP.; [status_uncertain] active (low): Listed in Booklet 2025-26 as PMEGP component; depends on PMEGP continuation beyond 31.03.2026 (unconfirmed)."
+  },
+  "provenance": {
+    "pipelineVersion": "catalog-v3-1-migration",
+    "transformationNotes": [
+      "Migrated from mss_scheme_data_v3_1 (ID: MSME2526-002)",
+      "Action: ADD_CHILD",
+      "Child of SCH000130"
+    ],
+    "translations": {
+      "ta": {
+        "status": "none",
+        "reviewRequired": true,
+        "engine": "none",
+        "note": "Tamil translation pending"
+      },
+      "hi": {
+        "status": "machine",
+        "reviewRequired": true,
+        "source": "booklet_2025_26_machine_hi",
+        "generatedAt": "2026-10-04T00:00:00Z"
+      }
+    }
+  },
+  "metadata": {
+    "catalogVersion": "1.35.0-alpha",
+    "revision": 1,
+    "schemaVersion": "1.0.0",
+    "createdAt": "2026-10-04T13:02:43Z",
+    "updatedAt": "2026-10-04T13:02:43Z"
+  }
+}

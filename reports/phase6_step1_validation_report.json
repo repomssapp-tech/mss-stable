@@ -1,0 +1,63 @@
+{
+  "scheme_counts": {
+    "archived_count": 16,
+    "baseline_schemes": 219,
+    "draft_count": 131,
+    "new_v3_1_schemes": 83,
+    "published_count": 155,
+    "total_schemes": 302
+  },
+  "relationship_symmetry": {
+    "asymmetric_child_of_count": 0,
+    "asymmetric_parent_of_count": 0,
+    "child_of_count": 85,
+    "parent_of_count": 85
+  },
+  "orphan_relationships": {
+    "orphan_source_schemes": 0,
+    "orphan_target_authorities": 0,
+    "orphan_target_schemes": 0,
+    "total_relationships": 1901
+  },
+  "checksum_integrity": {
+    "mismatched_checksums": 0,
+    "null_checksums": 0,
+    "total_schemes": 302
+  },
+  "published_requirements": {
+    "missing_name_en": 0,
+    "missing_sources": 0,
+    "missing_urls": 0,
+    "new_published_count": 61
+  },
+  "search_data_spot_checks": [
+    {
+      "name_en": "Credit Cards for Micro Enterprises Scheme",
+      "sample_tokens": "[\"credit\", \"cards\", \"micro\", \"enterprises\", \"scheme\"]",
+      "scheme_id": "SCH000269",
+      "search_name": null
+    },
+    {
+      "name_en": "Research, Development and Innovation (RDI) Scheme",
+      "sample_tokens": "[\"research\", \"development\", \"innovation\", \"scheme\"]",
+      "scheme_id": "SCH000272",
+      "search_name": null
+    },
+    {
+      "name_en": "Trade Receivables Discounting System (TReDS)",
+      "sample_tokens": "[\"trade\", \"receivables\", \"discounting\", \"system\", \"treds\"]",
+      "scheme_id": "SCH000274",
+      "search_name": null
+    },
+    {
+      "name_en": "Deendayal Jan Aajeevika Yojana – Shehari (DJAY-S)",
+      "sample_tokens": "[\"deendayal\", \"aajeevika\", \"yojana\", \"shehari\", \"djay\"]",
+      "scheme_id": "SCH000302",
+      "search_name": null
+    }
+  ],
+  "eligibility_lookup": {
+    "eligibility_rows": 155,
+    "new_staged_eligibility_rows": 0
+  }
+}

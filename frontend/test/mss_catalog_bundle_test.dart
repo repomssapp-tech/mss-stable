@@ -69,13 +69,13 @@ void main() {
     test('Release manifest counts accurately match bundle payloads', () {
       expect(
         releaseJson['entityCount'],
-        equals(1220),
-        reason: 'release.json entityCount must equal 1220',
+        equals(1131),
+        reason: 'release.json entityCount must equal 1131 (D4 hides 131 draft schemes & 131 matrix entries)',
       );
       expect(
         releaseJson['searchIndexCount'],
-        equals(971),
-        reason: 'release.json searchIndexCount must equal 971',
+        equals(930),
+        reason: 'release.json searchIndexCount must equal 930 (1061 - 131 draft schemes)',
       );
 
       final searchIndexData =
@@ -152,12 +152,13 @@ void main() {
           byCatalog[catalogName] = entityList;
         }
 
-        // Graph traversal to check for dangling references
+        // Graph traversal to check for dangling references across all key conventions
         int danglingReferenceCount = 0;
         for (final entity in byId.values) {
           for (final ref in entity.references) {
-            final targetId =
-                ref['targetId'] as String? ?? ref['target_id'] as String?;
+            final targetId = ref['entityId'] as String? ??
+                ref['targetId'] as String? ??
+                ref['target_id'] as String?;
             if (targetId != null &&
                 targetId.isNotEmpty &&
                 !byId.containsKey(targetId)) {
@@ -168,8 +169,8 @@ void main() {
 
         expect(
           byId.length,
-          equals(1220),
-          reason: 'Total entities in byId must be exactly 1220',
+          equals(1131),
+          reason: 'Total entities in byId must be exactly 1131',
         );
         expect(
           duplicateEntityIdCount,
@@ -183,13 +184,14 @@ void main() {
         );
         expect(
           totalRels,
-          equals(1710),
-          reason: 'Total relationships across entities must be exactly 1710',
+          equals(1527),
+          reason: 'Total relationships across entities must be exactly 1527',
         );
         expect(
           byCatalog['scheme']?.length,
-          equals(219),
-          reason: 'Scheme catalog must contain exactly 219 schemes',
+          equals(171),
+          reason:
+              'Scheme catalog must contain exactly 171 schemes (155 active + 16 closed, D4 hides draft)',
         );
       },
     );
@@ -244,37 +246,57 @@ void main() {
   });
 
   group('Scheme Status & Distribution Verification', () {
-    test('Status counts match active=95, unknown=112, closed=12', () {
-      final schemeData = (bundleJson['scheme_catalog.json']['data'] as List)
-          .cast<Map<String, dynamic>>();
+    test(
+      'Status contract in bundle conforms to {active, closed, unknown}, with active=155 and closed=16 (D4 hides draft)',
+      () {
+        final schemeData = (bundleJson['scheme_catalog.json']['data'] as List)
+            .cast<Map<String, dynamic>>();
 
-      int activeCount = 0;
-      int unknownCount = 0;
-      int closedCount = 0;
+        int activeCount = 0;
+        int unknownCount = 0;
+        int closedCount = 0;
+        int invalidCount = 0;
 
-      for (final item in schemeData) {
-        final identity = item['identity'] as Map<String, dynamic>? ?? {};
-        final status = (identity['status'] as String? ?? 'unknown')
-            .toLowerCase();
+        for (final item in schemeData) {
+          final identity = item['identity'] as Map<String, dynamic>? ?? {};
+          final status = (identity['status'] as String? ?? 'unknown')
+              .toLowerCase();
 
-        if (status == 'active') {
-          activeCount++;
-        } else if (status == 'unknown') {
-          unknownCount++;
-        } else if (status == 'closed') {
-          closedCount++;
+          expect(
+            ['active', 'closed', 'unknown'].contains(status),
+            isTrue,
+            reason:
+                'Scheme ${identity['id']} has invalid status: "$status". Must be in {active, closed, unknown}.',
+          );
+
+          if (status == 'active') {
+            activeCount++;
+          } else if (status == 'closed') {
+            closedCount++;
+          } else if (status == 'unknown') {
+            unknownCount++;
+          } else {
+            invalidCount++;
+          }
         }
-      }
 
-      expect(activeCount, equals(95), reason: 'Active status count must be 95');
-      expect(
-        unknownCount,
-        equals(112),
-        reason: 'Unknown status count must be 112',
-      );
-      expect(closedCount, equals(12), reason: 'Closed status count must be 12');
-      expect(activeCount + unknownCount + closedCount, equals(219));
-    });
+        expect(activeCount, equals(155), reason: 'Active status count must be 155');
+        expect(closedCount, equals(16), reason: 'Closed status count must be 16');
+        expect(
+          unknownCount,
+          equals(0),
+          reason:
+              'Unknown/DRAFT schemes must be hidden from bundle per Decision D4',
+        );
+        expect(invalidCount, equals(0), reason: 'No invalid status values allowed');
+        expect(
+          activeCount + closedCount,
+          equals(171),
+          reason:
+              'Bundled schemes must equal 171 (155 PUBLISHED active + 16 ARCHIVED closed)',
+        );
+      },
+    );
   });
 
   group('MssSchemeAdapter Null Rules & Currency Rules', () {
@@ -307,13 +329,18 @@ void main() {
         final entity = MssEntity.fromJson(item);
         final scheme = MssSchemeAdapter.toScheme(entity, mockBundle);
 
+        // Reverted weakened assertion: Closed schemes must NOT be active; active schemes must be active.
         if (entity.status.toLowerCase() == 'closed') {
-          expect(scheme.isActive, isFalse);
-        } else {
+          expect(
+            scheme.isActive,
+            isFalse,
+            reason: 'Closed scheme ${entity.id} must have isActive == false',
+          );
+        } else if (entity.status.toLowerCase() == 'active') {
           expect(
             scheme.isActive,
             isTrue,
-            reason: 'Active and Unknown schemes must be active in UI',
+            reason: 'Active scheme ${entity.id} must have isActive == true',
           );
         }
       }

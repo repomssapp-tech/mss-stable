@@ -1,0 +1,85 @@
+{
+  "status": "PASS",
+  "tests": {
+    "staging_counts": {
+      "expected": {
+        "staged_schemes": 83,
+        "staged_matrices": 83,
+        "staged_search_index": 83,
+        "staged_relationships": 183,
+        "source_records": 393,
+        "active_schemes": 219,
+        "total_view_schemes": 302
+      },
+      "actual": {
+        "active_schemes": 219,
+        "source_records": 393,
+        "staged_matrices": 83,
+        "staged_relationships": 183,
+        "staged_schemes": 83,
+        "staged_search_index": 83,
+        "total_view_schemes": 302
+      },
+      "pass": true
+    },
+    "field_integrity": {
+      "actual": {
+        "invalid_status": 0,
+        "missing_name_en": 0,
+        "missing_record_json": 0,
+        "missing_sources": 0,
+        "non_central_gov_level": 0,
+        "published_missing_url": 0,
+        "total": 83
+      },
+      "pass": true
+    },
+    "relationships": {
+      "actual": {
+        "administered_by_count": 83,
+        "asymmetric_parent_child_pairs": 0,
+        "child_of_count": 49,
+        "parent_of_count": 49
+      },
+      "pass": true
+    },
+    "spot_checks": {
+      "rows": [
+        {
+          "hi_name": "सूक्ष्म उद्यमों के लिए क्रेडिट कार्ड योजना",
+          "id": "SCH000269",
+          "name_en": "Credit Cards for Micro Enterprises Scheme",
+          "scheme_code": "SCH000269",
+          "scheme_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2098389",
+          "status": "PUBLISHED"
+        },
+        {
+          "hi_name": "अनुसंधान, विकास एवं नवाचार (RDI) योजना",
+          "id": "SCH000272",
+          "name_en": "Research, Development and Innovation (RDI) Scheme",
+          "scheme_code": "SCH000272",
+          "scheme_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2291143",
+          "status": "PUBLISHED"
+        },
+        {
+          "hi_name": "व्यापार प्राप्य बट्टाकरण प्रणाली (TReDS)",
+          "id": "SCH000274",
+          "name_en": "Trade Receivables Discounting System (TReDS)",
+          "scheme_code": "SCH000274",
+          "scheme_url": "https://www.rbi.org.in/commonman/English/scripts/FAQs.aspx?Id=3138",
+          "status": "PUBLISHED"
+        },
+        {
+          "hi_name": "दीनदयाल जन आजीविका योजना – शहरी",
+          "id": "SCH000302",
+          "name_en": "Deendayal Jan Aajeevika Yojana – Shehari (DJAY-S)",
+          "scheme_code": "SCH000302",
+          "scheme_url": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2024/dec/doc20241210468601.pdf",
+          "status": "DRAFT"
+        }
+      ],
+      "pass": true
+    }
+  },
+  "summary": {}
+}

@@ -1,0 +1,513 @@
+{
+  "identity": {
+    "id": "SCH000220",
+    "code": "SCH000220",
+    "slug": "mutual-credit-guarantee-scheme-for-msmes-mcgs-msme",
+    "name": "Mutual Credit Guarantee Scheme for MSMEs (MCGS-MSME)",
+    "fullName": "Mutual Credit Guarantee Scheme for MSMEs (MCGS-MSME)",
+    "shortName": "MCGS-MSME",
+    "status": "active",
+    "legacyCodes": [
+      {
+        "system": "mss_v3_1",
+        "code": "NEW2026-001"
+      }
+    ]
+  },
+  "classification": {
+    "government": {
+      "level": "central",
+      "ministryId": "AUTH000009",
+      "ministryText": "Ministry of Finance",
+      "departmentText": "Department of Financial Services / National Credit Guarantee Trustee Company Ltd (NCGTC)",
+      "implementingAgencyIds": []
+    },
+    "schemeType": "credit_guarantee",
+    "category": "financial_support",
+    "tags": [
+      "credit_guarantee",
+      "export",
+      "exporter",
+      "manufacturing",
+      "medium_enterprise",
+      "micro_enterprise",
+      "services",
+      "small_enterprise"
+    ]
+  },
+  "content": {
+    "overview": {
+      "summary": "Credit guarantee scheme (announced in Union Budget 2024-25) for collateral-free term loans to MSMEs for purchase of equipment/machinery.",
+      "description": "Credit guarantee scheme (announced in Union Budget 2024-25) for collateral-free term loans to MSMEs for purchase of equipment/machinery. Guarantee is provided by NCGTC to Member Lending Institutions (banks, NBFCs, financial institutions). Modified in March 2026 to include service-sector MSMEs and a special window for exporter MSMEs.",
+      "objectives": [
+        "Guarantee is provided by NCGTC to Member Lending Institutions (banks, NBFCs, financial institutions).",
+        "Modified in March 2026 to include service-sector MSMEs and a special window for exporter MSMEs."
+      ],
+      "keyPointers": []
+    },
+    "eligibility": {
+      "narrative": {
+        "criteria": [
+          "MSME with valid Udyam Registration Number.",
+          "Service-sector MSMEs are also included (March 2026 modification).",
+          "Cost of equipment/machinery must be at least 60% of project cost (reduced from 75%).",
+          "Exporter window: profitable units exporting at least 25% of sales in the previous 3 financial years."
+        ],
+        "exclusions": []
+      },
+      "structured": {
+        "age": {
+          "min": null,
+          "max": null
+        },
+        "gender": {
+          "applicable": false,
+          "values": []
+        },
+        "community": {
+          "applicable": false,
+          "values": []
+        },
+        "specialCategory": {
+          "applicable": false,
+          "values": []
+        },
+        "location": {
+          "areaTypes": [
+            "rural",
+            "urban"
+          ],
+          "states": []
+        },
+        "sector": {
+          "applicable": true,
+          "included": [
+            "manufacturing",
+            "services",
+            "export"
+          ],
+          "excluded": []
+        },
+        "enterprise": {
+          "types": [
+            "micro",
+            "small",
+            "medium"
+          ]
+        },
+        "turnover": {
+          "applicable": false,
+          "maxAmountInr": null
+        },
+        "investment": {
+          "applicable": false,
+          "maxAmountInr": null
+        },
+        "landHolding": {
+          "applicable": false
+        },
+        "existingRegistration": {
+          "applicable": true,
+          "requiredTypes": [
+            "Udyam Registration"
+          ]
+        }
+      }
+    },
+    "benefits": {
+      "summary": "60% guarantee coverage by NCGTC on the loan. Loan amount guaranteed up to ₹100 crore (project can be larger). Repayment up to 8 years with up to 2 years moratorium for loans up to ₹50 crore; flexible schedule for larger loans. Upfront contribution of 5% of loan amount at application (refundable 1% each year from 4th year). Annual guarantee fee: nil in year of sanction; 1.5% p.a. for next 3 years; 1% p.a. thereafter. Exporter MSMEs: 75% guarantee cover for loans up to ₹20 crore; upfront contribution 2% (max ₹40 lakh); fee nil in first year and 0.50% p.a. thereafter.",
+      "grant": {
+        "applicable": null,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [],
+        "description": null
+      },
+      "capitalSubsidy": {
+        "applicable": null,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [],
+        "description": null
+      },
+      "interestSubvention": {
+        "applicable": null,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [],
+        "description": null
+      },
+      "marginMoney": {
+        "applicable": null,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [],
+        "description": null
+      },
+      "loan": {
+        "applicable": null,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [],
+        "description": null,
+        "tenureMonths": null,
+        "moratoriumMonths": null,
+        "interestRatePercent": null,
+        "interestRateText": null,
+        "collateralRequired": false,
+        "repaymentText": null
+      },
+      "guarantee": {
+        "applicable": true,
+        "percentage": 60.0,
+        "percentageText": "60%",
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": 1000000000,
+        "maxAmountText": "₹100 crore",
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [
+          "general MSMEs, equipment/machinery loans",
+          "exporter MSMEs (≥25% export sales)"
+        ],
+        "description": "60% guarantee coverage by National Credit Guarantee Trustee Company Limited (NCGTC)",
+        "coveragePercent": 60.0,
+        "maxCoverInr": 1000000000,
+        "guarantorId": null,
+        "guarantorText": null,
+        "feePercent": null
+      },
+      "trainingSupport": {
+        "applicable": null,
+        "modalities": [],
+        "durationText": null,
+        "providerIds": [],
+        "providerText": null,
+        "conditions": [],
+        "description": null
+      },
+      "reimbursement": {
+        "applicable": null,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [],
+        "description": null
+      },
+      "taxBenefit": {
+        "applicable": null,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [],
+        "description": null
+      },
+      "insurance": {
+        "applicable": null,
+        "percentage": null,
+        "percentageText": null,
+        "amountInr": null,
+        "amountText": null,
+        "maxAmountInr": null,
+        "maxAmountText": null,
+        "minAmountInr": null,
+        "minAmountText": null,
+        "durationMonths": null,
+        "basis": null,
+        "varies": false,
+        "variesBy": null,
+        "conditions": [],
+        "description": null
+      },
+      "marketSupport": {
+        "applicable": null,
+        "modalities": [],
+        "durationText": null,
+        "providerIds": [],
+        "providerText": null,
+        "conditions": [],
+        "description": null
+      },
+      "technologySupport": {
+        "applicable": null,
+        "modalities": [],
+        "durationText": null,
+        "providerIds": [],
+        "providerText": null,
+        "conditions": [],
+        "description": null
+      },
+      "currency": "INR",
+      "disbursement": {
+        "mode": null,
+        "modeText": null,
+        "instalments": null,
+        "text": null
+      }
+    },
+    "requiredDocuments": [
+      {
+        "documentTypeId": "CMN000163",
+        "name": "Udyam Registration Certificate",
+        "mandatory": true
+      }
+    ],
+    "applicationProcess": {
+      "mode": "offline",
+      "modeText": "Application via offline channel",
+      "onlineUrl": null,
+      "steps": [
+        {
+          "step": 1,
+          "title": "Step 1",
+          "description": "Apply for a term loan for equipment/machinery at a participating bank/NBFC (Member Lending Institution); the lender seeks the guarantee from NCGTC.",
+          "mode": "offline",
+          "url": "https://www.ncgtc.in",
+          "documents": [
+            "Udyam Registration Certificate"
+          ]
+        },
+        {
+          "step": 2,
+          "title": "Step 2",
+          "description": "Deposit the upfront contribution (5% of loan; 2% for exporter window) at the time of application.",
+          "mode": "offline",
+          "url": null,
+          "documents": []
+        }
+      ],
+      "services": []
+    },
+    "contacts": {
+      "national": [
+        {
+          "url": "https://www.ncgtc.in",
+          "title": "NCGTC"
+        }
+      ],
+      "helplines": []
+    },
+    "sources": [
+      {
+        "id": "SCH000220-SRC001",
+        "name": "Government modifies Mutual Credit Guarantee Scheme to Support MSME Manufacturers and Exporters in line with Budget 2025-26 (PIB, 21 Mar 2026)",
+        "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2243388",
+        "publisherText": "Ministry of MSME Schemes Booklet 2025-26",
+        "type": "official_booklet",
+        "isPrimary": true
+      },
+      {
+        "id": "SCH000220-SRC003",
+        "name": "Official Source",
+        "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2097455",
+        "publisherText": "Government of India",
+        "type": "official_portal",
+        "isPrimary": false
+      },
+      {
+        "id": "SCH000220-SRC004",
+        "name": "Official Source",
+        "url": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=2104140",
+        "publisherText": "Government of India",
+        "type": "official_portal",
+        "isPrimary": false
+      }
+    ],
+    "schemeUrl": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2243388"
+  },
+  "relationships": {
+    "references": [
+      {
+        "entityId": "AUTH000009",
+        "entityType": "authority",
+        "relationType": "administered_by"
+      }
+    ]
+  },
+  "localization": {
+    "en": {
+      "name": "Mutual Credit Guarantee Scheme for MSMEs (MCGS-MSME)",
+      "shortName": "MCGS-MSME",
+      "summary": "Credit guarantee scheme (announced in Union Budget 2024-25) for collateral-free term loans to MSMEs for purchase of equipment/machinery.",
+      "description": "Credit guarantee scheme (announced in Union Budget 2024-25) for collateral-free term loans to MSMEs for purchase of equipment/machinery. Guarantee is provided by NCGTC to Member Lending Institutions (banks, NBFCs, financial institutions). Modified in March 2026 to include service-sector MSMEs and a special window for exporter MSMEs.",
+      "objective": "Guarantee is provided by NCGTC to Member Lending Institutions (banks, NBFCs, financial institutions).",
+      "eligibilityText": "MSME with valid Udyam Registration Number. Service-sector MSMEs are also included (March 2026 modification). Cost of equipment/machinery must be at least 60% of project cost (reduced from 75%). Exporter window: profitable units exporting at least 25% of sales in the previous 3 financial years.",
+      "benefitsText": "60% guarantee coverage by NCGTC on the loan. Loan amount guaranteed up to ₹100 crore (project can be larger). Repayment up to 8 years with up to 2 years moratorium for loans up to ₹50 crore; flexible schedule for larger loans. Upfront contribution of 5% of loan amount at application (refundable 1% each year from 4th year). Annual guarantee fee: nil in year of sanction; 1.5% p.a. for next 3 years; 1% p.a. thereafter. Exporter MSMEs: 75% guarantee cover for loans up to ₹20 crore; upfront contribution 2% (max ₹40 lakh); fee nil in first year and 0.50% p.a. thereafter.",
+      "applicationText": "Apply for a term loan for equipment/machinery at a participating bank/NBFC (Member Lending Institution); the lender seeks the guarantee from NCGTC. Deposit the upfront contribution (5% of loan; 2% for exporter window) at the time of application."
+    },
+    "ta": {
+      "name": null,
+      "shortName": null,
+      "summary": null,
+      "description": null,
+      "objective": null,
+      "eligibilityText": null,
+      "benefitsText": null,
+      "applicationText": null
+    },
+    "hi": {
+      "name": "एमएसएमई के लिए पारस्परिक ऋण गारंटी योजना (MCGS-MSME)",
+      "shortName": null,
+      "summary": "उपकरण/मशीनरी की खरीद हेतु एमएसएमई को बिना संपार्श्विक सावधि ऋण के लिए ऋण गारंटी योजना (केंद्रीय बजट 2024-25 में घोषित)।",
+      "description": "उपकरण/मशीनरी की खरीद हेतु एमएसएमई को बिना संपार्श्विक सावधि ऋण के लिए ऋण गारंटी योजना (केंद्रीय बजट 2024-25 में घोषित)। गारंटी NCGTC द्वारा सदस्य ऋणदाता संस्थाओं (बैंक, NBFC, वित्तीय संस्थाएँ) को दी जाती है। मार्च 2026 में संशोधन कर सेवा क्षेत्र के एमएसएमई तथा निर्यातक एमएसएमई के लिए विशेष सुविधा जोड़ी गई।",
+      "objective": "उपकरण/मशीनरी की खरीद हेतु एमएसएमई को बिना संपार्श्विक सावधि ऋण के लिए ऋण गारंटी योजना (केंद्रीय बजट 2024-25 में घोषित)।",
+      "eligibilityText": "वैध उद्यम पंजीकरण संख्या वाला एमएसएमई। सेवा क्षेत्र के एमएसएमई भी शामिल (मार्च 2026 संशोधन)। उपकरण/मशीनरी की लागत परियोजना लागत का कम से कम 60% होनी चाहिए (पहले 75%)। निर्यातक सुविधा: पिछले 3 वित्त वर्षों में बिक्री का कम से कम 25% निर्यात करने वाली लाभकारी इकाइयाँ।",
+      "benefitsText": "ऋण पर NCGTC द्वारा 60% गारंटी कवरेज। ₹100 करोड़ तक की ऋण राशि पर गारंटी (परियोजना इससे बड़ी हो सकती है)। ₹50 करोड़ तक के ऋण पर 8 वर्ष तक पुनर्भुगतान अवधि तथा 2 वर्ष तक मोरेटोरियम; बड़े ऋणों के लिए लचीला कार्यक्रम। आवेदन के समय ऋण राशि का 5% अग्रिम अंशदान (चौथे वर्ष से प्रतिवर्ष 1% वापसी योग्य)। वार्षिक गारंटी शुल्क: स्वीकृति वर्ष में शून्य; अगले 3 वर्ष 1.5% प्रति वर्ष; उसके बाद 1% प्रति वर्ष। निर्यातक एमएसएमई: ₹20 करोड़ तक के ऋण पर 75% गारंटी; अग्रिम अंशदान 2% (अधिकतम ₹40 लाख); पहले वर्ष शुल्क शून्य, उसके बाद 0.50% प्रति वर्ष।",
+      "applicationText": "किसी भागीदार बैंक/NBFC (सदस्य ऋणदाता संस्था) में उपकरण/मशीनरी हेतु सावधि ऋण के लिए आवेदन करें; ऋणदाता NCGTC से गारंटी प्राप्त करता है। आवेदन के समय अग्रिम अंशदान (ऋण का 5%; निर्यातक सुविधा में 2%) जमा करें।"
+    }
+  },
+  "search": {
+    "aliases": {
+      "en": [
+        "Mutual Credit Guarantee Scheme for MSMEs (MCGS-MSME)",
+        "MCGS-MSME"
+      ],
+      "ta": [],
+      "hi": [
+        "एमएसएमई के लिए पारस्परिक ऋण गारंटी योजना (MCGS-MSME)"
+      ]
+    },
+    "keywords": {
+      "en": [
+        "mutual",
+        "credit",
+        "guarantee",
+        "scheme",
+        "msmes",
+        "mcgs",
+        "msme"
+      ],
+      "ta": [],
+      "hi": []
+    },
+    "synonyms": []
+  },
+  "verification": {
+    "status": "verified",
+    "confidence": "high",
+    "verifiedAt": "2026-10-04",
+    "verifiedAgainst": [
+      "SCH000220-SRC001"
+    ],
+    "verifiedFields": [
+      {
+        "field": "content.schemeUrl",
+        "value": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2243388",
+        "sourceTier": 5,
+        "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2243388",
+        "retrievedAt": "2026-10-04",
+        "outcome": "confirmed",
+        "note": "Official scheme portal"
+      }
+    ],
+    "disputedFields": [
+      {
+        "field": "content.benefits",
+        "reason": "guarantee max=200000000 pct=75 :: 75% for eligible exporters"
+      }
+    ],
+    "missingFields": [],
+    "notes": "Approved Jan 2025 (Budget 2024-25), launched Feb 2025; valid for loans sanctioned within 4 years of operational guidelines or until ₹7 lakh crore cumulative guarantees; modified 21 Mar 2026 to add service MSMEs and exporter window.; Exporter-window figures from PIB 21 Mar 2026 via fetch summary; '75% for eligible exporters' paraphrased — quote not verified verbatim.; Equipment/machinery threshold changed 75%→60% in Mar 2026; original Jan 2025 guidelines said 75%.; Not in the MSME booklet 2025-26 (Ministry of Finance / NCGTC scheme); duplicate MSME2526-004 dropped in favour of this record.; [agent_flag] Exporter-window figures from PIB 21 Mar 2026 via fetch summary; '75% for eligible exporters' paraphrased — quote not verified verbatim.; [agent_flag] Equipment/machinery threshold changed 75%→60% in Mar 2026; original Jan 2025 guidelines said 75%.; [agent_flag] Not in the MSME booklet 2025-26 (Ministry of Finance / NCGTC scheme); duplicate MSME2526-004 dropped in favour of this record."
+  },
+  "provenance": {
+    "pipelineVersion": "catalog-v3-1-migration",
+    "transformationNotes": [
+      "Migrated from mss_scheme_data_v3_1 (ID: NEW2026-001)",
+      "Action: ADD_NEW"
+    ],
+    "translations": {
+      "ta": {
+        "status": "none",
+        "reviewRequired": true,
+        "engine": "none",
+        "note": "Tamil translation pending"
+      },
+      "hi": {
+        "status": "machine",
+        "reviewRequired": true,
+        "source": "booklet_2025_26_machine_hi",
+        "generatedAt": "2026-10-04T00:00:00Z"
+      }
+    }
+  },
+  "metadata": {
+    "catalogVersion": "1.35.0-alpha",
+    "revision": 1,
+    "schemaVersion": "1.0.0",
+    "createdAt": "2026-10-04T13:02:43Z",
+    "updatedAt": "2026-10-04T13:02:43Z"
+  }
+}

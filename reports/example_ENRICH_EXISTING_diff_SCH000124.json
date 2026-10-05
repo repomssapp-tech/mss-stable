@@ -1,0 +1,17 @@
+{
+  "catalog_id": "SCH000124",
+  "enrich_source": "MSME2526-078",
+  "diff_summary": {
+    "identity.legacyCodes": "Appended mss_v3_1: MSME2526-078",
+    "content.benefits.grant": "Enriched toolkit incentive grant",
+    "content.benefits.loan.conditions": "Appended condition: Second tranche, collateral free, 30 months tenure, 5% interest",
+    "content.benefits.interestSubvention": "Enriched subvention: 8%",
+    "content.applicationProcess.steps": "Filled 1 application steps from booklet",
+    "content.sources": "Appended SCH000124-SRC002: Ministry of MSME Schemes Booklet 2025-26",
+    "localization.hi": "Backfilled Hindi localization from booklet_2025_26_machine_hi",
+    "verification.notes": "Appended verification notes and agent flags",
+    "provenance.transformationNotes": "Appended enrichment transformation note",
+    "metadata": "Bumped catalogVersion to 1.35.0-alpha, revision=29"
+  },
+  "conflicts": []
+}

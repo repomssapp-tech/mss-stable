@@ -78,6 +78,17 @@ DEFAULT_SOURCE = Path(r"C:\Users\roger\OneDrive\Documents\Plan\catalog")
 SCRATCH_DIR = BACKEND_DIR / ".mss_publish_scratch"
 BUCKET = "catalogs"
 
+def _load_env_fallback():
+    env_file = BACKEND_DIR / ".env"
+    if env_file.exists():
+        for line in env_file.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                k, v = line.split("=", 1)
+                os.environ.setdefault(k.strip(), v.strip())
+
+_load_env_fallback()
+
 # New-format publishable key (sb_publishable_...) for the real project. Public
 # by design -- the shipped Flutter app carries the same one -- but not hardcoded
 # here; supply it via the environment (see backend/.env.example). Used only to

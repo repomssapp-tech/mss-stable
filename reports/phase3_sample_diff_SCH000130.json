@@ -1,0 +1,1925 @@
+{
+  "catalog_id": "SCH000130",
+  "diff_summary": {
+    "identity.legacyCodes": "Appended mss_v3_1: MSME2526-001",
+    "content.benefits.loan.conditions": [
+      "maximum project cost, manufacturing",
+      "maximum project cost, service",
+      "bank loan 90-95% of project cost"
+    ],
+    "content.applicationProcess.steps": "Filled 3 application steps from booklet",
+    "content.sources": "Appended SCH000130-SRC002: Ministry of MSME Schemes Booklet 2025-26",
+    "verification.notes": "Appended 6 verification flags",
+    "provenance.transformationNotes": "Appended enrichment transformation note",
+    "localization.hi": "Backfilled Hindi localization from booklet_2025_26_machine_hi",
+    "search.aliases.hi": "Appended Hindi title to search aliases",
+    "metadata": "Bumped catalogVersion to 1.35.0-alpha, revision=30"
+  },
+  "before": {
+    "ai": {
+      "confidence": null,
+      "generatedAt": "2026-08-04T00:00:00Z",
+      "generatedBy": "mss-ai-derive-1.0.0",
+      "generationMode": "extractive",
+      "isApproved": false,
+      "recommendations": [],
+      "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+      "relatedEntities": [
+        {
+          "basis": "explicit shared attributes (Jaccard); no text inference",
+          "entityId": "SCH000075",
+          "entityType": "scheme",
+          "name": "Khadi Gramodyog Vikas Yojana",
+          "sharedFeatureCount": 6,
+          "sharedFeatures": [
+            "agency:AUTH000027",
+            "authority:AUTH000003",
+            "authority:AUTH000027",
+            "benefit:capitalSubsidy",
+            "doc:CMN000213",
+            "level:central"
+          ],
+          "similarity": 0.429
+        },
+        {
+          "basis": "explicit shared attributes (Jaccard); no text inference",
+          "entityId": "SCH000076",
+          "entityType": "scheme",
+          "name": "Khadi Vikas Yojana",
+          "sharedFeatureCount": 5,
+          "sharedFeatures": [
+            "agency:AUTH000027",
+            "authority:AUTH000003",
+            "authority:AUTH000027",
+            "doc:CMN000213",
+            "level:central"
+          ],
+          "similarity": 0.357
+        }
+      ],
+      "reviewRequired": true,
+      "reviewedAt": null,
+      "reviewedBy": null,
+      "sectionSummaries": {
+        "benefits": "Margin-money subsidy, beneficiary contribution, eligible project-cost ceilings and special-category rates depend on current PMEGP guidelines; exact figures are not inserted until the current KVIC guideline is directly verified.",
+        "documents": "Online PMEGP application; Aadhaar; Educational qualification certificate; Project Report / DPR; Category / special-category certificate; Rural area certificate",
+        "eligibility": "Individuals aged 18+ and eligible institutions can apply to establish a new micro-enterprise. Educational qualification is required for projects above prescribed cost thresholds, and only new units are eligible for subsidy."
+      },
+      "semanticTags": [
+        {
+          "code": "micro",
+          "matchedOn": "micro",
+          "termId": "CMN000075",
+          "termType": "enterprise_type"
+        }
+      ],
+      "similarityMethod": "explicit-shared-attribute Jaccard",
+      "sourceFieldsUsed": [
+        "content.overview.summary",
+        "content.benefits.summary",
+        "content.eligibility.narrative.criteria",
+        "content.requiredDocuments[].name"
+      ],
+      "summary": "PMEGP supports creation of new micro enterprises through bank credit and margin-money subsidy. Margin-money subsidy, beneficiary contribution, eligible project-cost ceilings and special-category rates depend on current PMEGP guidelines; exact figures are not inserted until the current KVIC guideline is directly verified."
+    },
+    "analytics": {
+      "actionCount": null,
+      "lastAggregatedAt": null,
+      "popularity": null,
+      "saveCount": null,
+      "viewCount": null
+    },
+    "content": {
+      "applicationProcess": {
+        "applicationFeeInr": null,
+        "applicationFeeText": null,
+        "mode": "online",
+        "modeText": "Online through PMEGP e-portal",
+        "offlineDetails": null,
+        "onlineUrl": "https://www.kviconline.gov.in/pmegpeportal/",
+        "services": [],
+        "steps": []
+      },
+      "applicationTimeline": {
+        "closesOn": null,
+        "cycles": [],
+        "isRollingIntake": null,
+        "opensOn": null,
+        "processingDurationDays": null,
+        "text": null
+      },
+      "benefits": {
+        "benefitTypes": [
+          "capitalSubsidy"
+        ],
+        "capitalSubsidy": {
+          "amountInr": null,
+          "amountText": null,
+          "applicable": true,
+          "basis": null,
+          "conditions": [],
+          "description": "Subsidy on project cost, tiered: urban 15% (general)/25% (special category: SC/ST/OBC/Minorities/Women/Ex-servicemen/Physically handicapped/NE Region/Hill & Border areas); rural 25% (general)/35% (special category). Second subsidy for existing/better-performing PMEGP/MUDRA/REGP units diversifying: 15% of project cost up to Rs 1 crore, 20% for North-East region. Maximum PROJECT COST (not the subsidy amount): Rs 50 lakh (manufacturing) / Rs 20 lakh (service) -- the subsidy itself has no separate flat rupee ceiling stated; it is purely the percentage applied to the (capped) project cost.",
+          "durationMonths": null,
+          "maxAmountInr": null,
+          "maxAmountText": null,
+          "minAmountInr": null,
+          "minAmountText": null,
+          "percentage": 15,
+          "percentageText": "15% (urban, general) to 35% (rural, special category) -- see conditions for full 4-tier table",
+          "varies": true,
+          "variesBy": "Guideline-specific"
+        },
+        "currency": "INR",
+        "disbursement": {
+          "instalments": null,
+          "mode": null,
+          "modeText": null,
+          "text": null
+        },
+        "equitySupport": {
+          "amountInr": null,
+          "amountText": null,
+          "applicable": null,
+          "basis": null,
+          "conditions": [],
+          "description": null,
+          "durationMonths": null,
+          "maxAmountInr": null,
+          "maxAmountText": null,
+          "minAmountInr": null,
+          "minAmountText": null,
+          "percentage": null,
+          "percentageText": null,
+          "varies": false,
+          "variesBy": null
+        },
+        "grant": {
+          "amountInr": null,
+          "amountText": null,
+          "applicable": null,
+          "basis": null,
+          "conditions": [],
+          "description": null,
+          "durationMonths": null,
+          "maxAmountInr": null,
+          "maxAmountText": null,
+          "minAmountInr": null,
+          "minAmountText": null,
+          "percentage": null,
+          "percentageText": null,
+          "varies": false,
+          "variesBy": null
+        },
+        "guarantee": {
+          "amountInr": null,
+          "amountText": null,
+          "applicable": null,
+          "basis": null,
+          "conditions": [],
+          "coveragePercent": null,
+          "description": null,
+          "durationMonths": null,
+          "feePercent": null,
+          "guarantorId": null,
+          "guarantorText": null,
+          "maxAmountInr": null,
+          "maxAmountText": null,
+          "maxCoverInr": null,
+          "minAmountInr": null,
+          "minAmountText": null,
+          "percentage": null,
+          "percentageText": null,
+          "varies": false,
+          "variesBy": null
+        },
+        "insurance": {
+          "amountInr": null,
+          "amountText": null,
+          "applicable": null,
+          "basis": null,
+          "conditions": [],
+          "description": null,
+          "durationMonths": null,
+          "maxAmountInr": null,
+          "maxAmountText": null,
+          "minAmountInr": null,
+          "minAmountText": null,
+          "percentage": null,
+          "percentageText": null,
+          "varies": false,
+          "variesBy": null
+        },
+        "interestSubvention": {
+          "amountInr": null,
+          "amountText": null,
+          "applicable": null,
+          "basis": null,
+          "conditions": [],
+          "description": null,
+          "durationMonths": null,
+          "maxAmountInr": null,
+          "maxAmountText": null,
+          "minAmountInr": null,
+          "minAmountText": null,
+          "percentage": null,
+          "percentageText": null,
+          "varies": false,
+          "variesBy": null
+        },
+        "loan": {
+          "amountInr": null,
+          "amountText": null,
+          "applicable": null,
+          "basis": null,
+          "collateralRequired": null,
+          "conditions": [],
+          "description": null,
+          "durationMonths": null,
+          "interestRatePercent": null,
+          "interestRateText": null,
+          "maxAmountInr": null,
+          "maxAmountText": null,
+          "minAmountInr": null,
+          "minAmountText": null,
+          "moratoriumMonths": null,
+          "percentage": null,
+          "percentageText": null,
+          "repaymentText": null,
+          "tenureMonths": null,
+          "varies": false,
+          "variesBy": null
+        },
+        "marginMoney": {
+          "amountInr": null,
+          "amountText": null,
+          "applicable": null,
+          "basis": null,
+          "conditions": [],
+          "description": null,
+          "durationMonths": null,
+          "maxAmountInr": null,
+          "maxAmountText": null,
+          "minAmountInr": null,
+          "minAmountText": null,
+          "percentage": null,
+          "percentageText": null,
+          "varies": false,
+          "variesBy": null
+        },
+        "marketSupport": {
+          "applicable": null,
+          "conditions": [],
+          "description": null,
+          "durationText": null,
+          "modalities": [],
+          "providerIds": [],
+          "providerText": null
+        },
+        "reimbursement": {
+          "amountInr": null,
+          "amountText": null,
+          "applicable": null,
+          "basis": null,
+          "conditions": [],
+          "description": null,
+          "durationMonths": null,
+          "maxAmountInr": null,
+          "maxAmountText": null,
+          "minAmountInr": null,
+          "minAmountText": null,
+          "percentage": null,
+          "percentageText": null,
+          "varies": false,
+          "variesBy": null
+        },
+        "summary": "Subsidy on project cost, tiered: urban 15% (general)/25% (special category: SC/ST/OBC/Minorities/Women/Ex-servicemen/Physically handicapped/NE Region/Hill & Border areas); rural 25% (general)/35% (special category). Second subsidy for existing/better-performing PMEGP/MUDRA/REGP units diversifying: 15% of project cost up to Rs 1 crore, 20% for North-East region. Maximum PROJECT COST (not the subsidy amount): Rs 50 lakh (manufacturing) / Rs 20 lakh (service) -- the subsidy itself has no separate flat rupee ceiling stated; it is purely the percentage applied to the (capped) project cost.",
+        "taxBenefit": {
+          "amountInr": null,
+          "amountText": null,
+          "applicable": null,
+          "basis": null,
+          "conditions": [],
+          "description": null,
+          "durationMonths": null,
+          "maxAmountInr": null,
+          "maxAmountText": null,
+          "minAmountInr": null,
+          "minAmountText": null,
+          "percentage": null,
+          "percentageText": null,
+          "varies": false,
+          "variesBy": null
+        },
+        "technologySupport": {
+          "applicable": null,
+          "conditions": [],
+          "description": null,
+          "durationText": null,
+          "modalities": [],
+          "providerIds": [],
+          "providerText": null
+        },
+        "trainingSupport": {
+          "applicable": null,
+          "conditions": [],
+          "description": null,
+          "durationText": null,
+          "modalities": [],
+          "providerIds": [],
+          "providerText": null
+        }
+      },
+      "classification": {
+        "categories": [],
+        "government": {
+          "country": "IN",
+          "departmentId": "AUTH000027",
+          "departmentText": "Khadi and Village Industries Commission (KVIC)",
+          "districts": [],
+          "districtsText": "Pan-India",
+          "implementingAgencyIds": [
+            "AUTH000027"
+          ],
+          "implementingAgencyText": "KVIC with State KVIBs, DICs, banks and other implementing agencies",
+          "level": "central",
+          "levelText": "Central",
+          "ministryId": "AUTH000003",
+          "ministryText": "Ministry of Micro, Small & Medium Enterprises",
+          "states": [],
+          "statesText": "Pan-India"
+        },
+        "schemeType": "credit_linked_subsidy",
+        "schemeTypeText": "Credit-linked margin-money subsidy",
+        "sectors": [],
+        "sectorsText": "New micro enterprises / self-employment",
+        "tags": []
+      },
+      "contacts": {
+        "district": [],
+        "helplines": [],
+        "national": [],
+        "state": []
+      },
+      "eligibility": {
+        "narrative": {
+          "criteria": "Age 18+, or a Self Help Group, Societies-Registration-Act institution, production co-operative society, or charitable trust. Individual applicants need VIII standard pass if project cost exceeds Rs 10 lakh (manufacturing) or Rs 5 lakh (service). EDP training mandatory if project cost exceeds Rs 2 lakh.",
+          "exclusions": [],
+          "relaxations": [],
+          "verifiedCriteria": null
+        },
+        "structured": {
+          "age": {
+            "applies": true,
+            "maxYears": null,
+            "minYears": 18,
+            "text": "aged 18+"
+          },
+          "businessStage": {
+            "applies": true,
+            "text": null,
+            "values": [
+              "new"
+            ]
+          },
+          "community": {
+            "applies": null,
+            "text": null,
+            "values": []
+          },
+          "enterprise": {
+            "applies": true,
+            "constitution": [],
+            "text": null,
+            "types": [
+              "micro"
+            ]
+          },
+          "existingRegistration": {
+            "applies": null,
+            "required": [],
+            "text": null
+          },
+          "gender": {
+            "applies": null,
+            "text": null,
+            "values": []
+          },
+          "investment": {
+            "applies": null,
+            "maxInr": null,
+            "minInr": null,
+            "text": null
+          },
+          "location": {
+            "applies": null,
+            "areaTypes": [],
+            "country": null,
+            "districts": [],
+            "states": [],
+            "text": null
+          },
+          "otherConditions": [],
+          "sector": {
+            "applies": null,
+            "excluded": [],
+            "included": [],
+            "text": null
+          },
+          "specialCategory": {
+            "applies": null,
+            "text": null,
+            "values": []
+          },
+          "turnover": {
+            "applies": null,
+            "maxInr": null,
+            "minInr": null,
+            "text": null
+          }
+        }
+      },
+      "faqs": [],
+      "objectives": [
+        "Generate sustainable employment through new self-employment ventures in rural and urban areas."
+      ],
+      "overview": {
+        "background": null,
+        "description": "PMEGP supports creation of new micro enterprises through bank credit and margin-money subsidy.",
+        "lastUpdated": null,
+        "lastUpdatedText": "Current",
+        "legalBasis": [],
+        "objective": "Generate sustainable employment through new self-employment ventures in rural and urban areas.",
+        "summary": "PMEGP supports creation of new micro enterprises through bank credit and margin-money subsidy.",
+        "validity": {
+          "from": null,
+          "isOpenEnded": null,
+          "text": null,
+          "to": null
+        },
+        "version": "Current PMEGP portal"
+      },
+      "requiredDocuments": [
+        {
+          "description": "Application through PMEGP e-Portal with applicant and proposed-unit details.",
+          "documentId": "SCH000130-DOC001",
+          "documentTypeId": "CMN000213",
+          "downloadTemplateUrl": null,
+          "estimatedCostInr": null,
+          "estimatedCostText": "No application fee identified",
+          "issuingAuthorityId": null,
+          "issuingAuthorityText": "KVIC / KVIB / DIC",
+          "mandatory": "required",
+          "mandatoryText": "Yes",
+          "name": "Online PMEGP application",
+          "remarks": "Use current e-portal.",
+          "sampleCopyUrl": null,
+          "sourceUrl": "https://www.kviconline.gov.in/pmegpeportal/",
+          "validityMonths": null,
+          "verificationPortalUrl": null
+        },
+        {
+          "description": "Applicant identity used in PMEGP online application/verification.",
+          "documentId": "SCH000130-DOC002",
+          "documentTypeId": "CMN000203",
+          "downloadTemplateUrl": null,
+          "estimatedCostInr": null,
+          "estimatedCostText": "No scheme fee",
+          "issuingAuthorityId": null,
+          "issuingAuthorityText": "UIDAI",
+          "mandatory": "required",
+          "mandatoryText": "Yes",
+          "name": "Aadhaar",
+          "remarks": "Follow current portal validation.",
+          "sampleCopyUrl": null,
+          "sourceUrl": "https://www.kviconline.gov.in/pmegpeportal/",
+          "validityMonths": null,
+          "verificationPortalUrl": null
+        },
+        {
+          "description": "Required where project cost/activity triggers minimum educational qualification under PMEGP guidelines.",
+          "documentId": "SCH000130-DOC003",
+          "documentTypeId": "CMN000211",
+          "downloadTemplateUrl": null,
+          "estimatedCostInr": null,
+          "estimatedCostText": "Certificate cost varies",
+          "issuingAuthorityId": null,
+          "issuingAuthorityText": "Recognised educational authority",
+          "mandatory": "conditional",
+          "mandatoryText": "Conditional",
+          "name": "Educational qualification certificate",
+          "remarks": "Applicability depends on current scheme threshold/activity.",
+          "sampleCopyUrl": null,
+          "sourceUrl": "https://www.kviconline.gov.in/pmegpeportal/",
+          "validityMonths": null,
+          "verificationPortalUrl": null
+        },
+        {
+          "description": "Proposed enterprise, cost, finance, employment and activity details for appraisal.",
+          "documentId": "SCH000130-DOC004",
+          "documentTypeId": "CMN000209",
+          "downloadTemplateUrl": null,
+          "estimatedCostInr": null,
+          "estimatedCostText": "Preparation cost varies",
+          "issuingAuthorityId": null,
+          "issuingAuthorityText": "Applicant / professional",
+          "mandatory": "required",
+          "mandatoryText": "Yes",
+          "name": "Project Report / DPR",
+          "remarks": "Core bank-appraisal document.",
+          "sampleCopyUrl": null,
+          "sourceUrl": "https://www.kviconline.gov.in/pmegpeportal/",
+          "validityMonths": null,
+          "verificationPortalUrl": null
+        },
+        {
+          "description": "Evidence for applicants claiming eligible special-category benefits.",
+          "documentId": "SCH000130-DOC005",
+          "documentTypeId": "CMN000211",
+          "downloadTemplateUrl": null,
+          "estimatedCostInr": null,
+          "estimatedCostText": "Government fee not specified",
+          "issuingAuthorityId": null,
+          "issuingAuthorityText": "Competent Government Authority",
+          "mandatory": "conditional",
+          "mandatoryText": "Conditional",
+          "name": "Category / special-category certificate",
+          "remarks": "Only where applicable.",
+          "sampleCopyUrl": null,
+          "sourceUrl": "https://www.kviconline.gov.in/pmegpeportal/",
+          "validityMonths": null,
+          "verificationPortalUrl": null
+        },
+        {
+          "description": "Evidence where rural-area classification is relevant to margin-money subsidy.",
+          "documentId": "SCH000130-DOC006",
+          "documentTypeId": "CMN000211",
+          "downloadTemplateUrl": null,
+          "estimatedCostInr": null,
+          "estimatedCostText": null,
+          "issuingAuthorityId": null,
+          "issuingAuthorityText": "Competent local authority",
+          "mandatory": "conditional",
+          "mandatoryText": "Conditional",
+          "name": "Rural area certificate",
+          "remarks": "Only where applicable.",
+          "sampleCopyUrl": null,
+          "sourceUrl": "https://www.kviconline.gov.in/pmegpeportal/",
+          "validityMonths": null,
+          "verificationPortalUrl": null
+        },
+        {
+          "description": "Additional KYC, financial and project records required by the bank after application forwarding.",
+          "documentId": "SCH000130-DOC007",
+          "documentTypeId": "CMN000208",
+          "downloadTemplateUrl": null,
+          "estimatedCostInr": null,
+          "estimatedCostText": "Bank-specific",
+          "issuingAuthorityId": null,
+          "issuingAuthorityText": "Financing bank",
+          "mandatory": "required",
+          "mandatoryText": "Yes",
+          "name": "Bank / lending-institution KYC and appraisal documents",
+          "remarks": "Bank checklist controls credit sanction.",
+          "sampleCopyUrl": null,
+          "sourceUrl": "https://www.kviconline.gov.in/pmegpeportal/",
+          "validityMonths": null,
+          "verificationPortalUrl": null
+        }
+      ],
+      "schemeUrl": "https://pmegp.msme.gov.in/",
+      "sources": [
+        {
+          "accessedOn": null,
+          "documentFormat": "html",
+          "isCurrent": true,
+          "isPrimary": true,
+          "language": "en",
+          "publishedOn": null,
+          "publisherId": null,
+          "publisherText": "MSME Schemes 2025-26 | TN MSME Compendium 2022",
+          "reference": null,
+          "sourceId": "SCH000130-SRC001",
+          "sourceType": "guideline",
+          "title": "Primary source",
+          "url": "https://www.kviconline.gov.in/pmegpeportal/"
+        }
+      ],
+      "targetBeneficiaries": {
+        "beneficiaryTypes": [],
+        "businessStages": [
+          "new"
+        ],
+        "description": "Eligible individuals/institutions establishing new micro-enterprises under current PMEGP guidelines",
+        "enterpriseTypes": [
+          "micro"
+        ],
+        "specialCategories": []
+      }
+    },
+    "identity": {
+      "acronym": "PMEGP",
+      "code": "TN130",
+      "entityType": "scheme",
+      "id": "SCH000130",
+      "language": "en",
+      "legacyCodes": [
+        {
+          "code": "TN130",
+          "system": "tn_spreadsheet"
+        },
+        {
+          "code": "IN130",
+          "system": "legacy_json"
+        }
+      ],
+      "name": "Prime Minister’s Employment Generation Programme (PMEGP)",
+      "shortName": "PMEGP",
+      "slug": "prime-minister-s-employment-generation-programme-pmegp",
+      "status": "active"
+    },
+    "localization": {
+      "en": {
+        "applicationText": "Online through PMEGP e-portal",
+        "benefitsText": "Margin-money subsidy, beneficiary contribution, eligible project-cost ceilings and special-category rates depend on current PMEGP guidelines; exact figures are not inserted until the current KVIC guideline is directly verified.",
+        "description": "PMEGP supports creation of new micro enterprises through bank credit and margin-money subsidy.",
+        "eligibilityText": "Individuals aged 18+ and eligible institutions can apply to establish a new micro-enterprise. Educational qualification is required for projects above prescribed cost thresholds, and only new units are eligible for subsidy.",
+        "name": "Prime Minister’s Employment Generation Programme (PMEGP)",
+        "objective": "Generate sustainable employment through new self-employment ventures in rural and urban areas.",
+        "shortName": "PMEGP",
+        "summary": "PMEGP supports creation of new micro enterprises through bank credit and margin-money subsidy."
+      },
+      "hi": {
+        "applicationText": null,
+        "benefitsText": null,
+        "description": null,
+        "eligibilityText": null,
+        "name": null,
+        "objective": null,
+        "shortName": null,
+        "summary": null
+      },
+      "ta": {
+        "applicationText": "PMEGP இ-வலைவாயில் வழியாக இணையவழியில்",
+        "benefitsText": "விளிம்பு நிதி மானியம், பயனாளிப் பங்களிப்பு, தகுதியான திட்டச் செலவு உச்சவரம்புகள் மற்றும் சிறப்பு வகை விகிதங்கள் ஆகியவை தற்போதைய PMEGP வழிகாட்டு நெறிமுறைகளைச் சார்ந்தவை; தற்போதைய KVIC வழிகாட்டு நெறிமுறை நேரடியாகச் சரிபார்க்கப்படும் வரை துல்லியமான எண்கள் சேர்க்கப்படவில்லை.",
+        "description": "வங்கிக் கடன் மற்றும் விளிம்பு நிதி மானியம் வழியாகப் புதிய குறு நிறுவனங்கள் உருவாக்கப்படுவதை PMEGP ஆதரிக்கிறது.",
+        "eligibilityText": "18 வயது நிரம்பிய தனிநபர்களும் தகுதியான நிறுவனங்களும், புதிய குறு நிறுவனத்தை அமைக்க விண்ணப்பிக்கலாம். நிர்ணயிக்கப்பட்ட செலவு வரம்புகளுக்கு மேற்பட்ட திட்டங்களுக்குக் கல்வித் தகுதி தேவை; புதிய நிறுவனங்கள் மட்டுமே மானியத்திற்குத் தகுதியுடையவை.",
+        "name": "பிரதம மந்திரி வேலைவாய்ப்பு உருவாக்கத் திட்டம் (PMEGP)",
+        "objective": "கிராமப்புற மற்றும் நகர்ப்புறப் பகுதிகளில் புதிய சுயவேலைவாய்ப்பு முயற்சிகள் வழியாக நிலைத்த வேலைவாய்ப்பை உருவாக்குதல்.",
+        "shortName": "PMEGP",
+        "summary": "வங்கிக் கடன் மற்றும் விளிம்பு நிதி மானியம் வழியாகப் புதிய குறு நிறுவனங்கள் உருவாக்கப்படுவதை PMEGP ஆதரிக்கிறது."
+      }
+    },
+    "metadata": {
+      "catalogVersion": "1.33.0-alpha",
+      "createdAt": "2026-08-04T00:00:00Z",
+      "recordStatus": "published",
+      "revision": 29,
+      "schemaVersion": "1.0.0",
+      "updatedAt": "2026-08-15T00:00:00Z"
+    },
+    "provenance": {
+      "contributingSourceIds": [
+        "SCH000130-SRC001"
+      ],
+      "defaultSourceTier": 2,
+      "extractedAt": "2026-08-04T00:00:00Z",
+      "extractionMethod": "automated",
+      "fieldSources": [
+        {
+          "field": "content.targetBeneficiaries.* / content.eligibility.structured.* (enterpriseTypes, businessStages, specialCategories, gender.values, enterprise.types, businessStage.values, specialCategory.values, sector.included -- only the sub-fields that were empty)",
+          "isBackfill": true,
+          "note": "applicability_matrix_catalog.json's record for this scheme (regeneratedFrom.sourceContentChecksum=sha256:86fc34cd2a770da53...) already holds these facets, derived from this same scheme's content by build_applicability_matrix.py. Reconciliation only -- the matrix's own values are not re-derived or changed, only copied into the raw field that was previously empty despite the matrix already having the answer.",
+          "organization": null,
+          "retrievedAt": "2026-08-15",
+          "sourceTier": 4,
+          "sourceType": "previous_verified_extraction",
+          "supersededValue": null,
+          "url": null,
+          "value": "backfilled from applicability_matrix_catalog.json"
+        },
+        {
+          "field": "content.benefits.capitalSubsidy",
+          "isBackfill": true,
+          "note": "\"Compendium of Schemes for MSMEs 2022\" (MSME Department, Government of Tamil Nadu, September 2022), held locally as TN_Schemes_Booklet_2022_v10.md, page 74. Full 4-tier percentage table and project-cost cap, verbatim. maxAmountInr deliberately left null -- project cost cap is NOT the subsidy ceiling and is not stored in an amount-typed benefit field, per this session's field-reconciliation rule.",
+          "organization": "MSME Department, Government of Tamil Nadu",
+          "retrievedAt": "2026-08-15",
+          "sourceTier": 1,
+          "sourceType": "official_booklet_held",
+          "supersededValue": null,
+          "url": null,
+          "value": {
+            "percentage": 15
+          }
+        },
+        {
+          "field": "content.eligibility.narrative.criteria",
+          "isBackfill": true,
+          "note": "\"Compendium of Schemes for MSMEs 2022\" (MSME Department, Government of Tamil Nadu, September 2022), held locally as TN_Schemes_Booklet_2022_v10.md, page 74. Eligibility, verbatim.",
+          "organization": "MSME Department, Government of Tamil Nadu",
+          "retrievedAt": "2026-08-15",
+          "sourceTier": 1,
+          "sourceType": "official_booklet_held",
+          "supersededValue": null,
+          "url": null,
+          "value": "Age 18+, or a Self Help Group, Societies-Registration-Act institution, production co-operative society, or charitable trust. Individual applicants need VIII standard pass if project cost exceeds Rs 10 lakh (manufacturing) or Rs 5 lakh (service). EDP training mandatory if project cost exceeds Rs 2 lakh."
+        }
+      ],
+      "pipelineVersion": "phase4-resolve-1.0.0",
+      "primarySourceId": "SCH000130-SRC001",
+      "transformationNotes": [
+        "Currency text parsed to integer rupees",
+        "Placeholder values normalised to null",
+        "Scheme Code recovered by exact name join; source cell read 'Not specified' (conflict C-7)",
+        "classification.government.ministryId resolved to AUTH000003 from 'Ministry of Micro, Small & Medium Enterprises' by exact normalised-name join against authority_catalog 1.0.0 (rule R1)",
+        "classification.government.departmentId resolved to AUTH000027 from 'Khadi and Village Industries Commission (KVIC)' (rule R1)",
+        "implementingAgencyIds += AUTH000027 from 'KVIC with State KVIBs, DICs, banks and other implementing agencies' (rules R1, R2)",
+        "classification.schemeType resolved to 'credit_linked_subsidy' by exact alias match against common_catalog (rule R3)",
+        "documentTypeId resolved on 7 document(s) by exact alias match against common_catalog (rule R4)",
+        "Regenerated from frozen 1.0.0-alpha baseline; content values unchanged, identifiers resolved only",
+        "Phase 3: inverse cross-references added; no content changed"
+      ],
+      "translations": {
+        "ta": {
+          "dictionaryVersion": "1.0.0",
+          "engine": "Claude",
+          "fieldMethods": {
+            "applicationText": "llm_contextual_translation",
+            "benefitsText": "llm_contextual_translation",
+            "description": "llm_contextual_translation",
+            "eligibilityText": "llm_contextual_translation",
+            "name": "llm_contextual_translation",
+            "objective": "llm_contextual_translation",
+            "shortName": "llm_contextual_translation",
+            "summary": "llm_contextual_translation"
+          },
+          "fieldsContextual": 8,
+          "fieldsPending": 0,
+          "fieldsTranslated": 8,
+          "generatedAt": "2026-08-04T00:00:00Z",
+          "isApproved": false,
+          "method": "llm_contextual_translation",
+          "note": "Machine-generated Tamil. Not an official translation; requires review before publication.",
+          "reviewRequired": true,
+          "status": "machine"
+        }
+      }
+    },
+    "relationships": {
+      "references": [
+        {
+          "entityId": "AUTH000003",
+          "entityType": "authority",
+          "note": "Resolved by exact normalised-name join (rule R1)",
+          "relationType": "administered_by",
+          "role": null
+        },
+        {
+          "entityId": "AUTH000027",
+          "entityType": "authority",
+          "note": "Resolved by exact normalised-name join (rule R1)",
+          "relationType": "administered_by",
+          "role": null
+        },
+        {
+          "entityId": "INST000004",
+          "entityType": "institution",
+          "generated": true,
+          "note": "Inverse of implements declared on INST000004 (Phase 3, rule C1)",
+          "relationType": "implemented_by",
+          "role": null
+        },
+        {
+          "entityId": "FIN000079",
+          "entityType": "finance_product",
+          "generated": true,
+          "note": "Inverse of offered_under declared on FIN000079 (Phase 3, rule C1)",
+          "relationType": "offers",
+          "role": null
+        }
+      ]
+    },
+    "search": {
+      "aliases": {
+        "en": [
+          "Prime Minister’s Employment Generation Programme (PMEGP)",
+          "PMEGP",
+          "TN130"
+        ],
+        "ta": []
+      },
+      "boostTerms": [],
+      "crossReferences": [],
+      "keywords": {
+        "en": [
+          "current",
+          "employment",
+          "establishing",
+          "generation",
+          "guidelines",
+          "individuals",
+          "institutions",
+          "micro",
+          "minister",
+          "pmegp",
+          "prime",
+          "programme",
+          "self"
+        ],
+        "ta": [
+          "சுய",
+          "தற்போதைய",
+          "திட்டம்",
+          "நிறுவனங்கள்",
+          "வேலைவாய்ப்பு"
+        ]
+      },
+      "searchRank": null,
+      "synonyms": []
+    },
+    "verification": {
+      "confidence": "high",
+      "disputedFields": [
+        {
+          "field": "content.applicationProcess.onlineUrl",
+          "resolution": "baseline value retained; live source unreachable at 2026-08-14 — review required",
+          "resolvedBy": null,
+          "values": [
+            "https://www.kviconline.gov.in/pmegpeportal/"
+          ]
+        },
+        {
+          "field": "content.sources[0].url",
+          "resolution": "baseline value retained; live source unreachable at 2026-08-14 — review required",
+          "resolvedBy": null,
+          "values": [
+            "https://www.kviconline.gov.in/pmegpeportal/"
+          ]
+        }
+      ],
+      "isVerified": false,
+      "missingFields": [
+        {
+          "field": "content.overview.background",
+          "reason": "Not available in available sources"
+        },
+        {
+          "field": "content.overview.legalBasis",
+          "reason": "Not available in available sources"
+        },
+        {
+          "field": "content.overview.validity",
+          "reason": "Not available in available sources"
+        },
+        {
+          "field": "content.overview.lastUpdated",
+          "reason": "Not available in available sources"
+        },
+        {
+          "field": "content.eligibility.narrative.verifiedCriteria",
+          "reason": "Not available in available sources"
+        },
+        {
+          "field": "content.eligibility.narrative.exclusions",
+          "reason": "Not available in available sources"
+        },
+        {
+          "field": "content.eligibility.narrative.relaxations",
+          "reason": "Not available in available sources"
+        },
+        {
+          "field": "content.applicationProcess.steps",
+          "reason": "Not available in available sources"
+        },
+        {
+          "field": "content.applicationProcess.services",
+          "reason": "Source service rows are generic placeholders carrying no service detail"
+        },
+        {
+          "field": "content.applicationTimeline",
+          "reason": "Not available in available sources"
+        },
+        {
+          "field": "content.contacts",
+          "reason": "Not available in available sources"
+        },
+        {
+          "field": "content.faqs",
+          "reason": "Not available in available sources"
+        },
+        {
+          "field": "content.eligibility.structured",
+          "reason": "Facets not determinable from available sources: gender, sector, turnover, investment, location, community, specialCategory, existingRegistration"
+        }
+      ],
+      "notes": null,
+      "researchStatus": "Researched",
+      "reviewDueOn": null,
+      "status": "verified",
+      "statusText": null,
+      "verifiedAgainst": [
+        "SCH000130-SRC001"
+      ],
+      "verifiedAt": "2026-08-15",
+      "verifiedBy": null,
+      "verifiedFields": [
+        {
+          "field": "content.applicationProcess.onlineUrl",
+          "note": "DNS resolution timed out (getaddrinfo ETIMEOUT) -- kviconline.gov.in has failed to resolve on every attempt across this entire session (batches 1-6). Not verifiable by fetch; baseline retained.",
+          "outcome": "unreachable",
+          "retrievedAt": "2026-08-14",
+          "sourceTier": 5,
+          "url": "https://www.kviconline.gov.in/pmegpeportal/",
+          "value": "https://www.kviconline.gov.in/pmegpeportal/"
+        },
+        {
+          "field": "content.sources[0].url",
+          "note": "DNS resolution timed out (getaddrinfo ETIMEOUT) -- kviconline.gov.in has failed to resolve on every attempt across this entire session (batches 1-6). Not verifiable by fetch; baseline retained.",
+          "outcome": "unreachable",
+          "retrievedAt": "2026-08-14",
+          "sourceTier": 5,
+          "url": "https://www.kviconline.gov.in/pmegpeportal/",
+          "value": "https://www.kviconline.gov.in/pmegpeportal/"
+        }
+      ]
+    }
+  },
+  "after": {
+    "ai": {
+      "confidence": null,
+      "generatedAt": "2026-08-04T00:00:00Z",
+      "generatedBy": "mss-ai-derive-1.0.0",
+      "generationMode": "extractive",
+      "isApproved": false,
+      "recommendations": [],
+      "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+      "relatedEntities": [
+        {
+          "basis": "explicit shared attributes (Jaccard); no text inference",
+          "entityId": "SCH000075",
+          "entityType": "scheme",
+          "name": "Khadi Gramodyog Vikas Yojana",
+          "sharedFeatureCount": 6,
+          "sharedFeatures": [
+            "agency:AUTH000027",
+            "authority:AUTH000003",
+            "authority:AUTH000027",
+            "benefit:capitalSubsidy",
+            "doc:CMN000213",
+            "level:central"
+          ],
+          "similarity": 0.429
+        },
+        {
+          "basis": "explicit shared attributes (Jaccard); no text inference",
+          "entityId": "SCH000076",
+          "entityType": "scheme",
+          "name": "Khadi Vikas Yojana",
+          "sharedFeatureCount": 5,
+          "sharedFeatures": [
+            "agency:AUTH000027",
+            "authority:AUTH000003",
+            "authority:AUTH000027",
+            "doc:CMN000213",
+            "level:central"
+          ],
+          "similarity": 0.357
+        }
+      ],
+      "reviewRequired": true,
+      "reviewedAt": null,
+      "reviewedBy": null,
+      "sectionSummaries": {
+        "benefits": "Margin-money subsidy, beneficiary contribution, eligible project-cost ceilings and special-category rates depend on current PMEGP guidelines; exact figures are not inserted until the current KVIC guideline is directly verified.",
+        "documents": "Online PMEGP application; Aadhaar; Educational qualification certificate; Project Report / DPR; Category / special-category certificate; Rural area certificate",
+        "eligibility": "Individuals aged 18+ and eligible institutions can apply to establish a new micro-enterprise. Educational qualification is required for projects above prescribed cost thresholds, and only new units are eligible for subsidy."
+      },
+      "semanticTags": [
+        {
+          "code": "micro",
+          "matchedOn": "micro",
+          "termId": "CMN000075",
+          "termType": "enterprise_type"
+        }
+      ],
+      "similarityMethod": "explicit-shared-attribute Jaccard",
+      "sourceFieldsUsed": [
+        "content.overview.summary",
+        "content.benefits.summary",
+        "content.eligibility.narrative.criteria",
+        "content.requiredDocuments[].name"
+      ],
+      "summary": "PMEGP supports creation of new micro enterprises through bank credit and margin-money subsidy. Margin-money subsidy, beneficiary contribution, eligible project-cost ceilings and special-category rates depend on current PMEGP guidelines; exact figures are not inserted until the current KVIC guideline is directly verified."
+    },
+    "analytics": {
+      "actionCount": null,
+      "lastAggregatedAt": null,
+      "popularity": null,
+      "saveCount": null,
+      "viewCount": null
+    },
+    "content": {
+      "applicationProcess": {
+        "applicationFeeInr": null,
+        "applicationFeeText": null,
+        "mode": "online",
+        "modeText": "Online through PMEGP e-portal",
+        "offlineDetails": null,
+        "onlineUrl": "https://www.kviconline.gov.in/pmegpeportal/",
+        "services": [],
+        "steps": [
+          {
+            "step": 1,
+            "title": "Step 1",
+            "description": "Fill and submit the online application form on the PMEGP e-portal (mandatory for individuals; mobile friendly).",
+            "mode": "online",
+            "url": "https://www.kviconline.gov.in/pmegpeportal/pmegphome",
+            "documents": []
+          },
+          {
+            "step": 2,
+            "title": "Step 2",
+            "description": "Track the application through SMS/e-mail alerts sent at each stage.",
+            "mode": "online",
+            "url": null,
+            "documents": []
+          },
+          {
+            "step": 3,
+            "title": "Step 3",
+            "description": "On loan approval, the bank sanctions and releases the balance 90–95% of project cost; margin money subsidy is released directly to the financing branch.",
+            "mode": "offline",
+            "url": null,
+            "documents": []
+          }
+        ]
+      },
+      "applicationTimeline": {
+        "closesOn": null,
+        "cycles": [],
+        "isRollingIntake": null,
+        "opensOn": null,
+        "processingDurationDays": null,
+        "text": null
+      },
+      "benefits": {
+        "benefitTypes": [
+          "capitalSubsidy"
+        ],
+        "capitalSubsidy": {
+          "amountInr": null,
+          "amountText": null,
+          "applicable": true,
+          "basis": null,
+          "conditions": [],
+          "description": "Subsidy on project cost, tiered: urban 15% (general)/25% (special category: SC/ST/OBC/Minorities/Women/Ex-servicemen/Physically handicapped/NE Region/Hill & Border areas); rural 25% (general)/35% (special category). Second subsidy for existing/better-performing PMEGP/MUDRA/REGP units diversifying: 15% of project cost up to Rs 1 crore, 20% for North-East region. Maximum PROJECT COST (not the subsidy amount): Rs 50 lakh (manufacturing) / Rs 20 lakh (service) -- the subsidy itself has no separate flat rupee ceiling stated; it is purely the percentage applied to the (capped) project cost.",
+          "durationMonths": null,
+          "maxAmountInr": null,
+          "maxAmountText": null,
+          "minAmountInr": null,
+          "minAmountText": null,
+          "percentage": 15,
+          "percentageText": "15% (urban, general) to 35% (rural, special category) -- see conditions for full 4-tier table",
+          "varies": true,
+          "variesBy": "Guideline-specific"
+        },
+        "currency": "INR",
+        "disbursement": {
+          "instalments": null,
+          "mode": null,
+          "modeText": null,
+          "text": null
+        },
+        "equitySupport": {
+          "amountInr": null,
+          "amountText": null,
+          "applicable": null,
+          "basis": null,
+          "conditions": [],
+          "description": null,
+          "durationMonths": null,
+          "maxAmountInr": null,
+          "maxAmountText": null,
+          "minAmountInr": null,
+          "minAmountText": null,
+          "percentage": null,
+          "percentageText": null,
+          "varies": false,
+          "variesBy": null
+        },
+        "grant": {
+          "amountInr": null,
+          "amountText": null,
+          "applicable": null,
+          "basis": null,
+          "conditions": [],
+          "description": null,
+          "durationMonths": null,
+          "maxAmountInr": null,
+          "maxAmountText": null,
+          "minAmountInr": null,
+          "minAmountText": null,
+          "percentage": null,
+          "percentageText": null,
+          "varies": false,
+          "variesBy": null
+        },
+        "guarantee": {
+          "amountInr": null,
+          "amountText": null,
+          "applicable": null,
+          "basis": null,
+          "conditions": [],
+          "coveragePercent": null,
+          "description": null,
+          "durationMonths": null,
+          "feePercent": null,
+          "guarantorId": null,
+          "guarantorText": null,
+          "maxAmountInr": null,
+          "maxAmountText": null,
+          "maxCoverInr": null,
+          "minAmountInr": null,
+          "minAmountText": null,
+          "percentage": null,
+          "percentageText": null,
+          "varies": false,
+          "variesBy": null
+        },
+        "insurance": {
+          "amountInr": null,
+          "amountText": null,
+          "applicable": null,
+          "basis": null,
+          "conditions": [],
+          "description": null,
+          "durationMonths": null,
+          "maxAmountInr": null,
+          "maxAmountText": null,
+          "minAmountInr": null,
+          "minAmountText": null,
+          "percentage": null,
+          "percentageText": null,
+          "varies": false,
+          "variesBy": null
+        },
+        "interestSubvention": {
+          "amountInr": null,
+          "amountText": null,
+          "applicable": null,
+          "basis": null,
+          "conditions": [],
+          "description": null,
+          "durationMonths": null,
+          "maxAmountInr": null,
+          "maxAmountText": null,
+          "minAmountInr": null,
+          "minAmountText": null,
+          "percentage": null,
+          "percentageText": null,
+          "varies": false,
+          "variesBy": null
+        },
+        "loan": {
+          "amountInr": null,
+          "amountText": null,
+          "applicable": null,
+          "basis": null,
+          "collateralRequired": null,
+          "conditions": [
+            "maximum project cost, manufacturing",
+            "maximum project cost, service",
+            "bank loan 90-95% of project cost"
+          ],
+          "description": null,
+          "durationMonths": null,
+          "interestRatePercent": null,
+          "interestRateText": null,
+          "maxAmountInr": null,
+          "maxAmountText": null,
+          "minAmountInr": null,
+          "minAmountText": null,
+          "moratoriumMonths": null,
+          "percentage": null,
+          "percentageText": null,
+          "repaymentText": null,
+          "tenureMonths": null,
+          "varies": false,
+          "variesBy": null
+        },
+        "marginMoney": {
+          "amountInr": null,
+          "amountText": null,
+          "applicable": null,
+          "basis": null,
+          "conditions": [],
+          "description": null,
+          "durationMonths": null,
+          "maxAmountInr": null,
+          "maxAmountText": null,
+          "minAmountInr": null,
+          "minAmountText": null,
+          "percentage": null,
+          "percentageText": null,
+          "varies": false,
+          "variesBy": null
+        },
+        "marketSupport": {
+          "applicable": null,
+          "conditions": [],
+          "description": null,
+          "durationText": null,
+          "modalities": [],
+          "providerIds": [],
+          "providerText": null
+        },
+        "reimbursement": {
+          "amountInr": null,
+          "amountText": null,
+          "applicable": null,
+          "basis": null,
+          "conditions": [],
+          "description": null,
+          "durationMonths": null,
+          "maxAmountInr": null,
+          "maxAmountText": null,
+          "minAmountInr": null,
+          "minAmountText": null,
+          "percentage": null,
+          "percentageText": null,
+          "varies": false,
+          "variesBy": null
+        },
+        "summary": "Subsidy on project cost, tiered: urban 15% (general)/25% (special category: SC/ST/OBC/Minorities/Women/Ex-servicemen/Physically handicapped/NE Region/Hill & Border areas); rural 25% (general)/35% (special category). Second subsidy for existing/better-performing PMEGP/MUDRA/REGP units diversifying: 15% of project cost up to Rs 1 crore, 20% for North-East region. Maximum PROJECT COST (not the subsidy amount): Rs 50 lakh (manufacturing) / Rs 20 lakh (service) -- the subsidy itself has no separate flat rupee ceiling stated; it is purely the percentage applied to the (capped) project cost.",
+        "taxBenefit": {
+          "amountInr": null,
+          "amountText": null,
+          "applicable": null,
+          "basis": null,
+          "conditions": [],
+          "description": null,
+          "durationMonths": null,
+          "maxAmountInr": null,
+          "maxAmountText": null,
+          "minAmountInr": null,
+          "minAmountText": null,
+          "percentage": null,
+          "percentageText": null,
+          "varies": false,
+          "variesBy": null
+        },
+        "technologySupport": {
+          "applicable": null,
+          "conditions": [],
+          "description": null,
+          "durationText": null,
+          "modalities": [],
+          "providerIds": [],
+          "providerText": null
+        },
+        "trainingSupport": {
+          "applicable": null,
+          "conditions": [],
+          "description": null,
+          "durationText": null,
+          "modalities": [],
+          "providerIds": [],
+          "providerText": null
+        }
+      },
+      "classification": {
+        "categories": [],
+        "government": {
+          "country": "IN",
+          "departmentId": "AUTH000027",
+          "departmentText": "Khadi and Village Industries Commission (KVIC)",
+          "districts": [],
+          "districtsText": "Pan-India",
+          "implementingAgencyIds": [
+            "AUTH000027"
+          ],
+          "implementingAgencyText": "KVIC with State KVIBs, DICs, banks and other implementing agencies",
+          "level": "central",
+          "levelText": "Central",
+          "ministryId": "AUTH000003",
+          "ministryText": "Ministry of Micro, Small & Medium Enterprises",
+          "states": [],
+          "statesText": "Pan-India"
+        },
+        "schemeType": "credit_linked_subsidy",
+        "schemeTypeText": "Credit-linked margin-money subsidy",
+        "sectors": [],
+        "sectorsText": "New micro enterprises / self-employment",
+        "tags": []
+      },
+      "contacts": {
+        "district": [],
+        "helplines": [],
+        "national": [],
+        "state": []
+      },
+      "eligibility": {
+        "narrative": {
+          "criteria": "Age 18+, or a Self Help Group, Societies-Registration-Act institution, production co-operative society, or charitable trust. Individual applicants need VIII standard pass if project cost exceeds Rs 10 lakh (manufacturing) or Rs 5 lakh (service). EDP training mandatory if project cost exceeds Rs 2 lakh.",
+          "exclusions": [],
+          "relaxations": [],
+          "verifiedCriteria": null
+        },
+        "structured": {
+          "age": {
+            "applies": true,
+            "maxYears": null,
+            "minYears": 18,
+            "text": "aged 18+"
+          },
+          "businessStage": {
+            "applies": true,
+            "text": null,
+            "values": [
+              "new"
+            ]
+          },
+          "community": {
+            "applies": null,
+            "text": null,
+            "values": []
+          },
+          "enterprise": {
+            "applies": true,
+            "constitution": [],
+            "text": null,
+            "types": [
+              "micro"
+            ]
+          },
+          "existingRegistration": {
+            "applies": null,
+            "required": [],
+            "text": null
+          },
+          "gender": {
+            "applies": null,
+            "text": null,
+            "values": []
+          },
+          "investment": {
+            "applies": null,
+            "maxInr": null,
+            "minInr": null,
+            "text": null
+          },
+          "location": {
+            "applies": null,
+            "areaTypes": [],
+            "country": null,
+            "districts": [],
+            "states": [],
+            "text": null
+          },
+          "otherConditions": [],
+          "sector": {
+            "applies": null,
+            "excluded": [],
+            "included": [],
+            "text": null
+          },
+          "specialCategory": {
+            "applies": null,
+            "text": null,
+            "values": []
+          },
+          "turnover": {
+            "applies": null,
+            "maxInr": null,
+            "minInr": null,
+            "text": null
+          }
+        }
+      },
+      "faqs": [],
+      "objectives": [
+        "Generate sustainable employment through new self-employment ventures in rural and urban areas."
+      ],
+      "overview": {
+        "background": null,
+        "description": "PMEGP supports creation of new micro enterprises through bank credit and margin-money subsidy.",
+        "lastUpdated": null,
+        "lastUpdatedText": "Current",
+        "legalBasis": [],
+        "objective": "Generate sustainable employment through new self-employment ventures in rural and urban areas.",
+        "summary": "PMEGP supports creation of new micro enterprises through bank credit and margin-money subsidy.",
+        "validity": {
+          "from": null,
+          "isOpenEnded": null,
+          "text": null,
+          "to": null
+        },
+        "version": "Current PMEGP portal"
+      },
+      "requiredDocuments": [
+        {
+          "description": "Application through PMEGP e-Portal with applicant and proposed-unit details.",
+          "documentId": "SCH000130-DOC001",
+          "documentTypeId": "CMN000213",
+          "downloadTemplateUrl": null,
+          "estimatedCostInr": null,
+          "estimatedCostText": "No application fee identified",
+          "issuingAuthorityId": null,
+          "issuingAuthorityText": "KVIC / KVIB / DIC",
+          "mandatory": "required",
+          "mandatoryText": "Yes",
+          "name": "Online PMEGP application",
+          "remarks": "Use current e-portal.",
+          "sampleCopyUrl": null,
+          "sourceUrl": "https://www.kviconline.gov.in/pmegpeportal/",
+          "validityMonths": null,
+          "verificationPortalUrl": null
+        },
+        {
+          "description": "Applicant identity used in PMEGP online application/verification.",
+          "documentId": "SCH000130-DOC002",
+          "documentTypeId": "CMN000203",
+          "downloadTemplateUrl": null,
+          "estimatedCostInr": null,
+          "estimatedCostText": "No scheme fee",
+          "issuingAuthorityId": null,
+          "issuingAuthorityText": "UIDAI",
+          "mandatory": "required",
+          "mandatoryText": "Yes",
+          "name": "Aadhaar",
+          "remarks": "Follow current portal validation.",
+          "sampleCopyUrl": null,
+          "sourceUrl": "https://www.kviconline.gov.in/pmegpeportal/",
+          "validityMonths": null,
+          "verificationPortalUrl": null
+        },
+        {
+          "description": "Required where project cost/activity triggers minimum educational qualification under PMEGP guidelines.",
+          "documentId": "SCH000130-DOC003",
+          "documentTypeId": "CMN000211",
+          "downloadTemplateUrl": null,
+          "estimatedCostInr": null,
+          "estimatedCostText": "Certificate cost varies",
+          "issuingAuthorityId": null,
+          "issuingAuthorityText": "Recognised educational authority",
+          "mandatory": "conditional",
+          "mandatoryText": "Conditional",
+          "name": "Educational qualification certificate",
+          "remarks": "Applicability depends on current scheme threshold/activity.",
+          "sampleCopyUrl": null,
+          "sourceUrl": "https://www.kviconline.gov.in/pmegpeportal/",
+          "validityMonths": null,
+          "verificationPortalUrl": null
+        },
+        {
+          "description": "Proposed enterprise, cost, finance, employment and activity details for appraisal.",
+          "documentId": "SCH000130-DOC004",
+          "documentTypeId": "CMN000209",
+          "downloadTemplateUrl": null,
+          "estimatedCostInr": null,
+          "estimatedCostText": "Preparation cost varies",
+          "issuingAuthorityId": null,
+          "issuingAuthorityText": "Applicant / professional",
+          "mandatory": "required",
+          "mandatoryText": "Yes",
+          "name": "Project Report / DPR",
+          "remarks": "Core bank-appraisal document.",
+          "sampleCopyUrl": null,
+          "sourceUrl": "https://www.kviconline.gov.in/pmegpeportal/",
+          "validityMonths": null,
+          "verificationPortalUrl": null
+        },
+        {
+          "description": "Evidence for applicants claiming eligible special-category benefits.",
+          "documentId": "SCH000130-DOC005",
+          "documentTypeId": "CMN000211",
+          "downloadTemplateUrl": null,
+          "estimatedCostInr": null,
+          "estimatedCostText": "Government fee not specified",
+          "issuingAuthorityId": null,
+          "issuingAuthorityText": "Competent Government Authority",
+          "mandatory": "conditional",
+          "mandatoryText": "Conditional",
+          "name": "Category / special-category certificate",
+          "remarks": "Only where applicable.",
+          "sampleCopyUrl": null,
+          "sourceUrl": "https://www.kviconline.gov.in/pmegpeportal/",
+          "validityMonths": null,
+          "verificationPortalUrl": null
+        },
+        {
+          "description": "Evidence where rural-area classification is relevant to margin-money subsidy.",
+          "documentId": "SCH000130-DOC006",
+          "documentTypeId": "CMN000211",
+          "downloadTemplateUrl": null,
+          "estimatedCostInr": null,
+          "estimatedCostText": null,
+          "issuingAuthorityId": null,
+          "issuingAuthorityText": "Competent local authority",
+          "mandatory": "conditional",
+          "mandatoryText": "Conditional",
+          "name": "Rural area certificate",
+          "remarks": "Only where applicable.",
+          "sampleCopyUrl": null,
+          "sourceUrl": "https://www.kviconline.gov.in/pmegpeportal/",
+          "validityMonths": null,
+          "verificationPortalUrl": null
+        },
+        {
+          "description": "Additional KYC, financial and project records required by the bank after application forwarding.",
+          "documentId": "SCH000130-DOC007",
+          "documentTypeId": "CMN000208",
+          "downloadTemplateUrl": null,
+          "estimatedCostInr": null,
+          "estimatedCostText": "Bank-specific",
+          "issuingAuthorityId": null,
+          "issuingAuthorityText": "Financing bank",
+          "mandatory": "required",
+          "mandatoryText": "Yes",
+          "name": "Bank / lending-institution KYC and appraisal documents",
+          "remarks": "Bank checklist controls credit sanction.",
+          "sampleCopyUrl": null,
+          "sourceUrl": "https://www.kviconline.gov.in/pmegpeportal/",
+          "validityMonths": null,
+          "verificationPortalUrl": null
+        }
+      ],
+      "schemeUrl": "https://pmegp.msme.gov.in/",
+      "sources": [
+        {
+          "accessedOn": null,
+          "documentFormat": "html",
+          "isCurrent": true,
+          "isPrimary": true,
+          "language": "en",
+          "publishedOn": null,
+          "publisherId": null,
+          "publisherText": "MSME Schemes 2025-26 | TN MSME Compendium 2022",
+          "reference": null,
+          "sourceId": "SCH000130-SRC001",
+          "sourceType": "guideline",
+          "title": "Primary source",
+          "url": "https://www.kviconline.gov.in/pmegpeportal/"
+        },
+        {
+          "id": "SCH000130-SRC002",
+          "name": "Ministry of MSME Schemes Booklet 2025-26",
+          "url": "https://www.dcmsme.gov.in/ebook/MSMESchemebooklet2025-26.pdf",
+          "publisherText": "Ministry of MSME Schemes Booklet 2025-26",
+          "type": "official_booklet",
+          "isPrimary": false
+        }
+      ],
+      "targetBeneficiaries": {
+        "beneficiaryTypes": [],
+        "businessStages": [
+          "new"
+        ],
+        "description": "Eligible individuals/institutions establishing new micro-enterprises under current PMEGP guidelines",
+        "enterpriseTypes": [
+          "micro"
+        ],
+        "specialCategories": []
+      }
+    },
+    "identity": {
+      "acronym": "PMEGP",
+      "code": "TN130",
+      "entityType": "scheme",
+      "id": "SCH000130",
+      "language": "en",
+      "legacyCodes": [
+        {
+          "code": "TN130",
+          "system": "tn_spreadsheet"
+        },
+        {
+          "code": "IN130",
+          "system": "legacy_json"
+        },
+        {
+          "system": "mss_v3_1",
+          "code": "MSME2526-001"
+        }
+      ],
+      "name": "Prime Minister’s Employment Generation Programme (PMEGP)",
+      "shortName": "PMEGP",
+      "slug": "prime-minister-s-employment-generation-programme-pmegp",
+      "status": "active"
+    },
+    "localization": {
+      "en": {
+        "applicationText": "Online through PMEGP e-portal",
+        "benefitsText": "Margin-money subsidy, beneficiary contribution, eligible project-cost ceilings and special-category rates depend on current PMEGP guidelines; exact figures are not inserted until the current KVIC guideline is directly verified.",
+        "description": "PMEGP supports creation of new micro enterprises through bank credit and margin-money subsidy.",
+        "eligibilityText": "Individuals aged 18+ and eligible institutions can apply to establish a new micro-enterprise. Educational qualification is required for projects above prescribed cost thresholds, and only new units are eligible for subsidy.",
+        "name": "Prime Minister’s Employment Generation Programme (PMEGP)",
+        "objective": "Generate sustainable employment through new self-employment ventures in rural and urban areas.",
+        "shortName": "PMEGP",
+        "summary": "PMEGP supports creation of new micro enterprises through bank credit and margin-money subsidy."
+      },
+      "hi": {
+        "applicationText": "पीएमईजीपी ई-पोर्टल पर ऑनलाइन आवेदन पत्र भरें एवं जमा करें (व्यक्तियों हेतु अनिवार्य; मोबाइल अनुकूल)। प्रत्येक चरण पर भेजे गए एसएमएस/ई-मेल अलर्ट के माध्यम से आवेदन की स्थिति देखें। ऋण स्वीकृत होने पर बैंक परियोजना लागत का शेष 90–95% स्वीकृत कर जारी करता है; मार्जिन मनी सब्सिडी सीधे वित्तपोषक शाखा को जारी होती है।",
+        "benefitsText": "विनिर्माण क्षेत्र में ₹50 लाख तक तथा सेवा क्षेत्र में ₹20 लाख तक की परियोजनाओं के लिए परियोजना लागत का 15% से 35% तक मार्जिन मनी सब्सिडी। विशेष श्रेणी (अनुसूचित जाति/जनजाति/महिला/अल्पसंख्यक/भूतपूर्व सैनिक/ट्रांसजेंडर/आकांक्षी जिले/पूर्वोत्तर क्षेत्र): ग्रामीण क्षेत्र में 35% तथा शहरी क्षेत्र में 25% सब्सिडी। स्वयं का अंशदान: सामान्य श्रेणी के लिए परियोजना लागत का 10%, विशेष श्रेणी के लिए 5%। शेष 90–95% परियोजना लागत बैंक द्वारा ऋण के रूप में स्वीकृत एवं जारी की जाती है। मार्जिन मनी ऑनलाइन सीधे वित्तपोषक बैंक शाखा को वितरित की जाती है।",
+        "description": "गैर-कृषि क्षेत्र में नए सूक्ष्म उद्यम स्थापित करने हेतु ऋण से जुड़ा सब्सिडी कार्यक्रम। उद्देश्य: ग्रामीण एवं बेरोजगार युवाओं तथा संभावित पारंपरिक कारीगरों के लिए सतत एवं निरंतर रोजगार के अवसर सृजित करना और व्यावसायिक पलायन को रोकना। ग्रामीण एवं शहरी दोनों क्षेत्रों में स्वरोजगार उद्यम स्थापित करने हेतु वित्तीय सहायता प्रदान करता है। इकाइयों की स्थिरता हेतु कार्यशालाएँ, ईडीपी प्रशिक्षण, प्रदर्शनियाँ आदि बैकवर्ड एवं फॉरवर्ड लिंकेज के रूप में सहायता सेवाएँ दी जाती हैं। विभिन्न गतिविधियों की मॉडल परियोजना रिपोर्ट पीएमईजीपी ई-पोर्टल पर उपलब्ध हैं।",
+        "eligibilityText": "18 वर्ष से अधिक आयु का कोई भी व्यक्ति आवेदन कर सकता है। केवल गैर-कृषि क्षेत्र में नए सूक्ष्म उद्यम स्थापित करने हेतु। पीएमईजीपी इकाइयों को उद्योग आधार ज्ञापन (यूएएम)/उद्यम पंजीकरण अपनाना होगा।",
+        "name": "प्रधानमंत्री रोजगार सृजन कार्यक्रम (पीएमईजीपी)",
+        "objective": "गैर-कृषि क्षेत्र में नए सूक्ष्म उद्यम स्थापित करने हेतु ऋण से जुड़ा सब्सिडी कार्यक्रम। उद्देश्य: ग्रामीण एवं बेरोजगार युवाओं तथा संभावित पारंपरिक कारीगरों के लिए सतत एवं निरंतर रोजगार के अवसर सृजित कर",
+        "shortName": null,
+        "summary": "गैर-कृषि क्षेत्र में नए सूक्ष्म उद्यम स्थापित करने हेतु ऋण से जुड़ा सब्सिडी कार्यक्रम। उद्देश्य: ग्रामीण एवं बेरोजगार युवाओं तथा संभावित पारंपरिक कारीगरों के लिए सतत एवं निरंतर रोजगार के अवसर सृजित कर"
+      },
+      "ta": {
+        "applicationText": "PMEGP இ-வலைவாயில் வழியாக இணையவழியில்",
+        "benefitsText": "விளிம்பு நிதி மானியம், பயனாளிப் பங்களிப்பு, தகுதியான திட்டச் செலவு உச்சவரம்புகள் மற்றும் சிறப்பு வகை விகிதங்கள் ஆகியவை தற்போதைய PMEGP வழிகாட்டு நெறிமுறைகளைச் சார்ந்தவை; தற்போதைய KVIC வழிகாட்டு நெறிமுறை நேரடியாகச் சரிபார்க்கப்படும் வரை துல்லியமான எண்கள் சேர்க்கப்படவில்லை.",
+        "description": "வங்கிக் கடன் மற்றும் விளிம்பு நிதி மானியம் வழியாகப் புதிய குறு நிறுவனங்கள் உருவாக்கப்படுவதை PMEGP ஆதரிக்கிறது.",
+        "eligibilityText": "18 வயது நிரம்பிய தனிநபர்களும் தகுதியான நிறுவனங்களும், புதிய குறு நிறுவனத்தை அமைக்க விண்ணப்பிக்கலாம். நிர்ணயிக்கப்பட்ட செலவு வரம்புகளுக்கு மேற்பட்ட திட்டங்களுக்குக் கல்வித் தகுதி தேவை; புதிய நிறுவனங்கள் மட்டுமே மானியத்திற்குத் தகுதியுடையவை.",
+        "name": "பிரதம மந்திரி வேலைவாய்ப்பு உருவாக்கத் திட்டம் (PMEGP)",
+        "objective": "கிராமப்புற மற்றும் நகர்ப்புறப் பகுதிகளில் புதிய சுயவேலைவாய்ப்பு முயற்சிகள் வழியாக நிலைத்த வேலைவாய்ப்பை உருவாக்குதல்.",
+        "shortName": "PMEGP",
+        "summary": "வங்கிக் கடன் மற்றும் விளிம்பு நிதி மானியம் வழியாகப் புதிய குறு நிறுவனங்கள் உருவாக்கப்படுவதை PMEGP ஆதரிக்கிறது."
+      }
+    },
+    "metadata": {
+      "catalogVersion": "1.35.0-alpha",
+      "createdAt": "2026-08-04T00:00:00Z",
+      "recordStatus": "published",
+      "revision": 30,
+      "schemaVersion": "1.0.0",
+      "updatedAt": "2026-10-04T13:45:56Z"
+    },
+    "provenance": {
+      "contributingSourceIds": [
+        "SCH000130-SRC001"
+      ],
+      "defaultSourceTier": 2,
+      "extractedAt": "2026-08-04T00:00:00Z",
+      "extractionMethod": "automated",
+      "fieldSources": [
+        {
+          "field": "content.targetBeneficiaries.* / content.eligibility.structured.* (enterpriseTypes, businessStages, specialCategories, gender.values, enterprise.types, businessStage.values, specialCategory.values, sector.included -- only the sub-fields that were empty)",
+          "isBackfill": true,
+          "note": "applicability_matrix_catalog.json's record for this scheme (regeneratedFrom.sourceContentChecksum=sha256:86fc34cd2a770da53...) already holds these facets, derived from this same scheme's content by build_applicability_matrix.py. Reconciliation only -- the matrix's own values are not re-derived or changed, only copied into the raw field that was previously empty despite the matrix already having the answer.",
+          "organization": null,
+          "retrievedAt": "2026-08-15",
+          "sourceTier": 4,
+          "sourceType": "previous_verified_extraction",
+          "supersededValue": null,
+          "url": null,
+          "value": "backfilled from applicability_matrix_catalog.json"
+        },
+        {
+          "field": "content.benefits.capitalSubsidy",
+          "isBackfill": true,
+          "note": "\"Compendium of Schemes for MSMEs 2022\" (MSME Department, Government of Tamil Nadu, September 2022), held locally as TN_Schemes_Booklet_2022_v10.md, page 74. Full 4-tier percentage table and project-cost cap, verbatim. maxAmountInr deliberately left null -- project cost cap is NOT the subsidy ceiling and is not stored in an amount-typed benefit field, per this session's field-reconciliation rule.",
+          "organization": "MSME Department, Government of Tamil Nadu",
+          "retrievedAt": "2026-08-15",
+          "sourceTier": 1,
+          "sourceType": "official_booklet_held",
+          "supersededValue": null,
+          "url": null,
+          "value": {
+            "percentage": 15
+          }
+        },
+        {
+          "field": "content.eligibility.narrative.criteria",
+          "isBackfill": true,
+          "note": "\"Compendium of Schemes for MSMEs 2022\" (MSME Department, Government of Tamil Nadu, September 2022), held locally as TN_Schemes_Booklet_2022_v10.md, page 74. Eligibility, verbatim.",
+          "organization": "MSME Department, Government of Tamil Nadu",
+          "retrievedAt": "2026-08-15",
+          "sourceTier": 1,
+          "sourceType": "official_booklet_held",
+          "supersededValue": null,
+          "url": null,
+          "value": "Age 18+, or a Self Help Group, Societies-Registration-Act institution, production co-operative society, or charitable trust. Individual applicants need VIII standard pass if project cost exceeds Rs 10 lakh (manufacturing) or Rs 5 lakh (service). EDP training mandatory if project cost exceeds Rs 2 lakh."
+        }
+      ],
+      "pipelineVersion": "phase4-resolve-1.0.0",
+      "primarySourceId": "SCH000130-SRC001",
+      "transformationNotes": [
+        "Currency text parsed to integer rupees",
+        "Placeholder values normalised to null",
+        "Scheme Code recovered by exact name join; source cell read 'Not specified' (conflict C-7)",
+        "classification.government.ministryId resolved to AUTH000003 from 'Ministry of Micro, Small & Medium Enterprises' by exact normalised-name join against authority_catalog 1.0.0 (rule R1)",
+        "classification.government.departmentId resolved to AUTH000027 from 'Khadi and Village Industries Commission (KVIC)' (rule R1)",
+        "implementingAgencyIds += AUTH000027 from 'KVIC with State KVIBs, DICs, banks and other implementing agencies' (rules R1, R2)",
+        "classification.schemeType resolved to 'credit_linked_subsidy' by exact alias match against common_catalog (rule R3)",
+        "documentTypeId resolved on 7 document(s) by exact alias match against common_catalog (rule R4)",
+        "Regenerated from frozen 1.0.0-alpha baseline; content values unchanged, identifiers resolved only",
+        "Phase 3: inverse cross-references added; no content changed",
+        "Phase 3: Enriched from mss_scheme_data_v3_1 (MSME2526-001) under catalog release 1.35.0-alpha"
+      ],
+      "translations": {
+        "ta": {
+          "dictionaryVersion": "1.0.0",
+          "engine": "Claude",
+          "fieldMethods": {
+            "applicationText": "llm_contextual_translation",
+            "benefitsText": "llm_contextual_translation",
+            "description": "llm_contextual_translation",
+            "eligibilityText": "llm_contextual_translation",
+            "name": "llm_contextual_translation",
+            "objective": "llm_contextual_translation",
+            "shortName": "llm_contextual_translation",
+            "summary": "llm_contextual_translation"
+          },
+          "fieldsContextual": 8,
+          "fieldsPending": 0,
+          "fieldsTranslated": 8,
+          "generatedAt": "2026-08-04T00:00:00Z",
+          "isApproved": false,
+          "method": "llm_contextual_translation",
+          "note": "Machine-generated Tamil. Not an official translation; requires review before publication.",
+          "reviewRequired": true,
+          "status": "machine"
+        },
+        "hi": {
+          "status": "machine",
+          "reviewRequired": true,
+          "source": "booklet_2025_26_machine_hi",
+          "generatedAt": "2026-10-04T13:45:56Z"
+        }
+      }
+    },
+    "relationships": {
+      "references": [
+        {
+          "entityId": "AUTH000003",
+          "entityType": "authority",
+          "note": "Resolved by exact normalised-name join (rule R1)",
+          "relationType": "administered_by",
+          "role": null
+        },
+        {
+          "entityId": "AUTH000027",
+          "entityType": "authority",
+          "note": "Resolved by exact normalised-name join (rule R1)",
+          "relationType": "administered_by",
+          "role": null
+        },
+        {
+          "entityId": "INST000004",
+          "entityType": "institution",
+          "generated": true,
+          "note": "Inverse of implements declared on INST000004 (Phase 3, rule C1)",
+          "relationType": "implemented_by",
+          "role": null
+        },
+        {
+          "entityId": "FIN000079",
+          "entityType": "finance_product",
+          "generated": true,
+          "note": "Inverse of offered_under declared on FIN000079 (Phase 3, rule C1)",
+          "relationType": "offers",
+          "role": null
+        }
+      ]
+    },
+    "search": {
+      "aliases": {
+        "en": [
+          "Prime Minister’s Employment Generation Programme (PMEGP)",
+          "PMEGP",
+          "TN130"
+        ],
+        "ta": [],
+        "hi": [
+          "प्रधानमंत्री रोजगार सृजन कार्यक्रम (पीएमईजीपी)"
+        ]
+      },
+      "boostTerms": [],
+      "crossReferences": [],
+      "keywords": {
+        "en": [
+          "current",
+          "employment",
+          "establishing",
+          "generation",
+          "guidelines",
+          "individuals",
+          "institutions",
+          "micro",
+          "minister",
+          "pmegp",
+          "prime",
+          "programme",
+          "self"
+        ],
+        "ta": [
+          "சுய",
+          "தற்போதைய",
+          "திட்டம்",
+          "நிறுவனங்கள்",
+          "வேலைவாய்ப்பு"
+        ]
+      },
+      "searchRank": null,
+      "synonyms": []
+    },
+    "verification": {
+      "confidence": "high",
+      "disputedFields": [
+        {
+          "field": "content.applicationProcess.onlineUrl",
+          "resolution": "baseline value retained; live source unreachable at 2026-08-14 — review required",
+          "resolvedBy": null,
+          "values": [
+            "https://www.kviconline.gov.in/pmegpeportal/"
+          ]
+        },
+        {
+          "field": "content.sources[0].url",
+          "resolution": "baseline value retained; live source unreachable at 2026-08-14 — review required",
+          "resolvedBy": null,
+          "values": [
+            "https://www.kviconline.gov.in/pmegpeportal/"
+          ]
+        }
+      ],
+      "isVerified": false,
+      "missingFields": [
+        {
+          "field": "content.overview.background",
+          "reason": "Not available in available sources"
+        },
+        {
+          "field": "content.overview.legalBasis",
+          "reason": "Not available in available sources"
+        },
+        {
+          "field": "content.overview.validity",
+          "reason": "Not available in available sources"
+        },
+        {
+          "field": "content.overview.lastUpdated",
+          "reason": "Not available in available sources"
+        },
+        {
+          "field": "content.eligibility.narrative.verifiedCriteria",
+          "reason": "Not available in available sources"
+        },
+        {
+          "field": "content.eligibility.narrative.exclusions",
+          "reason": "Not available in available sources"
+        },
+        {
+          "field": "content.eligibility.narrative.relaxations",
+          "reason": "Not available in available sources"
+        },
+        {
+          "field": "content.applicationProcess.steps",
+          "reason": "Not available in available sources"
+        },
+        {
+          "field": "content.applicationProcess.services",
+          "reason": "Source service rows are generic placeholders carrying no service detail"
+        },
+        {
+          "field": "content.applicationTimeline",
+          "reason": "Not available in available sources"
+        },
+        {
+          "field": "content.contacts",
+          "reason": "Not available in available sources"
+        },
+        {
+          "field": "content.faqs",
+          "reason": "Not available in available sources"
+        },
+        {
+          "field": "content.eligibility.structured",
+          "reason": "Facets not determinable from available sources: gender, sector, turnover, investment, location, community, specialCategory, existingRegistration"
+        }
+      ],
+      "notes": "[agent_flag] Booklet text obtained via WebFetch extraction (fetch model declined full verbatim reproduction); quotes are short phrases returned as evidence, not checked against the PDF by eye.; [agent_flag] Implementing agency (KVIC/KVIB/DIC) not named in booklet section; division set to KVIC from general knowledge (nodal agency).; [agent_flag] PMEGP continuation beyond 31.03.2026 unconfirmed; Rajya Sabha reply said MM subsidy release contingent on continuation approval.; [agent_flag] Booklet own-contribution special category list includes OBC/PH while subsidy special list does not; kept as stated.; [agent_flag] PMEGP e-portal fetch failed (DNS); official portal not re-checked.; [status_uncertain] active (low): Listed in Booklet 2025-26. Scheme approved up to 31.03.2026; a Rajya Sabha reply (Unstarred Q.1694) said further margin money release is contingent on approval for continuation (EFC held). Continuation approval not confirmed in this check.",
+      "researchStatus": "Researched",
+      "reviewDueOn": null,
+      "status": "verified",
+      "statusText": null,
+      "verifiedAgainst": [
+        "SCH000130-SRC001"
+      ],
+      "verifiedAt": "2026-08-15",
+      "verifiedBy": null,
+      "verifiedFields": [
+        {
+          "field": "content.applicationProcess.onlineUrl",
+          "note": "DNS resolution timed out (getaddrinfo ETIMEOUT) -- kviconline.gov.in has failed to resolve on every attempt across this entire session (batches 1-6). Not verifiable by fetch; baseline retained.",
+          "outcome": "unreachable",
+          "retrievedAt": "2026-08-14",
+          "sourceTier": 5,
+          "url": "https://www.kviconline.gov.in/pmegpeportal/",
+          "value": "https://www.kviconline.gov.in/pmegpeportal/"
+        },
+        {
+          "field": "content.sources[0].url",
+          "note": "DNS resolution timed out (getaddrinfo ETIMEOUT) -- kviconline.gov.in has failed to resolve on every attempt across this entire session (batches 1-6). Not verifiable by fetch; baseline retained.",
+          "outcome": "unreachable",
+          "retrievedAt": "2026-08-14",
+          "sourceTier": 5,
+          "url": "https://www.kviconline.gov.in/pmegpeportal/",
+          "value": "https://www.kviconline.gov.in/pmegpeportal/"
+        }
+      ]
+    }
+  }
+}

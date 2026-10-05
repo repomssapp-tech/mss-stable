@@ -31,3 +31,9 @@ node_modules/
 # Stray Supabase CLI scratch when a CLI command is run from the repo root
 # (real Supabase config lives in backend/supabase/)
 /supabase/
+
+# Knowledge graph generated output
+graphify-out/
+
+# Emulator test verification screenshots (kept locally, not committed to repository)
+reports/screenshots/
