@@ -25,6 +25,7 @@ migrate_working_dir/
 
 # Local dart-define config (contains the Supabase publishable key)
 dart_defines.json
+dart-defines.json
 
 # Flutter/Dart/Pub related
 **/doc/api/

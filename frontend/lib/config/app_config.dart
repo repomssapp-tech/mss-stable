@@ -22,6 +22,30 @@ class AppConfig {
   static const String supabasePublishableKey =
       String.fromEnvironment('SUPABASE_PUBLISHABLE_KEY');
 
+  /// REST API Base URL origin, e.g. `https://api.msmeschemes.org` or `http://10.0.2.2:5000`.
+  /// Defaults to `https://api.msmeschemes.org` if not explicitly supplied.
+  static const String _envApiBaseUrl = String.fromEnvironment('API_BASE_URL');
+  static const String _envMssApiBaseUrl =
+      String.fromEnvironment('MSS_API_BASE_URL');
+
+  static String get apiBaseUrl {
+    if (_envApiBaseUrl.isNotEmpty) {
+      return _envApiBaseUrl
+          .replaceAll(RegExp(r'/v1/?$'), '')
+          .replaceAll(RegExp(r'/$'), '');
+    }
+    if (_envMssApiBaseUrl.isNotEmpty &&
+        !_envMssApiBaseUrl.contains('supabase.co')) {
+      return _envMssApiBaseUrl
+          .replaceAll(RegExp(r'/v1/?$'), '')
+          .replaceAll(RegExp(r'/$'), '');
+    }
+    return 'https://api.msmeschemes.org';
+  }
+
+  /// REST API /v1 prefix, e.g. `https://api.msmeschemes.org/v1`.
+  static String get apiV1Url => '$apiBaseUrl/v1';
+
   /// Human-readable reason the current build-time configuration is unusable,
   /// or `null` when everything required is present and well-formed.
   static String? get validationError {

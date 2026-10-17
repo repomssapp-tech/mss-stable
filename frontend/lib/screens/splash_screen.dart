@@ -82,6 +82,8 @@ class _SplashScreenState extends State<SplashScreen>
   Future<void> _continueStartup() async {
     if (!mounted) return;
 
+    try {
+
     final provider = Provider.of<AppProvider>(context, listen: false);
     final cache = SessionCacheService.instance;
 
@@ -95,10 +97,16 @@ class _SplashScreenState extends State<SplashScreen>
     if (session != null) {
       try {
         // Perform a server-side validation to check if the user was deleted/disabled
-        final userResponse = await Supabase.instance.client.auth.getUser();
+        final userResponse = await Supabase.instance.client.auth
+            .getUser()
+            .timeout(const Duration(seconds: 4));
         if (userResponse.user == null) {
           session = null;
         }
+      } on TimeoutException {
+        debugPrint(
+          '[SplashScreen] Session validation timed out, keeping cached session.',
+        );
       } on AuthRetryableFetchException catch (netErr) {
         // Network-unreachable (offline, DNS failure, timeout) -- not a
         // rejection by the server. Trust the cached session rather than
@@ -195,6 +203,11 @@ class _SplashScreenState extends State<SplashScreen>
         );
         return;
       case StartupDestination.language:
+        if (!mounted) return;
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const LanguageSelectionScreen()),
+        );
+        return;
       case StartupDestination.login:
         // Without a saved session/profile, sign-in is the only next step.
         // Keep the user out of an unusable sign-in screen while offline.
@@ -215,18 +228,19 @@ class _SplashScreenState extends State<SplashScreen>
         }
 
         if (!mounted) return;
-        if (destination == StartupDestination.language) {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const LanguageSelectionScreen()),
-          );
-        } else {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const LoginScreen()),
-          );
-        }
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const LoginScreen()),
+        );
         return;
     }
+  } catch (e, st) {
+    debugPrint('[SplashScreen] Unexpected bootstrap error: $e\n$st');
+    if (!mounted) return;
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (_) => const LanguageSelectionScreen()),
+    );
   }
+}
 
   void _showNoNetworkDialog() {
     showDialog<void>(

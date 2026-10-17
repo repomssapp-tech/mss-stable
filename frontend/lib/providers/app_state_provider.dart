@@ -23,6 +23,10 @@ import 'controllers/promo_content_controller.dart';
 import 'controllers/scheme_catalog_controller.dart';
 import 'controllers/search_filter_controller.dart';
 import 'controllers/tab_navigation_controller.dart';
+import '../services/account/deep_link_service.dart';
+import '../services/account/profile_api_service.dart';
+import '../services/account/rest_auth_service.dart';
+import '../services/account/token_storage.dart';
 
 class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   AppProvider({SchemeCatalogSyncService? catalogSyncService})
@@ -36,6 +40,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _notifications.addListener(notifyListeners);
     _promos.addListener(notifyListeners);
     _catalog.addListener(notifyListeners);
+    DeepLinkService.instance.initialize(this);
     _loadState();
     _setupAuthListener();
   }
@@ -470,34 +475,51 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
       await _library.hydrate();
 
-      final session = Supabase.instance.client.auth.currentSession;
-      if (session != null) {
-        debugPrint(
-          '[AppProvider] Active Supabase session found during _loadState: user=${session.user.id}',
-        );
+      // Check MSS REST session first
+      final restToken = await TokenStorage.instance.getAccessToken();
+      final restUser = await TokenStorage.instance.getUser();
+      if (restToken != null && restToken.isNotEmpty) {
+        debugPrint('[AppProvider] Active MSS REST session found during _loadState');
         _isLoggedIn = true;
-        _mobileNumber = session.user.phone ?? '';
-
-        final googlePhoto = extractGooglePhoto(session.user);
-        if ((_profile.profilePhoto.isEmpty ||
-                _profile.profilePhoto.contains('user_avatar.webp')) &&
-            googlePhoto.isNotEmpty) {
-          _profile = _profile.copyWith(
-            profilePhoto: googlePhoto,
-            updatedAt: DateTime.now(),
-          );
-          unawaited(SessionCacheService.instance.saveProfile(_profile));
-          unawaited(SchemeRepository.instance.updateProfile(_profile));
+        if (restUser != null) {
+          _notifications.subscribe(restUser.id);
         }
-
-        _subscribeToProfile(session.user.id);
-        _notifications.subscribe(session.user.id);
         fetchPromoAlerts();
         fetchDraftSessions();
       } else {
-        debugPrint(
-          '[AppProvider] No active Supabase session found during _loadState.',
-        );
+        try {
+          final session = Supabase.instance.client.auth.currentSession;
+          if (session != null) {
+            debugPrint(
+              '[AppProvider] Active Supabase session found during _loadState: user=${session.user.id}',
+            );
+            _isLoggedIn = true;
+            _mobileNumber = session.user.phone ?? '';
+
+            final googlePhoto = extractGooglePhoto(session.user);
+            if ((_profile.profilePhoto.isEmpty ||
+                    _profile.profilePhoto.contains('user_avatar.webp')) &&
+                googlePhoto.isNotEmpty) {
+              _profile = _profile.copyWith(
+                profilePhoto: googlePhoto,
+                updatedAt: DateTime.now(),
+              );
+              unawaited(SessionCacheService.instance.saveProfile(_profile));
+              unawaited(SchemeRepository.instance.updateProfile(_profile));
+            }
+
+            _subscribeToProfile(session.user.id);
+            _notifications.subscribe(session.user.id);
+            fetchPromoAlerts();
+            fetchDraftSessions();
+          } else {
+            debugPrint(
+              '[AppProvider] No active session found during _loadState.',
+            );
+          }
+        } catch (e) {
+          debugPrint('[AppProvider] Supabase session check notice: $e');
+        }
       }
 
       notifyListeners();
@@ -573,63 +595,109 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     }
   }
 
+  Future<bool> loginWithPassword(String email, String password) async {
+    try {
+      await RestAuthService.instance.loginWithPassword(
+        email: email,
+        password: password,
+      );
+      return await checkSessionAndFetchProfile();
+    } catch (e) {
+      debugPrint('[AppProvider] Error signing in with password: $e');
+      rethrow;
+    }
+  }
+
   Future<bool> checkSessionAndFetchProfile() async {
-    final session = Supabase.instance.client.auth.currentSession;
-    if (session == null) {
-      _isLoggedIn = false;
-      _unsubscribeFromProfile();
-      notifyListeners();
-      return false;
+    // 1. Check MSS REST session first
+    final restToken = await TokenStorage.instance.getAccessToken();
+    if (restToken != null && restToken.isNotEmpty) {
+      try {
+        final profileAggregate = await ProfileApiService.instance.loadProfile();
+        final mappedProfile = profileAggregate.toUserProfile();
+        _isLoggedIn = true;
+        _profile = _profile.mergeFrom(mappedProfile);
+        _selectedLanguage = _languageReconciler.reconcile(mappedProfile.language);
+        _profile = _profile.copyWith(language: _selectedLanguage);
+        _navigationMode = mappedProfile.navigationMode;
+
+        await SessionCacheService.instance.saveProfile(_profile);
+        await SessionCacheService.instance.saveLanguage(_selectedLanguage);
+        await SessionCacheService.instance.saveNavigationMode(_navigationMode);
+
+        fetchPromoAlerts();
+        fetchDraftSessions();
+        notifyListeners();
+        return _profile.profileCompleted;
+      } catch (e) {
+        debugPrint('[AppProvider] REST checkSessionAndFetchProfile notice: $e');
+      }
     }
 
-    final user = session.user;
-    _isLoggedIn = true;
-    _mobileNumber = user.phone ?? '';
-    final googlePhoto = extractGooglePhoto(user);
-    final googleName = extractGoogleName(user);
-
-    _subscribeToProfile(user.id);
-    fetchPromoAlerts();
-    fetchDraftSessions();
-
-    final dbProfile = await SchemeRepository.instance.getProfile(user.id);
-    if (dbProfile != null) {
-      _profile = _profile.mergeFrom(dbProfile);
-      _selectedLanguage = _languageReconciler.reconcile(dbProfile.language);
-      _profile = _profile.copyWith(language: _selectedLanguage);
-      _navigationMode = dbProfile.navigationMode;
-
-      if ((_profile.profilePhoto.isEmpty ||
-              _profile.profilePhoto.contains('user_avatar.webp')) &&
-          googlePhoto.isNotEmpty) {
-        _profile = _profile.copyWith(
-          profilePhoto: googlePhoto,
-          updatedAt: DateTime.now(),
-        );
-        unawaited(SchemeRepository.instance.updateProfile(_profile));
+    // 2. Fallback to Supabase session
+    try {
+      final session = Supabase.instance.client.auth.currentSession;
+      if (session == null) {
+        _isLoggedIn = false;
+        _unsubscribeFromProfile();
+        notifyListeners();
+        return false;
       }
 
-      await SchemeRepository.instance.updateLastLogin(user.id);
+      final user = session.user;
+      _isLoggedIn = true;
+      _mobileNumber = user.phone ?? '';
+      final googlePhoto = extractGooglePhoto(user);
+      final googleName = extractGoogleName(user);
 
-      await SessionCacheService.instance.saveProfile(_profile);
-      await SessionCacheService.instance.saveLanguage(_selectedLanguage);
-      await SessionCacheService.instance.saveNavigationMode(_navigationMode);
+      _subscribeToProfile(user.id);
+      fetchPromoAlerts();
+      fetchDraftSessions();
 
-      notifyListeners();
-      return dbProfile.profileCompleted;
-    } else {
-      _profile = UserProfile(
-        googleUserId: user.id,
-        name: googleName.isNotEmpty ? googleName : 'Google User',
-        email: user.email ?? '',
-        mobile: user.phone ?? '',
-        profilePhoto: googlePhoto,
-        language: _selectedLanguage,
-        navigationMode: _navigationMode,
-        profileCompleted: false,
-      );
-      await _saveProfile();
-      unawaited(SchemeRepository.instance.createProfile(_profile));
+      final dbProfile = await SchemeRepository.instance.getProfile(user.id);
+      if (dbProfile != null) {
+        _profile = _profile.mergeFrom(dbProfile);
+        _selectedLanguage = _languageReconciler.reconcile(dbProfile.language);
+        _profile = _profile.copyWith(language: _selectedLanguage);
+        _navigationMode = dbProfile.navigationMode;
+
+        if ((_profile.profilePhoto.isEmpty ||
+                _profile.profilePhoto.contains('user_avatar.webp')) &&
+            googlePhoto.isNotEmpty) {
+          _profile = _profile.copyWith(
+            profilePhoto: googlePhoto,
+            updatedAt: DateTime.now(),
+          );
+          unawaited(SchemeRepository.instance.updateProfile(_profile));
+        }
+
+        await SchemeRepository.instance.updateLastLogin(user.id);
+
+        await SessionCacheService.instance.saveProfile(_profile);
+        await SessionCacheService.instance.saveLanguage(_selectedLanguage);
+        await SessionCacheService.instance.saveNavigationMode(_navigationMode);
+
+        notifyListeners();
+        return dbProfile.profileCompleted;
+      } else {
+        _profile = UserProfile(
+          googleUserId: user.id,
+          name: googleName.isNotEmpty ? googleName : 'Google User',
+          email: user.email ?? '',
+          mobile: user.phone ?? '',
+          profilePhoto: googlePhoto,
+          language: _selectedLanguage,
+          navigationMode: _navigationMode,
+          profileCompleted: false,
+        );
+        await _saveProfile();
+        unawaited(SchemeRepository.instance.createProfile(_profile));
+        notifyListeners();
+        return false;
+      }
+    } catch (e) {
+      debugPrint('[AppProvider] Supabase session check notice: $e');
+      _isLoggedIn = false;
       notifyListeners();
       return false;
     }
@@ -653,6 +721,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _unsubscribeFromProfile();
 
     await SessionCacheService.instance.clearSession();
+    await TokenStorage.instance.clearTokens();
 
     try {
       await AuthService.signOut();
@@ -931,6 +1000,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _catalog.removeListener(notifyListeners);
     _catalog.dispose();
     _unsubscribeFromProfile();
+    DeepLinkService.instance.dispose();
     super.dispose();
   }
 }

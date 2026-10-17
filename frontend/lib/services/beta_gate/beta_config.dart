@@ -7,7 +7,7 @@
 /// To decommission the beta gate before public launch:
 /// Set [isBetaModeEnabled] to `false` or delete `lib/services/beta_gate/`
 /// and `lib/screens/beta_gate_screen.dart` when beta testing concludes.
-const bool isBetaModeEnabled = true;
+const bool isBetaModeEnabled = false;
 
 /// SharedPreferences key that tracks whether this device has unlocked beta access.
 const String kBetaUnlockedKey = 'hasUnlockedBeta';

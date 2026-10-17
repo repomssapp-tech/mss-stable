@@ -10,6 +10,7 @@ class CatalogManifest {
     required this.serviceCount,
     required this.publishedAt,
     this.releaseVersion,
+    this.bundleUrl,
   });
 
   final String id;
@@ -29,6 +30,9 @@ class CatalogManifest {
   /// shape (kept for backward compatibility with [fromSupabase]).
   final String? releaseVersion;
 
+  /// Download path relative to API origin, e.g. "/v1/catalog/releases/1.35.1-alpha/bundle".
+  final String? bundleUrl;
+
   factory CatalogManifest.fromSupabase(Map<String, dynamic> row) {
     return CatalogManifest(
       id: row['id']?.toString() ?? '',
@@ -42,40 +46,52 @@ class CatalogManifest {
       publishedAt:
           DateTime.tryParse(row['published_at']?.toString() ?? '')?.toUtc() ??
           DateTime.fromMillisecondsSinceEpoch(0, isUtc: true),
+      releaseVersion: row['release_version']?.toString(),
+      bundleUrl: row['bundle_url']?.toString(),
     );
   }
 
   /// Builds from `public.mss_current_release()`'s row shape (the corrected
-  /// Storage-based release architecture). `id`/`version` are synthesized
+  /// Storage-based release architecture) or REST `/v1/catalog/releases/current`.
+  /// `id`/`version` are synthesized
   /// (deterministic hash / release counter) since that RPC doesn't expose
   /// `admin.catalog_releases`'s internal uuid/bigint directly -- identity for
   /// comparison purposes is `releaseVersion` + `sha256`, not `id`/`version`.
   factory CatalogManifest.fromReleaseRpc(Map<String, dynamic> row) {
     final releaseVersion = row['release_version']?.toString() ?? '';
-    final sha256 = row['package_sha256']?.toString() ?? '';
+    final sha256 =
+        row['package_sha256']?.toString() ?? row['sha256']?.toString() ?? '';
     final recordCounts = row['record_counts'] as Map<String, dynamic>? ?? {};
     final schemeCount =
-        (recordCounts['scheme_catalog.json'] as num?)?.toInt() ?? 0;
+        (recordCounts['scheme_catalog.json'] as num?)?.toInt() ??
+        (row['scheme_count'] as num?)?.toInt() ??
+        0;
+    final bundleUrl = row['bundle_url']?.toString();
     return CatalogManifest(
       id: sha256.isNotEmpty
           ? sha256.substring(0, 36.clamp(0, sha256.length)).padRight(36, '0')
           : '',
-      version: (row['schema_version'] as num?)?.toInt() ?? 0,
+      version: (row['schema_version'] as num?)?.toInt() ??
+          (row['version'] as num?)?.toInt() ??
+          0,
       schemaVersion: (row['schema_version'] as num?)?.toInt() ?? 0,
       sha256: sha256,
-      byteSize: (row['package_byte_size'] as num?)?.toInt() ?? 0,
+      byteSize: (row['package_byte_size'] as num?)?.toInt() ??
+          (row['byte_size'] as num?)?.toInt() ??
+          0,
       schemeCount: schemeCount,
-      documentCount: 0,
-      serviceCount: 0,
+      documentCount: (row['document_count'] as num?)?.toInt() ?? 0,
+      serviceCount: (row['service_count'] as num?)?.toInt() ?? 0,
       publishedAt:
           DateTime.tryParse(row['published_at']?.toString() ?? '')?.toUtc() ??
           DateTime.fromMillisecondsSinceEpoch(0, isUtc: true),
       releaseVersion: releaseVersion.isEmpty ? null : releaseVersion,
+      bundleUrl: bundleUrl,
     );
   }
 
   factory CatalogManifest.fromJson(Map<String, dynamic> json) =>
-      CatalogManifest.fromSupabase(json);
+      CatalogManifest.fromReleaseRpc(json);
 
   Map<String, dynamic> toJson() => {
     'id': id,
@@ -88,6 +104,7 @@ class CatalogManifest {
     'service_count': serviceCount,
     'published_at': publishedAt.toUtc().toIso8601String(),
     if (releaseVersion != null) 'release_version': releaseVersion,
+    if (bundleUrl != null) 'bundle_url': bundleUrl,
   };
 
   bool get isStructurallyValid =>

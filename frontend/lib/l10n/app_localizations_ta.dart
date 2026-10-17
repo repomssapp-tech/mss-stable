@@ -1739,7 +1739,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get loginReviewTermsNotice =>
-      'தொடர்வதற்கு முன் பயன்பாட்டு விதிமுறைகள் மற்றும் தனியுரிமைக் கொள்கையை மதிப்பாய்வு செய்யவும்.';
+      'தொடர்வதற்கு முன் விதிமுறைகள் & தனியுரிமைக் கொள்கையைப் படிக்கவும்';
 
   @override
   String get continueSecurely => 'பாதுகாப்பாகத் தொடரவும்';
