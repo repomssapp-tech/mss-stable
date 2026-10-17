@@ -3,8 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../config/app_config.dart';
+import 'rest_auth_service.dart';
 
 class AuthService {
   static final client = Supabase.instance.client;
@@ -29,13 +31,30 @@ class AuthService {
     final ownsClient = httpClient == null;
     final activeClient = httpClient ?? http.Client();
     try {
+      final backendUrl = '${AppConfig.apiV1Url}/health';
+      final uri = Uri.tryParse(backendUrl);
+      if (uri != null) {
+        try {
+          final res = await activeClient.get(uri).timeout(const Duration(seconds: 3));
+          if (res.statusCode >= 200 && res.statusCode < 400) return true;
+        } catch (_) {}
+      }
+
+      final targetUrl = _supabaseUrl.isNotEmpty
+          ? '$_supabaseUrl/auth/v1/health'
+          : 'http://localhost/auth/v1/health';
+      final supaUri = Uri.tryParse(targetUrl);
+      if (supaUri == null) return false;
       final response = await activeClient
-          .get(Uri.parse('$_supabaseUrl/auth/v1/health'))
-          .timeout(const Duration(seconds: 4));
+          .get(supaUri)
+          .timeout(const Duration(seconds: 3));
       return response.statusCode > 0;
     } on TimeoutException {
       return false;
     } on http.ClientException {
+      return false;
+    } catch (e) {
+      debugPrint('[AuthService] canReachAuthenticationService failed: $e');
       return false;
     } finally {
       if (ownsClient) activeClient.close();
@@ -51,12 +70,16 @@ class AuthService {
   static Future<bool> signInWithGoogle() async {
     try {
       await _markOAuthPending();
-      return await client.auth.signInWithOAuth(
-        OAuthProvider.google,
-        redirectTo: googleRedirectUrl,
-        authScreenLaunchMode: LaunchMode.externalApplication,
-        scopes: 'openid email profile',
+      final authUrl = await RestAuthService.instance.startGoogleLogin();
+      final uri = Uri.parse(authUrl);
+      final launched = await launchUrl(
+        uri,
+        mode: LaunchMode.externalApplication,
       );
+      if (!launched) {
+        throw StateError('Could not launch Google authentication browser.');
+      }
+      return true;
     } catch (e) {
       await clearOAuthPending();
       debugPrint('[AuthService] Unable to start Google OAuth: $e');
@@ -103,6 +126,13 @@ class AuthService {
   }
 
   static Future<void> signOut() async {
-    await client.auth.signOut();
+    try {
+      await RestAuthService.instance.logout();
+    } catch (e) {
+      debugPrint('[AuthService] Rest logout warning: $e');
+    }
+    try {
+      await client.auth.signOut();
+    } catch (_) {}
   }
 }

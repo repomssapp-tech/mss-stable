@@ -227,7 +227,8 @@ class _LoginScreenState extends State<LoginScreen> {
       if (!launched && mounted) {
         throw StateError('Unable to open Google authentication.');
       }
-    } catch (e) {
+    } catch (e, stack) {
+      debugPrint('[LoginScreen] Sign-in error: $e\n$stack');
       if (mounted) {
         AppToast.showError(context, context.l10n.loginGoogleSignInFailed);
       }

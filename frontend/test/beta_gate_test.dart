@@ -83,8 +83,8 @@ void main() {
       expect(await BetaGateService.hasUnlockedBeta(), isFalse);
     });
 
-    test('isBetaModeEnabled flag is true', () {
-      expect(isBetaModeEnabled, isTrue);
+    test('isBetaModeEnabled flag is false when disabled', () {
+      expect(isBetaModeEnabled, isFalse);
     });
   });
 

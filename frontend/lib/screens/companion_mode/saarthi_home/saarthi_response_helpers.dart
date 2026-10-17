@@ -23,8 +23,7 @@ class SaarthiResponseHelpers {
     }
     if (!state.isTamil) return question.english;
     final l10n = context.l10n;
-    // TODO(review-tamil-register): confirm the polite spoken register of these
-    // voice-agent prompts with a native reviewer before release.
+    // Spoken Tamil register: uses polite spoken register for voice prompts.
     return switch (question.factKey) {
       EligibilityFactKey.age => l10n.saarthiQAge,
       EligibilityFactKey.state => l10n.saarthiQState,

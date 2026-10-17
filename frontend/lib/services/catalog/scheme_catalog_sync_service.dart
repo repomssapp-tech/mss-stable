@@ -4,6 +4,8 @@ import 'dart:typed_data';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../models/catalog_manifest.dart';
+import '../network/api_client.dart';
+import 'http_catalog_release_source.dart';
 import 'scheme_catalog_store.dart';
 
 enum CatalogSyncOutcome {
@@ -89,7 +91,7 @@ class SchemeCatalogSyncService {
   Future<CatalogSyncResult>? _inFlight;
 
   CatalogReleaseSource get _releaseSource =>
-      _source ??= SupabaseCatalogReleaseSource(Supabase.instance.client);
+      _source ??= HttpCatalogReleaseSource(client: ApiClient.instance);
 
   Future<CatalogSyncResult> syncIfNeeded({bool force = false}) {
     final running = _inFlight;

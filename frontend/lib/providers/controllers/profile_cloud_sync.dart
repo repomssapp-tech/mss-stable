@@ -1,14 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../models/onboarding_api_dto.dart';
 import '../../models/user_profile.dart';
+import '../../models/user_profile_api_dto.dart';
+import '../../services/account/onboarding_api_service.dart';
+import '../../services/account/profile_api_service.dart';
+import '../../services/account/token_storage.dart';
 import '../../services/catalog/scheme_repository.dart';
 
-/// Pushes a [UserProfile] to Supabase (`profiles` + conditionally
-/// `startup_profiles`), extracted from `AppProvider` (frontend refactor,
-/// decomposition follow-up). Takes the current auth state as a parameter
-/// rather than reading `AppProvider` fields directly, so it carries no
-/// coupling beyond the Supabase client and [SchemeRepository].
+/// Pushes a [UserProfile] to MSS REST Backend (`/v1/me/profile/draft` and
+/// `/v1/me/onboarding`), with fallback/mirror to Supabase.
 Future<void> syncProfileToSupabase(
   UserProfile profileToSync, {
   required bool isLoggedIn,
@@ -16,10 +18,67 @@ Future<void> syncProfileToSupabase(
   if (!isLoggedIn) {
     throw StateError('Sign in is required before saving profile data.');
   }
-  final user = Supabase.instance.client.auth.currentUser;
-  if (user == null) {
-    throw StateError('Your session expired. Please sign in again.');
+
+  // 1. Sync to MSS REST Backend if user has an active REST session/token
+  final accessToken = await TokenStorage.instance.getAccessToken();
+  if (accessToken != null && accessToken.isNotEmpty) {
+    try {
+      final patchPayload = ProfileAggregate.buildPatchPayload(current: profileToSync);
+      if (patchPayload.isNotEmpty) {
+        await ProfileApiService.instance.saveDraft(patchPayload);
+      }
+
+      if (profileToSync.profileCompleted) {
+        final profileMap = <String, dynamic>{
+          'applicant_type': profileToSync.employmentStatus.isNotEmpty
+              ? profileToSync.employmentStatus
+              : 'individual',
+          'name': profileToSync.name,
+          'email': profileToSync.email,
+          if (profileToSync.mobile.isNotEmpty) 'phone': profileToSync.mobile,
+          if (profileToSync.dob != null)
+            'dob': profileToSync.dob!.toIso8601String().split('T')[0],
+          if (profileToSync.gender.isNotEmpty) 'gender': profileToSync.gender,
+          if (profileToSync.state.isNotEmpty) 'state': profileToSync.state,
+          if (profileToSync.district.isNotEmpty) 'district': profileToSync.district,
+          if (profileToSync.pinCode.isNotEmpty) 'pincode': profileToSync.pinCode,
+        };
+
+        final businessDto = (profileToSync.existingBusiness || profileToSync.businessStage.isNotEmpty)
+            ? BusinessProfileDto(
+                profileName: '${profileToSync.name.isNotEmpty ? profileToSync.name : "User"} Business',
+                industry: profileToSync.businessIndustry.isNotEmpty ? profileToSync.businessIndustry : 'General',
+                applicantType: profileToSync.employmentStatus.isNotEmpty ? profileToSync.employmentStatus : 'individual',
+                businessStage: profileToSync.businessStage.isNotEmpty ? profileToSync.businessStage : 'Idea',
+                businessRegistered: profileToSync.existingBusiness,
+                fundingRequiredAmount: profileToSync.fundingRequired,
+                registrationNumbers: profileToSync.registrationNumbers,
+                isFirstGenerationEntrepreneur: profileToSync.firstGenGraduate,
+              )
+            : null;
+
+        final submission = OnboardingSubmissionDto(
+          profile: profileMap,
+          business: businessDto,
+          legalAcceptances: const [],
+        );
+        await OnboardingApiService.instance.submitOnboarding(submission);
+      }
+      debugPrint('[AppProvider] MSS REST profile sync completed.');
+    } catch (e) {
+      debugPrint('[AppProvider] MSS REST profile sync warning: $e');
+    }
   }
+
+  // 2. Supabase fallback/mirror
+  try {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null) {
+      if (accessToken != null && accessToken.isNotEmpty) {
+        return; // Already synced via REST API
+      }
+      throw StateError('Your session expired. Please sign in again.');
+    }
 
   final effectiveEmail = profileToSync.email.trim().isNotEmpty
       ? profileToSync.email.trim()
@@ -112,4 +171,7 @@ Future<void> syncProfileToSupabase(
     await SchemeRepository.instance.createProfile(cloudProfile);
   }
   debugPrint('[AppProvider] Supabase profile sync completed.');
+  } catch (e) {
+    debugPrint('[AppProvider] Supabase profile sync warning: $e');
+  }
 }

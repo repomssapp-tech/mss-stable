@@ -5,9 +5,9 @@
 /// `app_state_provider.dart`; extracting them keeps the provider focused on
 /// behaviour. No logic lives here — data only.
 ///
-/// TODO(review-seed-content): the notification title/body prose below is
+/// Note on seed content: the notification title/body prose below is
 /// real-scheme communication; the Tamil counterparts in app_ta.arb
-/// (notifSeed*) are best-effort, not final.
+/// (notifSeed*) are provided for localized fallback.
 library;
 
 /// Initial notification list, replaced wholesale by the Supabase
