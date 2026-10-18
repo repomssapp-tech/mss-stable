@@ -1,0 +1,2010 @@
+{
+  "metadata": {
+    "name": "MSS Translation Dictionary",
+    "version": "1.2.0",
+    "catalogRelease": "1.33.0-alpha",
+    "generatedAt": "2026-08-15T00:00:00Z",
+    "sourceLanguage": "en",
+    "targetLanguages": [
+      "ta"
+    ],
+    "entryCount": 457,
+    "preservedAcronyms": [
+      "AABCS",
+      "AIC",
+      "AIF",
+      "AIFs",
+      "AIM",
+      "ARISE",
+      "ATI",
+      "ATL",
+      "BBBP",
+      "BIRAC",
+      "CGFSIL",
+      "CGTMSE",
+      "CIN",
+      "CLCSS",
+      "CSR",
+      "DAY-NRLM",
+      "DAY-NULM",
+      "DDU-GKY",
+      "DGFT",
+      "DIC",
+      "DICs",
+      "DPIIT",
+      "EDII",
+      "EPCG",
+      "ESDP",
+      "FPO",
+      "FPOs",
+      "FSSAI",
+      "FTP",
+      "GST",
+      "GVY",
+      "GeM",
+      "IEC",
+      "IPR",
+      "IT",
+      "KVIC",
+      "LEAN",
+      "LLP",
+      "MCDP",
+      "MOFPI",
+      "MPDA",
+      "MSE",
+      "MSE-CDP",
+      "MSEFC",
+      "MSEs",
+      "MSME",
+      "MSMEs",
+      "MUDRA",
+      "NABARD",
+      "NCGTC",
+      "NEEDS",
+      "NGO",
+      "NITI",
+      "NSIC",
+      "OBC",
+      "ODOP",
+      "PAN",
+      "PMEGP",
+      "PMFME",
+      "PMKVY",
+      "PMMVY",
+      "PMMY",
+      "PMSVANidhi",
+      "PMUY",
+      "QRMP",
+      "R&D",
+      "RBI",
+      "SAFE",
+      "SAMADHAAN",
+      "SC",
+      "SEBI",
+      "SHG",
+      "SHGs",
+      "SIDBI",
+      "SION",
+      "SIPCOT",
+      "SPEED",
+      "SPRS",
+      "ST",
+      "TAN",
+      "TANGEDCO",
+      "TIIC",
+      "TReDS",
+      "UDYAM",
+      "UYEGP",
+      "Udyam",
+      "ZED"
+    ],
+    "usage": "Reused by every future catalog generation. Extend rather than re-derive; entries here are authoritative for MSS Tamil terminology.",
+    "status": "machine-authored, awaiting linguistic review",
+    "changelog": [
+      "1.1.0 (2026-08-15): Tamil Localization Completion Phase Task 3.",
+      "1.2.0 (2026-08-15): Final Localization Release Gate -- added the required technical-terms table (Startup/Subsidy/Capital Subsidy/Loan/Interest Subsidy/Working Capital/Collateral/Eligibility/Benefits/Application Process/Documents Required) and Category A transliteration keywords (msme/gst/emi)."
+    ]
+  },
+  "entries": {
+    "Act": {
+      "ta": "சட்டம்",
+      "category": "term"
+    },
+    "Address Proof": {
+      "ta": "முகவரிச் சான்று",
+      "category": "term"
+    },
+    "Agency": {
+      "ta": "முகமை",
+      "category": "term"
+    },
+    "agency": {
+      "ta": "முகமை",
+      "category": "keyword"
+    },
+    "Agriculture": {
+      "ta": "வேளாண்மை",
+      "category": "term"
+    },
+    "agriculture": {
+      "ta": "வேளாண்மை",
+      "category": "keyword"
+    },
+    "Andaman and Nicobar Islands": {
+      "ta": "அந்தமான் நிக்கோபார் தீவுகள்",
+      "category": "state"
+    },
+    "Andhra Pradesh": {
+      "ta": "ஆந்திரப் பிரதேசம்",
+      "category": "state"
+    },
+    "Annual Return": {
+      "ta": "ஆண்டு தாக்கல்",
+      "category": "term"
+    },
+    "Applicant": {
+      "ta": "விண்ணப்பதாரர்",
+      "category": "term"
+    },
+    "Application": {
+      "ta": "விண்ணப்பம்",
+      "category": "term"
+    },
+    "Application Form": {
+      "ta": "விண்ணப்பப் படிவம்",
+      "category": "term"
+    },
+    "Application Process": {
+      "ta": "விண்ணப்ப செயல்முறை",
+      "category": "term"
+    },
+    "Ariyalur": {
+      "ta": "அரியலூர",
+      "category": "district"
+    },
+    "Artisan": {
+      "ta": "கைவினைஞர்",
+      "category": "term"
+    },
+    "artisan": {
+      "ta": "கைவினைஞர்",
+      "category": "keyword"
+    },
+    "Arunachal Pradesh": {
+      "ta": "அருணாசலப் பிரதேசம்",
+      "category": "state"
+    },
+    "Assam": {
+      "ta": "அசாம்",
+      "category": "state"
+    },
+    "Assam ": {
+      "ta": "அசாம்",
+      "category": "state"
+    },
+    "assistance": {
+      "ta": "உதவி",
+      "category": "keyword"
+    },
+    "Atal Innovation Mission": {
+      "ta": "அடல் புத்தாக்க இயக்கம்",
+      "category": "term"
+    },
+    "Authority": {
+      "ta": "அதிகாரசபை",
+      "category": "term"
+    },
+    "authority": {
+      "ta": "அதிகாரசபை",
+      "category": "keyword"
+    },
+    "Bank": {
+      "ta": "வங்கி",
+      "category": "term"
+    },
+    "bank": {
+      "ta": "வங்கி",
+      "category": "keyword"
+    },
+    "Bank Document": {
+      "ta": "வங்கி ஆவணம்",
+      "category": "term"
+    },
+    "bank rate": {
+      "ta": "வங்கி விகிதம்",
+      "category": "term",
+      "domain": "msme_privilege",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "Below Poverty Line": {
+      "ta": "வறுமைக் கோட்டிற்குக் கீழ்",
+      "category": "term"
+    },
+    "Beneficiary": {
+      "ta": "பயனாளி",
+      "category": "term"
+    },
+    "beneficiary": {
+      "ta": "பயனாளி",
+      "category": "keyword"
+    },
+    "benefit": {
+      "ta": "நன்மைகள்",
+      "category": "keyword"
+    },
+    "Benefits": {
+      "ta": "நன்மைகள்",
+      "category": "term"
+    },
+    "benefits": {
+      "ta": "நன்மைகள்",
+      "category": "keyword"
+    },
+    "Bihar": {
+      "ta": "பீகார்",
+      "category": "state"
+    },
+    "Bill Discounting": {
+      "ta": "மாற்றுச்சீட்டு தள்ளுபடி",
+      "category": "term"
+    },
+    "Biotechnology": {
+      "ta": "உயிரித் தொழில்நுட்பம்",
+      "category": "term"
+    },
+    "Biotechnology Industry Research Assistance Council": {
+      "ta": "உயிரித் தொழில்நுட்பத் தொழில் ஆராய்ச்சி உதவி மன்றம்",
+      "category": "term"
+    },
+    "Board": {
+      "ta": "வாரியம்",
+      "category": "term"
+    },
+    "board": {
+      "ta": "வாரியம்",
+      "category": "keyword"
+    },
+    "Bureau": {
+      "ta": "பணியகம்",
+      "category": "term"
+    },
+    "business": {
+      "ta": "வணிகம்",
+      "category": "keyword"
+    },
+    "buyer": {
+      "ta": "வாங்குபவர்",
+      "category": "term",
+      "domain": "treds",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "Capital": {
+      "ta": "மூலதனம்",
+      "category": "term"
+    },
+    "capital": {
+      "ta": "மூலதனம்",
+      "category": "keyword"
+    },
+    "Capital Subsidy": {
+      "ta": "மூலதன மானியம்",
+      "category": "term"
+    },
+    "Category / Community Proof": {
+      "ta": "வகை / சமுதாயச் சான்று",
+      "category": "term"
+    },
+    "central": {
+      "ta": "மத்திய",
+      "category": "keyword"
+    },
+    "Central Government": {
+      "ta": "மத்திய அரசு",
+      "category": "term"
+    },
+    "Centre": {
+      "ta": "மையம்",
+      "category": "term"
+    },
+    "centre": {
+      "ta": "மையம்",
+      "category": "keyword"
+    },
+    "Certificate": {
+      "ta": "சான்றிதழ்",
+      "category": "term"
+    },
+    "certification": {
+      "ta": "சான்றளிப்பு",
+      "category": "keyword"
+    },
+    "Certification / Quality Support": {
+      "ta": "சான்றளிப்பு / தர உதவி",
+      "category": "term"
+    },
+    "Chandigarh": {
+      "ta": "சண்டிகர்",
+      "category": "state"
+    },
+    "Chengalpattu": {
+      "ta": "செங்கல்பட்டு",
+      "category": "district"
+    },
+    "Chennai": {
+      "ta": "சென்னை",
+      "category": "district"
+    },
+    "Chhattisgarh": {
+      "ta": "சத்தீஸ்கர்",
+      "category": "state"
+    },
+    "child": {
+      "ta": "குழந்தை",
+      "category": "keyword"
+    },
+    "Circular": {
+      "ta": "சுற்றறிக்கை",
+      "category": "term"
+    },
+    "Cluster": {
+      "ta": "கொத்து",
+      "category": "term"
+    },
+    "cluster": {
+      "ta": "கொத்து",
+      "category": "keyword"
+    },
+    "Cluster Development Programme": {
+      "ta": "கொத்து மேம்பாட்டுத் திட்டம்",
+      "category": "term",
+      "domain": "cluster_assistance",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "Coimbatore": {
+      "ta": "கோயம்புத்தூர்",
+      "category": "district"
+    },
+    "Coir": {
+      "ta": "தென்னைநார்",
+      "category": "term"
+    },
+    "coir": {
+      "ta": "தென்னைநார்",
+      "category": "keyword"
+    },
+    "Coir Board": {
+      "ta": "தென்னைநார் வாரியம்",
+      "category": "term"
+    },
+    "Collateral": {
+      "ta": "பிணையம்",
+      "category": "term"
+    },
+    "collateral": {
+      "ta": "பிணையம்",
+      "category": "keyword"
+    },
+    "Collateral-Free Loan": {
+      "ta": "அடைமானமில்லாக் கடன்",
+      "category": "term"
+    },
+    "Commerce and Industry": {
+      "ta": "வணிகம் மற்றும் தொழில்",
+      "category": "term"
+    },
+    "Commission": {
+      "ta": "ஆணையம்",
+      "category": "term"
+    },
+    "commission": {
+      "ta": "ஆணையம்",
+      "category": "keyword"
+    },
+    "Commissionerate": {
+      "ta": "ஆணையரகம்",
+      "category": "term"
+    },
+    "Common Facility Centre": {
+      "ta": "பொது வசதி மையம்",
+      "category": "term",
+      "domain": "cluster_assistance",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "Common Facility Centres": {
+      "ta": "பொது வசதி மையங்கள்",
+      "category": "term",
+      "domain": "cluster_assistance",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "Companies Act 2013": {
+      "ta": "நிறுவனங்கள் சட்டம் 2013",
+      "category": "term",
+      "domain": "csr",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "Company": {
+      "ta": "கம்பெனி",
+      "category": "term"
+    },
+    "composite": {
+      "ta": "கூட்டு",
+      "category": "keyword"
+    },
+    "Composite Loan": {
+      "ta": "கூட்டுக் கடன்",
+      "category": "term"
+    },
+    "Composition Scheme": {
+      "ta": "தொகுப்புத் திட்டம்",
+      "category": "term"
+    },
+    "Constitution Document": {
+      "ta": "அமைப்பு ஆவணம்",
+      "category": "term"
+    },
+    "Contact": {
+      "ta": "தொடர்பு",
+      "category": "term"
+    },
+    "Cooperative Society": {
+      "ta": "கூட்டுறவுச் சங்கம்",
+      "category": "term"
+    },
+    "Corporate Identity Number": {
+      "ta": "நிறுவன அடையாள எண்",
+      "category": "term"
+    },
+    "Corporate Social Responsibility": {
+      "ta": "பெருநிறுவன சமூகப் பொறுப்பு",
+      "category": "term",
+      "domain": "csr",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "Corporate Tax": {
+      "ta": "நிறுவன வரி",
+      "category": "term"
+    },
+    "Corporation": {
+      "ta": "கழகம்",
+      "category": "term"
+    },
+    "corporation": {
+      "ta": "கழகம்",
+      "category": "keyword"
+    },
+    "Council": {
+      "ta": "மன்றம்",
+      "category": "term"
+    },
+    "council": {
+      "ta": "மன்றம்",
+      "category": "keyword"
+    },
+    "Credit": {
+      "ta": "கடன்",
+      "category": "term"
+    },
+    "credit": {
+      "ta": "கடன்",
+      "category": "keyword"
+    },
+    "Credit Guarantee": {
+      "ta": "கடன் உத்தரவாதம்",
+      "category": "term"
+    },
+    "Credit Guarantee Fund Trust for Micro and Small Enterprises": {
+      "ta": "குறு மற்றும் சிறு நிறுவனங்களுக்கான கடன் உத்தரவாத நிதி அறக்கட்டளை",
+      "category": "term"
+    },
+    "credit rating": {
+      "ta": "கடன் தரவரிசை",
+      "category": "term",
+      "domain": "treds",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "Credit-Linked Subsidy": {
+      "ta": "கடன் இணைந்த மானியம்",
+      "category": "term"
+    },
+    "Cuddalore": {
+      "ta": "கடலூர்",
+      "category": "district"
+    },
+    "Customs Duty": {
+      "ta": "சுங்க வரி",
+      "category": "term"
+    },
+    "Dadra and Nagar Haveli and Daman and Diu": {
+      "ta": "தாத்ரா நகர் ஹவேலி மற்றும் டாமன் தியூ",
+      "category": "state"
+    },
+    "Delhi": {
+      "ta": "டெல்லி",
+      "category": "state"
+    },
+    "Department": {
+      "ta": "துறை",
+      "category": "term"
+    },
+    "department": {
+      "ta": "துறை",
+      "category": "keyword"
+    },
+    "Department for Promotion of Industry and Internal Trade": {
+      "ta": "தொழில் மற்றும் உள்நாட்டு வர்த்தக ஊக்குவிப்புத் துறை",
+      "category": "term"
+    },
+    "design": {
+      "ta": "வடிவமைப்பு",
+      "category": "keyword"
+    },
+    "development": {
+      "ta": "வளர்ச்சி",
+      "category": "keyword"
+    },
+    "Development Commissioner": {
+      "ta": "வளர்ச்சி ஆணையர்",
+      "category": "term"
+    },
+    "Development Commissioner (MSME)": {
+      "ta": "வளர்ச்சி ஆணையர் (MSME)",
+      "category": "term"
+    },
+    "Development Finance Institution": {
+      "ta": "வளர்ச்சி நிதி நிறுவனம்",
+      "category": "term"
+    },
+    "Dharmapuri": {
+      "ta": "தருமபுரி",
+      "category": "district"
+    },
+    "Differently Abled": {
+      "ta": "மாற்றுத்திறனாளிகள்",
+      "category": "term"
+    },
+    "Dindigul": {
+      "ta": "திண்டுக்கல்",
+      "category": "district"
+    },
+    "Directorate": {
+      "ta": "இயக்குநரகம்",
+      "category": "term"
+    },
+    "Directorate General of Foreign Trade": {
+      "ta": "வெளிநாட்டு வர்த்தக இயக்குநரகம்",
+      "category": "term"
+    },
+    "discounting": {
+      "ta": "தள்ளுபடி",
+      "category": "term",
+      "domain": "treds",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "dispute settlement": {
+      "ta": "தகராறு தீர்வு",
+      "category": "term",
+      "domain": "msme_privilege",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "district": {
+      "ta": "மாவட்டம்",
+      "category": "keyword"
+    },
+    "District Industries Centre": {
+      "ta": "மாவட்டத் தொழில் மையம்",
+      "category": "term"
+    },
+    "District Industries Centres": {
+      "ta": "மாவட்டத் தொழில் மையங்கள்",
+      "category": "term"
+    },
+    "Diversification": {
+      "ta": "பன்முகப்படுத்தல்",
+      "category": "term"
+    },
+    "Document": {
+      "ta": "ஆவணம்",
+      "category": "term"
+    },
+    "Documents Required": {
+      "ta": "தேவையான ஆவணங்கள்",
+      "category": "term"
+    },
+    "DPIIT Startup Recognition": {
+      "ta": "DPIIT தொடக்க நிறுவன அங்கீகாரம்",
+      "category": "term"
+    },
+    "duty": {
+      "ta": "தீர்வை",
+      "category": "keyword"
+    },
+    "Education": {
+      "ta": "கல்வி",
+      "category": "term"
+    },
+    "education": {
+      "ta": "கல்வி",
+      "category": "keyword"
+    },
+    "Electricity Tax": {
+      "ta": "மின் வரி",
+      "category": "term"
+    },
+    "Eligibility": {
+      "ta": "தகுதி",
+      "category": "term"
+    },
+    "eligibility": {
+      "ta": "தகுதி",
+      "category": "keyword"
+    },
+    "emi": {
+      "ta": "இ எம் ஐ",
+      "category": "keyword"
+    },
+    "Employment": {
+      "ta": "வேலைவாய்ப்பு",
+      "category": "term"
+    },
+    "employment": {
+      "ta": "வேலைவாய்ப்பு",
+      "category": "keyword"
+    },
+    "energy": {
+      "ta": "எரிசக்தி",
+      "category": "keyword"
+    },
+    "Energy / Utility Support": {
+      "ta": "எரிசக்தி / பயன்பாட்டு உதவி",
+      "category": "term"
+    },
+    "Enterprise": {
+      "ta": "நிறுவனம்",
+      "category": "term"
+    },
+    "enterprise": {
+      "ta": "நிறுவனம்",
+      "category": "keyword"
+    },
+    "Enterprise Registration Proof": {
+      "ta": "நிறுவனப் பதிவுச் சான்று",
+      "category": "term"
+    },
+    "Enterprises": {
+      "ta": "நிறுவனங்கள்",
+      "category": "term"
+    },
+    "enterprises": {
+      "ta": "நிறுவனங்கள்",
+      "category": "keyword"
+    },
+    "Entrepreneur": {
+      "ta": "தொழில்முனைவோர்",
+      "category": "term"
+    },
+    "entrepreneur": {
+      "ta": "தொழில்முனைவோர்",
+      "category": "keyword"
+    },
+    "Entrepreneur Memorandum Part II": {
+      "ta": "தொழில்முனைவோர் குறிப்பாணை பகுதி II",
+      "category": "term"
+    },
+    "entrepreneurship": {
+      "ta": "தொழில்முனைவு",
+      "category": "keyword"
+    },
+    "Entrepreneurship Development and Innovation Institute": {
+      "ta": "தொழில்முனைவு மேம்பாடு மற்றும் புத்தாக்க நிறுவனம்",
+      "category": "term"
+    },
+    "equipment": {
+      "ta": "உபகரணம்",
+      "category": "keyword"
+    },
+    "Equipment Loan": {
+      "ta": "உபகரணக் கடன்",
+      "category": "term"
+    },
+    "equity": {
+      "ta": "பங்கு",
+      "category": "keyword"
+    },
+    "Equity / Venture Funding": {
+      "ta": "பங்கு / துணிகர நிதியளிப்பு",
+      "category": "term"
+    },
+    "Equity Support": {
+      "ta": "பங்கு முதலீட்டு உதவி",
+      "category": "term"
+    },
+    "Erode": {
+      "ta": "ஈரோடு",
+      "category": "district"
+    },
+    "Event / Exhibition Support": {
+      "ta": "நிகழ்வு / கண்காட்சி உதவி",
+      "category": "term"
+    },
+    "Ex-Servicemen": {
+      "ta": "முன்னாள் படைவீரர்கள்",
+      "category": "term"
+    },
+    "exhibition": {
+      "ta": "கண்காட்சி",
+      "category": "keyword"
+    },
+    "Existing / Operating": {
+      "ta": "இயங்கும் நிறுவனம்",
+      "category": "term"
+    },
+    "Expansion": {
+      "ta": "விரிவாக்கம்",
+      "category": "term"
+    },
+    "Export": {
+      "ta": "ஏற்றுமதி",
+      "category": "term"
+    },
+    "export": {
+      "ta": "ஏற்றுமதி",
+      "category": "keyword"
+    },
+    "Facilitation / Handholding": {
+      "ta": "வசதியளிப்பு / கைகொடுத்தல்",
+      "category": "term"
+    },
+    "Facilitation Council": {
+      "ta": "வசதியளிப்பு மன்றம்",
+      "category": "term"
+    },
+    "Factory Licence": {
+      "ta": "தொழிற்சாலை உரிமம்",
+      "category": "term"
+    },
+    "Farmer": {
+      "ta": "விவசாயி",
+      "category": "term"
+    },
+    "Finance": {
+      "ta": "நிதி",
+      "category": "term"
+    },
+    "finance": {
+      "ta": "நிதி",
+      "category": "keyword"
+    },
+    "Financial Assistance": {
+      "ta": "நிதி உதவி",
+      "category": "term"
+    },
+    "Financial Services": {
+      "ta": "நிதிச் சேவைகள்",
+      "category": "term"
+    },
+    "Financial Statement": {
+      "ta": "நிதி அறிக்கை",
+      "category": "term"
+    },
+    "financier": {
+      "ta": "நிதியளிப்பாளர்",
+      "category": "term",
+      "domain": "treds",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "First-Generation Entrepreneur": {
+      "ta": "முதல் தலைமுறைத் தொழில்முனைவோர்",
+      "category": "term"
+    },
+    "food": {
+      "ta": "உணவு",
+      "category": "keyword"
+    },
+    "Food Processing": {
+      "ta": "உணவுப் பதப்படுத்துதல்",
+      "category": "term"
+    },
+    "Foreign Trade": {
+      "ta": "வெளிநாட்டு வர்த்தகம்",
+      "category": "term"
+    },
+    "FSSAI Licence": {
+      "ta": "FSSAI உரிமம்",
+      "category": "term"
+    },
+    "fund": {
+      "ta": "நிதி",
+      "category": "keyword"
+    },
+    "girl": {
+      "ta": "பெண்குழந்தை",
+      "category": "keyword"
+    },
+    "Goa": {
+      "ta": "கோவா",
+      "category": "state"
+    },
+    "Goods and Services Tax": {
+      "ta": "சரக்கு மற்றும் சேவை வரி",
+      "category": "term"
+    },
+    "Government": {
+      "ta": "அரசு",
+      "category": "term"
+    },
+    "Government Corporation": {
+      "ta": "அரசு கழகம்",
+      "category": "term"
+    },
+    "Government of India": {
+      "ta": "இந்திய அரசு",
+      "category": "term"
+    },
+    "Government of Tamil Nadu": {
+      "ta": "தமிழ்நாடு அரசு",
+      "category": "term"
+    },
+    "Government Order": {
+      "ta": "அரசாணை",
+      "category": "term"
+    },
+    "Grant": {
+      "ta": "நிதியுதவி",
+      "category": "term"
+    },
+    "grant": {
+      "ta": "நிதியுதவி",
+      "category": "keyword"
+    },
+    "Grant / Grant-in-Aid": {
+      "ta": "நிதியுதவி",
+      "category": "term"
+    },
+    "Grant-in-Aid": {
+      "ta": "நிதியுதவி",
+      "category": "term"
+    },
+    "greenfield": {
+      "ta": "கிரீன்ஃபீல்ட்",
+      "category": "keyword"
+    },
+    "gst": {
+      "ta": "ஜி எஸ் டி",
+      "category": "keyword"
+    },
+    "GST Registration": {
+      "ta": "GST பதிவு",
+      "category": "term"
+    },
+    "GST Return Filing": {
+      "ta": "GST வரி தாக்கல்",
+      "category": "term"
+    },
+    "Guarantee": {
+      "ta": "உத்தரவாதம்",
+      "category": "term"
+    },
+    "guarantee": {
+      "ta": "உத்தரவாதம்",
+      "category": "keyword"
+    },
+    "Guidelines": {
+      "ta": "வழிகாட்டு நெறிமுறைகள்",
+      "category": "term"
+    },
+    "Gujarat": {
+      "ta": "குஜராத்",
+      "category": "state"
+    },
+    "Handicraft": {
+      "ta": "கைவினைப் பொருள்",
+      "category": "term"
+    },
+    "Haryana": {
+      "ta": "ஹரியானா",
+      "category": "state"
+    },
+    "Health": {
+      "ta": "சுகாதாரம்",
+      "category": "term"
+    },
+    "Helpline": {
+      "ta": "உதவி எண்",
+      "category": "term"
+    },
+    "Himachal Pradesh": {
+      "ta": "இமாசலப் பிரதேசம்",
+      "category": "state"
+    },
+    "Home Affairs": {
+      "ta": "உள்துறை",
+      "category": "term"
+    },
+    "housing": {
+      "ta": "வீட்டுவசதி",
+      "category": "keyword"
+    },
+    "Housing and Urban Affairs": {
+      "ta": "வீட்டுவசதி மற்றும் நகர்ப்புற விவகாரங்கள்",
+      "category": "term"
+    },
+    "Idea Stage": {
+      "ta": "கருத்து நிலை",
+      "category": "term"
+    },
+    "Identity Proof": {
+      "ta": "அடையாளச் சான்று",
+      "category": "term"
+    },
+    "Implementing Agency": {
+      "ta": "செயல்படுத்தும் முகமை",
+      "category": "term",
+      "domain": "csr",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "Import": {
+      "ta": "இறக்குமதி",
+      "category": "term"
+    },
+    "import": {
+      "ta": "இறக்குமதி",
+      "category": "keyword"
+    },
+    "Importer-Exporter Code": {
+      "ta": "இறக்குமதி-ஏற்றுமதி குறியீடு",
+      "category": "term"
+    },
+    "Income Tax": {
+      "ta": "வருமான வரி",
+      "category": "term"
+    },
+    "Income Tax Return": {
+      "ta": "வருமான வரி தாக்கல்",
+      "category": "term"
+    },
+    "incubation": {
+      "ta": "வளர்ப்பகம்",
+      "category": "keyword"
+    },
+    "Incubator": {
+      "ta": "தொழில் வளர்ப்பகம்",
+      "category": "term"
+    },
+    "india": {
+      "ta": "இந்தியா",
+      "category": "keyword"
+    },
+    "industries": {
+      "ta": "தொழில்கள்",
+      "category": "keyword"
+    },
+    "industry": {
+      "ta": "தொழில்",
+      "category": "keyword"
+    },
+    "Industry Association": {
+      "ta": "தொழில் சங்கம்",
+      "category": "term"
+    },
+    "Infrastructure": {
+      "ta": "உள்கட்டமைப்பு",
+      "category": "term"
+    },
+    "infrastructure": {
+      "ta": "உள்கட்டமைப்பு",
+      "category": "keyword"
+    },
+    "Infrastructure Development": {
+      "ta": "உள்கட்டமைப்பு மேம்பாடு",
+      "category": "term",
+      "domain": "cluster_assistance",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "Infrastructure Support": {
+      "ta": "உள்கட்டமைப்பு உதவி",
+      "category": "term"
+    },
+    "Innovation": {
+      "ta": "புத்தாக்கம்",
+      "category": "term"
+    },
+    "innovation": {
+      "ta": "புத்தாக்கம்",
+      "category": "keyword"
+    },
+    "Institute": {
+      "ta": "நிறுவனம்",
+      "category": "term"
+    },
+    "institute": {
+      "ta": "நிறுவனம்",
+      "category": "keyword"
+    },
+    "Insurance": {
+      "ta": "காப்பீடு",
+      "category": "term"
+    },
+    "insurance": {
+      "ta": "காப்பீடு",
+      "category": "keyword"
+    },
+    "Interest": {
+      "ta": "வட்டி",
+      "category": "term"
+    },
+    "interest": {
+      "ta": "வட்டி",
+      "category": "keyword"
+    },
+    "interest rate": {
+      "ta": "வட்டி விகிதம்",
+      "category": "term",
+      "domain": "msme_privilege",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "Interest Subsidy": {
+      "ta": "வட்டி மானியம்",
+      "category": "term"
+    },
+    "Interest Subvention": {
+      "ta": "வட்டி மானியம்",
+      "category": "term"
+    },
+    "Investment": {
+      "ta": "முதலீடு",
+      "category": "term"
+    },
+    "investment": {
+      "ta": "முதலீடு",
+      "category": "keyword"
+    },
+    "invoice": {
+      "ta": "விலைப்பட்டியல்",
+      "category": "term",
+      "domain": "treds",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "Invoice / Purchase Proof": {
+      "ta": "விலைப்பட்டியல் / கொள்முதல் சான்று",
+      "category": "term"
+    },
+    "Jammu and Kashmir": {
+      "ta": "ஜம்மு காஷ்மீர்",
+      "category": "state"
+    },
+    "Jharkhand": {
+      "ta": "ஜார்க்கண்ட்",
+      "category": "state"
+    },
+    "Kallakurichi": {
+      "ta": "கள்ளக்குறிச்சி",
+      "category": "district"
+    },
+    "Kancheepuram": {
+      "ta": "காஞ்சிபுரம்",
+      "category": "district"
+    },
+    "Kanniyakumari": {
+      "ta": "கன்னியாகுமரி",
+      "category": "district"
+    },
+    "Karnataka": {
+      "ta": "கர்நாடகா",
+      "category": "state"
+    },
+    "Karur": {
+      "ta": "கரூர்",
+      "category": "district"
+    },
+    "Kerala": {
+      "ta": "கேரளா",
+      "category": "state"
+    },
+    "Khadi": {
+      "ta": "காதி",
+      "category": "term"
+    },
+    "khadi": {
+      "ta": "காதி",
+      "category": "keyword"
+    },
+    "Khadi and Village Industries Commission": {
+      "ta": "காதி மற்றும் கிராமத் தொழில்கள் ஆணையம்",
+      "category": "term"
+    },
+    "Krishnagiri": {
+      "ta": "கிருஷ்ணகிரி",
+      "category": "district"
+    },
+    "Labour Return": {
+      "ta": "தொழிலாளர் தாக்கல்",
+      "category": "term"
+    },
+    "Ladakh": {
+      "ta": "லடாக்",
+      "category": "state"
+    },
+    "Lakshadweep": {
+      "ta": "லட்சத்தீவு",
+      "category": "state"
+    },
+    "Land / Property Document": {
+      "ta": "நிலம் / சொத்து ஆவணம்",
+      "category": "term"
+    },
+    "Limited Liability Partnership": {
+      "ta": "வரையறுக்கப்பட்ட பொறுப்புக் கூட்டாண்மை",
+      "category": "term"
+    },
+    "Livelihood": {
+      "ta": "வாழ்வாதாரம்",
+      "category": "term"
+    },
+    "Loan": {
+      "ta": "கடன்",
+      "category": "term"
+    },
+    "loan": {
+      "ta": "கடன்",
+      "category": "keyword"
+    },
+    "Loan / Term Finance": {
+      "ta": "கடன் / கால நிதி",
+      "category": "term"
+    },
+    "machinery": {
+      "ta": "இயந்திரம்",
+      "category": "keyword"
+    },
+    "Madhya Pradesh": {
+      "ta": "மத்தியப் பிரதேசம்",
+      "category": "state"
+    },
+    "Madurai": {
+      "ta": "மதுரை",
+      "category": "district"
+    },
+    "Maharashtra": {
+      "ta": "மகாராஷ்டிரா",
+      "category": "state"
+    },
+    "Make in India": {
+      "ta": "Make in India",
+      "category": "term"
+    },
+    "Manipur": {
+      "ta": "மணிப்பூர்",
+      "category": "state"
+    },
+    "Manufacturing": {
+      "ta": "உற்பத்தி",
+      "category": "term"
+    },
+    "manufacturing": {
+      "ta": "உற்பத்தி",
+      "category": "keyword"
+    },
+    "margin": {
+      "ta": "மார்ஜின்",
+      "category": "keyword"
+    },
+    "Margin Money": {
+      "ta": "விளிம்பு நிதி",
+      "category": "term"
+    },
+    "Market": {
+      "ta": "சந்தை",
+      "category": "term"
+    },
+    "market": {
+      "ta": "சந்தை",
+      "category": "keyword"
+    },
+    "Market / Export Promotion": {
+      "ta": "சந்தை / ஏற்றுமதி ஊக்குவிப்பு",
+      "category": "term"
+    },
+    "Market Support": {
+      "ta": "சந்தை உதவி",
+      "category": "term"
+    },
+    "Marketing": {
+      "ta": "சந்தைப்படுத்தல்",
+      "category": "term"
+    },
+    "marriage": {
+      "ta": "திருமணம்",
+      "category": "keyword"
+    },
+    "Mayiladuthurai": {
+      "ta": "மயிலாடுதுறை",
+      "category": "district"
+    },
+    "Medium": {
+      "ta": "நடுத்தர",
+      "category": "term"
+    },
+    "Medium Enterprise": {
+      "ta": "நடுத்தர நிறுவனம்",
+      "category": "term"
+    },
+    "Meghalaya": {
+      "ta": "மேகாலயா",
+      "category": "state"
+    },
+    "Micro": {
+      "ta": "குறு",
+      "category": "term"
+    },
+    "micro": {
+      "ta": "குறு",
+      "category": "keyword"
+    },
+    "Micro and Small Enterprises": {
+      "ta": "குறு மற்றும் சிறு நிறுவனங்கள்",
+      "category": "term"
+    },
+    "Micro Enterprise": {
+      "ta": "குறு நிறுவனம்",
+      "category": "term"
+    },
+    "Micro, Small and Medium Enterprises": {
+      "ta": "குறு, சிறு மற்றும் நடுத்தர நிறுவனங்கள்",
+      "category": "term"
+    },
+    "Micro, Small and Medium Enterprises Department": {
+      "ta": "குறு, சிறு மற்றும் நடுத்தர நிறுவனங்கள் துறை",
+      "category": "term"
+    },
+    "Ministry": {
+      "ta": "அமைச்சகம்",
+      "category": "term"
+    },
+    "ministry": {
+      "ta": "அமைச்சகம்",
+      "category": "keyword"
+    },
+    "Ministry of Micro, Small and Medium Enterprises": {
+      "ta": "குறு, சிறு மற்றும் நடுத்தர நிறுவனங்கள் அமைச்சகம்",
+      "category": "term"
+    },
+    "Minority": {
+      "ta": "சிறுபான்மையினர்",
+      "category": "term"
+    },
+    "Minority Affairs": {
+      "ta": "சிறுபான்மையினர் நலன்",
+      "category": "term"
+    },
+    "Mission": {
+      "ta": "இயக்கம்",
+      "category": "term"
+    },
+    "mission": {
+      "ta": "இயக்கம்",
+      "category": "keyword"
+    },
+    "Mizoram": {
+      "ta": "மிசோரம்",
+      "category": "state"
+    },
+    "Modernisation": {
+      "ta": "நவீனமயமாக்கல்",
+      "category": "term"
+    },
+    "msme": {
+      "ta": "எம் எஸ் எம் ஈ",
+      "category": "keyword"
+    },
+    "Nagaland": {
+      "ta": "நாகாலாந்து",
+      "category": "state"
+    },
+    "Nagapattinam": {
+      "ta": "நாகப்பட்டினம்",
+      "category": "district"
+    },
+    "Namakkal": {
+      "ta": "நாமக்கல்",
+      "category": "district"
+    },
+    "national": {
+      "ta": "தேசிய",
+      "category": "keyword"
+    },
+    "National Bank for Agriculture and Rural Development": {
+      "ta": "தேசிய வேளாண்மை மற்றும் ஊரக வளர்ச்சி வங்கி",
+      "category": "term"
+    },
+    "National SC-ST Hub": {
+      "ta": "தேசிய SC-ST மையம்",
+      "category": "term"
+    },
+    "National Small Industries Corporation": {
+      "ta": "தேசிய சிறுதொழில் கழகம்",
+      "category": "term"
+    },
+    "New / Greenfield": {
+      "ta": "புதிய நிறுவனம்",
+      "category": "term"
+    },
+    "Nilgiris": {
+      "ta": "நீலகிரி",
+      "category": "district"
+    },
+    "Notification": {
+      "ta": "அறிவிக்கை",
+      "category": "term"
+    },
+    "NSIC Single Point Registration": {
+      "ta": "NSIC ஒற்றைப் புள்ளிப் பதிவு",
+      "category": "term"
+    },
+    "Odisha": {
+      "ta": "ஒடிசா",
+      "category": "state"
+    },
+    "Office": {
+      "ta": "அலுவலகம்",
+      "category": "term"
+    },
+    "Office of Development Commissioner": {
+      "ta": "வளர்ச்சி ஆணையர் அலுவலகம்",
+      "category": "term"
+    },
+    "Offline": {
+      "ta": "நேரடி",
+      "category": "term"
+    },
+    "onboarding": {
+      "ta": "இணைப்பு செயல்முறை",
+      "category": "term",
+      "domain": "treds",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "one": {
+      "ta": "ஒரு",
+      "category": "keyword"
+    },
+    "Online": {
+      "ta": "இணையவழி",
+      "category": "term"
+    },
+    "Operating / Location Incentive": {
+      "ta": "இயக்க / இட ஊக்கத்தொகை",
+      "category": "term"
+    },
+    "Orphan": {
+      "ta": "அனாதை",
+      "category": "term"
+    },
+    "Other Backward Classes": {
+      "ta": "பிற பிற்படுத்தப்பட்ட வகுப்பினர்",
+      "category": "term"
+    },
+    "Other Supporting Document": {
+      "ta": "பிற ஆதரவு ஆவணம்",
+      "category": "term"
+    },
+    "paperless": {
+      "ta": "காகிதமற்ற",
+      "category": "term",
+      "domain": "business_enablement",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "Partnership Firm": {
+      "ta": "கூட்டாண்மை நிறுவனம்",
+      "category": "term"
+    },
+    "Perambalur": {
+      "ta": "பெரம்பலூர்",
+      "category": "district"
+    },
+    "Petroleum and Natural Gas": {
+      "ta": "பெட்ரோலியம் மற்றும் இயற்கை எரிவாயு",
+      "category": "term"
+    },
+    "platform": {
+      "ta": "தளம்",
+      "category": "term",
+      "domain": "treds",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "Policy": {
+      "ta": "கொள்கை",
+      "category": "term"
+    },
+    "Pollution Control Consent": {
+      "ta": "மாசுக் கட்டுப்பாட்டு ஒப்புதல்",
+      "category": "term"
+    },
+    "portal": {
+      "ta": "வலைவாயில்",
+      "category": "keyword"
+    },
+    "power": {
+      "ta": "மின்சாரம்",
+      "category": "keyword"
+    },
+    "processing": {
+      "ta": "பதப்படுத்தல்",
+      "category": "keyword"
+    },
+    "procurement": {
+      "ta": "கொள்முதல்",
+      "category": "keyword"
+    },
+    "product": {
+      "ta": "தயாரிப்பு",
+      "category": "keyword"
+    },
+    "programme": {
+      "ta": "திட்டம்",
+      "category": "keyword"
+    },
+    "Project Report": {
+      "ta": "திட்ட அறிக்கை",
+      "category": "term"
+    },
+    "Proprietorship": {
+      "ta": "தனியுரிமை நிறுவனம்",
+      "category": "term"
+    },
+    "Public Procurement Access": {
+      "ta": "பொதுக் கொள்முதல் அணுகல்",
+      "category": "term"
+    },
+    "Public Sector Undertaking": {
+      "ta": "பொதுத்துறை நிறுவனம்",
+      "category": "term"
+    },
+    "Puducherry": {
+      "ta": "புதுச்சேரி",
+      "category": "state"
+    },
+    "Pudukkottai": {
+      "ta": "புதுக்கோட்டை",
+      "category": "district"
+    },
+    "Punjab": {
+      "ta": "பஞ்சாப்",
+      "category": "state"
+    },
+    "quality": {
+      "ta": "தரம்",
+      "category": "keyword"
+    },
+    "Rajasthan": {
+      "ta": "ராஜஸ்தான்",
+      "category": "state"
+    },
+    "Ramanathapuram": {
+      "ta": "ராமநாதபுரம்",
+      "category": "district"
+    },
+    "Ranipet": {
+      "ta": "இராணிப்பேட்டை",
+      "category": "district"
+    },
+    "Receivables Exchange": {
+      "ta": "பெறத்தக்கவை பரிவர்த்தனை மையம்",
+      "category": "term",
+      "domain": "treds",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "Refinance": {
+      "ta": "மறுநிதியளிப்பு",
+      "category": "term"
+    },
+    "Registration": {
+      "ta": "பதிவு",
+      "category": "term"
+    },
+    "registration": {
+      "ta": "பதிவு",
+      "category": "keyword"
+    },
+    "Regulator": {
+      "ta": "ஒழுங்குமுறை ஆணையம்",
+      "category": "term"
+    },
+    "Reimbursement": {
+      "ta": "திருப்பிச் செலுத்துதல்",
+      "category": "term"
+    },
+    "reimbursement": {
+      "ta": "திருப்பிச்செலுத்தல்",
+      "category": "keyword"
+    },
+    "research": {
+      "ta": "ஆராய்ச்சி",
+      "category": "keyword"
+    },
+    "Reserve Bank of India": {
+      "ta": "இந்திய ரிசர்வ் வங்கி",
+      "category": "term"
+    },
+    "Revival / Rehabilitation": {
+      "ta": "மறுசீரமைப்பு",
+      "category": "term"
+    },
+    "Rural": {
+      "ta": "கிராமப்புற",
+      "category": "term"
+    },
+    "rural": {
+      "ta": "கிராமப்புற",
+      "category": "keyword"
+    },
+    "Rural Development": {
+      "ta": "ஊரக வளர்ச்சி",
+      "category": "term"
+    },
+    "Salem": {
+      "ta": "சேலம்",
+      "category": "district"
+    },
+    "Schedule VII": {
+      "ta": "அட்டவணை VII",
+      "category": "term",
+      "domain": "csr",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "Scheduled Caste": {
+      "ta": "பட்டியலின மக்கள்",
+      "category": "term"
+    },
+    "Scheduled Tribe": {
+      "ta": "பட்டியல் பழங்குடியினர்",
+      "category": "term"
+    },
+    "Scheme": {
+      "ta": "திட்டம்",
+      "category": "term"
+    },
+    "scheme": {
+      "ta": "திட்டம்",
+      "category": "keyword"
+    },
+    "Schemes": {
+      "ta": "திட்டங்கள்",
+      "category": "term"
+    },
+    "Science and Technology": {
+      "ta": "அறிவியல் மற்றும் தொழில்நுட்பம்",
+      "category": "term"
+    },
+    "Section 8 Company": {
+      "ta": "பிரிவு 8 கம்பெனி",
+      "category": "term"
+    },
+    "seed": {
+      "ta": "விதைநிதி",
+      "category": "keyword"
+    },
+    "self-declaration": {
+      "ta": "சுய-பிரகடனம்",
+      "category": "term",
+      "domain": "business_enablement",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "Self-Help Group": {
+      "ta": "சுய உதவிக் குழு",
+      "category": "term"
+    },
+    "seller": {
+      "ta": "விற்பனையாளர்",
+      "category": "term",
+      "domain": "treds",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "Service": {
+      "ta": "சேவை",
+      "category": "term"
+    },
+    "service": {
+      "ta": "சேவை",
+      "category": "keyword"
+    },
+    "Services": {
+      "ta": "சேவைகள்",
+      "category": "term"
+    },
+    "services": {
+      "ta": "சேவைகள்",
+      "category": "keyword"
+    },
+    "Shops and Establishments Registration": {
+      "ta": "கடைகள் மற்றும் நிறுவனங்கள் பதிவு",
+      "category": "term"
+    },
+    "Sikkim": {
+      "ta": "சிக்கிம்",
+      "category": "state"
+    },
+    "Sivaganga": {
+      "ta": "சிவகங்கை",
+      "category": "district"
+    },
+    "skill": {
+      "ta": "திறன்",
+      "category": "keyword"
+    },
+    "Skill Development": {
+      "ta": "திறன் மேம்பாடு",
+      "category": "term"
+    },
+    "Skill Development and Entrepreneurship": {
+      "ta": "திறன் மேம்பாடு மற்றும் தொழில்முனைவு",
+      "category": "term"
+    },
+    "Small": {
+      "ta": "சிறு",
+      "category": "term"
+    },
+    "Small Enterprise": {
+      "ta": "சிறு நிறுவனம்",
+      "category": "term"
+    },
+    "Small Industries Development Bank of India": {
+      "ta": "இந்திய சிறுதொழில் வளர்ச்சி வங்கி",
+      "category": "term"
+    },
+    "Social / Welfare Assistance": {
+      "ta": "சமூக / நல உதவி",
+      "category": "term"
+    },
+    "Social Justice and Empowerment": {
+      "ta": "சமூக நீதி மற்றும் அதிகாரமளித்தல்",
+      "category": "term"
+    },
+    "Social Welfare and Women Empowerment": {
+      "ta": "சமூக நலன் மற்றும் மகளிர் அதிகாரமளித்தல்",
+      "category": "term"
+    },
+    "Society": {
+      "ta": "சங்கம்",
+      "category": "term"
+    },
+    "Soft Loan": {
+      "ta": "தளர்வான கடன்",
+      "category": "term"
+    },
+    "Spices Board": {
+      "ta": "வாசனைப் பொருள் வாரியம்",
+      "category": "term"
+    },
+    "Spices Board India": {
+      "ta": "இந்திய வாசனைப் பொருள் வாரியம்",
+      "category": "term"
+    },
+    "Stamp Duty": {
+      "ta": "முத்திரைத் தீர்வை",
+      "category": "term"
+    },
+    "Startup": {
+      "ta": "தொடக்க நிறுவனம்",
+      "category": "term"
+    },
+    "startup": {
+      "ta": "தொடக்கநிறுவனம்",
+      "category": "keyword"
+    },
+    "Startup India": {
+      "ta": "Startup India",
+      "category": "term"
+    },
+    "Startup Support": {
+      "ta": "தொடக்க நிறுவன உதவி",
+      "category": "term"
+    },
+    "state": {
+      "ta": "மாநில",
+      "category": "keyword"
+    },
+    "State Government": {
+      "ta": "மாநில அரசு",
+      "category": "term"
+    },
+    "Statutory Board": {
+      "ta": "சட்டப்பூர்வ வாரியம்",
+      "category": "term"
+    },
+    "Statutory Body": {
+      "ta": "சட்டப்பூர்வ அமைப்பு",
+      "category": "term"
+    },
+    "Student": {
+      "ta": "மாணவர்",
+      "category": "term"
+    },
+    "Subsidy": {
+      "ta": "மானியம்",
+      "category": "term"
+    },
+    "subsidy": {
+      "ta": "மானியம்",
+      "category": "keyword"
+    },
+    "support": {
+      "ta": "உதவி",
+      "category": "keyword"
+    },
+    "Tamil Nadu": {
+      "ta": "தமிழ்நாடு",
+      "category": "state"
+    },
+    "Tamil Nadu Generation and Distribution Corporation": {
+      "ta": "தமிழ்நாடு மின் உற்பத்தி மற்றும் பகிர்மானக் கழகம்",
+      "category": "term"
+    },
+    "Tamil Nadu Industrial Investment Corporation": {
+      "ta": "தமிழ்நாடு தொழில் முதலீட்டுக் கழகம்",
+      "category": "term"
+    },
+    "Tamil Nadu Micro, Small and Medium Enterprises Department": {
+      "ta": "தமிழ்நாடு குறு, சிறு மற்றும் நடுத்தர நிறுவனங்கள் துறை",
+      "category": "term"
+    },
+    "Tax": {
+      "ta": "வரி",
+      "category": "term"
+    },
+    "tax": {
+      "ta": "வரி",
+      "category": "keyword"
+    },
+    "Tax Benefit": {
+      "ta": "வரிச் சலுகை",
+      "category": "term"
+    },
+    "Technology": {
+      "ta": "தொழில்நுட்பம்",
+      "category": "term"
+    },
+    "technology": {
+      "ta": "தொழில்நுட்பம்",
+      "category": "keyword"
+    },
+    "Technology / Innovation Support": {
+      "ta": "தொழில்நுட்ப / புத்தாக்க உதவி",
+      "category": "term"
+    },
+    "Technology Support": {
+      "ta": "தொழில்நுட்ப உதவி",
+      "category": "term"
+    },
+    "Telangana": {
+      "ta": "தெலங்கானா",
+      "category": "state"
+    },
+    "tender": {
+      "ta": "ஒப்பந்தப்புள்ளி",
+      "category": "keyword"
+    },
+    "Tenkasi": {
+      "ta": "தென்காசி",
+      "category": "district"
+    },
+    "Term Loan": {
+      "ta": "கால கடன்",
+      "category": "term"
+    },
+    "Textile": {
+      "ta": "ஜவுளி",
+      "category": "term"
+    },
+    "textile": {
+      "ta": "ஜவுளி",
+      "category": "keyword"
+    },
+    "Thanjavur": {
+      "ta": "தஞ்சாவூர்",
+      "category": "district"
+    },
+    "Theni": {
+      "ta": "தேனி",
+      "category": "district"
+    },
+    "Thoothukudi": {
+      "ta": "தூத்துக்குடி",
+      "category": "district"
+    },
+    "Tiruchirappalli": {
+      "ta": "திருச்சிராப்பள்ளி",
+      "category": "district"
+    },
+    "Tirunelveli": {
+      "ta": "திருநெல்வேலி",
+      "category": "district"
+    },
+    "Tirupathur": {
+      "ta": "திருப்பத்தூர்",
+      "category": "district"
+    },
+    "Tiruppur": {
+      "ta": "திருப்பூர்",
+      "category": "district"
+    },
+    "Tiruvallur": {
+      "ta": "திருவள்ளூர்",
+      "category": "district"
+    },
+    "Tiruvannamalai": {
+      "ta": "திருவண்ணாமலை",
+      "category": "district"
+    },
+    "Tiruvarur": {
+      "ta": "திருவாரூர்",
+      "category": "district"
+    },
+    "Tourism": {
+      "ta": "சுற்றுலா",
+      "category": "term"
+    },
+    "Trade Receivables Discounting System": {
+      "ta": "வர்த்தக பெறத்தக்கவை தள்ளுபடி முறைமை",
+      "category": "term",
+      "domain": "treds",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "Trading": {
+      "ta": "வணிகம்",
+      "category": "term"
+    },
+    "training": {
+      "ta": "பயிற்சி",
+      "category": "keyword"
+    },
+    "Training / Skill Development": {
+      "ta": "பயிற்சி / திறன் மேம்பாடு",
+      "category": "term"
+    },
+    "Training Institute": {
+      "ta": "பயிற்சி நிறுவனம்",
+      "category": "term"
+    },
+    "Training Support": {
+      "ta": "பயிற்சி உதவி",
+      "category": "term"
+    },
+    "Transgender": {
+      "ta": "திருநர்",
+      "category": "term"
+    },
+    "Tripura": {
+      "ta": "திரிபுரா",
+      "category": "state"
+    },
+    "Trust": {
+      "ta": "அறக்கட்டளை",
+      "category": "term"
+    },
+    "Udyam Annual Update": {
+      "ta": "Udyam ஆண்டு புதுப்பிப்பு",
+      "category": "term"
+    },
+    "Udyam Registration": {
+      "ta": "Udyam பதிவு",
+      "category": "term"
+    },
+    "Union Government": {
+      "ta": "மத்திய அரசு",
+      "category": "term"
+    },
+    "Urban": {
+      "ta": "நகர்ப்புற",
+      "category": "term"
+    },
+    "urban": {
+      "ta": "நகர்ப்புற",
+      "category": "keyword"
+    },
+    "Uttar Pradesh": {
+      "ta": "உத்தரப் பிரதேசம்",
+      "category": "state"
+    },
+    "Uttarakhand": {
+      "ta": "உத்தராகண்ட்",
+      "category": "state"
+    },
+    "Vellore": {
+      "ta": "வேலூர்",
+      "category": "district"
+    },
+    "venture": {
+      "ta": "துணிகரம்",
+      "category": "keyword"
+    },
+    "village": {
+      "ta": "கிராமம்",
+      "category": "keyword"
+    },
+    "Village Industries": {
+      "ta": "கிராமத் தொழில்கள்",
+      "category": "term"
+    },
+    "Viluppuram": {
+      "ta": "விழுப்புரம்",
+      "category": "district"
+    },
+    "Virudhunagar": {
+      "ta": "விருதுநகர்",
+      "category": "district"
+    },
+    "Website": {
+      "ta": "இணையதளம்",
+      "category": "term"
+    },
+    "Welfare": {
+      "ta": "நலன்",
+      "category": "term"
+    },
+    "welfare": {
+      "ta": "நலன்",
+      "category": "keyword"
+    },
+    "West Bengal": {
+      "ta": "மேற்கு வங்கம்",
+      "category": "state"
+    },
+    "Widow": {
+      "ta": "விதவை",
+      "category": "term"
+    },
+    "Women": {
+      "ta": "மகளிர்",
+      "category": "term"
+    },
+    "women": {
+      "ta": "மகளிர்",
+      "category": "keyword"
+    },
+    "Women and Child Development": {
+      "ta": "மகளிர் மற்றும் குழந்தைகள் மேம்பாடு",
+      "category": "term"
+    },
+    "Working Capital": {
+      "ta": "செயல்பாட்டு மூலதனம்",
+      "category": "term"
+    },
+    "working capital": {
+      "ta": "செயல்பாட்டு மூலதனம்",
+      "category": "term",
+      "domain": "treds",
+      "confidence": "medium",
+      "source": "llm_contextual_translation"
+    },
+    "Working Capital Loan": {
+      "ta": "சுழல் மூலதனக் கடன்",
+      "category": "term"
+    },
+    "Youth": {
+      "ta": "இளைஞர்கள்",
+      "category": "term"
+    }
+  }
+}

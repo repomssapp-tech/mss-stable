@@ -325,6 +325,9 @@ class _SplashScreenState extends State<SplashScreen>
             child: Image.asset(
               'assets/images/Background/splash_screen.webp',
               fit: BoxFit.cover,
+              // Keep the wave and blue footer (where the loading text sits)
+              // anchored to the bottom whatever the screen's aspect ratio.
+              alignment: Alignment.bottomCenter,
             ),
           ),
 
@@ -457,7 +460,7 @@ class _SplashScreenState extends State<SplashScreen>
                                         horizontal: AppSpacing.md,
                                       ),
                                       child: Text(
-                                        'App developed by',
+                                        context.l10n.splashDevelopedBy,
                                         style: GoogleFonts.inter(
                                           fontSize: 10,
                                           fontWeight: FontWeight.w500,

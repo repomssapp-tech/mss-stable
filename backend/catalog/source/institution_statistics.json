@@ -1,0 +1,32 @@
+{
+  "generatedAt": "2026-08-04T00:00:00Z",
+  "catalog": "institution_catalog.json",
+  "authoritiesConsidered": 124,
+  "institutions": 83,
+  "excludedAsAdministrativeOnly": 41,
+  "byType": {
+    "development_finance_institution": 2,
+    "support_agency": 21,
+    "statutory_board": 13,
+    "council": 6,
+    "public_sector_undertaking": 9,
+    "training_institute": 5,
+    "mission_agency": 15,
+    "guarantee_institution": 2,
+    "bank": 4,
+    "district_centre": 3,
+    "platform": 1,
+    "venture_fund": 2
+  },
+  "byLevel": {
+    "central": 42,
+    "state": 14,
+    "central_state": 2,
+    "None": 25
+  },
+  "implementingSchemes": 30,
+  "schemeLinksTotal": 70,
+  "withParentAuthority": 10,
+  "tamilPopulated": 0,
+  "localizationStatus": "deferred to roadmap Phase 5"
+}

@@ -13,6 +13,7 @@ import '../../../utils/constants.dart';
 import '../../../widgets/common/app_icon_button.dart';
 import '../../../widgets/common/app_tappable.dart';
 import '../../../widgets/common/quick_pills.dart';
+import 'home_language_button.dart';
 
 class HomeHeaderSection extends StatelessWidget {
   final AppProvider provider;
@@ -64,16 +65,19 @@ class HomeHeaderSection extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
+        Expanded(
+          child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                Text(
-                  AppConstants.getTimeGreeting(context.l10n),
-                  style: context.text.body.copyWith(
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.textMuted,
+                Flexible(
+                  child: Text(
+                    AppConstants.getTimeGreeting(context.l10n),
+                    style: context.text.body.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.textMuted,
+                    ),
                   ),
                 ),
                 const SizedBox(width: AppSpacing.xs),
@@ -109,8 +113,12 @@ class HomeHeaderSection extends StatelessWidget {
             ),
           ],
         ),
+        ),
+        const SizedBox(width: AppSpacing.sm),
         Row(
           children: [
+            HomeLanguageButton(provider: provider),
+            const SizedBox(width: AppSpacing.xs),
             AppIconButton(
               icon: Icons.notifications_none_rounded,
               semanticLabel: context.l10n.notificationsTooltip,

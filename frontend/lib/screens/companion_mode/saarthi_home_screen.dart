@@ -600,7 +600,11 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
         _lastSpokenTurn = turnKey;
         _speakAndShowResponse(
           questionText,
-          state.isTamil ? 'ta-IN' : 'en-IN',
+          state.isTamil
+              ? 'ta-IN'
+              : (Localizations.localeOf(context).languageCode == 'hi'
+                    ? 'hi-IN'
+                    : 'en-IN'),
           questionOptions: question.options,
         );
       }

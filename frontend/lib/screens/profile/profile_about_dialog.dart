@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/l10n.dart';
-import '../../providers/app_state_provider.dart';
 import '../../utils/app_spacing.dart';
 
 void showAboutAppDialog(BuildContext context) {
-  final provider = Provider.of<AppProvider>(context, listen: false);
-  final isTa = provider.selectedLanguage == 'ta';
 
   showDialog(
     context: context,
@@ -90,9 +86,7 @@ void showAboutAppDialog(BuildContext context) {
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 Text(
-                  isTa
-                      ? 'அரசு திட்டங்கள் & வழிகாட்டி தளம்'
-                      : 'Government Scheme Discovery & Eligibility Platform',
+                  context.l10n.aboutAppSubtitle,
                   style: GoogleFonts.inter(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
@@ -104,9 +98,7 @@ void showAboutAppDialog(BuildContext context) {
                   child: Divider(color: Color(0xFFF1F5F9), height: 1),
                 ),
                 Text(
-                  isTa
-                      ? 'MSS என்பது இந்திய தொழில்முனைவோர், பெண்கள், விவசாயிகள் மற்றும் மாணவர்களுக்கான மத்திய மற்றும் மாநில அரசு திட்டங்களை எளிதாகக் கண்டறிந்து, தகுதிகளை சரிபார்த்து பயன்பெற உதவும் ஒரு அறிவார்ந்த டிஜிட்டல் தளமாகும்.'
-                      : 'MSS is an intelligent digital platform designed to bridge the awareness gap and simplify the discovery, eligibility matching, and application process for Central and State Government schemes for Indian entrepreneurs, women, farmers, and students.',
+                  context.l10n.aboutAppDescriptionLong,
                   style: GoogleFonts.inter(
                     fontSize: 12,
                     color: const Color(0xFF334155),
@@ -134,9 +126,7 @@ void showAboutAppDialog(BuildContext context) {
                           const SizedBox(width: AppSpacing.xs),
                           Expanded(
                             child: Text(
-                              isTa
-                                  ? 'உருவாக்கியவர்கள்:'
-                                  : 'Developed in collaboration with:',
+                              context.l10n.aboutDevelopedWith,
                               style: GoogleFonts.inter(
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,
@@ -210,7 +200,7 @@ void showAboutAppDialog(BuildContext context) {
                       const SizedBox(width: AppSpacing.sm),
                       Expanded(
                         child: Text(
-                          'Support: mssschemessearch@gmail.com',
+                          context.l10n.aboutSupportLine('mssschemessearch@gmail.com'),
                           style: GoogleFonts.inter(
                             fontSize: 11,
                             color: const Color(0xFF475569),

@@ -1,5 +1,7 @@
 import 'dart:collection';
 
+import '../services/catalog/language_pack_manager.dart';
+
 /// Immutable wrapper around raw catalog JSON entities.
 /// Preserves complete un-flattened raw structure while providing typed accessors
 /// and multilingual localization fallback helper methods.
@@ -36,9 +38,23 @@ class MssEntity {
     );
   }
 
-  /// Multilingual name resolution. Fallback order:
-  /// localization[preferredLang]['name'] -> localization[alternateLang]['name'] -> identity['name'] -> code
+  /// Multilingual name resolution per MASTER_PLAN §4:
+  /// LanguagePack -> localization[preferredLang]['name'] -> English fallback -> code
   String getLocalizedName([String preferredLang = 'en']) {
+    // 1. Check on-demand language pack if preferredLang is active
+    if (preferredLang != 'en') {
+      final packVal = LanguagePackManager.instance.getField(
+        lang: preferredLang,
+        entityType: entityType,
+        entityId: id,
+        fieldName: 'name',
+      );
+      if (packVal != null && packVal.isNotEmpty) {
+        return packVal;
+      }
+    }
+
+    // 2. Check bundled legacy localization block
     final loc = raw['localization'] as Map<String, dynamic>?;
     if (loc != null) {
       final preferred = loc[preferredLang] as Map<String, dynamic>?;
@@ -46,11 +62,12 @@ class MssEntity {
           (preferred['name'] as String?)?.isNotEmpty == true) {
         return preferred['name'] as String;
       }
-      final altLang = preferredLang == 'ta' ? 'en' : 'ta';
-      final alt = loc[altLang] as Map<String, dynamic>?;
-      if (alt != null && (alt['name'] as String?)?.isNotEmpty == true) {
-        return alt['name'] as String;
-      }
+    }
+
+    // 3. English fallback
+    final enLoc = loc?['en'] as Map<String, dynamic>?;
+    if (enLoc != null && (enLoc['name'] as String?)?.isNotEmpty == true) {
+      return enLoc['name'] as String;
     }
     final identity = raw['identity'] as Map<String, dynamic>?;
     if (identity != null && (identity['name'] as String?)?.isNotEmpty == true) {
@@ -60,7 +77,22 @@ class MssEntity {
   }
 
   /// Multilingual attribute resolution for any field (e.g. 'summary', 'overview', 'description', 'benefits').
+  /// Fallback per MASTER_PLAN §4: LanguagePack -> localization[preferredLang] -> English fallback -> ''
   String getLocalizedAttribute(String key, [String preferredLang = 'en']) {
+    // 1. Check on-demand language pack
+    if (preferredLang != 'en') {
+      final packVal = LanguagePackManager.instance.getField(
+        lang: preferredLang,
+        entityType: entityType,
+        entityId: id,
+        fieldName: key,
+      );
+      if (packVal != null && packVal.isNotEmpty) {
+        return packVal;
+      }
+    }
+
+    // 2. Check bundled legacy localization block
     final loc = raw['localization'] as Map<String, dynamic>?;
     if (loc != null) {
       final preferred = loc[preferredLang] as Map<String, dynamic>?;
@@ -68,15 +100,18 @@ class MssEntity {
           (preferred[key] as String?)?.isNotEmpty == true) {
         return preferred[key] as String;
       }
-      final ta = loc['ta'] as Map<String, dynamic>?;
-      if (ta != null && (ta[key] as String?)?.isNotEmpty == true) {
-        return ta[key] as String;
-      }
-      final en = loc['en'] as Map<String, dynamic>?;
-      if (en != null && (en[key] as String?)?.isNotEmpty == true) {
-        return en[key] as String;
-      }
     }
+
+    // 3. English fallback
+    final en = loc?['en'] as Map<String, dynamic>?;
+    if (en != null && (en[key] as String?)?.isNotEmpty == true) {
+      return en[key] as String;
+    }
+    final attrs = raw['attributes'] as Map<String, dynamic>?;
+    if (attrs != null && (attrs[key] as String?)?.isNotEmpty == true) {
+      return attrs[key] as String;
+    }
+
     return '';
   }
 

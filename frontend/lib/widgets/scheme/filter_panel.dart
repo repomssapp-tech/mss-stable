@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../providers/app_state_provider.dart';
+import '../../services/catalog/centralized_translator.dart';
 import '../../models/scheme_model.dart';
 import '../../models/scheme_filter.dart';
 import '../../utils/constants.dart';
@@ -218,7 +219,9 @@ class _FilterPanelState extends State<FilterPanel> {
                               size: 16, color: Color(0xFF2563EB)),
                           const SizedBox(width: AppSpacing.xs),
                           Text(
-                            context.l10n.filterUseMyProfile(profileState),
+                            context.l10n.filterUseMyProfile(
+                              CentralizedTranslator.instance.localizeTag(profileState),
+                            ),
                             style: GoogleFonts.inter(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
@@ -243,7 +246,7 @@ class _FilterPanelState extends State<FilterPanel> {
                       ),
                       if (profileState.isNotEmpty)
                         _ChipSpec(
-                          profileState,
+                          CentralizedTranslator.instance.localizeTag(profileState),
                           _counts['cov:state'] ?? 0,
                           _coverage == 'state' &&
                               _state.toLowerCase() ==
@@ -371,31 +374,48 @@ class _FilterPanelState extends State<FilterPanel> {
     return code;
   }
 
-  /// A fixed [columns]-wide grid of equal-width chips. Because every cell is
-  /// the same width regardless of label or count, nothing reflows when the
+  /// A grid of equal-width chips, at most [maxColumns] wide. The column count
+  /// follows the width actually available (and the text scale), so narrow
+  /// phones and large fonts get fewer, wider chips instead of truncated labels.
+  /// Every cell in a row is the same width, so nothing reflows when the
   /// selection changes.
-  Widget _group(String title, int columns, List<_ChipSpec> chips) {
+  Widget _group(String title, int maxColumns, List<_ChipSpec> chips) {
     if (chips.isEmpty) return const SizedBox.shrink();
-    final rows = <Widget>[];
-    for (var i = 0; i < chips.length; i += columns) {
-      final slice = chips.sublist(
-          i, i + columns > chips.length ? chips.length : i + columns);
-      rows.add(Padding(
-        padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-        child: Row(
-          children: [
-            for (var c = 0; c < columns; c++) ...[
-              if (c > 0) const SizedBox(width: AppSpacing.sm),
-              Expanded(
-                child: c < slice.length
-                    ? _chip(slice[c])
-                    : const SizedBox.shrink(),
-              ),
+    final textScale = MediaQuery.textScalerOf(context);
+    // Room for a ~12 character label, the count and the chip padding.
+    final minChipWidth = textScale.scale(12) * 12 +
+        textScale.scale(11) * 2 +
+        AppSpacing.md * 2;
+    return LayoutBuilder(builder: (context, constraints) {
+      final rows = <Widget>[];
+      final fit = ((constraints.maxWidth + AppSpacing.sm) /
+              (minChipWidth + AppSpacing.sm))
+          .floor();
+      final columns = fit.clamp(1, maxColumns);
+      for (var i = 0; i < chips.length; i += columns) {
+        final slice = chips.sublist(
+            i, i + columns > chips.length ? chips.length : i + columns);
+        rows.add(Padding(
+          padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+          child: Row(
+            children: [
+              for (var c = 0; c < columns; c++) ...[
+                if (c > 0) const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: c < slice.length
+                      ? _chip(slice[c])
+                      : const SizedBox.shrink(),
+                ),
+              ],
             ],
-          ],
-        ),
-      ));
-    }
+          ),
+        ));
+      }
+      return _groupBody(title, rows);
+    });
+  }
+
+  Widget _groupBody(String title, List<Widget> rows) {
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.lg),
       child: Column(

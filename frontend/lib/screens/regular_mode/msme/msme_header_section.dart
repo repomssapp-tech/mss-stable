@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 import '../../../l10n/l10n.dart';
-import '../../../providers/app_state_provider.dart';
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
 
@@ -44,9 +42,6 @@ class MsmeHeaderSection extends StatelessWidget {
   }
 
   Widget _buildModuleHeader(BuildContext context) {
-    final isTa =
-        Provider.of<AppProvider>(context, listen: false).selectedLanguage ==
-        'ta';
     return Container(
       width: double.infinity,
       decoration: const BoxDecoration(
@@ -74,9 +69,7 @@ class MsmeHeaderSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      isTa
-                          ? CentralizedTranslator.instance.translate(title)
-                          : title,
+                      CentralizedTranslator.instance.localize(title),
                       style: GoogleFonts.poppins(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -85,9 +78,7 @@ class MsmeHeaderSection extends StatelessWidget {
                     ),
                     const SizedBox(height: AppSpacing.xs),
                     Text(
-                      isTa
-                          ? CentralizedTranslator.instance.translate(description)
-                          : description,
+                      CentralizedTranslator.instance.localize(description),
                       style: GoogleFonts.inter(
                         fontSize: 13,
                         color: const Color(0xFF64748B),
@@ -183,10 +174,7 @@ class MsmeHeaderSection extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.sm),
           Text(
-            Provider.of<AppProvider>(context, listen: false).selectedLanguage ==
-                    'ta'
-                ? CentralizedTranslator.instance.translate(valueText)
-                : valueText,
+            CentralizedTranslator.instance.localize(valueText),
             style: GoogleFonts.inter(
               fontSize: 13.5,
               color: const Color(0xFF1E293B),

@@ -1,0 +1,210 @@
+{
+  "metadata": {
+    "catalogName": "manifest",
+    "schemaVersion": "1.0.0",
+    "catalogVersion": "1.36.0-alpha",
+    "generatedAt": "2026-10-05T02:15:00Z",
+    "language": "en",
+    "recordCount": 1,
+    "checksum": "sha256:4936ae3feeb42fe3898e77f7765bdcc77a43f6268663c5e27f376c252a2e7e58"
+  },
+  "data": [
+    {
+      "catalogRelease": "1.36.0-alpha",
+      "schemaVersion": "1.0.0",
+      "releasedAt": "2026-10-05T02:15:00Z",
+      "compatibility": {
+        "minAppVersion": null,
+        "supersedes": "1.35.1-alpha"
+      },
+      "stage": "A — document-derived (tiers 1-4). Identifiers resolved against common_catalog and authority_catalog. No network sourcing.",
+      "baseline": {
+        "release": "1.0.0-alpha",
+        "retainedAt": "catalog/stage_a_frozen/",
+        "immutable": true
+      },
+      "generationOrder": [
+        {
+          "phase": 1,
+          "file": "common_catalog.json"
+        },
+        {
+          "phase": 2,
+          "file": "authority_catalog.json"
+        },
+        {
+          "phase": 3,
+          "file": "institution_catalog.json"
+        },
+        {
+          "phase": 4,
+          "file": "scheme_catalog.json"
+        }
+      ],
+      "files": [
+        {
+          "fileName": "common_catalog.json",
+          "catalogName": "common",
+          "schemaVersion": "1.0.0",
+          "recordCount": 344,
+          "byteSize": 2230621,
+          "checksum": "sha256:c1bc3d16fe00e205bbd6bad73d2b4dc12f91bd1659d14531e517d70dfa01b61c",
+          "required": true
+        },
+        {
+          "fileName": "authority_catalog.json",
+          "catalogName": "authority",
+          "schemaVersion": "1.0.0",
+          "recordCount": 124,
+          "byteSize": 1095398,
+          "checksum": "sha256:8804a2f8fb175aca58bbc6c36422b49944ab64b45a63647d27c8b3466980f40d",
+          "required": false
+        },
+        {
+          "fileName": "institution_catalog.json",
+          "catalogName": "institution",
+          "schemaVersion": "1.0.0",
+          "recordCount": 83,
+          "byteSize": 649267,
+          "checksum": "sha256:78c5d592b99864e266d619cb43f764ddbeabe485139f3b4939216444c82d3853",
+          "required": false
+        },
+        {
+          "fileName": "scheme_catalog.json",
+          "catalogName": "scheme",
+          "schemaVersion": "1.0.0",
+          "recordCount": 302,
+          "byteSize": 9098363,
+          "checksum": "sha256:d08b440013d4bc318078a84115af4a5b6293c0b1cf8d9f1b7d42e37fad5d06c1",
+          "required": true
+        },
+        {
+          "fileName": "finance_catalog.json",
+          "catalogName": "finance",
+          "schemaVersion": "1.0.0",
+          "recordCount": 115,
+          "byteSize": 1423747,
+          "checksum": "sha256:ed86053f16e043441e328d36e6f7f88c1dc2641229e135b8c8308d90ad450127",
+          "required": false
+        },
+        {
+          "fileName": "tax_catalog.json",
+          "catalogName": "tax",
+          "schemaVersion": "1.0.0",
+          "recordCount": 13,
+          "byteSize": 125388,
+          "checksum": "sha256:d5d2fd3743c92f961935793693d013349914b1bad8751775c2525e25d46267b8",
+          "required": false
+        },
+        {
+          "fileName": "treds_catalog.json",
+          "catalogName": "treds",
+          "schemaVersion": "1.0.0",
+          "recordCount": 16,
+          "byteSize": 132578,
+          "checksum": "sha256:3b84263778d280097a5fa882105279d3de4a9ae51a0505d89da9f2f0cdb8e126",
+          "required": false
+        },
+        {
+          "fileName": "csr_catalog.json",
+          "catalogName": "csr",
+          "schemaVersion": "1.0.0",
+          "recordCount": 16,
+          "byteSize": 138184,
+          "checksum": "sha256:d05dc5b011cfaec897f390f5434b007ce39413158f3460e032d4d76e9b549887",
+          "required": false
+        },
+        {
+          "fileName": "export_catalog.json",
+          "catalogName": "export",
+          "schemaVersion": "1.0.0",
+          "recordCount": 13,
+          "byteSize": 141797,
+          "checksum": "sha256:bb1780cbbd02a55a29a20f286a41dade7d686565de1f5d4caff7b6853e4bf41d",
+          "required": false
+        },
+        {
+          "fileName": "knowledge_catalog.json",
+          "catalogName": "knowledge",
+          "schemaVersion": "1.0.0",
+          "recordCount": 28,
+          "byteSize": 265643,
+          "checksum": "sha256:8a24fea1f5fe8b4646b929bfe7815e2f4bffda65fc3d496a5326ae647e078665",
+          "required": false
+        },
+        {
+          "fileName": "search_index.json",
+          "catalogName": "search_index",
+          "schemaVersion": "1.0.0",
+          "recordCount": 1054,
+          "byteSize": 2138664,
+          "checksum": "sha256:117fe3fce68bcd44934ad47102d05f9351ea480af1ccd1256b68b9b823f10963",
+          "required": false
+        },
+        {
+          "fileName": "enterprise_classification_catalog.json",
+          "catalogName": "enterprise_classification",
+          "schemaVersion": "1.0.0",
+          "recordCount": 11,
+          "byteSize": 47739,
+          "checksum": "sha256:e9ea8a9e21998965093449335d3d0a668a381aa7507aa4bc25a81ce3418b5d1f",
+          "required": false
+        },
+        {
+          "fileName": "msme_privilege_catalog.json",
+          "catalogName": "msme_privilege",
+          "schemaVersion": "1.0.0",
+          "recordCount": 2,
+          "byteSize": 14715,
+          "checksum": "sha256:e23561aaa4367620a6ec0da1b9016c74a4a1bb0ce03a2c4ec81f9a0540ae0cd9",
+          "required": false
+        },
+        {
+          "fileName": "business_enablement_catalog.json",
+          "catalogName": "business_enablement",
+          "schemaVersion": "1.0.0",
+          "recordCount": 7,
+          "byteSize": 38331,
+          "checksum": "sha256:0d2be4f5e35b2556c78b06086d402919332bc6bdc3cd499ca21738ab9fcd1662",
+          "required": false
+        },
+        {
+          "fileName": "cluster_assistance_catalog.json",
+          "catalogName": "cluster_assistance",
+          "schemaVersion": "1.0.0",
+          "recordCount": 10,
+          "byteSize": 77260,
+          "checksum": "sha256:079f9cc6383a89efa064b24fbdf4cbca800764a0538e6a41914c025a045f2b53",
+          "required": false
+        },
+        {
+          "fileName": "applicability_matrix_catalog.json",
+          "catalogName": "applicability_matrix",
+          "schemaVersion": "1.0.0",
+          "recordCount": 302,
+          "byteSize": 1159265,
+          "checksum": "sha256:11430d8607de1f38bed230246b02f4051c78480f593d89b3e9761f12a8731214",
+          "required": false
+        }
+      ],
+      "reservedFiles": [
+        "translations_en.json",
+        "translations_ta.json"
+      ],
+      "stageBPasses": [
+        "finance:collateral-enrichment",
+        "scheme:pass1-batch1",
+        "scheme:pass1-batch2",
+        "scheme:pass1-batch3",
+        "scheme:pass1-batch4",
+        "scheme:pass1-batch5",
+        "scheme:pass1-batch6",
+        "scheme:pass1-batch7",
+        "scheme:pass1-batch8",
+        "scheme:pass1-batch9",
+        "scheme:pass2-batch1",
+        "scheme:pass2-batches2-9"
+      ]
+    }
+  ]
+}

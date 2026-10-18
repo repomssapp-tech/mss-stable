@@ -146,6 +146,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get carouselSubPmegpDaysLeft => 'PMEGP · 2 days left';
 
   @override
+  String get carouselTitlePmegpClosing => 'PMEGP (Closing in 5 Days)';
+
+  @override
   String get carouselBadgeAlert => 'Alert';
 
   @override
@@ -4687,4 +4690,78 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get eduDescPostgraduate => 'Master degree, MPhil, or Ph.D.';
+
+  @override
+  String get hintAgeExample => 'e.g. 25';
+
+  @override
+  String get hintAddressExample => 'e.g. Door/Flat No, Street Name, Locality';
+
+  @override
+  String get hintCityExample => 'e.g. Chennai';
+
+  @override
+  String get legalPrivacyNoticeLink => 'Privacy Notice';
+
+  @override
+  String get legalTermsOfUseLink => 'Terms of Use';
+
+  @override
+  String get shareSchemeDetailsTooltip => 'Share scheme details';
+
+  @override
+  String get legalConsentPrefix => 'I have read and agree to the ';
+
+  @override
+  String get legalConsentMid => ' and acknowledge the ';
+
+  @override
+  String get legalConsentSuffix => '.';
+
+  @override
+  String get permLocationOffTitle => 'Location Services Off';
+
+  @override
+  String get permLocationOffBody =>
+      'Location services are turned off. Please turn them on in your system settings to discover local state & district schemes tailored for you.';
+
+  @override
+  String get permLocationBenefitDetect =>
+      'Auto-detect State & District eligibility';
+
+  @override
+  String get permLocationBenefitTailored =>
+      'Tailored regional subsidies & benefits';
+
+  @override
+  String get permLocationTurnOn => 'Turn On Location';
+
+  @override
+  String get aboutAppSubtitle =>
+      'Government Scheme Discovery & Eligibility Platform';
+
+  @override
+  String get aboutDevelopedWith => 'Developed in collaboration with:';
+
+  @override
+  String get splashDevelopedBy => 'App developed by';
+
+  @override
+  String aboutSupportLine(Object email) {
+    return 'Support: $email';
+  }
+
+  @override
+  String catalogFreshnessLabel(Object version) {
+    return 'Local catalog v$version';
+  }
+
+  @override
+  String catalogFreshnessLabelUpdated(Object date, Object version) {
+    return 'Local catalog v$version • updated $date';
+  }
+
+  @override
+  String get aboutAppDescriptionLong =>
+      'MSS is an intelligent digital platform designed to bridge the awareness gap and simplify the discovery, eligibility matching, and application process for Central and State Government schemes for Indian entrepreneurs, women, farmers, and students.';
 }

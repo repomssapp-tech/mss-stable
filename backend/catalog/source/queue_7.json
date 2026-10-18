@@ -1,0 +1,469 @@
+{
+  "batch": 7,
+  "schemeRange": [
+    "SCH000151",
+    "SCH000175"
+  ],
+  "schemes": 25,
+  "distinctUrls": 19,
+  "totalRefs": 37,
+  "skippedNonApproved": [
+    {
+      "schemeId": "SCH000154",
+      "code": "TN154",
+      "field": "content.sources[0].url",
+      "value": "https://www.indianspices.com/",
+      "url": "https://www.indianspices.com/",
+      "host": "www.indianspices.com",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000161",
+      "code": "TN161",
+      "field": "content.sources[0].url",
+      "value": "https://investingintamilnadu.com/",
+      "url": "https://investingintamilnadu.com/",
+      "host": "investingintamilnadu.com",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000168",
+      "code": "TN168",
+      "field": "content.applicationProcess.onlineUrl",
+      "value": "https://www.standupmitra.in/",
+      "url": "https://www.standupmitra.in/",
+      "host": "www.standupmitra.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000168",
+      "code": "TN168",
+      "field": "content.sources[1].url",
+      "value": "https://www.standupmitra.in/",
+      "url": "https://www.standupmitra.in/",
+      "host": "www.standupmitra.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000173",
+      "code": "TN173",
+      "field": "content.sources[0].url",
+      "value": "https://sbi.co.in/",
+      "url": "https://sbi.co.in/",
+      "host": "sbi.co.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    }
+  ],
+  "queue": [
+    {
+      "url": "https://my.msme.gov.in/MyMsmeMob/MsmeScheme/Pages/1_3_3.html",
+      "host": "my.msme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000151",
+          "code": "TN151",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://my.msme.gov.in/MyMsmeMob/MsmeScheme/Pages/1_3_3.html",
+          "url": "https://my.msme.gov.in/MyMsmeMob/MsmeScheme/Pages/1_3_3.html",
+          "host": "my.msme.gov.in"
+        },
+        {
+          "schemeId": "SCH000151",
+          "code": "TN151",
+          "field": "content.sources[0].url",
+          "value": "https://my.msme.gov.in/MyMsmeMob/MsmeScheme/Pages/1_3_3.html",
+          "url": "https://my.msme.gov.in/MyMsmeMob/MsmeScheme/Pages/1_3_3.html",
+          "host": "my.msme.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://my.msme.gov.in/",
+      "host": "my.msme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000151",
+          "code": "TN151",
+          "field": "content.sources[1].url",
+          "value": "https://my.msme.gov.in/",
+          "url": "https://my.msme.gov.in/",
+          "host": "my.msme.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://msme.gov.in/sites/default/files/Coir_Section_11.pdf",
+      "host": "msme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000151",
+          "code": "TN151",
+          "field": "content.sources[2].url",
+          "value": "https://msme.gov.in/sites/default/files/Coir_Section_11.pdf",
+          "url": "https://msme.gov.in/sites/default/files/Coir_Section_11.pdf",
+          "host": "msme.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.sidbi.in/en/business-loan",
+      "host": "www.sidbi.in",
+      "refs": [
+        {
+          "schemeId": "SCH000152",
+          "code": "TN152",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.sidbi.in/en/business-loan",
+          "url": "https://www.sidbi.in/en/business-loan",
+          "host": "www.sidbi.in"
+        },
+        {
+          "schemeId": "SCH000152",
+          "code": "TN152",
+          "field": "content.sources[0].url",
+          "value": "https://www.sidbi.in/en/business-loan",
+          "url": "https://www.sidbi.in/en/business-loan",
+          "host": "www.sidbi.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.sidbi.in/",
+      "host": "www.sidbi.in",
+      "refs": [
+        {
+          "schemeId": "SCH000152",
+          "code": "TN152",
+          "field": "content.sources[1].url",
+          "value": "https://www.sidbi.in/",
+          "url": "https://www.sidbi.in/",
+          "host": "www.sidbi.in"
+        },
+        {
+          "schemeId": "SCH000157",
+          "code": "TN157",
+          "field": "content.sources[0].url",
+          "value": "https://www.sidbi.in/",
+          "url": "https://www.sidbi.in/",
+          "host": "www.sidbi.in"
+        },
+        {
+          "schemeId": "SCH000158",
+          "code": "TN158",
+          "field": "content.sources[0].url",
+          "value": "https://www.sidbi.in/",
+          "url": "https://www.sidbi.in/",
+          "host": "www.sidbi.in"
+        },
+        {
+          "schemeId": "SCH000159",
+          "code": "TN159",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.sidbi.in/",
+          "url": "https://www.sidbi.in/",
+          "host": "www.sidbi.in"
+        },
+        {
+          "schemeId": "SCH000159",
+          "code": "TN159",
+          "field": "content.sources[1].url",
+          "value": "https://www.sidbi.in/",
+          "url": "https://www.sidbi.in/",
+          "host": "www.sidbi.in"
+        },
+        {
+          "schemeId": "SCH000160",
+          "code": "TN160",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.sidbi.in/",
+          "url": "https://www.sidbi.in/",
+          "host": "www.sidbi.in"
+        },
+        {
+          "schemeId": "SCH000160",
+          "code": "TN160",
+          "field": "content.sources[1].url",
+          "value": "https://www.sidbi.in/",
+          "url": "https://www.sidbi.in/",
+          "host": "www.sidbi.in"
+        },
+        {
+          "schemeId": "SCH000165",
+          "code": "TN165",
+          "field": "content.sources[0].url",
+          "value": "https://www.sidbi.in/",
+          "url": "https://www.sidbi.in/",
+          "host": "www.sidbi.in"
+        }
+      ]
+    },
+    {
+      "url": "https://dashboard.msme.gov.in/sri_fund.aspx",
+      "host": "dashboard.msme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000153",
+          "code": "TN153",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://dashboard.msme.gov.in/sri_fund.aspx",
+          "url": "https://dashboard.msme.gov.in/sri_fund.aspx",
+          "host": "dashboard.msme.gov.in"
+        },
+        {
+          "schemeId": "SCH000153",
+          "code": "TN153",
+          "field": "content.sources[0].url",
+          "value": "https://dashboard.msme.gov.in/sri_fund.aspx",
+          "url": "https://dashboard.msme.gov.in/sri_fund.aspx",
+          "host": "dashboard.msme.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://dashboard.msme.gov.in/",
+      "host": "dashboard.msme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000153",
+          "code": "TN153",
+          "field": "content.sources[1].url",
+          "value": "https://dashboard.msme.gov.in/",
+          "url": "https://dashboard.msme.gov.in/",
+          "host": "dashboard.msme.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://serb.gov.in/",
+      "host": "serb.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000155",
+          "code": "TN155",
+          "field": "content.sources[0].url",
+          "value": "https://serb.gov.in/",
+          "url": "https://serb.gov.in/",
+          "host": "serb.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.spniwcd.wcd.gov.in/shakti-sadan",
+      "host": "www.spniwcd.wcd.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000156",
+          "code": "TN156",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.spniwcd.wcd.gov.in/shakti-sadan",
+          "url": "https://www.spniwcd.wcd.gov.in/shakti-sadan",
+          "host": "www.spniwcd.wcd.gov.in"
+        },
+        {
+          "schemeId": "SCH000156",
+          "code": "TN156",
+          "field": "content.sources[0].url",
+          "value": "https://www.spniwcd.wcd.gov.in/shakti-sadan",
+          "url": "https://www.spniwcd.wcd.gov.in/shakti-sadan",
+          "host": "www.spniwcd.wcd.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.spniwcd.wcd.gov.in/shakti-sadan/documents",
+      "host": "www.spniwcd.wcd.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000156",
+          "code": "TN156",
+          "field": "content.sources[1].url",
+          "value": "https://www.spniwcd.wcd.gov.in/shakti-sadan/documents",
+          "url": "https://www.spniwcd.wcd.gov.in/shakti-sadan/documents",
+          "host": "www.spniwcd.wcd.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.sidbi.in/annualreport/AnnualReport202122/business-performance.php",
+      "host": "www.sidbi.in",
+      "refs": [
+        {
+          "schemeId": "SCH000159",
+          "code": "TN159",
+          "field": "content.sources[0].url",
+          "value": "https://www.sidbi.in/annualreport/AnnualReport202122/business-performance.php",
+          "url": "https://www.sidbi.in/annualreport/AnnualReport202122/business-performance.php",
+          "host": "www.sidbi.in"
+        },
+        {
+          "schemeId": "SCH000160",
+          "code": "TN160",
+          "field": "content.sources[0].url",
+          "value": "https://www.sidbi.in/annualreport/AnnualReport202122/business-performance.php",
+          "url": "https://www.sidbi.in/annualreport/AnnualReport202122/business-performance.php",
+          "host": "www.sidbi.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.meity.gov.in/",
+      "host": "www.meity.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000162",
+          "code": "TN162",
+          "field": "content.sources[0].url",
+          "value": "https://www.meity.gov.in/",
+          "url": "https://www.meity.gov.in/",
+          "host": "www.meity.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://birac.nic.in/",
+      "host": "birac.nic.in",
+      "refs": [
+        {
+          "schemeId": "SCH000164",
+          "code": "TN164",
+          "field": "content.sources[0].url",
+          "value": "https://birac.nic.in/",
+          "url": "https://birac.nic.in/",
+          "host": "birac.nic.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.msmeonline.tn.gov.in/",
+      "host": "www.msmeonline.tn.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000166",
+          "code": "TN166",
+          "field": "content.sources[0].url",
+          "value": "https://www.msmeonline.tn.gov.in/",
+          "url": "https://www.msmeonline.tn.gov.in/",
+          "host": "www.msmeonline.tn.gov.in"
+        },
+        {
+          "schemeId": "SCH000171",
+          "code": "TN171",
+          "field": "content.sources[0].url",
+          "value": "https://www.msmeonline.tn.gov.in/",
+          "url": "https://www.msmeonline.tn.gov.in/",
+          "host": "www.msmeonline.tn.gov.in"
+        },
+        {
+          "schemeId": "SCH000174",
+          "code": "TN174",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.msmeonline.tn.gov.in/",
+          "url": "https://www.msmeonline.tn.gov.in/",
+          "host": "www.msmeonline.tn.gov.in"
+        },
+        {
+          "schemeId": "SCH000174",
+          "code": "TN174",
+          "field": "content.sources[1].url",
+          "value": "https://www.msmeonline.tn.gov.in/",
+          "url": "https://www.msmeonline.tn.gov.in/",
+          "host": "www.msmeonline.tn.gov.in"
+        },
+        {
+          "schemeId": "SCH000175",
+          "code": "TN175",
+          "field": "content.sources[0].url",
+          "value": "https://www.msmeonline.tn.gov.in/",
+          "url": "https://www.msmeonline.tn.gov.in/",
+          "host": "www.msmeonline.tn.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://financialservices.gov.in/",
+      "host": "financialservices.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000168",
+          "code": "TN168",
+          "field": "content.sources[0].url",
+          "value": "https://financialservices.gov.in/",
+          "url": "https://financialservices.gov.in/",
+          "host": "financialservices.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.startupindia.gov.in/",
+      "host": "www.startupindia.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000169",
+          "code": "TN169",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.startupindia.gov.in/",
+          "url": "https://www.startupindia.gov.in/",
+          "host": "www.startupindia.gov.in"
+        },
+        {
+          "schemeId": "SCH000169",
+          "code": "TN169",
+          "field": "content.sources[0].url",
+          "value": "https://www.startupindia.gov.in/",
+          "url": "https://www.startupindia.gov.in/",
+          "host": "www.startupindia.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://seedfund.startupindia.gov.in/",
+      "host": "seedfund.startupindia.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000170",
+          "code": "TN170",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://seedfund.startupindia.gov.in/",
+          "url": "https://seedfund.startupindia.gov.in/",
+          "host": "seedfund.startupindia.gov.in"
+        },
+        {
+          "schemeId": "SCH000170",
+          "code": "TN170",
+          "field": "content.sources[0].url",
+          "value": "https://seedfund.startupindia.gov.in/",
+          "url": "https://seedfund.startupindia.gov.in/",
+          "host": "seedfund.startupindia.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.dgft.gov.in/",
+      "host": "www.dgft.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000172",
+          "code": "TN172",
+          "field": "content.sources[0].url",
+          "value": "https://www.dgft.gov.in/",
+          "url": "https://www.dgft.gov.in/",
+          "host": "www.dgft.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.msmeonline.tn.gov.in/incentives/pdf/msmi_guidlines.pdf",
+      "host": "www.msmeonline.tn.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000174",
+          "code": "TN174",
+          "field": "content.sources[0].url",
+          "value": "https://www.msmeonline.tn.gov.in/incentives/pdf/msmi_guidlines.pdf",
+          "url": "https://www.msmeonline.tn.gov.in/incentives/pdf/msmi_guidlines.pdf",
+          "host": "www.msmeonline.tn.gov.in"
+        }
+      ]
+    }
+  ]
+}

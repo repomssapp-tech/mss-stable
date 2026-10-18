@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
-import '../../../providers/app_state_provider.dart';
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
 
@@ -23,9 +21,6 @@ class _GovtInteractivePanelState extends State<GovtInteractivePanel> {
 
   @override
   Widget build(BuildContext context) {
-    final isTa =
-        Provider.of<AppProvider>(context, listen: false).selectedLanguage ==
-        'ta';
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
@@ -38,11 +33,7 @@ class _GovtInteractivePanelState extends State<GovtInteractivePanel> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              isTa
-                  ? CentralizedTranslator.instance.translate(
-                      'Government Authorities Tree',
-                    )
-                  : 'Government Authorities Tree',
+              CentralizedTranslator.instance.localize('Government Authorities Tree'),
               style: GoogleFonts.poppins(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -54,21 +45,15 @@ class _GovtInteractivePanelState extends State<GovtInteractivePanel> {
               children: [
                 _buildGovtTabHeader(
                   0,
-                  isTa
-                      ? CentralizedTranslator.instance.translate('Central')
-                      : 'Central',
+                  CentralizedTranslator.instance.localize('Central'),
                 ),
                 _buildGovtTabHeader(
                   1,
-                  isTa
-                      ? CentralizedTranslator.instance.translate('State')
-                      : 'State',
+                  CentralizedTranslator.instance.localize('State'),
                 ),
                 _buildGovtTabHeader(
                   2,
-                  isTa
-                      ? CentralizedTranslator.instance.translate('District')
-                      : 'District',
+                  CentralizedTranslator.instance.localize('District'),
                 ),
               ],
             ),
@@ -114,9 +99,6 @@ class _GovtInteractivePanelState extends State<GovtInteractivePanel> {
   }
 
   Widget _buildGovtTabContent() {
-    final isTa =
-        Provider.of<AppProvider>(context, listen: false).selectedLanguage ==
-        'ta';
     String name = '';
     String roles = '';
     String details = '';
@@ -141,11 +123,9 @@ class _GovtInteractivePanelState extends State<GovtInteractivePanel> {
           'Each district in India has a DIC, headed by a General Manager.';
     }
 
-    if (isTa) {
-      name = CentralizedTranslator.instance.translate(name);
-      roles = CentralizedTranslator.instance.translate(roles);
-      details = CentralizedTranslator.instance.translate(details);
-    }
+    name = CentralizedTranslator.instance.localize(name);
+    roles = CentralizedTranslator.instance.localize(roles);
+    details = CentralizedTranslator.instance.localize(details);
 
     return Container(
       padding: const EdgeInsets.all(AppSpacing.md),

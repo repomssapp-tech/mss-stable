@@ -36,7 +36,7 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_SOURCE = Path(r"C:\Users\roger\OneDrive\Documents\Plan\catalog")
+DEFAULT_SOURCE = REPO_ROOT / "backend" / "catalog" / "source"
 GENERATOR = REPO_ROOT / "tools" / "generate_catalog_bundle.py"
 
 

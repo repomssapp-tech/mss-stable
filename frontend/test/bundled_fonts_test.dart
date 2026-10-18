@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:frontend/utils/app_text.dart';
 
 void main() {
   // 2.2: fonts are now bundled as local assets and runtime fetching is
@@ -74,6 +75,35 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets(
+    'Devanagari renders via the bundled NotoSansDevanagari fallback and the '
+    'Hindi type scale carries the same extra leading as Tamil',
+    (tester) async {
+      expect(AppFonts.fallback, contains('NotoSansDevanagari'));
+      expect(AppTextStyles.forLocale(const Locale('hi')).body.height,
+          closeTo(AppTextStyles.en.body.height! + 0.10, 1e-9));
+      expect(AppTextStyles.forLocale(const Locale('ta')).body.height,
+          AppTextStyles.forLocale(const Locale('hi')).body.height);
+      expect(AppTextStyles.forLocale(const Locale('en')).body.height,
+          AppTextStyles.en.body.height);
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Text(
+              'योजनाएँ और सब्सिडी',
+              style: AppTextStyles.hi.body,
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      expect(find.text('योजनाएँ और सब्सिडी'), findsOneWidget);
     },
   );
 }

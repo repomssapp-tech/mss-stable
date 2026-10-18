@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../l10n/l10n.dart';
 import '../../providers/app_state_provider.dart';
+import '../../utils/language_names.dart';
 import '../../widgets/common/custom_confirm_dialog.dart';
 import '../regular_mode/help_support_screen.dart';
 import '../regular_mode/language_selection_screen.dart';
@@ -37,7 +38,7 @@ class ProfileNavigationCard1 extends StatelessWidget {
           iconBgColor: const Color(0xFFF3E8FF),
           title: context.l10n.languageSetting,
           subtitle: context.l10n.subLanguage,
-          trailingText: provider.selectedLanguage == 'ta' ? 'தமிழ்' : 'English',
+          trailingText: languageEndonym(provider.selectedLanguage),
           showDivider: false,
           onTap: () {
             Navigator.of(context).push(

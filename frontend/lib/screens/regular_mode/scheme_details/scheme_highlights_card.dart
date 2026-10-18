@@ -155,7 +155,7 @@ class SchemeOfficialSourceCard extends StatelessWidget {
                 ),
                 if (scheme.lastUpdated.isNotEmpty)
                   Text(
-                    context.l10n.lastUpdatedFormat(scheme.lastUpdated),
+                    context.l10n.lastUpdatedFormat(_formatUpdated(context, scheme.lastUpdated)),
                     style: GoogleFonts.inter(
                       color: const Color(0xFF64748B),
                       fontSize: 9.5,
@@ -173,4 +173,14 @@ class SchemeOfficialSourceCard extends StatelessWidget {
       ),
     );
   }
+}
+
+/// ISO timestamps from the catalog become a readable date in the app language.
+String _formatUpdated(BuildContext context, String raw) {
+  final d = DateTime.tryParse(raw);
+  if (d == null) return raw;
+  final months = context.l10n.monthAbbrList.split(',').map((m) => m.trim()).toList();
+  if (months.length != 12) return raw;
+  final local = d.toLocal();
+  return '${local.day} ${months[local.month - 1]} ${local.year}';
 }

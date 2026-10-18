@@ -49,8 +49,14 @@ class SchemeAdapterTextUtils {
       if (preferred != null && preferred.trim().isNotEmpty) {
         return preferred.trim();
       }
-      final altLang = preferredLang == 'ta' ? 'en' : 'ta';
-      final alt = val[altLang]?.toString();
+      // If preferred locale is not English, fall back to English per D3/§4
+      if (preferredLang != 'en') {
+        final en = val['en']?.toString();
+        if (en != null && en.trim().isNotEmpty) {
+          return en.trim();
+        }
+      }
+      final alt = val['ta']?.toString() ?? val['hi']?.toString();
       if (alt != null && alt.trim().isNotEmpty) {
         return alt.trim();
       }

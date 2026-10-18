@@ -67,7 +67,7 @@ class SchemeBenefitsContent extends StatelessWidget {
       children: [
         Text(
           scheme.benefits.isEmpty
-              ? CentralizedTranslator.instance.translate(
+              ? CentralizedTranslator.instance.localize(
                   'Benefit details are available from the official source.',
                 )
               : scheme.benefits,

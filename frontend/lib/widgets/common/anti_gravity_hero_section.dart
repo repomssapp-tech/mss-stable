@@ -101,7 +101,7 @@ class _AntiGravityHeroSectionState extends State<AntiGravityHeroSection>
                         child: Center(
                           child: FitOneLine(
                             child: Text(
-                              CentralizedTranslator.instance.translate(
+                              CentralizedTranslator.instance.localize(
                                 'SVG Map Here',
                               ),
                             ),

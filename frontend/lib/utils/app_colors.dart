@@ -32,6 +32,8 @@ abstract final class AppColors {
   static const primaryStrong = Color(0xFF1D4ED8); // text on primarySoft: 6.2
   static const primaryDeep = Color(0xFF1E3A8A); // headings in info banners: 9.5 on primarySoft
   static const primarySoft = Color(0xFFEFF6FF); // selected chip bg, info banner bg
+  static const languageHindiBg = Color(0xFFFFF7ED); // Hindi card avatar bg (Amber 50)
+  static const languageHindiFg = Color(0xFFC2410C); // Hindi card avatar text (Orange 700)
   static const primaryTint = Color(0xFFDBEAFE); // icon-badge bg, selected border
   static const primaryBorder = Color(0xFFBFDBFE); // border on primarySoft
   static const primaryLight = Color(0xFF60A5FA); // decor only (gradients, illustrations)

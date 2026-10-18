@@ -129,7 +129,7 @@ class SchemeSearchTaxonomy {
   /// order (table-declaration order, not match order).
   static Map<String, List<String>> normalize(String text) {
     final textLower =
-        ' ${text.toLowerCase().replaceAll(RegExp(r'[^a-z0-9 ]'), ' ')} ';
+        ' ${text.toLowerCase().replaceAll(RegExp(r'[^a-z0-9\u0900-\u097F\u0B80-\u0BFF ]'), ' ')} ';
     return {
       'industries': _find(textLower, industries),
       'benefits': _find(textLower, benefits),
@@ -278,9 +278,27 @@ class HybridSchemeSearch {
     final profile = _bundle.searchProfiles[entry.id];
     final tokens = profile?['tokens'] as Map<String, dynamic>?;
     final searchProfile = _profileOf(entry);
+    final aliasRaw = (entry.search['aliases'] as Map<String, dynamic>?) ?? const {};
+    final kwRaw = (entry.search['keywords'] as Map<String, dynamic>?) ?? const {};
+    final isDevanagari = RegExp(r'[\u0900-\u097F]');
+    final hiNameTokens = _meaningfulTokens(_normLookup(entry.getLocalizedName('hi')))
+        .where(isDevanagari.hasMatch)
+        .toList();
+    final hiAliasTokens = [
+      for (final a in _stringList(aliasRaw['hi']))
+        ..._meaningfulTokens(_normLookup(a)),
+    ].where(isDevanagari.hasMatch).toList();
+    final hiKwTokens = [
+      for (final k in _stringList(kwRaw['hi']))
+        ..._meaningfulTokens(_normLookup(k)),
+    ].where(isDevanagari.hasMatch).toList();
     return [
       (_stringList(tokens?['en']), 1.0),
       (_stringList(tokens?['ta']), 1.0),
+      (_stringList(tokens?['hi']), 1.0),
+      (hiNameTokens, 1.0),
+      (hiAliasTokens, 1.0),
+      (hiKwTokens, 1.0),
       (
         _stringList(searchProfile['loanType'])
             .map((e) => e.toLowerCase())
@@ -374,7 +392,7 @@ class HybridSchemeSearch {
     // forms are the phrase's expansion targets, vocab-gated.
     if (_phraseExpansions.isNotEmpty) {
       final queryLower =
-          ' ${query.toLowerCase().replaceAll(RegExp(r'[^a-z0-9 ]'), ' ')} ';
+          ' ${query.toLowerCase().replaceAll(RegExp(r'[^a-z0-9\u0900-\u097F\u0B80-\u0BFF ]'), ' ')} ';
       for (final entry in _phraseExpansions.entries) {
         if (!queryLower.contains(' ${entry.key} ')) continue;
         final forms = entry.value.where(_vocab.contains).toSet();
@@ -703,7 +721,7 @@ class HybridSchemeSearch {
 
   static String _normLookup(String s) => s
       .toLowerCase()
-      .replaceAll(RegExp(r'[^a-z0-9]+'), ' ')
+      .replaceAll(RegExp(r'[^a-z0-9\u0900-\u097F\u0B80-\u0BFF]+'), ' ')
       .trim();
 
   List<String> _meaningfulTokens(String norm) => [
@@ -720,6 +738,7 @@ class HybridSchemeSearch {
   _LookupEntry _buildLookupEntry(MssEntity e) {
     final nameEn = _normLookup(e.getLocalizedName('en'));
     final nameTa = _normLookup(e.getLocalizedName('ta'));
+    final nameHi = _normLookup(e.getLocalizedName('hi'));
     final identity = e.identity;
     final acronym =
         _normLookup((identity['acronym'] ?? '').toString()).replaceAll(' ', '');
@@ -727,13 +746,15 @@ class HybridSchemeSearch {
         .replaceAll(' ', '');
     final aliasRaw = (e.search['aliases'] as Map<String, dynamic>?) ?? const {};
     final aliases = <String>{
-      for (final lang in const ['en', 'ta'])
+      for (final lang in const ['en', 'ta', 'hi'])
         ..._stringList(aliasRaw[lang]).map(_normLookup),
     }..removeWhere((a) => a.isEmpty);
-    final fullForms = <String>{nameEn, nameTa, ...aliases}
+    final fullForms = <String>{nameEn, nameTa, nameHi, ...aliases}
       ..removeWhere((a) => a.isEmpty);
     final nameTokens = <String>{
       ..._meaningfulTokens(nameEn),
+      ..._meaningfulTokens(nameHi),
+      ..._meaningfulTokens(nameTa),
       for (final a in aliases) ..._meaningfulTokens(a),
     };
     return _LookupEntry(

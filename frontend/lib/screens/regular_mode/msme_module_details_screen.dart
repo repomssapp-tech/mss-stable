@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../../providers/app_state_provider.dart';
 import '../../services/catalog/centralized_translator.dart';
 import '../../utils/app_spacing.dart';
 import '../../widgets/common/standard_page_header.dart';
@@ -44,13 +42,10 @@ class MSMEModuleDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isTa = Provider.of<AppProvider>(context).selectedLanguage == 'ta';
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: StandardPageHeader(
-        title: isTa
-            ? CentralizedTranslator.instance.translate(title)
-            : title,
+        title: CentralizedTranslator.instance.localize(title),
         elevation: 1,
       ),
       body: SingleChildScrollView(

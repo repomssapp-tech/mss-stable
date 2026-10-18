@@ -1,0 +1,194 @@
+{
+  "scheme_quality": {
+    "avgPct": 77.2,
+    "rows": [
+      {
+        "field": "identity.name",
+        "total": 217,
+        "filled": 217,
+        "coveragePct": 100.0
+      },
+      {
+        "field": "content.overview.summary",
+        "total": 217,
+        "filled": 200,
+        "coveragePct": 92.2
+      },
+      {
+        "field": "content.overview.description",
+        "total": 217,
+        "filled": 200,
+        "coveragePct": 92.2
+      },
+      {
+        "field": "content.classification.schemeType",
+        "total": 217,
+        "filled": 155,
+        "coveragePct": 71.4
+      },
+      {
+        "field": "content.classification.government.departmentText",
+        "total": 217,
+        "filled": 139,
+        "coveragePct": 64.1
+      },
+      {
+        "field": "content.targetBeneficiaries.description",
+        "total": 217,
+        "filled": 158,
+        "coveragePct": 72.8
+      },
+      {
+        "field": "content.requiredDocuments",
+        "total": 217,
+        "filled": 217,
+        "coveragePct": 100.0
+      },
+      {
+        "field": "content.applicationProcess.mode",
+        "total": 217,
+        "filled": 54,
+        "coveragePct": 24.9
+      }
+    ]
+  },
+  "financial_quality": {
+    "applicabilityAwarePct": 54.8,
+    "rawPctAllFieldsAllRecords": 36.8,
+    "byField": {
+      "assistanceType": {
+        "filled": 115,
+        "applicable": 115,
+        "pct": 100.0
+      },
+      "minimumAmount": {
+        "filled": 5,
+        "applicable": 115,
+        "pct": 4.3
+      },
+      "maximumAmount": {
+        "filled": 34,
+        "applicable": 115,
+        "pct": 29.6
+      },
+      "subsidyPercentage": {
+        "filled": 16,
+        "applicable": 115,
+        "pct": 13.9
+      },
+      "source": {
+        "filled": 108,
+        "applicable": 115,
+        "pct": 93.9
+      },
+      "verificationStatus": {
+        "filled": 115,
+        "applicable": 115,
+        "pct": 100.0
+      },
+      "interestRate": {
+        "filled": 7,
+        "applicable": 17,
+        "pct": 41.2
+      },
+      "tenure": {
+        "filled": 9,
+        "applicable": 17,
+        "pct": 52.9
+      },
+      "collateralRequirement": {
+        "filled": 7,
+        "applicable": 20,
+        "pct": 35.0
+      },
+      "guaranteeInformation": {
+        "filled": 3,
+        "applicable": 20,
+        "pct": 15.0
+      }
+    }
+  },
+  "eligibility_quality": {
+    "applicabilityMatrix": [
+      {
+        "field": "gender",
+        "applicabilityMatrixCoveragePct": 35.0
+      },
+      {
+        "field": "enterpriseType",
+        "applicabilityMatrixCoveragePct": 16.6
+      },
+      {
+        "field": "businessStage",
+        "applicabilityMatrixCoveragePct": 14.7
+      },
+      {
+        "field": "specialCategory",
+        "applicabilityMatrixCoveragePct": 33.2
+      },
+      {
+        "field": "sector",
+        "applicabilityMatrixCoveragePct": 5.1
+      }
+    ],
+    "rawStructuredPostReconciliation": [
+      {
+        "field": "eligibility.structured.gender.values",
+        "coveragePct": 35.0
+      },
+      {
+        "field": "eligibility.structured.enterprise.types",
+        "coveragePct": 16.6
+      },
+      {
+        "field": "eligibility.structured.businessStage.values",
+        "coveragePct": 14.7
+      },
+      {
+        "field": "eligibility.structured.specialCategory.values",
+        "coveragePct": 33.2
+      },
+      {
+        "field": "eligibility.structured.sector.included",
+        "coveragePct": 5.1
+      }
+    ]
+  },
+  "applicability_quality": [
+    {
+      "field": "district",
+      "coveragePct": 0.0
+    },
+    {
+      "field": "cluster",
+      "coveragePct": 0.0
+    },
+    {
+      "field": "community",
+      "coveragePct": 0.0
+    }
+  ],
+  "search_readiness": [
+    {
+      "field": "industryTags",
+      "coveragePct": 13.4
+    },
+    {
+      "field": "loanType",
+      "coveragePct": 7.8
+    },
+    {
+      "field": "clusters",
+      "coveragePct": 0.0
+    },
+    {
+      "field": "taxBenefits",
+      "coveragePct": 17.1
+    }
+  ],
+  "localization_quality": {
+    "taNamePct": 100.0,
+    "taDescriptionPct": 92.2,
+    "officialPct": 0.0
+  }
+}

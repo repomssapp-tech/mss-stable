@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 import '../../../l10n/l10n.dart';
-import '../../../providers/app_state_provider.dart';
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
 
@@ -15,8 +13,6 @@ import '../../../utils/app_spacing.dart';
 /// the passed [context]. No behaviour change — the modal, its local
 /// `TextEditingController`s and the `StatefulBuilder` calc logic are unchanged.
 void showUdyamClassifierSheet(BuildContext context) {
-  final isTa =
-      Provider.of<AppProvider>(context, listen: false).selectedLanguage == 'ta';
   final investmentController = TextEditingController();
   final turnoverController = TextEditingController();
   String result = '';
@@ -77,11 +73,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            isTa
-                                ? CentralizedTranslator.instance.translate(
-                                    'Udyam MSME Classifier',
-                                  )
-                                : 'Udyam MSME Classifier',
+                            CentralizedTranslator.instance.localize('Udyam MSME Classifier'),
                             style: GoogleFonts.poppins(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
@@ -89,11 +81,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                             ),
                           ),
                           Text(
-                            isTa
-                                ? CentralizedTranslator.instance.translate(
-                                    'Classify your business under official government guidelines.',
-                                  )
-                                : 'Classify your business under official government guidelines.',
+                            CentralizedTranslator.instance.localize('Classify your business under official government guidelines.'),
                             style: GoogleFonts.inter(
                               fontSize: 10,
                               color: const Color(0xFF64748B),
@@ -115,11 +103,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                 ),
                 const SizedBox(height: AppSpacing.xl),
                 Text(
-                  isTa
-                      ? CentralizedTranslator.instance.translate(
-                          'Investment in Plant & Machinery',
-                        )
-                      : 'Investment in Plant & Machinery',
+                  CentralizedTranslator.instance.localize('Investment in Plant & Machinery'),
                   style: GoogleFonts.inter(
                     fontSize: 11,
                     fontWeight: FontWeight.bold,
@@ -142,11 +126,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                     ),
                     prefixText: '₹ ',
                     suffixText: context.l10n.croreSuffix,
-                    helperText: isTa
-                        ? CentralizedTranslator.instance.translate(
-                            'Enter original purchase value of machinery in Crores',
-                          )
-                        : 'Enter original purchase value of machinery in Crores',
+                    helperText: CentralizedTranslator.instance.localize('Enter original purchase value of machinery in Crores'),
                     helperStyle: GoogleFonts.inter(
                       fontSize: 9,
                       color: const Color(0xFF64748B),
@@ -180,11 +160,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                 ),
                 const SizedBox(height: AppSpacing.lg),
                 Text(
-                  isTa
-                      ? CentralizedTranslator.instance.translate(
-                          'Annual Turnover',
-                        )
-                      : 'Annual Turnover',
+                  CentralizedTranslator.instance.localize('Annual Turnover'),
                   style: GoogleFonts.inter(
                     fontSize: 11,
                     fontWeight: FontWeight.bold,
@@ -207,11 +183,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                     ),
                     prefixText: '₹ ',
                     suffixText: context.l10n.croreSuffix,
-                    helperText: isTa
-                        ? CentralizedTranslator.instance.translate(
-                            'Enter total revenue/sales of last financial year in Crores',
-                          )
-                        : 'Enter total revenue/sales of last financial year in Crores',
+                    helperText: CentralizedTranslator.instance.localize('Enter total revenue/sales of last financial year in Crores'),
                     helperStyle: GoogleFonts.inter(
                       fontSize: 9,
                       color: const Color(0xFF64748B),
@@ -277,12 +249,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    isTa
-                                        ? CentralizedTranslator.instance
-                                              .translate(
-                                                'Classification Result',
-                                              )
-                                        : 'Classification Result',
+                                    CentralizedTranslator.instance.localize('Classification Result'),
                                     style: GoogleFonts.inter(
                                       fontSize: 9.5,
                                       fontWeight: FontWeight.bold,
@@ -292,10 +259,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                                   ),
                                   const SizedBox(height: AppSpacing.xs),
                                   Text(
-                                    isTa
-                                        ? CentralizedTranslator.instance
-                                              .translate(result)
-                                        : result,
+                                    CentralizedTranslator.instance.localize(result),
                                     style: GoogleFonts.poppins(
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold,
@@ -305,10 +269,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                                   if (subResult.isNotEmpty) ...[
                                     const SizedBox(height: AppSpacing.xs),
                                     Text(
-                                      isTa
-                                          ? CentralizedTranslator.instance
-                                                .translate(subResult)
-                                          : subResult,
+                                      CentralizedTranslator.instance.localize(subResult),
                                       style: GoogleFonts.inter(
                                         fontSize: 10,
                                         color: const Color(0xFF475569),
@@ -375,11 +336,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                       ),
                     ),
                     child: Text(
-                      isTa
-                          ? CentralizedTranslator.instance.translate(
-                              'Calculate Classification',
-                            )
-                          : 'Calculate Classification',
+                      CentralizedTranslator.instance.localize('Calculate Classification'),
                       style: GoogleFonts.inter(
                         fontWeight: FontWeight.bold,
                         fontSize: 12.5,

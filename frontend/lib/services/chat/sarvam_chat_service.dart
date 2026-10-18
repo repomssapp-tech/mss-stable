@@ -1,3 +1,4 @@
+import '../../services/catalog/centralized_translator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SarvamChatMessage {
@@ -50,8 +51,8 @@ class SupabaseSarvamChatClient implements SarvamChatClient {
     if (session.isExpired) {
       session = (await _client.auth.refreshSession()).session;
       if (session == null) {
-        throw const SarvamChatException(
-          'Your session expired. Please sign in again.',
+        throw SarvamChatException(
+          CentralizedTranslator.instance.localize('Your session expired. Please sign in again.'),
         );
       }
     }
@@ -66,8 +67,8 @@ class SupabaseSarvamChatClient implements SarvamChatClient {
       );
       final data = response.data;
       if (data is! Map || data['reply'] is! String) {
-        throw const SarvamChatException(
-          'Saarthi returned an unexpected response.',
+        throw SarvamChatException(
+          CentralizedTranslator.instance.localize('Saarthi returned an unexpected response.'),
         );
       }
       final reply = (data['reply'] as String).trim();
@@ -82,8 +83,8 @@ class SupabaseSarvamChatClient implements SarvamChatClient {
     } on SarvamChatException {
       rethrow;
     } catch (_) {
-      throw const SarvamChatException(
-        'Could not reach Saarthi. Check your connection and try again.',
+      throw SarvamChatException(
+        CentralizedTranslator.instance.localize('Could not reach Saarthi. Check your connection and try again.'),
       );
     }
   }

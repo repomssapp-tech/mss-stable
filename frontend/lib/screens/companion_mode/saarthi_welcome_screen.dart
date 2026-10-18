@@ -298,51 +298,42 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
       child: Scaffold(
         backgroundColor: const Color(0xFFF8FAFC),
         body: SafeArea(
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return SingleChildScrollView(
-                physics: const ClampingScrollPhysics(),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.lg,
-                    ),
-                    child: IntrinsicHeight(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          const SizedBox(height: AppSpacing.sm),
-                          StepIndicatorBar(
-                            currentStep: _currentStep,
-                            totalSteps: kTotalSteps,
-                            title: _getStepTitle(context),
-                            subtitle: _getStepSubtitle(context),
-                            onBack: _handleBack,
-                          ),
-                          const SizedBox(height: AppSpacing.lg),
-                          Expanded(
-                            child: AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 250),
-                              child: KeyedSubtree(
-                                key: ValueKey<int>(_currentStep),
-                                child: _buildCurrentStepContent(),
-                              ),
-                            ),
-                          ),
-                          AssistedStepFooter(
-                            isLastStep: _currentStep == kTotalSteps,
-                            isSubmitting: _isSubmitting,
-                            isEnabled: _isStepValid,
-                            onContinue: _handleContinue,
-                          ),
-                        ],
+          // Header and options scroll; the footer stays pinned so the primary
+          // button is always reachable, even when translated options are tall.
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: AppSpacing.sm),
+                StepIndicatorBar(
+                  currentStep: _currentStep,
+                  totalSteps: kTotalSteps,
+                  title: _getStepTitle(context),
+                  subtitle: _getStepSubtitle(context),
+                  onBack: _handleBack,
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const ClampingScrollPhysics(),
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 250),
+                      child: KeyedSubtree(
+                        key: ValueKey<int>(_currentStep),
+                        child: _buildCurrentStepContent(),
                       ),
                     ),
                   ),
                 ),
-              );
-            },
+                AssistedStepFooter(
+                  isLastStep: _currentStep == kTotalSteps,
+                  isSubmitting: _isSubmitting,
+                  isEnabled: _isStepValid,
+                  onContinue: _handleContinue,
+                ),
+              ],
+            ),
           ),
         ),
       ),

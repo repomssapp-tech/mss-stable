@@ -1,0 +1,366 @@
+{
+  "metadata": {
+    "catalogName": "msme_privilege",
+    "schemaVersion": "1.0.0",
+    "catalogVersion": "1.34.0-alpha",
+    "generatedAt": "2026-09-05T00:00:00Z",
+    "language": "en",
+    "recordCount": 2,
+    "checksum": "sha256:13ec1bb87b50d7db1be130fc7ac63c36333bb6ee6567013129940112ca04c3b7"
+  },
+  "data": [
+    {
+      "ai": {
+        "summary": null,
+        "confidence": null,
+        "isApproved": false,
+        "reviewedAt": null,
+        "reviewedBy": null,
+        "generatedAt": null,
+        "generatedBy": null,
+        "semanticTags": [],
+        "generationMode": null,
+        "reviewRequired": false,
+        "recommendations": [],
+        "relatedEntities": [],
+        "sectionSummaries": {},
+        "similarityMethod": null,
+        "sourceFieldsUsed": [],
+        "recommendationsNote": null
+      },
+      "search": {
+        "aliases": {
+          "en": [
+            "MSME Samadhaan"
+          ],
+          "ta": []
+        },
+        "keywords": {
+          "en": [
+            "delayed payment",
+            "samadhaan",
+            "45 days",
+            "facilitation council",
+            "msmed act",
+            "interest"
+          ],
+          "ta": []
+        },
+        "synonyms": [
+          "MSME Samadhaan",
+          "delayed payment monitoring system"
+        ],
+        "boostTerms": [],
+        "searchRank": null,
+        "crossReferences": []
+      },
+      "content": {
+        "statute": "MSMED Act 2006, Sections 15-24",
+        "summary": "Buyers must pay MSE suppliers within 45 days of acceptance of goods/services; failing which compound interest applies at three times the RBI-notified bank rate, with monthly rests. Sections 20-21 authorise State Governments to establish Micro and Small Enterprise Facilitation Councils for dispute settlement.",
+        "compliance": {
+          "text": null,
+          "benefits": []
+        },
+        "privilegeType": "delayed_payment_protection",
+        "tenderBenefits": {
+          "text": null,
+          "applicable": null,
+          "priceParity": null,
+          "emdExemption": null,
+          "reservedProcurementPercent": null
+        },
+        "billDiscounting": {
+          "text": null,
+          "applicable": null,
+          "platformIds": []
+        },
+        "privilegeTypeText": "Delayed Payment Protection (MSME Samadhaan)",
+        "delayedPaymentProtection": {
+          "statsAsOf": "2026-08-14",
+          "applicable": true,
+          "grievanceUrl": "https://samadhaan.msme.gov.in/",
+          "casesDisposed": 65232,
+          "interestBasis": "3x RBI-notified bank rate, compounded monthly",
+          "grievanceForum": "MSME Samadhaan (Delayed Payment Monitoring System) / Micro and Small Enterprise Facilitation Councils",
+          "maxPaymentDays": 45,
+          "amountPayableInr": 316256800000,
+          "amountDisposedInr": 102914400000,
+          "amountPayableText": "₹31,625.68 crore",
+          "applicationsFiled": 256892,
+          "amountDisposedText": "₹10,291.44 crore",
+          "newApplicationsUrl": "https://odr.msme.gov.in/"
+        }
+      },
+      "identity": {
+        "id": "PRIV000001",
+        "code": "DPP001",
+        "name": "Delayed Payment Protection (MSME Samadhaan)",
+        "slug": "delayed-payment-protection",
+        "status": "active",
+        "acronym": null,
+        "language": "en",
+        "shortName": "MSME Samadhaan",
+        "entityType": "msme_privilege",
+        "legacyCodes": []
+      },
+      "metadata": {
+        "revision": 3,
+        "createdAt": "2026-08-14T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "recordStatus": "published",
+        "schemaVersion": "1.0.0",
+        "catalogVersion": "1.33.0-alpha"
+      },
+      "analytics": {
+        "saveCount": null,
+        "viewCount": null,
+        "popularity": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "provenance": {
+        "extractedAt": "2026-08-14T00:00:00Z",
+        "fieldSources": [
+          {
+            "url": "https://samadhaan.msme.gov.in/",
+            "note": "45-day rule, 3x bank rate interest formula, MSMED Act §15-24/20-21, and live case statistics all read directly from the portal.",
+            "field": "content.delayedPaymentProtection",
+            "isBackfill": false,
+            "sourceTier": 5,
+            "sourceType": "official_website",
+            "retrievedAt": "2026-08-14",
+            "organization": "Ministry of MSME (MSME Samadhaan portal)",
+            "supersededValue": null
+          }
+        ],
+        "translations": {
+          "ta": {
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication.",
+            "engine": "Claude",
+            "method": "llm_contextual_translation",
+            "status": "machine",
+            "isApproved": false,
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsPending": 0,
+            "reviewRequired": true,
+            "fieldsContextual": 2,
+            "fieldsTranslated": 2,
+            "dictionaryVersion": "1.0.0"
+          }
+        },
+        "pipelineVersion": "build_msme_privilege.py-1.0.0",
+        "primarySourceId": null,
+        "extractionMethod": "live_official_source",
+        "defaultSourceTier": 5,
+        "transformationNotes": [],
+        "contributingSourceIds": []
+      },
+      "localization": {
+        "en": {
+          "name": "Delayed Payment Protection (MSME Samadhaan)",
+          "summary": "Buyers must pay MSE suppliers within 45 days of acceptance of goods/services; failing which compound interest applies at three times the RBI-notified bank rate, with monthly rests. Sections 20-21 authorise State Governments to establish Micro and Small Enterprise Facilitation Councils for dispute settlement."
+        },
+        "hi": {
+          "name": null,
+          "summary": null
+        },
+        "ta": {
+          "name": "தாமத கட்டண பாதுகாப்பு (MSME சமாதான்)",
+          "summary": "வாங்குபவர்கள், பொருட்கள்/சேவைகள் ஏற்றுக்கொள்ளப்பட்ட 45 நாட்களுக்குள் MSE வழங்குநர்களுக்குப் பணம் செலுத்த வேண்டும்; இல்லையெனில் RBI-அறிவித்த வங்கி விகிதத்தின் மூன்று மடங்கு கூட்டு வட்டி, மாதாந்திர இடைவெளிகளுடன் பொருந்தும். பிரிவுகள் 20-21, தகராறு தீர்வுக்காக குறு மற்றும் சிறு நிறுவன வசதியளிப்பு மன்றங்களை நிறுவ மாநில அரசுகளுக்கு அதிகாரம் அளிக்கின்றன."
+        }
+      },
+      "verification": {
+        "notes": "delayedPaymentProtection fully sourced; tenderBenefits and billDiscounting deliberately left unpopulated -- see missingFields.",
+        "status": "verified",
+        "confidence": "high",
+        "isVerified": true,
+        "statusText": "Confirmed against live official source",
+        "verifiedAt": "2026-08-14T00:00:00Z",
+        "verifiedBy": null,
+        "reviewDueOn": null,
+        "missingFields": [
+          {
+            "field": "content.tenderBenefits",
+            "reason": "Public Procurement Policy for MSEs (Order 2012) is well-documented public policy, but no numeric reservation/EMD-exemption figure was found on any approved-domain source fetched this session (checked gem.gov.in -- MSMEs referenced but no percentage/figure present on the fetched page). Left null rather than filled from unverified prior knowledge."
+          },
+          {
+            "field": "content.billDiscounting",
+            "reason": "TReDS/bill-discounting mechanics are covered in treds_catalog.json; no MSME-privilege-specific numeric claim (e.g. discount rate, eligibility threshold) was independently verified this session to structure here."
+          }
+        ],
+        "disputedFields": [],
+        "researchStatus": "Official-source researched",
+        "verifiedAgainst": [
+          "samadhaan.msme.gov.in"
+        ]
+      },
+      "relationships": {
+        "references": []
+      }
+    },
+    {
+      "ai": {
+        "summary": null,
+        "confidence": null,
+        "isApproved": false,
+        "reviewedAt": null,
+        "reviewedBy": null,
+        "generatedAt": null,
+        "generatedBy": null,
+        "semanticTags": [],
+        "generationMode": null,
+        "reviewRequired": false,
+        "recommendations": [],
+        "relatedEntities": [],
+        "sectionSummaries": {},
+        "similarityMethod": null,
+        "sourceFieldsUsed": [],
+        "recommendationsNote": null
+      },
+      "search": {
+        "aliases": {
+          "en": [
+            "Public Procurement Policy for MSEs",
+            "PPP-MSE"
+          ],
+          "ta": []
+        },
+        "keywords": {
+          "en": [
+            "procurement",
+            "tender",
+            "reservation",
+            "25 percent",
+            "sc st",
+            "women entrepreneur",
+            "public procurement policy"
+          ],
+          "ta": []
+        },
+        "synonyms": [
+          "Public Procurement Policy Order 2012"
+        ],
+        "boostTerms": [],
+        "searchRank": null,
+        "crossReferences": []
+      },
+      "content": {
+        "statute": "MSMED Act 2006; Public Procurement Policy for Micro and Small Enterprises Order, 2012 (S.O. 581(E), effective 1 April 2012; minimum procurement percentage raised from 20% to 25% by order dated 9 November 2018)",
+        "summary": "Every Central Ministry, Department and Central Public Sector Enterprise (CPSU) must procure a minimum of 25% of its total annual goods/services value from Micro and Small Enterprises. Within that 25%, at least 4% must be sourced from MSEs owned by SC/ST entrepreneurs and at least 3% from MSEs owned by women entrepreneurs.",
+        "compliance": {
+          "text": "Compliance is monitored by the Ministry of MSME via the MSME Sambandh portal, where CPSUs publish monthly and annual procurement factsheets.",
+          "benefits": []
+        },
+        "privilegeType": "tender_benefits",
+        "tenderBenefits": {
+          "text": "25% minimum annual procurement from MSEs by every Central Ministry/Department/CPSU, with a 4% sub-target for SC/ST-owned MSEs and a 3% sub-target for women-owned MSEs.",
+          "applicable": true,
+          "priceParity": null,
+          "emdExemption": null,
+          "reservedProcurementPercent": 25
+        },
+        "billDiscounting": {
+          "text": null,
+          "applicable": null,
+          "platformIds": []
+        },
+        "privilegeTypeText": "Public Procurement Policy for Micro and Small Enterprises"
+      },
+      "identity": {
+        "id": "PRIV000002",
+        "code": "PPP001",
+        "name": "Public Procurement Policy for Micro and Small Enterprises",
+        "slug": "public-procurement-policy-mse",
+        "status": "active",
+        "acronym": "PPP-MSE",
+        "language": "en",
+        "shortName": "MSE Public Procurement Policy",
+        "entityType": "msme_privilege",
+        "legacyCodes": []
+      },
+      "metadata": {
+        "revision": 1,
+        "createdAt": "2026-09-05T00:00:00Z",
+        "updatedAt": "2026-09-05T00:00:00Z",
+        "recordStatus": "published",
+        "schemaVersion": "1.0.0",
+        "catalogVersion": "1.34.0-alpha"
+      },
+      "analytics": {
+        "saveCount": null,
+        "viewCount": null,
+        "popularity": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "provenance": {
+        "extractedAt": "2026-09-05T00:00:00Z",
+        "fieldSources": [
+          {
+            "url": "https://sambandh.msme.gov.in/PPP_about.aspx",
+            "note": "25% minimum procurement mandate, 4% SC/ST and 3% women sub-targets, and the 2018 increase from 20% to 25%, confirmed against the MSME Sambandh portal and PIB press release.",
+            "field": "content.tenderBenefits",
+            "isBackfill": false,
+            "sourceTier": 5,
+            "sourceType": "official_website",
+            "retrievedAt": "2026-09-05",
+            "organization": "Ministry of MSME",
+            "supersededValue": null
+          }
+        ],
+        "translations": {},
+        "pipelineVersion": "build_msme_privilege.py-1.0.0",
+        "primarySourceId": null,
+        "extractionMethod": "live_official_source",
+        "defaultSourceTier": 5,
+        "transformationNotes": [
+          "Fills the tenderBenefits gap PRIV000001 explicitly flagged as missing (no numeric reservation figure had been sourced at that time)."
+        ],
+        "contributingSourceIds": []
+      },
+      "localization": {
+        "en": {
+          "name": "Public Procurement Policy for Micro and Small Enterprises",
+          "summary": "Every Central Ministry, Department and CPSU must procure a minimum of 25% of its annual goods/services value from Micro and Small Enterprises, with 4% reserved for SC/ST-owned MSEs and 3% for women-owned MSEs."
+        },
+        "hi": {
+          "name": null,
+          "summary": null
+        },
+        "ta": {
+          "name": null,
+          "summary": null
+        }
+      },
+      "verification": {
+        "notes": "25/4/3 percent figures and the 2018 increase from 20 percent confirmed against sambandh.msme.gov.in and a PIB press release. No Tamil translation generated -- left null rather than machine-translate without review capacity this session.",
+        "status": "verified",
+        "confidence": "high",
+        "isVerified": true,
+        "statusText": "Confirmed against live official sources",
+        "verifiedAt": "2026-09-05T00:00:00Z",
+        "verifiedBy": null,
+        "reviewDueOn": null,
+        "missingFields": [
+          {
+            "field": "localization.ta",
+            "reason": "Not machine-translated this session -- avoided rather than risk an unreviewed mistranslation of a legal/statutory figure."
+          }
+        ],
+        "disputedFields": [],
+        "researchStatus": "Official-source researched",
+        "verifiedAgainst": [
+          "sambandh.msme.gov.in",
+          "pib.gov.in"
+        ]
+      },
+      "relationships": {
+        "references": []
+      }
+    }
+  ]
+}

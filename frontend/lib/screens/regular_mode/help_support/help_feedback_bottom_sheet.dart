@@ -62,15 +62,16 @@ void showFeedbackBottomSheet(BuildContext context) {
                         ),
                       ),
                       const SizedBox(width: AppSpacing.md),
-                      Text(
-                        l10n.helpShareFeedbackTitle,
-                        style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF0F172A),
+                      Expanded(
+                        child: Text(
+                          l10n.helpShareFeedbackTitle,
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: const Color(0xFF0F172A),
+                          ),
                         ),
                       ),
-                      const Spacer(),
                       IconButton(
                         icon: const Icon(
                           Icons.close_rounded,

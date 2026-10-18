@@ -99,4 +99,16 @@ class HttpCatalogReleaseSource implements CatalogReleaseSource {
 
     return bytes;
   }
+
+  /// The REST backend has no language-pack listing endpoint yet, so no remote
+  /// packs are advertised and the app keeps using its bundled asset packs.
+  /// TODO: query the pack listing once the backend exposes one.
+  @override
+  Future<List<CatalogPackFile>> fetchPacks() async => const [];
+
+  @override
+  Future<Uint8List> downloadStorageFile(String storagePath) async {
+    final response = await _client.getBytes(storagePath);
+    return response.data;
+  }
 }

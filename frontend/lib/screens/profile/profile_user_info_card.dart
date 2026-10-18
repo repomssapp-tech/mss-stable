@@ -1,3 +1,4 @@
+import '../../services/catalog/centralized_translator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/l10n.dart';
@@ -11,10 +12,7 @@ import 'profile_widgets.dart';
 class ProfileUserInfoCard extends StatelessWidget {
   final AppProvider provider;
 
-  const ProfileUserInfoCard({
-    super.key,
-    required this.provider,
-  });
+  const ProfileUserInfoCard({super.key, required this.provider});
 
   @override
   Widget build(BuildContext context) {
@@ -67,45 +65,49 @@ class ProfileUserInfoCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF0F172A),
                   ),
-                  maxLines: 1,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
               const SizedBox(width: AppSpacing.sm),
-              TextButton.icon(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const BasicProfileScreen(),
+              Flexible(
+                child: TextButton.icon(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const BasicProfileScreen(),
+                      ),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.edit_outlined,
+                    color: Color(0xFF2563EB),
+                    size: 13,
+                  ),
+                  label: Text(
+                    context.l10n.editProfile,
+                    style: GoogleFonts.inter(
+                      fontSize: isTa ? 9.5 : 10.5,
+                      color: const Color(0xFF2563EB),
+                      fontWeight: FontWeight.bold,
                     ),
-                  );
-                },
-                icon: const Icon(
-                  Icons.edit_outlined,
-                  color: Color(0xFF2563EB),
-                  size: 13,
-                ),
-                label: Text(
-                  context.l10n.editProfile,
-                  style: GoogleFonts.inter(
-                    fontSize: isTa ? 9.5 : 10.5,
-                    color: const Color(0xFF2563EB),
-                    fontWeight: FontWeight.bold,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-                style: TextButton.styleFrom(
-                  backgroundColor: const Color(0xFFEFF6FF),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.sm,
-                    vertical: AppSpacing.tight,
-                  ),
-                  minimumSize: Size.zero,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    side: const BorderSide(
-                      color: Color(0xFFBFDBFE),
-                      width: 0.8,
+                  style: TextButton.styleFrom(
+                    backgroundColor: const Color(0xFFEFF6FF),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.sm,
+                      vertical: AppSpacing.tight,
+                    ),
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      side: const BorderSide(
+                        color: Color(0xFFBFDBFE),
+                        width: 0.8,
+                      ),
                     ),
                   ),
                 ),
@@ -154,7 +156,7 @@ class ProfileUserInfoCard extends StatelessWidget {
               ProfileInfoCol(
                 label: context.l10n.labelLocation,
                 value: profile.district.isNotEmpty
-                    ? '${profile.district}, ${profile.state}'
+                    ? '${_displayDistrict(profile.district)}, ${CentralizedTranslator.instance.localizeTag(profile.state)}'
                     : '-',
                 flex: 5,
                 isTamil: isTa,
@@ -165,4 +167,14 @@ class ProfileUserInfoCard extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Districts are stored as typed or as lowercase ids; show them capitalised.
+String _displayDistrict(String raw) {
+  final d = raw.trim();
+  if (d != d.toLowerCase()) return d;
+  return d
+      .split(' ')
+      .map((w) => w.isEmpty ? w : '${w[0].toUpperCase()}${w.substring(1)}')
+      .join(' ');
 }

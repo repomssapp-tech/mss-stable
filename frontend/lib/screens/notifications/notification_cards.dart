@@ -137,27 +137,32 @@ class NewSchemeNotificationCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: AppSpacing.sm),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    NotificationHelpers.timeAgo(context, item),
-                    style: GoogleFonts.inter(
-                      fontSize: 10,
-                      color: const Color(0xFF94A3B8),
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  if (!isRead)
-                    Container(
-                      width: 8,
-                      height: 8,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF2563EB),
-                        shape: BoxShape.circle,
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: _timeColumnMaxWidth(context),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      NotificationHelpers.timeAgo(context, item),
+                      style: GoogleFonts.inter(
+                        fontSize: 10,
+                        color: const Color(0xFF94A3B8),
                       ),
                     ),
-                ],
+                    const SizedBox(height: AppSpacing.lg),
+                    if (!isRead)
+                      Container(
+                        width: 8,
+                        height: 8,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF2563EB),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -300,27 +305,32 @@ class DeadlineNotificationCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: AppSpacing.sm),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    NotificationHelpers.timeAgo(context, item),
-                    style: GoogleFonts.inter(
-                      fontSize: 10,
-                      color: const Color(0xFF94A3B8),
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  if (!isRead)
-                    Container(
-                      width: 8,
-                      height: 8,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF2563EB),
-                        shape: BoxShape.circle,
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: _timeColumnMaxWidth(context),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      NotificationHelpers.timeAgo(context, item),
+                      style: GoogleFonts.inter(
+                        fontSize: 10,
+                        color: const Color(0xFF94A3B8),
                       ),
                     ),
-                ],
+                    const SizedBox(height: AppSpacing.lg),
+                    if (!isRead)
+                      Container(
+                        width: 8,
+                        height: 8,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF2563EB),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -421,30 +431,37 @@ class GovtUpdateNotificationCard extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        FitOneLine(
-                          child: Text(
-                            NotificationHelpers.timeAgo(context, item),
-                            style: GoogleFonts.inter(
-                              fontSize: 10,
-                              color: const Color(0xFF94A3B8),
-                            ),
-                          ),
+                    Flexible(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: _timeColumnMaxWidth(context),
                         ),
-                        const SizedBox(height: AppSpacing.sm),
-                        if (!isRead)
-                          Container(
-                            width: 8,
-                            height: 8,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFF2563EB),
-                              shape: BoxShape.circle,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FitOneLine(
+                              child: Text(
+                                NotificationHelpers.timeAgo(context, item),
+                                style: GoogleFonts.inter(
+                                  fontSize: 10,
+                                  color: const Color(0xFF94A3B8),
+                                ),
+                              ),
                             ),
-                          ),
-                      ],
+                            const SizedBox(height: AppSpacing.sm),
+                            if (!isRead)
+                              Container(
+                                width: 8,
+                                height: 8,
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFF2563EB),
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
                     ),
                     const SizedBox(width: AppSpacing.tight),
                     const Icon(
@@ -556,12 +573,14 @@ class ProfileReminderNotificationCard extends StatelessWidget {
                     const SizedBox(height: AppSpacing.md),
                     Row(
                       children: [
-                        Text(
-                          context.l10n.notifProfileCompletionLabel,
-                          style: GoogleFonts.inter(
-                            fontSize: 10,
-                            color: const Color(0xFF7C3AED),
-                            fontWeight: FontWeight.bold,
+                        Flexible(
+                          child: Text(
+                            context.l10n.notifProfileCompletionLabel,
+                            style: GoogleFonts.inter(
+                              fontSize: 10,
+                              color: const Color(0xFF7C3AED),
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         const SizedBox(width: AppSpacing.sm),
@@ -597,29 +616,36 @@ class ProfileReminderNotificationCard extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        FitOneLine(
-                          child: Text(
-                            NotificationHelpers.timeAgo(context, item),
-                            style: GoogleFonts.inter(
-                              fontSize: 10,
-                              color: const Color(0xFF94A3B8),
-                            ),
-                          ),
+                    Flexible(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: _timeColumnMaxWidth(context),
                         ),
-                        const SizedBox(height: AppSpacing.lg),
-                        if (!isRead)
-                          Container(
-                            width: 8,
-                            height: 8,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFF2563EB),
-                              shape: BoxShape.circle,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            FitOneLine(
+                              child: Text(
+                                NotificationHelpers.timeAgo(context, item),
+                                style: GoogleFonts.inter(
+                                  fontSize: 10,
+                                  color: const Color(0xFF94A3B8),
+                                ),
+                              ),
                             ),
-                          ),
-                      ],
+                            const SizedBox(height: AppSpacing.lg),
+                            if (!isRead)
+                              Container(
+                                width: 8,
+                                height: 8,
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFF2563EB),
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
                     ),
                     const SizedBox(width: AppSpacing.tight),
                     const Icon(
@@ -636,4 +662,12 @@ class ProfileReminderNotificationCard extends StatelessWidget {
       ),
     );
   }
+}
+
+/// The time/meta column beside a notification title may take about a quarter of
+/// the screen, so it adapts to the phone's width and text scale instead of a
+/// fixed size.
+double _timeColumnMaxWidth(BuildContext context) {
+  final media = MediaQuery.of(context);
+  return media.size.width * 0.26 * media.textScaler.scale(1).clamp(1.0, 1.3);
 }

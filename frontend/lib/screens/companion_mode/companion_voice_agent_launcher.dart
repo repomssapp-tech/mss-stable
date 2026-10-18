@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/app_state_provider.dart';
+import '../../services/catalog/centralized_translator.dart';
 import '../../services/catalog/scheme_repository.dart';
 import '../../services/voice/voice_agent_controller.dart';
 import '../../widgets/assistant/voice_assistant_overlay.dart';
@@ -21,7 +22,7 @@ Future<void> openCompanionVoiceAgent(
   await showGeneralDialog<void>(
     context: context,
     barrierDismissible: false,
-    barrierLabel: 'Talk to Saarthi',
+    barrierLabel: CentralizedTranslator.instance.localize('Talk to Saarthi'),
     barrierColor: Colors.transparent,
     transitionDuration: const Duration(milliseconds: 280),
     pageBuilder: (overlayContext, animation, secondaryAnimation) {

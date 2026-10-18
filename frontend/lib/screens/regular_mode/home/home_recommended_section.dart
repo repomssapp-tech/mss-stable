@@ -106,7 +106,6 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
               final Scheme? schemeObj = item['scheme'] as Scheme?;
               final isBookmarked = item['isBookmarked'] as bool;
               final matchPercentage = item['matchPercentage'] as int?;
-              final isTa = appProvider.selectedLanguage == 'ta';
 
               final double screenWidth = MediaQuery.of(context).size.width;
               const double spacing = 12.0;
@@ -266,14 +265,12 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
                           final rawChipsList = List<String>.from(
                             item['chips'] as List<String>,
                           )..sort((a, b) => a.length.compareTo(b.length));
-                          final chipsList = isTa
-                              ? rawChipsList
-                                    .map(
-                                      (t) => CentralizedTranslator.instance
-                                          .translateTag(t),
-                                    )
-                                    .toList()
-                              : rawChipsList;
+                          final chipsList = rawChipsList
+                              .map(
+                                (t) => CentralizedTranslator.instance
+                                    .localizeTag(t),
+                              )
+                              .toList();
                           return Wrap(
                             spacing: AppSpacing.xs,
                             runSpacing: AppSpacing.xs,

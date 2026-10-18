@@ -1,0 +1,26 @@
+{
+  "generatedAt": "2026-08-04T00:00:00Z",
+  "catalog": "tax_catalog.json",
+  "dataSufficiency": "LOW — sources contain no tax rates, thresholds, due dates or guidance. This catalog holds anchors and scheme linkage only.",
+  "provisions": 13,
+  "byKind": {
+    "tax_type": 8,
+    "registration": 3,
+    "compliance": 2
+  },
+  "byLevel": {
+    "central_state": 5,
+    "central": 6,
+    "state": 2
+  },
+  "provisionsWithSchemeEvidence": 7,
+  "provisionsWithNoEvidence": 6,
+  "schemeLinksTotal": 57,
+  "documentEvidenceRows": 62,
+  "ratesRecorded": 0,
+  "thresholdsRecorded": 0,
+  "dueDatesRecorded": 0,
+  "missingFieldEntries": 123,
+  "tamilPopulated": 0,
+  "localizationStatus": "deferred to roadmap Phase 5"
+}

@@ -1,5 +1,7 @@
+import '../../services/catalog/centralized_translator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n.dart';
 import '../../utils/app_spacing.dart';
 
 /// Full-page detailed Privacy Policy Screen for MSS App
@@ -27,11 +29,11 @@ class PrivacyPolicyScreen extends StatelessWidget {
             color: kSlate900,
             size: 20,
           ),
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Privacy Policy',
+          CentralizedTranslator.instance.localize('Privacy Policy'),
           style: GoogleFonts.poppins(
             color: kSlate900,
             fontSize: 18,
@@ -86,7 +88,9 @@ class PrivacyPolicyScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'MSS App Privacy Commitment',
+                            CentralizedTranslator.instance.localize(
+                              'MSS App Privacy Commitment',
+                            ),
                             style: GoogleFonts.poppins(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
@@ -95,7 +99,9 @@ class PrivacyPolicyScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: AppSpacing.xs),
                           Text(
-                            'Effective Date: 1 September 2026 • DPDPA 2023',
+                            CentralizedTranslator.instance.localize(
+                              'Effective Date: 1 September 2026 • DPDPA 2023',
+                            ),
                             style: GoogleFonts.inter(
                               fontSize: 11.5,
                               color: kSlate500,
@@ -111,7 +117,9 @@ class PrivacyPolicyScreen extends StatelessWidget {
               const SizedBox(height: AppSpacing.xxl),
 
               Text(
-                'MSS App (“MSS”, “we”, “us”) respects your privacy and is committed to protecting your personal data in accordance with the Digital Personal Data Protection Act, 2023 and applicable rules.',
+                CentralizedTranslator.instance.localize(
+                  'MSS App (“MSS”, “we”, “us”) respects your privacy and is committed to protecting your personal data in accordance with the Digital Personal Data Protection Act, 2023 and applicable rules.',
+                ),
                 style: GoogleFonts.inter(
                   fontSize: 13.5,
                   color: kSlate700,
@@ -209,7 +217,8 @@ class PrivacyPolicyScreen extends StatelessWidget {
               _buildSectionCard(
                 icon: Icons.contact_mail_outlined,
                 title: '8. Grievance Contact',
-                intro: 'For privacy questions, grievances or requests concerning your personal data, contact:',
+                intro:
+                    'For privacy questions, grievances or requests concerning your personal data, contact:',
                 content: [
                   '• Data Protection / Grievance Contact: MSS Grievance Officer',
                   '• Email: mssschemessearch@gmail.com',
@@ -247,19 +256,25 @@ class PrivacyPolicyScreen extends StatelessWidget {
                           size: 20,
                         ),
                         const SizedBox(width: AppSpacing.sm),
-                        Text(
-                          'Have Privacy Questions?',
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: kSlate900,
+                        Expanded(
+                          child: Text(
+                            CentralizedTranslator.instance.localize(
+                              'Have Privacy Questions?',
+                            ),
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: kSlate900,
+                            ),
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: AppSpacing.tight),
                     Text(
-                      'If you have questions regarding data privacy, rights, or grievances, contact our Grievance Officer at mssschemessearch@gmail.com.',
+                      CentralizedTranslator.instance.localize(
+                        'If you have questions regarding data privacy, rights, or grievances, contact our Grievance Officer at mssschemessearch@gmail.com.',
+                      ),
                       style: GoogleFonts.inter(
                         fontSize: 12.5,
                         color: kSlate500,
@@ -307,7 +322,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: Text(
-                  title,
+                  CentralizedTranslator.instance.localize(title),
                   style: GoogleFonts.poppins(
                     fontSize: 14.5,
                     fontWeight: FontWeight.bold,
@@ -320,7 +335,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
           if (intro != null) ...[
             const SizedBox(height: AppSpacing.sm),
             Text(
-              intro,
+              CentralizedTranslator.instance.localize(intro),
               style: GoogleFonts.inter(
                 fontSize: 12.5,
                 fontWeight: FontWeight.w600,
@@ -333,7 +348,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
             (point) => Padding(
               padding: const EdgeInsets.only(bottom: AppSpacing.sm),
               child: Text(
-                point,
+                CentralizedTranslator.instance.localize(point),
                 style: GoogleFonts.inter(
                   fontSize: 12.5,
                   color: kSlate700,
@@ -373,11 +388,11 @@ class TermsConditionsScreen extends StatelessWidget {
             color: kSlate900,
             size: 20,
           ),
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Terms of Use',
+          CentralizedTranslator.instance.localize('Terms of Use'),
           style: GoogleFonts.poppins(
             color: kSlate900,
             fontSize: 18,
@@ -432,7 +447,9 @@ class TermsConditionsScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'MSS App Terms of Use',
+                            CentralizedTranslator.instance.localize(
+                              'MSS App Terms of Use',
+                            ),
                             style: GoogleFonts.poppins(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
@@ -441,7 +458,9 @@ class TermsConditionsScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: AppSpacing.xs),
                           Text(
-                            'Effective Date: 1 September 2026',
+                            CentralizedTranslator.instance.localize(
+                              'Effective Date: 1 September 2026',
+                            ),
                             style: GoogleFonts.inter(
                               fontSize: 11.5,
                               color: kSlate500,
@@ -457,7 +476,9 @@ class TermsConditionsScreen extends StatelessWidget {
               const SizedBox(height: AppSpacing.xxl),
 
               Text(
-                'Welcome to MSS. MSS is a digital platform designed to help users discover, understand and explore Government schemes that may be relevant to them. By accessing or using the MSS application, you acknowledge that you have read, understood and agree to be bound by these Terms of Use.',
+                CentralizedTranslator.instance.localize(
+                  'Welcome to MSS. MSS is a digital platform designed to help users discover, understand and explore Government schemes that may be relevant to them. By accessing or using the MSS application, you acknowledge that you have read, understood and agree to be bound by these Terms of Use.',
+                ),
                 style: GoogleFonts.inter(
                   fontSize: 13.5,
                   color: kSlate700,
@@ -602,7 +623,9 @@ class TermsConditionsScreen extends StatelessWidget {
                         ),
                         const SizedBox(width: AppSpacing.sm),
                         Text(
-                          'Terms Agreement',
+                          CentralizedTranslator.instance.localize(
+                            'Terms Agreement',
+                          ),
                           style: GoogleFonts.poppins(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
@@ -613,7 +636,9 @@ class TermsConditionsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: AppSpacing.tight),
                     Text(
-                      'Continued use of the MSS App signifies your acceptance of these Terms of Use.',
+                      CentralizedTranslator.instance.localize(
+                        'Continued use of the MSS App signifies your acceptance of these Terms of Use.',
+                      ),
                       style: GoogleFonts.inter(
                         fontSize: 12.5,
                         color: kSlate500,
@@ -661,7 +686,7 @@ class TermsConditionsScreen extends StatelessWidget {
               const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: Text(
-                  title,
+                  CentralizedTranslator.instance.localize(title),
                   style: GoogleFonts.poppins(
                     fontSize: 14.5,
                     fontWeight: FontWeight.bold,
@@ -674,7 +699,7 @@ class TermsConditionsScreen extends StatelessWidget {
           if (intro != null) ...[
             const SizedBox(height: AppSpacing.sm),
             Text(
-              intro,
+              CentralizedTranslator.instance.localize(intro),
               style: GoogleFonts.inter(
                 fontSize: 12.5,
                 fontWeight: FontWeight.w600,
@@ -687,7 +712,7 @@ class TermsConditionsScreen extends StatelessWidget {
             (point) => Padding(
               padding: const EdgeInsets.only(bottom: AppSpacing.sm),
               child: Text(
-                point,
+                CentralizedTranslator.instance.localize(point),
                 style: GoogleFonts.inter(
                   fontSize: 12.5,
                   color: kSlate700,

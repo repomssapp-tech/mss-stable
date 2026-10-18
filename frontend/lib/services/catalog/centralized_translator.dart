@@ -27,6 +27,16 @@ class CentralizedTranslator {
 
   static const String assetPath = 'assets/catalog/translation_dictionary.json';
 
+  /// Hindi counterpart of [assetPath]: exact (lower-cased) English phrase or
+  /// tag -> Hindi. Unlike the Tamil path there is no word-level rewriting, so
+  /// text with no exact entry stays English instead of turning into a mix.
+  static const String hiAssetPath =
+      'assets/catalog/translation_dictionary_hi.json';
+
+  /// Language the UI is currently shown in (`en`, `ta`, `hi`). Kept in sync by
+  /// `main.dart`; [localize] and [localizeTag] follow it.
+  String activeLanguage = 'en';
+
   static final RegExp _urlRegex = RegExp(
     r'(https?:\/\/[^\s]+|www\.[^\s]+|[a-zA-Z0-9.-]+\.(gov|in|org|com|net|edu)(\/[^\s]*)?)',
     caseSensitive: false,
@@ -74,6 +84,91 @@ class CentralizedTranslator {
     _loaded = true;
   }
 
+  bool _hiLoaded = false;
+  Map<String, String> _hiTagMap = const {};
+  Map<String, String> _hiPhraseMap = const {};
+
+  void _populateHi(Map<String, dynamic> json) {
+    Map<String, String> read(Object? raw) => raw is Map
+        ? raw.map((k, v) => MapEntry(k.toString(), v.toString()))
+        : const {};
+    _hiTagMap = read(json['tagMap']);
+    _hiPhraseMap = read(json['phraseMap']);
+    _hiLoaded = true;
+  }
+
+  void _ensureHiInitializedSync() {
+    if (_hiLoaded) return;
+    for (final path in const [hiAssetPath, 'frontend/$hiAssetPath']) {
+      try {
+        final file = File(path);
+        if (file.existsSync()) {
+          _populateHi(
+            jsonDecode(file.readAsStringSync()) as Map<String, dynamic>,
+          );
+          return;
+        }
+      } catch (_) {}
+    }
+  }
+
+  Future<void> _ensureHiLoaded() async {
+    if (_hiLoaded) return;
+    try {
+      _populateHi(
+        jsonDecode(await rootBundle.loadString(hiAssetPath))
+            as Map<String, dynamic>,
+      );
+    } catch (_) {
+      _ensureHiInitializedSync();
+    }
+  }
+
+  /// Text for the active UI language: Tamil via the full [translate] pipeline,
+  /// Hindi via exact dictionary lookup, anything else unchanged.
+  String localize(String? input) => localizeFor(activeLanguage, input);
+
+  /// Tag/chip variant of [localize].
+  String localizeTag(String? rawTag) => localizeTagFor(activeLanguage, rawTag);
+
+  /// Like [localize] for callers that already hold a language code.
+  String localizeFor(String lang, String? input) {
+    switch (lang) {
+      case 'ta':
+        return translate(input);
+      case 'hi':
+        return _translateHi(input);
+      default:
+        return input ?? '';
+    }
+  }
+
+  /// Like [localizeTag] for callers that already hold a language code.
+  String localizeTagFor(String lang, String? rawTag) {
+    switch (lang) {
+      case 'ta':
+        return translateTag(rawTag);
+      case 'hi':
+        return _translateHi(rawTag, tag: true);
+      default:
+        return rawTag ?? '';
+    }
+  }
+
+  String _translateHi(String? input, {bool tag = false}) {
+    if (!_hiLoaded) _ensureHiInitializedSync();
+    if (input == null) return '';
+    final trimmed = input.trim();
+    if (trimmed.isEmpty) return input;
+    final lower = trimmed.toLowerCase();
+    final first = tag ? _hiTagMap : _hiPhraseMap;
+    final second = tag ? _hiPhraseMap : _hiTagMap;
+    // An exact dictionary entry wins even if the text contains a URL.
+    final exact = first[lower] ?? second[lower];
+    if (exact != null) return exact;
+    return input;
+  }
+
   /// Synchronously ensures the dictionary is loaded.
   /// Uses direct file read if running in tests / VM before asset bundle is ready.
   void _ensureInitializedSync() {
@@ -97,6 +192,7 @@ class CentralizedTranslator {
   /// Asynchronously loads and caches the shared translation dictionary JSON.
   /// Idempotent and safe to call from multiple sites (e.g. app bootstrap).
   Future<void> ensureLoaded() async {
+    await _ensureHiLoaded();
     if (_loaded) return;
     try {
       final jsonStr = await rootBundle.loadString(assetPath);
@@ -147,12 +243,13 @@ class CentralizedTranslator {
     if (!_loaded) _ensureInitializedSync();
     if (rawTag == null) return '';
     final trimmed = rawTag.trim();
-    if (trimmed.isEmpty || isProtectedText(trimmed)) return rawTag;
+    if (trimmed.isEmpty) return rawTag;
 
     final lower = trimmed.toLowerCase();
     if (_tagMap.containsKey(lower)) {
       return _tagMap[lower] ?? rawTag;
     }
+    if (isProtectedText(trimmed)) return rawTag;
 
     // Substring or fallback phrase map lookup
     if (_phraseMap.containsKey(lower)) {
@@ -167,7 +264,7 @@ class CentralizedTranslator {
     if (!_loaded) _ensureInitializedSync();
     if (input == null) return '';
     final trimmed = input.trim();
-    if (trimmed.isEmpty || isProtectedText(trimmed)) return input;
+    if (trimmed.isEmpty) return input;
 
     final lower = trimmed.toLowerCase();
     if (_phraseMap.containsKey(lower)) {
@@ -176,6 +273,7 @@ class CentralizedTranslator {
     if (_tagMap.containsKey(lower)) {
       return _tagMap[lower] ?? input;
     }
+    if (isProtectedText(trimmed)) return input;
 
     String translated = trimmed;
 

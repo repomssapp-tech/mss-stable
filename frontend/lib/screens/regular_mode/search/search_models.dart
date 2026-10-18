@@ -8,8 +8,7 @@ export '../../../models/scheme_filter.dart'
     show schemeIsNationwide, applySchemeFilters, hasActiveSchemeFilters, activeSchemeFilterCount;
 
 String getLocalizedTagOrCategory(String text, String langCode) {
-  if (langCode != 'ta') return text;
-  return CentralizedTranslator.instance.translateTag(text);
+  return CentralizedTranslator.instance.localizeTagFor(langCode, text);
 }
 
 enum SearchState { idle, loading, results }

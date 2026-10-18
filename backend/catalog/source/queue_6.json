@@ -1,0 +1,553 @@
+{
+  "batch": 6,
+  "schemeRange": [
+    "SCH000126",
+    "SCH000150"
+  ],
+  "schemes": 25,
+  "distinctUrls": 23,
+  "totalRefs": 40,
+  "skippedNonApproved": [
+    {
+      "schemeId": "SCH000128",
+      "code": "TN128",
+      "field": "content.applicationProcess.onlineUrl",
+      "value": "https://www.mudra.org.in/",
+      "url": "https://www.mudra.org.in/",
+      "host": "www.mudra.org.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000128",
+      "code": "TN128",
+      "field": "content.sources[2].url",
+      "value": "https://www.mudra.org.in/",
+      "url": "https://www.mudra.org.in/",
+      "host": "www.mudra.org.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000133",
+      "code": "TN133",
+      "field": "content.applicationProcess.onlineUrl",
+      "value": "https://www.indianspices.com/",
+      "url": "https://www.indianspices.com/",
+      "host": "www.indianspices.com",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000133",
+      "code": "TN133",
+      "field": "content.sources[0].url",
+      "value": "https://www.indianspices.com/box5_programmes_schemes.html",
+      "url": "https://www.indianspices.com/box5_programmes_schemes.html",
+      "host": "www.indianspices.com",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000133",
+      "code": "TN133",
+      "field": "content.sources[1].url",
+      "value": "https://www.indianspices.com/",
+      "url": "https://www.indianspices.com/",
+      "host": "www.indianspices.com",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000135",
+      "code": "TN135",
+      "field": "content.applicationProcess.onlineUrl",
+      "value": "https://www.indianspices.com/",
+      "url": "https://www.indianspices.com/",
+      "host": "www.indianspices.com",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000135",
+      "code": "TN135",
+      "field": "content.sources[0].url",
+      "value": "https://www.indianspices.com/box5_programmes_schemes.html",
+      "url": "https://www.indianspices.com/box5_programmes_schemes.html",
+      "host": "www.indianspices.com",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000135",
+      "code": "TN135",
+      "field": "content.sources[1].url",
+      "value": "https://www.indianspices.com/",
+      "url": "https://www.indianspices.com/",
+      "host": "www.indianspices.com",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000141",
+      "code": "TN141",
+      "field": "content.sources[0].url",
+      "value": "https://www.indianspices.com/",
+      "url": "https://www.indianspices.com/",
+      "host": "www.indianspices.com",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    }
+  ],
+  "queue": [
+    {
+      "url": "https://www.skillindiadigital.gov.in/",
+      "host": "www.skillindiadigital.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000126",
+          "code": "TN126",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.skillindiadigital.gov.in/",
+          "url": "https://www.skillindiadigital.gov.in/",
+          "host": "www.skillindiadigital.gov.in"
+        },
+        {
+          "schemeId": "SCH000126",
+          "code": "TN126",
+          "field": "content.sources[1].url",
+          "value": "https://www.skillindiadigital.gov.in/",
+          "url": "https://www.skillindiadigital.gov.in/",
+          "host": "www.skillindiadigital.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.msde.gov.in/",
+      "host": "www.msde.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000126",
+          "code": "TN126",
+          "field": "content.sources[0].url",
+          "value": "https://www.msde.gov.in/",
+          "url": "https://www.msde.gov.in/",
+          "host": "www.msde.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://pmmvy.wcd.gov.in/",
+      "host": "pmmvy.wcd.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000127",
+          "code": "TN127",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://pmmvy.wcd.gov.in/",
+          "url": "https://pmmvy.wcd.gov.in/",
+          "host": "pmmvy.wcd.gov.in"
+        },
+        {
+          "schemeId": "SCH000127",
+          "code": "TN127",
+          "field": "content.sources[0].url",
+          "value": "https://pmmvy.wcd.gov.in/",
+          "url": "https://pmmvy.wcd.gov.in/",
+          "host": "pmmvy.wcd.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.financialservices.gov.in/pradhan-mantri-mudra-yojana-pmmy",
+      "host": "www.financialservices.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000128",
+          "code": "TN128",
+          "field": "content.sources[0].url",
+          "value": "https://www.financialservices.gov.in/pradhan-mantri-mudra-yojana-pmmy",
+          "url": "https://www.financialservices.gov.in/pradhan-mantri-mudra-yojana-pmmy",
+          "host": "www.financialservices.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.financialservices.gov.in/",
+      "host": "www.financialservices.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000128",
+          "code": "TN128",
+          "field": "content.sources[1].url",
+          "value": "https://www.financialservices.gov.in/",
+          "url": "https://www.financialservices.gov.in/",
+          "host": "www.financialservices.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.pmuy.gov.in/",
+      "host": "www.pmuy.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000129",
+          "code": "TN129",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.pmuy.gov.in/",
+          "url": "https://www.pmuy.gov.in/",
+          "host": "www.pmuy.gov.in"
+        },
+        {
+          "schemeId": "SCH000129",
+          "code": "TN129",
+          "field": "content.sources[0].url",
+          "value": "https://www.pmuy.gov.in/",
+          "url": "https://www.pmuy.gov.in/",
+          "host": "www.pmuy.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.kviconline.gov.in/pmegpeportal/",
+      "host": "www.kviconline.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000130",
+          "code": "TN130",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.kviconline.gov.in/pmegpeportal/",
+          "url": "https://www.kviconline.gov.in/pmegpeportal/",
+          "host": "www.kviconline.gov.in"
+        },
+        {
+          "schemeId": "SCH000130",
+          "code": "TN130",
+          "field": "content.sources[0].url",
+          "value": "https://www.kviconline.gov.in/pmegpeportal/",
+          "url": "https://www.kviconline.gov.in/pmegpeportal/",
+          "host": "www.kviconline.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.rbi.org.in/",
+      "host": "www.rbi.org.in",
+      "refs": [
+        {
+          "schemeId": "SCH000131",
+          "code": "TN131",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.rbi.org.in/",
+          "url": "https://www.rbi.org.in/",
+          "host": "www.rbi.org.in"
+        },
+        {
+          "schemeId": "SCH000131",
+          "code": "TN131",
+          "field": "content.sources[0].url",
+          "value": "https://www.rbi.org.in/",
+          "url": "https://www.rbi.org.in/",
+          "host": "www.rbi.org.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.msme.gov.in/",
+      "host": "www.msme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000132",
+          "code": "TN132",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.msme.gov.in/",
+          "url": "https://www.msme.gov.in/",
+          "host": "www.msme.gov.in"
+        },
+        {
+          "schemeId": "SCH000132",
+          "code": "TN132",
+          "field": "content.sources[0].url",
+          "value": "https://www.msme.gov.in/",
+          "url": "https://www.msme.gov.in/",
+          "host": "www.msme.gov.in"
+        },
+        {
+          "schemeId": "SCH000136",
+          "code": "TN136",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.msme.gov.in/",
+          "url": "https://www.msme.gov.in/",
+          "host": "www.msme.gov.in"
+        },
+        {
+          "schemeId": "SCH000136",
+          "code": "TN136",
+          "field": "content.sources[0].url",
+          "value": "https://www.msme.gov.in/",
+          "url": "https://www.msme.gov.in/",
+          "host": "www.msme.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.msmeonline.tn.gov.in/",
+      "host": "www.msmeonline.tn.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000134",
+          "code": "TN134",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.msmeonline.tn.gov.in/",
+          "url": "https://www.msmeonline.tn.gov.in/",
+          "host": "www.msmeonline.tn.gov.in"
+        },
+        {
+          "schemeId": "SCH000134",
+          "code": "TN134",
+          "field": "content.sources[0].url",
+          "value": "https://www.msmeonline.tn.gov.in/",
+          "url": "https://www.msmeonline.tn.gov.in/",
+          "host": "www.msmeonline.tn.gov.in"
+        },
+        {
+          "schemeId": "SCH000142",
+          "code": "TN142",
+          "field": "content.sources[0].url",
+          "value": "https://www.msmeonline.tn.gov.in/",
+          "url": "https://www.msmeonline.tn.gov.in/",
+          "host": "www.msmeonline.tn.gov.in"
+        },
+        {
+          "schemeId": "SCH000148",
+          "code": "TN148",
+          "field": "content.sources[0].url",
+          "value": "https://www.msmeonline.tn.gov.in/",
+          "url": "https://www.msmeonline.tn.gov.in/",
+          "host": "www.msmeonline.tn.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://ramp.msme.gov.in/",
+      "host": "ramp.msme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000138",
+          "code": "TN138",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://ramp.msme.gov.in/",
+          "url": "https://ramp.msme.gov.in/",
+          "host": "ramp.msme.gov.in"
+        },
+        {
+          "schemeId": "SCH000138",
+          "code": "TN138",
+          "field": "content.sources[0].url",
+          "value": "https://ramp.msme.gov.in/",
+          "url": "https://ramp.msme.gov.in/",
+          "host": "ramp.msme.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://wcd.gov.in/",
+      "host": "wcd.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000139",
+          "code": "TN139",
+          "field": "content.sources[0].url",
+          "value": "https://wcd.gov.in/",
+          "url": "https://wcd.gov.in/",
+          "host": "wcd.gov.in"
+        },
+        {
+          "schemeId": "SCH000145",
+          "code": "TN145",
+          "field": "content.sources[0].url",
+          "value": "https://wcd.gov.in/",
+          "url": "https://wcd.gov.in/",
+          "host": "wcd.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.nsic.co.in/",
+      "host": "www.nsic.co.in",
+      "refs": [
+        {
+          "schemeId": "SCH000140",
+          "code": "TN140",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.nsic.co.in/",
+          "url": "https://www.nsic.co.in/",
+          "host": "www.nsic.co.in"
+        },
+        {
+          "schemeId": "SCH000140",
+          "code": "TN140",
+          "field": "content.sources[0].url",
+          "value": "https://www.nsic.co.in/",
+          "url": "https://www.nsic.co.in/",
+          "host": "www.nsic.co.in"
+        }
+      ]
+    },
+    {
+      "url": "https://sipcot.tn.gov.in/",
+      "host": "sipcot.tn.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000143",
+          "code": "TN143",
+          "field": "content.sources[0].url",
+          "value": "https://sipcot.tn.gov.in/",
+          "url": "https://sipcot.tn.gov.in/",
+          "host": "sipcot.tn.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://sfurti.msme.gov.in/SFURTI/SignUp.aspx",
+      "host": "sfurti.msme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000144",
+          "code": "TN144",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://sfurti.msme.gov.in/SFURTI/SignUp.aspx",
+          "url": "https://sfurti.msme.gov.in/SFURTI/SignUp.aspx",
+          "host": "sfurti.msme.gov.in"
+        },
+        {
+          "schemeId": "SCH000144",
+          "code": "TN144",
+          "field": "content.sources[2].url",
+          "value": "https://sfurti.msme.gov.in/SFURTI/SignUp.aspx",
+          "url": "https://sfurti.msme.gov.in/SFURTI/SignUp.aspx",
+          "host": "sfurti.msme.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://sfurti.msme.gov.in/WriteReadData/Circular/SFURTI_NEW.pdf",
+      "host": "sfurti.msme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000144",
+          "code": "TN144",
+          "field": "content.sources[0].url",
+          "value": "https://sfurti.msme.gov.in/WriteReadData/Circular/SFURTI_NEW.pdf",
+          "url": "https://sfurti.msme.gov.in/WriteReadData/Circular/SFURTI_NEW.pdf",
+          "host": "sfurti.msme.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://sfurti.msme.gov.in/SFURTI/Home.aspx",
+      "host": "sfurti.msme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000144",
+          "code": "TN144",
+          "field": "content.sources[1].url",
+          "value": "https://sfurti.msme.gov.in/SFURTI/Home.aspx",
+          "url": "https://sfurti.msme.gov.in/SFURTI/Home.aspx",
+          "host": "sfurti.msme.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.spniwcd.wcd.gov.in/sankalp-hub-for-empowerment-of-women",
+      "host": "www.spniwcd.wcd.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000146",
+          "code": "TN146",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.spniwcd.wcd.gov.in/sankalp-hub-for-empowerment-of-women",
+          "url": "https://www.spniwcd.wcd.gov.in/sankalp-hub-for-empowerment-of-women",
+          "host": "www.spniwcd.wcd.gov.in"
+        },
+        {
+          "schemeId": "SCH000146",
+          "code": "TN146",
+          "field": "content.sources[0].url",
+          "value": "https://www.spniwcd.wcd.gov.in/sankalp-hub-for-empowerment-of-women",
+          "url": "https://www.spniwcd.wcd.gov.in/sankalp-hub-for-empowerment-of-women",
+          "host": "www.spniwcd.wcd.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.spniwcd.wcd.gov.in/sankalp-hub-for-empowerment-of-women/faqs",
+      "host": "www.spniwcd.wcd.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000146",
+          "code": "TN146",
+          "field": "content.sources[1].url",
+          "value": "https://www.spniwcd.wcd.gov.in/sankalp-hub-for-empowerment-of-women/faqs",
+          "url": "https://www.spniwcd.wcd.gov.in/sankalp-hub-for-empowerment-of-women/faqs",
+          "host": "www.spniwcd.wcd.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.tn.gov.in/",
+      "host": "www.tn.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000147",
+          "code": "TN147",
+          "field": "content.sources[0].url",
+          "value": "https://www.tn.gov.in/",
+          "url": "https://www.tn.gov.in/",
+          "host": "www.tn.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.spniwcd.wcd.gov.in/",
+      "host": "www.spniwcd.wcd.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000149",
+          "code": "TN149",
+          "field": "content.sources[0].url",
+          "value": "https://www.spniwcd.wcd.gov.in/",
+          "url": "https://www.spniwcd.wcd.gov.in/",
+          "host": "www.spniwcd.wcd.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://aspire.msme.gov.in/ASPIRE/Registration.aspx",
+      "host": "aspire.msme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000150",
+          "code": "TN150",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://aspire.msme.gov.in/ASPIRE/Registration.aspx",
+          "url": "https://aspire.msme.gov.in/ASPIRE/Registration.aspx",
+          "host": "aspire.msme.gov.in"
+        },
+        {
+          "schemeId": "SCH000150",
+          "code": "TN150",
+          "field": "content.sources[1].url",
+          "value": "https://aspire.msme.gov.in/ASPIRE/Registration.aspx",
+          "url": "https://aspire.msme.gov.in/ASPIRE/Registration.aspx",
+          "host": "aspire.msme.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://aspire.msme.gov.in/",
+      "host": "aspire.msme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000150",
+          "code": "TN150",
+          "field": "content.sources[0].url",
+          "value": "https://aspire.msme.gov.in/",
+          "url": "https://aspire.msme.gov.in/",
+          "host": "aspire.msme.gov.in"
+        }
+      ]
+    }
+  ]
+}

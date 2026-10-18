@@ -1,0 +1,245 @@
+field,sourceValue,occurrences
+classification.schemeType,Capital subsidy,6
+classification.schemeType,Marriage assistance,4
+classification.schemeType,Business loan,3
+classification.schemeType,Credit guarantee,3
+applicationProcess.mode,As prescribed by Ministry of MSME,3
+applicationProcess.mode,Through SIDBI,3
+applicationProcess.mode,Historical facility; current application not verified,2
+government.level,Bank product / historical,2
+classification.schemeType,Training / entrepreneurship development,2
+applicationProcess.mode,As per Tamil Nadu MSME process,2
+applicationProcess.mode,As per approved event/application process,2
+applicationProcess.mode,As per KVIC guidelines,2
+classification.schemeType,Government small-savings scheme,2
+classification.schemeType,Monthly educational assistance,2
+classification.schemeType,Startup funding reservation,2
+applicationProcess.mode,Not specified in verified source used for this batch,1
+classification.schemeType,Capital subsidy + interest subvention,1
+classification.schemeType,Export development assistance,1
+applicationProcess.mode,Application under Spices Board scheme procedure,1
+classification.schemeType,Emergency finance / soft loan,1
+classification.schemeType,Term finance / capital investment support,1
+classification.schemeType,Grant assistance,1
+applicationProcess.mode,"Application to Director/Deputy Secretary (EDI), Ministry of MSME",1
+classification.schemeType,Grant-in-aid / incubation infrastructure,1
+classification.schemeType,Umbrella innovation mission,1
+applicationProcess.mode,Depends on the specific AIM programme,1
+classification.schemeType,School innovation infrastructure / grant support,1
+applicationProcess.mode,Through AIM ATL application process when calls are open,1
+classification.schemeType,Interest subsidy,1
+applicationProcess.mode,Through applicable Tamil Nadu MSME/nodal process,1
+classification.schemeType,Credit facilitation / handholding,1
+applicationProcess.mode,Approach nearest NSIC branch / show interest through NSIC,1
+classification.schemeType,Skill/tool/enterprise support under GVY,1
+applicationProcess.mode,As per KVIC implementation/guidelines,1
+classification.schemeType,Behavioural and social change programme,1
+applicationProcess.mode,No individual benefit application,1
+classification.schemeType,Loan / equity startup funding,1
+applicationProcess.mode,Through iStart Rajasthan / prescribed fund process,1
+classification.schemeType,Research grant / career support,1
+applicationProcess.mode,As per DBT call,1
+classification.schemeType,Grant-in-aid,1
+classification.schemeType,Cost-sharing / viability-gap R&D funding,1
+classification.schemeType,Fund of Funds / equity,1
+applicationProcess.mode,Through AcE Fund Partner AIFs,1
+classification.schemeType,Equity / commercialization support,1
+applicationProcess.mode,Through listed LEAP Fund Partners,1
+classification.schemeType,Equity seed support,1
+applicationProcess.mode,Through BIRAC SEED Fund Partner incubators,1
+applicationProcess.mode,Through Central Bank of India,1
+classification.schemeType,Venture / innovation funding,1
+classification.schemeType,Girl child protection / financial assistance,1
+classification.schemeType,Credit-linked capital subsidy,1
+classification.schemeType,Umbrella coir development scheme,1
+applicationProcess.mode,As prescribed for each Coir Board component,1
+classification.schemeType,Export market promotion / reimbursement assistance,1
+applicationProcess.mode,As per Coir Board EMDA scheme/application,1
+classification.schemeType,Training / skill and equipment support,1
+applicationProcess.mode,As per Coir Board implementation,1
+classification.schemeType,Marketing / tender facilitation,1
+applicationProcess.mode,Through NSIC; official application form is available on NSIC downloads page,1
+classification.schemeType,Child protection / welfare service,1
+applicationProcess.mode,Service-based; exact current access process not verified,1
+applicationProcess.mode,Borrower applies to an eligible Member Lending Institution; lender seeks guarantee cover,1
+applicationProcess.mode,Through registered Member Institutions,1
+classification.schemeType,Foreign trade policy benefit category,1
+applicationProcess.mode,As prescribed by DGFT for the relevant deemed-export benefit,1
+classification.schemeType,Skill training and placement programme,1
+applicationProcess.mode,Through programme/project implementing channels,1
+classification.schemeType,Livelihoods mission,1
+applicationProcess.mode,Through SRLM/community institution mechanisms,1
+classification.schemeType,Urban livelihoods mission,1
+applicationProcess.mode,Through State/ULB mission systems,1
+applicationProcess.mode,Not currently verified,1
+classification.schemeType,Trade fair / market promotion,1
+classification.schemeType,Market promotion,1
+applicationProcess.mode,Depends on programme,1
+classification.schemeType,Capital assistance + training / livelihood support,1
+applicationProcess.mode,Through scheme implementing agencies / selection process,1
+classification.schemeType,Duty exemption / remission authorisation,1
+classification.schemeType,Enterprise/startup support,1
+classification.schemeType,Technology development funding,1
+classification.schemeType,Incubation / mentorship,1
+applicationProcess.mode,As per EDII-TN programme/call,1
+applicationProcess.mode,"Contact MSME-DFOs, Technology Centres or Implementing Agencies",1
+classification.schemeType,Event support,1
+classification.schemeType,Duty exemption authorisation,1
+classification.schemeType,Trade-fair assistance,1
+classification.schemeType,Energy-efficiency finance,1
+applicationProcess.mode,"Through SIDBI, subject to current availability",1
+classification.schemeType,Fund of Funds / equity ecosystem support,1
+applicationProcess.mode,AIFs apply through SIDBI Fund of Funds process,1
+government.level,Bank / development finance product,1
+classification.schemeType,Term loan,1
+applicationProcess.mode,Through SIDBI subject to product availability,1
+applicationProcess.mode,Through Tamil Nadu MSME incentive process,1
+classification.schemeType,Public procurement / market access,1
+applicationProcess.mode,Seller registration and participation through GeM,1
+applicationProcess.mode,Through Member Lending Institution,1
+classification.schemeType,Grant assistance / quality infrastructure,1
+applicationProcess.mode,As prescribed by MoFPI,1
+classification.schemeType,Industrial cluster incentive,1
+classification.schemeType,Relocation incentive,1
+classification.schemeType,Infrastructure subsidy,1
+applicationProcess.mode,As per Tamil Nadu MSME incentive process,1
+classification.schemeType,Innovation voucher / grant support,1
+applicationProcess.mode,As per programme call,1
+classification.schemeType,Interest support,1
+applicationProcess.mode,Through eligible lending banks under notified procedure,1
+classification.schemeType,Grant/reimbursement support,1
+classification.schemeType,International exhibition assistance,1
+classification.schemeType,International business delegation assistance,1
+classification.schemeType,Direct financial assistance,1
+applicationProcess.mode,Through Tamil Nadu government application/verification process,1
+classification.schemeType,Umbrella development scheme,1
+applicationProcess.mode,As per KVIC component guidelines,1
+classification.schemeType,Khadi development scheme,1
+classification.schemeType,Livelihood enhancement initiative,1
+applicationProcess.mode,Through DAY-NRLM / SRLM systems,1
+government.level,Development finance product,1
+classification.schemeType,Equipment finance / term loan,1
+classification.schemeType,Power tariff subsidy,1
+applicationProcess.mode,Through applicable Tamil Nadu MSME incentive process,1
+classification.schemeType,Women empowerment / SHG programme,1
+applicationProcess.mode,Through TNCDW/SHG programme systems,1
+classification.schemeType,Reimbursement / startup incentive,1
+applicationProcess.mode,Apply to State nodal agency / as prescribed,1
+classification.schemeType,Training + equipment subsidy,1
+applicationProcess.mode,Through Coir Board training centres / scheme process,1
+classification.schemeType,Online marketing platform,1
+applicationProcess.mode,Current onboarding not verified,1
+classification.schemeType,Community women-safety initiative,1
+applicationProcess.mode,As implemented by participating State/UT,1
+applicationProcess.mode,Account Office / Post Office; new-account window closed after 31 March 2025,1
+classification.schemeType,Concessional finance,1
+classification.schemeType,Micro-enterprise credit / refinance ecosystem,1
+applicationProcess.mode,Through eligible lenders under MUDRA framework,1
+government.level,Unverified / historical finance product,1
+classification.schemeType,Enterprise finance,1
+classification.schemeType,Market promotion and development assistance,1
+classification.schemeType,Reimbursement assistance / marketing development,1
+applicationProcess.mode,As prescribed under International Cooperation Scheme,1
+classification.schemeType,Mentorship / ecosystem support,1
+applicationProcess.mode,Through StartupTN programme channels,1
+classification.schemeType,Cluster development / infrastructure support,1
+applicationProcess.mode,As prescribed under MSE-CDP,1
+classification.schemeType,Delayed-payment grievance / statutory facilitation,1
+government.level,Not safely identified,1
+applicationProcess.mode,Through MSME field offices/Technology Centres/implementing agencies,1
+classification.schemeType,Integrated nutrition support programme,1
+applicationProcess.mode,Through Anganwadi/programme systems,1
+classification.schemeType,Umbrella women safety and empowerment mission,1
+applicationProcess.mode,Depends on component,1
+classification.schemeType,Umbrella competitiveness scheme,1
+classification.schemeType,Consultancy/implementation support,1
+classification.schemeType,B2B/B2C portal and infomediary service,1
+applicationProcess.mode,Membership through NSIC/MSME Global Mart,1
+classification.schemeType,Design consultancy / project grant,1
+classification.schemeType,Incubation / innovation support,1
+classification.schemeType,IP filing reimbursement / IP facilitation,1
+classification.schemeType,Delayed-payment portal,1
+classification.schemeType,Certification / competitiveness support,1
+classification.schemeType,Skill development and career support,1
+classification.schemeType,Erstwhile leadership-development scheme,1
+applicationProcess.mode,Standalone scheme is erstwhile; refer to PM VIKAS,1
+classification.schemeType,Land-purchase assistance,1
+classification.schemeType,Procurement and capacity-building support,1
+applicationProcess.mode,Through applicable NSSH intervention/process,1
+classification.schemeType,National startup awards,1
+classification.schemeType,Capital subsidy + interest subvention + entrepreneurship support,1
+classification.schemeType,International market development assistance,1
+classification.schemeType,Working-capital credit / financial inclusion,1
+applicationProcess.mode,Through PM SVANidhi/lending ecosystem,1
+classification.schemeType,"Skill, toolkit, credit, digital and marketing support",1
+applicationProcess.mode,Through PM Vishwakarma implementation process,1
+classification.schemeType,Skill / equipment / village-industry support,1
+applicationProcess.mode,Through KVIC programme process,1
+classification.schemeType,Skill training and certification,1
+applicationProcess.mode,Through Skill India/approved training ecosystem,1
+classification.schemeType,Maternity benefit,1
+applicationProcess.mode,Through PMMVY/Anganwadi and programme systems,1
+classification.schemeType,Collateral-free institutional credit,1
+applicationProcess.mode,Through eligible banks/NBFCs/MFIs and other MLIs,1
+classification.schemeType,LPG connection support,1
+applicationProcess.mode,Through PMUY/OMC application channels,1
+classification.schemeType,Credit-linked margin-money subsidy,1
+classification.schemeType,Directed bank lending framework,1
+applicationProcess.mode,Through eligible lending institutions,1
+classification.schemeType,Marketing and procurement support,1
+classification.schemeType,Research and product development assistance,1
+applicationProcess.mode,As prescribed by Spices Board,1
+classification.schemeType,Energy audit / conservation support,1
+applicationProcess.mode,As prescribed by Tamil Nadu MSME authorities,1
+classification.schemeType,Brand promotion / export marketing assistance,1
+applicationProcess.mode,Through Spices Board scheme process,1
+classification.schemeType,MSME promotion / infrastructure support,1
+classification.schemeType,World Bank-supported Central Sector programme,1
+applicationProcess.mode,Through RAMP-supported interventions/programmes,1
+classification.schemeType,Historical microcredit programme,1
+applicationProcess.mode,Current process not verified,1
+classification.schemeType,Working-capital / raw-material finance assistance,1
+applicationProcess.mode,Through NSIC,1
+classification.schemeType,Cluster development / infrastructure / skills / marketing,1
+classification.schemeType,"Single-window information, convergence and programme-monitoring support",1
+applicationProcess.mode,Through HEW/Mission Shakti implementation network,1
+classification.schemeType,Incubation and entrepreneurship promotion,1
+classification.schemeType,Technology transfer / incubation / testing support,1
+applicationProcess.mode,Approach the Research Centre,1
+applicationProcess.mode,Through SIDBI direct-loan process,1
+classification.schemeType,Fund-of-funds / equity growth capital,1
+applicationProcess.mode,Through eligible fund ecosystem,1
+classification.schemeType,Integrated relief and rehabilitation home,1
+applicationProcess.mode,"Referral through One Stop Centre or Police Station, per official FAQ",1
+government.level,SIDBI partnership initiative,1
+classification.schemeType,Soft loan / term finance,1
+classification.schemeType,Capital-asset finance,1
+classification.schemeType,Composite bank loan,1
+applicationProcess.mode,Through participating banks / Stand-Up Mitra ecosystem,1
+classification.schemeType,National startup ecosystem initiative,1
+classification.schemeType,Seed-fund support through incubators,1
+classification.schemeType,IP registration cost subsidy,1
+applicationProcess.mode,Through authorised Post Offices/banks under current rules,1
+classification.schemeType,Event co-sponsorship reimbursement,1
+applicationProcess.mode,Through FaMe TN / prescribed process,1
+classification.schemeType,State startup ecosystem mission,1
+classification.schemeType,Seed grant,1
+classification.schemeType,Rural livelihoods mission,1
+applicationProcess.mode,Through TNSRLM/community institutions and local mission structure,1
+applicationProcess.mode,Through Tamil Nadu government/institutional scheme process,1
+classification.schemeType,"Technology, tooling, consultancy and skill-development infrastructure",1
+applicationProcess.mode,Through the relevant MSME Technology Centre / Technical Institution,1
+classification.schemeType,"Entrepreneurship, credit-linked and capacity-building support",1
+classification.schemeType,Enterprise formalisation / registration platform,1
+applicationProcess.mode,Through the Udyam/UAP ecosystem,1
+classification.schemeType,MSME registration / formalisation,1
+classification.schemeType,Entrepreneurship information and support portal,1
+classification.schemeType,Bank-linked self-employment scheme with capital subsidy,1
+classification.schemeType,Startup allowance and marketing assistance,1
+classification.schemeType,Umbrella programme for women in science & engineering,1
+classification.schemeType,Post-doctoral fellowship,1
+classification.schemeType,Entrepreneurship ecosystem / information / mentorship / finance linkage,1
+classification.schemeType,24x7 helpline / referral and support service,1
+applicationProcess.mode,Call 181,1
+government.level,International / U.S.-led fund,1
+government.level,Banking / MSME finance,1

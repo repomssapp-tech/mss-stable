@@ -1,5 +1,7 @@
+import '../../services/catalog/centralized_translator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n.dart';
 import '../../utils/app_spacing.dart';
 import 'legal_document_modal.dart';
 
@@ -70,16 +72,14 @@ class DataProcessingConsentModal extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Consent to Processing of Personal Data',
+                      Text(CentralizedTranslator.instance.localize('Consent to Processing of Personal Data'),
                         style: GoogleFonts.poppins(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF0F172A),
                         ),
                       ),
-                      Text(
-                        'Your consent helps MSS personalize your experience.',
+                      Text(CentralizedTranslator.instance.localize('Your consent helps MSS personalize your experience.'),
                         style: GoogleFonts.inter(
                           fontSize: 12,
                           color: const Color(0xFF64748B),
@@ -105,8 +105,7 @@ class DataProcessingConsentModal extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'By selecting “I Consent”, you voluntarily consent to MSS collecting and processing information from your Google Sign-In and the personal information you provide, including:',
+                  Text(CentralizedTranslator.instance.localize('By selecting “I Consent”, you voluntarily consent to MSS collecting and processing information from your Google Sign-In and the personal information you provide, including:'),
                     style: GoogleFonts.inter(
                       fontSize: 13,
                       color: const Color(0xFF334155),
@@ -142,8 +141,7 @@ class DataProcessingConsentModal extends StatelessWidget {
                   const SizedBox(height: AppSpacing.xl),
 
                   // Section 1: WHY WE USE YOUR INFORMATION
-                  Text(
-                    'WHY WE USE YOUR INFORMATION',
+                  Text(CentralizedTranslator.instance.localize('WHY WE USE YOUR INFORMATION'),
                     style: GoogleFonts.poppins(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
@@ -152,8 +150,7 @@ class DataProcessingConsentModal extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: AppSpacing.xs),
-                  Text(
-                    'Your information may be used for:',
+                  Text(CentralizedTranslator.instance.localize('Your information may be used for:'),
                     style: GoogleFonts.inter(
                       fontSize: 13,
                       color: const Color(0xFF334155),
@@ -181,8 +178,7 @@ class DataProcessingConsentModal extends StatelessWidget {
                   const SizedBox(height: AppSpacing.xl),
 
                   // Section 2: PLEASE UNDERSTAND
-                  Text(
-                    'PLEASE UNDERSTAND',
+                  Text(CentralizedTranslator.instance.localize('PLEASE UNDERSTAND'),
                     style: GoogleFonts.poppins(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
@@ -249,8 +245,7 @@ class DataProcessingConsentModal extends StatelessWidget {
                         ),
                       ),
                       onPressed: () => Navigator.of(context).pop(true),
-                      child: Text(
-                        'I Consent',
+                      child: Text(CentralizedTranslator.instance.localize('I Consent'),
                         style: GoogleFonts.inter(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
@@ -272,8 +267,7 @@ class DataProcessingConsentModal extends StatelessWidget {
                         ),
                       ),
                       onPressed: () => Navigator.of(context).pop(false),
-                      child: Text(
-                        'I Do Not Consent',
+                      child: Text(CentralizedTranslator.instance.localize('I Do Not Consent'),
                         style: GoogleFonts.inter(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
@@ -290,7 +284,7 @@ class DataProcessingConsentModal extends StatelessWidget {
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       _LinkButton(
-                        title: 'Privacy Notice',
+                        title: context.l10n.legalPrivacyNoticeLink,
                         onTap: () =>
                             LegalDocumentModal.showPrivacyNotice(context),
                       ),
@@ -302,7 +296,7 @@ class DataProcessingConsentModal extends StatelessWidget {
                         ),
                       ),
                       _LinkButton(
-                        title: 'Privacy Policy',
+                        title: context.l10n.privacyPolicy,
                         onTap: () =>
                             LegalDocumentModal.showPrivacyPolicy(context),
                       ),
@@ -314,7 +308,7 @@ class DataProcessingConsentModal extends StatelessWidget {
                         ),
                       ),
                       _LinkButton(
-                        title: 'Terms of Use',
+                        title: context.l10n.legalTermsOfUseLink,
                         onTap: () =>
                             LegalDocumentModal.showTermsOfUse(context),
                       ),
@@ -350,8 +344,7 @@ class _BulletItem extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Text(
-              text,
+            child: Text(CentralizedTranslator.instance.localize(text),
               style: GoogleFonts.inter(
                 fontSize: 12.5,
                 color: const Color(0xFF475569),
@@ -377,8 +370,7 @@ class _NumberedItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            '$number. ',
+          Text('$number. ',
             style: GoogleFonts.inter(
               fontSize: 13,
               fontWeight: FontWeight.w600,
@@ -386,8 +378,7 @@ class _NumberedItem extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Text(
-              text,
+            child: Text(CentralizedTranslator.instance.localize(text),
               style: GoogleFonts.inter(
                 fontSize: 12.5,
                 color: const Color(0xFF475569),
@@ -416,8 +407,7 @@ class _LinkButton extends StatelessWidget {
           horizontal: AppSpacing.xs,
           vertical: AppSpacing.hairline,
         ),
-        child: Text(
-          title,
+        child: Text(CentralizedTranslator.instance.localize(title),
           style: GoogleFonts.inter(
             fontSize: 11.5,
             fontWeight: FontWeight.w500,

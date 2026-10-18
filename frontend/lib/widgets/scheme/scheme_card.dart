@@ -57,15 +57,14 @@ class _SchemeCardState extends State<SchemeCard> {
 
   void _recomputeDerived(String lang) {
     final loc = widget.scheme.toLocalized(lang);
-    final isTa = lang == 'ta';
 
     final rawTags = List<String>.from(_getOtherTags(loc))
       ..sort((a, b) => a.length.compareTo(b.length));
-    final tags = isTa
-        ? rawTags
-              .map((t) => CentralizedTranslator.instance.translateTag(t))
-              .toList()
-        : rawTags;
+    // Generic labels (level, state, category) follow the active language;
+    // English leaves them unchanged.
+    final tags = rawTags
+        .map((t) => CentralizedTranslator.instance.localizeTagFor(lang, t))
+        .toList();
 
     final department = loc.sponsoringBody.isNotEmpty
         ? loc.sponsoringBody

@@ -83,6 +83,12 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
     if (raw == 'Applications Closing Soon') {
       return context.l10n.carouselTitleApplicationsClosingSoon;
     }
+    if (raw == 'PMEGP (Closing in 5 Days)') {
+      return context.l10n.carouselTitlePmegpClosing;
+    }
+    if (raw == 'TN Export Promotion Scheme') {
+      return context.l10n.carouselSubTnExport;
+    }
     if (raw == 'New Scheme') return context.l10n.carouselTitleNewScheme;
     if (raw == 'Important Update') {
       return context.l10n.carouselTitleImportantUpdate;
@@ -218,14 +224,8 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
       displaySubtitle = parts[1];
     }
 
-    final provider = Provider.of<AppProvider>(context);
-    final isTa = provider.selectedLanguage == 'ta';
-    final transTitle = isTa
-        ? CentralizedTranslator.instance.translate(displayTitle)
-        : displayTitle;
-    final transSubtitle = isTa
-        ? CentralizedTranslator.instance.translate(displaySubtitle)
-        : displaySubtitle;
+    final transTitle = CentralizedTranslator.instance.localize(displayTitle);
+    final transSubtitle = CentralizedTranslator.instance.localize(displaySubtitle);
 
     return Material(
       color: Colors.transparent,
@@ -280,11 +280,7 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
-                        isTa
-                            ? CentralizedTranslator.instance.translateTag(
-                                badgeText,
-                              )
-                            : badgeText,
+                        CentralizedTranslator.instance.localizeTag(badgeText),
                         style: GoogleFonts.inter(
                           fontSize: 9.5,
                           fontWeight: FontWeight.bold,

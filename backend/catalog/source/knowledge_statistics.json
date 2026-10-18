@@ -1,0 +1,23 @@
+{
+  "generatedAt": "2026-08-04T00:00:00Z",
+  "catalog": "knowledge_catalog.json",
+  "dataSufficiency": "MODERATE — the two policy notes and the funding guide carry real sectioned prose. The two scheme booklets are paginated scans whose headings are page numbers, not article titles; their body text is not titled and was not invented a title.",
+  "knowledgeItems": 28,
+  "byType": {
+    "article": 18,
+    "definition": 10
+  },
+  "bySource": {
+    "MSME_funding_schemes.md": 8,
+    "TN_Schemes_Booklet_2022_v10.md": 1,
+    "CSR_MSME_Policy_Note.md": 5,
+    "TReDS_Policy_Note.md": 4,
+    "common_catalog.json": 10
+  },
+  "paginationHeadingsSkipped": 224,
+  "totalWords": 2168,
+  "verbatimBodies": 28,
+  "summarisedBodies": 0,
+  "tamilPopulated": 0,
+  "localizationStatus": "deferred to roadmap Phase 5"
+}

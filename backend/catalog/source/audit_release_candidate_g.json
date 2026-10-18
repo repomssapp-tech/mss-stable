@@ -1,0 +1,153 @@
+{
+  "schemeFieldClassification": {
+    "schemeName": {
+      "VERIFIED": 106,
+      "NOT_VERIFIED": 65,
+      "PARTIALLY_VERIFIED": 48
+    },
+    "shortDescription": {
+      "VERIFIED": 99,
+      "NOT_VERIFIED": 72,
+      "PARTIALLY_VERIFIED": 48
+    },
+    "description": {
+      "VERIFIED": 99,
+      "NOT_VERIFIED": 72,
+      "PARTIALLY_VERIFIED": 48
+    },
+    "overview": {
+      "VERIFIED": 99,
+      "NOT_VERIFIED": 72,
+      "PARTIALLY_VERIFIED": 48
+    },
+    "keywords": {
+      "VERIFIED": 106,
+      "NOT_VERIFIED": 65,
+      "PARTIALLY_VERIFIED": 48
+    },
+    "eligibility": {
+      "VERIFIED": 94,
+      "NOT_VERIFIED": 65,
+      "PARTIALLY_VERIFIED": 60
+    },
+    "benefits": {
+      "NOT_VERIFIED": 79,
+      "VERIFIED": 90,
+      "PARTIALLY_VERIFIED": 50
+    },
+    "requiredServices": {
+      "NOT_APPLICABLE": 219
+    },
+    "requiredDocuments": {
+      "VERIFIED": 91,
+      "PARTIALLY_VERIFIED": 98,
+      "NOT_VERIFIED": 30
+    },
+    "applicationProcess": {
+      "NOT_VERIFIED": 183,
+      "VERIFIED": 11,
+      "PARTIALLY_VERIFIED": 25
+    }
+  },
+  "notVerifiedExamples": {
+    "benefits": {
+      "NOT_VERIFIED": [
+        "SCH000001",
+        "SCH000002",
+        "SCH000003",
+        "SCH000004",
+        "SCH000007"
+      ]
+    },
+    "applicationProcess": {
+      "NOT_VERIFIED": [
+        "SCH000001",
+        "SCH000002",
+        "SCH000003",
+        "SCH000004",
+        "SCH000005"
+      ]
+    },
+    "shortDescription": {
+      "NOT_VERIFIED": [
+        "SCH000005",
+        "SCH000006",
+        "SCH000009",
+        "SCH000011",
+        "SCH000012"
+      ]
+    },
+    "description": {
+      "NOT_VERIFIED": [
+        "SCH000005",
+        "SCH000006",
+        "SCH000009",
+        "SCH000011",
+        "SCH000012"
+      ]
+    },
+    "overview": {
+      "NOT_VERIFIED": [
+        "SCH000005",
+        "SCH000006",
+        "SCH000009",
+        "SCH000011",
+        "SCH000012"
+      ]
+    },
+    "eligibility": {
+      "NOT_VERIFIED": [
+        "SCH000007",
+        "SCH000010",
+        "SCH000011",
+        "SCH000014",
+        "SCH000015"
+      ]
+    },
+    "schemeName": {
+      "NOT_VERIFIED": [
+        "SCH000009",
+        "SCH000011",
+        "SCH000012",
+        "SCH000022",
+        "SCH000029"
+      ]
+    },
+    "keywords": {
+      "NOT_VERIFIED": [
+        "SCH000009",
+        "SCH000011",
+        "SCH000012",
+        "SCH000022",
+        "SCH000029"
+      ]
+    },
+    "requiredDocuments": {
+      "NOT_VERIFIED": [
+        "SCH000045",
+        "SCH000046",
+        "SCH000052",
+        "SCH000056",
+        "SCH000058"
+      ]
+    }
+  },
+  "financeMissingCounts": {
+    "minAmountInr": 110,
+    "collateralRequired": 115,
+    "collateralStatus (structured)": 108,
+    "conditions": 104,
+    "subsidyPercentage": 99,
+    "maxAmountInr": 81,
+    "interestRatePercent": 10,
+    "repaymentTenureMonths": 8,
+    "guaranteeCoveragePercent": 2,
+    "maxCoverInr (guarantee cap)": 2
+  },
+  "financeNotApplicableCounts": {
+    "interestRatePercent": 95,
+    "repaymentTenureMonths": 97,
+    "guaranteeCoveragePercent": 112,
+    "maxCoverInr (guarantee cap)": 112
+  }
+}

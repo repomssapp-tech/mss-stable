@@ -1,0 +1,55 @@
+{
+  "metadata": {
+    "name": "MSS Technical Terminology Dictionary (English -> Tamil)",
+    "version": "1.0.0",
+    "generatedAt": "2026-08-15T00:00:00Z",
+    "purpose": "Curated, human-readable terminology reference for MSS Tamil localization -- Final Localization Release Gate, Parts 4 and 5. This file is the authoritative reference for consistent MSME/government terminology. It is a curated subset; the full machine-usable dictionary (all reusable terms, states, districts, keywords) is catalog/translation_dictionary.json, which this file's entries are also mirrored into (via ta_dictionary.py TERMS/KEYWORDS_TA) so the same terms are used consistently by the actual translation pipeline, not just documented here.",
+    "status": "machine-authored, awaiting linguistic review",
+    "note": "Preferring natural government/business Tamil terminology over literal phonetic machine translation, per instruction -- e.g. 'Capital Subsidy' = 'மூலதன மானியம்', never a transliterated 'கேபிடல் சப்சிடி'."
+  },
+  "technicalTerms": [
+    { "en": "MSME", "ta": "எம் எஸ் எம் ஈ", "domain": "general", "confidence": "high", "source": "government terminology convention" },
+    { "en": "GST", "ta": "ஜி எஸ் டி", "domain": "tax", "confidence": "high", "source": "government terminology convention" },
+    { "en": "EMI", "ta": "இ எம் ஐ", "domain": "finance", "confidence": "high", "source": "government terminology convention" },
+    { "en": "Startup", "ta": "தொடக்க நிறுவனம்", "domain": "general", "confidence": "high", "source": "llm_contextual_translation" },
+    { "en": "Subsidy", "ta": "மானியம்", "domain": "finance", "confidence": "high", "source": "government terminology convention" },
+    { "en": "Capital Subsidy", "ta": "மூலதன மானியம்", "domain": "finance", "confidence": "high", "source": "government terminology convention" },
+    { "en": "Loan", "ta": "கடன்", "domain": "finance", "confidence": "high", "source": "government terminology convention" },
+    { "en": "Interest Subsidy", "ta": "வட்டி மானியம்", "domain": "finance", "confidence": "high", "source": "government terminology convention" },
+    { "en": "Working Capital", "ta": "செயல்பாட்டு மூலதனம்", "domain": "finance", "confidence": "high", "source": "government terminology convention" },
+    { "en": "Collateral", "ta": "பிணையம்", "domain": "finance", "confidence": "high", "source": "government terminology convention" },
+    { "en": "Eligibility", "ta": "தகுதி", "domain": "general", "confidence": "high", "source": "government terminology convention" },
+    { "en": "Benefits", "ta": "நன்மைகள்", "domain": "general", "confidence": "high", "source": "government terminology convention" },
+    { "en": "Application Process", "ta": "விண்ணப்ப செயல்முறை", "domain": "general", "confidence": "high", "source": "government terminology convention" },
+    { "en": "Documents Required", "ta": "தேவையான ஆவணங்கள்", "domain": "general", "confidence": "high", "source": "government terminology convention" }
+  ],
+  "protectedTerms": {
+    "categoryA_transliterationAllowed": {
+      "description": "Common, high-frequency acronyms transliterated into Tamil script for user-facing display and search. Used as-is in localization.ta content and as Tamil search-keyword variants.",
+      "terms": [
+        { "en": "MSME", "ta": "எம் எஸ் எம் ஈ" },
+        { "en": "GST", "ta": "ஜி எஸ் டி" },
+        { "en": "EMI", "ta": "இ எம் ஐ" }
+      ]
+    },
+    "categoryB_preserveOfficialAbbreviation": {
+      "description": "Official scheme/institution abbreviations kept unchanged in Tamil text -- never transliterated, never translated. IDs and catalog references are never modified regardless of category. A parenthetical Tamil gloss may be added for user comprehension, e.g. 'CGTMSE (கடன் உத்தரவாத திட்டம்)' -- the gloss explains the term, it does not replace the abbreviation.",
+      "terms": [
+        { "en": "PMEGP", "glossExample": "PMEGP (பிரதம மந்திரி வேலை வாய்ப்பு உருவாக்கத் திட்டம்)" },
+        { "en": "PMMY", "glossExample": "PMMY (பிரதான் மந்திரி முத்ரா யோஜனா)" },
+        { "en": "CGTMSE", "glossExample": "CGTMSE (கடன் உத்தரவாத திட்டம்)" },
+        { "en": "SIDBI", "glossExample": "SIDBI (சிறு தொழில் வளர்ச்சி வங்கி)" },
+        { "en": "TReDS", "glossExample": "TReDS (வர்த்தக பெறத்தக்கவை தள்ளுபடி முறைமை)" },
+        { "en": "DPIIT", "glossExample": "DPIIT (தொழில் மற்றும் உள்நாட்டு வர்த்தக மேம்பாட்டுத் துறை)" },
+        { "en": "PMFME", "glossExample": "PMFME (குறு உணவுப் பதப்படுத்தல் முறைப்படுத்தல் திட்டம்)" },
+        { "en": "ODOP", "glossExample": "ODOP (ஒரு மாவட்டம் ஒரு தயாரிப்பு)" }
+      ]
+    }
+  },
+  "relationToPipeline": {
+    "technicalTerms": "Mirrored into catalog/ta_dictionary.py's TERMS dict (whole-string/compositional translation) and KEYWORDS_TA dict (single-token search-keyword translation) -- the actual dictionary translate() consults, not a documentation-only copy.",
+    "categoryA": "Mirrored into KEYWORDS_TA as lowercase single-token entries (msme/gst/emi) so any scheme whose search.keywords.en includes these tokens gets the matching Tamil keyword automatically on the next localization pipeline run.",
+    "categoryB": "Deliberately NOT added to TERMS as a blanket substitution -- these abbreviations must keep appearing verbatim in ordinary prose (protected via ta_dictionary.py's ACRONYMS mask/protect list, unchanged by this file). The glossed form is available for a consumer that explicitly wants it, not auto-applied everywhere the abbreviation appears.",
+    "fullMachineDictionary": "catalog/translation_dictionary.json (457 entries as of this version) is the complete, pipeline-consumed dictionary artifact; this file is the curated, human-readable reference the task asked for and stays in sync with it for the terms listed above."
+  }
+}

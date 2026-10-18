@@ -50,6 +50,7 @@ class NotificationSection extends StatelessWidget {
               ),
               const SizedBox(width: AppSpacing.md),
               Expanded(
+                flex: 2,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -71,38 +72,40 @@ class NotificationSection extends StatelessWidget {
                   ],
                 ),
               ),
-              TextButton(
-                onPressed: onViewAll,
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.sm,
-                    vertical: AppSpacing.xs,
+              Flexible(
+                child: TextButton(
+                  onPressed: onViewAll,
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.sm,
+                      vertical: AppSpacing.xs,
+                    ),
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
-                  minimumSize: Size.zero,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Flexible(
-                      child: FitOneLine(
-                        child: Text(
-                          context.l10n.viewAll,
-                          style: GoogleFonts.inter(
-                            color: const Color(0xFF2563EB),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Flexible(
+                        child: FitOneLine(
+                          child: Text(
+                            context.l10n.viewAll,
+                            style: GoogleFonts.inter(
+                              color: const Color(0xFF2563EB),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: AppSpacing.hairline),
-                    const Icon(
-                      Icons.chevron_right,
-                      size: 14,
-                      color: Color(0xFF2563EB),
-                    ),
-                  ],
+                      const SizedBox(width: AppSpacing.hairline),
+                      const Icon(
+                        Icons.chevron_right,
+                        size: 14,
+                        color: Color(0xFF2563EB),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

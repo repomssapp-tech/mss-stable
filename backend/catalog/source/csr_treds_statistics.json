@@ -1,0 +1,33 @@
+{
+  "generatedAt": "2026-08-04T00:00:00Z",
+  "csr": {
+    "catalog": "csr_catalog.json",
+    "records": 16,
+    "byKind": {
+      "statute": 1,
+      "schedule_clause": 4,
+      "prohibition": 1,
+      "mechanism": 6,
+      "compliance": 4
+    },
+    "sourceDocument": "CSR_MSME_Policy_Note.md",
+    "statuteThresholds": 3,
+    "scheduleClauses": 4
+  },
+  "treds": {
+    "catalog": "treds_catalog.json",
+    "records": 16,
+    "byKind": {
+      "platform": 3,
+      "framework": 2,
+      "adoption_metric": 1,
+      "barrier": 2,
+      "recommendation": 8
+    },
+    "sourceDocument": "TReDS_Policy_Note.md",
+    "platforms": 3
+  },
+  "dataSufficiency": "GOOD — both notes carry statute references, thresholds, named mechanisms and figures. Contacts, URLs and fees are absent.",
+  "tamilPopulated": 0,
+  "localizationStatus": "deferred to roadmap Phase 5"
+}

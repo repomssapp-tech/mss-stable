@@ -1,0 +1,26 @@
+{
+  "generatedAt": "2026-08-04T00:00:00Z",
+  "catalog": "finance_catalog.json",
+  "schemesScanned": 217,
+  "schemesWithFinancialBenefit": 115,
+  "financeProducts": 115,
+  "byType": {
+    "capital_subsidy": 58,
+    "interest_subvention": 3,
+    "loan": 17,
+    "grant": 22,
+    "equity_support": 2,
+    "reimbursement": 9,
+    "credit_guarantee": 3,
+    "tax_benefit": 1
+  },
+  "withAmountOrPercentage": 27,
+  "withProvider": 69,
+  "schemesWithoutProvider": 122,
+  "classifiedToVocabulary": 115,
+  "repayableProducts": 17,
+  "guaranteeProducts": 3,
+  "amountDrift": 0,
+  "tamilPopulated": 0,
+  "localizationStatus": "deferred to roadmap Phase 5"
+}

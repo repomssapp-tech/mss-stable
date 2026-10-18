@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 import '../../../l10n/l10n.dart';
-import '../../../providers/app_state_provider.dart';
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/responsive.dart';
@@ -15,8 +13,6 @@ import '../../../utils/responsive.dart';
 /// `AppProvider.selectedLanguage`, `CentralizedTranslator`, `context.l10n`,
 /// `AppSpacing`, `FitOneLine`. No behaviour change.
 void showGstCalculatorSheet(BuildContext context) {
-  final isTa =
-      Provider.of<AppProvider>(context, listen: false).selectedLanguage == 'ta';
   final amountController = TextEditingController();
   double gstPercentage = 18.0;
   double baseVal = 0.0;
@@ -79,11 +75,7 @@ void showGstCalculatorSheet(BuildContext context) {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            isTa
-                                ? CentralizedTranslator.instance.translate(
-                                    'GST / Tax Calculator',
-                                  )
-                                : 'GST / Tax Calculator',
+                            CentralizedTranslator.instance.localize('GST / Tax Calculator'),
                             style: GoogleFonts.poppins(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
@@ -91,11 +83,7 @@ void showGstCalculatorSheet(BuildContext context) {
                             ),
                           ),
                           Text(
-                            isTa
-                                ? CentralizedTranslator.instance.translate(
-                                    'Calculate CGST, SGST, and Total invoice amounts.',
-                                  )
-                                : 'Calculate CGST, SGST, and Total invoice amounts.',
+                            CentralizedTranslator.instance.localize('Calculate CGST, SGST, and Total invoice amounts.'),
                             style: GoogleFonts.inter(
                               fontSize: 10,
                               color: const Color(0xFF64748B),
@@ -117,11 +105,7 @@ void showGstCalculatorSheet(BuildContext context) {
                 ),
                 const SizedBox(height: AppSpacing.xl),
                 Text(
-                  isTa
-                      ? CentralizedTranslator.instance.translate(
-                          'Base Amount',
-                        )
-                      : 'Base Amount',
+                  CentralizedTranslator.instance.localize('Base Amount'),
                   style: GoogleFonts.inter(
                     fontSize: 11,
                     fontWeight: FontWeight.bold,
@@ -143,11 +127,7 @@ void showGstCalculatorSheet(BuildContext context) {
                       color: const Color(0xFF94A3B8),
                     ),
                     prefixText: '₹ ',
-                    helperText: isTa
-                        ? CentralizedTranslator.instance.translate(
-                            'Enter net value of goods or services before GST',
-                          )
-                        : 'Enter net value of goods or services before GST',
+                    helperText: CentralizedTranslator.instance.localize('Enter net value of goods or services before GST'),
                     helperStyle: GoogleFonts.inter(
                       fontSize: 9,
                       color: const Color(0xFF64748B),
@@ -176,11 +156,7 @@ void showGstCalculatorSheet(BuildContext context) {
                 ),
                 const SizedBox(height: AppSpacing.lg),
                 Text(
-                  isTa
-                      ? CentralizedTranslator.instance.translate(
-                          'GST Rate (%)',
-                        )
-                      : 'GST Rate (%)',
+                  CentralizedTranslator.instance.localize('GST Rate (%)'),
                   style: GoogleFonts.inter(
                     fontSize: 11,
                     fontWeight: FontWeight.bold,
@@ -245,9 +221,7 @@ void showGstCalculatorSheet(BuildContext context) {
                       border: Border.all(color: const Color(0xFFFCA5A5)),
                     ),
                     child: Text(
-                      isTa
-                          ? CentralizedTranslator.instance.translate(error)
-                          : error,
+                      CentralizedTranslator.instance.localize(error),
                       style: GoogleFonts.inter(
                         fontSize: 11,
                         color: const Color(0xFFB91C1C),
@@ -273,10 +247,7 @@ void showGstCalculatorSheet(BuildContext context) {
                           children: [
                             Flexible(
                               child: Text(
-                                isTa
-                                    ? CentralizedTranslator.instance
-                                          .translate('Base Price')
-                                    : 'Base Price',
+                                CentralizedTranslator.instance.localize('Base Price'),
                                 softWrap: true,
                                 style: GoogleFonts.inter(
                                   fontSize: 11.5,
@@ -372,10 +343,7 @@ void showGstCalculatorSheet(BuildContext context) {
                           children: [
                             Flexible(
                               child: Text(
-                                isTa
-                                    ? CentralizedTranslator.instance
-                                          .translate('Total Invoice')
-                                    : 'Total Invoice',
+                                CentralizedTranslator.instance.localize('Total Invoice'),
                                 softWrap: true,
                                 style: GoogleFonts.inter(
                                   fontSize: 12,
@@ -437,11 +405,7 @@ void showGstCalculatorSheet(BuildContext context) {
                       ),
                     ),
                     child: Text(
-                      isTa
-                          ? CentralizedTranslator.instance.translate(
-                              'Calculate Tax',
-                            )
-                          : 'Calculate Tax',
+                      CentralizedTranslator.instance.localize('Calculate Tax'),
                       style: GoogleFonts.inter(
                         fontWeight: FontWeight.bold,
                         fontSize: 12.5,

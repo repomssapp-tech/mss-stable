@@ -134,7 +134,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           provider.markNotificationsRead(_selectedIds.toList());
                           AppToast.showSuccess(
                             context,
-                            CentralizedTranslator.instance.translate(
+                            CentralizedTranslator.instance.localize(
                               'Selected notifications marked as read',
                             ),
                           );
@@ -157,7 +157,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           provider.deleteNotifications(_selectedIds.toList());
                           AppToast.showSuccess(
                             context,
-                            CentralizedTranslator.instance.translate(
+                            CentralizedTranslator.instance.localize(
                               'Selected notifications deleted',
                             ),
                           );
@@ -187,7 +187,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       provider.markAllNotificationsRead();
                       AppToast.showSuccess(
                         context,
-                        CentralizedTranslator.instance.translate(
+                        CentralizedTranslator.instance.localize(
                           'All notifications marked as read',
                         ),
                       );
@@ -195,7 +195,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       provider.deleteAllNotifications();
                       AppToast.showSuccess(
                         context,
-                        CentralizedTranslator.instance.translate(
+                        CentralizedTranslator.instance.localize(
                           'All notifications deleted',
                         ),
                       );

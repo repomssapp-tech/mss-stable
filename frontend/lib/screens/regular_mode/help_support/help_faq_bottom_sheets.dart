@@ -4,11 +4,7 @@ import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
 import 'help_support_data.dart';
 
-void showFAQBottomSheet(
-  BuildContext context,
-  String question,
-  String answer,
-) {
+void showFAQBottomSheet(BuildContext context, String question, String answer) {
   final l10n = context.l10n;
   showModalBottomSheet(
     context: context,
@@ -132,15 +128,16 @@ void showAllFAQsBottomSheet(BuildContext context) {
                       ),
                     ),
                     const SizedBox(width: AppSpacing.md),
-                    Text(
-                      l10n.helpAllFaqsTitle,
-                      style: GoogleFonts.poppins(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFF0F172A),
+                    Expanded(
+                      child: Text(
+                        l10n.helpAllFaqsTitle,
+                        style: GoogleFonts.poppins(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFF0F172A),
+                        ),
                       ),
                     ),
-                    const Spacer(),
                     IconButton(
                       icon: const Icon(
                         Icons.close_rounded,
@@ -155,14 +152,16 @@ void showAllFAQsBottomSheet(BuildContext context) {
               Expanded(
                 child: ListView.builder(
                   controller: scrollController,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.lg,
+                  ),
                   itemCount: allFaqs.length,
                   itemBuilder: (context, index) {
                     final faq = allFaqs[index];
                     return Container(
-                      margin:
-                          const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+                      margin: const EdgeInsets.symmetric(
+                        vertical: AppSpacing.xs,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),

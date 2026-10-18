@@ -1,0 +1,1774 @@
+{
+  "metadata": {
+    "catalogName": "cluster_assistance",
+    "schemaVersion": "1.0.0",
+    "catalogVersion": "1.33.0-alpha",
+    "generatedAt": "2026-08-14T00:00:00Z",
+    "language": "en",
+    "recordCount": 10,
+    "checksum": "sha256:079f9cc6383a89efa064b24fbdf4cbca800764a0538e6a41914c025a045f2b53"
+  },
+  "data": [
+    {
+      "identity": {
+        "id": "CLUS000001",
+        "entityType": "cluster_assistance",
+        "code": "CLUSTER_DEVELOPMENT_PROGRAMME",
+        "legacyCodes": [],
+        "name": "MSME Cluster Development Programme",
+        "shortName": null,
+        "acronym": null,
+        "slug": "cluster-development-programme",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "clusterName": "MSME Cluster Development Programme",
+        "sector": "general",
+        "sectorText": "General MSME clusters (multi-sector)",
+        "districts": [],
+        "supportedBusinessTypes": [],
+        "financialSupport": {
+          "applicable": null,
+          "assistanceType": null,
+          "maxAmountInr": null,
+          "maxAmountText": null,
+          "conditions": []
+        },
+        "nonFinancialSupport": {
+          "applicable": true,
+          "supportTypes": [
+            "common_facility_center",
+            "infrastructure_development"
+          ],
+          "description": "Application and support channel for Common Facility Centres (CFC) and Infrastructure Development (ID) for MSME clusters nationally."
+        },
+        "administeringAuthorityId": null,
+        "relatedSchemeIds": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "MSME Cluster Development Programme",
+          "summary": "Application and support channel for Common Facility Centres (CFC) and Infrastructure Development (ID) for MSME clusters nationally."
+        },
+        "ta": {
+          "name": "MSME கொத்து மேம்பாட்டுத் திட்டம்",
+          "summary": "நாடு முழுவதும் உள்ள MSME கொத்துகளுக்கான பொது வசதி மையங்கள் (CFC) மற்றும் உள்கட்டமைப்பு மேம்பாட்டிற்கான (ID) விண்ணப்ப மற்றும் ஆதரவு வழி."
+        },
+        "hi": {
+          "name": null,
+          "summary": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "cluster_development_programme",
+            "cluster"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": null,
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": null,
+        "similarityMethod": null,
+        "reviewRequired": false
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Non-financial support confirmed; financial support not found on any approved source, left null",
+        "isVerified": true,
+        "verifiedAgainst": [
+          "https://cluster.dcmsme.gov.in/"
+        ],
+        "verifiedBy": null,
+        "verifiedAt": "2026-08-14T00:00:00Z",
+        "confidence": "medium",
+        "researchStatus": "Official-source researched",
+        "notes": "Confirmed official portal. Explicitly checked for named clusters (textile/auto/leather) and financial figures -- none present on the fetched overview page; only CFC/ID category names and an application procedure are shown.",
+        "missingFields": [
+          {
+            "field": "content.financialSupport",
+            "reason": "No financial-assistance figure found on the fetched source for this record."
+          },
+          {
+            "field": "content.districts",
+            "reason": "Not itemised on the fetched overview page."
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-14T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 5,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "live_official_source",
+        "extractedAt": "2026-08-14T00:00:00Z",
+        "pipelineVersion": "build_cluster_assistance.py-1.0.0",
+        "fieldSources": [
+          {
+            "field": "content.nonFinancialSupport",
+            "sourceTier": 5,
+            "sourceType": "official_website",
+            "url": "https://cluster.dcmsme.gov.in/",
+            "organization": "DCMSME (Ministry of MSME)",
+            "retrievedAt": "2026-08-14",
+            "isBackfill": false,
+            "supersededValue": null,
+            "note": "Confirmed official portal. Explicitly checked for named clusters (textile/auto/leather) and financial figures -- none present on the fetched overview page; only CFC/ID category names and an application procedure are shown."
+          }
+        ],
+        "transformationNotes": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        }
+      }
+    },
+    {
+      "identity": {
+        "id": "CLUS000002",
+        "entityType": "cluster_assistance",
+        "code": "SIPCOT_INDUSTRIAL_PARKS",
+        "legacyCodes": [],
+        "name": "SIPCOT Industrial Parks (Tamil Nadu)",
+        "shortName": null,
+        "acronym": null,
+        "slug": "sipcot-industrial-parks",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "clusterName": "SIPCOT Industrial Parks (Tamil Nadu)",
+        "sector": "general",
+        "sectorText": "General industrial infrastructure, multi-sector tenancy",
+        "districts": [],
+        "supportedBusinessTypes": [],
+        "financialSupport": {
+          "applicable": null,
+          "assistanceType": null,
+          "maxAmountInr": null,
+          "maxAmountText": null,
+          "conditions": []
+        },
+        "nonFinancialSupport": {
+          "applicable": true,
+          "supportTypes": [
+            "industrial_park",
+            "plot_allotment"
+          ],
+          "description": "50 industrial parks including 8 SEZs across Tamil Nadu; plot allotment and grievance redressal for tenant enterprises. Established 1971. Major tenants referenced on-site include Bosch, Apollo Tyres, Reliance Retail."
+        },
+        "administeringAuthorityId": null,
+        "relatedSchemeIds": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "SIPCOT Industrial Parks (Tamil Nadu)",
+          "summary": "50 industrial parks including 8 SEZs across Tamil Nadu; plot allotment and grievance redressal for tenant enterprises. Established 1971. Major tenants referenced on-site include Bosch, Apollo Tyres, Reliance Retail."
+        },
+        "ta": {
+          "name": "SIPCOT தொழில்துறை பூங்காக்கள் (தமிழ்நாடு)",
+          "summary": "தமிழ்நாடு முழுவதும் 8 சிறப்பு பொருளாதார மண்டலங்கள் (SEZs) உட்பட 50 தொழில்துறை பூங்காக்கள்; குத்தகைதாரர் நிறுவனங்களுக்கான மனை ஒதுக்கீடு மற்றும் குறை தீர்வு. 1971-ல் நிறுவப்பட்டது. Bosch, Apollo Tyres, Reliance Retail ஆகியவை தளத்தில் குறிப்பிடப்பட்ட முக்கிய குத்தகைதாரர்கள்."
+        },
+        "hi": {
+          "name": null,
+          "summary": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "sipcot_industrial_parks",
+            "cluster"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": null,
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": null,
+        "similarityMethod": null,
+        "reviewRequired": false
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Non-financial support confirmed; financial support not found on any approved source, left null",
+        "isVerified": true,
+        "verifiedAgainst": [
+          "https://sipcotweb.tn.gov.in/"
+        ],
+        "verifiedBy": null,
+        "verifiedAt": "2026-08-14T00:00:00Z",
+        "confidence": "medium",
+        "researchStatus": "Official-source researched",
+        "notes": "Confirmed official homepage (batch-6/8 Stage B Pass 1 fetches). Note: SIPCOT manages general industrial parks, not sector-named clusters in the Textile/Auto/Leather sense -- classified honestly as 'general', not assigned to a specific sector without evidence.",
+        "missingFields": [
+          {
+            "field": "content.financialSupport",
+            "reason": "No financial-assistance figure found on the fetched source for this record."
+          },
+          {
+            "field": "content.districts",
+            "reason": "Not itemised on the fetched overview page."
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-14T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 5,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "live_official_source",
+        "extractedAt": "2026-08-14T00:00:00Z",
+        "pipelineVersion": "build_cluster_assistance.py-1.0.0",
+        "fieldSources": [
+          {
+            "field": "content.nonFinancialSupport",
+            "sourceTier": 5,
+            "sourceType": "official_website",
+            "url": "https://sipcotweb.tn.gov.in/",
+            "organization": "SIPCOT (State Industries Promotion Corporation of Tamil Nadu)",
+            "retrievedAt": "2026-08-14",
+            "isBackfill": false,
+            "supersededValue": null,
+            "note": "Confirmed official homepage (batch-6/8 Stage B Pass 1 fetches). Note: SIPCOT manages general industrial parks, not sector-named clusters in the Textile/Auto/Leather sense -- classified honestly as 'general', not assigned to a specific sector without evidence."
+          }
+        ],
+        "transformationNotes": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        }
+      }
+    },
+    {
+      "identity": {
+        "id": "CLUS000003",
+        "entityType": "cluster_assistance",
+        "code": "TN_TEXTILE_CUT_SEW_SCHEME",
+        "legacyCodes": [],
+        "name": "Cut & Sew Scheme (Tamil Nadu Textiles)",
+        "shortName": null,
+        "acronym": null,
+        "slug": "tn-textile-cut-sew-scheme",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "clusterName": "Cut & Sew Scheme (Tamil Nadu Textiles)",
+        "sector": "textile",
+        "sectorText": "Garmenting, Home Textiles and Technical Textile sectors",
+        "districts": [],
+        "supportedBusinessTypes": [],
+        "financialSupport": {
+          "applicable": true,
+          "assistanceType": "capital_subsidy",
+          "maxAmountInr": 5000000,
+          "maxAmountText": "Rs 50 lakh per machine",
+          "percentage": 50.0,
+          "conditions": [
+            "For brand new computerized cutting machine with CAD/CAM software only.",
+            "Eligible applicants: Common Facility Centres (partnership of 2+ units, registered as an SPV) or individual primary units with MOUs with 3+ peripheral manufacturing units and minimum 25% machinery capacity allocated to peripheral units.",
+            "Subsidy released in 3 instalments: 60% / 20% / 20%."
+          ]
+        },
+        "nonFinancialSupport": {
+          "applicable": false,
+          "supportTypes": [],
+          "description": null
+        },
+        "administeringAuthorityId": null,
+        "relatedSchemeIds": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Cut & Sew Scheme (Tamil Nadu Textiles)",
+          "summary": "50% capital subsidy for brand new computerized cutting machines with CAD/CAM software in Garmenting, Home Textiles and Technical Textile sectors; maximum ceiling Rs 50 lakh per machine; released in 60/20/20 instalments. Verbatim from tntextilesschemes.tn.gov.in/cut_sew_landing."
+        },
+        "ta": {
+          "name": "கட் & சூ திட்டம் (தமிழ்நாடு ஜவுளித்துறை)",
+          "summary": "ஆடை உற்பத்தி, வீட்டு ஜவுளி மற்றும் தொழில்நுட்ப ஜவுளித் துறைகளில் CAD/CAM மென்பொருளுடன் கூடிய புத்தம்புதிய கணினிமயமாக்கப்பட்ட வெட்டும் இயந்திரங்களுக்கு 50% மூலதன மானியம்; இயந்திரம் ஒன்றுக்கு அதிகபட்சம் Rs 50 lakh வரம்பு; 60/20/20 தவணைகளில் வழங்கப்படும். tntextilesschemes.tn.gov.in/cut_sew_landing இலிருந்து அப்படியே."
+        },
+        "hi": {
+          "name": null,
+          "summary": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "cut",
+            "sew",
+            "textile",
+            "garmenting",
+            "cluster",
+            "cad",
+            "cam",
+            "cutting",
+            "machine"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": null,
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": null,
+        "similarityMethod": null,
+        "reviewRequired": false
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Financial support confirmed on official source; districts/administering authority not itemised",
+        "isVerified": true,
+        "verifiedAgainst": [
+          "https://tntextilesschemes.tn.gov.in/cut_sew_landing"
+        ],
+        "verifiedBy": null,
+        "verifiedAt": "2026-08-15",
+        "confidence": "high",
+        "researchStatus": "Official-source researched",
+        "notes": "Fetched directly from https://tntextilesschemes.tn.gov.in/cut_sew_landing (Tier 5, approved domain tn.gov.in). Figures quoted verbatim.",
+        "missingFields": [
+          {
+            "field": "content.districts",
+            "reason": "Not itemised on the fetched page."
+          },
+          {
+            "field": "content.administeringAuthorityId",
+            "reason": "No institution_catalog.json entry resolved for the TN Department of Textiles this round; not linked rather than guessed."
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-15T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 5,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "live_official_source",
+        "extractedAt": "2026-08-15",
+        "pipelineVersion": "add_cluster_d2.py-1.0.0",
+        "fieldSources": [
+          {
+            "field": "content.financialSupport",
+            "sourceTier": 5,
+            "sourceType": "official_website",
+            "url": "https://tntextilesschemes.tn.gov.in/cut_sew_landing",
+            "organization": "Department of Textiles, Government of Tamil Nadu",
+            "retrievedAt": "2026-08-15",
+            "isBackfill": false,
+            "supersededValue": null,
+            "note": "50% capital subsidy for brand new computerized cutting machines with CAD/CAM software in Garmenting, Home Textiles and Technical Textile sectors; maximum ceiling Rs 50 lakh per machine; released in 60/20/20 instalments. Verbatim from tntextilesschemes.tn.gov.in/cut_sew_landing."
+          }
+        ],
+        "transformationNotes": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        }
+      }
+    },
+    {
+      "identity": {
+        "id": "CLUS000004",
+        "entityType": "cluster_assistance",
+        "code": "TN_TEXTILE_NONCONVENTIONAL_FIBRE_YARN",
+        "legacyCodes": [],
+        "name": "Non-Conventional Fibre/Yarn Manufacturing Capital Investment Subsidy (Tamil Nadu Textiles)",
+        "shortName": null,
+        "acronym": null,
+        "slug": "tn-textile-nonconventional-fibre-yarn",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "clusterName": "Non-Conventional Fibre/Yarn Manufacturing Capital Investment Subsidy (Tamil Nadu Textiles)",
+        "sector": "textile",
+        "sectorText": "Non-conventional fibre and yarn manufacturing (new factories/spinning mills)",
+        "districts": [],
+        "supportedBusinessTypes": [],
+        "financialSupport": {
+          "applicable": true,
+          "assistanceType": "capital_subsidy",
+          "maxAmountInr": 10000000,
+          "maxAmountText": "Rs 1.00 crore per unit",
+          "percentage": 25.0,
+          "conditions": [
+            "Applies to new factories/spinning mills engaged in non-conventional fibre and yarn manufacturing.",
+            "Disbursed in two phases: 60% after installation and commencement of production, 40% after one year of operation."
+          ]
+        },
+        "nonFinancialSupport": {
+          "applicable": false,
+          "supportTypes": [],
+          "description": null
+        },
+        "administeringAuthorityId": null,
+        "relatedSchemeIds": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Non-Conventional Fibre/Yarn Manufacturing Capital Investment Subsidy (Tamil Nadu Textiles)",
+          "summary": "25% capital investment subsidy on eligible plant and machinery cost for new non-conventional fibre/yarn manufacturing factories and spinning mills; maximum ceiling Rs 1.00 crore per unit; disbursed 60% on commencement, 40% after one year. Verbatim from tntextilesschemes.tn.gov.in/fibre."
+        },
+        "ta": {
+          "name": "மரபுசாரா இழை/நூல் உற்பத்தி மூலதன முதலீட்டு மானியம் (தமிழ்நாடு ஜவுளித்துறை)",
+          "summary": "புதிய மரபுசாரா இழை/நூல் உற்பத்தி தொழிற்சாலைகள் மற்றும் நூற்பு ஆலைகளுக்கு, தகுதியான ஆலை மற்றும் இயந்திரச் செலவின் மீது 25% மூலதன முதலீட்டு மானியம்; அலகு ஒன்றுக்கு அதிகபட்சம் Rs 1.00 crore வரம்பு; தொடக்கத்தில் 60%, ஒரு வருடம் கழித்து 40% வழங்கப்படும். tntextilesschemes.tn.gov.in/fibre இலிருந்து அப்படியே."
+        },
+        "hi": {
+          "name": null,
+          "summary": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "fibre",
+            "yarn",
+            "textile",
+            "spinning",
+            "cluster",
+            "non-conventional",
+            "manufacturing"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": null,
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": null,
+        "similarityMethod": null,
+        "reviewRequired": false
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Financial support confirmed on official source; districts/administering authority not itemised",
+        "isVerified": true,
+        "verifiedAgainst": [
+          "https://tntextilesschemes.tn.gov.in/fibre"
+        ],
+        "verifiedBy": null,
+        "verifiedAt": "2026-08-15",
+        "confidence": "high",
+        "researchStatus": "Official-source researched",
+        "notes": "Fetched directly from https://tntextilesschemes.tn.gov.in/fibre (Tier 5, approved domain tn.gov.in). Figures quoted verbatim.",
+        "missingFields": [
+          {
+            "field": "content.districts",
+            "reason": "Not itemised on the fetched page."
+          },
+          {
+            "field": "content.administeringAuthorityId",
+            "reason": "No institution_catalog.json entry resolved for the TN Department of Textiles this round; not linked rather than guessed."
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-15T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 5,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "live_official_source",
+        "extractedAt": "2026-08-15",
+        "pipelineVersion": "add_cluster_d2.py-1.0.0",
+        "fieldSources": [
+          {
+            "field": "content.financialSupport",
+            "sourceTier": 5,
+            "sourceType": "official_website",
+            "url": "https://tntextilesschemes.tn.gov.in/fibre",
+            "organization": "Department of Textiles, Government of Tamil Nadu",
+            "retrievedAt": "2026-08-15",
+            "isBackfill": false,
+            "supersededValue": null,
+            "note": "25% capital investment subsidy on eligible plant and machinery cost for new non-conventional fibre/yarn manufacturing factories and spinning mills; maximum ceiling Rs 1.00 crore per unit; disbursed 60% on commencement, 40% after one year. Verbatim from tntextilesschemes.tn.gov.in/fibre."
+          }
+        ],
+        "transformationNotes": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        }
+      }
+    },
+    {
+      "identity": {
+        "id": "CLUS000005",
+        "entityType": "cluster_assistance",
+        "code": "TN_CLUSTER_PRINTING_SIVAKASI",
+        "legacyCodes": [],
+        "name": "Printing Cluster CFC — Sivakasi",
+        "shortName": null,
+        "acronym": null,
+        "slug": "tn-cluster-printing-sivakasi",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "clusterName": "Printing Cluster CFC — Sivakasi",
+        "sector": "printing",
+        "sectorText": "Printing (offset)",
+        "districts": [
+          "Virudhunagar"
+        ],
+        "supportedBusinessTypes": [],
+        "financialSupport": {
+          "applicable": true,
+          "assistanceType": "grant",
+          "maxAmountInr": 85846000,
+          "maxAmountText": "Rs 858.46 lakh (GoI Rs 767.80 lakh + GoTN Rs 90.66 lakh) -- aggregate CFC project grant, not a per-enterprise amount",
+          "percentage": null,
+          "conditions": [
+            "Amount is the total Government of India + Government of Tamil Nadu grant for constructing one shared Common Facility Centre for this cluster, not an amount payable to an individual enterprise.",
+            "Facility: 5-colour offset printing, cutting and plate-making facility."
+          ]
+        },
+        "nonFinancialSupport": {
+          "applicable": false,
+          "supportTypes": [],
+          "description": null
+        },
+        "administeringAuthorityId": null,
+        "relatedSchemeIds": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Printing Cluster CFC — Sivakasi",
+          "summary": "Common Facility Centre (CFC) under the MSE Cluster Development Programme (MSE-CDP), completed: 5-colour offset printing, cutting and plate-making facility. THIS IS AN AGGREGATE PROJECT GRANT to build one shared facility for the cluster, not a per-enterprise benefit amount: GoI Rs 767.80 lakh + GoTN Rs 90.66 lakh = Rs 858.46 lakh total government grant (SPV/cluster-unit own contribution separate, not counted as assistance)."
+        },
+        "ta": {
+          "name": "அச்சிடும் கொத்து பொது வசதி மையம் — சிவகாசி",
+          "summary": "MSE கொத்து மேம்பாட்டுத் திட்டத்தின் (MSE-CDP) கீழான பொது வசதி மையம் (CFC), முடிக்கப்பட்டது: 5-நிற ஆஃப்செட் அச்சிடுதல், வெட்டுதல் மற்றும் தகடு தயாரிப்பு வசதி. இது கொத்திற்கான ஒரு பகிரப்பட்ட வசதியை உருவாக்குவதற்கான மொத்தத் திட்ட மானியம், நிறுவனம் ஒன்றுக்கான பலன் தொகை அல்ல: GoI Rs 767.80 lakh + GoTN Rs 90.66 lakh = மொத்தம் Rs 858.46 lakh அரசு மானியம் (SPV/கொத்து-அலகின் சொந்தப் பங்களிப்பு தனி, உதவியாகக் கணக்கிடப்படவில்லை)."
+        },
+        "hi": {
+          "name": null,
+          "summary": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "printing",
+            "cluster",
+            "cfc",
+            "sivakasi",
+            "virudhunagar"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": null,
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": null,
+        "similarityMethod": null,
+        "reviewRequired": false
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Financial support (aggregate CFC grant) confirmed on official source; per-enterprise benefit not stated because this is project-level infrastructure funding",
+        "isVerified": true,
+        "verifiedAgainst": [
+          "https://msmedi-chennai.gov.in/GARMS_Admin/ClusterTN.aspx"
+        ],
+        "verifiedBy": null,
+        "verifiedAt": "2026-08-15",
+        "confidence": "high",
+        "researchStatus": "Official-source researched",
+        "notes": "Fetched directly from https://msmedi-chennai.gov.in/GARMS_Admin/ClusterTN.aspx (Tier 2, MSME-DI Chennai, .gov.in). Figures quoted verbatim from the page's cluster listing table.",
+        "missingFields": [
+          {
+            "field": "content.supportedBusinessTypes",
+            "reason": "Not itemised on the fetched source beyond the facility description."
+          },
+          {
+            "field": "content.administeringAuthorityId",
+            "reason": "No institution_catalog.json entry resolved for MSME-DI Chennai this round; not linked rather than guessed."
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-15T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "live_official_source",
+        "extractedAt": "2026-08-15",
+        "pipelineVersion": "add_cluster_e1_batch1.py-1.0.0",
+        "fieldSources": [
+          {
+            "field": "content.financialSupport",
+            "sourceTier": 2,
+            "sourceType": "official_website",
+            "url": "https://msmedi-chennai.gov.in/GARMS_Admin/ClusterTN.aspx",
+            "organization": "MSME Development Institute, Chennai (Ministry of MSME)",
+            "retrievedAt": "2026-08-15",
+            "isBackfill": false,
+            "supersededValue": null,
+            "note": "Common Facility Centre (CFC) under the MSE Cluster Development Programme (MSE-CDP), completed: 5-colour offset printing, cutting and plate-making facility. THIS IS AN AGGREGATE PROJECT GRANT to build one shared facility for the cluster, not a per-enterprise benefit amount: GoI Rs 767.80 lakh + GoTN Rs 90.66 lakh = Rs 858.46 lakh total government grant (SPV/cluster-unit own contribution separate, not counted as assistance)."
+          }
+        ],
+        "transformationNotes": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        }
+      }
+    },
+    {
+      "identity": {
+        "id": "CLUS000006",
+        "entityType": "cluster_assistance",
+        "code": "TN_CLUSTER_PRINTING_KRISHNAGIRI",
+        "legacyCodes": [],
+        "name": "Printing Cluster CFC — Krishnagiri",
+        "shortName": null,
+        "acronym": null,
+        "slug": "tn-cluster-printing-krishnagiri",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "clusterName": "Printing Cluster CFC — Krishnagiri",
+        "sector": "printing",
+        "sectorText": "Printing (offset, prepress)",
+        "districts": [
+          "Krishnagiri"
+        ],
+        "supportedBusinessTypes": [],
+        "financialSupport": {
+          "applicable": true,
+          "assistanceType": "grant",
+          "maxAmountInr": 102681000,
+          "maxAmountText": "Rs 1026.81 lakh (GoI Rs 936.81 lakh + GoTN Rs 90.00 lakh) -- aggregate CFC project grant, not a per-enterprise amount",
+          "percentage": null,
+          "conditions": [
+            "Amount is the total Government of India + Government of Tamil Nadu grant for constructing one shared Common Facility Centre for this cluster, not an amount payable to an individual enterprise.",
+            "Facility: Computer-to-plate, graphic designing and 4-colour offset facility."
+          ]
+        },
+        "nonFinancialSupport": {
+          "applicable": false,
+          "supportTypes": [],
+          "description": null
+        },
+        "administeringAuthorityId": null,
+        "relatedSchemeIds": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Printing Cluster CFC — Krishnagiri",
+          "summary": "Common Facility Centre (CFC) under the MSE Cluster Development Programme (MSE-CDP), completed: Computer-to-plate, graphic designing and 4-colour offset facility. THIS IS AN AGGREGATE PROJECT GRANT to build one shared facility for the cluster, not a per-enterprise benefit amount: GoI Rs 936.81 lakh + GoTN Rs 90.00 lakh = Rs 1026.81 lakh total government grant (SPV/cluster-unit own contribution separate, not counted as assistance)."
+        },
+        "ta": {
+          "name": "அச்சிடும் கொத்து பொது வசதி மையம் — கிருஷ்ணகிரி",
+          "summary": "MSE கொத்து மேம்பாட்டுத் திட்டத்தின் (MSE-CDP) கீழான பொது வசதி மையம் (CFC), முடிக்கப்பட்டது: கணினி-முதல்-தகடு, வடிவமைப்பு மற்றும் 4-நிற ஆஃப்செட் வசதி. இது கொத்திற்கான ஒரு பகிரப்பட்ட வசதியை உருவாக்குவதற்கான மொத்தத் திட்ட மானியம், நிறுவனம் ஒன்றுக்கான பலன் தொகை அல்ல: GoI Rs 936.81 lakh + GoTN Rs 90.00 lakh = மொத்தம் Rs 1026.81 lakh அரசு மானியம் (SPV/கொத்து-அலகின் சொந்தப் பங்களிப்பு தனி, உதவியாகக் கணக்கிடப்படவில்லை)."
+        },
+        "hi": {
+          "name": null,
+          "summary": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "printing",
+            "cluster",
+            "cfc",
+            "krishnagiri",
+            "krishnagiri"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": null,
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": null,
+        "similarityMethod": null,
+        "reviewRequired": false
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Financial support (aggregate CFC grant) confirmed on official source; per-enterprise benefit not stated because this is project-level infrastructure funding",
+        "isVerified": true,
+        "verifiedAgainst": [
+          "https://msmedi-chennai.gov.in/GARMS_Admin/ClusterTN.aspx"
+        ],
+        "verifiedBy": null,
+        "verifiedAt": "2026-08-15",
+        "confidence": "high",
+        "researchStatus": "Official-source researched",
+        "notes": "Fetched directly from https://msmedi-chennai.gov.in/GARMS_Admin/ClusterTN.aspx (Tier 2, MSME-DI Chennai, .gov.in). Figures quoted verbatim from the page's cluster listing table.",
+        "missingFields": [
+          {
+            "field": "content.supportedBusinessTypes",
+            "reason": "Not itemised on the fetched source beyond the facility description."
+          },
+          {
+            "field": "content.administeringAuthorityId",
+            "reason": "No institution_catalog.json entry resolved for MSME-DI Chennai this round; not linked rather than guessed."
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-15T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "live_official_source",
+        "extractedAt": "2026-08-15",
+        "pipelineVersion": "add_cluster_e1_batch1.py-1.0.0",
+        "fieldSources": [
+          {
+            "field": "content.financialSupport",
+            "sourceTier": 2,
+            "sourceType": "official_website",
+            "url": "https://msmedi-chennai.gov.in/GARMS_Admin/ClusterTN.aspx",
+            "organization": "MSME Development Institute, Chennai (Ministry of MSME)",
+            "retrievedAt": "2026-08-15",
+            "isBackfill": false,
+            "supersededValue": null,
+            "note": "Common Facility Centre (CFC) under the MSE Cluster Development Programme (MSE-CDP), completed: Computer-to-plate, graphic designing and 4-colour offset facility. THIS IS AN AGGREGATE PROJECT GRANT to build one shared facility for the cluster, not a per-enterprise benefit amount: GoI Rs 936.81 lakh + GoTN Rs 90.00 lakh = Rs 1026.81 lakh total government grant (SPV/cluster-unit own contribution separate, not counted as assistance)."
+          }
+        ],
+        "transformationNotes": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        }
+      }
+    },
+    {
+      "identity": {
+        "id": "CLUS000007",
+        "entityType": "cluster_assistance",
+        "code": "TN_CLUSTER_ENGINEERING_HOSUR",
+        "legacyCodes": [],
+        "name": "Engineering Cluster CFC — Hosur",
+        "shortName": null,
+        "acronym": null,
+        "slug": "tn-cluster-engineering-hosur",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "clusterName": "Engineering Cluster CFC — Hosur",
+        "sector": "engineering",
+        "sectorText": "Engineering (common metal processing)",
+        "districts": [
+          "Krishnagiri"
+        ],
+        "supportedBusinessTypes": [],
+        "financialSupport": {
+          "applicable": true,
+          "assistanceType": "grant",
+          "maxAmountInr": 51064000,
+          "maxAmountText": "Rs 510.64 lakh (GoI Rs 439.89 lakh + GoTN Rs 70.75 lakh) -- aggregate CFC project grant, not a per-enterprise amount",
+          "percentage": null,
+          "conditions": [
+            "Amount is the total Government of India + Government of Tamil Nadu grant for constructing one shared Common Facility Centre for this cluster, not an amount payable to an individual enterprise.",
+            "Facility: Common metal processing (de-coiling) facility."
+          ]
+        },
+        "nonFinancialSupport": {
+          "applicable": false,
+          "supportTypes": [],
+          "description": null
+        },
+        "administeringAuthorityId": null,
+        "relatedSchemeIds": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Engineering Cluster CFC — Hosur",
+          "summary": "Common Facility Centre (CFC) under the MSE Cluster Development Programme (MSE-CDP), completed: Common metal processing (de-coiling) facility. THIS IS AN AGGREGATE PROJECT GRANT to build one shared facility for the cluster, not a per-enterprise benefit amount: GoI Rs 439.89 lakh + GoTN Rs 70.75 lakh = Rs 510.64 lakh total government grant (SPV/cluster-unit own contribution separate, not counted as assistance)."
+        },
+        "ta": {
+          "name": "பொறியியல் கொத்து பொது வசதி மையம் — ஓசூர்",
+          "summary": "MSE கொத்து மேம்பாட்டுத் திட்டத்தின் (MSE-CDP) கீழான பொது வசதி மையம் (CFC), முடிக்கப்பட்டது: பொது உலோக செயலாக்க (டி-காயிலிங்) வசதி. இது கொத்திற்கான ஒரு பகிரப்பட்ட வசதியை உருவாக்குவதற்கான மொத்தத் திட்ட மானியம், நிறுவனம் ஒன்றுக்கான பலன் தொகை அல்ல: GoI Rs 439.89 lakh + GoTN Rs 70.75 lakh = மொத்தம் Rs 510.64 lakh அரசு மானியம் (SPV/கொத்து-அலகின் சொந்தப் பங்களிப்பு தனி, உதவியாகக் கணக்கிடப்படவில்லை)."
+        },
+        "hi": {
+          "name": null,
+          "summary": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "engineering",
+            "cluster",
+            "cfc",
+            "hosur",
+            "krishnagiri"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": null,
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": null,
+        "similarityMethod": null,
+        "reviewRequired": false
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Financial support (aggregate CFC grant) confirmed on official source; per-enterprise benefit not stated because this is project-level infrastructure funding",
+        "isVerified": true,
+        "verifiedAgainst": [
+          "https://msmedi-chennai.gov.in/GARMS_Admin/ClusterTN.aspx"
+        ],
+        "verifiedBy": null,
+        "verifiedAt": "2026-08-15",
+        "confidence": "high",
+        "researchStatus": "Official-source researched",
+        "notes": "Fetched directly from https://msmedi-chennai.gov.in/GARMS_Admin/ClusterTN.aspx (Tier 2, MSME-DI Chennai, .gov.in). Figures quoted verbatim from the page's cluster listing table.",
+        "missingFields": [
+          {
+            "field": "content.supportedBusinessTypes",
+            "reason": "Not itemised on the fetched source beyond the facility description."
+          },
+          {
+            "field": "content.administeringAuthorityId",
+            "reason": "No institution_catalog.json entry resolved for MSME-DI Chennai this round; not linked rather than guessed."
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-15T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "live_official_source",
+        "extractedAt": "2026-08-15",
+        "pipelineVersion": "add_cluster_e1_batch1.py-1.0.0",
+        "fieldSources": [
+          {
+            "field": "content.financialSupport",
+            "sourceTier": 2,
+            "sourceType": "official_website",
+            "url": "https://msmedi-chennai.gov.in/GARMS_Admin/ClusterTN.aspx",
+            "organization": "MSME Development Institute, Chennai (Ministry of MSME)",
+            "retrievedAt": "2026-08-15",
+            "isBackfill": false,
+            "supersededValue": null,
+            "note": "Common Facility Centre (CFC) under the MSE Cluster Development Programme (MSE-CDP), completed: Common metal processing (de-coiling) facility. THIS IS AN AGGREGATE PROJECT GRANT to build one shared facility for the cluster, not a per-enterprise benefit amount: GoI Rs 439.89 lakh + GoTN Rs 70.75 lakh = Rs 510.64 lakh total government grant (SPV/cluster-unit own contribution separate, not counted as assistance)."
+          }
+        ],
+        "transformationNotes": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        }
+      }
+    },
+    {
+      "identity": {
+        "id": "CLUS000008",
+        "entityType": "cluster_assistance",
+        "code": "TN_CLUSTER_ENGINEERING_RANIPET",
+        "legacyCodes": [],
+        "name": "Engineering Cluster CFC — Ranipet",
+        "shortName": null,
+        "acronym": null,
+        "slug": "tn-cluster-engineering-ranipet",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "clusterName": "Engineering Cluster CFC — Ranipet",
+        "sector": "engineering",
+        "sectorText": "Engineering (general fabrication)",
+        "districts": [
+          "Vellore"
+        ],
+        "supportedBusinessTypes": [],
+        "financialSupport": {
+          "applicable": true,
+          "assistanceType": "grant",
+          "maxAmountInr": 71360000,
+          "maxAmountText": "Rs 713.60 lakh (GoI Rs 616.39 lakh + GoTN Rs 97.21 lakh) -- aggregate CFC project grant, not a per-enterprise amount",
+          "percentage": null,
+          "conditions": [
+            "Amount is the total Government of India + Government of Tamil Nadu grant for constructing one shared Common Facility Centre for this cluster, not an amount payable to an individual enterprise.",
+            "Facility: Facility complementing firm-level engineering processes."
+          ]
+        },
+        "nonFinancialSupport": {
+          "applicable": false,
+          "supportTypes": [],
+          "description": null
+        },
+        "administeringAuthorityId": null,
+        "relatedSchemeIds": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Engineering Cluster CFC — Ranipet",
+          "summary": "Common Facility Centre (CFC) under the MSE Cluster Development Programme (MSE-CDP), completed: Facility complementing firm-level engineering processes. THIS IS AN AGGREGATE PROJECT GRANT to build one shared facility for the cluster, not a per-enterprise benefit amount: GoI Rs 616.39 lakh + GoTN Rs 97.21 lakh = Rs 713.60 lakh total government grant (SPV/cluster-unit own contribution separate, not counted as assistance)."
+        },
+        "ta": {
+          "name": "பொறியியல் கொத்து பொது வசதி மையம் — இராணிப்பேட்டை",
+          "summary": "MSE கொத்து மேம்பாட்டுத் திட்டத்தின் (MSE-CDP) கீழான பொது வசதி மையம் (CFC), முடிக்கப்பட்டது: நிறுவன அளவிலான பொறியியல் செயல்முறைகளை நிறைவு செய்யும் வசதி. இது கொத்திற்கான ஒரு பகிரப்பட்ட வசதியை உருவாக்குவதற்கான மொத்தத் திட்ட மானியம், நிறுவனம் ஒன்றுக்கான பலன் தொகை அல்ல: GoI Rs 616.39 lakh + GoTN Rs 97.21 lakh = மொத்தம் Rs 713.60 lakh அரசு மானியம் (SPV/கொத்து-அலகின் சொந்தப் பங்களிப்பு தனி, உதவியாகக் கணக்கிடப்படவில்லை)."
+        },
+        "hi": {
+          "name": null,
+          "summary": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "engineering",
+            "cluster",
+            "cfc",
+            "ranipet",
+            "vellore"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": null,
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": null,
+        "similarityMethod": null,
+        "reviewRequired": false
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Financial support (aggregate CFC grant) confirmed on official source; per-enterprise benefit not stated because this is project-level infrastructure funding",
+        "isVerified": true,
+        "verifiedAgainst": [
+          "https://msmedi-chennai.gov.in/GARMS_Admin/ClusterTN.aspx"
+        ],
+        "verifiedBy": null,
+        "verifiedAt": "2026-08-15",
+        "confidence": "high",
+        "researchStatus": "Official-source researched",
+        "notes": "Fetched directly from https://msmedi-chennai.gov.in/GARMS_Admin/ClusterTN.aspx (Tier 2, MSME-DI Chennai, .gov.in). Figures quoted verbatim from the page's cluster listing table.",
+        "missingFields": [
+          {
+            "field": "content.supportedBusinessTypes",
+            "reason": "Not itemised on the fetched source beyond the facility description."
+          },
+          {
+            "field": "content.administeringAuthorityId",
+            "reason": "No institution_catalog.json entry resolved for MSME-DI Chennai this round; not linked rather than guessed."
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-15T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "live_official_source",
+        "extractedAt": "2026-08-15",
+        "pipelineVersion": "add_cluster_e1_batch1.py-1.0.0",
+        "fieldSources": [
+          {
+            "field": "content.financialSupport",
+            "sourceTier": 2,
+            "sourceType": "official_website",
+            "url": "https://msmedi-chennai.gov.in/GARMS_Admin/ClusterTN.aspx",
+            "organization": "MSME Development Institute, Chennai (Ministry of MSME)",
+            "retrievedAt": "2026-08-15",
+            "isBackfill": false,
+            "supersededValue": null,
+            "note": "Common Facility Centre (CFC) under the MSE Cluster Development Programme (MSE-CDP), completed: Facility complementing firm-level engineering processes. THIS IS AN AGGREGATE PROJECT GRANT to build one shared facility for the cluster, not a per-enterprise benefit amount: GoI Rs 616.39 lakh + GoTN Rs 97.21 lakh = Rs 713.60 lakh total government grant (SPV/cluster-unit own contribution separate, not counted as assistance)."
+          }
+        ],
+        "transformationNotes": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        }
+      }
+    },
+    {
+      "identity": {
+        "id": "CLUS000009",
+        "entityType": "cluster_assistance",
+        "code": "TN_CLUSTER_LEATHER_PALLAVARAM",
+        "legacyCodes": [],
+        "name": "Leather Cluster CFC — Pallavaram",
+        "shortName": null,
+        "acronym": null,
+        "slug": "tn-cluster-leather-pallavaram",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "clusterName": "Leather Cluster CFC — Pallavaram",
+        "sector": "leather",
+        "sectorText": "Leather (design and pattern making)",
+        "districts": [
+          "Chengalpattu"
+        ],
+        "supportedBusinessTypes": [],
+        "financialSupport": {
+          "applicable": true,
+          "assistanceType": "grant",
+          "maxAmountInr": 22762000,
+          "maxAmountText": "Rs 227.62 lakh (GoI Rs 197.93 lakh + GoTN Rs 29.69 lakh) -- aggregate CFC project grant, not a per-enterprise amount",
+          "percentage": null,
+          "conditions": [
+            "Amount is the total Government of India + Government of Tamil Nadu grant for constructing one shared Common Facility Centre for this cluster, not an amount payable to an individual enterprise.",
+            "Facility: Designing, pattern making and cutting facility."
+          ]
+        },
+        "nonFinancialSupport": {
+          "applicable": false,
+          "supportTypes": [],
+          "description": null
+        },
+        "administeringAuthorityId": null,
+        "relatedSchemeIds": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Leather Cluster CFC — Pallavaram",
+          "summary": "Common Facility Centre (CFC) under the MSE Cluster Development Programme (MSE-CDP), ongoing: Designing, pattern making and cutting facility. THIS IS AN AGGREGATE PROJECT GRANT to build one shared facility for the cluster, not a per-enterprise benefit amount: GoI Rs 197.93 lakh + GoTN Rs 29.69 lakh = Rs 227.62 lakh total government grant (SPV/cluster-unit own contribution separate, not counted as assistance)."
+        },
+        "ta": {
+          "name": "தோல் கொத்து பொது வசதி மையம் — பல்லாவரம்",
+          "summary": "MSE கொத்து மேம்பாட்டுத் திட்டத்தின் (MSE-CDP) கீழான பொது வசதி மையம் (CFC), நடைபெற்று வருகிறது: வடிவமைப்பு, மாதிரி தயாரிப்பு மற்றும் வெட்டும் வசதி. இது கொத்திற்கான ஒரு பகிரப்பட்ட வசதியை உருவாக்குவதற்கான மொத்தத் திட்ட மானியம், நிறுவனம் ஒன்றுக்கான பலன் தொகை அல்ல: GoI Rs 197.93 lakh + GoTN Rs 29.69 lakh = மொத்தம் Rs 227.62 lakh அரசு மானியம் (SPV/கொத்து-அலகின் சொந்தப் பங்களிப்பு தனி, உதவியாகக் கணக்கிடப்படவில்லை)."
+        },
+        "hi": {
+          "name": null,
+          "summary": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "leather",
+            "cluster",
+            "cfc",
+            "pallavaram",
+            "chengalpattu"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": null,
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": null,
+        "similarityMethod": null,
+        "reviewRequired": false
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Financial support (aggregate CFC grant) confirmed on official source; per-enterprise benefit not stated because this is project-level infrastructure funding",
+        "isVerified": true,
+        "verifiedAgainst": [
+          "https://msmedi-chennai.gov.in/GARMS_Admin/ClusterTN.aspx"
+        ],
+        "verifiedBy": null,
+        "verifiedAt": "2026-08-15",
+        "confidence": "high",
+        "researchStatus": "Official-source researched",
+        "notes": "Fetched directly from https://msmedi-chennai.gov.in/GARMS_Admin/ClusterTN.aspx (Tier 2, MSME-DI Chennai, .gov.in). Figures quoted verbatim from the page's cluster listing table.",
+        "missingFields": [
+          {
+            "field": "content.supportedBusinessTypes",
+            "reason": "Not itemised on the fetched source beyond the facility description."
+          },
+          {
+            "field": "content.administeringAuthorityId",
+            "reason": "No institution_catalog.json entry resolved for MSME-DI Chennai this round; not linked rather than guessed."
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-15T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "live_official_source",
+        "extractedAt": "2026-08-15",
+        "pipelineVersion": "add_cluster_e1_batch1.py-1.0.0",
+        "fieldSources": [
+          {
+            "field": "content.financialSupport",
+            "sourceTier": 2,
+            "sourceType": "official_website",
+            "url": "https://msmedi-chennai.gov.in/GARMS_Admin/ClusterTN.aspx",
+            "organization": "MSME Development Institute, Chennai (Ministry of MSME)",
+            "retrievedAt": "2026-08-15",
+            "isBackfill": false,
+            "supersededValue": null,
+            "note": "Common Facility Centre (CFC) under the MSE Cluster Development Programme (MSE-CDP), ongoing: Designing, pattern making and cutting facility. THIS IS AN AGGREGATE PROJECT GRANT to build one shared facility for the cluster, not a per-enterprise benefit amount: GoI Rs 197.93 lakh + GoTN Rs 29.69 lakh = Rs 227.62 lakh total government grant (SPV/cluster-unit own contribution separate, not counted as assistance)."
+          }
+        ],
+        "transformationNotes": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        }
+      }
+    },
+    {
+      "identity": {
+        "id": "CLUS000010",
+        "entityType": "cluster_assistance",
+        "code": "TN_CLUSTER_FOOD_PROCESSING_ALANGULAM",
+        "legacyCodes": [],
+        "name": "Rice Mill Cluster CFC — Alangulam",
+        "shortName": null,
+        "acronym": null,
+        "slug": "tn-cluster-food-processing-alangulam",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "clusterName": "Rice Mill Cluster CFC — Alangulam",
+        "sector": "food_processing",
+        "sectorText": "Food processing (rice milling)",
+        "districts": [
+          "Tirunelveli"
+        ],
+        "supportedBusinessTypes": [],
+        "financialSupport": {
+          "applicable": true,
+          "assistanceType": "grant",
+          "maxAmountInr": 62916000,
+          "maxAmountText": "Rs 629.16 lakh (GoI Rs 550.25 lakh + GoTN Rs 78.91 lakh) -- aggregate CFC project grant, not a per-enterprise amount",
+          "percentage": null,
+          "conditions": [
+            "Amount is the total Government of India + Government of Tamil Nadu grant for constructing one shared Common Facility Centre for this cluster, not an amount payable to an individual enterprise.",
+            "Facility: Colour sorter and mechanized paddy pre-cleaning facility."
+          ]
+        },
+        "nonFinancialSupport": {
+          "applicable": false,
+          "supportTypes": [],
+          "description": null
+        },
+        "administeringAuthorityId": null,
+        "relatedSchemeIds": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Rice Mill Cluster CFC — Alangulam",
+          "summary": "Common Facility Centre (CFC) under the MSE Cluster Development Programme (MSE-CDP), completed: Colour sorter and mechanized paddy pre-cleaning facility. THIS IS AN AGGREGATE PROJECT GRANT to build one shared facility for the cluster, not a per-enterprise benefit amount: GoI Rs 550.25 lakh + GoTN Rs 78.91 lakh = Rs 629.16 lakh total government grant (SPV/cluster-unit own contribution separate, not counted as assistance)."
+        },
+        "ta": {
+          "name": "அரிசி ஆலை கொத்து பொது வசதி மையம் — ஆலங்குளம்",
+          "summary": "MSE கொத்து மேம்பாட்டுத் திட்டத்தின் (MSE-CDP) கீழான பொது வசதி மையம் (CFC), முடிக்கப்பட்டது: நிற பிரிப்பான் மற்றும் இயந்திரமயமாக்கப்பட்ட நெல் முன்-சுத்திகரிப்பு வசதி. இது கொத்திற்கான ஒரு பகிரப்பட்ட வசதியை உருவாக்குவதற்கான மொத்தத் திட்ட மானியம், நிறுவனம் ஒன்றுக்கான பலன் தொகை அல்ல: GoI Rs 550.25 lakh + GoTN Rs 78.91 lakh = மொத்தம் Rs 629.16 lakh அரசு மானியம் (SPV/கொத்து-அலகின் சொந்தப் பங்களிப்பு தனி, உதவியாகக் கணக்கிடப்படவில்லை)."
+        },
+        "hi": {
+          "name": null,
+          "summary": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "food_processing",
+            "cluster",
+            "cfc",
+            "alangulam",
+            "tirunelveli"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": null,
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": null,
+        "similarityMethod": null,
+        "reviewRequired": false
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Financial support (aggregate CFC grant) confirmed on official source; per-enterprise benefit not stated because this is project-level infrastructure funding",
+        "isVerified": true,
+        "verifiedAgainst": [
+          "https://msmedi-chennai.gov.in/GARMS_Admin/ClusterTN.aspx"
+        ],
+        "verifiedBy": null,
+        "verifiedAt": "2026-08-15",
+        "confidence": "high",
+        "researchStatus": "Official-source researched",
+        "notes": "Fetched directly from https://msmedi-chennai.gov.in/GARMS_Admin/ClusterTN.aspx (Tier 2, MSME-DI Chennai, .gov.in). Figures quoted verbatim from the page's cluster listing table.",
+        "missingFields": [
+          {
+            "field": "content.supportedBusinessTypes",
+            "reason": "Not itemised on the fetched source beyond the facility description."
+          },
+          {
+            "field": "content.administeringAuthorityId",
+            "reason": "No institution_catalog.json entry resolved for MSME-DI Chennai this round; not linked rather than guessed."
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-15T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "live_official_source",
+        "extractedAt": "2026-08-15",
+        "pipelineVersion": "add_cluster_e1_batch1.py-1.0.0",
+        "fieldSources": [
+          {
+            "field": "content.financialSupport",
+            "sourceTier": 2,
+            "sourceType": "official_website",
+            "url": "https://msmedi-chennai.gov.in/GARMS_Admin/ClusterTN.aspx",
+            "organization": "MSME Development Institute, Chennai (Ministry of MSME)",
+            "retrievedAt": "2026-08-15",
+            "isBackfill": false,
+            "supersededValue": null,
+            "note": "Common Facility Centre (CFC) under the MSE Cluster Development Programme (MSE-CDP), completed: Colour sorter and mechanized paddy pre-cleaning facility. THIS IS AN AGGREGATE PROJECT GRANT to build one shared facility for the cluster, not a per-enterprise benefit amount: GoI Rs 550.25 lakh + GoTN Rs 78.91 lakh = Rs 629.16 lakh total government grant (SPV/cluster-unit own contribution separate, not counted as assistance)."
+          }
+        ],
+        "transformationNotes": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        }
+      }
+    }
+  ]
+}

@@ -68,15 +68,16 @@ void showReportIssueBottomSheet(
                         ),
                       ),
                       const SizedBox(width: AppSpacing.md),
-                      Text(
-                        l10n.helpReportIssueTitle,
-                        style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF0F172A),
+                      Expanded(
+                        child: Text(
+                          l10n.helpReportIssueTitle,
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: const Color(0xFF0F172A),
+                          ),
                         ),
                       ),
-                      const Spacer(),
                       IconButton(
                         icon: const Icon(
                           Icons.close_rounded,
@@ -98,6 +99,7 @@ void showReportIssueBottomSheet(
                   const SizedBox(height: AppSpacing.xl),
                   DropdownButtonFormField<String>(
                     initialValue: issueCategory,
+                    isExpanded: true,
                     dropdownColor: Colors.white,
                     style: GoogleFonts.inter(
                       color: const Color(0xFF0F172A),
@@ -115,29 +117,30 @@ void showReportIssueBottomSheet(
                         borderSide: const BorderSide(color: Color(0xFF2563EB)),
                       ),
                     ),
-                    items: <({String value, String label})>[
-                      (
-                        value: 'General Inquiry',
-                        label: l10n.helpCatGeneralInquiry,
-                      ),
-                      (
-                        value: 'Eligibility Matcher Bug',
-                        label: l10n.helpCatMatcherBug,
-                      ),
-                      (
-                        value: 'Wrong Scheme Details',
-                        label: l10n.helpCatWrongDetails,
-                      ),
-                      (
-                        value: 'Feature Request',
-                        label: l10n.helpCatFeatureRequest,
-                      ),
-                    ].map((cat) {
-                      return DropdownMenuItem(
-                        value: cat.value,
-                        child: Text(cat.label),
-                      );
-                    }).toList(),
+                    items:
+                        <({String value, String label})>[
+                          (
+                            value: 'General Inquiry',
+                            label: l10n.helpCatGeneralInquiry,
+                          ),
+                          (
+                            value: 'Eligibility Matcher Bug',
+                            label: l10n.helpCatMatcherBug,
+                          ),
+                          (
+                            value: 'Wrong Scheme Details',
+                            label: l10n.helpCatWrongDetails,
+                          ),
+                          (
+                            value: 'Feature Request',
+                            label: l10n.helpCatFeatureRequest,
+                          ),
+                        ].map((cat) {
+                          return DropdownMenuItem(
+                            value: cat.value,
+                            child: Text(cat.label),
+                          );
+                        }).toList(),
                     onChanged: (val) {
                       if (val != null) {
                         setModalState(() => issueCategory = val);
@@ -223,11 +226,12 @@ void showReportIssueBottomSheet(
                               setModalState(() => submitting = true);
 
                               try {
-                                await SupportTicketService.instance.submitTicket(
-                                  category: issueCategory,
-                                  email: email,
-                                  description: text,
-                                );
+                                await SupportTicketService.instance
+                                    .submitTicket(
+                                      category: issueCategory,
+                                      email: email,
+                                      description: text,
+                                    );
 
                                 if (context.mounted) {
                                   Navigator.pop(context);

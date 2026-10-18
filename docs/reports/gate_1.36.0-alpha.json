@@ -1,0 +1,46 @@
+{
+  "releaseTag": "1.36.0-alpha",
+  "overallStatus": "PASS",
+  "checks": {
+    "G1_drift": {
+      "status": "PASS",
+      "details": "Source master and candidate bundle reconcile cleanly without drift."
+    },
+    "G2_release_diff": {
+      "status": "PASS",
+      "totalDiffs": 0,
+      "details": "Analyzed 0 diffs between previous and candidate."
+    },
+    "G3_declared_changes": {
+      "status": "PASS",
+      "unmatchedCount": 0,
+      "details": "All changes appear in declared changes list."
+    },
+    "G4_preservation": {
+      "status": "PASS",
+      "details": "Existing values and entities preserved according to declared changes."
+    },
+    "G5_hashes": {
+      "status": "PASS",
+      "details": "Artifact hashes and registration reconcile cleanly."
+    },
+    "G6_app_compatibility": {
+      "status": "PASS",
+      "details": "Catalog layout verified compatible with released Flutter app."
+    }
+  },
+  "diffSummary": {
+    "totalDiffs": 0,
+    "unmatchedChanges": 0
+  },
+  "unmatchedChangesList": [],
+  "declaredMatches": {},
+  "candidateIdentity": {
+    "bundleSha256": "be27bfc11e0d443a09cdca422845918ec02b968e1abcbf5c01c6216e2c8f94ce",
+    "bundleBytes": 761844,
+    "activeLanguages": [
+      "en",
+      "ta"
+    ]
+  }
+}

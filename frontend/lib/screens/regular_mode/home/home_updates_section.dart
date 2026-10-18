@@ -55,7 +55,10 @@ class HomeLatestUpdatesCard extends StatelessWidget {
     }
 
     final String titleText = latestUpdate != null
-        ? (latestUpdate['title'] as String? ?? '')
+        ? NotificationHelpers.seedText(
+            context,
+            latestUpdate['title'] as String? ?? '',
+          )
         : context.l10n.fallbackLatestUpdateTitle;
 
     final String timeText;

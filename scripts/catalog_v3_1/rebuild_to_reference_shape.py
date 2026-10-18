@@ -713,6 +713,7 @@ def rebuild_scheme(current_record: dict, ref_skeleton: dict, src_record: dict) -
     else:
         rec["search"]["aliases"]["en"] = []
     rec["search"]["aliases"]["ta"] = []
+    rec["search"]["aliases"]["hi"] = []
 
     # 7. AI & Analytics
     rec["analytics"] = {

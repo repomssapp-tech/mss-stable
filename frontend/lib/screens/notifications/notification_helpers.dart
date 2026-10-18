@@ -108,7 +108,7 @@ class NotificationHelpers {
           ),
     );
     if (idx < 0) return raw;
-    final localized = context.l10n.monthAbbrList.split(',');
+    final localized = context.l10n.monthAbbrList.split(',').map((m) => m.trim()).toList();
     if (localized.length != 12) return raw;
     return '${parts[0]} ${localized[idx]} ${parts[2]}';
   }

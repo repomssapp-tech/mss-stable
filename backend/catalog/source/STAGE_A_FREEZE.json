@@ -1,0 +1,53 @@
+{
+  "release": "1.0.0-alpha",
+  "stage": "A",
+  "label": "Stage A Frozen",
+  "frozenAt": "2026-08-04T00:00:00Z",
+  "immutable": true,
+  "description": "Document-derived baseline built from source tiers 1-4 with no network access. Deterministic: identical source documents reproduce this byte-for-byte apart from generatedAt.",
+  "recordCount": 217,
+  "catalogChecksum": "sha256:4cbfdb217bb01f7ed201526bf2c608d14f31d16f3d69a8f59e9c9ee1fd629bde",
+  "schemaVersion": "1.0.0",
+  "governingDocuments": [
+    "MSS_Offline_Catalog_Architecture_Specification_v1.0.md",
+    "MSS_Base_Entity_Model_v1.0.md",
+    "MSS_Scheme_Catalog_Schema_v1.0.md",
+    "MSS_Data_Completion_Policy_v1.0.md",
+    "MSS_Data_Migration_Guide.md"
+  ],
+  "validation": {
+    "status": "PASSED",
+    "ruleSets": [
+      "base 1-30",
+      "scheme 31-45",
+      "policy 1-10",
+      "batch 25-37"
+    ],
+    "failures": 0
+  },
+  "files": [
+    {
+      "fileName": "scheme_catalog.json",
+      "retainedAt": "catalog/stage_a_frozen/scheme_catalog.json",
+      "byteSize": 5004978,
+      "checksum": "sha256:fd6bd745f873bbb7238854caa237a02992624adf8fa7aa5c55333197d310d2d6"
+    }
+  ],
+  "bytesNotRetained": {
+    "files": [
+      "manifest.json",
+      "unmapped_values.csv",
+      "generate_stage_a.py",
+      "validate_catalog.py"
+    ],
+    "reason": "These were listed in the original freeze record but their Stage A bytes are not retained separately; the live copies have since changed across later releases. Their Stage-A-era hashes are therefore not asserted rather than reconstructed."
+  },
+  "recordProvenance": {
+    "rebuiltAt": "2026-08-05T00:00:00Z",
+    "reason": "freeze_stage_a.py was run against the live catalog directory during the multilingual batch loop, overwriting the record with the live 1.31.0-alpha catalog's byteSize and checksums under the 1.0.0-alpha label. Rebuilt from the untouched baseline copy at stage_a_frozen/.",
+    "evidence": "stage_a_frozen/scheme_catalog.json is unmodified since 2026-08-04 and carries catalogVersion 1.0.0 in its own metadata; every value above is read from that file.",
+    "baselineDataAffected": false
+  },
+  "regenerationRule": "Stage A is NOT regenerated except when a source document changes. All subsequent improvement occurs through Stage B passes or a future catalog release. Any regeneration requires a new release identifier and a fresh freeze record.",
+  "downstreamRule": "Stage B Pass 1 (verification) MUST NOT mutate any Stage A content value. Stage B Pass 2 (enrichment) MAY populate fields that are null in Stage A, and MUST NOT modify fields Stage A populated."
+}

@@ -1,0 +1,3880 @@
+{
+  "metadata": {
+    "catalogName": "tax",
+    "schemaVersion": "1.0.0",
+    "catalogVersion": "1.33.0-alpha",
+    "generatedAt": "2026-08-04T00:00:00Z",
+    "language": "en",
+    "recordCount": 13,
+    "checksum": "sha256:180e9553548c8ee029a5aa871a3b98aec393df1d28702e3e86462f74b3e30570"
+  },
+  "data": [
+    {
+      "identity": {
+        "id": "TAX000001",
+        "entityType": "tax_provision",
+        "code": "GST",
+        "legacyCodes": [],
+        "name": "Goods and Services Tax",
+        "shortName": null,
+        "acronym": null,
+        "slug": "goods-and-services-tax",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "tax_type",
+        "taxTypeId": "CMN000134",
+        "governmentLevel": "central_state",
+        "jurisdiction": {
+          "country": "IN",
+          "state": null,
+          "districts": []
+        },
+        "administeredByIds": [],
+        "appliesToMsme": true,
+        "evidencedInSchemes": [
+          "SCH000039",
+          "SCH000045",
+          "SCH000046",
+          "SCH000059",
+          "SCH000081",
+          "SCH000101",
+          "SCH000197"
+        ],
+        "evidencedInSchemesCount": 7,
+        "evidencedDocuments": [
+          {
+            "schemeId": "SCH000039",
+            "documentId": "SCH000039-DOC004",
+            "documentName": "Tax / GST Auditor Certificate",
+            "mandatory": "conditional"
+          },
+          {
+            "schemeId": "SCH000045",
+            "documentId": "SCH000045-DOC001",
+            "documentName": "Exact current scheme/component document checklist pending verification",
+            "mandatory": "unknown"
+          },
+          {
+            "schemeId": "SCH000046",
+            "documentId": "SCH000046-DOC001",
+            "documentName": "Exact current scheme/component document checklist pending verification",
+            "mandatory": "unknown"
+          },
+          {
+            "schemeId": "SCH000059",
+            "documentId": "SCH000059-DOC007",
+            "documentName": "GST Registration",
+            "mandatory": "required"
+          },
+          {
+            "schemeId": "SCH000081",
+            "documentId": "SCH000081-DOC001",
+            "documentName": "Current reimbursement claim checklist pending verification",
+            "mandatory": "unknown"
+          },
+          {
+            "schemeId": "SCH000101",
+            "documentId": "SCH000101-DOC002",
+            "documentName": "GST Number",
+            "mandatory": "conditional"
+          },
+          {
+            "schemeId": "SCH000197",
+            "documentId": "SCH000197-DOC003",
+            "documentName": "GSTIN",
+            "mandatory": "conditional"
+          }
+        ],
+        "evidencedDocumentCount": 7,
+        "matchTerms": [
+          "gst",
+          "gstin",
+          "cgst",
+          "sgst",
+          "igst",
+          "goods and services tax"
+        ],
+        "rates": [],
+        "thresholds": [],
+        "dueDates": [],
+        "deductions": [],
+        "forms": [],
+        "filingFrequency": null,
+        "penalties": [],
+        "exemptions": [],
+        "guidance": null,
+        "faqs": [],
+        "description": null
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "CMN000134",
+            "entityType": "common_term",
+            "relationType": "classified_as",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000039",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000045",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000046",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000059",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000081",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000101",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000197",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "Goods and Services Tax",
+          "description": null,
+          "guidance": null
+        },
+        "ta": {
+          "name": "சரக்கு மற்றும் சேவை வரி",
+          "description": null,
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "description": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "and",
+            "goods",
+            "services",
+            "tax"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "cgst",
+            "goods and services tax",
+            "gst",
+            "gstin",
+            "igst",
+            "sgst"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000134",
+            "code": "gst",
+            "termType": "tax_type",
+            "matchedOn": "goods and services tax"
+          }
+        ],
+        "relatedEntities": [
+          {
+            "entityId": "TAX000004",
+            "entityType": "tax_provision",
+            "name": "Composition Scheme",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "level:central_state",
+              "provisionKind:tax_type"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TAX000005",
+            "entityType": "tax_provision",
+            "name": "QRMP",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "level:central_state",
+              "provisionKind:tax_type"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": null,
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "low",
+        "researchStatus": null,
+        "notes": "Anchor record only. The uploaded sources contain no tax rates, thresholds, due dates or guidance; none were generated.",
+        "missingFields": [
+          {
+            "field": "content.rates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.thresholds",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.dueDates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.deductions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.forms",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.filingFrequency",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.penalties",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.exemptions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "tax-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "dictionary",
+            "engine": "mss-i18n-dictionary-1.0.0",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "dictionary"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 0,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Anchored on common_catalog term CMN000134 (rule X1)",
+          "Scheme links derived from explicit term matches in required documents and eligibility text (rule X2)",
+          "No tax rate, threshold, due date or guidance generated (rule X3)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TAX000002",
+        "entityType": "tax_provision",
+        "code": "INCOME_TAX",
+        "legacyCodes": [],
+        "name": "Income Tax",
+        "shortName": null,
+        "acronym": null,
+        "slug": "income-tax",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "tax_type",
+        "taxTypeId": "CMN000135",
+        "governmentLevel": "central",
+        "jurisdiction": {
+          "country": "IN",
+          "state": null,
+          "districts": []
+        },
+        "administeredByIds": [],
+        "appliesToMsme": true,
+        "evidencedInSchemes": [
+          "SCH000059",
+          "SCH000063",
+          "SCH000071",
+          "SCH000085",
+          "SCH000101",
+          "SCH000157",
+          "SCH000158",
+          "SCH000159",
+          "SCH000160",
+          "SCH000165",
+          "SCH000176",
+          "SCH000197",
+          "SCH000216"
+        ],
+        "evidencedInSchemesCount": 13,
+        "evidencedDocuments": [
+          {
+            "schemeId": "SCH000059",
+            "documentId": "SCH000059-DOC002",
+            "documentName": "PAN of directors/proprietor/partners",
+            "mandatory": "required"
+          },
+          {
+            "schemeId": "SCH000059",
+            "documentId": "SCH000059-DOC005",
+            "documentName": "ITR - last 3 financial years",
+            "mandatory": "required"
+          },
+          {
+            "schemeId": "SCH000059",
+            "documentId": "SCH000059-DOC006",
+            "documentName": "Firm PAN",
+            "mandatory": "required"
+          },
+          {
+            "schemeId": "SCH000063",
+            "documentId": "SCH000063-DOC002",
+            "documentName": "PAN / authorised-person identity details",
+            "mandatory": "required"
+          },
+          {
+            "schemeId": "SCH000071",
+            "documentId": "SCH000071-DOC003",
+            "documentName": "PAN",
+            "mandatory": "required"
+          },
+          {
+            "schemeId": "SCH000085",
+            "documentId": "SCH000085-DOC003",
+            "documentName": "PAN Card",
+            "mandatory": "unknown"
+          },
+          {
+            "schemeId": "SCH000101",
+            "documentId": "SCH000101-DOC004",
+            "documentName": "PAN",
+            "mandatory": "conditional"
+          },
+          {
+            "schemeId": "SCH000157",
+            "documentId": "SCH000157-DOC004",
+            "documentName": "Financial statements / bank statements / ITR",
+            "mandatory": "conditional"
+          },
+          {
+            "schemeId": "SCH000158",
+            "documentId": "SCH000158-DOC004",
+            "documentName": "Financial statements / bank statements / ITR",
+            "mandatory": "conditional"
+          },
+          {
+            "schemeId": "SCH000159",
+            "documentId": "SCH000159-DOC004",
+            "documentName": "Financial statements / bank statements / ITR",
+            "mandatory": "conditional"
+          },
+          {
+            "schemeId": "SCH000160",
+            "documentId": "SCH000160-DOC004",
+            "documentName": "Financial statements / bank statements / ITR",
+            "mandatory": "conditional"
+          },
+          {
+            "schemeId": "SCH000165",
+            "documentId": "SCH000165-DOC004",
+            "documentName": "Financial statements / ITR / bank statements",
+            "mandatory": "conditional"
+          },
+          {
+            "schemeId": "SCH000176",
+            "documentId": "SCH000176-DOC004",
+            "documentName": "PAN and Aadhaar / permitted KYC documents",
+            "mandatory": "conditional"
+          },
+          {
+            "schemeId": "SCH000197",
+            "documentId": "SCH000197-DOC002",
+            "documentName": "PAN",
+            "mandatory": "conditional"
+          },
+          {
+            "schemeId": "SCH000216",
+            "documentId": "SCH000216-DOC003",
+            "documentName": "Financial statements / ITR / bank statements",
+            "mandatory": "conditional"
+          }
+        ],
+        "evidencedDocumentCount": 15,
+        "matchTerms": [
+          "income tax",
+          "itr",
+          "income-tax"
+        ],
+        "rates": [],
+        "thresholds": [],
+        "dueDates": [],
+        "deductions": [],
+        "forms": [],
+        "filingFrequency": null,
+        "penalties": [],
+        "exemptions": [],
+        "guidance": null,
+        "faqs": [],
+        "description": null
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "CMN000135",
+            "entityType": "common_term",
+            "relationType": "classified_as",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000059",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000063",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000071",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000085",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000101",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000157",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000158",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000159",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000160",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000165",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000176",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000197",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000216",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "Income Tax",
+          "description": null,
+          "guidance": null
+        },
+        "ta": {
+          "name": "வருமான வரி",
+          "description": null,
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "description": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "income",
+            "tax"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "income tax",
+            "income-tax",
+            "itr"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000135",
+            "code": "income_tax",
+            "termType": "tax_type",
+            "matchedOn": "income tax"
+          }
+        ],
+        "relatedEntities": [
+          {
+            "entityId": "TAX000003",
+            "entityType": "tax_provision",
+            "name": "Corporate Tax",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "level:central",
+              "provisionKind:tax_type"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TAX000006",
+            "entityType": "tax_provision",
+            "name": "Customs Duty",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "level:central",
+              "provisionKind:tax_type"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": null,
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "low",
+        "researchStatus": null,
+        "notes": "Anchor record only. The uploaded sources contain no tax rates, thresholds, due dates or guidance; none were generated.",
+        "missingFields": [
+          {
+            "field": "content.rates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.thresholds",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.dueDates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.deductions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.forms",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.filingFrequency",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.penalties",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.exemptions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "tax-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "dictionary",
+            "engine": "mss-i18n-dictionary-1.0.0",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "dictionary"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 0,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Anchored on common_catalog term CMN000135 (rule X1)",
+          "Scheme links derived from explicit term matches in required documents and eligibility text (rule X2)",
+          "No tax rate, threshold, due date or guidance generated (rule X3)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TAX000003",
+        "entityType": "tax_provision",
+        "code": "CORPORATE_TAX",
+        "legacyCodes": [],
+        "name": "Corporate Tax",
+        "shortName": null,
+        "acronym": null,
+        "slug": "corporate-tax",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "tax_type",
+        "taxTypeId": "CMN000136",
+        "governmentLevel": "central",
+        "jurisdiction": {
+          "country": "IN",
+          "state": null,
+          "districts": []
+        },
+        "administeredByIds": [],
+        "appliesToMsme": true,
+        "evidencedInSchemes": [],
+        "evidencedInSchemesCount": 0,
+        "evidencedDocuments": [],
+        "evidencedDocumentCount": 0,
+        "matchTerms": [
+          "corporate tax"
+        ],
+        "rates": [],
+        "thresholds": [],
+        "dueDates": [],
+        "deductions": [],
+        "forms": [],
+        "filingFrequency": null,
+        "penalties": [],
+        "exemptions": [],
+        "guidance": null,
+        "faqs": [],
+        "description": null
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "CMN000136",
+            "entityType": "common_term",
+            "relationType": "classified_as",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "Corporate Tax",
+          "description": null,
+          "guidance": null
+        },
+        "ta": {
+          "name": "நிறுவன வரி",
+          "description": null,
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "description": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "corporate",
+            "tax"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "corporate tax"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000136",
+            "code": "corporate_tax",
+            "termType": "tax_type",
+            "matchedOn": "corporate tax"
+          }
+        ],
+        "relatedEntities": [
+          {
+            "entityId": "TAX000002",
+            "entityType": "tax_provision",
+            "name": "Income Tax",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "level:central",
+              "provisionKind:tax_type"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TAX000006",
+            "entityType": "tax_provision",
+            "name": "Customs Duty",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "level:central",
+              "provisionKind:tax_type"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": null,
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "low",
+        "researchStatus": null,
+        "notes": "Anchor record only. The uploaded sources contain no tax rates, thresholds, due dates or guidance; none were generated.",
+        "missingFields": [
+          {
+            "field": "content.rates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.thresholds",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.dueDates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.deductions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.forms",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.filingFrequency",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.penalties",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.exemptions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.evidencedInSchemes",
+            "reason": "No scheme in this release evidences this provision"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "tax-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "dictionary",
+            "engine": "mss-i18n-dictionary-1.0.0",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "dictionary"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 0,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Anchored on common_catalog term CMN000136 (rule X1)",
+          "Scheme links derived from explicit term matches in required documents and eligibility text (rule X2)",
+          "No tax rate, threshold, due date or guidance generated (rule X3)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TAX000004",
+        "entityType": "tax_provision",
+        "code": "COMPOSITION_SCHEME",
+        "legacyCodes": [],
+        "name": "Composition Scheme",
+        "shortName": null,
+        "acronym": null,
+        "slug": "composition-scheme",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "tax_type",
+        "taxTypeId": "CMN000137",
+        "governmentLevel": "central_state",
+        "jurisdiction": {
+          "country": "IN",
+          "state": null,
+          "districts": []
+        },
+        "administeredByIds": [],
+        "appliesToMsme": true,
+        "evidencedInSchemes": [],
+        "evidencedInSchemesCount": 0,
+        "evidencedDocuments": [],
+        "evidencedDocumentCount": 0,
+        "matchTerms": [
+          "composition scheme"
+        ],
+        "rates": [],
+        "thresholds": [],
+        "dueDates": [],
+        "deductions": [],
+        "forms": [],
+        "filingFrequency": null,
+        "penalties": [],
+        "exemptions": [],
+        "guidance": null,
+        "faqs": [],
+        "description": null
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "CMN000137",
+            "entityType": "common_term",
+            "relationType": "classified_as",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "Composition Scheme",
+          "description": null,
+          "guidance": null
+        },
+        "ta": {
+          "name": "தொகுப்புத் திட்டம்",
+          "description": null,
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "description": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "composition",
+            "scheme"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "composition scheme"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000137",
+            "code": "composition_scheme",
+            "termType": "tax_type",
+            "matchedOn": "composition scheme"
+          }
+        ],
+        "relatedEntities": [
+          {
+            "entityId": "TAX000001",
+            "entityType": "tax_provision",
+            "name": "Goods and Services Tax",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "level:central_state",
+              "provisionKind:tax_type"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TAX000005",
+            "entityType": "tax_provision",
+            "name": "QRMP",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "level:central_state",
+              "provisionKind:tax_type"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": null,
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "low",
+        "researchStatus": null,
+        "notes": "Anchor record only. The uploaded sources contain no tax rates, thresholds, due dates or guidance; none were generated.",
+        "missingFields": [
+          {
+            "field": "content.rates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.thresholds",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.dueDates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.deductions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.forms",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.filingFrequency",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.penalties",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.exemptions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.evidencedInSchemes",
+            "reason": "No scheme in this release evidences this provision"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "tax-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "dictionary",
+            "engine": "mss-i18n-dictionary-1.0.0",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "dictionary"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 0,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Anchored on common_catalog term CMN000137 (rule X1)",
+          "Scheme links derived from explicit term matches in required documents and eligibility text (rule X2)",
+          "No tax rate, threshold, due date or guidance generated (rule X3)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TAX000005",
+        "entityType": "tax_provision",
+        "code": "QRMP",
+        "legacyCodes": [],
+        "name": "QRMP",
+        "shortName": null,
+        "acronym": null,
+        "slug": "qrmp",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "tax_type",
+        "taxTypeId": "CMN000138",
+        "governmentLevel": "central_state",
+        "jurisdiction": {
+          "country": "IN",
+          "state": null,
+          "districts": []
+        },
+        "administeredByIds": [],
+        "appliesToMsme": true,
+        "evidencedInSchemes": [],
+        "evidencedInSchemesCount": 0,
+        "evidencedDocuments": [],
+        "evidencedDocumentCount": 0,
+        "matchTerms": [
+          "qrmp"
+        ],
+        "rates": [],
+        "thresholds": [],
+        "dueDates": [],
+        "deductions": [],
+        "forms": [],
+        "filingFrequency": null,
+        "penalties": [],
+        "exemptions": [],
+        "guidance": null,
+        "faqs": [],
+        "description": null
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "CMN000138",
+            "entityType": "common_term",
+            "relationType": "classified_as",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "QRMP",
+          "description": null,
+          "guidance": null
+        },
+        "ta": {
+          "name": "QRMP (காலாண்டு வருவாய் தாக்கல் மற்றும் மாதாந்திர வரிச் செலுத்துகை)",
+          "description": null,
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "description": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "qrmp"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "qrmp"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000138",
+            "code": "qrmp",
+            "termType": "tax_type",
+            "matchedOn": "qrmp"
+          }
+        ],
+        "relatedEntities": [
+          {
+            "entityId": "TAX000001",
+            "entityType": "tax_provision",
+            "name": "Goods and Services Tax",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "level:central_state",
+              "provisionKind:tax_type"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TAX000004",
+            "entityType": "tax_provision",
+            "name": "Composition Scheme",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "level:central_state",
+              "provisionKind:tax_type"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": null,
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "low",
+        "researchStatus": null,
+        "notes": "Anchor record only. The uploaded sources contain no tax rates, thresholds, due dates or guidance; none were generated.",
+        "missingFields": [
+          {
+            "field": "content.rates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.thresholds",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.dueDates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.deductions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.forms",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.filingFrequency",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.penalties",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.exemptions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.evidencedInSchemes",
+            "reason": "No scheme in this release evidences this provision"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "tax-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 1,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Anchored on common_catalog term CMN000138 (rule X1)",
+          "Scheme links derived from explicit term matches in required documents and eligibility text (rule X2)",
+          "No tax rate, threshold, due date or guidance generated (rule X3)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TAX000006",
+        "entityType": "tax_provision",
+        "code": "CUSTOMS_DUTY",
+        "legacyCodes": [],
+        "name": "Customs Duty",
+        "shortName": null,
+        "acronym": null,
+        "slug": "customs-duty",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "tax_type",
+        "taxTypeId": "CMN000139",
+        "governmentLevel": "central",
+        "jurisdiction": {
+          "country": "IN",
+          "state": null,
+          "districts": []
+        },
+        "administeredByIds": [],
+        "appliesToMsme": true,
+        "evidencedInSchemes": [
+          "SCH000050",
+          "SCH000070",
+          "SCH000172"
+        ],
+        "evidencedInSchemesCount": 3,
+        "evidencedDocuments": [
+          {
+            "schemeId": "SCH000050",
+            "documentId": "SCH000050-DOC003",
+            "documentName": "Export / shipping bill details",
+            "mandatory": "required"
+          },
+          {
+            "schemeId": "SCH000070",
+            "documentId": "SCH000070-DOC003",
+            "documentName": "Shipping / export transaction documents",
+            "mandatory": "conditional"
+          },
+          {
+            "schemeId": "SCH000172",
+            "documentId": "SCH000172-DOC003",
+            "documentName": "Export performance / FOB-FOR earnings details",
+            "mandatory": "required"
+          },
+          {
+            "schemeId": "SCH000172",
+            "documentId": "SCH000172-DOC004",
+            "documentName": "e-BRC / shipping bill / export records",
+            "mandatory": "conditional"
+          }
+        ],
+        "evidencedDocumentCount": 4,
+        "matchTerms": [
+          "customs duty",
+          "customs"
+        ],
+        "rates": [],
+        "thresholds": [],
+        "dueDates": [],
+        "deductions": [],
+        "forms": [],
+        "filingFrequency": null,
+        "penalties": [],
+        "exemptions": [],
+        "guidance": null,
+        "faqs": [],
+        "description": null
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "CMN000139",
+            "entityType": "common_term",
+            "relationType": "classified_as",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000050",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000070",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000172",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "Customs Duty",
+          "description": null,
+          "guidance": null
+        },
+        "ta": {
+          "name": "சுங்க வரி",
+          "description": null,
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "description": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "customs",
+            "duty"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "customs",
+            "customs duty"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000139",
+            "code": "customs_duty",
+            "termType": "tax_type",
+            "matchedOn": "customs duty"
+          }
+        ],
+        "relatedEntities": [
+          {
+            "entityId": "TAX000002",
+            "entityType": "tax_provision",
+            "name": "Income Tax",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "level:central",
+              "provisionKind:tax_type"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TAX000003",
+            "entityType": "tax_provision",
+            "name": "Corporate Tax",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "level:central",
+              "provisionKind:tax_type"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": null,
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "low",
+        "researchStatus": null,
+        "notes": "Anchor record only. The uploaded sources contain no tax rates, thresholds, due dates or guidance; none were generated.",
+        "missingFields": [
+          {
+            "field": "content.rates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.thresholds",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.dueDates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.deductions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.forms",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.filingFrequency",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.penalties",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.exemptions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "tax-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "dictionary",
+            "engine": "mss-i18n-dictionary-1.0.0",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "dictionary"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 0,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Anchored on common_catalog term CMN000139 (rule X1)",
+          "Scheme links derived from explicit term matches in required documents and eligibility text (rule X2)",
+          "No tax rate, threshold, due date or guidance generated (rule X3)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TAX000007",
+        "entityType": "tax_provision",
+        "code": "STAMP_DUTY",
+        "legacyCodes": [],
+        "name": "Stamp Duty",
+        "shortName": null,
+        "acronym": null,
+        "slug": "stamp-duty",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "tax_type",
+        "taxTypeId": "CMN000140",
+        "governmentLevel": "state",
+        "jurisdiction": {
+          "country": "IN",
+          "state": null,
+          "districts": []
+        },
+        "administeredByIds": [],
+        "appliesToMsme": true,
+        "evidencedInSchemes": [
+          "SCH000142"
+        ],
+        "evidencedInSchemesCount": 1,
+        "evidencedDocuments": [
+          {
+            "schemeId": "SCH000142",
+            "documentId": "SCH000142-DOC001",
+            "documentName": "Exact current application / claim checklist pending verification",
+            "mandatory": "unknown"
+          }
+        ],
+        "evidencedDocumentCount": 1,
+        "matchTerms": [
+          "stamp duty"
+        ],
+        "rates": [],
+        "thresholds": [],
+        "dueDates": [],
+        "deductions": [],
+        "forms": [],
+        "filingFrequency": null,
+        "penalties": [],
+        "exemptions": [],
+        "guidance": null,
+        "faqs": [],
+        "description": null
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "CMN000140",
+            "entityType": "common_term",
+            "relationType": "classified_as",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000142",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "Stamp Duty",
+          "description": null,
+          "guidance": null
+        },
+        "ta": {
+          "name": "முத்திரைத் தீர்வை",
+          "description": null,
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "description": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "duty",
+            "stamp"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "stamp duty"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000140",
+            "code": "stamp_duty",
+            "termType": "tax_type",
+            "matchedOn": "stamp duty"
+          }
+        ],
+        "relatedEntities": [
+          {
+            "entityId": "TAX000008",
+            "entityType": "tax_provision",
+            "name": "Electricity Tax",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "level:state",
+              "provisionKind:tax_type"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": null,
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "low",
+        "researchStatus": null,
+        "notes": "Anchor record only. The uploaded sources contain no tax rates, thresholds, due dates or guidance; none were generated.",
+        "missingFields": [
+          {
+            "field": "content.rates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.thresholds",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.dueDates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.deductions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.forms",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.filingFrequency",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.penalties",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.exemptions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "tax-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "dictionary",
+            "engine": "mss-i18n-dictionary-1.0.0",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "dictionary"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 0,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Anchored on common_catalog term CMN000140 (rule X1)",
+          "Scheme links derived from explicit term matches in required documents and eligibility text (rule X2)",
+          "No tax rate, threshold, due date or guidance generated (rule X3)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TAX000008",
+        "entityType": "tax_provision",
+        "code": "ELECTRICITY_TAX",
+        "legacyCodes": [],
+        "name": "Electricity Tax",
+        "shortName": null,
+        "acronym": null,
+        "slug": "electricity-tax",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "tax_type",
+        "taxTypeId": "CMN000141",
+        "governmentLevel": "state",
+        "jurisdiction": {
+          "country": "IN",
+          "state": null,
+          "districts": []
+        },
+        "administeredByIds": [],
+        "appliesToMsme": true,
+        "evidencedInSchemes": [],
+        "evidencedInSchemesCount": 0,
+        "evidencedDocuments": [],
+        "evidencedDocumentCount": 0,
+        "matchTerms": [
+          "electricity tax"
+        ],
+        "rates": [],
+        "thresholds": [],
+        "dueDates": [],
+        "deductions": [],
+        "forms": [],
+        "filingFrequency": null,
+        "penalties": [],
+        "exemptions": [],
+        "guidance": null,
+        "faqs": [],
+        "description": null
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "CMN000141",
+            "entityType": "common_term",
+            "relationType": "classified_as",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "Electricity Tax",
+          "description": null,
+          "guidance": null
+        },
+        "ta": {
+          "name": "மின் வரி",
+          "description": null,
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "description": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "electricity",
+            "tax"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "electricity tax"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000141",
+            "code": "electricity_tax",
+            "termType": "tax_type",
+            "matchedOn": "electricity tax"
+          }
+        ],
+        "relatedEntities": [
+          {
+            "entityId": "TAX000007",
+            "entityType": "tax_provision",
+            "name": "Stamp Duty",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "level:state",
+              "provisionKind:tax_type"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": null,
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "low",
+        "researchStatus": null,
+        "notes": "Anchor record only. The uploaded sources contain no tax rates, thresholds, due dates or guidance; none were generated.",
+        "missingFields": [
+          {
+            "field": "content.rates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.thresholds",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.dueDates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.deductions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.forms",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.filingFrequency",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.penalties",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.exemptions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.evidencedInSchemes",
+            "reason": "No scheme in this release evidences this provision"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "tax-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "dictionary",
+            "engine": "mss-i18n-dictionary-1.0.0",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "dictionary"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 0,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Anchored on common_catalog term CMN000141 (rule X1)",
+          "Scheme links derived from explicit term matches in required documents and eligibility text (rule X2)",
+          "No tax rate, threshold, due date or guidance generated (rule X3)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TAX000009",
+        "entityType": "tax_provision",
+        "code": "GST_REG",
+        "legacyCodes": [],
+        "name": "GST Registration",
+        "shortName": null,
+        "acronym": null,
+        "slug": "gst-registration",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "registration",
+        "taxTypeId": "CMN000167",
+        "governmentLevel": "central_state",
+        "jurisdiction": {
+          "country": "IN",
+          "state": null,
+          "districts": []
+        },
+        "administeredByIds": [],
+        "appliesToMsme": true,
+        "evidencedInSchemes": [
+          "SCH000059",
+          "SCH000101",
+          "SCH000197"
+        ],
+        "evidencedInSchemesCount": 3,
+        "evidencedDocuments": [
+          {
+            "schemeId": "SCH000059",
+            "documentId": "SCH000059-DOC007",
+            "documentName": "GST Registration",
+            "mandatory": "required"
+          },
+          {
+            "schemeId": "SCH000101",
+            "documentId": "SCH000101-DOC002",
+            "documentName": "GST Number",
+            "mandatory": "conditional"
+          },
+          {
+            "schemeId": "SCH000197",
+            "documentId": "SCH000197-DOC003",
+            "documentName": "GSTIN",
+            "mandatory": "conditional"
+          }
+        ],
+        "evidencedDocumentCount": 3,
+        "matchTerms": [
+          "gst registration",
+          "gst number",
+          "gstin"
+        ],
+        "rates": [],
+        "thresholds": [],
+        "dueDates": [],
+        "deductions": [],
+        "forms": [],
+        "filingFrequency": null,
+        "penalties": [],
+        "exemptions": [],
+        "guidance": null,
+        "faqs": [],
+        "description": null
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "CMN000167",
+            "entityType": "common_term",
+            "relationType": "classified_as",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000059",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000101",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000197",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "GST Registration",
+          "description": null,
+          "guidance": null
+        },
+        "ta": {
+          "name": "GST பதிவு",
+          "description": null,
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "description": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "gst",
+            "registration"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "gst number",
+            "gst registration",
+            "gstin"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000167",
+            "code": "gst_reg",
+            "termType": "registration_type",
+            "matchedOn": "gst registration"
+          }
+        ],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": null,
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "low",
+        "researchStatus": null,
+        "notes": "Anchor record only. The uploaded sources contain no tax rates, thresholds, due dates or guidance; none were generated.",
+        "missingFields": [
+          {
+            "field": "content.rates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.thresholds",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.dueDates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.deductions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.forms",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.filingFrequency",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.penalties",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.exemptions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "tax-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "dictionary",
+            "engine": "mss-i18n-dictionary-1.0.0",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "dictionary"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 0,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Anchored on common_catalog term CMN000167 (rule X1)",
+          "Scheme links derived from explicit term matches in required documents and eligibility text (rule X2)",
+          "No tax rate, threshold, due date or guidance generated (rule X3)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TAX000010",
+        "entityType": "tax_provision",
+        "code": "PAN",
+        "legacyCodes": [],
+        "name": "PAN",
+        "shortName": null,
+        "acronym": null,
+        "slug": "pan",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "registration",
+        "taxTypeId": "CMN000169",
+        "governmentLevel": "central",
+        "jurisdiction": {
+          "country": "IN",
+          "state": null,
+          "districts": []
+        },
+        "administeredByIds": [],
+        "appliesToMsme": true,
+        "evidencedInSchemes": [
+          "SCH000051",
+          "SCH000052",
+          "SCH000053",
+          "SCH000054",
+          "SCH000056",
+          "SCH000058",
+          "SCH000059",
+          "SCH000063",
+          "SCH000071",
+          "SCH000085",
+          "SCH000101",
+          "SCH000176",
+          "SCH000197",
+          "SCH000201",
+          "SCH000202",
+          "SCH000203",
+          "SCH000204",
+          "SCH000205",
+          "SCH000206",
+          "SCH000207",
+          "SCH000208",
+          "SCH000209",
+          "SCH000210"
+        ],
+        "evidencedInSchemesCount": 23,
+        "evidencedDocuments": [
+          {
+            "schemeId": "SCH000051",
+            "documentId": "SCH000051-DOC001",
+            "documentName": "Exact current application document checklist pending verification",
+            "mandatory": "unknown"
+          },
+          {
+            "schemeId": "SCH000052",
+            "documentId": "SCH000052-DOC001",
+            "documentName": "Exact current application document checklist pending verification",
+            "mandatory": "unknown"
+          },
+          {
+            "schemeId": "SCH000053",
+            "documentId": "SCH000053-DOC001",
+            "documentName": "Exact current application document checklist pending verification",
+            "mandatory": "unknown"
+          },
+          {
+            "schemeId": "SCH000054",
+            "documentId": "SCH000054-DOC001",
+            "documentName": "Exact current application document checklist pending verification",
+            "mandatory": "unknown"
+          },
+          {
+            "schemeId": "SCH000056",
+            "documentId": "SCH000056-DOC001",
+            "documentName": "Exact current application document checklist pending verification",
+            "mandatory": "unknown"
+          },
+          {
+            "schemeId": "SCH000058",
+            "documentId": "SCH000058-DOC001",
+            "documentName": "Exact current application document checklist pending verification",
+            "mandatory": "unknown"
+          },
+          {
+            "schemeId": "SCH000059",
+            "documentId": "SCH000059-DOC002",
+            "documentName": "PAN of directors/proprietor/partners",
+            "mandatory": "required"
+          },
+          {
+            "schemeId": "SCH000059",
+            "documentId": "SCH000059-DOC006",
+            "documentName": "Firm PAN",
+            "mandatory": "required"
+          },
+          {
+            "schemeId": "SCH000063",
+            "documentId": "SCH000063-DOC002",
+            "documentName": "PAN / authorised-person identity details",
+            "mandatory": "required"
+          },
+          {
+            "schemeId": "SCH000071",
+            "documentId": "SCH000071-DOC003",
+            "documentName": "PAN",
+            "mandatory": "required"
+          },
+          {
+            "schemeId": "SCH000085",
+            "documentId": "SCH000085-DOC003",
+            "documentName": "PAN Card",
+            "mandatory": "unknown"
+          },
+          {
+            "schemeId": "SCH000101",
+            "documentId": "SCH000101-DOC004",
+            "documentName": "PAN",
+            "mandatory": "conditional"
+          },
+          {
+            "schemeId": "SCH000176",
+            "documentId": "SCH000176-DOC004",
+            "documentName": "PAN and Aadhaar / permitted KYC documents",
+            "mandatory": "conditional"
+          },
+          {
+            "schemeId": "SCH000197",
+            "documentId": "SCH000197-DOC002",
+            "documentName": "PAN",
+            "mandatory": "conditional"
+          },
+          {
+            "schemeId": "SCH000197",
+            "documentId": "SCH000197-DOC003",
+            "documentName": "GSTIN",
+            "mandatory": "conditional"
+          },
+          {
+            "schemeId": "SCH000201",
+            "documentId": "SCH000201-DOC001",
+            "documentName": "Exact current application document checklist pending verification",
+            "mandatory": "unknown"
+          },
+          {
+            "schemeId": "SCH000202",
+            "documentId": "SCH000202-DOC001",
+            "documentName": "Exact current application document checklist pending verification",
+            "mandatory": "unknown"
+          },
+          {
+            "schemeId": "SCH000203",
+            "documentId": "SCH000203-DOC001",
+            "documentName": "Exact current application document checklist pending verification",
+            "mandatory": "unknown"
+          },
+          {
+            "schemeId": "SCH000204",
+            "documentId": "SCH000204-DOC001",
+            "documentName": "Exact current application document checklist pending verification",
+            "mandatory": "unknown"
+          },
+          {
+            "schemeId": "SCH000205",
+            "documentId": "SCH000205-DOC001",
+            "documentName": "Exact current application document checklist pending verification",
+            "mandatory": "unknown"
+          },
+          {
+            "schemeId": "SCH000206",
+            "documentId": "SCH000206-DOC001",
+            "documentName": "Exact current application document checklist pending verification",
+            "mandatory": "unknown"
+          },
+          {
+            "schemeId": "SCH000207",
+            "documentId": "SCH000207-DOC001",
+            "documentName": "Exact current application document checklist pending verification",
+            "mandatory": "unknown"
+          },
+          {
+            "schemeId": "SCH000208",
+            "documentId": "SCH000208-DOC001",
+            "documentName": "Exact current application document checklist pending verification",
+            "mandatory": "unknown"
+          },
+          {
+            "schemeId": "SCH000209",
+            "documentId": "SCH000209-DOC001",
+            "documentName": "Exact current application document checklist pending verification",
+            "mandatory": "unknown"
+          },
+          {
+            "schemeId": "SCH000210",
+            "documentId": "SCH000210-DOC001",
+            "documentName": "Exact current application document checklist pending verification",
+            "mandatory": "unknown"
+          }
+        ],
+        "evidencedDocumentCount": 25,
+        "matchTerms": [
+          "pan"
+        ],
+        "rates": [],
+        "thresholds": [],
+        "dueDates": [],
+        "deductions": [],
+        "forms": [],
+        "filingFrequency": null,
+        "penalties": [],
+        "exemptions": [],
+        "guidance": null,
+        "faqs": [],
+        "description": null
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "CMN000169",
+            "entityType": "common_term",
+            "relationType": "classified_as",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000051",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000052",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000053",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000054",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000056",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000058",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000059",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000063",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000071",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000085",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000101",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000176",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000197",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000201",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000202",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000203",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000204",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000205",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000206",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000207",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000208",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000209",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000210",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "PAN",
+          "description": null,
+          "guidance": null
+        },
+        "ta": {
+          "name": "PAN (நிரந்தரக் கணக்கு எண்)",
+          "description": null,
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "description": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "pan"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "pan"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "TAX000011",
+            "entityType": "tax_provision",
+            "name": "TAN",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "level:central",
+              "provisionKind:registration"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": null,
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "low",
+        "researchStatus": null,
+        "notes": "Anchor record only. The uploaded sources contain no tax rates, thresholds, due dates or guidance; none were generated.",
+        "missingFields": [
+          {
+            "field": "content.rates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.thresholds",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.dueDates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.deductions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.forms",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.filingFrequency",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.penalties",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.exemptions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "tax-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 1,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Anchored on common_catalog term CMN000169 (rule X1)",
+          "Scheme links derived from explicit term matches in required documents and eligibility text (rule X2)",
+          "No tax rate, threshold, due date or guidance generated (rule X3)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TAX000011",
+        "entityType": "tax_provision",
+        "code": "TAN",
+        "legacyCodes": [],
+        "name": "TAN",
+        "shortName": null,
+        "acronym": null,
+        "slug": "tan",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "registration",
+        "taxTypeId": "CMN000170",
+        "governmentLevel": "central",
+        "jurisdiction": {
+          "country": "IN",
+          "state": null,
+          "districts": []
+        },
+        "administeredByIds": [],
+        "appliesToMsme": true,
+        "evidencedInSchemes": [],
+        "evidencedInSchemesCount": 0,
+        "evidencedDocuments": [],
+        "evidencedDocumentCount": 0,
+        "matchTerms": [
+          "tan"
+        ],
+        "rates": [],
+        "thresholds": [],
+        "dueDates": [],
+        "deductions": [],
+        "forms": [],
+        "filingFrequency": null,
+        "penalties": [],
+        "exemptions": [],
+        "guidance": null,
+        "faqs": [],
+        "description": null
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "CMN000170",
+            "entityType": "common_term",
+            "relationType": "classified_as",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "TAN",
+          "description": null,
+          "guidance": null
+        },
+        "ta": {
+          "name": "TAN (வரி கழிவுக் கணக்கு எண்)",
+          "description": null,
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "description": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "tan"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "tan"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "TAX000010",
+            "entityType": "tax_provision",
+            "name": "PAN",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "level:central",
+              "provisionKind:registration"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": null,
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "low",
+        "researchStatus": null,
+        "notes": "Anchor record only. The uploaded sources contain no tax rates, thresholds, due dates or guidance; none were generated.",
+        "missingFields": [
+          {
+            "field": "content.rates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.thresholds",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.dueDates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.deductions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.forms",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.filingFrequency",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.penalties",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.exemptions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.evidencedInSchemes",
+            "reason": "No scheme in this release evidences this provision"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "tax-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 1,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Anchored on common_catalog term CMN000170 (rule X1)",
+          "Scheme links derived from explicit term matches in required documents and eligibility text (rule X2)",
+          "No tax rate, threshold, due date or guidance generated (rule X3)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TAX000012",
+        "entityType": "tax_provision",
+        "code": "GST_RETURN",
+        "legacyCodes": [],
+        "name": "GST Return Filing",
+        "shortName": null,
+        "acronym": null,
+        "slug": "gst-return-filing",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "compliance",
+        "taxTypeId": "CMN000175",
+        "governmentLevel": "central_state",
+        "jurisdiction": {
+          "country": "IN",
+          "state": null,
+          "districts": []
+        },
+        "administeredByIds": [],
+        "appliesToMsme": true,
+        "evidencedInSchemes": [],
+        "evidencedInSchemesCount": 0,
+        "evidencedDocuments": [],
+        "evidencedDocumentCount": 0,
+        "matchTerms": [
+          "gst return",
+          "gstr"
+        ],
+        "rates": [],
+        "thresholds": [],
+        "dueDates": [],
+        "deductions": [],
+        "forms": [],
+        "filingFrequency": null,
+        "penalties": [],
+        "exemptions": [],
+        "guidance": null,
+        "faqs": [],
+        "description": null
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "CMN000175",
+            "entityType": "common_term",
+            "relationType": "classified_as",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "GST Return Filing",
+          "description": null,
+          "guidance": null
+        },
+        "ta": {
+          "name": "GST வரி தாக்கல்",
+          "description": null,
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "description": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "filing",
+            "gst",
+            "return"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "gst return",
+            "gstr"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": null,
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "low",
+        "researchStatus": null,
+        "notes": "Anchor record only. The uploaded sources contain no tax rates, thresholds, due dates or guidance; none were generated.",
+        "missingFields": [
+          {
+            "field": "content.rates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.thresholds",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.dueDates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.deductions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.forms",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.filingFrequency",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.penalties",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.exemptions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.evidencedInSchemes",
+            "reason": "No scheme in this release evidences this provision"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "tax-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "dictionary",
+            "engine": "mss-i18n-dictionary-1.0.0",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "dictionary"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 0,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Anchored on common_catalog term CMN000175 (rule X1)",
+          "Scheme links derived from explicit term matches in required documents and eligibility text (rule X2)",
+          "No tax rate, threshold, due date or guidance generated (rule X3)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TAX000013",
+        "entityType": "tax_provision",
+        "code": "INCOME_TAX_RETURN",
+        "legacyCodes": [],
+        "name": "Income Tax Return",
+        "shortName": null,
+        "acronym": null,
+        "slug": "income-tax-return",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "compliance",
+        "taxTypeId": "CMN000176",
+        "governmentLevel": "central",
+        "jurisdiction": {
+          "country": "IN",
+          "state": null,
+          "districts": []
+        },
+        "administeredByIds": [],
+        "appliesToMsme": true,
+        "evidencedInSchemes": [
+          "SCH000059",
+          "SCH000157",
+          "SCH000158",
+          "SCH000159",
+          "SCH000160",
+          "SCH000165",
+          "SCH000216"
+        ],
+        "evidencedInSchemesCount": 7,
+        "evidencedDocuments": [
+          {
+            "schemeId": "SCH000059",
+            "documentId": "SCH000059-DOC005",
+            "documentName": "ITR - last 3 financial years",
+            "mandatory": "required"
+          },
+          {
+            "schemeId": "SCH000157",
+            "documentId": "SCH000157-DOC004",
+            "documentName": "Financial statements / bank statements / ITR",
+            "mandatory": "conditional"
+          },
+          {
+            "schemeId": "SCH000158",
+            "documentId": "SCH000158-DOC004",
+            "documentName": "Financial statements / bank statements / ITR",
+            "mandatory": "conditional"
+          },
+          {
+            "schemeId": "SCH000159",
+            "documentId": "SCH000159-DOC004",
+            "documentName": "Financial statements / bank statements / ITR",
+            "mandatory": "conditional"
+          },
+          {
+            "schemeId": "SCH000160",
+            "documentId": "SCH000160-DOC004",
+            "documentName": "Financial statements / bank statements / ITR",
+            "mandatory": "conditional"
+          },
+          {
+            "schemeId": "SCH000165",
+            "documentId": "SCH000165-DOC004",
+            "documentName": "Financial statements / ITR / bank statements",
+            "mandatory": "conditional"
+          },
+          {
+            "schemeId": "SCH000216",
+            "documentId": "SCH000216-DOC003",
+            "documentName": "Financial statements / ITR / bank statements",
+            "mandatory": "conditional"
+          }
+        ],
+        "evidencedDocumentCount": 7,
+        "matchTerms": [
+          "income tax return",
+          "itr"
+        ],
+        "rates": [],
+        "thresholds": [],
+        "dueDates": [],
+        "deductions": [],
+        "forms": [],
+        "filingFrequency": null,
+        "penalties": [],
+        "exemptions": [],
+        "guidance": null,
+        "faqs": [],
+        "description": null
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "CMN000176",
+            "entityType": "common_term",
+            "relationType": "classified_as",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000059",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000157",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000158",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000159",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000160",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000165",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "SCH000216",
+            "entityType": "scheme",
+            "relationType": "required_by",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "Income Tax Return",
+          "description": null,
+          "guidance": null
+        },
+        "ta": {
+          "name": "வருமான வரி தாக்கல்",
+          "description": null,
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "description": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "income",
+            "return",
+            "tax"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "income tax return",
+            "itr"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000135",
+            "code": "income_tax",
+            "termType": "tax_type",
+            "matchedOn": "income tax"
+          }
+        ],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": null,
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "low",
+        "researchStatus": null,
+        "notes": "Anchor record only. The uploaded sources contain no tax rates, thresholds, due dates or guidance; none were generated.",
+        "missingFields": [
+          {
+            "field": "content.rates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.thresholds",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.dueDates",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.deductions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.forms",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.filingFrequency",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.penalties",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.exemptions",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "No source in the uploaded documents supplies this; not generated"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "tax-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "dictionary",
+            "engine": "mss-i18n-dictionary-1.0.0",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "dictionary"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 0,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Anchored on common_catalog term CMN000176 (rule X1)",
+          "Scheme links derived from explicit term matches in required documents and eligibility text (rule X2)",
+          "No tax rate, threshold, due date or guidance generated (rule X3)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    }
+  ]
+}

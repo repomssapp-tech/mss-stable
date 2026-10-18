@@ -3,7 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/app_state_provider.dart';
+import '../../l10n/app_localizations.dart';
 import '../../l10n/l10n.dart';
+import '../profile/profile_value_formatters.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/app_theme.dart';
 import '../../widgets/common/app_toast.dart';
@@ -107,7 +109,11 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       _dobController = TextEditingController();
       _ageController = TextEditingController();
     }
-    _selectedGender = profile.profileCompleted ? profile.gender : '';
+    // Saved labels may be in another language than the one now selected.
+    final labels = lookupAppLocalizations(Locale(provider.selectedLanguage));
+    _selectedGender = profile.profileCompleted
+        ? ProfileValueFormatters.inLanguageOf(profile.gender, labels)
+        : '';
 
     // 2. Initialize Step 2 controllers
     _addressController = TextEditingController(
@@ -133,10 +139,16 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
 
     // 4. Initialize Step 4 eligibility
     if (profile.profileCompleted) {
-      _selectedEducation = profile.qualification.isNotEmpty
-          ? profile.qualification
-          : profile.educationLevel;
-      _selectedCommunity = profile.community;
+      _selectedEducation = ProfileValueFormatters.inLanguageOf(
+        profile.qualification.isNotEmpty
+            ? profile.qualification
+            : profile.educationLevel,
+        labels,
+      );
+      _selectedCommunity = ProfileValueFormatters.inLanguageOf(
+        profile.community,
+        labels,
+      );
       _selectedIncome = profile.annualIncome;
       _isDifferentlyAbled = profile.disability.isNotEmpty &&
           profile.disability.toLowerCase() != 'no' &&

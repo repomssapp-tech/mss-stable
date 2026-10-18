@@ -1,0 +1,3500 @@
+{
+  "metadata": {
+    "catalogName": "treds",
+    "schemaVersion": "1.0.0",
+    "catalogVersion": "1.33.0-alpha",
+    "generatedAt": "2026-08-04T00:00:00Z",
+    "language": "en",
+    "recordCount": 16,
+    "checksum": "sha256:3b84263778d280097a5fa882105279d3de4a9ae51a0505d89da9f2f0cdb8e126"
+  },
+  "data": [
+    {
+      "identity": {
+        "id": "TDS000001",
+        "entityType": "treds_platform",
+        "code": "RXIL",
+        "legacyCodes": [],
+        "name": "Receivables Exchange of India Limited",
+        "shortName": "RXIL",
+        "acronym": "RXIL",
+        "slug": "receivables-exchange-of-india-limited",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "entryKind": "platform",
+        "regulator": "RBI",
+        "summary": "Receivables Exchange of India Limited is one of the three RBI-regulated TReDS platforms.",
+        "attributes": {
+          "isTredsPlatform": true
+        },
+        "sourceDocument": "TReDS_Policy_Note.md",
+        "sourceSection": "1. Introduction & Current Challenges",
+        "website": null,
+        "onboardingUrl": null,
+        "fees": [],
+        "contacts": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Receivables Exchange of India Limited",
+          "summary": "Receivables Exchange of India Limited is one of the three RBI-regulated TReDS platforms.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "ரிசீவபிள்ஸ் எக்ஸ்சேஞ்ச் ஆஃப் இந்தியா லிமிடெட் (RXIL)",
+          "summary": "Receivables Exchange of India Limited, RBI-ஒழுங்குமுறைப்படுத்தும் மூன்று TReDS தளங்களில் ஒன்றாகும்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "exchange",
+            "india",
+            "limited",
+            "receivables"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "RXIL"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Receivables Exchange of India Limited is one of the three RBI-regulated TReDS platforms.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "TDS000002",
+            "entityType": "treds_platform",
+            "name": "M1xchange",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:platform",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000003",
+            "entityType": "treds_platform",
+            "name": "Invoicemart",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:platform",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from TReDS_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from TReDS_Policy_Note.md, section: 1. Introduction & Current Challenges. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.website",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.onboardingUrl",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.fees",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.contacts",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 4
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 3,
+            "fieldsContextual": 3,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from TReDS_Policy_Note.md — 1. Introduction & Current Challenges (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TDS000002",
+        "entityType": "treds_platform",
+        "code": "M1xchange",
+        "legacyCodes": [],
+        "name": "M1xchange",
+        "shortName": "M1xchange",
+        "acronym": "M1xchange",
+        "slug": "m1xchange",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "entryKind": "platform",
+        "regulator": "RBI",
+        "summary": "M1xchange is one of the three RBI-regulated TReDS platforms.",
+        "attributes": {
+          "isTredsPlatform": true
+        },
+        "sourceDocument": "TReDS_Policy_Note.md",
+        "sourceSection": "1. Introduction & Current Challenges",
+        "website": null,
+        "onboardingUrl": null,
+        "fees": [],
+        "contacts": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "M1xchange",
+          "summary": "M1xchange is one of the three RBI-regulated TReDS platforms.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "எம்1எக்ஸ்சேஞ்ச் (M1xchange)",
+          "summary": "M1xchange, RBI-ஒழுங்குமுறைப்படுத்தும் மூன்று TReDS தளங்களில் ஒன்றாகும்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "xchange"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "M1xchange"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "M1xchange is one of the three RBI-regulated TReDS platforms.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "TDS000001",
+            "entityType": "treds_platform",
+            "name": "Receivables Exchange of India Limited",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:platform",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000003",
+            "entityType": "treds_platform",
+            "name": "Invoicemart",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:platform",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from TReDS_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from TReDS_Policy_Note.md, section: 1. Introduction & Current Challenges. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.website",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.onboardingUrl",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.fees",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.contacts",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 4
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 3,
+            "fieldsContextual": 3,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from TReDS_Policy_Note.md — 1. Introduction & Current Challenges (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TDS000003",
+        "entityType": "treds_platform",
+        "code": "Invoicemart",
+        "legacyCodes": [],
+        "name": "Invoicemart",
+        "shortName": "Invoicemart",
+        "acronym": "Invoicemart",
+        "slug": "invoicemart",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "entryKind": "platform",
+        "regulator": "RBI",
+        "summary": "Invoicemart is one of the three RBI-regulated TReDS platforms.",
+        "attributes": {
+          "isTredsPlatform": true
+        },
+        "sourceDocument": "TReDS_Policy_Note.md",
+        "sourceSection": "1. Introduction & Current Challenges",
+        "website": null,
+        "onboardingUrl": null,
+        "fees": [],
+        "contacts": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Invoicemart",
+          "summary": "Invoicemart is one of the three RBI-regulated TReDS platforms.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "இன்வாய்ஸ்மார்ட் (Invoicemart)",
+          "summary": "Invoicemart, RBI-ஒழுங்குமுறைப்படுத்தும் மூன்று TReDS தளங்களில் ஒன்றாகும்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "invoicemart"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "Invoicemart"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Invoicemart is one of the three RBI-regulated TReDS platforms.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "TDS000001",
+            "entityType": "treds_platform",
+            "name": "Receivables Exchange of India Limited",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:platform",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000002",
+            "entityType": "treds_platform",
+            "name": "M1xchange",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:platform",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from TReDS_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from TReDS_Policy_Note.md, section: 1. Introduction & Current Challenges. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.website",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.onboardingUrl",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.fees",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.contacts",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 4
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 3,
+            "fieldsContextual": 3,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from TReDS_Policy_Note.md — 1. Introduction & Current Challenges (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TDS000004",
+        "entityType": "treds_platform",
+        "code": "TReDS",
+        "legacyCodes": [],
+        "name": "Trade Receivables Discounting System",
+        "shortName": "TReDS",
+        "acronym": "TReDS",
+        "slug": "trade-receivables-discounting-system",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "entryKind": "framework",
+        "regulator": "RBI",
+        "summary": "TReDS is an RBI-regulated electronic platform that enables MSMEs to discount invoices raised on large buyers, securing rapid working-capital liquidity through competitive financier bidding. Operating since 2017 across three platforms—RXIL, M1xchange, and Invoicemart.",
+        "attributes": {
+          "regulator": "RBI",
+          "operatingSince": 2017,
+          "platformCount": 3,
+          "platforms": [
+            "RXIL",
+            "M1xchange",
+            "Invoicemart"
+          ],
+          "mechanism": "competitive financier bidding on buyer-accepted invoices"
+        },
+        "sourceDocument": "TReDS_Policy_Note.md",
+        "sourceSection": "1. Introduction & Current Challenges",
+        "website": null,
+        "onboardingUrl": null,
+        "fees": [],
+        "contacts": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Trade Receivables Discounting System",
+          "summary": "TReDS is an RBI-regulated electronic platform that enables MSMEs to discount invoices raised on large buyers, securing rapid working-capital liquidity through competitive financier bidding. Operating since 2017 across three platforms—RXIL, M1xchange, and Invoicemart.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "வர்த்தக பெறத்தக்கவை தள்ளுபடி முறைமை (TReDS)",
+          "summary": "TReDS என்பது, பெரிய வாங்குபவர்கள் மீது எழுப்பப்படும் விலைப்பட்டியல்களை MSME-கள் தள்ளுபடி செய்ய உதவும் RBI-ஒழுங்குமுறைப்படுத்தும் மின்னணு தளமாகும்; போட்டி நிதியளிப்பாளர் ஏலம் மூலம் விரைவான செயல்பாட்டு மூலதன பணப்புழக்கத்தை உறுதி செய்கிறது. 2017 முதல் RXIL, M1xchange, மற்றும் Invoicemart ஆகிய மூன்று தளங்களில் செயல்பட்டு வருகிறது.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "discounting",
+            "receivables",
+            "system",
+            "trade"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "TReDS"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "TReDS is an RBI-regulated electronic platform that enables MSMEs to discount invoices raised on large buyers, securing rapid working-capital liquidity through competitive financier bidding. Operating since 2017 across three platforms—RXIL, M1xchange, and Invoicemart.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "TDS000008",
+            "entityType": "treds_platform",
+            "name": "RBI interoperability framework",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:framework",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from TReDS_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from TReDS_Policy_Note.md, section: 1. Introduction & Current Challenges. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.website",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.fees",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.contacts",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from TReDS_Policy_Note.md — 1. Introduction & Current Challenges (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TDS000005",
+        "entityType": "treds_platform",
+        "code": null,
+        "legacyCodes": [],
+        "name": "TReDS adoption and throughput",
+        "shortName": null,
+        "acronym": null,
+        "slug": "treds-adoption-and-throughput",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "entryKind": "adoption_metric",
+        "regulator": null,
+        "summary": "Of 7.3+ crore Udyam-registered MSMEs, fewer than 1% are active TReDS sellers as of 2025–26. Cumulative TReDS throughput crossed ₹6.5 lakh crore, yet annual volumes (~₹2.5 lakh crore) remain a fraction of the estimated ₹10–12 lakh crore receivables-financing potential.",
+        "attributes": {
+          "udyamRegisteredText": "7.3+ crore",
+          "activeSellerShareText": "fewer than 1%",
+          "cumulativeThroughputText": "₹6.5 lakh crore",
+          "annualVolumeText": "~₹2.5 lakh crore",
+          "potentialText": "₹10–12 lakh crore",
+          "asOf": "2025–26"
+        },
+        "sourceDocument": "TReDS_Policy_Note.md",
+        "sourceSection": "1. Introduction & Current Challenges",
+        "website": null,
+        "onboardingUrl": null,
+        "fees": [],
+        "contacts": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "TReDS adoption and throughput",
+          "summary": "Of 7.3+ crore Udyam-registered MSMEs, fewer than 1% are active TReDS sellers as of 2025–26. Cumulative TReDS throughput crossed ₹6.5 lakh crore, yet annual volumes (~₹2.5 lakh crore) remain a fraction of the estimated ₹10–12 lakh crore receivables-financing potential.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "TReDS ஏற்றுக்கொள்ளல் மற்றும் செயல்திறன்",
+          "summary": "7.3+ கோடி Udyam-பதிவு செய்யப்பட்ட MSME-களில், 2025-26 நிலவரப்படி 1%-க்கும் குறைவானவையே செயலில் உள்ள TReDS விற்பனையாளர்கள். ஒட்டுமொத்த TReDS செயல்திறன் ₹6.5 lakh crore-ஐ கடந்துவிட்டது, எனினும் ஆண்டு அளவுகள் (~₹2.5 lakh crore) மதிப்பிடப்பட்ட ₹10-12 lakh crore பெறத்தக்கவை-நிதியளிப்பு திறனில் ஒரு பகுதியாகவே உள்ளது.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "adoption",
+            "throughput",
+            "treds"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Of 7.3+ crore Udyam-registered MSMEs, fewer than 1% are active TReDS sellers as of 2025–26. Cumulative TReDS throughput crossed ₹6.5 lakh crore, yet annual volumes (~₹2.5 lakh crore) remain a fraction of the estimated ₹10–12 lakh crore receivables-financing potential.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000163",
+            "code": "udyam",
+            "termType": "registration_type",
+            "matchedOn": "udyam"
+          }
+        ],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from TReDS_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from TReDS_Policy_Note.md, section: 1. Introduction & Current Challenges. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.website",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.fees",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.contacts",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from TReDS_Policy_Note.md — 1. Introduction & Current Challenges (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TDS000006",
+        "entityType": "treds_platform",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Structural barriers to small-MSME participation",
+        "shortName": null,
+        "acronym": null,
+        "slug": "structural-barriers-to-small-msme-participation",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "entryKind": "barrier",
+        "regulator": null,
+        "summary": "Credit-rating and KYC requirements, financier risk aversion toward unrated micro units, slow buyer-side invoice acceptance, fragmentation across platforms, weak digital literacy, and high relative transaction costs on small-ticket invoices.",
+        "attributes": {
+          "barriers": [
+            "credit-rating requirements",
+            "KYC requirements",
+            "financier risk aversion toward unrated micro units",
+            "slow buyer-side invoice acceptance",
+            "fragmentation across platforms",
+            "weak digital literacy",
+            "high relative transaction costs on small-ticket invoices"
+          ]
+        },
+        "sourceDocument": "TReDS_Policy_Note.md",
+        "sourceSection": "1. Introduction & Current Challenges",
+        "website": null,
+        "onboardingUrl": null,
+        "fees": [],
+        "contacts": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Structural barriers to small-MSME participation",
+          "summary": "Credit-rating and KYC requirements, financier risk aversion toward unrated micro units, slow buyer-side invoice acceptance, fragmentation across platforms, weak digital literacy, and high relative transaction costs on small-ticket invoices.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "சிறு-MSME பங்கேற்புக்கான கட்டமைப்பு தடைகள்",
+          "summary": "கடன்-தரவரிசை மற்றும் KYC தேவைகள், தரவரிசையிடப்படாத குறு அலகுகள் மீதான நிதியளிப்பாளர் அபாய தவிர்ப்பு, வாங்குபவர் பக்க விலைப்பட்டியல் ஏற்றுக்கொள்ளலின் மெதுவான வேகம், தளங்கள் முழுவதும் துண்டாடல், பலவீனமான டிஜிட்டல் அறிவு, மற்றும் சிறிய-தொகை விலைப்பட்டியல்களுக்கான உயர்ந்த ஒப்பீட்டு பரிவர்த்தனை செலவுகள்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "barriers",
+            "msme",
+            "participation",
+            "small",
+            "structural"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Credit-rating and KYC requirements, financier risk aversion toward unrated micro units, slow buyer-side invoice acceptance, fragmentation across platforms, weak digital literacy, and high relative transaction costs on small-ticket invoices.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000075",
+            "code": "micro",
+            "termType": "enterprise_type",
+            "matchedOn": "micro"
+          },
+          {
+            "termId": "CMN000076",
+            "code": "small",
+            "termType": "enterprise_type",
+            "matchedOn": "small"
+          }
+        ],
+        "relatedEntities": [
+          {
+            "entityId": "TDS000007",
+            "entityType": "treds_platform",
+            "name": "Buyer reluctance and mandate under-compliance",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:barrier",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from TReDS_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from TReDS_Policy_Note.md, section: 1. Introduction & Current Challenges. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.website",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.fees",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.contacts",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from TReDS_Policy_Note.md — 1. Introduction & Current Challenges (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TDS000007",
+        "entityType": "treds_platform",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Buyer reluctance and mandate under-compliance",
+        "shortName": null,
+        "acronym": null,
+        "slug": "buyer-reluctance-and-mandate-under-compliance",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "entryKind": "barrier",
+        "regulator": null,
+        "summary": "Despite the mandate for companies above ₹250 crore turnover and CPSEs, active large-buyer participation lags, delaying invoice acceptance beyond viable discounting windows.",
+        "attributes": {
+          "mandateThresholdText": "companies above ₹250 crore turnover",
+          "mandateThresholdInr": 2500000000,
+          "alsoCovered": [
+            "CPSEs"
+          ]
+        },
+        "sourceDocument": "TReDS_Policy_Note.md",
+        "sourceSection": "1. Introduction & Current Challenges",
+        "website": null,
+        "onboardingUrl": null,
+        "fees": [],
+        "contacts": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Buyer reluctance and mandate under-compliance",
+          "summary": "Despite the mandate for companies above ₹250 crore turnover and CPSEs, active large-buyer participation lags, delaying invoice acceptance beyond viable discounting windows.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "வாங்குபவர் தயக்கம் மற்றும் கட்டாய விதி குறை-இணக்கம்",
+          "summary": "₹250 crore-க்கும் அதிகமான வருவாய் கொண்ட நிறுவனங்கள் மற்றும் CPSE-களுக்கான கட்டாய விதி இருந்தபோதிலும், செயலில் உள்ள பெரிய-வாங்குபவர் பங்கேற்பு பின்தங்கியுள்ளது, இது சாத்தியமான தள்ளுபடி காலப்பகுதியை மீறி விலைப்பட்டியல் ஏற்றுக்கொள்ளலை தாமதப்படுத்துகிறது.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "buyer",
+            "compliance",
+            "mandate",
+            "reluctance",
+            "under"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Despite the mandate for companies above ₹250 crore turnover and CPSEs, active large-buyer participation lags, delaying invoice acceptance beyond viable discounting windows.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "TDS000006",
+            "entityType": "treds_platform",
+            "name": "Structural barriers to small-MSME participation",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:barrier",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from TReDS_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from TReDS_Policy_Note.md, section: 1. Introduction & Current Challenges. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.website",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.fees",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.contacts",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from TReDS_Policy_Note.md — 1. Introduction & Current Challenges (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TDS000008",
+        "entityType": "treds_platform",
+        "code": null,
+        "legacyCodes": [],
+        "name": "RBI interoperability framework",
+        "shortName": null,
+        "acronym": null,
+        "slug": "rbi-interoperability-framework",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "entryKind": "framework",
+        "regulator": "RBI",
+        "summary": "RBI's interoperability framework allows an invoice uploaded on one TReDS platform to be visible to financiers on all platforms, breaking platform-level lock-in. For small MSMEs this means wider financier access, sharper price discovery, lower discount rates through real competition, and reduced dependency on a single platform's financier base.",
+        "attributes": {
+          "regulator": "RBI",
+          "benefits": [
+            "wider financier access",
+            "sharper price discovery",
+            "lower discount rates",
+            "reduced platform dependency"
+          ]
+        },
+        "sourceDocument": "TReDS_Policy_Note.md",
+        "sourceSection": "2. Role of Interoperability",
+        "website": null,
+        "onboardingUrl": null,
+        "fees": [],
+        "contacts": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "RBI interoperability framework",
+          "summary": "RBI's interoperability framework allows an invoice uploaded on one TReDS platform to be visible to financiers on all platforms, breaking platform-level lock-in. For small MSMEs this means wider financier access, sharper price discovery, lower discount rates through real competition, and reduced dependency on a single platform's financier base.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "RBI இயக்கூடுநிலைக் கட்டமைப்பு",
+          "summary": "RBI-யின் இயக்கூடுநிலைக் கட்டமைப்பு, ஒரு TReDS தளத்தில் பதிவேற்றப்பட்ட விலைப்பட்டியல் அனைத்து தளங்களிலும் உள்ள நிதியளிப்பாளர்களுக்குத் தெரியும்படி அனுமதிக்கிறது, இது தள-அளவிலான பூட்டு-இணைப்பை உடைக்கிறது. சிறு MSME-களுக்கு இது பரந்த நிதியளிப்பாளர் அணுகல், கூர்மையான விலை கண்டறிதல், உண்மையான போட்டி மூலம் குறைந்த தள்ளுபடி விகிதங்கள், மற்றும் ஒரே தளத்தின் நிதியளிப்பாளர் தளத்தை சார்ந்திருப்பதைக் குறைத்தல் ஆகியவற்றைக் குறிக்கிறது.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "framework",
+            "interoperability"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "RBI's interoperability framework allows an invoice uploaded on one TReDS platform to be visible to financiers on all platforms, breaking platform-level lock-in. For small MSMEs this means wider financier access, sharper price discovery, lower discount rates through real competition, and reduced dependency on a single platform's financier base.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000076",
+            "code": "small",
+            "termType": "enterprise_type",
+            "matchedOn": "small"
+          }
+        ],
+        "relatedEntities": [
+          {
+            "entityId": "TDS000004",
+            "entityType": "treds_platform",
+            "name": "Trade Receivables Discounting System",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:framework",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from TReDS_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from TReDS_Policy_Note.md, section: 2. Role of Interoperability. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.website",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.fees",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.contacts",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from TReDS_Policy_Note.md — 2. Role of Interoperability (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TDS000009",
+        "entityType": "treds_platform",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Simplify onboarding",
+        "shortName": null,
+        "acronym": null,
+        "slug": "simplify-onboarding",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "entryKind": "recommendation",
+        "regulator": null,
+        "summary": "Auto-onboard via Udyam-GST linkage; waive external credit ratings for micro enterprises with invoices below ₹50 lakh.",
+        "attributes": {
+          "ratingWaiverBelowText": "₹50 lakh",
+          "ratingWaiverBelowInr": 5000000,
+          "linkage": [
+            "Udyam",
+            "GST"
+          ]
+        },
+        "sourceDocument": "TReDS_Policy_Note.md",
+        "sourceSection": "3. Actionable Recommendations",
+        "website": null,
+        "onboardingUrl": null,
+        "fees": [],
+        "contacts": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Simplify onboarding",
+          "summary": "Auto-onboard via Udyam-GST linkage; waive external credit ratings for micro enterprises with invoices below ₹50 lakh.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "இணைப்பு செயல்முறையை எளிமையாக்குதல்",
+          "summary": "Udyam-GST இணைப்பு மூலம் தானாக இணைத்தல்; ₹50 lakh-க்குக் குறைவான விலைப்பட்டியல்கள் கொண்ட குறு நிறுவனங்களுக்கு வெளிப்புற கடன் தரவரிசைகளை தள்ளுபடி செய்தல்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "onboarding",
+            "simplify"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Auto-onboard via Udyam-GST linkage; waive external credit ratings for micro enterprises with invoices below ₹50 lakh.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000075",
+            "code": "micro",
+            "termType": "enterprise_type",
+            "matchedOn": "micro"
+          },
+          {
+            "termId": "CMN000163",
+            "code": "udyam",
+            "termType": "registration_type",
+            "matchedOn": "udyam"
+          }
+        ],
+        "relatedEntities": [
+          {
+            "entityId": "TDS000010",
+            "entityType": "treds_platform",
+            "name": "Operationalise interoperability fully",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000011",
+            "entityType": "treds_platform",
+            "name": "Deep system integration",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000012",
+            "entityType": "treds_platform",
+            "name": "Incentivise buyers and financiers",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000013",
+            "entityType": "treds_platform",
+            "name": "Technology upgrades",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000014",
+            "entityType": "treds_platform",
+            "name": "Awareness, hand-holding and fee relief",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from TReDS_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from TReDS_Policy_Note.md, section: 3. Actionable Recommendations. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.website",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.fees",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.contacts",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from TReDS_Policy_Note.md — 3. Actionable Recommendations (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TDS000010",
+        "entityType": "treds_platform",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Operationalise interoperability fully",
+        "shortName": null,
+        "acronym": null,
+        "slug": "operationalise-interoperability-fully",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "entryKind": "recommendation",
+        "regulator": null,
+        "summary": "Mandate cross-platform bidding within a defined timeline and publish unified MIS dashboards.",
+        "attributes": {},
+        "sourceDocument": "TReDS_Policy_Note.md",
+        "sourceSection": "3. Actionable Recommendations",
+        "website": null,
+        "onboardingUrl": null,
+        "fees": [],
+        "contacts": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Operationalise interoperability fully",
+          "summary": "Mandate cross-platform bidding within a defined timeline and publish unified MIS dashboards.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "இயக்கூடுநிலையை முழுமையாக செயல்படுத்துதல்",
+          "summary": "வரையறுக்கப்பட்ட காலக்கெடுவிற்குள் தள-குறுக்கு ஏலத்தை கட்டாயமாக்கி, ஒருங்கிணைந்த MIS டாஷ்போர்டுகளை வெளியிடவும்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "fully",
+            "interoperability",
+            "operationalise"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Mandate cross-platform bidding within a defined timeline and publish unified MIS dashboards.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "TDS000009",
+            "entityType": "treds_platform",
+            "name": "Simplify onboarding",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000011",
+            "entityType": "treds_platform",
+            "name": "Deep system integration",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000012",
+            "entityType": "treds_platform",
+            "name": "Incentivise buyers and financiers",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000013",
+            "entityType": "treds_platform",
+            "name": "Technology upgrades",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000014",
+            "entityType": "treds_platform",
+            "name": "Awareness, hand-holding and fee relief",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from TReDS_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from TReDS_Policy_Note.md, section: 3. Actionable Recommendations. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.website",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.fees",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.contacts",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from TReDS_Policy_Note.md — 3. Actionable Recommendations (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TDS000011",
+        "entityType": "treds_platform",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Deep system integration",
+        "shortName": null,
+        "acronym": null,
+        "slug": "deep-system-integration",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "entryKind": "recommendation",
+        "regulator": null,
+        "summary": "Connect TReDS with Udyam, GSTN, GeM, PFMS, and Account Aggregator stacks for one-click invoice flow and verification.",
+        "attributes": {
+          "systems": [
+            "Udyam",
+            "GSTN",
+            "GeM",
+            "PFMS",
+            "Account Aggregator"
+          ]
+        },
+        "sourceDocument": "TReDS_Policy_Note.md",
+        "sourceSection": "3. Actionable Recommendations",
+        "website": null,
+        "onboardingUrl": null,
+        "fees": [],
+        "contacts": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Deep system integration",
+          "summary": "Connect TReDS with Udyam, GSTN, GeM, PFMS, and Account Aggregator stacks for one-click invoice flow and verification.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "ஆழமான அமைப்பு ஒருங்கிணைப்பு",
+          "summary": "ஒரு-கிளிக் விலைப்பட்டியல் ஓட்டம் மற்றும் சரிபார்ப்புக்காக TReDS-ஐ Udyam, GSTN, GeM, PFMS, மற்றும் கணக்கு திரட்டி அமைப்புகளுடன் இணைக்கவும்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "deep",
+            "integration",
+            "system"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Connect TReDS with Udyam, GSTN, GeM, PFMS, and Account Aggregator stacks for one-click invoice flow and verification.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000163",
+            "code": "udyam",
+            "termType": "registration_type",
+            "matchedOn": "udyam"
+          }
+        ],
+        "relatedEntities": [
+          {
+            "entityId": "TDS000009",
+            "entityType": "treds_platform",
+            "name": "Simplify onboarding",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000010",
+            "entityType": "treds_platform",
+            "name": "Operationalise interoperability fully",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000012",
+            "entityType": "treds_platform",
+            "name": "Incentivise buyers and financiers",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000013",
+            "entityType": "treds_platform",
+            "name": "Technology upgrades",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000014",
+            "entityType": "treds_platform",
+            "name": "Awareness, hand-holding and fee relief",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from TReDS_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from TReDS_Policy_Note.md, section: 3. Actionable Recommendations. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.website",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.fees",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.contacts",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from TReDS_Policy_Note.md — 3. Actionable Recommendations (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TDS000012",
+        "entityType": "treds_platform",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Incentivise buyers and financiers",
+        "shortName": null,
+        "acronym": null,
+        "slug": "incentivise-buyers-and-financiers",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "entryKind": "recommendation",
+        "regulator": null,
+        "summary": "Expand the MSMED Act/CPSE mandate to all firms above ₹100 crore turnover; offer priority-sector benefits and refinance support to TReDS financiers focused on micro units.",
+        "attributes": {
+          "proposedThresholdText": "₹100 crore turnover",
+          "proposedThresholdInr": 1000000000
+        },
+        "sourceDocument": "TReDS_Policy_Note.md",
+        "sourceSection": "3. Actionable Recommendations",
+        "website": null,
+        "onboardingUrl": null,
+        "fees": [],
+        "contacts": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Incentivise buyers and financiers",
+          "summary": "Expand the MSMED Act/CPSE mandate to all firms above ₹100 crore turnover; offer priority-sector benefits and refinance support to TReDS financiers focused on micro units.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "வாங்குபவர்கள் மற்றும் நிதியளிப்பாளர்களை ஊக்குவித்தல்",
+          "summary": "MSMED சட்டம்/CPSE கட்டாய விதியை ₹100 crore-க்கும் அதிகமான வருவாய் கொண்ட அனைத்து நிறுவனங்களுக்கும் விரிவுபடுத்தவும்; குறு அலகுகளில் கவனம் செலுத்தும் TReDS நிதியளிப்பாளர்களுக்கு முன்னுரிமைத் துறை பலன்கள் மற்றும் மறு-நிதியளிப்பு ஆதரவை வழங்கவும்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "buyers",
+            "financiers",
+            "incentivise"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Expand the MSMED Act/CPSE mandate to all firms above ₹100 crore turnover; offer priority-sector benefits and refinance support to TReDS financiers focused on micro units.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000075",
+            "code": "micro",
+            "termType": "enterprise_type",
+            "matchedOn": "micro"
+          },
+          {
+            "termId": "CMN000133",
+            "code": "refinance",
+            "termType": "loan_type",
+            "matchedOn": "refinance"
+          }
+        ],
+        "relatedEntities": [
+          {
+            "entityId": "TDS000009",
+            "entityType": "treds_platform",
+            "name": "Simplify onboarding",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000010",
+            "entityType": "treds_platform",
+            "name": "Operationalise interoperability fully",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000011",
+            "entityType": "treds_platform",
+            "name": "Deep system integration",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000013",
+            "entityType": "treds_platform",
+            "name": "Technology upgrades",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000014",
+            "entityType": "treds_platform",
+            "name": "Awareness, hand-holding and fee relief",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from TReDS_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from TReDS_Policy_Note.md, section: 3. Actionable Recommendations. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.website",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.fees",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.contacts",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from TReDS_Policy_Note.md — 3. Actionable Recommendations (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TDS000013",
+        "entityType": "treds_platform",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Technology upgrades",
+        "shortName": null,
+        "acronym": null,
+        "slug": "technology-upgrades",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "entryKind": "recommendation",
+        "regulator": null,
+        "summary": "API-first architecture, vernacular mobile apps, and AI/ML-based risk scoring leveraging GST and bank-statement data.",
+        "attributes": {},
+        "sourceDocument": "TReDS_Policy_Note.md",
+        "sourceSection": "3. Actionable Recommendations",
+        "website": null,
+        "onboardingUrl": null,
+        "fees": [],
+        "contacts": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Technology upgrades",
+          "summary": "API-first architecture, vernacular mobile apps, and AI/ML-based risk scoring leveraging GST and bank-statement data.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "தொழில்நுட்ப மேம்பாடுகள்",
+          "summary": "API-முதன்மைக் கட்டமைப்பு, தாய்மொழி மொபைல் செயலிகள், மற்றும் GST மற்றும் வங்கிக் கணக்கு தரவுகளைப் பயன்படுத்தும் AI/ML-அடிப்படையிலான அபாய மதிப்பீடு.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "technology",
+            "upgrades"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "API-first architecture, vernacular mobile apps, and AI/ML-based risk scoring leveraging GST and bank-statement data.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "TDS000009",
+            "entityType": "treds_platform",
+            "name": "Simplify onboarding",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000010",
+            "entityType": "treds_platform",
+            "name": "Operationalise interoperability fully",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000011",
+            "entityType": "treds_platform",
+            "name": "Deep system integration",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000012",
+            "entityType": "treds_platform",
+            "name": "Incentivise buyers and financiers",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000014",
+            "entityType": "treds_platform",
+            "name": "Awareness, hand-holding and fee relief",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from TReDS_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from TReDS_Policy_Note.md, section: 3. Actionable Recommendations. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.website",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.fees",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.contacts",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from TReDS_Policy_Note.md — 3. Actionable Recommendations (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TDS000014",
+        "entityType": "treds_platform",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Awareness, hand-holding and fee relief",
+        "shortName": null,
+        "acronym": null,
+        "slug": "awareness-hand-holding-and-fee-relief",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "entryKind": "recommendation",
+        "regulator": null,
+        "summary": "Cluster-level outreach with MSME-DFOs and DICs; cap or waive platform fees on invoices below ₹10 lakh.",
+        "attributes": {
+          "feeReliefBelowText": "₹10 lakh",
+          "feeReliefBelowInr": 1000000,
+          "outreachPartners": [
+            "MSME-DFOs",
+            "DICs"
+          ]
+        },
+        "sourceDocument": "TReDS_Policy_Note.md",
+        "sourceSection": "3. Actionable Recommendations",
+        "website": null,
+        "onboardingUrl": null,
+        "fees": [],
+        "contacts": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Awareness, hand-holding and fee relief",
+          "summary": "Cluster-level outreach with MSME-DFOs and DICs; cap or waive platform fees on invoices below ₹10 lakh.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "விழிப்புணர்வு, வழிகாட்டுதல் மற்றும் கட்டண நிவாரணம்",
+          "summary": "MSME-DFO-க்கள் மற்றும் DIC-களுடன் கொத்து-அளவிலான தொடர்பு; ₹10 lakh-க்குக் குறைவான விலைப்பட்டியல்கள் மீதான தள கட்டணங்களை வரம்பிடுதல் அல்லது தள்ளுபடி செய்தல்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "awareness",
+            "hand",
+            "holding",
+            "relief"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Cluster-level outreach with MSME-DFOs and DICs; cap or waive platform fees on invoices below ₹10 lakh.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "TDS000009",
+            "entityType": "treds_platform",
+            "name": "Simplify onboarding",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000010",
+            "entityType": "treds_platform",
+            "name": "Operationalise interoperability fully",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000011",
+            "entityType": "treds_platform",
+            "name": "Deep system integration",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000012",
+            "entityType": "treds_platform",
+            "name": "Incentivise buyers and financiers",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000013",
+            "entityType": "treds_platform",
+            "name": "Technology upgrades",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from TReDS_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from TReDS_Policy_Note.md, section: 3. Actionable Recommendations. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.website",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.fees",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.contacts",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from TReDS_Policy_Note.md — 3. Actionable Recommendations (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TDS000015",
+        "entityType": "treds_platform",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Credit guarantees and co-lending",
+        "shortName": null,
+        "acronym": null,
+        "slug": "credit-guarantees-and-co-lending",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "entryKind": "recommendation",
+        "regulator": null,
+        "summary": "Extend CGTMSE-style cover to TReDS factoring units and enable bank–NBFC–fintech co-lending for first-time micro sellers.",
+        "attributes": {
+          "guaranteeModel": "CGTMSE-style",
+          "coLendingParties": [
+            "bank",
+            "NBFC",
+            "fintech"
+          ]
+        },
+        "sourceDocument": "TReDS_Policy_Note.md",
+        "sourceSection": "3. Actionable Recommendations",
+        "website": null,
+        "onboardingUrl": null,
+        "fees": [],
+        "contacts": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Credit guarantees and co-lending",
+          "summary": "Extend CGTMSE-style cover to TReDS factoring units and enable bank–NBFC–fintech co-lending for first-time micro sellers.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "கடன் உத்தரவாதங்கள் மற்றும் இணை-கடன் வழங்கல்",
+          "summary": "TReDS ஃபேக்டரிங் அலகுகளுக்கு CGTMSE-பாணி காப்பீட்டை விரிவுபடுத்தி, முதல்முறை குறு விற்பனையாளர்களுக்கு வங்கி–NBFC–ஃபின்டெக் இணை-கடன் வழங்கலை செயல்படுத்தவும்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "credit",
+            "guarantees",
+            "lending"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Extend CGTMSE-style cover to TReDS factoring units and enable bank–NBFC–fintech co-lending for first-time micro sellers.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000075",
+            "code": "micro",
+            "termType": "enterprise_type",
+            "matchedOn": "micro"
+          }
+        ],
+        "relatedEntities": [
+          {
+            "entityId": "TDS000009",
+            "entityType": "treds_platform",
+            "name": "Simplify onboarding",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000010",
+            "entityType": "treds_platform",
+            "name": "Operationalise interoperability fully",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000011",
+            "entityType": "treds_platform",
+            "name": "Deep system integration",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000012",
+            "entityType": "treds_platform",
+            "name": "Incentivise buyers and financiers",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000013",
+            "entityType": "treds_platform",
+            "name": "Technology upgrades",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from TReDS_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from TReDS_Policy_Note.md, section: 3. Actionable Recommendations. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.website",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.fees",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.contacts",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from TReDS_Policy_Note.md — 3. Actionable Recommendations (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "TDS000016",
+        "entityType": "treds_platform",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Strengthen buyer accountability",
+        "shortName": null,
+        "acronym": null,
+        "slug": "strengthen-buyer-accountability",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "entryKind": "recommendation",
+        "regulator": null,
+        "summary": "Penalise delayed invoice acceptance beyond 7 days and link CPSE compliance to Budget 2026 procurement-linked incentives.",
+        "attributes": {
+          "acceptanceWindowDays": 7
+        },
+        "sourceDocument": "TReDS_Policy_Note.md",
+        "sourceSection": "3. Actionable Recommendations",
+        "website": null,
+        "onboardingUrl": null,
+        "fees": [],
+        "contacts": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Strengthen buyer accountability",
+          "summary": "Penalise delayed invoice acceptance beyond 7 days and link CPSE compliance to Budget 2026 procurement-linked incentives.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "வாங்குபவர் பொறுப்புக்கூறலை வலுப்படுத்துதல்",
+          "summary": "7 நாட்களுக்கு மேல் தாமதமான விலைப்பட்டியல் ஏற்றுக்கொள்ளலுக்கு அபராதம் விதித்து, CPSE இணக்கத்தை பட்ஜெட் 2026 கொள்முதல்-தொடர்பான ஊக்கத்தொகைகளுடன் இணைக்கவும்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "accountability",
+            "buyer",
+            "strengthen"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Penalise delayed invoice acceptance beyond 7 days and link CPSE compliance to Budget 2026 procurement-linked incentives.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "TDS000009",
+            "entityType": "treds_platform",
+            "name": "Simplify onboarding",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000010",
+            "entityType": "treds_platform",
+            "name": "Operationalise interoperability fully",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000011",
+            "entityType": "treds_platform",
+            "name": "Deep system integration",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000012",
+            "entityType": "treds_platform",
+            "name": "Incentivise buyers and financiers",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "TDS000013",
+            "entityType": "treds_platform",
+            "name": "Technology upgrades",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "entryKind:recommendation",
+              "src:TReDS_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from TReDS_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from TReDS_Policy_Note.md, section: 3. Actionable Recommendations. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.website",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.fees",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.contacts",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from TReDS_Policy_Note.md — 3. Actionable Recommendations (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    }
+  ]
+}

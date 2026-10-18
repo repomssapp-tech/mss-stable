@@ -1,0 +1,343 @@
+{
+  "batch": 3,
+  "schemeRange": [
+    "SCH000051",
+    "SCH000075"
+  ],
+  "schemes": 25,
+  "distinctUrls": 12,
+  "totalRefs": 22,
+  "skippedNonApproved": [
+    {
+      "schemeId": "SCH000053",
+      "code": "TN053",
+      "field": "content.sources[0].url",
+      "value": "https://editn.in/",
+      "url": "https://editn.in/",
+      "host": "editn.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000054",
+      "code": "TN054",
+      "field": "content.sources[0].url",
+      "value": "https://editn.in/",
+      "url": "https://editn.in/",
+      "host": "editn.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000060",
+      "code": "TN060",
+      "field": "content.applicationProcess.onlineUrl",
+      "value": "https://www.sidbivcf.in/en/funds/ffs?form=MG0AV3",
+      "url": "https://www.sidbivcf.in/en/funds/ffs?form=MG0AV3",
+      "host": "www.sidbivcf.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000060",
+      "code": "TN060",
+      "field": "content.sources[0].url",
+      "value": "https://www.sidbivcf.in/en/funds/ffs?form=MG0AV3",
+      "url": "https://www.sidbivcf.in/en/funds/ffs?form=MG0AV3",
+      "host": "www.sidbivcf.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000060",
+      "code": "TN060",
+      "field": "content.sources[1].url",
+      "value": "https://www.sidbivcf.in/",
+      "url": "https://www.sidbivcf.in/",
+      "host": "www.sidbivcf.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000064",
+      "code": "TN064",
+      "field": "content.applicationProcess.onlineUrl",
+      "value": "https://www.cgtmse.in/",
+      "url": "https://www.cgtmse.in/",
+      "host": "www.cgtmse.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000064",
+      "code": "TN064",
+      "field": "content.sources[0].url",
+      "value": "https://www.cgtmse.in/Circulars",
+      "url": "https://www.cgtmse.in/Circulars",
+      "host": "www.cgtmse.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000064",
+      "code": "TN064",
+      "field": "content.sources[1].url",
+      "value": "https://www.cgtmse.in/",
+      "url": "https://www.cgtmse.in/",
+      "host": "www.cgtmse.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000069",
+      "code": "TN069",
+      "field": "content.sources[0].url",
+      "value": "https://editn.in/",
+      "url": "https://editn.in/",
+      "host": "editn.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    }
+  ],
+  "queue": [
+    {
+      "url": "https://www.tnsocialwelfare.tn.gov.in/",
+      "host": "www.tnsocialwelfare.tn.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000051",
+          "code": "TN051",
+          "field": "content.sources[0].url",
+          "value": "https://www.tnsocialwelfare.tn.gov.in/",
+          "url": "https://www.tnsocialwelfare.tn.gov.in/",
+          "host": "www.tnsocialwelfare.tn.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "http://www.dcmsme.gov.in/contacts.htm",
+      "host": "www.dcmsme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000055",
+          "code": "TN055",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "http://www.dcmsme.gov.in/contacts.htm",
+          "url": "http://www.dcmsme.gov.in/contacts.htm",
+          "host": "www.dcmsme.gov.in"
+        },
+        {
+          "schemeId": "SCH000055",
+          "code": "TN055",
+          "field": "content.sources[2].url",
+          "value": "http://www.dcmsme.gov.in/contacts.htm",
+          "url": "http://www.dcmsme.gov.in/contacts.htm",
+          "host": "www.dcmsme.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.msme.gov.in/offerings/schemes-and-services/details/entrepreneurship-and-skill-development-programs-gzMxMTMtQWa",
+      "host": "www.msme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000055",
+          "code": "TN055",
+          "field": "content.sources[0].url",
+          "value": "https://www.msme.gov.in/offerings/schemes-and-services/details/entrepreneurship-and-skill-development-programs-gzMxMTMtQWa",
+          "url": "https://www.msme.gov.in/offerings/schemes-and-services/details/entrepreneurship-and-skill-development-programs-gzMxMTMtQWa",
+          "host": "www.msme.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.msme.gov.in/",
+      "host": "www.msme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000055",
+          "code": "TN055",
+          "field": "content.sources[1].url",
+          "value": "https://www.msme.gov.in/",
+          "url": "https://www.msme.gov.in/",
+          "host": "www.msme.gov.in"
+        },
+        {
+          "schemeId": "SCH000071",
+          "code": "TN071",
+          "field": "content.sources[0].url",
+          "value": "https://www.msme.gov.in/",
+          "url": "https://www.msme.gov.in/",
+          "host": "www.msme.gov.in"
+        },
+        {
+          "schemeId": "SCH000072",
+          "code": "TN072",
+          "field": "content.sources[0].url",
+          "value": "https://www.msme.gov.in/",
+          "url": "https://www.msme.gov.in/",
+          "host": "www.msme.gov.in"
+        },
+        {
+          "schemeId": "SCH000073",
+          "code": "TN073",
+          "field": "content.sources[0].url",
+          "value": "https://www.msme.gov.in/",
+          "url": "https://www.msme.gov.in/",
+          "host": "www.msme.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.dgft.gov.in/",
+      "host": "www.dgft.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000057",
+          "code": "TN057",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.dgft.gov.in/",
+          "url": "https://www.dgft.gov.in/",
+          "host": "www.dgft.gov.in"
+        },
+        {
+          "schemeId": "SCH000057",
+          "code": "TN057",
+          "field": "content.sources[0].url",
+          "value": "https://www.dgft.gov.in/",
+          "url": "https://www.dgft.gov.in/",
+          "host": "www.dgft.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.sidbi.in/",
+      "host": "www.sidbi.in",
+      "refs": [
+        {
+          "schemeId": "SCH000059",
+          "code": "TN059",
+          "field": "content.sources[0].url",
+          "value": "https://www.sidbi.in/",
+          "url": "https://www.sidbi.in/",
+          "host": "www.sidbi.in"
+        },
+        {
+          "schemeId": "SCH000061",
+          "code": "TN061",
+          "field": "content.sources[0].url",
+          "value": "https://www.sidbi.in/",
+          "url": "https://www.sidbi.in/",
+          "host": "www.sidbi.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.msmeonline.tn.gov.in/",
+      "host": "www.msmeonline.tn.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000062",
+          "code": "TN062",
+          "field": "content.sources[0].url",
+          "value": "https://www.msmeonline.tn.gov.in/",
+          "url": "https://www.msmeonline.tn.gov.in/",
+          "host": "www.msmeonline.tn.gov.in"
+        },
+        {
+          "schemeId": "SCH000066",
+          "code": "TN066",
+          "field": "content.sources[0].url",
+          "value": "https://www.msmeonline.tn.gov.in/",
+          "url": "https://www.msmeonline.tn.gov.in/",
+          "host": "www.msmeonline.tn.gov.in"
+        },
+        {
+          "schemeId": "SCH000067",
+          "code": "TN067",
+          "field": "content.sources[0].url",
+          "value": "https://www.msmeonline.tn.gov.in/",
+          "url": "https://www.msmeonline.tn.gov.in/",
+          "host": "www.msmeonline.tn.gov.in"
+        },
+        {
+          "schemeId": "SCH000068",
+          "code": "TN068",
+          "field": "content.sources[0].url",
+          "value": "https://www.msmeonline.tn.gov.in/",
+          "url": "https://www.msmeonline.tn.gov.in/",
+          "host": "www.msmeonline.tn.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://gem.gov.in/",
+      "host": "gem.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000063",
+          "code": "TN063",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://gem.gov.in/",
+          "url": "https://gem.gov.in/",
+          "host": "gem.gov.in"
+        },
+        {
+          "schemeId": "SCH000063",
+          "code": "TN063",
+          "field": "content.sources[0].url",
+          "value": "https://gem.gov.in/",
+          "url": "https://gem.gov.in/",
+          "host": "gem.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.mofpi.gov.in/",
+      "host": "www.mofpi.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000065",
+          "code": "TN065",
+          "field": "content.sources[0].url",
+          "value": "https://www.mofpi.gov.in/",
+          "url": "https://www.mofpi.gov.in/",
+          "host": "www.mofpi.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://commerce.gov.in/",
+      "host": "commerce.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000070",
+          "code": "TN070",
+          "field": "content.sources[0].url",
+          "value": "https://commerce.gov.in/",
+          "url": "https://commerce.gov.in/",
+          "host": "commerce.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.tn.gov.in/",
+      "host": "www.tn.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000074",
+          "code": "TN074",
+          "field": "content.sources[0].url",
+          "value": "https://www.tn.gov.in/",
+          "url": "https://www.tn.gov.in/",
+          "host": "www.tn.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.kviconline.gov.in/",
+      "host": "www.kviconline.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000075",
+          "code": "TN075",
+          "field": "content.sources[0].url",
+          "value": "https://www.kviconline.gov.in/",
+          "url": "https://www.kviconline.gov.in/",
+          "host": "www.kviconline.gov.in"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,520 @@
+{
+  "batch": 4,
+  "schemeRange": [
+    "SCH000076",
+    "SCH000100"
+  ],
+  "schemes": 25,
+  "distinctUrls": 25,
+  "totalRefs": 40,
+  "skippedNonApproved": [
+    {
+      "schemeId": "SCH000080",
+      "code": "TN080",
+      "field": "content.sources[0].url",
+      "value": "https://www.tncdw.org/",
+      "url": "https://www.tncdw.org/",
+      "host": "www.tncdw.org",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000087",
+      "code": "TN087",
+      "field": "content.sources[0].url",
+      "value": "https://www.mudra.org.in/",
+      "url": "https://www.mudra.org.in/",
+      "host": "www.mudra.org.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000091",
+      "code": "TN091",
+      "field": "content.applicationProcess.onlineUrl",
+      "value": "https://startuptn.in/",
+      "url": "https://startuptn.in/",
+      "host": "startuptn.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000091",
+      "code": "TN091",
+      "field": "content.sources[0].url",
+      "value": "https://startuptn.in/",
+      "url": "https://startuptn.in/",
+      "host": "startuptn.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    }
+  ],
+  "queue": [
+    {
+      "url": "https://www.kviconline.gov.in/",
+      "host": "www.kviconline.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000076",
+          "code": "TN076",
+          "field": "content.sources[0].url",
+          "value": "https://www.kviconline.gov.in/",
+          "url": "https://www.kviconline.gov.in/",
+          "host": "www.kviconline.gov.in"
+        },
+        {
+          "schemeId": "SCH000089",
+          "code": "TN089",
+          "field": "content.sources[0].url",
+          "value": "https://www.kviconline.gov.in/",
+          "url": "https://www.kviconline.gov.in/",
+          "host": "www.kviconline.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://rural.gov.in/",
+      "host": "rural.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000077",
+          "code": "TN077",
+          "field": "content.sources[0].url",
+          "value": "https://rural.gov.in/",
+          "url": "https://rural.gov.in/",
+          "host": "rural.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.sidbi.in/",
+      "host": "www.sidbi.in",
+      "refs": [
+        {
+          "schemeId": "SCH000078",
+          "code": "TN078",
+          "field": "content.sources[0].url",
+          "value": "https://www.sidbi.in/",
+          "url": "https://www.sidbi.in/",
+          "host": "www.sidbi.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.msmeonline.tn.gov.in/",
+      "host": "www.msmeonline.tn.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000079",
+          "code": "TN079",
+          "field": "content.sources[0].url",
+          "value": "https://www.msmeonline.tn.gov.in/",
+          "url": "https://www.msmeonline.tn.gov.in/",
+          "host": "www.msmeonline.tn.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.startupindia.gov.in/content/sih/en/state-startup-policies/Maharashtra-state-policy.html",
+      "host": "www.startupindia.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000081",
+          "code": "TN081",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.startupindia.gov.in/content/sih/en/state-startup-policies/Maharashtra-state-policy.html",
+          "url": "https://www.startupindia.gov.in/content/sih/en/state-startup-policies/Maharashtra-state-policy.html",
+          "host": "www.startupindia.gov.in"
+        },
+        {
+          "schemeId": "SCH000081",
+          "code": "TN081",
+          "field": "content.sources[0].url",
+          "value": "https://www.startupindia.gov.in/content/sih/en/state-startup-policies/Maharashtra-state-policy.html",
+          "url": "https://www.startupindia.gov.in/content/sih/en/state-startup-policies/Maharashtra-state-policy.html",
+          "host": "www.startupindia.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.startupindia.gov.in/",
+      "host": "www.startupindia.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000081",
+          "code": "TN081",
+          "field": "content.sources[1].url",
+          "value": "https://www.startupindia.gov.in/",
+          "url": "https://www.startupindia.gov.in/",
+          "host": "www.startupindia.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.startupindia.gov.in/content/dam/invest-india/Templates/public/state_startup_policies/Fintech%20Policy-Maharashtra.pdf",
+      "host": "www.startupindia.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000081",
+          "code": "TN081",
+          "field": "content.sources[2].url",
+          "value": "https://www.startupindia.gov.in/content/dam/invest-india/Templates/public/state_startup_policies/Fintech%20Policy-Maharashtra.pdf",
+          "url": "https://www.startupindia.gov.in/content/dam/invest-india/Templates/public/state_startup_policies/Fintech%20Policy-Maharashtra.pdf",
+          "host": "www.startupindia.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://coirboard.gov.in/?page_id=8452",
+      "host": "coirboard.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000082",
+          "code": "TN082",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://coirboard.gov.in/?page_id=8452",
+          "url": "https://coirboard.gov.in/?page_id=8452",
+          "host": "coirboard.gov.in"
+        },
+        {
+          "schemeId": "SCH000082",
+          "code": "TN082",
+          "field": "content.sources[0].url",
+          "value": "https://coirboard.gov.in/?page_id=8452",
+          "url": "https://coirboard.gov.in/?page_id=8452",
+          "host": "coirboard.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://coirboard.gov.in/",
+      "host": "coirboard.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000082",
+          "code": "TN082",
+          "field": "content.sources[1].url",
+          "value": "https://coirboard.gov.in/",
+          "url": "https://coirboard.gov.in/",
+          "host": "coirboard.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://coirboard.gov.in/wp-content/uploads/2015/11/SUMCY.pdf",
+      "host": "coirboard.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000082",
+          "code": "TN082",
+          "field": "content.sources[2].url",
+          "value": "https://coirboard.gov.in/wp-content/uploads/2015/11/SUMCY.pdf",
+          "url": "https://coirboard.gov.in/wp-content/uploads/2015/11/SUMCY.pdf",
+          "host": "coirboard.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://wcd.gov.in/",
+      "host": "wcd.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000083",
+          "code": "TN083",
+          "field": "content.sources[0].url",
+          "value": "https://wcd.gov.in/",
+          "url": "https://wcd.gov.in/",
+          "host": "wcd.gov.in"
+        },
+        {
+          "schemeId": "SCH000084",
+          "code": "TN084",
+          "field": "content.sources[0].url",
+          "value": "https://wcd.gov.in/",
+          "url": "https://wcd.gov.in/",
+          "host": "wcd.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.indiapost.gov.in/banking-services/savings",
+      "host": "www.indiapost.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000085",
+          "code": "TN085",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.indiapost.gov.in/banking-services/savings",
+          "url": "https://www.indiapost.gov.in/banking-services/savings",
+          "host": "www.indiapost.gov.in"
+        },
+        {
+          "schemeId": "SCH000085",
+          "code": "TN085",
+          "field": "content.sources[2].url",
+          "value": "https://www.indiapost.gov.in/banking-services/savings",
+          "url": "https://www.indiapost.gov.in/banking-services/savings",
+          "host": "www.indiapost.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.indiapost.gov.in/VAS/DOP_PDFFiles/MSSC/Mahila_Samman_Savings_Certificate_2023_English.pdf",
+      "host": "www.indiapost.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000085",
+          "code": "TN085",
+          "field": "content.sources[0].url",
+          "value": "https://www.indiapost.gov.in/VAS/DOP_PDFFiles/MSSC/Mahila_Samman_Savings_Certificate_2023_English.pdf",
+          "url": "https://www.indiapost.gov.in/VAS/DOP_PDFFiles/MSSC/Mahila_Samman_Savings_Certificate_2023_English.pdf",
+          "host": "www.indiapost.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.indiapost.gov.in/",
+      "host": "www.indiapost.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000085",
+          "code": "TN085",
+          "field": "content.sources[1].url",
+          "value": "https://www.indiapost.gov.in/",
+          "url": "https://www.indiapost.gov.in/",
+          "host": "www.indiapost.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.msme.gov.in/offerings/schemes-and-services/details/marketing-promotion-schemes-1-QzMzETMtQWa",
+      "host": "www.msme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000090",
+          "code": "TN090",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.msme.gov.in/offerings/schemes-and-services/details/marketing-promotion-schemes-1-QzMzETMtQWa",
+          "url": "https://www.msme.gov.in/offerings/schemes-and-services/details/marketing-promotion-schemes-1-QzMzETMtQWa",
+          "host": "www.msme.gov.in"
+        },
+        {
+          "schemeId": "SCH000090",
+          "code": "TN090",
+          "field": "content.sources[0].url",
+          "value": "https://www.msme.gov.in/offerings/schemes-and-services/details/marketing-promotion-schemes-1-QzMzETMtQWa",
+          "url": "https://www.msme.gov.in/offerings/schemes-and-services/details/marketing-promotion-schemes-1-QzMzETMtQWa",
+          "host": "www.msme.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.msme.gov.in/",
+      "host": "www.msme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000090",
+          "code": "TN090",
+          "field": "content.sources[1].url",
+          "value": "https://www.msme.gov.in/",
+          "url": "https://www.msme.gov.in/",
+          "host": "www.msme.gov.in"
+        },
+        {
+          "schemeId": "SCH000095",
+          "code": "TN095",
+          "field": "content.sources[1].url",
+          "value": "https://www.msme.gov.in/",
+          "url": "https://www.msme.gov.in/",
+          "host": "www.msme.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://cluster.dcmsme.gov.in/",
+      "host": "cluster.dcmsme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000092",
+          "code": "TN092",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://cluster.dcmsme.gov.in/",
+          "url": "https://cluster.dcmsme.gov.in/",
+          "host": "cluster.dcmsme.gov.in"
+        },
+        {
+          "schemeId": "SCH000092",
+          "code": "TN092",
+          "field": "content.sources[0].url",
+          "value": "https://cluster.dcmsme.gov.in/",
+          "url": "https://cluster.dcmsme.gov.in/",
+          "host": "cluster.dcmsme.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://samadhaan.msme.gov.in/",
+      "host": "samadhaan.msme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000093",
+          "code": "TN093",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://samadhaan.msme.gov.in/",
+          "url": "https://samadhaan.msme.gov.in/",
+          "host": "samadhaan.msme.gov.in"
+        },
+        {
+          "schemeId": "SCH000093",
+          "code": "TN093",
+          "field": "content.sources[0].url",
+          "value": "https://samadhaan.msme.gov.in/",
+          "url": "https://samadhaan.msme.gov.in/",
+          "host": "samadhaan.msme.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "http://www.dcmsme.gov.in/contacts.htm",
+      "host": "www.dcmsme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000095",
+          "code": "TN095",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "http://www.dcmsme.gov.in/contacts.htm",
+          "url": "http://www.dcmsme.gov.in/contacts.htm",
+          "host": "www.dcmsme.gov.in"
+        },
+        {
+          "schemeId": "SCH000095",
+          "code": "TN095",
+          "field": "content.sources[2].url",
+          "value": "http://www.dcmsme.gov.in/contacts.htm",
+          "url": "http://www.dcmsme.gov.in/contacts.htm",
+          "host": "www.dcmsme.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.msme.gov.in/offerings/schemes-and-services/details/entrepreneurship-and-skill-development-programs-gzMxMTMtQWa",
+      "host": "www.msme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000095",
+          "code": "TN095",
+          "field": "content.sources[0].url",
+          "value": "https://www.msme.gov.in/offerings/schemes-and-services/details/entrepreneurship-and-skill-development-programs-gzMxMTMtQWa",
+          "url": "https://www.msme.gov.in/offerings/schemes-and-services/details/entrepreneurship-and-skill-development-programs-gzMxMTMtQWa",
+          "host": "www.msme.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.spniwcd.wcd.gov.in/",
+      "host": "www.spniwcd.wcd.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000096",
+          "code": "TN096",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.spniwcd.wcd.gov.in/",
+          "url": "https://www.spniwcd.wcd.gov.in/",
+          "host": "www.spniwcd.wcd.gov.in"
+        },
+        {
+          "schemeId": "SCH000096",
+          "code": "TN096",
+          "field": "content.sources[0].url",
+          "value": "https://www.spniwcd.wcd.gov.in/",
+          "url": "https://www.spniwcd.wcd.gov.in/",
+          "host": "www.spniwcd.wcd.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://missionshakti.wcd.gov.in/",
+      "host": "missionshakti.wcd.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000097",
+          "code": "TN097",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://missionshakti.wcd.gov.in/",
+          "url": "https://missionshakti.wcd.gov.in/",
+          "host": "missionshakti.wcd.gov.in"
+        },
+        {
+          "schemeId": "SCH000097",
+          "code": "TN097",
+          "field": "content.sources[0].url",
+          "value": "https://missionshakti.wcd.gov.in/",
+          "url": "https://missionshakti.wcd.gov.in/",
+          "host": "missionshakti.wcd.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.pudhumaipenn.tn.gov.in/",
+      "host": "www.pudhumaipenn.tn.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000098",
+          "code": "TN098",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.pudhumaipenn.tn.gov.in/",
+          "url": "https://www.pudhumaipenn.tn.gov.in/",
+          "host": "www.pudhumaipenn.tn.gov.in"
+        },
+        {
+          "schemeId": "SCH000098",
+          "code": "TN098",
+          "field": "content.sources[0].url",
+          "value": "https://www.pudhumaipenn.tn.gov.in/",
+          "url": "https://www.pudhumaipenn.tn.gov.in/",
+          "host": "www.pudhumaipenn.tn.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://champions.gov.in/",
+      "host": "champions.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000099",
+          "code": "TN099",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://champions.gov.in/",
+          "url": "https://champions.gov.in/",
+          "host": "champions.gov.in"
+        },
+        {
+          "schemeId": "SCH000099",
+          "code": "TN099",
+          "field": "content.sources[0].url",
+          "value": "https://champions.gov.in/",
+          "url": "https://champions.gov.in/",
+          "host": "champions.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://lean.msme.gov.in/",
+      "host": "lean.msme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000100",
+          "code": "TN100",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://lean.msme.gov.in/",
+          "url": "https://lean.msme.gov.in/",
+          "host": "lean.msme.gov.in"
+        },
+        {
+          "schemeId": "SCH000100",
+          "code": "TN100",
+          "field": "content.sources[0].url",
+          "value": "https://lean.msme.gov.in/",
+          "url": "https://lean.msme.gov.in/",
+          "host": "lean.msme.gov.in"
+        }
+      ]
+    }
+  ]
+}

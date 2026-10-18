@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n.dart';
 import '../../utils/app_spacing.dart';
 
 class LegalConsentSection extends StatelessWidget {
@@ -56,7 +57,7 @@ class LegalConsentSection extends StatelessWidget {
             Expanded(
               child: Text.rich(
                 TextSpan(
-                  text: 'I have read and agree to the ',
+                  text: context.l10n.legalConsentPrefix,
                   style: GoogleFonts.inter(
                     fontSize: 11.5,
                     color: const Color(0xFF334155),
@@ -64,7 +65,7 @@ class LegalConsentSection extends StatelessWidget {
                   ),
                   children: [
                     TextSpan(
-                      text: 'Terms of Use',
+                      text: context.l10n.legalTermsOfUseLink,
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Color(0xFF0D53FC),
@@ -73,9 +74,9 @@ class LegalConsentSection extends StatelessWidget {
                       recognizer: TapGestureRecognizer()
                         ..onTap = onOpenTerms,
                     ),
-                    const TextSpan(text: ' and acknowledge the '),
+                    TextSpan(text: context.l10n.legalConsentMid),
                     TextSpan(
-                      text: 'Privacy Policy',
+                      text: context.l10n.privacyPolicy,
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Color(0xFF0D53FC),
@@ -84,7 +85,7 @@ class LegalConsentSection extends StatelessWidget {
                       recognizer: TapGestureRecognizer()
                         ..onTap = onOpenPrivacy,
                     ),
-                    const TextSpan(text: '.'),
+                    TextSpan(text: context.l10n.legalConsentSuffix),
                   ],
                 ),
               ),

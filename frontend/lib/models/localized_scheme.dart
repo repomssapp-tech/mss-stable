@@ -1,4 +1,5 @@
 import '../services/catalog/centralized_translator.dart';
+import '../services/catalog/language_pack_manager.dart';
 import 'scheme_model.dart';
 
 /// LocalizedScheme
@@ -150,6 +151,118 @@ class LocalizedScheme {
   });
 
   factory LocalizedScheme.fromScheme(Scheme scheme, String languageCode) {
+    if (languageCode == 'hi') {
+      final pack = LanguagePackManager.instance;
+      // Generic metadata (level, state, ministry, verification status...) uses
+      // exact dictionary matches; anything unmatched stays English.
+      String meta(String v) =>
+          CentralizedTranslator.instance.localizeTagFor('hi', v);
+      final nameHi = pack.getField(
+        lang: 'hi',
+        entityType: 'scheme',
+        entityId: scheme.id,
+        fieldName: 'name',
+      );
+      final shortNameHi = pack.getField(
+        lang: 'hi',
+        entityType: 'scheme',
+        entityId: scheme.id,
+        fieldName: 'short_name',
+      );
+      final summaryHi = pack.getField(
+        lang: 'hi',
+        entityType: 'scheme',
+        entityId: scheme.id,
+        fieldName: 'summary',
+      );
+      final descHi = pack.getField(
+        lang: 'hi',
+        entityType: 'scheme',
+        entityId: scheme.id,
+        fieldName: 'description',
+      );
+      final objHi = pack.getField(
+        lang: 'hi',
+        entityType: 'scheme',
+        entityId: scheme.id,
+        fieldName: 'objective',
+      );
+      final benHi = pack.getField(
+        lang: 'hi',
+        entityType: 'scheme',
+        entityId: scheme.id,
+        fieldName: 'benefits_text',
+      );
+
+      final name = (nameHi != null && nameHi.isNotEmpty) ? nameHi : scheme.name;
+      final shortName = (shortNameHi != null && shortNameHi.isNotEmpty)
+          ? shortNameHi
+          : scheme.shortName;
+      final overview = (summaryHi != null && summaryHi.isNotEmpty)
+          ? summaryHi
+          : ((descHi != null && descHi.isNotEmpty) ? descHi : scheme.overview);
+      final objectives =
+          (objHi != null && objHi.isNotEmpty) ? objHi : scheme.objectives;
+      final benefits =
+          (benHi != null && benHi.isNotEmpty) ? benHi : scheme.benefits;
+
+      return LocalizedScheme._(
+        rawScheme: scheme,
+        languageCode: languageCode,
+        name: name,
+        shortName: shortName,
+        fullSchemeName: name,
+        ministry: meta(scheme.ministry),
+        department: meta(scheme.department),
+        implementingAgency: meta(scheme.implementingAgency),
+        governmentLevel: meta(scheme.governmentLevel),
+        sponsoringBody: meta(scheme.sponsoringBody),
+        issuingBody: meta(scheme.issuingBody),
+        state: meta(scheme.state),
+        sector: meta(scheme.sector),
+        targetBeneficiary: meta(scheme.targetBeneficiary),
+        schemeType: meta(scheme.schemeType),
+        category: meta(scheme.category),
+        overview: overview,
+        objectives: objectives,
+        benefits: benefits,
+        subsidyAmount: scheme.subsidyAmount,
+        verificationStatus: meta(scheme.verificationStatus),
+        verificationNotes: scheme.verificationNotes,
+        lastUpdated: scheme.lastUpdated,
+        glanceChips: scheme.glanceChips.map(meta).toList(),
+        benefitTypesList: scheme.benefitTypesList.map(meta).toList(),
+        capitalSubsidyDetails: scheme.capitalSubsidyDetails,
+        interestSubventionDetails: scheme.interestSubventionDetails,
+        marginMoneyDetails: scheme.marginMoneyDetails,
+        loanGuaranteeDetails: scheme.loanGuaranteeDetails,
+        supportTypes: scheme.supportTypes,
+        rawBenefitsDisplayText: benefits,
+        eligibilityAgeRange: scheme.eligibilityAgeRange,
+        turnoverLimits: scheme.turnoverLimits,
+        investmentLimits: scheme.investmentLimits,
+        allowedBusinessTypes: scheme.allowedBusinessTypes,
+        educationRequirements: scheme.educationRequirements,
+        mandatoryConditions: scheme.mandatoryConditions,
+        optionalConditions: scheme.optionalConditions,
+        specialCategories: scheme.specialCategories,
+        applicationFee: scheme.applicationFee,
+        processingDurationDays: scheme.processingDurationDays,
+        intakeTimelineText: scheme.intakeTimelineText,
+        financeProductsSummary: scheme.financeProductsSummary,
+        taxExemptionsSummary: scheme.taxExemptionsSummary,
+        applicableTaxesList: scheme.applicableTaxesList,
+        knowledgeGuidanceList: scheme.knowledgeGuidanceList,
+        helplineContactsMap: scheme.helplineContactsMap,
+        eligibilityCriteria: scheme.eligibilityCriteria,
+        requiredDocuments: scheme.requiredDocuments,
+        applicationProcess: scheme.applicationProcess,
+        documents: scheme.documents,
+        requiredServices: scheme.requiredServices,
+        faqs: scheme.faqs,
+      );
+    }
+
     if (languageCode != 'ta') {
       return LocalizedScheme._(
         rawScheme: scheme,

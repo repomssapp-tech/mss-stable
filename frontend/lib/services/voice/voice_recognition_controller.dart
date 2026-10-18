@@ -1,3 +1,4 @@
+import '../../services/catalog/centralized_translator.dart';
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -122,7 +123,7 @@ class AutomaticVoiceRecognitionController
           VoiceRecognitionError(
             code: error.errorMsg,
             message: error.errorMsg == 'error_permission'
-                ? 'Microphone permission is needed for voice search.'
+                ? CentralizedTranslator.instance.localize('Microphone permission is needed for voice search.')
                 : 'I could not hear you. Tap the microphone to try again.',
           ),
         );
@@ -140,17 +141,17 @@ class AutomaticVoiceRecognitionController
         available: false,
         automaticLanguageDetection: false,
         reason: hasPermission
-            ? 'Voice recognition is not available on this device.'
-            : 'Microphone permission is needed for voice search.',
+            ? CentralizedTranslator.instance.localize('Voice recognition is not available on this device.')
+            : CentralizedTranslator.instance.localize('Microphone permission is needed for voice search.'),
       );
     }
 
     if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) {
-      return _capabilities = const VoiceRecognitionCapabilities(
+      return _capabilities = VoiceRecognitionCapabilities(
         available: true,
         automaticLanguageDetection: false,
         reason:
-            'Automatic English/Tamil detection is available on Android 14 or newer.',
+            CentralizedTranslator.instance.localize('Automatic English/Tamil detection is available on Android 14 or newer.'),
       );
     }
 
@@ -159,12 +160,12 @@ class AutomaticVoiceRecognitionController
         _handleNativeEvent,
         onError: (_) {
           if (_disposed || !_usingNative) return;
-          const reason =
-              'Automatic language detection stopped. Choose English or Tamil to continue.';
+          final reason =
+              CentralizedTranslator.instance.localize('Automatic language detection stopped. Choose English or Tamil to continue.');
           _markAutomaticUnavailable(reason);
           _isListening = false;
           _onError(
-            const VoiceRecognitionError(
+            VoiceRecognitionError(
               code: 'native_event_error',
               message: reason,
               automaticUnavailable: true,
@@ -189,13 +190,13 @@ class AutomaticVoiceRecognitionController
         automaticLanguageDetection: false,
         reason:
             error.message ??
-            'Automatic language detection is unavailable on this device.',
+            CentralizedTranslator.instance.localize('Automatic language detection is unavailable on this device.'),
       );
     } on MissingPluginException {
-      return _capabilities = const VoiceRecognitionCapabilities(
+      return _capabilities = VoiceRecognitionCapabilities(
         available: true,
         automaticLanguageDetection: false,
-        reason: 'Automatic language detection is unavailable on this device.',
+        reason: CentralizedTranslator.instance.localize('Automatic language detection is unavailable on this device.'),
       );
     }
   }
@@ -206,9 +207,9 @@ class AutomaticVoiceRecognitionController
     final capabilities = _capabilities;
     if (capabilities == null || !capabilities.available) {
       _onError(
-        const VoiceRecognitionError(
+        VoiceRecognitionError(
           code: 'recognizer_unavailable',
-          message: 'Voice recognition is not available on this device.',
+          message: CentralizedTranslator.instance.localize('Voice recognition is not available on this device.'),
         ),
       );
       return;
@@ -239,7 +240,7 @@ class AutomaticVoiceRecognitionController
         if (automaticUnavailable) {
           _markAutomaticUnavailable(
             error.message ??
-                'Automatic language detection is unavailable on this device.',
+                CentralizedTranslator.instance.localize('Automatic language detection is unavailable on this device.'),
           );
         }
         _onError(
@@ -247,7 +248,7 @@ class AutomaticVoiceRecognitionController
             code: error.code,
             message:
                 error.message ??
-                'Automatic language detection could not start. Please try again.',
+                CentralizedTranslator.instance.localize('Automatic language detection could not start. Please try again.'),
             automaticUnavailable: automaticUnavailable,
           ),
         );
@@ -352,7 +353,7 @@ class AutomaticVoiceRecognitionController
         if (automaticUnavailable) {
           _markAutomaticUnavailable(
             event['message'] as String? ??
-                'Automatic language detection is unavailable on this device.',
+                CentralizedTranslator.instance.localize('Automatic language detection is unavailable on this device.'),
           );
         }
         _onError(
@@ -360,7 +361,7 @@ class AutomaticVoiceRecognitionController
             code: event['code'] as String? ?? 'unknown',
             message:
                 event['message'] as String? ??
-                'Voice recognition could not continue. Please try again.',
+                CentralizedTranslator.instance.localize('Voice recognition could not continue. Please try again.'),
             automaticUnavailable: automaticUnavailable,
           ),
         );

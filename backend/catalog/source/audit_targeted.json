@@ -1,0 +1,875 @@
+{
+  "applicability_matrix_audit": {
+    "recordCount": 217,
+    "note": "This is the catalog intelligence_resolver.applicability_match() and the API's eligibility/search filters actually read at runtime -- NOT content.eligibility.structured / targetBeneficiaries.* on the raw scheme record (those are 0% populated, confirmed above, but are functionally superseded/unused dead schema, not a runtime gap).",
+    "fieldCoverage": [
+      {
+        "field": "gender",
+        "total": 217,
+        "filled": 76,
+        "missing": 141,
+        "coveragePct": 35.0
+      },
+      {
+        "field": "community",
+        "total": 217,
+        "filled": 0,
+        "missing": 217,
+        "coveragePct": 0.0
+      },
+      {
+        "field": "specialCategory",
+        "total": 217,
+        "filled": 72,
+        "missing": 145,
+        "coveragePct": 33.2
+      },
+      {
+        "field": "enterpriseType",
+        "total": 217,
+        "filled": 36,
+        "missing": 181,
+        "coveragePct": 16.6
+      },
+      {
+        "field": "businessStage",
+        "total": 217,
+        "filled": 32,
+        "missing": 185,
+        "coveragePct": 14.7
+      },
+      {
+        "field": "sector",
+        "total": 217,
+        "filled": 11,
+        "missing": 206,
+        "coveragePct": 5.1
+      },
+      {
+        "field": "district",
+        "total": 217,
+        "filled": 0,
+        "missing": 217,
+        "coveragePct": 0.0
+      },
+      {
+        "field": "cluster",
+        "total": 217,
+        "filled": 0,
+        "missing": 217,
+        "coveragePct": 0.0
+      }
+    ]
+  },
+  "scheme_entity_audit": {
+    "recordCount": 217,
+    "identity": {
+      "section": "Identity",
+      "rows": [
+        {
+          "field": "identity.id",
+          "total": 217,
+          "filled": 217,
+          "missing": 0,
+          "coveragePct": 100.0
+        },
+        {
+          "field": "identity.name",
+          "total": 217,
+          "filled": 217,
+          "missing": 0,
+          "coveragePct": 100.0
+        },
+        {
+          "field": "content.classification.government.departmentText",
+          "total": 217,
+          "filled": 139,
+          "missing": 78,
+          "coveragePct": 64.1
+        },
+        {
+          "field": "content.classification.government.implementingAgencyText",
+          "total": 217,
+          "filled": 152,
+          "missing": 65,
+          "coveragePct": 70.0
+        },
+        {
+          "field": "content.classification.government.states",
+          "total": 217,
+          "filled": 36,
+          "missing": 181,
+          "coveragePct": 16.6
+        },
+        {
+          "field": "content.classification.government.level",
+          "total": 217,
+          "filled": 197,
+          "missing": 20,
+          "coveragePct": 90.8
+        }
+      ]
+    },
+    "localization": {
+      "section": "Localization (English/Tamil/Hindi presence)",
+      "rows": [
+        {
+          "field": "localization.en.name",
+          "total": 217,
+          "filled": 217,
+          "missing": 0,
+          "coveragePct": 100.0
+        },
+        {
+          "field": "localization.en.description",
+          "total": 217,
+          "filled": 200,
+          "missing": 17,
+          "coveragePct": 92.2
+        },
+        {
+          "field": "localization.ta.name",
+          "total": 217,
+          "filled": 217,
+          "missing": 0,
+          "coveragePct": 100.0
+        },
+        {
+          "field": "localization.ta.description",
+          "total": 217,
+          "filled": 200,
+          "missing": 17,
+          "coveragePct": 92.2
+        },
+        {
+          "field": "localization.hi.name",
+          "total": 217,
+          "filled": 0,
+          "missing": 217,
+          "coveragePct": 0.0
+        }
+      ],
+      "translationStatusBreakdown": {
+        "machine": 217
+      },
+      "taApprovedCount": 0,
+      "taApprovedPct": 0.0
+    },
+    "benefits": {
+      "section": "Benefits (top-level)",
+      "rows": [
+        {
+          "field": "content.benefits.summary",
+          "total": 217,
+          "filled": 214,
+          "missing": 3,
+          "coveragePct": 98.6
+        },
+        {
+          "field": "content.benefits.benefitTypes",
+          "total": 217,
+          "filled": 134,
+          "missing": 83,
+          "coveragePct": 61.8
+        }
+      ],
+      "declaredBenefitTypeInstances": 134,
+      "withAmountOrPercentageFilled": 28,
+      "amountFillPct": 20.9
+    },
+    "eligibility": {
+      "section": "Eligibility",
+      "rows": [
+        {
+          "field": "content.targetBeneficiaries.beneficiaryTypes",
+          "total": 217,
+          "filled": 0,
+          "missing": 217,
+          "coveragePct": 0.0
+        },
+        {
+          "field": "content.eligibility.structured.gender.values",
+          "total": 217,
+          "filled": 76,
+          "missing": 141,
+          "coveragePct": 35.0
+        },
+        {
+          "field": "content.eligibility.structured.community.values",
+          "total": 217,
+          "filled": 0,
+          "missing": 217,
+          "coveragePct": 0.0
+        },
+        {
+          "field": "content.eligibility.structured.enterprise.types",
+          "total": 217,
+          "filled": 36,
+          "missing": 181,
+          "coveragePct": 16.6
+        },
+        {
+          "field": "content.eligibility.structured.businessStage.values",
+          "total": 217,
+          "filled": 32,
+          "missing": 185,
+          "coveragePct": 14.7
+        }
+      ]
+    },
+    "documents": {
+      "section": "Documents (list non-empty)",
+      "rows": [
+        {
+          "field": "content.requiredDocuments",
+          "total": 217,
+          "filled": 217,
+          "missing": 0,
+          "coveragePct": 100.0
+        }
+      ],
+      "documentDescriptionsFilled": 556,
+      "documentDescriptionsTotal": 556,
+      "documentDescriptionPct": 100.0
+    },
+    "application": {
+      "section": "Application",
+      "rows": [
+        {
+          "field": "content.applicationProcess.mode",
+          "total": 217,
+          "filled": 54,
+          "missing": 163,
+          "coveragePct": 24.9
+        },
+        {
+          "field": "content.applicationProcess.steps",
+          "total": 217,
+          "filled": 0,
+          "missing": 217,
+          "coveragePct": 0.0
+        },
+        {
+          "field": "content.applicationTimeline",
+          "total": 217,
+          "filled": 217,
+          "missing": 0,
+          "coveragePct": 100.0
+        },
+        {
+          "field": "content.applicationProcess.onlineUrl",
+          "total": 217,
+          "filled": 99,
+          "missing": 118,
+          "coveragePct": 45.6
+        }
+      ]
+    }
+  },
+  "financial_intelligence_audit": {
+    "recordCount": 115,
+    "fieldCoverage": [
+      {
+        "field": "assistanceType",
+        "path": "content.productType",
+        "total": 115,
+        "filled": 115,
+        "missing": 0,
+        "coveragePct": 100.0
+      },
+      {
+        "field": "minimumAmount",
+        "path": "content.amount.minInr",
+        "total": 115,
+        "filled": 5,
+        "missing": 110,
+        "coveragePct": 4.3
+      },
+      {
+        "field": "maximumAmount",
+        "path": "content.amount.maxInr",
+        "total": 115,
+        "filled": 34,
+        "missing": 81,
+        "coveragePct": 29.6
+      },
+      {
+        "field": "subsidyPercentage",
+        "path": "content.amount.percentage",
+        "total": 115,
+        "filled": 16,
+        "missing": 99,
+        "coveragePct": 13.9
+      },
+      {
+        "field": "interestRate",
+        "path": "content.interestRate.percent",
+        "total": 115,
+        "filled": 10,
+        "missing": 105,
+        "coveragePct": 8.7
+      },
+      {
+        "field": "tenure",
+        "path": "content.tenure.tenureMonths",
+        "total": 115,
+        "filled": 10,
+        "missing": 105,
+        "coveragePct": 8.7
+      },
+      {
+        "field": "collateralRequirement",
+        "path": "content.collateral.status",
+        "total": 115,
+        "filled": 7,
+        "missing": 108,
+        "coveragePct": 6.1
+      },
+      {
+        "field": "guaranteeInformation",
+        "path": "content.collateral.guaranteeSupported",
+        "total": 115,
+        "filled": 3,
+        "missing": 112,
+        "coveragePct": 2.6
+      },
+      {
+        "field": "source",
+        "path": "provenance.primarySourceId",
+        "total": 115,
+        "filled": 108,
+        "missing": 7,
+        "coveragePct": 93.9
+      },
+      {
+        "field": "verificationStatus",
+        "path": "verification.status",
+        "total": 115,
+        "filled": 115,
+        "missing": 0,
+        "coveragePct": 100.0
+      }
+    ],
+    "classification": {
+      "partially_populated": 105,
+      "missing_critical": 10
+    },
+    "missingCriticalRecordIds": [
+      "FIN000013",
+      "FIN000014",
+      "FIN000021",
+      "FIN000026",
+      "FIN000027",
+      "FIN000031",
+      "FIN000052",
+      "FIN000074",
+      "FIN000077",
+      "FIN000084"
+    ]
+  },
+  "cluster_intelligence_audit": {
+    "recordCount": 10,
+    "fieldCoverage": [
+      {
+        "field": "clusterName",
+        "path": "content.clusterName",
+        "total": 10,
+        "filled": 10,
+        "missing": 0,
+        "coveragePct": 100.0
+      },
+      {
+        "field": "sector",
+        "path": "content.sector",
+        "total": 10,
+        "filled": 10,
+        "missing": 0,
+        "coveragePct": 100.0
+      },
+      {
+        "field": "districtLocation",
+        "path": "content.districts",
+        "total": 10,
+        "filled": 6,
+        "missing": 4,
+        "coveragePct": 60.0
+      },
+      {
+        "field": "supportedIndustries",
+        "path": "content.supportedBusinessTypes",
+        "total": 10,
+        "filled": 0,
+        "missing": 10,
+        "coveragePct": 0.0
+      },
+      {
+        "field": "financialAssistanceApplicable",
+        "path": "content.financialSupport.applicable",
+        "total": 10,
+        "filled": 8,
+        "missing": 2,
+        "coveragePct": 80.0
+      },
+      {
+        "field": "financialAmount",
+        "path": "content.financialSupport.maxAmountInr",
+        "total": 10,
+        "filled": 8,
+        "missing": 2,
+        "coveragePct": 80.0
+      },
+      {
+        "field": "nonFinancialApplicable",
+        "path": "content.nonFinancialSupport.applicable",
+        "total": 10,
+        "filled": 10,
+        "missing": 0,
+        "coveragePct": 100.0
+      },
+      {
+        "field": "sourceVerification",
+        "path": "verification.verifiedAgainst",
+        "total": 10,
+        "filled": 10,
+        "missing": 0,
+        "coveragePct": 100.0
+      }
+    ],
+    "financialSupportApplicableCount": 8,
+    "nonFinancialSupportApplicableCount": 2,
+    "bothApplicableSimultaneously": 0,
+    "records": [
+      {
+        "id": "CLUS000001",
+        "name": "MSME Cluster Development Programme",
+        "sector": "general",
+        "financialApplicable": null,
+        "nonFinancialApplicable": true
+      },
+      {
+        "id": "CLUS000002",
+        "name": "SIPCOT Industrial Parks (Tamil Nadu)",
+        "sector": "general",
+        "financialApplicable": null,
+        "nonFinancialApplicable": true
+      },
+      {
+        "id": "CLUS000003",
+        "name": "Cut & Sew Scheme (Tamil Nadu Textiles)",
+        "sector": "textile",
+        "financialApplicable": true,
+        "nonFinancialApplicable": false
+      },
+      {
+        "id": "CLUS000004",
+        "name": "Non-Conventional Fibre/Yarn Manufacturing Capital Investment Subsidy (Tamil Nadu Textiles)",
+        "sector": "textile",
+        "financialApplicable": true,
+        "nonFinancialApplicable": false
+      },
+      {
+        "id": "CLUS000005",
+        "name": "Printing Cluster CFC — Sivakasi",
+        "sector": "printing",
+        "financialApplicable": true,
+        "nonFinancialApplicable": false
+      },
+      {
+        "id": "CLUS000006",
+        "name": "Printing Cluster CFC — Krishnagiri",
+        "sector": "printing",
+        "financialApplicable": true,
+        "nonFinancialApplicable": false
+      },
+      {
+        "id": "CLUS000007",
+        "name": "Engineering Cluster CFC — Hosur",
+        "sector": "engineering",
+        "financialApplicable": true,
+        "nonFinancialApplicable": false
+      },
+      {
+        "id": "CLUS000008",
+        "name": "Engineering Cluster CFC — Ranipet",
+        "sector": "engineering",
+        "financialApplicable": true,
+        "nonFinancialApplicable": false
+      },
+      {
+        "id": "CLUS000009",
+        "name": "Leather Cluster CFC — Pallavaram",
+        "sector": "leather",
+        "financialApplicable": true,
+        "nonFinancialApplicable": false
+      },
+      {
+        "id": "CLUS000010",
+        "name": "Rice Mill Cluster CFC — Alangulam",
+        "sector": "food_processing",
+        "financialApplicable": true,
+        "nonFinancialApplicable": false
+      }
+    ]
+  },
+  "msme_advantage_audit": {
+    "privilegeRecordCount": 1,
+    "privilegeAreaCoverage": [
+      {
+        "field": "tenderBenefits",
+        "path": "content.tenderBenefits.applicable",
+        "total": 1,
+        "filled": 0,
+        "missing": 1,
+        "coveragePct": 0.0
+      },
+      {
+        "field": "delayedPaymentProtection",
+        "path": "content.delayedPaymentProtection.applicable",
+        "total": 1,
+        "filled": 1,
+        "missing": 0,
+        "coveragePct": 100.0
+      },
+      {
+        "field": "billDiscounting",
+        "path": "content.billDiscounting.applicable",
+        "total": 1,
+        "filled": 0,
+        "missing": 1,
+        "coveragePct": 0.0
+      },
+      {
+        "field": "complianceBenefits",
+        "path": "content.compliance.benefits",
+        "total": 1,
+        "filled": 0,
+        "missing": 1,
+        "coveragePct": 0.0
+      }
+    ],
+    "tredsRecordCount": 16,
+    "tredsSchemeRelationships": 0
+  },
+  "search_readiness_audit": {
+    "schemeIndexEntryCount": 217,
+    "sampleSchemeSearchProfileKeys": [
+      "aliases",
+      "beneficiary",
+      "benefitTags",
+      "clusters",
+      "collateralStatus",
+      "communityTags",
+      "districts",
+      "eligibilityKeywords",
+      "enterpriseType",
+      "financialBenefits",
+      "financialKeywords",
+      "guaranteeSchemes",
+      "industryTags",
+      "keywords",
+      "loanType",
+      "name",
+      "schemeId",
+      "sector",
+      "subsidyType",
+      "taxBenefits",
+      "tredsTags",
+      "userIntentTags"
+    ],
+    "dimensions": [
+      {
+        "dimension": "sector",
+        "profilePath": "schemeSearchProfile.sector",
+        "populatedCount": 158,
+        "coveragePct": 72.8,
+        "usedInRankingScore": false,
+        "usedAsApiPostFilter": true
+      },
+      {
+        "dimension": "industry",
+        "profilePath": "schemeSearchProfile.industryTags",
+        "populatedCount": 29,
+        "coveragePct": 13.4,
+        "usedInRankingScore": true,
+        "usedAsApiPostFilter": false
+      },
+      {
+        "dimension": "beneficiary",
+        "profilePath": "schemeSearchProfile.beneficiary",
+        "populatedCount": 158,
+        "coveragePct": 72.8,
+        "usedInRankingScore": false,
+        "usedAsApiPostFilter": true
+      },
+      {
+        "dimension": "gender",
+        "profilePath": "schemeSearchProfile.communityTags",
+        "populatedCount": 64,
+        "coveragePct": 29.5,
+        "usedInRankingScore": false,
+        "usedAsApiPostFilter": true
+      },
+      {
+        "dimension": "state",
+        "profilePath": null,
+        "populatedCount": null,
+        "coveragePct": null,
+        "usedInRankingScore": false,
+        "usedAsApiPostFilter": true
+      },
+      {
+        "dimension": "district",
+        "profilePath": "schemeSearchProfile.districts",
+        "populatedCount": 155,
+        "coveragePct": 71.4,
+        "usedInRankingScore": false,
+        "usedAsApiPostFilter": true
+      },
+      {
+        "dimension": "department",
+        "profilePath": null,
+        "populatedCount": null,
+        "coveragePct": null,
+        "usedInRankingScore": false,
+        "usedAsApiPostFilter": true
+      },
+      {
+        "dimension": "assistanceType",
+        "profilePath": "schemeSearchProfile.loanType",
+        "populatedCount": 17,
+        "coveragePct": 7.8,
+        "usedInRankingScore": true,
+        "usedAsApiPostFilter": true
+      },
+      {
+        "dimension": "amountRange",
+        "profilePath": null,
+        "populatedCount": null,
+        "coveragePct": null,
+        "usedInRankingScore": false,
+        "usedAsApiPostFilter": false
+      },
+      {
+        "dimension": "enterpriseType",
+        "profilePath": "schemeSearchProfile.enterpriseType",
+        "populatedCount": 36,
+        "coveragePct": 16.6,
+        "usedInRankingScore": false,
+        "usedAsApiPostFilter": true
+      },
+      {
+        "dimension": "businessStage",
+        "profilePath": null,
+        "populatedCount": null,
+        "coveragePct": null,
+        "usedInRankingScore": false,
+        "usedAsApiPostFilter": true
+      },
+      {
+        "dimension": "cluster",
+        "profilePath": "schemeSearchProfile.clusters",
+        "populatedCount": 0,
+        "coveragePct": 0.0,
+        "usedInRankingScore": true,
+        "usedAsApiPostFilter": true
+      },
+      {
+        "dimension": "taxBenefits",
+        "profilePath": "schemeSearchProfile.taxBenefits",
+        "populatedCount": 37,
+        "coveragePct": 17.1,
+        "usedInRankingScore": true,
+        "usedAsApiPostFilter": false
+      }
+    ],
+    "note": "state/district/department/enterpriseType/businessStage/amountRange are NOT part of schemeSearchProfile / the ranking index at all -- they are applied by MssApiRC1 as POST-RANKING PREDICATES reading identity/content fields directly (see API_RC1_IMPLEMENTATION_REPORT.md sec 3), never indexed or scored. That is an architectural choice already documented, not an oversight found by this audit -- flagged here for completeness."
+  },
+  "localization_audit": [
+    {
+      "catalog": "authority_catalog.json",
+      "recordCount": 124,
+      "englishCoveragePct": 100.0,
+      "tamilCoveragePct": 100.0,
+      "tamilOfficialPct": 0.0,
+      "tamilMachinePct": 100.0
+    },
+    {
+      "catalog": "business_enablement_catalog.json",
+      "recordCount": 4,
+      "englishCoveragePct": 100.0,
+      "tamilCoveragePct": 0.0,
+      "tamilOfficialPct": 0.0,
+      "tamilMachinePct": 0.0
+    },
+    {
+      "catalog": "cluster_assistance_catalog.json",
+      "recordCount": 10,
+      "englishCoveragePct": 100.0,
+      "tamilCoveragePct": 0.0,
+      "tamilOfficialPct": 0.0,
+      "tamilMachinePct": 0.0
+    },
+    {
+      "catalog": "common_catalog.json",
+      "recordCount": 344,
+      "englishCoveragePct": 100.0,
+      "tamilCoveragePct": 98.8,
+      "tamilOfficialPct": 0.0,
+      "tamilMachinePct": 98.8
+    },
+    {
+      "catalog": "csr_catalog.json",
+      "recordCount": 16,
+      "englishCoveragePct": 100.0,
+      "tamilCoveragePct": 0.0,
+      "tamilOfficialPct": 0.0,
+      "tamilMachinePct": 0.0
+    },
+    {
+      "catalog": "enterprise_classification_catalog.json",
+      "recordCount": 11,
+      "englishCoveragePct": 100.0,
+      "tamilCoveragePct": 54.5,
+      "tamilOfficialPct": 0.0,
+      "tamilMachinePct": 54.5
+    },
+    {
+      "catalog": "export_catalog.json",
+      "recordCount": 13,
+      "englishCoveragePct": 100.0,
+      "tamilCoveragePct": 100.0,
+      "tamilOfficialPct": 0.0,
+      "tamilMachinePct": 100.0
+    },
+    {
+      "catalog": "finance_catalog.json",
+      "recordCount": 115,
+      "englishCoveragePct": 100.0,
+      "tamilCoveragePct": 100.0,
+      "tamilOfficialPct": 0.0,
+      "tamilMachinePct": 100.0
+    },
+    {
+      "catalog": "institution_catalog.json",
+      "recordCount": 83,
+      "englishCoveragePct": 100.0,
+      "tamilCoveragePct": 100.0,
+      "tamilOfficialPct": 0.0,
+      "tamilMachinePct": 100.0
+    },
+    {
+      "catalog": "knowledge_catalog.json",
+      "recordCount": 28,
+      "englishCoveragePct": 100.0,
+      "tamilCoveragePct": 35.7,
+      "tamilOfficialPct": 0.0,
+      "tamilMachinePct": 35.7
+    },
+    {
+      "catalog": "msme_privilege_catalog.json",
+      "recordCount": 1,
+      "englishCoveragePct": 100.0,
+      "tamilCoveragePct": 0.0,
+      "tamilOfficialPct": 0.0,
+      "tamilMachinePct": 0.0
+    },
+    {
+      "catalog": "scheme_catalog.json",
+      "recordCount": 217,
+      "englishCoveragePct": 100.0,
+      "tamilCoveragePct": 100.0,
+      "tamilOfficialPct": 0.0,
+      "tamilMachinePct": 100.0
+    },
+    {
+      "catalog": "tax_catalog.json",
+      "recordCount": 13,
+      "englishCoveragePct": 100.0,
+      "tamilCoveragePct": 100.0,
+      "tamilOfficialPct": 0.0,
+      "tamilMachinePct": 100.0
+    },
+    {
+      "catalog": "treds_catalog.json",
+      "recordCount": 16,
+      "englishCoveragePct": 100.0,
+      "tamilCoveragePct": 0.0,
+      "tamilOfficialPct": 0.0,
+      "tamilMachinePct": 0.0
+    }
+  ],
+  "relationship_audit": {
+    "totalEntities": 1212,
+    "danglingReferences": [],
+    "duplicateRelationships": [],
+    "schemesWithNoOutgoingRelationships": 39,
+    "schemesWithNoOutgoingRelationshipsSample": [
+      "SCH000006",
+      "SCH000009",
+      "SCH000030",
+      "SCH000074",
+      "SCH000108",
+      "SCH000110",
+      "SCH000111",
+      "SCH000112",
+      "SCH000116",
+      "SCH000117"
+    ],
+    "entitiesWithNoIncomingReferenceCount": 649,
+    "note": "Full dangling-reference / duplicate-relationship-edge-type check already runs in validate_cross_catalog.py each phase (0 dangling, always re-verified before every report in this project) -- this section adds orphan/incoming counts, which that validator does not report."
+  },
+  "api_readiness_audit": {
+    "checks": [
+      {
+        "endpoint": "health",
+        "ok": true,
+        "emptyFieldsFound": []
+      },
+      {
+        "endpoint": "search('loan')",
+        "ok": true,
+        "emptyFieldsFound": []
+      },
+      {
+        "endpoint": "scheme_detail(SCH000001)",
+        "ok": true,
+        "emptyFieldsFound": []
+      },
+      {
+        "endpoint": "scheme_finance(SCH000001)",
+        "ok": true,
+        "emptyFieldsFound": []
+      },
+      {
+        "endpoint": "clusters()",
+        "ok": true,
+        "emptyFieldsFound": []
+      },
+      {
+        "endpoint": "tax()",
+        "ok": true,
+        "emptyFieldsFound": []
+      },
+      {
+        "endpoint": "privileges()",
+        "ok": true,
+        "emptyFieldsFound": []
+      },
+      {
+        "endpoint": "finance_products()",
+        "ok": true,
+        "emptyFieldsFound": []
+      },
+      {
+        "endpoint": "metadata()",
+        "ok": true,
+        "emptyFieldsFound": []
+      },
+      {
+        "endpoint": "localization(SCH000001)",
+        "ok": true,
+        "emptyFieldsFound": []
+      }
+    ]
+  }
+}

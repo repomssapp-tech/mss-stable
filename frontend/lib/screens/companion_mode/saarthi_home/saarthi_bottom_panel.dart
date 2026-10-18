@@ -427,7 +427,7 @@ class SaarthiBottomPanel extends StatelessWidget {
               onPressed: cloudRetrying ? null : onRetryCloudVoice,
               icon: const Icon(Icons.refresh_rounded, size: 17),
               label: Text(
-                CentralizedTranslator.instance.translate('Retry voice'),
+                CentralizedTranslator.instance.localize('Retry voice'),
               ),
             ),
           ],

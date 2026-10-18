@@ -1,0 +1,311 @@
+{
+  "generatedAt": "2026-08-04T00:00:00Z",
+  "catalogRelease": "1.33.0-alpha",
+  "stage": "A — document-derived, tiers 1-4, no network",
+  "phases": [
+    {
+      "phase": 1,
+      "file": "common_catalog.json",
+      "status": "generated",
+      "recordCount": 344
+    },
+    {
+      "phase": 2,
+      "file": "authority_catalog.json",
+      "status": "generated",
+      "recordCount": 124
+    },
+    {
+      "phase": 3,
+      "file": "institution_catalog.json",
+      "status": "generated",
+      "recordCount": 83
+    },
+    {
+      "phase": 4,
+      "file": "scheme_catalog.json",
+      "status": "generated",
+      "recordCount": 217
+    },
+    {
+      "phase": 5,
+      "file": "finance_catalog.json",
+      "status": "generated",
+      "recordCount": 115
+    },
+    {
+      "phase": 6,
+      "file": "tax_catalog.json",
+      "status": "generated",
+      "recordCount": 13
+    },
+    {
+      "phase": 7,
+      "file": "treds_catalog.json",
+      "status": "generated",
+      "recordCount": 16
+    },
+    {
+      "phase": 8,
+      "file": "csr_catalog.json",
+      "status": "generated",
+      "recordCount": 16
+    },
+    {
+      "phase": 9,
+      "file": "export_catalog.json",
+      "status": "generated",
+      "recordCount": 13
+    },
+    {
+      "phase": 10,
+      "file": "knowledge_catalog.json",
+      "status": "generated",
+      "recordCount": 28
+    },
+    {
+      "phase": 11,
+      "file": "search_index.json",
+      "status": "generated",
+      "recordCount": 969
+    },
+    {
+      "phase": 12,
+      "file": "manifest.json",
+      "status": "generated",
+      "recordCount": 1
+    }
+  ],
+  "phasesComplete": 12,
+  "phasesTotal": 12,
+  "entities": {
+    "common_terms": 344,
+    "authoritys": 124,
+    "institutions": 83,
+    "schemes": 217,
+    "finance_products": 115,
+    "tax_provisions": 13,
+    "treds_platforms": 16,
+    "csr_provisions": 16,
+    "export_benefits": 13,
+    "knowledge_items": 28
+  },
+  "entitiesTotal": 969,
+  "searchIndex": {
+    "indexedEntities": 969,
+    "coversAllEntities": true,
+    "searchRankPopulated": 0
+  },
+  "schemes": {
+    "total": 217,
+    "documents": 556,
+    "sources": 302,
+    "verified": 14,
+    "partiallyVerified": 82,
+    "unverified": 118,
+    "historical": 3,
+    "missingVerification": 203,
+    "missingContacts": 217,
+    "missingApplicationLinks": 118,
+    "missingApplicationMode": 173,
+    "missingBenefitAmount": 190,
+    "missingFaqs": 217,
+    "missingTimeline": 217,
+    "missingLegalBasis": 217,
+    "unresolvedAuthorityRefs": 116,
+    "missingFieldEntries": 3821,
+    "aiSummariesExtractive": 214,
+    "aiApproved": 0,
+    "completenessPct": 41.3
+  },
+  "vocabulary": {
+    "terms": 344,
+    "termTypes": 16,
+    "byType": {
+      "authority_type": 11,
+      "beneficiary_type": 18,
+      "benefit_type": 13,
+      "business_stage": 7,
+      "compliance_type": 7,
+      "district": 38,
+      "document_type": 13,
+      "enterprise_type": 13,
+      "glossary_term": 10,
+      "loan_type": 8,
+      "organization_type": 10,
+      "registration_type": 12,
+      "scheme_type": 20,
+      "search_keyword": 120,
+      "state": 36,
+      "tax_type": 8
+    },
+    "harvestedAliases": 462,
+    "schemeTypeAliases": 139,
+    "documentTypeAliases": 323,
+    "schemeTypeEnumsClosable": 0,
+    "schemeTypeStillNull": 62
+  },
+  "baselineDelta": {
+    "from": "1.0.0-alpha",
+    "to": "1.33.0-alpha",
+    "ministryIdResolved": {
+      "before": 0,
+      "after": 101,
+      "delta": 101
+    },
+    "departmentIdResolved": {
+      "before": 0,
+      "after": 126,
+      "delta": 126
+    },
+    "implementingAgencyIdsResolved": {
+      "before": 0,
+      "after": 95,
+      "delta": 95
+    },
+    "schemeTypeEnumSet": {
+      "before": 0,
+      "after": 155,
+      "delta": 155
+    },
+    "documentsTyped": {
+      "before": 0,
+      "after": 202,
+      "delta": 202
+    },
+    "authorityReferences": {
+      "before": 0,
+      "after": 178,
+      "delta": 178
+    },
+    "missingFieldEntries": {
+      "before": 3851,
+      "after": 3821,
+      "delta": -30
+    },
+    "totalIdReferences": {
+      "before": 0,
+      "after": 495,
+      "delta": 495
+    }
+  },
+  "multilingual": {
+    "common_catalog.json": {
+      "localizableValues": 354,
+      "tamilPopulated": 350,
+      "tamilPending": 4,
+      "coveragePct": 98.9,
+      "methods": {
+        "dictionary": 238,
+        "llm_contextual_translation": 112
+      },
+      "searchKeywordsEn": 512,
+      "searchKeywordsTa": 207
+    },
+    "authority_catalog.json": {
+      "localizableValues": 124,
+      "tamilPopulated": 124,
+      "tamilPending": 0,
+      "coveragePct": 100.0,
+      "methods": {
+        "dictionary": 25,
+        "pattern": 19,
+        "llm_contextual_translation": 80
+      },
+      "searchKeywordsEn": 519,
+      "searchKeywordsTa": 286
+    },
+    "scheme_catalog.json": {
+      "localizableValues": 1420,
+      "tamilPopulated": 1420,
+      "tamilPending": 0,
+      "coveragePct": 100.0,
+      "methods": {
+        "llm_contextual_translation": 1406,
+        "dictionary": 12,
+        "pattern": 2
+      },
+      "searchKeywordsEn": 2421,
+      "searchKeywordsTa": 1064
+    },
+    "dictionaryEntries": 415,
+    "languages": [
+      "en",
+      "ta"
+    ],
+    "hindiPopulated": 0,
+    "translationMethod": "machine (dictionary + compositional patterns)",
+    "translationsApproved": 0,
+    "reviewRequired": true
+  },
+  "validation": {
+    "suites": {
+      "base": "1-30",
+      "scheme": "31-45",
+      "crossCatalog": "referential integrity",
+      "policy": "1-14",
+      "batch": "25-37"
+    },
+    "suiteResults": {
+      "validate_base.py": "PASS",
+      "validate_catalog.py": "PASS",
+      "validate_cross_catalog.py": "PASS",
+      "validate_i18n.py": "PASS"
+    },
+    "filesValidated": 12,
+    "filesPassed": 12,
+    "failures": 0,
+    "validationPassRate": "100%"
+  },
+  "files": [
+    {
+      "fileName": "common_catalog.json",
+      "byteSize": 2159550
+    },
+    {
+      "fileName": "authority_catalog.json",
+      "byteSize": 1095398
+    },
+    {
+      "fileName": "institution_catalog.json",
+      "byteSize": 611099
+    },
+    {
+      "fileName": "scheme_catalog.json",
+      "byteSize": 6696033
+    },
+    {
+      "fileName": "finance_catalog.json",
+      "byteSize": 1153309
+    },
+    {
+      "fileName": "tax_catalog.json",
+      "byteSize": 119187
+    },
+    {
+      "fileName": "treds_catalog.json",
+      "byteSize": 116452
+    },
+    {
+      "fileName": "csr_catalog.json",
+      "byteSize": 121425
+    },
+    {
+      "fileName": "export_catalog.json",
+      "byteSize": 118497
+    },
+    {
+      "fileName": "knowledge_catalog.json",
+      "byteSize": 246641
+    },
+    {
+      "fileName": "search_index.json",
+      "byteSize": 1546881
+    },
+    {
+      "fileName": "manifest.json",
+      "byteSize": 4874
+    }
+  ],
+  "totalBytes": 13989346
+}

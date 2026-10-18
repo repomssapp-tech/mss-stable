@@ -124,9 +124,6 @@ class FinanceInteractivePanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isTa =
-        Provider.of<AppProvider>(context, listen: false).selectedLanguage ==
-        'ta';
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
@@ -139,11 +136,7 @@ class FinanceInteractivePanel extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              isTa
-                  ? CentralizedTranslator.instance.translate(
-                      'Find Funding Options',
-                    )
-                  : 'Find Funding Options',
+              CentralizedTranslator.instance.localize('Find Funding Options'),
               style: GoogleFonts.poppins(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -152,11 +145,7 @@ class FinanceInteractivePanel extends StatelessWidget {
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(
-              isTa
-                  ? CentralizedTranslator.instance.translate(
-                      'Instantly search our database for credit support, collateral-free business loans, and SIDBI programs.',
-                    )
-                  : 'Instantly search our database for credit support, collateral-free business loans, and SIDBI programs.',
+              CentralizedTranslator.instance.localize('Instantly search our database for credit support, collateral-free business loans, and SIDBI programs.'),
               style: GoogleFonts.inter(
                 fontSize: 12.5,
                 color: const Color(0xFF64748B),
@@ -195,11 +184,7 @@ class FinanceInteractivePanel extends StatelessWidget {
                     Flexible(
                       child: FitOneLine(
                         child: Text(
-                          isTa
-                              ? CentralizedTranslator.instance.translate(
-                                  'Search MSME Loans & Funding',
-                                )
-                              : 'Search MSME Loans & Funding',
+                          CentralizedTranslator.instance.localize('Search MSME Loans & Funding'),
                           style: GoogleFonts.inter(
                             fontSize: 13,
                             fontWeight: FontWeight.bold,
@@ -228,9 +213,6 @@ class CsrInteractivePanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isTa =
-        Provider.of<AppProvider>(context, listen: false).selectedLanguage ==
-        'ta';
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
@@ -243,11 +225,7 @@ class CsrInteractivePanel extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              isTa
-                  ? CentralizedTranslator.instance.translate(
-                      'Explore CSR & Technology Clusters',
-                    )
-                  : 'Explore CSR & Technology Clusters',
+              CentralizedTranslator.instance.localize('Explore CSR & Technology Clusters'),
               style: GoogleFonts.poppins(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -256,11 +234,7 @@ class CsrInteractivePanel extends StatelessWidget {
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(
-              isTa
-                  ? CentralizedTranslator.instance.translate(
-                      'Search for schemes offering cluster development, technology upgrades, and incubator grants.',
-                    )
-                  : 'Search for schemes offering cluster development, technology upgrades, and incubator grants.',
+              CentralizedTranslator.instance.localize('Search for schemes offering cluster development, technology upgrades, and incubator grants.'),
               style: GoogleFonts.inter(
                 fontSize: 12.5,
                 color: const Color(0xFF64748B),
@@ -299,11 +273,7 @@ class CsrInteractivePanel extends StatelessWidget {
                     Flexible(
                       child: FitOneLine(
                         child: Text(
-                          isTa
-                              ? CentralizedTranslator.instance.translate(
-                                  'Search Cluster / Tech Schemes',
-                                )
-                              : 'Search Cluster / Tech Schemes',
+                          CentralizedTranslator.instance.localize('Search Cluster / Tech Schemes'),
                           style: GoogleFonts.inter(
                             fontSize: 13,
                             fontWeight: FontWeight.bold,

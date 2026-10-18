@@ -1,0 +1,125 @@
+{
+  "report": {
+    "scheme_catalog.json": {
+      "records": 219,
+      "fieldStat": {
+        "name:AVAILABLE_TAMIL": 211,
+        "shortName:NOT_APPLICABLE": 149,
+        "summary:AVAILABLE_TAMIL": 202,
+        "description:AVAILABLE_TAMIL": 202,
+        "objective:AVAILABLE_TAMIL": 160,
+        "eligibilityText:AVAILABLE_TAMIL": 219,
+        "benefitsText:AVAILABLE_TAMIL": 216,
+        "applicationText:AVAILABLE_TAMIL": 148,
+        "summary:NOT_APPLICABLE": 17,
+        "description:NOT_APPLICABLE": 17,
+        "objective:NOT_APPLICABLE": 59,
+        "benefitsText:NOT_APPLICABLE": 3,
+        "applicationText:NOT_APPLICABLE": 71,
+        "shortName:AVAILABLE_TAMIL(acronym)": 67,
+        "name:AVAILABLE_TAMIL(acronym)": 8,
+        "shortName:AVAILABLE_TAMIL": 3
+      }
+    },
+    "finance_catalog.json": {
+      "records": 115,
+      "fieldStat": {
+        "name:AVAILABLE_TAMIL": 115,
+        "description:AVAILABLE_TAMIL": 115,
+        "conditions:NOT_APPLICABLE": 115
+      }
+    },
+    "tax_catalog.json": {
+      "records": 13,
+      "fieldStat": {
+        "name:AVAILABLE_TAMIL": 13,
+        "description:NOT_APPLICABLE": 13,
+        "guidance:NOT_APPLICABLE": 13
+      }
+    },
+    "cluster_assistance_catalog.json": {
+      "records": 10,
+      "fieldStat": {
+        "name:AVAILABLE_TAMIL": 10,
+        "summary:AVAILABLE_TAMIL": 10
+      }
+    },
+    "csr_catalog.json": {
+      "records": 16,
+      "fieldStat": {
+        "name:AVAILABLE_TAMIL": 16,
+        "summary:AVAILABLE_TAMIL": 16,
+        "guidance:NOT_APPLICABLE": 16
+      }
+    },
+    "treds_catalog.json": {
+      "records": 16,
+      "fieldStat": {
+        "name:AVAILABLE_TAMIL": 16,
+        "summary:AVAILABLE_TAMIL": 16,
+        "guidance:NOT_APPLICABLE": 16
+      }
+    },
+    "msme_privilege_catalog.json": {
+      "records": 1,
+      "fieldStat": {
+        "name:AVAILABLE_TAMIL": 1,
+        "summary:AVAILABLE_TAMIL": 1
+      }
+    },
+    "business_enablement_catalog.json": {
+      "records": 4,
+      "fieldStat": {
+        "name:AVAILABLE_TAMIL": 4,
+        "summary:AVAILABLE_TAMIL": 4
+      }
+    },
+    "authority_catalog.json": {
+      "records": 124,
+      "fieldStat": {
+        "name:AVAILABLE_TAMIL": 124,
+        "mandate:NOT_APPLICABLE": 124
+      }
+    },
+    "institution_catalog.json": {
+      "records": 83,
+      "fieldStat": {
+        "name:AVAILABLE_TAMIL": 83,
+        "mandate:NOT_APPLICABLE": 83
+      }
+    },
+    "common_catalog.json": {
+      "records": 344,
+      "fieldStat": {
+        "label:AVAILABLE_TAMIL": 344,
+        "description:NOT_APPLICABLE": 334,
+        "description:AVAILABLE_TAMIL": 10
+      }
+    },
+    "enterprise_classification_catalog.json": {
+      "records": 11,
+      "fieldStat": {
+        "name:AVAILABLE_TAMIL": 11
+      }
+    },
+    "knowledge_catalog.json": {
+      "records": 28,
+      "fieldStat": {
+        "title:AVAILABLE_TAMIL": 28,
+        "body:MISSING_TAMIL": 18,
+        "body:AVAILABLE_TAMIL": 10
+      }
+    }
+  },
+  "leakageCount": 0,
+  "leakage": [],
+  "missingExamples": {
+    "knowledge_catalog.json::body": [
+      "KNOW000001",
+      "KNOW000002",
+      "KNOW000003",
+      "KNOW000004",
+      "KNOW000005"
+    ]
+  }
+}

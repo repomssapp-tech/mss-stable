@@ -1,0 +1,36 @@
+nameA,nameB,tokenSimilarity,decision
+"Micro, Small and Medium Enterprises Department","Tamil Nadu Micro, Small and Medium Enterprises Department",0.71,NOT merged — requires human confirmation
+"Micro, Small and Medium Enterprises Department","Ministry of Micro, Small and Medium Enterprises",0.67,NOT merged — requires human confirmation
+"Ministry of Micro, Small and Medium Enterprises","Ministry of Micro, Small and Medium Enterprises Micro, Small and Medium Enterprises Innovative Scheme",0.71,NOT merged — requires human confirmation
+"Ministry of Micro, Small and Medium Enterprises","Ministry of Micro, Small and Medium Enterprises International Cooperation",0.71,NOT merged — requires human confirmation
+Directorate General of Foreign Trade,Directorate General of Foreign Trade Regional Authorities,0.67,NOT merged — requires human confirmation
+Social Welfare and Women Empowerment Department,Tamil Nadu Social Welfare and Women Empowerment Department,0.71,NOT merged — requires human confirmation
+Spices Board India,Spices Board,0.67,NOT merged — requires human confirmation
+Small Industries Development Bank of India,Small Industries Development Bank of India Fund of Funds,0.71,NOT merged — requires human confirmation
+Atal Innovation Mission,"Atal Innovation Mission, NITI Aayog",0.6,NOT merged — requires human confirmation
+National Small Industries Corporation,National Small Industries Corporation Ltd,0.8,NOT merged — requires human confirmation
+National Small Industries Corporation Ltd,National Small Industries Corporation Venture Capital Fund Ltd,0.62,NOT merged — requires human confirmation
+Khadi and Village Industries Commission,Khadi and Village Industries Board,0.6,NOT merged — requires human confirmation
+"Department of Biotechnology, Ministry of Science and Technology",Department of Science and Technology,0.6,NOT merged — requires human confirmation
+"Department of Biotechnology, Ministry of Science and Technology",Ministry of Science and Technology,0.6,NOT merged — requires human confirmation
+"Office of DC-Micro, Small and Medium Enterprises","Micro, Small and Medium Enterprises Development and Facilitation Office",0.62,NOT merged — requires human confirmation
+Coir Board,Current Coir Board,0.67,NOT merged — requires human confirmation
+Coir Board,Official Coir Board,0.67,NOT merged — requires human confirmation
+Coir Board,Through Coir Board,0.67,NOT merged — requires human confirmation
+Tamil Nadu Social Welfare Department,Tamil Nadu Social Welfare and Women Empowerment Department,0.71,NOT merged — requires human confirmation
+Department for Promotion of Industry and Internal Trade Ministry of Commerce and Industry,Department for Promotion of Industry and Internal Trade,0.71,NOT merged — requires human confirmation
+Department of Rural Development,Rural Development and Panchayat Raj Department,0.6,NOT merged — requires human confirmation
+Ministry of Agriculture and Farmers Welfare,Department of Agriculture and Farmers Welfare,0.6,NOT merged — requires human confirmation
+District Industries Centre,"GM, District Industries Centre",0.75,NOT merged — requires human confirmation
+District Industries Centre,"General Manager, District Industries Centre",0.6,NOT merged — requires human confirmation
+Reserve Bank of India,Reserve Bank of India-regulated,0.75,NOT merged — requires human confirmation
+Tamil Nadu Corporation for Development of Women,Tamil Nadu Skill Development Corporation,0.67,NOT merged — requires human confirmation
+Tamil Nadu Corporation for Development of Women,Tamil Nadu Industrial Development Corporation,0.67,NOT merged — requires human confirmation
+Tamil Nadu Skill Development Corporation,Tamil Nadu Industrial Development Corporation,0.67,NOT merged — requires human confirmation
+Spices Board,Through Spices Board,0.67,NOT merged — requires human confirmation
+Spices Board,Valid Spices Board,0.67,NOT merged — requires human confirmation
+Spices Board,Current Spices Board,0.67,NOT merged — requires human confirmation
+Mission Shakti - Samarthya,Mission Shakti,0.67,NOT merged — requires human confirmation
+National Small Industries Corporation Venture Capital Fund Ltd,National Small Industries Corporation Venture Capital Fund Limited,0.78,NOT merged — requires human confirmation
+Tamil Nadu Industrial Investment Corporation,Tamil Nadu Industrial Development Corporation,0.67,NOT merged — requires human confirmation
+Antyodaya Yojana - National Rural Livelihoods Mission,Antyodaya Yojana - National Urban Livelihoods Mission,0.71,NOT merged — requires human confirmation

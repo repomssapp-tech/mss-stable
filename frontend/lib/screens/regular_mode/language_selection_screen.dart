@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../providers/app_state_provider.dart';
+import '../../services/catalog/language_pack_manager.dart';
 import '../../widgets/common/floating_logo.dart';
 import '../../l10n/l10n.dart';
 import '../login_screen.dart';
 import '../../utils/responsive.dart';
+import '../../utils/app_colors.dart';
 import '../../utils/app_spacing.dart';
 
 class LanguageOption {
@@ -43,6 +45,10 @@ class LanguageSelectionScreen extends StatefulWidget {
 
 class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
   String _selectedLang = 'en';
+  bool _hiSupported = false;
+  // True once the user has tapped a language, so the async Hindi-support check
+  // below never overrides an explicit choice.
+  bool _userPicked = false;
 
   final List<LanguageOption> _languages = const [
     LanguageOption(
@@ -61,11 +67,27 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
       circleBgColor: Color(0xFFECFDF5), // Emerald 50
       circleTextColor: Color(0xFF047857), // Emerald 700
     ),
+    LanguageOption(
+      code: 'hi',
+      nativeTitle: 'हिन्दी',
+      englishTitle: 'Hindi',
+      circleText: 'हिन्दी',
+      circleBgColor: AppColors.languageHindiBg,
+      circleTextColor: AppColors.languageHindiFg,
+    ),
   ];
+
+  List<LanguageOption> get _visibleLanguages => _languages.where((option) {
+    if (option.code == 'hi') {
+      return _hiSupported;
+    }
+    return true;
+  }).toList();
 
   @override
   void initState() {
     super.initState();
+    _checkLanguageSupport();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       final provider = Provider.of<AppProvider>(context, listen: false);
@@ -74,17 +96,38 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
       // fall back to the provider value / 'en'.
       final ambient = Localizations.localeOf(context).languageCode;
       setState(() {
-        _selectedLang = (ambient == 'ta' || ambient == 'en')
+        final candidate = (ambient == 'ta' || ambient == 'en' || (ambient == 'hi' && _hiSupported))
             ? ambient
             : (provider.selectedLanguage.isEmpty
                 ? 'en'
                 : provider.selectedLanguage);
+        _selectedLang = (candidate == 'hi' && !_hiSupported) ? 'en' : candidate;
       });
     });
   }
 
+  Future<void> _checkLanguageSupport() async {
+    final supported = await LanguagePackManager.instance.isLanguageSupported('hi');
+    if (mounted && supported != _hiSupported) {
+      setState(() {
+        _hiSupported = supported;
+        if (!_hiSupported && _selectedLang == 'hi') {
+          _selectedLang = 'en';
+        }
+        // initState could not pick Hindi before support was known, so a
+        // Hindi-language user would see English pre-selected here.
+        if (_hiSupported &&
+            !_userPicked &&
+            Localizations.localeOf(context).languageCode == 'hi') {
+          _selectedLang = 'hi';
+        }
+      });
+    }
+  }
+
   void _onLanguageSelected(String langCode) {
     setState(() {
+      _userPicked = true;
       _selectedLang = langCode;
     });
   }
@@ -158,9 +201,9 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
 
                               const Spacer(flex: 2),
 
-                              // 5. Restricted Language List (English, Tamil)
+                              // 5. Language List
                               Column(
-                                children: _languages.map((option) {
+                                children: _visibleLanguages.map((option) {
                                   final isSelected =
                                       _selectedLang == option.code;
                                   return Padding(

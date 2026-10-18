@@ -1,0 +1,1080 @@
+{
+  "metadata": {
+    "catalogName": "business_enablement",
+    "schemaVersion": "1.0.0",
+    "catalogVersion": "1.34.0-alpha",
+    "generatedAt": "2026-09-05T00:00:00Z",
+    "language": "en",
+    "recordCount": 7,
+    "checksum": "sha256:6e96de56315ca9bae4406151d15b7b263af6adc4153ae65616b81887f1ce6fe7"
+  },
+  "data": [
+    {
+      "ai": {
+        "summary": null,
+        "confidence": null,
+        "reviewedAt": null,
+        "reviewedBy": null,
+        "generatedAt": null,
+        "generatedBy": null,
+        "semanticTags": [],
+        "generationMode": null,
+        "reviewRequired": false,
+        "recommendations": [],
+        "relatedEntities": [],
+        "sectionSummaries": {},
+        "similarityMethod": null,
+        "sourceFieldsUsed": [],
+        "isApproved": false,
+        "recommendationsNote": null
+      },
+      "search": {
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "keywords": {
+          "en": [
+            "registration_support",
+            "registration_support"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "boostTerms": [],
+        "searchRank": null,
+        "crossReferences": []
+      },
+      "content": {
+        "summary": "Free, paperless, self-declaration-based MSME registration. Aadhaar number required initially; PAN and GSTIN retrieved automatically from government databases (mandatory since 1 April 2021). No fee is charged at any stage.",
+        "onlineUrl": "https://udyamregistration.gov.in/",
+        "eligibility": {
+          "text": null,
+          "enterpriseTypeIds": []
+        },
+        "enablementType": "registration_support",
+        "servicesOffered": [],
+        "enablementTypeText": "Udyam Registration (MSME Self-Registration)",
+        "providerAuthorityId": null
+      },
+      "identity": {
+        "id": "ENAB000001",
+        "code": "REGISTRATION_SUPPORT",
+        "name": "Udyam Registration (MSME Self-Registration)",
+        "slug": "registration-support",
+        "status": "active",
+        "acronym": null,
+        "language": "en",
+        "shortName": null,
+        "entityType": "business_enablement",
+        "legacyCodes": []
+      },
+      "metadata": {
+        "revision": 3,
+        "createdAt": "2026-08-14T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "recordStatus": "published",
+        "schemaVersion": "1.0.0",
+        "catalogVersion": "1.33.0-alpha"
+      },
+      "analytics": {
+        "saveCount": null,
+        "viewCount": null,
+        "popularity": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "provenance": {
+        "extractedAt": "2026-08-14T00:00:00Z",
+        "fieldSources": [
+          {
+            "url": "https://udyamregistration.gov.in/",
+            "note": "Confirmed official portal; page states \"no other private online or offline system, service, agency or person is authorized... to do MSME Registration.\"",
+            "field": "content",
+            "isBackfill": false,
+            "sourceTier": 5,
+            "sourceType": "official_website",
+            "retrievedAt": "2026-08-14",
+            "organization": "Ministry of MSME (NIC-hosted)",
+            "supersededValue": null
+          }
+        ],
+        "translations": {
+          "ta": {
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication.",
+            "engine": "Claude",
+            "method": "llm_contextual_translation",
+            "status": "machine",
+            "isApproved": false,
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsPending": 0,
+            "reviewRequired": true,
+            "fieldsContextual": 2,
+            "fieldsTranslated": 2,
+            "dictionaryVersion": "1.0.0"
+          }
+        },
+        "pipelineVersion": "build_business_enablement.py-1.0.0",
+        "primarySourceId": null,
+        "extractionMethod": "live_official_source",
+        "defaultSourceTier": 5,
+        "transformationNotes": [],
+        "contributingSourceIds": []
+      },
+      "localization": {
+        "en": {
+          "name": "Udyam Registration (MSME Self-Registration)",
+          "summary": "Free, paperless, self-declaration-based MSME registration. Aadhaar number required initially; PAN and GSTIN retrieved automatically from government databases (mandatory since 1 April 2021). No fee is charged at any stage."
+        },
+        "hi": {
+          "name": null,
+          "summary": null
+        },
+        "ta": {
+          "name": "Udyam பதிவு (MSME சுய-பதிவு)",
+          "summary": "இலவச, காகிதமற்ற, சுய-பிரகடன அடிப்படையிலான MSME பதிவு. ஆரம்பத்தில் ஆதார் எண் தேவை; PAN மற்றும் GSTIN அரசு தரவுத்தளங்களிலிருந்து தானாகப் பெறப்படும் (1 ஏப்ரல் 2021 முதல் கட்டாயம்). எந்த நிலையிலும் கட்டணம் வசூலிக்கப்படாது."
+        }
+      },
+      "verification": {
+        "notes": "Confirmed official portal; page states \"no other private online or offline system, service, agency or person is authorized... to do MSME Registration.\"",
+        "status": "verified",
+        "confidence": "high",
+        "isVerified": true,
+        "statusText": "Confirmed against live official source",
+        "verifiedAt": "2026-08-14T00:00:00Z",
+        "verifiedBy": null,
+        "reviewDueOn": null,
+        "missingFields": [
+          {
+            "field": "content.servicesOffered",
+            "reason": "Detailed service list not itemised on the fetched homepage/landing page; would need a deeper per-service page fetch not performed this session."
+          },
+          {
+            "field": "content.providerAuthorityId",
+            "reason": "Would require resolving against authority_catalog.json by name match, not attempted this pass."
+          }
+        ],
+        "disputedFields": [],
+        "researchStatus": "Official-source researched",
+        "verifiedAgainst": [
+          "https://udyamregistration.gov.in/"
+        ]
+      },
+      "relationships": {
+        "references": []
+      }
+    },
+    {
+      "ai": {
+        "summary": null,
+        "confidence": null,
+        "reviewedAt": null,
+        "reviewedBy": null,
+        "generatedAt": null,
+        "generatedBy": null,
+        "semanticTags": [],
+        "generationMode": null,
+        "reviewRequired": false,
+        "recommendations": [],
+        "relatedEntities": [],
+        "sectionSummaries": {},
+        "similarityMethod": null,
+        "sourceFieldsUsed": [],
+        "isApproved": false,
+        "recommendationsNote": null
+      },
+      "search": {
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "keywords": {
+          "en": [
+            "single_window_support",
+            "cluster_single_window"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "boostTerms": [],
+        "searchRank": null,
+        "crossReferences": []
+      },
+      "content": {
+        "summary": "Application and support channel for Common Facility Centres and Infrastructure Development initiatives under the Cluster Development Programme framework.",
+        "onlineUrl": "https://cluster.dcmsme.gov.in/",
+        "eligibility": {
+          "text": null,
+          "enterpriseTypeIds": []
+        },
+        "enablementType": "single_window_support",
+        "servicesOffered": [],
+        "enablementTypeText": "MSME Cluster Development Programme",
+        "providerAuthorityId": null
+      },
+      "identity": {
+        "id": "ENAB000002",
+        "code": "CLUSTER_SINGLE_WINDOW",
+        "name": "MSME Cluster Development Programme",
+        "slug": "cluster-single-window",
+        "status": "active",
+        "acronym": null,
+        "language": "en",
+        "shortName": null,
+        "entityType": "business_enablement",
+        "legacyCodes": []
+      },
+      "metadata": {
+        "revision": 3,
+        "createdAt": "2026-08-14T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "recordStatus": "published",
+        "schemaVersion": "1.0.0",
+        "catalogVersion": "1.33.0-alpha"
+      },
+      "analytics": {
+        "saveCount": null,
+        "viewCount": null,
+        "popularity": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "provenance": {
+        "extractedAt": "2026-08-14T00:00:00Z",
+        "fieldSources": [
+          {
+            "url": "https://cluster.dcmsme.gov.in/",
+            "note": "Confirmed official portal (batch-4 Stage B Pass 1 fetch); warns of fake sites, directs Udyam registration queries to the correct official domain.",
+            "field": "content",
+            "isBackfill": false,
+            "sourceTier": 5,
+            "sourceType": "official_website",
+            "retrievedAt": "2026-08-14",
+            "organization": "DCMSME (Ministry of MSME)",
+            "supersededValue": null
+          }
+        ],
+        "translations": {
+          "ta": {
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication.",
+            "engine": "Claude",
+            "method": "llm_contextual_translation",
+            "status": "machine",
+            "isApproved": false,
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsPending": 0,
+            "reviewRequired": true,
+            "fieldsContextual": 2,
+            "fieldsTranslated": 2,
+            "dictionaryVersion": "1.0.0"
+          }
+        },
+        "pipelineVersion": "build_business_enablement.py-1.0.0",
+        "primarySourceId": null,
+        "extractionMethod": "live_official_source",
+        "defaultSourceTier": 5,
+        "transformationNotes": [],
+        "contributingSourceIds": []
+      },
+      "localization": {
+        "en": {
+          "name": "MSME Cluster Development Programme",
+          "summary": "Application and support channel for Common Facility Centres and Infrastructure Development initiatives under the Cluster Development Programme framework."
+        },
+        "hi": {
+          "name": null,
+          "summary": null
+        },
+        "ta": {
+          "name": "MSME கொத்து மேம்பாட்டுத் திட்டம்",
+          "summary": "கொத்து மேம்பாட்டுத் திட்டக் கட்டமைப்பின் கீழ் பொது வசதி மையங்கள் மற்றும் உள்கட்டமைப்பு மேம்பாடு முன்முயற்சிகளுக்கான விண்ணப்ப மற்றும் ஆதரவு வழி."
+        }
+      },
+      "verification": {
+        "notes": "Confirmed official portal (batch-4 Stage B Pass 1 fetch); warns of fake sites, directs Udyam registration queries to the correct official domain.",
+        "status": "verified",
+        "confidence": "high",
+        "isVerified": true,
+        "statusText": "Confirmed against live official source",
+        "verifiedAt": "2026-08-14T00:00:00Z",
+        "verifiedBy": null,
+        "reviewDueOn": null,
+        "missingFields": [
+          {
+            "field": "content.servicesOffered",
+            "reason": "Detailed service list not itemised on the fetched homepage/landing page; would need a deeper per-service page fetch not performed this session."
+          },
+          {
+            "field": "content.providerAuthorityId",
+            "reason": "Would require resolving against authority_catalog.json by name match, not attempted this pass."
+          }
+        ],
+        "disputedFields": [],
+        "researchStatus": "Official-source researched",
+        "verifiedAgainst": [
+          "https://cluster.dcmsme.gov.in/"
+        ]
+      },
+      "relationships": {
+        "references": []
+      }
+    },
+    {
+      "ai": {
+        "summary": null,
+        "confidence": null,
+        "reviewedAt": null,
+        "reviewedBy": null,
+        "generatedAt": null,
+        "generatedBy": null,
+        "semanticTags": [],
+        "generationMode": null,
+        "reviewRequired": false,
+        "recommendations": [],
+        "relatedEntities": [],
+        "sectionSummaries": {},
+        "similarityMethod": null,
+        "sourceFieldsUsed": [],
+        "isApproved": false,
+        "recommendationsNote": null
+      },
+      "search": {
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "keywords": {
+          "en": [
+            "compliance_support",
+            "grievance_compliance"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "boostTerms": [],
+        "searchRank": null,
+        "crossReferences": []
+      },
+      "content": {
+        "summary": "\"Our Small Hands to make you LARGE\" -- platform for resolution, redressal and remedies for MSMEs, plus guidance and scheme information dissemination. Control rooms across states, nodal officer directories.",
+        "onlineUrl": "https://champions.gov.in/",
+        "eligibility": {
+          "text": null,
+          "enterpriseTypeIds": []
+        },
+        "enablementType": "compliance_support",
+        "servicesOffered": [],
+        "enablementTypeText": "CHAMPIONS Portal",
+        "providerAuthorityId": null
+      },
+      "identity": {
+        "id": "ENAB000003",
+        "code": "GRIEVANCE_COMPLIANCE",
+        "name": "CHAMPIONS Portal",
+        "slug": "grievance-compliance",
+        "status": "active",
+        "acronym": null,
+        "language": "en",
+        "shortName": null,
+        "entityType": "business_enablement",
+        "legacyCodes": []
+      },
+      "metadata": {
+        "revision": 3,
+        "createdAt": "2026-08-14T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "recordStatus": "published",
+        "schemaVersion": "1.0.0",
+        "catalogVersion": "1.33.0-alpha"
+      },
+      "analytics": {
+        "saveCount": null,
+        "viewCount": null,
+        "popularity": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "provenance": {
+        "extractedAt": "2026-08-14T00:00:00Z",
+        "fieldSources": [
+          {
+            "url": "https://champions.gov.in/",
+            "note": "Confirmed official portal (batch-6 Stage B Pass 1 fetch).",
+            "field": "content",
+            "isBackfill": false,
+            "sourceTier": 5,
+            "sourceType": "official_website",
+            "retrievedAt": "2026-08-14",
+            "organization": "Ministry of MSME (NIC-hosted)",
+            "supersededValue": null
+          }
+        ],
+        "translations": {
+          "ta": {
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication.",
+            "engine": "Claude",
+            "method": "llm_contextual_translation",
+            "status": "machine",
+            "isApproved": false,
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsPending": 0,
+            "reviewRequired": true,
+            "fieldsContextual": 2,
+            "fieldsTranslated": 2,
+            "dictionaryVersion": "1.0.0"
+          }
+        },
+        "pipelineVersion": "build_business_enablement.py-1.0.0",
+        "primarySourceId": null,
+        "extractionMethod": "live_official_source",
+        "defaultSourceTier": 5,
+        "transformationNotes": [],
+        "contributingSourceIds": []
+      },
+      "localization": {
+        "en": {
+          "name": "CHAMPIONS Portal",
+          "summary": "\"Our Small Hands to make you LARGE\" -- platform for resolution, redressal and remedies for MSMEs, plus guidance and scheme information dissemination. Control rooms across states, nodal officer directories."
+        },
+        "hi": {
+          "name": null,
+          "summary": null
+        },
+        "ta": {
+          "name": "CHAMPIONS போர்ட்டல்",
+          "summary": "\"Our Small Hands to make you LARGE\" -- MSME-களுக்கான தீர்வு, குறை தீர்த்தல் மற்றும் பரிகாரங்களுக்கான தளம், மேலும் வழிகாட்டுதல் மற்றும் திட்ட தகவல் பரப்புதல். மாநிலங்கள் முழுவதும் கட்டுப்பாட்டு அறைகள், நோடல் அதிகாரி அடைவுகள்."
+        }
+      },
+      "verification": {
+        "notes": "Confirmed official portal (batch-6 Stage B Pass 1 fetch).",
+        "status": "verified",
+        "confidence": "high",
+        "isVerified": true,
+        "statusText": "Confirmed against live official source",
+        "verifiedAt": "2026-08-14T00:00:00Z",
+        "verifiedBy": null,
+        "reviewDueOn": null,
+        "missingFields": [
+          {
+            "field": "content.servicesOffered",
+            "reason": "Detailed service list not itemised on the fetched homepage/landing page; would need a deeper per-service page fetch not performed this session."
+          },
+          {
+            "field": "content.providerAuthorityId",
+            "reason": "Would require resolving against authority_catalog.json by name match, not attempted this pass."
+          }
+        ],
+        "disputedFields": [],
+        "researchStatus": "Official-source researched",
+        "verifiedAgainst": [
+          "https://champions.gov.in/"
+        ]
+      },
+      "relationships": {
+        "references": []
+      }
+    },
+    {
+      "ai": {
+        "summary": null,
+        "confidence": null,
+        "reviewedAt": null,
+        "reviewedBy": null,
+        "generatedAt": null,
+        "generatedBy": null,
+        "semanticTags": [],
+        "generationMode": null,
+        "reviewRequired": false,
+        "recommendations": [],
+        "relatedEntities": [],
+        "sectionSummaries": {},
+        "similarityMethod": null,
+        "sourceFieldsUsed": [],
+        "isApproved": false,
+        "recommendationsNote": null
+      },
+      "search": {
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "keywords": {
+          "en": [
+            "startup_support",
+            "startup_recognition"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "boostTerms": [],
+        "searchRank": null,
+        "crossReferences": []
+      },
+      "content": {
+        "summary": "DPIIT recognition, BHASKAR startup registry, Seed Fund Scheme, National Startup Awards, and mentorship (MAARG) for the startup ecosystem.",
+        "onlineUrl": "https://www.startupindia.gov.in/",
+        "eligibility": {
+          "text": null,
+          "enterpriseTypeIds": []
+        },
+        "enablementType": "startup_support",
+        "servicesOffered": [],
+        "enablementTypeText": "Startup India / DPIIT Recognition",
+        "providerAuthorityId": null
+      },
+      "identity": {
+        "id": "ENAB000004",
+        "code": "STARTUP_RECOGNITION",
+        "name": "Startup India / DPIIT Recognition",
+        "slug": "startup-recognition",
+        "status": "active",
+        "acronym": null,
+        "language": "en",
+        "shortName": null,
+        "entityType": "business_enablement",
+        "legacyCodes": []
+      },
+      "metadata": {
+        "revision": 3,
+        "createdAt": "2026-08-14T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "recordStatus": "published",
+        "schemaVersion": "1.0.0",
+        "catalogVersion": "1.33.0-alpha"
+      },
+      "analytics": {
+        "saveCount": null,
+        "viewCount": null,
+        "popularity": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "provenance": {
+        "extractedAt": "2026-08-14T00:00:00Z",
+        "fieldSources": [
+          {
+            "url": "https://www.startupindia.gov.in/",
+            "note": "Confirmed official portal (batches 3/4/5/7 Stage B Pass 1 fetches).",
+            "field": "content",
+            "isBackfill": false,
+            "sourceTier": 5,
+            "sourceType": "official_website",
+            "retrievedAt": "2026-08-14",
+            "organization": "DPIIT, Ministry of Commerce and Industry",
+            "supersededValue": null
+          }
+        ],
+        "translations": {
+          "ta": {
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication.",
+            "engine": "Claude",
+            "method": "llm_contextual_translation",
+            "status": "machine",
+            "isApproved": false,
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsPending": 0,
+            "reviewRequired": true,
+            "fieldsContextual": 2,
+            "fieldsTranslated": 2,
+            "dictionaryVersion": "1.0.0"
+          }
+        },
+        "pipelineVersion": "build_business_enablement.py-1.0.0",
+        "primarySourceId": null,
+        "extractionMethod": "live_official_source",
+        "defaultSourceTier": 5,
+        "transformationNotes": [],
+        "contributingSourceIds": []
+      },
+      "localization": {
+        "en": {
+          "name": "Startup India / DPIIT Recognition",
+          "summary": "DPIIT recognition, BHASKAR startup registry, Seed Fund Scheme, National Startup Awards, and mentorship (MAARG) for the startup ecosystem."
+        },
+        "hi": {
+          "name": null,
+          "summary": null
+        },
+        "ta": {
+          "name": "Startup India / DPIIT அங்கீகாரம்",
+          "summary": "தொடக்க நிறுவன சூழலமைப்பிற்கான DPIIT அங்கீகாரம், BHASKAR தொடக்க நிறுவன பதிவேடு, Seed Fund திட்டம், தேசிய தொடக்க நிறுவன விருதுகள், மற்றும் வழிகாட்டுதல் (MAARG)."
+        }
+      },
+      "verification": {
+        "notes": "Confirmed official portal (batches 3/4/5/7 Stage B Pass 1 fetches).",
+        "status": "verified",
+        "confidence": "high",
+        "isVerified": true,
+        "statusText": "Confirmed against live official source",
+        "verifiedAt": "2026-08-14T00:00:00Z",
+        "verifiedBy": null,
+        "reviewDueOn": null,
+        "missingFields": [
+          {
+            "field": "content.servicesOffered",
+            "reason": "Detailed service list not itemised on the fetched homepage/landing page; would need a deeper per-service page fetch not performed this session."
+          },
+          {
+            "field": "content.providerAuthorityId",
+            "reason": "Would require resolving against authority_catalog.json by name match, not attempted this pass."
+          }
+        ],
+        "disputedFields": [],
+        "researchStatus": "Official-source researched",
+        "verifiedAgainst": [
+          "https://www.startupindia.gov.in/"
+        ]
+      },
+      "relationships": {
+        "references": []
+      }
+    },
+    {
+      "ai": {
+        "summary": null,
+        "confidence": null,
+        "reviewedAt": null,
+        "reviewedBy": null,
+        "generatedAt": null,
+        "generatedBy": null,
+        "semanticTags": [],
+        "generationMode": null,
+        "reviewRequired": false,
+        "recommendations": [],
+        "relatedEntities": [],
+        "sectionSummaries": {},
+        "similarityMethod": null,
+        "sourceFieldsUsed": [],
+        "isApproved": false,
+        "recommendationsNote": null
+      },
+      "search": {
+        "aliases": {
+          "en": [
+            "GeM"
+          ],
+          "ta": []
+        },
+        "keywords": {
+          "en": [
+            "gem",
+            "government e-marketplace",
+            "procurement",
+            "tender",
+            "sell to government",
+            "public procurement portal"
+          ],
+          "ta": []
+        },
+        "synonyms": [
+          "Government e-Marketplace"
+        ],
+        "boostTerms": [],
+        "searchRank": null,
+        "crossReferences": []
+      },
+      "content": {
+        "summary": "National public procurement portal where MSMEs can register as sellers/service providers and sell goods and services directly to Central and State Government departments, ministries and PSUs. Registered MSMEs get tender-fee and EMD exemptions, purchase preference, a reserved MSE procurement quota, and relaxed prior-turnover/prior-experience norms.",
+        "onlineUrl": "https://gem.gov.in/",
+        "eligibility": {
+          "text": "Any MSME/enterprise with valid business registration (PAN/GSTIN as applicable) can register as a seller.",
+          "enterpriseTypeIds": []
+        },
+        "enablementType": "marketplace_access",
+        "servicesOffered": [],
+        "enablementTypeText": "Government e-Marketplace (GeM)",
+        "providerAuthorityId": null
+      },
+      "identity": {
+        "id": "ENAB000005",
+        "code": "GEM001",
+        "name": "Government e-Marketplace (GeM)",
+        "slug": "government-e-marketplace-gem",
+        "status": "active",
+        "acronym": "GeM",
+        "language": "en",
+        "shortName": "GeM",
+        "entityType": "business_enablement",
+        "legacyCodes": []
+      },
+      "metadata": {
+        "revision": 1,
+        "createdAt": "2026-09-05T00:00:00Z",
+        "updatedAt": "2026-09-05T00:00:00Z",
+        "recordStatus": "published",
+        "schemaVersion": "1.0.0",
+        "catalogVersion": "1.34.0-alpha"
+      },
+      "analytics": {
+        "saveCount": null,
+        "viewCount": null,
+        "popularity": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "provenance": {
+        "extractedAt": "2026-09-05T00:00:00Z",
+        "fieldSources": [
+          {
+            "url": "https://gem.gov.in/aboutus",
+            "note": "MSME seller benefits (tender fee/EMD exemption, purchase preference, reserved MSE quota, relaxed norms) confirmed on the official GeM portal.",
+            "field": "content",
+            "isBackfill": false,
+            "sourceTier": 5,
+            "sourceType": "official_website",
+            "retrievedAt": "2026-09-05",
+            "organization": "Government e-Marketplace / Ministry of Commerce and Industry",
+            "supersededValue": null
+          }
+        ],
+        "translations": {},
+        "pipelineVersion": "build_business_enablement.py-1.0.0",
+        "primarySourceId": null,
+        "extractionMethod": "live_official_source",
+        "defaultSourceTier": 5,
+        "transformationNotes": [],
+        "contributingSourceIds": []
+      },
+      "localization": {
+        "en": {
+          "name": "Government e-Marketplace (GeM)",
+          "summary": "National public procurement portal where MSMEs can register as sellers and sell directly to Government departments and PSUs, with tender-fee/EMD exemptions and a reserved procurement quota."
+        },
+        "hi": {
+          "name": null,
+          "summary": null
+        },
+        "ta": {
+          "name": null,
+          "summary": null
+        }
+      },
+      "verification": {
+        "notes": "Confirmed against the official gem.gov.in portal.",
+        "status": "verified",
+        "confidence": "high",
+        "isVerified": true,
+        "statusText": "Confirmed against live official source",
+        "verifiedAt": "2026-09-05T00:00:00Z",
+        "verifiedBy": null,
+        "reviewDueOn": null,
+        "missingFields": [
+          {
+            "field": "localization.ta",
+            "reason": "Not machine-translated this session -- avoided rather than risk an unreviewed mistranslation."
+          }
+        ],
+        "disputedFields": [],
+        "researchStatus": "Official-source researched",
+        "verifiedAgainst": [
+          "gem.gov.in"
+        ]
+      },
+      "relationships": {
+        "references": []
+      }
+    },
+    {
+      "ai": {
+        "summary": null,
+        "confidence": null,
+        "reviewedAt": null,
+        "reviewedBy": null,
+        "generatedAt": null,
+        "generatedBy": null,
+        "semanticTags": [],
+        "generationMode": null,
+        "reviewRequired": false,
+        "recommendations": [],
+        "relatedEntities": [],
+        "sectionSummaries": {},
+        "similarityMethod": null,
+        "sourceFieldsUsed": [],
+        "isApproved": false,
+        "recommendationsNote": null
+      },
+      "search": {
+        "aliases": {
+          "en": [
+            "MSME Sambandh"
+          ],
+          "ta": []
+        },
+        "keywords": {
+          "en": [
+            "sambandh",
+            "public procurement monitoring",
+            "cpse procurement",
+            "msme procurement portal"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "boostTerms": [],
+        "searchRank": null,
+        "crossReferences": []
+      },
+      "content": {
+        "summary": "Public Procurement Policy monitoring portal, launched 8 December 2017, where Central Public Sector Enterprises (CPSEs) publish monthly/annual factsheets of their procurement from Micro and Small Enterprises. MSEs can browse what CPSEs are procuring and track ministry/department-wise procurement performance against the 25% MSE procurement mandate.",
+        "onlineUrl": "https://sambandh.msme.gov.in/",
+        "eligibility": {
+          "text": "Open to the public for viewing procurement data; CPSE officers log in to publish factsheets.",
+          "enterpriseTypeIds": []
+        },
+        "enablementType": "market_intelligence",
+        "servicesOffered": [],
+        "enablementTypeText": "MSME Sambandh Portal",
+        "providerAuthorityId": null
+      },
+      "identity": {
+        "id": "ENAB000006",
+        "code": "SAMBANDH001",
+        "name": "MSME Sambandh Portal",
+        "slug": "msme-sambandh-portal",
+        "status": "active",
+        "acronym": "Sambandh",
+        "language": "en",
+        "shortName": "MSME Sambandh",
+        "entityType": "business_enablement",
+        "legacyCodes": []
+      },
+      "metadata": {
+        "revision": 1,
+        "createdAt": "2026-09-05T00:00:00Z",
+        "updatedAt": "2026-09-05T00:00:00Z",
+        "recordStatus": "published",
+        "schemaVersion": "1.0.0",
+        "catalogVersion": "1.34.0-alpha"
+      },
+      "analytics": {
+        "saveCount": null,
+        "viewCount": null,
+        "popularity": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "provenance": {
+        "extractedAt": "2026-09-05T00:00:00Z",
+        "fieldSources": [
+          {
+            "url": "https://sambandh.msme.gov.in/PPP_index.aspx",
+            "note": "Launch date (8 Dec 2017) and purpose confirmed against the official portal and a PIB press release.",
+            "field": "content",
+            "isBackfill": false,
+            "sourceTier": 5,
+            "sourceType": "official_website",
+            "retrievedAt": "2026-09-05",
+            "organization": "Ministry of MSME",
+            "supersededValue": null
+          }
+        ],
+        "translations": {},
+        "pipelineVersion": "build_business_enablement.py-1.0.0",
+        "primarySourceId": null,
+        "extractionMethod": "live_official_source",
+        "defaultSourceTier": 5,
+        "transformationNotes": [],
+        "contributingSourceIds": []
+      },
+      "localization": {
+        "en": {
+          "name": "MSME Sambandh Portal",
+          "summary": "Public procurement monitoring portal where CPSEs publish their MSE procurement factsheets, letting MSEs track what government enterprises are buying."
+        },
+        "hi": {
+          "name": null,
+          "summary": null
+        },
+        "ta": {
+          "name": null,
+          "summary": null
+        }
+      },
+      "verification": {
+        "notes": "Confirmed against the official sambandh.msme.gov.in portal and a PIB press release.",
+        "status": "verified",
+        "confidence": "high",
+        "isVerified": true,
+        "statusText": "Confirmed against live official source",
+        "verifiedAt": "2026-09-05T00:00:00Z",
+        "verifiedBy": null,
+        "reviewDueOn": null,
+        "missingFields": [
+          {
+            "field": "localization.ta",
+            "reason": "Not machine-translated this session -- avoided rather than risk an unreviewed mistranslation."
+          }
+        ],
+        "disputedFields": [],
+        "researchStatus": "Official-source researched",
+        "verifiedAgainst": [
+          "sambandh.msme.gov.in"
+        ]
+      },
+      "relationships": {
+        "references": []
+      }
+    },
+    {
+      "ai": {
+        "summary": null,
+        "confidence": null,
+        "reviewedAt": null,
+        "reviewedBy": null,
+        "generatedAt": null,
+        "generatedBy": null,
+        "semanticTags": [],
+        "generationMode": null,
+        "reviewRequired": false,
+        "recommendations": [],
+        "relatedEntities": [],
+        "sectionSummaries": {},
+        "similarityMethod": null,
+        "sourceFieldsUsed": [],
+        "isApproved": false,
+        "recommendationsNote": null
+      },
+      "search": {
+        "aliases": {
+          "en": [
+            "NSWS"
+          ],
+          "ta": []
+        },
+        "keywords": {
+          "en": [
+            "nsws",
+            "single window",
+            "business approvals",
+            "clearances",
+            "dpiit",
+            "know your approvals"
+          ],
+          "ta": []
+        },
+        "synonyms": [
+          "National Single Window System"
+        ],
+        "boostTerms": [],
+        "searchRank": null,
+        "crossReferences": []
+      },
+      "content": {
+        "summary": "Digital platform, launched September 2021 by DPIIT (Department for Promotion of Industry and Internal Trade), that lets businesses identify, apply for, and track regulatory approvals through one unified interface instead of visiting multiple ministries/state portals. Its Know Your Approvals (KYA) module covers 32 Central Departments and 34 States/UTs.",
+        "onlineUrl": "https://www.nsws.gov.in/",
+        "eligibility": {
+          "text": "Open to any business needing Central or State regulatory approvals, registrations, or clearances.",
+          "enterpriseTypeIds": []
+        },
+        "enablementType": "regulatory_clearance",
+        "servicesOffered": [],
+        "enablementTypeText": "National Single Window System (NSWS)",
+        "providerAuthorityId": null
+      },
+      "identity": {
+        "id": "ENAB000007",
+        "code": "NSWS001",
+        "name": "National Single Window System (NSWS)",
+        "slug": "national-single-window-system-nsws",
+        "status": "active",
+        "acronym": "NSWS",
+        "language": "en",
+        "shortName": "NSWS",
+        "entityType": "business_enablement",
+        "legacyCodes": []
+      },
+      "metadata": {
+        "revision": 1,
+        "createdAt": "2026-09-05T00:00:00Z",
+        "updatedAt": "2026-09-05T00:00:00Z",
+        "recordStatus": "published",
+        "schemaVersion": "1.0.0",
+        "catalogVersion": "1.34.0-alpha"
+      },
+      "analytics": {
+        "saveCount": null,
+        "viewCount": null,
+        "popularity": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "provenance": {
+        "extractedAt": "2026-09-05T00:00:00Z",
+        "fieldSources": [
+          {
+            "url": "https://www.nsws.gov.in/",
+            "note": "Launch date, DPIIT ownership, and KYA module coverage (32 Central Departments, 34 States/UTs) confirmed against the official NSWS portal.",
+            "field": "content",
+            "isBackfill": false,
+            "sourceTier": 5,
+            "sourceType": "official_website",
+            "retrievedAt": "2026-09-05",
+            "organization": "DPIIT / Invest India",
+            "supersededValue": null
+          }
+        ],
+        "translations": {},
+        "pipelineVersion": "build_business_enablement.py-1.0.0",
+        "primarySourceId": null,
+        "extractionMethod": "live_official_source",
+        "defaultSourceTier": 5,
+        "transformationNotes": [],
+        "contributingSourceIds": []
+      },
+      "localization": {
+        "en": {
+          "name": "National Single Window System (NSWS)",
+          "summary": "DPIIT unified digital platform for identifying, applying for, and tracking business regulatory approvals across Central and State governments."
+        },
+        "hi": {
+          "name": null,
+          "summary": null
+        },
+        "ta": {
+          "name": null,
+          "summary": null
+        }
+      },
+      "verification": {
+        "notes": "Confirmed against the official nsws.gov.in portal.",
+        "status": "verified",
+        "confidence": "high",
+        "isVerified": true,
+        "statusText": "Confirmed against live official source",
+        "verifiedAt": "2026-09-05T00:00:00Z",
+        "verifiedBy": null,
+        "reviewDueOn": null,
+        "missingFields": [
+          {
+            "field": "localization.ta",
+            "reason": "Not machine-translated this session -- avoided rather than risk an unreviewed mistranslation."
+          }
+        ],
+        "disputedFields": [],
+        "researchStatus": "Official-source researched",
+        "verifiedAgainst": [
+          "nsws.gov.in"
+        ]
+      },
+      "relationships": {
+        "references": []
+      }
+    }
+  ]
+}

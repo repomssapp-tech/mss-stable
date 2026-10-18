@@ -1,0 +1,123 @@
+{
+  "generatedAt": "2026-08-04T00:00:00Z",
+  "catalog": "authority_catalog.json",
+  "mentionsHarvested": 1585,
+  "mentionsKept": 805,
+  "mentionsRejectedAsNonAuthority": 780,
+  "distinctRejectedStrings": 381,
+  "topRejected": [
+    [
+      "Applicant",
+      66
+    ],
+    [
+      "bank",
+      22
+    ],
+    [
+      "Not applicable (State scheme)",
+      21
+    ],
+    [
+      "Bank",
+      18
+    ],
+    [
+      "Chartered Accountant",
+      13
+    ],
+    [
+      "CA",
+      13
+    ],
+    [
+      "professional",
+      12
+    ],
+    [
+      "applicant",
+      12
+    ],
+    [
+      "Relevant implementing authority",
+      11
+    ],
+    [
+      "Registrar",
+      9
+    ],
+    [
+      "competent authority",
+      9
+    ],
+    [
+      "UIDAI",
+      9
+    ]
+  ],
+  "clusters": 122,
+  "authorities": 124,
+  "fragmentsAbsorbed": 13,
+  "fragmentSamples": [
+    {
+      "fragment": "Tamil Nadu Small Industries Corporation",
+      "absorbedInto": "Tamil Nadu Small Industries Development Corporation"
+    },
+    {
+      "fragment": "Ministry of Micro, Small",
+      "absorbedInto": "Ministry of Micro, Small and Medium Enterprises Entrepreneurship and Skill Development Programme"
+    },
+    {
+      "fragment": "Small Industries Corporation",
+      "absorbedInto": "National Small Industries Corporation Venture Capital Fund Ltd"
+    },
+    {
+      "fragment": "Industries Board",
+      "absorbedInto": "Khadi and Village Industries Board"
+    },
+    {
+      "fragment": "Distribution Corporation",
+      "absorbedInto": "Tamil Nadu Generation and Distribution Corporation"
+    },
+    {
+      "fragment": "Ministry of Housing",
+      "absorbedInto": "Ministry of Housing and Urban Affairs"
+    },
+    {
+      "fragment": "Pollution Control Board",
+      "absorbedInto": "Tamil Nadu Pollution Control Board"
+    },
+    {
+      "fragment": "Ministry of Commerce",
+      "absorbedInto": "Department for Promotion of Industry and Internal Trade Ministry of Commerce and Industry"
+    }
+  ],
+  "byType": {
+    "government": 2,
+    "ministry": 21,
+    "corporation": 20,
+    "department": 20,
+    "board": 13,
+    "directorate": 4,
+    "council": 6,
+    "agency": 20,
+    "mission": 14,
+    "district_industries_centre": 3,
+    "commissionerate": 1
+  },
+  "byLevel": {
+    "central": 74,
+    "state": 19,
+    "central_state": 4,
+    "None": 27
+  },
+  "byDepth": {
+    "0": 89,
+    "1": 35
+  },
+  "withParent": 35,
+  "orphans": 89,
+  "aliasesPreserved": 212,
+  "reviewCandidatePairs": 35,
+  "sourcedFromDocuments": 75
+}

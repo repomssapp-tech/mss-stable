@@ -1,0 +1,20 @@
+{
+  "https://dst.gov.in/": {"ok": true, "retrievedAt": "2026-08-14",
+    "note": "Confirmed official Department of Science & Technology homepage."},
+  "https://online-wosa.gov.in/wosa": {"ok": false, "retrievedAt": "2026-08-14",
+    "note": "Connection refused (ECONNREFUSED). Not verifiable by fetch; baseline retained."},
+  "https://www.startupindia.gov.in/content/sih/en/state-startup-policies/Uttarakhand-state-policy.html": {"ok": true, "retrievedAt": "2026-08-14",
+    "note": "Confirmed official Startup India page on Uttarakhand State Startup Policy-2023 (G.O. No. 371, 17 March 2023): monthly allowance up to Rs 10,000 (Rs 15,000 for SC/ST/women-led), patent reimbursement, incubator capital grants."},
+  "https://wep.gov.in/": {"ok": false, "retrievedAt": "2026-08-14",
+    "note": "Page returned a 'potentially suspicious content' validation error instead of rendered content -- likely a bot-protection interstitial. Not verifiable by fetch; baseline retained."},
+  "https://www.tn.gov.in/": {"ok": true, "retrievedAt": "2026-08-14",
+    "note": "Confirmed official Government of Tamil Nadu homepage."},
+  "https://wep.gov.in/about-us": {"ok": false, "retrievedAt": "2026-08-14",
+    "note": "Same bot-protection interstitial as wep.gov.in root -- no substantive content retrieved. Not verifiable by fetch; baseline retained."},
+  "https://www.spniwcd.wcd.gov.in/help/faqs": {"ok": true, "retrievedAt": "2026-08-14",
+    "note": "Confirmed official Women Helpline (181) FAQ page, Ministry of Women and Child Development."},
+  "https://www.sidbi.in/": {"ok": true, "retrievedAt": "2026-08-14",
+    "note": "Confirmed official SIDBI homepage."},
+  "https://www.msme.gov.in/": {"ok": false, "retrievedAt": "2026-08-14",
+    "note": "Server returned HTTP 403 Forbidden. Not verifiable by fetch; baseline retained."}
+}

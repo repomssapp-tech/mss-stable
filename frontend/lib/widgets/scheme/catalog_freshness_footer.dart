@@ -9,9 +9,7 @@ import '../../utils/app_spacing.dart';
 /// old" -- worded as data currency, not degradation, since offline-first
 /// is the intended design here, not something to apologize for.
 class CatalogFreshnessFooter extends StatelessWidget {
-  const CatalogFreshnessFooter({super.key, this.isTa = false});
-
-  final bool isTa;
+  const CatalogFreshnessFooter({super.key});
 
   String _formatDate(DateTime date, List<String> months) {
     return '${months[date.month - 1]} ${date.day}, ${date.year}';
@@ -19,7 +17,7 @@ class CatalogFreshnessFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final months = context.l10n.monthAbbrList.split(',');
+    final months = context.l10n.monthAbbrList.split(',').map((m) => m.trim()).toList();
     return FutureBuilder<MssCatalogBundle>(
       future: MssCatalogBundle.load(),
       builder: (context, snapshot) {
@@ -29,11 +27,10 @@ class CatalogFreshnessFooter extends StatelessWidget {
         final dateText = bundle.releasedAt != null
             ? _formatDate(bundle.releasedAt!.toLocal(), months)
             : null;
-        final label = isTa
-            ? 'உள்ளூர் பட்டியல் பதிப்பு ${bundle.releaseTag}'
-                '${dateText != null ? ' • $dateText' : ''}'
-            : 'Local catalog v${bundle.releaseTag}'
-                '${dateText != null ? ' • updated $dateText' : ''}';
+        final l10n = context.l10n;
+        final label = dateText != null
+            ? l10n.catalogFreshnessLabelUpdated(bundle.releaseTag, dateText)
+            : l10n.catalogFreshnessLabel(bundle.releaseTag);
 
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),

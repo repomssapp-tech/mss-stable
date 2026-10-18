@@ -277,7 +277,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                   elevation: 0,
                   scrolledUnderElevation: 0,
                   leading: IconButton(
-                    tooltip: 'Back',
+                    tooltip: context.l10n.back,
                     icon: const Icon(
                       Icons.arrow_back,
                       color: Color(0xFF0F172A),
@@ -295,7 +295,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                   ),
                   actions: [
                     IconButton(
-                      tooltip: 'Share scheme details',
+                      tooltip: context.l10n.shareSchemeDetailsTooltip,
                       icon: const Icon(
                         Icons.share_outlined,
                         color: Color(0xFF0F172A),

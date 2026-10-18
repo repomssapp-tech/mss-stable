@@ -1,0 +1,8 @@
+{
+  "catalogLoadSeconds": 0.3445,
+  "coldSearchSeconds": 0.0759,
+  "warmSearchSeconds": 0.0803,
+  "resolverLookupSeconds": 2e-06,
+  "filteredSearchSeconds": 0.0797,
+  "paginationSeconds": 0.0751
+}

@@ -69,8 +69,10 @@ String localizedCategoryLabel(BuildContext context, String enTitle) {
 /// sanctioned runtime EN->TA engine ([CentralizedTranslator]) in Tamil mode
 /// and stay verbatim in English mode.
 String localizedProperName(String enName, AppProvider provider) {
-  if (provider.selectedLanguage != 'ta') return enName;
-  return CentralizedTranslator.instance.translate(enName);
+  return CentralizedTranslator.instance.localizeFor(
+    provider.selectedLanguage,
+    enName,
+  );
 }
 
 /// DiscoverCounts

@@ -30,33 +30,37 @@ class QuestionNode {
   });
 
   LocalizedQuestionNode toLocalized(String language) {
-    final isTamil = language == 'ta';
+    // The "Ta" fields hold the non-English translation for whichever
+    // language the flow was built for (Tamil or Hindi), see
+    // SmartAssessmentBottomSheet._initializeFlow.
+    final useTranslated = language == 'ta' || language == 'hi';
+    final translator = CentralizedTranslator.instance;
 
-    final String qText = isTamil
+    final String qText = useTranslated
         ? ((questionTextTa != null && questionTextTa!.trim().isNotEmpty)
               ? questionTextTa!
-              : CentralizedTranslator.instance.translate(questionText))
+              : translator.localizeFor(language, questionText))
         : questionText;
 
     String? subText;
     if (subtitleText != null) {
-      subText = isTamil
+      subText = useTranslated
           ? ((subtitleTextTa != null && subtitleTextTa!.trim().isNotEmpty)
                 ? subtitleTextTa!
-                : CentralizedTranslator.instance.translate(subtitleText!))
+                : translator.localizeFor(language, subtitleText!))
           : subtitleText;
     }
 
     final List<String> locOptions = [];
     for (int i = 0; i < options.length; i++) {
       final rawOpt = options[i];
-      if (isTamil) {
+      if (useTranslated) {
         if (optionsTa != null &&
             i < optionsTa!.length &&
             optionsTa![i].trim().isNotEmpty) {
           locOptions.add(optionsTa![i]);
         } else {
-          locOptions.add(CentralizedTranslator.instance.translate(rawOpt));
+          locOptions.add(translator.localizeFor(language, rawOpt));
         }
       } else {
         locOptions.add(rawOpt);

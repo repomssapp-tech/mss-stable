@@ -1,0 +1,3343 @@
+{
+  "metadata": {
+    "catalogName": "export",
+    "schemaVersion": "1.0.0",
+    "catalogVersion": "1.33.0-alpha",
+    "generatedAt": "2026-08-04T00:00:00Z",
+    "language": "en",
+    "recordCount": 13,
+    "checksum": "sha256:1f5ad1da04a3588521fe6a3bb2e56f86e9d61a261ca3ec28cca702103e53a725"
+  },
+  "data": [
+    {
+      "identity": {
+        "id": "EXP000001",
+        "entityType": "export_benefit",
+        "code": "TN005",
+        "legacyCodes": [],
+        "name": "Advance Authorisation Scheme",
+        "shortName": null,
+        "acronym": null,
+        "slug": "advance-authorisation-scheme",
+        "language": "en",
+        "status": "unknown"
+      },
+      "content": {
+        "instrumentType": "duty_exemption",
+        "schemeId": "SCH000005",
+        "schemeName": "Advance Authorisation Scheme",
+        "matchedTerms": [
+          "advance authorisation",
+          "dgft"
+        ],
+        "governmentLevel": null,
+        "jurisdiction": {
+          "country": "IN",
+          "states": [],
+          "districts": []
+        },
+        "administeredByText": null,
+        "implementingAgencyText": null,
+        "beneficiaryText": null,
+        "assistance": null,
+        "assistanceSourceSlot": null,
+        "relatedFinanceProductIds": [],
+        "applicationMode": null,
+        "applicationUrl": null,
+        "summary": null,
+        "eligibilityText": "Manufacturer exporters or merchant exporters tied to supporting manufacturers can apply for Advance Authorisation, subject to DGFT export-obligation and input norms.",
+        "dutyRate": null,
+        "exportObligationRatio": null,
+        "sionNorm": null,
+        "validityPeriod": null,
+        "eligibleProducts": [],
+        "claimProcedure": null,
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "SCH000005",
+            "entityType": "scheme",
+            "relationType": "evidenced_by",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "Advance Authorisation Scheme",
+          "summary": null,
+          "eligibilityText": "Manufacturer exporters or merchant exporters tied to supporting manufacturers can apply for Advance Authorisation, subject to DGFT export-obligation and input norms.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "முன்கூட்டிய அங்கீகாரத் திட்டம்",
+          "summary": null,
+          "eligibilityText": "உற்பத்தியாளர் ஏற்றுமதியாளர்கள், அல்லது ஆதரவு உற்பத்தியாளர்களுடன் இணைந்த வணிக ஏற்றுமதியாளர்கள் முன்கூட்டிய அங்கீகாரத்திற்கு விண்ணப்பிக்கலாம்; இது DGFT நிர்ணயித்துள்ள ஏற்றுமதிக் கடமை மற்றும் இடுபொருள் விதிமுறைகளுக்கு உட்பட்டது.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "eligibilityText": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "advance",
+            "authorisation",
+            "scheme"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "advance authorisation",
+            "dgft"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": "Needs final official-page confirmation",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "low",
+        "researchStatus": "Official-source researched",
+        "notes": "Export view of an existing scheme. Trade-policy specifics (duty rates, export obligation, SION) are absent from all sources and were not generated.",
+        "missingFields": [
+          {
+            "field": "content.dutyRate",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.exportObligationRatio",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.sionNorm",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.validityPeriod",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.eligibleProducts",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.claimProcedure",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.assistance",
+            "reason": "Parent scheme records no active financial benefit"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": "SCH000005-SRC001",
+        "contributingSourceIds": [
+          "SCH000005-SRC001",
+          "SCH000005-SRC002"
+        ],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "export-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "eligibilityText": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Qualified by explicit export terms ['advance authorisation', 'dgft'] (rule E1)",
+          "Instrument type 'duty_exemption' from explicit term evidence (rule E3)",
+          "Monetary values copied verbatim from the parent scheme (rule E4)",
+          "Trade-policy detail not generated (rule E5)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "EXP000002",
+        "entityType": "export_benefit",
+        "code": "TN034",
+        "legacyCodes": [],
+        "name": "Coir Vikas Yojana - Export Market Promotion",
+        "shortName": null,
+        "acronym": null,
+        "slug": "coir-vikas-yojana-export-market-promotion",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "instrumentType": "market_promotion",
+        "schemeId": "SCH000034",
+        "schemeName": "Coir Vikas Yojana - Export Market Promotion",
+        "matchedTerms": [
+          "export market",
+          "export promotion"
+        ],
+        "governmentLevel": "central",
+        "jurisdiction": {
+          "country": "IN",
+          "states": [],
+          "districts": []
+        },
+        "administeredByText": "Ministry of Micro, Small & Medium Enterprises",
+        "implementingAgencyText": "Coir Board",
+        "beneficiaryText": "Coir MSMEs and registered exporters; assistance rates vary by enterprise size and categories including NER/Women/SC/ST.",
+        "assistance": {
+          "currency": "INR",
+          "percentage": 25.0,
+          "percentageText": "Varies by item/category; e.g. space rent 25%-95%, airfare 25%-95%",
+          "amountInr": null,
+          "amountText": null,
+          "maxInr": 200000,
+          "maxText": "Up to ₹2 lakh under the cited EMDA event-cost table, plus applicable brochure support",
+          "varies": false,
+          "variesBy": null
+        },
+        "assistanceSourceSlot": "reimbursement",
+        "relatedFinanceProductIds": [
+          "FIN000023"
+        ],
+        "applicationMode": null,
+        "applicationUrl": "https://coirboard.gov.in/?page_id=3617",
+        "summary": "Export promotion scheme for Indian coir through fairs, buyer-seller meets, delegations, publicity and External Market Development Assistance.",
+        "eligibilityText": "Manufacturers, entrepreneurs and exporters of coir can apply for Export Market Promotion assistance. Component-specific conditions apply for fairs, buyer-seller meets, delegations and other export-promotion activities.",
+        "dutyRate": null,
+        "exportObligationRatio": null,
+        "sionNorm": null,
+        "validityPeriod": null,
+        "eligibleProducts": [],
+        "claimProcedure": null,
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "SCH000034",
+            "entityType": "scheme",
+            "relationType": "evidenced_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "AUTH000003",
+            "entityType": "authority",
+            "relationType": "administered_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "AUTH000029",
+            "entityType": "authority",
+            "relationType": "administered_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "FIN000023",
+            "entityType": "finance_product",
+            "relationType": "related_to",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "Coir Vikas Yojana - Export Market Promotion",
+          "summary": "Export promotion scheme for Indian coir through fairs, buyer-seller meets, delegations, publicity and External Market Development Assistance.",
+          "eligibilityText": "Manufacturers, entrepreneurs and exporters of coir can apply for Export Market Promotion assistance. Component-specific conditions apply for fairs, buyer-seller meets, delegations and other export-promotion activities.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "கயர் விகாஸ் யோஜனா — ஏற்றுமதிச் சந்தை ஊக்குவிப்பு",
+          "summary": "கண்காட்சிகள், வாங்குநர்-விற்பனையாளர் சந்திப்புகள், தூதுக்குழுக்கள், விளம்பரம் மற்றும் வெளிச் சந்தை மேம்பாட்டு உதவி வழியாக இந்தியத் தென்னைநாருக்கான ஏற்றுமதி ஊக்குவிப்புத் திட்டம்.",
+          "eligibilityText": "தென்னைநார் உற்பத்தியாளர்கள், தொழில்முனைவோர் மற்றும் ஏற்றுமதியாளர்கள் ஏற்றுமதிச் சந்தை ஊக்குவிப்பு உதவிக்கு விண்ணப்பிக்கலாம். கண்காட்சிகள், வாங்குநர்-விற்பனையாளர் சந்திப்புகள், தூதுக்குழுக்கள் மற்றும் பிற ஏற்றுமதி ஊக்குவிப்புச் செயல்பாடுகளுக்குக் கூறு சார்ந்த நிபந்தனைகள் பொருந்தும்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "eligibilityText": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "coir",
+            "export",
+            "market",
+            "promotion",
+            "vikas",
+            "yojana"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "export market",
+            "export promotion"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Export promotion scheme for Indian coir through fairs, buyer-seller meets, delegations, publicity and External Market Development Assistance.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000190",
+            "code": "market_promotion",
+            "termType": "scheme_type",
+            "matchedOn": "market promotion"
+          }
+        ],
+        "relatedEntities": [
+          {
+            "entityId": "EXP000008",
+            "entityType": "export_benefit",
+            "name": "Marketing Development Assistance to registered MSME associations",
+            "similarity": 0.5,
+            "sharedFeatures": [
+              "instrumentType:market_promotion",
+              "level:central"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "EXP000009",
+            "entityType": "export_benefit",
+            "name": "Promotion of Indian Spice Brands Abroad",
+            "similarity": 0.5,
+            "sharedFeatures": [
+              "instrumentType:market_promotion",
+              "level:central"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "EXP000011",
+            "entityType": "export_benefit",
+            "name": "Sending business samples abroad",
+            "similarity": 0.5,
+            "sharedFeatures": [
+              "instrumentType:market_promotion",
+              "level:central"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": null,
+        "isVerified": true,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": "Researched",
+        "notes": "Export view of an existing scheme. Trade-policy specifics (duty rates, export obligation, SION) are absent from all sources and were not generated.",
+        "missingFields": [
+          {
+            "field": "content.dutyRate",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.exportObligationRatio",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.sionNorm",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.validityPeriod",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.eligibleProducts",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.claimProcedure",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": "SCH000034-SRC001",
+        "contributingSourceIds": [
+          "SCH000034-SRC001",
+          "SCH000034-SRC002"
+        ],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "export-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation",
+              "eligibilityText": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 3,
+            "fieldsContextual": 3,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Qualified by explicit export terms ['export market', 'export promotion'] (rule E1)",
+          "Instrument type 'market_promotion' from explicit term evidence (rule E3)",
+          "Monetary values copied verbatim from the parent scheme (rule E4)",
+          "Trade-policy detail not generated (rule E5)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)",
+          "Phase E.2 (2026-08-15): removed duplicate relationship edge(s) [('AUTH000029', 'administered_by')] -- exact repeats of an edge already present; no edge added or changed."
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "EXP000003",
+        "entityType": "export_benefit",
+        "code": "TN040",
+        "legacyCodes": [],
+        "name": "Deemed Exports",
+        "shortName": null,
+        "acronym": null,
+        "slug": "deemed-exports",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "instrumentType": "duty_exemption",
+        "schemeId": "SCH000040",
+        "schemeName": "Deemed Exports",
+        "matchedTerms": [
+          "foreign trade policy",
+          "ftp"
+        ],
+        "governmentLevel": "central",
+        "jurisdiction": {
+          "country": "IN",
+          "states": [],
+          "districts": []
+        },
+        "administeredByText": "Ministry of Commerce & Industry",
+        "implementingAgencyText": "DGFT / relevant authorities under Foreign Trade Policy",
+        "beneficiaryText": "Suppliers making qualifying categories of domestically manufactured goods under the Foreign Trade Policy; eligibility depends on the notified supply category and current FTP/HBP.",
+        "assistance": {
+          "currency": "INR",
+          "percentage": null,
+          "percentageText": null,
+          "amountInr": null,
+          "amountText": null,
+          "maxInr": null,
+          "maxText": "Varies by eligible FTP benefit",
+          "varies": false,
+          "variesBy": null
+        },
+        "assistanceSourceSlot": "capitalSubsidy",
+        "relatedFinanceProductIds": [
+          "FIN000028"
+        ],
+        "applicationMode": null,
+        "applicationUrl": "https://www.dgft.gov.in/",
+        "summary": "Deemed exports are qualifying supplies where goods do not leave India but are treated under FTP provisions for specified benefits.",
+        "eligibilityText": "Indian manufacturers or eligible main/sub-contractors making supplies in categories notified as 'deemed exports' under the Foreign Trade Policy can claim applicable benefits. The goods must be manufactured in India and satisfy the relevant supply conditions.",
+        "dutyRate": null,
+        "exportObligationRatio": null,
+        "sionNorm": null,
+        "validityPeriod": null,
+        "eligibleProducts": [],
+        "claimProcedure": null,
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "SCH000040",
+            "entityType": "scheme",
+            "relationType": "evidenced_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "AUTH000005",
+            "entityType": "authority",
+            "relationType": "administered_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "AUTH000028",
+            "entityType": "authority",
+            "relationType": "administered_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "FIN000028",
+            "entityType": "finance_product",
+            "relationType": "related_to",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "Deemed Exports",
+          "summary": "Deemed exports are qualifying supplies where goods do not leave India but are treated under FTP provisions for specified benefits.",
+          "eligibilityText": "Indian manufacturers or eligible main/sub-contractors making supplies in categories notified as 'deemed exports' under the Foreign Trade Policy can claim applicable benefits. The goods must be manufactured in India and satisfy the relevant supply conditions.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "கருதப்படும் ஏற்றுமதிகள்",
+          "summary": "கருதப்படும் ஏற்றுமதிகள் என்பவை, பொருட்கள் இந்தியாவை விட்டு வெளியேறாத போதிலும், குறிப்பிட்ட பயன்களுக்காக வெளிநாட்டு வர்த்தகக் கொள்கை விதிகளின் கீழ் கருதப்படும் தகுதியான வழங்கல்கள் ஆகும்.",
+          "eligibilityText": "வெளிநாட்டு வர்த்தகக் கொள்கையின் கீழ் 'கருதப்படும் ஏற்றுமதிகள்' என அறிவிக்கப்பட்ட வகைகளில் வழங்கல்களை மேற்கொள்ளும் இந்திய உற்பத்தியாளர்கள் அல்லது தகுதியான முதன்மை மற்றும் துணை ஒப்பந்ததாரர்கள், பொருந்தக்கூடிய பயன்களைக் கோரலாம். பொருட்கள் இந்தியாவில் உற்பத்தி செய்யப்பட்டு, தொடர்புடைய வழங்கல் நிபந்தனைகளைப் பூர்த்தி செய்ய வேண்டும்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "eligibilityText": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "deemed",
+            "exports"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "foreign trade policy",
+            "ftp"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Deemed exports are qualifying supplies where goods do not leave India but are treated under FTP provisions for specified benefits.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "EXP000004",
+            "entityType": "export_benefit",
+            "name": "Duty Free Import Authorisation (DFIA)",
+            "similarity": 0.5,
+            "sharedFeatures": [
+              "instrumentType:duty_exemption",
+              "level:central"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": null,
+        "isVerified": true,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": "Researched",
+        "notes": "Export view of an existing scheme. Trade-policy specifics (duty rates, export obligation, SION) are absent from all sources and were not generated.",
+        "missingFields": [
+          {
+            "field": "content.dutyRate",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.exportObligationRatio",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.sionNorm",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.validityPeriod",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.eligibleProducts",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.claimProcedure",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": "SCH000040-SRC001",
+        "contributingSourceIds": [
+          "SCH000040-SRC001"
+        ],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "export-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation",
+              "eligibilityText": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 3,
+            "fieldsContextual": 3,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Qualified by explicit export terms ['foreign trade policy', 'ftp'] (rule E1)",
+          "Instrument type 'duty_exemption' from explicit term evidence (rule E3)",
+          "Monetary values copied verbatim from the parent scheme (rule E4)",
+          "Trade-policy detail not generated (rule E5)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)",
+          "Phase E.2 (2026-08-15): removed duplicate relationship edge(s) [('AUTH000028', 'administered_by')] -- exact repeats of an edge already present; no edge added or changed."
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "EXP000004",
+        "entityType": "export_benefit",
+        "code": "TN050",
+        "legacyCodes": [],
+        "name": "Duty Free Import Authorisation (DFIA)",
+        "shortName": "DFIA",
+        "acronym": "DFIA",
+        "slug": "duty-free-import-authorisation-dfia",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "instrumentType": "duty_exemption",
+        "schemeId": "SCH000050",
+        "schemeName": "Duty Free Import Authorisation (DFIA)",
+        "matchedTerms": [
+          "dfia",
+          "dgft",
+          "duty free import",
+          "exporter",
+          "foreign trade policy",
+          "iec",
+          "sion"
+        ],
+        "governmentLevel": "central",
+        "jurisdiction": {
+          "country": "IN",
+          "states": [],
+          "districts": []
+        },
+        "administeredByText": "Ministry of Commerce & Industry",
+        "implementingAgencyText": "DGFT Regional Authorities",
+        "beneficiaryText": "Exporter/applicant meeting current FTP/HBP requirements; DFIA applies to products with notified Standard Input Output Norms (SION)",
+        "assistance": {
+          "currency": "INR",
+          "percentage": null,
+          "percentageText": null,
+          "amountInr": null,
+          "amountText": null,
+          "maxInr": null,
+          "maxText": "Based on eligible inputs/SION and authorisation",
+          "varies": false,
+          "variesBy": null
+        },
+        "assistanceSourceSlot": "capitalSubsidy",
+        "relatedFinanceProductIds": [
+          "FIN000032"
+        ],
+        "applicationMode": "online",
+        "applicationUrl": "https://www.dgft.gov.in/",
+        "summary": "DFIA allows duty-free import of eligible inputs used in production of export products under Foreign Trade Policy.",
+        "eligibilityText": "Exporter applicants with a valid IEC can seek DFIA for eligible export products under SION, subject to DGFT rules. The scheme requires the prescribed value addition and excludes inputs subject to specified pre-import or Actual User conditions.",
+        "dutyRate": null,
+        "exportObligationRatio": null,
+        "sionNorm": null,
+        "validityPeriod": null,
+        "eligibleProducts": [],
+        "claimProcedure": null,
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "SCH000050",
+            "entityType": "scheme",
+            "relationType": "evidenced_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "AUTH000005",
+            "entityType": "authority",
+            "relationType": "administered_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "AUTH000028",
+            "entityType": "authority",
+            "relationType": "administered_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "AUTH000069",
+            "entityType": "authority",
+            "relationType": "administered_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "FIN000032",
+            "entityType": "finance_product",
+            "relationType": "related_to",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "Duty Free Import Authorisation (DFIA)",
+          "summary": "DFIA allows duty-free import of eligible inputs used in production of export products under Foreign Trade Policy.",
+          "eligibilityText": "Exporter applicants with a valid IEC can seek DFIA for eligible export products under SION, subject to DGFT rules. The scheme requires the prescribed value addition and excludes inputs subject to specified pre-import or Actual User conditions.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "வரியில்லா இறக்குமதி அங்கீகாரம் (DFIA)",
+          "summary": "வெளிநாட்டு வர்த்தகக் கொள்கையின் கீழ், ஏற்றுமதிப் பொருட்கள் உற்பத்தியில் பயன்படுத்தப்படும் தகுதியான இடுபொருட்களை வரியின்றி இறக்குமதி செய்ய DFIA அனுமதிக்கிறது.",
+          "eligibilityText": "செல்லுபடியாகும் IEC கொண்ட ஏற்றுமதியாளர் விண்ணப்பதாரர்கள், DGFT விதிகளுக்கு உட்பட்டு, SION-இன் கீழ் தகுதியான ஏற்றுமதிப் பொருட்களுக்கு DFIA கோரலாம். இத்திட்டம் நிர்ணயிக்கப்பட்ட மதிப்புக் கூட்டலைக் கோருகிறது; குறிப்பிடப்பட்ட முன் இறக்குமதி அல்லது உண்மைப் பயனாளர் நிபந்தனைகளுக்கு உட்பட்ட இடுபொருட்கள் விலக்கப்படுகின்றன.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "eligibilityText": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "authorisation",
+            "dfia",
+            "duty",
+            "free",
+            "import"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "dfia",
+            "dgft",
+            "duty free import",
+            "exporter",
+            "foreign trade policy",
+            "iec",
+            "sion"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "DFIA allows duty-free import of eligible inputs used in production of export products under Foreign Trade Policy.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "EXP000003",
+            "entityType": "export_benefit",
+            "name": "Deemed Exports",
+            "similarity": 0.5,
+            "sharedFeatures": [
+              "instrumentType:duty_exemption",
+              "level:central"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": null,
+        "isVerified": true,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": "Researched",
+        "notes": "Export view of an existing scheme. Trade-policy specifics (duty rates, export obligation, SION) are absent from all sources and were not generated.",
+        "missingFields": [
+          {
+            "field": "content.dutyRate",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.exportObligationRatio",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.sionNorm",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.validityPeriod",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.eligibleProducts",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.claimProcedure",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": "SCH000050-SRC001",
+        "contributingSourceIds": [
+          "SCH000050-SRC001",
+          "SCH000050-SRC002"
+        ],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "export-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation",
+              "eligibilityText": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 3,
+            "fieldsContextual": 3,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Qualified by explicit export terms ['dfia', 'dgft', 'duty free import', 'exporter', 'foreign trade policy'] (rule E1)",
+          "Instrument type 'duty_exemption' from explicit term evidence (rule E3)",
+          "Monetary values copied verbatim from the parent scheme (rule E4)",
+          "Trade-policy detail not generated (rule E5)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "EXP000005",
+        "entityType": "export_benefit",
+        "code": "TN057",
+        "legacyCodes": [],
+        "name": "Export Promotion Capital Goods (EPCG) Scheme",
+        "shortName": null,
+        "acronym": null,
+        "slug": "export-promotion-capital-goods-epcg-scheme",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "instrumentType": "capital_goods_scheme",
+        "schemeId": "SCH000057",
+        "schemeName": "Export Promotion Capital Goods (EPCG) Scheme",
+        "matchedTerms": [
+          "dgft",
+          "epcg",
+          "export obligation",
+          "export promotion",
+          "foreign trade policy",
+          "ftp"
+        ],
+        "governmentLevel": "central",
+        "jurisdiction": {
+          "country": "IN",
+          "states": [],
+          "districts": []
+        },
+        "administeredByText": "Ministry of Commerce & Industry",
+        "implementingAgencyText": "DGFT Regional Authorities",
+        "beneficiaryText": "Manufacturer exporters, merchant exporters tied to supporting manufacturers, and eligible service providers subject to current FTP/HBP conditions",
+        "assistance": {
+          "currency": "INR",
+          "percentage": null,
+          "percentageText": null,
+          "amountInr": null,
+          "amountText": null,
+          "maxInr": null,
+          "maxText": "Based on authorisation and eligible capital goods",
+          "varies": false,
+          "variesBy": null
+        },
+        "assistanceSourceSlot": "capitalSubsidy",
+        "relatedFinanceProductIds": [
+          "FIN000036"
+        ],
+        "applicationMode": "online",
+        "applicationUrl": "https://www.dgft.gov.in/",
+        "summary": "EPCG facilitates import/procurement of capital goods subject to export-obligation conditions under India's Foreign Trade Policy.",
+        "eligibilityText": "Manufacturer exporters, merchant exporters tied to supporting manufacturers, and eligible service providers can use EPCG. The authorisation is subject to DGFT conditions, including the applicable export obligation.",
+        "dutyRate": null,
+        "exportObligationRatio": null,
+        "sionNorm": null,
+        "validityPeriod": null,
+        "eligibleProducts": [],
+        "claimProcedure": null,
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "SCH000057",
+            "entityType": "scheme",
+            "relationType": "evidenced_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "AUTH000005",
+            "entityType": "authority",
+            "relationType": "administered_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "AUTH000028",
+            "entityType": "authority",
+            "relationType": "administered_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "AUTH000069",
+            "entityType": "authority",
+            "relationType": "administered_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "FIN000036",
+            "entityType": "finance_product",
+            "relationType": "related_to",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "Export Promotion Capital Goods (EPCG) Scheme",
+          "summary": "EPCG facilitates import/procurement of capital goods subject to export-obligation conditions under India's Foreign Trade Policy.",
+          "eligibilityText": "Manufacturer exporters, merchant exporters tied to supporting manufacturers, and eligible service providers can use EPCG. The authorisation is subject to DGFT conditions, including the applicable export obligation.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "ஏற்றுமதி ஊக்குவிப்பு மூலதனப் பொருட்கள் திட்டம் (EPCG)",
+          "summary": "இந்தியாவின் வெளிநாட்டு வர்த்தகக் கொள்கையின் கீழ், ஏற்றுமதிக் கடமை நிபந்தனைகளுக்கு உட்பட்டு மூலதனப் பொருட்களை இறக்குமதி செய்வதையும் கொள்முதல் செய்வதையும் EPCG எளிதாக்குகிறது.",
+          "eligibilityText": "உற்பத்தியாளர் ஏற்றுமதியாளர்கள், ஆதரவு உற்பத்தியாளர்களுடன் இணைந்த வணிக ஏற்றுமதியாளர்கள் மற்றும் தகுதியான சேவை வழங்குநர்கள் EPCG-ஐப் பயன்படுத்தலாம். இந்த அங்கீகாரம், பொருந்தக்கூடிய ஏற்றுமதிக் கடமை உள்ளிட்ட DGFT நிபந்தனைகளுக்கு உட்பட்டது.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "eligibilityText": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "capital",
+            "epcg",
+            "export",
+            "goods",
+            "promotion",
+            "scheme"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "dgft",
+            "epcg",
+            "export obligation",
+            "export promotion",
+            "foreign trade policy",
+            "ftp"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "EPCG facilitates import/procurement of capital goods subject to export-obligation conditions under India's Foreign Trade Policy.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": null,
+        "isVerified": true,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": "Researched",
+        "notes": "Export view of an existing scheme. Trade-policy specifics (duty rates, export obligation, SION) are absent from all sources and were not generated.",
+        "missingFields": [
+          {
+            "field": "content.dutyRate",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.exportObligationRatio",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.sionNorm",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.validityPeriod",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.eligibleProducts",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.claimProcedure",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": "SCH000057-SRC001",
+        "contributingSourceIds": [
+          "SCH000057-SRC001"
+        ],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "export-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation",
+              "eligibilityText": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 3,
+            "fieldsContextual": 3,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Qualified by explicit export terms ['dgft', 'epcg', 'export obligation', 'export promotion', 'foreign trade policy'] (rule E1)",
+          "Instrument type 'capital_goods_scheme' from explicit term evidence (rule E3)",
+          "Monetary values copied verbatim from the parent scheme (rule E4)",
+          "Trade-policy detail not generated (rule E5)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "EXP000006",
+        "entityType": "export_benefit",
+        "code": "TN058",
+        "legacyCodes": [],
+        "name": "Financial Assistance for participation in International Trade Fair",
+        "shortName": null,
+        "acronym": null,
+        "slug": "financial-assistance-for-participation-in-international-trade-fair",
+        "language": "en",
+        "status": "unknown"
+      },
+      "content": {
+        "instrumentType": "market_promotion",
+        "schemeId": "SCH000058",
+        "schemeName": "Financial Assistance for participation in International Trade Fair",
+        "matchedTerms": [
+          "export market",
+          "trade fair"
+        ],
+        "governmentLevel": null,
+        "jurisdiction": {
+          "country": "IN",
+          "states": [],
+          "districts": []
+        },
+        "administeredByText": null,
+        "implementingAgencyText": null,
+        "beneficiaryText": "Eligible enterprises/exporters under the exact implementing scheme",
+        "assistance": {
+          "currency": "INR",
+          "percentage": null,
+          "percentageText": null,
+          "amountInr": null,
+          "amountText": null,
+          "maxInr": null,
+          "maxText": null,
+          "varies": false,
+          "variesBy": null
+        },
+        "assistanceSourceSlot": "reimbursement",
+        "relatedFinanceProductIds": [
+          "FIN000037"
+        ],
+        "applicationMode": null,
+        "applicationUrl": null,
+        "summary": "The workbook label can correspond to multiple government export/marketing schemes; an exact implementing agency was not established safely in this batch.",
+        "eligibilityText": "Eligible Tamil Nadu MSMEs participating in approved international trade fairs/exhibitions can seek financial assistance. Reimbursement is subject to event approval and the applicable MSME participation guidelines.",
+        "dutyRate": null,
+        "exportObligationRatio": null,
+        "sionNorm": null,
+        "validityPeriod": null,
+        "eligibleProducts": [],
+        "claimProcedure": null,
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "SCH000058",
+            "entityType": "scheme",
+            "relationType": "evidenced_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "FIN000037",
+            "entityType": "finance_product",
+            "relationType": "related_to",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "Financial Assistance for participation in International Trade Fair",
+          "summary": "The workbook label can correspond to multiple government export/marketing schemes; an exact implementing agency was not established safely in this batch.",
+          "eligibilityText": "Eligible Tamil Nadu MSMEs participating in approved international trade fairs/exhibitions can seek financial assistance. Reimbursement is subject to event approval and the applicable MSME participation guidelines.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "சர்வதேச வர்த்தகக் கண்காட்சியில் பங்கேற்பதற்கான நிதி உதவி",
+          "summary": "பணிநூலில் உள்ள பெயர் பல அரசு ஏற்றுமதி அல்லது சந்தைப்படுத்தல் திட்டங்களுடன் தொடர்புடையதாக இருக்கலாம்; இந்தத் தொகுப்பில் துல்லியமான செயலாக்க முகமையைப் பாதுகாப்பாக உறுதிப்படுத்த முடியவில்லை.",
+          "eligibilityText": "அங்கீகரிக்கப்பட்ட சர்வதேச வர்த்தகக் கண்காட்சிகளில் பங்கேற்கும் தகுதியான தமிழ்நாடு MSME நிறுவனங்கள் நிதி உதவியைக் கோரலாம். திருப்பிச் செலுத்தல் என்பது நிகழ்வு ஒப்புதல் மற்றும் பொருந்தக்கூடிய MSME பங்கேற்பு வழிகாட்டு நெறிமுறைகளுக்கு உட்பட்டது.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "eligibilityText": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "assistance",
+            "fair",
+            "financial",
+            "international",
+            "participation",
+            "trade"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "export market",
+            "trade fair"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "The workbook label can correspond to multiple government export/marketing schemes; an exact implementing agency was not established safely in this batch.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": null,
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "low",
+        "researchStatus": "Researched",
+        "notes": "Export view of an existing scheme. Trade-policy specifics (duty rates, export obligation, SION) are absent from all sources and were not generated.",
+        "missingFields": [
+          {
+            "field": "content.dutyRate",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.exportObligationRatio",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.sionNorm",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.validityPeriod",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.eligibleProducts",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.claimProcedure",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "export-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation",
+              "eligibilityText": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 3,
+            "fieldsContextual": 3,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Qualified by explicit export terms ['export market', 'trade fair'] (rule E1)",
+          "Instrument type 'market_promotion' from explicit term evidence (rule E3)",
+          "Monetary values copied verbatim from the parent scheme (rule E4)",
+          "Trade-policy detail not generated (rule E5)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "EXP000007",
+        "entityType": "export_benefit",
+        "code": "TN070",
+        "legacyCodes": [],
+        "name": "Interest Equalisation Scheme",
+        "shortName": null,
+        "acronym": null,
+        "slug": "interest-equalisation-scheme",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "instrumentType": "interest_equalisation",
+        "schemeId": "SCH000070",
+        "schemeName": "Interest Equalisation Scheme",
+        "matchedTerms": [
+          "dgft",
+          "export credit",
+          "exporter",
+          "interest equalisation"
+        ],
+        "governmentLevel": "central",
+        "jurisdiction": {
+          "country": "IN",
+          "states": [],
+          "districts": []
+        },
+        "administeredByText": "Ministry of Commerce & Industry",
+        "implementingAgencyText": "Government of India / RBI through eligible lending institutions",
+        "beneficiaryText": "Eligible exporters/export credit transactions covered under the applicable Interest Equalisation Scheme notification and validity period",
+        "assistance": null,
+        "assistanceSourceSlot": null,
+        "relatedFinanceProductIds": [],
+        "applicationMode": null,
+        "applicationUrl": null,
+        "summary": "Interest Equalisation Scheme reduces the cost of eligible rupee export credit through an interest equalisation mechanism.",
+        "eligibilityText": "Eligible exporters of notified products can receive interest equalisation on qualifying rupee export credit through participating banks. Eligibility is governed by the current DGFT/RBI scheme coverage, exporter category and product rules.",
+        "dutyRate": null,
+        "exportObligationRatio": null,
+        "sionNorm": null,
+        "validityPeriod": null,
+        "eligibleProducts": [],
+        "claimProcedure": null,
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "SCH000070",
+            "entityType": "scheme",
+            "relationType": "evidenced_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "AUTH000005",
+            "entityType": "authority",
+            "relationType": "administered_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "AUTH000072",
+            "entityType": "authority",
+            "relationType": "administered_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "AUTH000073",
+            "entityType": "authority",
+            "relationType": "administered_by",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "Interest Equalisation Scheme",
+          "summary": "Interest Equalisation Scheme reduces the cost of eligible rupee export credit through an interest equalisation mechanism.",
+          "eligibilityText": "Eligible exporters of notified products can receive interest equalisation on qualifying rupee export credit through participating banks. Eligibility is governed by the current DGFT/RBI scheme coverage, exporter category and product rules.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "வட்டி சமன்படுத்தல் திட்டம்",
+          "summary": "வட்டி சமன்படுத்தல் வழிமுறை மூலம், தகுதியான ரூபாய் ஏற்றுமதிக் கடனின் செலவை வட்டி சமன்படுத்தல் திட்டம் குறைக்கிறது.",
+          "eligibilityText": "அறிவிக்கப்பட்ட பொருட்களின் தகுதியான ஏற்றுமதியாளர்கள், பங்கேற்கும் வங்கிகள் வழியாகத் தகுதிபெறும் ரூபாய் ஏற்றுமதிக் கடனுக்கு வட்டி சமன்படுத்தலைப் பெறலாம். தகுதி என்பது தற்போதைய DGFT மற்றும் RBI திட்டப் பரப்பு, ஏற்றுமதியாளர் வகை மற்றும் பொருள் விதிகளால் நிர்வகிக்கப்படுகிறது.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "eligibilityText": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "equalisation",
+            "interest",
+            "scheme"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "dgft",
+            "export credit",
+            "exporter",
+            "interest equalisation"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Interest Equalisation Scheme reduces the cost of eligible rupee export credit through an interest equalisation mechanism.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": null,
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "low",
+        "researchStatus": "Researched",
+        "notes": "Export view of an existing scheme. Trade-policy specifics (duty rates, export obligation, SION) are absent from all sources and were not generated.",
+        "missingFields": [
+          {
+            "field": "content.dutyRate",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.exportObligationRatio",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.sionNorm",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.validityPeriod",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.eligibleProducts",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.claimProcedure",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.assistance",
+            "reason": "Parent scheme records no active financial benefit"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": "SCH000070-SRC001",
+        "contributingSourceIds": [
+          "SCH000070-SRC001"
+        ],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "export-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation",
+              "eligibilityText": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 3,
+            "fieldsContextual": 3,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Qualified by explicit export terms ['dgft', 'export credit', 'exporter', 'interest equalisation'] (rule E1)",
+          "Instrument type 'interest_equalisation' from explicit term evidence (rule E3)",
+          "Monetary values copied verbatim from the parent scheme (rule E4)",
+          "Trade-policy detail not generated (rule E5)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "EXP000008",
+        "entityType": "export_benefit",
+        "code": "TN090",
+        "legacyCodes": [],
+        "name": "Marketing Development Assistance to registered MSME associations",
+        "shortName": null,
+        "acronym": null,
+        "slug": "marketing-development-assistance-to-registered-msme-associations",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "instrumentType": "market_promotion",
+        "schemeId": "SCH000090",
+        "schemeName": "Marketing Development Assistance to registered MSME associations",
+        "matchedTerms": [
+          "exporter"
+        ],
+        "governmentLevel": "central",
+        "jurisdiction": {
+          "country": "IN",
+          "states": [],
+          "districts": []
+        },
+        "administeredByText": "Ministry of Micro, Small & Medium Enterprises",
+        "implementingAgencyText": "Ministry of MSME / eligible government organisations and registered industry associations",
+        "beneficiaryText": "Government institutions, registered industry associations and other eligible organisations under the International Cooperation Scheme's Marketing Development Assistance component.",
+        "assistance": {
+          "currency": "INR",
+          "percentage": null,
+          "percentageText": "Reimbursement-based; item-specific",
+          "amountInr": null,
+          "amountText": null,
+          "maxInr": null,
+          "maxText": "Depends on eligible component/event",
+          "varies": false,
+          "variesBy": null
+        },
+        "assistanceSourceSlot": "reimbursement",
+        "relatedFinanceProductIds": [
+          "FIN000058"
+        ],
+        "applicationMode": null,
+        "applicationUrl": "https://www.msme.gov.in/offerings/schemes-and-services/details/marketing-promotion-schemes-1-QzMzETMtQWa",
+        "summary": "MDA sub-component of the MSME International Cooperation Scheme supports international exhibitions, trade fairs, buyer-seller meets, conferences and related export-market activities.",
+        "eligibilityText": "Registered MSME associations in Tamil Nadu can seek marketing-development assistance for approved promotional activities/events, subject to association eligibility, prior approval and reimbursement conditions.",
+        "dutyRate": null,
+        "exportObligationRatio": null,
+        "sionNorm": null,
+        "validityPeriod": null,
+        "eligibleProducts": [],
+        "claimProcedure": null,
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "SCH000090",
+            "entityType": "scheme",
+            "relationType": "evidenced_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "AUTH000003",
+            "entityType": "authority",
+            "relationType": "administered_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "FIN000058",
+            "entityType": "finance_product",
+            "relationType": "related_to",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "Marketing Development Assistance to registered MSME associations",
+          "summary": "MDA sub-component of the MSME International Cooperation Scheme supports international exhibitions, trade fairs, buyer-seller meets, conferences and related export-market activities.",
+          "eligibilityText": "Registered MSME associations in Tamil Nadu can seek marketing-development assistance for approved promotional activities/events, subject to association eligibility, prior approval and reimbursement conditions.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "பதிவு செய்யப்பட்ட MSME சங்கங்களுக்கான சந்தைப்படுத்தல் மேம்பாட்டு உதவி",
+          "summary": "MSME சர்வதேச ஒத்துழைப்புத் திட்டத்தின் MDA துணைக்கூறு, சர்வதேசக் கண்காட்சிகள், வர்த்தகக் கண்காட்சிகள், வாங்குநர்-விற்பனையாளர் சந்திப்புகள், மாநாடுகள் மற்றும் அது சார்ந்த ஏற்றுமதிச் சந்தைச் செயல்பாடுகளை ஆதரிக்கிறது.",
+          "eligibilityText": "தமிழ்நாட்டில் பதிவு செய்யப்பட்ட MSME சங்கங்கள், சங்கத் தகுதி, முன் ஒப்புதல் மற்றும் திருப்பிச் செலுத்தல் நிபந்தனைகளுக்கு உட்பட்டு, அங்கீகரிக்கப்பட்ட ஊக்குவிப்புச் செயல்பாடுகள் மற்றும் நிகழ்வுகளுக்குச் சந்தைப்படுத்தல் மேம்பாட்டு உதவியைக் கோரலாம்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "eligibilityText": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "assistance",
+            "associations",
+            "development",
+            "marketing",
+            "msme",
+            "registered"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "exporter"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "MDA sub-component of the MSME International Cooperation Scheme supports international exhibitions, trade fairs, buyer-seller meets, conferences and related export-market activities.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "EXP000002",
+            "entityType": "export_benefit",
+            "name": "Coir Vikas Yojana - Export Market Promotion",
+            "similarity": 0.5,
+            "sharedFeatures": [
+              "instrumentType:market_promotion",
+              "level:central"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "EXP000009",
+            "entityType": "export_benefit",
+            "name": "Promotion of Indian Spice Brands Abroad",
+            "similarity": 0.5,
+            "sharedFeatures": [
+              "instrumentType:market_promotion",
+              "level:central"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "EXP000011",
+            "entityType": "export_benefit",
+            "name": "Sending business samples abroad",
+            "similarity": 0.5,
+            "sharedFeatures": [
+              "instrumentType:market_promotion",
+              "level:central"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": null,
+        "isVerified": true,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": "Researched",
+        "notes": "Export view of an existing scheme. Trade-policy specifics (duty rates, export obligation, SION) are absent from all sources and were not generated.",
+        "missingFields": [
+          {
+            "field": "content.dutyRate",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.exportObligationRatio",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.sionNorm",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.validityPeriod",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.eligibleProducts",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.claimProcedure",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": "SCH000090-SRC001",
+        "contributingSourceIds": [
+          "SCH000090-SRC001",
+          "SCH000090-SRC002"
+        ],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "export-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation",
+              "eligibilityText": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 3,
+            "fieldsContextual": 3,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Qualified by explicit export terms ['exporter'] (rule E1)",
+          "Instrument type 'market_promotion' from explicit term evidence (rule E3)",
+          "Monetary values copied verbatim from the parent scheme (rule E4)",
+          "Trade-policy detail not generated (rule E5)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)",
+          "Phase E.2 (2026-08-15): removed duplicate relationship edge(s) [('AUTH000003', 'administered_by'), ('AUTH000003', 'administered_by')] -- exact repeats of an edge already present; no edge added or changed."
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "EXP000009",
+        "entityType": "export_benefit",
+        "code": "TN135",
+        "legacyCodes": [],
+        "name": "Promotion of Indian Spice Brands Abroad",
+        "shortName": null,
+        "acronym": null,
+        "slug": "promotion-of-indian-spice-brands-abroad",
+        "language": "en",
+        "status": "unknown"
+      },
+      "content": {
+        "instrumentType": "market_promotion",
+        "schemeId": "SCH000135",
+        "schemeName": "Promotion of Indian Spice Brands Abroad",
+        "matchedTerms": [
+          "spice brands abroad"
+        ],
+        "governmentLevel": "central",
+        "jurisdiction": {
+          "country": "IN",
+          "states": [],
+          "districts": []
+        },
+        "administeredByText": "Ministry of Commerce & Industry",
+        "implementingAgencyText": "Spices Board India",
+        "beneficiaryText": "Eligible registered spice exporters under applicable Spices Board export-development guidelines",
+        "assistance": {
+          "currency": "INR",
+          "percentage": null,
+          "percentageText": null,
+          "amountInr": null,
+          "amountText": null,
+          "maxInr": null,
+          "maxText": null,
+          "varies": false,
+          "variesBy": null
+        },
+        "assistanceSourceSlot": "reimbursement",
+        "relatedFinanceProductIds": [
+          "FIN000082"
+        ],
+        "applicationMode": null,
+        "applicationUrl": "https://www.indianspices.com/",
+        "summary": "Support associated with promotion of Indian spice brands in overseas markets.",
+        "eligibilityText": "Registered exporters developing and promoting Indian spice brands in overseas markets can seek assistance, subject to Spices Board registration, brand ownership/approval and eligible export-promotion expenditure.",
+        "dutyRate": null,
+        "exportObligationRatio": null,
+        "sionNorm": null,
+        "validityPeriod": null,
+        "eligibleProducts": [],
+        "claimProcedure": null,
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "SCH000135",
+            "entityType": "scheme",
+            "relationType": "evidenced_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "AUTH000005",
+            "entityType": "authority",
+            "relationType": "administered_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "AUTH000035",
+            "entityType": "authority",
+            "relationType": "administered_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "FIN000082",
+            "entityType": "finance_product",
+            "relationType": "related_to",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "Promotion of Indian Spice Brands Abroad",
+          "summary": "Support associated with promotion of Indian spice brands in overseas markets.",
+          "eligibilityText": "Registered exporters developing and promoting Indian spice brands in overseas markets can seek assistance, subject to Spices Board registration, brand ownership/approval and eligible export-promotion expenditure.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "வெளிநாடுகளில் இந்திய வாசனைப் பொருள் வணிகமுத்திரைகளை ஊக்குவித்தல்",
+          "summary": "வெளிநாட்டுச் சந்தைகளில் இந்திய வாசனைப் பொருள் வணிகமுத்திரைகளை ஊக்குவிப்பதுடன் தொடர்புடைய ஆதரவு.",
+          "eligibilityText": "வெளிநாட்டுச் சந்தைகளில் இந்திய வாசனைப் பொருள் வணிகமுத்திரைகளை உருவாக்கி ஊக்குவிக்கும் பதிவு செய்யப்பட்ட ஏற்றுமதியாளர்கள், வாசனைப் பொருள் வாரியப் பதிவு, வணிகமுத்திரை உரிமை மற்றும் ஒப்புதல், மேலும் தகுதியான ஏற்றுமதி ஊக்குவிப்புச் செலவினத்திற்கு உட்பட்டு உதவியைக் கோரலாம்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "eligibilityText": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "abroad",
+            "brands",
+            "indian",
+            "promotion",
+            "spice"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "spice brands abroad"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Support associated with promotion of Indian spice brands in overseas markets.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "EXP000002",
+            "entityType": "export_benefit",
+            "name": "Coir Vikas Yojana - Export Market Promotion",
+            "similarity": 0.5,
+            "sharedFeatures": [
+              "instrumentType:market_promotion",
+              "level:central"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "EXP000008",
+            "entityType": "export_benefit",
+            "name": "Marketing Development Assistance to registered MSME associations",
+            "similarity": 0.5,
+            "sharedFeatures": [
+              "instrumentType:market_promotion",
+              "level:central"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "EXP000011",
+            "entityType": "export_benefit",
+            "name": "Sending business samples abroad",
+            "similarity": 0.5,
+            "sharedFeatures": [
+              "instrumentType:market_promotion",
+              "level:central"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": null,
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "low",
+        "researchStatus": "Researched",
+        "notes": "Export view of an existing scheme. Trade-policy specifics (duty rates, export obligation, SION) are absent from all sources and were not generated.",
+        "missingFields": [
+          {
+            "field": "content.dutyRate",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.exportObligationRatio",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.sionNorm",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.validityPeriod",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.eligibleProducts",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.claimProcedure",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": "SCH000135-SRC001",
+        "contributingSourceIds": [
+          "SCH000135-SRC001",
+          "SCH000135-SRC002"
+        ],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "export-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation",
+              "eligibilityText": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 3,
+            "fieldsContextual": 3,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Qualified by explicit export terms ['spice brands abroad'] (rule E1)",
+          "Instrument type 'market_promotion' from explicit term evidence (rule E3)",
+          "Monetary values copied verbatim from the parent scheme (rule E4)",
+          "Trade-policy detail not generated (rule E5)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)",
+          "Phase E.2 (2026-08-15): removed duplicate relationship edge(s) [('AUTH000035', 'administered_by')] -- exact repeats of an edge already present; no edge added or changed."
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "EXP000010",
+        "entityType": "export_benefit",
+        "code": "TN141",
+        "legacyCodes": [],
+        "name": "Reimbursement of fees for Certificate of Registration as Exporter of Spices (CRES)",
+        "shortName": "CRES",
+        "acronym": "CRES",
+        "slug": "reimbursement-of-fees-for-certificate-of-registration-as-exporter-of-spices-cres",
+        "language": "en",
+        "status": "unknown"
+      },
+      "content": {
+        "instrumentType": "certification_support",
+        "schemeId": "SCH000141",
+        "schemeName": "Reimbursement of fees for Certificate of Registration as Exporter of Spices (CRES)",
+        "matchedTerms": [
+          "exporter"
+        ],
+        "governmentLevel": "central",
+        "jurisdiction": {
+          "country": "IN",
+          "states": [],
+          "districts": []
+        },
+        "administeredByText": null,
+        "implementingAgencyText": null,
+        "beneficiaryText": null,
+        "assistance": null,
+        "assistanceSourceSlot": null,
+        "relatedFinanceProductIds": [],
+        "applicationMode": null,
+        "applicationUrl": null,
+        "summary": null,
+        "eligibilityText": "Eligible spice exporters obtaining or renewing the required CRES registration can seek reimbursement where covered by the applicable Spices Board export-development assistance guidelines.",
+        "dutyRate": null,
+        "exportObligationRatio": null,
+        "sionNorm": null,
+        "validityPeriod": null,
+        "eligibleProducts": [],
+        "claimProcedure": null,
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "SCH000141",
+            "entityType": "scheme",
+            "relationType": "evidenced_by",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "Reimbursement of fees for Certificate of Registration as Exporter of Spices (CRES)",
+          "summary": null,
+          "eligibilityText": "Eligible spice exporters obtaining or renewing the required CRES registration can seek reimbursement where covered by the applicable Spices Board export-development assistance guidelines.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "வாசனைப் பொருள் ஏற்றுமதியாளர் பதிவுச் சான்றிதழ் (CRES) கட்டணத் திருப்பிச் செலுத்தல்",
+          "summary": null,
+          "eligibilityText": "தேவையான CRES பதிவைப் பெறும் அல்லது புதுப்பிக்கும் தகுதியான வாசனைப் பொருள் ஏற்றுமதியாளர்கள், பொருந்தக்கூடிய வாசனைப் பொருள் வாரிய ஏற்றுமதி மேம்பாட்டு உதவி வழிகாட்டு நெறிமுறைகளில் உள்ளடக்கப்பட்ட இடங்களில் திருப்பிச் செலுத்தலைக் கோரலாம்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "eligibilityText": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "certificate",
+            "cres",
+            "exporter",
+            "fees",
+            "registration",
+            "reimbursement",
+            "spices"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "exporter"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000119",
+            "code": "reimbursement",
+            "termType": "benefit_type",
+            "matchedOn": "reimbursement"
+          },
+          {
+            "termId": "CMN000211",
+            "code": "certificate",
+            "termType": "document_type",
+            "matchedOn": "certificate"
+          }
+        ],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": null,
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "low",
+        "researchStatus": "Researched",
+        "notes": "Export view of an existing scheme. Trade-policy specifics (duty rates, export obligation, SION) are absent from all sources and were not generated.",
+        "missingFields": [
+          {
+            "field": "content.dutyRate",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.exportObligationRatio",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.sionNorm",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.validityPeriod",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.eligibleProducts",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.claimProcedure",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.assistance",
+            "reason": "Parent scheme records no active financial benefit"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": "SCH000141-SRC001",
+        "contributingSourceIds": [
+          "SCH000141-SRC001"
+        ],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "export-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "eligibilityText": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Qualified by explicit export terms ['exporter'] (rule E1)",
+          "Instrument type 'certification_support' from explicit term evidence (rule E3)",
+          "Monetary values copied verbatim from the parent scheme (rule E4)",
+          "Trade-policy detail not generated (rule E5)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "EXP000011",
+        "entityType": "export_benefit",
+        "code": "TN154",
+        "legacyCodes": [],
+        "name": "Sending business samples abroad",
+        "shortName": null,
+        "acronym": null,
+        "slug": "sending-business-samples-abroad",
+        "language": "en",
+        "status": "unknown"
+      },
+      "content": {
+        "instrumentType": "market_promotion",
+        "schemeId": "SCH000154",
+        "schemeName": "Sending business samples abroad",
+        "matchedTerms": [
+          "business samples abroad",
+          "export promotion"
+        ],
+        "governmentLevel": "central",
+        "jurisdiction": {
+          "country": "IN",
+          "states": [],
+          "districts": []
+        },
+        "administeredByText": null,
+        "implementingAgencyText": null,
+        "beneficiaryText": null,
+        "assistance": {
+          "currency": "INR",
+          "percentage": null,
+          "percentageText": null,
+          "amountInr": null,
+          "amountText": null,
+          "maxInr": null,
+          "maxText": null,
+          "varies": false,
+          "variesBy": null
+        },
+        "assistanceSourceSlot": "capitalSubsidy",
+        "relatedFinanceProductIds": [
+          "FIN000091"
+        ],
+        "applicationMode": null,
+        "applicationUrl": null,
+        "summary": "Master-list item appears to concern export promotion/support for sending business samples abroad, but the exact current Spices Board component and financial terms were not established from a specific authoritative page.",
+        "eligibilityText": "Eligible registered exporters sending bona fide business samples overseas can claim applicable assistance where provided, subject to export registration, sample value and the relevant export-promotion guidelines.",
+        "dutyRate": null,
+        "exportObligationRatio": null,
+        "sionNorm": null,
+        "validityPeriod": null,
+        "eligibleProducts": [],
+        "claimProcedure": null,
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "SCH000154",
+            "entityType": "scheme",
+            "relationType": "evidenced_by",
+            "role": null,
+            "note": null
+          },
+          {
+            "entityId": "FIN000091",
+            "entityType": "finance_product",
+            "relationType": "related_to",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "Sending business samples abroad",
+          "summary": "Master-list item appears to concern export promotion/support for sending business samples abroad, but the exact current Spices Board component and financial terms were not established from a specific authoritative page.",
+          "eligibilityText": "Eligible registered exporters sending bona fide business samples overseas can claim applicable assistance where provided, subject to export registration, sample value and the relevant export-promotion guidelines.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "வெளிநாடுகளுக்கு வணிக மாதிரிகளை அனுப்புதல்",
+          "summary": "முதன்மைப் பட்டியல் உருப்படி, வெளிநாடுகளுக்கு வணிக மாதிரிகளை அனுப்புவதற்கான ஏற்றுமதி ஊக்குவிப்பு அல்லது ஆதரவு தொடர்பானதாகத் தோன்றுகிறது; ஆனால் துல்லியமான தற்போதைய வாசனைப் பொருள் வாரியக் கூறும் நிதி நிபந்தனைகளும் குறிப்பிட்ட அதிகாரப்பூர்வப் பக்கத்திலிருந்து உறுதிப்படுத்தப்படவில்லை.",
+          "eligibilityText": "நேர்மையான வணிக மாதிரிகளை வெளிநாடுகளுக்கு அனுப்பும் தகுதியான பதிவு செய்யப்பட்ட ஏற்றுமதியாளர்கள், ஏற்றுமதிப் பதிவு, மாதிரியின் மதிப்பு மற்றும் தொடர்புடைய ஏற்றுமதி ஊக்குவிப்பு வழிகாட்டு நெறிமுறைகளுக்கு உட்பட்டு, வழங்கப்படும் இடங்களில் பொருந்தக்கூடிய உதவியைக் கோரலாம்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "eligibilityText": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "abroad",
+            "business",
+            "samples",
+            "sending"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "business samples abroad",
+            "export promotion"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Master-list item appears to concern export promotion/support for sending business samples abroad, but the exact current Spices Board component and financial terms were not established from a specific authoritative page.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "EXP000002",
+            "entityType": "export_benefit",
+            "name": "Coir Vikas Yojana - Export Market Promotion",
+            "similarity": 0.5,
+            "sharedFeatures": [
+              "instrumentType:market_promotion",
+              "level:central"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "EXP000008",
+            "entityType": "export_benefit",
+            "name": "Marketing Development Assistance to registered MSME associations",
+            "similarity": 0.5,
+            "sharedFeatures": [
+              "instrumentType:market_promotion",
+              "level:central"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "EXP000009",
+            "entityType": "export_benefit",
+            "name": "Promotion of Indian Spice Brands Abroad",
+            "similarity": 0.5,
+            "sharedFeatures": [
+              "instrumentType:market_promotion",
+              "level:central"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": null,
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "low",
+        "researchStatus": "Researched",
+        "notes": "Export view of an existing scheme. Trade-policy specifics (duty rates, export obligation, SION) are absent from all sources and were not generated.",
+        "missingFields": [
+          {
+            "field": "content.dutyRate",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.exportObligationRatio",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.sionNorm",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.validityPeriod",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.eligibleProducts",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.claimProcedure",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": "SCH000154-SRC001",
+        "contributingSourceIds": [
+          "SCH000154-SRC001"
+        ],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "export-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation",
+              "eligibilityText": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 3,
+            "fieldsContextual": 3,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Qualified by explicit export terms ['business samples abroad', 'export promotion'] (rule E1)",
+          "Instrument type 'market_promotion' from explicit term evidence (rule E3)",
+          "Monetary values copied verbatim from the parent scheme (rule E4)",
+          "Trade-policy detail not generated (rule E5)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "EXP000012",
+        "entityType": "export_benefit",
+        "code": "TN172",
+        "legacyCodes": [],
+        "name": "Status Holder Certificate",
+        "shortName": null,
+        "acronym": null,
+        "slug": "status-holder-certificate",
+        "language": "en",
+        "status": "unknown"
+      },
+      "content": {
+        "instrumentType": "exporter_recognition",
+        "schemeId": "SCH000172",
+        "schemeName": "Status Holder Certificate",
+        "matchedTerms": [
+          "dgft",
+          "foreign trade policy",
+          "ftp",
+          "status holder"
+        ],
+        "governmentLevel": "central",
+        "jurisdiction": {
+          "country": "IN",
+          "states": [],
+          "districts": []
+        },
+        "administeredByText": null,
+        "implementingAgencyText": null,
+        "beneficiaryText": null,
+        "assistance": null,
+        "assistanceSourceSlot": null,
+        "relatedFinanceProductIds": [],
+        "applicationMode": null,
+        "applicationUrl": null,
+        "summary": "DGFT Status Holder recognition exists under the Foreign Trade Policy framework; exact current thresholds/privileges are not inserted here without the specific current FTP provision.",
+        "eligibilityText": "Exporters meeting the prescribed export-performance thresholds can apply to DGFT for Status Holder recognition. The category granted depends on export performance calculated under the Foreign Trade Policy.",
+        "dutyRate": null,
+        "exportObligationRatio": null,
+        "sionNorm": null,
+        "validityPeriod": null,
+        "eligibleProducts": [],
+        "claimProcedure": null,
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "SCH000172",
+            "entityType": "scheme",
+            "relationType": "evidenced_by",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "Status Holder Certificate",
+          "summary": "DGFT Status Holder recognition exists under the Foreign Trade Policy framework; exact current thresholds/privileges are not inserted here without the specific current FTP provision.",
+          "eligibilityText": "Exporters meeting the prescribed export-performance thresholds can apply to DGFT for Status Holder recognition. The category granted depends on export performance calculated under the Foreign Trade Policy.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "அந்தஸ்து வைத்திருப்போர் சான்றிதழ்",
+          "summary": "DGFT அந்தஸ்து வைத்திருப்போர் அங்கீகாரம் வெளிநாட்டு வர்த்தகக் கொள்கைக் கட்டமைப்பின் கீழ் உள்ளது; குறிப்பிட்ட தற்போதைய வெளிநாட்டு வர்த்தகக் கொள்கை விதி இல்லாமல், துல்லியமான தற்போதைய வரம்புகளும் சலுகைகளும் இங்கு சேர்க்கப்படவில்லை.",
+          "eligibilityText": "நிர்ணயிக்கப்பட்ட ஏற்றுமதிச் செயல்திறன் வரம்புகளைப் பூர்த்தி செய்யும் ஏற்றுமதியாளர்கள், அந்தஸ்து வைத்திருப்போர் அங்கீகாரத்திற்கு DGFT-க்கு விண்ணப்பிக்கலாம். வழங்கப்படும் வகை, வெளிநாட்டு வர்த்தகக் கொள்கையின்படி கணக்கிடப்படும் ஏற்றுமதிச் செயல்திறனைச் சார்ந்தது.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "eligibilityText": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "certificate",
+            "holder",
+            "status"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "dgft",
+            "foreign trade policy",
+            "ftp",
+            "status holder"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "DGFT Status Holder recognition exists under the Foreign Trade Policy framework; exact current thresholds/privileges are not inserted here without the specific current FTP provision.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000211",
+            "code": "certificate",
+            "termType": "document_type",
+            "matchedOn": "certificate"
+          }
+        ],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": null,
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "low",
+        "researchStatus": "Researched",
+        "notes": "Export view of an existing scheme. Trade-policy specifics (duty rates, export obligation, SION) are absent from all sources and were not generated.",
+        "missingFields": [
+          {
+            "field": "content.dutyRate",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.exportObligationRatio",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.sionNorm",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.validityPeriod",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.eligibleProducts",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.claimProcedure",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.assistance",
+            "reason": "Parent scheme records no active financial benefit"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": "SCH000172-SRC001",
+        "contributingSourceIds": [
+          "SCH000172-SRC001"
+        ],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "export-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation",
+              "eligibilityText": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 3,
+            "fieldsContextual": 3,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Qualified by explicit export terms ['dgft', 'foreign trade policy', 'ftp', 'status holder'] (rule E1)",
+          "Instrument type 'exporter_recognition' from explicit term evidence (rule E3)",
+          "Monetary values copied verbatim from the parent scheme (rule E4)",
+          "Trade-policy detail not generated (rule E5)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "EXP000013",
+        "entityType": "export_benefit",
+        "code": "TN186",
+        "legacyCodes": [],
+        "name": "TANSIDCO Export Promotion and Marketing Support Scheme for MSMEs",
+        "shortName": null,
+        "acronym": null,
+        "slug": "tansidco-export-promotion-and-marketing-support-scheme-for-msmes",
+        "language": "en",
+        "status": "unknown"
+      },
+      "content": {
+        "instrumentType": "export_assistance",
+        "schemeId": "SCH000186",
+        "schemeName": "TANSIDCO Export Promotion and Marketing Support Scheme for MSMEs",
+        "matchedTerms": [
+          "export promotion"
+        ],
+        "governmentLevel": "state",
+        "jurisdiction": {
+          "country": "IN",
+          "states": [],
+          "districts": []
+        },
+        "administeredByText": null,
+        "implementingAgencyText": null,
+        "beneficiaryText": null,
+        "assistance": null,
+        "assistanceSourceSlot": null,
+        "relatedFinanceProductIds": [],
+        "applicationMode": null,
+        "applicationUrl": null,
+        "summary": "The master-list entry associates TANSIDCO with export-promotion and marketing support for MSMEs; exact current reimbursement components, eligibility and ceilings were not established from a specific live TANSIDCO scheme page.",
+        "eligibilityText": "Eligible Tamil Nadu MSMEs using TANSIDCO’s approved export-promotion or marketing facilities can seek support, subject to MSME registration, export/marketing activity and applicable reimbursement conditions.",
+        "dutyRate": null,
+        "exportObligationRatio": null,
+        "sionNorm": null,
+        "validityPeriod": null,
+        "eligibleProducts": [],
+        "claimProcedure": null,
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": [
+          {
+            "entityId": "SCH000186",
+            "entityType": "scheme",
+            "relationType": "evidenced_by",
+            "role": null,
+            "note": null
+          }
+        ]
+      },
+      "localization": {
+        "en": {
+          "name": "TANSIDCO Export Promotion and Marketing Support Scheme for MSMEs",
+          "summary": "The master-list entry associates TANSIDCO with export-promotion and marketing support for MSMEs; exact current reimbursement components, eligibility and ceilings were not established from a specific live TANSIDCO scheme page.",
+          "eligibilityText": "Eligible Tamil Nadu MSMEs using TANSIDCO’s approved export-promotion or marketing facilities can seek support, subject to MSME registration, export/marketing activity and applicable reimbursement conditions.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "MSME நிறுவனங்களுக்கான TANSIDCO ஏற்றுமதி ஊக்குவிப்பு மற்றும் சந்தைப்படுத்தல் ஆதரவுத் திட்டம்",
+          "summary": "முதன்மைப் பட்டியல் பதிவு, MSME நிறுவனங்களுக்கான ஏற்றுமதி ஊக்குவிப்பு மற்றும் சந்தைப்படுத்தல் ஆதரவுடன் TANSIDCO-வைத் தொடர்புபடுத்துகிறது; துல்லியமான தற்போதைய திருப்பிச் செலுத்தல் கூறுகள், தகுதி மற்றும் உச்சவரம்புகள், குறிப்பிட்ட நடைமுறையிலுள்ள TANSIDCO திட்டப் பக்கத்திலிருந்து உறுதிப்படுத்தப்படவில்லை.",
+          "eligibilityText": "TANSIDCO-வின் அங்கீகரிக்கப்பட்ட ஏற்றுமதி ஊக்குவிப்பு அல்லது சந்தைப்படுத்தல் வசதிகளைப் பயன்படுத்தும் தகுதியான தமிழ்நாடு MSME நிறுவனங்கள், MSME பதிவு, ஏற்றுமதி அல்லது சந்தைப்படுத்தல் செயல்பாடு மற்றும் பொருந்தக்கூடிய திருப்பிச் செலுத்தல் நிபந்தனைகளுக்கு உட்பட்டு ஆதரவைக் கோரலாம்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "eligibilityText": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "export",
+            "marketing",
+            "msmes",
+            "promotion",
+            "scheme",
+            "support",
+            "tansidco"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "export promotion"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "The master-list entry associates TANSIDCO with export-promotion and marketing support for MSMEs; exact current reimbursement components, eligibility and ceilings were not established from a specific live TANSIDCO scheme page.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000119",
+            "code": "reimbursement",
+            "termType": "benefit_type",
+            "matchedOn": "reimbursement"
+          }
+        ],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": null,
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "low",
+        "researchStatus": "Researched",
+        "notes": "Export view of an existing scheme. Trade-policy specifics (duty rates, export obligation, SION) are absent from all sources and were not generated.",
+        "missingFields": [
+          {
+            "field": "content.dutyRate",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.exportObligationRatio",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.sionNorm",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.validityPeriod",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.eligibleProducts",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.claimProcedure",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not available in available sources; trade-policy detail is not generated"
+          },
+          {
+            "field": "content.assistance",
+            "reason": "Parent scheme records no active financial benefit"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 2,
+        "primarySourceId": "SCH000186-SRC001",
+        "contributingSourceIds": [
+          "SCH000186-SRC001"
+        ],
+        "extractionMethod": "automated",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "export-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation",
+              "eligibilityText": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 3,
+            "fieldsContextual": 3,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Qualified by explicit export terms ['export promotion'] (rule E1)",
+          "Instrument type 'export_assistance' from explicit term evidence (rule E3)",
+          "Monetary values copied verbatim from the parent scheme (rule E4)",
+          "Trade-policy detail not generated (rule E5)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    }
+  ]
+}

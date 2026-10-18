@@ -78,10 +78,7 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
     }
     Clipboard.setData(ClipboardData(text: buffer.toString()));
     if (mounted) {
-      AppToast.showSuccess(
-        context,
-        context.l10n.resultsCopiedToClipboard,
-      );
+      AppToast.showSuccess(context, context.l10n.resultsCopiedToClipboard);
     }
   }
 
@@ -164,7 +161,8 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
                 ),
                 IconButton(
                   key: const Key('doc-checklist-copy-btn'),
-                  onPressed: () => _copyChecklist(checklist, selectedEntityLabel),
+                  onPressed: () =>
+                      _copyChecklist(checklist, selectedEntityLabel),
                   icon: const Icon(
                     Icons.copy_rounded,
                     size: 18,
@@ -197,6 +195,7 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
             DropdownButtonFormField<String>(
               key: const Key('doc-entity-type-dropdown'),
               initialValue: _selectedType,
+              isExpanded: true,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: const Color(0xFFF8FAFC),
@@ -245,7 +244,8 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
                     vertical: AppSpacing.hairline,
                   ),
                   decoration: BoxDecoration(
-                    color: checkedCount == checklist.length && checklist.isNotEmpty
+                    color:
+                        checkedCount == checklist.length && checklist.isNotEmpty
                         ? const Color(0xFFDCFCE7)
                         : const Color(0xFFEFF6FF),
                     borderRadius: BorderRadius.circular(10),
@@ -255,7 +255,9 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
                     style: GoogleFonts.inter(
                       fontSize: 10.5,
                       fontWeight: FontWeight.w700,
-                      color: checkedCount == checklist.length && checklist.isNotEmpty
+                      color:
+                          checkedCount == checklist.length &&
+                              checklist.isNotEmpty
                           ? const Color(0xFF15803D)
                           : const Color(0xFF2563EB),
                     ),
@@ -288,7 +290,9 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
                   final item = checklist[index];
                   final isChecked = _checkedDocs.contains(item);
                   return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: AppSpacing.xs,
+                    ),
                     child: InkWell(
                       key: Key('doc-checklist-item-$index'),
                       onTap: () => _toggleDoc(item),

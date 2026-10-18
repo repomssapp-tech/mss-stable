@@ -34,7 +34,7 @@ void main() {
       final terms = decoded['termMap'] as Map<String, dynamic>;
 
       expect(tags.length, 93);
-      expect(phrases.length, 428);
+      expect(phrases.length, greaterThanOrEqualTo(428)); // grows as UI text is added
       expect(terms.length, 141);
     });
 

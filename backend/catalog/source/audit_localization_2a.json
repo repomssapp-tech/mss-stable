@@ -1,0 +1,331 @@
+{
+  "perCatalog": {
+    "scheme_catalog.json": {
+      "recordCount": 219,
+      "recordsWithAnyTamil": 219,
+      "pctWithAnyTamil": 1.0,
+      "perFieldCoverage": {
+        "name": {
+          "nonNullEnglish": 219,
+          "hasTamil": 219,
+          "pct": 1.0
+        },
+        "summary": {
+          "nonNullEnglish": 202,
+          "hasTamil": 202,
+          "pct": 1.0
+        },
+        "description": {
+          "nonNullEnglish": 202,
+          "hasTamil": 202,
+          "pct": 1.0
+        },
+        "objective": {
+          "nonNullEnglish": 160,
+          "hasTamil": 160,
+          "pct": 1.0
+        },
+        "eligibilityText": {
+          "nonNullEnglish": 219,
+          "hasTamil": 219,
+          "pct": 1.0
+        },
+        "benefitsText": {
+          "nonNullEnglish": 216,
+          "hasTamil": 216,
+          "pct": 1.0
+        },
+        "applicationText": {
+          "nonNullEnglish": 148,
+          "hasTamil": 148,
+          "pct": 1.0
+        },
+        "shortName": {
+          "nonNullEnglish": 70,
+          "hasTamil": 70,
+          "pct": 1.0
+        }
+      }
+    },
+    "common_catalog.json": {
+      "recordCount": 344,
+      "recordsWithAnyTamil": 344,
+      "pctWithAnyTamil": 1.0,
+      "perFieldCoverage": {
+        "label": {
+          "nonNullEnglish": 344,
+          "hasTamil": 344,
+          "pct": 1.0
+        },
+        "description": {
+          "nonNullEnglish": 10,
+          "hasTamil": 10,
+          "pct": 1.0
+        }
+      }
+    },
+    "authority_catalog.json": {
+      "recordCount": 124,
+      "recordsWithAnyTamil": 124,
+      "pctWithAnyTamil": 1.0,
+      "perFieldCoverage": {
+        "name": {
+          "nonNullEnglish": 124,
+          "hasTamil": 124,
+          "pct": 1.0
+        }
+      }
+    },
+    "finance_catalog.json": {
+      "recordCount": 115,
+      "recordsWithAnyTamil": 115,
+      "pctWithAnyTamil": 1.0,
+      "perFieldCoverage": {
+        "name": {
+          "nonNullEnglish": 115,
+          "hasTamil": 115,
+          "pct": 1.0
+        },
+        "description": {
+          "nonNullEnglish": 115,
+          "hasTamil": 115,
+          "pct": 1.0
+        }
+      }
+    },
+    "tax_catalog.json": {
+      "recordCount": 13,
+      "recordsWithAnyTamil": 13,
+      "pctWithAnyTamil": 1.0,
+      "perFieldCoverage": {
+        "name": {
+          "nonNullEnglish": 13,
+          "hasTamil": 13,
+          "pct": 1.0
+        }
+      }
+    },
+    "cluster_assistance_catalog.json": {
+      "recordCount": 10,
+      "recordsWithAnyTamil": 10,
+      "pctWithAnyTamil": 1.0,
+      "perFieldCoverage": {
+        "name": {
+          "nonNullEnglish": 10,
+          "hasTamil": 10,
+          "pct": 1.0
+        },
+        "summary": {
+          "nonNullEnglish": 10,
+          "hasTamil": 10,
+          "pct": 1.0
+        }
+      }
+    },
+    "institution_catalog.json": {
+      "recordCount": 83,
+      "recordsWithAnyTamil": 83,
+      "pctWithAnyTamil": 1.0,
+      "perFieldCoverage": {
+        "name": {
+          "nonNullEnglish": 83,
+          "hasTamil": 83,
+          "pct": 1.0
+        }
+      }
+    },
+    "csr_catalog.json": {
+      "recordCount": 16,
+      "recordsWithAnyTamil": 16,
+      "pctWithAnyTamil": 1.0,
+      "perFieldCoverage": {
+        "name": {
+          "nonNullEnglish": 16,
+          "hasTamil": 16,
+          "pct": 1.0
+        },
+        "summary": {
+          "nonNullEnglish": 16,
+          "hasTamil": 16,
+          "pct": 1.0
+        }
+      }
+    },
+    "export_catalog.json": {
+      "recordCount": 13,
+      "recordsWithAnyTamil": 13,
+      "pctWithAnyTamil": 1.0,
+      "perFieldCoverage": {
+        "name": {
+          "nonNullEnglish": 13,
+          "hasTamil": 13,
+          "pct": 1.0
+        },
+        "eligibilityText": {
+          "nonNullEnglish": 13,
+          "hasTamil": 13,
+          "pct": 1.0
+        },
+        "summary": {
+          "nonNullEnglish": 11,
+          "hasTamil": 11,
+          "pct": 1.0
+        }
+      }
+    },
+    "knowledge_catalog.json": {
+      "recordCount": 28,
+      "recordsWithAnyTamil": 28,
+      "pctWithAnyTamil": 1.0,
+      "perFieldCoverage": {
+        "title": {
+          "nonNullEnglish": 28,
+          "hasTamil": 28,
+          "pct": 1.0
+        },
+        "body": {
+          "nonNullEnglish": 28,
+          "hasTamil": 10,
+          "pct": 0.3571
+        }
+      }
+    },
+    "treds_catalog.json": {
+      "recordCount": 16,
+      "recordsWithAnyTamil": 16,
+      "pctWithAnyTamil": 1.0,
+      "perFieldCoverage": {
+        "name": {
+          "nonNullEnglish": 16,
+          "hasTamil": 16,
+          "pct": 1.0
+        },
+        "summary": {
+          "nonNullEnglish": 16,
+          "hasTamil": 16,
+          "pct": 1.0
+        }
+      }
+    },
+    "msme_privilege_catalog.json": {
+      "recordCount": 1,
+      "recordsWithAnyTamil": 1,
+      "pctWithAnyTamil": 1.0,
+      "perFieldCoverage": {
+        "name": {
+          "nonNullEnglish": 1,
+          "hasTamil": 1,
+          "pct": 1.0
+        },
+        "summary": {
+          "nonNullEnglish": 1,
+          "hasTamil": 1,
+          "pct": 1.0
+        }
+      }
+    },
+    "business_enablement_catalog.json": {
+      "recordCount": 4,
+      "recordsWithAnyTamil": 4,
+      "pctWithAnyTamil": 1.0,
+      "perFieldCoverage": {
+        "name": {
+          "nonNullEnglish": 4,
+          "hasTamil": 4,
+          "pct": 1.0
+        },
+        "summary": {
+          "nonNullEnglish": 4,
+          "hasTamil": 4,
+          "pct": 1.0
+        }
+      }
+    },
+    "enterprise_classification_catalog.json": {
+      "recordCount": 11,
+      "recordsWithAnyTamil": 11,
+      "pctWithAnyTamil": 1.0,
+      "perFieldCoverage": {
+        "name": {
+          "nonNullEnglish": 11,
+          "hasTamil": 11,
+          "pct": 1.0
+        }
+      }
+    }
+  },
+  "totals": {
+    "records": 997,
+    "withAnyTamil": 997
+  },
+  "schemeMissingTamilByField": {},
+  "schemeMissingTamilExamples": {},
+  "commonCatalogTermTypeCoverage": {
+    "state": {
+      "total": 36,
+      "withTamil": 36
+    },
+    "district": {
+      "total": 38,
+      "withTamil": 38
+    },
+    "enterprise_type": {
+      "total": 13,
+      "withTamil": 13
+    },
+    "business_stage": {
+      "total": 7,
+      "withTamil": 7
+    },
+    "beneficiary_type": {
+      "total": 18,
+      "withTamil": 18
+    },
+    "benefit_type": {
+      "total": 13,
+      "withTamil": 13
+    },
+    "loan_type": {
+      "total": 8,
+      "withTamil": 8
+    },
+    "tax_type": {
+      "total": 8,
+      "withTamil": 8
+    },
+    "authority_type": {
+      "total": 11,
+      "withTamil": 11
+    },
+    "organization_type": {
+      "total": 10,
+      "withTamil": 10
+    },
+    "registration_type": {
+      "total": 12,
+      "withTamil": 12
+    },
+    "compliance_type": {
+      "total": 7,
+      "withTamil": 7
+    },
+    "scheme_type": {
+      "total": 20,
+      "withTamil": 20
+    },
+    "document_type": {
+      "total": 13,
+      "withTamil": 13
+    },
+    "glossary_term": {
+      "total": 10,
+      "withTamil": 10
+    },
+    "search_keyword": {
+      "total": 120,
+      "withTamil": 120
+    }
+  },
+  "unresolvedCrossReferences": [],
+  "unresolvedCrossReferenceCount": 0
+}

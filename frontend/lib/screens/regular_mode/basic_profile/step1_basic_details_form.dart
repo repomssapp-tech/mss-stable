@@ -202,7 +202,7 @@ class Step1BasicDetailsForm extends StatelessWidget {
           leadingIcon: Icons.cake_outlined,
           trailingIcon: Icons.edit_outlined,
           keyboardType: TextInputType.number,
-          hintText: 'e.g. 25',
+          hintText: l10n.hintAgeExample,
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
             LengthLimitingTextInputFormatter(3),

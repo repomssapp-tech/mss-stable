@@ -1,3 +1,5 @@
+import '../services/catalog/language_pack_manager.dart';
+
 class SchemeDocument {
   final String name;
   final String nameTa;
@@ -304,6 +306,15 @@ class Scheme {
 
   /// Get scheme name localized according to language selection with clean fallback.
   String getName([String langCode = 'en']) {
+    if (langCode != 'en') {
+      final packVal = LanguagePackManager.instance.getField(
+        lang: langCode,
+        entityType: 'scheme',
+        entityId: id,
+        fieldName: 'name',
+      );
+      if (packVal != null && packVal.isNotEmpty) return packVal;
+    }
     if (langCode == 'ta' && nameTa.trim().isNotEmpty) {
       return nameTa.trim();
     }
@@ -312,6 +323,20 @@ class Scheme {
 
   /// Get localized overview description
   String getOverview([String langCode = 'en']) {
+    if (langCode != 'en') {
+      final packVal = LanguagePackManager.instance.getField(
+        lang: langCode,
+        entityType: 'scheme',
+        entityId: id,
+        fieldName: 'summary',
+      ) ?? LanguagePackManager.instance.getField(
+        lang: langCode,
+        entityType: 'scheme',
+        entityId: id,
+        fieldName: 'description',
+      );
+      if (packVal != null && packVal.isNotEmpty) return packVal;
+    }
     if (langCode == 'ta' && overviewTa.trim().isNotEmpty) {
       return overviewTa.trim();
     }
@@ -320,6 +345,15 @@ class Scheme {
 
   /// Get localized benefits description
   String getBenefits([String langCode = 'en']) {
+    if (langCode != 'en') {
+      final packVal = LanguagePackManager.instance.getField(
+        lang: langCode,
+        entityType: 'scheme',
+        entityId: id,
+        fieldName: 'benefits_text',
+      );
+      if (packVal != null && packVal.isNotEmpty) return packVal;
+    }
     if (langCode == 'ta' && benefitsTa.trim().isNotEmpty) {
       return benefitsTa.trim();
     }

@@ -380,10 +380,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
-    final isTa = provider.selectedLanguage == 'ta';
-    final displayedTitle = isTa
-        ? CentralizedTranslator.instance.translate(widget.title)
-        : widget.title;
+    final displayedTitle = CentralizedTranslator.instance.localize(widget.title);
 
     final filteredSchemes = _getFilteredSchemes(provider);
 
@@ -543,7 +540,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                           },
                         ),
             ),
-            CatalogFreshnessFooter(isTa: isTa),
+            const CatalogFreshnessFooter(),
           ],
         ),
       ),

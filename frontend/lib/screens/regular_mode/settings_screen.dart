@@ -14,6 +14,7 @@ import '../../utils/responsive.dart';
 import '../../widgets/common/app_toast.dart';
 import '../../widgets/scheme/catalog_freshness_footer.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/language_names.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -269,15 +270,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             child: () {
                               final photo = provider.effectiveProfilePhoto;
                               Widget buildFallbackText() => Text(
-                                    provider.profile.name.isNotEmpty
-                                        ? provider.profile.name[0].toUpperCase()
-                                        : 'U',
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: const Color(0xFF2563EB),
-                                    ),
-                                  );
+                                provider.profile.name.isNotEmpty
+                                    ? provider.profile.name[0].toUpperCase()
+                                    : 'U',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: const Color(0xFF2563EB),
+                                ),
+                              );
 
                               if (photo.startsWith('http://') ||
                                   photo.startsWith('https://')) {
@@ -322,7 +323,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         Text(
                           provider.profile.name.isNotEmpty
                               ? provider.profile.name
-                              : 'User',
+                              : context.l10n.commonUserFallback,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
@@ -402,7 +403,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               _buildSettingRow(
                 icon: Icons.language,
                 title: context.l10n.languageSetting,
-                value: provider.selectedLanguage == 'ta' ? 'தமிழ்' : 'English',
+                value: languageEndonym(provider.selectedLanguage),
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -539,9 +540,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
             ),
-            CatalogFreshnessFooter(
-              isTa: provider.selectedLanguage == 'ta',
-            ),
+            const CatalogFreshnessFooter(),
             const SizedBox(height: AppSpacing.xxl),
           ],
         ),
@@ -615,30 +614,35 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           trailing:
               widget ??
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (value != null)
-                    Flexible(
-                      child: FitOneLine(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          value,
-                          style: GoogleFonts.inter(
-                            fontSize: 12.5,
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xFF64748B),
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.sizeOf(context).width * 0.45,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (value != null)
+                      Flexible(
+                        child: FitOneLine(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            value,
+                            style: GoogleFonts.inter(
+                              fontSize: 12.5,
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFF64748B),
+                            ),
                           ),
                         ),
                       ),
+                    const SizedBox(width: AppSpacing.xs),
+                    const Icon(
+                      Icons.chevron_right,
+                      color: Color(0xFF94A3B8),
+                      size: 16,
                     ),
-                  const SizedBox(width: AppSpacing.xs),
-                  const Icon(
-                    Icons.chevron_right,
-                    color: Color(0xFF94A3B8),
-                    size: 16,
-                  ),
-                ],
+                  ],
+                ),
               ),
           onTap: onTap,
         ),

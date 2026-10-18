@@ -48,7 +48,7 @@ Future<String?> showVoiceEditFactDialog({
             foregroundColor: Colors.white,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           ),
-          child: Text(CentralizedTranslator.instance.translate('Use value')),
+          child: Text(CentralizedTranslator.instance.localize('Use value')),
         ),
       ],
     ),

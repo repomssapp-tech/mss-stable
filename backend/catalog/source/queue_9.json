@@ -1,0 +1,246 @@
+{
+  "batch": 9,
+  "schemeRange": [
+    "SCH000201",
+    "SCH000217"
+  ],
+  "schemes": 17,
+  "distinctUrls": 9,
+  "totalRefs": 20,
+  "skippedNonApproved": [
+    {
+      "schemeId": "SCH000202",
+      "code": "TN202",
+      "field": "content.sources[0].url",
+      "value": "https://www.vkp-tnrtp.org/",
+      "url": "https://www.vkp-tnrtp.org/",
+      "host": "www.vkp-tnrtp.org",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000214",
+      "code": "TN214",
+      "field": "content.sources[0].url",
+      "value": "https://www.state.gov/",
+      "url": "https://www.state.gov/",
+      "host": "www.state.gov",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    }
+  ],
+  "queue": [
+    {
+      "url": "https://www.startupindia.gov.in/content/sih/en/state-startup-policies/Uttarakhand-state-policy.html",
+      "host": "www.startupindia.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000201",
+          "code": "TN201",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.startupindia.gov.in/content/sih/en/state-startup-policies/Uttarakhand-state-policy.html",
+          "url": "https://www.startupindia.gov.in/content/sih/en/state-startup-policies/Uttarakhand-state-policy.html",
+          "host": "www.startupindia.gov.in"
+        },
+        {
+          "schemeId": "SCH000201",
+          "code": "TN201",
+          "field": "content.sources[0].url",
+          "value": "https://www.startupindia.gov.in/content/sih/en/state-startup-policies/Uttarakhand-state-policy.html",
+          "url": "https://www.startupindia.gov.in/content/sih/en/state-startup-policies/Uttarakhand-state-policy.html",
+          "host": "www.startupindia.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.tn.gov.in/",
+      "host": "www.tn.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000203",
+          "code": "TN203",
+          "field": "content.sources[0].url",
+          "value": "https://www.tn.gov.in/",
+          "url": "https://www.tn.gov.in/",
+          "host": "www.tn.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://dst.gov.in/",
+      "host": "dst.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000204",
+          "code": "TN204",
+          "field": "content.sources[0].url",
+          "value": "https://dst.gov.in/",
+          "url": "https://dst.gov.in/",
+          "host": "dst.gov.in"
+        },
+        {
+          "schemeId": "SCH000205",
+          "code": "TN205",
+          "field": "content.sources[0].url",
+          "value": "https://dst.gov.in/",
+          "url": "https://dst.gov.in/",
+          "host": "dst.gov.in"
+        },
+        {
+          "schemeId": "SCH000206",
+          "code": "TN206",
+          "field": "content.sources[0].url",
+          "value": "https://dst.gov.in/",
+          "url": "https://dst.gov.in/",
+          "host": "dst.gov.in"
+        },
+        {
+          "schemeId": "SCH000207",
+          "code": "TN207",
+          "field": "content.sources[0].url",
+          "value": "https://dst.gov.in/",
+          "url": "https://dst.gov.in/",
+          "host": "dst.gov.in"
+        },
+        {
+          "schemeId": "SCH000208",
+          "code": "TN208",
+          "field": "content.sources[1].url",
+          "value": "https://dst.gov.in/",
+          "url": "https://dst.gov.in/",
+          "host": "dst.gov.in"
+        },
+        {
+          "schemeId": "SCH000210",
+          "code": "TN210",
+          "field": "content.sources[0].url",
+          "value": "https://dst.gov.in/",
+          "url": "https://dst.gov.in/",
+          "host": "dst.gov.in"
+        },
+        {
+          "schemeId": "SCH000211",
+          "code": "TN211",
+          "field": "content.sources[0].url",
+          "value": "https://dst.gov.in/",
+          "url": "https://dst.gov.in/",
+          "host": "dst.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://online-wosa.gov.in/wosa",
+      "host": "online-wosa.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000208",
+          "code": "TN208",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://online-wosa.gov.in/wosa",
+          "url": "https://online-wosa.gov.in/wosa",
+          "host": "online-wosa.gov.in"
+        },
+        {
+          "schemeId": "SCH000208",
+          "code": "TN208",
+          "field": "content.sources[0].url",
+          "value": "https://online-wosa.gov.in/wosa",
+          "url": "https://online-wosa.gov.in/wosa",
+          "host": "online-wosa.gov.in"
+        },
+        {
+          "schemeId": "SCH000209",
+          "code": "TN209",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://online-wosa.gov.in/wosa",
+          "url": "https://online-wosa.gov.in/wosa",
+          "host": "online-wosa.gov.in"
+        },
+        {
+          "schemeId": "SCH000209",
+          "code": "TN209",
+          "field": "content.sources[0].url",
+          "value": "https://online-wosa.gov.in/wosa",
+          "url": "https://online-wosa.gov.in/wosa",
+          "host": "online-wosa.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://wep.gov.in/",
+      "host": "wep.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000212",
+          "code": "TN212",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://wep.gov.in/",
+          "url": "https://wep.gov.in/",
+          "host": "wep.gov.in"
+        },
+        {
+          "schemeId": "SCH000212",
+          "code": "TN212",
+          "field": "content.sources[1].url",
+          "value": "https://wep.gov.in/",
+          "url": "https://wep.gov.in/",
+          "host": "wep.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://wep.gov.in/about-us",
+      "host": "wep.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000212",
+          "code": "TN212",
+          "field": "content.sources[0].url",
+          "value": "https://wep.gov.in/about-us",
+          "url": "https://wep.gov.in/about-us",
+          "host": "wep.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.spniwcd.wcd.gov.in/help/faqs",
+      "host": "www.spniwcd.wcd.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000213",
+          "code": "TN213",
+          "field": "content.sources[0].url",
+          "value": "https://www.spniwcd.wcd.gov.in/help/faqs",
+          "url": "https://www.spniwcd.wcd.gov.in/help/faqs",
+          "host": "www.spniwcd.wcd.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.sidbi.in/",
+      "host": "www.sidbi.in",
+      "refs": [
+        {
+          "schemeId": "SCH000216",
+          "code": "TN216",
+          "field": "content.sources[0].url",
+          "value": "https://www.sidbi.in/",
+          "url": "https://www.sidbi.in/",
+          "host": "www.sidbi.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.msme.gov.in/",
+      "host": "www.msme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000217",
+          "code": "TN217",
+          "field": "content.sources[0].url",
+          "value": "https://www.msme.gov.in/",
+          "url": "https://www.msme.gov.in/",
+          "host": "www.msme.gov.in"
+        }
+      ]
+    }
+  ]
+}

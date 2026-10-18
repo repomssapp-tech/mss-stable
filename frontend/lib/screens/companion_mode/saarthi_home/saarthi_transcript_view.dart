@@ -401,7 +401,7 @@ class SaarthiTranscriptView extends StatelessWidget {
                   color: Colors.white,
                 ),
                 label: Text(
-                  CentralizedTranslator.instance.translate('Latest'),
+                  CentralizedTranslator.instance.localize('Latest'),
                   style: const TextStyle(color: Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(

@@ -7,7 +7,8 @@ abstract final class AppFonts {
   static const heading = 'Poppins';
   static const body = 'Inter';
   static const tamil = 'NotoSansTamil';
-  static const fallback = <String>[tamil];
+  static const devanagari = 'NotoSansDevanagari';
+  static const fallback = <String>[tamil, devanagari];
 }
 
 /// The type scale (spec §1.1). Floor is 12sp; nothing in the app may render
@@ -20,9 +21,15 @@ class AppTextStyles {
 
   static const en = AppTextStyles._(0);
   static const ta = AppTextStyles._(0.10);
+  // Devanagari carries headline strokes and above/below-base matras, so it
+  // needs the same extra leading as Tamil to avoid clipped or cramped lines.
+  static const hi = AppTextStyles._(0.10);
 
-  static AppTextStyles forLocale(Locale l) =>
-      l.languageCode == 'ta' ? ta : en;
+  static AppTextStyles forLocale(Locale l) => switch (l.languageCode) {
+    'ta' => ta,
+    'hi' => hi,
+    _ => en,
+  };
 
   // D4 (Phase 2 design review): Poppins is bundled as static per-weight
   // files (SemiBold/Bold), so FontWeight alone picks the right file --

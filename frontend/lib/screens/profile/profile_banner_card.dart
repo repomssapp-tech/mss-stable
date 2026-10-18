@@ -13,10 +13,7 @@ import 'profile_photo_handler.dart';
 class ProfileBannerCard extends StatelessWidget {
   final AppProvider provider;
 
-  const ProfileBannerCard({
-    super.key,
-    required this.provider,
-  });
+  const ProfileBannerCard({super.key, required this.provider});
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +28,7 @@ class ProfileBannerCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         gradient: const LinearGradient(
-          colors: [
-            Color(0xFF2563EB),
-            Color(0xFF1976D2),
-            Color(0xFF1E88E5),
-          ],
+          colors: [Color(0xFF2563EB), Color(0xFF1976D2), Color(0xFF1E88E5)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -77,10 +70,7 @@ class ProfileBannerCard extends StatelessWidget {
                         child: Container(
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Colors.white,
-                              width: 2,
-                            ),
+                            border: Border.all(color: Colors.white, width: 2),
                           ),
                           child: CircleAvatar(
                             radius: 38,
@@ -104,11 +94,11 @@ class ProfileBannerCard extends StatelessWidget {
                                     ),
                                     errorWidget: (context, url, error) =>
                                         Image.asset(
-                                      'assets/images/supporting assets/user_avatar.webp',
-                                      width: 76,
-                                      height: 76,
-                                      fit: BoxFit.cover,
-                                    ),
+                                          'assets/images/supporting assets/user_avatar.webp',
+                                          width: 76,
+                                          height: 76,
+                                          fit: BoxFit.cover,
+                                        ),
                                   );
                                 }
                                 if (photo.isNotEmpty) {
@@ -118,13 +108,16 @@ class ProfileBannerCard extends StatelessWidget {
                                     height: 76,
                                     fit: BoxFit.cover,
                                     errorBuilder:
-                                        (context, error, stackTrace) =>
-                                            Image.asset(
-                                      'assets/images/supporting assets/user_avatar.webp',
-                                      width: 76,
-                                      height: 76,
-                                      fit: BoxFit.cover,
-                                    ),
+                                        (
+                                          context,
+                                          error,
+                                          stackTrace,
+                                        ) => Image.asset(
+                                          'assets/images/supporting assets/user_avatar.webp',
+                                          width: 76,
+                                          height: 76,
+                                          fit: BoxFit.cover,
+                                        ),
                                   );
                                 }
                                 return Image.asset(
@@ -218,16 +211,18 @@ class ProfileBannerCard extends StatelessWidget {
                                     size: 10,
                                   ),
                                   const SizedBox(width: AppSpacing.xs),
-                                  Text(
-                                    profile.profileCompleted
-                                        ? context.l10n.profileVerified
-                                        : context.l10n.profileIncomplete,
-                                    style: GoogleFonts.inter(
-                                      fontSize: 8.5,
-                                      color: profile.profileCompleted
-                                          ? const Color(0xFF4ADE80)
-                                          : const Color(0xFFF59E0B),
-                                      fontWeight: FontWeight.bold,
+                                  Flexible(
+                                    child: Text(
+                                      profile.profileCompleted
+                                          ? context.l10n.profileVerified
+                                          : context.l10n.profileIncomplete,
+                                      style: GoogleFonts.inter(
+                                        fontSize: 8.5,
+                                        color: profile.profileCompleted
+                                            ? const Color(0xFF4ADE80)
+                                            : const Color(0xFFF59E0B),
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ],

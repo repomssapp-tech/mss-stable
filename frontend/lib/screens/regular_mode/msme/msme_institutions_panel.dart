@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 import '../../../l10n/l10n.dart';
-import '../../../providers/app_state_provider.dart';
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
 
@@ -195,25 +193,9 @@ class _InstitutionsInteractivePanelState
                 itemCount: filtered.length,
                 itemBuilder: (context, index) {
                   final inst = filtered[index];
-                  final isTa =
-                      Provider.of<AppProvider>(
-                        context,
-                        listen: false,
-                      ).selectedLanguage ==
-                      'ta';
-                  final roleText = isTa
-                      ? CentralizedTranslator.instance.translate(inst['role'])
-                      : inst['role'];
-                  final servicesText = isTa
-                      ? CentralizedTranslator.instance.translate(
-                          inst['services'],
-                        )
-                      : inst['services'];
-                  final schemesText = isTa
-                      ? CentralizedTranslator.instance.translate(
-                          inst['schemes'],
-                        )
-                      : inst['schemes'];
+                  final roleText = CentralizedTranslator.instance.localize(inst['role']);
+                  final servicesText = CentralizedTranslator.instance.localize(inst['services']);
+                  final schemesText = CentralizedTranslator.instance.localize(inst['schemes']);
 
                   return Container(
                     margin: const EdgeInsets.only(bottom: AppSpacing.sm),
@@ -236,11 +218,7 @@ class _InstitutionsInteractivePanelState
                           ),
                         ),
                         subtitle: Text(
-                          isTa
-                              ? CentralizedTranslator.instance.translate(
-                                  inst['fullName'],
-                                )
-                              : inst['fullName'],
+                          CentralizedTranslator.instance.localize(inst['fullName']),
                           style: GoogleFonts.inter(
                             fontSize: 11,
                             color: const Color(0xFF64748B),

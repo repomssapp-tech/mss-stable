@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
+import 'app_localizations_hi.dart';
 import 'app_localizations_ta.dart';
 
 // ignore_for_file: type=lint
@@ -95,6 +96,7 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
+    Locale('hi'),
     Locale('ta'),
   ];
 
@@ -361,6 +363,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'PMEGP · 2 days left'**
   String get carouselSubPmegpDaysLeft;
+
+  /// No description provided for @carouselTitlePmegpClosing.
+  ///
+  /// In en, this message translates to:
+  /// **'PMEGP (Closing in 5 Days)'**
+  String get carouselTitlePmegpClosing;
 
   /// No description provided for @carouselBadgeAlert.
   ///
@@ -8671,6 +8679,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Master degree, MPhil, or Ph.D.'**
   String get eduDescPostgraduate;
+
+  /// No description provided for @hintAgeExample.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. 25'**
+  String get hintAgeExample;
+
+  /// No description provided for @hintAddressExample.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Door/Flat No, Street Name, Locality'**
+  String get hintAddressExample;
+
+  /// No description provided for @hintCityExample.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Chennai'**
+  String get hintCityExample;
+
+  /// No description provided for @legalPrivacyNoticeLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Notice'**
+  String get legalPrivacyNoticeLink;
+
+  /// No description provided for @legalTermsOfUseLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Use'**
+  String get legalTermsOfUseLink;
+
+  /// No description provided for @shareSchemeDetailsTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Share scheme details'**
+  String get shareSchemeDetailsTooltip;
+
+  /// No description provided for @legalConsentPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'I have read and agree to the '**
+  String get legalConsentPrefix;
+
+  /// No description provided for @legalConsentMid.
+  ///
+  /// In en, this message translates to:
+  /// **' and acknowledge the '**
+  String get legalConsentMid;
+
+  /// No description provided for @legalConsentSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **'.'**
+  String get legalConsentSuffix;
+
+  /// No description provided for @permLocationOffTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Location Services Off'**
+  String get permLocationOffTitle;
+
+  /// No description provided for @permLocationOffBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Location services are turned off. Please turn them on in your system settings to discover local state & district schemes tailored for you.'**
+  String get permLocationOffBody;
+
+  /// No description provided for @permLocationBenefitDetect.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-detect State & District eligibility'**
+  String get permLocationBenefitDetect;
+
+  /// No description provided for @permLocationBenefitTailored.
+  ///
+  /// In en, this message translates to:
+  /// **'Tailored regional subsidies & benefits'**
+  String get permLocationBenefitTailored;
+
+  /// No description provided for @permLocationTurnOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn On Location'**
+  String get permLocationTurnOn;
+
+  /// No description provided for @aboutAppSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Government Scheme Discovery & Eligibility Platform'**
+  String get aboutAppSubtitle;
+
+  /// No description provided for @aboutDevelopedWith.
+  ///
+  /// In en, this message translates to:
+  /// **'Developed in collaboration with:'**
+  String get aboutDevelopedWith;
+
+  /// No description provided for @splashDevelopedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'App developed by'**
+  String get splashDevelopedBy;
+
+  /// No description provided for @aboutSupportLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Support: {email}'**
+  String aboutSupportLine(Object email);
+
+  /// No description provided for @catalogFreshnessLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Local catalog v{version}'**
+  String catalogFreshnessLabel(Object version);
+
+  /// No description provided for @catalogFreshnessLabelUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Local catalog v{version} • updated {date}'**
+  String catalogFreshnessLabelUpdated(Object date, Object version);
+
+  /// No description provided for @aboutAppDescriptionLong.
+  ///
+  /// In en, this message translates to:
+  /// **'MSS is an intelligent digital platform designed to bridge the awareness gap and simplify the discovery, eligibility matching, and application process for Central and State Government schemes for Indian entrepreneurs, women, farmers, and students.'**
+  String get aboutAppDescriptionLong;
 }
 
 class _AppLocalizationsDelegate
@@ -8684,7 +8818,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'ta'].contains(locale.languageCode);
+      <String>['en', 'hi', 'ta'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -8695,6 +8829,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
+    case 'hi':
+      return AppLocalizationsHi();
     case 'ta':
       return AppLocalizationsTa();
   }

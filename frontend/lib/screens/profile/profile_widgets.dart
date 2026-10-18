@@ -74,16 +74,13 @@ class ProfileGroupCard extends StatelessWidget {
   final List<Widget> tiles;
   final EdgeInsetsGeometry? margin;
 
-  const ProfileGroupCard({
-    super.key,
-    required this.tiles,
-    this.margin,
-  });
+  const ProfileGroupCard({super.key, required this.tiles, this.margin});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: margin ??
+      margin:
+          margin ??
           const EdgeInsets.symmetric(
             horizontal: AppSpacing.lg,
             vertical: AppSpacing.tight,
@@ -169,31 +166,36 @@ class ProfileTile extends StatelessWidget {
                   ),
                 )
               : null,
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (trailingText != null)
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: AppSpacing.sm),
-                    child: FitOneLine(
-                      child: Text(
-                        trailingText!,
-                        style: GoogleFonts.inter(
-                          fontSize: 12,
-                          color: const Color(0xFF2563EB),
-                          fontWeight: FontWeight.w600,
+          trailing: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.sizeOf(context).width * 0.45,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (trailingText != null)
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: AppSpacing.sm),
+                      child: FitOneLine(
+                        child: Text(
+                          trailingText!,
+                          style: GoogleFonts.inter(
+                            fontSize: 12,
+                            color: const Color(0xFF2563EB),
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
                   ),
+                const Icon(
+                  Icons.chevron_right,
+                  color: Color(0xFF94A3B8),
+                  size: 16,
                 ),
-              const Icon(
-                Icons.chevron_right,
-                color: Color(0xFF94A3B8),
-                size: 16,
-              ),
-            ],
+              ],
+            ),
           ),
           onTap: onTap,
         ),

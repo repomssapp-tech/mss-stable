@@ -1,0 +1,1528 @@
+{
+  "metadata": {
+    "catalogName": "enterprise_classification",
+    "schemaVersion": "1.0.0",
+    "catalogVersion": "1.33.0-alpha",
+    "generatedAt": "2026-08-14T00:00:00Z",
+    "language": "en",
+    "recordCount": 11,
+    "checksum": "sha256:e9ea8a9e21998965093449335d3d0a668a381aa7507aa4bc25a81ce3418b5d1f"
+  },
+  "data": [
+    {
+      "identity": {
+        "id": "ENTC000001",
+        "entityType": "enterprise_classification",
+        "code": "MICRO",
+        "legacyCodes": [],
+        "name": "Micro Enterprise",
+        "shortName": null,
+        "acronym": null,
+        "slug": "micro",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "code": "micro",
+        "dimension": "msmeCategory",
+        "investmentMaxInr": 25000000,
+        "investmentMaxText": "₹2.5 crore",
+        "turnoverMaxInr": 100000000,
+        "turnoverMaxText": "₹10 crore",
+        "effectiveFrom": "2025-04-01",
+        "definitionSource": "udyamregistration.gov.in (live table, 2026-08-14); corroborated by dcmsme.gov.in citing Notification S.O. 1364(E) dated 21.03.2025"
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Micro Enterprise"
+        },
+        "ta": {
+          "name": "குறு நிறுவனம்"
+        },
+        "hi": {
+          "name": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "micro",
+            "msmeCategory"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": null,
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": null,
+        "similarityMethod": null,
+        "reviewRequired": false
+      },
+      "verification": {
+        "status": "verified",
+        "statusText": "Confirmed against a live official source this session",
+        "isVerified": true,
+        "verifiedAgainst": [
+          "udyamregistration.gov.in (live table, 2026-08-14); corroborated by dcmsme.gov.in citing Notification S.O. 1364(E) dated 21.03.2025"
+        ],
+        "verifiedBy": null,
+        "verifiedAt": "2026-08-14T00:00:00Z",
+        "confidence": "high",
+        "researchStatus": "Official-source researched",
+        "notes": null,
+        "missingFields": [],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-14T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 5,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "live_official_source",
+        "extractedAt": "2026-08-14T00:00:00Z",
+        "pipelineVersion": "build_enterprise_classification.py-1.0.0",
+        "fieldSources": [
+          {
+            "field": "content",
+            "sourceTier": 5,
+            "sourceType": "official_website",
+            "url": "https://udyamregistration.gov.in/UdyamRegistration.aspx",
+            "organization": "udyamregistration.gov.in (live table, 2026-08-14); corroborated by dcmsme.gov.in citing Notification S.O. 1364(E) dated 21.03.2025",
+            "retrievedAt": "2026-08-14",
+            "isBackfill": false,
+            "supersededValue": null,
+            "note": "Live official threshold, not from training-data memory: udyamregistration.gov.in (live table, 2026-08-14); corroborated by dcmsme.gov.in citing Notification S.O. 1364(E) dated 21.03.2025"
+          }
+        ],
+        "transformationNotes": [],
+        "translations": {
+          "ta": {
+            "method": "dictionary",
+            "engine": "mss-i18n-dictionary-1.0.0",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "dictionary"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 0,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        }
+      }
+    },
+    {
+      "identity": {
+        "id": "ENTC000002",
+        "entityType": "enterprise_classification",
+        "code": "SMALL",
+        "legacyCodes": [],
+        "name": "Small Enterprise",
+        "shortName": null,
+        "acronym": null,
+        "slug": "small",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "code": "small",
+        "dimension": "msmeCategory",
+        "investmentMaxInr": 250000000,
+        "investmentMaxText": "₹25 crore",
+        "turnoverMaxInr": 1000000000,
+        "turnoverMaxText": "₹100 crore",
+        "effectiveFrom": "2025-04-01",
+        "definitionSource": "udyamregistration.gov.in (live table, 2026-08-14); corroborated by dcmsme.gov.in citing Notification S.O. 1364(E) dated 21.03.2025"
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Small Enterprise"
+        },
+        "ta": {
+          "name": "சிறு நிறுவனம்"
+        },
+        "hi": {
+          "name": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "small",
+            "msmeCategory"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": null,
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": null,
+        "similarityMethod": null,
+        "reviewRequired": false
+      },
+      "verification": {
+        "status": "verified",
+        "statusText": "Confirmed against a live official source this session",
+        "isVerified": true,
+        "verifiedAgainst": [
+          "udyamregistration.gov.in (live table, 2026-08-14); corroborated by dcmsme.gov.in citing Notification S.O. 1364(E) dated 21.03.2025"
+        ],
+        "verifiedBy": null,
+        "verifiedAt": "2026-08-14T00:00:00Z",
+        "confidence": "high",
+        "researchStatus": "Official-source researched",
+        "notes": null,
+        "missingFields": [],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-14T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 5,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "live_official_source",
+        "extractedAt": "2026-08-14T00:00:00Z",
+        "pipelineVersion": "build_enterprise_classification.py-1.0.0",
+        "fieldSources": [
+          {
+            "field": "content",
+            "sourceTier": 5,
+            "sourceType": "official_website",
+            "url": "https://udyamregistration.gov.in/UdyamRegistration.aspx",
+            "organization": "udyamregistration.gov.in (live table, 2026-08-14); corroborated by dcmsme.gov.in citing Notification S.O. 1364(E) dated 21.03.2025",
+            "retrievedAt": "2026-08-14",
+            "isBackfill": false,
+            "supersededValue": null,
+            "note": "Live official threshold, not from training-data memory: udyamregistration.gov.in (live table, 2026-08-14); corroborated by dcmsme.gov.in citing Notification S.O. 1364(E) dated 21.03.2025"
+          }
+        ],
+        "transformationNotes": [],
+        "translations": {
+          "ta": {
+            "method": "dictionary",
+            "engine": "mss-i18n-dictionary-1.0.0",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "dictionary"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 0,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        }
+      }
+    },
+    {
+      "identity": {
+        "id": "ENTC000003",
+        "entityType": "enterprise_classification",
+        "code": "MEDIUM",
+        "legacyCodes": [],
+        "name": "Medium Enterprise",
+        "shortName": null,
+        "acronym": null,
+        "slug": "medium",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "code": "medium",
+        "dimension": "msmeCategory",
+        "investmentMaxInr": 1250000000,
+        "investmentMaxText": "₹125 crore",
+        "turnoverMaxInr": 5000000000,
+        "turnoverMaxText": "₹500 crore",
+        "effectiveFrom": "2025-04-01",
+        "definitionSource": "udyamregistration.gov.in (live table, 2026-08-14); corroborated by dcmsme.gov.in citing Notification S.O. 1364(E) dated 21.03.2025"
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Medium Enterprise"
+        },
+        "ta": {
+          "name": "நடுத்தர நிறுவனம்"
+        },
+        "hi": {
+          "name": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "medium",
+            "msmeCategory"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": null,
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": null,
+        "similarityMethod": null,
+        "reviewRequired": false
+      },
+      "verification": {
+        "status": "verified",
+        "statusText": "Confirmed against a live official source this session",
+        "isVerified": true,
+        "verifiedAgainst": [
+          "udyamregistration.gov.in (live table, 2026-08-14); corroborated by dcmsme.gov.in citing Notification S.O. 1364(E) dated 21.03.2025"
+        ],
+        "verifiedBy": null,
+        "verifiedAt": "2026-08-14T00:00:00Z",
+        "confidence": "high",
+        "researchStatus": "Official-source researched",
+        "notes": null,
+        "missingFields": [],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-14T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 5,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "live_official_source",
+        "extractedAt": "2026-08-14T00:00:00Z",
+        "pipelineVersion": "build_enterprise_classification.py-1.0.0",
+        "fieldSources": [
+          {
+            "field": "content",
+            "sourceTier": 5,
+            "sourceType": "official_website",
+            "url": "https://udyamregistration.gov.in/UdyamRegistration.aspx",
+            "organization": "udyamregistration.gov.in (live table, 2026-08-14); corroborated by dcmsme.gov.in citing Notification S.O. 1364(E) dated 21.03.2025",
+            "retrievedAt": "2026-08-14",
+            "isBackfill": false,
+            "supersededValue": null,
+            "note": "Live official threshold, not from training-data memory: udyamregistration.gov.in (live table, 2026-08-14); corroborated by dcmsme.gov.in citing Notification S.O. 1364(E) dated 21.03.2025"
+          }
+        ],
+        "transformationNotes": [],
+        "translations": {
+          "ta": {
+            "method": "dictionary",
+            "engine": "mss-i18n-dictionary-1.0.0",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "dictionary"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 0,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        }
+      }
+    },
+    {
+      "identity": {
+        "id": "ENTC000004",
+        "entityType": "enterprise_classification",
+        "code": "MANUFACTURING",
+        "legacyCodes": [],
+        "name": "Manufacturing",
+        "shortName": null,
+        "acronym": null,
+        "slug": "manufacturing",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "code": "manufacturing",
+        "dimension": "businessCategory",
+        "investmentMaxInr": null,
+        "investmentMaxText": null,
+        "turnoverMaxInr": null,
+        "turnoverMaxText": null,
+        "effectiveFrom": null,
+        "definitionSource": null
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Manufacturing"
+        },
+        "ta": {
+          "name": "உற்பத்தி"
+        },
+        "hi": {
+          "name": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "manufacturing",
+            "businessCategory"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": null,
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": null,
+        "similarityMethod": null,
+        "reviewRequired": false
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": "Descriptive category term; no numeric claim to verify",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": null,
+        "researchStatus": "not applicable",
+        "notes": null,
+        "missingFields": [],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-14T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "controlled_vocabulary",
+        "extractedAt": "2026-08-14T00:00:00Z",
+        "pipelineVersion": "build_enterprise_classification.py-1.0.0",
+        "fieldSources": [],
+        "transformationNotes": [],
+        "translations": {
+          "ta": {
+            "method": "dictionary",
+            "engine": "mss-i18n-dictionary-1.0.0",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "dictionary"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 0,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        }
+      }
+    },
+    {
+      "identity": {
+        "id": "ENTC000005",
+        "entityType": "enterprise_classification",
+        "code": "SERVICE",
+        "legacyCodes": [],
+        "name": "Service",
+        "shortName": null,
+        "acronym": null,
+        "slug": "service",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "code": "service",
+        "dimension": "businessCategory",
+        "investmentMaxInr": null,
+        "investmentMaxText": null,
+        "turnoverMaxInr": null,
+        "turnoverMaxText": null,
+        "effectiveFrom": null,
+        "definitionSource": null
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Service"
+        },
+        "ta": {
+          "name": "சேவை"
+        },
+        "hi": {
+          "name": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "service",
+            "businessCategory"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": null,
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": null,
+        "similarityMethod": null,
+        "reviewRequired": false
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": "Descriptive category term; no numeric claim to verify",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": null,
+        "researchStatus": "not applicable",
+        "notes": null,
+        "missingFields": [],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-14T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "controlled_vocabulary",
+        "extractedAt": "2026-08-14T00:00:00Z",
+        "pipelineVersion": "build_enterprise_classification.py-1.0.0",
+        "fieldSources": [],
+        "transformationNotes": [],
+        "translations": {
+          "ta": {
+            "method": "dictionary",
+            "engine": "mss-i18n-dictionary-1.0.0",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "dictionary"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 0,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        }
+      }
+    },
+    {
+      "identity": {
+        "id": "ENTC000006",
+        "entityType": "enterprise_classification",
+        "code": "TRADING",
+        "legacyCodes": [],
+        "name": "Trading",
+        "shortName": null,
+        "acronym": null,
+        "slug": "trading",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "code": "trading",
+        "dimension": "businessCategory",
+        "investmentMaxInr": null,
+        "investmentMaxText": null,
+        "turnoverMaxInr": null,
+        "turnoverMaxText": null,
+        "effectiveFrom": null,
+        "definitionSource": null
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Trading"
+        },
+        "ta": {
+          "name": "வணிகம்"
+        },
+        "hi": {
+          "name": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "trading",
+            "businessCategory"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": null,
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": null,
+        "similarityMethod": null,
+        "reviewRequired": false
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": "Descriptive category term; no numeric claim to verify",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": null,
+        "researchStatus": "not applicable",
+        "notes": null,
+        "missingFields": [],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-14T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 2
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "controlled_vocabulary",
+        "extractedAt": "2026-08-14T00:00:00Z",
+        "pipelineVersion": "build_enterprise_classification.py-1.0.0",
+        "fieldSources": [],
+        "transformationNotes": [],
+        "translations": {
+          "ta": {
+            "method": "dictionary",
+            "engine": "mss-i18n-dictionary-1.0.0",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "dictionary"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 0,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        }
+      }
+    },
+    {
+      "identity": {
+        "id": "ENTC000007",
+        "entityType": "enterprise_classification",
+        "code": "EXPORTER",
+        "legacyCodes": [],
+        "name": "Exporter",
+        "shortName": null,
+        "acronym": null,
+        "slug": "exporter",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "code": "exporter",
+        "dimension": "businessCategory",
+        "investmentMaxInr": null,
+        "investmentMaxText": null,
+        "turnoverMaxInr": null,
+        "turnoverMaxText": null,
+        "effectiveFrom": null,
+        "definitionSource": null
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Exporter"
+        },
+        "ta": {
+          "name": "ஏற்றுமதியாளர்"
+        },
+        "hi": {
+          "name": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "exporter",
+            "businessCategory"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": null,
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": null,
+        "similarityMethod": null,
+        "reviewRequired": false
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": "Descriptive category term; no numeric claim to verify",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": null,
+        "researchStatus": "not applicable",
+        "notes": null,
+        "missingFields": [
+          {
+            "field": "localization.ta",
+            "reason": "1 localizable field(s) have no confident Tamil rendering from the dictionary; not machine-guessed"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-14T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "controlled_vocabulary",
+        "extractedAt": "2026-08-14T00:00:00Z",
+        "pipelineVersion": "build_enterprise_classification.py-1.0.0",
+        "fieldSources": [],
+        "transformationNotes": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "mss-i18n-dictionary-1.0.0",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 1,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        }
+      }
+    },
+    {
+      "identity": {
+        "id": "ENTC000008",
+        "entityType": "enterprise_classification",
+        "code": "WOMEN_ENTREPRENEUR",
+        "legacyCodes": [],
+        "name": "Women Entrepreneur",
+        "shortName": null,
+        "acronym": null,
+        "slug": "women-entrepreneur",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "code": "women_entrepreneur",
+        "dimension": "specialCategory",
+        "investmentMaxInr": null,
+        "investmentMaxText": null,
+        "turnoverMaxInr": null,
+        "turnoverMaxText": null,
+        "effectiveFrom": null,
+        "definitionSource": null
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Women Entrepreneur"
+        },
+        "ta": {
+          "name": "பெண் தொழில்முனைவோர்"
+        },
+        "hi": {
+          "name": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "women_entrepreneur",
+            "specialCategory"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": null,
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": null,
+        "similarityMethod": null,
+        "reviewRequired": false
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": "Descriptive category term; no numeric claim to verify",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": null,
+        "researchStatus": "not applicable",
+        "notes": null,
+        "missingFields": [
+          {
+            "field": "localization.ta",
+            "reason": "1 localizable field(s) have no confident Tamil rendering from the dictionary; not machine-guessed"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-14T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "controlled_vocabulary",
+        "extractedAt": "2026-08-14T00:00:00Z",
+        "pipelineVersion": "build_enterprise_classification.py-1.0.0",
+        "fieldSources": [],
+        "transformationNotes": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "mss-i18n-dictionary-1.0.0",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 1,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        }
+      }
+    },
+    {
+      "identity": {
+        "id": "ENTC000009",
+        "entityType": "enterprise_classification",
+        "code": "SC_ST_ENTREPRENEUR",
+        "legacyCodes": [],
+        "name": "SC/ST Entrepreneur",
+        "shortName": null,
+        "acronym": null,
+        "slug": "sc-st-entrepreneur",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "code": "sc_st_entrepreneur",
+        "dimension": "specialCategory",
+        "investmentMaxInr": null,
+        "investmentMaxText": null,
+        "turnoverMaxInr": null,
+        "turnoverMaxText": null,
+        "effectiveFrom": null,
+        "definitionSource": null
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "SC/ST Entrepreneur"
+        },
+        "ta": {
+          "name": "SC/ST தொழில்முனைவோர்"
+        },
+        "hi": {
+          "name": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "sc_st_entrepreneur",
+            "specialCategory"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": null,
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": null,
+        "similarityMethod": null,
+        "reviewRequired": false
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": "Descriptive category term; no numeric claim to verify",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": null,
+        "researchStatus": "not applicable",
+        "notes": null,
+        "missingFields": [
+          {
+            "field": "localization.ta",
+            "reason": "1 localizable field(s) have no confident Tamil rendering from the dictionary; not machine-guessed"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-14T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "controlled_vocabulary",
+        "extractedAt": "2026-08-14T00:00:00Z",
+        "pipelineVersion": "build_enterprise_classification.py-1.0.0",
+        "fieldSources": [],
+        "transformationNotes": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "mss-i18n-dictionary-1.0.0",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 1,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        }
+      }
+    },
+    {
+      "identity": {
+        "id": "ENTC000010",
+        "entityType": "enterprise_classification",
+        "code": "DIFFERENTLY_ABLED_ENTREPRENEUR",
+        "legacyCodes": [],
+        "name": "Differently-Abled Entrepreneur",
+        "shortName": null,
+        "acronym": null,
+        "slug": "differently-abled-entrepreneur",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "code": "differently_abled_entrepreneur",
+        "dimension": "specialCategory",
+        "investmentMaxInr": null,
+        "investmentMaxText": null,
+        "turnoverMaxInr": null,
+        "turnoverMaxText": null,
+        "effectiveFrom": null,
+        "definitionSource": null
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Differently-Abled Entrepreneur"
+        },
+        "ta": {
+          "name": "மாற்றுத்திறனாளி தொழில்முனைவோர்"
+        },
+        "hi": {
+          "name": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "differently_abled_entrepreneur",
+            "specialCategory"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": null,
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": null,
+        "similarityMethod": null,
+        "reviewRequired": false
+      },
+      "verification": {
+        "status": "unverified",
+        "statusText": "Descriptive category term; no numeric claim to verify",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": null,
+        "researchStatus": "not applicable",
+        "notes": null,
+        "missingFields": [
+          {
+            "field": "localization.ta",
+            "reason": "1 localizable field(s) have no confident Tamil rendering from the dictionary; not machine-guessed"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-14T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "controlled_vocabulary",
+        "extractedAt": "2026-08-14T00:00:00Z",
+        "pipelineVersion": "build_enterprise_classification.py-1.0.0",
+        "fieldSources": [],
+        "transformationNotes": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "mss-i18n-dictionary-1.0.0",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 1,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        }
+      }
+    },
+    {
+      "identity": {
+        "id": "ENTC000011",
+        "entityType": "enterprise_classification",
+        "code": "STARTUP",
+        "legacyCodes": [],
+        "name": "Startup (DPIIT)",
+        "shortName": null,
+        "acronym": null,
+        "slug": "startup",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "code": "startup",
+        "dimension": "businessStage",
+        "investmentMaxInr": null,
+        "investmentMaxText": null,
+        "turnoverMaxInr": 2000000000,
+        "turnoverMaxText": "₹200 crore",
+        "effectiveFrom": "2026-02-04",
+        "definitionSource": "startupindia.gov.in (live, 2026-08-14), citing DPIIT Gazette Notification 108(E) dated 4 February 2026"
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Startup (DPIIT)"
+        },
+        "ta": {
+          "name": "தொடக்க நிறுவனம் (DPIIT)"
+        },
+        "hi": {
+          "name": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "startup",
+            "businessStage"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": null,
+        "sectionSummaries": {},
+        "generationMode": null,
+        "confidence": null,
+        "generatedBy": null,
+        "generatedAt": null,
+        "sourceFieldsUsed": [],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": null,
+        "similarityMethod": null,
+        "reviewRequired": false
+      },
+      "verification": {
+        "status": "verified",
+        "statusText": "Confirmed against a live official source this session",
+        "isVerified": true,
+        "verifiedAgainst": [
+          "startupindia.gov.in (live, 2026-08-14), citing DPIIT Gazette Notification 108(E) dated 4 February 2026"
+        ],
+        "verifiedBy": null,
+        "verifiedAt": "2026-08-14T00:00:00Z",
+        "confidence": "high",
+        "researchStatus": "Official-source researched",
+        "notes": null,
+        "missingFields": [
+          {
+            "field": "content.incorporationAgeMaxYears",
+            "reason": "Incorporation-age limit not independently verified this session; the fetched page referenced a separate eligibility page/PDF that was not fetched. Left null rather than filled from unverified prior knowledge."
+          },
+          {
+            "field": "localization.ta",
+            "reason": "1 localizable field(s) have no confident Tamil rendering from the dictionary; not machine-guessed"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-14T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 5,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "live_official_source",
+        "extractedAt": "2026-08-14T00:00:00Z",
+        "pipelineVersion": "build_enterprise_classification.py-1.0.0",
+        "fieldSources": [
+          {
+            "field": "content",
+            "sourceTier": 5,
+            "sourceType": "official_website",
+            "url": "https://www.startupindia.gov.in/",
+            "organization": "startupindia.gov.in (live, 2026-08-14), citing DPIIT Gazette Notification 108(E) dated 4 February 2026",
+            "retrievedAt": "2026-08-14",
+            "isBackfill": false,
+            "supersededValue": null,
+            "note": "Live official threshold, not from training-data memory: startupindia.gov.in (live, 2026-08-14), citing DPIIT Gazette Notification 108(E) dated 4 February 2026"
+          }
+        ],
+        "transformationNotes": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "mss-i18n-dictionary-1.0.0",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 1,
+            "fieldsContextual": 1,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        }
+      }
+    }
+  ]
+}

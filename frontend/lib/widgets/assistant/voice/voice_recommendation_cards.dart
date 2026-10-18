@@ -282,7 +282,7 @@ class VoiceConversationalResultsSection extends StatelessWidget {
               key: const Key('voice-view-all-results'),
               onPressed: onOpenSearch,
               child: Text(
-                CentralizedTranslator.instance.translate('Open search'),
+                CentralizedTranslator.instance.localize('Open search'),
                 style: const TextStyle(fontSize: 10.5),
               ),
             ),
@@ -319,7 +319,7 @@ class VoiceConversationalResultsSection extends StatelessWidget {
             onPressed: onReviewProfile,
             icon: const Icon(Icons.person_add_alt_1_outlined, size: 17),
             label: Text(
-              CentralizedTranslator.instance.translate(
+              CentralizedTranslator.instance.localize(
                 'Review and save confirmed details',
               ),
             ),

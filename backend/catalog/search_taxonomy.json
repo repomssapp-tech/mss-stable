@@ -1,7 +1,7 @@
 {
   "$comment": "1.2 (audit_fix.md): single source of truth for the shared scheme-search ranking parameters, extracted from search_engine.ts (TypeScript) and hybrid_scheme_search.dart (Dart), which were verified byte-identical before this extraction. Both engines load this file rather than declaring their own copy. saarthi-agent/src/scheme_catalog.py (1.3) reads it too. Do not hand-edit one language's copy of these values again -- edit this file and re-run all three engines' test suites.",
   "shortTokenVocab": ["sc", "st", "tn"],
-  "tokenRegexSource": "[A-Za-z][A-Za-z0-9&-]{1,}|[஀-௿]{2,}",
+  "tokenRegexSource": "[A-Za-z][A-Za-z0-9&-]{1,}|[஀-௿]{2,}|[\\u0900-\\u097F]{2,}",
   "taxonomy": {
     "industries": {
       "textile": ["textile", "cloth", "garment", "weaving", "power loom", "handloom", "apparel", "fabric", "yarn", "spinning"],
@@ -13,11 +13,11 @@
       "food_processing": ["food processing", "food product", "food products", "agro processing", "agro-based", "agro based", "food industry", "food safety"]
     },
     "benefits": {
-      "loan": ["loan", "business loan", "msme loan", "term loan", "capital loan", "working capital", "credit", "borrow", "financing", "finance", "funding"],
-      "subsidy": ["subsidy", "subsidies", "subsidised", "subsidized"],
+      "loan": ["loan", "business loan", "msme loan", "term loan", "capital loan", "working capital", "credit", "borrow", "financing", "finance", "funding", "ऋण", "लोन"],
+      "subsidy": ["subsidy", "subsidies", "subsidised", "subsidized", "सब्सिडी", "अनुदान"],
       "grant": ["grant", "grant-in-aid"],
       "guarantee": ["guarantee"],
-      "training": ["training", "skill development", "capacity building", "workshop"],
+      "training": ["training", "skill development", "capacity building", "workshop", "कारीगर", "प्रशिक्षण", "कौशल"],
       "export_support": ["export", "export incentive", "export assistance", "duty exemption"]
     },
     "collateral": {

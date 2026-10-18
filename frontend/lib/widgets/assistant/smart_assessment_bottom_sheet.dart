@@ -66,7 +66,14 @@ class _SmartAssessmentBottomSheetState
 
   void _initializeFlow() {
     final l10nEn = lookupAppLocalizations(const Locale('en'));
-    final l10nTa = lookupAppLocalizations(const Locale('ta'));
+    // The flow's translated fields follow the active language (Tamil or Hindi).
+    final language = Provider.of<AppProvider>(
+      context,
+      listen: false,
+    ).selectedLanguage;
+    final l10nTa = lookupAppLocalizations(
+      Locale(language == 'hi' ? 'hi' : 'ta'),
+    );
 
     final result = resolveQuestionFlow(
       cardTitle: widget.cardTitle,
@@ -156,8 +163,7 @@ class _SmartAssessmentBottomSheetState
   }
 
   String _getLocalizedCardTitle(String rawTitle, String language) {
-    if (language != 'ta') return rawTitle;
-    return CentralizedTranslator.instance.translateTag(rawTitle);
+    return CentralizedTranslator.instance.localizeTagFor(language, rawTitle);
   }
 
   @override

@@ -25,7 +25,10 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
     final isTa = provider.selectedLanguage == 'ta';
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
+      margin: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.sm,
+      ),
       padding: const EdgeInsets.all(AppSpacing.tight),
       decoration: BoxDecoration(
         color: const Color(0xFFF1F5F9),
@@ -222,8 +225,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                                 color: Color(0xFFEF4444),
                                 size: 20,
                               ),
-                              tooltip:
-                                  context.l10n.savedRemoveFromSavedTooltip,
+                              tooltip: context.l10n.savedRemoveFromSavedTooltip,
                               onPressed: () {
                                 provider.toggleBookmark(scheme.id);
                               },
@@ -370,7 +372,10 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
   Widget _buildManageListBanner() {
     return Container(
       margin: const EdgeInsets.all(AppSpacing.lg),
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.lg),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.lg,
+      ),
       decoration: BoxDecoration(
         color: const Color(0xFFEFF6FF),
         borderRadius: BorderRadius.circular(16),
@@ -427,7 +432,10 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                 borderRadius: BorderRadius.circular(10),
                 side: const BorderSide(color: Color(0xFFBFDBFE)),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.tight),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.sm,
+                vertical: AppSpacing.tight,
+              ),
             ),
             icon: Icon(
               _isManageMode
@@ -462,70 +470,77 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
     required String title,
     required String description,
   }) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.xxl),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 80,
-              height: 80,
-              decoration: const BoxDecoration(
-                color: Color(0xFFF1F5F9),
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.bookmark_border_rounded,
-                color: Color(0xFF94A3B8),
-                size: 40,
+    return LayoutBuilder(
+      builder: (context, constraints) => SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minHeight: constraints.maxHeight),
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.xxl),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 80,
+                    height: 80,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFF1F5F9),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.bookmark_border_rounded,
+                      color: Color(0xFF94A3B8),
+                      size: 40,
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  Text(
+                    title,
+                    style: GoogleFonts.poppins(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xFF0F172A),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.tight),
+                  Text(
+                    description,
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.inter(
+                      fontSize: 13,
+                      color: const Color(0xFF64748B),
+                      height: 1.4,
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.xl),
+                  ElevatedButton(
+                    onPressed: () {
+                      provider.updateTabIndex(2);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF2563EB),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.xl,
+                        vertical: AppSpacing.md,
+                      ),
+                    ),
+                    child: Text(
+                      context.l10n.navDiscover,
+                      style: GoogleFonts.inter(
+                        fontSize: 13.5,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: AppSpacing.lg),
-            Text(
-              title,
-              style: GoogleFonts.poppins(
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF0F172A),
-              ),
-            ),
-            const SizedBox(height: AppSpacing.tight),
-            Text(
-              description,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.inter(
-                fontSize: 13,
-                color: const Color(0xFF64748B),
-                height: 1.4,
-              ),
-            ),
-            const SizedBox(height: AppSpacing.xl),
-            ElevatedButton(
-              onPressed: () {
-                provider.updateTabIndex(2);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF2563EB),
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.xl,
-                  vertical: AppSpacing.md,
-                ),
-              ),
-              child: Text(
-                context.l10n.navDiscover,
-                style: GoogleFonts.inter(
-                  fontSize: 13.5,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -547,7 +562,12 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(AppSpacing.lg, AppSpacing.lg, AppSpacing.lg, AppSpacing.md),
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.lg,
+                AppSpacing.lg,
+                AppSpacing.lg,
+                AppSpacing.md,
+              ),
               child: SizedBox(
                 width: double.infinity,
                 child: Column(

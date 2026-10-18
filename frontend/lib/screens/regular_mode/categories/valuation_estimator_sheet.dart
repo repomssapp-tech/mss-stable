@@ -235,6 +235,7 @@ void showValuationEstimatorSheet(BuildContext context) {
                           ),
                           const SizedBox(height: AppSpacing.tight),
                           DropdownButtonFormField<String>(
+                            isExpanded: true,
                             initialValue: selectedSector,
                             decoration: InputDecoration(
                               filled: true,

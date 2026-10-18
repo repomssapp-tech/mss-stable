@@ -120,7 +120,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get navDiscover => 'கண்டறிக';
 
   @override
-  String get navSaved => 'சேமித்தவை';
+  String get navSaved => 'சேமிப்பு';
 
   @override
   String get navProfile => 'சுயவிவரம்';
@@ -146,6 +146,9 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get carouselSubPmegpDaysLeft => 'PMEGP · 2 நாட்கள் மட்டுமே உள்ளன';
+
+  @override
+  String get carouselTitlePmegpClosing => 'PMEGP (5 நாட்களில் முடிவடைகிறது)';
 
   @override
   String get carouselBadgeAlert => 'எச்சரிக்கை';
@@ -3443,7 +3446,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String schemesAvailableCount(Object count) {
-    return 'அனைத்து திட்ட முடிவுகளும்';
+    return '$count திட்டங்கள் கிடைக்கின்றன';
   }
 
   @override
@@ -4761,4 +4764,77 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get eduDescPostgraduate => 'முதுகலை பட்டப்படிப்பு, MPhil அல்லது Ph.D.';
+
+  @override
+  String get hintAgeExample => 'எ.கா. 25';
+
+  @override
+  String get hintAddressExample => 'எ.கா. கதவு/பிளாட் எண், தெரு பெயர், பகுதி';
+
+  @override
+  String get hintCityExample => 'எ.கா. சென்னை';
+
+  @override
+  String get legalPrivacyNoticeLink => 'தனியுரிமை அறிவிப்பு';
+
+  @override
+  String get legalTermsOfUseLink => 'பயன்பாட்டு விதிமுறைகள்';
+
+  @override
+  String get shareSchemeDetailsTooltip => 'திட்ட விவரங்களைப் பகிரவும்';
+
+  @override
+  String get legalConsentPrefix => 'நான் ';
+
+  @override
+  String get legalConsentMid => ' மற்றும் ';
+
+  @override
+  String get legalConsentSuffix => ' ஆகியவற்றைப் படித்து ஒப்புக்கொள்கிறேன்.';
+
+  @override
+  String get permLocationOffTitle => 'இருப்பிடச் சேவைகள் அணைக்கப்பட்டுள்ளன';
+
+  @override
+  String get permLocationOffBody =>
+      'இருப்பிடச் சேவைகள் அணைக்கப்பட்டுள்ளன. உங்களுக்கு ஏற்ற உள்ளூர் மாநில மற்றும் மாவட்டத் திட்டங்களைக் கண்டறிய, உங்கள் சாதன அமைப்புகளில் அவற்றை இயக்கவும்.';
+
+  @override
+  String get permLocationBenefitDetect =>
+      'மாநிலம் மற்றும் மாவட்டத் தகுதியைத் தானாகக் கண்டறிதல்';
+
+  @override
+  String get permLocationBenefitTailored =>
+      'உங்கள் பகுதிக்கேற்ற மானியங்கள் மற்றும் பலன்கள்';
+
+  @override
+  String get permLocationTurnOn => 'இருப்பிடத்தை இயக்கு';
+
+  @override
+  String get aboutAppSubtitle => 'அரசு திட்டங்கள் & வழிகாட்டி தளம்';
+
+  @override
+  String get aboutDevelopedWith => 'உருவாக்கியவர்கள்:';
+
+  @override
+  String get splashDevelopedBy => 'செயலியை உருவாக்கியவர்';
+
+  @override
+  String aboutSupportLine(Object email) {
+    return 'ஆதரவு: $email';
+  }
+
+  @override
+  String catalogFreshnessLabel(Object version) {
+    return 'உள்ளூர் பட்டியல் பதிப்பு $version';
+  }
+
+  @override
+  String catalogFreshnessLabelUpdated(Object date, Object version) {
+    return 'உள்ளூர் பட்டியல் பதிப்பு $version • $date';
+  }
+
+  @override
+  String get aboutAppDescriptionLong =>
+      'MSS என்பது இந்திய தொழில்முனைவோர், பெண்கள், விவசாயிகள் மற்றும் மாணவர்களுக்கான மத்திய மற்றும் மாநில அரசு திட்டங்களை எளிதாகக் கண்டறிந்து, தகுதிகளை சரிபார்த்து பயன்பெற உதவும் ஒரு அறிவார்ந்த டிஜிட்டல் தளமாகும்.';
 }

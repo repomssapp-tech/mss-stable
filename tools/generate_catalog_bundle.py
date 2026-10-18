@@ -39,7 +39,7 @@ INDEXED_CATALOGS = [
 # Extra files carried in the bundle for reference but not indexed as entities.
 EXTRA_FILES = ["search_index.json", "manifest.json"]
 
-DEFAULT_SOURCE = Path(r"C:\Users\roger\OneDrive\Documents\Plan\catalog")
+DEFAULT_SOURCE = Path(__file__).resolve().parent.parent / "backend" / "catalog" / "source"
 DEFAULT_OUT_DIR = (
     Path(__file__).resolve().parent.parent / "frontend" / "assets" / "catalog"
 )

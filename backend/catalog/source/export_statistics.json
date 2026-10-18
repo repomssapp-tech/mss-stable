@@ -1,0 +1,25 @@
+{
+  "generatedAt": "2026-08-04T00:00:00Z",
+  "catalog": "export_catalog.json",
+  "dataSufficiency": "MODERATE — named instruments and scheme linkage are present; duty rates, export-obligation ratios, SION norms and validity periods are absent from all sources and were not generated.",
+  "schemesScanned": 217,
+  "exportBenefits": 13,
+  "byInstrumentType": {
+    "duty_exemption": 3,
+    "market_promotion": 5,
+    "capital_goods_scheme": 1,
+    "interest_equalisation": 1,
+    "certification_support": 1,
+    "exporter_recognition": 1,
+    "export_assistance": 1
+  },
+  "withAssistanceFigures": 8,
+  "withFinanceProductLink": 8,
+  "withAuthorityLink": 7,
+  "dutyRatesRecorded": 0,
+  "exportObligationsRecorded": 0,
+  "assistanceDrift": 0,
+  "missingFieldEntries": 96,
+  "tamilPopulated": 0,
+  "localizationStatus": "deferred to roadmap Phase 5"
+}

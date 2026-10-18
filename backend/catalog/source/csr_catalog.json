@@ -1,0 +1,3533 @@
+{
+  "metadata": {
+    "catalogName": "csr",
+    "schemaVersion": "1.0.0",
+    "catalogVersion": "1.33.0-alpha",
+    "generatedAt": "2026-08-04T00:00:00Z",
+    "language": "en",
+    "recordCount": 16,
+    "checksum": "sha256:d05dc5b011cfaec897f390f5434b007ce39413158f3460e032d4d76e9b549887"
+  },
+  "data": [
+    {
+      "identity": {
+        "id": "CSR000001",
+        "entityType": "csr_provision",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Section 135, Companies Act 2013",
+        "shortName": null,
+        "acronym": null,
+        "slug": "section-135-companies-act-2013",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "statute",
+        "statute": "Companies Act 2013",
+        "summary": "Companies meeting prescribed thresholds must spend at least 2% of average net profits on CSR; activities are strictly limited to Schedule VII, executed per CSR Rules 2014 (as amended through 2022/2024 MCA notifications).",
+        "attributes": {
+          "spendPercentOfAverageNetProfit": 2.0,
+          "spendText": "at least 2% of average net profits",
+          "applicabilityThresholds": [
+            {
+              "criterion": "net worth",
+              "text": "net worth ≥ ₹500 cr",
+              "amountInr": 5000000000
+            },
+            {
+              "criterion": "turnover",
+              "text": "turnover ≥ ₹1,000 cr",
+              "amountInr": 10000000000
+            },
+            {
+              "criterion": "net profit",
+              "text": "net profit ≥ ₹5 cr",
+              "amountInr": 50000000
+            }
+          ],
+          "thresholdLogic": "any one of the three thresholds triggers applicability",
+          "rules": "CSR Rules 2014, as amended through 2022/2024 MCA notifications"
+        },
+        "appliesToMsme": true,
+        "sourceDocument": "CSR_MSME_Policy_Note.md",
+        "sourceSection": "2. Legal Framework",
+        "context": {
+          "annualCsrSpendText": "₹30,000–35,000 crore (2025–26)",
+          "msmeCreditGapText": "₹25–30 lakh crore"
+        },
+        "applicableSchemes": [],
+        "relatedInstitutionIds": [],
+        "forms": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Section 135, Companies Act 2013",
+          "summary": "Companies meeting prescribed thresholds must spend at least 2% of average net profits on CSR; activities are strictly limited to Schedule VII, executed per CSR Rules 2014 (as amended through 2022/2024 MCA notifications).",
+          "guidance": null
+        },
+        "ta": {
+          "name": "பிரிவு 135, நிறுவனங்கள் சட்டம் 2013",
+          "summary": "நிர்ணயிக்கப்பட்ட வரம்புகளை பூர்த்தி செய்யும் நிறுவனங்கள் தங்கள் சராசரி நிகர லாபத்தில் குறைந்தது 2%-ஐ CSR-க்காக செலவிட வேண்டும்; நடவடிக்கைகள் அட்டவணை VII-க்கு மட்டுமே கண்டிப்பாக வரம்பிடப்பட்டு, CSR விதிகள் 2014-ன் (2022/2024 MCA அறிவிப்புகள் வரை திருத்தப்பட்டவாறு) படி செயல்படுத்தப்படும்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "companies",
+            "section"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Companies meeting prescribed thresholds must spend at least 2% of average net profits on CSR; activities are strictly limited to Schedule VII, executed per CSR Rules 2014 (as amended through 2022/2024 MCA notifications).",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from CSR_MSME_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from CSR_MSME_Policy_Note.md, section: 2. Legal Framework. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.applicableSchemes",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.relatedInstitutionIds",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from CSR_MSME_Policy_Note.md — 2. Legal Framework (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "CSR000002",
+        "entityType": "csr_provision",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Schedule VII clause (i) — eradicating poverty and livelihood enhancement",
+        "shortName": null,
+        "acronym": null,
+        "slug": "schedule-vii-clause-i-eradicating-poverty-and-livelihood-enhancement",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "schedule_clause",
+        "statute": "Companies Act 2013",
+        "summary": "Relevant Schedule VII clause for MSME-aligned interventions: eradicating poverty and livelihood enhancement.",
+        "attributes": {
+          "clause": "(i)",
+          "msmeAligned": true
+        },
+        "appliesToMsme": true,
+        "sourceDocument": "CSR_MSME_Policy_Note.md",
+        "sourceSection": "2. Legal Framework",
+        "context": {},
+        "applicableSchemes": [],
+        "relatedInstitutionIds": [],
+        "forms": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Schedule VII clause (i) — eradicating poverty and livelihood enhancement",
+          "summary": "Relevant Schedule VII clause for MSME-aligned interventions: eradicating poverty and livelihood enhancement.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "அட்டவணை VII பிரிவு (i) — வறுமை ஒழிப்பு மற்றும் வாழ்வாதார மேம்பாடு",
+          "summary": "MSME-சார்ந்த தலையீடுகளுக்கான தொடர்புடைய அட்டவணை VII பிரிவு: வறுமை ஒழிப்பு மற்றும் வாழ்வாதார மேம்பாடு.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "clause",
+            "enhancement",
+            "eradicating",
+            "livelihood",
+            "poverty",
+            "schedule"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Relevant Schedule VII clause for MSME-aligned interventions: eradicating poverty and livelihood enhancement.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "CSR000003",
+            "entityType": "csr_provision",
+            "name": "Schedule VII clause (ii) — promoting education, employability and vocational skills",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:schedule_clause",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000004",
+            "entityType": "csr_provision",
+            "name": "Schedule VII clause (iv) — environmental sustainability and technology upgradation",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:schedule_clause",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000005",
+            "entityType": "csr_provision",
+            "name": "Schedule VII clause (ix) — contributions to technology incubators and R&D",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:schedule_clause",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from CSR_MSME_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from CSR_MSME_Policy_Note.md, section: 2. Legal Framework. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.applicableSchemes",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.relatedInstitutionIds",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from CSR_MSME_Policy_Note.md — 2. Legal Framework (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "CSR000003",
+        "entityType": "csr_provision",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Schedule VII clause (ii) — promoting education, employability and vocational skills",
+        "shortName": null,
+        "acronym": null,
+        "slug": "schedule-vii-clause-ii-promoting-education-employability-and-vocational-skills",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "schedule_clause",
+        "statute": "Companies Act 2013",
+        "summary": "Relevant Schedule VII clause for MSME-aligned interventions: promoting education, employability, and vocational skills.",
+        "attributes": {
+          "clause": "(ii)",
+          "msmeAligned": true
+        },
+        "appliesToMsme": true,
+        "sourceDocument": "CSR_MSME_Policy_Note.md",
+        "sourceSection": "2. Legal Framework",
+        "context": {},
+        "applicableSchemes": [],
+        "relatedInstitutionIds": [],
+        "forms": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Schedule VII clause (ii) — promoting education, employability and vocational skills",
+          "summary": "Relevant Schedule VII clause for MSME-aligned interventions: promoting education, employability, and vocational skills.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "அட்டவணை VII பிரிவு (ii) — கல்வி, வேலைவாய்ப்புத் திறன் மற்றும் தொழிற்கல்வித் திறன்களை மேம்படுத்துதல்",
+          "summary": "MSME-சார்ந்த தலையீடுகளுக்கான தொடர்புடைய அட்டவணை VII பிரிவு: கல்வி, வேலைவாய்ப்புத் திறன் மற்றும் தொழிற்கல்வித் திறன்களை மேம்படுத்துதல்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "clause",
+            "education",
+            "employability",
+            "promoting",
+            "schedule",
+            "skills",
+            "vocational"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Relevant Schedule VII clause for MSME-aligned interventions: promoting education, employability, and vocational skills.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "CSR000002",
+            "entityType": "csr_provision",
+            "name": "Schedule VII clause (i) — eradicating poverty and livelihood enhancement",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:schedule_clause",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000004",
+            "entityType": "csr_provision",
+            "name": "Schedule VII clause (iv) — environmental sustainability and technology upgradation",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:schedule_clause",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000005",
+            "entityType": "csr_provision",
+            "name": "Schedule VII clause (ix) — contributions to technology incubators and R&D",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:schedule_clause",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from CSR_MSME_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from CSR_MSME_Policy_Note.md, section: 2. Legal Framework. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.applicableSchemes",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.relatedInstitutionIds",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from CSR_MSME_Policy_Note.md — 2. Legal Framework (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "CSR000004",
+        "entityType": "csr_provision",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Schedule VII clause (iv) — environmental sustainability and technology upgradation",
+        "shortName": null,
+        "acronym": null,
+        "slug": "schedule-vii-clause-iv-environmental-sustainability-and-technology-upgradation",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "schedule_clause",
+        "statute": "Companies Act 2013",
+        "summary": "Relevant Schedule VII clause for MSME-aligned interventions: environmental sustainability and technology upgradation.",
+        "attributes": {
+          "clause": "(iv)",
+          "msmeAligned": true
+        },
+        "appliesToMsme": true,
+        "sourceDocument": "CSR_MSME_Policy_Note.md",
+        "sourceSection": "2. Legal Framework",
+        "context": {},
+        "applicableSchemes": [],
+        "relatedInstitutionIds": [],
+        "forms": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Schedule VII clause (iv) — environmental sustainability and technology upgradation",
+          "summary": "Relevant Schedule VII clause for MSME-aligned interventions: environmental sustainability and technology upgradation.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "அட்டவணை VII பிரிவு (iv) — சுற்றுச்சூழல் நிலைத்தன்மை மற்றும் தொழில்நுட்ப மேம்பாடு",
+          "summary": "MSME-சார்ந்த தலையீடுகளுக்கான தொடர்புடைய அட்டவணை VII பிரிவு: சுற்றுச்சூழல் நிலைத்தன்மை மற்றும் தொழில்நுட்ப மேம்பாடு.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "clause",
+            "environmental",
+            "schedule",
+            "sustainability",
+            "technology",
+            "upgradation"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Relevant Schedule VII clause for MSME-aligned interventions: environmental sustainability and technology upgradation.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "CSR000002",
+            "entityType": "csr_provision",
+            "name": "Schedule VII clause (i) — eradicating poverty and livelihood enhancement",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:schedule_clause",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000003",
+            "entityType": "csr_provision",
+            "name": "Schedule VII clause (ii) — promoting education, employability and vocational skills",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:schedule_clause",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000005",
+            "entityType": "csr_provision",
+            "name": "Schedule VII clause (ix) — contributions to technology incubators and R&D",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:schedule_clause",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from CSR_MSME_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from CSR_MSME_Policy_Note.md, section: 2. Legal Framework. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.applicableSchemes",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.relatedInstitutionIds",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from CSR_MSME_Policy_Note.md — 2. Legal Framework (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "CSR000005",
+        "entityType": "csr_provision",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Schedule VII clause (ix) — contributions to technology incubators and R&D",
+        "shortName": null,
+        "acronym": null,
+        "slug": "schedule-vii-clause-ix-contributions-to-technology-incubators-and-r-d",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "schedule_clause",
+        "statute": "Companies Act 2013",
+        "summary": "Relevant Schedule VII clause for MSME-aligned interventions: contributions to technology incubators, R&D projects, and incubators funded by Central/State Government or PSUs.",
+        "attributes": {
+          "clause": "(ix)",
+          "msmeAligned": true
+        },
+        "appliesToMsme": true,
+        "sourceDocument": "CSR_MSME_Policy_Note.md",
+        "sourceSection": "2. Legal Framework",
+        "context": {},
+        "applicableSchemes": [],
+        "relatedInstitutionIds": [],
+        "forms": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Schedule VII clause (ix) — contributions to technology incubators and R&D",
+          "summary": "Relevant Schedule VII clause for MSME-aligned interventions: contributions to technology incubators, R&D projects, and incubators funded by Central/State Government or PSUs.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "அட்டவணை VII பிரிவு (ix) — தொழில்நுட்ப அடைவூட்டிகள் மற்றும் R&D-க்கான பங்களிப்புகள்",
+          "summary": "MSME-சார்ந்த தலையீடுகளுக்கான தொடர்புடைய அட்டவணை VII பிரிவு: தொழில்நுட்ப அடைவூட்டிகள், R&D திட்டங்கள், மற்றும் மத்திய/மாநில அரசு அல்லது PSU-களால் நிதியளிக்கப்படும் அடைவூட்டிகளுக்கான பங்களிப்புகள்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "clause",
+            "contributions",
+            "incubators",
+            "schedule",
+            "technology"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Relevant Schedule VII clause for MSME-aligned interventions: contributions to technology incubators, R&D projects, and incubators funded by Central/State Government or PSUs.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "CSR000002",
+            "entityType": "csr_provision",
+            "name": "Schedule VII clause (i) — eradicating poverty and livelihood enhancement",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:schedule_clause",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000003",
+            "entityType": "csr_provision",
+            "name": "Schedule VII clause (ii) — promoting education, employability and vocational skills",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:schedule_clause",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000004",
+            "entityType": "csr_provision",
+            "name": "Schedule VII clause (iv) — environmental sustainability and technology upgradation",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:schedule_clause",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from CSR_MSME_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from CSR_MSME_Policy_Note.md, section: 2. Legal Framework. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.applicableSchemes",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.relatedInstitutionIds",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from CSR_MSME_Policy_Note.md — 2. Legal Framework (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "CSR000006",
+        "entityType": "csr_provision",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Prohibition on commercial support to for-profit MSMEs",
+        "shortName": null,
+        "acronym": null,
+        "slug": "prohibition-on-commercial-support-to-for-profit-msmes",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "prohibition",
+        "statute": "Companies Act 2013",
+        "summary": "Direct commercial lending, equity investment, or profit-linked support to for-profit MSMEs is not a permissible CSR activity under the Companies Act 2013.",
+        "attributes": {
+          "prohibited": [
+            "direct commercial lending",
+            "equity investment",
+            "profit-linked support to for-profit MSMEs"
+          ]
+        },
+        "appliesToMsme": true,
+        "sourceDocument": "CSR_MSME_Policy_Note.md",
+        "sourceSection": "1. Introduction",
+        "context": {},
+        "applicableSchemes": [],
+        "relatedInstitutionIds": [],
+        "forms": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Prohibition on commercial support to for-profit MSMEs",
+          "summary": "Direct commercial lending, equity investment, or profit-linked support to for-profit MSMEs is not a permissible CSR activity under the Companies Act 2013.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "இலாப நோக்கிலான MSME-களுக்கு வணிக ஆதரவு வழங்குவதற்கான தடை",
+          "summary": "இலாப நோக்கிலான MSME-களுக்கு நேரடி வணிகக் கடன், பங்கு முதலீடு, அல்லது லாபம் தொடர்பான ஆதரவு வழங்குவது நிறுவனங்கள் சட்டம் 2013-ன் கீழ் அனுமதிக்கப்பட்ட CSR நடவடிக்கை அல்ல.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "commercial",
+            "msmes",
+            "profit",
+            "prohibition",
+            "support"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Direct commercial lending, equity investment, or profit-linked support to for-profit MSMEs is not a permissible CSR activity under the Companies Act 2013.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from CSR_MSME_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from CSR_MSME_Policy_Note.md, section: 1. Introduction. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.applicableSchemes",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.relatedInstitutionIds",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from CSR_MSME_Policy_Note.md — 1. Introduction (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "CSR000007",
+        "entityType": "csr_provision",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Grants via registered implementing agencies",
+        "shortName": null,
+        "acronym": null,
+        "slug": "grants-via-registered-implementing-agencies",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "mechanism",
+        "statute": "Companies Act 2013",
+        "summary": "Channel funds through Section 8 companies, registered societies, or public trusts holding CSR-1 registration with the MCA and (where required) a 3-year track record. Suitable for skill, livelihood, and technology grants benefiting MSMEs.",
+        "attributes": {
+          "vehicles": [
+            "Section 8 company",
+            "registered society",
+            "public trust"
+          ],
+          "requiresCsr1": true,
+          "trackRecordYears": 3,
+          "suitableFor": [
+            "skill grants",
+            "livelihood grants",
+            "technology grants"
+          ]
+        },
+        "appliesToMsme": true,
+        "sourceDocument": "CSR_MSME_Policy_Note.md",
+        "sourceSection": "3. Compliant Mechanisms & Structures",
+        "context": {},
+        "applicableSchemes": [],
+        "relatedInstitutionIds": [],
+        "forms": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Grants via registered implementing agencies",
+          "summary": "Channel funds through Section 8 companies, registered societies, or public trusts holding CSR-1 registration with the MCA and (where required) a 3-year track record. Suitable for skill, livelihood, and technology grants benefiting MSMEs.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "பதிவு செய்யப்பட்ட செயல்படுத்தும் முகமைகள் வழியாக மானியங்கள்",
+          "summary": "பிரிவு 8 நிறுவனங்கள், பதிவு செய்யப்பட்ட சங்கங்கள், அல்லது MCA-வுடன் CSR-1 பதிவு மற்றும் (தேவைப்படும் இடங்களில்) 3-ஆண்டு செயல்பாட்டு வரலாறு கொண்ட பொது அறக்கட்டளைகள் வழியாக நிதியைச் செலுத்துங்கள். MSME-களுக்குப் பயனளிக்கும் திறன், வாழ்வாதாரம் மற்றும் தொழில்நுட்ப மானியங்களுக்கு ஏற்றது.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "agencies",
+            "grants",
+            "implementing",
+            "registered"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Channel funds through Section 8 companies, registered societies, or public trusts holding CSR-1 registration with the MCA and (where required) a 3-year track record. Suitable for skill, livelihood, and technology grants benefiting MSMEs.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "CSR000008",
+            "entityType": "csr_provision",
+            "name": "Contributions to approved incubators",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000009",
+            "entityType": "csr_provision",
+            "name": "Livelihood enhancement and cluster development",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000010",
+            "entityType": "csr_provision",
+            "name": "Blended finance and venture philanthropy via not-for-profits",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000011",
+            "entityType": "csr_provision",
+            "name": "Partnerships with SIDBI, NSIC or state MSME corporations",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000012",
+            "entityType": "csr_provision",
+            "name": "Company-specific CSR Foundation or Trust",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from CSR_MSME_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from CSR_MSME_Policy_Note.md, section: 3. Compliant Mechanisms & Structures. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.applicableSchemes",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.relatedInstitutionIds",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from CSR_MSME_Policy_Note.md — 3. Compliant Mechanisms & Structures (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "CSR000008",
+        "entityType": "csr_provision",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Contributions to approved incubators",
+        "shortName": null,
+        "acronym": null,
+        "slug": "contributions-to-approved-incubators",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "mechanism",
+        "statute": "Companies Act 2013",
+        "summary": "Direct contributions to Atal Incubation Centres, DST-recognised incubators, or Government/PSU-funded technology business incubators supporting MSMEs and start-ups (Schedule VII clause ix).",
+        "attributes": {
+          "eligibleRecipients": [
+            "Atal Incubation Centres",
+            "DST-recognised incubators",
+            "Government/PSU-funded technology business incubators"
+          ],
+          "scheduleClause": "(ix)"
+        },
+        "appliesToMsme": true,
+        "sourceDocument": "CSR_MSME_Policy_Note.md",
+        "sourceSection": "3. Compliant Mechanisms & Structures",
+        "context": {},
+        "applicableSchemes": [],
+        "relatedInstitutionIds": [],
+        "forms": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Contributions to approved incubators",
+          "summary": "Direct contributions to Atal Incubation Centres, DST-recognised incubators, or Government/PSU-funded technology business incubators supporting MSMEs and start-ups (Schedule VII clause ix).",
+          "guidance": null
+        },
+        "ta": {
+          "name": "அங்கீகரிக்கப்பட்ட அடைவூட்டிகளுக்கான பங்களிப்புகள்",
+          "summary": "அடல் அடைவூட்டு மையங்கள், DST-அங்கீகரிக்கப்பட்ட அடைவூட்டிகள், அல்லது MSME-கள் மற்றும் தொடக்க நிறுவனங்களை ஆதரிக்கும் அரசு/PSU-நிதியளிக்கும் தொழில்நுட்ப வணிக அடைவூட்டிகளுக்கு நேரடி பங்களிப்புகள் (அட்டவணை VII பிரிவு ix).",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "approved",
+            "contributions",
+            "incubators"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Direct contributions to Atal Incubation Centres, DST-recognised incubators, or Government/PSU-funded technology business incubators supporting MSMEs and start-ups (Schedule VII clause ix).",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "CSR000007",
+            "entityType": "csr_provision",
+            "name": "Grants via registered implementing agencies",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000009",
+            "entityType": "csr_provision",
+            "name": "Livelihood enhancement and cluster development",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000010",
+            "entityType": "csr_provision",
+            "name": "Blended finance and venture philanthropy via not-for-profits",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000011",
+            "entityType": "csr_provision",
+            "name": "Partnerships with SIDBI, NSIC or state MSME corporations",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000012",
+            "entityType": "csr_provision",
+            "name": "Company-specific CSR Foundation or Trust",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from CSR_MSME_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from CSR_MSME_Policy_Note.md, section: 3. Compliant Mechanisms & Structures. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.applicableSchemes",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.relatedInstitutionIds",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from CSR_MSME_Policy_Note.md — 3. Compliant Mechanisms & Structures (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "CSR000009",
+        "entityType": "csr_provision",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Livelihood enhancement and cluster development",
+        "shortName": null,
+        "acronym": null,
+        "slug": "livelihood-enhancement-and-cluster-development",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "mechanism",
+        "statute": "Companies Act 2013",
+        "summary": "Programs combining skill training, market linkage, and non-commercial working-capital grants for artisan, weaver, and micro-enterprise clusters—anchored in Schedule VII clauses (i) and (ii).",
+        "attributes": {
+          "components": [
+            "skill training",
+            "market linkage",
+            "non-commercial working-capital grants"
+          ],
+          "targetClusters": [
+            "artisan",
+            "weaver",
+            "micro-enterprise"
+          ],
+          "scheduleClauses": [
+            "(i)",
+            "(ii)"
+          ]
+        },
+        "appliesToMsme": true,
+        "sourceDocument": "CSR_MSME_Policy_Note.md",
+        "sourceSection": "3. Compliant Mechanisms & Structures",
+        "context": {},
+        "applicableSchemes": [],
+        "relatedInstitutionIds": [],
+        "forms": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Livelihood enhancement and cluster development",
+          "summary": "Programs combining skill training, market linkage, and non-commercial working-capital grants for artisan, weaver, and micro-enterprise clusters—anchored in Schedule VII clauses (i) and (ii).",
+          "guidance": null
+        },
+        "ta": {
+          "name": "வாழ்வாதார மேம்பாடு மற்றும் கொத்து மேம்பாடு",
+          "summary": "கைவினைஞர், நெசவாளர் மற்றும் குறு நிறுவனக் கொத்துகளுக்கான திறன் பயிற்சி, சந்தை இணைப்பு, மற்றும் வணிகம் அல்லாத செயல்பாட்டு மூலதன மானியங்களை இணைக்கும் திட்டங்கள்—அட்டவணை VII பிரிவுகள் (i) மற்றும் (ii) அடிப்படையில்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "cluster",
+            "development",
+            "enhancement",
+            "livelihood"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Programs combining skill training, market linkage, and non-commercial working-capital grants for artisan, weaver, and micro-enterprise clusters—anchored in Schedule VII clauses (i) and (ii).",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000075",
+            "code": "micro",
+            "termType": "enterprise_type",
+            "matchedOn": "micro"
+          },
+          {
+            "termId": "CMN000104",
+            "code": "artisan",
+            "termType": "beneficiary_type",
+            "matchedOn": "artisan"
+          },
+          {
+            "termId": "CMN000189",
+            "code": "training",
+            "termType": "scheme_type",
+            "matchedOn": "training"
+          }
+        ],
+        "relatedEntities": [
+          {
+            "entityId": "CSR000007",
+            "entityType": "csr_provision",
+            "name": "Grants via registered implementing agencies",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000008",
+            "entityType": "csr_provision",
+            "name": "Contributions to approved incubators",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000010",
+            "entityType": "csr_provision",
+            "name": "Blended finance and venture philanthropy via not-for-profits",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000011",
+            "entityType": "csr_provision",
+            "name": "Partnerships with SIDBI, NSIC or state MSME corporations",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000012",
+            "entityType": "csr_provision",
+            "name": "Company-specific CSR Foundation or Trust",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from CSR_MSME_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from CSR_MSME_Policy_Note.md, section: 3. Compliant Mechanisms & Structures. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.applicableSchemes",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.relatedInstitutionIds",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from CSR_MSME_Policy_Note.md — 3. Compliant Mechanisms & Structures (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "CSR000010",
+        "entityType": "csr_provision",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Blended finance and venture philanthropy via not-for-profits",
+        "shortName": null,
+        "acronym": null,
+        "slug": "blended-finance-and-venture-philanthropy-via-not-for-profits",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "mechanism",
+        "statute": "Companies Act 2013",
+        "summary": "Impact-first or recoverable grants routed through eligible Section 8 vehicles, where any recovered amounts are ploughed back into the same CSR project (consistent with MCA's stance that CSR funds may not generate commercial return for the donor company).",
+        "attributes": {
+          "vehicles": [
+            "Section 8 company"
+          ],
+          "recoveryMustBeReinvested": true,
+          "donorCommercialReturnAllowed": false
+        },
+        "appliesToMsme": true,
+        "sourceDocument": "CSR_MSME_Policy_Note.md",
+        "sourceSection": "3. Compliant Mechanisms & Structures",
+        "context": {},
+        "applicableSchemes": [],
+        "relatedInstitutionIds": [],
+        "forms": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Blended finance and venture philanthropy via not-for-profits",
+          "summary": "Impact-first or recoverable grants routed through eligible Section 8 vehicles, where any recovered amounts are ploughed back into the same CSR project (consistent with MCA's stance that CSR funds may not generate commercial return for the donor company).",
+          "guidance": null
+        },
+        "ta": {
+          "name": "இலாப நோக்கற்ற நிறுவனங்கள் வழியாக கலப்பு நிதி மற்றும் நிறுவன தொண்டு முதலீடு",
+          "summary": "தகுதியான பிரிவு 8 நிறுவனங்கள் வழியாக செலுத்தப்படும் தாக்க-முதன்மை அல்லது மீட்கக்கூடிய மானியங்கள், மீட்கப்படும் தொகைகள் அதே CSR திட்டத்திற்குள் மீண்டும் செலுத்தப்படும் (CSR நிதிகள் நன்கொடையாளர் நிறுவனத்திற்கு வணிக வருமானத்தை உருவாக்கக்கூடாது என்ற MCA-வின் நிலைப்பாட்டிற்கு இணங்க).",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "blended",
+            "finance",
+            "philanthropy",
+            "profits",
+            "venture"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Impact-first or recoverable grants routed through eligible Section 8 vehicles, where any recovered amounts are ploughed back into the same CSR project (consistent with MCA's stance that CSR funds may not generate commercial return for the donor company).",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000084",
+            "code": "company",
+            "termType": "enterprise_type",
+            "matchedOn": "company"
+          }
+        ],
+        "relatedEntities": [
+          {
+            "entityId": "CSR000007",
+            "entityType": "csr_provision",
+            "name": "Grants via registered implementing agencies",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000008",
+            "entityType": "csr_provision",
+            "name": "Contributions to approved incubators",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000009",
+            "entityType": "csr_provision",
+            "name": "Livelihood enhancement and cluster development",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000011",
+            "entityType": "csr_provision",
+            "name": "Partnerships with SIDBI, NSIC or state MSME corporations",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000012",
+            "entityType": "csr_provision",
+            "name": "Company-specific CSR Foundation or Trust",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from CSR_MSME_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from CSR_MSME_Policy_Note.md, section: 3. Compliant Mechanisms & Structures. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.applicableSchemes",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.relatedInstitutionIds",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from CSR_MSME_Policy_Note.md — 3. Compliant Mechanisms & Structures (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "CSR000011",
+        "entityType": "csr_provision",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Partnerships with SIDBI, NSIC or state MSME corporations",
+        "shortName": null,
+        "acronym": null,
+        "slug": "partnerships-with-sidbi-nsic-or-state-msme-corporations",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "mechanism",
+        "statute": "Companies Act 2013",
+        "summary": "Co-funded capacity-building, technology-upgradation, and financial-literacy projects, leveraging the public-institution route under Schedule VII.",
+        "attributes": {
+          "partners": [
+            "SIDBI",
+            "NSIC",
+            "state MSME corporations"
+          ],
+          "projectTypes": [
+            "capacity building",
+            "technology upgradation",
+            "financial literacy"
+          ]
+        },
+        "appliesToMsme": true,
+        "sourceDocument": "CSR_MSME_Policy_Note.md",
+        "sourceSection": "3. Compliant Mechanisms & Structures",
+        "context": {},
+        "applicableSchemes": [],
+        "relatedInstitutionIds": [],
+        "forms": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Partnerships with SIDBI, NSIC or state MSME corporations",
+          "summary": "Co-funded capacity-building, technology-upgradation, and financial-literacy projects, leveraging the public-institution route under Schedule VII.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "SIDBI, NSIC அல்லது மாநில MSME கழகங்களுடன் கூட்டாண்மைகள்",
+          "summary": "அட்டவணை VII-ன் கீழ் பொது நிறுவன வழியைப் பயன்படுத்தி இணை-நிதியளிக்கப்படும் திறன் மேம்பாடு, தொழில்நுட்ப மேம்பாடு மற்றும் நிதி அறிவுத் திட்டங்கள்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "corporations",
+            "msme",
+            "nsic",
+            "partnerships",
+            "sidbi",
+            "state",
+            "with"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Co-funded capacity-building, technology-upgradation, and financial-literacy projects, leveraging the public-institution route under Schedule VII.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "CSR000007",
+            "entityType": "csr_provision",
+            "name": "Grants via registered implementing agencies",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000008",
+            "entityType": "csr_provision",
+            "name": "Contributions to approved incubators",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000009",
+            "entityType": "csr_provision",
+            "name": "Livelihood enhancement and cluster development",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000010",
+            "entityType": "csr_provision",
+            "name": "Blended finance and venture philanthropy via not-for-profits",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000012",
+            "entityType": "csr_provision",
+            "name": "Company-specific CSR Foundation or Trust",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from CSR_MSME_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from CSR_MSME_Policy_Note.md, section: 3. Compliant Mechanisms & Structures. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.applicableSchemes",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.relatedInstitutionIds",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from CSR_MSME_Policy_Note.md — 3. Compliant Mechanisms & Structures (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "CSR000012",
+        "entityType": "csr_provision",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Company-specific CSR Foundation or Trust",
+        "shortName": null,
+        "acronym": null,
+        "slug": "company-specific-csr-foundation-or-trust",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "mechanism",
+        "statute": "Companies Act 2013",
+        "summary": "A dedicated Section 8 company or trust (CSR-1 registered) that designs and delivers Schedule VII-compliant programmes for MSMEs—offering governance control while retaining strict non-commercial character.",
+        "attributes": {
+          "vehicles": [
+            "Section 8 company",
+            "trust"
+          ],
+          "requiresCsr1": true
+        },
+        "appliesToMsme": true,
+        "sourceDocument": "CSR_MSME_Policy_Note.md",
+        "sourceSection": "3. Compliant Mechanisms & Structures",
+        "context": {},
+        "applicableSchemes": [],
+        "relatedInstitutionIds": [],
+        "forms": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Company-specific CSR Foundation or Trust",
+          "summary": "A dedicated Section 8 company or trust (CSR-1 registered) that designs and delivers Schedule VII-compliant programmes for MSMEs—offering governance control while retaining strict non-commercial character.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "நிறுவனத்திற்கே உரிய CSR அறக்கட்டளை அல்லது டிரஸ்ட்",
+          "summary": "MSME-களுக்கான அட்டவணை VII-இணக்கமான திட்டங்களை வடிவமைத்து வழங்கும், அர்ப்பணிக்கப்பட்ட பிரிவு 8 நிறுவனம் அல்லது டிரஸ்ட் (CSR-1 பதிவு செய்யப்பட்டது)—நிர்வாகக் கட்டுப்பாட்டை வழங்கும் அதேவேளையில் கண்டிப்பான வணிகமற்ற தன்மையை தக்கவைத்துக்கொள்கிறது.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "company",
+            "foundation",
+            "specific",
+            "trust"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "A dedicated Section 8 company or trust (CSR-1 registered) that designs and delivers Schedule VII-compliant programmes for MSMEs—offering governance control while retaining strict non-commercial character.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [
+          {
+            "termId": "CMN000084",
+            "code": "company",
+            "termType": "enterprise_type",
+            "matchedOn": "company"
+          },
+          {
+            "termId": "CMN000085",
+            "code": "trust",
+            "termType": "enterprise_type",
+            "matchedOn": "trust"
+          },
+          {
+            "termId": "CMN000087",
+            "code": "section8",
+            "termType": "enterprise_type",
+            "matchedOn": "section 8 company"
+          }
+        ],
+        "relatedEntities": [
+          {
+            "entityId": "CSR000007",
+            "entityType": "csr_provision",
+            "name": "Grants via registered implementing agencies",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000008",
+            "entityType": "csr_provision",
+            "name": "Contributions to approved incubators",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000009",
+            "entityType": "csr_provision",
+            "name": "Livelihood enhancement and cluster development",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000010",
+            "entityType": "csr_provision",
+            "name": "Blended finance and venture philanthropy via not-for-profits",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000011",
+            "entityType": "csr_provision",
+            "name": "Partnerships with SIDBI, NSIC or state MSME corporations",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:mechanism",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from CSR_MSME_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from CSR_MSME_Policy_Note.md, section: 3. Compliant Mechanisms & Structures. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.applicableSchemes",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.relatedInstitutionIds",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from CSR_MSME_Policy_Note.md — 3. Compliant Mechanisms & Structures (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "CSR000013",
+        "entityType": "csr_provision",
+        "code": "CSR-1",
+        "legacyCodes": [],
+        "name": "CSR-1 registration of implementing agencies",
+        "shortName": "CSR-1",
+        "acronym": "CSR-1",
+        "slug": "csr-1-registration-of-implementing-agencies",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "compliance",
+        "statute": "Companies Act 2013",
+        "summary": "CSR Committee recommendation and Board approval of the Annual Action Plan; verify CSR-1 status of all implementing agencies.",
+        "attributes": {
+          "form": "CSR-1",
+          "registrar": "MCA",
+          "approvals": [
+            "CSR Committee recommendation",
+            "Board approval of Annual Action Plan"
+          ]
+        },
+        "appliesToMsme": true,
+        "sourceDocument": "CSR_MSME_Policy_Note.md",
+        "sourceSection": "4. Implementation Roadmap & Best Practices",
+        "context": {},
+        "applicableSchemes": [],
+        "relatedInstitutionIds": [],
+        "forms": [
+          "CSR-1"
+        ],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "CSR-1 registration of implementing agencies",
+          "summary": "CSR Committee recommendation and Board approval of the Annual Action Plan; verify CSR-1 status of all implementing agencies.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "செயல்படுத்தும் முகமைகளின் CSR-1 பதிவு",
+          "summary": "ஆண்டு செயல் திட்டத்திற்கான CSR குழுவின் பரிந்துரை மற்றும் இயக்குநர் குழுவின் ஒப்புதல்; அனைத்து செயல்படுத்தும் முகமைகளின் CSR-1 நிலையை சரிபார்க்கவும்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "agencies",
+            "implementing",
+            "registration"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "CSR-1"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "CSR Committee recommendation and Board approval of the Annual Action Plan; verify CSR-1 status of all implementing agencies.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "CSR000014",
+            "entityType": "csr_provision",
+            "name": "Third-party impact assessment",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:compliance",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000015",
+            "entityType": "csr_provision",
+            "name": "Form CSR-2 reporting and unspent funds transfer",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:compliance",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000016",
+            "entityType": "csr_provision",
+            "name": "Monitoring and audit trail",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:compliance",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from CSR_MSME_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from CSR_MSME_Policy_Note.md, section: 4. Implementation Roadmap & Best Practices. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.applicableSchemes",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.relatedInstitutionIds",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from CSR_MSME_Policy_Note.md — 4. Implementation Roadmap & Best Practices (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "CSR000014",
+        "entityType": "csr_provision",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Third-party impact assessment",
+        "shortName": null,
+        "acronym": null,
+        "slug": "third-party-impact-assessment",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "compliance",
+        "statute": "Companies Act 2013",
+        "summary": "Mandatory third-party impact assessment for projects ≥ ₹1 crore (per CSR Rules); define MSME-level KPIs—jobs, incomes, formalisation.",
+        "attributes": {
+          "thresholdText": "projects ≥ ₹1 crore",
+          "thresholdInr": 10000000,
+          "mandatory": true,
+          "kpis": [
+            "jobs",
+            "incomes",
+            "formalisation"
+          ]
+        },
+        "appliesToMsme": true,
+        "sourceDocument": "CSR_MSME_Policy_Note.md",
+        "sourceSection": "4. Implementation Roadmap & Best Practices",
+        "context": {},
+        "applicableSchemes": [],
+        "relatedInstitutionIds": [],
+        "forms": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Third-party impact assessment",
+          "summary": "Mandatory third-party impact assessment for projects ≥ ₹1 crore (per CSR Rules); define MSME-level KPIs—jobs, incomes, formalisation.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "மூன்றாம் தரப்பு தாக்க மதிப்பீடு",
+          "summary": "₹1 crore-க்கும் அதிகமான திட்டங்களுக்கு கட்டாய மூன்றாம் தரப்பு தாக்க மதிப்பீடு (CSR விதிகளின்படி); MSME-அளவிலான KPI-களை வரையறுக்கவும்—வேலைவாய்ப்புகள், வருமானங்கள், முறைப்படுத்தல்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "assessment",
+            "impact",
+            "party",
+            "third"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Mandatory third-party impact assessment for projects ≥ ₹1 crore (per CSR Rules); define MSME-level KPIs—jobs, incomes, formalisation.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "CSR000013",
+            "entityType": "csr_provision",
+            "name": "CSR-1 registration of implementing agencies",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:compliance",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000015",
+            "entityType": "csr_provision",
+            "name": "Form CSR-2 reporting and unspent funds transfer",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:compliance",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000016",
+            "entityType": "csr_provision",
+            "name": "Monitoring and audit trail",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:compliance",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from CSR_MSME_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from CSR_MSME_Policy_Note.md, section: 4. Implementation Roadmap & Best Practices. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.applicableSchemes",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.relatedInstitutionIds",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from CSR_MSME_Policy_Note.md — 4. Implementation Roadmap & Best Practices (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "CSR000015",
+        "entityType": "csr_provision",
+        "code": "CSR-2",
+        "legacyCodes": [],
+        "name": "Form CSR-2 reporting and unspent funds transfer",
+        "shortName": "CSR-2",
+        "acronym": "CSR-2",
+        "slug": "form-csr-2-reporting-and-unspent-funds-transfer",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "compliance",
+        "statute": "Companies Act 2013",
+        "summary": "Disclose in Form CSR-2 with the Registrar and the Board's Report; transfer unspent earmarked funds to the prescribed Unspent CSR Account within 30 days.",
+        "attributes": {
+          "form": "CSR-2",
+          "unspentTransferDays": 30,
+          "unspentAccount": "Unspent CSR Account"
+        },
+        "appliesToMsme": true,
+        "sourceDocument": "CSR_MSME_Policy_Note.md",
+        "sourceSection": "4. Implementation Roadmap & Best Practices",
+        "context": {},
+        "applicableSchemes": [],
+        "relatedInstitutionIds": [],
+        "forms": [
+          "CSR-2"
+        ],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Form CSR-2 reporting and unspent funds transfer",
+          "summary": "Disclose in Form CSR-2 with the Registrar and the Board's Report; transfer unspent earmarked funds to the prescribed Unspent CSR Account within 30 days.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "படிவம் CSR-2 அறிக்கையிடல் மற்றும் செலவிடப்படாத நிதி பரிமாற்றம்",
+          "summary": "பதிவாளரிடமும் இயக்குநர் குழு அறிக்கையிலும் படிவம் CSR-2-ல் வெளிப்படுத்தவும்; செலவிடப்படாத ஒதுக்கப்பட்ட நிதிகளை நிர்ணயிக்கப்பட்ட செலவிடப்படாத CSR கணக்கிற்கு 30 நாட்களுக்குள் மாற்றவும்.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "form",
+            "funds",
+            "reporting",
+            "transfer",
+            "unspent"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [
+            "CSR-2"
+          ],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Disclose in Form CSR-2 with the Registrar and the Board's Report; transfer unspent earmarked funds to the prescribed Unspent CSR Account within 30 days.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "CSR000013",
+            "entityType": "csr_provision",
+            "name": "CSR-1 registration of implementing agencies",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:compliance",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000014",
+            "entityType": "csr_provision",
+            "name": "Third-party impact assessment",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:compliance",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000016",
+            "entityType": "csr_provision",
+            "name": "Monitoring and audit trail",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:compliance",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from CSR_MSME_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from CSR_MSME_Policy_Note.md, section: 4. Implementation Roadmap & Best Practices. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.applicableSchemes",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.relatedInstitutionIds",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from CSR_MSME_Policy_Note.md — 4. Implementation Roadmap & Best Practices (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    },
+    {
+      "identity": {
+        "id": "CSR000016",
+        "entityType": "csr_provision",
+        "code": null,
+        "legacyCodes": [],
+        "name": "Monitoring and audit trail",
+        "shortName": null,
+        "acronym": null,
+        "slug": "monitoring-and-audit-trail",
+        "language": "en",
+        "status": "active"
+      },
+      "content": {
+        "provisionKind": "compliance",
+        "statute": "Companies Act 2013",
+        "summary": "Quarterly review by the CSR Committee; independent audit trail for all disbursements.",
+        "attributes": {
+          "reviewFrequency": "quarterly",
+          "auditTrailRequired": true
+        },
+        "appliesToMsme": true,
+        "sourceDocument": "CSR_MSME_Policy_Note.md",
+        "sourceSection": "4. Implementation Roadmap & Best Practices",
+        "context": {},
+        "applicableSchemes": [],
+        "relatedInstitutionIds": [],
+        "forms": [],
+        "guidance": null,
+        "faqs": []
+      },
+      "relationships": {
+        "references": []
+      },
+      "localization": {
+        "en": {
+          "name": "Monitoring and audit trail",
+          "summary": "Quarterly review by the CSR Committee; independent audit trail for all disbursements.",
+          "guidance": null
+        },
+        "ta": {
+          "name": "கண்காணிப்பு மற்றும் தணிக்கை பாதை",
+          "summary": "CSR குழுவால் காலாண்டு மறுஆய்வு; அனைத்து செலுத்துதல்களுக்கும் சுயாதீன தணிக்கை பாதை.",
+          "guidance": null
+        },
+        "hi": {
+          "name": null,
+          "summary": null,
+          "guidance": null
+        }
+      },
+      "search": {
+        "keywords": {
+          "en": [
+            "audit",
+            "monitoring",
+            "trail"
+          ],
+          "ta": []
+        },
+        "aliases": {
+          "en": [],
+          "ta": []
+        },
+        "synonyms": [],
+        "crossReferences": [],
+        "searchRank": null,
+        "boostTerms": []
+      },
+      "ai": {
+        "summary": "Quarterly review by the CSR Committee; independent audit trail for all disbursements.",
+        "sectionSummaries": {},
+        "generationMode": "extractive",
+        "confidence": null,
+        "generatedBy": "mss-ai-derive-1.0.0",
+        "generatedAt": "2026-08-04T00:00:00Z",
+        "sourceFieldsUsed": [
+          "content.summary"
+        ],
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "isApproved": false,
+        "semanticTags": [],
+        "relatedEntities": [
+          {
+            "entityId": "CSR000013",
+            "entityType": "csr_provision",
+            "name": "CSR-1 registration of implementing agencies",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:compliance",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000014",
+            "entityType": "csr_provision",
+            "name": "Third-party impact assessment",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:compliance",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          },
+          {
+            "entityId": "CSR000015",
+            "entityType": "csr_provision",
+            "name": "Form CSR-2 reporting and unspent funds transfer",
+            "similarity": 1.0,
+            "sharedFeatures": [
+              "provisionKind:compliance",
+              "src:CSR_MSME_Policy_Note.md"
+            ],
+            "sharedFeatureCount": 2,
+            "basis": "explicit shared attributes (Jaccard); no text inference"
+          }
+        ],
+        "recommendations": [],
+        "recommendationsNote": "Not generated. A recommendation asserts that a specific user qualifies; the catalog holds no user context. Clients derive these from relatedEntities plus their own user profile.",
+        "similarityMethod": "explicit-shared-attribute Jaccard",
+        "reviewRequired": true
+      },
+      "verification": {
+        "status": "partially_verified",
+        "statusText": "Extracted verbatim from CSR_MSME_Policy_Note.md",
+        "isVerified": false,
+        "verifiedAgainst": [],
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "confidence": "medium",
+        "researchStatus": null,
+        "notes": "Content taken from CSR_MSME_Policy_Note.md, section: 4. Implementation Roadmap & Best Practices. The note is a policy reference, not the governing instrument; statute text should be confirmed against the primary source.",
+        "missingFields": [
+          {
+            "field": "content.applicableSchemes",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.relatedInstitutionIds",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.guidance",
+            "reason": "Not stated in the source policy note"
+          },
+          {
+            "field": "content.faqs",
+            "reason": "Not stated in the source policy note"
+          }
+        ],
+        "disputedFields": [],
+        "reviewDueOn": null
+      },
+      "analytics": {
+        "popularity": null,
+        "viewCount": null,
+        "saveCount": null,
+        "actionCount": null,
+        "lastAggregatedAt": null
+      },
+      "metadata": {
+        "createdAt": "2026-08-04T00:00:00Z",
+        "updatedAt": "2026-08-15T00:00:00Z",
+        "catalogVersion": "1.33.0-alpha",
+        "schemaVersion": "1.0.0",
+        "recordStatus": "published",
+        "revision": 3
+      },
+      "provenance": {
+        "defaultSourceTier": 3,
+        "primarySourceId": null,
+        "contributingSourceIds": [],
+        "extractionMethod": "assisted",
+        "extractedAt": "2026-08-04T00:00:00Z",
+        "pipelineVersion": "csr-treds-1.0.0",
+        "fieldSources": [],
+        "translations": {
+          "ta": {
+            "method": "llm_contextual_translation",
+            "engine": "Claude",
+            "status": "machine",
+            "dictionaryVersion": "1.0.0",
+            "generatedAt": "2026-08-15T00:00:00Z",
+            "fieldMethods": {
+              "name": "llm_contextual_translation",
+              "summary": "llm_contextual_translation"
+            },
+            "fieldsTranslated": 2,
+            "fieldsContextual": 2,
+            "fieldsPending": 0,
+            "isApproved": false,
+            "reviewRequired": true,
+            "note": "Machine-generated Tamil. Not an official translation; requires review before publication."
+          }
+        },
+        "transformationNotes": [
+          "Extracted from CSR_MSME_Policy_Note.md — 4. Implementation Roadmap & Best Practices (rule P1)",
+          "Figures and statute references copied verbatim (rule P2)",
+          "English only; localization.ta intentionally null (roadmap Phase 5)"
+        ]
+      }
+    }
+  ]
+}

@@ -67,6 +67,7 @@ import os
 import shutil
 import subprocess
 import sys
+import time
 import urllib.request
 import uuid
 from pathlib import Path
@@ -74,7 +75,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 BACKEND_DIR = REPO_ROOT / "backend"
 FRONTEND_ASSET_DIR = REPO_ROOT / "frontend" / "assets" / "catalog"
-DEFAULT_SOURCE = Path(r"C:\Users\roger\OneDrive\Documents\Plan\catalog")
+DEFAULT_SOURCE = REPO_ROOT / "backend" / "catalog" / "source"
 SCRATCH_DIR = BACKEND_DIR / ".mss_publish_scratch"
 BUCKET = "catalogs"
 
@@ -215,16 +216,82 @@ class Env:
         )
         return parse_json_object(out)["rows"]
 
+    def storage_delete_prefix(self, prefix: str) -> None:
+        """Deletes any existing objects under prefix in Storage before upload to avoid 409 KeyAlreadyExists."""
+        if self.target == "local":
+            return
+        secret_key = os.environ.get("SUPABASE_SECRET_KEY")
+        if not secret_key:
+            return
+        try:
+            list_req = urllib.request.Request(
+                f"{self.url}/storage/v1/object/list/{BUCKET}",
+                data=json.dumps({"prefix": prefix, "limit": 100}).encode("utf-8"),
+                headers={
+                    "apikey": secret_key,
+                    "Authorization": f"Bearer {secret_key}",
+                    "Content-Type": "application/json",
+                },
+                method="POST",
+            )
+            with urllib.request.urlopen(list_req, timeout=15) as resp:
+                items = json.loads(resp.read().decode("utf-8"))
+            if not items:
+                return
+            names = [f"{prefix.rstrip('/')}/{item['name']}" for item in items]
+            del_req = urllib.request.Request(
+                f"{self.url}/storage/v1/object/{BUCKET}",
+                data=json.dumps({"prefixes": names}).encode("utf-8"),
+                headers={
+                    "apikey": secret_key,
+                    "Authorization": f"Bearer {secret_key}",
+                    "Content-Type": "application/json",
+                },
+                method="DELETE",
+            )
+            with urllib.request.urlopen(del_req, timeout=15) as resp:
+                resp.read()
+            print(f"  cleaned {len(names)} existing object(s) under {prefix}/")
+        except Exception as e:
+            print(f"    (warning: storage_delete_prefix failed: {e})", file=sys.stderr)
+
     def storage_cp(self, local_rel_path: str, remote_object_path: str) -> str:
-        return run(
-            [
-                "npx", "supabase", "storage", "cp",
-                local_rel_path,
-                f"ss:///{BUCKET}/{remote_object_path}",
-                "--experimental", self.cli_flag,
-            ],
-            cwd=BACKEND_DIR,
-        )
+        last_exc = None
+        for attempt in range(1, 4):
+            try:
+                return run(
+                    [
+                        "npx", "supabase", "storage", "cp",
+                        local_rel_path,
+                        f"ss:///{BUCKET}/{remote_object_path}",
+                        "--experimental", self.cli_flag,
+                    ],
+                    cwd=BACKEND_DIR,
+                )
+            except Exception as e:
+                last_exc = e
+                if "KeyAlreadyExists" in str(e):
+                    secret_key = os.environ.get("SUPABASE_SECRET_KEY")
+                    if secret_key and self.target == "linked":
+                        try:
+                            del_req = urllib.request.Request(
+                                f"{self.url}/storage/v1/object/{BUCKET}",
+                                data=json.dumps({"prefixes": [remote_object_path]}).encode("utf-8"),
+                                headers={
+                                    "apikey": secret_key,
+                                    "Authorization": f"Bearer {secret_key}",
+                                    "Content-Type": "application/json",
+                                },
+                                method="DELETE",
+                            )
+                            with urllib.request.urlopen(del_req, timeout=15) as resp:
+                                resp.read()
+                        except Exception as del_err:
+                            print(f"    (warning: failed to delete existing {remote_object_path}: {del_err})", file=sys.stderr)
+                if attempt < 3:
+                    print(f"    (storage_cp retry {attempt}/3 after error: {e})", file=sys.stderr)
+                    time.sleep(3)
+        raise last_exc
 
     def rpc(self, function_name: str, payload: dict) -> list | None:
         req = urllib.request.Request(
@@ -299,14 +366,14 @@ def step_apply_catalog_import(env: Env, source: Path) -> None:
 
 
 def step_build_bundle(source: Path, update_shipped_asset: bool) -> dict:
-    print("\n== Step 3/6: building release bundle ==")
+    print("\n== Step 3/6: building release bundle + language packs ==")
     build_dir = SCRATCH_DIR / "bundle"
     if build_dir.exists():
         shutil.rmtree(build_dir)
     run(
         [
             sys.executable,
-            str(REPO_ROOT / "tools" / "generate_catalog_bundle.py"),
+            str(REPO_ROOT / "tools" / "build_catalog_release.py"),
             "--source",
             str(source),
             "--out-dir",
@@ -316,14 +383,14 @@ def step_build_bundle(source: Path, update_shipped_asset: bool) -> dict:
     release = json.loads((build_dir / "release.json").read_text(encoding="utf-8"))
 
     if update_shipped_asset:
-        # Byte-identical copy (generate_catalog_bundle.py gzips with mtime=0,
-        # so this is deterministic) into the shipped Flutter asset, so a
-        # fresh install also carries reasonably current data pre-sync. Only
-        # done for a real publish -- a --dry-run must not touch tracked
-        # repo files.
+        # Byte-identical copy into the shipped Flutter assets
         FRONTEND_ASSET_DIR.mkdir(parents=True, exist_ok=True)
         shutil.copy2(build_dir / "catalog_bundle.json.gz", FRONTEND_ASSET_DIR / "catalog_bundle.json.gz")
         shutil.copy2(build_dir / "release.json", FRONTEND_ASSET_DIR / "release.json")
+        for lang in ("hi", "ta"):
+            pack_gz = build_dir / f"catalog_pack_{lang}.json.gz"
+            if pack_gz.exists():
+                shutil.copy2(pack_gz, FRONTEND_ASSET_DIR / f"catalog_pack_{lang}.json.gz")
 
     release["_build_dir"] = str(build_dir)
     return release
@@ -336,6 +403,7 @@ def step_upload_release_artifacts(env: Env, source: Path, release: dict, release
     if upload_root.exists():
         shutil.rmtree(upload_root)
     upload_root.mkdir(parents=True)
+    env.storage_delete_prefix(f"releases/{release_version}")
 
     uploaded_files = []
 
@@ -365,20 +433,52 @@ def step_upload_release_artifacts(env: Env, source: Path, release: dict, release
                 "checksum": hashlib.sha256(raw_bytes).hexdigest(),
                 "byte_size": len(raw_bytes),
                 "storage_path": f"releases/{release_version}/{file_name}",
+                "lang": None,
             }
         )
-    print(f"  uploaded {len(uploaded_files)} individual source files")
+    print(f"  uploaded {len(RELEASE_FILES)} individual source files")
+
+    # Upload the 2 compressed language packs with lang set
+    for lang in ("hi", "ta"):
+        pack_name = f"catalog_pack_{lang}.json.gz"
+        pack_src = build_dir / pack_name
+        if pack_src.exists():
+            raw_bytes = pack_src.read_bytes()
+            dest = upload_root / pack_name
+            shutil.copy2(pack_src, dest)
+            env.storage_cp(
+                str(dest.relative_to(BACKEND_DIR)).replace("\\", "/"),
+                f"releases/{release_version}/{pack_name}",
+            )
+            uploaded_files.append(
+                {
+                    "file_name": pack_name,
+                    "checksum": hashlib.sha256(raw_bytes).hexdigest(),
+                    "byte_size": len(raw_bytes),
+                    "storage_path": f"releases/{release_version}/{pack_name}",
+                    "lang": lang,
+                }
+            )
+            print(f"  uploaded {pack_name} ({len(raw_bytes):,} bytes, lang={lang})")
+
     return uploaded_files
 
 
-def step_publish_release_row(env: Env, release: dict, release_version: str, uploaded_files: list[dict]) -> str:
-    print("\n== Step 5/6: flipping current-release pointer + reconciling catalog_files ==")
+def step_publish_release_row(env: Env, release: dict, release_version: str, uploaded_files: list[dict], set_current: bool = False) -> str:
+    print(f"\n== Step 5/6: recording release row (set_current={set_current}) + reconciling catalog_files ==")
     release_id = str(uuid.uuid4())
     record_counts_json = json.dumps(release["recordCounts"]).replace("'", "''")
 
-    lines = [
-        "update admin.catalog_releases set is_current = false where is_current = true;",
-        "",
+    lines = []
+    if set_current:
+        lines.append("update admin.catalog_releases set is_current = false where is_current = true;")
+        status = "published"
+        is_cur_val = "true"
+    else:
+        status = "candidate"
+        is_cur_val = "false"
+
+    lines.extend([
         "insert into admin.catalog_releases (",
         "  id, release_version, package_sha256, package_byte_size, schema_version,",
         "  record_counts, is_current, status, published_at, minimum_app_version, notes",
@@ -389,46 +489,50 @@ def step_publish_release_row(env: Env, release: dict, release_version: str, uplo
         f"  {release['bundleBytes']},",
         f"  {APP_SCHEMA_VERSION},",
         f"  '{record_counts_json}'::jsonb,",
-        "  true,",
-        "  'published',",
+        f"  {is_cur_val},",
+        f"  '{status}',",
         "  now(),",
         "  '1.0.0',",
         "  'Published via tools/publish_catalog_release.py'",
         ");",
         "",
-    ]
+    ])
     for f in uploaded_files:
+        lang_val = f"'{f['lang']}'" if f.get("lang") else "null"
         lines.append(
-            "insert into admin.catalog_files (release_id, file_name, checksum, byte_size, storage_path) "
-            f"values ('{release_id}', '{f['file_name']}', '{f['checksum']}', {f['byte_size']}, '{f['storage_path']}');"
+            "insert into admin.catalog_files (release_id, file_name, checksum, byte_size, storage_path, lang) "
+            f"values ('{release_id}', '{f['file_name']}', '{f['checksum']}', {f['byte_size']}, '{f['storage_path']}', {lang_val});"
         )
     lines.append("")
     lines.append(
         f"insert into admin.catalog_release_history (release_id, action) "
-        f"values ('{release_id}', 'published');"
+        f"values ('{release_id}', '{status}');"
     )
 
     sql_path = SCRATCH_DIR / "publish_release_row.sql"
     sql_path.write_text("\n".join(lines), encoding="utf-8")
     env.db_query(sql_path)
-    print(f"  {release_version} is now the current release (release_id={release_id}).")
+    print(f"  {release_version} recorded in admin.catalog_releases (release_id={release_id}, status={status}, is_current={set_current}).")
     return release_id
 
 
-def step_verify(env: Env, release: dict, release_version: str, release_id: str, expected_file_count: int) -> None:
-    print("\n== Step 6/6: verifying live state ==")
-    live = mss_current_release(env)
-    if live is None:
-        raise RuntimeError("mss_current_release() returned nothing after publish.")
-    if live["release_version"] != release_version:
-        raise RuntimeError(
-            f"Live release_version is {live['release_version']!r}, expected {release_version!r}."
-        )
-    if live["package_sha256"] != release["bundleSha256"]:
-        raise RuntimeError("Live package_sha256 does not match the built bundle.")
-    if live["package_byte_size"] != release["bundleBytes"]:
-        raise RuntimeError("Live package_byte_size does not match the built bundle.")
-    print("  mss_current_release() matches the published bundle exactly.")
+def step_verify(env: Env, release: dict, release_version: str, release_id: str, expected_file_count: int, expect_current: bool = False) -> None:
+    print("\n== Step 6/6: verifying state ==")
+    if expect_current:
+        live = mss_current_release(env)
+        if live is None:
+            raise RuntimeError("mss_current_release() returned nothing after publish.")
+        if live["release_version"] != release_version:
+            raise RuntimeError(
+                f"Live release_version is {live['release_version']!r}, expected {release_version!r}."
+            )
+        if live["package_sha256"] != release["bundleSha256"]:
+            raise RuntimeError("Live package_sha256 does not match the built bundle.")
+        if live["package_byte_size"] != release["bundleBytes"]:
+            raise RuntimeError("Live package_byte_size does not match the built bundle.")
+        print("  mss_current_release() matches the published bundle exactly.")
+    else:
+        print(f"  candidate release {release_version} uploaded without flipping is_current.")
     print(f"    release_version={live['release_version']}")
     print(f"    package_sha256={live['package_sha256']}")
     print(f"    package_byte_size={live['package_byte_size']}")
@@ -440,6 +544,11 @@ def step_verify(env: Env, release: dict, release_version: str, release_id: str, 
             f"admin.catalog_files has {n} rows for release_id={release_id}, expected {expected_file_count}."
         )
     print(f"  admin.catalog_files reconciled: {n}/{expected_file_count} rows.")
+
+    pack_rows = env.query_json(f"select file_name, lang, byte_size, checksum from admin.catalog_files where release_id = '{release_id}' and lang is not null order by lang")
+    print(f"  admin.catalog_files packs with lang set ({len(pack_rows)} rows):")
+    for pr in pack_rows:
+        print(f"    file_name={pr['file_name']}, lang={pr['lang']}, checksum={pr['checksum']}")
 
     orphans = env.query_json(
         "select cf.id from admin.catalog_files cf "
@@ -488,6 +597,24 @@ insert into admin.catalog_release_history (release_id, action)
     shutil.rmtree(SCRATCH_DIR, ignore_errors=True)
 
 
+def do_flip_current(env: Env, target_version: str) -> None:
+    print(f"Checking D17 Gate report before flipping {target_version} to current...")
+    gate_report_file = REPO_ROOT / "docs" / "reports" / f"gate_{target_version}.json"
+    if not gate_report_file.exists():
+        raise SystemExit(
+            f"D17 GUARD: No gate report found at {gate_report_file}. "
+            f"Run `python tools/release_gate.py` to generate PASS report before flipping to current."
+        )
+    report = json.loads(gate_report_file.read_text(encoding="utf-8"))
+    if report.get("overallStatus") != "PASS":
+        raise SystemExit(
+            f"D17 GUARD: Gate report for {target_version} has status {report.get('overallStatus')!r}. "
+            "The release tool refuses to flip is_current unless the gate report is PASS."
+        )
+    print(f"  Gate report PASS verified ({gate_report_file.name}).")
+    do_rollback(env, target_version)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--target", required=True, choices=["local", "linked"], help="Which Supabase to publish to: 'local' (supabase start stack) or 'linked' (real production).")
@@ -495,6 +622,8 @@ def main() -> None:
     parser.add_argument("--dry-run", action="store_true", help="Build locally only; no Supabase calls.")
     parser.add_argument("--yes", action="store_true", help="Skip the confirmation prompt.")
     parser.add_argument("--rollback-to", metavar="VERSION", help="Flip the current-release pointer back to an already-published version, without touching catalog.* or Storage.")
+    parser.add_argument("--flip-current", metavar="VERSION", help="Flip is_current to specified candidate version after gate PASS verification.")
+    parser.add_argument("--set-current", action="store_true", help="Flip is_current=true during publish (requires PASS gate report). Default publishes as non-current candidate.")
     args = parser.parse_args()
 
     env = Env(args.target)
@@ -502,6 +631,10 @@ def main() -> None:
 
     if args.rollback_to:
         do_rollback(env, args.rollback_to)
+        return
+
+    if args.flip_current:
+        do_flip_current(env, args.flip_current)
         return
 
     source: Path = args.source
@@ -512,15 +645,19 @@ def main() -> None:
     print(f"Source: {source}")
     print(f"release_version (from manifest.json catalogRelease): {release_version}")
 
+    # D16 immutability guard: refuse existing release version
+    existing_rows = env.query_json(f"select id, release_version, status, is_current from admin.catalog_releases where release_version = '{release_version}'")
+    if existing_rows:
+        raise SystemExit(
+            f"D16 GUARD: release_version {release_version!r} already exists in admin.catalog_releases "
+            f"(status={existing_rows[0]['status']}, is_current={existing_rows[0]['is_current']}). "
+            "A published release version is immutable. A failed publish or new change must use a new release version."
+        )
+
     print("\n== Step 1/6: checking current live release ==")
     live = mss_current_release(env)
     current_version = live["release_version"] if live else None
     print(f"  currently live: {current_version}")
-    if current_version == release_version:
-        raise SystemExit(
-            f"release_version {release_version!r} is already live. Bump "
-            f"catalogRelease in {source / 'manifest.json'} before publishing."
-        )
 
     if args.dry_run:
         SCRATCH_DIR.mkdir(parents=True, exist_ok=True)
@@ -542,16 +679,26 @@ def main() -> None:
             print("Aborted.")
             return
 
+    if args.set_current:
+        gate_report_file = REPO_ROOT / "docs" / "reports" / f"gate_{release_version}.json"
+        if not gate_report_file.exists():
+            raise SystemExit(f"D17 GUARD: Gate report {gate_report_file.name} missing. Run release_gate.py first.")
+        report = json.loads(gate_report_file.read_text(encoding="utf-8"))
+        if report.get("overallStatus") != "PASS":
+            raise SystemExit(f"D17 GUARD: Gate report {gate_report_file.name} has status {report.get('overallStatus')!r}, must be PASS.")
+
     SCRATCH_DIR.mkdir(parents=True, exist_ok=True)
     try:
         step_apply_catalog_import(env, source)
         release = step_build_bundle(source, update_shipped_asset=(args.target == "linked"))
         uploaded_files = step_upload_release_artifacts(env, source, release, release_version)
-        release_id = step_publish_release_row(env, release, release_version, uploaded_files)
-        step_verify(env, release, release_version, release_id, len(RELEASE_FILES))
-        print(f"\nPublished {release_version} to {args.target}.")
-        if args.target == "linked":
+        release_id = step_publish_release_row(env, release, release_version, uploaded_files, set_current=args.set_current)
+        step_verify(env, release, release_version, release_id, len(uploaded_files), expect_current=args.set_current)
+        print(f"\nPublished {release_version} to {args.target} (is_current={args.set_current}).")
+        if args.target == "linked" and args.set_current:
             print("Already-installed apps will pick it up on their next open/resume.")
+        elif args.target == "linked":
+            print(f"Candidate {release_version} is staged as non-current. Run release gate then `--flip-current {release_version}` to activate.")
     finally:
         shutil.rmtree(SCRATCH_DIR, ignore_errors=True)
 

@@ -1,3 +1,4 @@
+import '../../services/catalog/centralized_translator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/l10n.dart';
@@ -303,16 +304,14 @@ class LegalDocumentModal extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        title,
+                      Text(CentralizedTranslator.instance.localize(title),
                         style: GoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF0F172A),
                         ),
                       ),
-                      Text(
-                        subtitle,
+                      Text(CentralizedTranslator.instance.localize(subtitle),
                         style: GoogleFonts.inter(
                           fontSize: 12,
                           color: const Color(0xFF64748B),
@@ -350,8 +349,7 @@ class LegalDocumentModal extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Effective Date: $effectiveDate',
+                        Text(CentralizedTranslator.instance.localize('Effective Date: $effectiveDate'),
                           style: GoogleFonts.inter(
                             fontSize: 13,
                             fontWeight: FontWeight.w700,
@@ -359,8 +357,7 @@ class LegalDocumentModal extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: AppSpacing.xs),
-                        Text(
-                          acknowledgmentText,
+                        Text(CentralizedTranslator.instance.localize(acknowledgmentText),
                           style: GoogleFonts.inter(
                             fontSize: 12.5,
                             color: const Color(0xFF475569),
@@ -375,8 +372,7 @@ class LegalDocumentModal extends StatelessWidget {
 
                   // Intro Text
                   if (introText.isNotEmpty) ...[
-                    Text(
-                      introText,
+                    Text(CentralizedTranslator.instance.localize(introText),
                       style: GoogleFonts.inter(
                         fontSize: 13,
                         color: const Color(0xFF334155),
@@ -401,8 +397,7 @@ class LegalDocumentModal extends StatelessWidget {
                               shape: BoxShape.circle,
                             ),
                             alignment: Alignment.center,
-                            child: Text(
-                              '${section.number}',
+                            child: Text('${section.number}',
                               style: const TextStyle(
                                 color: Color(0xFF1D4ED8),
                                 fontWeight: FontWeight.bold,
@@ -415,8 +410,7 @@ class LegalDocumentModal extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  section.title,
+                                Text(CentralizedTranslator.instance.localize(section.title),
                                   style: GoogleFonts.poppins(
                                     fontSize: 14.5,
                                     fontWeight: FontWeight.bold,
@@ -424,8 +418,7 @@ class LegalDocumentModal extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(height: AppSpacing.xs),
-                                Text(
-                                  section.body,
+                                Text(CentralizedTranslator.instance.localize(section.body),
                                   style: GoogleFonts.inter(
                                     fontSize: 13,
                                     color: const Color(0xFF475569),

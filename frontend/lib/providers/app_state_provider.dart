@@ -10,6 +10,8 @@ import '../services/account/google_identity.dart';
 import '../services/catalog/scheme_repository.dart';
 import '../services/catalog/scheme_catalog_sync_service.dart';
 import '../services/account/session_cache_service.dart';
+import '../services/catalog/centralized_translator.dart';
+import '../services/catalog/language_pack_manager.dart';
 import '../screens/splash_screen.dart';
 import '../widgets/common/app_toast.dart';
 import 'app_state_seed_data.dart';
@@ -78,7 +80,14 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   bool _isLoggedIn = false;
   bool _isLoggingOut = false;
   String _mobileNumber = '';
-  String _selectedLanguage = 'en'; // 'en', 'ta'
+  String _selectedLanguageValue = 'en'; // 'en', 'ta', 'hi'
+  String get _selectedLanguage => _selectedLanguageValue;
+  // Every language change also tells CentralizedTranslator which language the
+  // static UI text (localize()/localizeTag()) should be shown in.
+  set _selectedLanguage(String value) {
+    _selectedLanguageValue = value;
+    CentralizedTranslator.instance.activeLanguage = value;
+  }
   // Ignores a server language value that contradicts a just-made explicit
   // changeLanguage() choice for a short window (a realtime echo or a
   // not-yet-updated profile row can still carry the OLD language briefly).
@@ -460,6 +469,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     try {
       _selectedLanguage =
           await SessionCacheService.instance.getLanguage() ?? 'en';
+      if (_selectedLanguage != 'en') {
+        unawaited(LanguagePackManager.instance.loadPack(_selectedLanguage));
+      }
       await _tabs.hydrate();
 
       final cachedProfile = await SessionCacheService.instance.loadProfile();
@@ -564,6 +576,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _selectedLanguage = lang;
     _languageReconciler.markPending(lang);
     _profile = _profile.copyWith(language: lang, updatedAt: DateTime.now());
+    if (lang != 'en') {
+      await LanguagePackManager.instance.loadPack(lang);
+    }
     await loadSchemes(forceRefresh: true);
     notifyListeners();
     await SessionCacheService.instance.saveLanguage(lang);
@@ -765,7 +780,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           if (context.mounted) {
             AppToast.showWarning(
               context,
-              'Account deletion needs an internet connection. Nothing was changed.',
+              CentralizedTranslator.instance.localize('Account deletion needs an internet connection. Nothing was changed.'),
             );
           }
           return;

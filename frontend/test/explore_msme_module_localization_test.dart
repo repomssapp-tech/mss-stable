@@ -57,7 +57,12 @@ void main() {
         reason: '$contextName translated to empty string',
       );
 
-      final tokens = translated.split(RegExp(r'[^a-zA-Z0-9]+'));
+      // Domain names (e.g. dgft.gov.in) legitimately stay Latin.
+      final withoutUrls = translated.replaceAll(
+        RegExp(r'\S+\.(gov|org|in|com)\S*'),
+        ' ',
+      );
+      final tokens = withoutUrls.split(RegExp(r'[^a-zA-Z0-9]+'));
       final invalidEnglishWords = tokens.where((token) {
         if (token.length < 3) return false;
         return !protectedTerms.contains(token.toUpperCase());

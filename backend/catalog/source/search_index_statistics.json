@@ -1,0 +1,83 @@
+{
+  "generatedAt": "2026-10-04T19:30:33Z",
+  "catalog": "search_index.json",
+  "indexedEntities": 1061,
+  "catalogsIndexed": 10,
+  "perCatalog": {
+    "common_catalog.json": 344,
+    "authority_catalog.json": 131,
+    "institution_catalog.json": 83,
+    "scheme_catalog.json": 302,
+    "finance_catalog.json": 115,
+    "tax_catalog.json": 13,
+    "treds_catalog.json": 16,
+    "csr_catalog.json": 16,
+    "export_catalog.json": 13,
+    "knowledge_catalog.json": 28
+  },
+  "catalogsMissing": {},
+  "distinctTokensEn": 2506,
+  "distinctTokensTa": 1092,
+  "totalTokenPostingsEn": 8191,
+  "totalTokenPostingsTa": 4816,
+  "entriesWithTamilName": 971,
+  "entriesWithTamilTokens": 971,
+  "crossReferences": 1834,
+  "duplicateEntityIds": 0,
+  "unknownEntityIds": 0,
+  "unresolvedCrossReferences": 0,
+  "searchRankPopulated": 0,
+  "rankingNote": "searchRank intentionally null — no ranking specification exists. Clients may rank on `signals`.",
+  "invertedIndexOnDisk": false,
+  "invertedIndexNote": "Built by the client in O(n) from `tokens`; a second on-disk structure would need separate synchronisation.",
+  "topTokensEn": [
+    [
+      "scheme",
+      113
+    ],
+    [
+      "current",
+      99
+    ],
+    [
+      "capital",
+      90
+    ],
+    [
+      "subsidy",
+      86
+    ],
+    [
+      "development",
+      74
+    ],
+    [
+      "women",
+      72
+    ],
+    [
+      "support",
+      65
+    ],
+    [
+      "msme",
+      59
+    ],
+    [
+      "msmes",
+      58
+    ],
+    [
+      "exact",
+      58
+    ],
+    [
+      "small",
+      57
+    ],
+    [
+      "programme",
+      52
+    ]
+  ]
+}

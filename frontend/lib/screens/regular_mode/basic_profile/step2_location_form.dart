@@ -158,7 +158,7 @@ class Step2LocationForm extends StatelessWidget {
         const SizedBox(height: AppSpacing.tight),
         _buildTextField(
           controller: addressController,
-          hintText: 'e.g. Door/Flat No, Street Name, Locality',
+          hintText: l10n.hintAddressExample,
           icon: Icons.home_outlined,
           errorText: hasSubmitted && addressController.text.trim().isEmpty
               ? l10n.profileErrEnterHouseStreet
@@ -172,7 +172,7 @@ class Step2LocationForm extends StatelessWidget {
         const SizedBox(height: AppSpacing.tight),
         _buildTextField(
           controller: cityController,
-          hintText: 'e.g. Chennai',
+          hintText: l10n.hintCityExample,
           icon: Icons.location_city_outlined,
           errorText: hasSubmitted && !looksLikePlaceName(cityController.text, min: 2)
               ? l10n.profileErrValidCity
@@ -186,7 +186,7 @@ class Step2LocationForm extends StatelessWidget {
         const SizedBox(height: AppSpacing.tight),
         _buildTextField(
           controller: districtController,
-          hintText: 'e.g. Chennai',
+          hintText: l10n.hintCityExample,
           icon: Icons.domain_outlined,
           errorText: hasSubmitted && !looksLikePlaceName(districtController.text, min: 2)
               ? l10n.profileErrValidCity

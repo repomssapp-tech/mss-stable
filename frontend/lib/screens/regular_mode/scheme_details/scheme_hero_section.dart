@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../models/localized_scheme.dart';
+import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/emblem_helper.dart';
 
@@ -326,7 +327,7 @@ class SchemeHeroSection extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
       ),
       child: Text(
-        label,
+        CentralizedTranslator.instance.localizeTag(label),
         style: GoogleFonts.inter(
           color: text,
           fontSize: 9.0,

@@ -1,0 +1,54 @@
+[
+  {
+    "schemeId": "SCH000200",
+    "field": "content.benefits.capitalSubsidy.maxAmountInr",
+    "existingValue": "250000 (Rs 2.5 lakh)",
+    "sourceValue": "Rs 2.5 lakh subsidy ceiling (project cost separately capped at Rs 15L/Rs 5L)",
+    "sourcePage": 15,
+    "sourceTier": 1,
+    "differenceType": "none -- already correct (fixed in Batch 5 as confirmed_error, re-verified now under the field-meaning safety check: maxAmountInr correctly holds the SUBSIDY ceiling, not the project-cost ceiling)",
+    "action": "NO CHANGE"
+  },
+  {
+    "schemeId": "SCH000115",
+    "checklistItem": "Project cost limit",
+    "sourceValue": "Rs 10 lakh (min) to Rs 5 crore (max)",
+    "catalogField": "content.eligibility / prose only -- NOT a benefit-amount field",
+    "note": "confirmed_correct_as_prose"
+  },
+  {
+    "schemeId": "SCH000115",
+    "checklistItem": "Subsidy percentage",
+    "sourceValue": "25% capital subsidy",
+    "catalogField": "content.benefits.interestSubvention.percentage = 25.0",
+    "note": "confirmed_correct"
+  },
+  {
+    "schemeId": "SCH000115",
+    "checklistItem": "Subsidy ceiling",
+    "sourceValue": "Rs 75 lakh",
+    "catalogField": "content.benefits.interestSubvention.maxAmountInr",
+    "note": "SCHEMA_MAPPING_ERROR -- field held Rs 5 crore (project cost) instead"
+  },
+  {
+    "schemeId": "SCH000115",
+    "checklistItem": "Beneficiary/promoter contribution",
+    "sourceValue": "10% (general) / 5% (special category) of project cost",
+    "catalogField": "prose only, not a dedicated structured field on this schema",
+    "note": "confirmed_correct_as_prose"
+  },
+  {
+    "schemeId": "SCH000115",
+    "checklistItem": "Loan component",
+    "sourceValue": "Not stated as a fixed percentage anywhere in the source",
+    "catalogField": "not populated",
+    "note": "not_applicable -- correctly left unstated, not computed/inferred"
+  },
+  {
+    "schemeId": "SCH000115",
+    "checklistItem": "Bank contribution",
+    "sourceValue": "Not stated as a fixed percentage anywhere in the source",
+    "catalogField": "not populated",
+    "note": "not_applicable -- correctly left unstated, not computed/inferred"
+  }
+]

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
-import '../../../providers/app_state_provider.dart';
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
 
@@ -56,9 +54,6 @@ class _ExportInteractivePanelState extends State<ExportInteractivePanel> {
 
   @override
   Widget build(BuildContext context) {
-    final isTa =
-        Provider.of<AppProvider>(context, listen: false).selectedLanguage ==
-        'ta';
     int checkedCount =
         _exportChecklist.where((item) => item['checked'] == true).length;
     double progress = checkedCount / _exportChecklist.length;
@@ -75,11 +70,7 @@ class _ExportInteractivePanelState extends State<ExportInteractivePanel> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              isTa
-                  ? CentralizedTranslator.instance.translate(
-                      'Export Readiness Assessment',
-                    )
-                  : 'Export Readiness Assessment',
+              CentralizedTranslator.instance.localize('Export Readiness Assessment'),
               style: GoogleFonts.poppins(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -88,11 +79,7 @@ class _ExportInteractivePanelState extends State<ExportInteractivePanel> {
             ),
             const SizedBox(height: AppSpacing.xs),
             Text(
-              isTa
-                  ? CentralizedTranslator.instance.translate(
-                      'Complete this checklist to identify missing links for international trade registration.',
-                    )
-                  : 'Complete this checklist to identify missing links for international trade registration.',
+              CentralizedTranslator.instance.localize('Complete this checklist to identify missing links for international trade registration.'),
               style: GoogleFonts.inter(
                 fontSize: 11.5,
                 color: const Color(0xFF64748B),
@@ -128,16 +115,8 @@ class _ExportInteractivePanelState extends State<ExportInteractivePanel> {
             const SizedBox(height: AppSpacing.md),
             ...List.generate(_exportChecklist.length, (index) {
               final item = _exportChecklist[index];
-              final qText = isTa
-                  ? CentralizedTranslator.instance.translate(
-                      item['question'] as String,
-                    )
-                  : item['question'] as String;
-              final tipText = isTa
-                  ? CentralizedTranslator.instance.translate(
-                      item['tip'] as String,
-                    )
-                  : item['tip'] as String;
+              final qText = CentralizedTranslator.instance.localize(item['question'] as String);
+              final tipText = CentralizedTranslator.instance.localize(item['tip'] as String);
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

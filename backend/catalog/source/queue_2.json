@@ -1,0 +1,614 @@
+{
+  "batch": 2,
+  "schemeRange": [
+    "SCH000026",
+    "SCH000050"
+  ],
+  "schemes": 25,
+  "distinctUrls": 23,
+  "totalRefs": 42,
+  "skippedNonApproved": [
+    {
+      "schemeId": "SCH000029",
+      "code": "TN029",
+      "field": "content.sources[0].url",
+      "value": "https://www.centralbankofindia.co.in/",
+      "url": "https://www.centralbankofindia.co.in/",
+      "host": "www.centralbankofindia.co.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000038",
+      "code": "TN038",
+      "field": "content.applicationProcess.onlineUrl",
+      "value": "https://www.cgtmse.in/",
+      "url": "https://www.cgtmse.in/",
+      "host": "www.cgtmse.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000038",
+      "code": "TN038",
+      "field": "content.sources[0].url",
+      "value": "https://www.cgtmse.in/Circulars",
+      "url": "https://www.cgtmse.in/Circulars",
+      "host": "www.cgtmse.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000038",
+      "code": "TN038",
+      "field": "content.sources[1].url",
+      "value": "https://www.cgtmse.in/",
+      "url": "https://www.cgtmse.in/",
+      "host": "www.cgtmse.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000039",
+      "code": "TN039",
+      "field": "content.applicationProcess.onlineUrl",
+      "value": "https://www.ncgtc.in/en/product-details/CGSS/Credit-Guarantee-Scheme-for-Start-ups-%28CGSS%29",
+      "url": "https://www.ncgtc.in/en/product-details/CGSS/Credit-Guarantee-Scheme-for-Start-ups-%28CGSS%29",
+      "host": "www.ncgtc.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000039",
+      "code": "TN039",
+      "field": "content.sources[0].url",
+      "value": "https://www.ncgtc.in/en/product-details/CGSS/Credit-Guarantee-Scheme-for-Start-ups-%28CGSS%29",
+      "url": "https://www.ncgtc.in/en/product-details/CGSS/Credit-Guarantee-Scheme-for-Start-ups-%28CGSS%29",
+      "host": "www.ncgtc.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000039",
+      "code": "TN039",
+      "field": "content.sources[1].url",
+      "value": "https://www.ncgtc.in/",
+      "url": "https://www.ncgtc.in/",
+      "host": "www.ncgtc.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000044",
+      "code": "TN044",
+      "field": "content.sources[0].url",
+      "value": "https://www.bankofbaroda.in/",
+      "url": "https://www.bankofbaroda.in/",
+      "host": "www.bankofbaroda.in",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000045",
+      "code": "TN045",
+      "field": "content.applicationProcess.onlineUrl",
+      "value": "http://spicesboard.in:8004/Exporters_FairRegistration",
+      "url": "http://spicesboard.in:8004/Exporters_FairRegistration",
+      "host": "spicesboard.in:8004",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000045",
+      "code": "TN045",
+      "field": "content.sources[0].url",
+      "value": "https://www.indianspices.com/marketing/trade/domestic-trade-fairs.html",
+      "url": "https://www.indianspices.com/marketing/trade/domestic-trade-fairs.html",
+      "host": "www.indianspices.com",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000045",
+      "code": "TN045",
+      "field": "content.sources[1].url",
+      "value": "https://www.indianspices.com/",
+      "url": "https://www.indianspices.com/",
+      "host": "www.indianspices.com",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000045",
+      "code": "TN045",
+      "field": "content.sources[2].url",
+      "value": "http://spicesboard.in:8004/Exporters_FairRegistration",
+      "url": "http://spicesboard.in:8004/Exporters_FairRegistration",
+      "host": "spicesboard.in:8004",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000046",
+      "code": "TN046",
+      "field": "content.sources[0].url",
+      "value": "https://www.indianspices.com/box5_programmes_schemes.html",
+      "url": "https://www.indianspices.com/box5_programmes_schemes.html",
+      "host": "www.indianspices.com",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    },
+    {
+      "schemeId": "SCH000046",
+      "code": "TN046",
+      "field": "content.sources[1].url",
+      "value": "https://www.indianspices.com/",
+      "url": "https://www.indianspices.com/",
+      "host": "www.indianspices.com",
+      "reason": "host not on approved list (policy \u00a74.3)"
+    }
+  ],
+  "queue": [
+    {
+      "url": "https://www.birac.nic.in/leapFundNew.php",
+      "host": "www.birac.nic.in",
+      "refs": [
+        {
+          "schemeId": "SCH000026",
+          "code": "TN026",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.birac.nic.in/leapFundNew.php",
+          "url": "https://www.birac.nic.in/leapFundNew.php",
+          "host": "www.birac.nic.in"
+        },
+        {
+          "schemeId": "SCH000026",
+          "code": "TN026",
+          "field": "content.sources[0].url",
+          "value": "https://www.birac.nic.in/leapFundNew.php",
+          "url": "https://www.birac.nic.in/leapFundNew.php",
+          "host": "www.birac.nic.in"
+        }
+      ]
+    },
+    {
+      "url": "https://birac.nic.in/",
+      "host": "birac.nic.in",
+      "refs": [
+        {
+          "schemeId": "SCH000026",
+          "code": "TN026",
+          "field": "content.sources[1].url",
+          "value": "https://birac.nic.in/",
+          "url": "https://birac.nic.in/",
+          "host": "birac.nic.in"
+        },
+        {
+          "schemeId": "SCH000027",
+          "code": "TN027",
+          "field": "content.sources[1].url",
+          "value": "https://birac.nic.in/",
+          "url": "https://birac.nic.in/",
+          "host": "birac.nic.in"
+        }
+      ]
+    },
+    {
+      "url": "https://birac.nic.in/seedFundNew.php",
+      "host": "birac.nic.in",
+      "refs": [
+        {
+          "schemeId": "SCH000027",
+          "code": "TN027",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://birac.nic.in/seedFundNew.php",
+          "url": "https://birac.nic.in/seedFundNew.php",
+          "host": "birac.nic.in"
+        },
+        {
+          "schemeId": "SCH000027",
+          "code": "TN027",
+          "field": "content.sources[0].url",
+          "value": "https://birac.nic.in/seedFundNew.php",
+          "url": "https://birac.nic.in/seedFundNew.php",
+          "host": "birac.nic.in"
+        }
+      ]
+    },
+    {
+      "url": "https://birac.nic.in/webcontent/birac_seedfund_guidelines_17_09_2018.pdf",
+      "host": "birac.nic.in",
+      "refs": [
+        {
+          "schemeId": "SCH000027",
+          "code": "TN027",
+          "field": "content.sources[2].url",
+          "value": "https://birac.nic.in/webcontent/birac_seedfund_guidelines_17_09_2018.pdf",
+          "url": "https://birac.nic.in/webcontent/birac_seedfund_guidelines_17_09_2018.pdf",
+          "host": "birac.nic.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.msmeonline.tn.gov.in/",
+      "host": "www.msmeonline.tn.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000028",
+          "code": "TN028",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.msmeonline.tn.gov.in/",
+          "url": "https://www.msmeonline.tn.gov.in/",
+          "host": "www.msmeonline.tn.gov.in"
+        },
+        {
+          "schemeId": "SCH000028",
+          "code": "TN028",
+          "field": "content.sources[1].url",
+          "value": "https://www.msmeonline.tn.gov.in/",
+          "url": "https://www.msmeonline.tn.gov.in/",
+          "host": "www.msmeonline.tn.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.msmeonline.tn.gov.in/incentives/html_cye_CS.php",
+      "host": "www.msmeonline.tn.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000028",
+          "code": "TN028",
+          "field": "content.sources[0].url",
+          "value": "https://www.msmeonline.tn.gov.in/incentives/html_cye_CS.php",
+          "url": "https://www.msmeonline.tn.gov.in/incentives/html_cye_CS.php",
+          "host": "www.msmeonline.tn.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.tnsocialwelfare.tn.gov.in/",
+      "host": "www.tnsocialwelfare.tn.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000031",
+          "code": "TN031",
+          "field": "content.sources[0].url",
+          "value": "https://www.tnsocialwelfare.tn.gov.in/",
+          "url": "https://www.tnsocialwelfare.tn.gov.in/",
+          "host": "www.tnsocialwelfare.tn.gov.in"
+        },
+        {
+          "schemeId": "SCH000037",
+          "code": "TN037",
+          "field": "content.sources[0].url",
+          "value": "https://www.tnsocialwelfare.tn.gov.in/",
+          "url": "https://www.tnsocialwelfare.tn.gov.in/",
+          "host": "www.tnsocialwelfare.tn.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://my.msme.gov.in/MyMsme/Reg/COM_ClcssAppForm.aspx",
+      "host": "my.msme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000032",
+          "code": "TN032",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://my.msme.gov.in/MyMsme/Reg/COM_ClcssAppForm.aspx",
+          "url": "https://my.msme.gov.in/MyMsme/Reg/COM_ClcssAppForm.aspx",
+          "host": "my.msme.gov.in"
+        },
+        {
+          "schemeId": "SCH000032",
+          "code": "TN032",
+          "field": "content.sources[0].url",
+          "value": "https://my.msme.gov.in/MyMsme/Reg/COM_ClcssAppForm.aspx",
+          "url": "https://my.msme.gov.in/MyMsme/Reg/COM_ClcssAppForm.aspx",
+          "host": "my.msme.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://my.msme.gov.in/",
+      "host": "my.msme.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000032",
+          "code": "TN032",
+          "field": "content.sources[1].url",
+          "value": "https://my.msme.gov.in/",
+          "url": "https://my.msme.gov.in/",
+          "host": "my.msme.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://coirboard.gov.in/?page_id=8452",
+      "host": "coirboard.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000033",
+          "code": "TN033",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://coirboard.gov.in/?page_id=8452",
+          "url": "https://coirboard.gov.in/?page_id=8452",
+          "host": "coirboard.gov.in"
+        },
+        {
+          "schemeId": "SCH000033",
+          "code": "TN033",
+          "field": "content.sources[0].url",
+          "value": "https://coirboard.gov.in/?page_id=8452",
+          "url": "https://coirboard.gov.in/?page_id=8452",
+          "host": "coirboard.gov.in"
+        },
+        {
+          "schemeId": "SCH000035",
+          "code": "TN035",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://coirboard.gov.in/?page_id=8452",
+          "url": "https://coirboard.gov.in/?page_id=8452",
+          "host": "coirboard.gov.in"
+        },
+        {
+          "schemeId": "SCH000035",
+          "code": "TN035",
+          "field": "content.sources[0].url",
+          "value": "https://coirboard.gov.in/?page_id=8452",
+          "url": "https://coirboard.gov.in/?page_id=8452",
+          "host": "coirboard.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://coirboard.gov.in/",
+      "host": "coirboard.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000033",
+          "code": "TN033",
+          "field": "content.sources[1].url",
+          "value": "https://coirboard.gov.in/",
+          "url": "https://coirboard.gov.in/",
+          "host": "coirboard.gov.in"
+        },
+        {
+          "schemeId": "SCH000034",
+          "code": "TN034",
+          "field": "content.sources[1].url",
+          "value": "https://coirboard.gov.in/",
+          "url": "https://coirboard.gov.in/",
+          "host": "coirboard.gov.in"
+        },
+        {
+          "schemeId": "SCH000035",
+          "code": "TN035",
+          "field": "content.sources[1].url",
+          "value": "https://coirboard.gov.in/",
+          "url": "https://coirboard.gov.in/",
+          "host": "coirboard.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://coirboard.gov.in/?page_id=3617",
+      "host": "coirboard.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000034",
+          "code": "TN034",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://coirboard.gov.in/?page_id=3617",
+          "url": "https://coirboard.gov.in/?page_id=3617",
+          "host": "coirboard.gov.in"
+        },
+        {
+          "schemeId": "SCH000034",
+          "code": "TN034",
+          "field": "content.sources[0].url",
+          "value": "https://coirboard.gov.in/?page_id=3617",
+          "url": "https://coirboard.gov.in/?page_id=3617",
+          "host": "coirboard.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://coirboard.gov.in/wp-content/uploads/2015/11/SUMCY.pdf",
+      "host": "coirboard.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000035",
+          "code": "TN035",
+          "field": "content.sources[2].url",
+          "value": "https://coirboard.gov.in/wp-content/uploads/2015/11/SUMCY.pdf",
+          "url": "https://coirboard.gov.in/wp-content/uploads/2015/11/SUMCY.pdf",
+          "host": "coirboard.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.nsic.co.in/Info/Download",
+      "host": "www.nsic.co.in",
+      "refs": [
+        {
+          "schemeId": "SCH000036",
+          "code": "TN036",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.nsic.co.in/Info/Download",
+          "url": "https://www.nsic.co.in/Info/Download",
+          "host": "www.nsic.co.in"
+        },
+        {
+          "schemeId": "SCH000036",
+          "code": "TN036",
+          "field": "content.sources[2].url",
+          "value": "https://www.nsic.co.in/Info/Download",
+          "url": "https://www.nsic.co.in/Info/Download",
+          "host": "www.nsic.co.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.nsic.co.in/Corporate/AboutUs",
+      "host": "www.nsic.co.in",
+      "refs": [
+        {
+          "schemeId": "SCH000036",
+          "code": "TN036",
+          "field": "content.sources[0].url",
+          "value": "https://www.nsic.co.in/Corporate/AboutUs",
+          "url": "https://www.nsic.co.in/Corporate/AboutUs",
+          "host": "www.nsic.co.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.nsic.co.in/",
+      "host": "www.nsic.co.in",
+      "refs": [
+        {
+          "schemeId": "SCH000036",
+          "code": "TN036",
+          "field": "content.sources[1].url",
+          "value": "https://www.nsic.co.in/",
+          "url": "https://www.nsic.co.in/",
+          "host": "www.nsic.co.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.dgft.gov.in/",
+      "host": "www.dgft.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000040",
+          "code": "TN040",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.dgft.gov.in/",
+          "url": "https://www.dgft.gov.in/",
+          "host": "www.dgft.gov.in"
+        },
+        {
+          "schemeId": "SCH000040",
+          "code": "TN040",
+          "field": "content.sources[0].url",
+          "value": "https://www.dgft.gov.in/",
+          "url": "https://www.dgft.gov.in/",
+          "host": "www.dgft.gov.in"
+        },
+        {
+          "schemeId": "SCH000050",
+          "code": "TN050",
+          "field": "content.applicationProcess.onlineUrl",
+          "value": "https://www.dgft.gov.in/",
+          "url": "https://www.dgft.gov.in/",
+          "host": "www.dgft.gov.in"
+        },
+        {
+          "schemeId": "SCH000050",
+          "code": "TN050",
+          "field": "content.sources[1].url",
+          "value": "https://www.dgft.gov.in/",
+          "url": "https://www.dgft.gov.in/",
+          "host": "www.dgft.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://rural.gov.in/",
+      "host": "rural.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000041",
+          "code": "TN041",
+          "field": "content.sources[0].url",
+          "value": "https://rural.gov.in/",
+          "url": "https://rural.gov.in/",
+          "host": "rural.gov.in"
+        },
+        {
+          "schemeId": "SCH000042",
+          "code": "TN042",
+          "field": "content.sources[0].url",
+          "value": "https://rural.gov.in/",
+          "url": "https://rural.gov.in/",
+          "host": "rural.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://mohua.gov.in/",
+      "host": "mohua.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000043",
+          "code": "TN043",
+          "field": "content.sources[0].url",
+          "value": "https://mohua.gov.in/",
+          "url": "https://mohua.gov.in/",
+          "host": "mohua.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.it.tn.gov.in/en/List_of_services_offered_in_e-sevai_centres",
+      "host": "www.it.tn.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000047",
+          "code": "TN047",
+          "field": "content.sources[0].url",
+          "value": "https://www.it.tn.gov.in/en/List_of_services_offered_in_e-sevai_centres",
+          "url": "https://www.it.tn.gov.in/en/List_of_services_offered_in_e-sevai_centres",
+          "host": "www.it.tn.gov.in"
+        },
+        {
+          "schemeId": "SCH000048",
+          "code": "TN048",
+          "field": "content.sources[0].url",
+          "value": "https://www.it.tn.gov.in/en/List_of_services_offered_in_e-sevai_centres",
+          "url": "https://www.it.tn.gov.in/en/List_of_services_offered_in_e-sevai_centres",
+          "host": "www.it.tn.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://www.tn.gov.in/",
+      "host": "www.tn.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000047",
+          "code": "TN047",
+          "field": "content.sources[1].url",
+          "value": "https://www.tn.gov.in/",
+          "url": "https://www.tn.gov.in/",
+          "host": "www.tn.gov.in"
+        },
+        {
+          "schemeId": "SCH000048",
+          "code": "TN048",
+          "field": "content.sources[1].url",
+          "value": "https://www.tn.gov.in/",
+          "url": "https://www.tn.gov.in/",
+          "host": "www.tn.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://agriwelfare.gov.in/",
+      "host": "agriwelfare.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000049",
+          "code": "TN049",
+          "field": "content.sources[0].url",
+          "value": "https://agriwelfare.gov.in/",
+          "url": "https://agriwelfare.gov.in/",
+          "host": "agriwelfare.gov.in"
+        }
+      ]
+    },
+    {
+      "url": "https://content.dgft.gov.in/Website/dgftprod/1f2b32d7-1f53-41fa-b536-a8882eb44d83/HBP2023_Chapter04%20as%20on%2016.07.2024.pdf",
+      "host": "content.dgft.gov.in",
+      "refs": [
+        {
+          "schemeId": "SCH000050",
+          "code": "TN050",
+          "field": "content.sources[0].url",
+          "value": "https://content.dgft.gov.in/Website/dgftprod/1f2b32d7-1f53-41fa-b536-a8882eb44d83/HBP2023_Chapter04%20as%20on%2016.07.2024.pdf",
+          "url": "https://content.dgft.gov.in/Website/dgftprod/1f2b32d7-1f53-41fa-b536-a8882eb44d83/HBP2023_Chapter04%20as%20on%2016.07.2024.pdf",
+          "host": "content.dgft.gov.in"
+        }
+      ]
+    }
+  ]
+}
