@@ -5,7 +5,6 @@ import textwrap
 import pytest
 from livekit.agents import AgentSession, inference, llm
 
-from agent_language import resolve_language
 from agent import (
     MSS_INSTRUCTIONS,
     PROFILE_CONTEXT_FALLBACK_TIMEOUT,
@@ -23,6 +22,7 @@ from agent import (
     build_sarvam_llm,
     build_scheme_results_state,
 )
+from agent_language import resolve_language
 
 
 def _seeded_fact_text(profile: UserProfileContext) -> str:
@@ -463,9 +463,12 @@ def test_agent_speaks_the_language_chosen_in_the_app(
     for other in ("Vanakkam", "Namaste", "Namaskar", "Tamil", "Hindi", "Marathi"):
         if other not in (greeting, name):
             assert other not in instructions
-    assert SarvamVoiceConfig.from_env().for_language(
-        resolve_language(profile.language)
-    ).tts_language == locale
+    assert (
+        SarvamVoiceConfig.from_env()
+        .for_language(resolve_language(profile.language))
+        .tts_language
+        == locale
+    )
 
 
 def test_language_defaults_when_the_app_names_none_or_an_unknown_one() -> None:
