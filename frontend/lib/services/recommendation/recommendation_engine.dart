@@ -1,5 +1,8 @@
 import '../../models/user_profile.dart';
 import '../../models/scheme_model.dart';
+import '../search/hybrid_scheme_search.dart';
+import 'indian_states.dart';
+import 'profile_canonicalizer.dart';
 
 class RecommendationResult {
   final double score; // 0.0 to 1.0
@@ -44,20 +47,21 @@ class RecommendationEngine {
   static const double _wGender =
       0.25; // scheme is gender-scoped, profile matches
   static const double _wCommunity = 0.20; // special-category / SC-ST overlap
-  static const double _wEducation =
-      0.15; // scheme's education rule is satisfied
   static const double _wSectorStage =
       0.25; // business-stage / eligibility-gate match
   static const double _wSector =
       0.20; // profile industry appears in scheme sector
 
+  /// Scores every scheme in [schemes] for [profile], best first. The profile
+  /// is canonicalised once (see [ProfileCanonicalizer]) rather than per scheme.
   static List<MapEntry<Scheme, RecommendationResult>> getRecommendations(
     UserProfile profile,
     List<Scheme> schemes,
   ) {
+    final canonical = ProfileCanonicalizer.canonicalize(profile);
     final results = <MapEntry<Scheme, RecommendationResult>>[];
     for (var scheme in schemes) {
-      final res = evaluate(profile, scheme);
+      final res = _score(canonical, scheme);
       results.add(MapEntry(scheme, res));
     }
     // Sort by score descending, scheme id as a deterministic tiebreak so
@@ -94,28 +98,25 @@ class RecommendationEngine {
     ).where((e) => e.value.score >= forMeThreshold).map((e) => e.key).toList();
   }
 
-  static RecommendationResult evaluate(UserProfile profile, Scheme scheme) {
+  /// Scores one [scheme] for [profile]. The profile may have been filled in
+  /// any supported language: it is canonicalised to English first, because
+  /// the catalog's eligibility facets are English.
+  static RecommendationResult evaluate(UserProfile profile, Scheme scheme) =>
+      _score(ProfileCanonicalizer.canonicalize(profile), scheme);
+
+  /// [p] must already be canonical (see [ProfileCanonicalizer.canonicalize]).
+  static RecommendationResult _score(UserProfile p, Scheme scheme) {
     double score = 0.0;
     final matchingReasons = <String>[];
     final missingRequirements = <String>[];
     final missingDocuments = <String>[];
 
     // Get basic stats
-    final age = profile.age;
-    final hasAge = profile.dob != null;
-    final isTN = profile.state.toLowerCase() == 'tamil nadu';
-    final isFemale =
-        profile.gender.toLowerCase() == 'female' ||
-        profile.gender.toLowerCase() == 'transgender';
-    final isSCST =
-        profile.community.toLowerCase() == 'sc' ||
-        profile.community.toLowerCase() == 'st';
-    final isSpecialCommunity =
-        isSCST ||
-        profile.community.toLowerCase() == 'obc' ||
-        profile.community.toLowerCase() == 'minority' ||
-        profile.community.toLowerCase() == 'ews';
-    final isStudent = profile.employmentStatus.toLowerCase() == 'student';
+    final age = p.age;
+    final hasAge = p.dob != null;
+    final isTN = p.state == 'Tamil Nadu';
+    final isFemale = p.gender == 'Female' || p.gender == 'Transgender';
+    final isSCST = p.community == 'SC' || p.community == 'ST';
 
     // Document checks helper: We check what documents they might miss based on profile inputs.
     // By default, we assume they have Aadhaar and PAN (or they are easy to obtain, but we flag if not filled in profile)
@@ -123,12 +124,11 @@ class RecommendationEngine {
     for (var doc in scheme.requiredDocuments) {
       if (doc == 'Nativity Certificate (TN)' && !isTN) {
         missingDocuments.add(doc);
-      } else if (doc == 'Community Certificate' &&
-          profile.community.toLowerCase() == 'general') {
+      } else if (doc == 'Community Certificate' && p.community == 'General') {
         // General category usually doesn't have a community certificate, but if the scheme requires it, it's flagged
         missingDocuments.add(doc);
       } else if (doc == 'Degree/Diploma Certificate' &&
-          profile.educationLevel == 'School') {
+          p.educationLevel == 'School') {
         missingDocuments.add(doc);
       } else if (doc == 'Artisan Identity Card (DC Handicrafts)') {
         // Unless they specifically have it, flag as missing (simulate for demonstration)
@@ -158,547 +158,238 @@ class RecommendationEngine {
       missingDocuments: missingDocuments,
     );
 
-    switch (scheme.id.toUpperCase()) {
-      case 'NEEDS':
-      case 'IN115':
-        // HARD: State residency is exclusive.
-        if (!isTN) {
-          missingRequirements.add(
-            'Residency: This scheme is strictly for residents of Tamil Nadu.',
-          );
-          return disqualified();
-        }
-        matchingReasons.add('Location: You reside in Tamil Nadu.');
-        score += _wState;
+    // 1. State / Residency -- HARD when the scheme is scoped to a different
+    //    state than the profile. Both sides are compared by English state
+    //    name, so "தமிழ்நாடு" and "Tamil Nadu" are the same state.
+    final schemeState = scheme.state.toLowerCase().trim();
+    final stateIsNational =
+        schemeState.isEmpty ||
+        schemeState == 'all india' ||
+        schemeState == 'pan-india' ||
+        schemeState.contains('pan-india') ||
+        schemeState.contains('all india');
+    if (!stateIsNational &&
+        IndianStates.canonical(scheme.state).toLowerCase() !=
+            p.state.toLowerCase().trim()) {
+      missingRequirements.add(
+        'Residency: This scheme is for residents of ${scheme.state}.',
+      );
+      return disqualified();
+    }
+    if (!stateIsNational) {
+      matchingReasons.add(
+        'Location: You reside in ${scheme.state} where this scheme is offered.',
+      );
+      score += _wState;
+    } else if (p.state.trim().isNotEmpty) {
+      matchingReasons.add(
+        'Coverage: Applies across India, including ${p.state}.',
+      );
+      score += _wNationalCoverage;
+    }
 
-        // Education
-        if (profile.educationLevel == 'School') {
-          missingRequirements.add(
-            'Education: Requires a college Degree, Diploma, ITI, or Vocational Certificate.',
-          );
-        } else {
-          matchingReasons.add(
-            'Education: You hold a college degree/diploma (${profile.educationLevel}).',
-          );
-          score += _wEducation;
-        }
-
-        // First Gen Graduate Bonus
-        if (profile.firstGenGraduate) {
-          score += 0.1;
-          matchingReasons.add(
-            'Priority: You are a First-Generation Graduate (priority selection).',
-          );
-        }
-
-        // Age limits -- General: 21-35, Special (Women, SC/ST, BC, OBC): 21-45
-        final maxAge = (isFemale || isSpecialCommunity) ? 45 : 35;
-        if (age >= 21 && age <= maxAge) {
-          matchingReasons.add(
-            'Age: Your age ($age) is within the eligible range of 21-$maxAge years.',
-          );
-          score += _wAge;
-        } else {
-          missingRequirements.add(
-            'Age: Your age ($age) is outside the eligible range of 21-$maxAge years.',
-          );
-        }
-
-        matchingReasons.add(
-          'Funding: Supports project costs from ₹10 Lakhs to ₹5 Crores.',
+    // 2. Gender -- structured eligibility.gender facet is authoritative
+    //    when the catalog asserts it; free-text targetBeneficiary is the
+    //    fallback. A female-only scheme HARD-excludes non-female profiles.
+    final targetUpper = scheme.targetBeneficiary.toUpperCase();
+    final hasWomenKeyword =
+        targetUpper.contains('WOMEN') || targetUpper.contains('FEMALE');
+    bool wantsFemale = false;
+    if (scheme.eligibilityGenderValues.isNotEmpty) {
+      wantsFemale = scheme.eligibilityGenderValues.any(
+        (v) => v.toLowerCase() == 'female',
+      );
+    } else {
+      wantsFemale = hasWomenKeyword;
+    }
+    if (wantsFemale) {
+      if (!isFemale) {
+        missingRequirements.add(
+          'Gender: This scheme is targeted towards Women/Female entrepreneurs.',
         );
-        break;
+        return disqualified();
+      }
+      // SUBSTANTIVE: the scheme is gender-scoped and the profile matches.
+      matchingReasons.add('Gender: You match the target female demographic.');
+      score += _wGender;
+    }
+    // A gender-agnostic scheme earns NOTHING for gender -- "silent on X"
+    // is not a match (previously this granted +_wGender to every scheme
+    // for anyone with a gender set, which recreated the "no info => still
+    // matches" bug at a lower score).
 
-      case 'PMEGP':
-      case 'IN130':
-        // Open to any citizen 18+ with a viable plan -- broadly eligible.
-        matchingReasons.add(
-          'Age: Eligible for any citizen above 18 years (you are $age).',
+    // 3. Special-category -- structured eligibility.specialCategory facet
+    //    is authoritative when populated; SC/ST keyword is the fallback.
+    //    A mismatch is a soft miss (priority, not exclusive), never a
+    //    hard zero.
+    final hasSCSTKeyword =
+        targetUpper.contains('SC/') ||
+        targetUpper.contains('SC ') ||
+        targetUpper.contains('ST ') ||
+        targetUpper.contains('SC-ST') ||
+        targetUpper.contains('SC/ST');
+    if (scheme.specialCategories.isNotEmpty) {
+      final profileCategories = <String>{
+        if (p.community == 'SC') 'sc',
+        if (p.community == 'ST') 'st',
+        if (p.community == 'OBC') 'obc',
+        if (isFemale) 'women',
+        if (p.gender == 'Transgender') 'transgender',
+        if (ProfileCanonicalizer.isDifferentlyAbled(p.disability))
+          'differently_abled',
+        if (p.veteran) 'ex_servicemen',
+        if (p.community == 'Minority' ||
+            _minorityReligions.contains(p.religion.toLowerCase()))
+          'minority',
+      };
+      final schemeCategories = scheme.specialCategories
+          .map((c) => c.toLowerCase())
+          .toSet();
+      final overlap = schemeCategories.intersection(profileCategories);
+      if (overlap.isEmpty) {
+        missingRequirements.add(
+          'Community/Category: Priority is for ${scheme.specialCategories.join(', ')}.',
         );
-        if (age >= 18) score += _wAge;
-        score += _wSectorStage; // open, self-employment/manufacturing oriented
-
-        if (profile.educationLevel == 'School') {
-          matchingReasons.add(
-            'Education: VIII standard pass criteria applies for larger projects.',
-          );
-          score += _wEducation * 0.5;
-        } else {
-          matchingReasons.add(
-            'Education: You satisfy the minimum VIII standard pass requirement.',
-          );
-          score += _wEducation;
-        }
-
-        if (isTN) {
-          matchingReasons.add(
-            'Implementation: Supported in Tamil Nadu via DIC and KVIC offices.',
-          );
-          score += _wState * 0.5;
-        }
-        break;
-
-      case 'STANDUP_INDIA':
-      case 'IN168':
-        // HARD: reserved for Women entrepreneurs and SC/ST individuals.
-        final eligibleCategory = isFemale || isSCST;
-        if (!eligibleCategory) {
-          missingRequirements.add(
-            'Category: Stand-Up India is reserved for Women entrepreneurs and SC/ST category individuals.',
-          );
-          return disqualified();
-        }
-        // HARD: minimum age.
-        if (age < 18) {
-          missingRequirements.add('Age: Must be at least 18 years old.');
-          return disqualified();
-        }
-
-        score += _wSectorStage; // cleared the reserved-category gate
-        if (isFemale) {
-          matchingReasons.add(
-            'Gender: You match the requirement for Women entrepreneurs.',
-          );
-          score += _wGender;
-        }
-        if (isSCST) {
-          matchingReasons.add(
-            'Community: You match the requirement for SC/ST category borrowers.',
-          );
-          score += _wCommunity;
-        }
-        if (hasAge) score += _wAge;
+      } else {
         matchingReasons.add(
-          'Project Type: Facilitates greenfield projects between ₹10 Lakhs and ₹1 Crore.',
+          'Community/Category: Matches the ${overlap.join(', ')} priority category.',
         );
-        break;
-
-      case 'MUDRA':
-      case 'IN128':
-        // Very general: collateral-free credit for any viable micro business.
+        score += _wCommunity;
+      }
+    } else if (hasSCSTKeyword) {
+      if (isSCST) {
         matchingReasons.add(
-          'Eligibility: Open to all Indian citizens with a viable business plan.',
+          'Community: Matches the SC/ST priority demographic.',
         );
+        score += _wCommunity;
+      } else {
+        missingRequirements.add(
+          'Community: Priority/eligibility is for SC/ST categories.',
+        );
+      }
+    }
+
+    // 4. Age -- SUBSTANTIVE only: the scheme declares an age gate
+    //    (eligibility.age.{minYears,maxYears}) AND the profile has a real
+    //    DOB AND the age falls in range. A scheme with no age gate earns
+    //    nothing here. Out-of-range is a soft miss, not a hard zero.
+    if (scheme.eligibilityMinAge != null || scheme.eligibilityMaxAge != null) {
+      final minAge = scheme.eligibilityMinAge ?? 0;
+      final maxAge = scheme.eligibilityMaxAge ?? 200;
+      if (hasAge && age >= minAge && age <= maxAge) {
         matchingReasons.add(
-          'Collateral: 100% collateral-free loan up to ₹10 Lakhs.',
+          'Age: Your age ($age) is within the eligible range of $minAge-$maxAge years.',
         );
-        score += _wSectorStage + _wState * 0.5;
-        if (hasAge && age >= 18) score += _wAge;
-        break;
+        score += _wAge;
+      } else if (hasAge) {
+        missingRequirements.add(
+          'Age: Your age ($age) is outside the eligible range of $minAge-$maxAge years.',
+        );
+      }
+    }
 
-      case 'WEP':
-      case 'IN212':
-        // Women Entrepreneurship Platform -- designed for, not exclusive to.
-        if (isFemale) {
-          matchingReasons.add(
-            'Gender: Designed for women-led businesses and female founders.',
-          );
-          score += _wGender + _wSectorStage;
-        } else {
-          missingRequirements.add(
-            'Gender: This platform is specifically designed to support Women Entrepreneurs.',
-          );
-          score += 0.05;
-        }
+    // 5. Business stage -- SUBSTANTIVE: scheme declares eligible stages
+    //    and the profile's stage maps into them.
+    if (scheme.eligibilityBusinessStageValues.isNotEmpty) {
+      final mappedStage = _mapBusinessStage(p.businessStage);
+      final wantsStage = scheme.eligibilityBusinessStageValues
+          .map((s) => s.toLowerCase())
+          .toSet();
+      if (mappedStage != null && wantsStage.contains(mappedStage)) {
         matchingReasons.add(
-          'Aggregation: Provides aggregated support for mentoring, incubation, and networking.',
+          'Business Stage: Your business stage (${p.businessStage}) matches.',
         );
-        break;
+        score += _wSectorStage;
+      } else {
+        missingRequirements.add(
+          'Business Stage: This scheme targets ${scheme.eligibilityBusinessStageValues.join(', ')} businesses.',
+        );
+      }
+    }
 
-      case 'TREAD':
-      case 'IN195':
-        // HARD: exclusively for women (groups or individuals).
-        if (!isFemale) {
-          missingRequirements.add(
-            'Gender: TREAD is exclusively for groups or individual Women seeking self-employment.',
-          );
-          return disqualified();
+    // 6. Sector / interest overlap -- SUBSTANTIVE: the profile's industry
+    //    literally appears in the scheme's sector / category / keywords, or
+    //    both name the same taxonomy industry (so an industry typed in Hindi
+    //    or Tamil -- "कपड़ा", "ஜவுளி" -- reaches English scheme text).
+    if (p.businessIndustry.trim().length > 2) {
+      final industry = p.businessIndustry.toLowerCase();
+      final sectorHay =
+          '${scheme.sector} ${scheme.category} ${scheme.searchKeywords}'
+              .toLowerCase();
+      var aligned = sectorHay.contains(industry);
+      if (!aligned) {
+        final profileIndustries =
+            SchemeSearchTaxonomy.normalize(industry)['industries'] ?? const [];
+        if (profileIndustries.isNotEmpty) {
+          final schemeIndustries =
+              SchemeSearchTaxonomy.normalize(sectorHay)['industries'] ??
+              const [];
+          aligned = profileIndustries.any(schemeIndustries.contains);
         }
+      }
+      if (aligned) {
         matchingReasons.add(
-          'Gender: Exclusively supports women entrepreneur groups.',
+          'Sector: Aligned with your ${p.businessIndustry} focus.',
         );
-        score += _wGender + _wSectorStage;
-        matchingReasons.add(
-          'Funding structure: Government grants up to 30% of the project cost through registered NGOs.',
-        );
-        break;
+        score += _wSector;
+      }
+    }
 
-      case 'KALAIGNAR_KAIVINAI':
-      case 'IN074':
-        // HARD: TN artisans only.
-        if (!isTN) {
-          missingRequirements.add(
-            'Residency: Strictly for artisans residing in Tamil Nadu.',
-          );
-          return disqualified();
-        }
-        matchingReasons.add('Location: You reside in Tamil Nadu.');
-        score += _wState;
-        // The Pehchan Artisan Card itself can't be inferred, but when the
-        // profile's role is artisan / SHG member this is a genuine "For Me"
-        // match; for anyone else it stays a weak, findable-but-not-personal
-        // result.
-        if (_isArtisanRole(profile)) {
-          matchingReasons.add(
-            'Occupation: Your profile identifies you as an artisan / SHG member.',
-          );
-          score += _wSectorStage;
-          missingRequirements.add(
-            'Artisan Status: You will still need a valid Pehchan Artisan Card from the Ministry of Textiles.',
-          );
-        } else {
-          missingRequirements.add(
-            'Artisan Status: Must hold a valid Pehchan Artisan Card from the Ministry of Textiles.',
-          );
-          score += 0.1;
-        }
-        break;
+    // 6b. Role <-> scheme theme -- SUBSTANTIVE: the onboarding role the
+    //     user picked lines up with what the scheme is *about*. This is
+    //     what lets a Tamil Nadu startup grant (state-scoped, otherwise
+    //     silent on facets) clear the "For Me" bar for a Tamil Nadu user
+    //     who identifies as an entrepreneur, instead of sitting at the
+    //     bare state-match score.
+    final themeHay =
+        '${scheme.sector} ${scheme.category} ${scheme.searchKeywords} '
+                '${scheme.name} ${scheme.targetBeneficiary}'
+            .toLowerCase();
+    const founderThemeWords = [
+      'startup',
+      'start-up',
+      'start up',
+      'entrepreneur',
+      'incubat',
+      'seed fund',
+      'seed grant',
+      'venture',
+      'self-employment',
+      'self employment',
+      'enterprise creation',
+    ];
+    const artisanThemeWords = [
+      'artisan',
+      'handicraft',
+      'handloom',
+      'weaver',
+      'khadi',
+      'craft',
+      'kaivinai',
+      'cottage industr',
+    ];
+    if (_isFounderRole(p) && founderThemeWords.any(themeHay.contains)) {
+      matchingReasons.add(
+        'Focus: This scheme supports entrepreneurs/startups, which matches '
+        'your profile.',
+      );
+      score += _wSectorStage;
+    } else if (_isArtisanRole(p) && artisanThemeWords.any(themeHay.contains)) {
+      matchingReasons.add(
+        'Focus: This scheme supports artisans/craftspeople, which matches '
+        'your profile.',
+      );
+      score += _wSectorStage;
+    }
 
-      case 'STARTUP_TN':
-      case 'IN182':
-        // HARD: must be incorporated/registered in Tamil Nadu.
-        if (!isTN) {
-          missingRequirements.add(
-            'Residency: Startups must be incorporated or registered in Tamil Nadu.',
-          );
-          return disqualified();
-        }
-        matchingReasons.add(
-          'Location: Available for startups incorporated in Tamil Nadu.',
-        );
-        score += _wState;
-        // DPIIT recognition can't be inferred, but a profile that identifies
-        // as building / running a business is the intended audience — treat
-        // it as a real match. Others stay findable but sub-threshold.
-        if (_isFounderRole(profile)) {
-          matchingReasons.add(
-            'Stage: Your profile identifies you as an entrepreneur / business owner.',
-          );
-          score += _wSectorStage;
-          missingRequirements.add(
-            'DPIIT Recognition: You will still need registration and recognition from DPIIT (Govt of India).',
-          );
-        } else {
-          missingRequirements.add(
-            'DPIIT Recognition: Requires registration and recognition from DPIIT (Govt of India).',
-          );
-          score += 0.1;
-        }
-        matchingReasons.add(
-          'Innovation: Offers TANSEED grants of up to ₹15 Lakhs.',
-        );
-        break;
-
-      case 'POST_MATRIC':
-        if (isStudent) {
-          matchingReasons.add('Occupation: You are a Student.');
-          score += _wSectorStage;
-        } else {
-          missingRequirements.add(
-            'Occupation: Intended for students currently enrolled in Class 11 to PhD.',
-          );
-        }
-        if (profile.community.toLowerCase() == 'general') {
-          missingRequirements.add(
-            'Community: Priority is given to SC, ST, OBC and Minority community students.',
-          );
-        } else {
-          matchingReasons.add(
-            'Community: You belong to a priority group (${profile.community}).',
-          );
-          score += _wCommunity;
-        }
-        matchingReasons.add('Academic: Supports Class 11 to PhD levels.');
-        break;
-
-      case 'MERIT_MEANS':
-        if (isStudent) {
-          score += _wSectorStage;
-        } else {
-          missingRequirements.add(
-            'Occupation: Designed for students in UG & PG professional courses.',
-          );
-        }
-        if (profile.annualIncome > 250000) {
-          missingRequirements.add(
-            'Income: Requires family annual income below ₹2.5 Lakhs.',
-          );
-        } else {
-          matchingReasons.add(
-            'Income: Your family income is below ₹2.5 Lakhs.',
-          );
-          score += _wCommunity;
-        }
-        matchingReasons.add(
-          'Academic: Designed for UG & PG professional courses.',
-        );
-        break;
-
-      case 'INSPIRE':
-        if (isStudent) {
-          score += _wSectorStage;
-        } else {
-          missingRequirements.add(
-            'Occupation: For students pursuing basic/natural sciences.',
-          );
-        }
-        if (profile.age >= 17 && profile.age <= 22) {
-          matchingReasons.add('Age: You fit the age bracket of 17-22 years.');
-          score += _wAge;
-        } else {
-          missingRequirements.add('Age: Designed for youth aged 17-22 years.');
-        }
-        matchingReasons.add(
-          'Academic: For top 1% performers in Class 12 pursuing basic sciences.',
-        );
-        break;
-
-      case 'PRAGATI':
-        // HARD: female students only.
-        if (!isFemale) {
-          missingRequirements.add('Gender: Exclusively for female students.');
-          return disqualified();
-        }
-        matchingReasons.add('Gender: Female candidate.');
-        score += _wGender + _wSectorStage;
-        if (profile.educationLevel == 'Undergraduate' ||
-            profile.educationLevel == 'Diploma' ||
-            profile.educationLevel == 'Postgraduate') {
-          matchingReasons.add(
-            'Academic: Enrolled in eligible level (${profile.educationLevel}).',
-          );
-          score += _wEducation;
-        } else {
-          missingRequirements.add(
-            'Academic: Designed for Diploma, UG or PG courses.',
-          );
-        }
-        break;
-
-      default:
-        // 1. State / Residency -- HARD when the scheme is scoped to a
-        //    different state than the profile.
-        final schemeState = scheme.state.toLowerCase().trim();
-        final stateIsNational =
-            schemeState.isEmpty ||
-            schemeState == 'all india' ||
-            schemeState == 'pan-india' ||
-            schemeState.contains('pan-india') ||
-            schemeState.contains('all india');
-        if (!stateIsNational &&
-            schemeState != profile.state.toLowerCase().trim()) {
-          missingRequirements.add(
-            'Residency: This scheme is for residents of ${scheme.state}.',
-          );
-          return disqualified();
-        }
-        if (!stateIsNational) {
-          matchingReasons.add(
-            'Location: You reside in ${scheme.state} where this scheme is offered.',
-          );
-          score += _wState;
-        } else if (profile.state.trim().isNotEmpty) {
-          matchingReasons.add(
-            'Coverage: Applies across India, including ${profile.state}.',
-          );
-          score += _wNationalCoverage;
-        }
-
-        // 2. Gender -- structured eligibility.gender facet is authoritative
-        //    when the catalog asserts it; free-text targetBeneficiary is the
-        //    fallback. A female-only scheme HARD-excludes non-female profiles.
-        final targetUpper = scheme.targetBeneficiary.toUpperCase();
-        final hasWomenKeyword =
-            targetUpper.contains('WOMEN') || targetUpper.contains('FEMALE');
-        bool wantsFemale = false;
-        if (scheme.eligibilityGenderValues.isNotEmpty) {
-          wantsFemale = scheme.eligibilityGenderValues.any(
-            (v) => v.toLowerCase() == 'female',
-          );
-        } else {
-          wantsFemale = hasWomenKeyword;
-        }
-        if (wantsFemale) {
-          if (!isFemale) {
-            missingRequirements.add(
-              'Gender: This scheme is targeted towards Women/Female entrepreneurs.',
-            );
-            return disqualified();
-          }
-          // SUBSTANTIVE: the scheme is gender-scoped and the profile matches.
-          matchingReasons.add(
-            'Gender: You match the target female demographic.',
-          );
-          score += _wGender;
-        }
-        // A gender-agnostic scheme earns NOTHING for gender -- "silent on X"
-        // is not a match (previously this granted +_wGender to every scheme
-        // for anyone with a gender set, which recreated the "no info => still
-        // matches" bug at a lower score).
-
-        // 3. Special-category -- structured eligibility.specialCategory facet
-        //    is authoritative when populated; SC/ST keyword is the fallback.
-        //    A mismatch is a soft miss (priority, not exclusive), never a
-        //    hard zero.
-        final hasSCSTKeyword =
-            targetUpper.contains('SC/') ||
-            targetUpper.contains('SC ') ||
-            targetUpper.contains('ST ') ||
-            targetUpper.contains('SC-ST') ||
-            targetUpper.contains('SC/ST');
-        if (scheme.specialCategories.isNotEmpty) {
-          final profileCategories = <String>{
-            if (profile.community.toLowerCase() == 'sc') 'sc',
-            if (profile.community.toLowerCase() == 'st') 'st',
-            if (isFemale) 'women',
-            if (profile.gender.toLowerCase() == 'transgender') 'transgender',
-            if (profile.disability.isNotEmpty &&
-                profile.disability.toLowerCase() != 'none')
-              'differently_abled',
-            if (profile.veteran) 'ex_servicemen',
-            if (_minorityReligions.contains(profile.religion.toLowerCase()))
-              'minority',
-          };
-          final schemeCategories = scheme.specialCategories
-              .map((c) => c.toLowerCase())
-              .toSet();
-          final overlap = schemeCategories.intersection(profileCategories);
-          if (overlap.isEmpty) {
-            missingRequirements.add(
-              'Community/Category: Priority is for ${scheme.specialCategories.join(', ')}.',
-            );
-          } else {
-            matchingReasons.add(
-              'Community/Category: Matches the ${overlap.join(', ')} priority category.',
-            );
-            score += _wCommunity;
-          }
-        } else if (hasSCSTKeyword) {
-          if (isSCST) {
-            matchingReasons.add(
-              'Community: Matches the SC/ST priority demographic.',
-            );
-            score += _wCommunity;
-          } else {
-            missingRequirements.add(
-              'Community: Priority/eligibility is for SC/ST categories.',
-            );
-          }
-        }
-
-        // 4. Age -- SUBSTANTIVE only: the scheme declares an age gate
-        //    (eligibility.age.{minYears,maxYears}) AND the profile has a real
-        //    DOB AND the age falls in range. A scheme with no age gate earns
-        //    nothing here. Out-of-range is a soft miss, not a hard zero.
-        if (scheme.eligibilityMinAge != null ||
-            scheme.eligibilityMaxAge != null) {
-          final minAge = scheme.eligibilityMinAge ?? 0;
-          final maxAge = scheme.eligibilityMaxAge ?? 200;
-          if (hasAge && age >= minAge && age <= maxAge) {
-            matchingReasons.add(
-              'Age: Your age ($age) is within the eligible range of $minAge-$maxAge years.',
-            );
-            score += _wAge;
-          } else if (hasAge) {
-            missingRequirements.add(
-              'Age: Your age ($age) is outside the eligible range of $minAge-$maxAge years.',
-            );
-          }
-        }
-
-        // 5. Business stage -- SUBSTANTIVE: scheme declares eligible stages
-        //    and the profile's stage maps into them.
-        if (scheme.eligibilityBusinessStageValues.isNotEmpty) {
-          final mappedStage = _mapBusinessStage(profile.businessStage);
-          final wantsStage = scheme.eligibilityBusinessStageValues
-              .map((s) => s.toLowerCase())
-              .toSet();
-          if (mappedStage != null && wantsStage.contains(mappedStage)) {
-            matchingReasons.add(
-              'Business Stage: Your business stage (${profile.businessStage}) matches.',
-            );
-            score += _wSectorStage;
-          } else {
-            missingRequirements.add(
-              'Business Stage: This scheme targets ${scheme.eligibilityBusinessStageValues.join(', ')} businesses.',
-            );
-          }
-        }
-
-        // 6. Sector / interest overlap -- SUBSTANTIVE: the profile's industry
-        //    literally appears in the scheme's sector / category / keywords.
-        if (profile.businessIndustry.trim().length > 2) {
-          final industry = profile.businessIndustry.toLowerCase();
-          final sectorHay =
-              '${scheme.sector} ${scheme.category} ${scheme.searchKeywords}'
-                  .toLowerCase();
-          if (sectorHay.contains(industry)) {
-            matchingReasons.add(
-              'Sector: Aligned with your ${profile.businessIndustry} focus.',
-            );
-            score += _wSector;
-          }
-        }
-
-        // 6b. Role <-> scheme theme -- SUBSTANTIVE: the onboarding role the
-        //     user picked lines up with what the scheme is *about*. This is
-        //     what lets a Tamil Nadu startup grant (state-scoped, otherwise
-        //     silent on facets) clear the "For Me" bar for a Tamil Nadu user
-        //     who identifies as an entrepreneur, instead of sitting at the
-        //     bare state-match score.
-        final themeHay =
-            '${scheme.sector} ${scheme.category} ${scheme.searchKeywords} '
-                    '${scheme.name} ${scheme.targetBeneficiary}'
-                .toLowerCase();
-        const founderThemeWords = [
-          'startup',
-          'start-up',
-          'start up',
-          'entrepreneur',
-          'incubat',
-          'seed fund',
-          'seed grant',
-          'venture',
-          'self-employment',
-          'self employment',
-          'enterprise creation',
-        ];
-        const artisanThemeWords = [
-          'artisan',
-          'handicraft',
-          'handloom',
-          'weaver',
-          'khadi',
-          'craft',
-          'kaivinai',
-          'cottage industr',
-        ];
-        if (_isFounderRole(profile) &&
-            founderThemeWords.any(themeHay.contains)) {
-          matchingReasons.add(
-            'Focus: This scheme supports entrepreneurs/startups, which matches '
-            'your profile.',
-          );
-          score += _wSectorStage;
-        } else if (_isArtisanRole(profile) &&
-            artisanThemeWords.any(themeHay.contains)) {
-          matchingReasons.add(
-            'Focus: This scheme supports artisans/craftspeople, which matches '
-            'your profile.',
-          );
-          score += _wSectorStage;
-        }
-
-        // 7. Genuinely unconstrained scheme that matched nothing at all --
-        //    keep it findable (search / browse) but well below the "For Me"
-        //    bar. This is NOT a match, it is the absence of one.
-        if (score == 0.0 && matchingReasons.isEmpty) {
-          score = 0.3;
-          matchingReasons.add(
-            'Relevance: No specific eligibility conflicts detected.',
-          );
-        }
-        break;
+    // 7. Genuinely unconstrained scheme that matched nothing at all --
+    //    keep it findable (search / browse) but well below the "For Me"
+    //    bar. This is NOT a match, it is the absence of one.
+    if (score == 0.0 && matchingReasons.isEmpty) {
+      score = 0.3;
+      matchingReasons.add(
+        'Relevance: No specific eligibility conflicts detected.',
+      );
     }
 
     // Adjust score based on missing documents (slight penalty), preserved

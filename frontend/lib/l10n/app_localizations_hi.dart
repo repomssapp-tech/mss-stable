@@ -272,6 +272,11 @@ class AppLocalizationsHi extends AppLocalizations {
       'कोई भिन्न कीवर्ड आज़माएँ या श्रेणियाँ ब्राउज़ करें।';
 
   @override
+  String searchDidYouMean(Object suggestion) {
+    return 'क्या आपका मतलब \"$suggestion\" था?';
+  }
+
+  @override
   String resultsFor(Object count, Object query) {
     return '\"$query\" के लिए $count परिणाम';
   }

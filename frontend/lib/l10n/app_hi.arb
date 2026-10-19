@@ -81,6 +81,7 @@
   "schemesMatchProfile": "{count} योजनाएं आपकी प्रोफ़ाइल से मेल खाती हैं।",
   "noSchemesFound": "\"{query}\" के लिए कोई योजना नहीं मिली",
   "tryDifferentKeyword": "कोई भिन्न कीवर्ड आज़माएँ या श्रेणियाँ ब्राउज़ करें।",
+  "searchDidYouMean": "क्या आपका मतलब \"{suggestion}\" था?",
   "resultsFor": "\"{query}\" के लिए {count} परिणाम",
   "matchScorePercent": "{percent}% मिलान",
   "filterAll": "सभी",

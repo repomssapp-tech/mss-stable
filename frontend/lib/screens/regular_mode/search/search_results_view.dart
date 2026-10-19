@@ -4,7 +4,10 @@ import '../../../services/recommendation/recommendation_engine.dart';
 import '../../../l10n/l10n.dart';
 import '../../../models/scheme_model.dart';
 import '../../../providers/app_state_provider.dart';
+import '../../../utils/app_colors.dart';
+import '../../../utils/app_radius.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 import '../../../widgets/scheme/scheme_card.dart';
 import '../scheme_details_screen.dart';
 import 'search_models.dart';
@@ -29,6 +32,49 @@ class SearchLoadingSkeleton extends StatelessWidget {
   }
 }
 
+/// A tappable "Did you mean "X"?" line that re-runs the search with the
+/// corrected spelling. At least 48dp tall so it is an easy touch target.
+class DidYouMeanSuggestion extends StatelessWidget {
+  final String suggestion;
+  final ValueChanged<String> onTap;
+  final AlignmentGeometry alignment;
+
+  const DidYouMeanSuggestion({
+    super.key,
+    required this.suggestion,
+    required this.onTap,
+    this.alignment = Alignment.center,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      child: InkWell(
+        onTap: () => onTap(suggestion),
+        borderRadius: BorderRadius.circular(AppRadius.sm),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 48),
+          child: Align(
+            alignment: alignment,
+            widthFactor: 1,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: AppSpacing.tight),
+              child: Text(
+                context.l10n.searchDidYouMean(suggestion),
+                style: context.text.button.copyWith(
+                  color: AppColors.primaryStrong,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 /// Search results list displaying scheme cards and empty state representations.
 class SearchResultsList extends StatelessWidget {
   final List<Scheme> searchResults;
@@ -38,6 +84,11 @@ class SearchResultsList extends StatelessWidget {
   final AppProvider provider;
   final double Function(double) scaledFontSize;
 
+  /// A corrected spelling of [queryText] to offer ("laon" -> "loan"), shown
+  /// as a tappable "Did you mean ...?" line; null when there is none.
+  final String? didYouMean;
+  final ValueChanged<String>? onDidYouMeanTap;
+
   const SearchResultsList({
     super.key,
     required this.searchResults,
@@ -46,7 +97,11 @@ class SearchResultsList extends StatelessWidget {
     required this.forMeEmptyState,
     required this.provider,
     required this.scaledFontSize,
+    this.didYouMean,
+    this.onDidYouMeanTap,
   });
+
+  bool get _hasSuggestion => didYouMean != null && onDidYouMeanTap != null;
 
   @override
   Widget build(BuildContext context) {
@@ -108,6 +163,13 @@ class SearchResultsList extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
+                if (_hasSuggestion) ...[
+                  const SizedBox(height: AppSpacing.md),
+                  DidYouMeanSuggestion(
+                    suggestion: didYouMean!,
+                    onTap: onDidYouMeanTap!,
+                  ),
+                ],
               ],
             ),
           ),
@@ -156,6 +218,12 @@ class SearchResultsList extends StatelessWidget {
                     color: const Color(0xFF64748B),
                   ),
                 ),
+                if (_hasSuggestion)
+                  DidYouMeanSuggestion(
+                    suggestion: didYouMean!,
+                    onTap: onDidYouMeanTap!,
+                    alignment: Alignment.centerLeft,
+                  ),
               ],
             ),
           );

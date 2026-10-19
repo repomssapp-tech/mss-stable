@@ -274,6 +274,11 @@ class AppLocalizationsTa extends AppLocalizations {
       'வேறு முக்கிய வார்த்தையை முயற்சிக்கவும் அல்லது பிரிவுகளை உலாவவும்.';
 
   @override
+  String searchDidYouMean(Object suggestion) {
+    return 'நீங்கள் \"$suggestion\" என்பதைத் தேடினீர்களா?';
+  }
+
+  @override
   String resultsFor(Object count, Object query) {
     return '\"$query\" -க்கு $count முடிவுகள்';
   }

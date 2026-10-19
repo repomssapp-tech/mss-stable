@@ -14,7 +14,7 @@ void main() {
       );
 
       final womenScheme = Scheme(
-        id: 'STANDUP_INDIA',
+        id: 'CEN2026-STANDUP',
         name: 'Stand-Up India',
         category: 'Women Entrepreneurs',
         overview: 'Loans for women and SC/ST entrepreneurs',
@@ -37,7 +37,7 @@ void main() {
       );
 
       final womenScheme = Scheme(
-        id: 'STANDUP_INDIA',
+        id: 'CEN2026-STANDUP',
         name: 'Stand-Up India',
         category: 'Women Entrepreneurs',
         overview: 'Loans for women and SC/ST entrepreneurs',
@@ -62,7 +62,7 @@ void main() {
         );
 
         final needsScheme = Scheme(
-          id: 'NEEDS',
+          id: 'TN2026-NEEDS',
           name: 'New Entrepreneur-cum-Enterprise Development Scheme',
           category: 'Business & MSME',
           overview:
@@ -84,28 +84,36 @@ void main() {
       },
     );
 
-    test('TN resident graduate IS eligible for NEEDS scheme', () {
-      final tnProfile = UserProfile(
-        gender: 'Male',
-        state: 'Tamil Nadu',
-        dob: DateTime(2000, 1, 1),
-        educationLevel: 'Graduate',
-        community: 'General',
-      );
+    test(
+      'TN resident IS eligible for a TN scheme whose age gate they meet',
+      () {
+        final tnProfile = UserProfile(
+          gender: 'Male',
+          state: 'Tamil Nadu',
+          dob: DateTime(2000, 1, 1),
+          educationLevel: 'Graduate',
+          community: 'General',
+        );
 
-      final needsScheme = Scheme(
-        id: 'NEEDS',
-        name: 'New Entrepreneur-cum-Enterprise Development Scheme',
-        category: 'Business & MSME',
-        overview: 'Assistance for first generation entrepreneurs in Tamil Nadu',
-        sponsoringBody: 'Government of Tamil Nadu',
-        state: 'Tamil Nadu',
-        targetBeneficiary: 'Entrepreneurs',
-      );
+        // State-scoped AND age-gated, like the real TN2026 catalog entries. A
+        // state match alone (0.20) is deliberately below the "For Me" bar.
+        final needsScheme = Scheme(
+          id: 'TN2026-NEEDS',
+          name: 'New Entrepreneur-cum-Enterprise Development Scheme',
+          category: 'Business & MSME',
+          overview:
+              'Assistance for first generation entrepreneurs in Tamil Nadu',
+          sponsoringBody: 'Government of Tamil Nadu',
+          state: 'Tamil Nadu',
+          targetBeneficiary: 'Entrepreneurs',
+          eligibilityMinAge: 21,
+          eligibilityMaxAge: 45,
+        );
 
-      final result = RecommendationEngine.evaluate(tnProfile, needsScheme);
-      expect(result.score, greaterThanOrEqualTo(0.4));
-    });
+        final result = RecommendationEngine.evaluate(tnProfile, needsScheme);
+        expect(result.score, greaterThanOrEqualTo(0.4));
+      },
+    );
 
     test(
       'Exact count consistency between computed eligible count and filtered list count',
@@ -116,7 +124,7 @@ void main() {
         // high (that was the Phase 2 bug). So TN_1 / ALL_1 / KA_1 now declare
         // an age range this profile (age ~30) satisfies. The test's actual
         // intent is unchanged: a state mismatch (KA_1) and a gender/category
-        // mismatch (STANDUP_INDIA for a Male OBC) are still hard-excluded, and
+        // mismatch (CEN2026-STANDUP for a Male OBC) are still hard-excluded, and
         // exactly the two control schemes pass.
         final profile = UserProfile(
           gender: 'Male',
@@ -155,7 +163,7 @@ void main() {
             eligibilityMaxAge: 45,
           ),
           Scheme(
-            id: 'STANDUP_INDIA',
+            id: 'CEN2026-STANDUP',
             name: 'Stand-Up India (Women/SC/ST)',
             state: 'All India',
             category: 'Women Entrepreneurs',
@@ -177,7 +185,7 @@ void main() {
         expect(eligibleList.map((s) => s.id).toList(), isNot(contains('KA_1')));
         expect(
           eligibleList.map((s) => s.id).toList(),
-          isNot(contains('STANDUP_INDIA')),
+          isNot(contains('CEN2026-STANDUP')),
         );
         expect(eligibleList.length, equals(2));
       },

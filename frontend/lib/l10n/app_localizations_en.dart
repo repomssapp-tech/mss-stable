@@ -272,6 +272,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Try a different keyword or browse categories.';
 
   @override
+  String searchDidYouMean(Object suggestion) {
+    return 'Did you mean \"$suggestion\"?';
+  }
+
+  @override
   String resultsFor(Object count, Object query) {
     return '$count results for \"$query\"';
   }

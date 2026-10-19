@@ -8,6 +8,8 @@ import '../../models/mss_entity.dart';
 import 'intelligent_scheme_search.dart' show SchemeSearchMatch;
 import '../catalog/mss_catalog_bundle.dart';
 import '../catalog/mss_scheme_adapter.dart';
+import 'indic_search_support.dart';
+import 'spell_suggester.dart';
 
 /// Deterministic query-tag normalizer, faithfully ported from
 /// `Plan/catalog/taxonomy_engine.py` (the reference implementation the
@@ -239,10 +241,104 @@ class HybridSchemeSearch {
   late int _nDocs;
   late Set<String> _vocab;
 
+  /// A word in more than this share of schemes carries no meaning for ranking
+  /// (Hindi/Tamil function words), so it is left out of the text index.
+  static const double _kCommonWordShare = 0.20;
+
+  final Map<String, List<String>> _rawLocalizedTokens = {};
+
+  /// The scheme's own Hindi and Tamil summary / description / benefits words
+  /// (see [indicTextTokens]), cached per scheme.
+  List<String> _rawLocalizedTextTokens(MssEntity entry) =>
+      _rawLocalizedTokens.putIfAbsent(
+        entry.id,
+        () => indicTextTokens(
+          entry.raw['localization'],
+          (text) => _meaningfulTokens(_normLookup(text)),
+        ),
+      );
+
+  /// Words too common across schemes to help ranking (data-derived, so it
+  /// needs no hand-written Hindi/Tamil stopword list).
+  late final Set<String> _commonLocalizedWords = () {
+    final df = <String, int>{};
+    for (final entry in _schemeEntries) {
+      for (final t in _rawLocalizedTextTokens(entry)) {
+        df[t] = (df[t] ?? 0) + 1;
+      }
+    }
+    final limit = _schemeEntries.length * _kCommonWordShare;
+    return {
+      for (final e in df.entries)
+        if (e.value > limit) e.key,
+    };
+  }();
+
+  List<String> _localizedTextTokens(MssEntity entry) => [
+    for (final t in _rawLocalizedTextTokens(entry))
+      if (!_commonLocalizedWords.contains(t)) t,
+  ];
+
   static Future<HybridSchemeSearch> build(MssCatalogBundle bundle) async {
     await SchemeSearchTaxonomy.ensureLoaded();
     return HybridSchemeSearch._(bundle, bundle.schemes, bundle.queryExpansions);
   }
+
+  /// Built on first use: only a search that returned nothing useful pays for it.
+  late final SpellSuggester _speller = SpellSuggester(_spellingDictionary());
+
+  /// Every word a user could validly search for -> how many schemes carry it.
+  /// Catalog terms (English, Tamil, Hindi) come first; taxonomy and expansion
+  /// words are added so a typo of "kadan" or "mahila" is corrected too.
+  Map<String, int> _spellingDictionary() {
+    final frequency = <String, int>{};
+    for (final entry in _schemeEntries) {
+      for (final term in _entryTerms(entry)) {
+        frequency[term] = (frequency[term] ?? 0) + 1;
+      }
+    }
+    void addWords(Iterable<String> phrases) {
+      for (final phrase in phrases) {
+        for (final word in phrase.toLowerCase().split(RegExp(r'\s+'))) {
+          frequency.putIfAbsent(word, () => 1);
+        }
+      }
+    }
+
+    addWords(_expansions.keys);
+    for (final table in [
+      SchemeSearchTaxonomy.industries,
+      SchemeSearchTaxonomy.benefits,
+      SchemeSearchTaxonomy.communities,
+    ]) {
+      addWords(table.values.expand((terms) => terms));
+    }
+    return frequency;
+  }
+
+  /// A corrected spelling of [query] ("laon" -> "loan"), or null when there is
+  /// nothing to correct. A suggestion is only offered when it actually finds
+  /// schemes and does better than what the user typed, so it is never a
+  /// guess that leads to an empty page.
+  String? didYouMean(String query) {
+    final typed = query.trim();
+    if (typed.isEmpty || exactEntityMatches(typed).isNotEmpty) return null;
+    final corrected = _speller.suggest(typed);
+    if (corrected == null) return null;
+    final better = search(corrected, topN: 1);
+    if (better.isEmpty) return null;
+    final original = search(typed, topN: 1);
+    if (original.isNotEmpty && better.first.$2 <= original.first.$2) {
+      return null;
+    }
+    return corrected;
+  }
+
+  /// [didYouMean] over the shared offline catalog.
+  static Future<String?> suggestCorrection(
+    String query,
+    MssCatalogBundle bundle,
+  ) async => (await build(bundle)).didYouMean(query);
 
   Set<String> _semanticTagCodes(MssEntity entry) {
     final ai = entry.raw['ai'] as Map<String, dynamic>?;
@@ -301,6 +397,7 @@ class HybridSchemeSearch {
       (hiNameTokens, 1.0),
       (hiAliasTokens, 1.0),
       (hiKwTokens, 1.0),
+      (_localizedTextTokens(entry), 0.8),
       (
         _stringList(
           searchProfile['loanType'],
@@ -360,6 +457,9 @@ class HybridSchemeSearch {
     }
     _vocab = vocab;
   }
+
+  /// Hindi/Tamil words of the vocabulary, for matching inflected query words.
+  late final IndicVocabulary _indicVocab = IndicVocabulary(_vocab);
 
   /// Smoothed IDF: ln((N + 1) / (df + 1)) + 1. Every value >= 1, so a
   /// matched term never scores below the pre-IDF flat weight of 1.0.
@@ -434,6 +534,12 @@ class HybridSchemeSearch {
       final expansion = _tokenExpansions[tok];
       if (expansion != null) {
         forms.addAll(expansion);
+      }
+
+      // Hindi / Tamil inflect by attaching suffixes, so a query word is often
+      // not literally in the vocabulary although its root is.
+      if (indicScript.hasMatch(tok) && !_vocab.contains(tok)) {
+        forms.addAll(_indicVocab.variants(tok));
       }
 
       final gated = forms.where(_vocab.contains).toSet();
