@@ -196,7 +196,10 @@ class HomeTipOfTheDayCard extends StatelessWidget {
     return provider.selectedLanguage == 'ta' ? baseSize * 0.88 : baseSize;
   }
 
-  double _scaledLineHeight(BuildContext context, [double defaultHeight = 1.28]) {
+  double _scaledLineHeight(
+    BuildContext context, [
+    double defaultHeight = 1.28,
+  ]) {
     final provider = Provider.of<AppProvider>(context, listen: false);
     return provider.selectedLanguage == 'ta'
         ? defaultHeight * 1.06

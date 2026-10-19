@@ -28,7 +28,9 @@ void main() {
 
       // Manual computation
       final expectedHash = sha256.convert(ascii.encode(knownVerifier));
-      final expectedChallenge = base64Url.encode(expectedHash.bytes).replaceAll('=', '');
+      final expectedChallenge = base64Url
+          .encode(expectedHash.bytes)
+          .replaceAll('=', '');
 
       expect(challenge, expectedChallenge);
       expect(challenge.contains('='), isFalse);

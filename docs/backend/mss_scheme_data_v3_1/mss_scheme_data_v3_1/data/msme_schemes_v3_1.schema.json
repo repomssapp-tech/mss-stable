@@ -1,0 +1,771 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "msme_schemes_v3_1.schema.json",
+  "title": "MSME & central schemes \u2013 v3.1 (2015 compendium + 2025-26 booklet + new schemes)",
+  "type": "object",
+  "required": [
+    "meta",
+    "schemes"
+  ],
+  "properties": {
+    "meta": {
+      "type": "object"
+    },
+    "schemes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "parent_id",
+          "children_ids",
+          "name",
+          "ministry",
+          "is_group_header",
+          "is_synthetic_group"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^(MSME2015-(G\\d{2}|\\d{3})|MSME2526-\\d{3}|NEW2026-\\d{3})$"
+          },
+          "parent_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "children_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "name": {
+            "type": "object",
+            "properties": {
+              "hi": {},
+              "en": {}
+            },
+            "required": [
+              "hi",
+              "en"
+            ]
+          },
+          "ministry": {
+            "type": "object",
+            "properties": {
+              "hi": {},
+              "en": {}
+            },
+            "required": [
+              "hi",
+              "en"
+            ]
+          },
+          "division": {
+            "type": "object",
+            "properties": {
+              "hi": {},
+              "en": {}
+            },
+            "required": [
+              "hi",
+              "en"
+            ]
+          },
+          "source_2015": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "required": [
+                  "description",
+                  "benefits",
+                  "eligibility",
+                  "application_steps",
+                  "page_book",
+                  "page_pdf"
+                ],
+                "properties": {
+                  "description": {
+                    "type": "object",
+                    "properties": {
+                      "hi": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "en": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "hi",
+                      "en"
+                    ]
+                  },
+                  "benefits": {
+                    "type": "object",
+                    "properties": {
+                      "hi": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "en": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "hi",
+                      "en"
+                    ]
+                  },
+                  "eligibility": {
+                    "type": "object",
+                    "properties": {
+                      "hi": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "en": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "hi",
+                      "en"
+                    ]
+                  },
+                  "application_steps": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "step",
+                        "action"
+                      ],
+                      "properties": {
+                        "step": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "action": {
+                          "type": "object",
+                          "properties": {
+                            "hi": {},
+                            "en": {}
+                          },
+                          "required": [
+                            "hi",
+                            "en"
+                          ]
+                        },
+                        "mode": {
+                          "enum": [
+                            "online",
+                            "offline",
+                            "both",
+                            null
+                          ]
+                        },
+                        "where": {
+                          "anyOf": [
+                            {
+                              "type": "null"
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "hi": {},
+                                "en": {}
+                              },
+                              "required": [
+                                "hi",
+                                "en"
+                              ]
+                            }
+                          ]
+                        },
+                        "url": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "documents": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "how_to_apply_raw": {
+                    "type": "object"
+                  },
+                  "page_book": {
+                    "type": "integer"
+                  },
+                  "page_pdf": {
+                    "type": "integer"
+                  }
+                }
+              }
+            ]
+          },
+          "benefit_facts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "type",
+                "as_of"
+              ],
+              "properties": {
+                "type": {
+                  "enum": [
+                    "grant",
+                    "loan",
+                    "subsidy",
+                    "interest_subvention",
+                    "insurance",
+                    "guarantee",
+                    "reimbursement",
+                    "award",
+                    "training",
+                    "facility",
+                    "tax_concession",
+                    "stipend",
+                    "other"
+                  ]
+                },
+                "max_amount_inr": {
+                  "type": [
+                    "integer",
+                    "number",
+                    "null"
+                  ]
+                },
+                "min_amount_inr": {
+                  "type": [
+                    "integer",
+                    "number",
+                    "null"
+                  ]
+                },
+                "percent": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "percent_of": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "condition_en": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "source_quote_hi": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "quote_verified": {
+                  "type": "boolean"
+                },
+                "as_of": {
+                  "type": "string"
+                },
+                "source_quote_en": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            }
+          },
+          "targeting": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "beneficiary_types": {
+                    "type": "array",
+                    "items": {
+                      "enum": [
+                        "individual",
+                        "micro_enterprise",
+                        "small_enterprise",
+                        "medium_enterprise",
+                        "startup",
+                        "shg",
+                        "cooperative",
+                        "ngo",
+                        "institution",
+                        "company",
+                        "state_govt",
+                        "ex_serviceman",
+                        "farmer",
+                        "artisan",
+                        "student",
+                        "exporter"
+                      ]
+                    }
+                  },
+                  "target_groups": {
+                    "type": "array",
+                    "items": {
+                      "enum": [
+                        "women",
+                        "sc",
+                        "st",
+                        "obc",
+                        "minority",
+                        "pwd",
+                        "youth",
+                        "ner",
+                        "bpl",
+                        "rural",
+                        "urban"
+                      ]
+                    }
+                  },
+                  "sectors": {
+                    "type": "array",
+                    "items": {
+                      "enum": [
+                        "manufacturing",
+                        "services",
+                        "agriculture",
+                        "khadi_village",
+                        "coir",
+                        "textiles",
+                        "handicrafts",
+                        "food_processing",
+                        "it_electronics",
+                        "tourism",
+                        "energy",
+                        "biotech",
+                        "export",
+                        "infrastructure"
+                      ]
+                    }
+                  },
+                  "age_min": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "age_max": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "min_education": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "contacts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "type",
+                "value"
+              ],
+              "properties": {
+                "type": {
+                  "enum": [
+                    "office",
+                    "phone",
+                    "email",
+                    "website"
+                  ]
+                },
+                "value": {
+                  "type": "string"
+                },
+                "label_hi": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "label_en": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            }
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "required": [
+                  "value",
+                  "confidence"
+                ],
+                "properties": {
+                  "value": {
+                    "enum": [
+                      "active",
+                      "renamed",
+                      "merged",
+                      "discontinued",
+                      "unknown",
+                      "announced",
+                      "closed"
+                    ]
+                  },
+                  "confidence": {
+                    "enum": [
+                      "high",
+                      "medium",
+                      "low"
+                    ]
+                  },
+                  "current_scheme_en": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "note_en": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "verified_on": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "source_url": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "proposal": {
+                    "type": "object"
+                  }
+                }
+              }
+            ]
+          },
+          "current": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "required": [
+                  "name_en",
+                  "fetched_on",
+                  "sources"
+                ],
+                "properties": {
+                  "name_en": {
+                    "type": "string"
+                  },
+                  "summary_en": {
+                    "type": "array"
+                  },
+                  "benefits_en": {
+                    "type": "array"
+                  },
+                  "eligibility_en": {
+                    "type": "array"
+                  },
+                  "how_to_apply_en": {
+                    "type": "array"
+                  },
+                  "official_url": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "fetched_on": {
+                    "type": "string"
+                  },
+                  "sources": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "mss_catalog_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "is_group_header": {
+            "type": "boolean"
+          },
+          "is_synthetic_group": {
+            "type": "boolean"
+          },
+          "text_review": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "agent_flags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "source_current": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "required": [
+                  "document_title",
+                  "document_url",
+                  "as_of",
+                  "description",
+                  "benefits",
+                  "eligibility",
+                  "application_steps"
+                ],
+                "properties": {
+                  "document_title": {
+                    "type": "string"
+                  },
+                  "document_url": {
+                    "type": "string"
+                  },
+                  "as_of": {
+                    "type": "string"
+                  },
+                  "page_book": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "description": {
+                    "type": "object",
+                    "properties": {
+                      "hi": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "en": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "hi",
+                      "en"
+                    ]
+                  },
+                  "benefits": {
+                    "type": "object",
+                    "properties": {
+                      "hi": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "en": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "hi",
+                      "en"
+                    ]
+                  },
+                  "eligibility": {
+                    "type": "object",
+                    "properties": {
+                      "hi": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "en": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "hi",
+                      "en"
+                    ]
+                  },
+                  "application_steps": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "step",
+                        "action"
+                      ],
+                      "properties": {
+                        "step": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "action": {
+                          "type": "object",
+                          "properties": {
+                            "hi": {},
+                            "en": {}
+                          },
+                          "required": [
+                            "hi",
+                            "en"
+                          ]
+                        },
+                        "mode": {
+                          "enum": [
+                            "online",
+                            "offline",
+                            "both",
+                            null
+                          ]
+                        },
+                        "where": {
+                          "anyOf": [
+                            {
+                              "type": "null"
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "hi": {},
+                                "en": {}
+                              },
+                              "required": [
+                                "hi",
+                                "en"
+                              ]
+                            }
+                          ]
+                        },
+                        "url": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "documents": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "hi_is_machine_translation": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            ]
+          },
+          "related_v3_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "related_new_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "catalog_match": {
+            "enum": [
+              "exact",
+              "partial",
+              "none",
+              null
+            ]
+          },
+          "app_relevance": {
+            "enum": [
+              "high",
+              "medium",
+              "low",
+              null
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -23,7 +23,8 @@ class HomeProfileCompletionCard extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: onTap ??
+        onTap:
+            onTap ??
             () {
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (_) => const BasicProfileScreen()),

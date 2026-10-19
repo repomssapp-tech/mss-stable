@@ -20,7 +20,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
@@ -49,12 +48,6 @@ void main() {
 
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    try {
-      await Supabase.initialize(
-        url: 'https://example.supabase.co',
-        publishableKey: 'test-publishable-key',
-      );
-    } catch (_) {}
   });
 
   group('T5 new keys: non-empty and ta != en', () {
@@ -69,8 +62,14 @@ void main() {
     test('representative keys across every T5 namespace differ by locale', () {
       final pairs = <String, List<String>>{
         // basic_profile_screen.dart
-        'profileHintSelectDob': [en.profileHintSelectDob, ta.profileHintSelectDob],
-        'profileErrEnterPhone': [en.profileErrEnterPhone, ta.profileErrEnterPhone],
+        'profileHintSelectDob': [
+          en.profileHintSelectDob,
+          ta.profileHintSelectDob,
+        ],
+        'profileErrEnterPhone': [
+          en.profileErrEnterPhone,
+          ta.profileErrEnterPhone,
+        ],
         'profileErrCompleteFieldsCorrectly': [
           en.profileErrCompleteFieldsCorrectly,
           ta.profileErrCompleteFieldsCorrectly,
@@ -112,10 +111,7 @@ void main() {
         // catalog_freshness_footer.dart
         'monthAbbrList': [en.monthAbbrList, ta.monthAbbrList],
         // floating_logo.dart / anti_gravity_hero_section.dart
-        'discoverEveryScheme': [
-          en.discoverEveryScheme,
-          ta.discoverEveryScheme,
-        ],
+        'discoverEveryScheme': [en.discoverEveryScheme, ta.discoverEveryScheme],
       };
 
       pairs.forEach((key, values) {
@@ -123,16 +119,21 @@ void main() {
         final taVal = values[1];
         expect(enVal.trim(), isNotEmpty, reason: '$key (en) must be non-empty');
         expect(taVal.trim(), isNotEmpty, reason: '$key (ta) must be non-empty');
-        expect(taVal, isNot(equals(enVal)),
-            reason: '$key ta must be a real translation, not the en string');
+        expect(
+          taVal,
+          isNot(equals(enVal)),
+          reason: '$key ta must be a real translation, not the en string',
+        );
       });
     });
 
     test('settingsAppVersion interpolates the version placeholder', () {
       expect(en.settingsAppVersion('1.2.0'), contains('1.2.0'));
       expect(ta.settingsAppVersion('1.2.0'), contains('1.2.0'));
-      expect(ta.settingsAppVersion('1.2.0'),
-          isNot(equals(en.settingsAppVersion('1.2.0'))));
+      expect(
+        ta.settingsAppVersion('1.2.0'),
+        isNot(equals(en.settingsAppVersion('1.2.0'))),
+      );
     });
 
     test('monthAbbrList has exactly 12 entries in both locales', () {
@@ -144,7 +145,10 @@ void main() {
   group('BetaGateScreen renders localized strings for the active locale', () {
     testWidgets('English locale shows the English title + CTA', (tester) async {
       await tester.pumpWidget(
-        _host(const Locale('en'), BetaGateScreen(service: _FakeBetaGateService())),
+        _host(
+          const Locale('en'),
+          BetaGateScreen(service: _FakeBetaGateService()),
+        ),
       );
       await tester.pump();
 
@@ -156,7 +160,10 @@ void main() {
       final ta = await AppLocalizations.delegate.load(const Locale('ta'));
 
       await tester.pumpWidget(
-        _host(const Locale('ta'), BetaGateScreen(service: _FakeBetaGateService())),
+        _host(
+          const Locale('ta'),
+          BetaGateScreen(service: _FakeBetaGateService()),
+        ),
       );
       await tester.pump();
 

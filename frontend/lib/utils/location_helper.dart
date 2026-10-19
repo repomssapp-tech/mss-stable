@@ -59,7 +59,9 @@ class LocationHelper {
     // If locality is distinct from area, include/use locality.
     String resolvedDistrict = '';
     if (subAdmin.isNotEmpty) {
-      if (locality.isNotEmpty && locality != subAdmin && locality != resolvedArea) {
+      if (locality.isNotEmpty &&
+          locality != subAdmin &&
+          locality != resolvedArea) {
         resolvedDistrict = '$locality, $subAdmin';
       } else {
         resolvedDistrict = subAdmin;

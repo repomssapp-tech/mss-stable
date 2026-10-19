@@ -1,0 +1,639 @@
+[
+  {
+    "id": "SCH000005",
+    "scheme_code": "TN005",
+    "name_en": "Advance Authorisation Scheme",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.dgft.gov.in/CP/?opt=adnavce-authorisation",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.dgft.gov.in/CP/?opt=adnavce-authorisation",
+      "page_title": "Directorate General of Foreign Trade | Ministry of Commerce and Industry | Government of India",
+      "content_length": 106049,
+      "content_type": "text/html;charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Directorate General of Foreign Trade | Ministry of Commerce and Industry | Government of India)",
+    "audited_at": "2026-10-05T18:06:37.899317+00:00"
+  },
+  {
+    "id": "SCH000007",
+    "scheme_code": "TN007",
+    "name_en": "Annai Therasa Ninaivu Marriage Assistance Scheme for Orphan Girls",
+    "ministry": "Not applicable (State scheme)",
+    "department": "Social Welfare and Women Empowerment Department, Government of Tamil Nadu",
+    "state": "Tamil Nadu",
+    "primary_url": "https://www.tnsocialwelfare.tn.gov.in/en/specilisations",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.tnsocialwelfare.tn.gov.in/en/specilisations",
+      "page_title": "Specilisations | Social Welfare &amp; Women Empowerment Department, Government of Tamilnadu, India",
+      "content_length": 71906,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Specilisations | Social Welfare &amp; Women Empowerment Department, Government of Tamilnadu, India)",
+    "audited_at": "2026-10-05T18:06:37.462856+00:00"
+  },
+  {
+    "id": "SCH000009",
+    "scheme_code": "TN009",
+    "name_en": "ASCEND Capacity Building Workshops",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.startupindia.gov.in/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.startupindia.gov.in/",
+      "page_title": "Startup India",
+      "content_length": 114134,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Startup India)",
+    "audited_at": "2026-10-05T18:06:37.789143+00:00"
+  },
+  {
+    "id": "SCH000010",
+    "scheme_code": "TN010",
+    "name_en": "Assistance to Exporters for Rapid Food Testing Devices and Kits",
+    "ministry": "Ministry of Commerce & Industry, Government of India",
+    "department": "Spices Board India",
+    "state": "Pan-India",
+    "primary_url": "https://www.fssai.gov.in/business/about-raft?csrt=8881307660240170453",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.fssai.gov.in/business/about-raft?csrt=8881307660240170453",
+      "page_title": "FSSAI - Food Safety and Standards Authority of India",
+      "content_length": 3221,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: FSSAI - Food Safety and Standards Authority of India)",
+    "audited_at": "2026-10-05T18:06:37.118343+00:00"
+  },
+  {
+    "id": "SCH000019",
+    "scheme_code": "TN019",
+    "name_en": "Beekeeping Activity - Gramodyog Vikas Yojana (GVY)",
+    "ministry": "Ministry of Micro, Small & Medium Enterprises",
+    "department": "Khadi and Village Industries Commission (KVIC)",
+    "state": "Pan-India",
+    "primary_url": "https://www.kvic.gov.in/kvicres/index.php",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.kvic.gov.in/kvicres/index.php",
+      "page_title": "Khadi and Village Industries Commission",
+      "content_length": 94287,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "online application",
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Khadi and Village Industries Commission)",
+    "audited_at": "2026-10-05T18:06:37.207418+00:00"
+  },
+  {
+    "id": "SCH000021",
+    "scheme_code": "TN021",
+    "name_en": "Bhamashah Techno Fund - Women-led Startup Fund",
+    "ministry": "Government of Rajasthan",
+    "department": "Department of Information Technology & Communication",
+    "state": "Rajasthan",
+    "primary_url": "https://istart.rajasthan.gov.in/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://istart.rajasthan.gov.in/",
+      "page_title": "iStart Rajasthan - Integrated Startup Platforms for StartUps in Rajasthan",
+      "content_length": 1378,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: iStart Rajasthan - Integrated Startup Platforms for StartUps in Rajasthan)",
+    "audited_at": "2026-10-05T18:06:37.191860+00:00"
+  },
+  {
+    "id": "SCH000022",
+    "scheme_code": "TN022",
+    "name_en": "BioCARe",
+    "ministry": "Department of Biotechnology, Ministry of Science & Technology",
+    "department": "Department of Biotechnology (DBT)",
+    "state": "Pan-India",
+    "primary_url": "https://rcb.res.in/DBTBioCARe/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://rcb.res.in/DBTBioCARe/",
+      "page_title": "DBT – BioCARe Programme",
+      "content_length": 39007,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "online application",
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: DBT – BioCARe Programme)",
+    "audited_at": "2026-10-05T18:06:37.157233+00:00"
+  },
+  {
+    "id": "SCH000029",
+    "scheme_code": "TN029",
+    "name_en": "Cent Kalyani",
+    "ministry": "Not applicable as a ministry-administered subsidy",
+    "department": "Central Bank of India",
+    "state": "Pan-India",
+    "primary_url": "https://centralbank.bank.in/en/Cent_Kalyani",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://centralbank.bank.in/en/Cent_Kalyani",
+      "page_title": "Cent- Kalyani | Central Bank of India",
+      "content_length": 113874,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "apply online"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Cent- Kalyani | Central Bank of India)",
+    "audited_at": "2026-10-05T18:06:37.459430+00:00"
+  },
+  {
+    "id": "SCH000030",
+    "scheme_code": "TN030",
+    "name_en": "Chhattisgarh Innovation and Venture Capital Funds - Women Innovator Corpus",
+    "ministry": "Government of Chhattisgarh",
+    "department": "Not verified from current official source",
+    "state": "Chhattisgarh",
+    "primary_url": "https://invest.cg.gov.in/startup",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://invest.cg.gov.in/startup",
+      "page_title": "Startup Chhattisgarh",
+      "content_length": 106488,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Startup Chhattisgarh)",
+    "audited_at": "2026-10-05T18:06:37.406190+00:00"
+  },
+  {
+    "id": "SCH000031",
+    "scheme_code": "TN031",
+    "name_en": "Chief Minister's Girl Child Protection Scheme",
+    "ministry": "Not applicable (State scheme)",
+    "department": "Social Welfare and Women Empowerment Department, Government of Tamil Nadu",
+    "state": "Tamil Nadu",
+    "primary_url": "https://www.tnsocialwelfare.tn.gov.in/en/specilisationschild-welfare/chief-ministers-girl-child-protection-scheme",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.tnsocialwelfare.tn.gov.in/en/specilisationschild-welfare/chief-ministers-girl-child-protection-scheme",
+      "page_title": "Chief Minister’s Girl Child Protection Scheme | Social Welfare &amp; Women Empowerment Department, Government of Tamilna",
+      "content_length": 69004,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Chief Minister’s Girl Child Protection Scheme | Social Welfare &amp; Women Empowerment Department, Government of Tamilna)",
+    "audited_at": "2026-10-05T18:06:37.825765+00:00"
+  },
+  {
+    "id": "SCH000032",
+    "scheme_code": "TN032",
+    "name_en": "Credit Linked Capital Subsidy Scheme (CLCSS)",
+    "ministry": "Ministry of Micro, Small & Medium Enterprises",
+    "department": "Office of Development Commissioner (MSME)",
+    "state": "Pan-India",
+    "primary_url": "https://सूक्ष्मलघुऔरमध्यमउद्यममंत्रालय.सरकार.भारत/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://xn--i1bn6adp9emg4dcbcajdeflxp1gua1n7bt10abief.xn--11b7cb3a6a.xn--h2brj9c/",
+      "page_title": "",
+      "content_length": 6673,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: )",
+    "audited_at": "2026-10-05T18:06:37.452336+00:00"
+  },
+  {
+    "id": "SCH000037",
+    "scheme_code": "TN037",
+    "name_en": "Cradle Baby Scheme",
+    "ministry": "Not applicable (State scheme)",
+    "department": "Social Welfare and Women Empowerment Department, Government of Tamil Nadu",
+    "state": "Tamil Nadu",
+    "primary_url": "https://www.tnsocialwelfare.tn.gov.in/en/specilisationschild-welfare/cradle-baby-scheme",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.tnsocialwelfare.tn.gov.in/en/specilisationschild-welfare/cradle-baby-scheme",
+      "page_title": "Cradle Baby Scheme | Social Welfare &amp; Women Empowerment Department, Government of Tamilnadu, India",
+      "content_length": 67179,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Cradle Baby Scheme | Social Welfare &amp; Women Empowerment Department, Government of Tamilnadu, India)",
+    "audited_at": "2026-10-05T18:06:37.843807+00:00"
+  },
+  {
+    "id": "SCH000046",
+    "scheme_code": "TN046",
+    "name_en": "Domestic Market Promotion Scheme",
+    "ministry": "Ministry of Commerce & Industry",
+    "department": "Spices Board India",
+    "state": "Pan-India",
+    "primary_url": "https://my.msme.gov.in/MyMsmeMob/MsmeScheme/Pages/1_3_5_5.html",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://my.msme.gov.in/MyMsmeMob/MsmeScheme/Pages/1_3_5_5.html",
+      "page_title": "Domestic Market Promotion Scheme",
+      "content_length": 8105,
+      "content_type": "text/html",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Domestic Market Promotion Scheme)",
+    "audited_at": "2026-10-05T18:06:37.681302+00:00"
+  },
+  {
+    "id": "SCH000049",
+    "scheme_code": "TN049",
+    "name_en": "Namo Drone Didi",
+    "ministry": "Ministry of Agriculture & Farmers Welfare",
+    "department": "Department of Agriculture & Farmers Welfare",
+    "state": "Pan-India",
+    "primary_url": "https://www.india.gov.in/spotlight/details/namo-drone-didi",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.india.gov.in/spotlight/details/namo-drone-didi",
+      "page_title": "Spotlight | National Portal of India",
+      "content_length": 114688,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Spotlight | National Portal of India)",
+    "audited_at": "2026-10-05T18:06:37.659021+00:00"
+  },
+  {
+    "id": "SCH000051",
+    "scheme_code": "TN051",
+    "name_en": "E.V.R. Maniyammaiyar Ninaivu Marriage Assistance Scheme for Daughters of Poor Widows",
+    "ministry": "Not applicable (State scheme)",
+    "department": "Social Welfare and Women Empowerment Department, Government of Tamil Nadu",
+    "state": "Tamil Nadu",
+    "primary_url": "https://www.tnsocialwelfare.tn.gov.in/en/specilisationswoman-welfare/marriage-assistance-schemes",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.tnsocialwelfare.tn.gov.in/en/specilisationswoman-welfare/marriage-assistance-schemes",
+      "page_title": "Marriage Assistance Schemes | Social Welfare &amp; Women Empowerment Department, Government of Tamilnadu, India",
+      "content_length": 71298,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Marriage Assistance Schemes | Social Welfare &amp; Women Empowerment Department, Government of Tamilnadu, India)",
+    "audited_at": "2026-10-05T18:06:38.125000+00:00"
+  },
+  {
+    "id": "SCH000052",
+    "scheme_code": "TN052",
+    "name_en": "Economic Empowerment of Women Enterprises and Start-Ups by Women",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://wep.gov.in/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://wep.gov.in/",
+      "page_title": "Women Entrepreneurship Platform (WEP) - Empowering Women Entrepreneurs in India",
+      "content_length": 20654,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Women Entrepreneurship Platform (WEP) - Empowering Women Entrepreneurs in India)",
+    "audited_at": "2026-10-05T18:06:37.653318+00:00"
+  },
+  {
+    "id": "SCH000053",
+    "scheme_code": "TN053",
+    "name_en": "EDII Technology Development Fund",
+    "ministry": "Not applicable (State scheme)",
+    "department": "Entrepreneurship Development and Innovation Institute, Tamil Nadu (EDII-TN)",
+    "state": "Tamil Nadu",
+    "primary_url": "https://www.editn.in/Web-IVP",
+    "primary_result": {
+      "reachable": false,
+      "status_code": "CONN_ERROR",
+      "error": "HTTPSConnectionPool(host='www.editn.in', port=443): Max retries exceeded with url: /Web-IVP (Caused "
+    },
+    "alt_results": [
+      {
+        "url": "https://editn.in/",
+        "result": {
+          "reachable": false,
+          "status_code": "CONN_ERROR",
+          "error": "HTTPSConnectionPool(host='editn.in', port=443): Max retries exceeded with url: / (Caused by ConnectT"
+        }
+      }
+    ],
+    "provisional_status": "requires_agent_search",
+    "evidence_note": "Endpoint unreachable (CONN_ERROR: HTTPSConnectionPool(host='www.editn.in', port=443): Max retries exceeded with url: /Web-IVP (Caused )",
+    "audited_at": "2026-10-05T18:06:51.807872+00:00"
+  },
+  {
+    "id": "SCH000054",
+    "scheme_code": "TN054",
+    "name_en": "EDII-TN Incubation & Mentorship Support",
+    "ministry": "Not applicable (State scheme)",
+    "department": "Entrepreneurship Development and Innovation Institute, Tamil Nadu (EDII-TN)",
+    "state": "Tamil Nadu",
+    "primary_url": "https://www.editn.in/Web-IVP",
+    "primary_result": {
+      "reachable": false,
+      "status_code": "CONN_ERROR",
+      "error": "HTTPSConnectionPool(host='www.editn.in', port=443): Max retries exceeded with url: /Web-IVP (Caused "
+    },
+    "alt_results": [
+      {
+        "url": "https://editn.in/",
+        "result": {
+          "reachable": false,
+          "status_code": "CONN_ERROR",
+          "error": "HTTPSConnectionPool(host='editn.in', port=443): Max retries exceeded with url: / (Caused by ConnectT"
+        }
+      }
+    ],
+    "provisional_status": "requires_agent_search",
+    "evidence_note": "Endpoint unreachable (CONN_ERROR: HTTPSConnectionPool(host='www.editn.in', port=443): Max retries exceeded with url: /Web-IVP (Caused )",
+    "audited_at": "2026-10-05T18:06:51.807621+00:00"
+  },
+  {
+    "id": "SCH000056",
+    "scheme_code": "TN056",
+    "name_en": "Events organised by academic institutions",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://msmedi-chennai.gov.in/GARMS_Admin/home.aspx",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://msmedi-chennai.gov.in/GARMS_Admin/home.aspx",
+      "page_title": "Welcome MSME DFO-CHENNAI",
+      "content_length": 99709,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [
+        "guidelines",
+        "scheme details"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Welcome MSME DFO-CHENNAI)",
+    "audited_at": "2026-10-05T18:06:38.658387+00:00"
+  },
+  {
+    "id": "SCH000058",
+    "scheme_code": "TN058",
+    "name_en": "Financial Assistance for participation in International Trade Fair",
+    "ministry": null,
+    "department": null,
+    "state": "Pan-India / depends on scheme",
+    "primary_url": "https://ic.msme.gov.in/IC_APP/IC_Welcome.aspx",
+    "primary_result": {
+      "reachable": false,
+      "status_code": "CONN_ERROR",
+      "error": "HTTPSConnectionPool(host='ic.msme.gov.in', port=443): Max retries exceeded with url: /IC_APP/IC_Welc"
+    },
+    "alt_results": [],
+    "provisional_status": "requires_agent_search",
+    "evidence_note": "Endpoint unreachable (CONN_ERROR: HTTPSConnectionPool(host='ic.msme.gov.in', port=443): Max retries exceeded with url: /IC_APP/IC_Welc)",
+    "audited_at": "2026-10-05T18:06:44.924025+00:00"
+  },
+  {
+    "id": "SCH000061",
+    "scheme_code": "TN061",
+    "name_en": "General Purpose Term Loan",
+    "ministry": null,
+    "department": "Small Industries Development Bank of India (SIDBI)",
+    "state": "Pan-India",
+    "primary_url": "https://www.sidbi.in/green-finance",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.sidbi.in/green-finance",
+      "page_title": "Direct Loans - Small Industries Development Bank of India",
+      "content_length": 114688,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Direct Loans - Small Industries Development Bank of India)",
+    "audited_at": "2026-10-05T18:06:38.597715+00:00"
+  },
+  {
+    "id": "SCH000062",
+    "scheme_code": "TN062",
+    "name_en": "Generator Subsidy",
+    "ministry": "Not applicable (State scheme)",
+    "department": "Micro, Small and Medium Enterprises Department, Government of Tamil Nadu",
+    "state": "Tamil Nadu",
+    "primary_url": "https://msmeonline.tn.gov.in/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://msmeonline.tn.gov.in/",
+      "page_title": "MSME",
+      "content_length": 114680,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "beneficiary",
+        "scheme details"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: MSME)",
+    "audited_at": "2026-10-05T18:06:38.256372+00:00"
+  },
+  {
+    "id": "SCH000065",
+    "scheme_code": "TN065",
+    "name_en": "Implementation of Food Safety and Quality Assurance Mechanisms/ Certifications",
+    "ministry": "Ministry of Food Processing Industries",
+    "department": "Ministry of Food Processing Industries (MoFPI)",
+    "state": "Pan-India",
+    "primary_url": "https://sampada-mofpi.gov.in/",
+    "primary_result": {
+      "reachable": false,
+      "status_code": "CONN_ERROR",
+      "error": "HTTPSConnectionPool(host='sampada-mofpi.gov.in', port=443): Max retries exceeded with url: / (Caused"
+    },
+    "alt_results": [
+      {
+        "url": "https://www.mofpi.gov.in/",
+        "result": {
+          "reachable": true,
+          "status_code": 200,
+          "final_url": "https://www.mofpi.gov.in/",
+          "page_title": "Home | Ministry of Food Processing Industries | Government of India",
+          "content_length": 114688,
+          "content_type": "text/html; charset=utf-8",
+          "closure_signals": [],
+          "active_signals": [
+            "guidelines"
+          ],
+          "error": null
+        }
+      }
+    ],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP CONN_ERROR: Home | Ministry of Food Processing Industries | Government of India)",
+    "audited_at": "2026-10-05T18:07:04.425962+00:00"
+  },
+  {
+    "id": "SCH000066",
+    "scheme_code": "TN066",
+    "name_en": "Incentives for setting up new clusters units on the outskirts of Towns and Cities",
+    "ministry": "Not applicable (State scheme)",
+    "department": "Micro, Small and Medium Enterprises Department, Government of Tamil Nadu",
+    "state": "Tamil Nadu",
+    "primary_url": "https://www.tansidco.tn.gov.in/sponsored.php",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.tansidco.tn.gov.in/sponsored.php",
+      "page_title": "TANSIDCO",
+      "content_length": 47505,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "guidelines",
+        "beneficiary"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: TANSIDCO)",
+    "audited_at": "2026-10-05T18:06:38.641233+00:00"
+  },
+  {
+    "id": "SCH000067",
+    "scheme_code": "TN067",
+    "name_en": "Incentives to entrepreneurs for shifting of existing units outside Urban areas",
+    "ministry": "Not applicable (State scheme)",
+    "department": "Micro, Small and Medium Enterprises Department, Government of Tamil Nadu",
+    "state": "Tamil Nadu",
+    "primary_url": "https://www.tansidco.tn.gov.in/sponsored.php",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.tansidco.tn.gov.in/sponsored.php",
+      "page_title": "TANSIDCO",
+      "content_length": 47505,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "guidelines",
+        "beneficiary"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: TANSIDCO)",
+    "audited_at": "2026-10-05T18:06:38.716823+00:00"
+  }
+]

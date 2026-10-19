@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/models/user_profile.dart';
@@ -26,7 +25,8 @@ import 'package:frontend/services/chat/sarvam_chat_service.dart';
 const _poweredByEn = 'Powered by Sarvam AI';
 const _poweredByTa = 'Sarvam AI மூலம்';
 const _askAboutEn = 'Ask about schemes, eligibility, or how to apply.';
-const _askAboutTa = 'திட்டங்கள், தகுதி மற்றும் விண்ணப்ப வழிமுறைகள் பற்றி கேளுங்கள்.';
+const _askAboutTa =
+    'திட்டங்கள், தகுதி மற்றும் விண்ணப்ப வழிமுறைகள் பற்றி கேளுங்கள்.';
 
 class _NoopSarvamChatClient implements SarvamChatClient {
   @override
@@ -66,10 +66,6 @@ Widget _welcomeHost([Locale locale = const Locale('en')]) {
 void main() {
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    await Supabase.initialize(
-      url: 'https://example.supabase.co',
-      publishableKey: 'test-publishable-key',
-    );
   });
 
   setUp(() {
@@ -120,9 +116,7 @@ void main() {
       expect(find.text('தமிழ்நாடு'), findsNothing);
     });
 
-    testWidgets('Tamil locale renders Tamil ARB strings', (
-      tester,
-    ) async {
+    testWidgets('Tamil locale renders Tamil ARB strings', (tester) async {
       tester.view.physicalSize = const Size(412, 1200);
       tester.view.devicePixelRatio = 1.0;
       addTearDown(() {

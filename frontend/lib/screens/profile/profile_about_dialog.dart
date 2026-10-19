@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/l10n.dart';
+import '../../services/app_info_service.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/app_version.dart';
 
 void showAboutAppDialog(BuildContext context) {
-
   showDialog(
     context: context,
     builder: (context) {
@@ -45,10 +46,10 @@ void showAboutAppDialog(BuildContext context) {
                         fit: BoxFit.contain,
                         errorBuilder: (context, error, stackTrace) =>
                             const Icon(
-                          Icons.account_balance,
-                          color: Color(0xFF2563EB),
-                          size: 22,
-                        ),
+                              Icons.account_balance,
+                              color: Color(0xFF2563EB),
+                              size: 22,
+                            ),
                       ),
                     ),
                     Container(
@@ -64,13 +65,20 @@ void showAboutAppDialog(BuildContext context) {
                           width: 0.8,
                         ),
                       ),
-                      child: Text(
-                        'v1.0.0',
-                        style: GoogleFonts.inter(
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF2563EB),
-                        ),
+                      // The installed build's real version, not a literal.
+                      child: FutureBuilder<AppVersion?>(
+                        future: AppInfoService.installedVersion(),
+                        builder: (context, snapshot) {
+                          final v = snapshot.data;
+                          return Text(
+                            v == null ? '' : 'v${v.name} (${v.build})',
+                            style: GoogleFonts.inter(
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                              color: const Color(0xFF2563EB),
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ],
@@ -200,7 +208,9 @@ void showAboutAppDialog(BuildContext context) {
                       const SizedBox(width: AppSpacing.sm),
                       Expanded(
                         child: Text(
-                          context.l10n.aboutSupportLine('mssschemessearch@gmail.com'),
+                          context.l10n.aboutSupportLine(
+                            'mssschemessearch@gmail.com',
+                          ),
                           style: GoogleFonts.inter(
                             fontSize: 11,
                             color: const Color(0xFF475569),

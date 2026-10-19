@@ -1,5 +1,8 @@
 import '../../services/catalog/centralized_translator.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import '../account/app_session.dart';
+import '../backend/pending_endpoints.dart';
+import '../network/api_client.dart';
+import '../voice/voice_language.dart';
 
 class SarvamChatMessage {
   const SarvamChatMessage({required this.role, required this.content});
@@ -33,42 +36,37 @@ abstract interface class SarvamChatClient {
   });
 }
 
-class SupabaseSarvamChatClient implements SarvamChatClient {
-  SupabaseSarvamChatClient({SupabaseClient? client})
-    : _client = client ?? Supabase.instance.client;
+/// Chat client for the backend text assistant (`POST /chat`, an assumed route
+/// listed in `PendingEndpoints`). The bearer token identifies the account; the
+/// request carries only the messages and the language.
+class RestSarvamChatClient implements SarvamChatClient {
+  RestSarvamChatClient({ApiClient? client}) : _client = client;
 
-  final SupabaseClient _client;
+  final ApiClient? _client;
 
   @override
   Future<SarvamChatResponse> complete({
     required List<SarvamChatMessage> messages,
     required String language,
   }) async {
-    var session = _client.auth.currentSession;
-    if (session == null) {
+    if (!AppSession.instance.isSignedIn) {
       throw const SarvamChatException('Sign in to chat with Saarthi.');
-    }
-    if (session.isExpired) {
-      session = (await _client.auth.refreshSession()).session;
-      if (session == null) {
-        throw SarvamChatException(
-          CentralizedTranslator.instance.localize('Your session expired. Please sign in again.'),
-        );
-      }
     }
 
     try {
-      final response = await _client.functions.invoke(
-        'sarvam-chat',
+      final response = await (_client ?? ApiClient.instance).post(
+        PendingEndpoints.chat,
         body: {
-          'language': language == 'ta' ? 'ta' : 'en',
+          'language': VoiceLanguage.chatCode(language),
           'messages': messages.map((message) => message.toJson()).toList(),
         },
       );
       final data = response.data;
       if (data is! Map || data['reply'] is! String) {
         throw SarvamChatException(
-          CentralizedTranslator.instance.localize('Saarthi returned an unexpected response.'),
+          CentralizedTranslator.instance.localize(
+            'Saarthi returned an unexpected response.',
+          ),
         );
       }
       final reply = (data['reply'] as String).trim();
@@ -84,7 +82,9 @@ class SupabaseSarvamChatClient implements SarvamChatClient {
       rethrow;
     } catch (_) {
       throw SarvamChatException(
-        CentralizedTranslator.instance.localize('Could not reach Saarthi. Check your connection and try again.'),
+        CentralizedTranslator.instance.localize(
+          'Could not reach Saarthi. Check your connection and try again.',
+        ),
       );
     }
   }

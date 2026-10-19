@@ -9,7 +9,7 @@ If you're working from a checkout at `C:\development\MSS App\`, the actual git r
 ## Monorepo map
 
 - **`frontend/`** — Flutter app (Dart). `lib/` is layer-first: `models/`, `providers/` (+ `providers/controllers/` sub-state), `screens/` (split `regular_mode/` vs `companion_mode/`), `services/` (sub-packaged by domain: `catalog/`, `search/`, `recommendation/`, `beta_gate/`, `voice/`, `account/`, `chat/`), `utils/`, `widgets/`. Single data gateway: `SchemeRepository` (`frontend/lib/services/scheme_repository.dart`).
-- **`backend/`** — Supabase: `supabase/migrations/` (forward-only SQL), `supabase/functions/` (Deno Edge Functions — one HTTP router, `v1`, plus a handful of single-purpose functions), `catalog/` (search taxonomy), `openapi/` (spec — currently aspirational, see `docs/audit/AUDIT.md`).
+- **`backend/`** — REST API references (`New API Ref/`), `catalog/` (search taxonomy and catalog sources), `openapi/` (spec — currently aspirational). The old hosted backend is archived under `docs/old_supabase/`.
 - **`saarthi-agent/`** — Python LiveKit voice agent. `src/agent.py` is the entrypoint; ships its own local copy of the search engine.
 - **`docs/`** — canonical architecture/spec docs (flat, one level, by domain). `docs/audit/` holds the live audit and the per-developer change log. `docs/archive/` holds retired/historical docs — don't treat anything there as current.
 
@@ -19,8 +19,8 @@ If you're working from a checkout at `C:\development\MSS App\`, the actual git r
 |---|---|
 | Search/ranking/catalog | `frontend/lib/services/scheme_repository.dart`, `frontend/lib/services/hybrid_scheme_search.dart`, `docs/OFFLINE_DISCOVERY_AND_SEARCH_ARCHITECTURE.md` |
 | App-wide state | `frontend/lib/providers/app_state_provider.dart` + `providers/controllers/*` |
-| Backend API | `backend/supabase/functions/v1/index.ts` (the whole server surface lives in this one router) |
-| Database schema | `docs/backend/BACKEND_SPECIFICATION.md`, then the actual migration files under `backend/supabase/migrations/` (migrations are the source of truth, not `schema.sql`) |
+| Backend API | `backend/New API Ref/` (the server itself lives in the separate `mss-backend` project) |
+| Database schema | Owned by `mss-backend`; the retired schema is archived in `docs/old_supabase/backend/supabase/` |
 | Voice agent | `saarthi-agent/src/agent.py` |
 | UI styling | `frontend/lib/utils/app_spacing.dart` (design tokens — never hardcode numeric padding/margins) |
 
@@ -29,7 +29,7 @@ If you're working from a checkout at `C:\development\MSS App\`, the actual git r
 - **`AGENTS.md`** (root) — canonical build/lint/test commands and architecture invariants. `CLAUDE.md` is now just a pointer here.
 - **`docs/RULES.md`** — index into all the domain specs plus a handful of rules not written down anywhere else (decomposition ceiling, API routing pattern).
 - **`docs/audit/AUDIT.md`** — current known state, refreshed in place as things are re-verified. Check this before trusting an older doc's claims.
-- **`docs/audit/CODEBASE_AUDIT.md`** — the original deep-dive (2026-09-10), frozen as a historical baseline; useful for "how did we get here" but not for "what's true today."
+- **`docs/old_supabase/docs/audit/CODEBASE_AUDIT.md`** — the original deep-dive (2026-09-10), frozen as a historical baseline; useful for "how did we get here" but not for "what's true today."
 - **`docs/audit/DEV_LOG.md`** — auto-appended on every merged PR, keyed by GitHub username (via `.github/workflows/dev-log.yml`). This is the answer to "who changed this and when."
 
 ## Known trouble spots (so you don't have to re-discover them)

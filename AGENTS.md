@@ -15,11 +15,10 @@ This document provides unified guidance for AI coding assistants (Antigravity, C
   - `lib/services/`: Service layer partitioned by domain (`catalog/`, `search/`, `recommendation/`, `beta_gate/`, `voice/`, `account/`, `chat/`).
   - `lib/utils/`: Design tokens (`app_spacing.dart`), helpers, and global constants (`constants.dart`).
   - `lib/widgets/`: Shared UI components organized by category (`buttons/`, `cards/`, `dialogs/`, `inputs/`, `layout/`, `assistant/`).
-  - `assets/catalog/`: Canonical offline scheme catalog (`catalog_bundle.json.gz`, `release.json`).
+  - `assets/catalog/`: Canonical offline scheme catalog (`catalog_core.json.gz` plus one `catalog_<jurisdiction>.json.gz` per state).
   - `test/`: 480+ widget, unit, and characterization tests.
-- **`backend/`**: Supabase infrastructure.
-  - `supabase/migrations/`: Immutable, sequential SQL migrations.
-  - `supabase/functions/`: Deno-based Edge Functions (`sarvam-chat`, `livekit-token`, `publishCatalog`, `db-change-notify`, `v1`, `rollbackRelease`).
+- **`backend/`**: REST API references and catalog sources.
+  - `New API Ref/`: Authoritative API references (schemes, catalog update, notifications, promotions).
   - `catalog/`: Backend catalog definitions and search taxonomy (`search_taxonomy.json`).
 - **`saarthi-agent/`**: Python LiveKit voice agent worker.
   - `src/`: Agent entrypoint (`main.py`, `agent.py`) and hybrid search engine.
@@ -49,19 +48,9 @@ flutter run -d emulator-5554
 
 ### Backend (`backend/`)
 ```bash
-# Start local Supabase containers
-npm run supabase:start
-
-# Reset local database and replay migrations
-npm run db:reset
-
-# Test database and run RLS linter
-npm run db:test
-npm run db:lint
-
-# Test Edge Functions & Parity
-npm run functions:test
-deno test --allow-read --allow-env supabase/functions/v1/search_engine_parity_test.ts
+# Lint the planned OpenAPI contract and check scheme links
+npm run openapi:lint
+npm run verify:links
 ```
 
 ### Saarthi Voice Agent (`saarthi-agent/`)
@@ -79,7 +68,7 @@ uv run pytest -v
 ## 🛡️ Architecture Invariants & Coding Standards
 
 1. **Strict Offline-First Data Layer**:
-   - `SchemeRepository` reads from `MssCatalogBundle` (`assets/catalog/catalog_bundle.json.gz`).
+   - `SchemeRepository` reads from `MssCatalogBundle` (`assets/catalog/catalog_core.json.gz` + jurisdiction packs).
    - Do not introduce synchronous network calls into the primary scheme browsing, search, or recommendation paths.
    - Catalog updates happen via OTA bundle downloads verified by SHA-256 against `mss_current_release()`.
 
@@ -106,8 +95,9 @@ uv run pytest -v
    - Keep state logic inside controllers and providers; keep UI widgets focused on presentation.
    - Standard navigation uses vanilla Flutter `Navigator.push` / `Navigator.pop`. (Do not introduce `go_router` or `riverpod`.)
 
-6. **Security & RLS**:
-   - All PostgreSQL tables in Supabase must have Row Level Security (RLS) enabled.
+6. **Security**:
+   - The app holds no database credentials; it calls the MSS REST API (`lib/services/network/api_client.dart`) with a bearer token.
+   - Routes the API references do not define yet are isolated in `lib/services/backend/pending_endpoints.dart` (see `docs/backend/PENDING_ENDPOINTS.md`).
    - Secrets (`SARVAM_API_KEY`, `LIVEKIT_API_SECRET`, etc.) must never be committed to source control.
 
 7. **Monolithic Decomposition**:

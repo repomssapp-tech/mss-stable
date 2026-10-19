@@ -53,11 +53,11 @@ class _FilterPanelState extends State<FilterPanel> {
       v is List ? v.map((e) => e.toString()).toList() : const [];
 
   Map<String, dynamic> get _draft => {
-        'coverage': _coverage == 'nationwide' ? 'nationwide' : '',
-        'state': _coverage == 'state' ? _state : '',
-        'schemeTypes': _types.toList(),
-        'beneficiaries': _beneficiaries.toList(),
-      };
+    'coverage': _coverage == 'nationwide' ? 'nationwide' : '',
+    'state': _coverage == 'state' ? _state : '',
+    'schemeTypes': _types.toList(),
+    'beneficiaries': _beneficiaries.toList(),
+  };
 
   /// Per-option totals over the whole catalog. Static -- they do not react
   /// to what is currently selected, so chip widths never change and the
@@ -69,8 +69,9 @@ class _FilterPanelState extends State<FilterPanel> {
     if (profileState.isNotEmpty) {
       final st = profileState.toLowerCase();
       m['cov:state'] = catalog
-          .where((s) =>
-              !schemeIsNationwide(s) && s.state.toLowerCase().contains(st))
+          .where(
+            (s) => !schemeIsNationwide(s) && s.state.toLowerCase().contains(st),
+          )
           .length;
     }
     for (final g in kSchemeTypeGroups) {
@@ -78,8 +79,10 @@ class _FilterPanelState extends State<FilterPanel> {
     }
     for (final (code, _) in kBeneficiaryOptions) {
       m['ben:$code'] = catalog
-          .where((s) =>
-              s.specialCategories.map((e) => e.toLowerCase()).contains(code))
+          .where(
+            (s) =>
+                s.specialCategories.map((e) => e.toLowerCase()).contains(code),
+          )
           .length;
     }
     return m;
@@ -97,11 +100,11 @@ class _FilterPanelState extends State<FilterPanel> {
   }
 
   void _clear() => setState(() {
-        _coverage = '';
-        _state = '';
-        _types = {};
-        _beneficiaries = {};
-      });
+    _coverage = '';
+    _state = '';
+    _types = {};
+    _beneficiaries = {};
+  });
 
   void _prefillFromProfile() {
     final profile = Provider.of<AppProvider>(context, listen: false).profile;
@@ -215,12 +218,17 @@ class _FilterPanelState extends State<FilterPanel> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(Icons.person_pin_circle_outlined,
-                              size: 16, color: Color(0xFF2563EB)),
+                          const Icon(
+                            Icons.person_pin_circle_outlined,
+                            size: 16,
+                            color: Color(0xFF2563EB),
+                          ),
                           const SizedBox(width: AppSpacing.xs),
                           Text(
                             context.l10n.filterUseMyProfile(
-                              CentralizedTranslator.instance.localizeTag(profileState),
+                              CentralizedTranslator.instance.localizeTag(
+                                profileState,
+                              ),
                             ),
                             style: GoogleFonts.inter(
                               fontSize: 12,
@@ -233,65 +241,62 @@ class _FilterPanelState extends State<FilterPanel> {
                     ),
                     const SizedBox(height: AppSpacing.lg),
                   ],
-                  _group(
-                    context.l10n.filterGroupCoverage,
-                    2,
-                    [
-                      _ChipSpec(
-                        context.l10n.filterCoverageNationwide,
-                        _counts['cov:nationwide'] ?? 0,
-                        _coverage == 'nationwide',
-                        () => setState(() => _coverage =
-                            _coverage == 'nationwide' ? '' : 'nationwide'),
+                  _group(context.l10n.filterGroupCoverage, 2, [
+                    _ChipSpec(
+                      context.l10n.filterCoverageNationwide,
+                      _counts['cov:nationwide'] ?? 0,
+                      _coverage == 'nationwide',
+                      () => setState(
+                        () => _coverage = _coverage == 'nationwide'
+                            ? ''
+                            : 'nationwide',
                       ),
-                      if (profileState.isNotEmpty)
-                        _ChipSpec(
-                          CentralizedTranslator.instance.localizeTag(profileState),
-                          _counts['cov:state'] ?? 0,
-                          _coverage == 'state' &&
+                    ),
+                    if (profileState.isNotEmpty)
+                      _ChipSpec(
+                        CentralizedTranslator.instance.localizeTag(
+                          profileState,
+                        ),
+                        _counts['cov:state'] ?? 0,
+                        _coverage == 'state' &&
+                            _state.toLowerCase() == profileState.toLowerCase(),
+                        () => setState(() {
+                          final on =
+                              _coverage == 'state' &&
                               _state.toLowerCase() ==
-                                  profileState.toLowerCase(),
-                          () => setState(() {
-                            final on = _coverage == 'state' &&
-                                _state.toLowerCase() ==
-                                    profileState.toLowerCase();
-                            _coverage = on ? '' : 'state';
-                            _state = on ? '' : profileState;
-                          }),
-                        ),
-                    ],
-                  ),
-                  _group(
-                    context.l10n.filterGroupOffers,
-                    2,
-                    [
-                      for (final g in kSchemeTypeGroups)
-                        _ChipSpec(
-                          _typeLabel(g.id),
-                          _counts['type:${g.id}'] ?? 0,
-                          _types.contains(g.id),
-                          () => setState(() => _types.contains(g.id)
+                                  profileState.toLowerCase();
+                          _coverage = on ? '' : 'state';
+                          _state = on ? '' : profileState;
+                        }),
+                      ),
+                  ]),
+                  _group(context.l10n.filterGroupOffers, 2, [
+                    for (final g in kSchemeTypeGroups)
+                      _ChipSpec(
+                        _typeLabel(g.id),
+                        _counts['type:${g.id}'] ?? 0,
+                        _types.contains(g.id),
+                        () => setState(
+                          () => _types.contains(g.id)
                               ? _types.remove(g.id)
-                              : _types.add(g.id)),
+                              : _types.add(g.id),
                         ),
-                    ],
-                  ),
-                  _group(
-                    context.l10n.filterGroupFor,
-                    3,
-                    [
-                      for (final (code, _) in kBeneficiaryOptions)
-                        if ((_counts['ben:$code'] ?? 0) >= 4)
-                          _ChipSpec(
-                            _benLabel(code),
-                            _counts['ben:$code'] ?? 0,
-                            _beneficiaries.contains(code),
-                            () => setState(() => _beneficiaries.contains(code)
+                      ),
+                  ]),
+                  _group(context.l10n.filterGroupFor, 3, [
+                    for (final (code, _) in kBeneficiaryOptions)
+                      if ((_counts['ben:$code'] ?? 0) >= 4)
+                        _ChipSpec(
+                          _benLabel(code),
+                          _counts['ben:$code'] ?? 0,
+                          _beneficiaries.contains(code),
+                          () => setState(
+                            () => _beneficiaries.contains(code)
                                 ? _beneficiaries.remove(code)
-                                : _beneficiaries.add(code)),
+                                : _beneficiaries.add(code),
                           ),
-                    ],
-                  ),
+                        ),
+                  ]),
                 ],
               ),
             ),
@@ -307,8 +312,9 @@ class _FilterPanelState extends State<FilterPanel> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF2563EB),
                     foregroundColor: Colors.white,
-                    padding:
-                        const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: AppSpacing.md,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
                     ),
@@ -383,36 +389,42 @@ class _FilterPanelState extends State<FilterPanel> {
     if (chips.isEmpty) return const SizedBox.shrink();
     final textScale = MediaQuery.textScalerOf(context);
     // Room for a ~12 character label, the count and the chip padding.
-    final minChipWidth = textScale.scale(12) * 12 +
-        textScale.scale(11) * 2 +
-        AppSpacing.md * 2;
-    return LayoutBuilder(builder: (context, constraints) {
-      final rows = <Widget>[];
-      final fit = ((constraints.maxWidth + AppSpacing.sm) /
-              (minChipWidth + AppSpacing.sm))
-          .floor();
-      final columns = fit.clamp(1, maxColumns);
-      for (var i = 0; i < chips.length; i += columns) {
-        final slice = chips.sublist(
-            i, i + columns > chips.length ? chips.length : i + columns);
-        rows.add(Padding(
-          padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-          child: Row(
-            children: [
-              for (var c = 0; c < columns; c++) ...[
-                if (c > 0) const SizedBox(width: AppSpacing.sm),
-                Expanded(
-                  child: c < slice.length
-                      ? _chip(slice[c])
-                      : const SizedBox.shrink(),
-                ),
-              ],
-            ],
-          ),
-        ));
-      }
-      return _groupBody(title, rows);
-    });
+    final minChipWidth =
+        textScale.scale(12) * 12 + textScale.scale(11) * 2 + AppSpacing.md * 2;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final rows = <Widget>[];
+        final fit =
+            ((constraints.maxWidth + AppSpacing.sm) /
+                    (minChipWidth + AppSpacing.sm))
+                .floor();
+        final columns = fit.clamp(1, maxColumns);
+        for (var i = 0; i < chips.length; i += columns) {
+          final slice = chips.sublist(
+            i,
+            i + columns > chips.length ? chips.length : i + columns,
+          );
+          rows.add(
+            Padding(
+              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+              child: Row(
+                children: [
+                  for (var c = 0; c < columns; c++) ...[
+                    if (c > 0) const SizedBox(width: AppSpacing.sm),
+                    Expanded(
+                      child: c < slice.length
+                          ? _chip(slice[c])
+                          : const SizedBox.shrink(),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          );
+        }
+        return _groupBody(title, rows);
+      },
+    );
   }
 
   Widget _groupBody(String title, List<Widget> rows) {
@@ -447,8 +459,7 @@ class _FilterPanelState extends State<FilterPanel> {
           color: selected ? const Color(0xFF2563EB) : Colors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color:
-                selected ? const Color(0xFF2563EB) : const Color(0xFFE2E8F0),
+            color: selected ? const Color(0xFF2563EB) : const Color(0xFFE2E8F0),
           ),
         ),
         child: Row(

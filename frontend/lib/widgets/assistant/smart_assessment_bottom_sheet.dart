@@ -120,8 +120,8 @@ class _SmartAssessmentBottomSheetState
       final index = localizedNode.options.indexOf(selectedLocalizedOption);
       final rawOption =
           (index >= 0 && index < localizedNode.rawNode.options.length)
-              ? localizedNode.rawNode.options[index]
-              : selectedLocalizedOption;
+          ? localizedNode.rawNode.options[index]
+          : selectedLocalizedOption;
 
       _answers[_currentQuestionId] = rawOption;
       _questionHistory.add(_currentQuestionId);

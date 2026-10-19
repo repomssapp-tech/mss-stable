@@ -4,7 +4,11 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../account/app_session.dart';
+import '../backend/pending_endpoints.dart';
+import '../network/api_client.dart';
+import '../network/api_exception.dart';
 
 enum ChatMessageSpeaker { user, assistant }
 
@@ -29,14 +33,14 @@ class ChatMessageRecord {
     dynamic recommendations,
     bool clearRecommendations = false,
   }) => ChatMessageRecord(
-        id: id,
-        speaker: speaker,
-        text: text ?? this.text,
-        timestamp: timestamp,
-        recommendations: clearRecommendations
-            ? null
-            : recommendations ?? this.recommendations,
-      );
+    id: id,
+    speaker: speaker,
+    text: text ?? this.text,
+    timestamp: timestamp,
+    recommendations: clearRecommendations
+        ? null
+        : recommendations ?? this.recommendations,
+  );
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{
@@ -67,7 +71,8 @@ class ChatMessageRecord {
           : ChatMessageSpeaker.user,
       text: json['text'] as String? ?? '',
       timestamp: json['timestamp'] != null
-          ? DateTime.tryParse(json['timestamp'] as String) ?? DateTime.now().toUtc()
+          ? DateTime.tryParse(json['timestamp'] as String) ??
+                DateTime.now().toUtc()
           : DateTime.now().toUtc(),
       recommendations: parsedRecommendations,
     );
@@ -75,7 +80,7 @@ class ChatMessageRecord {
 }
 
 /// Pure mapping utility that transforms internal chat data into the exact
-/// database payload schema for Supabase `public.voice_chat_sessions`, stripping away
+/// session payload stored by the backend, stripping away
 /// all transient and UI-only properties (such as typing indicators, animation states).
 class ChatPayloadMapper {
   const ChatPayloadMapper._();
@@ -89,7 +94,7 @@ class ChatPayloadMapper {
     return 'en';
   }
 
-  /// Constructs a single row payload strictly conforming to public.voice_chat_sessions.
+  /// Constructs a single session payload.
   static Map<String, dynamic> mapMessagesToSessionRow({
     required String conversationUid,
     required List<ChatMessageRecord> messages,
@@ -125,7 +130,9 @@ class ChatPayloadMapper {
           'timestamp': m.timestamp.toIso8601String(),
           'token_usage_ai': 0,
           'interrupted_by_user': false,
-          'recommendations': (m.recommendations is List && (m.recommendations as List).isNotEmpty)
+          'recommendations':
+              (m.recommendations is List &&
+                  (m.recommendations as List).isNotEmpty)
               ? m.recommendations
               : false,
         });
@@ -136,7 +143,9 @@ class ChatPayloadMapper {
 
     final createdAt = messages.first.timestamp.toIso8601String();
     final endedAt = messages.last.timestamp.toIso8601String();
-    final durationSec = messages.last.timestamp.difference(messages.first.timestamp).inSeconds;
+    final durationSec = messages.last.timestamp
+        .difference(messages.first.timestamp)
+        .inSeconds;
     const status = 'completed';
 
     return {
@@ -157,9 +166,21 @@ class ChatPayloadMapper {
 }
 
 /// Service that buffers conversation speech both in memory and locally on disk,
-/// and dispatches the completed conversation to Supabase `public.voice_chat_sessions`
-/// table in a single insert when the session ends.
+/// and uploads the completed conversation to the backend in a single request
+/// when the session ends.
 ///
+/// Sends one finished conversation to the backend. Throws when the server does
+/// not accept it, so the session stays queued on disk.
+typedef ChatSessionUploader = Future<void> Function(Map<String, dynamic> row);
+
+/// Default uploader: `POST` to the chat-sessions route (an assumed route, see
+/// `PendingEndpoints`). The owner is taken from the bearer token, so the row's
+/// `user_id` is not sent.
+Future<void> uploadChatSessionToBackend(Map<String, dynamic> row) async {
+  final body = Map<String, dynamic>.of(row)..remove('user_id');
+  await ApiClient.instance.post(PendingEndpoints.chatSessions, body: body);
+}
+
 /// Features:
 /// 1. Real-time in-memory buffer for 0ms latency during active speech.
 /// 2. Local disk persistence via SharedPreferences to survive app crashes or abrupt closes.
@@ -217,11 +238,7 @@ class ChatLogService {
 
   /// Current signed-in user id, or null if auth is unavailable/not yet restored.
   static String? _currentUserId() {
-    try {
-      return Supabase.instance.client.auth.currentUser?.id;
-    } catch (_) {
-      return null;
-    }
+    return AppSession.instance.userId;
   }
 
   /// Inserts or updates an in-memory message record by message ID,
@@ -261,19 +278,11 @@ class ChatLogService {
   /// Convenience helper to record a user speech/text turn.
   void recordUserMessage(String text, {String? id}) {
     final messageId = id ?? 'user-${generateUuidV4()}';
-    upsertMessage(
-      id: messageId,
-      speaker: ChatMessageSpeaker.user,
-      text: text,
-    );
+    upsertMessage(id: messageId, speaker: ChatMessageSpeaker.user, text: text);
   }
 
   /// Convenience helper to record a Saarthi agent reply.
-  void recordAiMessage(
-    String text, {
-    String? id,
-    dynamic recommendations,
-  }) {
+  void recordAiMessage(String text, {String? id, dynamic recommendations}) {
     final messageId = id ?? 'assistant-${generateUuidV4()}';
     upsertMessage(
       id: messageId,
@@ -294,8 +303,8 @@ class ChatLogService {
     // only if this instance never saw one (e.g. restored from disk).
     final resolvedUserId = userId ?? _sessionUserId ?? _currentUserId();
 
-    // voice_chat_sessions accepts authenticated writes only: every row must be
-    // bound to its owner. Without a user there is no lawful row to write, so
+    // The backend accepts authenticated writes only: every row must be bound to
+    // its owner. Without a user there is no lawful row to write, so
     // build nothing rather than emit an unattributable orphan that the server
     // will reject anyway.
     if (resolvedUserId == null) {
@@ -316,20 +325,20 @@ class ChatLogService {
   }
 
   /// Dedicated batch upload method that reads the entire local cache for the
-  /// current session and inserts it into Supabase `public.voice_chat_sessions`.
+  /// current session and uploads it to the backend.
   ///
-  /// CRITICAL RULE: Clears the local cache IF AND ONLY IF the Supabase insert
+  /// CRITICAL RULE: Clears the local cache IF AND ONLY IF the upload
   /// returns a successful response. If the network fails, local cache remains
   /// intact for future recovery.
   Future<bool> syncChatSession({
     String mode = 'voice',
-    SupabaseClient? client,
+    ChatSessionUploader? uploader,
     Map<String, dynamic>? metadata,
     String? userId,
   }) async {
     return flushSessionLogs(
       mode: mode,
-      client: client,
+      uploader: uploader,
       metadata: metadata,
       userId: userId,
     );
@@ -349,13 +358,12 @@ class ChatLogService {
         pendingList.add(_conversationUid);
         await prefs.setStringList(_pendingSessionsKey, pendingList);
       }
-
     } catch (e) {
       debugPrint('[ChatLogService] Local disk write notice: $e');
     }
   }
 
-  /// Removes session from local disk once successfully uploaded to Supabase.
+  /// Removes session from local disk once successfully uploaded.
   Future<void> _clearLocalSession(String uid) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -372,27 +380,31 @@ class ChatLogService {
     }
   }
 
-  /// Sends accumulated turns to Supabase public.voice_chat_sessions table in a single
-  /// batch HTTP request. Protected by an atomic idempotency latch.
+  /// Sends accumulated turns to the backend in a single request. Protected by
+  /// an atomic idempotency latch.
   ///
-  /// If Supabase is unreachable or device is offline, the conversation remains
+  /// If the server is unreachable or the device is offline, the conversation remains
   /// securely stored in SharedPreferences and will be uploaded automatically.
   Future<bool> flushSessionLogs({
     String mode = 'voice',
-    SupabaseClient? client,
+    ChatSessionUploader? uploader,
     Map<String, dynamic>? metadata,
     String? userId,
   }) async {
-    debugPrint('[ChatLogService] flushSessionLogs() triggered. In-memory messages: ${_messages.length}, isFlushed: $_isFlushed, isFlushing: $_isFlushing');
+    debugPrint(
+      '[ChatLogService] flushSessionLogs() triggered. In-memory messages: ${_messages.length}, isFlushed: $_isFlushed, isFlushing: $_isFlushing',
+    );
     if (_isFlushed || _isFlushing) {
-      debugPrint('[ChatLogService] Flush aborted: already completed or in-progress.');
+      debugPrint(
+        '[ChatLogService] Flush aborted: already completed or in-progress.',
+      );
       return false;
     }
     _isFlushing = true;
 
     try {
-      // 0. Without an owner the row cannot be written (RLS binds user_id to
-      //    auth.uid()). Bail out BEFORE the empty-row branch below, which
+      // 0. Without an owner the row cannot be written (the server binds the
+      //    session to the token's account). Bail out BEFORE the empty-row branch below, which
       //    deletes the local copy -- an unauthenticated flush must preserve
       //    the session on disk, not discard it.
       if ((userId ?? _sessionUserId ?? _currentUserId()) == null) {
@@ -405,18 +417,25 @@ class ChatLogService {
       }
 
       // 1. Build session row from in-memory records
-      var sessionRow =
-          buildSessionRow(mode: mode, baseMetadata: metadata, userId: userId);
+      var sessionRow = buildSessionRow(
+        mode: mode,
+        baseMetadata: metadata,
+        userId: userId,
+      );
 
       // If in-memory buffer was empty, check if saved state exists on disk
       if (sessionRow.isEmpty) {
-        debugPrint('[ChatLogService] Memory was empty; checking local disk for session $_conversationUid...');
+        debugPrint(
+          '[ChatLogService] Memory was empty; checking local disk for session $_conversationUid...',
+        );
         await _loadSessionFromLocalDisk();
         sessionRow = buildSessionRow(mode: mode, baseMetadata: metadata);
       }
 
       if (sessionRow.isEmpty) {
-        debugPrint('[ChatLogService] ⚠️ No conversation recorded (empty conversation). Nothing to upload.');
+        debugPrint(
+          '[ChatLogService] ⚠️ No conversation recorded (empty conversation). Nothing to upload.',
+        );
         _isFlushed = true;
         await _clearLocalSession(_conversationUid);
         return false;
@@ -425,27 +444,22 @@ class ChatLogService {
       // 2. Guarantee local disk persistence before attempting network call
       await _persistSessionLocally();
 
-      // 3. Resolve database client
-      final db = _resolveClient(client);
-      if (db == null) {
-        debugPrint('[ChatLogService] ⚠️ Supabase client not available! Preserving session $_conversationUid on disk.');
-        _isFlushed = true;
-        return false;
-      }
-
-      // 4. Send single insert to Supabase public.voice_chat_sessions
-      debugPrint('[ChatLogService] 🚀 Uploading session $_conversationUid to Supabase public.voice_chat_sessions');
-
-      await db.from('voice_chat_sessions').insert(sessionRow);
+      // 3. Upload the session in one request
+      debugPrint('[ChatLogService] Uploading session $_conversationUid');
+      await (uploader ?? uploadChatSessionToBackend)(sessionRow);
       _isFlushed = true;
 
-      // 5. Clean up local disk cache now that Supabase has persisted the rows
+      // 4. Clean up local disk cache now that the server has stored the session
       await _clearLocalSession(_conversationUid);
-      debugPrint('[ChatLogService] ✅ Successfully flushed session in Supabase public.voice_chat_sessions!');
+      debugPrint('[ChatLogService] Session $_conversationUid uploaded.');
       return true;
     } catch (error, stackTrace) {
-      debugPrint('[ChatLogService] ❌ Cloud upload failed (offline/network error): $error');
-      debugPrint('[ChatLogService] Session $_conversationUid is safely preserved in local disk queue for automatic retry.');
+      debugPrint(
+        '[ChatLogService] ❌ Cloud upload failed (offline/network error): $error',
+      );
+      debugPrint(
+        '[ChatLogService] Session $_conversationUid is safely preserved in local disk queue for automatic retry.',
+      );
       debugPrint('$stackTrace');
       return false;
     } finally {
@@ -472,16 +486,18 @@ class ChatLogService {
     }
   }
 
-  /// Flushes any pending offline sessions stored on local disk to Supabase.
+  /// Flushes any pending offline sessions stored on local disk to the backend.
   /// Can be called on app startup or when internet connectivity is re-established.
-  static Future<int> syncPendingOfflineQueue({SupabaseClient? client}) async {
+  static Future<int> syncPendingOfflineQueue({
+    ChatSessionUploader? uploader,
+  }) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final pendingUids = prefs.getStringList(_pendingSessionsKey) ?? [];
       if (pendingUids.isEmpty) return 0;
 
       // Nothing in the queue can be written without an owner; retrying would
-      // just fail against RLS on every launch. Leave the queue untouched and
+      // just be refused on every launch. Leave the queue untouched and
       // drain it after the user signs in.
       if (_currentUserId() == null) {
         debugPrint(
@@ -491,7 +507,7 @@ class ChatLogService {
         return 0;
       }
 
-      final db = client ?? (Supabase.instance.client);
+      final upload = uploader ?? uploadChatSessionToBackend;
       var syncedCount = 0;
 
       for (final uid in List<String>.from(pendingUids)) {
@@ -513,20 +529,24 @@ class ChatLogService {
 
           final sessionRow = service.buildSessionRow(mode: 'voice');
           if (sessionRow.isNotEmpty) {
-            await db.from('voice_chat_sessions').insert(sessionRow);
-            debugPrint('[ChatLogService] Offline sync: successfully uploaded pending session $uid.');
+            await upload(sessionRow);
+            debugPrint(
+              '[ChatLogService] Offline sync: successfully uploaded pending session $uid.',
+            );
           }
 
-          // Cleared IF AND ONLY IF insert succeeded
+          // Cleared IF AND ONLY IF the upload succeeded
           await prefs.remove('$_sessionDataPrefix$uid');
           pendingUids.remove(uid);
           syncedCount++;
         } catch (e) {
-          debugPrint('[ChatLogService] Offline sync notice for session $uid: $e');
+          debugPrint(
+            '[ChatLogService] Offline sync notice for session $uid: $e',
+          );
 
           // Distinguish "try again later" from "will never succeed". A network
-          // error is retryable; an RLS/permission rejection or a duplicate
-          // primary key (already uploaded) is not -- keeping those queued
+          // error is retryable; a rejected payload or a duplicate (already
+          // uploaded) is not -- keeping those queued
           // retries a doomed insert on every launch, forever.
           if (_isPermanentUploadFailure(e)) {
             debugPrint(
@@ -550,22 +570,13 @@ class ChatLogService {
   /// True when an upload failure can never succeed on retry, so the queued
   /// session should be dropped rather than retried on every launch.
   ///
-  /// Retryable (returns false): network/timeout/connection errors.
-  /// Permanent (returns true): RLS or grant rejection (Postgres 42501), and
-  /// duplicate primary key (23505) which means the row already landed.
+  /// Retryable (returns false): network/timeout errors, 401 (sign in again),
+  /// 429 and 5xx. Permanent (returns true): the server refused the payload
+  /// (400/403/413/422) or already has the session (409).
   static bool _isPermanentUploadFailure(Object error) {
-    if (error is PostgrestException) {
-      return error.code == '42501' || error.code == '23505';
+    if (error is ApiException) {
+      return const {400, 403, 409, 413, 422}.contains(error.statusCode);
     }
     return false;
-  }
-
-  SupabaseClient? _resolveClient(SupabaseClient? provided) {
-    if (provided != null) return provided;
-    try {
-      return Supabase.instance.client;
-    } catch (_) {
-      return null;
-    }
   }
 }

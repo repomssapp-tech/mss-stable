@@ -27,7 +27,8 @@ void main() {
     'income tax rebate startup': r'tax|Startup',
     'women entrepreneur loan': r'women|Women|Mahila|Udyami',
     'food processing subsidy': r'food|Food|PMFME',
-    'auto business loan': r'auto|vehicle|Vehicle|transport|Transport|MSME|loan|Loan',
+    'auto business loan':
+        r'auto|vehicle|Vehicle|transport|Transport|MSME|loan|Loan',
     'startup funding': r'[Ss]tartup',
     'msme registration': r'MSME|registration|Registration|Udyam',
     'export subsidy': r'export|Export',
@@ -43,14 +44,15 @@ void main() {
     // exist as lookup tables but aren't cross-referenced into any scheme's
     // schemeSearchProfile), so a genuinely on-topic query is used instead to
     // keep this a real ranking-quality check rather than a false failure.
-    // Under Decision D4, LTPT (SCH000079) is in DRAFT status and hidden from the
+    // Under Decision D4, LTPT (TN2026-022) is in DRAFT status and hidden from the
     // bundle, so the query matches general capital subsidy schemes.
     'power tariff subsidy': r'[Pp]ower|[Tt]ariff|LTPT|[Ss]ubsidy',
     'artisan craftsperson scheme': r'[Aa]rtisan|[Cc]raftspe',
     'traditional industries regeneration': r'SFURTI|[Tt]raditional',
     'scheduled caste entrepreneur scheme': r'SC|[Aa]mbedkar|[Ss]cheduled',
     'agriculture equipment subsidy': r'[Aa]gri|[Ee]quipment',
-    'first generation entrepreneur': r'[Ff]irst.?[Gg]eneration|new entrepreneur',
+    'first generation entrepreneur':
+        r'[Ff]irst.?[Gg]eneration|new entrepreneur',
     'pmegp': r'PMEGP',
     'mudra loan': r'MUDRA|Mudra',
     'stand up india': r'Stand.?Up|Stand-Up',
@@ -80,11 +82,17 @@ void main() {
     for (final entry in cases.entries) {
       test(entry.key, () {
         final results = engine.search(entry.key, topN: 3);
-        expect(results, isNotEmpty, reason: '"${entry.key}" returned zero results');
+        expect(
+          results,
+          isNotEmpty,
+          reason: '"${entry.key}" returned zero results',
+        );
 
         final expected = RegExp(entry.value, caseSensitive: false);
         final searchable = results
-            .map((r) => '${r.$1.id} ${r.$1.getLocalizedName()} ${r.$3.join(' ')}')
+            .map(
+              (r) => '${r.$1.id} ${r.$1.getLocalizedName()} ${r.$3.join(' ')}',
+            )
             .join(' | ');
 
         final matched = expected.hasMatch(searchable);
@@ -101,10 +109,10 @@ void main() {
       final results = engine.search('tax exemption manufacturing', topN: 5);
       final topId = results.first.$1.id;
       expect(
-        topId != 'SCH000079',
+        topId != 'TN2026-022',
         isTrue,
         reason:
-            'LTPT Subsidy (SCH000079, an electricity-cost scheme) should not '
+            'LTPT Subsidy (TN2026-022, an electricity-cost scheme) should not '
             'rank #1 for a tax-exemption query after removing its mistagged '
             'TAX_REQUEST intent tag. Got: ${results.map((r) => '${r.$1.id} ${r.$1.getLocalizedName()} (${r.$2})').join(', ')}',
       );

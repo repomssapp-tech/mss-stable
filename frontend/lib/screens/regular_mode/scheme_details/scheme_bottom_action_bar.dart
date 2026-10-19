@@ -58,6 +58,7 @@ class SchemeBottomActionBar extends StatelessWidget {
                 onPressed: onBookmarkToggle,
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(color: Color(0xFF2563EB), width: 1.5),
+                  padding: const EdgeInsets.only(left: AppSpacing.sm, right: AppSpacing.sm),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),

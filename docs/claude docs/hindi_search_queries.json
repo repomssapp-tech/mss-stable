@@ -1,0 +1,405 @@
+{
+  "version": 2,
+  "createdBy": "Claude (owner delegated query creation)",
+  "date": "2026-10-06",
+  "dataUnderTest": "the PUBLISHED Hindi pack and core bundle of the current release (what the app ships), not the source folder",
+  "sources": {
+    "GOV_PIB_PMEGP": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2025/jun/doc2025619573101.pdf",
+    "GOV_VIKAS_PMEGP": "https://hi.vikaspedia.in/viewcontent/agriculture/policies-and-schemes/91594393793f-93094b91c91793e930-935-92a94d93093693f91594d937923/rural-employment?lgn=hi",
+    "GOV_VIKAS_NSSH": "https://hi.vikaspedia.in/viewcontent/social-welfare/अनुसूचित-जनजाति-कल्याण/राष्ट्रीय-अनुसूचित-जाति-अनुसूचित-जनजाति-हब?lgn=hi",
+    "GOV_LOKSABHA_PMFME": "https://eparlib.sansad.in/bitstream/123456789/3016409/2/AU823_BAYtqe_hindi.pdf",
+    "GOV_LOKSABHA_SFURTI": "https://eparlib.nic.in/bitstream/123456789/729837/1/7514.pdf",
+    "GOV_MYSCHEME_ZED": "https://myscheme.gov.in/schemes/mszcs",
+    "BANK_SBI_PMEGP": "https://sbi.bank.in/hi/web/get-business-product-information/prime-ministers-employment-generation-program-pmegp-",
+    "EXPL_DRISHTI_PMEGP": "https://www.drishtiias.com/hindi/daily-news-analysis/prime-minister-employment-generation-programme",
+    "EXPL_DRISHTI_MUDRA": "https://www.drishtiias.com/hindi/pdf/1775452711.pdf",
+    "EXPL_CHRONICLE_MUDRA": "https://www.chronicleindia.in/hindi/current-affairs/13810-pradhan-mantri-mudra-yojana-pmmy-10-glorious-years",
+    "EXPL_AAJTAK_MUDRA": "https://www.aajtak.in/business/utility/photo/pm-mudra-loan-yojana-how-to-apply-for-20-lakhs-rupees-debt-tutd-2575417-2026-06-16",
+    "EXPL_DRISHTI_VISHWAKARMA": "https://drishtiias.com/hindi/pdf/1741808360.pdf",
+    "EXPL_DRISHTI_VISHWAKARMA2": "https://drishtiias.com/hindi/pdf/1724745544.pdf",
+    "EXPL_KHAN_VISHWAKARMA": "https://currentaffairs.khanglobalstudies.com/?p=23618",
+    "EXPL_VISION_CGTMSE": "https://visionias.in/current-affairs/hi/schemes/ministry-of-micro-small-and-medium-enterprises/sakashhama-oura-lgha-uthayama-ka-le-karadata-garata-yajana-cgmse",
+    "EXPL_AMARUJALA_CGTMSE": "https://www.amarujala.com/business/business-diary/govt-promotes-credit-guarantee-scheme-for-msmes-to-empower-entrepreneurs-with-collateral-free-loans-2025-07-21",
+    "EXPL_DRISHTI_SFURTI": "https://drishtiias.com/hindi/pdf/1736323185.pdf",
+    "EXPL_DRISHTI_ZED": "https://www.drishtiias.com/hindi/prelims-facts/msme-sustainable-certification-scheme",
+    "EXPL_CHRONICLE_ZED": "https://www.chronicleindia.in/hindi/current-affairs/7611-msme-sustainable-zed-certification-scheme",
+    "COMM_BAJAJ_ESDP": "https://www.bajajfinserv.in/hindi/entrepreneurship-skill-development-program",
+    "EXPL_USTHADIAN_NSSH": "https://www.usthadian.com/hi/national-sc-st-entrepreneurship-hub-initiative-hi/",
+    "EXPL_DRISHTI_PMFME": "https://www.drishtiias.com/hindi/pdf/1701835616.pdf",
+    "EXPL_DRISHTI_PMFME2": "https://www.drishtiias.com/hindi/daily-updates/daily-news-analysis/pm-formalization-of-micro-food-processing-enterprises-scheme-1"
+  },
+  "queries": [
+    {
+      "id": "A1",
+      "group": "A",
+      "query": "प्रधानमंत्री रोजगार सृजन कार्यक्रम",
+      "expectedIds": [
+        "SCH000130"
+      ],
+      "mustRankWithin": 1,
+      "sources": [
+        "GOV_PIB_PMEGP",
+        "GOV_VIKAS_PMEGP",
+        "BANK_SBI_PMEGP"
+      ],
+      "whyThisQuery": "Official Hindi name of PMEGP as used in a PIB release and the Vikaspedia government portal; some sources spell रोज़गार with a nukta.",
+      "spellingVariants": [
+        "प्रधानमंत्री रोज़गार सृजन कार्यक्रम"
+      ],
+      "altWording": [
+        "पीएमईजीपी योजना"
+      ]
+    },
+    {
+      "id": "A2",
+      "group": "A",
+      "query": "प्रधानमंत्री मुद्रा योजना",
+      "expectedIds": [
+        "SCH000128"
+      ],
+      "mustRankWithin": 1,
+      "sources": [
+        "EXPL_DRISHTI_MUDRA",
+        "EXPL_CHRONICLE_MUDRA"
+      ],
+      "whyThisQuery": "Official name of PMMY; mudra.org.in is the portal named in these pages.",
+      "altWording": [
+        "मुद्रा योजना",
+        "पीएम मुद्रा योजना"
+      ]
+    },
+    {
+      "id": "A3",
+      "group": "A",
+      "query": "पीएम विश्वकर्मा योजना",
+      "expectedIds": [
+        "SCH000124"
+      ],
+      "mustRankWithin": 1,
+      "sources": [
+        "EXPL_DRISHTI_VISHWAKARMA",
+        "EXPL_KHAN_VISHWAKARMA"
+      ],
+      "whyThisQuery": "Name as written on the scheme's Hindi coverage; also expanded as प्रधानमंत्री. Regression for the alias bug.",
+      "altWording": [
+        "प्रधानमंत्री विश्वकर्मा योजना",
+        "प्रधानमंत्री विश्वकर्मा कौशल सम्मान योजना"
+      ]
+    },
+    {
+      "id": "A4",
+      "group": "A",
+      "query": "सूक्ष्म और लघु उद्यमों के लिए क्रेडिट गारंटी योजना",
+      "expectedIds": [
+        "SCH000038"
+      ],
+      "mustRankWithin": 1,
+      "sources": [
+        "EXPL_VISION_CGTMSE",
+        "EXPL_AMARUJALA_CGTMSE"
+      ],
+      "whyThisQuery": "Hindi name of the credit guarantee scheme (CGTMSE). SCH000064 ('Guarantee Schemes for MSEs') is ARCHIVED and is not an accepted answer.",
+      "altWording": [
+        "सूक्ष्म एवं लघु उद्यमों के लिए क्रेडिट गारंटी फंड ट्रस्ट"
+      ]
+    },
+    {
+      "id": "A5",
+      "group": "A",
+      "query": "पारंपरिक उद्योगों के उन्नयन एवं पुनर्निर्माण के लिए कोष की योजना",
+      "expectedIds": [
+        "SCH000144"
+      ],
+      "mustRankWithin": 1,
+      "sources": [
+        "EXPL_DRISHTI_SFURTI",
+        "GOV_LOKSABHA_SFURTI"
+      ],
+      "whyThisQuery": "SFURTI. A Lok Sabha document spells it पारम्परिक (conjunct म) and uses पुनरुद्धार; both are real official spellings.",
+      "spellingVariants": [
+        "पारम्परिक उद्योगों के उन्नयन एवं पुनर्निर्माण के लिए कोष की योजना"
+      ],
+      "altWording": [
+        "पारंपरिक उद्योगों के पुनर्जनन के लिए कोष की योजना",
+        "परंपरागत उद्योगों के पुनरुद्धार के लिए स्फूर्ति योजना"
+      ]
+    },
+    {
+      "id": "A6",
+      "group": "A",
+      "query": "एमएसएमई सस्टेनेबल (जेडईडी) प्रमाणन योजना",
+      "expectedIds": [
+        "SCH000106"
+      ],
+      "mustRankWithin": 1,
+      "sources": [
+        "EXPL_DRISHTI_ZED",
+        "EXPL_CHRONICLE_ZED",
+        "GOV_MYSCHEME_ZED"
+      ],
+      "whyThisQuery": "ZED certification scheme. PIB-derived text also uses सतत instead of सस्टेनेबल.",
+      "altWording": [
+        "एमएसएमई सतत (जेडईडी) प्रमाणन योजना",
+        "शून्य दोष शून्य प्रभाव प्रमाणन"
+      ]
+    },
+    {
+      "id": "A7",
+      "group": "A",
+      "query": "उद्यमिता कौशल विकास कार्यक्रम",
+      "expectedIds": [
+        "SCH000095"
+      ],
+      "mustRankWithin": 1,
+      "sources": [
+        "COMM_BAJAJ_ESDP"
+      ],
+      "whyThisQuery": "ESDP. LOWER CONFIDENCE: only a commercial Hindi page was found, no government Hindi page. SCH000055 is the ARCHIVED duplicate and is not an accepted answer."
+    },
+    {
+      "id": "A8",
+      "group": "A",
+      "query": "राष्ट्रीय अनुसूचित जाति-अनुसूचित जनजाति हब",
+      "expectedIds": [
+        "SCH000113"
+      ],
+      "mustRankWithin": 1,
+      "sources": [
+        "GOV_VIKAS_NSSH"
+      ],
+      "whyThisQuery": "NSSH, exact name from the Vikaspedia government portal.",
+      "altWording": [
+        "राष्ट्रीय एससी-एसटी हब योजना"
+      ]
+    },
+    {
+      "id": "A9",
+      "group": "A",
+      "query": "प्रधानमंत्री सूक्ष्म खाद्य प्रसंस्करण उद्यम उन्नयन योजना",
+      "expectedIds": [
+        "SCH000219"
+      ],
+      "mustRankWithin": 1,
+      "sources": [
+        "GOV_LOKSABHA_PMFME",
+        "EXPL_DRISHTI_PMFME"
+      ],
+      "whyThisQuery": "PMFME, wording from a Lok Sabha Hindi reply; other documents write औपचारिकीकरण instead of उन्नयन.",
+      "altWording": [
+        "प्रधानमंत्री सूक्ष्म खाद्य प्रसंस्करण उद्यमों का औपचारिकीकरण योजना"
+      ]
+    },
+    {
+      "id": "B1",
+      "group": "B",
+      "query": "पीएमईजीपी",
+      "expectedIds": [
+        "SCH000130"
+      ],
+      "mustRankWithin": 1,
+      "sources": [
+        "BANK_SBI_PMEGP",
+        "GOV_VIKAS_PMEGP"
+      ],
+      "whyThisQuery": "Acronym as written in Hindi; SBI's Hindi page uses the short-vowel spelling.",
+      "spellingVariants": [
+        "पीएमइजीपी"
+      ]
+    },
+    {
+      "id": "B2",
+      "group": "B",
+      "query": "सीजीटीएमएसई",
+      "expectedIds": [
+        "SCH000038"
+      ],
+      "mustRankWithin": 1,
+      "sources": [
+        "EXPL_AMARUJALA_CGTMSE"
+      ],
+      "whyThisQuery": "CGTMSE acronym in Devanagari as printed in a Hindi newspaper report of the ministry statement."
+    },
+    {
+      "id": "B3",
+      "group": "B",
+      "query": "स्फूर्ति",
+      "expectedIds": [
+        "SCH000144"
+      ],
+      "mustRankWithin": 1,
+      "sources": [
+        "EXPL_DRISHTI_SFURTI",
+        "GOV_LOKSABHA_SFURTI"
+      ],
+      "whyThisQuery": "Common short name of SFURTI."
+    },
+    {
+      "id": "B4",
+      "group": "B",
+      "query": "जेडईडी",
+      "expectedIds": [
+        "SCH000106"
+      ],
+      "mustRankWithin": 1,
+      "sources": [
+        "EXPL_DRISHTI_ZED",
+        "EXPL_CHRONICLE_ZED"
+      ],
+      "whyThisQuery": "ZED acronym in Devanagari."
+    },
+    {
+      "id": "B5",
+      "group": "B",
+      "query": "पीएमएफएमई",
+      "expectedIds": [
+        "SCH000219"
+      ],
+      "mustRankWithin": 1,
+      "sources": [
+        "GOV_LOKSABHA_PMFME"
+      ],
+      "whyThisQuery": "PMFME acronym as in the Lok Sabha Hindi reply; another document writes पीएम-एफएमई.",
+      "spellingVariants": [
+        "पीएम-एफएमई"
+      ]
+    },
+    {
+      "id": "C1",
+      "group": "C",
+      "query": "बिना गारंटी का ऋण",
+      "expectedIds": [
+        "SCH000038",
+        "SCH000128",
+        "SCH000124"
+      ],
+      "mustRankWithin": 5,
+      "sources": [
+        "EXPL_VISION_CGTMSE",
+        "EXPL_DRISHTI_VISHWAKARMA"
+      ],
+      "whyThisQuery": "Collateral-free credit is described this way for the credit guarantee scheme and for PM Vishwakarma loans; Mudra is described as collateral-free too."
+    },
+    {
+      "id": "C2",
+      "group": "C",
+      "query": "व्यापार शुरू करने के लिए लोन",
+      "expectedIds": [
+        "SCH000128",
+        "SCH000130"
+      ],
+      "mustRankWithin": 5,
+      "sources": [
+        "EXPL_AAJTAK_MUDRA"
+      ],
+      "whyThisQuery": "Everyday phrasing with the loanword लोन instead of ऋण (a synonym test)."
+    },
+    {
+      "id": "C3",
+      "group": "C",
+      "query": "कारीगर और शिल्पकार",
+      "expectedIds": [
+        "SCH000124"
+      ],
+      "mustRankWithin": 3,
+      "sources": [
+        "EXPL_DRISHTI_VISHWAKARMA2",
+        "EXPL_KHAN_VISHWAKARMA"
+      ],
+      "whyThisQuery": "How official coverage addresses the beneficiaries. KNOWN WEAK: the earlier run returned ATI first for कारीगर."
+    },
+    {
+      "id": "C4",
+      "group": "C",
+      "query": "परंपरागत उद्योगों का पुनरुद्धार",
+      "expectedIds": [
+        "SCH000144"
+      ],
+      "mustRankWithin": 5,
+      "sources": [
+        "GOV_LOKSABHA_SFURTI"
+      ],
+      "whyThisQuery": "Lok Sabha wording; differs from the catalog-style पारंपरिक/पुनर्निर्माण (a synonym and spelling test).",
+      "altWording": [
+        "पारंपरिक उद्योग क्लस्टर"
+      ]
+    },
+    {
+      "id": "C5",
+      "group": "C",
+      "query": "अनुसूचित जाति जनजाति उद्यमियों के लिए सार्वजनिक खरीद",
+      "expectedIds": [
+        "SCH000113"
+      ],
+      "mustRankWithin": 3,
+      "sources": [
+        "GOV_VIKAS_NSSH",
+        "EXPL_USTHADIAN_NSSH"
+      ],
+      "whyThisQuery": "Public procurement is the central feature of NSSH. LOWER CONFIDENCE for the exact phrase: the government page was not opened for it."
+    },
+    {
+      "id": "C6",
+      "group": "C",
+      "query": "खाद्य प्रसंस्करण इकाई पर 35% सब्सिडी",
+      "expectedIds": [
+        "SCH000219"
+      ],
+      "mustRankWithin": 3,
+      "sources": [
+        "EXPL_DRISHTI_PMFME",
+        "EXPL_DRISHTI_PMFME2"
+      ],
+      "whyThisQuery": "Benefit phrase with a digit and a percent sign, as in the scheme coverage."
+    }
+  ],
+  "negativeControls": [
+    {
+      "id": "N1",
+      "query": "क्रिकेट विश्वकप टिकट बुकिंग",
+      "expectResults": 0,
+      "why": "Unrelated topic must return nothing."
+    },
+    {
+      "id": "N2",
+      "query": "ख्ख्घ्झ्",
+      "expectResults": 0,
+      "why": "Gibberish in Devanagari must return nothing and must not throw."
+    }
+  ],
+  "regression": [
+    {
+      "id": "R1",
+      "query": "पीएम विश्वकर्मा",
+      "expectTopId": "SCH000124",
+      "maxResults": 3,
+      "why": "Earlier, 84 schemes carried this alias and the query returned about 84 results. It must return at most 3."
+    }
+  ],
+  "preconditions": {
+    "rule": "For every expectedId, check it exists in the published hi pack with a name containing Devanagari AND has status active in the bundle. If none of a query's expectedIds qualifies, mark the query DATA_GAP (not SEARCH_FAIL), list it, and exclude it from the pass counts. Archived/closed schemes are never accepted as the expected result.",
+    "blockingIf": "more than 2 of the 20 queries are DATA_GAP"
+  },
+  "scoring": {
+    "mustRankWithin": "the best-ranked expectedId must be at or above this rank (1 = first result)",
+    "spellingVariants": "blocking: every variant must also place an expected id within the top 3",
+    "altWording": "informational only: report the rank, never blocking",
+    "passRule": {
+      "groupA": "all testable queries pass",
+      "groupB": "at least 4 of 5 testable queries pass",
+      "groupC": "at least 5 of 6 testable queries pass",
+      "negativeControls": "2 of 2",
+      "regression": "R1 passes",
+      "overall": "all of the above; this is equivalent to at least 18 of 20"
+    }
+  },
+  "rules": [
+    "The executor must not change any query, expected id, rank, variant or pass rule in this file. Only the owner changes them.",
+    "The executor must not change search code, taxonomy, synonyms or data after seeing a failure without the owner's written approval.",
+    "Every failure gets one diagnosis: DATA_GAP (expected scheme or its Hindi text missing), TOKENIZATION (the query is not split or normalised as the text is), SYNONYM (same meaning, different word), or RANKING (found but ranked too low). Propose a fix; do not apply it.",
+    "Report for every query: the query text, the ids and names of the top 5 results with ranks, the expected ids and their rank (or NOT FOUND), pass/fail and diagnosis.",
+    "Search code and taxonomy changes are kept in their own commit or branch, separate from the release gate and publish tooling.",
+    "English and Tamil behaviour: run the existing English/Tamil search suites unchanged and paste the results.",
+    "For exact-name queries (groups A and B), also report whether an archived scheme outranks the expected active scheme; the earlier run returned the archived SCH000064 first for a credit-guarantee query.",
+    "A result that only matches through hand-added taxonomy synonyms and has no Hindi text in the pack (for example SCH000017 for the query ऋण in the earlier run) must be flagged as such in the report."
+  ]
+}

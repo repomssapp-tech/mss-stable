@@ -13,7 +13,7 @@ void main() {
   });
 
   group('Phase 5 — Targeted Runtime Audit for 4 Core Sections', () {
-    test('100% Coverage Verification across all 217 catalog schemes', () {
+    test('100% Coverage Verification across all catalog schemes', () {
       int totalSchemes = bundle.schemes.length;
       int eligibilityMappedCount = 0;
       int servicesMappedCount = 0;
@@ -32,8 +32,8 @@ void main() {
         if (scheme.applicationProcess.isNotEmpty) {
           processMappedCount++;
         }
-        final hasDocs = scheme.documents.isNotEmpty ||
-            scheme.requiredDocuments.isNotEmpty;
+        final hasDocs =
+            scheme.documents.isNotEmpty || scheme.requiredDocuments.isNotEmpty;
         if (hasDocs) {
           documentsMappedCount++;
         } else {
@@ -121,7 +121,7 @@ void main() {
       print(
         '========================================================================================',
       );
-      print('APPLICATION PROCESS WORKFLOW BREAKDOWN (217 SCHEMES)');
+      print('APPLICATION PROCESS WORKFLOW BREAKDOWN (ALL SCHEMES)');
       print(
         '========================================================================================',
       );
@@ -143,27 +143,42 @@ void main() {
       return uri != null && (uri.scheme == 'https' || uri.scheme == 'http');
     }
 
-    test('every bundle scheme exposes a valid http(s) schemeUrl', () {
-      final bad = <String>[];
+    test('every scheme with a source URL exposes a valid http(s) schemeUrl', () {
+      // The 2026 source gives no apply/info link for some schemes (26
+      // Maharashtra records). Those must be recorded in
+      // verification.missingFields and keep Apply Now disabled; any URL that is
+      // present must be launchable.
+      final invalid = <String>[];
+      final withoutUrl = <String>[];
       for (final sEntity in bundle.schemes) {
-        final rawUrl =
-            (sEntity.content['schemeUrl'] as String?)?.trim() ?? '';
+        final rawUrl = (sEntity.content['schemeUrl'] as String?)?.trim() ?? '';
         final scheme = MssSchemeAdapter.toScheme(sEntity, bundle);
 
         // Adapter carries content.schemeUrl through verbatim.
         expect(scheme.schemeUrl, equals(rawUrl), reason: sEntity.id);
 
-        // Apply Now destination = schemeUrl only, and it must be launchable.
-        final applyDestination =
-            isSafeWebUrl(scheme.schemeUrl.trim()) ? scheme.schemeUrl.trim() : '';
-        if (applyDestination.isEmpty) bad.add('${sEntity.id} -> "$rawUrl"');
+        if (rawUrl.isEmpty) {
+          withoutUrl.add(sEntity.id);
+          final missing =
+              (sEntity.raw['verification']?['missingFields'] as List?) ?? [];
+          expect(
+            missing.any((m) => m is Map && m['field'] == 'content.schemeUrl'),
+            isTrue,
+            reason: '${sEntity.id} has no schemeUrl but does not record it',
+          );
+        } else if (!isSafeWebUrl(rawUrl)) {
+          invalid.add('${sEntity.id} -> "$rawUrl"');
+        }
       }
       expect(
-        bad,
+        invalid,
         isEmpty,
-        reason:
-            'Apply Now would be disabled for these schemes (no valid schemeUrl):\n'
-            '${bad.join("\n")}',
+        reason: 'Non-launchable URLs: ${invalid.join(", ")}',
+      );
+      expect(
+        withoutUrl.length,
+        equals(26),
+        reason: 'Schemes without any source URL (all Maharashtra): $withoutUrl',
       );
     });
   });

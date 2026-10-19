@@ -96,7 +96,9 @@ class VoiceTranscriptBubble extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                ...turn.schemeMatches.take(3).map(
+                ...turn.schemeMatches
+                    .take(3)
+                    .map(
                       (match) => VoiceTurnSchemeCard(
                         match: match,
                         accentColor: accentColor,

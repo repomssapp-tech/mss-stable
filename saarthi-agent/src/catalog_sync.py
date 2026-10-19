@@ -2,11 +2,10 @@
 copy (data/scheme_catalog.json, data/search_index.json) in sync with the
 published release, instead of a snapshot frozen at Docker-build time.
 
-Mirrors frontend/lib/services/scheme_catalog_sync_service.dart exactly --
-same public.mss_current_release() RPC for the cheap version check, same
-`catalogs` Storage bucket / releases/<release_version>/catalog_bundle.json.gz
-path for the payload, same once-per-worker-startup-then-hourly-throttle
-policy. The voice agent runs as one persistent LiveKit worker process (see
+Mirrors frontend/lib/services/catalog/scheme_catalog_sync_service.dart --
+same public GET /v1/catalog/current for the cheap version check, same
+`bundle_url` it names for the payload, same once-per-worker-startup-then-hourly
+throttle policy. Both routes are public: no credentials are sent. The voice agent runs as one persistent LiveKit worker process (see
 agent.py's `cli.run_app`), not a fresh process per call, so an in-memory
 timestamp is enough to enforce the throttle -- no disk-persisted state
 needed, exactly like the Dart singleton this ports.
@@ -29,6 +28,8 @@ from enum import Enum
 from pathlib import Path
 from typing import Any
 
+from urllib.parse import urlsplit
+
 import aiohttp
 
 logger = logging.getLogger("catalog_sync")
@@ -39,8 +40,9 @@ SEARCH_INDEX_PATH = DATA_DIR / "search_index.json"
 LOCAL_MANIFEST_PATH = DATA_DIR / "catalog_manifest.json"
 
 SUPPORTED_SCHEMA_VERSION = 1
-STORAGE_BUCKET = "catalogs"
-BUNDLE_FILE_NAME = "catalog_bundle.json.gz"
+DEFAULT_API_BASE_URL = "https://api.msmeschemes.org"
+CURRENT_RELEASE_PATH = "/v1/catalog/current"
+CATALOG_PATH_PREFIX = "/v1/catalog/"
 
 
 class SyncOutcome(Enum):
@@ -59,6 +61,8 @@ class CatalogManifest:
     byte_size: int
     schema_version: int
     published_at: str
+    # API-origin-relative download path from GET /v1/catalog/current.
+    bundle_url: str = ""
 
     def same_release_as(self, other: CatalogManifest | None) -> bool:
         if other is None:
@@ -80,6 +84,7 @@ class CatalogManifest:
             byte_size=int(row.get("package_byte_size") or 0),
             schema_version=int(row.get("schema_version") or 0),
             published_at=str(row.get("published_at") or ""),
+            bundle_url=str(row.get("bundle_url") or ""),
         )
 
     @staticmethod
@@ -88,7 +93,8 @@ class CatalogManifest:
             return None
         try:
             data = json.loads(path.read_text(encoding="utf-8"))
-            return CatalogManifest(**data)
+            known = CatalogManifest.__dataclass_fields__
+            return CatalogManifest(**{k: v for k, v in data.items() if k in known})
         except (json.JSONDecodeError, TypeError, KeyError):
             logger.warning(
                 "catalog_sync: local manifest unreadable, ignoring", exc_info=True
@@ -104,6 +110,7 @@ class CatalogManifest:
                     "byte_size": self.byte_size,
                     "schema_version": self.schema_version,
                     "published_at": self.published_at,
+                    "bundle_url": self.bundle_url,
                 },
                 indent=2,
             ),
@@ -115,15 +122,13 @@ class CatalogSyncService:
     def __init__(
         self,
         *,
-        supabase_url: str | None = None,
-        supabase_key: str | None = None,
+        api_base_url: str | None = None,
         throttle_seconds: float = 3600,
         timeout_seconds: float = 8,
         clock: Any = time.time,
         data_dir: Path = DATA_DIR,
     ) -> None:
-        self._supabase_url = supabase_url
-        self._supabase_key = supabase_key
+        self._api_base_url = (api_base_url or "").rstrip("/")
         self._throttle_seconds = throttle_seconds
         self._timeout_seconds = timeout_seconds
         self._clock = clock
@@ -161,10 +166,8 @@ class CatalogSyncService:
             return SyncOutcome.THROTTLED
         self._write_last_check(now)
 
-        if not self._supabase_url or not self._supabase_key:
-            logger.warning(
-                "catalog_sync: SUPABASE_URL/key not configured, skipping sync"
-            )
+        if not self._api_base_url:
+            logger.warning("catalog_sync: API_BASE_URL not configured, skipping sync")
             return SyncOutcome.OFFLINE
 
         try:
@@ -215,34 +218,46 @@ class CatalogSyncService:
         return SyncOutcome.UPDATED
 
     async def _fetch_current_manifest(self) -> CatalogManifest | None:
-        url = f"{self._supabase_url}/rest/v1/rpc/mss_current_release"
-        headers = {
-            "apikey": self._supabase_key,
-            "Authorization": f"Bearer {self._supabase_key}",
-            "Content-Type": "application/json",
-        }
-        timeout = aiohttp.ClientTimeout(total=self._timeout_seconds)
-        async with (
-            aiohttp.ClientSession(timeout=timeout) as session,
-            session.post(url, headers=headers, json={}) as response,
-        ):
-            response.raise_for_status()
-            rows = await response.json()
-        if not rows:
-            return None
-        return CatalogManifest.from_release_rpc(rows[0])
-
-    async def _fetch_payload(self, manifest: CatalogManifest) -> bytes:
-        object_path = f"releases/{manifest.release_version}/{BUNDLE_FILE_NAME}"
-        url = f"{self._supabase_url}/storage/v1/object/{STORAGE_BUCKET}/{object_path}"
-        headers = {
-            "apikey": self._supabase_key,
-            "Authorization": f"Bearer {self._supabase_key}",
-        }
+        # 200 with an object, or 200 with JSON null when nothing is published.
+        url = f"{self._api_base_url}{CURRENT_RELEASE_PATH}"
+        headers = {"Accept": "application/json"}
         timeout = aiohttp.ClientTimeout(total=self._timeout_seconds)
         async with (
             aiohttp.ClientSession(timeout=timeout) as session,
             session.get(url, headers=headers) as response,
+        ):
+            response.raise_for_status()
+            row = await response.json(content_type=None)
+        if not isinstance(row, dict):
+            return None
+        return CatalogManifest.from_release_rpc(row)
+
+    def _bundle_url(self, manifest: CatalogManifest) -> str:
+        """Absolute download URL for [manifest], on the API origin only.
+
+        The server names an API-origin-relative path; an absolute URL or a path
+        outside the catalog routes is refused, so a bad release record can never
+        send this worker to another host.
+        """
+        path = manifest.bundle_url or (
+            f"{CATALOG_PATH_PREFIX}releases/{manifest.release_version}/bundle"
+        )
+        parts = urlsplit(path)
+        if (
+            parts.scheme
+            or parts.netloc
+            or not path.startswith(CATALOG_PATH_PREFIX)
+            or ".." in path
+        ):
+            raise ValueError(f"unsafe catalog bundle url: {path!r}")
+        return f"{self._api_base_url}{path}"
+
+    async def _fetch_payload(self, manifest: CatalogManifest) -> bytes:
+        url = self._bundle_url(manifest)
+        timeout = aiohttp.ClientTimeout(total=self._timeout_seconds)
+        async with (
+            aiohttp.ClientSession(timeout=timeout) as session,
+            session.get(url, allow_redirects=False) as response,
         ):
             response.raise_for_status()
             return await response.read()

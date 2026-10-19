@@ -49,8 +49,7 @@ CloudSchemeResult? metadataForScheme(
   if (results == null) return null;
   String normalize(String value) => value.toLowerCase().trim();
   for (final result in results) {
-    if (result.id.isNotEmpty &&
-        normalize(result.id) == normalize(scheme.id)) {
+    if (result.id.isNotEmpty && normalize(result.id) == normalize(scheme.id)) {
       return result;
     }
     if (result.code.isNotEmpty &&

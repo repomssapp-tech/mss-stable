@@ -1,8 +1,8 @@
 // ignore_for_file: avoid_print
 //
 // COMMIT 1 — Discover screen counts must be a deterministic derivation of the
-// offline catalog (SchemeRepository.getAllSchemes() == bundle.schemes, 219
-// rows) via structured fields, NOT keyword `.where()` over free-text overview,
+// offline catalog (SchemeRepository.getAllSchemes() == bundle.schemes, one
+// row per scheme) via structured fields, NOT keyword `.where()` over free-text overview,
 // NOT `/v1/search`, NOT hardcoded totals.
 //
 // This test recomputes every displayed grouping with the SAME public predicate
@@ -25,28 +25,34 @@ void main() {
     schemes = await SchemeRepository.instance.getAllSchemes();
   });
 
-  test('catalog has exactly 171 distinct schemes (one row == one scheme; D4 hides 131 draft schemes)', () {
-    expect(schemes.length, 171);
-    expect(schemes.map((s) => s.id).toSet().length, 171);
-  });
+  test(
+    'catalog has exactly 406 distinct schemes (one row == one scheme; 274 central + 53 TN + 79 MH)',
+    () {
+      expect(schemes.length, 406);
+      expect(schemes.map((s) => s.id).toSet().length, 406);
+    },
+  );
 
-  test('compute() is a pure derivation from the 171 rows via the same '
+  test('compute() is a pure derivation from the catalog rows via the same '
       'per-scheme predicate the screen renders', () {
     final counts = DiscoverCounts.compute(schemes);
 
     for (final label in DiscoverCounts.categoryLabels) {
-      final expected =
-          schemes.where((s) => DiscoverCounts.matchesCategory(s, label)).length;
+      final expected = schemes
+          .where((s) => DiscoverCounts.matchesCategory(s, label))
+          .length;
       expect(counts[label], expected, reason: 'category "$label"');
     }
     for (final label in DiscoverCounts.ministryLabels) {
-      final expected =
-          schemes.where((s) => DiscoverCounts.matchesMinistry(s, label)).length;
+      final expected = schemes
+          .where((s) => DiscoverCounts.matchesMinistry(s, label))
+          .length;
       expect(counts[label], expected, reason: 'ministry "$label"');
     }
     for (final label in DiscoverCounts.stateLabels) {
-      final expected =
-          schemes.where((s) => DiscoverCounts.matchesState(s, label)).length;
+      final expected = schemes
+          .where((s) => DiscoverCounts.matchesState(s, label))
+          .length;
       expect(counts[label], expected, reason: 'state "$label"');
     }
 
@@ -69,7 +75,7 @@ void main() {
     for (final st in DiscoverCounts.stateLabels) {
       expect(counts[st], greaterThanOrEqualTo(national), reason: st);
       // ...but never exceeds the whole catalog.
-      expect(counts[st], lessThanOrEqualTo(171), reason: st);
+      expect(counts[st], lessThanOrEqualTo(schemes.length), reason: st);
     }
 
     // Tamil Nadu carries extra state-scoped schemes the others do not, so it
@@ -109,42 +115,68 @@ void main() {
     final counts = DiscoverCounts.compute(schemes);
 
     // Categories overlap by design (a scheme can be both "Startup" and
-    // "Women Entrepreneurship"), so the sum exceeds 171. Reported, not hidden.
-    final sum = DiscoverCounts.categoryLabels
-        .fold<int>(0, (a, l) => a + (counts[l] ?? 0));
-    print('sum(category counts) = $sum across '
-        '${DiscoverCounts.categoryLabels.length} labels (> 171 by overlap)');
-    expect(sum, greaterThan(171));
+    // "Women Entrepreneurship"), so the sum exceeds the scheme count. Reported, not hidden.
+    final sum = DiscoverCounts.categoryLabels.fold<int>(
+      0,
+      (a, l) => a + (counts[l] ?? 0),
+    );
+    print(
+      'sum(category counts) = $sum across '
+      '${DiscoverCounts.categoryLabels.length} labels (> ${schemes.length} by overlap)',
+    );
+    expect(sum, greaterThan(schemes.length));
 
     // Not all categories are the same number (a hardcoded constant would fail).
-    expect(DiscoverCounts.categoryLabels.map((l) => counts[l]).toSet().length,
-        greaterThan(3));
+    expect(
+      DiscoverCounts.categoryLabels.map((l) => counts[l]).toSet().length,
+      greaterThan(3),
+    );
 
     // No category is allowed to balloon to "basically the whole catalog" the
     // way the old MSME-fallback did.
     for (final l in DiscoverCounts.categoryLabels) {
-      expect(counts[l]!, lessThan(170), reason: l);
+      expect(counts[l]!, lessThan(schemes.length - 1), reason: l);
     }
   });
 
-  test('counts are connectivity-independent: two calls are identical', () async {
-    final a = DiscoverCounts.compute(schemes);
-    final b = DiscoverCounts.compute(await SchemeRepository.instance.getAllSchemes());
-    expect(a, b);
-  });
+  test(
+    'counts are connectivity-independent: two calls are identical',
+    () async {
+      final a = DiscoverCounts.compute(schemes);
+      final b = DiscoverCounts.compute(
+        await SchemeRepository.instance.getAllSchemes(),
+      );
+      expect(a, b);
+    },
+  );
 
-  test('absolute pins against release 1.35.1-alpha (171 schemes) — a future '
+  test('absolute pins against release 1.37.0-alpha (406 schemes) — a future '
       'weakening of the keyword lists breaks the suite', () {
     final counts = DiscoverCounts.compute(schemes);
     final national = schemes.where(DiscoverCounts.nationallyApplicable).length;
     // These are the honest structured numbers for the shipped bundle; if the
     // catalog is re-released they will need updating, which is the point —
     // the count logic must not drift silently.
-    expect(national, 155, reason: 'nationally-applicable baseline');
-    expect(counts['Tamil Nadu'], 171, reason: 'national + TN-scoped schemes');
-    expect(counts['Uttar Pradesh'], 155, reason: 'national only');
-    expect(counts['Ministry of MSME'], 76);
-    expect(counts['Ministry of Education'], 0);
+    expect(
+      national,
+      275,
+      reason:
+          'nationally-applicable baseline (274 central + the all-India central scheme filed by Tamil Nadu)',
+    );
+    expect(
+      counts['Tamil Nadu'],
+      327,
+      reason:
+          'national + 52 TN-scoped schemes (incl. the state-run central_state mission)',
+    );
+    expect(
+      counts['Maharashtra'],
+      354,
+      reason: 'national + 79 MH-scoped schemes',
+    );
+    expect(counts['Uttar Pradesh'], 275, reason: 'national only');
+    expect(counts['Ministry of MSME'], 118);
+    expect(counts['Ministry of Education'], 1);
   });
 
   test('FAILS if a count is replaced by a hardcoded literal', () {

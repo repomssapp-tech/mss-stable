@@ -9,17 +9,10 @@ import 'package:frontend/screens/regular_mode/about_you_profile_screen.dart';
 import 'package:frontend/screens/regular_mode/eligibility_profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() {
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    try {
-      await Supabase.initialize(
-        url: 'https://example.supabase.co',
-        publishableKey: 'test-publishable-key',
-      );
-    } catch (_) {}
   });
 
   Widget buildTestApp(Widget child, AppProvider provider) {
@@ -42,7 +35,9 @@ void main() {
     'BasicProfileScreen: no gender is selected by default and required asterisks are red, tap toggles',
     (WidgetTester tester) async {
       final provider = AppProvider();
-      await tester.pumpWidget(buildTestApp(const BasicProfileScreen(), provider));
+      await tester.pumpWidget(
+        buildTestApp(const BasicProfileScreen(), provider),
+      );
       await tester.pumpAndSettle();
 
       // Verify Male, Female, Other all exist
@@ -98,7 +93,9 @@ void main() {
     'LocationProfileScreen: required asterisks are red and state is not defaulted to Tamil Nadu',
     (WidgetTester tester) async {
       final provider = AppProvider();
-      await tester.pumpWidget(buildTestApp(const LocationProfileScreen(), provider));
+      await tester.pumpWidget(
+        buildTestApp(const LocationProfileScreen(), provider),
+      );
       await tester.pumpAndSettle();
 
       final richTexts = tester.widgetList<RichText>(find.byType(RichText));
@@ -127,7 +124,10 @@ void main() {
       // Verify "Use Current Location" is shown (no "My" and no subtitle)
       expect(find.text('Use Current Location'), findsOneWidget);
       expect(find.text('Use My Current Location'), findsNothing);
-      expect(find.text('Get your current location automatically'), findsNothing);
+      expect(
+        find.text('Get your current location automatically'),
+        findsNothing,
+      );
 
       // Verify "2/4 Complete" fraction is centered in the middle
       final fractionFinder = find.text('2/4 Complete');
@@ -138,10 +138,11 @@ void main() {
       );
       expect(centerAncestor, findsOneWidget);
 
-      // State is the final address field on this step; Pincode was removed.
-      await tester.ensureVisible(find.text('State *'));
+      // Pincode is the final address field: the server needs it to complete
+      // onboarding.
+      await tester.ensureVisible(find.text('Pincode *'));
       await tester.pumpAndSettle();
-      expect(find.text('Pincode *'), findsNothing);
+      expect(find.text('Pincode *'), findsOneWidget);
     },
   );
 
@@ -149,7 +150,9 @@ void main() {
     'AboutYouProfileScreen: no role is selected by default and tap toggles selection',
     (WidgetTester tester) async {
       final provider = AppProvider();
-      await tester.pumpWidget(buildTestApp(const AboutYouProfileScreen(), provider));
+      await tester.pumpWidget(
+        buildTestApp(const AboutYouProfileScreen(), provider),
+      );
       await tester.pumpAndSettle();
 
       // Verify role names without "Aspiring" or "Existing"
@@ -163,7 +166,9 @@ void main() {
       expect(find.text('Artisan / SHG Member'), findsOneWidget);
 
       // Find role cards container: verify Continue button has disabled background (grey shade 300)
-      final continueBtn = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
+      final continueBtn = tester.widget<ElevatedButton>(
+        find.byType(ElevatedButton),
+      );
       expect(
         continueBtn.style?.backgroundColor?.resolve({}),
         Colors.grey.shade300,
@@ -171,7 +176,9 @@ void main() {
 
       // Verify small descriptions under select options are removed
       expect(
-        find.text('Looking for learning, innovation and startup opportunities.'),
+        find.text(
+          'Looking for learning, innovation and startup opportunities.',
+        ),
         findsNothing,
       );
       expect(
@@ -185,7 +192,9 @@ void main() {
       await tester.tap(find.text('Student'));
       await tester.pumpAndSettle();
 
-      final activeContinueBtn = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
+      final activeContinueBtn = tester.widget<ElevatedButton>(
+        find.byType(ElevatedButton),
+      );
       expect(
         activeContinueBtn.style?.backgroundColor?.resolve({}),
         const Color(0xFF2563EB),
@@ -197,7 +206,9 @@ void main() {
       await tester.tap(find.text('Student'));
       await tester.pumpAndSettle();
 
-      final deselectedContinueBtn = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
+      final deselectedContinueBtn = tester.widget<ElevatedButton>(
+        find.byType(ElevatedButton),
+      );
       expect(
         deselectedContinueBtn.style?.backgroundColor?.resolve({}),
         Colors.grey.shade300,
@@ -209,7 +220,9 @@ void main() {
     'EligibilityProfileScreen: no education, community, or income is selected by default',
     (WidgetTester tester) async {
       final provider = AppProvider();
-      await tester.pumpWidget(buildTestApp(const EligibilityProfileScreen(), provider));
+      await tester.pumpWidget(
+        buildTestApp(const EligibilityProfileScreen(), provider),
+      );
       await tester.pumpAndSettle();
 
       // Verify no check icons exist inside choice chips
@@ -285,10 +298,11 @@ void main() {
   );
 
   testWidgets(
-    'Uncompleted profile with legacy database values does not pre-select Male or Eligibility options',
+    'Uncompleted profile restores a saved gender but does not pre-select Eligibility options',
     (WidgetTester tester) async {
       final provider = AppProvider();
-      // Simulate profile loaded from cloud with legacy values but profileCompleted == false
+      // A draft saved on the server: gender was chosen on step 1, the
+      // eligibility step was never completed.
       await provider.updateProfile(
         provider.profile.copyWith(
           gender: 'Male',
@@ -299,19 +313,22 @@ void main() {
         ),
       );
 
-      // 1. In BasicProfileScreen, Male should NOT be selected
-      await tester.pumpWidget(buildTestApp(const BasicProfileScreen(), provider));
+      // 1. In BasicProfileScreen, the saved gender is shown as selected
+      await tester.pumpWidget(
+        buildTestApp(const BasicProfileScreen(), provider),
+      );
       await tester.pumpAndSettle();
 
       final maleText = tester.widget<Text>(find.text('Male'));
-      expect(maleText.style?.fontWeight, FontWeight.normal);
+      expect(maleText.style?.fontWeight, isNot(FontWeight.normal));
 
       // 2. In EligibilityProfileScreen, no chips should be selected
-      await tester.pumpWidget(buildTestApp(const EligibilityProfileScreen(), provider));
+      await tester.pumpWidget(
+        buildTestApp(const EligibilityProfileScreen(), provider),
+      );
       await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.check), findsNothing);
     },
   );
 }
-

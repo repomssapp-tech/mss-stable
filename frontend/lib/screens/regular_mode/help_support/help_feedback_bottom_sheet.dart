@@ -1,6 +1,6 @@
+import '../../../services/account/app_session.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../l10n/l10n.dart';
 import '../../../services/account/support_ticket_service.dart';
 import '../../../utils/app_spacing.dart';
@@ -15,7 +15,7 @@ void showFeedbackBottomSheet(BuildContext context) {
   bool submittingFeedback = false;
 
   if (emailController.text.trim().isEmpty) {
-    final userEmail = Supabase.instance.client.auth.currentUser?.email;
+    final userEmail = AppSession.instance.email;
     if (userEmail != null && userEmail.isNotEmpty) {
       emailController.text = userEmail;
     }

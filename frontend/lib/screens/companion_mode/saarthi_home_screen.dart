@@ -13,6 +13,7 @@ import '../../services/voice/assistant_session_controller.dart';
 import '../../services/voice/livekit_voice_agent_controller.dart';
 import '../../services/voice/speech_output_controller.dart';
 import '../../services/voice/voice_agent_controller.dart';
+import '../../services/voice/voice_language.dart';
 import '../../services/voice/voice_recognition_controller.dart';
 import '../../utils/app_spacing.dart';
 import 'saarthi_home/saarthi_bottom_panel.dart';
@@ -114,7 +115,8 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
     if (_messages.isEmpty && _chatLogService.messageCount == 0) return;
     for (final msg in _messages) {
       if (msg.text.trim().isNotEmpty && msg.status != 'transcribing') {
-        final schemeNames = (msg.schemeResults != null && msg.schemeResults!.isNotEmpty)
+        final schemeNames =
+            (msg.schemeResults != null && msg.schemeResults!.isNotEmpty)
             ? msg.schemeResults!.map((s) => s.name).toList()
             : null;
         _chatLogService.upsertMessage(
@@ -150,9 +152,10 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
     );
     _sessionController!.addListener(_handleSessionChanged);
 
-    _voiceAgentController = LiveKitVoiceAgentController.tryFromSupabase(
+    _voiceAgentController = LiveKitVoiceAgentController.tryCreate(
       session: _sessionController!,
       profile: provider.profile,
+      languageCode: () => provider.selectedLanguage,
     );
     _voiceAgentController?.addListener(_handleCloudAgentChanged);
     if (_voiceAgentController != null) {
@@ -352,8 +355,8 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
     if (text.trim().isNotEmpty) {
       final schemeNames =
           (_pendingCloudSchemes != null && _pendingCloudSchemes!.isNotEmpty)
-              ? _pendingCloudSchemes!.map((s) => s.name).toList()
-              : null;
+          ? _pendingCloudSchemes!.map((s) => s.name).toList()
+          : null;
       _chatLogService.upsertMessage(
         id: index >= 0 ? _messages[index].id : message.id,
         speaker: ChatMessageSpeaker.assistant,
@@ -447,9 +450,8 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
       _setListeningAnimations(true);
 
       final provider = Provider.of<AppProvider>(context, listen: false);
-      final isTamil = provider.selectedLanguage == 'ta';
       await _recognitionController.listen(
-        localeId: isTamil ? 'ta-IN' : 'en-IN',
+        localeId: VoiceLanguage.speechLocale(provider.selectedLanguage),
       );
       if (mounted && !_recognitionController.isListening) {
         _setListeningAnimations(false);
@@ -602,9 +604,9 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
           questionText,
           state.isTamil
               ? 'ta-IN'
-              : (Localizations.localeOf(context).languageCode == 'hi'
-                    ? 'hi-IN'
-                    : 'en-IN'),
+              : VoiceLanguage.speechLocale(
+                  Localizations.localeOf(context).languageCode,
+                ),
           questionOptions: question.options,
         );
       }
@@ -628,9 +630,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
       setState(() {
         _voiceState = SaarthiVoiceState.idle;
       });
-      _addAssistantMessage(
-        state.message ?? context.l10n.saarthiGenericError,
-      );
+      _addAssistantMessage(state.message ?? context.l10n.saarthiGenericError);
     }
   }
 

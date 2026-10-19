@@ -10,10 +10,7 @@ import 'profile_widgets.dart';
 class ProfileEligibilityDetailsCard extends StatelessWidget {
   final AppProvider provider;
 
-  const ProfileEligibilityDetailsCard({
-    super.key,
-    required this.provider,
-  });
+  const ProfileEligibilityDetailsCard({super.key, required this.provider});
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +139,8 @@ class ProfileEligibilityDetailsCard extends StatelessWidget {
             children: [
               ProfileInfoCol(
                 label: context.l10n.labelDifferentlyAbled,
-                value: profile.disability.isNotEmpty &&
+                value:
+                    profile.disability.isNotEmpty &&
                         profile.disability != 'None'
                     ? ProfileValueFormatters.getLocalizedProfileValue(
                         profile.disability,

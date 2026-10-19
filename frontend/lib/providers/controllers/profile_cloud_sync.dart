@@ -1,17 +1,18 @@
 import 'package:flutter/foundation.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../models/onboarding_api_dto.dart';
 import '../../models/user_profile.dart';
 import '../../models/user_profile_api_dto.dart';
+import '../../services/account/app_session.dart';
 import '../../services/account/onboarding_api_service.dart';
 import '../../services/account/profile_api_service.dart';
-import '../../services/account/token_storage.dart';
-import '../../services/catalog/scheme_repository.dart';
 
 /// Pushes a [UserProfile] to MSS REST Backend (`/v1/me/profile/draft` and
-/// `/v1/me/onboarding`), with fallback/mirror to Supabase.
-Future<void> syncProfileToSupabase(
+/// `/v1/me/onboarding`).
+///
+/// Throws when the server does not accept the write, so a required onboarding
+/// save is never reported as done after a failure.
+Future<void> syncProfileToServer(
   UserProfile profileToSync, {
   required bool isLoggedIn,
 }) async {
@@ -19,159 +20,126 @@ Future<void> syncProfileToSupabase(
     throw StateError('Sign in is required before saving profile data.');
   }
 
-  // 1. Sync to MSS REST Backend if user has an active REST session/token
-  final accessToken = await TokenStorage.instance.getAccessToken();
-  if (accessToken != null && accessToken.isNotEmpty) {
-    try {
-      final patchPayload = ProfileAggregate.buildPatchPayload(current: profileToSync);
-      if (patchPayload.isNotEmpty) {
-        await ProfileApiService.instance.saveDraft(patchPayload);
-      }
-
-      if (profileToSync.profileCompleted) {
-        final profileMap = <String, dynamic>{
-          'applicant_type': profileToSync.employmentStatus.isNotEmpty
-              ? profileToSync.employmentStatus
-              : 'individual',
-          'name': profileToSync.name,
-          'email': profileToSync.email,
-          if (profileToSync.mobile.isNotEmpty) 'phone': profileToSync.mobile,
-          if (profileToSync.dob != null)
-            'dob': profileToSync.dob!.toIso8601String().split('T')[0],
-          if (profileToSync.gender.isNotEmpty) 'gender': profileToSync.gender,
-          if (profileToSync.state.isNotEmpty) 'state': profileToSync.state,
-          if (profileToSync.district.isNotEmpty) 'district': profileToSync.district,
-          if (profileToSync.pinCode.isNotEmpty) 'pincode': profileToSync.pinCode,
-        };
-
-        final businessDto = (profileToSync.existingBusiness || profileToSync.businessStage.isNotEmpty)
-            ? BusinessProfileDto(
-                profileName: '${profileToSync.name.isNotEmpty ? profileToSync.name : "User"} Business',
-                industry: profileToSync.businessIndustry.isNotEmpty ? profileToSync.businessIndustry : 'General',
-                applicantType: profileToSync.employmentStatus.isNotEmpty ? profileToSync.employmentStatus : 'individual',
-                businessStage: profileToSync.businessStage.isNotEmpty ? profileToSync.businessStage : 'Idea',
-                businessRegistered: profileToSync.existingBusiness,
-                fundingRequiredAmount: profileToSync.fundingRequired,
-                registrationNumbers: profileToSync.registrationNumbers,
-                isFirstGenerationEntrepreneur: profileToSync.firstGenGraduate,
-              )
-            : null;
-
-        final submission = OnboardingSubmissionDto(
-          profile: profileMap,
-          business: businessDto,
-          legalAcceptances: const [],
-        );
-        await OnboardingApiService.instance.submitOnboarding(submission);
-      }
-      debugPrint('[AppProvider] MSS REST profile sync completed.');
-    } catch (e) {
-      debugPrint('[AppProvider] MSS REST profile sync warning: $e');
-    }
+  if (!AppSession.instance.isSignedIn) {
+    throw StateError('Your session expired. Please sign in again.');
   }
 
-  // 2. Supabase fallback/mirror
-  try {
-    final user = Supabase.instance.client.auth.currentUser;
-    if (user == null) {
-      if (accessToken != null && accessToken.isNotEmpty) {
-        return; // Already synced via REST API
-      }
-      throw StateError('Your session expired. Please sign in again.');
-    }
-
-  final effectiveEmail = profileToSync.email.trim().isNotEmpty
-      ? profileToSync.email.trim()
-      : (user.email != null && user.email!.trim().isNotEmpty
-          ? user.email!.trim()
-          : '${user.id}@mss.app');
-  final effectiveName = profileToSync.name.trim().isNotEmpty
-      ? profileToSync.name.trim()
-      : (user.userMetadata?['full_name']?.toString().trim().isNotEmpty == true
-          ? user.userMetadata!['full_name'].toString().trim()
-          : (user.userMetadata?['name']?.toString().trim().isNotEmpty == true
-              ? user.userMetadata!['name'].toString().trim()
-              : 'User'));
-
-  final cloudProfile = profileToSync.copyWith(
-    googleUserId: user.id,
-    email: effectiveEmail,
-    name: effectiveName,
+  final patchPayload = ProfileAggregate.buildPatchPayload(
+    current: profileToSync,
   );
-  debugPrint('[AppProvider] Syncing profile to Supabase...');
-  // Keep the completion flag false until every related cloud write succeeds.
-  // The initial upsert also guarantees the startup_profiles foreign-key
-  // parent exists for first-time users.
-  final stagedProfile = cloudProfile.profileCompleted
-      ? cloudProfile.copyWith(profileCompleted: false)
-      : cloudProfile;
-  await SchemeRepository.instance.createProfile(stagedProfile);
+  if (patchPayload.isNotEmpty) {
+    await ProfileApiService.instance.saveDraft(patchPayload);
+  }
 
-  // Sync startup_profiles table so the collected applicant/business fields
-  // are committed in the same submission before the UI moves forward.
-  final existingStartups = await Supabase.instance.client
-      .from('startup_profiles')
-      .select('id')
-      .eq('user_id', user.id)
-      .limit(1);
-
-  // Only touch startup_profiles when the user has actually given business
-  // data -- no more writing 'Technology' / 'Idea' / 'Student' placeholders
-  // that then round-trip back as if they were real answers. Exclude students
-  // who do not run an existing venture.
-  final isStudentWithoutBusiness =
-      cloudProfile.employmentStatus.trim().toLowerCase() == 'student' &&
-      !cloudProfile.existingBusiness &&
-      cloudProfile.fundingRequired <= 0 &&
-      cloudProfile.registrationNumbers.trim().isEmpty;
-
-  final hasBusinessData = !isStudentWithoutBusiness &&
-      (cloudProfile.businessIndustry.trim().isNotEmpty ||
-          cloudProfile.businessStage.trim().isNotEmpty ||
-          cloudProfile.existingBusiness ||
-          cloudProfile.fundingRequired > 0 ||
-          cloudProfile.registrationNumbers.trim().isNotEmpty);
-
-  if (hasBusinessData) {
-    const allowedStages = {
-      'Idea',
-      'Prototype',
-      'Registered',
-      'Operational',
-      'Expansion',
-    };
-    final rawStage = cloudProfile.businessStage.trim();
-    final sanitizedStage = allowedStages.contains(rawStage)
-        ? rawStage
-        : (cloudProfile.existingBusiness ? 'Operational' : 'Idea');
-
-    final Map<String, dynamic> startupData = {
-      'user_id': user.id,
-      'profile_name': '${cloudProfile.name.isNotEmpty ? cloudProfile.name : "User"} Business',
-      'industry': cloudProfile.businessIndustry.trim().isNotEmpty
-          ? cloudProfile.businessIndustry
-          : 'General',
-      'applicant_type': cloudProfile.employmentStatus.trim().isNotEmpty
-          ? cloudProfile.employmentStatus
-          : 'Individual',
-      'business_stage': sanitizedStage,
-      'business_registered': cloudProfile.existingBusiness,
-      'funding_required_amount': cloudProfile.fundingRequired,
-      'registration_numbers': cloudProfile.registrationNumbers,
-      'is_first_generation_entrepreneur': cloudProfile.firstGenGraduate,
-      'is_active': true,
-    };
-    if (existingStartups.isNotEmpty) {
-      startupData['id'] = existingStartups.first['id'];
+  if (profileToSync.profileCompleted) {
+    // The server completes onboarding only with the acceptance of all four
+    // current legal documents; without them the profile fields saved above are
+    // all that is sent.
+    // The sign-in agreement (Terms of Use, Privacy Policy) may not have been
+    // turned into a recorded consent yet (the server's documents were
+    // unreachable or not configured at sign-in): try once more. The data-use
+    // page counts as accepted now that the profile is complete. A failure here
+    // reaches the caller like any other server write.
+    await LegalConsentStore.recordFromLoginAgreement(
+      OnboardingApiService.instance,
+    );
+    await LegalConsentStore.recordFromProfileCompletion(
+      OnboardingApiService.instance,
+    );
+    if (!await LegalConsentStore.isComplete()) {
+      debugPrint('[AppProvider] Onboarding not sent: consent not recorded.');
+      return;
     }
-    await Supabase.instance.client.from('startup_profiles').upsert(startupData);
+    final acceptances = await LegalConsentStore.accepted();
+    final profileMap = buildOnboardingProfile(profileToSync);
+    final missing = missingOnboardingFields(profileMap);
+    if (missing.isNotEmpty) {
+      debugPrint(
+        '[AppProvider] Onboarding not sent: missing ${missing.join(', ')}.',
+      );
+      return;
+    }
+
+    final businessDto = buildOnboardingBusiness(
+      profileToSync,
+      profileMap['applicant_type'] as String,
+    );
+
+    final submission = OnboardingSubmissionDto(
+      profile: profileMap,
+      business: businessDto,
+      legalAcceptances: acceptances,
+    );
+    await OnboardingApiService.instance.submitOnboarding(submission);
+  }
+  debugPrint('[AppProvider] Profile sync completed.');
+}
+
+/// Writable `profile` object for `PUT /v1/me/onboarding`. `email` is not
+/// writable, `phone` must be exactly 10 digits and `pincode` exactly 6.
+Map<String, dynamic> buildOnboardingProfile(UserProfile p) {
+  String tenDigits(String raw) {
+    final digits = raw.replaceAll(RegExp(r'\D'), '');
+    return digits.length >= 10 ? digits.substring(digits.length - 10) : digits;
   }
 
-  if (cloudProfile.profileCompleted) {
-    await SchemeRepository.instance.createProfile(cloudProfile);
+  String text(String v) => v.trim();
+  return <String, dynamic>{
+    'name': text(p.name),
+    'dob': p.dob?.toIso8601String().split('T')[0],
+    'gender': text(p.gender),
+    'phone': tenDigits(p.mobile),
+    'state': text(p.state),
+    'district': text(p.district),
+    'city': text(p.city),
+    'house': text(p.house),
+    'pincode': p.pinCode.replaceAll(RegExp(r'\D'), ''),
+    'applicant_type': p.employmentStatus.trim().isNotEmpty
+        ? p.employmentStatus.trim()
+        : 'Individual',
+    'education_level': text(p.educationLevel),
+    'community': text(p.community),
+    'annual_income': p.annualIncome,
+  };
+}
+
+/// Required onboarding keys that are empty or malformed in [profile].
+List<String> missingOnboardingFields(Map<String, dynamic> profile) {
+  final missing = <String>[
+    for (final entry in profile.entries)
+      if (entry.key != 'annual_income' &&
+          (entry.value == null || '${entry.value}'.isEmpty))
+        entry.key,
+  ];
+  if ('${profile['phone']}'.length != 10 && !missing.contains('phone')) {
+    missing.add('phone');
   }
-  debugPrint('[AppProvider] Supabase profile sync completed.');
-  } catch (e) {
-    debugPrint('[AppProvider] Supabase profile sync warning: $e');
+  if ('${profile['pincode']}'.length != 6 && !missing.contains('pincode')) {
+    missing.add('pincode');
   }
+  return missing;
+}
+
+/// Business section, or null when none applies. An active student venture with
+/// no registration, funding or registration numbers is rejected by the server
+/// (`business.STUDENT_WITHOUT_VENTURE`), so it is left out.
+BusinessProfileDto? buildOnboardingBusiness(UserProfile p, String applicantType) {
+  if (!p.existingBusiness && p.businessStage.isEmpty) return null;
+  if (applicantType.toLowerCase() == 'student' &&
+      !p.existingBusiness &&
+      p.fundingRequired == 0 &&
+      p.registrationNumbers.trim().isEmpty) {
+    return null;
+  }
+  final name = p.name.isNotEmpty ? p.name : 'User';
+  return BusinessProfileDto(
+    profileName: '$name Business',
+    industry: p.businessIndustry.isNotEmpty ? p.businessIndustry : 'General',
+    applicantType: applicantType,
+    businessStage: p.businessStage.isNotEmpty ? p.businessStage : 'Idea',
+    businessRegistered: p.existingBusiness,
+    fundingRequiredAmount: p.fundingRequired,
+    registrationNumbers: p.registrationNumbers,
+    isFirstGenerationEntrepreneur: p.firstGenGraduate,
+  );
 }

@@ -15,7 +15,9 @@ const _allowedFiles = <String>{
 };
 
 bool _isAllowed(String path) =>
-    _allowedFiles.contains(path) || path.contains('/painters/') || path.contains('_painter.dart');
+    _allowedFiles.contains(path) ||
+    path.contains('/painters/') ||
+    path.contains('_painter.dart');
 
 final _fontSizePattern = RegExp(r'fontSize:\s*\d');
 final _googleFontsPattern = RegExp(r'GoogleFonts\.');

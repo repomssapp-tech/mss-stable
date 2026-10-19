@@ -9,15 +9,23 @@ abstract final class AppColors {
   // Surfaces
   static const background = Color(0xFFF8FAFC); // scaffold
   static const surface = Color(0xFFFFFFFF); // cards, sheets, inputs
-  static const surfaceMuted = Color(0xFFF1F5F9); // tab-bar track, chip bg, skeleton
+  static const surfaceMuted = Color(
+    0xFFF1F5F9,
+  ); // tab-bar track, chip bg, skeleton
   static const border = Color(0xFFE2E8F0); // all hairlines/card borders
-  static const borderStrong = Color(0xFFCBD5E1); // dividers on tinted surfaces, drag handle, outline buttons (inactive)
+  static const borderStrong = Color(
+    0xFFCBD5E1,
+  ); // dividers on tinted surfaces, drag handle, outline buttons (inactive)
 
   // Text
   static const textPrimary = Color(0xFF0F172A); // 17.9:1 on surface
   static const textBody = Color(0xFF334155); // 10.4:1 on surface
-  static const textSecondary = Color(0xFF475569); // 7.6 surface . 6.9 surfaceMuted . 6.2 on E2E8F0
-  static const textMuted = Color(0xFF5B6B82); // 5.4 surface . 5.2 background . 4.95 surfaceMuted . 5.0 primarySoft
+  static const textSecondary = Color(
+    0xFF475569,
+  ); // 7.6 surface . 6.9 surfaceMuted . 6.2 on E2E8F0
+  static const textMuted = Color(
+    0xFF5B6B82,
+  ); // 5.4 surface . 5.2 background . 4.95 surfaceMuted . 5.0 primarySoft
   static const textOnPrimary = Color(0xFFFFFFFF);
 
   // Icons / non-text (>= 3:1 on surface, background, surfaceMuted)
@@ -30,13 +38,25 @@ abstract final class AppColors {
   // Brand / interactive
   static const primary = Color(0xFF2563EB); // 5.2 on white; white on it 5.2
   static const primaryStrong = Color(0xFF1D4ED8); // text on primarySoft: 6.2
-  static const primaryDeep = Color(0xFF1E3A8A); // headings in info banners: 9.5 on primarySoft
-  static const primarySoft = Color(0xFFEFF6FF); // selected chip bg, info banner bg
-  static const languageHindiBg = Color(0xFFFFF7ED); // Hindi card avatar bg (Amber 50)
-  static const languageHindiFg = Color(0xFFC2410C); // Hindi card avatar text (Orange 700)
-  static const primaryTint = Color(0xFFDBEAFE); // icon-badge bg, selected border
+  static const primaryDeep = Color(
+    0xFF1E3A8A,
+  ); // headings in info banners: 9.5 on primarySoft
+  static const primarySoft = Color(
+    0xFFEFF6FF,
+  ); // selected chip bg, info banner bg
+  static const languageHindiBg = Color(
+    0xFFFFF7ED,
+  ); // Hindi card avatar bg (Amber 50)
+  static const languageHindiFg = Color(
+    0xFFC2410C,
+  ); // Hindi card avatar text (Orange 700)
+  static const primaryTint = Color(
+    0xFFDBEAFE,
+  ); // icon-badge bg, selected border
   static const primaryBorder = Color(0xFFBFDBFE); // border on primarySoft
-  static const primaryLight = Color(0xFF60A5FA); // decor only (gradients, illustrations)
+  static const primaryLight = Color(
+    0xFF60A5FA,
+  ); // decor only (gradients, illustrations)
 
   // Status
   static const success = Color(0xFF15803D); // 5.0 on white; white on it 5.0
@@ -93,10 +113,19 @@ abstract final class AppColors {
 /// Semantic tag/category colour pairs (spec §3.4). No hash-based colours --
 /// same tag meaning gets the same colour everywhere.
 abstract final class AppTagStyle {
-  static const neutral = (text: Color(0xFF475569), background: Color(0xFFF1F5F9));
+  static const neutral = (
+    text: Color(0xFF475569),
+    background: Color(0xFFF1F5F9),
+  );
   static const level = (text: Color(0xFF1D4ED8), background: Color(0xFFEFF6FF));
-  static const levelState = (text: Color(0xFF0F766E), background: Color(0xFFCCFBF1));
-  static const benefit = (text: Color(0xFF15803D), background: Color(0xFFDCFCE7));
+  static const levelState = (
+    text: Color(0xFF0F766E),
+    background: Color(0xFFCCFBF1),
+  );
+  static const benefit = (
+    text: Color(0xFF15803D),
+    background: Color(0xFFDCFCE7),
+  );
   static const warn = (text: Color(0xFF92400E), background: Color(0xFFFEF3C7));
 }
 

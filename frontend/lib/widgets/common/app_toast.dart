@@ -113,13 +113,19 @@ class AppToast {
       elevation: 3,
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
-      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+      margin: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.md,
+      ),
       padding: EdgeInsets.zero,
       duration: hasAction ? const Duration(seconds: 5) : duration,
       content: Semantics(
         liveRegion: true,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.md,
+          ),
           decoration: BoxDecoration(
             color: bgColor,
             borderRadius: AppRadius.lgAll,

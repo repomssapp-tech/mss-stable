@@ -1,0 +1,195 @@
+{
+  "ok": true,
+  "bundleBytes": 1625317,
+  "checks": {
+    "gzip_utf8_json": {
+      "ok": true,
+      "detail": [
+        "applicability_matrix_catalog.json",
+        "authority_catalog.json",
+        "business_enablement_catalog.json"
+      ]
+    },
+    "scheme_count": {
+      "ok": true,
+      "detail": {
+        "bundle": 406,
+        "source": 406,
+        "uniqueIds": 406
+      }
+    },
+    "per_jurisdiction_counts": {
+      "ok": true,
+      "detail": {
+        "bundle": {
+          "central": 274,
+          "maharashtra": 79,
+          "tamil_nadu": 53
+        },
+        "source": {
+          "central": 274,
+          "tamil_nadu": 53,
+          "maharashtra": 79
+        }
+      }
+    },
+    "all_source_ids_present": {
+      "ok": true,
+      "detail": []
+    },
+    "source_blocks_deep_equal": {
+      "ok": true,
+      "detail": []
+    },
+    "localized_text_preserved": {
+      "ok": true,
+      "detail": []
+    },
+    "language_coverage_per_jurisdiction": {
+      "ok": true,
+      "detail": {
+        "central": [
+          "en",
+          "hi",
+          "ta"
+        ],
+        "maharashtra": [
+          "en",
+          "hi",
+          "mr"
+        ],
+        "tamil_nadu": [
+          "en",
+          "ta"
+        ]
+      }
+    },
+    "scheme_references_resolve": {
+      "ok": true,
+      "detail": []
+    },
+    "no_pack_or_side_files_next_to_bundle": {
+      "ok": true,
+      "detail": []
+    },
+    "manifest_record_counts_match_sections": {
+      "ok": true,
+      "detail": 15
+    },
+    "manifest_entity_count": {
+      "ok": true,
+      "detail": 1601
+    },
+    "manifest_identifies_release": {
+      "ok": true,
+      "detail": {
+        "releaseTag": "1.37.0-alpha",
+        "releasedAt": "2026-10-18T07:32:42Z",
+        "schemaVersion": "1.0.0"
+      }
+    },
+    "sections_metadata_manifest_all_agree": {
+      "ok": true,
+      "detail": []
+    },
+    "release_identity_consistent": {
+      "ok": true,
+      "detail": {
+        "release": {
+          "releaseTag": "1.37.0-alpha",
+          "releasedAt": "2026-10-18T07:32:42Z",
+          "schemaVersion": "1.0.0"
+        },
+        "catalogRelease": "1.37.0-alpha",
+        "releasedAt": "2026-10-18T07:32:42Z"
+      }
+    },
+    "build_history_kept_apart_from_current_state": {
+      "ok": true,
+      "detail": [
+        "bundleFormat",
+        "catalogRelease",
+        "compatibility",
+        "entityCount",
+        "files",
+        "history",
+        "languageRegistry",
+        "languages",
+        "recordCounts",
+        "release",
+        "releasedAt",
+        "schemaVersion"
+      ]
+    },
+    "jurisdiction_fields_explicit": {
+      "ok": true,
+      "detail": []
+    },
+    "tn_dataset_exceptions_handled": {
+      "ok": true,
+      "detail": {
+        "TN2026-049": [
+          "central",
+          "central",
+          true,
+          []
+        ],
+        "TN2026-044": [
+          "state",
+          "central_state",
+          false,
+          [
+            "IN-TN"
+          ]
+        ]
+      }
+    },
+    "legacy_codes_unique_per_scheme": {
+      "ok": true,
+      "detail": []
+    },
+    "offered_languages_match_policy": {
+      "ok": true,
+      "detail": {
+        "central": [
+          "en",
+          "hi",
+          "ta"
+        ],
+        "maharashtra": [
+          "en",
+          "hi"
+        ],
+        "tamil_nadu": [
+          "en",
+          "ta"
+        ]
+      }
+    },
+    "marathi_preserved_but_not_offered": {
+      "ok": true,
+      "detail": [
+        "mr"
+      ]
+    },
+    "hi_ta_translations_embedded_in_schemes": {
+      "ok": true,
+      "detail": []
+    },
+    "authority_institution_translations_embedded": {
+      "ok": true,
+      "detail": {
+        "authority": 131,
+        "institution": 83
+      }
+    },
+    "no_duplicate_list_fields_in_localization": {
+      "ok": true,
+      "detail": []
+    },
+    "id_map_embedded_and_covers_new_ids": {
+      "ok": true,
+      "detail": []
+    }
+  }
+}

@@ -16,9 +16,9 @@ class LegalDocumentItem {
   }
 
   Map<String, dynamic> toJson() => {
-        'document_type': documentType,
-        'document_version': documentVersion,
-      };
+    'document_type': documentType,
+    'document_version': documentVersion,
+  };
 }
 
 /// Registry response indicating whether legal versions are configured and active.
@@ -26,10 +26,7 @@ class LegalDocumentsResponse {
   final bool configured;
   final List<LegalDocumentItem> items;
 
-  const LegalDocumentsResponse({
-    required this.configured,
-    required this.items,
-  });
+  const LegalDocumentsResponse({required this.configured, required this.items});
 
   factory LegalDocumentsResponse.fromJson(Map<String, dynamic> json) {
     final list = json['items'] as List<dynamic>? ?? [];
@@ -48,7 +45,8 @@ class BusinessProfileDto {
   final String profileName;
   final String industry;
   final String applicantType;
-  final String businessStage; // Idea, Prototype, Registered, Operational, Expansion
+  final String
+  businessStage; // Idea, Prototype, Registered, Operational, Expansion
   final bool businessRegistered;
   final double fundingRequiredAmount;
   final String registrationNumbers;
@@ -66,15 +64,15 @@ class BusinessProfileDto {
   });
 
   Map<String, dynamic> toJson() => {
-        'profile_name': profileName.trim(),
-        'industry': industry.trim(),
-        'applicant_type': applicantType.trim(),
-        'business_stage': businessStage.trim(),
-        'business_registered': businessRegistered,
-        'funding_required_amount': fundingRequiredAmount,
-        'registration_numbers': registrationNumbers.trim(),
-        'is_first_generation_entrepreneur': isFirstGenerationEntrepreneur,
-      };
+    'profile_name': profileName.trim(),
+    'industry': industry.trim(),
+    'applicant_type': applicantType.trim(),
+    'business_stage': businessStage.trim(),
+    'business_registered': businessRegistered,
+    'funding_required_amount': fundingRequiredAmount,
+    'registration_numbers': registrationNumbers.trim(),
+    'is_first_generation_entrepreneur': isFirstGenerationEntrepreneur,
+  };
 }
 
 /// Full payload for atomic onboarding completion (PUT /v1/me/onboarding).
@@ -90,8 +88,8 @@ class OnboardingSubmissionDto {
   });
 
   Map<String, dynamic> toJson() => {
-        'profile': profile,
-        'business': business?.toJson(),
-        'legal_acceptances': legalAcceptances.map((l) => l.toJson()).toList(),
-      };
+    'profile': profile,
+    'business': business?.toJson(),
+    'legal_acceptances': legalAcceptances.map((l) => l.toJson()).toList(),
+  };
 }

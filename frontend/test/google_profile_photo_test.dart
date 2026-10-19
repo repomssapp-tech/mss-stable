@@ -7,80 +7,41 @@ import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/profile_screen.dart';
 import 'package:frontend/services/account/google_identity.dart';
+import 'package:frontend/services/account/rest_auth_service.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() {
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    try {
-      await Supabase.initialize(
-        url: 'https://example.supabase.co',
-        publishableKey: 'test-publishable-key',
-      );
-    } catch (_) {}
   });
 
   group('Google Profile Photo Extraction & Precedence', () {
-    test('extractGooglePhoto correctly resolves avatar_url, picture, and identityData', () {
-      final userWithAvatarUrl = User(
+    test('extractGooglePhoto returns the account picture, trimmed', () {
+      const withPicture = AuthUser(
         id: 'u1',
-        appMetadata: {},
-        userMetadata: {'avatar_url': 'https://lh3.googleusercontent.com/avatar1'},
-        aud: 'authenticated',
-        createdAt: '2026-01-01',
+        email: 'a@example.com',
+        name: 'Praveen Kanna',
+        pictureUrl: ' https://lh3.googleusercontent.com/avatar1 ',
       );
       expect(
-        extractGooglePhoto(userWithAvatarUrl),
+        extractGooglePhoto(withPicture),
         'https://lh3.googleusercontent.com/avatar1',
       );
 
-      final userWithPicture = User(
-        id: 'u2',
-        appMetadata: {},
-        userMetadata: {'picture': 'https://lh3.googleusercontent.com/picture2'},
-        aud: 'authenticated',
-        createdAt: '2026-01-01',
-      );
-      expect(
-        extractGooglePhoto(userWithPicture),
-        'https://lh3.googleusercontent.com/picture2',
-      );
-
-      final userWithIdentityData = User(
-        id: 'u3',
-        appMetadata: {},
-        userMetadata: {},
-        identities: [
-          UserIdentity(
-            id: 'id1',
-            identityId: 'id1',
-            userId: 'u3',
-            identityData: {'avatar_url': 'https://lh3.googleusercontent.com/idAvatar'},
-            provider: 'google',
-            createdAt: '2026-01-01',
-            lastSignInAt: '2026-01-01',
-          ),
-        ],
-        aud: 'authenticated',
-        createdAt: '2026-01-01',
-      );
-      expect(
-        extractGooglePhoto(userWithIdentityData),
-        'https://lh3.googleusercontent.com/idAvatar',
-      );
+      const withoutPicture = AuthUser(id: 'u2', email: 'b@example.com', name: 'B');
+      expect(extractGooglePhoto(withoutPicture), isEmpty);
+      expect(extractGooglePhoto(null), isEmpty);
     });
 
-    test('extractGoogleName extracts full_name and name', () {
-      final userWithName = User(
+    test('extractGoogleName returns the account name, trimmed', () {
+      const user = AuthUser(
         id: 'u1',
-        appMetadata: {},
-        userMetadata: {'full_name': 'Praveen Kanna'},
-        aud: 'authenticated',
-        createdAt: '2026-01-01',
+        email: 'a@example.com',
+        name: '  Praveen Kanna ',
       );
-      expect(extractGoogleName(userWithName), 'Praveen Kanna');
+      expect(extractGoogleName(user), 'Praveen Kanna');
+      expect(extractGoogleName(null), isEmpty);
     });
 
     test('effectiveProfilePhoto and hasCustomPhoto behavior', () async {
@@ -103,7 +64,7 @@ void main() {
 
       // Case 3: Calling updateProfilePhoto('') resets custom photo
       await provider.updateProfilePhoto('');
-      // Without an active Supabase currentUser in unit test, it resets to empty
+      // Without a signed-in account in a unit test, it resets to empty
       expect(provider.hasCustomPhoto, isFalse);
     });
   });
@@ -125,42 +86,50 @@ void main() {
       );
     }
 
-    testWidgets('ProfileScreen renders network image when effectiveProfilePhoto is HTTP URL', (
-      WidgetTester tester,
-    ) async {
-      final provider = AppProvider();
-      // Set a remote Google avatar URL directly on the profile
-      await provider.updateProfilePhoto('https://lh3.googleusercontent.com/test_google_avatar');
+    testWidgets(
+      'ProfileScreen renders network image when effectiveProfilePhoto is HTTP URL',
+      (WidgetTester tester) async {
+        final provider = AppProvider();
+        // Set a remote Google avatar URL directly on the profile
+        await provider.updateProfilePhoto(
+          'https://lh3.googleusercontent.com/test_google_avatar',
+        );
 
-      await tester.pumpWidget(buildTestApp(provider));
-      await tester.pump();
+        await tester.pumpWidget(buildTestApp(provider));
+        await tester.pump();
 
-      // Verify that CachedNetworkImage is rendered with the expected URL
-      final imageWidgets = tester.widgetList<CachedNetworkImage>(
-        find.byType(CachedNetworkImage),
-      );
-      final hasNetworkImage = imageWidgets.any(
-        (img) => img.imageUrl == 'https://lh3.googleusercontent.com/test_google_avatar',
-      );
+        // Verify that CachedNetworkImage is rendered with the expected URL
+        final imageWidgets = tester.widgetList<CachedNetworkImage>(
+          find.byType(CachedNetworkImage),
+        );
+        final hasNetworkImage = imageWidgets.any(
+          (img) =>
+              img.imageUrl ==
+              'https://lh3.googleusercontent.com/test_google_avatar',
+        );
 
-      expect(hasNetworkImage, isTrue);
-    });
+        expect(hasNetworkImage, isTrue);
+      },
+    );
 
-    testWidgets('ProfileScreen falls back to user_avatar.webp when effectiveProfilePhoto is empty', (
-      WidgetTester tester,
-    ) async {
-      final provider = AppProvider();
-      await provider.updateProfilePhoto('');
+    testWidgets(
+      'ProfileScreen falls back to user_avatar.webp when effectiveProfilePhoto is empty',
+      (WidgetTester tester) async {
+        final provider = AppProvider();
+        await provider.updateProfilePhoto('');
 
-      await tester.pumpWidget(buildTestApp(provider));
-      await tester.pump();
+        await tester.pumpWidget(buildTestApp(provider));
+        await tester.pump();
 
-      final imageWidgets = tester.widgetList<Image>(find.byType(Image));
-      final hasAssetFallback = imageWidgets.any((img) =>
-          img.image is AssetImage &&
-          (img.image as AssetImage).assetName.contains('user_avatar.webp'));
+        final imageWidgets = tester.widgetList<Image>(find.byType(Image));
+        final hasAssetFallback = imageWidgets.any(
+          (img) =>
+              img.image is AssetImage &&
+              (img.image as AssetImage).assetName.contains('user_avatar.webp'),
+        );
 
-      expect(hasAssetFallback, isTrue);
-    });
+        expect(hasAssetFallback, isTrue);
+      },
+    );
   });
 }

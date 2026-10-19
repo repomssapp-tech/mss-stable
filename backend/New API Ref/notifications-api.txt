@@ -1,0 +1,210 @@
+MSS NOTIFICATIONS API - FRONTEND INTEGRATION
+16 October 2026 | Implemented REST contract
+
+PURPOSE / SCOPE
+Supports the existing Flutter notifications screen: list, unread badge, mark one,
+selected or all read, delete selected or all. No Flutter source was changed.
+This is an in-app inbox, NOT OS push notification delivery.
+No public create-notification endpoint: clients cannot choose a recipient or
+submit notification text. Trusted backend producers/import jobs are separate.
+The new table starts empty; existing Supabase rows have not been migrated.
+SSE/realtime and push delivery are not implemented by this module.
+
+BASE URL / AUTHENTICATION
+Local desktop: http://127.0.0.1:5000
+Production target: https://api.msmeschemes.org (deployment not verified)
+Android emulator: http://10.0.2.2:5000
+Physical phone: use reachable LAN address and appropriate development listener.
+Every request requires Authorization: Bearer <current_access_token>.
+Write requests require Content-Type: application/json and the documented body.
+Every response is JSON. All authenticated responses use Cache-Control: no-store.
+No user_id/email is accepted. Backend derives owner from the access token.
+There is no If-Match requirement for these monotonic read/delete actions.
+
+1. LIST NOTIFICATIONS
+GET /v1/me/notifications
+Optional query parameters (send each at most once):
+category: string, one of new_schemes | reminders | updates | profile
+is_read: query string true | false (omit for both)
+limit: integer in URL as text, 1..50; default 20
+cursor: opaque string from previous response.next_cursor; omit on first page
+Unknown parameters, repeated/array parameters or invalid values -> 400.
+Example: GET /v1/me/notifications?category=updates&is_read=false&limit=20
+
+200 example (fictional fixture):
+{
+  "items": [
+    {
+      "id": "11111111-1111-4111-8111-111111111111",
+      "title": "Profile reminder",
+      "message": "Review your saved profile details.",
+      "notification_type": "profile",
+      "is_read": false,
+      "created_at": "2026-10-16T12:00:00.123456Z"
+    }
+  ],
+  "next_cursor": null,
+  "unread_count": 1
+}
+items: array, may be empty. This is not an unwrapped array.
+id: UUID string. title/message: plain text strings, render as text, not HTML.
+notification_type: enum string from categories above.
+is_read: JSON boolean. created_at: UTC timestamp string; may have 6 fractional digits.
+next_cursor: string or null. Do not decode/change/create cursors in the app.
+unread_count: integer; ALL unread notifications for owner, independent of filters.
+Default order: created_at DESC, then id DESC, stable even when timestamps tie.
+Keep same filters between pages. When filters change, discard cursor and reload.
+Pages/count are live, not a frozen snapshot. Refetch after mutations/resume;
+deduplicate by id when merging pages because concurrent updates may occur.
+Empty inbox: {"items":[],"next_cursor":null,"unread_count":0}.
+If next_cursor is not null, request the next page with that cursor URL-encoded.
+
+2. UNREAD BADGE COUNT
+GET /v1/me/notifications/unread-count
+No query parameters required; no request body.
+200 {"unread_count":3}
+Use when only the badge is needed; otherwise reuse list.unread_count.
+
+3. MARK ONE AS READ
+PATCH /v1/me/notifications/:id
+Path id: UUID string. JSON body:
+{"is_read":true}
+200 {"updated":1}
+Repeated call / nonexistent or foreign-owned ID -> {"updated":0}.
+Only true is supported; marking unread and editing content are not supported.
+Updated is the number newly changed, not the number requested.
+Invalid UUID, false, strings instead of booleans, or extra fields -> 400.
+
+4. MARK SELECTED OR ALL AS READ
+PATCH /v1/me/notifications/read
+Body is EXACTLY ONE of:
+{"ids":["11111111-1111-4111-8111-111111111111"]}
+{"all":true}
+ids: array of 1..100 UUID strings; duplicates deduplicated.
+all: literal JSON true. Do not send ids together with all.
+200 {"updated":1}
+All applies to every currently matching owner row at statement execution, not
+only the current UI category/page. Repeated calls do not change read rows again.
+Foreign IDs are ignored; no owner information is exposed.
+
+5. SHORTCUT: MARK ALL AS READ
+POST /v1/me/notifications/read-all
+JSON body: {}
+200 {"updated":2}
+Same action as PATCH /read with {"all":true}. Refetch count/list afterward.
+
+6. DELETE SELECTED OR ALL
+POST /v1/me/notifications/delete
+Body is EXACTLY ONE of:
+{"ids":["11111111-1111-4111-8111-111111111111"]}
+{"all":true}
+200 {"deleted":1}
+Same 1..100 UUID validation as mark-selected. Repeated/non-owned IDs -> deleted 0.
+All deletes the owner's entire inbox at statement execution, across pages and
+categories. Require an explicit UI confirmation for Delete All; do not send all
+when the user selected only the visible page. Deletion is permanent.
+POST collection action avoids relying on a DELETE request body.
+There is no DELETE /notifications/:id route; send one ID to this endpoint.
+
+ERRORS / QUOTAS
+400 INVALID_NOTIFICATION_REQUEST: invalid filters, UUID, cursor or action body.
+400 INVALID_REQUEST: unknown JSON fields, malformed JSON or non-object body.
+401 UNAUTHORIZED: missing/invalid/expired token; use existing session refresh flow.
+413 INVALID_REQUEST: request body exceeds the global 64 KiB limit.
+415 JSON_REQUIRED: write missing application/json.
+415 INVALID_REQUEST: unsupported encoding/charset (compressed requests disabled).
+429 NOTIFICATIONS_RATE_LIMITED: shared quota 60 requests/minute/owner; Retry-After.
+429 RATE_LIMITED: API-wide 120 requests/minute/IP quota; Retry-After.
+503 AUTH_TEMPORARILY_UNAVAILABLE: quota store unavailable; retry with backoff.
+500 INTERNAL_ERROR: internal/database failure; no raw SQL or credentials returned.
+426 HTTPS_REQUIRED: production request did not arrive over trusted HTTPS.
+Error format: {"error":"CODE"}. Codes are machine identifiers, not UI copy.
+Do not log bearer tokens or full notification content. Existing general auth
+session errors may also occur before the module handler.
+
+FLUTTER SOURCE MAPPING / DATA COLLECTION
+Current source: frontend/lib/providers/controllers/notifications_controller.dart.
+The app collects no new form fields. It sends selected notification IDs, optional
+list filters/cursor and the current access token. Titles/messages come from server.
+
+Current Supabase .stream table subscription -> GET /me/notifications.
+markNotificationRead(id) -> PATCH /:id {is_read:true}.
+markNotificationsRead(ids) -> PATCH /read {ids:[...]}.
+markAllNotificationsRead() -> POST /read-all {}.
+deleteNotifications(ids) -> POST /delete {ids:[...]}.
+deleteAllNotifications() -> POST /delete {all:true} after explicit confirmation.
+Unread badge -> GET /unread-count or list.unread_count.
+
+Response mapping to existing UI map:
+id -> id
+title -> title
+message -> body
+notification_type -> category
+is_read -> read
+created_at -> created_at, derive timeAgoCount/timeAgoUnit on device
+Use existing en/ta localization for relative time; server does not send timeAgo.
+
+Existing controller derives example deadlines/progress/icons from title text.
+Do not treat those guessed values as factual API data. This response has no
+scheme deadline, progress percentage, navigation target or structured metadata.
+Hide unavailable details or agree a future producer/metadata contract; do not
+invent dates, scheme references or progress in the API integration.
+The profile.notifications preference is not an inbox access permission and does
+not hide/delete notifications. Push preference handling belongs to future delivery.
+
+INTEGRATION SEQUENCE
+1. After login/refresh, GET first page; show empty state for items=[].
+2. Replace/merge UI items using the mapping above; store next_cursor only for
+   matching filters. Read additional pages on demand; prevent overlapping loads.
+3. On a read/delete action, send the owner-authenticated request. If using an
+   optimistic UI, restore prior state or refetch on failure; do not silently lose
+   the item locally after a failed server mutation.
+4. On success refetch first page + unread badge; clear stale page cursors.
+5. For selections >100, explicitly split batches or let user choose Delete All
+   only when they intend the whole inbox. Multi-request batches are not atomic.
+6. Since no realtime endpoint exists yet, refetch on opening/resuming the screen,
+   pull-to-refresh and after mutations; use bounded polling/backoff if needed.
+7. Two-device updates become visible on refetch, not an automatic Supabase stream.
+8. Clear inbox/selection/cursors on logout or account switch. Never share cached
+   lists between accounts. Refresh tokens only through the existing session manager.
+
+DATABASE / OPERATIONS
+Migration 008_notifications.sql creates mss.notifications with UUID owner FK,
+ON DELETE CASCADE, notification type/content constraints, owner paging/unread
+indexes, enabled and forced owner RLS. API uses parameterized SQL and local owner
+context in a transaction plus explicit user_id predicates.
+Updated deployment/runtime-role.sql grants SELECT, DELETE and UPDATE(is_read)
+only. Runtime has no notification INSERT privilege; a trusted producer is needed.
+Creation/delivery/import from Supabase is not included in this REST module.
+Do not expose database credentials or direct SQL creation in the Flutter app.
+Production least-privilege runtime role still needs administrator provisioning.
+Restart backend if source auto-reload is not enabled.
+
+TESTING / HANDOFF
+Run from mss-backend: npm test; npm run notifications:verify.
+The integration verifier creates disposable accounts/notifications, checks
+pagination, cross-owner isolation, read/count/filter/delete and cleans fixtures.
+It does not send external messages or alter existing users' notifications.
+Postman collection: docs/postman/MSS-notifications.postman_collection.json.
+Set base_url and a fresh access_token locally; no token is bundled in the file.
+Use disposable test data/account for mutation requests. No automatic fixtures
+are created by the collection, so an empty inbox returns updated/deleted 0.
+
+FRONTEND ACCEPTANCE CHECKLIST
+[ ] Missing login denied; successful login loads owner's inbox only.
+[ ] Empty inbox renders without sample/seed notifications leaking into real data.
+[ ] Unread badge counts all categories, not just loaded page.
+[ ] Pagination with identical timestamps has no repeated first page.
+[ ] Category/read filters reset cursor and load correct values.
+[ ] Single/bulk/all read actions reconcile correctly, including updated=0.
+[ ] Selected delete does not clear other pages; Delete All confirms global scope.
+[ ] Network/server failures undo optimistic changes or trigger a refetch.
+[ ] No fabricated deadline/progress/metadata shown.
+[ ] Logout/account switch clears inbox and selection state.
+[ ] Foreground refresh/polling replaces Supabase realtime until events are built.
+
+VERIFICATION STATUS - 16 October 2026
+Migration applied. Backend suite: 38 tests passed, 0 failures.
+Configured PostgreSQL/HTTP fixture checks passed, including direct owner RLS read
+isolation for the configured non-bypass role, with disposable fixtures cleaned.
+Flutter integration, production deployment and realtime/push are not certified.

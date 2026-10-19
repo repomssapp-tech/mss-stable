@@ -26,7 +26,8 @@ class AppIconButton extends StatelessWidget {
   });
 
   final IconData icon;
-  final String semanticLabel; // REQUIRED, localised (l10n). Also used as tooltip.
+  final String
+  semanticLabel; // REQUIRED, localised (l10n). Also used as tooltip.
   final VoidCallback? onPressed; // null => disabled
   final double size; // glyph size: 20 | 24
   final Color? color; // default AppColors.textPrimary (iconMuted when disabled)

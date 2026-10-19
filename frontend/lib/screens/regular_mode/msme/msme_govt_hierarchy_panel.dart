@@ -7,10 +7,7 @@ import '../../../utils/app_spacing.dart';
 class GovtInteractivePanel extends StatefulWidget {
   final Color iconColor;
 
-  const GovtInteractivePanel({
-    super.key,
-    required this.iconColor,
-  });
+  const GovtInteractivePanel({super.key, required this.iconColor});
 
   @override
   State<GovtInteractivePanel> createState() => _GovtInteractivePanelState();
@@ -33,7 +30,9 @@ class _GovtInteractivePanelState extends State<GovtInteractivePanel> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              CentralizedTranslator.instance.localize('Government Authorities Tree'),
+              CentralizedTranslator.instance.localize(
+                'Government Authorities Tree',
+              ),
               style: GoogleFonts.poppins(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,

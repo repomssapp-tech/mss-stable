@@ -28,6 +28,11 @@ class SchemeHeaderData {
   final String targetBeneficiary;
   final Set<String> glanceChips;
 
+  /// Names the catalog already stores in other languages, per field:
+  /// `{ministry|department|implementingAgency|sponsoringBody|issuingBody|
+  /// shortName: {lang: name}}`. Used before any runtime translation.
+  final Map<String, Map<String, String>> nativeNames;
+
   const SchemeHeaderData({
     required this.statusStr,
     required this.isActive,
@@ -51,6 +56,7 @@ class SchemeHeaderData {
     required this.objectivesEn,
     required this.targetBeneficiary,
     required this.glanceChips,
+    this.nativeNames = const {},
   });
 }
 
@@ -116,6 +122,9 @@ class SchemeHeaderResolver {
       langCode,
     );
 
+    final ministryFromText = ministry.isNotEmpty;
+    final departmentFromText = department.isNotEmpty;
+    final agencyFromText = implementingAgency.isNotEmpty;
     if (ministry.isEmpty && resolvedAuthorities.isNotEmpty) {
       ministry = resolvedAuthorities.first.getLocalizedName(langCode);
     }
@@ -139,6 +148,50 @@ class SchemeHeaderResolver {
         ? implementingAgency
         : sponsoringBody;
 
+    // ── 2b. Stored native-language names ───────────────────────────────
+    // If the catalog holds a Hindi/Tamil/Marathi name for the scheme's
+    // ministry, department or agency, that name is what gets shown; the
+    // runtime translator is only a last resort for text with no stored name.
+    MssEntity? entityById(dynamic id) => id is String ? bundle.byId[id] : null;
+    final ministryNames = _storedNames(
+      ministryFromText
+          ? entityById(gov['ministryId'])
+          : (resolvedAuthorities.isNotEmpty ? resolvedAuthorities.first : null),
+    );
+    // The department text of a 2026 record is its own `authority` field, whose
+    // translations sit on the record itself.
+    final ownAuthorityNames = _storedNames(entity, key: 'authority');
+    final Map<String, String> departmentNames;
+    if (departmentFromText) {
+      departmentNames = ownAuthorityNames.isNotEmpty
+          ? ownAuthorityNames
+          : _storedNames(entityById(gov['departmentId']));
+    } else if (resolvedAuthorities.length > 1) {
+      departmentNames = _storedNames(resolvedAuthorities[1]);
+    } else {
+      departmentNames = ministryNames;
+    }
+    final agencyIds = gov['implementingAgencyIds'];
+    final MssEntity? agencyEntity = agencyFromText
+        ? (agencyIds is List && agencyIds.length == 1
+              ? entityById(agencyIds.first)
+              : null) // several agencies in one text: no single name to use
+        : (resolvedInstitutions.isNotEmpty ? resolvedInstitutions.first : null);
+    final agencyNames = _storedNames(agencyEntity);
+    final sponsoringNames = ministry.isNotEmpty
+        ? ministryNames
+        : (department.isNotEmpty ? departmentNames : const <String, String>{});
+    final nativeNames = <String, Map<String, String>>{
+      'ministry': ministryNames,
+      'department': departmentNames,
+      'implementingAgency': agencyNames,
+      'sponsoringBody': sponsoringNames,
+      'issuingBody': implementingAgency.isNotEmpty
+          ? agencyNames
+          : sponsoringNames,
+      'shortName': _storedNames(entity, key: 'shortName'),
+    }..removeWhere((_, names) => names.isEmpty);
+
     final govLevelRaw =
         (gov['levelText'] as String?) ?? (gov['level'] as String?) ?? 'Central';
     final governmentLevel = govLevelRaw.isNotEmpty ? govLevelRaw : 'Central';
@@ -159,9 +212,9 @@ class SchemeHeaderResolver {
 
     final schemeType =
         (classification['schemeTypeText'] as String?) ??
-        SchemeAdapterTextUtils.asList(classification['schemeType'])?.join(
-          ', ',
-        ) ??
+        SchemeAdapterTextUtils.asList(
+          classification['schemeType'],
+        )?.join(', ') ??
         (classification['schemeType'] as String?) ??
         '';
 
@@ -285,6 +338,24 @@ class SchemeHeaderResolver {
       objectivesEn: objectivesEn,
       targetBeneficiary: targetBeneficiary,
       glanceChips: glanceChips,
+      nativeNames: nativeNames,
     );
+  }
+
+  /// `{lang: value}` of [entity]'s `localization.<lang>.<key>`, skipping English
+  /// and empty values.
+  static Map<String, String> _storedNames(
+    MssEntity? entity, {
+    String key = 'name',
+  }) {
+    final loc = entity?.raw['localization'];
+    if (loc is! Map) return const {};
+    final out = <String, String>{};
+    loc.forEach((lang, block) {
+      if (lang == 'en' || lang is! String || block is! Map) return;
+      final value = block[key];
+      if (value is String && value.trim().isNotEmpty) out[lang] = value.trim();
+    });
+    return out;
   }
 }

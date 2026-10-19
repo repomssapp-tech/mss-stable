@@ -150,6 +150,44 @@ class LocalizedScheme {
     required this.faqs,
   });
 
+  /// The catalog's own eligibility list in [lang] when it has one; otherwise
+  /// [fallback] applied to the English list (nothing is invented).
+  static List<String> _storedEligibility(
+    Scheme scheme,
+    String lang, {
+    List<String> Function(List<String>)? fallback,
+  }) {
+    final stored = scheme.extras.storedEligibility(lang);
+    if (stored.isNotEmpty) return stored;
+    final base = scheme.eligibilityCriteria;
+    return fallback == null ? base : fallback(base);
+  }
+
+  static const Map<String, String> _stepWord = {'hi': 'चरण', 'ta': 'படி'};
+  static final RegExp _stepPrefix = RegExp(r'^Step (\d+):\s*');
+
+  /// Stored steps in [lang] when they line up one-to-one with the English
+  /// steps (same count); the English "Step N:" numbering is kept in [lang].
+  static List<String> _storedSteps(
+    Scheme scheme,
+    String lang, {
+    List<String> Function(List<String>)? fallback,
+  }) {
+    final base = scheme.applicationProcess;
+    final stored = scheme.extras.storedSteps(lang);
+    if (stored.isEmpty) return fallback == null ? base : fallback(base);
+    final numbered = base.isNotEmpty && base.every(_stepPrefix.hasMatch);
+    if (stored.length != base.length || !numbered) {
+      return stored.length == base.length || base.isEmpty
+          ? stored
+          : (fallback == null ? base : fallback(base));
+    }
+    return [
+      for (var i = 0; i < stored.length; i++)
+        '${_stepWord[lang] ?? 'Step'} ${i + 1}: ${stored[i]}',
+    ];
+  }
+
   factory LocalizedScheme.fromScheme(Scheme scheme, String languageCode) {
     if (languageCode == 'hi') {
       final pack = LanguagePackManager.instance;
@@ -197,14 +235,16 @@ class LocalizedScheme {
       final name = (nameHi != null && nameHi.isNotEmpty) ? nameHi : scheme.name;
       final shortName = (shortNameHi != null && shortNameHi.isNotEmpty)
           ? shortNameHi
-          : scheme.shortName;
+          : (scheme.nativeName('shortName', 'hi') ?? scheme.shortName);
       final overview = (summaryHi != null && summaryHi.isNotEmpty)
           ? summaryHi
           : ((descHi != null && descHi.isNotEmpty) ? descHi : scheme.overview);
-      final objectives =
-          (objHi != null && objHi.isNotEmpty) ? objHi : scheme.objectives;
-      final benefits =
-          (benHi != null && benHi.isNotEmpty) ? benHi : scheme.benefits;
+      final objectives = (objHi != null && objHi.isNotEmpty)
+          ? objHi
+          : scheme.objectives;
+      final benefits = (benHi != null && benHi.isNotEmpty)
+          ? benHi
+          : scheme.benefits;
 
       return LocalizedScheme._(
         rawScheme: scheme,
@@ -212,12 +252,18 @@ class LocalizedScheme {
         name: name,
         shortName: shortName,
         fullSchemeName: name,
-        ministry: meta(scheme.ministry),
-        department: meta(scheme.department),
-        implementingAgency: meta(scheme.implementingAgency),
+        ministry: scheme.nativeName('ministry', 'hi') ?? meta(scheme.ministry),
+        department:
+            scheme.nativeName('department', 'hi') ?? meta(scheme.department),
+        implementingAgency:
+            scheme.nativeName('implementingAgency', 'hi') ??
+            meta(scheme.implementingAgency),
         governmentLevel: meta(scheme.governmentLevel),
-        sponsoringBody: meta(scheme.sponsoringBody),
-        issuingBody: meta(scheme.issuingBody),
+        sponsoringBody:
+            scheme.nativeName('sponsoringBody', 'hi') ??
+            meta(scheme.sponsoringBody),
+        issuingBody:
+            scheme.nativeName('issuingBody', 'hi') ?? meta(scheme.issuingBody),
         state: meta(scheme.state),
         sector: meta(scheme.sector),
         targetBeneficiary: meta(scheme.targetBeneficiary),
@@ -254,9 +300,9 @@ class LocalizedScheme {
         applicableTaxesList: scheme.applicableTaxesList,
         knowledgeGuidanceList: scheme.knowledgeGuidanceList,
         helplineContactsMap: scheme.helplineContactsMap,
-        eligibilityCriteria: scheme.eligibilityCriteria,
+        eligibilityCriteria: _storedEligibility(scheme, 'hi'),
         requiredDocuments: scheme.requiredDocuments,
-        applicationProcess: scheme.applicationProcess,
+        applicationProcess: _storedSteps(scheme, 'hi'),
         documents: scheme.documents,
         requiredServices: scheme.requiredServices,
         faqs: scheme.faqs,
@@ -343,16 +389,28 @@ class LocalizedScheme {
       rawScheme: scheme,
       languageCode: 'ta',
       name: name,
-      shortName: translator.translateTag(scheme.shortName),
+      shortName:
+          scheme.nativeName('shortName', 'ta') ??
+          translator.translateTag(scheme.shortName),
       fullSchemeName: nameTa.isNotEmpty
           ? nameTa
           : translator.translate(scheme.fullSchemeName),
-      ministry: translator.translate(scheme.ministry),
-      department: translator.translate(scheme.department),
-      implementingAgency: translator.translate(scheme.implementingAgency),
+      ministry:
+          scheme.nativeName('ministry', 'ta') ??
+          translator.translate(scheme.ministry),
+      department:
+          scheme.nativeName('department', 'ta') ??
+          translator.translate(scheme.department),
+      implementingAgency:
+          scheme.nativeName('implementingAgency', 'ta') ??
+          translator.translate(scheme.implementingAgency),
       governmentLevel: translator.translateTag(scheme.governmentLevel),
-      sponsoringBody: translator.translate(scheme.sponsoringBody),
-      issuingBody: translator.translate(scheme.issuingBody),
+      sponsoringBody:
+          scheme.nativeName('sponsoringBody', 'ta') ??
+          translator.translate(scheme.sponsoringBody),
+      issuingBody:
+          scheme.nativeName('issuingBody', 'ta') ??
+          translator.translate(scheme.issuingBody),
       state: translator.translateTag(scheme.state),
       sector: translator.translateTag(scheme.sector),
       targetBeneficiary: translator.translate(scheme.targetBeneficiary),
@@ -413,15 +471,19 @@ class LocalizedScheme {
           .map(translator.translate)
           .toList(),
       helplineContactsMap: scheme.helplineContactsMap,
-      eligibilityCriteria: scheme.eligibilityCriteria
-          .map(translator.translate)
-          .toList(),
+      eligibilityCriteria: _storedEligibility(
+        scheme,
+        'ta',
+        fallback: (l) => l.map(translator.translate).toList(),
+      ),
       requiredDocuments: scheme.requiredDocuments
           .map(translator.translate)
           .toList(),
-      applicationProcess: scheme.applicationProcess
-          .map(translator.translate)
-          .toList(),
+      applicationProcess: _storedSteps(
+        scheme,
+        'ta',
+        fallback: (l) => l.map(translator.translate).toList(),
+      ),
       documents: scheme.documents
           .map(
             (d) => d.copyWith(

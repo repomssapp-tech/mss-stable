@@ -13,7 +13,8 @@ class AssessmentQuestionCard extends StatelessWidget {
   final void Function(
     String selectedLocalizedOption,
     LocalizedQuestionNode localizedNode,
-  ) onOptionSelected;
+  )
+  onOptionSelected;
 
   const AssessmentQuestionCard({
     super.key,
@@ -91,9 +92,7 @@ class AssessmentQuestionCard extends StatelessWidget {
                       ? themeColor.withValues(alpha: 0.06)
                       : Colors.white,
                   side: BorderSide(
-                    color: isSelected
-                        ? themeColor
-                        : const Color(0xFFE2E8F0),
+                    color: isSelected ? themeColor : const Color(0xFFE2E8F0),
                     width: isSelected ? 1.5 : 1,
                   ),
                   shape: RoundedRectangleBorder(
@@ -106,12 +105,8 @@ class AssessmentQuestionCard extends StatelessWidget {
                   overflow: TextOverflow.visible,
                   style: GoogleFonts.inter(
                     fontSize: isTamil ? 11.5 : 12.5,
-                    fontWeight: isSelected
-                        ? FontWeight.bold
-                        : FontWeight.w500,
-                    color: isSelected
-                        ? themeColor
-                        : const Color(0xFF334155),
+                    fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                    color: isSelected ? themeColor : const Color(0xFF334155),
                     height: isTamil ? 1.35 : 1.25,
                   ),
                 ),

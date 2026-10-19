@@ -127,10 +127,7 @@ void main() {
       expect(en.voiceFactLakh('2.0'), contains('2.0'));
       expect(ta.voiceFactCrore('1.5'), contains('1.5'));
 
-      expect(
-        en.voiceFactConflictFormat('B', 'A'),
-        equals('A (profile: B)'),
-      );
+      expect(en.voiceFactConflictFormat('B', 'A'), equals('A (profile: B)'));
       expect(ta.voiceFactConflictFormat('B', 'A'), contains('A'));
       expect(ta.voiceFactConflictFormat('B', 'A'), contains('B'));
     });
@@ -200,7 +197,10 @@ void main() {
 
     test('status-label + voice-status keys differ per locale', () {
       final keys = <List<String>>[
-        [en.saarthiStatusConnectionAttention, ta.saarthiStatusConnectionAttention],
+        [
+          en.saarthiStatusConnectionAttention,
+          ta.saarthiStatusConnectionAttention,
+        ],
         [en.companionConnectingShort, ta.companionConnectingShort],
         [en.companionListeningToYou, ta.companionListeningToYou],
         [en.companionCheckingYourDetails, ta.companionCheckingYourDetails],

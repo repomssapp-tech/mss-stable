@@ -39,7 +39,7 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
   @override
   void initState() {
     super.initState();
-    _client = widget.client ?? SupabaseSarvamChatClient();
+    _client = widget.client ?? RestSarvamChatClient();
   }
 
   @override
@@ -190,10 +190,7 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
                         if (_sending && index == _messages.length) {
                           return const _ThinkingBubble();
                         }
-                        return _ErrorBubble(
-                          message: _error!,
-                          onRetry: _retry,
-                        );
+                        return _ErrorBubble(message: _error!, onRetry: _retry);
                       },
                     ),
             ),
@@ -216,10 +213,7 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
       child: Text(
         context.l10n.aiDisclaimerNotice,
         textAlign: TextAlign.center,
-        style: GoogleFonts.inter(
-          fontSize: 11,
-          color: const Color(0xFF64748B),
-        ),
+        style: GoogleFonts.inter(fontSize: 11, color: const Color(0xFF64748B)),
       ),
     );
   }
@@ -437,18 +431,20 @@ class _MarkdownBody extends StatelessWidget {
       if (heading != null) {
         final level = heading.group(1)!.length;
         final bump = level == 1 ? 3.0 : (level == 2 ? 2.0 : 1.0);
-        blocks.add(Padding(
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.hairline),
-          child: SelectableText.rich(
-            _inline(
-              heading.group(2)!,
-              baseStyle.copyWith(
-                fontWeight: FontWeight.bold,
-                fontSize: (baseStyle.fontSize ?? 14) + bump,
+        blocks.add(
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: AppSpacing.hairline),
+            child: SelectableText.rich(
+              _inline(
+                heading.group(2)!,
+                baseStyle.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: (baseStyle.fontSize ?? 14) + bump,
+                ),
               ),
             ),
           ),
-        ));
+        );
         continue;
       }
 
@@ -492,26 +488,34 @@ class _MarkdownBody extends StatelessWidget {
     var index = 0;
     for (final m in _inlinePattern.allMatches(input)) {
       if (m.start > index) {
-        spans.add(TextSpan(text: input.substring(index, m.start), style: style));
+        spans.add(
+          TextSpan(text: input.substring(index, m.start), style: style),
+        );
       }
       if (m.group(2) != null) {
-        spans.add(TextSpan(
-          text: m.group(2),
-          style: style.copyWith(fontWeight: FontWeight.bold),
-        ));
-      } else if (m.group(4) != null) {
-        spans.add(TextSpan(
-          text: m.group(4),
-          style: style.copyWith(fontStyle: FontStyle.italic),
-        ));
-      } else if (m.group(5) != null) {
-        spans.add(TextSpan(
-          text: m.group(5),
-          style: style.copyWith(
-            fontFamily: 'monospace',
-            backgroundColor: style.color?.withValues(alpha: 0.08),
+        spans.add(
+          TextSpan(
+            text: m.group(2),
+            style: style.copyWith(fontWeight: FontWeight.bold),
           ),
-        ));
+        );
+      } else if (m.group(4) != null) {
+        spans.add(
+          TextSpan(
+            text: m.group(4),
+            style: style.copyWith(fontStyle: FontStyle.italic),
+          ),
+        );
+      } else if (m.group(5) != null) {
+        spans.add(
+          TextSpan(
+            text: m.group(5),
+            style: style.copyWith(
+              fontFamily: 'monospace',
+              backgroundColor: style.color?.withValues(alpha: 0.08),
+            ),
+          ),
+        );
       }
       index = m.end;
     }
@@ -535,7 +539,10 @@ class _ThinkingBubble extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: Container(
         margin: const EdgeInsets.only(bottom: AppSpacing.md),
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: 14),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.lg,
+          vertical: 14,
+        ),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(18),
@@ -552,10 +559,7 @@ class _ThinkingBubble extends StatelessWidget {
 }
 
 class _ErrorBubble extends StatelessWidget {
-  const _ErrorBubble({
-    required this.message,
-    required this.onRetry,
-  });
+  const _ErrorBubble({required this.message, required this.onRetry});
 
   final String message;
   final VoidCallback onRetry;

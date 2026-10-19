@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 
 import '../../models/scheme_model.dart';
 import '../../services/account/session_cache_service.dart';
+import '../../services/catalog/scheme_id_migration.dart';
+import '../../services/library/library_sync_service.dart';
 
 /// Owns the user's saved-content lists — bookmarked schemes, the recently
 /// viewed carousel, and the saved eligibility-results set — plus their
@@ -16,15 +18,16 @@ import '../../services/account/session_cache_service.dart';
 ///
 /// Two pieces deliberately stay on `AppProvider`, not here: the
 /// `_allSchemes`-derived `bookmarkedSchemes` / `recentlyViewedSchemes` /
-/// `savedEligibilitySchemes` getters (they need the catalog list), and the
-/// Supabase `profiles` mirror of the eligibility set (it needs auth state).
+/// `savedEligibilitySchemes` getters (they need the catalog list). Keeping the
+/// lists in step with the server is `LibrarySyncService`'s job; this controller
+/// is the [LibrarySyncHost] it reads and writes.
 ///
 /// `toggleBookmark` / `addToRecentlyViewed` / `saveEligibilityResults` notify
 /// (as they did on `AppProvider`). [hydrate] and [reset] are deliberately
 /// silent: their call sites (`_loadState`, `logout`, `deleteAccount`, the auth
 /// `signedOut` branch) each already emit an `AppProvider` notification
 /// immediately afterwards, so the observable notify topology is unchanged.
-class LibraryController extends ChangeNotifier {
+class LibraryController extends ChangeNotifier implements LibrarySyncHost {
   List<String> _bookmarkedIds = [];
   List<String> _recentlyViewedIds = [];
   List<String> _savedEligibilitySchemeIds = [];
@@ -46,8 +49,8 @@ class LibraryController extends ChangeNotifier {
         await SessionCacheService.instance.getRecentlyViewed() ?? [];
     _savedEligibilitySchemeIds =
         await SessionCacheService.instance.getSavedEligibilityResults() ?? [];
-    _lastEligibilitySavedAt =
-        await SessionCacheService.instance.getLastEligibilitySavedAt();
+    _lastEligibilitySavedAt = await SessionCacheService.instance
+        .getLastEligibilitySavedAt();
   }
 
   /// Rewrites any stored bookmark / recently-viewed entry that is actually a
@@ -91,6 +94,52 @@ class LibraryController extends ChangeNotifier {
     }
   }
 
+  /// Carries saved items across the 2026 catalog migration: rewrites pre-2026
+  /// ids (and legacy codes) to their new ids via [idMap] and drops entries
+  /// whose scheme no longer exists. Idempotent and silent -- the caller
+  /// (`AppProvider.loadSchemes`) notifies. Does nothing when [knownIds] is
+  /// empty, so a failed catalog load can never wipe the user's saved items.
+  void migrateLegacyIds(Map<String, String> idMap, Set<String> knownIds) {
+    if (knownIds.isEmpty) return;
+
+    final bookmarks = SchemeIdMigration.migrate(
+      _bookmarkedIds,
+      idMap,
+      knownIds,
+    );
+    if (bookmarks != null) {
+      _bookmarkedIds = bookmarks;
+      unawaited(SessionCacheService.instance.saveBookmarks(_bookmarkedIds));
+    }
+
+    final recent = SchemeIdMigration.migrate(
+      _recentlyViewedIds,
+      idMap,
+      knownIds,
+    );
+    if (recent != null) {
+      _recentlyViewedIds = recent;
+      unawaited(
+        SessionCacheService.instance.saveRecentlyViewed(_recentlyViewedIds),
+      );
+    }
+
+    final eligibility = SchemeIdMigration.migrate(
+      _savedEligibilitySchemeIds,
+      idMap,
+      knownIds,
+    );
+    if (eligibility != null) {
+      _savedEligibilitySchemeIds = eligibility;
+      unawaited(
+        SessionCacheService.instance.saveSavedEligibilityResults(
+          _savedEligibilitySchemeIds,
+          _lastEligibilitySavedAt ?? DateTime.now(),
+        ),
+      );
+    }
+  }
+
   void toggleBookmark(String id) {
     if (_bookmarkedIds.contains(id)) {
       _bookmarkedIds.remove(id);
@@ -115,10 +164,39 @@ class LibraryController extends ChangeNotifier {
 
   /// Replaces the saved eligibility set and stamps the save time. Persists to
   /// the cache; the caller (`AppProvider`) is responsible for the optional
-  /// Supabase mirror.
+  /// server mirror.
   Future<void> saveEligibilityResults(List<String> schemeIds) async {
     _savedEligibilitySchemeIds = List<String>.from(schemeIds);
     _lastEligibilitySavedAt = DateTime.now();
+    notifyListeners();
+    await SessionCacheService.instance.saveSavedEligibilityResults(
+      _savedEligibilitySchemeIds,
+      _lastEligibilitySavedAt!,
+    );
+  }
+
+  // ── LibrarySyncHost ───────────────────────────────────────────────────
+
+  @override
+  List<String> get bookmarks => _bookmarkedIds;
+
+  @override
+  List<String> get eligibilityIds => _savedEligibilitySchemeIds;
+
+  @override
+  Future<void> applyRemoteBookmarks(List<String> ids) async {
+    _bookmarkedIds = List<String>.from(ids);
+    notifyListeners();
+    await SessionCacheService.instance.saveBookmarks(_bookmarkedIds);
+  }
+
+  @override
+  Future<void> applyRemoteEligibility(
+    List<String> ids,
+    DateTime? savedAt,
+  ) async {
+    _savedEligibilitySchemeIds = List<String>.from(ids);
+    _lastEligibilitySavedAt = savedAt ?? DateTime.now();
     notifyListeners();
     await SessionCacheService.instance.saveSavedEligibilityResults(
       _savedEligibilitySchemeIds,

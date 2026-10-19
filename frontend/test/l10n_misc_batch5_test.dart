@@ -14,7 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
@@ -45,31 +44,32 @@ void main() {
   setUpAll(() async {
     TestWidgetsFlutterBinding.ensureInitialized();
     SharedPreferences.setMockInitialValues({});
-    await Supabase.initialize(
-      url: 'https://example.supabase.co',
-      publishableKey: 'test-publishable-key',
-    );
   });
 
   group('getTimeGreeting(AppLocalizations)', () {
-    test('returns the locale-specific ARB greeting and differs by locale', () async {
-      final l10nEn = await AppLocalizations.delegate.load(const Locale('en'));
-      final l10nTa = await AppLocalizations.delegate.load(const Locale('ta'));
+    test(
+      'returns the locale-specific ARB greeting and differs by locale',
+      () async {
+        final l10nEn = await AppLocalizations.delegate.load(const Locale('en'));
+        final l10nTa = await AppLocalizations.delegate.load(const Locale('ta'));
 
-      final en = AppConstants.getTimeGreeting(l10nEn);
-      final ta = AppConstants.getTimeGreeting(l10nTa);
+        final en = AppConstants.getTimeGreeting(l10nEn);
+        final ta = AppConstants.getTimeGreeting(l10nTa);
 
-      expect(en, equals(_expectedGreeting(l10nEn)));
-      expect(ta, equals(_expectedGreeting(l10nTa)));
-      expect(en, isNot(equals(ta)));
-      // ARB values carry the trailing comma.
-      expect(en.endsWith(','), isTrue);
-      expect(ta.endsWith(','), isTrue);
-    });
+        expect(en, equals(_expectedGreeting(l10nEn)));
+        expect(ta, equals(_expectedGreeting(l10nTa)));
+        expect(en, isNot(equals(ta)));
+        // ARB values carry the trailing comma.
+        expect(en.endsWith(','), isTrue);
+        expect(ta.endsWith(','), isTrue);
+      },
+    );
   });
 
   group('SplashScreen loading copy renders from ARB', () {
-    testWidgets('English locale shows the English loading strings', (tester) async {
+    testWidgets('English locale shows the English loading strings', (
+      tester,
+    ) async {
       await tester.pumpWidget(_host(const Locale('en'), const SplashScreen()));
       await tester.pump(const Duration(milliseconds: 50));
 
@@ -96,7 +96,9 @@ void main() {
   });
 
   group('SearchResultsScreen migrated strings render from ARB', () {
-    testWidgets('English locale: Sort + empty-state + clear-filters', (tester) async {
+    testWidgets('English locale: Sort + empty-state + clear-filters', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         _host(
           const Locale('en'),
@@ -111,12 +113,17 @@ void main() {
 
       // The sort chip shows "<label>: <current sort>" -- label from ARB.
       expect(find.textContaining('Sort'), findsOneWidget);
-      expect(find.text('No schemes found matching your filters'), findsOneWidget);
+      expect(
+        find.text('No schemes found matching your filters'),
+        findsOneWidget,
+      );
       expect(find.text('Clear Filters & Explore Schemes'), findsOneWidget);
       expect(find.textContaining('வரிசைப்படுத்து'), findsNothing);
     });
 
-    testWidgets('Tamil locale: Sort + empty-state + clear-filters', (tester) async {
+    testWidgets('Tamil locale: Sort + empty-state + clear-filters', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         _host(
           const Locale('ta'),
@@ -131,10 +138,15 @@ void main() {
 
       expect(find.textContaining('வரிசைப்படுத்து'), findsOneWidget);
       expect(
-        find.text('தேர்ந்தெடுக்கப்பட்ட வடிகட்டிகளுக்கு பொருந்தும் திட்டங்கள் எதுவும் இல்லை'),
+        find.text(
+          'தேர்ந்தெடுக்கப்பட்ட வடிகட்டிகளுக்கு பொருந்தும் திட்டங்கள் எதுவும் இல்லை',
+        ),
         findsOneWidget,
       );
-      expect(find.text('வடிகட்டிகளை அழித்து திட்டங்களைக் காண்க'), findsOneWidget);
+      expect(
+        find.text('வடிகட்டிகளை அழித்து திட்டங்களைக் காண்க'),
+        findsOneWidget,
+      );
       expect(find.textContaining('Sort'), findsNothing);
     });
   });

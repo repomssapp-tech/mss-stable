@@ -25,10 +25,7 @@ class AssistedStepFooter extends StatelessWidget {
         : context.l10n.actionNext;
 
     return Container(
-      padding: const EdgeInsets.only(
-        top: AppSpacing.md,
-        bottom: AppSpacing.lg,
-      ),
+      padding: const EdgeInsets.only(top: AppSpacing.md, bottom: AppSpacing.lg),
       color: Colors.transparent,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(

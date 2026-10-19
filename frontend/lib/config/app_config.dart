@@ -13,30 +13,14 @@ library;
 class AppConfig {
   AppConfig._();
 
-  /// Supabase project URL, e.g. `https://<ref>.supabase.co`.
-  static const String supabaseUrl = String.fromEnvironment('SUPABASE_URL');
-
-  /// Supabase publishable (anon) key. Safe to ship in the client — it only
-  /// grants what Row Level Security allows — but it is still supplied at build
-  /// time so the project a build points at is never baked into source control.
-  static const String supabasePublishableKey =
-      String.fromEnvironment('SUPABASE_PUBLISHABLE_KEY');
-
   /// REST API Base URL origin, e.g. `https://api.msmeschemes.org` or `http://10.0.2.2:5000`.
-  /// Defaults to `https://api.msmeschemes.org` if not explicitly supplied.
+  /// Defaults to `https://api.msmeschemes.org` if not explicitly supplied
+  /// (`--dart-define=API_BASE_URL=...`). No other connection value is needed.
   static const String _envApiBaseUrl = String.fromEnvironment('API_BASE_URL');
-  static const String _envMssApiBaseUrl =
-      String.fromEnvironment('MSS_API_BASE_URL');
 
   static String get apiBaseUrl {
     if (_envApiBaseUrl.isNotEmpty) {
       return _envApiBaseUrl
-          .replaceAll(RegExp(r'/v1/?$'), '')
-          .replaceAll(RegExp(r'/$'), '');
-    }
-    if (_envMssApiBaseUrl.isNotEmpty &&
-        !_envMssApiBaseUrl.contains('supabase.co')) {
-      return _envMssApiBaseUrl
           .replaceAll(RegExp(r'/v1/?$'), '')
           .replaceAll(RegExp(r'/$'), '');
     }
@@ -49,15 +33,9 @@ class AppConfig {
   /// Human-readable reason the current build-time configuration is unusable,
   /// or `null` when everything required is present and well-formed.
   static String? get validationError {
-    final missing = <String>[
-      if (supabaseUrl.isEmpty) 'SUPABASE_URL',
-      if (supabasePublishableKey.isEmpty) 'SUPABASE_PUBLISHABLE_KEY',
-    ];
-    if (missing.isNotEmpty) {
-      return 'Missing build-time configuration: ${missing.join(', ')}.';
-    }
-    if (Uri.tryParse(supabaseUrl)?.hasScheme != true) {
-      return 'SUPABASE_URL is not a valid absolute URL: "$supabaseUrl".';
+    final base = Uri.tryParse(apiBaseUrl);
+    if (base == null || !base.hasScheme || base.host.isEmpty) {
+      return 'API_BASE_URL is not a valid absolute URL: "$apiBaseUrl".';
     }
     return null;
   }

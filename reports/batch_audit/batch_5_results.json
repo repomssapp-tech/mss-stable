@@ -1,0 +1,712 @@
+[
+  {
+    "id": "SCH000205",
+    "scheme_code": "TN205",
+    "name_en": "WInER Awards",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://birac.nic.in/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://birac.nic.in/",
+      "page_title": "BIRAC-Home",
+      "content_length": 114688,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [
+        "closed"
+      ],
+      "active_signals": [
+        "login / register"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "closed",
+    "evidence_note": "Closure keywords detected on portal: ['closed']",
+    "audited_at": "2026-10-05T18:08:05.810367+00:00"
+  },
+  {
+    "id": "SCH000206",
+    "scheme_code": "TN206",
+    "name_en": "WING Capacity Building Workshops",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.startupindia.gov.in/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.startupindia.gov.in/",
+      "page_title": "Startup India",
+      "content_length": 102514,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Startup India)",
+    "audited_at": "2026-10-05T18:08:06.798978+00:00"
+  },
+  {
+    "id": "SCH000207",
+    "scheme_code": "TN207",
+    "name_en": "WISE-IPR (WOS-C)",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://tdb.gov.in/wise-internship-ipr",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://tdb.gov.in/wise-internship-ipr",
+      "page_title": "WISE Internship in IPR | Technology Development Board",
+      "content_length": 46996,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [
+        "archived"
+      ],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "closed",
+    "evidence_note": "Closure keywords detected on portal: ['archived']",
+    "audited_at": "2026-10-05T18:08:05.694756+00:00"
+  },
+  {
+    "id": "SCH000210",
+    "scheme_code": "TN210",
+    "name_en": "WISE-PhD",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://dst.gov.in/scientific-programmes/wise-kiran",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://dst.gov.in/scientific-programmes/wise-kiran",
+      "page_title": "Women in Science and Engineering-KIRAN (WISE-KIRAN) | Department Of Science & Technology",
+      "content_length": 69004,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [
+        "closed"
+      ],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "closed",
+    "evidence_note": "Closure keywords detected on portal: ['closed']",
+    "audited_at": "2026-10-05T18:08:06.524970+00:00"
+  },
+  {
+    "id": "SCH000211",
+    "scheme_code": "TN211",
+    "name_en": "WISE-SCOPE",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://dst.gov.in/scientific-programmes/wise-kiran",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://dst.gov.in/scientific-programmes/wise-kiran",
+      "page_title": "Women in Science and Engineering-KIRAN (WISE-KIRAN) | Department Of Science & Technology",
+      "content_length": 69004,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [
+        "closed"
+      ],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "closed",
+    "evidence_note": "Closure keywords detected on portal: ['closed']",
+    "audited_at": "2026-10-05T18:08:06.520472+00:00"
+  },
+  {
+    "id": "SCH000214",
+    "scheme_code": "TN214",
+    "name_en": "Women in the Digital Economy Fund (WiDEF)",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://globaldigitalinclusion.org/2024/11/14/the-time-is-now-policy-actions-to-close-the-gender-digital-divide-women-in-the-digital-economy-fund/",
+    "primary_result": {
+      "reachable": false,
+      "status_code": "TIMEOUT",
+      "error": "Request timed out"
+    },
+    "alt_results": [
+      {
+        "url": "https://www.state.gov/",
+        "result": {
+          "reachable": true,
+          "status_code": 200,
+          "final_url": "https://www.state.gov/",
+          "page_title": "U.S. Department of State – Home",
+          "content_length": 113245,
+          "content_type": "text/html; charset=UTF-8",
+          "closure_signals": [],
+          "active_signals": [],
+          "error": null
+        }
+      }
+    ],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP TIMEOUT: U.S. Department of State – Home)",
+    "audited_at": "2026-10-05T18:08:14.932655+00:00"
+  },
+  {
+    "id": "SCH000215",
+    "scheme_code": "TN215",
+    "name_en": "Women Leadership in STEM (WLS) Programme",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://birac.nic.in/cfp_view.php?id=115&scheme_type=6",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://birac.nic.in/cfp_view.php?id=115&scheme_type=6",
+      "page_title": "BIRAC-Call For Proposal",
+      "content_length": 45725,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "login / register",
+        "scheme details"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: BIRAC-Call For Proposal)",
+    "audited_at": "2026-10-05T18:08:05.643305+00:00"
+  },
+  {
+    "id": "SCH000216",
+    "scheme_code": "TN216",
+    "name_en": "Working Capital (Cash Credit)",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.jansamarth.in/home",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.jansamarth.in/home",
+      "page_title": "JanSamarth - National Portal for Government Sponsored Schemes.",
+      "content_length": 56904,
+      "content_type": "text/html;charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: JanSamarth - National Portal for Government Sponsored Schemes.)",
+    "audited_at": "2026-10-05T18:08:05.477090+00:00"
+  },
+  {
+    "id": "SCH000217",
+    "scheme_code": "TN217",
+    "name_en": "Yeshasvini Campaign",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://सूक्ष्मलघुऔरमध्यमउद्यममंत्रालय.सरकार.भारत/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://xn--i1bn6adp9emg4dcbcajdeflxp1gua1n7bt10abief.xn--11b7cb3a6a.xn--h2brj9c/",
+      "page_title": "",
+      "content_length": 6673,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: )",
+    "audited_at": "2026-10-05T18:08:05.639854+00:00"
+  },
+  {
+    "id": "SCH000220",
+    "scheme_code": "SCH000220",
+    "name_en": "2nd Loan for Upgradation of existing PMEGP/REGP/MUDRA units",
+    "ministry": "Ministry of Micro, Small and Medium Enterprises",
+    "department": "Khadi and Village Industries Commission (KVIC)",
+    "state": "All India",
+    "primary_url": "https://www.kviconline.gov.in/pmegpeportal/pmegphome",
+    "primary_result": {
+      "reachable": false,
+      "status_code": "CONN_ERROR",
+      "error": "HTTPSConnectionPool(host='www.kviconline.gov.in', port=443): Max retries exceeded with url: /pmegpep"
+    },
+    "alt_results": [
+      {
+        "url": "https://www.dcmsme.gov.in/ebook/MSMESchemebooklet2025-26.pdf",
+        "result": {
+          "reachable": true,
+          "status_code": 200,
+          "final_url": "https://www.dcmsme.gov.in/ebook/MSMESchemebooklet2025-26.pdf",
+          "page_title": "",
+          "content_length": 114688,
+          "content_type": "application/pdf",
+          "closure_signals": [],
+          "active_signals": [],
+          "error": null
+        }
+      }
+    ],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP CONN_ERROR: )",
+    "audited_at": "2026-10-05T18:08:06.812249+00:00"
+  },
+  {
+    "id": "SCH000226",
+    "scheme_code": "SCH000226",
+    "name_en": "Science & Technology",
+    "ministry": "Ministry of Micro, Small and Medium Enterprises",
+    "department": "Coir Board",
+    "state": "All India",
+    "primary_url": "http://coirboard.gov.in",
+    "primary_result": {
+      "reachable": false,
+      "status_code": "CONN_ERROR",
+      "error": "HTTPConnectionPool(host='coirboard.gov.in', port=80): Max retries exceeded with url: / (Caused by Co"
+    },
+    "alt_results": [
+      {
+        "url": "https://www.dcmsme.gov.in/ebook/MSMESchemebooklet2025-26.pdf",
+        "result": {
+          "reachable": true,
+          "status_code": 200,
+          "final_url": "https://www.dcmsme.gov.in/ebook/MSMESchemebooklet2025-26.pdf",
+          "page_title": "",
+          "content_length": 114688,
+          "content_type": "application/pdf",
+          "closure_signals": [],
+          "active_signals": [],
+          "error": null
+        }
+      }
+    ],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP CONN_ERROR: )",
+    "audited_at": "2026-10-05T18:08:13.250013+00:00"
+  },
+  {
+    "id": "SCH000228",
+    "scheme_code": "SCH000228",
+    "name_en": "Trade and Industry Related Functional Support Services",
+    "ministry": "Ministry of Micro, Small and Medium Enterprises",
+    "department": "Coir Board",
+    "state": "All India",
+    "primary_url": "http://coirboard.gov.in",
+    "primary_result": {
+      "reachable": false,
+      "status_code": "CONN_ERROR",
+      "error": "HTTPConnectionPool(host='coirboard.gov.in', port=80): Max retries exceeded with url: / (Caused by Co"
+    },
+    "alt_results": [
+      {
+        "url": "https://www.dcmsme.gov.in/ebook/MSMESchemebooklet2025-26.pdf",
+        "result": {
+          "reachable": true,
+          "status_code": 200,
+          "final_url": "https://www.dcmsme.gov.in/ebook/MSMESchemebooklet2025-26.pdf",
+          "page_title": "",
+          "content_length": 114688,
+          "content_type": "application/pdf",
+          "closure_signals": [],
+          "active_signals": [],
+          "error": null
+        }
+      }
+    ],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP CONN_ERROR: )",
+    "audited_at": "2026-10-05T18:08:13.248771+00:00"
+  },
+  {
+    "id": "SCH000229",
+    "scheme_code": "SCH000229",
+    "name_en": "Welfare Measures (Pradhan Mantri Suraksha Bima Yojana for coir workers)",
+    "ministry": "Ministry of Micro, Small and Medium Enterprises",
+    "department": "Coir Board",
+    "state": "All India",
+    "primary_url": "http://coirboard.gov.in",
+    "primary_result": {
+      "reachable": false,
+      "status_code": "CONN_ERROR",
+      "error": "HTTPConnectionPool(host='coirboard.gov.in', port=80): Max retries exceeded with url: / (Caused by Co"
+    },
+    "alt_results": [
+      {
+        "url": "https://www.dcmsme.gov.in/ebook/MSMESchemebooklet2025-26.pdf",
+        "result": {
+          "reachable": true,
+          "status_code": 200,
+          "final_url": "https://www.dcmsme.gov.in/ebook/MSMESchemebooklet2025-26.pdf",
+          "page_title": "",
+          "content_length": 114688,
+          "content_type": "application/pdf",
+          "closure_signals": [],
+          "active_signals": [],
+          "error": null
+        }
+      }
+    ],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP CONN_ERROR: )",
+    "audited_at": "2026-10-05T18:08:13.365266+00:00"
+  },
+  {
+    "id": "SCH000232",
+    "scheme_code": "SCH000232",
+    "name_en": "Framework for International Market Intelligence Dissemination (IMID)",
+    "ministry": "Ministry of Micro, Small and Medium Enterprises",
+    "department": "Ministry of MSME",
+    "state": "All India",
+    "primary_url": "https://www.dcmsme.gov.in",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.dcmsme.gov.in/",
+      "page_title": "DCMSME",
+      "content_length": 114688,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [
+        "online application",
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: DCMSME)",
+    "audited_at": "2026-10-05T18:08:06.924390+00:00"
+  },
+  {
+    "id": "SCH000242",
+    "scheme_code": "SCH000242",
+    "name_en": "Modified Market Development Assistance (MMDA)",
+    "ministry": "Ministry of Micro, Small and Medium Enterprises",
+    "department": "Khadi and Village Industries Commission (KVIC)",
+    "state": "All India",
+    "primary_url": "http://www.kviconline.gov.in",
+    "primary_result": {
+      "reachable": false,
+      "status_code": "CONN_ERROR",
+      "error": "HTTPConnectionPool(host='www.kviconline.gov.in', port=80): Max retries exceeded with url: / (Caused "
+    },
+    "alt_results": [
+      {
+        "url": "https://www.dcmsme.gov.in/ebook/MSMESchemebooklet2025-26.pdf",
+        "result": {
+          "reachable": true,
+          "status_code": 200,
+          "final_url": "https://www.dcmsme.gov.in/ebook/MSMESchemebooklet2025-26.pdf",
+          "page_title": "",
+          "content_length": 114688,
+          "content_type": "application/pdf",
+          "closure_signals": [],
+          "active_signals": [],
+          "error": null
+        }
+      }
+    ],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP CONN_ERROR: )",
+    "audited_at": "2026-10-05T18:08:07.011553+00:00"
+  },
+  {
+    "id": "SCH000243",
+    "scheme_code": "SCH000243",
+    "name_en": "Interest Subsidy Eligibility Certificate Scheme (ISEC)",
+    "ministry": "Ministry of Micro, Small and Medium Enterprises",
+    "department": "Khadi and Village Industries Commission (KVIC)",
+    "state": "All India",
+    "primary_url": "http://www.kviconline.gov.in",
+    "primary_result": {
+      "reachable": false,
+      "status_code": "CONN_ERROR",
+      "error": "HTTPConnectionPool(host='www.kviconline.gov.in', port=80): Max retries exceeded with url: / (Caused "
+    },
+    "alt_results": [
+      {
+        "url": "https://www.dcmsme.gov.in/ebook/MSMESchemebooklet2025-26.pdf",
+        "result": {
+          "reachable": true,
+          "status_code": 200,
+          "final_url": "https://www.dcmsme.gov.in/ebook/MSMESchemebooklet2025-26.pdf",
+          "page_title": "",
+          "content_length": 114688,
+          "content_type": "application/pdf",
+          "closure_signals": [],
+          "active_signals": [],
+          "error": null
+        }
+      }
+    ],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP CONN_ERROR: )",
+    "audited_at": "2026-10-05T18:08:07.218150+00:00"
+  },
+  {
+    "id": "SCH000245",
+    "scheme_code": "SCH000245",
+    "name_en": "Strengthening Infrastructure of Existing Weak Khadi Institutions",
+    "ministry": "Ministry of Micro, Small and Medium Enterprises",
+    "department": "Khadi and Village Industries Commission (KVIC)",
+    "state": "All India",
+    "primary_url": "http://www.kviconline.gov.in",
+    "primary_result": {
+      "reachable": false,
+      "status_code": "CONN_ERROR",
+      "error": "HTTPConnectionPool(host='www.kviconline.gov.in', port=80): Max retries exceeded with url: / (Caused "
+    },
+    "alt_results": [
+      {
+        "url": "https://www.dcmsme.gov.in/ebook/MSMESchemebooklet2025-26.pdf",
+        "result": {
+          "reachable": true,
+          "status_code": 200,
+          "final_url": "https://www.dcmsme.gov.in/ebook/MSMESchemebooklet2025-26.pdf",
+          "page_title": "",
+          "content_length": 114688,
+          "content_type": "application/pdf",
+          "closure_signals": [],
+          "active_signals": [],
+          "error": null
+        }
+      }
+    ],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP CONN_ERROR: )",
+    "audited_at": "2026-10-05T18:08:07.202483+00:00"
+  },
+  {
+    "id": "SCH000246",
+    "scheme_code": "SCH000246",
+    "name_en": "Marketing Infrastructure (Khadi)",
+    "ministry": "Ministry of Micro, Small and Medium Enterprises",
+    "department": "Khadi and Village Industries Commission (KVIC)",
+    "state": "All India",
+    "primary_url": "http://www.kviconline.gov.in",
+    "primary_result": {
+      "reachable": false,
+      "status_code": "CONN_ERROR",
+      "error": "HTTPConnectionPool(host='www.kviconline.gov.in', port=80): Max retries exceeded with url: / (Caused "
+    },
+    "alt_results": [
+      {
+        "url": "https://www.dcmsme.gov.in/ebook/MSMESchemebooklet2025-26.pdf",
+        "result": {
+          "reachable": true,
+          "status_code": 200,
+          "final_url": "https://www.dcmsme.gov.in/ebook/MSMESchemebooklet2025-26.pdf",
+          "page_title": "",
+          "content_length": 114688,
+          "content_type": "application/pdf",
+          "closure_signals": [],
+          "active_signals": [],
+          "error": null
+        }
+      }
+    ],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP CONN_ERROR: )",
+    "audited_at": "2026-10-05T18:08:07.427101+00:00"
+  },
+  {
+    "id": "SCH000254",
+    "scheme_code": "SCH000254",
+    "name_en": "Digital MSME",
+    "ministry": "Ministry of Micro, Small and Medium Enterprises",
+    "department": "Office of DC(MSME)",
+    "state": "All India",
+    "primary_url": "https://www.dcmsme.gov.in",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.dcmsme.gov.in/",
+      "page_title": "DCMSME",
+      "content_length": 114688,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [
+        "online application",
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: DCMSME)",
+    "audited_at": "2026-10-05T18:08:07.344342+00:00"
+  },
+  {
+    "id": "SCH000266",
+    "scheme_code": "SCH000266",
+    "name_en": "INSIGHT – Trade Intelligence & Facilitation (EPM – Niryat Disha)",
+    "ministry": "Ministry of Commerce and Industry",
+    "department": "Directorate General of Foreign Trade (DGFT), Department of Commerce",
+    "state": "All India",
+    "primary_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2232079",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2232079&reg=48&lang=2",
+      "page_title": "Press Release Page | Press Information Bureau",
+      "content_length": 100004,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Press Release Page | Press Information Bureau)",
+    "audited_at": "2026-10-05T18:08:07.898505+00:00"
+  },
+  {
+    "id": "SCH000267",
+    "scheme_code": "SCH000267",
+    "name_en": "FLOW – Overseas Warehousing & Fulfilment (EPM – Niryat Disha)",
+    "ministry": "Ministry of Commerce and Industry",
+    "department": "Directorate General of Foreign Trade (DGFT), Department of Commerce",
+    "state": "All India",
+    "primary_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2232079",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2232079&reg=48&lang=2",
+      "page_title": "Press Release Page | Press Information Bureau",
+      "content_length": 116378,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Press Release Page | Press Information Bureau)",
+    "audited_at": "2026-10-05T18:08:08.290955+00:00"
+  },
+  {
+    "id": "SCH000270",
+    "scheme_code": "SCH000270",
+    "name_en": "Scheme for First-Time Entrepreneurs (Women, SC and ST) – Budget 2025-26",
+    "ministry": "Ministry of Finance",
+    "department": "Ministry of Finance (implementing agency not yet notified)",
+    "state": "All India",
+    "primary_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2098389",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2098389&reg=48&lang=2",
+      "page_title": "Press Release Page | Press Information Bureau",
+      "content_length": 115083,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Press Release Page | Press Information Bureau)",
+    "audited_at": "2026-10-05T18:08:08.022119+00:00"
+  },
+  {
+    "id": "SCH000276",
+    "scheme_code": "SCH000276",
+    "name_en": "SME Growth Fund (Budget 2026-27)",
+    "ministry": "Ministry of Micro, Small and Medium Enterprises",
+    "department": "Announced; implementing agency not notified",
+    "state": "All India",
+    "primary_url": "https://www.pib.gov.in/PressNoteDetails.aspx?NoteId=157367&ModuleId=3",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.pib.gov.in/PressNoteDetails.aspx?NoteId=157367&ModuleId=3&reg=48&lang=2",
+      "page_title": "Press Note Details: Press Information Bureau",
+      "content_length": 106246,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Press Note Details: Press Information Bureau)",
+    "audited_at": "2026-10-05T18:08:08.503559+00:00"
+  },
+  {
+    "id": "SCH000277",
+    "scheme_code": "SCH000277",
+    "name_en": "National Manufacturing Mission",
+    "ministry": "Ministry of Commerce and Industry",
+    "department": "Department for Promotion of Industry and Internal Trade (DPIIT)",
+    "state": "All India",
+    "primary_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2098392",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2098392&reg=48&lang=2",
+      "page_title": "Press Release Page | Press Information Bureau",
+      "content_length": 96634,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Press Release Page | Press Information Bureau)",
+    "audited_at": "2026-10-05T18:08:08.864167+00:00"
+  },
+  {
+    "id": "SCH000290",
+    "scheme_code": "SCH000290",
+    "name_en": "PM Electric Drive Revolution in Innovative Vehicle Enhancement (PM E-DRIVE) Scheme",
+    "ministry": "Ministry of Heavy Industries",
+    "department": "Ministry of Heavy Industries",
+    "state": "All India",
+    "primary_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2154408&reg=48&lang=2",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2154408&reg=48&lang=2",
+      "page_title": "Press Release Page | Press Information Bureau",
+      "content_length": 83469,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [
+        "closed"
+      ],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "closed",
+    "evidence_note": "Closure keywords detected on portal: ['closed']",
+    "audited_at": "2026-10-05T18:08:08.448387+00:00"
+  }
+]

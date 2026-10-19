@@ -19,10 +19,7 @@ String formatFunding(double amount) {
 class SchemeBenefitsContent extends StatelessWidget {
   final LocalizedScheme scheme;
 
-  const SchemeBenefitsContent({
-    super.key,
-    required this.scheme,
-  });
+  const SchemeBenefitsContent({super.key, required this.scheme});
 
   @override
   Widget build(BuildContext context) {

@@ -4,7 +4,7 @@
 //
 // Phase 2 finding: RecommendationEngine.evaluate started every scheme at
 // score = 1.0 and only ever subtracted, so a populated (or even an empty)
-// profile kept ~all 219 schemes above the 0.4 "For Me" gate. The engine is
+// profile kept ~all schemes above the 0.4 "For Me" gate. The engine is
 // now ADDITIVE (base 0.0, positively-matched facets add weight, hard
 // disqualifications return 0.0 early), and "For Me" is gated on both a
 // usable profile and score >= RecommendationEngine.forMeThreshold.
@@ -30,15 +30,15 @@ void main() {
   });
 
   UserProfile populated({String state = 'Tamil Nadu'}) => UserProfile(
-        gender: 'Female',
-        community: 'SC',
-        state: state,
-        dob: DateTime(2001, 1, 1),
-        educationLevel: 'Undergraduate',
-        businessIndustry: 'MSME',
-        businessStage: 'Idea',
-        profileCompleted: true,
-      );
+    gender: 'Female',
+    community: 'SC',
+    state: state,
+    dob: DateTime(2001, 1, 1),
+    educationLevel: 'Undergraduate',
+    businessIndustry: 'MSME',
+    businessStage: 'Idea',
+    profileCompleted: true,
+  );
 
   test('additive engine: base score is 0 — an unmatched pair no longer scores '
       '~1.0 the way the subtractive engine did', () {
@@ -50,13 +50,16 @@ void main() {
     );
     // Empty profile: no dob, no gender, all defaults.
     final r = RecommendationEngine.evaluate(UserProfile(), generic);
-    expect(r.score, lessThan(RecommendationEngine.forMeThreshold),
-        reason: 'empty profile must not clear the For Me gate');
+    expect(
+      r.score,
+      lessThan(RecommendationEngine.forMeThreshold),
+      reason: 'empty profile must not clear the For Me gate',
+    );
     expect(r.score, lessThan(0.5));
   });
 
   test('populated profile: the "For Me" set is MATERIALLY smaller than the '
-      'full 219-scheme catalog (not just < all)', () {
+      'full scheme catalog (not just < all)', () {
     final forMe = RecommendationEngine.forMeSchemes(populated(), all);
     print('For Me (populated) = ${forMe.length} / ${all.length}');
     expect(forMe, isNotEmpty);
@@ -87,81 +90,110 @@ void main() {
   test('a facet change further shrinks the result: a Karnataka profile keeps '
       'fewer schemes than the same profile in Tamil Nadu', () {
     final tnSet = RecommendationEngine.forMeSchemes(populated(), all);
-    final kaSet =
-        RecommendationEngine.forMeSchemes(populated(state: 'Karnataka'), all);
+    final kaSet = RecommendationEngine.forMeSchemes(
+      populated(state: 'Karnataka'),
+      all,
+    );
     print('TN For Me = ${tnSet.length}, Karnataka For Me = ${kaSet.length}');
-    expect(kaSet.length, lessThan(tnSet.length),
-        reason: 'Tamil-Nadu-scoped schemes must drop out for a Karnataka user');
+    expect(
+      kaSet.length,
+      lessThan(tnSet.length),
+      reason: 'Tamil-Nadu-scoped schemes must drop out for a Karnataka user',
+    );
   });
 
-  group('role signal lifts a thematically-matching state scheme over the bar',
-      () {
-    UserProfile tn({String role = 'Student'}) => UserProfile(
-          gender: 'Female',
-          community: 'SC',
-          state: 'Tamil Nadu',
-          dob: DateTime(1995, 6, 1),
-          educationLevel: 'Undergraduate',
-          employmentStatus: role,
-          businessIndustry: 'Handicrafts',
-          businessStage: 'Idea',
-          profileCompleted: true,
-        );
-
-    test('TANSEED (real catalog TN182): below the bar for a generic student, '
-        'clears it for a self-identified entrepreneur', () {
-      final tanseed = all.firstWhere(
-        (s) => s.schemeCode.toUpperCase() == 'TN181' || s.schemeCode.toUpperCase() == 'TN182',
-        orElse: () => throw StateError('StartupTN (TN181/TN182) not in catalog'),
-      );
-      final generic = RecommendationEngine.evaluate(tn(), tanseed).score;
-      final founder = RecommendationEngine.evaluate(
-        tn(role: 'Aspiring Entrepreneur'),
-        tanseed,
-      ).score;
-      expect(generic, lessThan(RecommendationEngine.forMeThreshold),
-          reason: 'a state startup grant is not a personal match for a student');
-      expect(founder, greaterThanOrEqualTo(RecommendationEngine.forMeThreshold),
-          reason: 'it IS a personal match for a Tamil Nadu entrepreneur');
-    });
-
-    test('artisan-themed TN scheme: below the bar for a generic student, '
-        'clears it for a self-identified artisan', () {
-      final artisanScheme = Scheme(
-        id: 'SYNTH_ARTISAN_TN',
-        name: 'Tamil Nadu Handloom Weaver Craft Support',
+  group(
+    'role signal lifts a thematically-matching state scheme over the bar',
+    () {
+      UserProfile tn({String role = 'Student'}) => UserProfile(
+        gender: 'Female',
+        community: 'SC',
         state: 'Tamil Nadu',
-        category: 'Artisan / Handicraft',
-        sector: 'Handloom',
+        dob: DateTime(1995, 6, 1),
+        educationLevel: 'Undergraduate',
+        employmentStatus: role,
+        businessIndustry: 'Handicrafts',
+        businessStage: 'Idea',
+        profileCompleted: true,
       );
-      final generic = RecommendationEngine.evaluate(tn(), artisanScheme).score;
-      final artisan = RecommendationEngine.evaluate(
-        tn(role: 'Artisan / SHG Member'),
-        artisanScheme,
-      ).score;
-      expect(generic, lessThan(RecommendationEngine.forMeThreshold));
-      expect(artisan, greaterThanOrEqualTo(RecommendationEngine.forMeThreshold));
-    });
 
-    test('a non-TN entrepreneur is still hard-disqualified from a TN scheme',
+      test(
+        'TANSEED (real catalog TN2026-043): below the bar for a generic student, '
+        'clears it for a self-identified entrepreneur',
         () {
-      final tanseed = all.firstWhere(
-        (s) => s.schemeCode.toUpperCase() == 'TN181' || s.schemeCode.toUpperCase() == 'TN182',
-        orElse: () => throw StateError('StartupTN (TN181/TN182) not in catalog'),
+          final tanseed = all.firstWhere(
+            (s) => s.id == 'TN2026-042' || s.id == 'TN2026-043',
+            orElse: () => throw StateError(
+              'StartupTN / TANSEED (TN2026-042/043) not in catalog',
+            ),
+          );
+          final generic = RecommendationEngine.evaluate(tn(), tanseed).score;
+          final founder = RecommendationEngine.evaluate(
+            tn(role: 'Aspiring Entrepreneur'),
+            tanseed,
+          ).score;
+          expect(
+            generic,
+            lessThan(RecommendationEngine.forMeThreshold),
+            reason:
+                'a state startup grant is not a personal match for a student',
+          );
+          expect(
+            founder,
+            greaterThanOrEqualTo(RecommendationEngine.forMeThreshold),
+            reason: 'it IS a personal match for a Tamil Nadu entrepreneur',
+          );
+        },
       );
-      final r = RecommendationEngine.evaluate(
-        UserProfile(
-          gender: 'Female',
-          state: 'Karnataka',
-          dob: DateTime(1995, 6, 1),
-          employmentStatus: 'Aspiring Entrepreneur',
-          profileCompleted: true,
-        ),
-        tanseed,
+
+      test('artisan-themed TN scheme: below the bar for a generic student, '
+          'clears it for a self-identified artisan', () {
+        final artisanScheme = Scheme(
+          id: 'SYNTH_ARTISAN_TN',
+          name: 'Tamil Nadu Handloom Weaver Craft Support',
+          state: 'Tamil Nadu',
+          category: 'Artisan / Handicraft',
+          sector: 'Handloom',
+        );
+        final generic = RecommendationEngine.evaluate(
+          tn(),
+          artisanScheme,
+        ).score;
+        final artisan = RecommendationEngine.evaluate(
+          tn(role: 'Artisan / SHG Member'),
+          artisanScheme,
+        ).score;
+        expect(generic, lessThan(RecommendationEngine.forMeThreshold));
+        expect(
+          artisan,
+          greaterThanOrEqualTo(RecommendationEngine.forMeThreshold),
+        );
+      });
+
+      test(
+        'a non-TN entrepreneur is still hard-disqualified from a TN scheme',
+        () {
+          final tanseed = all.firstWhere(
+            (s) => s.id == 'TN2026-042' || s.id == 'TN2026-043',
+            orElse: () => throw StateError(
+              'StartupTN / TANSEED (TN2026-042/043) not in catalog',
+            ),
+          );
+          final r = RecommendationEngine.evaluate(
+            UserProfile(
+              gender: 'Female',
+              state: 'Karnataka',
+              dob: DateTime(1995, 6, 1),
+              employmentStatus: 'Aspiring Entrepreneur',
+              profileCompleted: true,
+            ),
+            tanseed,
+          );
+          expect(r.score, 0.0);
+        },
       );
-      expect(r.score, 0.0);
-    });
-  });
+    },
+  );
 
   test('a well-matched profile/scheme pair lands in a confident band, not '
       'pinned at 1.0', () {
@@ -225,30 +257,36 @@ void main() {
     });
 
     test('a state facet narrows to that state + All India only', () {
-      final out = applyProviderFacetFilters(mixed, const {'state': 'Karnataka'});
+      final out = applyProviderFacetFilters(mixed, const {
+        'state': 'Karnataka',
+      });
       expect(out.map((s) => s.id), unorderedEquals(['B', 'C']));
       expect(out.length, lessThan(mixed.length));
     });
 
     test('a category facet narrows by category/sector token', () {
-      final out = applyProviderFacetFilters(mixed, const {'category': 'Startup'});
+      final out = applyProviderFacetFilters(mixed, const {
+        'category': 'Startup',
+      });
       expect(out.map((s) => s.id), unorderedEquals(['C', 'D']));
     });
 
-    test('a state facet keeps nationwide schemes however they are labelled', () {
-      final national = [
-        Scheme(id: 'N1', name: 'N1', state: 'Pan-India'),
-        Scheme(id: 'N2', name: 'N2', state: 'All India'),
-        Scheme(id: 'N3', name: 'N3', state: 'India'),
-        Scheme(id: 'N4', name: 'N4', state: 'Nationwide'),
-        Scheme(id: 'S1', name: 'S1', state: 'Kerala'),
-      ];
-      final out = applyProviderFacetFilters(
-        national,
-        const {'state': 'Tamil Nadu'},
-      );
-      expect(out.map((s) => s.id), unorderedEquals(['N1', 'N2', 'N3', 'N4']));
-    });
+    test(
+      'a state facet keeps nationwide schemes however they are labelled',
+      () {
+        final national = [
+          Scheme(id: 'N1', name: 'N1', state: 'Pan-India'),
+          Scheme(id: 'N2', name: 'N2', state: 'All India'),
+          Scheme(id: 'N3', name: 'N3', state: 'India'),
+          Scheme(id: 'N4', name: 'N4', state: 'Nationwide'),
+          Scheme(id: 'S1', name: 'S1', state: 'Kerala'),
+        ];
+        final out = applyProviderFacetFilters(national, const {
+          'state': 'Tamil Nadu',
+        });
+        expect(out.map((s) => s.id), unorderedEquals(['N1', 'N2', 'N3', 'N4']));
+      },
+    );
   });
 
   group('computeForMeView', () {
@@ -302,8 +340,10 @@ void main() {
         profile: populated(),
         filters: const {'state': 'Karnataka'},
       ).schemes;
-      print('For Me unfiltered=${unfiltered.length}, '
-          '+state=Karnataka facet=${filtered.length}');
+      print(
+        'For Me unfiltered=${unfiltered.length}, '
+        '+state=Karnataka facet=${filtered.length}',
+      );
       expect(filtered.length, lessThan(unfiltered.length));
       // Every survivor is either nationwide or Karnataka — the facet really
       // applied, it is not just the score gate.

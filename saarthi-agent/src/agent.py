@@ -5,7 +5,7 @@ import math
 import os
 import re
 import textwrap
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from functools import lru_cache
 
 from dotenv import load_dotenv
@@ -23,7 +23,14 @@ from livekit.agents import (
 )
 from livekit.plugins import ai_coustics, sarvam
 
-from catalog_sync import CatalogSyncService, SyncOutcome
+from agent_language import (
+    LANGUAGES,
+    AgentLanguage,
+    language_code,
+    resolve_language,
+    speaker_for,
+)
+from catalog_sync import DEFAULT_API_BASE_URL, CatalogSyncService, SyncOutcome
 from scheme_catalog import SchemeCatalog
 
 logger = logging.getLogger("agent")
@@ -54,9 +61,7 @@ def _sync_catalog_before_startup(_proc) -> None:
     itself never raises.
     """
     service = CatalogSyncService(
-        supabase_url=os.environ.get("SUPABASE_URL"),
-        supabase_key=os.environ.get("SUPABASE_SECRET_KEY")
-        or os.environ.get("SUPABASE_SERVICE_ROLE_KEY"),
+        api_base_url=os.environ.get("API_BASE_URL", DEFAULT_API_BASE_URL),
     )
     try:
         outcome = asyncio.run(service.sync_if_needed())
@@ -108,6 +113,21 @@ class SarvamVoiceConfig:
             stt_mode=os.getenv("SARVAM_STT_MODE", "transcribe"),
             tts_language=os.getenv("SARVAM_TTS_LANGUAGE", "ta-IN"),
             tts_speaker=os.getenv("SARVAM_TTS_SPEAKER", "kavitha"),
+        )
+
+    def for_language(self, language: AgentLanguage | None) -> "SarvamVoiceConfig":
+        """Speak the language the citizen chose in the app.
+
+        The environment values stay the fallback for a session that names no
+        language (an older app build). Speech recognition keeps detecting the
+        input language, so it is not narrowed here.
+        """
+        if language is None:
+            return self
+        return replace(
+            self,
+            tts_language=language.locale,
+            tts_speaker=speaker_for(language),
         )
 
 
@@ -256,6 +276,8 @@ class UserProfileContext:
     annual_income: float | None = None
     disability: str | None = None
     veteran: bool | None = None
+    # The language chosen in the app (`en`, `ta`, `hi`, `mr`); not a profile fact.
+    language: str | None = None
 
     @staticmethod
     def _text(value: object) -> str | None:
@@ -323,6 +345,7 @@ class UserProfileContext:
             annual_income=annual_income,
             disability=cls._text(values.get("disability")),
             veteran=veteran,
+            language=language_code(payload.get("language")),
         )
 
     @property
@@ -360,14 +383,17 @@ class UserProfileContext:
         return bool(self.facts)
 
 
-MSS_INSTRUCTIONS = textwrap.dedent(
-    """\
-    You are MSS - MSME Schemes Search (My Scheme Search), the official AI voice assistant for the Tamil Nadu Government in the MSS application.
+def build_system_prompt(language: AgentLanguage) -> str:
+    """The static system prompt, spoken in the language the citizen chose."""
+    return textwrap.dedent(
+        f"""\
+    You are MSS - MSME Schemes Search (My Scheme Search), the AI voice assistant in the MSS application that helps citizens find verified government welfare schemes.
     Your job is to collect only the minimum details needed and recommend verified welfare schemes.
 
     LANGUAGE AND VOICE
 
-    - Speak natural conversational Tamil. If the user uses English words, use natural Tanglish. Reply in simple English only when they clearly use English.
+    - The citizen chose {language.name} in the app. Always reply in natural conversational {language.name}, even if they speak another language. If they ask for a different language, tell them to change it in the app settings.
+    - {language.mixing_rule}
     - Use no more than two short sentences. Keep each sentence fewer than 15 words.
     - Ask exactly one question per turn. Never ask multiple questions together.
     - Output clean plain text only. Never use markdown, asterisks, hashtags, brackets, emojis, tables, or lists.
@@ -375,7 +401,7 @@ MSS_INSTRUCTIONS = textwrap.dedent(
     CONVERSATION FLOW
 
     - Do not speak when the session starts. Wait for the citizen's first utterance.
-    - If the citizen greets you, reply briefly with Vanakkam and continue naturally.
+    - If the citizen greets you, reply briefly with {language.greeting} and continue naturally.
     - When the citizen wants scheme information, collect one missing detail at a time in this order: age, family monthly income, occupation or category.
     - If onboarding already provided a name, age, income, occupation, state, gender, or other fact, use it and never ask for it again.
     - Greet saved users naturally using their name and saved details when useful. Do not repeat an onboarding interview.
@@ -388,9 +414,13 @@ MSS_INSTRUCTIONS = textwrap.dedent(
     - Never invent scheme names, amounts, deadlines, eligibility rules, links, or application status.
     - Never request Aadhaar numbers, bank details, passwords, one-time passwords, or document images.
     - Clearly say final eligibility is decided by the responsible government authority.
-    - Keep unrelated replies brief and redirect to Tamil Nadu welfare schemes.
+    - Keep unrelated replies brief and redirect to government welfare schemes.
     """
-)
+    )
+
+
+# What a session says when the app did not name a language (an older app build).
+MSS_INSTRUCTIONS = build_system_prompt(LANGUAGES["ta"])
 
 # Backwards-compatible name for local tests and callers that still refer to Saarthi.
 SAARTHI_INSTRUCTIONS = MSS_INSTRUCTIONS
@@ -425,10 +455,15 @@ def build_agent_instructions(profile: UserProfileContext) -> str:
     ``<citizen_facts>`` user message is coming and how to treat it; the facts
     themselves are seeded as a non-system conversation turn (see
     ``build_profile_chat_ctx``).
+
+    The prompt is written for the language the citizen chose in the app
+    (``profile.language``); a session that names none gets ``MSS_INSTRUCTIONS``.
     """
+    language = resolve_language(profile.language)
+    base = build_system_prompt(language) if language else MSS_INSTRUCTIONS
     if not profile.has_facts:
-        return MSS_INSTRUCTIONS
-    return f"{MSS_INSTRUCTIONS}\n\n{_PROFILE_DATA_NOTICE}\n"
+        return base
+    return f"{base}\n\n{_PROFILE_DATA_NOTICE}\n"
 
 
 def build_profile_chat_ctx(profile: UserProfileContext) -> llm.ChatContext | None:
@@ -463,7 +498,11 @@ def build_profile_chat_ctx(profile: UserProfileContext) -> llm.ChatContext | Non
 async def load_user_profile_context(
     ctx: JobContext, timeout: float = PROFILE_CONTEXT_FALLBACK_TIMEOUT
 ) -> UserProfileContext:
-    """Load signed job metadata, with a reliable client data packet fallback."""
+    """Load signed job metadata, with a reliable client data packet fallback.
+
+    The chosen language travels in the same metadata, so it survives even when
+    the citizen has no saved facts.
+    """
     profile = UserProfileContext.from_job_metadata(ctx.job.metadata)
     if profile.has_facts:
         await ctx.connect()
@@ -481,14 +520,16 @@ async def load_user_profile_context(
             return
         candidate = UserProfileContext.from_job_metadata(metadata)
         if candidate.has_facts:
-            received.set_result(candidate)
+            received.set_result(
+                replace(candidate, language=candidate.language or profile.language)
+            )
 
     ctx.room.on("data_received", on_data_received)
     try:
         await ctx.connect()
         return await asyncio.wait_for(received, timeout=timeout)
     except TimeoutError:
-        return UserProfileContext()
+        return UserProfileContext(language=profile.language)
     finally:
         ctx.room.off("data_received", on_data_received)
 
@@ -577,9 +618,13 @@ async def saarthi_agent(ctx: JobContext):
         "room": ctx.room.name,
     }
 
-    voice = SarvamVoiceConfig.from_env()
     turns = VoiceTurnConfig.from_env()
     profile = await load_user_profile_context(ctx)
+    # Voice follows the language the citizen chose in the app.
+    voice = SarvamVoiceConfig.from_env().for_language(
+        resolve_language(profile.language)
+    )
+    logger.info("session language=%s tts=%s", profile.language, voice.tts_language)
 
     # Sarvam handles the multilingual speech and language pipeline. LiveKit keeps
     # realtime transport, turn detection, noise cancellation, and deployment.

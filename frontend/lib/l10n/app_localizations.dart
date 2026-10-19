@@ -8299,7 +8299,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileConsentCheckboxLabel.
   ///
   /// In en, this message translates to:
-  /// **'I consent to MSS collecting and processing my information to create my profile and provide personalized Government scheme recommendations.'**
+  /// **'By completing your profile, you agree that MSS collects and processes your information to create your profile and provide personalized Government scheme recommendations.'**
   String get profileConsentCheckboxLabel;
 
   /// No description provided for @profileConsentReadMore.
@@ -8325,6 +8325,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Accept'**
   String get legalAccept;
+
+  /// No description provided for @legalScrollToEndNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'You must scroll to the end of this document before you can accept it.'**
+  String get legalScrollToEndNotice;
+
+  /// No description provided for @legalScrollToEndHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Scroll to the end to enable Accept'**
+  String get legalScrollToEndHint;
 
   /// No description provided for @simpleProfileTitle.
   ///
@@ -8805,6 +8817,288 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'MSS is an intelligent digital platform designed to bridge the awareness gap and simplify the discovery, eligibility matching, and application process for Central and State Government schemes for Indian entrepreneurs, women, farmers, and students.'**
   String get aboutAppDescriptionLong;
+
+  /// No description provided for @schemeSectionContacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact details'**
+  String get schemeSectionContacts;
+
+  /// No description provided for @schemeSectionStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status and updates'**
+  String get schemeSectionStatus;
+
+  /// No description provided for @schemeSectionBenefitFacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Benefit figures'**
+  String get schemeSectionBenefitFacts;
+
+  /// No description provided for @schemeSectionApplyInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Fees and requirements'**
+  String get schemeSectionApplyInfo;
+
+  /// No description provided for @schemeSectionRelated.
+  ///
+  /// In en, this message translates to:
+  /// **'Related schemes'**
+  String get schemeSectionRelated;
+
+  /// No description provided for @schemeSectionAltNames.
+  ///
+  /// In en, this message translates to:
+  /// **'Also known as'**
+  String get schemeSectionAltNames;
+
+  /// No description provided for @schemeSectionLinks.
+  ///
+  /// In en, this message translates to:
+  /// **'Official links'**
+  String get schemeSectionLinks;
+
+  /// No description provided for @schemeContactPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get schemeContactPhone;
+
+  /// No description provided for @schemeContactHelpline.
+  ///
+  /// In en, this message translates to:
+  /// **'Helpline'**
+  String get schemeContactHelpline;
+
+  /// No description provided for @schemeContactEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get schemeContactEmail;
+
+  /// No description provided for @schemeContactWebsite.
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
+  String get schemeContactWebsite;
+
+  /// No description provided for @schemeContactOffice.
+  ///
+  /// In en, this message translates to:
+  /// **'Office'**
+  String get schemeContactOffice;
+
+  /// No description provided for @schemeContactAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get schemeContactAddress;
+
+  /// No description provided for @schemeContactHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Hours'**
+  String get schemeContactHours;
+
+  /// No description provided for @schemeStatusAsOf.
+  ///
+  /// In en, this message translates to:
+  /// **'As of {date}'**
+  String schemeStatusAsOf(String date);
+
+  /// No description provided for @schemeApplicationStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Applications: {status}'**
+  String schemeApplicationStatus(String status);
+
+  /// No description provided for @schemeAppStatusOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get schemeAppStatusOpen;
+
+  /// No description provided for @schemeAppStatusClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get schemeAppStatusClosed;
+
+  /// No description provided for @schemeAppStatusAnnounced.
+  ///
+  /// In en, this message translates to:
+  /// **'Announced'**
+  String get schemeAppStatusAnnounced;
+
+  /// No description provided for @schemeAppStatusHistorical.
+  ///
+  /// In en, this message translates to:
+  /// **'Historical or superseded'**
+  String get schemeAppStatusHistorical;
+
+  /// No description provided for @schemeAppStatusUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Temporarily unavailable'**
+  String get schemeAppStatusUnavailable;
+
+  /// No description provided for @schemeDeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Deadline'**
+  String get schemeDeadline;
+
+  /// No description provided for @schemeFees.
+  ///
+  /// In en, this message translates to:
+  /// **'Fees'**
+  String get schemeFees;
+
+  /// No description provided for @schemePrerequisite.
+  ///
+  /// In en, this message translates to:
+  /// **'Prerequisite'**
+  String get schemePrerequisite;
+
+  /// No description provided for @schemeProcedureOfficial.
+  ///
+  /// In en, this message translates to:
+  /// **'Procedure from official sources'**
+  String get schemeProcedureOfficial;
+
+  /// No description provided for @schemeProcedurePolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Procedure inferred from policy text'**
+  String get schemeProcedurePolicy;
+
+  /// No description provided for @schemeProcedureSecondary.
+  ///
+  /// In en, this message translates to:
+  /// **'Procedure from secondary web sources'**
+  String get schemeProcedureSecondary;
+
+  /// No description provided for @schemeProcedureGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'General guidance only'**
+  String get schemeProcedureGeneric;
+
+  /// No description provided for @schemeLinkApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get schemeLinkApply;
+
+  /// No description provided for @schemeLinkInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheme information'**
+  String get schemeLinkInfo;
+
+  /// No description provided for @schemeLinkGuidelines.
+  ///
+  /// In en, this message translates to:
+  /// **'Guidelines'**
+  String get schemeLinkGuidelines;
+
+  /// No description provided for @schemeTranslationNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'This {language} text is machine-translated and has not been reviewed yet.'**
+  String schemeTranslationNotice(String language);
+
+  /// No description provided for @schemeFactMax.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum'**
+  String get schemeFactMax;
+
+  /// No description provided for @schemeFactMin.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum'**
+  String get schemeFactMin;
+
+  /// No description provided for @schemeFactAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get schemeFactAmount;
+
+  /// No description provided for @schemeFactPercent.
+  ///
+  /// In en, this message translates to:
+  /// **'Percentage'**
+  String get schemeFactPercent;
+
+  /// No description provided for @schemeFactTenure.
+  ///
+  /// In en, this message translates to:
+  /// **'Tenure'**
+  String get schemeFactTenure;
+
+  /// No description provided for @schemeFactInterest.
+  ///
+  /// In en, this message translates to:
+  /// **'Interest rate'**
+  String get schemeFactInterest;
+
+  /// No description provided for @schemeFactCoverage.
+  ///
+  /// In en, this message translates to:
+  /// **'Coverage'**
+  String get schemeFactCoverage;
+
+  /// No description provided for @schemeFactMaxCover.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum cover'**
+  String get schemeFactMaxCover;
+
+  /// No description provided for @schemeFactFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Fee'**
+  String get schemeFactFee;
+
+  /// No description provided for @schemeFactMoratorium.
+  ///
+  /// In en, this message translates to:
+  /// **'Moratorium'**
+  String get schemeFactMoratorium;
+
+  /// No description provided for @schemeFactDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get schemeFactDuration;
+
+  /// No description provided for @schemeMonthsValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} months'**
+  String schemeMonthsValue(int count);
+
+  /// No description provided for @schemeLinkPortal.
+  ///
+  /// In en, this message translates to:
+  /// **'Official portal'**
+  String get schemeLinkPortal;
+
+  /// No description provided for @schemeLinkPortalLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Portal login'**
+  String get schemeLinkPortalLogin;
+
+  /// No description provided for @schemeLinkPortalServices.
+  ///
+  /// In en, this message translates to:
+  /// **'Portal services'**
+  String get schemeLinkPortalServices;
 }
 
 class _AppLocalizationsDelegate

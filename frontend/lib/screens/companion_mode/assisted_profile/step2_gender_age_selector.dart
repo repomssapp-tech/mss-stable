@@ -59,7 +59,8 @@ class Step2GenderAgeSelector extends StatelessWidget {
                   value: genders[i]['value'] as String,
                   icon: genders[i]['icon'] as IconData,
                   color: genders[i]['color'] as Color,
-                  isSelected: selectedGender.toLowerCase() ==
+                  isSelected:
+                      selectedGender.toLowerCase() ==
                       (genders[i]['value'] as String).toLowerCase(),
                 ),
               ),
@@ -274,9 +275,7 @@ class Step2GenderAgeSelector extends StatelessWidget {
           height: 52,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: enabled
-                ? const Color(0xFFEFF6FF)
-                : const Color(0xFFF1F5F9),
+            color: enabled ? const Color(0xFFEFF6FF) : const Color(0xFFF1F5F9),
             border: Border.all(
               color: enabled
                   ? const Color(0xFFBFDBFE)
@@ -286,9 +285,7 @@ class Step2GenderAgeSelector extends StatelessWidget {
           ),
           child: Icon(
             icon,
-            color: enabled
-                ? const Color(0xFF2563EB)
-                : const Color(0xFF94A3B8),
+            color: enabled ? const Color(0xFF2563EB) : const Color(0xFF94A3B8),
             size: 26,
           ),
         ),

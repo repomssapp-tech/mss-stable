@@ -11,10 +11,7 @@ import '../../profile_screen.dart';
 /// Top bar for Saarthi companion mode containing notifications bell with
 /// unread indicator and profile photo avatar.
 class SaarthiTopBar extends StatelessWidget {
-  const SaarthiTopBar({
-    super.key,
-    required this.provider,
-  });
+  const SaarthiTopBar({super.key, required this.provider});
 
   final AppProvider provider;
 

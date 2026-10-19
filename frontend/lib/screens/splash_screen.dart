@@ -2,13 +2,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'regular_mode/language_selection_screen.dart';
 import 'login_screen.dart';
 import 'navigation_mode_screen.dart';
 import '../l10n/l10n.dart';
 import '../providers/app_state_provider.dart';
+import '../services/account/app_session.dart';
 import '../services/account/auth_service.dart';
+import '../services/account/rest_auth_service.dart';
 import '../services/account/session_cache_service.dart';
 import '../utils/constants.dart';
 import '../main.dart';
@@ -83,164 +84,133 @@ class _SplashScreenState extends State<SplashScreen>
     if (!mounted) return;
 
     try {
+      final provider = Provider.of<AppProvider>(context, listen: false);
+      final cache = SessionCacheService.instance;
 
-    final provider = Provider.of<AppProvider>(context, listen: false);
-    final cache = SessionCacheService.instance;
+      // Load preference details from cache
+      final lang = await cache.getLanguage();
+      final profile = await cache.loadProfile();
 
-    // Load preference details from cache
-    final lang = await cache.getLanguage();
-    final profile = await cache.loadProfile();
+      // The stored session is read instantly (works offline); the server is then
+      // asked whether it is still valid so a deleted or disabled account does
+      // not stay signed in.
+      await AppSession.instance.hydrate();
+      var hasSession = AppSession.instance.isSignedIn;
 
-    // Validate Supabase session (instant offline check)
-    var session = Supabase.instance.client.auth.currentSession;
-
-    if (session != null) {
-      try {
-        // Perform a server-side validation to check if the user was deleted/disabled
-        final userResponse = await Supabase.instance.client.auth
-            .getUser()
-            .timeout(const Duration(seconds: 4));
-        if (userResponse.user == null) {
-          session = null;
-        }
-      } on TimeoutException {
-        debugPrint(
-          '[SplashScreen] Session validation timed out, keeping cached session.',
-        );
-      } on AuthRetryableFetchException catch (netErr) {
-        // Network-unreachable (offline, DNS failure, timeout) -- not a
-        // rejection by the server. Trust the cached session rather than
-        // signing the user out just because the app happened to start
-        // offline; this is the online-only exception to the offline-first
-        // policy (session validation), not scheme discovery, but it must
-        // not destroy state that was working fine a moment ago.
-        debugPrint(
-          '[SplashScreen] Session validation unreachable (offline?), keeping cached session: $netErr',
-        );
-      } on AuthException catch (authErr) {
-        debugPrint(
-          '[SplashScreen] Auth exception during session validation: $authErr',
-        );
-        final statusStr = authErr.statusCode ?? '';
-        if (statusStr == '400' ||
-            statusStr == '403' ||
-            statusStr == '404' ||
-            authErr.message.toLowerCase().contains('user') ||
-            authErr.message.toLowerCase().contains('invalid')) {
-          session = null;
-        }
-      } catch (e) {
-        debugPrint(
-          '[SplashScreen] Non-auth exception during session validation: $e',
-        );
-      }
-    }
-
-    // A Google sign-in redirect can cold-start the app straight into this
-    // screen while supabase_flutter is still exchanging the OAuth code for a
-    // session. Give that exchange a bounded window to land before treating the
-    // user as logged-out -- otherwise the cleanup on the login path below wipes
-    // the in-flight PKCE verifier and the sign-in silently fails (name/email
-    // never arrive because AuthChangeEvent.signedIn is never emitted).
-    if (session == null && await AuthService.isOAuthPending()) {
-      session = Supabase.instance.client.auth.currentSession;
-      if (session == null) {
-        debugPrint('[SplashScreen] OAuth redirect pending; awaiting signedIn.');
-        try {
-          final data = await Supabase.instance.client.auth.onAuthStateChange
-              .firstWhere(
-                (d) =>
-                    d.session != null &&
-                    (d.event == AuthChangeEvent.signedIn ||
-                        d.event == AuthChangeEvent.initialSession ||
-                        d.event == AuthChangeEvent.tokenRefreshed),
-              )
-              .timeout(const Duration(seconds: 12));
-          session = data.session;
-        } on TimeoutException {
-          debugPrint('[SplashScreen] OAuth redirect did not complete in time.');
+      if (hasSession) {
+        // true = valid, false = rejected by the server, null = could not tell
+        // (offline). Offline starts trust the cached session rather than
+        // signing the user out of state that was working a moment ago.
+        final valid = await RestAuthService.instance.validateSession();
+        if (valid == false) {
+          hasSession = false;
+        } else if (valid == null) {
+          debugPrint(
+            '[SplashScreen] Session validation inconclusive, keeping cached session.',
+          );
         }
       }
-      await AuthService.clearOAuthPending();
+
+      // A Google sign-in redirect can cold-start the app straight into this
+      // screen while the deep link is still being exchanged for a session. Give
+      // that exchange a bounded window to land before treating the user as
+      // logged-out -- otherwise the cleanup on the login path below wipes the
+      // in-flight PKCE verifier and the sign-in silently fails.
+      if (!hasSession && await AuthService.isOAuthPending()) {
+        hasSession = AppSession.instance.isSignedIn;
+        if (!hasSession) {
+          debugPrint(
+            '[SplashScreen] OAuth redirect pending; awaiting signedIn.',
+          );
+          try {
+            await AppSession.instance.changes
+                .firstWhere((change) => change == AuthChange.signedIn)
+                .timeout(const Duration(seconds: 12));
+            hasSession = AppSession.instance.isSignedIn;
+          } on TimeoutException {
+            debugPrint(
+              '[SplashScreen] OAuth redirect did not complete in time.',
+            );
+          }
+        }
+        await AuthService.clearOAuthPending();
+        if (!mounted) return;
+      }
+
       if (!mounted) return;
-    }
 
-    if (!mounted) return;
-
-    // Beta Tester Gate Interception
-    if (isBetaModeEnabled) {
-      final hasUnlockedBeta = await BetaGateService.hasUnlockedBeta();
-      if (!hasUnlockedBeta) {
-        if (!mounted) return;
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const BetaGateScreen()),
-        );
-        return;
-      }
-    }
-
-    if (!mounted) return;
-
-    final destination = resolveStartupDestination(
-      hasSession: session != null,
-      hasCachedLanguage: lang != null,
-      profileCompleted: profile?.profileCompleted ?? false,
-    );
-
-    switch (destination) {
-      case StartupDestination.home:
-        provider.updateTabIndex(0);
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const MainTabsContainer()),
-        );
-        return;
-      case StartupDestination.navigationMode:
-        // A valid OAuth session must survive first-run onboarding. Previously
-        // this path signed new users out because their profile was incomplete,
-        // creating an endless "Continue with Google" loop.
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const NavigationModeScreen()),
-        );
-        return;
-      case StartupDestination.language:
-        if (!mounted) return;
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const LanguageSelectionScreen()),
-        );
-        return;
-      case StartupDestination.login:
-        // Without a saved session/profile, sign-in is the only next step.
-        // Keep the user out of an unusable sign-in screen while offline.
-        if (!await AuthService.canReachAuthenticationService()) {
-          if (mounted) _showNoNetworkDialog();
+      // Beta Tester Gate Interception
+      if (isBetaModeEnabled) {
+        final hasUnlockedBeta = await BetaGateService.hasUnlockedBeta();
+        if (!hasUnlockedBeta) {
+          if (!mounted) return;
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (_) => const BetaGateScreen()),
+          );
           return;
         }
+      }
 
-        // Only tear down auth state when a real (stale/invalid) session is
-        // lingering. When we're already signed out, prefs.clear() + signOut()
-        // is redundant -- and it can wipe the OAuth code verifier for a
-        // redirect that is still being processed.
-        if (Supabase.instance.client.auth.currentSession != null) {
-          await cache.clearSession();
-          try {
-            await Supabase.instance.client.auth.signOut();
-          } catch (_) {}
-        }
+      if (!mounted) return;
 
-        if (!mounted) return;
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const LoginScreen()),
-        );
-        return;
+      final destination = resolveStartupDestination(
+        hasSession: hasSession,
+        hasCachedLanguage: lang != null,
+        profileCompleted: profile?.profileCompleted ?? false,
+      );
+
+      switch (destination) {
+        case StartupDestination.home:
+          provider.updateTabIndex(0);
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (_) => const MainTabsContainer()),
+          );
+          return;
+        case StartupDestination.navigationMode:
+          // A valid OAuth session must survive first-run onboarding. Previously
+          // this path signed new users out because their profile was incomplete,
+          // creating an endless "Continue with Google" loop.
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (_) => const NavigationModeScreen()),
+          );
+          return;
+        case StartupDestination.language:
+          if (!mounted) return;
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (_) => const LanguageSelectionScreen()),
+          );
+          return;
+        case StartupDestination.login:
+          // Without a saved session/profile, sign-in is the only next step.
+          // Keep the user out of an unusable sign-in screen while offline.
+          if (!await AuthService.canReachAuthenticationService()) {
+            if (mounted) _showNoNetworkDialog();
+            return;
+          }
+
+          // Only tear down auth state when a real (stale/invalid) session is
+          // lingering. When we're already signed out, prefs.clear() + signOut()
+          // is redundant -- and it can wipe the OAuth code verifier for a
+          // redirect that is still being processed.
+          if (AppSession.instance.isSignedIn) {
+            await cache.clearSession();
+            await AuthService.signOut();
+          }
+
+          if (!mounted) return;
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (_) => const LoginScreen()),
+          );
+          return;
+      }
+    } catch (e, st) {
+      debugPrint('[SplashScreen] Unexpected bootstrap error: $e\n$st');
+      if (!mounted) return;
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const LanguageSelectionScreen()),
+      );
     }
-  } catch (e, st) {
-    debugPrint('[SplashScreen] Unexpected bootstrap error: $e\n$st');
-    if (!mounted) return;
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => const LanguageSelectionScreen()),
-    );
   }
-}
 
   void _showNoNetworkDialog() {
     showDialog<void>(
@@ -495,15 +465,17 @@ class _SplashScreenState extends State<SplashScreen>
                                         height: 32,
                                         fit: BoxFit.contain,
                                         errorBuilder:
-                                            (context, error, stackTrace) =>
-                                                Image.asset(
-                                                  'assets/images/Logo/rit_logo.webp',
-                                                  height: 32,
-                                                  fit: BoxFit.contain,
-                                                  color: Colors.white,
-                                                  colorBlendMode:
-                                                      BlendMode.srcIn,
-                                                ),
+                                            (
+                                              context,
+                                              error,
+                                              stackTrace,
+                                            ) => Image.asset(
+                                              'assets/images/Logo/rit_logo.webp',
+                                              height: 32,
+                                              fit: BoxFit.contain,
+                                              color: Colors.white,
+                                              colorBlendMode: BlendMode.srcIn,
+                                            ),
                                       ),
                                     ),
                                     // Divider line
@@ -523,12 +495,15 @@ class _SplashScreenState extends State<SplashScreen>
                                         height: 44,
                                         fit: BoxFit.contain,
                                         errorBuilder:
-                                            (context, error, stackTrace) =>
-                                                Image.asset(
-                                                  'assets/images/Logo/TN Chapter_20260805_153307_0000.webp',
-                                                  height: 44,
-                                                  fit: BoxFit.contain,
-                                                ),
+                                            (
+                                              context,
+                                              error,
+                                              stackTrace,
+                                            ) => Image.asset(
+                                              'assets/images/Logo/TN Chapter_20260805_153307_0000.webp',
+                                              height: 44,
+                                              fit: BoxFit.contain,
+                                            ),
                                       ),
                                     ),
                                   ],

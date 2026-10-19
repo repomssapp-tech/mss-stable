@@ -8,12 +8,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import '../../models/mss_entity.dart';
+import 'catalog_packs.dart';
 import 'scheme_catalog_store.dart';
 
 /// Top-level isolate function for async gzip decompression and JSON decoding.
 /// Executed off the UI main thread via [compute] to prevent startup jank.
 Map<String, dynamic> _decompressAndParseJson(Uint8List bytes) {
   final decompressedBytes = GZipDecoder().decodeBytes(bytes);
+  if (decompressedBytes.length > MssCatalogBundle.maxDownloadedBytes) {
+    throw StateError('Catalog bundle expands beyond the allowed size.');
+  }
   final utf8String = utf8.decode(decompressedBytes);
   return jsonDecode(utf8String) as Map<String, dynamic>;
 }
@@ -31,25 +35,36 @@ class MssCatalogBundle {
     required Map<String, Map<String, dynamic>> searchProfiles,
     required this.releaseTag,
     this.releasedAt,
+    required this.manifest,
+    required Map<String, String> schemeIdMap,
     required this.totalRelationshipsCount,
     required Map<String, List<String>> queryExpansions,
     this.duplicateEntityIdCount = 0,
     this.danglingReferenceCount = 0,
     this.uniqueRelationshipIdsCount = 0,
+    this.loadedPackIds = const [],
   }) : byId = UnmodifiableMapView(byId),
        byCatalog = UnmodifiableMapView(
          byCatalog.map((k, v) => MapEntry(k, UnmodifiableListView(v))),
        ),
        searchProfiles = UnmodifiableMapView(searchProfiles),
        queryExpansions = UnmodifiableMapView(queryExpansions),
+       schemeIdMap = UnmodifiableMapView(schemeIdMap),
        _searchTokenMap = searchTokenMap;
 
   static MssCatalogBundle? _instance;
   static Future<MssCatalogBundle>? _loadFuture;
 
-  static const String releaseAssetPath = 'assets/catalog/release.json';
-  static const String bundleAssetPath = 'assets/catalog/catalog_bundle.json.gz';
-  static const String queryExpansionAssetPath = 'assets/search/query_expansion.json';
+  /// Highest `manifest.bundleFormat` this build understands. A bundle with a
+  /// newer format is rejected with a clear message instead of being misread.
+  static const int supportedBundleFormat = 3;
+
+  /// The core catalog file; its manifest lists the jurisdiction packs that sit
+  /// beside it in [catalogAssetDir].
+  static const String catalogAssetDir = 'assets/catalog';
+  static const String coreAssetPath = '$catalogAssetDir/catalog_core.json.gz';
+  static const String queryExpansionAssetPath =
+      'assets/search/query_expansion.json';
 
   final Map<String, MssEntity> byId;
   final Map<String, List<MssEntity>> byCatalog;
@@ -69,18 +84,64 @@ class MssCatalogBundle {
 
   final String releaseTag;
 
-  /// When this catalog release was published, per `release.json:"releasedAt"`.
-  /// Null only if the field is absent/unparsable in the shipped asset.
+  /// When this catalog release was published (`manifest.release.releasedAt`).
+  /// Null only if the field is absent/unparsable.
   final DateTime? releasedAt;
+
+  /// The bundle's embedded manifest (`manifest.json` section): release
+  /// identity, language list/registry and per-section record counts.
+  final Map<String, dynamic> manifest;
+
+  /// Pre-2026 scheme id (or legacy code) -> current id, from the embedded
+  /// `migrations.json` section. Used to carry saved items across releases.
+  final Map<String, String> schemeIdMap;
+
+  /// Languages present in the catalog data, with whether the release has them
+  /// switched on (`manifest.languages`: `[{code, isActive}]`). This is the
+  /// kill switch for offering a language.
+  List<({String code, bool isActive})> get languages {
+    final raw = manifest['languages'];
+    if (raw is List) {
+      return [
+        for (final item in raw)
+          if (item is Map && item['code'] is String)
+            (code: item['code'] as String, isActive: item['isActive'] == true),
+      ];
+    }
+    return const [];
+  }
+
+  /// Whether the release lists [code] as active.
+  bool isLanguageActive(String code) =>
+      languages.any((l) => l.code == code && l.isActive);
+
+  /// Scheme-content languages offered for a jurisdiction (`central`,
+  /// `tamil_nadu`, `maharashtra`, ...), from `manifest.languageRegistry`.
+  /// Languages present in the data but not offered (e.g. Marathi) are omitted.
+  List<String> offeredLanguagesFor(String jurisdiction) {
+    final reg = manifest['languageRegistry'];
+    final jurisdictions = reg is Map ? reg['jurisdictions'] : null;
+    final entry = jurisdictions is Map ? jurisdictions[jurisdiction] : null;
+    final offered = entry is Map ? entry['offeredLanguages'] : null;
+    return offered is List ? offered.whereType<String>().toList() : const [];
+  }
+
+  /// Jurisdiction packs merged into this catalog (`central`, `tamil_nadu`...).
+  /// A pack listed in the manifest but not installed on the device is absent.
+  final List<String> loadedPackIds;
+
+  /// Every jurisdiction pack the release lists, installed or not.
+  List<CatalogPackInfo> get availablePacks => CatalogPacks.listed(manifest);
+
   final int totalRelationshipsCount;
   final int duplicateEntityIdCount;
   final int danglingReferenceCount;
   final int uniqueRelationshipIdsCount;
 
-  /// Total count of catalog entities across all catalogs (969).
+  /// Total count of catalog entities across all catalogs.
   int get totalEntitiesCount => byId.length;
 
-  /// Helper to get all scheme entities (217).
+  /// Helper to get all scheme entities.
   List<MssEntity> get schemes => byCatalog['scheme'] ?? const [];
 
   /// Get a single entity by ID in O(1) time.
@@ -130,8 +191,8 @@ class MssCatalogBundle {
       try {
         final file = File(queryExpansionAssetPath);
         if (await file.exists()) {
-          final raw = jsonDecode(await file.readAsString())
-              as Map<String, dynamic>;
+          final raw =
+              jsonDecode(await file.readAsString()) as Map<String, dynamic>;
           return raw.map(
             (k, v) => MapEntry(k.toLowerCase(), (v as List).cast<String>()),
           );
@@ -146,7 +207,7 @@ class MssCatalogBundle {
   static Future<MssCatalogBundle> _loadInternal({
     bool overrideChecksumForTest = false,
   }) async {
-    String releaseJsonStr;
+    String? releaseJsonStr;
     Uint8List compressedBytes;
 
     // Load the query expansion dictionary in parallel with the catalog
@@ -176,10 +237,7 @@ class MssCatalogBundle {
         releaseJsonStr = await releaseFile.readAsString();
         compressedBytes = await bundleFile.readAsBytes();
         final expected = installed.manifest.sha256.toLowerCase();
-        final actual = sha256
-            .convert(compressedBytes)
-            .toString()
-            .toLowerCase();
+        final actual = sha256.convert(compressedBytes).toString().toLowerCase();
         if (actual != expected) {
           throw Exception(
             'Installed catalog release failed re-verification '
@@ -197,6 +255,7 @@ class MssCatalogBundle {
           compressedBytes,
           queryExpansions: await expansionsFuture,
           overrideChecksumForTest: overrideChecksumForTest,
+          requireEmbeddedManifest: true,
         );
       } catch (e) {
         // Never let a corrupted/unreadable installed release block startup
@@ -208,59 +267,113 @@ class MssCatalogBundle {
       }
     }
 
+    // The shipped asset is a single self-describing file: its release
+    // identity, record counts and language list are in the embedded manifest.
     try {
-      releaseJsonStr = await rootBundle.loadString(releaseAssetPath);
-      final ByteData bundleByteData = await rootBundle.load(bundleAssetPath);
+      final ByteData bundleByteData = await rootBundle.load(coreAssetPath);
       compressedBytes = bundleByteData.buffer.asUint8List(
         bundleByteData.offsetInBytes,
         bundleByteData.lengthInBytes,
       );
     } catch (_) {
       // Fallback for Flutter unit test environment where rootBundle asset bundle is uninitialized
-      final releaseFile = File(releaseAssetPath);
-      releaseJsonStr = await releaseFile.readAsString();
-      final bundleFile = File(bundleAssetPath);
+      final bundleFile = File(coreAssetPath);
       compressedBytes = await bundleFile.readAsBytes();
     }
+    releaseJsonStr = null;
 
     return _finishLoading(
       releaseJsonStr,
       compressedBytes,
       queryExpansions: await expansionsFuture,
       overrideChecksumForTest: overrideChecksumForTest,
+      packReader: _assetPackReader,
     );
   }
 
+  /// Reads a pack shipped beside the core file; null when it was dropped.
+  static Future<Uint8List?> _assetPackReader(String file) async {
+    final path = '$catalogAssetDir/$file';
+    try {
+      final data = await rootBundle.load(path);
+      return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    } catch (_) {
+      // Flutter unit tests have no asset bundle: read the file directly.
+      final f = File(path);
+      return await f.exists() ? await f.readAsBytes() : null;
+    }
+  }
+
+  /// [releaseJsonStr] is only supplied for a downloaded release, whose
+  /// `release.json` (written at install time) carries the SHA-256 the server
+  /// published. The shipped asset is checked against its own embedded manifest.
   static Future<MssCatalogBundle> _finishLoading(
-    String releaseJsonStr,
+    String? releaseJsonStr,
     Uint8List compressedBytes, {
     Map<String, List<String>> queryExpansions = const <String, List<String>>{},
     bool overrideChecksumForTest = false,
+    bool registerAsSingleton = true,
+    bool requireEmbeddedManifest = false,
+    CatalogPackReader? packReader,
   }) async {
+    final releaseJson = releaseJsonStr == null
+        ? const <String, dynamic>{}
+        : jsonDecode(releaseJsonStr) as Map<String, dynamic>;
 
-    final releaseJson = jsonDecode(releaseJsonStr) as Map<String, dynamic>;
-    final expectedChecksum =
-        (releaseJson['bundleSha256'] as String?)?.toLowerCase() ?? '';
-    final releaseTag = (releaseJson['releaseTag'] as String?) ?? 'unknown';
-    final releasedAt = DateTime.tryParse(
-      (releaseJson['releasedAt'] as String?) ?? '',
-    );
-
-    // Verify SHA-256 Checksum
-    final actualChecksum = sha256
-        .convert(compressedBytes)
-        .toString()
-        .toLowerCase();
-    if (!overrideChecksumForTest && actualChecksum != expectedChecksum) {
-      throw Exception(
-        'Catalog bundle SHA-256 checksum mismatch. Expected: $expectedChecksum, Got: $actualChecksum',
-      );
+    if (releaseJsonStr != null) {
+      final expectedChecksum =
+          (releaseJson['bundleSha256'] as String?)?.toLowerCase() ?? '';
+      final actualChecksum = sha256
+          .convert(compressedBytes)
+          .toString()
+          .toLowerCase();
+      if (!overrideChecksumForTest && actualChecksum != expectedChecksum) {
+        throw Exception(
+          'Catalog bundle SHA-256 checksum mismatch. Expected: $expectedChecksum, Got: $actualChecksum',
+        );
+      }
     }
 
     // Offload gzip decompression & JSON decode to isolate via compute()
     final Map<String, dynamic> bundleJson = await compute(
       _decompressAndParseJson,
       compressedBytes,
+    );
+
+    final manifest = _embeddedManifest(bundleJson);
+    _checkCompatibility(manifest);
+    if (requireEmbeddedManifest) {
+      // The server publishes ONE gzip holding every scheme (the admin site
+      // regenerates it on each change). It carries no packs and may predate the
+      // pack layout: schemes name their own jurisdiction, so the app wires them
+      // by state after loading. Only an empty schemes section is refused.
+      final schemes = bundleJson['scheme_catalog.json'];
+      final rows = schemes is Map ? schemes['data'] : null;
+      if (rows is! List || rows.isEmpty) {
+        throw StateError('Installed release has no schemes.');
+      }
+    }
+    var loadedPackIds = const <String>[];
+    if (packReader != null) {
+      loadedPackIds = (await CatalogPacks.mergeInto(
+        bundleJson,
+        manifest,
+        packReader,
+        (bytes) => compute(_decompressAndParseJson, bytes),
+      )).loaded;
+    }
+    final releaseInfo = manifest['release'] is Map
+        ? (manifest['release'] as Map).cast<String, dynamic>()
+        : const <String, dynamic>{};
+    final releaseTag =
+        (releaseInfo['releaseTag'] as String?) ??
+        (releaseJson['releaseTag'] as String?) ??
+        (manifest['catalogRelease'] as String?) ??
+        'unknown';
+    final releasedAt = DateTime.tryParse(
+      (releaseInfo['releasedAt'] as String?) ??
+          (releaseJson['releasedAt'] as String?) ??
+          '',
     );
 
     final byId = <String, MssEntity>{};
@@ -361,7 +474,9 @@ class MssCatalogBundle {
       }
     }
 
-    _instance = MssCatalogBundle._(
+    _checkRecordCounts(manifest, bundleJson);
+
+    final built = MssCatalogBundle._(
       byId: byId,
       byCatalog: byCatalog,
       searchTokenMap: searchTokenMap,
@@ -369,13 +484,117 @@ class MssCatalogBundle {
       queryExpansions: queryExpansions,
       releaseTag: releaseTag,
       releasedAt: releasedAt,
+      manifest: manifest,
+      schemeIdMap: _schemeIdMap(bundleJson),
       totalRelationshipsCount: totalRels,
       duplicateEntityIdCount: duplicateEntityIdCount,
       danglingReferenceCount: danglingReferenceCount,
       uniqueRelationshipIdsCount: seenRelIds.length,
+      loadedPackIds: loadedPackIds,
     );
+    if (registerAsSingleton) _instance = built;
+    return built;
+  }
 
-    return _instance!;
+  /// Largest uncompressed catalog a download may expand to.
+  static const int maxDownloadedBytes = 256 * 1024 * 1024;
+
+  /// Checks a downloaded single-file release BEFORE it is installed: it must
+  /// decompress within [maxDownloadedBytes], parse, be a format this app reads,
+  /// pass its own record counts and hold at least one scheme. Throws otherwise,
+  /// so a bad release never replaces the working catalog.
+  static Future<void> validateDownload(Uint8List gzipBytes) async {
+    final parsed = await compute(_decompressAndParseJson, gzipBytes);
+    final manifest = _embeddedManifest(parsed);
+    _checkCompatibility(manifest);
+    final schemes = parsed['scheme_catalog.json'];
+    final rows = schemes is Map ? schemes['data'] : null;
+    if (rows is! List || rows.isEmpty) {
+      throw StateError('Downloaded release has no schemes.');
+    }
+    _checkRecordCounts(manifest, parsed);
+  }
+
+  /// Parses [gzipBytes] exactly as the loader does (decompress, decode,
+  /// compatibility and record-count checks) without touching the loaded
+  /// singleton. For tests of the failure paths.
+  @visibleForTesting
+  static Future<MssCatalogBundle> parseBytesForTest(
+    Uint8List gzipBytes, {
+    CatalogPackReader? packReader,
+  }) => _finishLoading(
+    null,
+    gzipBytes,
+    registerAsSingleton: false,
+    packReader: packReader,
+  );
+
+  /// The `manifest.json` section's single record, or `{}` for a bundle that
+  /// predates the embedded manifest.
+  static Map<String, dynamic> _embeddedManifest(Map<String, dynamic> bundle) {
+    final section = bundle['manifest.json'];
+    final data = section is Map ? section['data'] : null;
+    if (data is List && data.isNotEmpty && data.first is Map) {
+      return (data.first as Map).cast<String, dynamic>();
+    }
+    return const <String, dynamic>{};
+  }
+
+  /// Rejects a bundle written by a newer build than this app understands, with
+  /// a message that says why, instead of silently misreading it.
+  static void _checkCompatibility(Map<String, dynamic> manifest) {
+    final format = manifest['bundleFormat'];
+    if (format is int && format > supportedBundleFormat) {
+      throw UnsupportedError(
+        'Catalog bundle format $format is newer than this app supports '
+        '($supportedBundleFormat). Update the app to use this catalog release.',
+      );
+    }
+  }
+
+  /// Every section the manifest counts must have exactly that many records, so
+  /// a truncated or partially written bundle is an error, never an empty catalog.
+  static void _checkRecordCounts(
+    Map<String, dynamic> manifest,
+    Map<String, dynamic> bundle,
+  ) {
+    final counts = manifest['recordCounts'];
+    if (counts is! Map) return;
+    final mismatches = <String>[];
+    counts.forEach((section, expected) {
+      final body = bundle[section];
+      final data = body is Map ? body['data'] : null;
+      final actual = data is List ? data.length : -1;
+      if (expected is int && actual != expected) {
+        mismatches.add('$section: expected $expected, found $actual');
+      }
+      // The section's own metadata must agree with its data too.
+      final declared = body is Map && body['metadata'] is Map
+          ? (body['metadata'] as Map)['recordCount']
+          : null;
+      if (declared is int && declared != actual) {
+        mismatches.add(
+          '$section: metadata.recordCount $declared, found $actual',
+        );
+      }
+    });
+    if (mismatches.isNotEmpty) {
+      throw StateError(
+        'Catalog bundle failed its own record-count check: '
+        '${mismatches.join('; ')}',
+      );
+    }
+  }
+
+  static Map<String, String> _schemeIdMap(Map<String, dynamic> bundle) {
+    final section = bundle['migrations.json'];
+    final raw = section is Map ? section['schemeIdMap'] : null;
+    if (raw is! Map) return const <String, String>{};
+    return {
+      for (final e in raw.entries)
+        if (e.key is String && e.value is String)
+          e.key as String: e.value as String,
+    };
   }
 
   static void _indexSearchTokens(

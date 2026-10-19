@@ -72,17 +72,16 @@ void showAllCategoriesBottomSheet({
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        icon: const Icon(
-                          Icons.close,
-                          color: Color(0xFF64748B),
-                        ),
+                        icon: const Icon(Icons.close, color: Color(0xFF64748B)),
                         tooltip: context.l10n.close,
                       ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.xl,
+                  ),
                   child: Container(
                     decoration: BoxDecoration(
                       color: const Color(0xFFF8FAFC),
@@ -312,7 +311,11 @@ void showAllMinistriesBottomSheet({
                 itemBuilder: (context, index) {
                   final title = allMinistriesList[index];
                   final int? cnt = dynamicCategoryCounts[title];
-                  final String countStr = formatSchemeCount(context, cnt, provider);
+                  final String countStr = formatSchemeCount(
+                    context,
+                    cnt,
+                    provider,
+                  );
                   final String localizedTitle = localizedProperName(
                     title,
                     provider,
@@ -436,7 +439,11 @@ void showAllStatesBottomSheet({
                 itemBuilder: (context, index) {
                   final title = allStatesList[index];
                   final int? cnt = dynamicCategoryCounts[title];
-                  final String countStr = formatSchemeCount(context, cnt, provider);
+                  final String countStr = formatSchemeCount(
+                    context,
+                    cnt,
+                    provider,
+                  );
                   final String localizedTitle = localizedProperName(
                     title,
                     provider,

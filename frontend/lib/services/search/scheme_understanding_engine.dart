@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 
 import '../../models/scheme_model.dart';
 import 'intelligent_scheme_search.dart';
@@ -40,7 +40,9 @@ class LocalSchemeUnderstandingEngine implements SchemeUnderstandingEngine {
     final knowledgeMatch = PrivateAiKnowledgeBase.lookup(request.statement);
     final intent = IntelligentSchemeSearch.interpret(request.statement);
     final concepts = <String>{...intent.concepts};
-    final normalizedStatement = SchemeFactExtractor.normalize(request.statement);
+    final normalizedStatement = SchemeFactExtractor.normalize(
+      request.statement,
+    );
     for (final entry in _needAliases.entries) {
       if (entry.value.any(
         (alias) => SchemeFactExtractor.contains(normalizedStatement, alias),
@@ -109,6 +111,9 @@ class LocalSchemeUnderstandingEngine implements SchemeUnderstandingEngine {
                 'IN',
               )] =
               scheme;
+        }
+        for (final legacy in scheme.extras.legacyCodes) {
+          schemesByCode[legacy.toUpperCase()] = scheme;
         }
         for (final token in scheme.searchKeywords.split(RegExp(r'\s+'))) {
           final t = token.toUpperCase().trim();

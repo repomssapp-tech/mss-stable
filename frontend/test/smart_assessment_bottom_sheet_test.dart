@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/models/user_profile.dart';
@@ -13,12 +12,6 @@ void main() {
 
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    try {
-      await Supabase.initialize(
-        url: 'https://example.supabase.co',
-        publishableKey: 'test-publishable-key',
-      );
-    } catch (_) {}
   });
 
   Widget hostSheet({
@@ -117,10 +110,7 @@ void main() {
         find.text('Are you a permanent resident/domicile of Tamil Nadu?'),
         findsOneWidget,
       );
-      expect(
-        find.text('Yes, I hold a domicile certificate'),
-        findsOneWidget,
-      );
+      expect(find.text('Yes, I hold a domicile certificate'), findsOneWidget);
 
       await tapOption(tester, 'Yes, I hold a domicile certificate');
       expect(
@@ -152,7 +142,9 @@ void main() {
 
       expect(find.text('Ministry of Agriculture'), findsOneWidget);
       expect(
-        find.text("What is your primary objective within this ministry's portal?"),
+        find.text(
+          "What is your primary objective within this ministry's portal?",
+        ),
         findsOneWidget,
       );
       expect(
@@ -165,8 +157,9 @@ void main() {
       expect(provider.filters['ministry'], 'Ministry of Agriculture');
     });
 
-    testWidgets('seeds answer from user profile and sets filters',
-        (tester) async {
+    testWidgets('seeds answer from user profile and sets filters', (
+      tester,
+    ) async {
       final provider = AppProvider();
       provider.updateProfile(
         UserProfile(
@@ -196,8 +189,9 @@ void main() {
       expect(provider.filters['state'], 'Tamil Nadu');
     });
 
-    testWidgets('close icon button dismisses sheet without completion',
-        (tester) async {
+    testWidgets('close icon button dismisses sheet without completion', (
+      tester,
+    ) async {
       final provider = AppProvider();
       var completed = false;
 

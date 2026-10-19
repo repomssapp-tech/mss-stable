@@ -1,3 +1,5 @@
+import '../content_language_resolver.dart';
+
 /// Shared text parsing utilities for catalog scheme adapter.
 class SchemeAdapterTextUtils {
   SchemeAdapterTextUtils._();
@@ -40,37 +42,9 @@ class SchemeAdapterTextUtils {
     return (defaultStr, '');
   }
 
-  /// Extracts localized text from a map, list, or string with strict fallback:
-  /// `preferred locale (langCode) → alternate locale (en/ta) → default text`
-  static String getLocalizedText(dynamic val, [String preferredLang = 'en']) {
-    if (val == null) return '';
-    if (val is Map) {
-      final preferred = val[preferredLang]?.toString();
-      if (preferred != null && preferred.trim().isNotEmpty) {
-        return preferred.trim();
-      }
-      // If preferred locale is not English, fall back to English per D3/§4
-      if (preferredLang != 'en') {
-        final en = val['en']?.toString();
-        if (en != null && en.trim().isNotEmpty) {
-          return en.trim();
-        }
-      }
-      final alt = val['ta']?.toString() ?? val['hi']?.toString();
-      if (alt != null && alt.trim().isNotEmpty) {
-        return alt.trim();
-      }
-      final desc =
-          val['description'] ?? val['summary'] ?? val['text'] ?? val['name'];
-      if (desc != null) return getLocalizedText(desc, preferredLang);
-    } else if (val is List) {
-      final items = val
-          .map((e) => getLocalizedText(e, preferredLang))
-          .where((s) => s.isNotEmpty);
-      return items.join('\n• ');
-    } else if (val is String) {
-      return val.trim();
-    }
-    return '';
-  }
+  /// Extracts localized text from a map, list, or string. Delegates to
+  /// [ContentLanguageResolver]: selected language -> English -> any other
+  /// language present. Never stringifies a Map/List.
+  static String getLocalizedText(dynamic val, [String preferredLang = 'en']) =>
+      ContentLanguageResolver.text(val, preferredLang);
 }

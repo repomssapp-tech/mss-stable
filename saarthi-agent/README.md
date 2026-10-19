@@ -52,9 +52,14 @@ uv run pytest
 uv run python src/agent.py dev
 ```
 
-For Hindi output, use `SARVAM_TTS_LANGUAGE=hi-IN` and a compatible speaker such
-as `shubh`. For English output, use `en-IN`. Saaras can continue detecting the
-input language when `SARVAM_STT_LANGUAGE=unknown`.
+The agent speaks the language the citizen chose in the app (`en`, `ta`, `hi`,
+`mr`). The app sends it to the `livekit-token` function, which puts it in the
+dispatch metadata as `language`; `src/agent_language.py` maps it to the prompt
+language, greeting, TTS locale and voice. Override a voice per language with
+`SARVAM_TTS_SPEAKER_EN|TA|HI|MR` (defaults: `kavitha` for Tamil, `shubh`
+otherwise; the Marathi voice is untested). `SARVAM_TTS_LANGUAGE` and
+`SARVAM_TTS_SPEAKER` apply only to a session whose app names no language.
+Saaras keeps detecting the input language when `SARVAM_STT_LANGUAGE=unknown`.
 
 Update the ignored secrets and deploy with the LiveKit CLI:
 
@@ -78,24 +83,24 @@ To add Tamil later, populate the existing `localization.ta` fields and replace
 `{"metadata": ..., "data": [...]}` structure, run `uv run pytest`, and deploy
 again. Tamil names and summaries are already included in the search index.
 
-## Supabase catalog synchronization
+## Catalog synchronization
 
 The agent's `CatalogSyncService` (`src/catalog_sync.py`) checks for catalog updates
 at startup and periodically (throttled to once per hour via `data/last_sync_check.json`).
-It queries `mss_current_release()` and downloads updated bundles from the `catalogs`
-Storage bucket, verifying SHA-256 integrity before replacing local files.
+It reads the public `GET /v1/catalog/current` and downloads the release bundle that
+route names (an API-origin-relative `bundle_url`, restricted to `/v1/catalog/`),
+verifying SHA-256 integrity before replacing local files. Neither route needs a
+credential.
 
-Configure these in the ignored `.env.sarvam` file beside this README:
+Point it at the backend in the ignored `.env.sarvam` file beside this README
+(defaults to `https://api.msmeschemes.org`):
 
 ```dotenv
-SUPABASE_URL=https://<project-ref>.supabase.co
-SUPABASE_SECRET_KEY=sb_secret_...
+API_BASE_URL=https://api.msmeschemes.org
 ```
 
-`SUPABASE_SECRET_KEY` is the new-format secret key. During the API-key migration
-the legacy `SUPABASE_SERVICE_ROLE_KEY` variable is still accepted as a fallback
-(see `docs/runbooks/OPERATIONS_RUNBOOK.md`). If no key is configured, OTA sync is skipped
-and the agent safely falls back to the bundled catalog in `data/`.
+If the server has no published release, is unreachable, or serves something that
+fails a check, the agent keeps the bundled catalog in `data/`.
 
 Push the secrets to the deployed agent with:
 

@@ -18,7 +18,11 @@ import '../../../utils/app_spacing.dart';
 /// existed before the move (grep-verified), so widening visibility changes
 /// nothing behaviourally.
 class SearchSkeletonBar extends StatelessWidget {
-  const SearchSkeletonBar({super.key, required this.width, required this.height});
+  const SearchSkeletonBar({
+    super.key,
+    required this.width,
+    required this.height,
+  });
 
   final double width;
   final double height;

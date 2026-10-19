@@ -36,7 +36,7 @@ class SchemeCatalogController extends ChangeNotifier {
 
   final SchemeCatalogSyncService _catalogSyncService;
 
-  // ── Scheme data (loaded from Supabase via SchemeRepository) ──────────
+  // ── Scheme data (loaded from the bundled catalog via SchemeRepository) ──────────
   List<Scheme> _allSchemes = [];
   List<MapEntry<Scheme, RecommendationResult>> _recommendedSchemes = [];
   bool _schemesLoading = false;
@@ -104,12 +104,60 @@ class SchemeCatalogController extends ChangeNotifier {
   }
 
   // Load (or reload) all schemes and recompute recommendations
+  ///
+  /// A request that arrives while a load is running is queued and re-run once
+  /// the current load finishes (latest parameters win, `forceRefresh` sticks),
+  /// and the returned future completes only after that re-run. Previously the
+  /// late request was dropped, so a language switch during the startup load
+  /// left the schemes adapted for the old language.
   Future<void> loadSchemes({
     required String langCode,
     required UserProfile profile,
     bool forceRefresh = false,
+  }) {
+    final running = _inFlightLoad;
+    if (running != null) {
+      _queuedLoad = (
+        langCode: langCode,
+        profile: profile,
+        forceRefresh: forceRefresh || (_queuedLoad?.forceRefresh ?? false),
+      );
+      return running;
+    }
+    final run = _drainLoads((
+      langCode: langCode,
+      profile: profile,
+      forceRefresh: forceRefresh,
+    )).whenComplete(() => _inFlightLoad = null);
+    _inFlightLoad = run;
+    return run;
+  }
+
+  Future<void>? _inFlightLoad;
+  ({String langCode, UserProfile profile, bool forceRefresh})? _queuedLoad;
+
+  Future<void> _drainLoads(
+    ({String langCode, UserProfile profile, bool forceRefresh}) first,
+  ) async {
+    var current = first;
+    while (true) {
+      await _loadOnce(
+        langCode: current.langCode,
+        profile: current.profile,
+        forceRefresh: current.forceRefresh,
+      );
+      final next = _queuedLoad;
+      _queuedLoad = null;
+      if (next == null) return;
+      current = next;
+    }
+  }
+
+  Future<void> _loadOnce({
+    required String langCode,
+    required UserProfile profile,
+    required bool forceRefresh,
   }) async {
-    if (_schemesLoading) return;
     if (forceRefresh) SchemeRepository.instance.clearCache();
 
     _schemesLoading = true;

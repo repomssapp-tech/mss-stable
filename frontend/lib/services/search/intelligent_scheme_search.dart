@@ -39,7 +39,7 @@ class IntelligentSchemeSearch {
   const IntelligentSchemeSearch._();
 
   // Catalog entries are immutable. Cache their normalized search document so
-  // repeated conversational turns do not re-normalize the same 217 schemes.
+  // repeated conversational turns do not re-normalize the same schemes.
   // User statements are intentionally never cached.
   static final Expando<_SchemeSearchDocument> _documentCache =
       Expando<_SchemeSearchDocument>('schemeSearchDocument');
@@ -561,7 +561,12 @@ class IntelligentSchemeSearch {
         // interpret()), so skip _normalize's cache lookup entirely here --
         // this is the hot path, up to ~38,500 calls per rank() over the
         // real catalog.
-        if (_containsAlias(field.$2, term, tokens: field.$4, alreadyNormalized: true)) {
+        if (_containsAlias(
+          field.$2,
+          term,
+          tokens: field.$4,
+          alreadyNormalized: true,
+        )) {
           fieldScore += field.$3;
         }
       }
@@ -713,7 +718,7 @@ class IntelligentSchemeSearch {
       value.split(' ').where((token) => token.isNotEmpty);
 
   // 2.1 perf fix: these two were compiled fresh on every _normalize() call
-  // (up to ~38,500 times per rank() over the real 219-scheme catalog --
+  // (up to ~38,500 times per rank() over the real catalog --
   // measured ~722ms of a ~910ms total just here). Caching them as static
   // finals is the dominant cost; the actual matching work underneath was
   // always cheap.
@@ -726,7 +731,7 @@ class IntelligentSchemeSearch {
   // _normalize is pure and the call-site vocabulary is small and bounded
   // (query terms, concept-expansion aliases, scheme field text) -- an
   // unbounded cache is safe and avoids re-normalizing the same alias for
-  // every one of the 219 schemes in rank()'s hot loop.
+  // every scheme in rank()'s hot loop.
   static final Map<String, String> _normalizeCache = {};
 
   static String _normalize(String value) => _normalizeCache.putIfAbsent(

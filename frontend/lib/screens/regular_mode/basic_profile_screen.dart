@@ -56,13 +56,13 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   String _selectedGender = '';
   DateTime? _selectedDob;
   bool _hasSubmittedStep1 = false;
-  bool _hasConsentedDataProcessing = false;
 
   // --- Step 2: Location Controllers & State ---
   late final TextEditingController _addressController;
   late final TextEditingController _cityController;
   late final TextEditingController _districtController;
   late final TextEditingController _stateController;
+  late final TextEditingController _pincodeController;
   bool _isLoadingLocation = false;
   bool _hasSubmittedStep2 = false;
 
@@ -111,7 +111,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     }
     // Saved labels may be in another language than the one now selected.
     final labels = lookupAppLocalizations(Locale(provider.selectedLanguage));
-    _selectedGender = profile.profileCompleted
+    _selectedGender = profile.gender.isNotEmpty
         ? ProfileValueFormatters.inLanguageOf(profile.gender, labels)
         : '';
 
@@ -131,6 +131,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     _cityController = TextEditingController(text: initialCity);
     _districtController = TextEditingController(text: initialDistrict);
     _stateController = TextEditingController(text: profile.state);
+    _pincodeController = TextEditingController(text: profile.pinCode);
 
     // 3. Initialize Step 3 role
     if (profile.profileCompleted && profile.employmentStatus.isNotEmpty) {
@@ -150,7 +151,8 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         labels,
       );
       _selectedIncome = profile.annualIncome;
-      _isDifferentlyAbled = profile.disability.isNotEmpty &&
+      _isDifferentlyAbled =
+          profile.disability.isNotEmpty &&
           profile.disability.toLowerCase() != 'no' &&
           profile.disability.toLowerCase() != 'none';
       _isVeteran = profile.veteran;
@@ -186,6 +188,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     _cityController.dispose();
     _districtController.dispose();
     _stateController.dispose();
+    _pincodeController.dispose();
     super.dispose();
   }
 
@@ -213,14 +216,8 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     }
   }
 
-  Future<void> _openDataProcessingConsentModal() async {
-    final consented = await DataProcessingConsentModal.show(context);
-    if (consented != null && mounted) {
-      setState(() {
-        _hasConsentedDataProcessing = consented;
-      });
-    }
-  }
+  Future<void> _openDataProcessingConsentModal() =>
+      DataProcessingConsentModal.show(context);
 
   static bool _looksLikePlaceName(String value, {int min = 2}) =>
       Step2LocationForm.looksLikePlaceName(value, min: min);
@@ -229,7 +226,8 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       _addressController.text.trim().isNotEmpty &&
       _looksLikePlaceName(_cityController.text, min: 2) &&
       _looksLikePlaceName(_districtController.text, min: 2) &&
-      _looksLikePlaceName(_stateController.text, min: 3);
+      _looksLikePlaceName(_stateController.text, min: 3) &&
+      Step2LocationForm.isValidPincode(_pincodeController.text);
 
   // Step 4 (Eligibility) now requires education, community and income --
   // these drive scheme matching, so the profile is not "complete" without
@@ -247,16 +245,17 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
 
   // Geocoding live fetch for Step 2 -- see basic_profile/location_geocoding.dart
   Future<void> _fetchAndGeocodeLocation() => fetchAndGeocodeLocation(
-        context: context,
-        addressController: _addressController,
-        cityController: _cityController,
-        districtController: _districtController,
-        stateController: _stateController,
-        isMounted: () => mounted,
-        setLoading: (loading) {
-          if (mounted) setState(() => _isLoadingLocation = loading);
-        },
-      );
+    context: context,
+    addressController: _addressController,
+    cityController: _cityController,
+    districtController: _districtController,
+    stateController: _stateController,
+    pincodeController: _pincodeController,
+    isMounted: () => mounted,
+    setLoading: (loading) {
+      if (mounted) setState(() => _isLoadingLocation = loading);
+    },
+  );
 
   void _handleBack() {
     if (_currentStep > 1) {
@@ -271,8 +270,6 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       }
     }
   }
-
-
 
   void _handleContinue() {
     if (_currentStep == 1) {
@@ -290,14 +287,6 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         AppToast.showError(
           context,
           context.l10n.profileErrCompleteFieldsCorrectly,
-        );
-        return;
-      }
-
-      if (!_hasConsentedDataProcessing) {
-        AppToast.showError(
-          context,
-          context.l10n.profileConsentRequiredToast,
         );
         return;
       }
@@ -338,6 +327,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
           city: city,
           district: district,
           state: state,
+          pinCode: _pincodeController.text.trim(),
         ),
         requireCloudSync: false,
       );
@@ -396,13 +386,13 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         MaterialPageRoute(builder: (_) => const MainTabsContainer()),
         (route) => false,
       );
-    } catch (error) {
+    } catch (error, stackTrace) {
+      debugPrint(
+        '[BasicProfileScreen] Error submitting profile: $error\n$stackTrace',
+      );
       if (!mounted) return;
       setState(() => _isSubmitting = false);
-      AppToast.showError(
-        context,
-        context.l10n.profileErrUnableToSave,
-      );
+      AppToast.showError(context, context.l10n.profileErrUnableToSave);
     }
   }
 
@@ -494,7 +484,8 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                             children: [
                               // 1. Static Stepper + Progress Fraction
                               ProfileProgressIndicator(
-                                  currentStep: _currentStep),
+                                currentStep: _currentStep,
+                              ),
                               const SizedBox(height: AppSpacing.sm),
 
                               // 2. Scrollable Form Content (Only forms scroll and change!)
@@ -511,8 +502,6 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                               ProfileContinueButton(
                                 currentStep: _currentStep,
                                 isSubmitting: _isSubmitting,
-                                hasConsentedDataProcessing:
-                                    _hasConsentedDataProcessing,
                                 isStep2Valid: _isStep2Valid,
                                 selectedRole: _selectedRole,
                                 isStep4Valid: _isStep4Valid,
@@ -553,12 +542,6 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
             _selectedDob = dob;
           },
           hasSubmitted: _hasSubmittedStep1,
-          hasConsented: _hasConsentedDataProcessing,
-          onConsentChanged: (consented) {
-            setState(() {
-              _hasConsentedDataProcessing = consented;
-            });
-          },
           onOpenConsentModal: _openDataProcessingConsentModal,
           onFieldChanged: () {
             if (_hasSubmittedStep1) setState(() {});
@@ -570,6 +553,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
           cityController: _cityController,
           districtController: _districtController,
           stateController: _stateController,
+          pincodeController: _pincodeController,
           isLoadingLocation: _isLoadingLocation,
           hasSubmitted: _hasSubmittedStep2,
           onFetchLocation: _fetchAndGeocodeLocation,
@@ -631,4 +615,3 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     }
   }
 }
-

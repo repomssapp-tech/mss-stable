@@ -129,9 +129,13 @@ def main() -> None:
 
     for filename in INDEXED_CATALOGS + EXTRA_FILES:
         cat_obj = bundle[filename]
-        cat_bytes = json.dumps(cat_obj, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+        src_path = source / filename
+        if src_path.exists():
+            stored_bytes = src_path.read_bytes()
+        else:
+            stored_bytes = json.dumps(cat_obj, ensure_ascii=False, indent=2).encode("utf-8")
         if filename in hashed_files:
-            per_file_sha256[filename] = hashlib.sha256(cat_bytes).hexdigest()
+            per_file_sha256[filename] = hashlib.sha256(stored_bytes).hexdigest()
         if filename in INDEXED_CATALOGS:
             data = cat_obj.get("data", [])
             record_counts[filename] = len(data)

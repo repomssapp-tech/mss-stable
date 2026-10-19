@@ -62,9 +62,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       _toggleSelection(id);
     } else {
       provider.markNotificationRead(id);
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => const BasicProfileScreen()),
-      );
+      Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (_) => const BasicProfileScreen()));
     }
   }
 
@@ -74,14 +74,14 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     final list = provider.notifications;
 
     // Filtered lists for each section
-    final newSchemes =
-        list.where((n) => n['category'] == 'new_schemes').toList();
-    final reminders =
-        list.where((n) => n['category'] == 'reminders').toList();
-    final updates =
-        list.where((n) => n['category'] == 'updates').toList();
-    final profileAlerts =
-        list.where((n) => n['category'] == 'profile').toList();
+    final newSchemes = list
+        .where((n) => n['category'] == 'new_schemes')
+        .toList();
+    final reminders = list.where((n) => n['category'] == 'reminders').toList();
+    final updates = list.where((n) => n['category'] == 'updates').toList();
+    final profileAlerts = list
+        .where((n) => n['category'] == 'profile')
+        .toList();
 
     final showEmpty =
         (_activeFilter == 'new_schemes' && newSchemes.isEmpty) ||
@@ -396,9 +396,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                   provider.profileCompletionPercentage,
                               isSelectionMode: _isSelectionMode,
                               isSelected: _selectedIds.contains(item['id']),
-                              onTap: () => _toggleSelection(
-                                item['id'] as String,
-                              ),
+                              onTap: () =>
+                                  _toggleSelection(item['id'] as String),
                               onOpenProfile: () => _handleProfileTap(
                                 item['id'] as String,
                                 provider,

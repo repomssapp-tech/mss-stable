@@ -62,7 +62,9 @@ class QuickPills extends StatelessWidget {
                       const SizedBox(width: AppSpacing.tight),
                       Text(
                         p.label,
-                        style: context.text.label.copyWith(color: AppColors.textBody),
+                        style: context.text.label.copyWith(
+                          color: AppColors.textBody,
+                        ),
                       ),
                     ],
                   ),

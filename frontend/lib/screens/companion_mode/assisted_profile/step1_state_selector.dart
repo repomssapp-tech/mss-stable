@@ -80,7 +80,8 @@ class Step1StateSelector extends StatelessWidget {
             title: states[i]['title'] as String,
             subtitle: states[i]['subtitle'] as String?,
             icon: states[i]['icon'] as IconData?,
-            isSelected: selectedState.toLowerCase() ==
+            isSelected:
+                selectedState.toLowerCase() ==
                 (states[i]['value'] as String).toLowerCase(),
             onTap: () => onStateSelected(states[i]['value'] as String),
           ),
@@ -115,9 +116,10 @@ class Step1StateSelector extends StatelessWidget {
           builder: (sheetContext, setSheetState) {
             final filtered = allStatesList
                 .where(
-                  (state) => localizedProperName(state, provider)
-                      .toLowerCase()
-                      .contains(query.toLowerCase()),
+                  (state) => localizedProperName(
+                    state,
+                    provider,
+                  ).toLowerCase().contains(query.toLowerCase()),
                 )
                 .toList();
             return DraggableScrollableSheet(
@@ -161,9 +163,7 @@ class Step1StateSelector extends StatelessWidget {
                           itemBuilder: (context, index) {
                             final state = filtered[index];
                             return ListTile(
-                              title: Text(
-                                localizedProperName(state, provider),
-                              ),
+                              title: Text(localizedProperName(state, provider)),
                               onTap: () =>
                                   Navigator.of(sheetContext).pop(state),
                             );

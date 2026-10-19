@@ -128,11 +128,12 @@ class NewSchemeNotificationCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: AppSpacing.sm),
-                    NotificationHelpers.buildTag(
-                      NotificationHelpers.tagLabel(context, item['tag']),
-                      iconBg,
-                      iconCol,
-                    ),
+                    if (item['tag'] != null)
+                      NotificationHelpers.buildTag(
+                        NotificationHelpers.tagLabel(context, item['tag']),
+                        iconBg,
+                        iconCol,
+                      ),
                   ],
                 ),
               ),

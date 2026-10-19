@@ -10,19 +10,12 @@ import 'package:frontend/screens/regular_mode/search_results_screen.dart';
 import 'package:frontend/services/account/session_cache_service.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    try {
-      await Supabase.initialize(
-        url: 'https://example.supabase.co',
-        publishableKey: 'test-publishable-key',
-      );
-    } catch (_) {}
   });
 
   setUp(() async {
@@ -30,52 +23,58 @@ void main() {
   });
 
   group('SessionCacheService - Eligibility Results', () {
-    test('saves and retrieves saved eligibility results and timestamp', () async {
-      final cache = SessionCacheService.instance;
-      expect(await cache.getSavedEligibilityResults(), isNull);
-      expect(await cache.getLastEligibilitySavedAt(), isNull);
+    test(
+      'saves and retrieves saved eligibility results and timestamp',
+      () async {
+        final cache = SessionCacheService.instance;
+        expect(await cache.getSavedEligibilityResults(), isNull);
+        expect(await cache.getLastEligibilitySavedAt(), isNull);
 
-      final testIds = ['scheme-101', 'scheme-202'];
-      final testTime = DateTime(2026, 9, 8, 10, 30);
-      await cache.saveSavedEligibilityResults(testIds, testTime);
+        final testIds = ['scheme-101', 'scheme-202'];
+        final testTime = DateTime(2026, 9, 8, 10, 30);
+        await cache.saveSavedEligibilityResults(testIds, testTime);
 
-      final retrievedIds = await cache.getSavedEligibilityResults();
-      final retrievedTime = await cache.getLastEligibilitySavedAt();
+        final retrievedIds = await cache.getSavedEligibilityResults();
+        final retrievedTime = await cache.getLastEligibilitySavedAt();
 
-      expect(retrievedIds, equals(testIds));
-      expect(retrievedTime, equals(testTime));
+        expect(retrievedIds, equals(testIds));
+        expect(retrievedTime, equals(testTime));
 
-      // Test clear
-      await cache.clearSavedEligibilityResults();
-      expect(await cache.getSavedEligibilityResults(), isNull);
-      expect(await cache.getLastEligibilitySavedAt(), isNull);
-    });
+        // Test clear
+        await cache.clearSavedEligibilityResults();
+        expect(await cache.getSavedEligibilityResults(), isNull);
+        expect(await cache.getLastEligibilitySavedAt(), isNull);
+      },
+    );
   });
 
   group('AppProvider - Eligibility Persistence', () {
-    test('saveEligibilityResults updates in-memory state and notifies listeners', () async {
-      final provider = AppProvider();
-      expect(provider.savedEligibilitySchemeIds, isEmpty);
-      expect(provider.hasSavedEligibilityResults, isFalse);
+    test(
+      'saveEligibilityResults updates in-memory state and notifies listeners',
+      () async {
+        final provider = AppProvider();
+        expect(provider.savedEligibilitySchemeIds, isEmpty);
+        expect(provider.hasSavedEligibilityResults, isFalse);
 
-      bool notified = false;
-      provider.addListener(() {
-        notified = true;
-      });
+        bool notified = false;
+        provider.addListener(() {
+          notified = true;
+        });
 
-      final testIds = ['scheme-a', 'scheme-b'];
-      await provider.saveEligibilityResults(testIds);
+        final testIds = ['scheme-a', 'scheme-b'];
+        await provider.saveEligibilityResults(testIds);
 
-      expect(provider.savedEligibilitySchemeIds, equals(testIds));
-      expect(provider.hasSavedEligibilityResults, isTrue);
-      expect(provider.lastEligibilitySavedAt, isNotNull);
-      expect(notified, isTrue);
+        expect(provider.savedEligibilitySchemeIds, equals(testIds));
+        expect(provider.hasSavedEligibilityResults, isTrue);
+        expect(provider.lastEligibilitySavedAt, isNotNull);
+        expect(notified, isTrue);
 
-      // Verify cached in SharedPreferences
-      final cachedIds =
-          await SessionCacheService.instance.getSavedEligibilityResults();
-      expect(cachedIds, equals(testIds));
-    });
+        // Verify cached in SharedPreferences
+        final cachedIds = await SessionCacheService.instance
+            .getSavedEligibilityResults();
+        expect(cachedIds, equals(testIds));
+      },
+    );
   });
 
   group('EligibilityResultsScreen Widget Tests', () {
@@ -95,34 +94,33 @@ void main() {
       );
     }
 
-    testWidgets(
-      'renders empty state when no eligible schemes exist',
-      (tester) async {
-        final provider = AppProvider();
-        provider.setRecommendedSchemesForTesting([]);
+    testWidgets('renders empty state when no eligible schemes exist', (
+      tester,
+    ) async {
+      final provider = AppProvider();
+      provider.setRecommendedSchemesForTesting([]);
 
-        await tester.pumpWidget(buildTestWidget(provider));
-        await tester.pumpAndSettle();
+      await tester.pumpWidget(buildTestWidget(provider));
+      await tester.pumpAndSettle();
 
-        expect(find.text('Great News! 🎉'), findsOneWidget);
-        expect(
-          find.byWidgetPredicate(
-            (w) =>
-                w is RichText &&
-                w.text.toPlainText().contains('0 Government Schemes'),
-          ),
-          findsOneWidget,
-        );
-        expect(
-          find.text(
-            'No matching schemes found. Adjust your profile details to expand matching rules.',
-          ),
-          findsOneWidget,
-        );
-        expect(find.text('Explore All Schemes'), findsOneWidget);
-        expect(find.text('View All'), findsNothing);
-      },
-    );
+      expect(find.text('Great News! 🎉'), findsOneWidget);
+      expect(
+        find.byWidgetPredicate(
+          (w) =>
+              w is RichText &&
+              w.text.toPlainText().contains('0 Government Schemes'),
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.text(
+          'No matching schemes found. Adjust your profile details to expand matching rules.',
+        ),
+        findsOneWidget,
+      );
+      expect(find.text('Explore All Schemes'), findsOneWidget);
+      expect(find.text('View All'), findsNothing);
+    });
 
     testWidgets(
       'renders eligible matches, saves results on button tap, and navigates via View All',
@@ -172,13 +170,14 @@ void main() {
 
         // 3. Verify Button updates to "Saved to Profile", is disabled, and provider has persisted ID
         expect(find.text('Saved to Profile'), findsOneWidget);
-        final saveBtn =
-            tester.widget<ElevatedButton>(find.byType(ElevatedButton));
+        final saveBtn = tester.widget<ElevatedButton>(
+          find.byType(ElevatedButton),
+        );
         expect(saveBtn.onPressed, isNull);
         expect(provider.savedEligibilitySchemeIds, contains('test-scheme-1'));
 
-        final cachedIds =
-            await SessionCacheService.instance.getSavedEligibilityResults();
+        final cachedIds = await SessionCacheService.instance
+            .getSavedEligibilityResults();
         expect(cachedIds, contains('test-scheme-1'));
 
         // 4. Tap "View All" and verify SearchResultsScreen is pushed and displays schemes

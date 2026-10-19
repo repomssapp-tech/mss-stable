@@ -173,15 +173,13 @@ class CentralizedTranslator {
   /// Uses direct file read if running in tests / VM before asset bundle is ready.
   void _ensureInitializedSync() {
     if (_loaded) return;
-    const candidates = [
-      assetPath,
-      'frontend/$assetPath',
-    ];
+    const candidates = [assetPath, 'frontend/$assetPath'];
     for (final path in candidates) {
       try {
         final file = File(path);
         if (file.existsSync()) {
-          final raw = jsonDecode(file.readAsStringSync()) as Map<String, dynamic>;
+          final raw =
+              jsonDecode(file.readAsStringSync()) as Map<String, dynamic>;
           _populate(raw);
           return;
         }
@@ -200,15 +198,13 @@ class CentralizedTranslator {
       _populate(raw);
     } catch (_) {
       // Fallback for flutter test / missing asset bundle -- direct file read.
-      const candidates = [
-        assetPath,
-        'frontend/$assetPath',
-      ];
+      const candidates = [assetPath, 'frontend/$assetPath'];
       for (final path in candidates) {
         try {
           final file = File(path);
           if (await file.exists()) {
-            final raw = jsonDecode(await file.readAsString()) as Map<String, dynamic>;
+            final raw =
+                jsonDecode(await file.readAsString()) as Map<String, dynamic>;
             _populate(raw);
             return;
           }
@@ -404,30 +400,18 @@ class CentralizedTranslator {
       caseSensitive: false,
     ): (m) =>
         'வங்கி கடன் அனுமதி மற்றும் நிதி வழங்கல்',
-    RegExp(
-      r'\bsubsidy\s+claim\s+and\s+release\b',
-      caseSensitive: false,
-    ): (m) =>
+    RegExp(r'\bsubsidy\s+claim\s+and\s+release\b', caseSensitive: false): (m) =>
         'மானியக் கோரிக்கை மற்றும் விடுவிப்பு',
     RegExp(
       r'\bproject\s+cost\s+up\s+to\s+rs\.?\s*(\d+(\.\d+)?)\s*(lakhs?|crores?|cr|l)\b',
       caseSensitive: false,
     ): (m) =>
         'ரூ. ${m.group(1) ?? ''} ${m.group(3) ?? ''} வரையிலான திட்டச் செலவு',
-    RegExp(
-      r'\bsubsidy\s+up\s+to\s+(\d+)\s*%\b',
-      caseSensitive: false,
-    ): (m) =>
+    RegExp(r'\bsubsidy\s+up\s+to\s+(\d+)\s*%\b', caseSensitive: false): (m) =>
         '${m.group(1) ?? ''}% வரை மானியம்',
-    RegExp(
-      r'\bminimum\s+age\s+(\d+)\s+years?\b',
-      caseSensitive: false,
-    ): (m) =>
+    RegExp(r'\bminimum\s+age\s+(\d+)\s+years?\b', caseSensitive: false): (m) =>
         'குறைந்தபட்ச வயது ${m.group(1) ?? ''} ஆண்டுகள்',
-    RegExp(
-      r'\bmaximum\s+age\s+(\d+)\s+years?\b',
-      caseSensitive: false,
-    ): (m) =>
+    RegExp(r'\bmaximum\s+age\s+(\d+)\s+years?\b', caseSensitive: false): (m) =>
         'அதிகபட்ச வயது ${m.group(1) ?? ''} ஆண்டுகள்',
     RegExp(
       r'\blender\s+charges\s+as\s+applicable\b',

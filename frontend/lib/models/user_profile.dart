@@ -127,44 +127,6 @@ class UserProfile {
     };
   }
 
-  Map<String, dynamic> toSupabase() {
-    return {
-      'id': googleUserId,
-      'email': email,
-      'name': name,
-      'photo_url': profilePhoto,
-      'language': language,
-      'navigation_mode': navigationMode,
-      'applicant_type': employmentStatus,
-      'state': state,
-      'district': district,
-      'pincode': pinCode,
-      'is_profile_complete': profileCompleted,
-      'last_login_at':
-          lastLoginTime?.toIso8601String() ?? DateTime.now().toIso8601String(),
-      'dob': dob?.toIso8601String().split(
-        'T',
-      )[0], // yyyy-MM-dd format for DATE type
-      'gender': gender,
-      'religion': religion,
-      'first_gen_graduate': firstGenGraduate,
-      'disability': disability,
-      'veteran': veteran,
-      'house': house,
-      'area': area,
-      'city': city,
-      'qualification': qualification,
-      'education_level': educationLevel,
-      'annual_income': annualIncome,
-      'community': community,
-      'notifications': notificationsEnabled,
-      'theme': theme,
-      'phone': mobile,
-      'updated_at':
-          updatedAt?.toIso8601String() ?? DateTime.now().toIso8601String(),
-    };
-  }
-
   factory UserProfile.fromJson(Map<String, dynamic> json) {
     return UserProfile(
       name: json['name'] ?? json['full_name'] ?? '',
@@ -178,7 +140,8 @@ class UserProfile {
       pinCode: json['pinCode'] ?? json['pincode'] ?? json['pin'] ?? '',
       community: json['community'] ?? '',
       religion: json['religion'] ?? '',
-      educationLevel: json['educationLevel'] ??
+      educationLevel:
+          json['educationLevel'] ??
           json['education_level'] ??
           json['qualification'] ??
           '',
@@ -204,8 +167,7 @@ class UserProfile {
       existingBusiness:
           json['existingBusiness'] ?? json['business_registered'] ?? false,
       businessStage: json['businessStage'] ?? json['business_stage'] ?? '',
-      businessIndustry:
-          json['businessIndustry'] ?? json['industry'] ?? '',
+      businessIndustry: json['businessIndustry'] ?? json['industry'] ?? '',
       fundingRequired:
           (json['fundingRequired'] ?? json['funding_required_amount'] ?? 0.0)
               .toDouble(),
@@ -269,8 +231,9 @@ class UserProfile {
       businessIndustry: s(remote.businessIndustry, businessIndustry),
       registrationNumbers: s(remote.registrationNumbers, registrationNumbers),
       dob: remote.dob ?? dob,
-      annualIncome:
-          remote.annualIncome != 0 ? remote.annualIncome : annualIncome,
+      annualIncome: remote.annualIncome != 0
+          ? remote.annualIncome
+          : annualIncome,
       fundingRequired: remote.fundingRequired != 0
           ? remote.fundingRequired
           : fundingRequired,

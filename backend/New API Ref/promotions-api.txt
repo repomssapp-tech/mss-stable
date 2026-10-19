@@ -1,0 +1,156 @@
+MSS PROMOTIONS API -- FRONTEND INTEGRATION
+17 October 2026 | Live API deployed; migration/grants applied; no banners seeded
+
+GET https://api.msmeschemes.org/v1/promotions?language=en
+No request body. Accept: application/json.
+Optional Authorization: Bearer <Node access_token> for profile-based targeting.
+This API is a home-banner/card feed. It does not call AI or send notifications.
+
+QUERY FIELDS (all optional)
+language: string, en or ta, default en.
+limit: integer encoded as query string, 1..50, default 20.
+cursor: opaque string returned as next_cursor by the previous page.
+Unknown keys, repeated keys/arrays, unsupported language, invalid limit and
+malformed cursor return 400 INVALID_PROMOTIONS_REQUEST. Do not send user_id,
+gender, state or community in the URL. Cursor language must match the request.
+
+AUTHENTICATION / AUDIENCE
+No bearer: only broad cards with all three target fields null.
+Valid bearer: broad cards plus cards matching the user's saved Node profile.
+Each non-null target_gender/target_state/target_community must match; matching is
+case-insensitive and trims outer whitespace. Conditions combine with AND.
+Missing profile/unknown attribute: only cards not requiring that attribute match.
+Invalid/expired/malformed bearer returns 401 UNAUTHORIZED, never public fallback.
+The profile is read server-side and scoped to the authenticated account.
+Supabase JWTs cannot be used as Node access tokens.
+
+PUBLICATION / SCHEDULING
+Only is_active=true AND published_at non-null and <= database current time.
+starts_at null or <= current time; ends_at null or > current time.
+Start is inclusive, end is exclusive. All timestamps represent absolute instants.
+Inactive, unpublished, future-published, future-start and expired cards are hidden.
+New rows default inactive/unpublished. Migration 010 creates NO sample campaigns
+or historical deadline claims. Empty valid feed is {"items":[],"next_cursor":null}.
+Missing table/configuration is an error, not a successful empty feed.
+
+200 RESPONSE (unwrapped JSON)
+{
+  "items": [
+    {
+      "id": "11111111-1111-4111-8111-111111111111",
+      "title": "Explore schemes",
+      "subtitle": "Find available support",
+      "badge_text": "Featured",
+      "btn_text": "Explore",
+      "badge_text_color": "#EA580C",
+      "badge_bg_color": "#FFF7ED",
+      "bg_gradient_start": "#FFF7ED",
+      "bg_gradient_end": "#FFFFEDD5",
+      "btn_color": "#EA580C",
+      "target_route": "discover_results",
+      "graphic_type": "ship",
+      "bg_image": "assets/images/Background/new scheme banner.webp",
+      "target_gender": null,
+      "target_state": null,
+      "target_community": null,
+      "created_at": "2026-10-17T00:00:00.123456Z"
+    }
+  ],
+  "next_cursor": null
+}
+
+All shown item keys are always returned. Types/constraints:
+id: UUID string; created_at: UTC timestamp string with six fractional digits.
+title: nonempty string <=300 Unicode characters.
+subtitle: string <=500 characters; empty string is valid.
+badge_text, btn_text: nonempty strings <=80 characters each.
+The five color fields: #RRGGBB or #AARRGGBB, matching Flutter color parsing.
+target_route: notifications or discover_results (existing Flutter tap handlers).
+graphic_type: calendar, ship, bell or lightbulb. Draft progress cards are separate.
+bg_image: null OR one of these existing bundled AssetImage paths:
+  assets/images/Background/alert banner.webp
+  assets/images/Background/new scheme banner.webp
+  assets/images/Background/notification banner.webp
+  assets/images/Background/suggestion banner.webp
+No arbitrary asset path, external image URL or executable route is accepted.
+Each target field: null or nonempty string <=150 characters.
+Editorial flags, translations JSON, publication and schedule fields are not exposed.
+
+LOCALIZATION
+English text is stored in title/subtitle/badge_text/btn_text.
+Optional translations JSON on the database row:
+  {"ta":{"title":"திட்டங்களை ஆராயுங்கள்","btn_text":"ஆராயுங்கள்"}}
+Allowed Tamil keys: title, subtitle, badge_text, btn_text. Each is optional; a
+missing key falls back to its English field. An explicit empty subtitle is valid;
+title/badge/button must remain nonempty. Other translation keys/types are invalid.
+Language changes text only; navigation/colors/audience values stay canonical.
+Text rejects markup delimiters < > and control characters. Invalid stored content
+returns generic 503 rather than exposing unsafe data to the app.
+
+PAGINATION / CACHING
+Newest created_at first, then UUID descending. Cursor retains microsecond precision
+for ties. Pass next_cursor unchanged; stop at null. To switch account/language or
+after a profile edit, start with a fresh first page instead of reusing an old cursor.
+Each request reflects current publication/profile state; pages are not a frozen
+snapshot if editors change campaigns between requests.
+Cache-Control: no-store for both public and personalized responses. This prevents
+shared caches from mixing audiences or retaining expired publication windows.
+Existing global ingress limit (120/minute/IP) applies; no new per-owner quota.
+
+ERRORS
+400 INVALID_PROMOTIONS_REQUEST: query/cursor error or client-supplied targeting.
+401 UNAUTHORIZED: bad/expired supplied Node bearer.
+429 RATE_LIMITED: existing ingress limit; honor Retry-After when supplied.
+503 PROMOTIONS_UNAVAILABLE: missing table/permissions, DB failure, corrupt content.
+500 INTERNAL_ERROR: other generic failures, including unexpected auth DB failure.
+Errors use {"error":"CODE"}; never expose SQL, profile data or credential details.
+
+DATABASE / TRUSTED EDITORIAL PUBLISHING
+Migration: database/migrations/010_promotions.sql, table mss.promo_alerts.
+Existing Supabase public.promo_alerts is untouched and NOT automatically imported.
+Primary key/indexes, publication fields, field constraints and FORCE RLS are added.
+RLS applies the same publication and audience checks as SQL predicates. Request
+audience context is transaction-local and set only from the saved owner profile.
+A policy specific to the migration/table-owner role permits trusted curation.
+Production runtime logins must be non-owner, non-superuser, NOBYPASSRLS (existing
+startup checks enforce this). Runtime requires SELECT only, no editorial writes.
+Use deployment/promotions-runtime-grants.sql for the existing hosting runtime;
+deployment/runtime-role.sql also includes SELECT for the mss_runtime group.
+
+Trusted migration/editor login can insert/update cards using normal parameterized
+SQL tooling. Validate translated text and actual campaign facts before publishing.
+Set is_active=true and published_at only after editorial review. Set ends_at for
+time-limited campaigns; set is_active=false to withdraw. Do not reuse old sample
+deadline banners as live campaign facts. This task adds no admin-write HTTP API.
+No content is seeded or imported, so a newly migrated database initially has no cards.
+
+RELEASE STEPS (not performed by this development task)
+1. Apply migration 010 through the existing db:migrate runner using migration login.
+2. Apply promotions runtime SELECT grant with the correct hosting account.
+3. Deploy/restart the updated Node application.
+4. Publish reviewed content if a nonempty feed is required.
+5. Verify GET /v1/promotions and GET /v1/promotions?language=ta in Postman/browser.
+
+FLUTTER HANDOFF
+Existing PromoContentController.fetchPromoAlerts uses Supabase. Replace that read
+with this HTTP GET and map response.items to the existing promoAlerts list. The
+field names/assets/routes align with the current home carousel. Do not combine
+draft questionnaire cards into this feed. Continue fetching those separately.
+The API already selects eligible targeted cards. Server rules intentionally avoid
+showing targeted cards when the matching profile attribute is unanswered.
+The current Flutter controller throttles promo fetches for 30 minutes. Coordinate
+shorter refreshes/expiry-aware behavior for time-sensitive banners; server no-store
+does not override that client throttle. Clear/refetch on sign-out/account switch,
+language change or profile edits. Keep offline catalog discovery independent.
+Frontend integration was not changed by this backend task.
+
+VERIFICATION
+60 backend tests passed, including six promotions tests. Real PostgreSQL/HTTP
+verification passed in a disposable schema: migration SQL and DB constraints,
+publication/start/end windows, exact multi-field audience matching, unknown/missing
+profile, Tamil per-field fallback, tied-microsecond pagination, invalid bearer,
+rejected targeting parameters, unsafe content rejection and direct FORCE RLS with
+a non-bypass login. Temporary fixtures/schema were removed. Production mss data
+and migrations were not changed by this verification.
+Run: npm test; npm run promotions:verify.
+Postman: docs/postman/MSS-promotions.postman_collection.json.

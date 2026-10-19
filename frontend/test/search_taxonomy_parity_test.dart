@@ -27,9 +27,7 @@ void main() {
     final canonical = File(
       '../backend/catalog/search_taxonomy.json',
     ).readAsStringSync();
-    final local = File(
-      'assets/search/search_taxonomy.json',
-    ).readAsStringSync();
+    final local = File('assets/search/search_taxonomy.json').readAsStringSync();
     expect(
       local,
       equals(canonical),
@@ -46,7 +44,9 @@ void main() {
     () {
       final canonical =
           jsonDecode(
-                File('../backend/catalog/search_taxonomy.json').readAsStringSync(),
+                File(
+                  '../backend/catalog/search_taxonomy.json',
+                ).readAsStringSync(),
               )['queryExpansions']
               as Map<String, dynamic>;
       final dartExpansions =
@@ -89,9 +89,7 @@ void main() {
       final actualIds = actual.map((r) => r.$1.id).toList();
       final expectedIds = expected.map((r) => r['schemeId'] as String).toList();
       if (!const ListEquality<String>().equals(actualIds, expectedIds)) {
-        mismatches.add(
-          '"$query": expected $expectedIds, got $actualIds',
-        );
+        mismatches.add('"$query": expected $expectedIds, got $actualIds');
         continue;
       }
 

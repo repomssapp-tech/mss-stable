@@ -25,14 +25,14 @@ class Step3AboutYouForm extends StatelessWidget {
   });
 
   static String canonicalRoleTitle(String roleId) => switch (roleId) {
-        'student' => 'Student',
-        'entrepreneur' => 'Entrepreneur',
-        'existing_business' => 'Business',
-        'msme' => 'MSME Owner',
-        'farmer' => 'Farmer',
-        'artisan' => 'Artisan / SHG Member',
-        _ => roleId,
-      };
+    'student' => 'Student',
+    'entrepreneur' => 'Entrepreneur',
+    'existing_business' => 'Business',
+    'msme' => 'MSME Owner',
+    'farmer' => 'Farmer',
+    'artisan' => 'Artisan / SHG Member',
+    _ => roleId,
+  };
 
   static String? roleIdFromEmploymentStatus(String status) =>
       switch (status.trim().toLowerCase()) {
@@ -121,10 +121,7 @@ class Step3AboutYouForm extends StatelessWidget {
         Text(
           l10n.aboutYouSubtitle,
           textAlign: TextAlign.center,
-          style: GoogleFonts.inter(
-            fontSize: 13,
-            color: kSlate500,
-          ),
+          style: GoogleFonts.inter(fontSize: 13, color: kSlate500),
         ),
         const SizedBox(height: AppSpacing.sm),
 
@@ -137,8 +134,9 @@ class Step3AboutYouForm extends StatelessWidget {
             crossAxisCount: 2,
             crossAxisSpacing: AppSpacing.sm,
             mainAxisSpacing: AppSpacing.sm,
-            childAspectRatio:
-                MediaQuery.sizeOf(context).width < 360 ? 1.05 : 1.22,
+            childAspectRatio: MediaQuery.sizeOf(context).width < 360
+                ? 1.05
+                : 1.22,
           ),
           itemBuilder: (context, index) {
             final role = resolvedRoles[index];
@@ -156,9 +154,7 @@ class Step3AboutYouForm extends StatelessWidget {
             decoration: BoxDecoration(
               color: const Color(0xFFFEF2F2),
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: const Color(0xFFFECACA),
-              ),
+              border: Border.all(color: const Color(0xFFFECACA)),
             ),
             child: Row(
               children: [

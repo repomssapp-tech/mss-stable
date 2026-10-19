@@ -58,12 +58,12 @@ class SchemeEligibilityEvaluator {
         EligibilityFactKey.state,
         'State of residence',
         (value) =>
-            SchemeFactExtractor.normalize(value).contains(
-              SchemeFactExtractor.normalize(schemeState),
-            ) ||
-            SchemeFactExtractor.normalize(schemeState).contains(
-              SchemeFactExtractor.normalize(value),
-            ),
+            SchemeFactExtractor.normalize(
+              value,
+            ).contains(SchemeFactExtractor.normalize(schemeState)) ||
+            SchemeFactExtractor.normalize(
+              schemeState,
+            ).contains(SchemeFactExtractor.normalize(value)),
         'Available in your state',
         'This scheme is limited to $schemeState residents.',
       );
@@ -98,7 +98,10 @@ class SchemeEligibilityEvaluator {
     if (RegExp(r'\bobc\b|backward class').hasMatch(eligibility)) {
       communityOptions.add('obc');
     }
-    if (SchemeFactExtractor.containsAny(eligibility, ['minority', 'சிறுபான்மை'])) {
+    if (SchemeFactExtractor.containsAny(eligibility, [
+      'minority',
+      'சிறுபான்மை',
+    ])) {
       communityOptions.add('minority');
     }
     if (communityOptions.isNotEmpty &&
@@ -111,9 +114,8 @@ class SchemeEligibilityEvaluator {
       requireFact(
         EligibilityFactKey.community,
         'Community/category',
-        (value) => communityOptions.contains(
-          SchemeFactExtractor.normalize(value),
-        ),
+        (value) =>
+            communityOptions.contains(SchemeFactExtractor.normalize(value)),
         'Matches the eligible community/category',
         'Your community/category does not match this restricted scheme.',
       );

@@ -96,11 +96,13 @@ class AssessmentProfileMatcher {
           c.contains('sebc') ||
           c.contains('mbc') ||
           c.contains('backward')) {
-        return pick((o) =>
-            o.contains('obc') ||
-            o.contains('bc') ||
-            o.contains('sebc') ||
-            o.contains('backward'));
+        return pick(
+          (o) =>
+              o.contains('obc') ||
+              o.contains('bc') ||
+              o.contains('sebc') ||
+              o.contains('backward'),
+        );
       }
       if (c.contains('ews') || c.contains('minor')) {
         return pick((o) => o.contains('ews') || o.contains('minor'));
@@ -150,10 +152,9 @@ class AssessmentProfileMatcher {
       }
       for (final o in node.options) {
         final ol = o.toLowerCase();
-        final nums = RegExp(r'(\d+)')
-            .allMatches(ol)
-            .map((m) => int.parse(m.group(1)!))
-            .toList();
+        final nums = RegExp(
+          r'(\d+)',
+        ).allMatches(ol).map((m) => int.parse(m.group(1)!)).toList();
         if (nums.isEmpty) continue;
         if (ol.contains('above') || ol.contains('+')) {
           if (age >= nums.first) return o;
@@ -200,13 +201,16 @@ class AssessmentProfileMatcher {
       final ps = profile.state.trim().toLowerCase();
       if (ps.isEmpty) return null;
       final card = cardTitle.trim().toLowerCase();
-      final sameState = ps == card ||
+      final sameState =
+          ps == card ||
           (card.isNotEmpty && (ps.contains(card) || card.contains(ps)));
-      return pick((o) => sameState
-          ? (o.contains('yes') ||
-              o.contains('domicile') ||
-              o.contains('permanent'))
-          : (o.contains('no') || o.contains('temporary')));
+      return pick(
+        (o) => sameState
+            ? (o.contains('yes') ||
+                  o.contains('domicile') ||
+                  o.contains('permanent'))
+            : (o.contains('no') || o.contains('temporary')),
+      );
     }
 
     return null;

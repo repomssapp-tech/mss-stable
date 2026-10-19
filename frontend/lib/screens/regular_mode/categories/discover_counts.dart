@@ -79,7 +79,7 @@ String localizedProperName(String enName, AppProvider provider) {
 /// ──────────────
 /// Deterministic, connectivity-independent derivation of the Discover tab's
 /// per-grouping scheme counts, computed entirely from the offline catalog
-/// (`SchemeRepository.getAllSchemes()` == `bundle.schemes`, the 219 rows of
+/// (`SchemeRepository.getAllSchemes()` == `bundle.schemes`, one row per scheme of
 /// `scheme_catalog.json`). One row == one scheme, everywhere.
 ///
 /// This replaces the previous `_loadDynamicCounts()` implementation, which
@@ -109,7 +109,7 @@ String localizedProperName(String enName, AppProvider provider) {
 ///     an explicit, fixed keyword predicate over the scheme's structured +
 ///     descriptive text. Categories deliberately OVERLAP (a scheme can be
 ///     both "Startup" and "Women Entrepreneurship"), so `sum(category
-///     counts) > 219` by construction — this is reported, not hidden, and
+///     counts) > scheme count` by construction — this is reported, not hidden, and
 ///     there is no "fall back to MSME schemes when nothing matches" inflation.
 class DiscoverCounts {
   DiscoverCounts._();
@@ -200,92 +200,209 @@ class DiscoverCounts {
   /// substring) against a scheme's structured + descriptive text.
   static const Map<String, List<String>> _categoryKeywords = {
     'Business & MSME': [
-      'msme', 'micro enterprise', 'small enterprise', 'medium enterprise',
-      'udyam', 'micro, small'
+      'msme',
+      'micro enterprise',
+      'small enterprise',
+      'medium enterprise',
+      'udyam',
+      'micro, small',
     ],
     'Startup & Incubation': [
-      'startup', 'start-up', 'incubat', 'dpiit', 'seed fund', 'accelerator'
+      'startup',
+      'start-up',
+      'incubat',
+      'dpiit',
+      'seed fund',
+      'accelerator',
     ],
     'Loans & Credit Support': [
-      'loan', 'credit', 'collateral', 'mudra', 'cgtmse', 'working capital',
-      'term loan', 'refinanc'
+      'loan',
+      'credit',
+      'collateral',
+      'mudra',
+      'cgtmse',
+      'working capital',
+      'term loan',
+      'refinanc',
     ],
     'Women Entrepreneurship': ['women', 'mahila', 'female'],
     'Finance & Banking': [
-      'bank', 'finance', 'financial', 'venture capital', 'equity',
-      'credit guarantee', 'sidbi'
+      'bank',
+      'finance',
+      'financial',
+      'venture capital',
+      'equity',
+      'credit guarantee',
+      'sidbi',
     ],
     'Skill Development': [
-      'skill', 'training', 'apprentice', 'vocational', 'upskill',
-      'capacity building', 'entrepreneurship development programme'
+      'skill',
+      'training',
+      'apprentice',
+      'vocational',
+      'upskill',
+      'capacity building',
+      'entrepreneurship development programme',
     ],
     'Artisan & Craftsmen': [
-      'artisan', 'craft', 'handicraft', 'handloom', 'weaver', 'vishwakarma',
-      'coir', 'pottery', 'khadi'
+      'artisan',
+      'craft',
+      'handicraft',
+      'handloom',
+      'weaver',
+      'vishwakarma',
+      'coir',
+      'pottery',
+      'khadi',
     ],
     'Digital India & Tech': [
-      'digital', 'e-commerce', 'e commerce', 'ict', 'online platform',
-      'technology adoption'
+      'digital',
+      'e-commerce',
+      'e commerce',
+      'ict',
+      'online platform',
+      'technology adoption',
     ],
     'Student & Youth Startups': [
-      'student', 'youth', 'campus', 'fellowship', 'young entrepreneur'
+      'student',
+      'youth',
+      'campus',
+      'fellowship',
+      'young entrepreneur',
     ],
     'Manufacturing & Industry': [
-      'manufactur', 'industr', 'production', 'plant & machinery', 'lean',
-      'factory', 'zed'
+      'manufactur',
+      'industr',
+      'production',
+      'plant & machinery',
+      'lean',
+      'factory',
+      'zed',
     ],
     'Export & Trade Promotion': [
-      'export', 'trade promotion', 'international market', 'dgft',
-      'foreign trade', 'exhibition', 'cross-border'
+      'export',
+      'trade promotion',
+      'international market',
+      'dgft',
+      'foreign trade',
+      'exhibition',
+      'cross-border',
     ],
     'Agriculture & Allied': [
-      'agricultur', 'farmer', 'agri ', 'agri-', 'horticultur', 'allied',
-      'dairy', 'fisher', 'animal husbandry', 'agro'
+      'agricultur',
+      'farmer',
+      'agri ',
+      'agri-',
+      'horticultur',
+      'allied',
+      'dairy',
+      'fisher',
+      'animal husbandry',
+      'agro',
     ],
     'Rural Development & SHG': [
-      'rural', 'shg', 'self help', 'self-help', 'livelihood', 'village',
-      'panchayat'
+      'rural',
+      'shg',
+      'self help',
+      'self-help',
+      'livelihood',
+      'village',
+      'panchayat',
     ],
     'Technology & Innovation': [
-      'innovat', 'r&d', 'research', 'patent', 'deep tech', 'technolog'
+      'innovat',
+      'r&d',
+      'research',
+      'patent',
+      'deep tech',
+      'technolog',
     ],
     'Khadi & Village Industries': [
-      'khadi', 'village industr', 'pmegp', 'honey mission', 'kvic'
+      'khadi',
+      'village industr',
+      'pmegp',
+      'honey mission',
+      'kvic',
     ],
     'SC / ST & Minority': [
-      'sc/st', 'sc / st', 'sc-st', 'scheduled caste', 'scheduled tribe',
-      'minorit', 'dalit', 'adivasi'
+      'sc/st',
+      'sc / st',
+      'sc-st',
+      'scheduled caste',
+      'scheduled tribe',
+      'minorit',
+      'dalit',
+      'adivasi',
     ],
     'Green Energy & Environment': [
-      'green', 'environment', 'clean tech', 'pollution', 'sustainab',
-      'carbon', 'effluent', 'eco-friendly'
+      'green',
+      'environment',
+      'clean tech',
+      'pollution',
+      'sustainab',
+      'carbon',
+      'effluent',
+      'eco-friendly',
     ],
     'Health & Healthcare': [
-      'health', 'hospital', 'medical', 'ayushman', 'wellness', 'pharma'
+      'health',
+      'hospital',
+      'medical',
+      'ayushman',
+      'wellness',
+      'pharma',
     ],
     'Food Processing': [
-      'food processing', 'pmfme', 'cold chain', 'food safety',
-      'agro processing', 'micro food'
+      'food processing',
+      'pmfme',
+      'cold chain',
+      'food safety',
+      'agro processing',
+      'micro food',
     ],
     'Education & Fellowship': [
-      'education', 'scholarship', 'fellowship', 'research grant', 'academ'
+      'education',
+      'scholarship',
+      'fellowship',
+      'research grant',
+      'academ',
     ],
     'Infrastructure & Logistics': [
-      'infrastructure', 'logistic', 'industrial park', 'cluster', 'warehous',
-      'common facility', 'flatted factory'
+      'infrastructure',
+      'logistic',
+      'industrial park',
+      'cluster',
+      'warehous',
+      'common facility',
+      'flatted factory',
     ],
     'Social Welfare & Support': [
-      'welfare', 'social security', 'pension', 'maternity', 'rehabilitat',
-      'differently abled', 'disabilit', 'insurance'
+      'welfare',
+      'social security',
+      'pension',
+      'maternity',
+      'rehabilitat',
+      'differently abled',
+      'disabilit',
+      'insurance',
     ],
     'Renewable & Energy Efficiency': [
-      'renewable', 'energy efficiency', 'solar', 'power backup',
-      'energy conservation', 'energy audit'
+      'renewable',
+      'energy efficiency',
+      'solar',
+      'power backup',
+      'energy conservation',
+      'energy audit',
     ],
     'Startup': ['startup', 'start-up', 'incubat', 'dpiit', 'seed fund'],
     'Finance': ['finance', 'financial', 'loan', 'credit', 'bank', 'sidbi'],
     'Artisan': [
-      'artisan', 'craft', 'handicraft', 'handloom', 'weaver', 'vishwakarma'
+      'artisan',
+      'craft',
+      'handicraft',
+      'handloom',
+      'weaver',
+      'vishwakarma',
     ],
     'Digital India': ['digital', 'e-commerce', 'e commerce', 'ict'],
     'Women Entrepreneurs': ['women', 'mahila', 'female'],
@@ -297,31 +414,35 @@ class DiscoverCounts {
   static const Map<String, List<String>> _ministryAliases = {
     'Ministry of MSME': ['micro, small', 'msme'],
     'Ministry of Education': [
-      'ministry of education', 'department of higher education',
-      'department of school education'
+      'ministry of education',
+      'department of higher education',
+      'department of school education',
     ],
     'Ministry of Finance': [
-      'ministry of finance', 'department of financial services',
-      'department of economic affairs'
+      'ministry of finance',
+      'department of financial services',
+      'department of economic affairs',
     ],
     'Ministry of Agriculture': [
-      'ministry of agriculture', 'agriculture & farmers',
-      'agriculture and farmers'
+      'ministry of agriculture',
+      'agriculture & farmers',
+      'agriculture and farmers',
     ],
     'Ministry of Rural Development': ['rural development'],
     'Ministry of Skill Development': ['skill development'],
     'Ministry of Social Justice': ['social justice'],
     'Ministry of Housing': ['housing and urban', 'housing & urban'],
     'Ministry of Health': [
-      'health and family welfare', 'health & family welfare',
-      'ministry of health'
+      'health and family welfare',
+      'health & family welfare',
+      'ministry of health',
     ],
   };
 
-  static String _composite(Scheme s) => (
-        '${s.name} ${s.shortName} ${s.category} ${s.schemeType} ${s.sector} '
-        '${s.targetBeneficiary} ${s.searchKeywords} ${s.overview} ${s.benefits}'
-      ).toLowerCase();
+  static String _composite(Scheme s) =>
+      ('${s.name} ${s.shortName} ${s.category} ${s.schemeType} ${s.sector} '
+              '${s.targetBeneficiary} ${s.searchKeywords} ${s.overview} ${s.benefits}')
+          .toLowerCase();
 
   /// A scheme that applies across India regardless of the user's state:
   /// central / central+state government level, or a Pan-India / All-India /
@@ -344,8 +465,8 @@ class DiscoverCounts {
 
   static bool matchesMinistry(Scheme s, String label) {
     final aliases = _ministryAliases[label] ?? <String>[label.toLowerCase()];
-    final hay =
-        (s.ministry.isNotEmpty ? s.ministry : s.sponsoringBody).toLowerCase();
+    final hay = (s.ministry.isNotEmpty ? s.ministry : s.sponsoringBody)
+        .toLowerCase();
     return aliases.any(hay.contains);
   }
 

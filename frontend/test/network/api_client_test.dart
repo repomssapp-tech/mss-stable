@@ -63,7 +63,7 @@ void main() {
 
         return http.Response(
           jsonEncode({
-            'user': {'id': 'user_1', 'email': 'a@b.com'}
+            'user': {'id': 'user_1', 'email': 'a@b.com'},
           }),
           200,
           headers: {'content-type': 'application/json', 'etag': '"prof-1"'},
@@ -155,36 +155,44 @@ void main() {
       expect(await TokenStorage.instance.getAccessToken(), 'new_token');
     });
 
-    test('refresh failure triggers onSessionExpired and clears tokens', () async {
-      await TokenStorage.instance.saveTokens(
-        accessToken: 'bad_token',
-        refreshToken: 'dead_refresh',
-      );
+    test(
+      'refresh failure triggers onSessionExpired and clears tokens',
+      () async {
+        await TokenStorage.instance.saveTokens(
+          accessToken: 'bad_token',
+          refreshToken: 'dead_refresh',
+        );
 
-      bool sessionExpiredCalled = false;
+        bool sessionExpiredCalled = false;
 
-      final mockClient = MockClient((request) async {
-        if (request.url.path == '/v1/auth/refresh') {
-          return http.Response(jsonEncode({'error': 'INVALID_REFRESH_TOKEN'}), 401);
-        }
-        return http.Response(jsonEncode({'error': 'UNAUTHORIZED'}), 401);
-      });
+        final mockClient = MockClient((request) async {
+          if (request.url.path == '/v1/auth/refresh') {
+            return http.Response(
+              jsonEncode({'error': 'INVALID_REFRESH_TOKEN'}),
+              401,
+            );
+          }
+          return http.Response(jsonEncode({'error': 'UNAUTHORIZED'}), 401);
+        });
 
-      final client = ApiClient(
-        baseUrl: 'https://api.msmeschemes.org/v1',
-        httpClient: mockClient,
-        onSessionExpired: () => sessionExpiredCalled = true,
-      );
+        final client = ApiClient(
+          baseUrl: 'https://api.msmeschemes.org/v1',
+          httpClient: mockClient,
+          onSessionExpired: () => sessionExpiredCalled = true,
+        );
 
-      expect(
-        () => client.get('/me/profile'),
-        throwsA(isA<ApiException>().having((e) => e.statusCode, 'statusCode', 401)),
-      );
+        expect(
+          () => client.get('/me/profile'),
+          throwsA(
+            isA<ApiException>().having((e) => e.statusCode, 'statusCode', 401),
+          ),
+        );
 
-      await Future.delayed(Duration.zero);
-      expect(sessionExpiredCalled, isTrue);
-      expect(await TokenStorage.instance.getAccessToken(), isNull);
-    });
+        await Future.delayed(Duration.zero);
+        expect(sessionExpiredCalled, isTrue);
+        expect(await TokenStorage.instance.getAccessToken(), isNull);
+      },
+    );
 
     test('decodes structured error fields and 429 Retry-After', () async {
       final mockClient = MockClient((request) async {
@@ -192,7 +200,9 @@ void main() {
           jsonEncode({
             'error': 'PROFILE_VERSION_CONFLICT',
             'message': 'Stale ETag version',
-            'details': [{'field': 'version', 'current': 3}],
+            'details': [
+              {'field': 'version', 'current': 3},
+            ],
           }),
           412,
           headers: {'retry-after': '5', 'x-request-id': 'req_abc'},
@@ -239,7 +249,9 @@ void main() {
       // Test size cap violation
       expect(
         () => client.getBytes('/catalog/releases/1.0.0/bundle', maxByteSize: 3),
-        throwsA(isA<ApiException>().having((e) => e.statusCode, 'statusCode', 413)),
+        throwsA(
+          isA<ApiException>().having((e) => e.statusCode, 'statusCode', 413),
+        ),
       );
     });
   });

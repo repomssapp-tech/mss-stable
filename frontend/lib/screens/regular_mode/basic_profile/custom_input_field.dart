@@ -70,7 +70,9 @@ class CustomInputField extends StatelessWidget {
                   const SizedBox(width: AppSpacing.lg),
                   Icon(
                     leadingIcon,
-                    color: hasError ? AppColors.danger : AppColors.textSecondary,
+                    color: hasError
+                        ? AppColors.danger
+                        : AppColors.textSecondary,
                     size: AppSize.iconSm,
                   ),
                   const SizedBox(width: AppSpacing.sm),
@@ -149,7 +151,9 @@ class CustomInputField extends StatelessWidget {
                   Expanded(
                     child: Text(
                       errorText!,
-                      style: context.text.bodySmall.copyWith(color: AppColors.danger),
+                      style: context.text.bodySmall.copyWith(
+                        color: AppColors.danger,
+                      ),
                     ),
                   ),
                 ],

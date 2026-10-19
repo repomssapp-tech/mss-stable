@@ -1,5 +1,5 @@
 import '../../models/mss_entity.dart';
-import '../../models/mss_contract.dart';
+import '../../models/scheme_extras.dart';
 import '../../models/scheme_model.dart';
 import 'adapter/scheme_benefits_resolver.dart';
 import 'adapter/scheme_eligibility_resolver.dart';
@@ -135,7 +135,8 @@ class MssSchemeAdapter {
       eligibilityMinAge: eligibility.eligibilityMinAge,
       eligibilityMaxAge: eligibility.eligibilityMaxAge,
       eligibilityGenderValues: eligibility.eligibilityGenderValues,
-      eligibilityBusinessStageValues: eligibility.eligibilityBusinessStageValues,
+      eligibilityBusinessStageValues:
+          eligibility.eligibilityBusinessStageValues,
       applicationFee: resources.applicationFee,
       processingDurationDays: resources.processingDurationDays,
       intakeTimelineText: resources.intakeTimelineText,
@@ -144,82 +145,14 @@ class MssSchemeAdapter {
       applicableTaxesList: benefits.applicableTaxesList,
       knowledgeGuidanceList: benefits.knowledgeGuidanceList,
       helplineContactsMap: resources.helplineContactsMap,
+      extras: SchemeExtras.fromEntity(entity.raw),
+      nativeNames: header.nativeNames,
       eligibilityCriteria: eligibility.elCriteriaList,
       requiredDocuments: resources.reqDocNames,
       applicationProcess: resources.stepsList,
       documents: resources.docList,
       requiredServices: resources.serviceList,
       faqs: resources.faqList,
-    );
-  }
-
-  /// Adapt a SchemeResult (from POST /v1/search) into a Scheme domain model,
-  /// merging offline catalog bundle details when available with API relevance/enrichment scores.
-  static Scheme schemeResultToScheme(
-    SchemeResult result,
-    MssCatalogBundle bundle, {
-    String langCode = 'en',
-  }) {
-    final entity = bundle.getEntity(result.schemeId);
-    if (entity != null && entity.entityType == 'scheme') {
-      final scheme = toScheme(entity, bundle, langCode: langCode);
-      final applyUrl = result.applyAction?.url ?? scheme.applicationUrl;
-      return scheme.copyWith(
-        name: result.name.isNotEmpty ? result.name : scheme.name,
-        matchScore: result.matchScore,
-        status: result.status != SchemeStatus.unrecognised
-            ? result.status.name
-            : scheme.status,
-        applicationUrl: applyUrl.isNotEmpty ? applyUrl : scheme.applicationUrl,
-      );
-    }
-    return Scheme(
-      id: result.schemeId,
-      name: result.name,
-      matchScore: result.matchScore,
-      status: result.status != SchemeStatus.unrecognised
-          ? result.status.name
-          : 'active',
-      officialWebsite: result.applyAction?.url ?? '',
-      applicationUrl: result.applyAction?.url ?? '',
-      overview: result.explanation.summary,
-      searchKeywords: result.matchReasons.map((m) => m.detail).join(' '),
-    );
-  }
-
-  /// Adapt an MssSchemeIntelligence DTO (from GET /v1/schemes/{id}) into a Scheme domain model.
-  static Scheme schemeIntelligenceToScheme(
-    MssSchemeIntelligence intel,
-    MssCatalogBundle bundle, {
-    String langCode = 'en',
-  }) {
-    final entity = bundle.getEntity(intel.schemeId);
-    if (entity != null && entity.entityType == 'scheme') {
-      final scheme = toScheme(entity, bundle, langCode: langCode);
-      final applyOnline = intel.nextActions.firstWhere(
-        (a) => a.action == 'apply_online',
-        orElse: () => const MssNextAction(action: '', label: ''),
-      );
-      return scheme.copyWith(
-        name: intel.name ?? scheme.name,
-        status: intel.schemeStatus != SchemeStatus.unrecognised
-            ? intel.schemeStatus.name
-            : scheme.status,
-        applicationUrl: applyOnline.url ?? scheme.applicationUrl,
-      );
-    }
-    final applyAction = intel.nextActions.firstWhere(
-      (a) => a.action == 'apply_online',
-      orElse: () => const MssNextAction(action: '', label: ''),
-    );
-    return Scheme(
-      id: intel.schemeId,
-      name: intel.name ?? intel.schemeId,
-      status: intel.schemeStatus != SchemeStatus.unrecognised
-          ? intel.schemeStatus.name
-          : 'active',
-      officialWebsite: applyAction.url ?? '',
-      applicationUrl: applyAction.url ?? '',
     );
   }
 }

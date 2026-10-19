@@ -5,7 +5,11 @@ import '../../../models/user_profile.dart';
 import '../../../services/catalog/centralized_translator.dart';
 
 export '../../../models/scheme_filter.dart'
-    show schemeIsNationwide, applySchemeFilters, hasActiveSchemeFilters, activeSchemeFilterCount;
+    show
+        schemeIsNationwide,
+        applySchemeFilters,
+        hasActiveSchemeFilters,
+        activeSchemeFilterCount;
 
 String getLocalizedTagOrCategory(String text, String langCode) {
   return CentralizedTranslator.instance.localizeTagFor(langCode, text);
@@ -38,8 +42,7 @@ class ForMeViewResult {
 List<Scheme> applyProviderFacetFilters(
   List<Scheme> input,
   Map<String, dynamic> filters,
-) =>
-    applySchemeFilters(input, filters);
+) => applySchemeFilters(input, filters);
 
 /// Resolves the "For Me" results view from the master result set. Additive:
 /// score gate (>= RecommendationEngine.forMeThreshold) INTERSECTED with the

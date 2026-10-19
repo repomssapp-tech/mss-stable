@@ -2,15 +2,14 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../config/app_config.dart';
+import '../network/connectivity_service.dart';
+import 'app_session.dart';
 import 'rest_auth_service.dart';
 
 class AuthService {
-  static final client = Supabase.instance.client;
-
   /// Written the moment a Google sign-in launches the external browser, and
   /// cleared once auth resolves. The provider redirect frequently cold-starts
   /// the app (the OS kills it while the browser is foregrounded), so an
@@ -21,34 +20,21 @@ class AuthService {
   /// Past this age a pending marker is treated as an abandoned attempt.
   static const _oauthPendingTtl = Duration(minutes: 2);
 
-  static String get _supabaseUrl => AppConfig.supabaseUrl;
-
   /// Used only before an online-only sign-in. Core catalog use never waits on
   /// this check.
   static Future<bool> canReachAuthenticationService({
     http.Client? httpClient,
+    Duration timeout = const Duration(seconds: 8),
   }) async {
+    // The phone itself says there is no network: no request is needed.
+    if (!ConnectivityService.instance.isOnline) return false;
     final ownsClient = httpClient == null;
     final activeClient = httpClient ?? http.Client();
     try {
-      final backendUrl = '${AppConfig.apiV1Url}/health';
-      final uri = Uri.tryParse(backendUrl);
-      if (uri != null) {
-        try {
-          final res = await activeClient.get(uri).timeout(const Duration(seconds: 3));
-          if (res.statusCode >= 200 && res.statusCode < 400) return true;
-        } catch (_) {}
-      }
-
-      final targetUrl = _supabaseUrl.isNotEmpty
-          ? '$_supabaseUrl/auth/v1/health'
-          : 'http://localhost/auth/v1/health';
-      final supaUri = Uri.tryParse(targetUrl);
-      if (supaUri == null) return false;
-      final response = await activeClient
-          .get(supaUri)
-          .timeout(const Duration(seconds: 3));
-      return response.statusCode > 0;
+      final uri = Uri.tryParse('${AppConfig.apiV1Url}/health');
+      if (uri == null) return false;
+      final res = await activeClient.get(uri).timeout(timeout);
+      return res.statusCode >= 200 && res.statusCode < 400;
     } on TimeoutException {
       return false;
     } on http.ClientException {
@@ -63,9 +49,10 @@ class AuthService {
 
   static const googleRedirectUrl = 'com.inschemes.app://login-callback/';
 
-  static User? get currentUser => client.auth.currentUser;
+  /// The signed-in account, or null.
+  static AuthUser? get currentUser => AppSession.instance.currentUser;
 
-  static Session? get currentSession => client.auth.currentSession;
+  static bool get isSignedIn => AppSession.instance.isSignedIn;
 
   static Future<bool> signInWithGoogle() async {
     try {
@@ -131,8 +118,5 @@ class AuthService {
     } catch (e) {
       debugPrint('[AuthService] Rest logout warning: $e');
     }
-    try {
-      await client.auth.signOut();
-    } catch (_) {}
   }
 }

@@ -89,8 +89,9 @@ class AssistedSelectionCard extends StatelessWidget {
                         title,
                         style: GoogleFonts.inter(
                           fontSize: 15,
-                          fontWeight:
-                              isSelected ? FontWeight.bold : FontWeight.w600,
+                          fontWeight: isSelected
+                              ? FontWeight.bold
+                              : FontWeight.w600,
                           color: isSelected
                               ? const Color(0xFF1E3A8A)
                               : const Color(0xFF0F172A),
@@ -119,18 +120,12 @@ class AssistedSelectionCard extends StatelessWidget {
                     shape: BoxShape.circle,
                     color: isSelected ? activeColor : Colors.transparent,
                     border: Border.all(
-                      color: isSelected
-                          ? activeColor
-                          : const Color(0xFFCBD5E1),
+                      color: isSelected ? activeColor : const Color(0xFFCBD5E1),
                       width: 2.0,
                     ),
                   ),
                   child: isSelected
-                      ? const Icon(
-                          Icons.check,
-                          color: Colors.white,
-                          size: 16,
-                        )
+                      ? const Icon(Icons.check, color: Colors.white, size: 16)
                       : null,
                 ),
               ],

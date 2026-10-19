@@ -1,6 +1,9 @@
 import 'user_profile.dart';
 
 /// Strongly-typed model representing the backend ProfileAggregate from GET/PATCH /v1/me/profile.
+/// Interface languages sent to the profile API: every language the app offers.
+const Set<String> serverLanguages = {'en', 'ta', 'hi', 'mr'};
+
 class ProfileAggregate {
   // Read-only server fields
   final String id;
@@ -82,7 +85,8 @@ class ProfileAggregate {
       photoUrl: json['photo_url']?.toString(),
       version: (json['version'] as num?)?.toInt() ?? 1,
       isProfileComplete: json['is_profile_complete'] == true,
-      missingFields: (json['missing_fields'] as List<dynamic>?)
+      missingFields:
+          (json['missing_fields'] as List<dynamic>?)
               ?.map((e) => e.toString())
               .toList() ??
           const [],
@@ -95,7 +99,8 @@ class ProfileAggregate {
       business: json['business'] is Map<String, dynamic>
           ? json['business'] as Map<String, dynamic>
           : null,
-      legalAcceptances: (json['legal_acceptances'] as List<dynamic>?)
+      legalAcceptances:
+          (json['legal_acceptances'] as List<dynamic>?)
               ?.whereType<Map<String, dynamic>>()
               .toList() ??
           const [],
@@ -181,16 +186,23 @@ class ProfileAggregate {
     required UserProfile current,
     ProfileAggregate? baseline,
   }) {
-    final base = baseline ?? const ProfileAggregate(
-      id: '',
-      email: '',
-      name: '',
-      version: 1,
-      isProfileComplete: false,
-    );
+    final base =
+        baseline ??
+        const ProfileAggregate(
+          id: '',
+          email: '',
+          name: '',
+          version: 1,
+          isProfileComplete: false,
+        );
     final patch = <String, dynamic>{};
 
-    void checkString(String key, String newVal, String? oldVal, {bool nullable = true}) {
+    void checkString(
+      String key,
+      String newVal,
+      String? oldVal, {
+      bool nullable = true,
+    }) {
       final trimmed = newVal.trim();
       final oldTrimmed = oldVal?.trim();
       if (trimmed != (oldTrimmed ?? '')) {
@@ -203,7 +215,8 @@ class ProfileAggregate {
     }
 
     // Name (non-nullable, trimmed 1..150)
-    if (current.name.trim().isNotEmpty && current.name.trim() != base.name.trim()) {
+    if (current.name.trim().isNotEmpty &&
+        current.name.trim() != base.name.trim()) {
       patch['name'] = current.name.trim();
     }
 
@@ -242,7 +255,10 @@ class ProfileAggregate {
       patch['annual_income'] = current.annualIncome;
     }
 
-    if (current.language != base.language) {
+    // The profile API stores only en|ta. A language it cannot store (Hindi)
+    // stays on the device; sending it would reject the whole patch.
+    if (current.language != base.language &&
+        serverLanguages.contains(current.language)) {
       patch['language'] = current.language;
     }
 

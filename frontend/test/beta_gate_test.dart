@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/services/beta_gate/beta_config.dart';
@@ -14,10 +13,7 @@ class FakeBetaGateService extends BetaGateService {
   final bool shouldThrow;
   String? lastSubmittedPassword;
 
-  FakeBetaGateService({
-    this.shouldSucceed = true,
-    this.shouldThrow = false,
-  });
+  FakeBetaGateService({this.shouldSucceed = true, this.shouldThrow = false});
 
   @override
   Future<bool> verifyPassword(String userInput) async {
@@ -49,12 +45,6 @@ void main() {
 
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    try {
-      await Supabase.initialize(
-        url: 'https://example.supabase.co',
-        publishableKey: 'test-publishable-key',
-      );
-    } catch (_) {}
   });
 
   group('BetaGateService Unit Tests', () {
@@ -95,11 +85,7 @@ void main() {
 
     testWidgets('renders all required UI components', (tester) async {
       await tester.pumpWidget(
-        _buildTestApp(
-          child: BetaGateScreen(
-            service: FakeBetaGateService(),
-          ),
-        ),
+        _buildTestApp(child: BetaGateScreen(service: FakeBetaGateService())),
       );
 
       expect(find.text('Beta Access'), findsOneWidget);
@@ -113,13 +99,11 @@ void main() {
       expect(find.byIcon(Icons.lock_rounded), findsWidgets);
     });
 
-    testWidgets('toggles password visibility when eye icon is tapped', (tester) async {
+    testWidgets('toggles password visibility when eye icon is tapped', (
+      tester,
+    ) async {
       await tester.pumpWidget(
-        _buildTestApp(
-          child: BetaGateScreen(
-            service: FakeBetaGateService(),
-          ),
-        ),
+        _buildTestApp(child: BetaGateScreen(service: FakeBetaGateService())),
       );
 
       final textFieldFinder = find.byType(TextField);
@@ -141,13 +125,11 @@ void main() {
       expect(textField.obscureText, isTrue);
     });
 
-    testWidgets('shows warning SnackBar when entering empty password', (tester) async {
+    testWidgets('shows warning SnackBar when entering empty password', (
+      tester,
+    ) async {
       await tester.pumpWidget(
-        _buildTestApp(
-          child: BetaGateScreen(
-            service: FakeBetaGateService(),
-          ),
-        ),
+        _buildTestApp(child: BetaGateScreen(service: FakeBetaGateService())),
       );
 
       await tester.tap(find.text('Verify & Enter'));
@@ -160,11 +142,7 @@ void main() {
       final fakeService = FakeBetaGateService(shouldSucceed: false);
 
       await tester.pumpWidget(
-        _buildTestApp(
-          child: BetaGateScreen(
-            service: fakeService,
-          ),
-        ),
+        _buildTestApp(child: BetaGateScreen(service: fakeService)),
       );
 
       await tester.enterText(find.byType(TextField), 'wrongpass');
@@ -173,18 +151,19 @@ void main() {
       await tester.pump(const Duration(milliseconds: 100)); // Complete async
 
       expect(fakeService.lastSubmittedPassword, 'wrongpass');
-      expect(find.text('Invalid beta password. Please try again.'), findsOneWidget);
+      expect(
+        find.text('Invalid beta password. Please try again.'),
+        findsOneWidget,
+      );
     });
 
-    testWidgets('persists unlock status upon correct password entry', (tester) async {
+    testWidgets('persists unlock status upon correct password entry', (
+      tester,
+    ) async {
       final fakeService = FakeBetaGateService(shouldSucceed: true);
 
       await tester.pumpWidget(
-        _buildTestApp(
-          child: BetaGateScreen(
-            service: fakeService,
-          ),
-        ),
+        _buildTestApp(child: BetaGateScreen(service: fakeService)),
       );
 
       await tester.enterText(find.byType(TextField), '300708');

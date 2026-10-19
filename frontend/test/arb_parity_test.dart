@@ -11,10 +11,7 @@ Set<String> _keys(Map<String, dynamic> arb) =>
     arb.keys.where((k) => !k.startsWith('@')).toSet();
 
 Set<String> _placeholders(String value) =>
-    RegExp(r'\{(\w+)')
-        .allMatches(value)
-        .map((m) => m.group(1)!)
-        .toSet();
+    RegExp(r'\{(\w+)').allMatches(value).map((m) => m.group(1)!).toSet();
 
 void main() {
   final en = _load('en');
@@ -44,9 +41,9 @@ void main() {
 
   test('no ta or hi value is empty', () {
     for (final entry in {'ta': ta, 'hi': hi}.entries) {
-      final empty = _keys(en)
-          .where((k) => (entry.value[k] as String).trim().isEmpty)
-          .toList();
+      final empty = _keys(
+        en,
+      ).where((k) => (entry.value[k] as String).trim().isEmpty).toList();
       expect(empty, isEmpty, reason: '${entry.key} has empty values');
     }
   });

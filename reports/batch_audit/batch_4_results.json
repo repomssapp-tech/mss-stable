@@ -1,0 +1,657 @@
+[
+  {
+    "id": "SCH000171",
+    "scheme_code": "TN171",
+    "name_en": "State MSME Schemes",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://msmeonline.tn.gov.in/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://msmeonline.tn.gov.in/",
+      "page_title": "MSME",
+      "content_length": 114680,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "beneficiary",
+        "scheme details"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: MSME)",
+    "audited_at": "2026-10-05T18:07:53.111764+00:00"
+  },
+  {
+    "id": "SCH000172",
+    "scheme_code": "TN172",
+    "name_en": "Status Holder Certificate",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.dgft.gov.in/CP/?opt=Status_Holder_Certificate",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.dgft.gov.in/CP/?opt=Status_Holder_Certificate",
+      "page_title": "Directorate General of Foreign Trade | Ministry of Commerce and Industry | Government of India",
+      "content_length": 106041,
+      "content_type": "text/html;charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Directorate General of Foreign Trade | Ministry of Commerce and Industry | Government of India)",
+    "audited_at": "2026-10-05T18:07:53.073558+00:00"
+  },
+  {
+    "id": "SCH000173",
+    "scheme_code": "TN173",
+    "name_en": "Stree Shakti Package",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.indiafilings.com/learn/stree-shakti-package-women-entrepreneurs",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.indiafilings.com/learn/stree-shakti-package-women-entrepreneurs",
+      "page_title": "Stree Shakti Package for Women Entrepreneurs in India",
+      "content_length": 114688,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Stree Shakti Package for Women Entrepreneurs in India)",
+    "audited_at": "2026-10-05T18:07:53.312957+00:00"
+  },
+  {
+    "id": "SCH000174",
+    "scheme_code": "TN174",
+    "name_en": "Subsidy for Asset Creation for Intellectual Property",
+    "ministry": "Government of Tamil Nadu",
+    "department": "Micro, Small and Medium Enterprises Department",
+    "state": "Tamil Nadu",
+    "primary_url": "https://www.startupgrantsindia.com/tn-msme-patent-subsidy",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.startupgrantsindia.com/tn-msme-patent-subsidy",
+      "page_title": "Subsidy for Asset Creation for Intellectual Property: Patent Registration",
+      "content_length": 114688,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [
+        "online application",
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Subsidy for Asset Creation for Intellectual Property: Patent Registration)",
+    "audited_at": "2026-10-05T18:07:53.632559+00:00"
+  },
+  {
+    "id": "SCH000175",
+    "scheme_code": "TN175",
+    "name_en": "Subsidy for Fund Raising from SME Exchange",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://nitiforstates.gov.in/policy-viewer?id=SSS33V000240",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://nitiforstates.gov.in/policy-viewer?id=SSS33V000240",
+      "page_title": "Policy Repository",
+      "content_length": 98395,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Policy Repository)",
+    "audited_at": "2026-10-05T18:07:52.947832+00:00"
+  },
+  {
+    "id": "SCH000177",
+    "scheme_code": "TN177",
+    "name_en": "Support for co-sponsoring events organised by associations",
+    "ministry": "Government of Tamil Nadu",
+    "department": "Micro, Small and Medium Enterprises Department",
+    "state": "Tamil Nadu",
+    "primary_url": "https://ic.msme.gov.in/IC_APP/IC_Welcome.aspx",
+    "primary_result": {
+      "reachable": false,
+      "status_code": "CONN_ERROR",
+      "error": "HTTPSConnectionPool(host='ic.msme.gov.in', port=443): Max retries exceeded with url: /IC_APP/IC_Welc"
+    },
+    "alt_results": [
+      {
+        "url": "https://msmeonline.tn.gov.in/images/TN_Schemes_Booklet_Draft_09072022_v10.pdf",
+        "result": {
+          "reachable": true,
+          "status_code": 200,
+          "final_url": "https://msmeonline.tn.gov.in/images/TN_Schemes_Booklet_Draft_09072022_v10.pdf",
+          "page_title": "",
+          "content_length": 114688,
+          "content_type": "application/pdf",
+          "closure_signals": [],
+          "active_signals": [],
+          "error": null
+        }
+      }
+    ],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP CONN_ERROR: )",
+    "audited_at": "2026-10-05T18:08:00.248917+00:00"
+  },
+  {
+    "id": "SCH000178",
+    "scheme_code": "TN178",
+    "name_en": "Support for development of mini tool room",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.dcmsme.gov.in/TR_TDC.aspx",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.dcmsme.gov.in/TR_TDC.aspx",
+      "page_title": "सूक्ष्म , लघु और मध्यम उद्यम मंत्रालय DEVELOPMENT COMMISSIONER | MINISTRY OF MICRO, SMALL & MEDIUM ENTERPRISES | Governm",
+      "content_length": 114688,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: सूक्ष्म , लघु और मध्यम उद्यम मंत्रालय DEVELOPMENT COMMISSIONER | MINISTRY OF MICRO, SMALL & MEDIUM ENTERPRISES | Governm)",
+    "audited_at": "2026-10-05T18:07:53.133324+00:00"
+  },
+  {
+    "id": "SCH000179",
+    "scheme_code": "TN179",
+    "name_en": "Support to Training and Employment Programme for Women (STEP)",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://wcd.delhi.gov.in/scert/support-training-employment-women",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://wcd.delhi.gov.in/scert/support-training-employment-women",
+      "page_title": "Support Training &amp; Employment for Women | Department of Women and Child Development",
+      "content_length": 50777,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Support Training &amp; Employment for Women | Department of Women and Child Development)",
+    "audited_at": "2026-10-05T18:07:53.184146+00:00"
+  },
+  {
+    "id": "SCH000180",
+    "scheme_code": "TN180",
+    "name_en": "Tamil Nadu Credit Guarantee Scheme (TNCGS)",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.fametn.com/state-govt-schemes/tncgs",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.fametn.com/state-govt-schemes/tncgs",
+      "page_title": "Central Govt. Schemes | Financial Assistance",
+      "content_length": 30995,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Central Govt. Schemes | Financial Assistance)",
+    "audited_at": "2026-10-05T18:07:53.301243+00:00"
+  },
+  {
+    "id": "SCH000182",
+    "scheme_code": "TN182",
+    "name_en": "Tamil Nadu Startup Seed Grant Fund (TANSEED)",
+    "ministry": "Government of Tamil Nadu",
+    "department": "Micro, Small and Medium Enterprises Department",
+    "state": "Tamil Nadu",
+    "primary_url": "https://startuptn.in/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://startuptn.in/",
+      "page_title": "StartupTN",
+      "content_length": 4485,
+      "content_type": "text/html",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: StartupTN)",
+    "audited_at": "2026-10-05T18:07:53.520366+00:00"
+  },
+  {
+    "id": "SCH000184",
+    "scheme_code": "TN184",
+    "name_en": "Tamil Nadu Women-led Startup Industrial Plot & Marketing Support",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.tnrise.co.in/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.tnrise.co.in/",
+      "page_title": "TN-RISE Women Start Up Council",
+      "content_length": 114688,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: TN-RISE Women Start Up Council)",
+    "audited_at": "2026-10-05T18:07:54.135291+00:00"
+  },
+  {
+    "id": "SCH000186",
+    "scheme_code": "TN186",
+    "name_en": "TANSIDCO Export Promotion and Marketing Support Scheme for MSMEs",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.tansidco.tn.gov.in/marketing.php",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.tansidco.tn.gov.in/marketing.php",
+      "page_title": "TANSIDCO",
+      "content_length": 33553,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: TANSIDCO)",
+    "audited_at": "2026-10-05T18:07:53.624448+00:00"
+  },
+  {
+    "id": "SCH000187",
+    "scheme_code": "TN187",
+    "name_en": "TANSIDCO Technology Business Incubator",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://tansidco.tn.gov.in/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://tansidco.tn.gov.in/",
+      "page_title": "TANSIDCO",
+      "content_length": 52332,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: TANSIDCO)",
+    "audited_at": "2026-10-05T18:07:53.815950+00:00"
+  },
+  {
+    "id": "SCH000188",
+    "scheme_code": "TN188",
+    "name_en": "TEAM Scheme for ONDC Onboarding",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://ondc.org/msme-team-scheme/",
+    "primary_result": {
+      "reachable": false,
+      "status_code": 404,
+      "final_url": "https://ondc.org/msme-team-scheme/",
+      "page_title": "Page Not Found · ONDC",
+      "content_length": 12705,
+      "content_type": "text/html",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [
+      {
+        "url": "https://www.fametn.com/",
+        "result": {
+          "reachable": true,
+          "status_code": 200,
+          "final_url": "https://www.fametn.com/",
+          "page_title": "FaMe TN",
+          "content_length": 114204,
+          "content_type": "text/html; charset=utf-8",
+          "closure_signals": [],
+          "active_signals": [],
+          "error": null
+        }
+      }
+    ],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 404: Page Not Found · ONDC)",
+    "audited_at": "2026-10-05T18:07:53.804477+00:00"
+  },
+  {
+    "id": "SCH000189",
+    "scheme_code": "TN189",
+    "name_en": "Technology Development & Utilization Programme for Women (TDUPW)",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://team.msme.gov.in/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://team.msme.gov.in/",
+      "page_title": "Welcome! | MSME TEAM Initiative",
+      "content_length": 40922,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Welcome! | MSME TEAM Initiative)",
+    "audited_at": "2026-10-05T18:07:54.777203+00:00"
+  },
+  {
+    "id": "SCH000190",
+    "scheme_code": "TN190",
+    "name_en": "Term-Loan Assistance for Rooftop Solar Photovoltaic Plants (STAR)",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.dsir.gov.in/offerings/schemes-and-services/details/access-to-knowledge-for-technology-development-and-dissemination-a2k-AjMwITMtQWa",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.dsir.gov.in/offerings/schemes-and-services/details/access-to-knowledge-for-technology-development-and-dissemination-a2k-AjMwITMtQWa",
+      "page_title": "",
+      "content_length": 7545,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: )",
+    "audited_at": "2026-10-05T18:07:53.874591+00:00"
+  },
+  {
+    "id": "SCH000191",
+    "scheme_code": "TN191",
+    "name_en": "Thozhi Hostels",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.sidbi.in/en/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.sidbi.in/en/",
+      "page_title": "Home - Small Industries Development Bank of India",
+      "content_length": 114688,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Home - Small Industries Development Bank of India)",
+    "audited_at": "2026-10-05T18:07:54.540734+00:00"
+  },
+  {
+    "id": "SCH000192",
+    "scheme_code": "TN192",
+    "name_en": "Timely Working Capital Assistance to Revitalise Industries in Times Of Corona Crisis (TWARIT)",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.tnwwhcl.in/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.tnwwhcl.in/",
+      "page_title": "Home | Tamil Nadu Working Women's Hostels Corporation",
+      "content_length": 114688,
+      "content_type": "text/html;charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Home | Tamil Nadu Working Women's Hostels Corporation)",
+    "audited_at": "2026-10-05T18:07:53.903556+00:00"
+  },
+  {
+    "id": "SCH000194",
+    "scheme_code": "TN194",
+    "name_en": "Trade and Industry Related Functional Support",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.dcmsme.gov.in/TR_TDC.aspx",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.dcmsme.gov.in/TR_TDC.aspx",
+      "page_title": "सूक्ष्म , लघु और मध्यम उद्यम मंत्रालय DEVELOPMENT COMMISSIONER | MINISTRY OF MICRO, SMALL & MEDIUM ENTERPRISES | Governm",
+      "content_length": 114688,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: सूक्ष्म , लघु और मध्यम उद्यम मंत्रालय DEVELOPMENT COMMISSIONER | MINISTRY OF MICRO, SMALL & MEDIUM ENTERPRISES | Governm)",
+    "audited_at": "2026-10-05T18:07:54.220492+00:00"
+  },
+  {
+    "id": "SCH000198",
+    "scheme_code": "TN198",
+    "name_en": "Udyam Sakhi Portal",
+    "ministry": "Ministry of Micro, Small & Medium Enterprises",
+    "department": null,
+    "state": "Pan-India",
+    "primary_url": "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1882672&reg=48&lang=2",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1882672&reg=48&lang=2",
+      "page_title": "Women entrepreneurs registered under Udyam Sakhi",
+      "content_length": 89846,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Women entrepreneurs registered under Udyam Sakhi)",
+    "audited_at": "2026-10-05T18:07:54.316479+00:00"
+  },
+  {
+    "id": "SCH000199",
+    "scheme_code": "TN199",
+    "name_en": "Udyogini Scheme",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://web.umang.gov.in/landing/scheme/detail/udyogini-scheme_us.html",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://web.umang.gov.in/landing/scheme/detail/udyogini-scheme_us.html",
+      "page_title": "UMANG",
+      "content_length": 32810,
+      "content_type": "text/html",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: UMANG)",
+    "audited_at": "2026-10-05T18:07:54.075453+00:00"
+  },
+  {
+    "id": "SCH000201",
+    "scheme_code": "TN201",
+    "name_en": "Uttarakhand Startup Policy - Women Entrepreneur Allowance & Marketing Support",
+    "ministry": "Government of Uttarakhand",
+    "department": "Department of MSME",
+    "state": "Uttarakhand",
+    "primary_url": "https://startuputtarakhand.uk.gov.in/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://startuputtarakhand.uk.gov.in/",
+      "page_title": "Startup Uttarakhand | Home Page",
+      "content_length": 114688,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [
+        "closed"
+      ],
+      "active_signals": [
+        "guidelines",
+        "application status"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "closed",
+    "evidence_note": "Closure keywords detected on portal: ['closed']",
+    "audited_at": "2026-10-05T18:07:55.884038+00:00"
+  },
+  {
+    "id": "SCH000202",
+    "scheme_code": "TN202",
+    "name_en": "Vazhndhu Kaattuvom Project (VKP) / Tamil Nadu Rural Transformation Project (TNRT)",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://ydc.tnrtp.org/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://ydc.tnrtp.org/",
+      "page_title": "MSC App",
+      "content_length": 4210,
+      "content_type": "text/html",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: MSC App)",
+    "audited_at": "2026-10-05T18:07:54.529232+00:00"
+  },
+  {
+    "id": "SCH000203",
+    "scheme_code": "TN203",
+    "name_en": "Vidiyal Payanam Thittam (Free Bus Travel)",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.tnsocialwelfare.tn.gov.in/en/specilisationswoman-welfare/tamil-pudhalvan",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.tnsocialwelfare.tn.gov.in/en/specilisationswoman-welfare/tamil-pudhalvan",
+      "page_title": "Tamil Pudhalvan | Social Welfare &amp; Women Empowerment Department, Government of Tamilnadu, India",
+      "content_length": 70382,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "beneficiary"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Tamil Pudhalvan | Social Welfare &amp; Women Empowerment Department, Government of Tamilnadu, India)",
+    "audited_at": "2026-10-05T18:07:54.915972+00:00"
+  },
+  {
+    "id": "SCH000204",
+    "scheme_code": "TN204",
+    "name_en": "WIDUSHI",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://dst.gov.in/scientific-programmes/wise-kiran",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://dst.gov.in/scientific-programmes/wise-kiran",
+      "page_title": "Women in Science and Engineering-KIRAN (WISE-KIRAN) | Department Of Science & Technology",
+      "content_length": 69004,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [
+        "closed"
+      ],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "closed",
+    "evidence_note": "Closure keywords detected on portal: ['closed']",
+    "audited_at": "2026-10-05T18:07:55.459787+00:00"
+  }
+]

@@ -30,8 +30,9 @@ void main() {
     );
 
     for (final cat in categories) {
-      final perCategory = await SchemeRepository.instance
-          .getSchemesByCategory(cat);
+      final perCategory = await SchemeRepository.instance.getSchemesByCategory(
+        cat,
+      );
       expect(bulk[cat], perCategory.length, reason: cat);
     }
   });

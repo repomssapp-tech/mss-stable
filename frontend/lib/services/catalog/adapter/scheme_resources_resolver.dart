@@ -68,22 +68,30 @@ class SchemeResourcesResolver {
     if (rawDocs != null) {
       for (final docItem in rawDocs) {
         if (docItem is Map<String, dynamic>) {
-          final (dNameEn, dNameTa) =
-              SchemeAdapterTextUtils.extractMultilingualStr(
-                docItem['name'] ?? docItem['title'] ?? docItem,
-              );
-          final (dDescEn, dDescTa) =
-              SchemeAdapterTextUtils.extractMultilingualStr(
-                docItem['description'] ?? docItem['summary'],
-              );
-          final (dAuthEn, dAuthTa) =
-              SchemeAdapterTextUtils.extractMultilingualStr(
-                docItem['issuingAuthorityText'] ?? docItem['issuingAuthority'],
-              );
-          final (dCostEn, dCostTa) =
-              SchemeAdapterTextUtils.extractMultilingualStr(
-                docItem['estimatedCostText'] ?? docItem['estimatedCostInr'],
-              );
+          final (
+            dNameEn,
+            dNameTa,
+          ) = SchemeAdapterTextUtils.extractMultilingualStr(
+            docItem['name'] ?? docItem['title'] ?? docItem,
+          );
+          final (
+            dDescEn,
+            dDescTa,
+          ) = SchemeAdapterTextUtils.extractMultilingualStr(
+            docItem['description'] ?? docItem['summary'],
+          );
+          final (
+            dAuthEn,
+            dAuthTa,
+          ) = SchemeAdapterTextUtils.extractMultilingualStr(
+            docItem['issuingAuthorityText'] ?? docItem['issuingAuthority'],
+          );
+          final (
+            dCostEn,
+            dCostTa,
+          ) = SchemeAdapterTextUtils.extractMultilingualStr(
+            docItem['estimatedCostText'] ?? docItem['estimatedCostInr'],
+          );
           final (dRemEn, dRemTa) =
               SchemeAdapterTextUtils.extractMultilingualStr(docItem['remarks']);
 
@@ -134,10 +142,12 @@ class SchemeResourcesResolver {
         if (step is Map<String, dynamic>) {
           final (titleEn, titleTa) =
               SchemeAdapterTextUtils.extractMultilingualStr(step['title']);
-          final (descEn, descTa) =
-              SchemeAdapterTextUtils.extractMultilingualStr(
-                step['description'],
-              );
+          final (
+            descEn,
+            descTa,
+          ) = SchemeAdapterTextUtils.extractMultilingualStr(
+            step['description'],
+          );
           final stepNum = step['stepNumber'] ?? (i + 1);
 
           final stepEn = titleEn.isNotEmpty
@@ -186,33 +196,39 @@ class SchemeResourcesResolver {
 
     final serviceList = <SchemeService>[];
     final rawServices = SchemeAdapterTextUtils.asList(
-      appProc['services'] ??
-          content['services'] ??
-          content['requiredServices'],
+      appProc['services'] ?? content['services'] ?? content['requiredServices'],
     );
     if (rawServices != null && rawServices.isNotEmpty) {
       for (final sItem in rawServices) {
         if (sItem is Map<String, dynamic>) {
-          final (sNameEn, sNameTa) =
-              SchemeAdapterTextUtils.extractMultilingualStr(
-                sItem['name'] ?? sItem['title'],
-              );
-          final (sCatEn, sCatTa) =
-              SchemeAdapterTextUtils.extractMultilingualStr(
-                sItem['category'],
-                'Government Service',
-              );
-          final (sDescEn, sDescTa) =
-              SchemeAdapterTextUtils.extractMultilingualStr(
-                sItem['description'],
-              );
+          final (
+            sNameEn,
+            sNameTa,
+          ) = SchemeAdapterTextUtils.extractMultilingualStr(
+            sItem['name'] ?? sItem['title'],
+          );
+          final (
+            sCatEn,
+            sCatTa,
+          ) = SchemeAdapterTextUtils.extractMultilingualStr(
+            sItem['category'],
+            'Government Service',
+          );
+          final (
+            sDescEn,
+            sDescTa,
+          ) = SchemeAdapterTextUtils.extractMultilingualStr(
+            sItem['description'],
+          );
           final (sPurpEn, sPurpTa) =
               SchemeAdapterTextUtils.extractMultilingualStr(sItem['purpose']);
-          final (sDeptEn, sDeptTa) =
-              SchemeAdapterTextUtils.extractMultilingualStr(
-                sItem['department'],
-                issuingBody,
-              );
+          final (
+            sDeptEn,
+            sDeptTa,
+          ) = SchemeAdapterTextUtils.extractMultilingualStr(
+            sItem['department'],
+            issuingBody,
+          );
           final (sNotesEn, sNotesTa) =
               SchemeAdapterTextUtils.extractMultilingualStr(sItem['notes']);
 
@@ -347,8 +363,8 @@ class SchemeResourcesResolver {
     // unrelated government homepage.
     final officialWebsite =
         (officialWebsiteRaw != null && officialWebsiteRaw.trim().isNotEmpty)
-            ? officialWebsiteRaw.trim()
-            : '';
+        ? officialWebsiteRaw.trim()
+        : '';
     final applicationUrl =
         (appProc['onlineUrl'] as String?) ??
         (resources['applicationPortalUrl'] as String?) ??

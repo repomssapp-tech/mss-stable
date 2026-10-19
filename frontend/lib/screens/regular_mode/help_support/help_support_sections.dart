@@ -100,8 +100,8 @@ class HelpHeaderSection extends StatelessWidget {
                   initialMode == 'faq'
                       ? l10n.helpFaqSetting
                       : initialMode == 'contact'
-                          ? l10n.helpHeaderContact
-                          : l10n.helpHeaderSupport,
+                      ? l10n.helpHeaderContact
+                      : l10n.helpHeaderSupport,
                   softWrap: true,
                   style: GoogleFonts.poppins(
                     fontSize: 20.0,

@@ -15,7 +15,7 @@ void main() {
 
     test('characterizes canonical PMEGP scheme mapping', () {
       final pmegpEntity = bundle.schemes.firstWhere(
-        (s) => s.id == 'SCH000130',
+        (s) => s.id == 'CEN2026-085',
         orElse: () => bundle.schemes.first,
       );
 
@@ -77,8 +77,16 @@ void main() {
         }
       }
 
-      expect(foundMaxFunding, isTrue, reason: 'At least one scheme has parsed maxFunding');
-      expect(foundSubsidyPercentage, isTrue, reason: 'At least one scheme has parsed subsidyPercentage');
+      expect(
+        foundMaxFunding,
+        isTrue,
+        reason: 'At least one scheme has parsed maxFunding',
+      );
+      expect(
+        foundSubsidyPercentage,
+        isTrue,
+        reason: 'At least one scheme has parsed subsidyPercentage',
+      );
     });
 
     test('characterizes closed status on synthetic entity', () {
@@ -95,7 +103,9 @@ void main() {
             'government': {'level': 'Central'},
           },
           'overview': {'summary': 'Closed scheme description'},
-          'eligibility': {'criteria': ['Eligible if active']},
+          'eligibility': {
+            'criteria': ['Eligible if active'],
+          },
           'benefits': {'summary': 'No active benefits'},
         },
       });
@@ -131,12 +141,16 @@ void main() {
       // Overview falls back to synthetic overview
       expect(
         scheme.overview,
-        contains('Government scheme providing financial and institutional support'),
+        contains(
+          'Government scheme providing financial and institutional support',
+        ),
       );
       // Benefits falls back to default text
       expect(
         scheme.benefits,
-        contains('Provides financial assistance, subsidies, or institutional support'),
+        contains(
+          'Provides financial assistance, subsidies, or institutional support',
+        ),
       );
     });
 

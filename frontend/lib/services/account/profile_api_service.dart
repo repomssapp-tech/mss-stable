@@ -23,11 +23,9 @@ class ProfileApiService {
   String? _etag;
   ProfileAggregate? _currentProfile;
 
-  ProfileApiService({
-    ApiClient? apiClient,
-    String? initialEtag,
-  })  : _apiClient = apiClient ?? ApiClient(),
-        _etag = initialEtag;
+  ProfileApiService({ApiClient? apiClient, String? initialEtag})
+    : _apiClient = apiClient ?? ApiClient(),
+      _etag = initialEtag;
 
   String? get currentEtag => _etag;
   ProfileAggregate? get currentProfile => _currentProfile;
@@ -80,9 +78,27 @@ class ProfileApiService {
           '[ProfileApiService] 412 PROFILE_VERSION_CONFLICT encountered: ${_etag ?? "null"}',
         );
       }
+      // A server that does not store this interface language yet (hi / mr)
+      // rejects the whole patch with a `language` validation error. Save
+      // everything else rather than blocking the profile, once.
+      if (_isLanguageRejected(e) && changedFields.containsKey('language')) {
+        debugPrint(
+          '[ProfileApiService] Server rejected language '
+          '"${changedFields['language']}"; saving the rest without it.',
+        );
+        final rest = Map<String, dynamic>.of(changedFields)..remove('language');
+        return saveDraft(rest);
+      }
       rethrow;
     }
   }
+
+  static bool _isLanguageRejected(ApiException e) =>
+      e.statusCode == 400 &&
+      e.errorCode == 'VALIDATION_ERROR' &&
+      (e.details ?? const []).any(
+        (d) => d is Map && d['field'] == 'language',
+      );
 
   void _updateEtagFromResponse(ApiResponse<dynamic> response) {
     final newEtag = response.etag;

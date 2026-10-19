@@ -17,46 +17,48 @@ void main() {
   // A/B comparison in-session) -- this is the permanent record of that
   // comparison, so any future change to the matching logic that reorders
   // or rescales results gets caught here instead of discovered in prod.
-  test(
-    'ranking the real catalog for 234 diverse queries stays byte-identical '
-    'to the pre-2.6 snapshot',
-    () async {
-      final schemes = await SchemeRepository.instance.getAllSchemes();
-      final queries = (jsonDecode(
-        File(
-          'test/fixtures/scheme_search_rank_stability_corpus.json',
-        ).readAsStringSync(),
-      ) as List).cast<String>();
-      final expected = jsonDecode(
-        File(
-          'test/fixtures/scheme_search_rank_stability_expected.json',
-        ).readAsStringSync(),
-      ) as Map<String, dynamic>;
-
-      expect(queries.length, 234);
-
-      final mismatches = <String>[];
-      for (final q in queries) {
-        final matches = IntelligentSchemeSearch.rank(q, schemes, limit: 10);
-        final actual = matches
-            .map(
-              (m) => {
-                'code': m.scheme.schemeCode,
-                'score': double.parse(m.score.toStringAsFixed(6)),
-              },
+  test('ranking the real catalog for 234 diverse queries stays byte-identical '
+      'to the pre-2.6 snapshot', () async {
+    final schemes = await SchemeRepository.instance.getAllSchemes();
+    final queries =
+        (jsonDecode(
+                  File(
+                    'test/fixtures/scheme_search_rank_stability_corpus.json',
+                  ).readAsStringSync(),
+                )
+                as List)
+            .cast<String>();
+    final expected =
+        jsonDecode(
+              File(
+                'test/fixtures/scheme_search_rank_stability_expected.json',
+              ).readAsStringSync(),
             )
-            .toList();
-        final expectedForQuery = expected[q] as List;
-        if (jsonEncode(actual) != jsonEncode(expectedForQuery)) {
-          mismatches.add(q.isEmpty ? '<empty>' : q);
-        }
-      }
+            as Map<String, dynamic>;
 
-      expect(
-        mismatches,
-        isEmpty,
-        reason: 'Ranking changed for these queries:\n${mismatches.join('\n')}',
-      );
-    },
-  );
+    expect(queries.length, 234);
+
+    final mismatches = <String>[];
+    for (final q in queries) {
+      final matches = IntelligentSchemeSearch.rank(q, schemes, limit: 10);
+      final actual = matches
+          .map(
+            (m) => {
+              'code': m.scheme.schemeCode,
+              'score': double.parse(m.score.toStringAsFixed(6)),
+            },
+          )
+          .toList();
+      final expectedForQuery = expected[q] as List;
+      if (jsonEncode(actual) != jsonEncode(expectedForQuery)) {
+        mismatches.add(q.isEmpty ? '<empty>' : q);
+      }
+    }
+
+    expect(
+      mismatches,
+      isEmpty,
+      reason: 'Ranking changed for these queries:\n${mismatches.join('\n')}',
+    );
+  });
 }

@@ -3,7 +3,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
@@ -14,12 +13,6 @@ void main() {
 
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    try {
-      await Supabase.initialize(
-        url: 'https://example.supabase.co',
-        publishableKey: 'test-publishable-key',
-      );
-    } catch (_) {}
   });
 
   Widget buildTestWidget(AppProvider provider) {
@@ -38,25 +31,25 @@ void main() {
     );
   }
 
-  group('Settings - push notifications row (2.0: removed, no fake control)', () {
-    testWidgets(
-      'Settings no longer shows a notifications switch (it controlled '
-      'nothing -- no push delivery exists)',
-      (tester) async {
-        final provider = AppProvider();
-        provider.setLoggedInForTesting(true);
+  group(
+    'Settings - push notifications row (2.0: removed, no fake control)',
+    () {
+      testWidgets(
+        'Settings no longer shows a notifications switch (it controlled '
+        'nothing -- no push delivery exists)',
+        (tester) async {
+          final provider = AppProvider();
+          provider.setLoggedInForTesting(true);
 
-        await tester.pumpWidget(buildTestWidget(provider));
-        await tester.pumpAndSettle();
+          await tester.pumpWidget(buildTestWidget(provider));
+          await tester.pumpAndSettle();
 
-        expect(find.byType(Switch), findsNothing);
-      },
-    );
+          expect(find.byType(Switch), findsNothing);
+        },
+      );
 
-    test(
-      'profile.notificationsEnabled is still a real, persisted field '
-      '(untouched -- just no longer surfaced in Settings)',
-      () async {
+      test('profile.notificationsEnabled is still a real, persisted field '
+          '(untouched -- just no longer surfaced in Settings)', () async {
         final provider = AppProvider();
         expect(provider.profile.notificationsEnabled, isTrue);
 
@@ -65,7 +58,7 @@ void main() {
         );
 
         expect(provider.profile.notificationsEnabled, isFalse);
-      },
-    );
-  });
+      });
+    },
+  );
 }

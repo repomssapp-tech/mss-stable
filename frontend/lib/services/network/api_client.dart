@@ -50,9 +50,9 @@ class ApiClient {
     http.Client? httpClient,
     TokenStorage? tokenStorage,
     this.onSessionExpired,
-  })  : _baseUrl = baseUrl ?? AppConfig.apiV1Url,
-        _httpClient = httpClient ?? http.Client(),
-        _tokenStorage = tokenStorage ?? TokenStorage.instance;
+  }) : _baseUrl = baseUrl ?? AppConfig.apiV1Url,
+       _httpClient = httpClient ?? http.Client(),
+       _tokenStorage = tokenStorage ?? TokenStorage.instance;
 
   String get baseUrl => _baseUrl;
 
@@ -200,7 +200,8 @@ class ApiClient {
       throw ApiException(
         statusCode: 413,
         errorCode: 'PAYLOAD_TOO_LARGE',
-        message: 'Download exceeds maximum size of $maxByteSize bytes (${bytes.length} received)',
+        message:
+            'Download exceeds maximum size of $maxByteSize bytes (${bytes.length} received)',
       );
     }
 
@@ -222,8 +223,9 @@ class ApiClient {
   }) async {
     final uri = buildUri(path, queryParameters);
     final requestBody = _encodeBody(body);
-    final hasBody = requestBody != null ||
-        (method.toUpperCase() != 'GET' && method.toUpperCase() != 'HEAD');
+    // A request without a body carries no Content-Type: several routes (account
+    // deletion, logout, favorites) reject an absent body that is declared JSON.
+    final hasBody = requestBody != null;
     final requestHeaders = await _buildHeaders(
       headers,
       requiresAuth,
@@ -243,7 +245,9 @@ class ApiClient {
     }
 
     // Single-flight refresh on 401 Unauthorized for authenticated routes
-    if (response.statusCode == 401 && requiresAuth && !path.contains('/auth/')) {
+    if (response.statusCode == 401 &&
+        requiresAuth &&
+        !path.contains('/auth/')) {
       final newToken = await _refreshTokensShared();
       if (newToken != null && newToken.isNotEmpty) {
         requestHeaders['Authorization'] = 'Bearer $newToken';
@@ -417,7 +421,8 @@ class ApiClient {
       retryAfter = int.tryParse(retryHeader);
     }
 
-    final requestId = response.headers['x-request-id'] ?? response.headers['X-Request-ID'];
+    final requestId =
+        response.headers['x-request-id'] ?? response.headers['X-Request-ID'];
 
     try {
       final body = jsonDecode(response.body);

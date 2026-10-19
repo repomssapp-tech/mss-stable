@@ -98,9 +98,7 @@ class VoiceRecommendationCard extends StatelessWidget {
               if (recommendation.reasons.isNotEmpty)
                 _resultLine(
                   Icons.check_circle_outline,
-                  l10n.voiceWhyThisFits(
-                    recommendation.reasons.join(' • '),
-                  ),
+                  l10n.voiceWhyThisFits(recommendation.reasons.join(' • ')),
                   const Color(0xFF86EFAC),
                 ),
               if (recommendation.unknownRequirements.isNotEmpty)
@@ -390,9 +388,7 @@ class RegularVoiceRecommendationCard extends StatelessWidget {
               if (recommendation.reasons.isNotEmpty) ...[
                 const SizedBox(height: 7),
                 Text(
-                  l10n.voiceWhyThisFits(
-                    recommendation.reasons.join(' • '),
-                  ),
+                  l10n.voiceWhyThisFits(recommendation.reasons.join(' • ')),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
@@ -543,13 +539,15 @@ class RegularVoiceLegacyResultsSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        ...matches.take(3).map(
-          (match) => VoiceTurnSchemeCard(
-            match: match,
-            presentInTamil: presentInTamil,
-            onSchemeSelected: onSchemeSelected,
-          ),
-        ),
+        ...matches
+            .take(3)
+            .map(
+              (match) => VoiceTurnSchemeCard(
+                match: match,
+                presentInTamil: presentInTamil,
+                onSchemeSelected: onSchemeSelected,
+              ),
+            ),
       ],
     );
   }

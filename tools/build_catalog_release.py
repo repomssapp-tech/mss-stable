@@ -19,6 +19,8 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
+import catalog_packs
+
 ROOT_DIR = Path(__file__).resolve().parent.parent
 DEFAULT_SOURCE = ROOT_DIR / "backend" / "catalog" / "source"
 DEFAULT_CACHE = ROOT_DIR / "backend" / "scratch" / "lang" / "catalog_content_cache.json"
@@ -47,6 +49,125 @@ EXTRA_FILES = ["search_index.json", "manifest.json"]
 # Languages the app may offer. Mirrors catalog.language.is_active; removing a
 # code here and re-publishing is the Hindi/Tamil kill switch (D10).
 ACTIVE_LANGUAGES = ["en", "ta", "hi"]
+
+# Bundle layout version read by the app (MssCatalogBundle). 2 = single file:
+# language packs, release identity and the scheme id map are embedded.
+BUNDLE_FORMAT = 3
+
+# Scheme-content languages MSS offers per jurisdiction (language policy). A
+# jurisdiction not listed here is offered every discovered language that is
+# also in ACTIVE_LANGUAGES, so a new state needs no code change. Languages
+# present in the data but not offered (e.g. Marathi) are preserved in the
+# bundle without being exposed.
+OFFERED_LANGUAGES_BY_JURISDICTION = {
+    "central": ["en", "hi", "ta"],
+    "tamil_nadu": ["en", "ta"],
+    "maharashtra": ["en", "hi"],
+}
+
+
+INVENTORY_SECTIONS = INDEXED_CATALOGS + ["search_index.json"]
+# Build-history keys of the source manifest; kept, but under `history`, because
+# they describe how the catalogs were first authored, not this bundle.
+HISTORY_KEYS = ["stage", "baseline", "generationOrder", "reservedFiles", "stageBPasses"]
+
+
+def canonical_checksum(data) -> str:
+    """sha256 of the canonical (sorted keys, compact) JSON of a section's `data`."""
+    canonical = json.dumps(data, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    return "sha256:" + hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+
+def finalize_sections(bundle: dict, manifest: dict, release_tag: str, released_at: str) -> None:
+    """Make every piece of bundle metadata describe the data actually in the bundle.
+
+    The source catalogs carry `metadata.recordCount`/`checksum` and the source
+    manifest an inventory (`files`) written at authoring time; both go stale as
+    soon as a catalog is regenerated or edited. Here each section's metadata is
+    recomputed from its `data`, and the manifest inventory is rebuilt from those
+    sections, so recordCount, schemaVersion and checksum agree everywhere.
+    """
+    was_required = {f.get("fileName"): f.get("required", False) for f in manifest.get("files", [])}
+    inventory = []
+    for name in INVENTORY_SECTIONS:
+        section = bundle[name]
+        data = section.get("data", [])
+        meta = section.setdefault("metadata", {})
+        meta["recordCount"] = len(data)
+        meta["checksum"] = canonical_checksum(data)
+        inventory.append({
+            "fileName": name,
+            "catalogName": meta.get("catalogName"),
+            "schemaVersion": meta.get("schemaVersion"),
+            "catalogVersion": meta.get("catalogVersion"),
+            "recordCount": meta["recordCount"],
+            "checksum": meta["checksum"],
+            "required": was_required.get(name, False),
+        })
+    manifest["files"] = inventory
+    manifest["history"] = {k: manifest.pop(k) for k in HISTORY_KEYS if k in manifest}
+    manifest["catalogRelease"] = release_tag
+    manifest["releasedAt"] = released_at
+
+
+# Language a scheme's text falls back to when the selected language has no value,
+# before English. Policy, per jurisdiction; any jurisdiction not listed (or whose
+# default is not among the languages it carries) falls back to English directly.
+# Kept as English everywhere for now: a Hindi user should see English, not
+# Tamil, on a Tamil Nadu scheme.
+DEFAULT_LANGUAGE_BY_JURISDICTION: dict[str, str] = {}
+
+
+def stamp_scheme_languages(bundle: dict, registry: dict) -> None:
+    """Write each scheme's own language facts onto the scheme, from the registry:
+    `content.languages = {available, offered, default}`. The app then needs no
+    jurisdiction table: a scheme says which languages it carries, which are
+    offered for it, and which one to fall back to."""
+    jurisdictions = registry["jurisdictions"]
+    for ent in bundle["scheme_catalog.json"].get("data", []):
+        jur = (ent.get("provenance") or {}).get("jurisdiction")
+        entry = jurisdictions.get(jur) or {}
+        available = sorted((ent.get("localization") or {}).keys(), key=lambda c: (c != "en", c))
+        offered = [c for c in entry.get("offeredLanguages", available) if c in available]
+        ent["content"]["languages"] = {
+            "available": available,
+            "offered": offered,
+            "default": entry.get("defaultLanguage", "en"),
+        }
+
+
+def build_language_registry(bundle: dict) -> tuple[list[dict], dict]:
+    """Discover content languages and per-jurisdiction availability from the data."""
+    discovered: set[str] = set()
+    by_jurisdiction: dict[str, dict] = {}
+    for ent in bundle["scheme_catalog.json"].get("data", []):
+        langs = set((ent.get("localization") or {}).keys())
+        discovered |= langs
+        jur = (ent.get("provenance") or {}).get("jurisdiction") or "unknown"
+        entry = by_jurisdiction.setdefault(jur, {"schemeCount": 0, "contentLanguages": set()})
+        entry["schemeCount"] += 1
+        entry["contentLanguages"] |= langs
+    for other in bundle.values():
+        if isinstance(other, dict):
+            for ent in other.get("data", []) if isinstance(other.get("data"), list) else []:
+                if isinstance(ent, dict) and isinstance(ent.get("localization"), dict):
+                    discovered |= set(ent["localization"].keys())
+    order = sorted(discovered, key=lambda c: (c != "en", c))
+    languages = [{"code": c, "isActive": c in ACTIVE_LANGUAGES} for c in order]
+    registry = {"jurisdictions": {}}
+    for jur, entry in sorted(by_jurisdiction.items()):
+        content = sorted(entry["contentLanguages"], key=lambda c: (c != "en", c))
+        offered = OFFERED_LANGUAGES_BY_JURISDICTION.get(
+            jur, [c for c in content if c in ACTIVE_LANGUAGES])
+        offered_in_data = [c for c in offered if c in content]
+        default = DEFAULT_LANGUAGE_BY_JURISDICTION.get(jur, "en")
+        registry["jurisdictions"][jur] = {
+            "schemeCount": entry["schemeCount"],
+            "contentLanguages": content,
+            "offeredLanguages": offered_in_data,
+            "defaultLanguage": default if default in content else "en",
+        }
+    return languages, registry
 
 SCHEME_FIELDS = [
     ("name", "name"),
@@ -79,24 +200,48 @@ def compute_sha256(data: bytes) -> str:
 
 
 def load_catalog_content(cache_path: Path, refresh: bool = True) -> list[dict]:
-    if not refresh and cache_path.exists():
-        with cache_path.open("r", encoding="utf-8") as f:
-            return json.load(f)
-    print("Fetching fresh catalog.content from database...")
-    from db_inspect import query
-    sql = """
-    select 
-      entity_type, entity_id, lang, name, short_name, summary,
-      objective, description, benefits_text, eligibility_text,
-      application_text, aliases, keywords, origin, engine,
-      source_checksum, verified
-    from catalog.content
-    order by entity_type, entity_id, lang
+    """catalog.content rows, read from the local cache.
+
+    The hosted database this used to be fetched from is retired, so the cache
+    (backend/scratch/lang/catalog_content_cache.json) is the only source; [refresh]
+    is accepted for old callers and ignored.
     """
-    rows = query(sql)
-    cache_path.parent.mkdir(parents=True, exist_ok=True)
-    cache_path.write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8")
-    return rows
+    if not cache_path.exists():
+        raise FileNotFoundError(
+            f"catalog content cache not found: {cache_path}. It is the only source of "
+            "the non-scheme entity names; restore it from version control."
+        )
+    with cache_path.open("r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def inject_entity_content(ent: dict, entity_type: str, eid: str, content_map: dict) -> None:
+    """Copy catalog.content (name, aliases, keywords, verified) onto a non-scheme
+    entity so no separate language pack is needed at runtime.
+
+    English only refreshes the entity name. Hindi/Tamil add the localized name,
+    the reviewed flag, and language-scoped search aliases/keywords."""
+    ent.setdefault("localization", {})
+    for lang in ("en", "ta", "hi"):
+        row = content_map.get((entity_type, eid, lang))
+        if not row or not row.get("name"):
+            continue
+        if lang == "en":
+            ent["identity"]["name"] = row["name"]
+            ent["localization"][lang] = {"name": row["name"]}
+            continue
+        ent["localization"][lang] = {"name": row["name"], "verified": bool(row.get("verified", False))}
+        search = ent.setdefault("search", {})
+        for key in ("aliases", "keywords"):
+            values = row.get(key) or []
+            if not values:
+                continue
+            current = search.get(key)
+            if isinstance(current, list):  # older shape: a plain English list
+                current = {"en": current}
+            current = dict(current or {})
+            current[lang] = values
+            search[key] = current
 
 
 def build_release(
@@ -105,6 +250,7 @@ def build_release(
     cache_path: Path,
     release_tag_override: str | None = None,
     filter_unknown_schemes: bool = True,
+    refresh_content: bool = True,
 ) -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
     print(f"Loading catalog source from {source_dir}...")
@@ -116,7 +262,7 @@ def build_release(
         bundle[filename] = load_json(path)
 
     print("Loading catalog.content entries...")
-    content_rows = load_catalog_content(cache_path)
+    content_rows = load_catalog_content(cache_path, refresh=refresh_content)
     
     # Index content by (entity_type, entity_id, lang)
     content_map: dict[tuple[str, str, str], dict] = {}
@@ -168,41 +314,27 @@ def build_release(
                 if hi_content.get(col)
             }
 
-    # 2. Update authorities with catalog.content
-    print("Injecting catalog.content into authorities...")
-    authority_catalog = bundle["authority_catalog.json"]
-    for a in authority_catalog.get("data", []):
-        aid = a.get("identity", {}).get("id")
-        if not aid:
-            continue
-        if "localization" not in a:
-            a["localization"] = {}
-        for l in ("en", "ta", "hi"):
-            c = content_map.get(("authority", aid, l))
-            if c and c.get("name"):
-                if l == "en":
-                    a["identity"]["name"] = c["name"]
-                a["localization"][l] = {"name": c["name"]}
-
-    # 3. Update institutions with catalog.content
-    print("Injecting catalog.content into institutions...")
-    institution_catalog = bundle["institution_catalog.json"]
-    for i in institution_catalog.get("data", []):
-        iid = i.get("identity", {}).get("id")
-        if not iid:
-            continue
-        if "localization" not in i:
-            i["localization"] = {}
-        for l in ("en", "ta", "hi"):
-            c = content_map.get(("institution", iid, l))
-            if c and c.get("name"):
-                if l == "en":
-                    i["identity"]["name"] = c["name"]
-                i["localization"][l] = {"name": c["name"]}
+    # 2-3. Update authorities and institutions with catalog.content. Their
+    # translations used to travel in separate language packs; they now live on
+    # the entity itself (localization.<lang> + search.aliases/keywords.<lang>).
+    for entity_type, catalog_key in (("authority", "authority_catalog.json"),
+                                     ("institution", "institution_catalog.json")):
+        print(f"Injecting catalog.content into {entity_type} records...")
+        for ent in bundle[catalog_key].get("data", []):
+            eid = ent.get("identity", {}).get("id")
+            if not eid:
+                continue
+            inject_entity_content(ent, entity_type, eid, content_map)
 
     # Filter schemes if configured (Decision D4: hide draft schemes from offline bundle)
     published_ids_file = ROOT_DIR / "backend" / "scratch" / "lang" / "published_scheme_ids.json"
     published_ids = set(json.loads(published_ids_file.read_text(encoding="utf-8"))) if published_ids_file.exists() else None
+
+    # Schemes imported from schemes_json_only carry their own status and text; the
+    # D4 draft list is keyed by pre-2026 ids and must not filter them.
+    embedded_schemes = scheme_catalog.get("metadata", {}).get("source") == "schemes_json_only"
+    if embedded_schemes:
+        filter_unknown_schemes = False
 
     if filter_unknown_schemes:
         if published_ids:
@@ -257,67 +389,14 @@ def build_release(
                         )
                     ]
 
-    # 4. Generate Language Packs per §4
-    print("Generating Language Packs for hi and ta...")
+    # 4. Release identity. Hindi/Tamil text is embedded in each entity's
+    # `localization` block, so there are no separate language packs to build.
     kept_scheme_ids = {s["identity"]["id"] for s in scheme_catalog.get("data", [])}
     manifest = bundle["manifest.json"]["data"][0]
-    release_tag = manifest["catalogRelease"]
+    release_tag = release_tag_override if release_tag_override else manifest["catalogRelease"]
+    manifest["catalogRelease"] = release_tag
     schema_version = manifest["schemaVersion"]
-
-    language_packs: dict[str, dict] = {}
-    for lang in ("hi", "ta"):
-        pack_entities = []
-        for r in content_rows:
-            if r["lang"] != lang:
-                continue
-            # Pack only contains entities whose parent scheme is publishable
-            if r["entity_type"] == "scheme" and r["entity_id"] not in kept_scheme_ids:
-                continue
-            
-            ent = {
-                "entityType": r["entity_type"],
-                "entityId": r["entity_id"],
-                "name": r.get("name"),
-                "shortName": r.get("short_name"),
-                "summary": r.get("summary"),
-                "objective": r.get("objective"),
-                "description": r.get("description"),
-                "benefitsText": r.get("benefits_text"),
-                "eligibilityText": r.get("eligibility_text"),
-                "applicationText": r.get("application_text"),
-                "aliases": r.get("aliases") or [],
-                "keywords": r.get("keywords") or [],
-                "verified": bool(r.get("verified", False)),
-            }
-            # Remove keys that are None to save size
-            ent_clean = {k: v for k, v in ent.items() if v is not None}
-            pack_entities.append(ent_clean)
-
-        pack_obj = {
-            "lang": lang,
-            "catalogRelease": release_tag,
-            "entityCount": len(pack_entities),
-            "data": pack_entities,
-        }
-        pack_json_bytes = json.dumps(pack_obj, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
-        pack_file_name = f"catalog_pack_{lang}.json"
-        pack_gz_name = f"catalog_pack_{lang}.json.gz"
-        
-        # Save only compressed .gz pack per B.6
-        gzip_compress(pack_json_bytes, out_dir / pack_gz_name)
-        pack_gz_bytes = (out_dir / pack_gz_name).read_bytes()
-
-        is_active = lang in ACTIVE_LANGUAGES
-        language_packs[lang] = {
-            "lang": lang,
-            "fileName": pack_gz_name,
-            "assetPath": f"assets/catalog/{pack_gz_name}",
-            "byteSize": len(pack_gz_bytes),
-            "sha256": compute_sha256(pack_gz_bytes),
-            "entityCount": len(pack_entities),
-            "isActive": is_active,
-        }
-        print(f"  {lang} pack: {len(pack_entities)} entities, {len(pack_gz_bytes):,} bytes gzipped (isActive={is_active}).")
+    released_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
     # 5. Build core catalog_bundle.json.gz
     record_counts: dict[str, int] = {}
@@ -327,49 +406,92 @@ def build_release(
 
     for filename in INDEXED_CATALOGS + EXTRA_FILES:
         cat_obj = bundle[filename]
-        cat_bytes = json.dumps(cat_obj, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+        src_path = source_dir / filename
+        dest_path = out_dir / filename
+        if src_path.exists() and out_dir.resolve() != source_dir.resolve():
+            shutil.copy2(src_path, dest_path)
+            stored_bytes = dest_path.read_bytes()
+        elif src_path.exists():
+            stored_bytes = src_path.read_bytes()
+        else:
+            stored_bytes = json.dumps(cat_obj, ensure_ascii=False, indent=2).encode("utf-8")
+            dest_path.write_bytes(stored_bytes)
+
         if filename in hashed_files:
-            per_file_sha256[filename] = compute_sha256(cat_bytes)
+            per_file_sha256[filename] = compute_sha256(stored_bytes)
         if filename in INDEXED_CATALOGS:
             data = cat_obj.get("data", [])
             record_counts[filename] = len(data)
             entity_count += len(data)
 
-    # Add language packs to record_counts and per_file_sha256
-    for lang, p_info in language_packs.items():
-        record_counts[p_info["fileName"]] = p_info["entityCount"]
-        per_file_sha256[p_info["fileName"]] = p_info["sha256"]
+    # Embed everything the app needs besides the catalogs themselves: the
+    # release identity, the language registry and the old->new scheme id map.
+    # (A hash of the .gz cannot live inside the .gz, so integrity inside the
+    # bundle is the per-section record counts below plus gzip's own CRC; the
+    # server-side SHA-256 in release.json still guards OTA downloads.)
+    languages, language_registry = build_language_registry(bundle)
+    stamp_scheme_languages(bundle, language_registry)  # before checksums are sealed
+    finalize_sections(bundle, manifest, release_tag, released_at)
+    manifest["bundleFormat"] = BUNDLE_FORMAT
+    manifest["release"] = {
+        "releaseTag": release_tag,
+        "releasedAt": released_at,
+        "schemaVersion": schema_version,
+    }
+    manifest["languages"] = languages
+    manifest["languageRegistry"] = language_registry
+    manifest["recordCounts"] = dict(record_counts)
+    manifest["entityCount"] = entity_count
+    id_map_path = source_dir / "scheme_id_map.json"
+    if id_map_path.exists():
+        bundle["migrations.json"] = {
+            "metadata": {"catalogName": "migrations", "purpose": "pre-2026 scheme id -> 2026 id"},
+            "schemeIdMap": load_json(id_map_path),
+        }
 
-    bundle_json_str = json.dumps(bundle, ensure_ascii=False, separators=(",", ":"))
-    uncompressed_bytes = bundle_json_str.encode("utf-8")
-    compressed_path = out_dir / "catalog_bundle.json.gz"
-    gzip_compress(uncompressed_bytes, compressed_path)
-    compressed_bytes = compressed_path.read_bytes()
-    bundle_sha256 = compute_sha256(compressed_bytes)
+    # Split into the core file plus one pack per jurisdiction. Everything above
+    # (section metadata, checksums, record counts) describes the MERGED catalog;
+    # the packs only partition its rows.
+    jurisdiction_languages = {
+        jur: info["contentLanguages"]
+        for jur, info in language_registry["jurisdictions"].items()
+    }
+    for stale in out_dir.glob("catalog_*.json.gz"):
+        stale.unlink()
+    packs = catalog_packs.split(bundle, out_dir, jurisdiction_languages)
+    core = catalog_packs.write_core(bundle, out_dir, packs)
+    pack_bytes = sum(p["bytes"] for p in packs)
 
-    search_index_count = len(bundle.get("search_index.json", {}).get("data", []))
+    search_index_count = sum(p["recordCounts"]["search_index.json"] for p in packs) + len(
+        bundle.get("search_index.json", {}).get("data", [])
+    )
 
     release = {
         "releaseId": str(uuid.uuid4()),
         "releaseTag": release_tag,
         "schemaVersion": schema_version,
-        "releasedAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "bundleAsset": "assets/catalog/catalog_bundle.json.gz",
-        "bundleBytes": len(compressed_bytes),
-        "bundleSha256": bundle_sha256,
-        "uncompressedBytes": len(uncompressed_bytes),
+        "releasedAt": released_at,
+        "bundleFormat": BUNDLE_FORMAT,
+        "bundleAsset": f"assets/catalog/{core['file']}",
+        "bundleBytes": core["bytes"] + pack_bytes,
+        "bundleSha256": core["sha256"],
+        "packs": [
+            {k: p[k] for k in ("id", "file", "jurisdiction", "tenantId", "required", "bytes", "sha256")}
+            for p in packs
+        ],
         "entityCount": entity_count,
         "searchIndexCount": search_index_count,
         "activeLanguages": list(ACTIVE_LANGUAGES),
         "recordCounts": record_counts,
         "perFileSha256": per_file_sha256,
-        "languagePacks": language_packs,
+        "languagePacks": {},  # language text lives inside each entity's `localization`
     }
 
     release_path = out_dir / "release.json"
     save_json(release_path, release)
     print(f"Generated {release_path}")
-    print(f"Core bundle: {compressed_path} ({len(compressed_bytes):,} bytes)")
+    print(f"Core: {core['file']} ({core['bytes']:,} bytes); packs: "
+          + ", ".join(f"{p['file']} ({p['bytes']:,})" for p in packs))
 
     return release
 
@@ -380,11 +502,15 @@ def main():
     parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT_DIR)
     parser.add_argument("--cache", type=Path, default=DEFAULT_CACHE)
     parser.add_argument("--rehearsal", action="store_true", help="Build to rehearsal directory")
+    parser.add_argument("--offline", action="store_true",
+                        help="Accepted for old callers; the build always uses the cached catalog.content")
+    parser.add_argument("--release-tag", type=str, default=None, help="Override catalog release tag")
     args = parser.parse_args()
 
     out_dir = REHEARSAL_OUT_DIR if args.rehearsal else args.out_dir
     print(f"=== Starting Catalog Build (out_dir: {out_dir}) ===")
-    release = build_release(args.source, out_dir, args.cache)
+    release = build_release(args.source, out_dir, args.cache, release_tag_override=args.release_tag,
+                            refresh_content=not args.offline)
     print("\n=== Build Completed Successfully! ===")
 
 

@@ -32,7 +32,8 @@ class RecommendationEngine {
   // substantive (only national coverage) stays at 0.20 < [forMeThreshold],
   // a reasonably-matched profile lands ~0.45-0.65, and a well-matched one
   // ~0.7-0.9.
-  static const double _wState = 0.20; // exact state match (scheme scoped to the profile's state)
+  static const double _wState =
+      0.20; // exact state match (scheme scoped to the profile's state)
   // National / all-India coverage is true for *every* user, so it is the
   // weakest possible personalisation signal — worth less than an exact state
   // match. A national scheme now needs one genuinely strong facet match
@@ -40,11 +41,15 @@ class RecommendationEngine {
   // instead of "you live in India + any one weak signal".
   static const double _wNationalCoverage = 0.15;
   static const double _wAge = 0.25; // scheme has an age gate the profile is in
-  static const double _wGender = 0.25; // scheme is gender-scoped, profile matches
+  static const double _wGender =
+      0.25; // scheme is gender-scoped, profile matches
   static const double _wCommunity = 0.20; // special-category / SC-ST overlap
-  static const double _wEducation = 0.15; // scheme's education rule is satisfied
-  static const double _wSectorStage = 0.25; // business-stage / eligibility-gate match
-  static const double _wSector = 0.20; // profile industry appears in scheme sector
+  static const double _wEducation =
+      0.15; // scheme's education rule is satisfied
+  static const double _wSectorStage =
+      0.25; // business-stage / eligibility-gate match
+  static const double _wSector =
+      0.20; // profile industry appears in scheme sector
 
   static List<MapEntry<Scheme, RecommendationResult>> getRecommendations(
     UserProfile profile,
@@ -81,15 +86,12 @@ class RecommendationEngine {
   /// [forMeThreshold]. Returns an empty list (not the catalog) when the
   /// profile is too sparse — the caller shows a "complete your profile"
   /// empty state in that case.
-  static List<Scheme> forMeSchemes(
-    UserProfile profile,
-    List<Scheme> schemes,
-  ) {
+  static List<Scheme> forMeSchemes(UserProfile profile, List<Scheme> schemes) {
     if (!hasEnoughProfileForRecommendation(profile)) return const [];
-    return getRecommendations(profile, schemes)
-        .where((e) => e.value.score >= forMeThreshold)
-        .map((e) => e.key)
-        .toList();
+    return getRecommendations(
+      profile,
+      schemes,
+    ).where((e) => e.value.score >= forMeThreshold).map((e) => e.key).toList();
   }
 
   static RecommendationResult evaluate(UserProfile profile, Scheme scheme) {
@@ -150,11 +152,11 @@ class RecommendationEngine {
     // Early-return helper for a hard disqualification: the profile concretely
     // contradicts a real, exclusive scheme rule.
     RecommendationResult disqualified() => RecommendationResult(
-          score: 0.0,
-          matchingReasons: matchingReasons,
-          missingRequirements: missingRequirements,
-          missingDocuments: missingDocuments,
-        );
+      score: 0.0,
+      matchingReasons: matchingReasons,
+      missingRequirements: missingRequirements,
+      missingDocuments: missingDocuments,
+    );
 
     switch (scheme.id.toUpperCase()) {
       case 'NEEDS':
@@ -422,7 +424,9 @@ class RecommendationEngine {
             'Income: Requires family annual income below ₹2.5 Lakhs.',
           );
         } else {
-          matchingReasons.add('Income: Your family income is below ₹2.5 Lakhs.');
+          matchingReasons.add(
+            'Income: Your family income is below ₹2.5 Lakhs.',
+          );
           score += _wCommunity;
         }
         matchingReasons.add(
@@ -475,7 +479,8 @@ class RecommendationEngine {
         // 1. State / Residency -- HARD when the scheme is scoped to a
         //    different state than the profile.
         final schemeState = scheme.state.toLowerCase().trim();
-        final stateIsNational = schemeState.isEmpty ||
+        final stateIsNational =
+            schemeState.isEmpty ||
             schemeState == 'all india' ||
             schemeState == 'pan-india' ||
             schemeState.contains('pan-india') ||
@@ -507,8 +512,9 @@ class RecommendationEngine {
             targetUpper.contains('WOMEN') || targetUpper.contains('FEMALE');
         bool wantsFemale = false;
         if (scheme.eligibilityGenderValues.isNotEmpty) {
-          wantsFemale = scheme.eligibilityGenderValues
-              .any((v) => v.toLowerCase() == 'female');
+          wantsFemale = scheme.eligibilityGenderValues.any(
+            (v) => v.toLowerCase() == 'female',
+          );
         } else {
           wantsFemale = hasWomenKeyword;
         }
@@ -520,7 +526,9 @@ class RecommendationEngine {
             return disqualified();
           }
           // SUBSTANTIVE: the scheme is gender-scoped and the profile matches.
-          matchingReasons.add('Gender: You match the target female demographic.');
+          matchingReasons.add(
+            'Gender: You match the target female demographic.',
+          );
           score += _wGender;
         }
         // A gender-agnostic scheme earns NOTHING for gender -- "silent on X"
@@ -643,13 +651,27 @@ class RecommendationEngine {
                     '${scheme.name} ${scheme.targetBeneficiary}'
                 .toLowerCase();
         const founderThemeWords = [
-          'startup', 'start-up', 'start up', 'entrepreneur', 'incubat',
-          'seed fund', 'seed grant', 'venture', 'self-employment',
-          'self employment', 'enterprise creation',
+          'startup',
+          'start-up',
+          'start up',
+          'entrepreneur',
+          'incubat',
+          'seed fund',
+          'seed grant',
+          'venture',
+          'self-employment',
+          'self employment',
+          'enterprise creation',
         ];
         const artisanThemeWords = [
-          'artisan', 'handicraft', 'handloom', 'weaver', 'khadi', 'craft',
-          'kaivinai', 'cottage industr',
+          'artisan',
+          'handicraft',
+          'handloom',
+          'weaver',
+          'khadi',
+          'craft',
+          'kaivinai',
+          'cottage industr',
         ];
         if (_isFounderRole(profile) &&
             founderThemeWords.any(themeHay.contains)) {

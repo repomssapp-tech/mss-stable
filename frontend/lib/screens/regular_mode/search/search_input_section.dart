@@ -145,10 +145,7 @@ class SearchInputField extends StatelessWidget {
 class SearchQuickPills extends StatelessWidget {
   final ValueChanged<String> onPillSelected;
 
-  const SearchQuickPills({
-    super.key,
-    required this.onPillSelected,
-  });
+  const SearchQuickPills({super.key, required this.onPillSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -229,11 +226,7 @@ class SearchTryBanner extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          const Icon(
-            Icons.search,
-            color: Color(0xFF64748B),
-            size: 12,
-          ),
+          const Icon(Icons.search, color: Color(0xFF64748B), size: 12),
           const SizedBox(width: AppSpacing.xs),
           Expanded(
             child: FittedBox(

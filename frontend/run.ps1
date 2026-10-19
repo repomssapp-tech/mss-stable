@@ -2,8 +2,8 @@
 # Dev helper for the MSS Flutter app (Windows / PowerShell).
 #
 # Runs Flutter with the required build-time configuration so you never hit
-#   "Missing build-time configuration: SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY".
-# Connection values come from dart_defines.json (git-ignored); this script
+#   an app pointing at the wrong backend.
+# The backend origin comes from dart_defines.json (git-ignored); this script
 # always passes --dart-define-from-file so you don't have to remember it.
 #
 # Usage:
@@ -27,7 +27,7 @@ if (-not (Test-Path $defines)) {
     if (Test-Path $example) {
         Copy-Item $example $defines
         Write-Host "Created $defines from $example." -ForegroundColor Yellow
-        Write-Host "Fill in the real SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY, then run again." -ForegroundColor Yellow
+        Write-Host "Set API_BASE_URL to your backend (or keep the default), then run again." -ForegroundColor Yellow
     }
     else {
         Write-Host "Missing $defines (and no $example to copy from)." -ForegroundColor Red

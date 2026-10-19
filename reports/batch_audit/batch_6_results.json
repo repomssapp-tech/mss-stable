@@ -1,0 +1,156 @@
+[
+  {
+    "id": "SCH000293",
+    "scheme_code": "SCH000293",
+    "name_en": "Scheme for Residential Education for Students in High Schools in Targeted Areas (SHRESHTA)",
+    "ministry": "Ministry of Social Justice and Empowerment",
+    "department": "Department of Social Justice and Empowerment",
+    "state": "All India",
+    "primary_url": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1991277",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1991277&reg=48&lang=2",
+      "page_title": "Press Release:Press Information Bureau",
+      "content_length": 102307,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [
+        "closed"
+      ],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "closed",
+    "evidence_note": "Closure keywords detected on portal: ['closed']",
+    "audited_at": "2026-10-05T18:08:23.268842+00:00"
+  },
+  {
+    "id": "SCH000296",
+    "scheme_code": "SCH000296",
+    "name_en": "Silk Samagra-2 (Integrated Scheme for Development of Silk Industry)",
+    "ministry": "Ministry of Textiles",
+    "department": "Central Silk Board",
+    "state": "All India",
+    "primary_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2239558&reg=3&lang=2",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2239558&reg=3&lang=2",
+      "page_title": "Press Release Page | Press Information Bureau",
+      "content_length": 115707,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [
+        "beneficiary"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Press Release Page | Press Information Bureau)",
+    "audited_at": "2026-10-05T18:08:22.901876+00:00"
+  },
+  {
+    "id": "SCH000297",
+    "scheme_code": "SCH000297",
+    "name_en": "Samarth – Scheme for Capacity Building in Textiles Sector",
+    "ministry": "Ministry of Textiles",
+    "department": "Ministry of Textiles with Implementing Partners",
+    "state": "All India",
+    "primary_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2065497",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2065497&reg=48&lang=2",
+      "page_title": "Press Release Page | Press Information Bureau",
+      "content_length": 83513,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [
+        "fy 2024-25"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Press Release Page | Press Information Bureau)",
+    "audited_at": "2026-10-05T18:08:23.244319+00:00"
+  },
+  {
+    "id": "SCH000298",
+    "scheme_code": "SCH000298",
+    "name_en": "PM Mega Integrated Textile Region and Apparel (PM MITRA) Parks",
+    "ministry": "Ministry of Textiles",
+    "department": "Ministry of Textiles / State SPVs",
+    "state": "All India",
+    "primary_url": "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1761410&reg=48&lang=2",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1761410&reg=48&lang=2",
+      "page_title": "Government has approved setting up of 7 Mega Integrated Textile Region and Apparel (PM MITRA पीएम मित्र) Parks with a to",
+      "content_length": 25368,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Government has approved setting up of 7 Mega Integrated Textile Region and Apparel (PM MITRA पीएम मित्र) Parks with a to)",
+    "audited_at": "2026-10-05T18:08:22.203273+00:00"
+  },
+  {
+    "id": "SCH000300",
+    "scheme_code": "SCH000300",
+    "name_en": "Animal Husbandry Infrastructure Development Fund (AHIDF)",
+    "ministry": "Ministry of Fisheries, Animal Husbandry and Dairying",
+    "department": "Department of Animal Husbandry and Dairying",
+    "state": "All India",
+    "primary_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2001054",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2001054&reg=48&lang=2",
+      "page_title": "Press Release Page | Press Information Bureau",
+      "content_length": 101609,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Press Release Page | Press Information Bureau)",
+    "audited_at": "2026-10-05T18:08:23.253943+00:00"
+  },
+  {
+    "id": "SCH000302",
+    "scheme_code": "SCH000302",
+    "name_en": "Deendayal Jan Aajeevika Yojana – Shehari (DJAY-S)",
+    "ministry": "Ministry of Housing and Urban Affairs",
+    "department": "State Urban Livelihoods Missions / Urban Local Bodies",
+    "state": "All India",
+    "primary_url": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2024/dec/doc20241210468601.pdf",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2024/dec/doc20241210468601.pdf",
+      "page_title": "",
+      "content_length": 114688,
+      "content_type": "application/pdf",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: )",
+    "audited_at": "2026-10-05T18:08:22.852288+00:00"
+  }
+]

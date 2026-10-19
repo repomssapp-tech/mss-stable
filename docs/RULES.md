@@ -12,11 +12,11 @@ This is the single entry point for "what rules apply here." It does not restate 
 | Coding standards & architecture invariants (offline-first, design tokens, i18n, decomposition, RLS) | `AGENTS.md` |
 | Search/discovery/recommendation architecture, catalog sync, API routing | `docs/OFFLINE_DISCOVERY_AND_SEARCH_ARCHITECTURE.md` |
 | UI/UX design system, typography, spacing tokens | `docs/UI_UX_DESIGN_SYSTEM.md` |
-| Database schema, migrations, RLS, ADRs | `docs/backend/BACKEND_SPECIFICATION.md` |
+| Database schema, migrations, RLS, ADRs | `docs/old_supabase/docs/backend/BACKEND_SPECIFICATION.md` (archived, old backend) |
 | Catalog data contract, release manifest, sync state machine | `docs/specs/CATALOG_SPECIFICATIONS.md` |
 | Deployment topology & CI | `docs/DEPLOYMENT_ARCHITECTURE.md` |
-| Production catalog publish / key-rotation runbooks | `docs/runbooks/OPERATIONS_RUNBOOK.md` |
-| Current known-good vs known-broken state | `docs/audit/AUDIT.md` (live) / `docs/audit/CODEBASE_AUDIT.md` (deep historical baseline) |
+| Production catalog publish / key-rotation runbooks | `docs/old_supabase/docs/runbooks/OPERATIONS_RUNBOOK.md` (archived, old backend) |
+| Current known-good vs known-broken state | `docs/audit/AUDIT.md` (live) / `docs/old_supabase/docs/audit/CODEBASE_AUDIT.md` (deep historical baseline) |
 | Repo orientation for a new dev or AI assistant | `docs/SKILLS.md` |
 | Who changed what, and when | `docs/audit/DEV_LOG.md` |
 
@@ -26,9 +26,9 @@ This is the single entry point for "what rules apply here." It does not restate 
 "Keep files small, under ~500 lines" (`AGENTS.md` §Monolithic Decomposition) means the ceiling applies **after** decomposition, not just before it. Extracting a few sub-widgets into a subdirectory while the parent coordinator stays at 1000+ lines does not satisfy the rule — the coordinator itself must shrink to roughly that ceiling, retaining only wiring/lifecycle logic and delegating rendering/state to the sub-modules. `docs/audit/AUDIT.md` lists the files currently over this ceiling; new PRs must not add to that list.
 
 ### 2. API routing pattern
-- New backend HTTP routes go into the existing `v1` single-router (`backend/supabase/functions/v1/index.ts`) unless the route needs a genuinely distinct auth model or runtime boundary — that's why `sarvam-chat`, `livekit-token`, `publishCatalog`, `rollbackRelease`, and `db-change-notify` are separate Edge Functions instead of `v1` routes. Don't create a new top-level function for something that's just another authenticated catalog/search lookup.
+- The app talks only to the MSS REST backend (`/v1`, see `backend/New API Ref/`). Routes the references do not define yet live in one place, `frontend/lib/services/backend/pending_endpoints.dart` (see `docs/backend/PENDING_ENDPOINTS.md`); do not scatter new route strings through the app.
 - `backend/openapi/openapi.planned.yaml` (renamed from `openapi.yaml` -- it documents a *planned*, not-yet-built admin/sync API with zero overlap with the real `/v1/*` routes, so the name now says so) must be updated in the same PR that adds, removes, or changes anything in that planned contract. The live, currently-deployed `/v1/*` routes are documented in `docs/audit/AUDIT.md` §2, not here.
-- Comments referencing specific caller files (e.g. a service class name) must be checked for staleness when that file is deleted or renamed — `backend/supabase/config.toml` was found referencing a Flutter service class that no longer exists.
+- Comments referencing specific caller files (e.g. a service class name) must be checked for staleness when that file is deleted or renamed.
 
 ### 3. Decomposition doesn't leave orphans
 When splitting a file, delete or fully repurpose the original monolith — never leave both the old and new versions in the tree. Verify every new sub-module is actually imported and delegated to by the coordinator, not just created alongside it.
@@ -42,4 +42,4 @@ Three files (`app_state_provider.dart`, `saarthi_home_screen.dart`, `voice_assis
 **Decision (2026-09-13): don't do either.** These three stay as single files above the ~500-line ceiling. This is a deliberate, accepted exception — not a violation to "fix" in a future pass. Do not introduce `part` files or a controller-injection rewrite on these files without a fresh, explicit decision to revisit this. New code added to these files should still avoid growing them further where avoidable, but correctness and stability take priority over the line-count rule here.
 
 ### 6. Audit refresh, not audit rewrite
-When re-verifying the codebase, update `docs/audit/AUDIT.md` in place (mark items Verified/Needs work, add new findings) rather than replacing it wholesale. `docs/audit/CODEBASE_AUDIT.md` stays frozen as the original deep-dive baseline for historical comparison.
+When re-verifying the codebase, update `docs/audit/AUDIT.md` in place (mark items Verified/Needs work, add new findings) rather than replacing it wholesale. `docs/old_supabase/docs/audit/CODEBASE_AUDIT.md` stays frozen as the original deep-dive baseline for historical comparison.

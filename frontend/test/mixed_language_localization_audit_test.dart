@@ -123,7 +123,9 @@ void main() {
           ),
         ),
       );
-      final normalHeight = tester.widget<AppBar>(find.byType(AppBar)).toolbarHeight;
+      final normalHeight = tester
+          .widget<AppBar>(find.byType(AppBar))
+          .toolbarHeight;
       expect(normalHeight, closeTo(56.0, 0.5));
 
       await tester.pumpWidget(
@@ -138,7 +140,9 @@ void main() {
           ),
         ),
       );
-      final withSubtitleHeight = tester.widget<AppBar>(find.byType(AppBar)).toolbarHeight;
+      final withSubtitleHeight = tester
+          .widget<AppBar>(find.byType(AppBar))
+          .toolbarHeight;
       expect(withSubtitleHeight, greaterThan(normalHeight!));
     });
 

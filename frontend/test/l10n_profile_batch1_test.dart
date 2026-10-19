@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
@@ -37,10 +36,6 @@ Widget _host(Locale locale, Widget screen) {
 void main() {
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    await Supabase.initialize(
-      url: 'https://example.supabase.co',
-      publishableKey: 'test-publishable-key',
-    );
   });
 
   group('LoginScreen renders ARB strings for the active locale', () {
@@ -63,47 +58,50 @@ void main() {
     });
   });
 
-  group('LanguageSelectionScreen renders ARB strings for the active locale', () {
-    testWidgets('Tamil locale shows the Tamil title', (tester) async {
-      await tester.pumpWidget(
-        _host(const Locale('ta'), const LanguageSelectionScreen()),
-      );
-      await tester.pumpAndSettle();
+  group(
+    'LanguageSelectionScreen renders ARB strings for the active locale',
+    () {
+      testWidgets('Tamil locale shows the Tamil title', (tester) async {
+        await tester.pumpWidget(
+          _host(const Locale('ta'), const LanguageSelectionScreen()),
+        );
+        await tester.pumpAndSettle();
 
-      expect(find.text(_chooseLangTa), findsOneWidget);
-      expect(find.text(_chooseLangEn), findsNothing);
-    });
+        expect(find.text(_chooseLangTa), findsOneWidget);
+        expect(find.text(_chooseLangEn), findsNothing);
+      });
 
-    testWidgets('English locale shows the English title', (tester) async {
-      await tester.pumpWidget(
-        _host(const Locale('en'), const LanguageSelectionScreen()),
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.text(_chooseLangEn), findsOneWidget);
-      expect(find.text(_chooseLangTa), findsNothing);
-    });
-
-    testWidgets(
-      'tapping the Tamil card live-previews Tamil without pressing Continue',
-      (tester) async {
+      testWidgets('English locale shows the English title', (tester) async {
         await tester.pumpWidget(
           _host(const Locale('en'), const LanguageSelectionScreen()),
         );
         await tester.pumpAndSettle();
 
-        // Starts in the ambient (English) locale.
         expect(find.text(_chooseLangEn), findsOneWidget);
         expect(find.text(_chooseLangTa), findsNothing);
+      });
 
-        // Tap the Tamil option card (its English sub-title is "Tamil").
-        await tester.tap(find.text('Tamil'));
-        await tester.pumpAndSettle();
+      testWidgets(
+        'tapping the Tamil card live-previews Tamil without pressing Continue',
+        (tester) async {
+          await tester.pumpWidget(
+            _host(const Locale('en'), const LanguageSelectionScreen()),
+          );
+          await tester.pumpAndSettle();
 
-        // Preview flips to Tamil immediately; Continue was never pressed.
-        expect(find.text(_chooseLangTa), findsOneWidget);
-        expect(find.text(_chooseLangEn), findsNothing);
-      },
-    );
-  });
+          // Starts in the ambient (English) locale.
+          expect(find.text(_chooseLangEn), findsOneWidget);
+          expect(find.text(_chooseLangTa), findsNothing);
+
+          // Tap the Tamil option card (its English sub-title is "Tamil").
+          await tester.tap(find.text('Tamil'));
+          await tester.pumpAndSettle();
+
+          // Preview flips to Tamil immediately; Continue was never pressed.
+          expect(find.text(_chooseLangTa), findsOneWidget);
+          expect(find.text(_chooseLangEn), findsNothing);
+        },
+      );
+    },
+  );
 }

@@ -3,15 +3,17 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:livekit_client/livekit_client.dart' as livekit;
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../models/user_profile.dart';
 import '../../models/scheme_model.dart';
+import '../account/app_session.dart';
+import '../backend/pending_endpoints.dart';
+import '../network/api_client.dart';
 import 'assistant_session_controller.dart';
 import 'voice_agent_controller.dart';
+import 'voice_language.dart';
 
 const _defaultAgentName = 'saarthi-agent';
-const _tokenFunctionName = 'livekit-token';
 
 @visibleForTesting
 const cloudProfileContextTopic = 'in-schemes.profile.v1';
@@ -125,6 +127,7 @@ bool shouldReportCloudListening({
 Map<String, dynamic> buildCloudProfileMetadata(
   UserProfile profile, {
   DateTime? now,
+  String? languageCode,
 }) {
   final facts = <String, dynamic>{};
 
@@ -161,37 +164,45 @@ Map<String, dynamic> buildCloudProfileMetadata(
   addText('disability', profile.disability);
   facts['veteran'] = profile.veteran;
 
-  return {'schema': 'in-schemes-profile-v1', 'profile': facts};
+  return {
+    'schema': 'in-schemes-profile-v1',
+    'profile': facts,
+    // The agent speaks the language the user picked, not a fixed one.
+    if (languageCode != null) 'language': VoiceLanguage.code(languageCode),
+  };
 }
 
-/// Adapts the authenticated Supabase function to LiveKit's token-source API.
-class SupabaseLiveKitTokenSource implements livekit.TokenSourceConfigurable {
-  SupabaseLiveKitTokenSource(this.client);
+/// Adapts the backend voice-token route to LiveKit's token-source API.
+///
+/// The route (`POST /voice/token`) is an assumed one listed in
+/// `PendingEndpoints`. The bearer token identifies the account, so the request
+/// carries only LiveKit's standard token-source fields and the app language.
+class RestLiveKitTokenSource implements livekit.TokenSourceConfigurable {
+  RestLiveKitTokenSource({ApiClient? client, this.languageCode})
+    : _client = client;
 
-  final SupabaseClient client;
+  final ApiClient? _client;
+
+  /// The app language, read when a token is requested so a change of language
+  /// applies to the next voice session.
+  final String Function()? languageCode;
 
   @override
   Future<livekit.TokenSourceResponse> fetch(
     livekit.TokenRequestOptions options,
   ) async {
-    var session = client.auth.currentSession;
-    if (session == null) {
+    if (!AppSession.instance.isSignedIn) {
       throw StateError('Sign in to use LiveKit Cloud voice.');
     }
-    // A cached Supabase session can still exist after its access token expires.
-    // Refresh it before invoking the protected token function; otherwise the
-    // 401 was interpreted by the UI as a reason to start the legacy TTS path.
-    if (session.isExpired) {
-      final refreshed = await client.auth.refreshSession();
-      session = refreshed.session;
-      if (session == null) {
-        throw StateError('Your sign-in session expired. Please sign in again.');
-      }
-    }
 
-    final response = await client.functions.invoke(
-      _tokenFunctionName,
-      body: options.toRequest().toJson(),
+    // ApiClient refreshes an expired access token once and retries.
+    final language = languageCode?.call();
+    final response = await (_client ?? ApiClient.instance).post(
+      PendingEndpoints.voiceToken,
+      body: {
+        ...options.toRequest().toJson(),
+        if (language != null) 'language': VoiceLanguage.code(language),
+      },
     );
     final data = response.data;
     if (data is! Map) {
@@ -217,24 +228,27 @@ class LiveKitVoiceAgentController extends ChangeNotifier
     required livekit.TokenSourceConfigurable tokenSource,
     required bool Function() cloudSessionAvailable,
     String agentName = _defaultAgentName,
+    String Function()? languageCode,
   }) : _tokenSource = tokenSource,
        _cloudSessionAvailable = cloudSessionAvailable,
-       _agentName = agentName;
+       _agentName = agentName,
+       _languageCode = languageCode;
 
-  static LiveKitVoiceAgentController? tryFromSupabase({
+  static LiveKitVoiceAgentController? tryCreate({
     required AssistantSessionController session,
     required UserProfile profile,
+    String Function()? languageCode,
   }) {
     try {
-      final client = Supabase.instance.client;
       return LiveKitVoiceAgentController(
         session: session,
         profile: profile,
-        tokenSource: SupabaseLiveKitTokenSource(client),
-        cloudSessionAvailable: () => client.auth.currentSession != null,
+        tokenSource: RestLiveKitTokenSource(languageCode: languageCode),
+        cloudSessionAvailable: () => AppSession.instance.isSignedIn,
+        languageCode: languageCode,
       );
     } catch (_) {
-      // Supabase is intentionally absent in isolated widget/unit tests.
+      // The API client is intentionally unavailable in some isolated tests.
       return null;
     }
   }
@@ -245,6 +259,7 @@ class LiveKitVoiceAgentController extends ChangeNotifier
   final livekit.TokenSourceConfigurable _tokenSource;
   final bool Function() _cloudSessionAvailable;
   final String _agentName;
+  final String Function()? _languageCode;
   final StreamController<VoiceAgentEvent> _events =
       StreamController<VoiceAgentEvent>.broadcast();
   final Map<String, String> _messageText = {};
@@ -385,7 +400,14 @@ class LiveKitVoiceAgentController extends ChangeNotifier
       if (participant != null && agents.isNotEmpty) {
         try {
           await participant.publishData(
-            utf8.encode(jsonEncode(buildCloudProfileMetadata(profile))),
+            utf8.encode(
+              jsonEncode(
+                buildCloudProfileMetadata(
+                  profile,
+                  languageCode: _languageCode?.call(),
+                ),
+              ),
+            ),
             reliable: true,
             destinationIdentities: agents
                 .map((agent) => agent.identity)

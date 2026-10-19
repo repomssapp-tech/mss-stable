@@ -53,7 +53,8 @@ class Step6EducationSelector extends StatelessWidget {
             title: educations[i]['title'] as String,
             subtitle: educations[i]['subtitle'] as String?,
             icon: educations[i]['icon'] as IconData?,
-            isSelected: selectedEducation.toLowerCase() ==
+            isSelected:
+                selectedEducation.toLowerCase() ==
                 (educations[i]['id'] as String).toLowerCase(),
             onTap: () => onEducationSelected(educations[i]['id'] as String),
           ),

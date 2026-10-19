@@ -408,7 +408,7 @@ class PrivateAiKnowledgeBase {
         'ஒரே பகுதி அல்லது value chain-ல் இருந்து ஒரே மாதிரி தயாரிப்பு, வசதி அல்லது பிரச்சினை கொண்ட குறு/சிறு நிறுவனக் குழுவை முதலில் உருவாக்குங்கள். Diagnostic study மற்றும் DPR-க்காக DIC, மாநில நிறுவனம் அல்லது MSME-DFO-வை அணுகுங்கள். Common Facility Centre-க்கு பொதுவாக உறுப்பினர்கள் தனி SPV, வழக்கமாக Section 8 company, அமைத்து MSE-CDP வழியாக விண்ணப்பிக்க வேண்டும்.',
     sourceLabel: 'MSE Cluster Development Programme',
     sourceUrl: 'https://my.msme.gov.in/mymsme/reg/COM_ClusterForm.aspx',
-    relatedSchemeCodes: ['IN092'],
+    relatedSchemeCodes: ['CEN2026-055'],
   );
 
   static const _needs = PrivateAiKnowledgeEntry(

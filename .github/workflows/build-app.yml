@@ -1,7 +1,7 @@
 name: Build App
 
 # Finding 8.3 (audit_fix.md) — build/verify automation for the Flutter app
-# component. Companion workflows: deploy-edge-functions.yml, deploy-voice-agent.yml.
+# component. Companion workflow: deploy-voice-agent.yml.
 #
 # Scope, per the audit: "at minimum flutter analyze + flutter test + release
 # build artifact upload". This workflow does not publish to any store — it
@@ -79,20 +79,37 @@ jobs:
       - name: Resolve dependencies
         run: flutter pub get
 
-      - name: Materialise dart_defines.json from secrets
-        id: dart_defines
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+      # A phone updates an installed app in place only if the new build has the
+      # same applicationId, the same signing key and a HIGHER versionCode (the
+      # number after "+" in pubspec.yaml). This step fails a build whose
+      # versionCode went down, and, for a promotable release, one that did not
+      # go up past the last release tag (app-v<version>+<build>).
+      # See docs/APP_VERSIONING.md.
+      - name: Version check (builds must install as updates)
+        id: version
         run: |
           set -euo pipefail
-          if [ -z "${SUPABASE_URL:-}" ] || [ -z "${SUPABASE_PUBLISHABLE_KEY:-}" ]; then
-            echo "SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY secrets absent — release builds will be skipped."
-            echo "present=false" >> "$GITHUB_OUTPUT"
-            exit 0
+          git fetch --no-tags --depth=1 origin main || true
+          if git rev-parse --verify -q origin/main >/dev/null; then
+            dart run tool/app_version.dart check --against origin/main
+          else
+            dart run tool/app_version.dart check
           fi
-          jq -n --arg url "$SUPABASE_URL" --arg key "$SUPABASE_PUBLISHABLE_KEY" \
-            '{SUPABASE_URL: $url, SUPABASE_PUBLISHABLE_KEY: $key}' > dart_defines.json
+          if [ "${{ github.event.inputs.dry_run }}" = "false" ]; then
+            git fetch --tags --depth=1 origin || true
+            dart run tool/app_version.dart check --against-latest-tag app-v --require-increase
+          fi
+          echo "name=$(dart run tool/app_version.dart show | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\+[0-9]+' | head -1)" >> "$GITHUB_OUTPUT"
+
+      - name: Materialise dart_defines.json
+        id: dart_defines
+        env:
+          # Optional: point a build at another backend. Defaults to production.
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+        run: |
+          set -euo pipefail
+          jq -n --arg url "${API_BASE_URL:-https://api.msmeschemes.org}" \
+            '{API_BASE_URL: $url}' > dart_defines.json
           echo "present=true" >> "$GITHUB_OUTPUT"
 
       - name: Analyze
@@ -144,7 +161,7 @@ jobs:
         if: ${{ steps.dart_defines.outputs.present == 'true' }}
         uses: actions/upload-artifact@v4
         with:
-          name: app-apk-${{ github.sha }}
+          name: app-apk-${{ steps.version.outputs.name }}-${{ github.sha }}
           path: frontend/build/app/outputs/flutter-apk/*.apk
           if-no-files-found: error
           retention-days: 14
@@ -161,9 +178,9 @@ jobs:
       - name: Promotable?
         run: |
           if [ "${{ steps.dart_defines.outputs.present }}" != "true" ]; then
-            echo "Not promotable: SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY secrets absent (analyze + test only)."
+            echo "Not promotable: no build configuration was materialised (analyze + test only)."
           elif [ "${{ github.event.inputs.dry_run }}" = "false" ] && [ "${{ steps.signing.outputs.signed }}" = "true" ]; then
-            echo "Signed release build — artifact app-apk-${{ github.sha }} is promotable."
+            echo "Signed release build — artifact app-apk-${{ steps.version.outputs.name }}-${{ github.sha }} is promotable."
           else
             echo "Not promotable: dry_run=${{ github.event.inputs.dry_run }}, signed=${{ steps.signing.outputs.signed }}."
           fi

@@ -5,14 +5,17 @@ import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/widgets/common/quick_pills.dart';
 
 void main() {
-  Widget wrap(Widget child, {Locale locale = const Locale('en')}) => MaterialApp(
+  Widget wrap(Widget child, {Locale locale = const Locale('en')}) =>
+      MaterialApp(
         locale: locale,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(body: child),
       );
 
-  testWidgets('renders all five pills with a 48dp hit area each', (tester) async {
+  testWidgets('renders all five pills with a 48dp hit area each', (
+    tester,
+  ) async {
     await tester.pumpWidget(wrap(QuickPills(onSelected: (_) {})));
 
     expect(find.text('Search PMEGP'), findsOneWidget);
@@ -27,7 +30,9 @@ void main() {
 
   testWidgets('tapping a pill passes the query, not the label', (tester) async {
     String? selectedQuery;
-    await tester.pumpWidget(wrap(QuickPills(onSelected: (q) => selectedQuery = q)));
+    await tester.pumpWidget(
+      wrap(QuickPills(onSelected: (q) => selectedQuery = q)),
+    );
 
     await tester.tap(find.text('Search Startup India'));
     await tester.pump();
@@ -36,7 +41,9 @@ void main() {
   });
 
   testWidgets('renders Tamil pill labels', (tester) async {
-    await tester.pumpWidget(wrap(QuickPills(onSelected: (_) {}), locale: const Locale('ta')));
+    await tester.pumpWidget(
+      wrap(QuickPills(onSelected: (_) {}), locale: const Locale('ta')),
+    );
 
     expect(find.text('ஸ்டார்ட்அப் இந்தியா தேடுக'), findsOneWidget);
   });
@@ -44,7 +51,10 @@ void main() {
   testWidgets('tapping a Tamil pill passes the Tamil query', (tester) async {
     String? selectedQuery;
     await tester.pumpWidget(
-      wrap(QuickPills(onSelected: (q) => selectedQuery = q), locale: const Locale('ta')),
+      wrap(
+        QuickPills(onSelected: (q) => selectedQuery = q),
+        locale: const Locale('ta'),
+      ),
     );
 
     await tester.tap(find.text('ஸ்டார்ட்அப் இந்தியா தேடுக'));

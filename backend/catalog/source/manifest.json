@@ -2,22 +2,22 @@
   "metadata": {
     "catalogName": "manifest",
     "schemaVersion": "1.0.0",
-    "catalogVersion": "1.36.0-alpha",
+    "catalogVersion": "1.37.0-alpha",
     "generatedAt": "2026-10-05T02:15:00Z",
     "language": "en",
     "recordCount": 1,
-    "checksum": "sha256:4936ae3feeb42fe3898e77f7765bdcc77a43f6268663c5e27f376c252a2e7e58"
+    "checksum": "sha256:be06826b923794ef8d886145cd773ef7a2e58ea4a479e2a95d553427f241f9d0"
   },
   "data": [
     {
-      "catalogRelease": "1.36.0-alpha",
+      "catalogRelease": "1.37.0-alpha",
       "schemaVersion": "1.0.0",
       "releasedAt": "2026-10-05T02:15:00Z",
       "compatibility": {
         "minAppVersion": null,
-        "supersedes": "1.35.1-alpha"
+        "supersedes": "1.36.0-alpha"
       },
-      "stage": "A — document-derived (tiers 1-4). Identifiers resolved against common_catalog and authority_catalog. No network sourcing.",
+      "stage": "2026 scheme catalog (schemes_json_only) with legacy supplement",
       "baseline": {
         "release": "1.0.0-alpha",
         "retainedAt": "catalog/stage_a_frozen/",
@@ -56,8 +56,8 @@
           "catalogName": "authority",
           "schemaVersion": "1.0.0",
           "recordCount": 124,
-          "byteSize": 1095398,
-          "checksum": "sha256:8804a2f8fb175aca58bbc6c36422b49944ab64b45a63647d27c8b3466980f40d",
+          "byteSize": 1209484,
+          "checksum": "sha256:f1f04339230059ba64c7fd74956cf507e5ef00f8f501972c694ceea5f2258b17",
           "required": false
         },
         {
@@ -74,8 +74,8 @@
           "catalogName": "scheme",
           "schemaVersion": "1.0.0",
           "recordCount": 302,
-          "byteSize": 9098363,
-          "checksum": "sha256:d08b440013d4bc318078a84115af4a5b6293c0b1cf8d9f1b7d42e37fad5d06c1",
+          "byteSize": 14062484,
+          "checksum": "sha256:9edaa3c4121330714b188fed675eb4f68d0f5e3af43e87e86cea4f5f28dda7cc",
           "required": true
         },
         {
@@ -192,6 +192,7 @@
         "translations_ta.json"
       ],
       "stageBPasses": [
+        "crossrefs:newcatalogs",
         "finance:collateral-enrichment",
         "scheme:pass1-batch1",
         "scheme:pass1-batch2",

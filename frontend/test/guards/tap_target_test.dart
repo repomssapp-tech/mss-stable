@@ -28,48 +28,48 @@ final _gestureHandlerPattern = RegExp(r'onTap:|onTapDown:|onLongPress:');
 final _iconButtonStart = RegExp(r'IconButton\(');
 
 bool _collapsesHitArea(String call) =>
-    (call.contains('BoxConstraints()') || call.contains('padding: EdgeInsets.zero')) &&
+    (call.contains('BoxConstraints()') ||
+        call.contains('padding: EdgeInsets.zero')) &&
     !call.contains('AppSize.tapTarget');
 
 void main() {
-  test(
-    'lib/screens and lib/widgets use AppTappable/AppIconButton instead of '
-    'raw GestureDetector(onTap:/onTapDown:/onLongPress:) or a collapsed '
-    'IconButton hit area',
-    () {
-      final actual = <String, int>{};
-      for (final file in dartFilesUnder('lib')) {
-        final path = relPath(file);
-        if (_allowedFiles.contains(path)) continue;
-        if (!path.startsWith('lib/screens/') && !path.startsWith('lib/widgets/')) {
-          continue;
-        }
-        final src = file.readAsStringSync();
-        final lines = src.split('\n');
-        var count = 0;
+  test('lib/screens and lib/widgets use AppTappable/AppIconButton instead of '
+      'raw GestureDetector(onTap:/onTapDown:/onLongPress:) or a collapsed '
+      'IconButton hit area', () {
+    final actual = <String, int>{};
+    for (final file in dartFilesUnder('lib')) {
+      final path = relPath(file);
+      if (_allowedFiles.contains(path)) continue;
+      if (!path.startsWith('lib/screens/') &&
+          !path.startsWith('lib/widgets/')) {
+        continue;
+      }
+      final src = file.readAsStringSync();
+      final lines = src.split('\n');
+      var count = 0;
 
-        for (final call in balancedCallsWithOffsets(src, _gestureDetectorStart)) {
-          if (!_gestureHandlerPattern.hasMatch(call.text)) continue;
-          final startLine = lineOf(src, call.start);
-          if (lines[startLine].contains('// tap-ok')) continue;
-          count++;
-        }
-
-        for (final call in balancedCallsWithOffsets(src, _iconButtonStart)) {
-          if (!_collapsesHitArea(call.text)) continue;
-          final startLine = lineOf(src, call.start);
-          if (lines[startLine].contains('// tap-ok')) continue;
-          count++;
-        }
-
-        if (count > 0) actual[path] = count;
+      for (final call in balancedCallsWithOffsets(src, _gestureDetectorStart)) {
+        if (!_gestureHandlerPattern.hasMatch(call.text)) continue;
+        final startLine = lineOf(src, call.start);
+        if (lines[startLine].contains('// tap-ok')) continue;
+        count++;
       }
 
-      expectNoRatchetRegression(
-        rule: 'tap_target',
-        actual: actual,
-        violationDescription: 'Raw GestureDetector tap handlers/collapsed IconButton hit areas',
-      );
-    },
-  );
+      for (final call in balancedCallsWithOffsets(src, _iconButtonStart)) {
+        if (!_collapsesHitArea(call.text)) continue;
+        final startLine = lineOf(src, call.start);
+        if (lines[startLine].contains('// tap-ok')) continue;
+        count++;
+      }
+
+      if (count > 0) actual[path] = count;
+    }
+
+    expectNoRatchetRegression(
+      rule: 'tap_target',
+      actual: actual,
+      violationDescription:
+          'Raw GestureDetector tap handlers/collapsed IconButton hit areas',
+    );
+  });
 }

@@ -1,4 +1,5 @@
 import '../services/catalog/language_pack_manager.dart';
+import 'scheme_extras.dart';
 
 class SchemeDocument {
   final String name;
@@ -122,11 +123,11 @@ class SchemeService {
   });
 }
 
-/// Unified scheme model populated by the bundled catalog, with Supabase kept
-/// as a backwards-compatible fallback in [SchemeRepository].
+/// Unified scheme model populated by the bundled catalog (the 2026 scheme
+/// data); [extras] carries the source fields with no dedicated property.
 class Scheme {
-  final String id; // Stable catalog code or Supabase UUID
-  final String schemeCode; // e.g. "IN001"
+  final String id; // Stable catalog id, e.g. "CEN2026-085"
+  final String schemeCode; // Catalog code (equal to [id] for 2026 records)
   final String name;
   final String nameTa;
   final String shortName;
@@ -216,6 +217,21 @@ class Scheme {
   final List<String> knowledgeGuidanceList;
   final Map<String, String> helplineContactsMap;
 
+  /// 2026 source details with no dedicated field (contacts, benefit facts,
+  /// status note, links...). [SchemeExtras.empty] for non-2026 records.
+  final SchemeExtras extras;
+
+  /// Names the catalog stores in other languages for this scheme's short
+  /// name and its ministry/department/agency, keyed by field then language.
+  /// Shown as is, ahead of any runtime translation.
+  final Map<String, Map<String, String>> nativeNames;
+
+  /// The catalog's stored [lang] name for [field], or null when it has none.
+  String? nativeName(String field, String lang) {
+    final value = nativeNames[field]?[lang];
+    return value == null || value.isEmpty ? null : value;
+  }
+
   // Joined / enriched fields (populated on detail load)
   final List<String> eligibilityCriteria;
   final List<String> requiredDocuments;
@@ -296,6 +312,8 @@ class Scheme {
     this.applicableTaxesList = const [],
     this.knowledgeGuidanceList = const [],
     this.helplineContactsMap = const {},
+    this.extras = SchemeExtras.empty,
+    this.nativeNames = const {},
     this.eligibilityCriteria = const [],
     this.requiredDocuments = const [],
     this.applicationProcess = const [],
@@ -324,17 +342,19 @@ class Scheme {
   /// Get localized overview description
   String getOverview([String langCode = 'en']) {
     if (langCode != 'en') {
-      final packVal = LanguagePackManager.instance.getField(
-        lang: langCode,
-        entityType: 'scheme',
-        entityId: id,
-        fieldName: 'summary',
-      ) ?? LanguagePackManager.instance.getField(
-        lang: langCode,
-        entityType: 'scheme',
-        entityId: id,
-        fieldName: 'description',
-      );
+      final packVal =
+          LanguagePackManager.instance.getField(
+            lang: langCode,
+            entityType: 'scheme',
+            entityId: id,
+            fieldName: 'summary',
+          ) ??
+          LanguagePackManager.instance.getField(
+            lang: langCode,
+            entityType: 'scheme',
+            entityId: id,
+            fieldName: 'description',
+          );
       if (packVal != null && packVal.isNotEmpty) return packVal;
     }
     if (langCode == 'ta' && overviewTa.trim().isNotEmpty) {
@@ -358,51 +378,6 @@ class Scheme {
       return benefitsTa.trim();
     }
     return benefits;
-  }
-
-  /// Build a Scheme from a Supabase row (public.schemes table).
-  factory Scheme.fromSupabase(Map<String, dynamic> row) {
-    return Scheme(
-      id: row['id'] as String? ?? '',
-      schemeCode: row['scheme_code'] as String? ?? '',
-      name: row['scheme_name'] as String? ?? '',
-      governmentLevel: row['government_level'] as String? ?? 'Central',
-      sponsoringBody: row['issuing_department'] as String? ?? '',
-      issuingBody: row['issuing_body'] as String? ?? '',
-      state: row['state'] as String? ?? 'All India',
-      sector: row['target_sector'] as String? ?? '',
-      targetBeneficiary: row['target_beneficiary'] as String? ?? '',
-      schemeType: row['scheme_type'] as String? ?? '',
-      category: row['scheme_category'] as String? ?? '',
-      overview: row['overview'] as String? ?? '',
-      objectives: row['objectives'] as String? ?? '',
-      benefits: row['benefits_description'] as String? ?? '',
-      subsidyPercentage: (row['subsidy_percentage'] as num?)?.toDouble(),
-      maxFunding: (row['max_funding_amount'] as num?)?.toDouble(),
-      minFunding: (row['minimum_funding_amount'] as num?)?.toDouble(),
-      interestSubventionRate: (row['interest_subvention_rate'] as num?)
-          ?.toDouble(),
-      applicationMode: row['application_mode'] as String? ?? '',
-      officialWebsite: row['official_website'] as String? ?? '',
-      applicationUrl: row['application_url'] as String? ?? '',
-      guidelinesUrl: row['guidelines_url'] as String? ?? '',
-      sourceUrl: row['source_url'] as String? ?? '',
-      schemeUrl: row['scheme_url'] as String? ?? '',
-      districtApplicable: row['district_applicable'] as String? ?? '',
-      subsidyAmount:
-          row['subsidy_amount_display']?.toString() ??
-          row['subsidy_amount']?.toString() ??
-          '',
-      verificationStatus: row['verification_status']?.toString() ?? '',
-      verificationNotes: row['verification_notes']?.toString() ?? '',
-      lastUpdated:
-          row['source_last_updated']?.toString() ??
-          row['last_updated']?.toString() ??
-          '',
-      searchKeywords: row['search_keywords'] as String? ?? '',
-      status: row['status'] as String? ?? 'ACTIVE',
-      isActive: row['is_active'] as bool? ?? true,
-    );
   }
 
   /// Returns a copy with specified fields updated.
@@ -485,6 +460,8 @@ class Scheme {
       applicableTaxesList: applicableTaxesList,
       knowledgeGuidanceList: knowledgeGuidanceList,
       helplineContactsMap: helplineContactsMap,
+      extras: extras,
+      nativeNames: nativeNames,
       eligibilityCriteria: eligibilityCriteria,
       requiredDocuments: requiredDocuments,
       applicationProcess: applicationProcess,
@@ -611,6 +588,8 @@ class Scheme {
       knowledgeGuidanceList:
           knowledgeGuidanceList ?? this.knowledgeGuidanceList,
       helplineContactsMap: helplineContactsMap ?? this.helplineContactsMap,
+      extras: extras,
+      nativeNames: nativeNames,
       eligibilityCriteria: eligibilityCriteria ?? this.eligibilityCriteria,
       requiredDocuments: requiredDocuments ?? this.requiredDocuments,
       applicationProcess: applicationProcess ?? this.applicationProcess,

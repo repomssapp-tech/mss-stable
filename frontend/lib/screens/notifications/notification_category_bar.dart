@@ -68,8 +68,9 @@ class NotificationCategoryBar extends StatelessWidget {
                           ? activeTextColor
                           : const Color(0xFF1E293B),
                       fontSize: 12,
-                      fontWeight:
-                          isSelected ? FontWeight.bold : FontWeight.w500,
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.w500,
                     ),
                   ),
                 ],

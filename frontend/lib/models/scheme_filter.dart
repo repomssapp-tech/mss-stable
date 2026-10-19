@@ -26,8 +26,13 @@ import 'scheme_model.dart';
 bool schemeIsNationwide(Scheme s) {
   final st = s.state.toLowerCase().replaceAll(RegExp(r'[^a-z]'), '');
   const exact = {
-    'india', 'national', 'nationwide', 'acrossindia',
-    'allstates', 'allstatesut', 'central',
+    'india',
+    'national',
+    'nationwide',
+    'acrossindia',
+    'allstates',
+    'allstatesut',
+    'central',
   };
   if (exact.contains(st)) return true;
   // Catches "Pan-India / coir sector", "All India (framework)", etc.
@@ -54,12 +59,27 @@ class SchemeTypeGroup {
 }
 
 const List<SchemeTypeGroup> kSchemeTypeGroups = [
-  SchemeTypeGroup('loans', 'Loans & credit',
-      ['loan', 'credit', 'working capital', 'refinance', 'cash credit']),
-  SchemeTypeGroup('subsidies', 'Subsidies',
-      ['subsid', 'subvention', 'reimbursement', 'incentive', 'margin money']),
-  SchemeTypeGroup('grants', 'Grants & equity',
-      ['grant', 'equity', 'seed fund', 'corpus', 'venture']),
+  SchemeTypeGroup('loans', 'Loans & credit', [
+    'loan',
+    'credit',
+    'working capital',
+    'refinance',
+    'cash credit',
+  ]),
+  SchemeTypeGroup('subsidies', 'Subsidies', [
+    'subsid',
+    'subvention',
+    'reimbursement',
+    'incentive',
+    'margin money',
+  ]),
+  SchemeTypeGroup('grants', 'Grants & equity', [
+    'grant',
+    'equity',
+    'seed fund',
+    'corpus',
+    'venture',
+  ]),
   SchemeTypeGroup('guarantee', 'Guarantee', ['guarantee']),
   SchemeTypeGroup('training', 'Training', [
     'training',
@@ -137,18 +157,23 @@ List<Scheme> applySchemeFilters(List<Scheme> input, Map<String, dynamic> f) {
   } else if (state.isNotEmpty && state.toLowerCase() != 'all') {
     final st = state.toLowerCase();
     out = out
-        .where((s) => schemeIsNationwide(s) || s.state.toLowerCase().contains(st))
+        .where(
+          (s) => schemeIsNationwide(s) || s.state.toLowerCase().contains(st),
+        )
         .toList();
   }
 
   final typeIds = _asStrList(f['schemeTypes']).toSet();
   if (typeIds.isNotEmpty) {
-    final groups =
-        kSchemeTypeGroups.where((g) => typeIds.contains(g.id)).toList();
+    final groups = kSchemeTypeGroups
+        .where((g) => typeIds.contains(g.id))
+        .toList();
     out = out.where((s) => groups.any((g) => g.matches(s))).toList();
   }
 
-  final bens = _asStrList(f['beneficiaries']).map((e) => e.toLowerCase()).toSet();
+  final bens = _asStrList(
+    f['beneficiaries'],
+  ).map((e) => e.toLowerCase()).toSet();
   if (bens.isNotEmpty) {
     out = out.where((s) {
       final sc = s.specialCategories.map((e) => e.toLowerCase()).toSet();
@@ -160,8 +185,7 @@ List<Scheme> applySchemeFilters(List<Scheme> input, Map<String, dynamic> f) {
   if (category.isNotEmpty && category.toLowerCase() != 'all') {
     final words = category.toLowerCase().split(RegExp(r'[\s&/,\-]+'));
     out = out.where((s) {
-      final hay =
-          '${s.category} ${s.sector} ${s.searchKeywords}'.toLowerCase();
+      final hay = '${s.category} ${s.sector} ${s.searchKeywords}'.toLowerCase();
       return words.any((w) => w.length > 2 && hay.contains(w));
     }).toList();
   }

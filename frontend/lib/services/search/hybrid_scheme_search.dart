@@ -90,14 +90,15 @@ class SchemeSearchTaxonomy {
     intents = _stringListMap(taxonomy['intents']);
 
     relatedConcepts = _stringListMap(data['relatedConcepts']);
-    weights = (data['weights'] as Map<String, dynamic>)
-        .map((k, v) => MapEntry(k, (v as num).toDouble()));
-    statusFactor = (data['statusFactor'] as Map<String, dynamic>)
-        .map((k, v) => MapEntry(k, (v as num).toDouble()));
-    statusToConcept =
-        (data['statusToConcept'] as Map<String, dynamic>).cast<String, String>();
-    semanticQueryGroups =
-        (data['semanticQueryGroups'] as List).cast<String>();
+    weights = (data['weights'] as Map<String, dynamic>).map(
+      (k, v) => MapEntry(k, (v as num).toDouble()),
+    );
+    statusFactor = (data['statusFactor'] as Map<String, dynamic>).map(
+      (k, v) => MapEntry(k, (v as num).toDouble()),
+    );
+    statusToConcept = (data['statusToConcept'] as Map<String, dynamic>)
+        .cast<String, String>();
+    semanticQueryGroups = (data['semanticQueryGroups'] as List).cast<String>();
 
     _loaded = true;
   }
@@ -213,8 +214,7 @@ class _LookupEntry {
 class HybridSchemeSearch {
   HybridSchemeSearch._(this._bundle, this._schemeEntries, this._expansions) {
     _semanticCodes = {
-      for (final entry in _schemeEntries)
-        entry.id: _semanticTagCodes(entry),
+      for (final entry in _schemeEntries) entry.id: _semanticTagCodes(entry),
     };
     _buildIdf();
     // Split the expansion dictionary into phrase keys (multi-word,
@@ -278,12 +278,14 @@ class HybridSchemeSearch {
     final profile = _bundle.searchProfiles[entry.id];
     final tokens = profile?['tokens'] as Map<String, dynamic>?;
     final searchProfile = _profileOf(entry);
-    final aliasRaw = (entry.search['aliases'] as Map<String, dynamic>?) ?? const {};
-    final kwRaw = (entry.search['keywords'] as Map<String, dynamic>?) ?? const {};
+    final aliasRaw =
+        (entry.search['aliases'] as Map<String, dynamic>?) ?? const {};
+    final kwRaw =
+        (entry.search['keywords'] as Map<String, dynamic>?) ?? const {};
     final isDevanagari = RegExp(r'[\u0900-\u097F]');
-    final hiNameTokens = _meaningfulTokens(_normLookup(entry.getLocalizedName('hi')))
-        .where(isDevanagari.hasMatch)
-        .toList();
+    final hiNameTokens = _meaningfulTokens(
+      _normLookup(entry.getLocalizedName('hi')),
+    ).where(isDevanagari.hasMatch).toList();
     final hiAliasTokens = [
       for (final a in _stringList(aliasRaw['hi']))
         ..._meaningfulTokens(_normLookup(a)),
@@ -300,39 +302,39 @@ class HybridSchemeSearch {
       (hiAliasTokens, 1.0),
       (hiKwTokens, 1.0),
       (
-        _stringList(searchProfile['loanType'])
-            .map((e) => e.toLowerCase())
-            .toList(),
+        _stringList(
+          searchProfile['loanType'],
+        ).map((e) => e.toLowerCase()).toList(),
         0.9,
       ),
       (
-        _stringList(searchProfile['subsidyType'])
-            .map((e) => e.toLowerCase())
-            .toList(),
+        _stringList(
+          searchProfile['subsidyType'],
+        ).map((e) => e.toLowerCase()).toList(),
         0.9,
       ),
       (
-        _stringList(searchProfile['taxBenefits'])
-            .map((e) => e.toLowerCase())
-            .toList(),
+        _stringList(
+          searchProfile['taxBenefits'],
+        ).map((e) => e.toLowerCase()).toList(),
         0.7,
       ),
       (
-        _stringList(searchProfile['clusters'])
-            .map((e) => e.toLowerCase())
-            .toList(),
+        _stringList(
+          searchProfile['clusters'],
+        ).map((e) => e.toLowerCase()).toList(),
         0.7,
       ),
       (
-        _stringList(searchProfile['industryTags'])
-            .map((e) => e.toLowerCase())
-            .toList(),
+        _stringList(
+          searchProfile['industryTags'],
+        ).map((e) => e.toLowerCase()).toList(),
         0.8,
       ),
       (
-        _stringList(searchProfile['benefitTags'])
-            .map((e) => e.toLowerCase())
-            .toList(),
+        _stringList(
+          searchProfile['benefitTags'],
+        ).map((e) => e.toLowerCase()).toList(),
         0.8,
       ),
     ];
@@ -416,7 +418,8 @@ class HybridSchemeSearch {
           tok.split('-').where(SchemeSearchTaxonomy.isSearchableToken),
         );
       }
-      if (tok.endsWith('s') && _vocab.contains(tok.substring(0, tok.length - 1))) {
+      if (tok.endsWith('s') &&
+          _vocab.contains(tok.substring(0, tok.length - 1))) {
         forms.add(tok.substring(0, tok.length - 1));
       }
       if (_vocab.contains('${tok}s')) {
@@ -500,9 +503,9 @@ class HybridSchemeSearch {
     Map<String, List<String>> queryTags,
   ) {
     final profile = _profileOf(entry);
-    final elig = _stringSet(profile['eligibilityKeywords'])
-        .map((e) => e.toLowerCase())
-        .toSet();
+    final elig = _stringSet(
+      profile['eligibilityKeywords'],
+    ).map((e) => e.toLowerCase()).toSet();
     if (elig.isEmpty) return 0.0; // neutral -- unrecorded, not "matches all"
     final queryTerms = {
       ...queryTags['communities']!,
@@ -524,7 +527,8 @@ class HybridSchemeSearch {
     }
     final entryCollateralConcepts = {
       for (final s in _stringSet(profile['collateralStatus']))
-        if (SchemeSearchTaxonomy.statusToConcept.containsKey(s)) SchemeSearchTaxonomy.statusToConcept[s]!,
+        if (SchemeSearchTaxonomy.statusToConcept.containsKey(s))
+          SchemeSearchTaxonomy.statusToConcept[s]!,
     };
     if (entryCollateralConcepts
         .intersection(queryTags['collateral']!.toSet())
@@ -568,19 +572,19 @@ class HybridSchemeSearch {
     }
 
     final profile = _profileOf(entry);
-    final ind = queryTags['industries']!
-        .toSet()
-        .intersection(_stringSet(profile['industryTags']));
+    final ind = queryTags['industries']!.toSet().intersection(
+      _stringSet(profile['industryTags']),
+    );
     if (ind.isNotEmpty) reasons.add('Industry match: ${ind.join(', ')}');
 
-    final comm = queryTags['communities']!
-        .toSet()
-        .intersection(_stringSet(profile['communityTags']));
+    final comm = queryTags['communities']!.toSet().intersection(
+      _stringSet(profile['communityTags']),
+    );
     if (comm.isNotEmpty) reasons.add('Community match: ${comm.join(', ')}');
 
-    final elig = _stringSet(profile['eligibilityKeywords'])
-        .map((e) => e.toLowerCase())
-        .toSet();
+    final elig = _stringSet(
+      profile['eligibilityKeywords'],
+    ).map((e) => e.toLowerCase()).toSet();
     final eligHits = elig.intersection({
       ...queryTags['communities']!,
       ...queryTags['industries']!,
@@ -589,22 +593,24 @@ class HybridSchemeSearch {
       reasons.add('Eligibility match: ${eligHits.join(', ')}');
     }
 
-    final ben = queryTags['benefits']!
-        .toSet()
-        .intersection(_stringSet(profile['benefitTags']));
+    final ben = queryTags['benefits']!.toSet().intersection(
+      _stringSet(profile['benefitTags']),
+    );
     if (ben.isNotEmpty) reasons.add('Benefit match: ${ben.join(', ')}');
 
-    final intent = queryTags['intents']!
-        .toSet()
-        .intersection(_stringSet(profile['userIntentTags']));
+    final intent = queryTags['intents']!.toSet().intersection(
+      _stringSet(profile['userIntentTags']),
+    );
     if (intent.isNotEmpty) reasons.add('Intent match: ${intent.join(', ')}');
 
     final entryCollateral = {
       for (final s in _stringSet(profile['collateralStatus']))
-        if (SchemeSearchTaxonomy.statusToConcept.containsKey(s)) SchemeSearchTaxonomy.statusToConcept[s]!,
+        if (SchemeSearchTaxonomy.statusToConcept.containsKey(s))
+          SchemeSearchTaxonomy.statusToConcept[s]!,
     };
-    final collateralHit =
-        entryCollateral.intersection(queryTags['collateral']!.toSet());
+    final collateralHit = entryCollateral.intersection(
+      queryTags['collateral']!.toSet(),
+    );
     if (collateralHit.isNotEmpty) {
       reasons.add('Collateral match: ${collateralHit.join(', ')}');
     }
@@ -662,12 +668,14 @@ class HybridSchemeSearch {
     final elig = _eligibilityScore(entry, queryTags);
     final ben = _benefitScore(entry, queryTags);
     final semantic = _semanticScore(entry, queryTags);
-    final raw = SchemeSearchTaxonomy.weights['keyword']! * kw +
+    final raw =
+        SchemeSearchTaxonomy.weights['keyword']! * kw +
         SchemeSearchTaxonomy.weights['semantic']! * semantic +
         SchemeSearchTaxonomy.weights['category']! * cat +
         SchemeSearchTaxonomy.weights['eligibility']! * elig +
         SchemeSearchTaxonomy.weights['benefit']! * ben;
-    final statusFactor = SchemeSearchTaxonomy.statusFactor[entry.status.toLowerCase()] ?? 1.0;
+    final statusFactor =
+        SchemeSearchTaxonomy.statusFactor[entry.status.toLowerCase()] ?? 1.0;
     final finalScore = raw * statusFactor;
     return (finalScore * 10000).round() / 10000;
   }
@@ -713,8 +721,21 @@ class HybridSchemeSearch {
   /// Tokens that carry no lookup signal on their own -- ignored when
   /// deciding whether a multi-word query "is" a particular scheme's name.
   static const Set<String> _lookupStopwords = {
-    'scheme', 'schemes', 'yojana', 'program', 'programme', 'the', 'of',
-    'for', 'and', 'a', 'an', 'to', 'in', 'on', 'by',
+    'scheme',
+    'schemes',
+    'yojana',
+    'program',
+    'programme',
+    'the',
+    'of',
+    'for',
+    'and',
+    'a',
+    'an',
+    'to',
+    'in',
+    'on',
+    'by',
   };
 
   List<_LookupEntry>? _lookupCache;
@@ -725,9 +746,9 @@ class HybridSchemeSearch {
       .trim();
 
   List<String> _meaningfulTokens(String norm) => [
-        for (final t in norm.split(' '))
-          if (t.length >= 2 && !_lookupStopwords.contains(t)) t,
-      ];
+    for (final t in norm.split(' '))
+      if (t.length >= 2 && !_lookupStopwords.contains(t)) t,
+  ];
 
   List<_LookupEntry> _lookupEntries() {
     return _lookupCache ??= [
@@ -740,10 +761,12 @@ class HybridSchemeSearch {
     final nameTa = _normLookup(e.getLocalizedName('ta'));
     final nameHi = _normLookup(e.getLocalizedName('hi'));
     final identity = e.identity;
-    final acronym =
-        _normLookup((identity['acronym'] ?? '').toString()).replaceAll(' ', '');
-    final shortName = _normLookup((identity['shortName'] ?? '').toString())
-        .replaceAll(' ', '');
+    final acronym = _normLookup(
+      (identity['acronym'] ?? '').toString(),
+    ).replaceAll(' ', '');
+    final shortName = _normLookup(
+      (identity['shortName'] ?? '').toString(),
+    ).replaceAll(' ', '');
     final aliasRaw = (e.search['aliases'] as Map<String, dynamic>?) ?? const {};
     final aliases = <String>{
       for (final lang in const ['en', 'ta', 'hi'])
@@ -778,7 +801,10 @@ class HybridSchemeSearch {
     final table = _lookupEntries();
 
     // Tier 1 -- the query IS a whole scheme name / alias.
-    final t1 = [for (final l in table) if (l.fullForms.contains(nq)) l.entry];
+    final t1 = [
+      for (final l in table)
+        if (l.fullForms.contains(nq)) l.entry,
+    ];
     if (t1.isNotEmpty) return _sortedById(t1);
 
     // Tier 2 -- the query IS a curated acronym / short name.
@@ -826,7 +852,8 @@ class HybridSchemeSearch {
     final ben = _benefitScore(entry, queryTags);
     final semantic = _semanticScore(entry, queryTags);
     final w = SchemeSearchTaxonomy.weights;
-    final raw = w['keyword']! * kw +
+    final raw =
+        w['keyword']! * kw +
         w['semantic']! * semantic +
         w['category']! * cat +
         w['eligibility']! * elig +
@@ -842,8 +869,9 @@ class HybridSchemeSearch {
       'statusFactor': statusFactor,
       'raw': raw,
       'final': (raw * statusFactor * 10000).round() / 10000,
-      'exactTier':
-          exactEntityMatches(query).any((e) => e.id == schemeId) ? 1.0 : 0.0,
+      'exactTier': exactEntityMatches(query).any((e) => e.id == schemeId)
+          ? 1.0
+          : 0.0,
     };
   }
 
@@ -867,12 +895,11 @@ class HybridSchemeSearch {
       MssEntity entry,
       double score,
       List<String> reasons,
-    ) =>
-        SchemeSearchMatch(
-          scheme: MssSchemeAdapter.toScheme(entry, bundle, langCode: langCode),
-          score: score,
-          reasons: reasons,
-        );
+    ) => SchemeSearchMatch(
+      scheme: MssSchemeAdapter.toScheme(entry, bundle, langCode: langCode),
+      score: score,
+      reasons: reasons,
+    );
 
     // 1. Exact-entity lookup -- return just the named scheme(s).
     final exact = engine.exactEntityMatches(query);
@@ -890,15 +917,19 @@ class HybridSchemeSearch {
 
     // A multi-word proper-name query that no tier matched and that only
     // scrapes common-word noise -> "not available", not a wrong list.
-    final meaningfulTokens =
-        engine._meaningfulTokens(_normLookup(query)).length;
+    final meaningfulTokens = engine
+        ._meaningfulTokens(_normLookup(query))
+        .length;
     if (meaningfulTokens >= _kNameLookupMinTokens &&
         maxScore < _kNameLookupMinScore) {
       return const [];
     }
 
     final floor = maxScore * _kRelevanceFloorRatio;
-    var kept = [for (final r in results) if (r.$2 >= floor) r];
+    var kept = [
+      for (final r in results)
+        if (r.$2 >= floor) r,
+    ];
     if (kept.isEmpty) kept = [results.first];
     if (kept.length > _kMaxResults) kept = kept.sublist(0, _kMaxResults);
     return [for (final (e, s, r) in kept) toMatch(e, s, r)];

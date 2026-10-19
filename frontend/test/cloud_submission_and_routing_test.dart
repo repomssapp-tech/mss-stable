@@ -1,43 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:frontend/models/user_profile.dart';
 
 void main() {
   group('cloud-confirmed onboarding', () {
-    test('profile payload matches the hosted Supabase contract', () {
-      final payload = UserProfile(
-        googleUserId: '00000000-0000-0000-0000-000000000001',
-        name: 'Test User',
-        profileCompleted: true,
-      ).toSupabase();
-
-      expect(
-        payload.keys,
-        containsAll(<String>[
-          'id',
-          'email',
-          'name',
-          'language',
-          'navigation_mode',
-          'applicant_type',
-          'state',
-          'district',
-          'pincode',
-          'is_profile_complete',
-          'dob',
-          'gender',
-          'qualification',
-          'annual_income',
-          'community',
-          'phone',
-          'updated_at',
-        ]),
-      );
-      expect(payload['id'], isNotEmpty);
-      expect(payload['is_profile_complete'], isTrue);
-    });
-
     for (final path in <String>[
       'lib/screens/regular_mode/eligibility_profile_screen.dart',
       'lib/screens/companion_mode/saarthi_welcome_screen.dart',
@@ -62,27 +28,20 @@ void main() {
       });
     }
 
-    test('completion flag is finalized after startup profile upsert', () {
-      // Relocated from app_state_provider.dart to
-      // providers/controllers/profile_cloud_sync.dart during the
-      // decomposition follow-up (docs/audit/AUDIT.md) — same logic, same
-      // order, new file.
+    test('profile sync is REST-only and reports failures to the caller', () {
       final source = File(
         'lib/providers/controllers/profile_cloud_sync.dart',
       ).readAsStringSync();
-      final stagedIndex = source.indexOf('final stagedProfile');
-      final startupIndex = source.indexOf(
-        ".from('startup_profiles')",
-        stagedIndex,
-      );
-      final finalProfileIndex = source.indexOf(
-        'createProfile(cloudProfile)',
-        startupIndex,
-      );
 
-      expect(stagedIndex, greaterThanOrEqualTo(0));
-      expect(startupIndex, greaterThan(stagedIndex));
-      expect(finalProfileIndex, greaterThan(startupIndex));
+      expect(source, contains('Future<void> syncProfileToServer('));
+      expect(source, contains('ProfileApiService.instance.saveDraft'));
+      expect(
+        source,
+        contains('OnboardingApiService.instance.submitOnboarding'),
+      );
+      // A failed server write must reach updateProfile(requireCloudSync: true)
+      // instead of being swallowed, or onboarding could finish unsaved.
+      expect(source, isNot(contains('catch (')));
     });
   });
 

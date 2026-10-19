@@ -22,17 +22,21 @@ class DeepLinkService {
     // 1. Listen for background/foreground deep link arrivals
     _sub = _appLinks.uriLinkStream.listen(
       (uri) => _handleUri(uri, provider),
-      onError: (err) => debugPrint('[DeepLinkService] URI stream warning: $err'),
+      onError: (err) =>
+          debugPrint('[DeepLinkService] URI stream warning: $err'),
     );
 
     // 2. Handle cold start deep link if app was launched via URL
-    _appLinks.getInitialLink().then((uri) {
-      if (uri != null) {
-        _handleUri(uri, provider);
-      }
-    }).catchError((err) {
-      debugPrint('[DeepLinkService] getInitialLink warning: $err');
-    });
+    _appLinks
+        .getInitialLink()
+        .then((uri) {
+          if (uri != null) {
+            _handleUri(uri, provider);
+          }
+        })
+        .catchError((err) {
+          debugPrint('[DeepLinkService] getInitialLink warning: $err');
+        });
   }
 
   Future<void> _handleUri(Uri uri, AppProvider provider) async {
@@ -48,12 +52,16 @@ class DeepLinkService {
       }
 
       if (code != null && code.isNotEmpty) {
-        debugPrint('[DeepLinkService] Exchanging auth code with REST backend...');
+        debugPrint(
+          '[DeepLinkService] Exchanging auth code with REST backend...',
+        );
         try {
           await RestAuthService.instance.exchangeCode(code);
           await AuthService.clearOAuthPending();
           await provider.checkSessionAndFetchProfile();
-          debugPrint('[DeepLinkService] Code exchange succeeded, profile loaded.');
+          debugPrint(
+            '[DeepLinkService] Code exchange succeeded, profile loaded.',
+          );
         } catch (e) {
           debugPrint('[DeepLinkService] Code exchange failed: $e');
         }

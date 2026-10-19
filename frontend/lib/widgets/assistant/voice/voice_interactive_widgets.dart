@@ -173,38 +173,40 @@ class VoiceFactChips extends StatelessWidget {
         Wrap(
           spacing: AppSpacing.tight,
           runSpacing: AppSpacing.tight,
-          children: displayFacts.map((fact) {
-            final conflict = fact.hasConflict;
-            return InputChip(
-              key: Key('voice-fact-${fact.key.name}'),
-              avatar: Icon(
-                conflict
-                    ? Icons.warning_amber_rounded
-                    : Icons.check_circle_outline,
-                size: 15,
-                color: conflict
-                    ? const Color(0xFFFBBF24)
-                    : const Color(0xFF60A5FA),
-              ),
-              label: Text(
-                '${factLabel(context, fact.key)}: ${displayFactValue(l10n, fact)}',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              onPressed: () => onEditFact(fact),
-              side: BorderSide(
-                color: conflict
-                    ? const Color(0xFFFBBF24)
-                    : const Color(0xFF334155),
-              ),
-              backgroundColor: const Color(0xFF172554),
-              labelStyle: const TextStyle(color: Colors.white),
-              visualDensity: VisualDensity.compact,
-            );
-          }).toList(growable: false),
+          children: displayFacts
+              .map((fact) {
+                final conflict = fact.hasConflict;
+                return InputChip(
+                  key: Key('voice-fact-${fact.key.name}'),
+                  avatar: Icon(
+                    conflict
+                        ? Icons.warning_amber_rounded
+                        : Icons.check_circle_outline,
+                    size: 15,
+                    color: conflict
+                        ? const Color(0xFFFBBF24)
+                        : const Color(0xFF60A5FA),
+                  ),
+                  label: Text(
+                    '${factLabel(context, fact.key)}: ${displayFactValue(l10n, fact)}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  onPressed: () => onEditFact(fact),
+                  side: BorderSide(
+                    color: conflict
+                        ? const Color(0xFFFBBF24)
+                        : const Color(0xFF334155),
+                  ),
+                  backgroundColor: const Color(0xFF172554),
+                  labelStyle: const TextStyle(color: Colors.white),
+                  visualDensity: VisualDensity.compact,
+                );
+              })
+              .toList(growable: false),
         ),
       ],
     );
@@ -417,16 +419,18 @@ class VoiceOnlineGroundingPill extends StatelessWidget {
         : Icons.cloud_off_outlined;
     final title = switch (groundingPhase) {
       OnlineGroundingPhase.checking => l10n.voiceGroundingChecking,
-      OnlineGroundingPhase.found =>
-        l10n.voiceGroundingFoundSources(groundedSources.length),
+      OnlineGroundingPhase.found => l10n.voiceGroundingFoundSources(
+        groundedSources.length,
+      ),
       OnlineGroundingPhase.unavailable => l10n.voiceGroundingUnavailable,
       OnlineGroundingPhase.noSources => l10n.voiceGroundingNoSources,
       OnlineGroundingPhase.idle => '',
     };
 
     if (!isCompanion) {
-      final firstSource =
-          isFound && groundedSources.isNotEmpty ? groundedSources.first : null;
+      final firstSource = isFound && groundedSources.isNotEmpty
+          ? groundedSources.first
+          : null;
       return Container(
         key: const Key('voice-online-grounding'),
         padding: const EdgeInsets.symmetric(

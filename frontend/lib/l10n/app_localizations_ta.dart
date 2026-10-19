@@ -4558,7 +4558,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get profileConsentCheckboxLabel =>
-      'எனது சுயவிவரத்தை உருவாக்கவும் தனிப்பயனாக்கப்பட்ட அரசு திட்ட பரிந்துரைகளை வழங்கவும் எனது தகவலை MSS சேகரித்து செயலாக்க நான் ஒப்புக்கொள்கிறேன்.';
+      'உங்கள் சுயவிவரத்தை நிறைவு செய்வதன் மூலம், உங்கள் சுயவிவரத்தை உருவாக்கவும் தனிப்பயனாக்கப்பட்ட அரசு திட்ட பரிந்துரைகளை வழங்கவும் உங்கள் தகவலை MSS சேகரித்து செயலாக்க ஒப்புக்கொள்கிறீர்கள்.';
 
   @override
   String get profileConsentReadMore =>
@@ -4574,6 +4574,14 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get legalAccept => 'ஏற்கிறேன்';
+
+  @override
+  String get legalScrollToEndNotice =>
+      'ஏற்றுக்கொள்வதற்கு முன் இந்த ஆவணத்தின் இறுதி வரை ஸ்க்ரோல் செய்ய வேண்டும்.';
+
+  @override
+  String get legalScrollToEndHint =>
+      'ஏற்க, ஆவணத்தின் இறுதி வரை ஸ்க்ரோல் செய்யவும்';
 
   @override
   String get simpleProfileTitle => 'சுயவிவர அமைவு';
@@ -4837,4 +4845,154 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get aboutAppDescriptionLong =>
       'MSS என்பது இந்திய தொழில்முனைவோர், பெண்கள், விவசாயிகள் மற்றும் மாணவர்களுக்கான மத்திய மற்றும் மாநில அரசு திட்டங்களை எளிதாகக் கண்டறிந்து, தகுதிகளை சரிபார்த்து பயன்பெற உதவும் ஒரு அறிவார்ந்த டிஜிட்டல் தளமாகும்.';
+
+  @override
+  String get schemeSectionContacts => 'தொடர்பு விவரங்கள்';
+
+  @override
+  String get schemeSectionStatus => 'நிலை மற்றும் புதுப்பிப்புகள்';
+
+  @override
+  String get schemeSectionBenefitFacts => 'பயன் புள்ளிவிவரங்கள்';
+
+  @override
+  String get schemeSectionApplyInfo => 'கட்டணம் மற்றும் தேவைகள்';
+
+  @override
+  String get schemeSectionRelated => 'தொடர்புடைய திட்டங்கள்';
+
+  @override
+  String get schemeSectionAltNames => 'இவ்வாறும் அழைக்கப்படுகிறது';
+
+  @override
+  String get schemeSectionLinks => 'அதிகாரப்பூர்வ இணைப்புகள்';
+
+  @override
+  String get schemeContactPhone => 'தொலைபேசி';
+
+  @override
+  String get schemeContactHelpline => 'உதவி எண்';
+
+  @override
+  String get schemeContactEmail => 'மின்னஞ்சல்';
+
+  @override
+  String get schemeContactWebsite => 'இணையதளம்';
+
+  @override
+  String get schemeContactOffice => 'அலுவலகம்';
+
+  @override
+  String get schemeContactAddress => 'முகவரி';
+
+  @override
+  String get schemeContactHours => 'நேரம்';
+
+  @override
+  String schemeStatusAsOf(String date) {
+    return '$date நிலவரப்படி';
+  }
+
+  @override
+  String schemeApplicationStatus(String status) {
+    return 'விண்ணப்பங்கள்: $status';
+  }
+
+  @override
+  String get schemeAppStatusOpen => 'திறந்துள்ளன';
+
+  @override
+  String get schemeAppStatusClosed => 'மூடப்பட்டுள்ளன';
+
+  @override
+  String get schemeAppStatusAnnounced => 'அறிவிக்கப்பட்டது';
+
+  @override
+  String get schemeAppStatusHistorical => 'பழையது அல்லது மாற்றப்பட்டது';
+
+  @override
+  String get schemeAppStatusUnavailable => 'தற்காலிகமாக கிடைக்கவில்லை';
+
+  @override
+  String get schemeDeadline => 'கடைசி தேதி';
+
+  @override
+  String get schemeFees => 'கட்டணம்';
+
+  @override
+  String get schemePrerequisite => 'முன்நிபந்தனை';
+
+  @override
+  String get schemeProcedureOfficial => 'அதிகாரப்பூர்வ ஆதாரங்களின் நடைமுறை';
+
+  @override
+  String get schemeProcedurePolicy => 'கொள்கை உரையிலிருந்து அறியப்பட்ட நடைமுறை';
+
+  @override
+  String get schemeProcedureSecondary =>
+      'இரண்டாம் நிலை இணைய ஆதாரங்களின் நடைமுறை';
+
+  @override
+  String get schemeProcedureGeneric => 'பொது வழிகாட்டுதல் மட்டும்';
+
+  @override
+  String get schemeLinkApply => 'விண்ணப்பிக்க';
+
+  @override
+  String get schemeLinkInfo => 'திட்ட தகவல்';
+
+  @override
+  String get schemeLinkGuidelines => 'வழிகாட்டுதல்கள்';
+
+  @override
+  String schemeTranslationNotice(String language) {
+    return 'இந்த $language உரை இயந்திர மொழிபெயர்ப்பு; இன்னும் மதிப்பாய்வு செய்யப்படவில்லை.';
+  }
+
+  @override
+  String get schemeFactMax => 'அதிகபட்சம்';
+
+  @override
+  String get schemeFactMin => 'குறைந்தபட்சம்';
+
+  @override
+  String get schemeFactAmount => 'தொகை';
+
+  @override
+  String get schemeFactPercent => 'சதவீதம்';
+
+  @override
+  String get schemeFactTenure => 'கால அளவு';
+
+  @override
+  String get schemeFactInterest => 'வட்டி விகிதம்';
+
+  @override
+  String get schemeFactCoverage => 'காப்பீட்டு அளவு';
+
+  @override
+  String get schemeFactMaxCover => 'அதிகபட்ச காப்பீடு';
+
+  @override
+  String get schemeFactFee => 'கட்டணம்';
+
+  @override
+  String get schemeFactMoratorium => 'தவணை விடுமுறை';
+
+  @override
+  String get schemeFactDuration => 'காலம்';
+
+  @override
+  String schemeMonthsValue(int count) {
+    return '$count மாதங்கள்';
+  }
+
+  @override
+  String get schemeLinkPortal => 'அதிகாரப்பூர்வ தளம்';
+
+  @override
+  String get schemeLinkPortalLogin => 'தள உள்நுழைவு';
+
+  @override
+  String get schemeLinkPortalServices => 'தள சேவைகள்';
 }

@@ -278,13 +278,15 @@ class RegularVoiceTurn extends StatelessWidget {
           ),
           if (turn.schemeMatches.isNotEmpty) ...[
             const SizedBox(height: 14),
-            ...turn.schemeMatches.take(3).map(
-              (match) => VoiceTurnSchemeCard(
-                match: match,
-                presentInTamil: presentInTamil,
-                onSchemeSelected: onSchemeSelected,
-              ),
-            ),
+            ...turn.schemeMatches
+                .take(3)
+                .map(
+                  (match) => VoiceTurnSchemeCard(
+                    match: match,
+                    presentInTamil: presentInTamil,
+                    onSchemeSelected: onSchemeSelected,
+                  ),
+                ),
           ],
         ],
       ),
@@ -332,10 +334,7 @@ class RegularVoiceTranscript extends StatelessWidget {
 }
 
 class RegularVoiceNotice extends StatelessWidget {
-  const RegularVoiceNotice({
-    super.key,
-    required this.text,
-  });
+  const RegularVoiceNotice({super.key, required this.text});
 
   final String text;
 

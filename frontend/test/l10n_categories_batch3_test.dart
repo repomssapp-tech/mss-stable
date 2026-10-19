@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
@@ -52,17 +51,15 @@ MSMEModuleDetailsScreen _taxGstModule() => const MSMEModuleDetailsScreen(
 void main() {
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    await Supabase.initialize(
-      url: 'https://example.supabase.co',
-      publishableKey: 'test-publishable-key',
-    );
   });
 
   group('CategoriesScreen renders migrated strings for the active locale', () {
     testWidgets('Tamil locale: category label + View All from ARB', (
       tester,
     ) async {
-      await tester.pumpWidget(_host(const Locale('ta'), const CategoriesScreen()));
+      await tester.pumpWidget(
+        _host(const Locale('ta'), const CategoriesScreen()),
+      );
       await tester.pumpAndSettle();
 
       expect(find.text(_businessMsmeTa), findsWidgets);
@@ -74,7 +71,9 @@ void main() {
     testWidgets('English locale: category label + View All from ARB', (
       tester,
     ) async {
-      await tester.pumpWidget(_host(const Locale('en'), const CategoriesScreen()));
+      await tester.pumpWidget(
+        _host(const Locale('en'), const CategoriesScreen()),
+      );
       await tester.pumpAndSettle();
 
       expect(find.text(_businessMsmeEn), findsWidgets);

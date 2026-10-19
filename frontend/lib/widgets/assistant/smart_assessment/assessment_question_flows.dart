@@ -86,7 +86,9 @@ AssessmentFlowResult resolveQuestionFlow({
 }
 
 Map<String, QuestionNode> getEducationFlow(
-    AppLocalizations en, AppLocalizations ta) {
+  AppLocalizations en,
+  AppLocalizations ta,
+) {
   return {
     'edu_q1': QuestionNode(
       id: 'edu_q1',
@@ -180,14 +182,8 @@ Map<String, QuestionNode> getEducationFlow(
       id: 'edu_q3_college',
       questionText: en.assessEduQ3College,
       questionTextTa: ta.assessEduQ3College,
-      options: [
-        en.assessEduQ3CollegeOpt1,
-        en.assessEduQ3CollegeOpt2,
-      ],
-      optionsTa: [
-        ta.assessEduQ3CollegeOpt1,
-        ta.assessEduQ3CollegeOpt2,
-      ],
+      options: [en.assessEduQ3CollegeOpt1, en.assessEduQ3CollegeOpt2],
+      optionsTa: [ta.assessEduQ3CollegeOpt1, ta.assessEduQ3CollegeOpt2],
       nextId: (_) => "edu_q4_caste",
     ),
     'edu_q3_research': QuestionNode(
@@ -244,7 +240,9 @@ Map<String, QuestionNode> getEducationFlow(
 }
 
 Map<String, QuestionNode> getWomenFlow(
-    AppLocalizations en, AppLocalizations ta) {
+  AppLocalizations en,
+  AppLocalizations ta,
+) {
   return {
     'women_q1': QuestionNode(
       id: 'women_q1',
@@ -308,70 +306,40 @@ Map<String, QuestionNode> getWomenFlow(
       id: 'women_q2_biz',
       questionText: en.assessWomenQ2Biz,
       questionTextTa: ta.assessWomenQ2Biz,
-      options: [
-        en.assessWomenQ2BizOpt1,
-        en.assessWomenQ2BizOpt2,
-      ],
-      optionsTa: [
-        ta.assessWomenQ2BizOpt1,
-        ta.assessWomenQ2BizOpt2,
-      ],
+      options: [en.assessWomenQ2BizOpt1, en.assessWomenQ2BizOpt2],
+      optionsTa: [ta.assessWomenQ2BizOpt1, ta.assessWomenQ2BizOpt2],
       nextId: (_) => "women_q3_biz_credit",
     ),
     'women_q2_welfare': QuestionNode(
       id: 'women_q2_welfare',
       questionText: en.assessWomenQ2Welfare,
       questionTextTa: ta.assessWomenQ2Welfare,
-      options: [
-        en.assessWomenQ2WelfareOpt1,
-        en.assessWomenQ2WelfareOpt2,
-      ],
-      optionsTa: [
-        ta.assessWomenQ2WelfareOpt1,
-        ta.assessWomenQ2WelfareOpt2,
-      ],
+      options: [en.assessWomenQ2WelfareOpt1, en.assessWomenQ2WelfareOpt2],
+      optionsTa: [ta.assessWomenQ2WelfareOpt1, ta.assessWomenQ2WelfareOpt2],
       nextId: (_) => "women_q3_welfare_pension",
     ),
     'women_q3_matern_reg': QuestionNode(
       id: 'women_q3_matern_reg',
       questionText: en.assessWomenQ3MaternReg,
       questionTextTa: ta.assessWomenQ3MaternReg,
-      options: [
-        en.assessWomenQ3MaternRegOpt1,
-        en.assessWomenQ3MaternRegOpt2,
-      ],
-      optionsTa: [
-        ta.assessWomenQ3MaternRegOpt1,
-        ta.assessWomenQ3MaternRegOpt2,
-      ],
+      options: [en.assessWomenQ3MaternRegOpt1, en.assessWomenQ3MaternRegOpt2],
+      optionsTa: [ta.assessWomenQ3MaternRegOpt1, ta.assessWomenQ3MaternRegOpt2],
       nextId: (_) => "women_q4_caste",
     ),
     'women_q3_girl_save': QuestionNode(
       id: 'women_q3_girl_save',
       questionText: en.assessWomenQ3GirlSave,
       questionTextTa: ta.assessWomenQ3GirlSave,
-      options: [
-        en.assessWomenQ3GirlSaveOpt1,
-        en.assessWomenQ3GirlSaveOpt2,
-      ],
-      optionsTa: [
-        ta.assessWomenQ3GirlSaveOpt1,
-        ta.assessWomenQ3GirlSaveOpt2,
-      ],
+      options: [en.assessWomenQ3GirlSaveOpt1, en.assessWomenQ3GirlSaveOpt2],
+      optionsTa: [ta.assessWomenQ3GirlSaveOpt1, ta.assessWomenQ3GirlSaveOpt2],
       nextId: (_) => "women_q4_caste",
     ),
     'women_q3_girl_edu': QuestionNode(
       id: 'women_q3_girl_edu',
       questionText: en.assessWomenQ3GirlEdu,
       questionTextTa: ta.assessWomenQ3GirlEdu,
-      options: [
-        en.assessWomenQ3GirlEduOpt1,
-        en.assessWomenQ3GirlEduOpt2,
-      ],
-      optionsTa: [
-        ta.assessWomenQ3GirlEduOpt1,
-        ta.assessWomenQ3GirlEduOpt2,
-      ],
+      options: [en.assessWomenQ3GirlEduOpt1, en.assessWomenQ3GirlEduOpt2],
+      optionsTa: [ta.assessWomenQ3GirlEduOpt1, ta.assessWomenQ3GirlEduOpt2],
       nextId: (_) => "women_q4_caste",
     ),
     'women_q3_biz_credit': QuestionNode(
@@ -442,7 +410,9 @@ Map<String, QuestionNode> getWomenFlow(
 }
 
 Map<String, QuestionNode> getBusinessFlow(
-    AppLocalizations en, AppLocalizations ta) {
+  AppLocalizations en,
+  AppLocalizations ta,
+) {
   return {
     'biz_q1': QuestionNode(
       id: 'biz_q1',
@@ -504,28 +474,16 @@ Map<String, QuestionNode> getBusinessFlow(
       id: 'biz_q2_artisan',
       questionText: en.assessBizQ2Artisan,
       questionTextTa: ta.assessBizQ2Artisan,
-      options: [
-        en.assessBizQ2ArtisanOpt1,
-        en.assessBizQ2ArtisanOpt2,
-      ],
-      optionsTa: [
-        ta.assessBizQ2ArtisanOpt1,
-        ta.assessBizQ2ArtisanOpt2,
-      ],
+      options: [en.assessBizQ2ArtisanOpt1, en.assessBizQ2ArtisanOpt2],
+      optionsTa: [ta.assessBizQ2ArtisanOpt1, ta.assessBizQ2ArtisanOpt2],
       nextId: (_) => "biz_q3_artisan_need",
     ),
     'biz_q2_idea': QuestionNode(
       id: 'biz_q2_idea',
       questionText: en.assessBizQ2Idea,
       questionTextTa: ta.assessBizQ2Idea,
-      options: [
-        en.assessBizQ2IdeaOpt1,
-        en.assessBizQ2IdeaOpt2,
-      ],
-      optionsTa: [
-        ta.assessBizQ2IdeaOpt1,
-        ta.assessBizQ2IdeaOpt2,
-      ],
+      options: [en.assessBizQ2IdeaOpt1, en.assessBizQ2IdeaOpt2],
+      optionsTa: [ta.assessBizQ2IdeaOpt1, ta.assessBizQ2IdeaOpt2],
       nextId: (_) => "biz_q3_msme_need",
     ),
     'biz_q3_msme_need': QuestionNode(
@@ -616,7 +574,9 @@ Map<String, QuestionNode> getBusinessFlow(
 }
 
 Map<String, QuestionNode> getAgricultureFlow(
-    AppLocalizations en, AppLocalizations ta) {
+  AppLocalizations en,
+  AppLocalizations ta,
+) {
   return {
     'agri_q1': QuestionNode(
       id: 'agri_q1',
@@ -692,7 +652,9 @@ Map<String, QuestionNode> getAgricultureFlow(
 }
 
 Map<String, QuestionNode> getSkillFlow(
-    AppLocalizations en, AppLocalizations ta) {
+  AppLocalizations en,
+  AppLocalizations ta,
+) {
   return {
     'skill_q1': QuestionNode(
       id: 'skill_q1',
@@ -734,14 +696,8 @@ Map<String, QuestionNode> getSkillFlow(
       id: 'skill_q3',
       questionText: en.assessSkillQ3,
       questionTextTa: ta.assessSkillQ3,
-      options: [
-        en.assessSkillQ3Opt1,
-        en.assessSkillQ3Opt2,
-      ],
-      optionsTa: [
-        ta.assessSkillQ3Opt1,
-        ta.assessSkillQ3Opt2,
-      ],
+      options: [en.assessSkillQ3Opt1, en.assessSkillQ3Opt2],
+      optionsTa: [ta.assessSkillQ3Opt1, ta.assessSkillQ3Opt2],
       nextId: (_) => "skill_q4_income",
     ),
     'skill_q4_income': QuestionNode(
@@ -764,7 +720,9 @@ Map<String, QuestionNode> getSkillFlow(
 }
 
 Map<String, QuestionNode> getTechExportFlow(
-    AppLocalizations en, AppLocalizations ta) {
+  AppLocalizations en,
+  AppLocalizations ta,
+) {
   return {
     'te_q1': QuestionNode(
       id: 'te_q1',
@@ -822,7 +780,9 @@ Map<String, QuestionNode> getTechExportFlow(
 }
 
 Map<String, QuestionNode> getDefaultCategoryFlow(
-    AppLocalizations en, AppLocalizations ta) {
+  AppLocalizations en,
+  AppLocalizations ta,
+) {
   return {
     'cat_q1': QuestionNode(
       id: 'cat_q1',
@@ -846,32 +806,16 @@ Map<String, QuestionNode> getDefaultCategoryFlow(
       id: 'cat_q2',
       questionText: en.assessCatQ2,
       questionTextTa: ta.assessCatQ2,
-      options: [
-        en.assessCatQ2Opt1,
-        en.assessCatQ2Opt2,
-        en.assessCatQ2Opt3,
-      ],
-      optionsTa: [
-        ta.assessCatQ2Opt1,
-        ta.assessCatQ2Opt2,
-        ta.assessCatQ2Opt3,
-      ],
+      options: [en.assessCatQ2Opt1, en.assessCatQ2Opt2, en.assessCatQ2Opt3],
+      optionsTa: [ta.assessCatQ2Opt1, ta.assessCatQ2Opt2, ta.assessCatQ2Opt3],
       nextId: (_) => "cat_q3",
     ),
     'cat_q3': QuestionNode(
       id: 'cat_q3',
       questionText: en.assessCatQ3,
       questionTextTa: ta.assessCatQ3,
-      options: [
-        en.assessCatQ3Opt1,
-        en.assessCatQ3Opt2,
-        en.assessCatQ3Opt3,
-      ],
-      optionsTa: [
-        ta.assessCatQ3Opt1,
-        ta.assessCatQ3Opt2,
-        ta.assessCatQ3Opt3,
-      ],
+      options: [en.assessCatQ3Opt1, en.assessCatQ3Opt2, en.assessCatQ3Opt3],
+      optionsTa: [ta.assessCatQ3Opt1, ta.assessCatQ3Opt2, ta.assessCatQ3Opt3],
       nextId: (_) => "cat_q4",
     ),
     'cat_q4': QuestionNode(
@@ -896,36 +840,25 @@ Map<String, QuestionNode> getDefaultCategoryFlow(
       id: 'cat_q5',
       questionText: en.assessCatQ5,
       questionTextTa: ta.assessCatQ5,
-      options: [
-        en.assessCatQ5Opt1,
-        en.assessCatQ5Opt2,
-        en.assessCatQ5Opt3,
-      ],
-      optionsTa: [
-        ta.assessCatQ5Opt1,
-        ta.assessCatQ5Opt2,
-        ta.assessCatQ5Opt3,
-      ],
+      options: [en.assessCatQ5Opt1, en.assessCatQ5Opt2, en.assessCatQ5Opt3],
+      optionsTa: [ta.assessCatQ5Opt1, ta.assessCatQ5Opt2, ta.assessCatQ5Opt3],
       nextId: (_) => null,
     ),
   };
 }
 
 Map<String, QuestionNode> getStateFlow(
-    String stateName, AppLocalizations en, AppLocalizations ta) {
+  String stateName,
+  AppLocalizations en,
+  AppLocalizations ta,
+) {
   return {
     'state_q1': QuestionNode(
       id: 'state_q1',
       questionText: en.assessStateQ1(stateName),
       questionTextTa: ta.assessStateQ1(stateName),
-      options: [
-        en.assessStateQ1Opt1,
-        en.assessStateQ1Opt2,
-      ],
-      optionsTa: [
-        ta.assessStateQ1Opt1,
-        ta.assessStateQ1Opt2,
-      ],
+      options: [en.assessStateQ1Opt1, en.assessStateQ1Opt2],
+      optionsTa: [ta.assessStateQ1Opt1, ta.assessStateQ1Opt2],
       nextId: (_) => "state_q2",
     ),
     'state_q2': QuestionNode(
@@ -1002,7 +935,10 @@ Map<String, QuestionNode> getStateFlow(
 }
 
 Map<String, QuestionNode> getMinistryFlow(
-    String ministryName, AppLocalizations en, AppLocalizations ta) {
+  String ministryName,
+  AppLocalizations en,
+  AppLocalizations ta,
+) {
   return {
     'min_q1': QuestionNode(
       id: 'min_q1',
@@ -1026,30 +962,16 @@ Map<String, QuestionNode> getMinistryFlow(
       id: 'min_q2',
       questionText: en.assessMinQ2,
       questionTextTa: ta.assessMinQ2,
-      options: [
-        en.assessMinQ2Opt1,
-        en.assessMinQ2Opt2,
-        en.assessMinQ2Opt3,
-      ],
-      optionsTa: [
-        ta.assessMinQ2Opt1,
-        ta.assessMinQ2Opt2,
-        ta.assessMinQ2Opt3,
-      ],
+      options: [en.assessMinQ2Opt1, en.assessMinQ2Opt2, en.assessMinQ2Opt3],
+      optionsTa: [ta.assessMinQ2Opt1, ta.assessMinQ2Opt2, ta.assessMinQ2Opt3],
       nextId: (_) => "min_q3",
     ),
     'min_q3': QuestionNode(
       id: 'min_q3',
       questionText: en.assessMinQ3,
       questionTextTa: ta.assessMinQ3,
-      options: [
-        en.assessMinQ3Opt1,
-        en.assessMinQ3Opt2,
-      ],
-      optionsTa: [
-        ta.assessMinQ3Opt1,
-        ta.assessMinQ3Opt2,
-      ],
+      options: [en.assessMinQ3Opt1, en.assessMinQ3Opt2],
+      optionsTa: [ta.assessMinQ3Opt1, ta.assessMinQ3Opt2],
       nextId: (_) => "min_q4",
     ),
     'min_q4': QuestionNode(
@@ -1074,16 +996,8 @@ Map<String, QuestionNode> getMinistryFlow(
       id: 'min_q5',
       questionText: en.assessMinQ5,
       questionTextTa: ta.assessMinQ5,
-      options: [
-        en.assessMinQ5Opt1,
-        en.assessMinQ5Opt2,
-        en.assessMinQ5Opt3,
-      ],
-      optionsTa: [
-        ta.assessMinQ5Opt1,
-        ta.assessMinQ5Opt2,
-        ta.assessMinQ5Opt3,
-      ],
+      options: [en.assessMinQ5Opt1, en.assessMinQ5Opt2, en.assessMinQ5Opt3],
+      optionsTa: [ta.assessMinQ5Opt1, ta.assessMinQ5Opt2, ta.assessMinQ5Opt3],
       nextId: (_) => null,
     ),
   };

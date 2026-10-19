@@ -14,7 +14,6 @@ import 'package:frontend/services/voice/voice_recognition_controller.dart';
 import 'package:frontend/widgets/assistant/voice_assistant_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 const _phoneViewport = Size(320, 568);
 const _tabletViewport = Size(800, 1000);
@@ -22,10 +21,6 @@ const _tabletViewport = Size(800, 1000);
 void main() {
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    await Supabase.initialize(
-      url: 'https://example.supabase.co',
-      publishableKey: 'test-publishable-key',
-    );
   });
 
   setUp(() {
@@ -54,13 +49,10 @@ void main() {
           expect(find.byType(TextFormField), findsNothing);
           expect(find.textContaining('OTP'), findsNothing);
           expect(find.textContaining('Mobile number'), findsNothing);
-          // Google sign-in is gated behind the mandatory legal-consent
-          // checkbox, so it starts disabled.
-          expect(
-            tester.widget<OutlinedButton>(googleButton).onPressed,
-            isNull,
-          );
-          expect(find.byType(Checkbox), findsOneWidget);
+          // Google sign-in is gated behind reading and accepting the legal
+          // documents, so it starts disabled.
+          expect(tester.widget<OutlinedButton>(googleButton).onPressed, isNull);
+          expect(find.byType(Checkbox), findsNothing);
           expect(tester.takeException(), isNull);
         });
       },
@@ -178,8 +170,8 @@ void main() {
           await tester.pump();
           expect(find.text('Where Are You Located?'), findsOneWidget);
           expect(find.text('Use Current Location'), findsOneWidget);
-          // Address, city/town, district, state — pincode was removed.
-          expect(find.byType(TextFormField), findsNWidgets(4));
+          // Address, city/town, district, state, pincode.
+          expect(find.byType(TextFormField), findsNWidgets(5));
           continueButton = find.widgetWithText(ElevatedButton, 'Continue');
           await tester.ensureVisible(continueButton);
           _expectTappableSemantics(tester, continueButton, 'Continue');

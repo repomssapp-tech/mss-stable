@@ -17,7 +17,10 @@ class CatalogFreshnessFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final months = context.l10n.monthAbbrList.split(',').map((m) => m.trim()).toList();
+    final months = context.l10n.monthAbbrList
+        .split(',')
+        .map((m) => m.trim())
+        .toList();
     return FutureBuilder<MssCatalogBundle>(
       future: MssCatalogBundle.load(),
       builder: (context, snapshot) {

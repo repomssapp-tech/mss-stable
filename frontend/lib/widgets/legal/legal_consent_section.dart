@@ -7,53 +7,24 @@ import '../../utils/app_spacing.dart';
 class LegalConsentSection extends StatelessWidget {
   final bool hasViewedTerms;
   final bool hasViewedPrivacy;
-  final bool hasAgreedToConsent;
   final VoidCallback onOpenTerms;
   final VoidCallback onOpenPrivacy;
-  final ValueChanged<bool?> onConsentChanged;
-  final VoidCallback onDisabledConsentTap;
 
   const LegalConsentSection({
     super.key,
     required this.hasViewedTerms,
     required this.hasViewedPrivacy,
-    required this.hasAgreedToConsent,
     required this.onOpenTerms,
     required this.onOpenPrivacy,
-    required this.onConsentChanged,
-    required this.onDisabledConsentTap,
   });
-
-  bool get canConsent => hasViewedTerms && hasViewedPrivacy;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: canConsent
-          ? () => onConsentChanged(!hasAgreedToConsent)
-          : onDisabledConsentTap,
-      behavior: HitTestBehavior.opaque,
-      child: Padding(
+    return Padding(
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              width: 22,
-              height: 22,
-              child: Checkbox(
-                value: hasAgreedToConsent,
-                onChanged: canConsent
-                    ? onConsentChanged
-                    : (_) => onDisabledConsentTap(),
-                activeColor: const Color(0xFF0D53FC),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-            ),
-            const SizedBox(width: AppSpacing.sm),
             Expanded(
               child: Text.rich(
                 TextSpan(
@@ -71,8 +42,7 @@ class LegalConsentSection extends StatelessWidget {
                         color: Color(0xFF0D53FC),
                         decoration: TextDecoration.underline,
                       ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = onOpenTerms,
+                      recognizer: TapGestureRecognizer()..onTap = onOpenTerms,
                     ),
                     TextSpan(text: context.l10n.legalConsentMid),
                     TextSpan(
@@ -82,8 +52,7 @@ class LegalConsentSection extends StatelessWidget {
                         color: Color(0xFF0D53FC),
                         decoration: TextDecoration.underline,
                       ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = onOpenPrivacy,
+                      recognizer: TapGestureRecognizer()..onTap = onOpenPrivacy,
                     ),
                     TextSpan(text: context.l10n.legalConsentSuffix),
                   ],
@@ -92,7 +61,6 @@ class LegalConsentSection extends StatelessWidget {
             ),
           ],
         ),
-      ),
     );
   }
 }

@@ -1,10 +1,9 @@
 import 'package:flutter/foundation.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../models/catalog_manifest.dart';
 import '../network/api_client.dart';
 import 'http_catalog_release_source.dart';
-import 'language_pack_manager.dart';
+import 'mss_catalog_bundle.dart';
 import 'scheme_catalog_store.dart';
 
 enum CatalogSyncOutcome {
@@ -26,93 +25,9 @@ class CatalogSyncResult {
   bool get changed => outcome == CatalogSyncOutcome.updated;
 }
 
-class CatalogPackFile {
-  const CatalogPackFile({
-    required this.fileName,
-    required this.byteSize,
-    required this.checksum,
-    required this.storagePath,
-    required this.lang,
-  });
-
-  final String fileName;
-  final int byteSize;
-  final String checksum;
-  final String storagePath;
-  final String lang;
-
-  factory CatalogPackFile.fromMap(Map<String, dynamic> row) {
-    return CatalogPackFile(
-      fileName: row['file_name']?.toString() ?? '',
-      byteSize: (row['byte_size'] as num?)?.toInt() ?? 0,
-      checksum: row['checksum']?.toString() ?? '',
-      storagePath: row['storage_path']?.toString() ?? '',
-      lang: row['lang']?.toString() ?? '',
-    );
-  }
-}
-
 abstract class CatalogReleaseSource {
   Future<CatalogManifest?> fetchCurrentManifest();
   Future<Uint8List> fetchPayload(CatalogManifest manifest);
-  Future<List<CatalogPackFile>> fetchPacks();
-  Future<Uint8List> downloadStorageFile(String storagePath);
-}
-
-/// Reads release identity from `public.mss_current_release()` and
-/// downloads the release artifact from the `catalogs` Storage bucket,
-/// under `releases/<releaseVersion>/catalog_bundle.json.gz`.
-class SupabaseCatalogReleaseSource implements CatalogReleaseSource {
-  SupabaseCatalogReleaseSource(this._client);
-
-  final SupabaseClient _client;
-  static const String _bucket = 'catalogs';
-  static const String _bundleFileName = 'catalog_bundle.json.gz';
-
-  @override
-  Future<CatalogManifest?> fetchCurrentManifest() async {
-    final response = await _client.rpc('mss_current_release');
-    final rows = response as List<dynamic>?;
-    if (rows == null || rows.isEmpty) return null;
-    final row = rows.first as Map<String, dynamic>;
-    if (row['release_version'] == null || row['package_sha256'] == null) {
-      return null;
-    }
-    return CatalogManifest.fromReleaseRpc(row);
-  }
-
-  @override
-  Future<Uint8List> fetchPayload(CatalogManifest manifest) async {
-    final releaseVersion = manifest.releaseVersion;
-    if (releaseVersion == null || releaseVersion.isEmpty) {
-      throw StateError(
-        'Cannot download a release artifact without a releaseVersion.',
-      );
-    }
-    final objectPath = 'releases/$releaseVersion/$_bundleFileName';
-    return _client.storage.from(_bucket).download(objectPath);
-  }
-
-  @override
-  Future<List<CatalogPackFile>> fetchPacks() async {
-    try {
-      final response = await _client.rpc('mss_current_release_packs');
-      final rows = response as List<dynamic>?;
-      if (rows == null || rows.isEmpty) return [];
-      return rows
-          .map((r) => CatalogPackFile.fromMap(r as Map<String, dynamic>))
-          .where((p) => p.lang.isNotEmpty && p.storagePath.isNotEmpty)
-          .toList();
-    } catch (e) {
-      debugPrint('[SupabaseCatalogReleaseSource] Error fetching packs: $e');
-      return [];
-    }
-  }
-
-  @override
-  Future<Uint8List> downloadStorageFile(String storagePath) async {
-    return _client.storage.from(_bucket).download(storagePath);
-  }
 }
 
 class SchemeCatalogSyncService {
@@ -122,7 +37,9 @@ class SchemeCatalogSyncService {
     Duration timeout = const Duration(seconds: 8),
     Duration throttle = const Duration(hours: 1),
     DateTime Function()? clock,
-  }) : _source = source,
+    Future<void> Function(Uint8List bytes)? validator,
+  }) : _validator = validator ?? MssCatalogBundle.validateDownload,
+       _source = source,
        _store = store ?? SchemeCatalogStore.instance,
        _timeout = timeout,
        _throttle = throttle,
@@ -135,6 +52,7 @@ class SchemeCatalogSyncService {
   final Duration _timeout;
   final Duration _throttle;
   final DateTime Function() _clock;
+  final Future<void> Function(Uint8List bytes) _validator;
   DateTime? _lastCheck;
   Future<CatalogSyncResult>? _inFlight;
 
@@ -189,7 +107,6 @@ class SchemeCatalogSyncService {
 
     final local = await _store.readActiveManifest();
     if (local != null && local.sameReleaseAs(remote)) {
-      await _syncPacks();
       return CatalogSyncResult(CatalogSyncOutcome.unchanged, manifest: local);
     }
 
@@ -197,8 +114,8 @@ class SchemeCatalogSyncService {
       final payload = await _releaseSource
           .fetchPayload(remote)
           .timeout(_timeout);
+      await _validator(payload);
       await _store.install(remote, payload);
-      await _syncPacks();
       return CatalogSyncResult(CatalogSyncOutcome.updated, manifest: remote);
     } on UnsupportedError catch (error) {
       return CatalogSyncResult(
@@ -214,33 +131,4 @@ class SchemeCatalogSyncService {
       );
     }
   }
-
-  Future<void> _syncPacks() async {
-    try {
-      final packs = await _releaseSource.fetchPacks().timeout(_timeout);
-      for (final pack in packs) {
-        try {
-          final packBytes = await _releaseSource
-              .downloadStorageFile(pack.storagePath)
-              .timeout(_timeout);
-          final ok = await LanguagePackManager.instance.installPackBytes(
-            lang: pack.lang,
-            compressedBytes: packBytes,
-            expectedSha256: pack.checksum,
-          );
-          if (!ok) {
-            // Fall back to asset pack on failure
-            await LanguagePackManager.instance.loadPack(pack.lang);
-          }
-        } catch (e) {
-          debugPrint('[SchemeCatalogSyncService] Error downloading pack ${pack.lang}: $e');
-          // Fall back to asset pack on failure
-          await LanguagePackManager.instance.loadPack(pack.lang);
-        }
-      }
-    } catch (e) {
-      debugPrint('[SchemeCatalogSyncService] Error fetching packs: $e');
-    }
-  }
 }
-

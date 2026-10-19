@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:livekit_client/livekit_client.dart' as livekit;
 import 'config/app_config.dart';
 import 'l10n/app_localizations.dart';
@@ -18,6 +17,8 @@ import 'screens/regular_mode/search_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/regular_mode/saved_schemes_screen.dart';
 import 'screens/companion_mode/saarthi_home_screen.dart';
+import 'services/account/app_session.dart';
+import 'services/network/connectivity_service.dart';
 import 'services/catalog/centralized_translator.dart';
 import 'services/chat/chat_log_service.dart';
 import 'utils/constants.dart';
@@ -73,10 +74,9 @@ void main() async {
     ),
   );
 
-  // Supabase connection config is injected at build time and never hard-coded.
-  // Supply it with --dart-define-from-file=dart_defines.json (keys SUPABASE_URL
-  // / SUPABASE_PUBLISHABLE_KEY). When absent, render a visible error instead of
-  // a blank screen so the cause is obvious.
+  // The backend origin is injected at build time (API_BASE_URL) and defaults to
+  // production. When it is malformed, render a visible error instead of a blank
+  // screen so the cause is obvious.
   final configError = AppConfig.validationError;
   if (configError != null) {
     debugPrint('[main] $configError ${AppConfig.setupHint}');
@@ -84,18 +84,15 @@ void main() async {
     return;
   }
 
-  try {
-    await Supabase.initialize(
-      url: AppConfig.supabaseUrl,
-      publishableKey: AppConfig.supabasePublishableKey,
-    );
-  } catch (e) {
-    debugPrint('[main] Supabase.initialize failed: $e');
-    runApp(_StartupErrorApp(message: 'Could not connect to Supabase.\n\n$e'));
-    return;
-  }
+  // Restore the signed-in account from secure local storage so the rest of the
+  // app can read it synchronously.
+  await AppSession.instance.hydrate();
 
-  // App Startup Recovery: Check for unsynced chat sessions in local storage and batch upload to Supabase
+  // Follow the phone's own network status (Wi-Fi / mobile data / none).
+  await ConnectivityService.instance.start();
+
+  // App Startup Recovery: upload chat sessions that were saved locally while
+  // offline.
   unawaited(ChatLogService.syncPendingOfflineQueue());
 
   // Warm WebRTC in the background while the user is on the app shell. This
@@ -117,7 +114,7 @@ void main() async {
 }
 
 /// Shown in place of the app when startup cannot proceed (missing build-time
-/// configuration, or Supabase failed to initialise). Replaces what would
+/// configuration). Replaces what would
 /// otherwise be a blank screen with an actionable message.
 class _StartupErrorApp extends StatelessWidget {
   const _StartupErrorApp({required this.message});
@@ -217,12 +214,10 @@ class MSSApp extends StatelessWidget {
       theme: AppTheme.light,
       // Set initial screen based on login state
       home: const SplashScreen(),
-      // The platform forwards incoming deep-link intents (e.g. the
-      // Supabase OAuth callback "com.inschemes.app://login-callback/
-      // ?code=...") as a named-route push, even though
-      // supabase_flutter's own listener (registered in
-      // Supabase.initialize) already completes the auth code exchange
-      // independently of the Navigator. This app has no named-route
+      // The platform forwards incoming deep-link intents (e.g. the Google
+      // OAuth callback "com.inschemes.app://login-callback/?code=...") as a
+      // named-route push, even though DeepLinkService already exchanges the
+      // code independently of the Navigator. This app has no named-route
       // table (only `home:`), so without a route generator Flutter's
       // default onUnknownRoute throws "Could not find a generator for
       // route". Absorb it: push nothing visible and pop immediately.

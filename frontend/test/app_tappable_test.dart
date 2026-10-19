@@ -5,7 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/widgets/common/app_tappable.dart';
 
 void main() {
-  Widget wrap(Widget child) => MaterialApp(home: Scaffold(body: Center(child: child)));
+  Widget wrap(Widget child) => MaterialApp(
+    home: Scaffold(body: Center(child: child)),
+  );
 
   testWidgets('hit area is at least 48x48dp even for a small visual child', (
     tester,
@@ -15,10 +17,7 @@ void main() {
         AppTappable(
           onTap: () {},
           semanticLabel: 'Filter chip',
-          child: const SizedBox(
-            height: 30,
-            child: Center(child: Text('Loan')),
-          ),
+          child: const SizedBox(height: 30, child: Center(child: Text('Loan'))),
         ),
       ),
     );
@@ -53,12 +52,7 @@ void main() {
   testWidgets('tapping calls onTap', (tester) async {
     var tapped = false;
     await tester.pumpWidget(
-      wrap(
-        AppTappable(
-          onTap: () => tapped = true,
-          child: const Text('Tag'),
-        ),
-      ),
+      wrap(AppTappable(onTap: () => tapped = true, child: const Text('Tag'))),
     );
 
     await tester.tap(find.byType(AppTappable));

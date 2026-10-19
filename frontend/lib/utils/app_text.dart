@@ -76,5 +76,6 @@ class AppTextStyles {
 /// only adds the infrastructure and wires it into `AppTheme.light`'s
 /// `textTheme` so Material widgets that fall back to theme defaults agree.
 extension AppTextContext on BuildContext {
-  AppTextStyles get text => AppTextStyles.forLocale(Localizations.localeOf(this));
+  AppTextStyles get text =>
+      AppTextStyles.forLocale(Localizations.localeOf(this));
 }

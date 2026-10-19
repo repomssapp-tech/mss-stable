@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.2+3
+version: 1.1.0+4
 
 environment:
   sdk: ^3.11.1
@@ -41,7 +41,6 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   google_fonts: ^8.1.0
-  supabase_flutter: ^2.8.0
   geolocator: ^12.0.0
   geocoding: ^3.0.0
   google_maps_flutter: ^2.18.0
@@ -53,10 +52,12 @@ dependencies:
   confetti: ^0.8.0
   http: ^1.5.0
   crypto: ^3.0.7
+  connectivity_plus: ^7.3.1
   livekit_client: ^2.8.0
   archive: ^3.6.1
   cached_network_image: ^3.4.1
   flutter_cache_manager: ^3.4.1
+  package_info_plus: 9.0.1
 
 dev_dependencies:
   flutter_test:
@@ -82,6 +83,9 @@ flutter:
   uses-material-design: true
 
   assets:
+    # google_fonts resolves GoogleFonts.inter() to Inter-<Weight>.ttf here
+    # (runtime fetching is off); same variable font as assets/fonts.
+    - assets/google_fonts/
     - assets/images/Logo/Logo.webp
     - assets/images/Logo/Logo icon.webp
     - assets/images/Logo/compoanion bot.webp

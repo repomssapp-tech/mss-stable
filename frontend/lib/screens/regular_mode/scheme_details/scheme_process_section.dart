@@ -8,10 +8,7 @@ import '../../../utils/responsive.dart';
 class SchemeProcessContent extends StatelessWidget {
   final List<String> steps;
 
-  const SchemeProcessContent({
-    super.key,
-    required this.steps,
-  });
+  const SchemeProcessContent({super.key, required this.steps});
 
   @override
   Widget build(BuildContext context) {

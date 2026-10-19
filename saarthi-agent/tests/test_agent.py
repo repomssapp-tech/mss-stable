@@ -5,6 +5,7 @@ import textwrap
 import pytest
 from livekit.agents import AgentSession, inference, llm
 
+from agent_language import resolve_language
 from agent import (
     MSS_INSTRUCTIONS,
     PROFILE_CONTEXT_FALLBACK_TIMEOUT,
@@ -421,6 +422,89 @@ def test_invalid_job_metadata_produces_an_empty_profile_context() -> None:
 
     assert profile.has_facts is False
     assert build_agent_instructions(profile) == SAARTHI_INSTRUCTIONS
+
+
+def _metadata_with_language(language: object) -> str:
+    return json.dumps(
+        {
+            "schema": "in-schemes-profile-v1",
+            "profile": {"age": 30},
+            "language": language,
+        }
+    )
+
+
+@pytest.mark.parametrize(
+    ("chosen", "name", "locale", "greeting"),
+    [
+        ("en", "English", "en-IN", "Hello"),
+        ("ta", "Tamil", "ta-IN", "Vanakkam"),
+        ("hi", "Hindi", "hi-IN", "Namaste"),
+        ("mr", "Marathi", "mr-IN", "Namaskar"),
+        ("hi-IN", "Hindi", "hi-IN", "Namaste"),
+        ("MR_in", "Marathi", "mr-IN", "Namaskar"),
+    ],
+)
+def test_agent_speaks_the_language_chosen_in_the_app(
+    monkeypatch: pytest.MonkeyPatch,
+    chosen: str,
+    name: str,
+    locale: str,
+    greeting: str,
+) -> None:
+    monkeypatch.delenv("SARVAM_TTS_LANGUAGE", raising=False)
+    profile = UserProfileContext.from_job_metadata(_metadata_with_language(chosen))
+    instructions = build_agent_instructions(profile)
+
+    assert f"chose {name} in the app" in instructions
+    assert f"natural conversational {name}" in instructions
+    assert f"reply briefly with {greeting}" in instructions
+    # Another language's greeting or name must not leak into the prompt.
+    for other in ("Vanakkam", "Namaste", "Namaskar", "Tamil", "Hindi", "Marathi"):
+        if other not in (greeting, name):
+            assert other not in instructions
+    assert SarvamVoiceConfig.from_env().for_language(
+        resolve_language(profile.language)
+    ).tts_language == locale
+
+
+def test_language_defaults_when_the_app_names_none_or_an_unknown_one() -> None:
+    for payload in (None, "", "fr", 7, ["hi"]):
+        profile = UserProfileContext.from_job_metadata(_metadata_with_language(payload))
+        assert profile.language is None
+        assert build_agent_instructions(profile) == SAARTHI_INSTRUCTIONS + (
+            "\n\n" + _profile_notice() + "\n"
+        )
+    voice = SarvamVoiceConfig.from_env()
+    assert voice.for_language(None) == voice
+
+
+def _profile_notice() -> str:
+    from agent import _PROFILE_DATA_NOTICE
+
+    return _PROFILE_DATA_NOTICE
+
+
+def test_language_speaker_can_be_overridden_per_language(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("SARVAM_TTS_SPEAKER_HI", "ritu")
+    voice = SarvamVoiceConfig.from_env()
+
+    assert voice.for_language(resolve_language("hi")).tts_speaker == "ritu"
+    assert voice.for_language(resolve_language("ta")).tts_speaker == "kavitha"
+
+
+def test_language_alone_does_not_count_as_a_saved_fact() -> None:
+    metadata = json.dumps(
+        {"schema": "in-schemes-profile-v1", "profile": {}, "language": "hi"}
+    )
+    profile = UserProfileContext.from_job_metadata(metadata)
+
+    assert profile.language == "hi"
+    assert profile.has_facts is False
+    assert build_profile_chat_ctx(profile) is None
+    assert "<citizen_facts>" not in build_agent_instructions(profile)
 
 
 def _judge_llm() -> llm.LLM:

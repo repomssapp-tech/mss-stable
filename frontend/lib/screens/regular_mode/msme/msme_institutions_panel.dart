@@ -8,10 +8,7 @@ import '../../../utils/app_spacing.dart';
 class InstitutionsInteractivePanel extends StatefulWidget {
   final Color iconColor;
 
-  const InstitutionsInteractivePanel({
-    super.key,
-    required this.iconColor,
-  });
+  const InstitutionsInteractivePanel({super.key, required this.iconColor});
 
   @override
   State<InstitutionsInteractivePanel> createState() =>
@@ -193,9 +190,15 @@ class _InstitutionsInteractivePanelState
                 itemCount: filtered.length,
                 itemBuilder: (context, index) {
                   final inst = filtered[index];
-                  final roleText = CentralizedTranslator.instance.localize(inst['role']);
-                  final servicesText = CentralizedTranslator.instance.localize(inst['services']);
-                  final schemesText = CentralizedTranslator.instance.localize(inst['schemes']);
+                  final roleText = CentralizedTranslator.instance.localize(
+                    inst['role'],
+                  );
+                  final servicesText = CentralizedTranslator.instance.localize(
+                    inst['services'],
+                  );
+                  final schemesText = CentralizedTranslator.instance.localize(
+                    inst['schemes'],
+                  );
 
                   return Container(
                     margin: const EdgeInsets.only(bottom: AppSpacing.sm),
@@ -218,7 +221,9 @@ class _InstitutionsInteractivePanelState
                           ),
                         ),
                         subtitle: Text(
-                          CentralizedTranslator.instance.localize(inst['fullName']),
+                          CentralizedTranslator.instance.localize(
+                            inst['fullName'],
+                          ),
                           style: GoogleFonts.inter(
                             fontSize: 11,
                             color: const Color(0xFF64748B),

@@ -58,7 +58,8 @@ class StandardPageHeader extends StatelessWidget
           ? AppIconButton(
               icon: Icons.arrow_back_rounded,
               semanticLabel: l10n.back,
-              onPressed: onBackPressed ?? () => Navigator.of(context).maybePop(),
+              onPressed:
+                  onBackPressed ?? () => Navigator.of(context).maybePop(),
             )
           : null,
       title: Column(
@@ -67,14 +68,18 @@ class StandardPageHeader extends StatelessWidget
         children: [
           Text(
             title,
-            style: context.text.titleMedium.copyWith(color: AppColors.textPrimary),
+            style: context.text.titleMedium.copyWith(
+              color: AppColors.textPrimary,
+            ),
             maxLines: _hasSubtitle ? 1 : 2,
             overflow: TextOverflow.ellipsis,
           ),
           if (_hasSubtitle)
             Text(
               subtitle!,
-              style: context.text.bodySmall.copyWith(color: AppColors.textMuted),
+              style: context.text.bodySmall.copyWith(
+                color: AppColors.textMuted,
+              ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),

@@ -1,0 +1,2680 @@
+{
+ "rule": "new scheme JSON wins; supplement fills only absent facets",
+ "legacyCatalogVersion": "1.35.0-alpha",
+ "schemesWithLegacySupplement": 277,
+ "schemesWithout2026Counterpart": 25,
+ "excludedLegacy": [
+  {
+   "oldId": "SCH000021",
+   "code": "TN021",
+   "name": "Bhamashah Techno Fund - Women-led Startup Fund"
+  },
+  {
+   "oldId": "SCH000030",
+   "code": "TN030",
+   "name": "Chhattisgarh Innovation and Venture Capital Funds - Women Innovator Corpus"
+  },
+  {
+   "oldId": "SCH000044",
+   "code": "TN044",
+   "name": "Dena Shakti Scheme"
+  },
+  {
+   "oldId": "SCH000052",
+   "code": "TN052",
+   "name": "Economic Empowerment of Women Enterprises and Start-Ups by Women"
+  },
+  {
+   "oldId": "SCH000056",
+   "code": "TN056",
+   "name": "Events organised by academic institutions"
+  },
+  {
+   "oldId": "SCH000058",
+   "code": "TN058",
+   "name": "Financial Assistance for participation in International Trade Fair"
+  },
+  {
+   "oldId": "SCH000061",
+   "code": "TN061",
+   "name": "General Purpose Term Loan"
+  },
+  {
+   "oldId": "SCH000078",
+   "code": "TN078",
+   "name": "Loan for Purchase of Equipment for Enterprise's Development (SPEED)"
+  },
+  {
+   "oldId": "SCH000081",
+   "code": "TN081",
+   "name": "Maharashtra Women-led Startup GST/Utility/Participation Reimbursement Support"
+  },
+  {
+   "oldId": "SCH000088",
+   "code": "TN088",
+   "name": "Mahila Udyam Nidhi"
+  },
+  {
+   "oldId": "SCH000094",
+   "code": "TN094",
+   "name": "Micro Cluster Development Programme (MCDP)"
+  },
+  {
+   "oldId": "SCH000108",
+   "code": "TN108",
+   "name": "Nagaland Startup Fund - 25% Reservation for Women-led Ventures"
+  },
+  {
+   "oldId": "SCH000117",
+   "code": "TN117",
+   "name": "Odisha Startup Policy - Women Entrepreneur Allowance & Marketing Support"
+  },
+  {
+   "oldId": "SCH000122",
+   "code": "TN122",
+   "name": "Payroll Subsidy"
+  },
+  {
+   "oldId": "SCH000137",
+   "code": "TN137",
+   "name": "Punjab Startup Fund - 25% Reservation for Women-led Ventures"
+  },
+  {
+   "oldId": "SCH000157",
+   "code": "TN157",
+   "name": "SIDBI and Google Partnership for Assistance to Micro Enterprises (SanGAM)"
+  },
+  {
+   "oldId": "SCH000167",
+   "code": "TN167",
+   "name": "Sponsorship of students"
+  },
+  {
+   "oldId": "SCH000171",
+   "code": "TN171",
+   "name": "State MSME Schemes"
+  },
+  {
+   "oldId": "SCH000173",
+   "code": "TN173",
+   "name": "Stree Shakti Package"
+  },
+  {
+   "oldId": "SCH000194",
+   "code": "TN194",
+   "name": "Trade and Industry Related Functional Support"
+  },
+  {
+   "oldId": "SCH000199",
+   "code": "TN199",
+   "name": "Udyogini Scheme"
+  },
+  {
+   "oldId": "SCH000201",
+   "code": "TN201",
+   "name": "Uttarakhand Startup Policy - Women Entrepreneur Allowance & Marketing Support"
+  },
+  {
+   "oldId": "SCH000214",
+   "code": "TN214",
+   "name": "Women in the Digital Economy Fund (WiDEF)"
+  },
+  {
+   "oldId": "SCH000215",
+   "code": "TN215",
+   "name": "Women Leadership in STEM (WLS) Programme"
+  },
+  {
+   "oldId": "SCH000216",
+   "code": "TN216",
+   "name": "Working Capital (Cash Credit)"
+  }
+ ],
+ "gapsFilledFromLegacy": {
+  "content.benefits.benefitTypes": 189,
+  "content.benefits.capitalSubsidy": 70,
+  "content.benefits.currency": 277,
+  "content.benefits.equitySupport": 2,
+  "content.benefits.grant": 116,
+  "content.benefits.guarantee": 11,
+  "content.benefits.interestSubvention": 88,
+  "content.benefits.loan": 100,
+  "content.benefits.marketSupport": 6,
+  "content.benefits.reimbursement": 10,
+  "content.benefits.taxBenefit": 2,
+  "content.benefits.technologySupport": 1,
+  "content.benefits.trainingSupport": 29,
+  "content.classification.government.departmentId": 122,
+  "content.classification.government.districtsText": 147,
+  "content.classification.government.implementingAgencyIds": 91,
+  "content.classification.government.implementingAgencyText": 146,
+  "content.classification.government.ministryId": 184,
+  "content.classification.government.ministryText": 227,
+  "content.classification.schemeType": 227,
+  "content.classification.schemeTypeText": 230,
+  "content.classification.sectorsText": 147,
+  "content.classification.tags": 83,
+  "content.eligibility.narrative.verifiedCriteria": 20,
+  "content.targetBeneficiaries": 253
+ },
+ "legacyDocumentsNotMatched": 124,
+ "conflictCount": 418,
+ "conflictsByField": {
+  "content.classification.government.departmentText": 212,
+  "content.classification.government.statesText": 106,
+  "content.benefits.summary": 52,
+  "content.eligibility.narrative.criteria": 22,
+  "content.classification.government.levelText": 20,
+  "content.classification.government.level": 6
+ },
+ "conflicts": [
+  {
+   "schemeId": "CEN2026-001",
+   "field": "content.eligibility.narrative.criteria",
+   "kept": "Registered/eligible spice exporters purchasing approved rapid quality and safety testing devices/kits can receive assistance under Spices Board export-development guidelines, subject to category and eligible-cost rules.",
+   "legacy": "Eligibility could not be reliably verified from a sufficiently specific current official guideline in this research pass."
+  },
+  {
+   "schemeId": "CEN2026-001",
+   "field": "content.classification.government.departmentText",
+   "kept": "Spices Board India, Ministry of Commerce & Industry, Government of India",
+   "legacy": "Spices Board India"
+  },
+  {
+   "schemeId": "CEN2026-001",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-002",
+   "field": "content.eligibility.narrative.criteria",
+   "kept": "SAFE was a COVID-era SIDBI emergency facility for eligible MSMEs producing or supplying medical and allied products. Eligibility depended on SIDBI credit checks and the applicable SAFE/SAFE Plus conditions.\nSAFE was a COVID-era SIDBI emergency assistance facility for eligible MSMEs involved in products/services required to fight the pandemic, subject to SIDBI credit conditions.",
+   "legacy": "SAFE was a COVID-era SIDBI emergency facility for eligible MSMEs producing or supplying medical and allied products. Eligibility depended on SIDBI credit checks and the applicable SAFE/SAFE Plus conditions."
+  },
+  {
+   "schemeId": "CEN2026-002",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-003",
+   "field": "content.eligibility.narrative.criteria",
+   "kept": "ARISE targeted existing MSMEs undertaking expansion, modernization or other capital expenditure. Applicants generally needed an operating track record, audited financials, cash profit and satisfactory credit assessment by SIDBI.\nARISE supported eligible existing/brownfield SMEs for expansion, modernization or capital expenditure, subject to SIDBI appraisal and scheme conditions.",
+   "legacy": "ARISE targeted existing MSMEs undertaking expansion, modernization or other capital expenditure. Applicants generally needed an operating track record, audited financials, cash profit and satisfactory credit assessment by SIDBI."
+  },
+  {
+   "schemeId": "CEN2026-003",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-004",
+   "field": "content.eligibility.narrative.criteria",
+   "kept": "Institutions under the Ministry of MSME and existing State-level Entrepreneurship Development Institutes (EDIs) can apply for infrastructure/training assistance under the ATI scheme.\nUnder the current ATI description, institutions of the Ministry of MSME and existing State-level Entrepreneurship Development Institutes are eligible for infrastructure assistance; programme support follows ATI guidelines.",
+   "legacy": "Institutions under the Ministry of MSME and existing State-level Entrepreneurship Development Institutes (EDIs) can apply for infrastructure/training assistance under the ATI scheme."
+  },
+  {
+   "schemeId": "CEN2026-004",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of MSME, Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Ministry of Micro, Small & Medium Enterprises"
+  },
+  {
+   "schemeId": "CEN2026-004",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-005",
+   "field": "content.eligibility.narrative.criteria",
+   "kept": "Higher-education/R&D institutions and eligible non-academic applicants such as companies, accelerators, SEBI-registered AIFs, groups or individuals can apply to establish an Atal Incubation Centre, subject to AIM requirements.\nHigher-education/R&D institutions and eligible non-academic applicants including corporate enterprises, SEBI-registered AIFs, accelerators, groups and individuals may apply, subject to AIM requirements including dedicated incubation space.",
+   "legacy": "Higher-education/R&D institutions and eligible non-academic applicants such as companies, accelerators, SEBI-registered AIFs, groups or individuals can apply to establish an Atal Incubation Centre, subject to AIM requirements."
+  },
+  {
+   "schemeId": "CEN2026-005",
+   "field": "content.classification.government.departmentText",
+   "kept": "Atal Innovation Mission, NITI Aayog, Atal Innovation Mission (AIM), NITI Aayog",
+   "legacy": "Atal Innovation Mission (AIM)"
+  },
+  {
+   "schemeId": "CEN2026-005",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-006",
+   "field": "content.eligibility.narrative.criteria",
+   "kept": "AIM is an umbrella innovation mission rather than a single beneficiary scheme. Eligibility depends on the specific AIM programme, such as ATL, AIC or other innovation initiatives.\nAIM is an umbrella mission rather than one beneficiary grant. Eligibility depends on the specific AIM programme, such as ATL or AIC.",
+   "legacy": "AIM is an umbrella innovation mission rather than a single beneficiary scheme. Eligibility depends on the specific AIM programme, such as ATL, AIC or other innovation initiatives."
+  },
+  {
+   "schemeId": "CEN2026-006",
+   "field": "content.classification.government.departmentText",
+   "kept": "NITI Aayog / Atal Innovation Mission, Atal Innovation Mission, NITI Aayog",
+   "legacy": "Atal Innovation Mission"
+  },
+  {
+   "schemeId": "CEN2026-006",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-007",
+   "field": "content.eligibility.narrative.criteria",
+   "kept": "Atal Tinkering Labs are intended for eligible schools to create innovation/STEM workspaces for students, particularly Classes 6–12. School selection is subject to AIM’s infrastructure and programme requirements.\nATLs are established in eligible schools. Selection has included infrastructure, faculty, enrolment/attendance, student performance, science-activity participation and partnership criteria under ATL guidelines.",
+   "legacy": "Atal Tinkering Labs are intended for eligible schools to create innovation/STEM workspaces for students, particularly Classes 6–12. School selection is subject to AIM’s infrastructure and programme requirements."
+  },
+  {
+   "schemeId": "CEN2026-007",
+   "field": "content.classification.government.departmentText",
+   "kept": "Atal Innovation Mission, NITI Aayog, Atal Innovation Mission, NITI Aayog",
+   "legacy": "Atal Innovation Mission"
+  },
+  {
+   "schemeId": "CEN2026-007",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-008",
+   "field": "content.eligibility.narrative.criteria",
+   "kept": "Micro and small enterprises seeking bank finance can use NSIC’s Bank Credit Facilitation support. Actual loan eligibility and sanction depend on the participating bank’s credit appraisal and lending requirements.\nAny MSME unit can approach NSIC for bank credit facilitation. Loan sanction remains subject to the participating bank’s documentation and credit appraisal.",
+   "legacy": "Micro and small enterprises seeking bank finance can use NSIC’s Bank Credit Facilitation support. Actual loan eligibility and sanction depend on the participating bank’s credit appraisal and lending requirements."
+  },
+  {
+   "schemeId": "CEN2026-008",
+   "field": "content.classification.government.departmentText",
+   "kept": "National Small Industries Corporation Ltd. with participating banks, National Small Industries Corporation (NSIC), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "National Small Industries Corporation (NSIC)"
+  },
+  {
+   "schemeId": "CEN2026-008",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-009",
+   "field": "content.eligibility.narrative.criteria",
+   "kept": "Age 18-55, with Aadhaar/voter ID. Not eligible if already benefited from a similar government scheme (self-declaration required). Persons already trained by KVIC/KVIB/NABARD/Krishi Vigyan Kendra/agri-horti boards/eligible beekeeping NGOs are eligible for the bee-box/tool-kit support.\nBeneficiary eligibility depends on the current KVIC Gramodyog Vikas Yojana beekeeping component and beneficiary-selection/training rules.",
+   "legacy": "Age 18-55, with Aadhaar/voter ID. Not eligible if already benefited from a similar government scheme (self-declaration required). Persons already trained by KVIC/KVIB/NABARD/Krishi Vigyan Kendra/agri-horti boards/eligible beekeeping NGOs are eligible for the bee-box/tool-kit support."
+  },
+  {
+   "schemeId": "CEN2026-009",
+   "field": "content.classification.government.departmentText",
+   "kept": "Khadi and Village Industries Commission (KVIC), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Khadi and Village Industries Commission (KVIC)"
+  },
+  {
+   "schemeId": "CEN2026-009",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-010",
+   "field": "content.eligibility.narrative.criteria",
+   "kept": "BBBP is an awareness and social-behaviour-change programme for improving outcomes for the girl child, not an individual cash-benefit scheme. Therefore, there is no standard individual beneficiary application eligibility.\nBBBP is a behavioural and social-change programme and has no Direct Benefit Transfer provision; there is no individual cash-benefit application eligibility.",
+   "legacy": "BBBP is an awareness and social-behaviour-change programme for improving outcomes for the girl child, not an individual cash-benefit scheme. Therefore, there is no standard individual beneficiary application eligibility."
+  },
+  {
+   "schemeId": "CEN2026-010",
+   "field": "content.classification.government.departmentText",
+   "kept": "Government of India with State/UT and district-level implementation, Ministry of Women and Child Development",
+   "legacy": "Ministry of Women and Child Development"
+  },
+  {
+   "schemeId": "CEN2026-010",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-011",
+   "field": "content.classification.government.departmentText",
+   "kept": "Department of Biotechnology, Department of Biotechnology (DBT), Department of Biotechnology, Ministry of Science & Technology",
+   "legacy": "Department of Biotechnology (DBT)"
+  },
+  {
+   "schemeId": "CEN2026-011",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-012",
+   "field": "content.classification.government.departmentText",
+   "kept": "BIRAC, Biotechnology Industry Research Assistance Council (BIRAC), Department of Biotechnology, Ministry of Science & Technology",
+   "legacy": "Biotechnology Industry Research Assistance Council (BIRAC)"
+  },
+  {
+   "schemeId": "CEN2026-012",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-013",
+   "field": "content.classification.government.departmentText",
+   "kept": "BIRAC, Department of Biotechnology, Ministry of Science & Technology",
+   "legacy": "BIRAC"
+  },
+  {
+   "schemeId": "CEN2026-013",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-014",
+   "field": "content.classification.government.departmentText",
+   "kept": "BIRAC through SEBI-registered Category I and II AIF daughter funds, BIRAC, Department of Biotechnology, Ministry of Science & Technology",
+   "legacy": "BIRAC"
+  },
+  {
+   "schemeId": "CEN2026-014",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-015",
+   "field": "content.classification.government.departmentText",
+   "kept": "Selected BioNEST LEAP Fund Partner incubators, BIRAC, Department of Biotechnology, Ministry of Science & Technology",
+   "legacy": "BIRAC"
+  },
+  {
+   "schemeId": "CEN2026-015",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-016",
+   "field": "content.benefits.summary",
+   "kept": "Capital assistance/equity exposure up to ₹30 lakh per startup. Selected incubators receive grant-in-aid support for deployment.\nPartner incubators (separately) receive Rs 200 lakh/cycle for deployment to startups -- not the same figure as the Rs 30 lakh per-startup equity ceiling.",
+   "legacy": "Capital assistance/equity exposure up to ₹30 lakh per startup. Selected incubators receive grant-in-aid support for deployment."
+  },
+  {
+   "schemeId": "CEN2026-016",
+   "field": "content.classification.government.departmentText",
+   "kept": "Selected BioNEST SEED Fund Partner incubators, BIRAC, Department of Biotechnology, Ministry of Science & Technology",
+   "legacy": "BIRAC"
+  },
+  {
+   "schemeId": "CEN2026-016",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-017",
+   "field": "content.classification.government.departmentText",
+   "kept": "Central Bank of India, Not applicable as a ministry-administered subsidy",
+   "legacy": "Central Bank of India"
+  },
+  {
+   "schemeId": "CEN2026-017",
+   "field": "content.classification.government.levelText",
+   "kept": "Central",
+   "legacy": "Central / bank product"
+  },
+  {
+   "schemeId": "CEN2026-017",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-018",
+   "field": "content.classification.government.departmentText",
+   "kept": "Office of DC (MSME) through nodal agencies and Primary Lending Institutions, Office of Development Commissioner (MSME), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Office of Development Commissioner (MSME)"
+  },
+  {
+   "schemeId": "CEN2026-018",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-019",
+   "field": "content.benefits.summary",
+   "kept": "Benefits vary by component. The official Coir Board page lists financial-assistance components including production infrastructure and skill upgradation/Mahila Coir Yojana.\nDomestic Market Promotion Scheme component: market development assistance at 10% of average annual sales turnover of coir products (including coir yarn and rubberised coir goods) over the preceding 3 financial years, shared equally between central and state government. Central-share disbursement is subject to Coir Board's available budgetary outlay.\nEligible applicants: apex societies, central co-operative societies, primary co-operatives, public sector enterprises, or Coir Board showrooms/sales depots.",
+   "legacy": "Benefits vary by component. The official Coir Board page lists financial-assistance components including production infrastructure and skill upgradation/Mahila Coir Yojana."
+  },
+  {
+   "schemeId": "CEN2026-019",
+   "field": "content.classification.government.departmentText",
+   "kept": "Coir Board, Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Coir Board"
+  },
+  {
+   "schemeId": "CEN2026-020",
+   "field": "content.classification.government.departmentText",
+   "kept": "Coir Board, Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Coir Board"
+  },
+  {
+   "schemeId": "CEN2026-020",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-021",
+   "field": "content.benefits.summary",
+   "kept": "Coir Board conducts training, EDP, awareness programmes, workshops/seminars and exposure activities; detailed beneficiary assistance depends on applicable component guidelines.\nTraining is stipendiary. Additional training/incubation/handholding support for setting up new units is available from the Coir Board's Research and Development Institutes.",
+   "legacy": "Coir Board conducts training, EDP, awareness programmes, workshops/seminars and exposure activities; detailed beneficiary assistance depends on applicable component guidelines."
+  },
+  {
+   "schemeId": "CEN2026-021",
+   "field": "content.classification.government.departmentText",
+   "kept": "Coir Board, Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Coir Board"
+  },
+  {
+   "schemeId": "CEN2026-022",
+   "field": "content.classification.government.departmentText",
+   "kept": "NSIC, National Small Industries Corporation (NSIC), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "National Small Industries Corporation (NSIC)"
+  },
+  {
+   "schemeId": "CEN2026-022",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-023",
+   "field": "content.benefits.summary",
+   "kept": "Credit guarantee, collateral-free, for eligible MSME credit facilities. Coverage varies by category: micro enterprise 85% (max Rs 5 lakh); other enterprises 75%; retail trade 50% (loans Rs 10-100 lakh); woman-owned/operated micro or small enterprise 80% (max Rs 50 lakh); North East Region enterprise 80%; default claims settled up to 75% (max Rs 200 lakh). Guarantee-ceiling figure is under an open source conflict -- see SCHEME_DATA_CONFLICT_REPORT.md -- and is deliberately left null here rather than picked.\nBooklet 2025-26 text states ₹5 crore; ceiling enhanced to ₹10 crore w.e.f. 01.04.2025",
+   "legacy": "Credit guarantee, collateral-free, for eligible MSME credit facilities. Coverage varies by category: micro enterprise 85% (max Rs 5 lakh); other enterprises 75%; retail trade 50% (loans Rs 10-100 lakh); woman-owned/operated micro or small enterprise 80% (max Rs 50 lakh); North East Region enterprise 80%; default claims settled up to 75% (max Rs 200 lakh). Guarantee-ceiling figure is under an open source conflict -- see SCHEME_DATA_CONFLICT_REPORT.md -- and is deliberately left null here rather than picked."
+  },
+  {
+   "schemeId": "CEN2026-023",
+   "field": "content.classification.government.departmentText",
+   "kept": "CGTMSE through Member Lending Institutions, Credit Guarantee Fund Trust for Micro and Small Enterprises, Ministry of Micro, Small & Medium Enterprises / Government of India",
+   "legacy": "Credit Guarantee Fund Trust for Micro and Small Enterprises"
+  },
+  {
+   "schemeId": "CEN2026-023",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-024",
+   "field": "content.classification.government.departmentText",
+   "kept": "NCGTC through registered Member Institutions, National Credit Guarantee Trustee Company (NCGTC), Department for Promotion of Industry and Internal Trade (DPIIT), Ministry of Commerce & Industry",
+   "legacy": "National Credit Guarantee Trustee Company (NCGTC)"
+  },
+  {
+   "schemeId": "CEN2026-024",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-025",
+   "field": "content.classification.government.departmentText",
+   "kept": "DGFT / relevant authorities under Foreign Trade Policy, Directorate General of Foreign Trade (DGFT), Ministry of Commerce & Industry",
+   "legacy": "Directorate General of Foreign Trade (DGFT)"
+  },
+  {
+   "schemeId": "CEN2026-025",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-026",
+   "field": "content.classification.government.departmentText",
+   "kept": "MoRD with State Rural Livelihood Missions / project implementing agencies, Department of Rural Development, Ministry of Rural Development",
+   "legacy": "Department of Rural Development"
+  },
+  {
+   "schemeId": "CEN2026-026",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-027",
+   "field": "content.classification.government.departmentText",
+   "kept": "MoRD / State Rural Livelihood Missions, Department of Rural Development, Ministry of Rural Development",
+   "legacy": "Department of Rural Development"
+  },
+  {
+   "schemeId": "CEN2026-027",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-028",
+   "field": "content.classification.government.departmentText",
+   "kept": "MoHUA with States/UTs and Urban Local Bodies, Ministry of Housing and Urban Affairs",
+   "legacy": "Ministry of Housing and Urban Affairs"
+  },
+  {
+   "schemeId": "CEN2026-028",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-029",
+   "field": "content.classification.government.departmentText",
+   "kept": "Spices Board India, Ministry of Commerce & Industry",
+   "legacy": "Spices Board India"
+  },
+  {
+   "schemeId": "CEN2026-029",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-030",
+   "field": "content.classification.government.departmentText",
+   "kept": "Spices Board India, Ministry of Commerce & Industry",
+   "legacy": "Spices Board India"
+  },
+  {
+   "schemeId": "CEN2026-030",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-031",
+   "field": "content.classification.government.departmentText",
+   "kept": "Government of India with States/implementing agencies and women SHGs, Department of Agriculture & Farmers Welfare, Ministry of Agriculture & Farmers Welfare",
+   "legacy": "Department of Agriculture & Farmers Welfare"
+  },
+  {
+   "schemeId": "CEN2026-031",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-032",
+   "field": "content.classification.government.departmentText",
+   "kept": "DGFT Regional Authorities, Directorate General of Foreign Trade (DGFT), Ministry of Commerce & Industry",
+   "legacy": "Directorate General of Foreign Trade (DGFT)"
+  },
+  {
+   "schemeId": "CEN2026-032",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-033",
+   "field": "content.classification.government.departmentText",
+   "kept": "MSME-DFOs, Technology Centres and approved Implementing Agencies, Office of Development Commissioner (MSME), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Office of Development Commissioner (MSME)"
+  },
+  {
+   "schemeId": "CEN2026-033",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-034",
+   "field": "content.classification.government.departmentText",
+   "kept": "DGFT Regional Authorities, Directorate General of Foreign Trade (DGFT), Ministry of Commerce & Industry",
+   "legacy": "Directorate General of Foreign Trade (DGFT)"
+  },
+  {
+   "schemeId": "CEN2026-034",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-035",
+   "field": "content.classification.government.departmentText",
+   "kept": "SIDBI, Small Industries Development Bank of India (SIDBI)",
+   "legacy": "Small Industries Development Bank of India (SIDBI)"
+  },
+  {
+   "schemeId": "CEN2026-035",
+   "field": "content.classification.government.levelText",
+   "kept": "Central",
+   "legacy": "Central / development finance product"
+  },
+  {
+   "schemeId": "CEN2026-035",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-036",
+   "field": "content.classification.government.departmentText",
+   "kept": "SIDBI, DPIIT, Department for Promotion of Industry and Internal Trade (DPIIT), Ministry of Commerce & Industry",
+   "legacy": "DPIIT"
+  },
+  {
+   "schemeId": "CEN2026-036",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-037",
+   "field": "content.classification.government.departmentText",
+   "kept": "GeM / Government buyers, Government e-Marketplace (GeM), Ministry of Commerce & Industry",
+   "legacy": "Government e-Marketplace (GeM)"
+  },
+  {
+   "schemeId": "CEN2026-037",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-038",
+   "field": "content.classification.government.departmentText",
+   "kept": "CGTMSE through Member Lending Institutions, Credit Guarantee Fund Trust for Micro and Small Enterprises (CGTMSE), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Credit Guarantee Fund Trust for Micro and Small Enterprises (CGTMSE)"
+  },
+  {
+   "schemeId": "CEN2026-038",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-039",
+   "field": "content.classification.government.departmentText",
+   "kept": "MoFPI / implementing agencies, Ministry of Food Processing Industries (MoFPI), Ministry of Food Processing Industries",
+   "legacy": "Ministry of Food Processing Industries (MoFPI)"
+  },
+  {
+   "schemeId": "CEN2026-039",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-040",
+   "field": "content.classification.government.departmentText",
+   "kept": "Government of India / RBI through eligible lending institutions, Department of Commerce, Ministry of Commerce & Industry",
+   "legacy": "Department of Commerce"
+  },
+  {
+   "schemeId": "CEN2026-040",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-041",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of MSME / eligible implementing organisations, Ministry of MSME, Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Ministry of MSME"
+  },
+  {
+   "schemeId": "CEN2026-041",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-042",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of MSME / eligible implementing organisations, Ministry of MSME, Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Ministry of MSME"
+  },
+  {
+   "schemeId": "CEN2026-042",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-043",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of MSME / eligible implementing organisations, Ministry of MSME, Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Ministry of MSME"
+  },
+  {
+   "schemeId": "CEN2026-043",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-044",
+   "field": "content.classification.government.departmentText",
+   "kept": "KVIC, Khadi and Village Industries Commission (KVIC), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Khadi and Village Industries Commission (KVIC)"
+  },
+  {
+   "schemeId": "CEN2026-044",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-045",
+   "field": "content.classification.government.departmentText",
+   "kept": "KVIC, Khadi and Village Industries Commission (KVIC), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Khadi and Village Industries Commission (KVIC)"
+  },
+  {
+   "schemeId": "CEN2026-045",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-046",
+   "field": "content.classification.government.departmentText",
+   "kept": "DAY-NRLM / State Rural Livelihood Missions, Department of Rural Development, Ministry of Rural Development",
+   "legacy": "Department of Rural Development"
+  },
+  {
+   "schemeId": "CEN2026-046",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-047",
+   "field": "content.classification.government.departmentText",
+   "kept": "Coir Board, Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Coir Board"
+  },
+  {
+   "schemeId": "CEN2026-047",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-048",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-049",
+   "field": "content.classification.government.departmentText",
+   "kept": "States/UTs under the MPV framework, Women and child development / police administration, Ministry of Women and Child Development / Ministry of Home Affairs",
+   "legacy": "Women and child development / police administration"
+  },
+  {
+   "schemeId": "CEN2026-049",
+   "field": "content.classification.government.level",
+   "kept": "central",
+   "legacy": "central_state"
+  },
+  {
+   "schemeId": "CEN2026-049",
+   "field": "content.classification.government.levelText",
+   "kept": "Central",
+   "legacy": "Central/State implementation"
+  },
+  {
+   "schemeId": "CEN2026-049",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India framework"
+  },
+  {
+   "schemeId": "CEN2026-050",
+   "field": "content.classification.government.departmentText",
+   "kept": "Authorised Account Offices including India Post, Department of Economic Affairs / Department of Posts service delivery, Ministry of Finance",
+   "legacy": "Department of Economic Affairs / Department of Posts service delivery"
+  },
+  {
+   "schemeId": "CEN2026-050",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-051",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of Social Justice and Empowerment",
+   "legacy": "Not verified for exact master-list variant"
+  },
+  {
+   "schemeId": "CEN2026-052",
+   "field": "content.classification.government.departmentText",
+   "kept": "Banks, MFIs and other eligible lending institutions under MUDRA framework, MUDRA / SIDBI ecosystem",
+   "legacy": "MUDRA / SIDBI ecosystem"
+  },
+  {
+   "schemeId": "CEN2026-052",
+   "field": "content.classification.government.levelText",
+   "kept": "Central",
+   "legacy": "Central / refinance ecosystem"
+  },
+  {
+   "schemeId": "CEN2026-052",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-053",
+   "field": "content.classification.government.departmentText",
+   "kept": "KVIC / eligible khadi institutions under applicable MPDA rules, Khadi and Village Industries Commission (KVIC), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Khadi and Village Industries Commission (KVIC)"
+  },
+  {
+   "schemeId": "CEN2026-053",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-054",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of MSME / eligible government organisations and registered industry associations, Ministry of MSME, Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Ministry of MSME"
+  },
+  {
+   "schemeId": "CEN2026-054",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-055",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of MSME with State Governments/implementing agencies, Office of Development Commissioner (MSME), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Office of Development Commissioner (MSME)"
+  },
+  {
+   "schemeId": "CEN2026-055",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-056",
+   "field": "content.benefits.summary",
+   "kept": "Online filing/tracking and statutory MSEFC conciliation/arbitration framework; not a subsidy or grant.\nStatutory procedure: every complaint must be resolved within 90 days; a buyer who fails to pay within 45 days of accepting goods/services is liable for compound interest at 3x the bank rate; a buyer appealing an MSEFC award to a court must deposit 75% of the award amount with the council.",
+   "legacy": "Online filing/tracking and statutory MSEFC conciliation/arbitration framework; not a subsidy or grant."
+  },
+  {
+   "schemeId": "CEN2026-056",
+   "field": "content.classification.government.departmentText",
+   "kept": "State/UT MSE Facilitation Councils; MSME Samadhaan portal, Office of Development Commissioner / MSME framework, Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Office of Development Commissioner / MSME framework"
+  },
+  {
+   "schemeId": "CEN2026-056",
+   "field": "content.classification.government.level",
+   "kept": "central",
+   "legacy": "central_state"
+  },
+  {
+   "schemeId": "CEN2026-056",
+   "field": "content.classification.government.levelText",
+   "kept": "Central",
+   "legacy": "Central + State statutory mechanism"
+  },
+  {
+   "schemeId": "CEN2026-056",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-057",
+   "field": "content.classification.government.departmentText",
+   "kept": "MSME-DFOs, Technology Centres and approved Implementing Agencies, Office of Development Commissioner (MSME), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Office of Development Commissioner (MSME)"
+  },
+  {
+   "schemeId": "CEN2026-057",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-058",
+   "field": "content.classification.government.departmentText",
+   "kept": "States/UTs through Anganwadi Services and programme machinery, Ministry of Women and Child Development",
+   "legacy": "Ministry of Women and Child Development"
+  },
+  {
+   "schemeId": "CEN2026-058",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-059",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry with States/UTs and implementing agencies, Ministry of Women and Child Development",
+   "legacy": "Ministry of Women and Child Development"
+  },
+  {
+   "schemeId": "CEN2026-059",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-060",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of MSME / designated implementing agencies, Office of Development Commissioner (MSME), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Office of Development Commissioner (MSME)"
+  },
+  {
+   "schemeId": "CEN2026-060",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-061",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of MSME / designated implementing agencies, Office of Development Commissioner (MSME), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Office of Development Commissioner (MSME)"
+  },
+  {
+   "schemeId": "CEN2026-061",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-062",
+   "field": "content.classification.government.departmentText",
+   "kept": "NSIC, National Small Industries Corporation (NSIC), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "National Small Industries Corporation (NSIC)"
+  },
+  {
+   "schemeId": "CEN2026-062",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-063",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of MSME through approved Implementing Agencies, Office of Development Commissioner (MSME), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Office of Development Commissioner (MSME)"
+  },
+  {
+   "schemeId": "CEN2026-063",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-064",
+   "field": "content.benefits.summary",
+   "kept": "Financial support to host institutes/business incubation centres (recognised research institutions/universities) for developing and nurturing innovator ideas: max Rs 15 lakh/idea. Separately, max Rs 1 crore to the host institute for procuring and installing relevant plant/machines (hardware and software).\nFinancial Assistance to HI for developing and nurturing the ideas - shall be provided up to maximum of Rs. 15 lakh per idea to HI.\nper idea, paid to Host Institute",
+   "legacy": "Financial support to host institutes/business incubation centres (recognised research institutions/universities) for developing and nurturing innovator ideas: max Rs 15 lakh/idea. Separately, max Rs 1 crore to the host institute for procuring and installing relevant plant/machines (hardware and software)."
+  },
+  {
+   "schemeId": "CEN2026-064",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of MSME through approved Host Institutions/Business Incubators, Office of Development Commissioner (MSME), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Office of Development Commissioner (MSME)"
+  },
+  {
+   "schemeId": "CEN2026-064",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-065",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of MSME / IP Facilitation Centres, Office of Development Commissioner (MSME), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Office of Development Commissioner (MSME)"
+  },
+  {
+   "schemeId": "CEN2026-065",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-066",
+   "field": "content.classification.government.departmentText",
+   "kept": "State/UT MSE Facilitation Councils via MSME Samadhaan, Ministry of MSME, Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Ministry of MSME"
+  },
+  {
+   "schemeId": "CEN2026-066",
+   "field": "content.classification.government.level",
+   "kept": "central",
+   "legacy": "central_state"
+  },
+  {
+   "schemeId": "CEN2026-066",
+   "field": "content.classification.government.levelText",
+   "kept": "Central",
+   "legacy": "Central + State statutory mechanism"
+  },
+  {
+   "schemeId": "CEN2026-066",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-067",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of MSME / designated ZED ecosystem, Ministry of MSME, Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Ministry of MSME"
+  },
+  {
+   "schemeId": "CEN2026-067",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-068",
+   "field": "content.classification.government.departmentText",
+   "kept": "Historically through empanelled NGOs; now integrated into PM VIKAS, Ministry of Minority Affairs",
+   "legacy": "Ministry of Minority Affairs"
+  },
+  {
+   "schemeId": "CEN2026-068",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-071",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-072",
+   "field": "content.classification.government.departmentText",
+   "kept": "Startup India / DPIIT, Department for Promotion of Industry and Internal Trade (DPIIT), Ministry of Commerce & Industry",
+   "legacy": "Department for Promotion of Industry and Internal Trade (DPIIT)"
+  },
+  {
+   "schemeId": "CEN2026-072",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-077",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of MSME / eligible industry associations and government organisations, Ministry of MSME, Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Ministry of MSME"
+  },
+  {
+   "schemeId": "CEN2026-077",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-078",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-079",
+   "field": "content.benefits.summary",
+   "kept": "Scheme includes recognition, skill training, toolkit support, concessional collateral-free enterprise-development credit, digital incentives and marketing support. Exact current component values should follow official guidelines.\nA toolkit incentive of up to Rs. 15,000 through e-vouchers\nat a concessional rate of interest fixed at 5%, with Government of India subvention to the extent of 8%\nGoI interest subvention up to 8%; borrower pays 5%\nFirst tranche, collateral free, 18 months tenure, 5% interest\nSecond tranche, collateral free, 30 months tenure, 5% interest",
+   "legacy": "Scheme includes recognition, skill training, toolkit support, concessional collateral-free enterprise-development credit, digital incentives and marketing support. Exact current component values should follow official guidelines."
+  },
+  {
+   "schemeId": "CEN2026-079",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-080",
+   "field": "content.classification.government.departmentText",
+   "kept": "KVIC, Khadi and Village Industries Commission (KVIC), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Khadi and Village Industries Commission (KVIC)"
+  },
+  {
+   "schemeId": "CEN2026-081",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-082",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-083",
+   "field": "content.classification.government.departmentText",
+   "kept": "Member Lending Institutions, Department of Financial Services, Ministry of Finance",
+   "legacy": "Department of Financial Services"
+  },
+  {
+   "schemeId": "CEN2026-083",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-084",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-085",
+   "field": "content.benefits.summary",
+   "kept": "Subsidy on project cost, tiered: urban 15% (general)/25% (special category: SC/ST/OBC/Minorities/Women/Ex-servicemen/Physically handicapped/NE Region/Hill & Border areas); rural 25% (general)/35% (special category). Second subsidy for existing/better-performing PMEGP/MUDRA/REGP units diversifying: 15% of project cost up to Rs 1 crore, 20% for North-East region. Maximum PROJECT COST (not the subsidy amount): Rs 50 lakh (manufacturing) / Rs 20 lakh (service) -- the subsidy itself has no separate flat rupee ceiling stated; it is purely the percentage applied to the (capped) project cost.\nmaximum project cost, manufacturing\nmaximum project cost, service\nbank loan 90-95% of project cost",
+   "legacy": "Subsidy on project cost, tiered: urban 15% (general)/25% (special category: SC/ST/OBC/Minorities/Women/Ex-servicemen/Physically handicapped/NE Region/Hill & Border areas); rural 25% (general)/35% (special category). Second subsidy for existing/better-performing PMEGP/MUDRA/REGP units diversifying: 15% of project cost up to Rs 1 crore, 20% for North-East region. Maximum PROJECT COST (not the subsidy amount): Rs 50 lakh (manufacturing) / Rs 20 lakh (service) -- the subsidy itself has no separate flat rupee ceiling stated; it is purely the percentage applied to the (capped) project cost."
+  },
+  {
+   "schemeId": "CEN2026-085",
+   "field": "content.classification.government.departmentText",
+   "kept": "KVIC with State KVIBs, DICs, banks and other implementing agencies, Khadi and Village Industries Commission (KVIC), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Khadi and Village Industries Commission (KVIC)"
+  },
+  {
+   "schemeId": "CEN2026-085",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-086",
+   "field": "content.classification.government.departmentText",
+   "kept": "Scheduled commercial banks and other regulated lenders as applicable, Financial Inclusion and Development Department, Reserve Bank of India regulatory framework",
+   "legacy": "Financial Inclusion and Development Department"
+  },
+  {
+   "schemeId": "CEN2026-086",
+   "field": "content.classification.government.levelText",
+   "kept": "Central",
+   "legacy": "Central / RBI regulatory framework"
+  },
+  {
+   "schemeId": "CEN2026-086",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-087",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of MSME / designated implementing agencies, Office of Development Commissioner (MSME), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Office of Development Commissioner (MSME)"
+  },
+  {
+   "schemeId": "CEN2026-087",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-088",
+   "field": "content.classification.government.departmentText",
+   "kept": "Spices Board India, Ministry of Commerce & Industry",
+   "legacy": "Spices Board India"
+  },
+  {
+   "schemeId": "CEN2026-088",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-089",
+   "field": "content.classification.government.departmentText",
+   "kept": "Spices Board India, Ministry of Commerce & Industry",
+   "legacy": "Spices Board India"
+  },
+  {
+   "schemeId": "CEN2026-089",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-090",
+   "field": "content.benefits.summary",
+   "kept": "Financial assistance depends on current scheme component and project guidelines; exact ceilings are not inserted without direct current guideline verification.\n90%\nMini Technology Centres; max project cost Rs. 15.00 crore (Rs. 13.50 crore GoI cap per 2025 guidelines)",
+   "legacy": "Financial assistance depends on current scheme component and project guidelines; exact ceilings are not inserted without direct current guideline verification."
+  },
+  {
+   "schemeId": "CEN2026-090",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of MSME / implementing agencies in North Eastern Region and Sikkim, Ministry of MSME, Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Ministry of MSME"
+  },
+  {
+   "schemeId": "CEN2026-091",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of MSME with States/UTs and programme implementing units, Ministry of MSME, Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Ministry of MSME"
+  },
+  {
+   "schemeId": "CEN2026-091",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-092",
+   "field": "content.classification.government.departmentText",
+   "kept": "Historically RMK through intermediary organisations, Rashtriya Mahila Kosh, Ministry of Women and Child Development",
+   "legacy": "Rashtriya Mahila Kosh"
+  },
+  {
+   "schemeId": "CEN2026-092",
+   "field": "content.classification.government.levelText",
+   "kept": "Central",
+   "legacy": "Central / historical"
+  },
+  {
+   "schemeId": "CEN2026-092",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-093",
+   "field": "content.classification.government.departmentText",
+   "kept": "NSIC, National Small Industries Corporation (NSIC), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "National Small Industries Corporation (NSIC)"
+  },
+  {
+   "schemeId": "CEN2026-093",
+   "field": "content.classification.government.levelText",
+   "kept": "Central",
+   "legacy": "Central / PSU service"
+  },
+  {
+   "schemeId": "CEN2026-093",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-095",
+   "field": "content.benefits.summary",
+   "kept": "Cluster-level financial assistance for MSE capacity building via SHGs/consortia. Major cluster (500-1000 artisans): max Rs 5 crore. Mini cluster (up to 500 artisans): max Rs 2.5 crore. NE/J&K/hill-state clusters: 50% reduction in required artisan count at the same funding ceilings. Component ceilings: soft interventions max Rs 25 lakh; hard interventions max 75% of cost; technical agency involvement max 8% of soft+hard intervention cost; implementing agency/cluster executive costs max Rs 20 lakh.\nUpto Rs. 2.5 cr. for upto 500 artisans",
+   "legacy": "Cluster-level financial assistance for MSE capacity building via SHGs/consortia. Major cluster (500-1000 artisans): max Rs 5 crore. Mini cluster (up to 500 artisans): max Rs 2.5 crore. NE/J&K/hill-state clusters: 50% reduction in required artisan count at the same funding ceilings. Component ceilings: soft interventions max Rs 25 lakh; hard interventions max 75% of cost; technical agency involvement max 8% of soft+hard intervention cost; implementing agency/cluster executive costs max Rs 20 lakh."
+  },
+  {
+   "schemeId": "CEN2026-095",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-097",
+   "field": "content.classification.government.departmentText",
+   "kept": "National, State and District Hubs for Empowerment of Women, Mission Shakti - Samarthya, Ministry of Women and Child Development",
+   "legacy": "Mission Shakti - Samarthya"
+  },
+  {
+   "schemeId": "CEN2026-097",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-099",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-100",
+   "field": "content.classification.government.departmentText",
+   "kept": "Coir Board research institutes, Coir Board, Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Coir Board"
+  },
+  {
+   "schemeId": "CEN2026-100",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-101",
+   "field": "content.classification.government.departmentText",
+   "kept": "SIDBI, Small Industries Development Bank of India (SIDBI)",
+   "legacy": "Small Industries Development Bank of India (SIDBI)"
+  },
+  {
+   "schemeId": "CEN2026-101",
+   "field": "content.classification.government.levelText",
+   "kept": "Central",
+   "legacy": "Central / development-finance product"
+  },
+  {
+   "schemeId": "CEN2026-101",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-102",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-105",
+   "field": "content.classification.government.departmentText",
+   "kept": "States/UTs under Mission Shakti framework, Mission Shakti, Ministry of Women and Child Development",
+   "legacy": "Mission Shakti"
+  },
+  {
+   "schemeId": "CEN2026-105",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-106",
+   "field": "content.classification.government.levelText",
+   "kept": "Central",
+   "legacy": "Central / SIDBI programme"
+  },
+  {
+   "schemeId": "CEN2026-107",
+   "field": "content.classification.government.departmentText",
+   "kept": "SIDBI, Small Industries Development Bank of India (SIDBI)",
+   "legacy": "Small Industries Development Bank of India (SIDBI)"
+  },
+  {
+   "schemeId": "CEN2026-107",
+   "field": "content.classification.government.levelText",
+   "kept": "Central",
+   "legacy": "Central / SIDBI finance product"
+  },
+  {
+   "schemeId": "CEN2026-107",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-108",
+   "field": "content.classification.government.departmentText",
+   "kept": "SIDBI, Small Industries Development Bank of India (SIDBI)",
+   "legacy": "Small Industries Development Bank of India (SIDBI)"
+  },
+  {
+   "schemeId": "CEN2026-108",
+   "field": "content.classification.government.levelText",
+   "kept": "Central",
+   "legacy": "Central / SIDBI finance product"
+  },
+  {
+   "schemeId": "CEN2026-108",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-111",
+   "field": "content.classification.government.levelText",
+   "kept": "Central",
+   "legacy": "Central / SIDBI finance product"
+  },
+  {
+   "schemeId": "CEN2026-112",
+   "field": "content.classification.government.departmentText",
+   "kept": "Scheduled Commercial Banks through Stand-Up India ecosystem, Department of Financial Services, Ministry of Finance",
+   "legacy": "Department of Financial Services"
+  },
+  {
+   "schemeId": "CEN2026-112",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-113",
+   "field": "content.classification.government.departmentText",
+   "kept": "Startup India / DPIIT, Department for Promotion of Industry and Internal Trade (DPIIT), Ministry of Commerce & Industry",
+   "legacy": "Department for Promotion of Industry and Internal Trade (DPIIT)"
+  },
+  {
+   "schemeId": "CEN2026-113",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-114",
+   "field": "content.classification.government.departmentText",
+   "kept": "DPIIT through approved incubators, Department for Promotion of Industry and Internal Trade (DPIIT), Ministry of Commerce & Industry",
+   "legacy": "Department for Promotion of Industry and Internal Trade (DPIIT)"
+  },
+  {
+   "schemeId": "CEN2026-114",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-116",
+   "field": "content.classification.government.departmentText",
+   "kept": "Authorised banks and Department of Posts, National Small Savings / Department of Posts service delivery, Ministry of Finance",
+   "legacy": "National Small Savings / Department of Posts service delivery"
+  },
+  {
+   "schemeId": "CEN2026-116",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-119",
+   "field": "content.classification.government.levelText",
+   "kept": "Central",
+   "legacy": "Central / SIDBI finance product"
+  },
+  {
+   "schemeId": "CEN2026-120",
+   "field": "content.classification.government.levelText",
+   "kept": "Central",
+   "legacy": "Central / SIDBI emergency credit product"
+  },
+  {
+   "schemeId": "CEN2026-121",
+   "field": "content.classification.government.departmentText",
+   "kept": "18 MSME Tool Rooms / Technology Centres and Technical Institutions, Office of Development Commissioner (MSME), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Office of Development Commissioner (MSME)"
+  },
+  {
+   "schemeId": "CEN2026-121",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-122",
+   "field": "content.classification.government.departmentText",
+   "kept": "Historically through eligible NGOs with lending institutions/banks, Office of Development Commissioner (MSME), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Office of Development Commissioner (MSME)"
+  },
+  {
+   "schemeId": "CEN2026-122",
+   "field": "content.classification.government.levelText",
+   "kept": "Central",
+   "legacy": "Central / historical scheme"
+  },
+  {
+   "schemeId": "CEN2026-122",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-123",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of MSME with formalisation through Udyam Assist Platform ecosystem, Office of Development Commissioner (MSME), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Office of Development Commissioner (MSME)"
+  },
+  {
+   "schemeId": "CEN2026-123",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-124",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of MSME, Office of Development Commissioner (MSME), Ministry of Micro, Small & Medium Enterprises",
+   "legacy": "Office of Development Commissioner (MSME)"
+  },
+  {
+   "schemeId": "CEN2026-124",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-125",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-130",
+   "field": "content.classification.government.departmentText",
+   "kept": "WISE-KIRAN Division, DST, Department of Science & Technology (DST), Ministry of Science & Technology",
+   "legacy": "Department of Science & Technology (DST)"
+  },
+  {
+   "schemeId": "CEN2026-130",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-131",
+   "field": "content.classification.government.departmentText",
+   "kept": "WISE-KIRAN Division, DST, Department of Science & Technology (DST), Ministry of Science & Technology",
+   "legacy": "Department of Science & Technology (DST)"
+  },
+  {
+   "schemeId": "CEN2026-131",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-134",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-135",
+   "field": "content.classification.government.level",
+   "kept": "central",
+   "legacy": "central_state"
+  },
+  {
+   "schemeId": "CEN2026-135",
+   "field": "content.classification.government.levelText",
+   "kept": "Central",
+   "legacy": "Central with State/UT implementation"
+  },
+  {
+   "schemeId": "CEN2026-135",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-137",
+   "field": "content.classification.government.departmentText",
+   "kept": "Department of Financial Services, Ministry of Finance (multi-lender, coordinated via SIDBI), Ministry of Finance",
+   "legacy": "Department of Financial Services, Ministry of Finance (multi-lender, coordinated via SIDBI)"
+  },
+  {
+   "schemeId": "CEN2026-137",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-138",
+   "field": "content.benefits.summary",
+   "kept": "Credit-linked subsidy of 35% of eligible project cost, max Rs 10 lakh per unit, released to the bank after loan sanction (not paid directly to the applicant). For SHG members: seed capital of Rs 40,000/member for working capital and small tools. Credit-linked grant of 35% for capital investment to FPOs/SHGs/Producer Cooperatives also available. Figures at MEDIUM confidence -- corroborated by consistent secondary sources, not read verbatim from the primary guidelines PDF this session.\nSeed capital grant of Rs 40,000 per SHG member for working capital and small tools. Medium confidence -- see capitalSubsidy.description for the same caveat.",
+   "legacy": "Credit-linked subsidy of 35% of eligible project cost, max Rs 10 lakh per unit, released to the bank after loan sanction (not paid directly to the applicant). For SHG members: seed capital of Rs 40,000/member for working capital and small tools. Credit-linked grant of 35% for capital investment to FPOs/SHGs/Producer Cooperatives also available. Figures at MEDIUM confidence -- corroborated by consistent secondary sources, not read verbatim from the primary guidelines PDF this session."
+  },
+  {
+   "schemeId": "CEN2026-138",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of Food Processing Industries (MoFPI), Government of India, Ministry of Food Processing Industries",
+   "legacy": "Ministry of Food Processing Industries (MoFPI), Government of India"
+  },
+  {
+   "schemeId": "CEN2026-138",
+   "field": "content.classification.government.statesText",
+   "kept": "All India",
+   "legacy": "Pan-India"
+  },
+  {
+   "schemeId": "CEN2026-139",
+   "field": "content.benefits.summary",
+   "kept": "Maximum project cost for upgradation: Rs. 1.00 crore (manufacturing) and Rs. 25.00 lakh (service/trading). Subsidy: 15% of project cost (maximum Rs. 15 lakh); 20% for NER and Hill States (maximum Rs. 20 lakh). Balance of project cost is provided by banks as term loan.\nMaximum subsidy would be 15% of the project cost\ngeneral areas; max Rs. 15 lakh\nNER and Hill States; max Rs. 20 lakh\nmaximum cost of the project under manufacturing sector for up-gradation is Rs.1.00 crore\nmaximum project cost, manufacturing\nmaximum project cost, service/trading",
+   "legacy": "Maximum project cost for upgradation: Rs. 1.00 crore (manufacturing) and Rs. 25.00 lakh (service/trading). Subsidy: 15% of project cost (maximum Rs. 15 lakh); 20% for NER and Hill States (maximum Rs. 20 lakh). Balance of project cost is provided by banks as term loan."
+  },
+  {
+   "schemeId": "CEN2026-139",
+   "field": "content.classification.government.departmentText",
+   "kept": "Khadi and Village Industries Commission (KVIC), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Khadi and Village Industries Commission (KVIC)"
+  },
+  {
+   "schemeId": "CEN2026-140",
+   "field": "content.benefits.summary",
+   "kept": "One-day awareness and motivation training.\nEntrepreneurship Awareness Programme (EAP)-One Day training programme\ntraining; no fee/stipend stated in booklet",
+   "legacy": "One-day awareness and motivation training."
+  },
+  {
+   "schemeId": "CEN2026-140",
+   "field": "content.classification.government.departmentText",
+   "kept": "Office of DC(MSME), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Office of DC(MSME)"
+  },
+  {
+   "schemeId": "CEN2026-141",
+   "field": "content.benefits.summary",
+   "kept": "Six-week skill development training.\nEntrepreneurship cum Skill Development Programme(E-SDP) - Six weeks training programme\ntraining; no fee/stipend stated in booklet",
+   "legacy": "Six-week skill development training."
+  },
+  {
+   "schemeId": "CEN2026-141",
+   "field": "content.classification.government.departmentText",
+   "kept": "Office of DC(MSME), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Office of DC(MSME)"
+  },
+  {
+   "schemeId": "CEN2026-142",
+   "field": "content.benefits.summary",
+   "kept": "One-week advanced training at premier institutions.\nAdvance E-SDP: The One Week Advance ESDP programmes\ntraining; no fee/stipend stated in booklet",
+   "legacy": "One-week advanced training at premier institutions."
+  },
+  {
+   "schemeId": "CEN2026-142",
+   "field": "content.classification.government.departmentText",
+   "kept": "Office of DC(MSME), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Office of DC(MSME)"
+  },
+  {
+   "schemeId": "CEN2026-143",
+   "field": "content.benefits.summary",
+   "kept": "One-week management training.\nManagement Development programme (MDP)- One week training programme\ntraining; no fee/stipend stated in booklet",
+   "legacy": "One-week management training."
+  },
+  {
+   "schemeId": "CEN2026-143",
+   "field": "content.classification.government.departmentText",
+   "kept": "Office of DC(MSME), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Office of DC(MSME)"
+  },
+  {
+   "schemeId": "CEN2026-144",
+   "field": "content.benefits.summary",
+   "kept": "One-week advanced management training.\nAdvance MDP\ntraining; no fee/stipend stated in booklet",
+   "legacy": "One-week advanced management training."
+  },
+  {
+   "schemeId": "CEN2026-144",
+   "field": "content.classification.government.departmentText",
+   "kept": "Office of DC(MSME), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Office of DC(MSME)"
+  },
+  {
+   "schemeId": "CEN2026-145",
+   "field": "content.classification.government.departmentText",
+   "kept": "Coir Board, Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Coir Board"
+  },
+  {
+   "schemeId": "CEN2026-146",
+   "field": "content.classification.government.departmentText",
+   "kept": "Coir Board, Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Coir Board"
+  },
+  {
+   "schemeId": "CEN2026-147",
+   "field": "content.classification.government.departmentText",
+   "kept": "Coir Board, Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Coir Board"
+  },
+  {
+   "schemeId": "CEN2026-148",
+   "field": "content.classification.government.departmentText",
+   "kept": "Coir Board, Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Coir Board"
+  },
+  {
+   "schemeId": "CEN2026-149",
+   "field": "content.benefits.summary",
+   "kept": "Space Rent (Stall Charges): Upto Rs. 3.00 lakh per MSME. Air Fare : Upto Rs.1.50 lakh per MSME. Duty allowance: USD150 per day for Office Bearer. Freight charges: Upto Rs.50,000/-per MSME unit and Rs.75,000/-per MSME for Latin American Countries. Advertisement and publicity charges: Upto Rs.5.00 lakh. Registration fee: Upto Rs.5,000/- Virtual international events: Space/Stall charges (including catalogue/digital) up to Rs. 1.5 lakh; Advertisement and publicity up to Rs. 5.00 lakh. Organizing international conferences/summits/workshops/seminars (physical): venue rent, catering, advertisement, security up to Rs. 10.00 lakh; economy class airfare for foreign speakers/experts up to Rs. 5.00 lakh. Organizing conferences (virtual): virtual space/platform/license fee up to Rs. 2.00 lakh; translation and interpretation up to Rs. 1.00 lakh; publicity up to Rs. 5.00 lakh.\nOrganizing conferences, physical mode - venue etc.\nOrganizing conferences, virtual mode - platform fee",
+   "legacy": "Space Rent (Stall Charges): Upto Rs. 3.00 lakh per MSME. Air Fare : Upto Rs.1.50 lakh per MSME. Duty allowance: USD150 per day for Office Bearer. Freight charges: Upto Rs.50,000/-per MSME unit and Rs.75,000/-per MSME for Latin American Countries. Advertisement and publicity charges: Upto Rs.5.00 lakh. Registration fee: Upto Rs.5,000/- Virtual international events: Space/Stall charges (including catalogue/digital) up to Rs. 1.5 lakh; Advertisement and publicity up to Rs. 5.00 lakh. Organizing international conferences/summits/workshops/seminars (physical): venue rent, catering, advertisement, security up to Rs. 10.00 lakh; economy class airfare for foreign speakers/experts up to Rs. 5.00 lakh. Organizing conferences (virtual): virtual space/platform/license fee up to Rs. 2.00 lakh; translation and interpretation up to Rs. 1.00 lakh; publicity up to Rs. 5.00 lakh."
+  },
+  {
+   "schemeId": "CEN2026-149",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of MSME, Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Ministry of MSME"
+  },
+  {
+   "schemeId": "CEN2026-150",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of MSME, Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Ministry of MSME"
+  },
+  {
+   "schemeId": "CEN2026-151",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of MSME, Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Ministry of MSME"
+  },
+  {
+   "schemeId": "CEN2026-152",
+   "field": "content.classification.government.departmentText",
+   "kept": "National Small Industries Corporation (NSIC), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "National Small Industries Corporation (NSIC)"
+  },
+  {
+   "schemeId": "CEN2026-153",
+   "field": "content.classification.government.departmentText",
+   "kept": "National Small Industries Corporation (NSIC), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "National Small Industries Corporation (NSIC)"
+  },
+  {
+   "schemeId": "CEN2026-154",
+   "field": "content.benefits.summary",
+   "kept": "100% subsidy to obtain NSIC's Registrations, with a nominal fee of Rs. 100/-\nSC/ST enterprises; nominal fee Rs. 100 payable",
+   "legacy": "100% subsidy to obtain NSIC's Registrations, with a nominal fee of Rs. 100/-"
+  },
+  {
+   "schemeId": "CEN2026-154",
+   "field": "content.classification.government.departmentText",
+   "kept": "National Small Industries Corporation (NSIC), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "National Small Industries Corporation (NSIC)"
+  },
+  {
+   "schemeId": "CEN2026-155",
+   "field": "content.classification.government.departmentText",
+   "kept": "National Small Industries Corporation (NSIC), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "National Small Industries Corporation (NSIC)"
+  },
+  {
+   "schemeId": "CEN2026-156",
+   "field": "content.classification.government.departmentText",
+   "kept": "National Small Industries Corporation (NSIC), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "National Small Industries Corporation (NSIC)"
+  },
+  {
+   "schemeId": "CEN2026-157",
+   "field": "content.classification.government.departmentText",
+   "kept": "National Small Industries Corporation (NSIC), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "National Small Industries Corporation (NSIC)"
+  },
+  {
+   "schemeId": "CEN2026-158",
+   "field": "content.classification.government.departmentText",
+   "kept": "National Small Industries Corporation (NSIC), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "National Small Industries Corporation (NSIC)"
+  },
+  {
+   "schemeId": "CEN2026-159",
+   "field": "content.classification.government.departmentText",
+   "kept": "National Small Industries Corporation (NSIC), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "National Small Industries Corporation (NSIC)"
+  },
+  {
+   "schemeId": "CEN2026-160",
+   "field": "content.classification.government.departmentText",
+   "kept": "National Small Industries Corporation (NSIC), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "National Small Industries Corporation (NSIC)"
+  },
+  {
+   "schemeId": "CEN2026-161",
+   "field": "content.benefits.summary",
+   "kept": "Subsidy @ 35% on Prime Cost for Cotton/Muslin, Wool and Polyvastra and @ 20% on Prime Cost for Silk Khadi\nCotton/Muslin, Wool, Polyvastra",
+   "legacy": "Subsidy @ 35% on Prime Cost for Cotton/Muslin, Wool and Polyvastra and @ 20% on Prime Cost for Silk Khadi"
+  },
+  {
+   "schemeId": "CEN2026-161",
+   "field": "content.classification.government.departmentText",
+   "kept": "Khadi and Village Industries Commission (KVIC), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Khadi and Village Industries Commission (KVIC)"
+  },
+  {
+   "schemeId": "CEN2026-162",
+   "field": "content.benefits.summary",
+   "kept": "Khadi Institution is required to pay only 4% interest rate. The difference between the actual Interest charged by the Bank and 4% is borne by the KVIC as 'Interest Subsidy'\nInstitution pays 4% interest",
+   "legacy": "Khadi Institution is required to pay only 4% interest rate. The difference between the actual Interest charged by the Bank and 4% is borne by the KVIC as 'Interest Subsidy'"
+  },
+  {
+   "schemeId": "CEN2026-162",
+   "field": "content.classification.government.departmentText",
+   "kept": "Khadi and Village Industries Commission (KVIC), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Khadi and Village Industries Commission (KVIC)"
+  },
+  {
+   "schemeId": "CEN2026-163",
+   "field": "content.benefits.summary",
+   "kept": "Individual workshed (20 Sq. mtrs): Rs. 1,20,000/- or 75% of the cost of workshed including toilet (90% for NER), whichever is less Group workshed (10 Sq. mtrs per artisan): Rs. 80,000 or 75% of the cost of the workshed including toilet (90% for NER), whichever is less\nIndividual workshed; 90% for NER\nGroup workshed; 90% for NER",
+   "legacy": "Individual workshed (20 Sq. mtrs): Rs. 1,20,000/- or 75% of the cost of workshed including toilet (90% for NER), whichever is less Group workshed (10 Sq. mtrs per artisan): Rs. 80,000 or 75% of the cost of the workshed including toilet (90% for NER), whichever is less"
+  },
+  {
+   "schemeId": "CEN2026-163",
+   "field": "content.classification.government.departmentText",
+   "kept": "Khadi and Village Industries Commission (KVIC), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Khadi and Village Industries Commission (KVIC)"
+  },
+  {
+   "schemeId": "CEN2026-164",
+   "field": "content.classification.government.departmentText",
+   "kept": "Khadi and Village Industries Commission (KVIC), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Khadi and Village Industries Commission (KVIC)"
+  },
+  {
+   "schemeId": "CEN2026-165",
+   "field": "content.classification.government.departmentText",
+   "kept": "Khadi and Village Industries Commission (KVIC), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Khadi and Village Industries Commission (KVIC)"
+  },
+  {
+   "schemeId": "CEN2026-166",
+   "field": "content.benefits.summary",
+   "kept": "Skill training followed by distribution of machinery/tool kits to trained artisans Beekeeping: distribution of 10 bee boxes with live bee colonies and one set of tool kit\nDistribution of tool kit to all trained artisans\nWaste wood/turn wood craft",
+   "legacy": "Skill training followed by distribution of machinery/tool kits to trained artisans Beekeeping: distribution of 10 bee boxes with live bee colonies and one set of tool kit"
+  },
+  {
+   "schemeId": "CEN2026-166",
+   "field": "content.classification.government.departmentText",
+   "kept": "Khadi and Village Industries Commission (KVIC), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Khadi and Village Industries Commission (KVIC)"
+  },
+  {
+   "schemeId": "CEN2026-167",
+   "field": "content.classification.government.departmentText",
+   "kept": "Khadi and Village Industries Commission (KVIC), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Khadi and Village Industries Commission (KVIC)"
+  },
+  {
+   "schemeId": "CEN2026-168",
+   "field": "content.classification.government.departmentText",
+   "kept": "Khadi and Village Industries Commission (KVIC), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Khadi and Village Industries Commission (KVIC)"
+  },
+  {
+   "schemeId": "CEN2026-169",
+   "field": "content.classification.government.departmentText",
+   "kept": "Khadi and Village Industries Commission (KVIC), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Khadi and Village Industries Commission (KVIC)"
+  },
+  {
+   "schemeId": "CEN2026-170",
+   "field": "content.classification.government.departmentText",
+   "kept": "Khadi and Village Industries Commission (KVIC), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Khadi and Village Industries Commission (KVIC)"
+  },
+  {
+   "schemeId": "CEN2026-171",
+   "field": "content.classification.government.departmentText",
+   "kept": "Khadi and Village Industries Commission (KVIC), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Khadi and Village Industries Commission (KVIC)"
+  },
+  {
+   "schemeId": "CEN2026-172",
+   "field": "content.classification.government.departmentText",
+   "kept": "Office of DC(MSME), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Office of DC(MSME)"
+  },
+  {
+   "schemeId": "CEN2026-173",
+   "field": "content.classification.government.departmentText",
+   "kept": "Office of DC(MSME), Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Office of DC(MSME)"
+  },
+  {
+   "schemeId": "CEN2026-174",
+   "field": "content.benefits.summary",
+   "kept": "60% guarantee coverage by NCGTC on the loan. Loan amount guaranteed up to ₹100 crore (project can be larger). Repayment up to 8 years with up to 2 years moratorium for loans up to ₹50 crore; flexible schedule for larger loans. Upfront contribution of 5% of loan amount at application (refundable 1% each year from 4th year). Annual guarantee fee: nil in year of sanction; 1.5% p.a. for next 3 years; 1% p.a. thereafter. Exporter MSMEs: 75% guarantee cover for loans up to ₹20 crore; upfront contribution 2% (max ₹40 lakh); fee nil in first year and 0.50% p.a. thereafter.\n60% guarantee coverage by National Credit Guarantee Trustee Company Limited (NCGTC)\ngeneral MSMEs, equipment/machinery loans\nexporter MSMEs (≥25% export sales)",
+   "legacy": "60% guarantee coverage by NCGTC on the loan. Loan amount guaranteed up to ₹100 crore (project can be larger). Repayment up to 8 years with up to 2 years moratorium for loans up to ₹50 crore; flexible schedule for larger loans. Upfront contribution of 5% of loan amount at application (refundable 1% each year from 4th year). Annual guarantee fee: nil in year of sanction; 1.5% p.a. for next 3 years; 1% p.a. thereafter. Exporter MSMEs: 75% guarantee cover for loans up to ₹20 crore; upfront contribution 2% (max ₹40 lakh); fee nil in first year and 0.50% p.a. thereafter."
+  },
+  {
+   "schemeId": "CEN2026-174",
+   "field": "content.classification.government.departmentText",
+   "kept": "Department of Financial Services / National Credit Guarantee Trustee Company Ltd (NCGTC), Ministry of Finance",
+   "legacy": "Department of Financial Services / National Credit Guarantee Trustee Company Ltd (NCGTC)"
+  },
+  {
+   "schemeId": "CEN2026-175",
+   "field": "content.classification.government.departmentText",
+   "kept": "Directorate General of Foreign Trade (DGFT), Department of Commerce, Ministry of Commerce and Industry",
+   "legacy": "Directorate General of Foreign Trade (DGFT), Department of Commerce"
+  },
+  {
+   "schemeId": "CEN2026-176",
+   "field": "content.classification.government.departmentText",
+   "kept": "Directorate General of Foreign Trade (DGFT), Department of Commerce, Ministry of Commerce and Industry",
+   "legacy": "Directorate General of Foreign Trade (DGFT), Department of Commerce"
+  },
+  {
+   "schemeId": "CEN2026-177",
+   "field": "content.benefits.summary",
+   "kept": "Base interest subvention of 2.75% on the interest cost. Annual cap of ₹50 lakh per Importer Exporter Code (IEC).\nA base interest subvention of 2.75 per cent has been provided\nper IEC per year",
+   "legacy": "Base interest subvention of 2.75% on the interest cost. Annual cap of ₹50 lakh per Importer Exporter Code (IEC)."
+  },
+  {
+   "schemeId": "CEN2026-177",
+   "field": "content.classification.government.departmentText",
+   "kept": "Directorate General of Foreign Trade (DGFT), Department of Commerce, Ministry of Commerce and Industry",
+   "legacy": "Directorate General of Foreign Trade (DGFT), Department of Commerce"
+  },
+  {
+   "schemeId": "CEN2026-178",
+   "field": "content.benefits.summary",
+   "kept": "Guarantee cover up to 85% for micro and small exporters. Guarantee cover up to 65% for medium exporters. Maximum ₹10 crore per exporter in a financial year.\nup to 85 per cent\nmicro & small exporters; ₹10 crore cap per exporter per FY",
+   "legacy": "Guarantee cover up to 85% for micro and small exporters. Guarantee cover up to 65% for medium exporters. Maximum ₹10 crore per exporter in a financial year."
+  },
+  {
+   "schemeId": "CEN2026-178",
+   "field": "content.classification.government.departmentText",
+   "kept": "DGFT / Credit Guarantee Fund Trust for Micro and Small Enterprises (CGTMSE), Ministry of Commerce and Industry",
+   "legacy": "DGFT / Credit Guarantee Fund Trust for Micro and Small Enterprises (CGTMSE)"
+  },
+  {
+   "schemeId": "CEN2026-179",
+   "field": "content.benefits.summary",
+   "kept": "Interest subvention of 2.75% on factoring cost. Capped at ₹50 lakh per IEC.\ninterest subvention of 2.75% is provided on the factoring cost",
+   "legacy": "Interest subvention of 2.75% on factoring cost. Capped at ₹50 lakh per IEC."
+  },
+  {
+   "schemeId": "CEN2026-179",
+   "field": "content.classification.government.departmentText",
+   "kept": "Directorate General of Foreign Trade (DGFT), Department of Commerce, Ministry of Commerce and Industry",
+   "legacy": "Directorate General of Foreign Trade (DGFT), Department of Commerce"
+  },
+  {
+   "schemeId": "CEN2026-180",
+   "field": "content.benefits.summary",
+   "kept": "Direct E-Commerce facility: 90% guarantee, up to ₹50 lakh. Overseas Inventory facility: 75% guarantee, up to ₹5 crore. Interest subvention of 2.75% with annual ceiling of ₹15 lakh.\n90% guarantee (₹50 lakh cap)",
+   "legacy": "Direct E-Commerce facility: 90% guarantee, up to ₹50 lakh. Overseas Inventory facility: 75% guarantee, up to ₹5 crore. Interest subvention of 2.75% with annual ceiling of ₹15 lakh."
+  },
+  {
+   "schemeId": "CEN2026-180",
+   "field": "content.classification.government.departmentText",
+   "kept": "DGFT / Export-Import Bank of India (EXIM Bank), Ministry of Commerce and Industry",
+   "legacy": "DGFT / Export-Import Bank of India (EXIM Bank)"
+  },
+  {
+   "schemeId": "CEN2026-181",
+   "field": "content.benefits.summary",
+   "kept": "Risk-sharing between 10% and 90% of transaction value. Maximum liability caps: 15% country-wise, 5% exporter-wise, 1% transaction-wise, 10% issuing bank-wise.\nRisk-sharing between 10-90% of transaction value\nrisk-sharing 10–90%",
+   "legacy": "Risk-sharing between 10% and 90% of transaction value. Maximum liability caps: 15% country-wise, 5% exporter-wise, 1% transaction-wise, 10% issuing bank-wise."
+  },
+  {
+   "schemeId": "CEN2026-181",
+   "field": "content.classification.government.departmentText",
+   "kept": "Directorate General of Foreign Trade (DGFT), Department of Commerce, Ministry of Commerce and Industry",
+   "legacy": "Directorate General of Foreign Trade (DGFT), Department of Commerce"
+  },
+  {
+   "schemeId": "CEN2026-182",
+   "field": "content.classification.government.departmentText",
+   "kept": "Directorate General of Foreign Trade (DGFT), Department of Commerce, Ministry of Commerce and Industry",
+   "legacy": "Directorate General of Foreign Trade (DGFT), Department of Commerce"
+  },
+  {
+   "schemeId": "CEN2026-183",
+   "field": "content.classification.government.departmentText",
+   "kept": "Directorate General of Foreign Trade (DGFT), Department of Commerce, Ministry of Commerce and Industry",
+   "legacy": "Directorate General of Foreign Trade (DGFT), Department of Commerce"
+  },
+  {
+   "schemeId": "CEN2026-184",
+   "field": "content.classification.government.departmentText",
+   "kept": "Directorate General of Foreign Trade (DGFT), Department of Commerce, Ministry of Commerce and Industry",
+   "legacy": "Directorate General of Foreign Trade (DGFT), Department of Commerce"
+  },
+  {
+   "schemeId": "CEN2026-185",
+   "field": "content.benefits.summary",
+   "kept": "50% of approved project cost for private entities; 100% for government entities.\n50% of the approved project cost",
+   "legacy": "50% of approved project cost for private entities; 100% for government entities."
+  },
+  {
+   "schemeId": "CEN2026-185",
+   "field": "content.classification.government.departmentText",
+   "kept": "Directorate General of Foreign Trade (DGFT), Department of Commerce, Ministry of Commerce and Industry",
+   "legacy": "Directorate General of Foreign Trade (DGFT), Department of Commerce"
+  },
+  {
+   "schemeId": "CEN2026-186",
+   "field": "content.classification.government.departmentText",
+   "kept": "Directorate General of Foreign Trade (DGFT), Department of Commerce, Ministry of Commerce and Industry",
+   "legacy": "Directorate General of Foreign Trade (DGFT), Department of Commerce"
+  },
+  {
+   "schemeId": "CEN2026-187",
+   "field": "content.classification.government.departmentText",
+   "kept": "Directorate General of Foreign Trade (DGFT), Department of Commerce, Ministry of Commerce and Industry",
+   "legacy": "Directorate General of Foreign Trade (DGFT), Department of Commerce"
+  },
+  {
+   "schemeId": "CEN2026-188",
+   "field": "content.benefits.summary",
+   "kept": "Credit limit up to ₹5 lakh per micro enterprise. No collateral; covered under CGTMSE guarantee. Joining fee waived for first 10 lakh customers (up to ₹500 per RuPay card).\ncustomized Credit Cards with a 5 lakh limit for micro enterprises registered on Udyam portal\nUdyam-registered micro enterprises",
+   "legacy": "Credit limit up to ₹5 lakh per micro enterprise. No collateral; covered under CGTMSE guarantee. Joining fee waived for first 10 lakh customers (up to ₹500 per RuPay card)."
+  },
+  {
+   "schemeId": "CEN2026-188",
+   "field": "content.classification.government.departmentText",
+   "kept": "Department of Financial Services / banks, Ministry of Finance",
+   "legacy": "Department of Financial Services / banks"
+  },
+  {
+   "schemeId": "CEN2026-189",
+   "field": "content.benefits.summary",
+   "kept": "this will provide term loans up to 2 crore during the next 5 years\nfirst-time women/SC/ST entrepreneurs",
+   "legacy": "Term loans up to ₹2 crore."
+  },
+  {
+   "schemeId": "CEN2026-189",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of Finance (implementing agency not yet notified), Ministry of Finance",
+   "legacy": "Ministry of Finance (implementing agency not yet notified)"
+  },
+  {
+   "schemeId": "CEN2026-190",
+   "field": "content.classification.government.departmentText",
+   "kept": "DPIIT / Small Industries Development Bank of India (SIDBI), Ministry of Commerce and Industry",
+   "legacy": "DPIIT / Small Industries Development Bank of India (SIDBI)"
+  },
+  {
+   "schemeId": "CEN2026-191",
+   "field": "content.benefits.summary",
+   "kept": "Long-term, low-interest loans. Equity and equity-linked instruments. Assessment based on innovation, Technology Readiness Level, commercialisation potential and team rather than collateral.\nvia fund managers",
+   "legacy": "Long-term, low-interest loans. Equity and equity-linked instruments. Assessment based on innovation, Technology Readiness Level, commercialisation potential and team rather than collateral."
+  },
+  {
+   "schemeId": "CEN2026-191",
+   "field": "content.classification.government.departmentText",
+   "kept": "Anusandhan National Research Foundation (ANRF); second-level fund managers incl. Technology Development Board (TDB), BIRAC, Department of Science & Technology",
+   "legacy": "Anusandhan National Research Foundation (ANRF); second-level fund managers incl. Technology Development Board (TDB), BIRAC"
+  },
+  {
+   "schemeId": "CEN2026-192",
+   "field": "content.classification.government.departmentText",
+   "kept": "Department of Financial Services / Public Sector Banks, Ministry of Finance",
+   "legacy": "Department of Financial Services / Public Sector Banks"
+  },
+  {
+   "schemeId": "CEN2026-193",
+   "field": "content.classification.government.departmentText",
+   "kept": "RBI-authorised TReDS platforms, Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "RBI-authorised TReDS platforms"
+  },
+  {
+   "schemeId": "CEN2026-194",
+   "field": "content.benefits.summary",
+   "kept": "Early-stage support up to ₹10 lakh (no matching required). Pilot/PoC support ₹40–50 lakh (no matching required). Investment support ₹40–50 lakh with 1:1 private matching. Deep-tech support up to ₹1 crore (no matching required).\nUp to Rs. 10 Lakhs",
+   "legacy": "Early-stage support up to ₹10 lakh (no matching required). Pilot/PoC support ₹40–50 lakh (no matching required). Investment support ₹40–50 lakh with 1:1 private matching. Deep-tech support up to ₹1 crore (no matching required)."
+  },
+  {
+   "schemeId": "CEN2026-194",
+   "field": "content.classification.government.departmentText",
+   "kept": "MeitY Startup Hub, Ministry of Electronics & Information Technology",
+   "legacy": "MeitY Startup Hub"
+  },
+  {
+   "schemeId": "CEN2026-195",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of Micro, Small and Medium Enterprises",
+   "legacy": "Announced; implementing agency not notified"
+  },
+  {
+   "schemeId": "CEN2026-196",
+   "field": "content.classification.government.departmentText",
+   "kept": "Department for Promotion of Industry and Internal Trade (DPIIT), Ministry of Commerce and Industry",
+   "legacy": "Department for Promotion of Industry and Internal Trade (DPIIT)"
+  },
+  {
+   "schemeId": "CEN2026-197",
+   "field": "content.classification.government.departmentText",
+   "kept": "Employees' Provident Fund Organisation (EPFO), Ministry of Labour and Employment",
+   "legacy": "Employees' Provident Fund Organisation (EPFO)"
+  },
+  {
+   "schemeId": "CEN2026-198",
+   "field": "content.benefits.summary",
+   "kept": "Monthly assistance of ₹5,000: ₹500 from the company (attendance/conduct based) and ₹4,500 from Government via DBT. One-time grant of ₹6,000 on joining, through DBT. Insurance under PMJJBY and PMSBY with premium paid by Government.\nOne-time grant: ₹6,000 disbursed after joining through DBT\n₹4,500 via government Direct Benefit Transfer\nper month; plus ₹500 from company",
+   "legacy": "Monthly assistance of ₹5,000: ₹500 from the company (attendance/conduct based) and ₹4,500 from Government via DBT. One-time grant of ₹6,000 on joining, through DBT. Insurance under PMJJBY and PMSBY with premium paid by Government."
+  },
+  {
+   "schemeId": "CEN2026-198",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of Corporate Affairs (PM Internship portal), Ministry of Corporate Affairs",
+   "legacy": "Ministry of Corporate Affairs (PM Internship portal)"
+  },
+  {
+   "schemeId": "CEN2026-200",
+   "field": "content.benefits.summary",
+   "kept": "Government shares 25% of the apprentice stipend, up to ₹1,500 per month per apprentice, via DBT.\n25% of the stipend, up to Rs.1,500 per month per apprentice, will be provided through Direct Benefit Transfer (DBT)\nper apprentice per month",
+   "legacy": "Government shares 25% of the apprentice stipend, up to ₹1,500 per month per apprentice, via DBT."
+  },
+  {
+   "schemeId": "CEN2026-200",
+   "field": "content.classification.government.departmentText",
+   "kept": "Directorate General of Training / Skill India Programme, Ministry of Skill Development and Entrepreneurship",
+   "legacy": "Directorate General of Training / Skill India Programme"
+  },
+  {
+   "schemeId": "CEN2026-201",
+   "field": "content.benefits.summary",
+   "kept": "Vocational skill training funded by 100% grant from Government of India.\n100% grant from the Government of India\nfree training",
+   "legacy": "Vocational skill training funded by 100% grant from Government of India."
+  },
+  {
+   "schemeId": "CEN2026-201",
+   "field": "content.classification.government.departmentText",
+   "kept": "Jan Shikshan Sansthans (NGO-run, 100% central grant), Ministry of Skill Development and Entrepreneurship",
+   "legacy": "Jan Shikshan Sansthans (NGO-run, 100% central grant)"
+  },
+  {
+   "schemeId": "CEN2026-202",
+   "field": "content.classification.government.departmentText",
+   "kept": "Department of Agriculture and Farmers Welfare, Ministry of Agriculture and Farmers Welfare",
+   "legacy": "Department of Agriculture and Farmers Welfare"
+  },
+  {
+   "schemeId": "CEN2026-203",
+   "field": "content.benefits.summary",
+   "kept": "100% procurement of tur, urad and masoor by NAFED and NCCF in participating states for four years from registered farmers who enter agreements. 88 lakh seed kits distributed free of cost to farmers. 1000 pulses processing units with subsidy up to ₹25 lakh per unit.\n1000 processing units with a maximum subsidy of Rs. 25 lakhs\nper pulses processing unit",
+   "legacy": "100% procurement of tur, urad and masoor by NAFED and NCCF in participating states for four years from registered farmers who enter agreements. 88 lakh seed kits distributed free of cost to farmers. 1000 pulses processing units with subsidy up to ₹25 lakh per unit."
+  },
+  {
+   "schemeId": "CEN2026-203",
+   "field": "content.classification.government.departmentText",
+   "kept": "Department of Agriculture and Farmers Welfare, Ministry of Agriculture and Farmers Welfare",
+   "legacy": "Department of Agriculture and Farmers Welfare"
+  },
+  {
+   "schemeId": "CEN2026-204",
+   "field": "content.classification.government.departmentText",
+   "kept": "Department of Agriculture and Farmers Welfare, Ministry of Agriculture and Farmers Welfare",
+   "legacy": "Department of Agriculture and Farmers Welfare"
+  },
+  {
+   "schemeId": "CEN2026-205",
+   "field": "content.benefits.summary",
+   "kept": "Aquaculture insurance: one-time incentive of 40% of premium, ceiling ₹25,000 per ha, max ₹1,00,000 per farmer (up to 4 ha), one crop cycle; extra 10% for SC, ST and women. Performance grant for micro enterprises: 25% of investment or ₹35 lakh (SC/ST/women: 35% or ₹45 lakh), whichever lower. Performance grant for small enterprises: 25% or ₹75 lakh (SC/ST/women: 35% or ₹100 lakh), whichever lower. Cooperatives/FFPOs/village organisations: 35% of investment or ₹200 lakh, whichever lower.\n40% of the cost of premium subject to the ceiling of ₹25000 per hectare\naquaculture insurance; max per farmer up to 4 ha\n25% of the total investment or, ₹35 lakhs, whichever is lower\nmicro enterprise, general\nmicro enterprise, SC/ST/women\nsmall enterprise, general\nsmall enterprise, SC/ST/women",
+   "legacy": "Aquaculture insurance: one-time incentive of 40% of premium, ceiling ₹25,000 per ha, max ₹1,00,000 per farmer (up to 4 ha), one crop cycle; extra 10% for SC, ST and women. Performance grant for micro enterprises: 25% of investment or ₹35 lakh (SC/ST/women: 35% or ₹45 lakh), whichever lower. Performance grant for small enterprises: 25% or ₹75 lakh (SC/ST/women: 35% or ₹100 lakh), whichever lower. Cooperatives/FFPOs/village organisations: 35% of investment or ₹200 lakh, whichever lower."
+  },
+  {
+   "schemeId": "CEN2026-205",
+   "field": "content.classification.government.departmentText",
+   "kept": "Department of Fisheries, Ministry of Fisheries, Animal Husbandry and Dairying",
+   "legacy": "Department of Fisheries"
+  },
+  {
+   "schemeId": "CEN2026-206",
+   "field": "content.benefits.summary",
+   "kept": "3% per annum interest subvention on loans from banks and financial institutions. Credit guarantee coverage for loans up to ₹2 crore under CGTMSE.\n3% per annum interest subvention by Government of India",
+   "legacy": "3% per annum interest subvention on loans from banks and financial institutions. Credit guarantee coverage for loans up to ₹2 crore under CGTMSE."
+  },
+  {
+   "schemeId": "CEN2026-206",
+   "field": "content.classification.government.departmentText",
+   "kept": "Department of Agriculture and Farmers Welfare, Ministry of Agriculture and Farmers Welfare",
+   "legacy": "Department of Agriculture and Farmers Welfare"
+  },
+  {
+   "schemeId": "CEN2026-207",
+   "field": "content.benefits.summary",
+   "kept": "Pumps: 30% central subsidy + 30% state subsidy; farmer pays remaining 40%. Higher CFA up to 50% in NE States, Sikkim, HP, Uttarakhand, J&K, Ladakh, Lakshadweep and A&N Islands. Component A landowners can earn up to ₹25,000 per acre per year (developer-installed) or up to ₹65,000 (self-installed with bank loan).\nCentral government provides 30% subsidy\nsolar pump, general states\nNE, hill states and islands",
+   "legacy": "Pumps: 30% central subsidy + 30% state subsidy; farmer pays remaining 40%. Higher CFA up to 50% in NE States, Sikkim, HP, Uttarakhand, J&K, Ladakh, Lakshadweep and A&N Islands. Component A landowners can earn up to ₹25,000 per acre per year (developer-installed) or up to ₹65,000 (self-installed with bank loan)."
+  },
+  {
+   "schemeId": "CEN2026-207",
+   "field": "content.classification.government.departmentText",
+   "kept": "MNRE through State implementing agencies, Ministry of New and Renewable Energy",
+   "legacy": "MNRE through State implementing agencies"
+  },
+  {
+   "schemeId": "CEN2026-208",
+   "field": "content.benefits.summary",
+   "kept": "Central Financial Assistance: ₹30,000 for 1 kW, ₹60,000 for 2 kW, ₹78,000 for 3 kW or higher. Collateral-free low-interest loans of around 7%. Subsidy credited to bank account within about 30 days after commissioning.\nRs 30,000 subsidy for 1 kW system\ncollateral-free low-interest loan products of around 7% at present",
+   "legacy": "Central Financial Assistance: ₹30,000 for 1 kW, ₹60,000 for 2 kW, ₹78,000 for 3 kW or higher. Collateral-free low-interest loans of around 7%. Subsidy credited to bank account within about 30 days after commissioning."
+  },
+  {
+   "schemeId": "CEN2026-208",
+   "field": "content.classification.government.departmentText",
+   "kept": "MNRE / DISCOMs (National Portal), Ministry of New and Renewable Energy",
+   "legacy": "MNRE / DISCOMs (National Portal)"
+  },
+  {
+   "schemeId": "CEN2026-210",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of Tribal Affairs with 17 line Ministries, Ministry of Tribal Affairs",
+   "legacy": "Ministry of Tribal Affairs with 17 line Ministries"
+  },
+  {
+   "schemeId": "CEN2026-211",
+   "field": "content.benefits.summary",
+   "kept": "Training is free of cost to trainees. Stipend in non-residential short- and long-term courses: ₹1,500/month for SCs and Safai Karamcharis; ₹1,000/month for OBCs/EBCs/DNTs. Wage compensation for up-skilling/reskilling: ₹2,500 per candidate (₹500 for Safai Karamcharis).\nThe Cost of the training to trainees is free of cost.\nSCs and Safai Karamcharis, non-residential short/long-term\nOBCs/EBCs/DNTs, non-residential short/long-term\nwage compensation, up-skilling/reskilling",
+   "legacy": "Training is free of cost to trainees. Stipend in non-residential short- and long-term courses: ₹1,500/month for SCs and Safai Karamcharis; ₹1,000/month for OBCs/EBCs/DNTs. Wage compensation for up-skilling/reskilling: ₹2,500 per candidate (₹500 for Safai Karamcharis)."
+  },
+  {
+   "schemeId": "CEN2026-211",
+   "field": "content.classification.government.departmentText",
+   "kept": "National Scheduled Castes / Backward Classes / Safai Karamcharis Finance & Development Corporations (NSFDC, NBCFDC, NSKFDC), Ministry of Social Justice and Empowerment",
+   "legacy": "National Scheduled Castes / Backward Classes / Safai Karamcharis Finance & Development Corporations (NSFDC, NBCFDC, NSKFDC)"
+  },
+  {
+   "schemeId": "CEN2026-212",
+   "field": "content.classification.government.departmentText",
+   "kept": "Department of Social Justice and Empowerment, Ministry of Social Justice and Empowerment",
+   "legacy": "Department of Social Justice and Empowerment"
+  },
+  {
+   "schemeId": "CEN2026-213",
+   "field": "content.classification.government.departmentText",
+   "kept": "Department of Social Justice and Empowerment, Ministry of Social Justice and Empowerment",
+   "legacy": "Department of Social Justice and Empowerment"
+  },
+  {
+   "schemeId": "CEN2026-214",
+   "field": "content.benefits.summary",
+   "kept": "PPE kits and safety devices; health cover under Ayushman Bharat PM-JAY. Capital subsidy for sanitation-related projects/vehicles to set up enterprises (₹23.06 crore disbursed to 769 workers by Sept 2025). Skill development with stipend of ₹3,000 per month (up to two years).\nRs. 3,000\nmonthly skill development stipend, up to two years",
+   "legacy": "PPE kits and safety devices; health cover under Ayushman Bharat PM-JAY. Capital subsidy for sanitation-related projects/vehicles to set up enterprises (₹23.06 crore disbursed to 769 workers by Sept 2025). Skill development with stipend of ₹3,000 per month (up to two years)."
+  },
+  {
+   "schemeId": "CEN2026-214",
+   "field": "content.classification.government.departmentText",
+   "kept": "National Safai Karamcharis Finance & Development Corporation (NSKFDC), Ministry of Social Justice and Empowerment",
+   "legacy": "National Safai Karamcharis Finance & Development Corporation (NSKFDC)"
+  },
+  {
+   "schemeId": "CEN2026-215",
+   "field": "content.classification.government.departmentText",
+   "kept": "Central Silk Board, Ministry of Textiles",
+   "legacy": "Central Silk Board"
+  },
+  {
+   "schemeId": "CEN2026-216",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of Textiles with Implementing Partners, Ministry of Textiles",
+   "legacy": "Ministry of Textiles with Implementing Partners"
+  },
+  {
+   "schemeId": "CEN2026-217",
+   "field": "content.classification.government.departmentText",
+   "kept": "Ministry of Textiles / State SPVs, Ministry of Textiles",
+   "legacy": "Ministry of Textiles / State SPVs"
+  },
+  {
+   "schemeId": "CEN2026-218",
+   "field": "content.benefits.summary",
+   "kept": "50% capital subsidy on project cost. Maximum subsidy: poultry ₹25 lakh; sheep & goat ₹10–50 lakh; piggery ₹15–30 lakh; fodder/seed processing ₹50 lakh; horse/camel/donkey ₹3–50 lakh.\n50% of project cost\nsheep & goat (₹10–50 lakh by unit size)",
+   "legacy": "50% capital subsidy on project cost. Maximum subsidy: poultry ₹25 lakh; sheep & goat ₹10–50 lakh; piggery ₹15–30 lakh; fodder/seed processing ₹50 lakh; horse/camel/donkey ₹3–50 lakh."
+  },
+  {
+   "schemeId": "CEN2026-218",
+   "field": "content.classification.government.departmentText",
+   "kept": "Department of Animal Husbandry and Dairying, Ministry of Fisheries, Animal Husbandry and Dairying",
+   "legacy": "Department of Animal Husbandry and Dairying"
+  },
+  {
+   "schemeId": "CEN2026-219",
+   "field": "content.benefits.summary",
+   "kept": "3% interest subvention for 8 years including two years' moratorium. Loans up to 90% from scheduled banks, NCDC, NABARD and NDDB. Credit guarantee up to 25% of credit borrowed, from a ₹750 crore Credit Guarantee Fund.\nup to the 25% of the credit borrowed from the Credit Guarantee Fund of Rs.750 crore\n3% interest subvention for 8 years including two years of moratorium",
+   "legacy": "3% interest subvention for 8 years including two years' moratorium. Loans up to 90% from scheduled banks, NCDC, NABARD and NDDB. Credit guarantee up to 25% of credit borrowed, from a ₹750 crore Credit Guarantee Fund."
+  },
+  {
+   "schemeId": "CEN2026-219",
+   "field": "content.classification.government.departmentText",
+   "kept": "Department of Animal Husbandry and Dairying, Ministry of Fisheries, Animal Husbandry and Dairying",
+   "legacy": "Department of Animal Husbandry and Dairying"
+  },
+  {
+   "schemeId": "CEN2026-220",
+   "field": "content.benefits.summary",
+   "kept": "Management cost support up to ₹18 lakh per FPO for 3 years. Matching equity grant up to ₹2,000 per farmer member, max ₹15 lakh per FPO. Credit guarantee for project loans up to ₹2 crore per FPO.\nRs.18 lakhs to each FPO under the scheme towards management cost for 3 years\nper FPO over 3 years\ncredit guarantee facility upto Rs. 2 crore of project loan per FPO",
+   "legacy": "Management cost support up to ₹18 lakh per FPO for 3 years. Matching equity grant up to ₹2,000 per farmer member, max ₹15 lakh per FPO. Credit guarantee for project loans up to ₹2 crore per FPO."
+  },
+  {
+   "schemeId": "CEN2026-220",
+   "field": "content.classification.government.departmentText",
+   "kept": "Department of Agriculture and Farmers Welfare, Ministry of Agriculture and Farmers Welfare",
+   "legacy": "Department of Agriculture and Farmers Welfare"
+  },
+  {
+   "schemeId": "CEN2026-221",
+   "field": "content.classification.government.departmentText",
+   "kept": "State Urban Livelihoods Missions / Urban Local Bodies, Ministry of Housing and Urban Affairs",
+   "legacy": "State Urban Livelihoods Missions / Urban Local Bodies"
+  },
+  {
+   "schemeId": "CEN2026-222",
+   "field": "content.eligibility.narrative.criteria",
+   "kept": "Manufacturer exporter, or merchant exporter tied to a supporting manufacturer. Must adhere to Standard Input Output Norms (SION) or self-declare per the Handbook of Procedures, and maintain minimum 15% value addition.\nManufacturer exporters and merchant exporters tied to supporting manufacturers may obtain Advance Authorisation for duty-free inputs used in export production, subject to DGFT input-output, export-obligation and Actual User conditions.",
+   "legacy": "Manufacturer exporter, or merchant exporter tied to a supporting manufacturer. Must adhere to Standard Input Output Norms (SION) or self-declare per the Handbook of Procedures, and maintain minimum 15% value addition."
+  },
+  {
+   "schemeId": "CEN2026-223",
+   "field": "content.eligibility.narrative.criteria",
+   "kept": "Artisan aged 18-55 with Aadhaar/voter ID and ration card. Not eligible if already benefited from a similar government scheme. Preference to artisans working with Khadi Village Institutes for agarbatti production; for SHGs, all members are trained.\nBeneficiary eligibility is governed by KVIC’s Gramodyog Vikas Yojana agarbatti programme and its current selection/training guidelines.",
+   "legacy": "Artisan aged 18-55 with Aadhaar/voter ID and ration card. Not eligible if already benefited from a similar government scheme. Preference to artisans working with Khadi Village Institutes for agarbatti production; for SHGs, all members are trained."
+  },
+  {
+   "schemeId": "CEN2026-224",
+   "field": "content.eligibility.narrative.criteria",
+   "kept": "ASCEND is aimed at startups, entrepreneurs and ecosystem participants in Northeast India. Eligibility depends on the specific workshop or event rather than a single permanent applicant rule.\nASCEND/related Startup India women capacity-building workshops were intended for aspiring and existing women entrepreneurs; eligibility depended on the workshop cohort and registration requirements.",
+   "legacy": "ASCEND is aimed at startups, entrepreneurs and ecosystem participants in Northeast India. Eligibility depends on the specific workshop or event rather than a single permanent applicant rule."
+  },
+  {
+   "schemeId": "TN2026-001",
+   "field": "content.eligibility.narrative.criteria",
+   "kept": "Eligible micro manufacturing enterprises in Tamil Nadu can apply, subject to the State’s capital-subsidy rules for eligible plant and machinery.\nAll new micro manufacturing enterprises established anywhere in Tamil Nadu are eligible for the additional micro-enterprise capital subsidy, subject to the State capital-subsidy guidelines and excluded-activity list.",
+   "legacy": "Eligible micro manufacturing enterprises in Tamil Nadu can apply, subject to the State’s capital-subsidy rules for eligible plant and machinery."
+  },
+  {
+   "schemeId": "TN2026-001",
+   "field": "content.classification.government.departmentText",
+   "kept": "District Industries Centres / Tamil Nadu MSME Department, Micro, Small and Medium Enterprises Department, Government of Tamil Nadu",
+   "legacy": "Micro, Small and Medium Enterprises Department, Government of Tamil Nadu"
+  },
+  {
+   "schemeId": "TN2026-002",
+   "field": "content.benefits.summary",
+   "kept": "25% additional capital subsidy on eligible plant and machinery/equipment installed to promote cleaner and environment-friendly technologies, capped at ₹3 lakh. Equipment already considered under capital subsidy is excluded; Tamil Nadu Pollution Control Board certification is required.",
+   "legacy": "25% additional capital subsidy on qualifying plant and machinery, subject to a maximum of ₹10 lakh on the current official portal."
+  },
+  {
+   "schemeId": "TN2026-002",
+   "field": "content.eligibility.narrative.criteria",
+   "kept": "New or existing eligible manufacturing enterprises in Tamil Nadu adopting approved cleaner or environment-friendly technologies can apply.\nNew and existing eligible enterprises adopting cleaner and environment-friendly technology can qualify, subject to the notified technology and capital-subsidy conditions.",
+   "legacy": "New or existing eligible manufacturing enterprises in Tamil Nadu adopting approved cleaner or environment-friendly technologies can apply."
+  },
+  {
+   "schemeId": "TN2026-002",
+   "field": "content.classification.government.departmentText",
+   "kept": "District Industries Centres / Tamil Nadu MSME Department, Micro, Small and Medium Enterprises Department, Government of Tamil Nadu",
+   "legacy": "Micro, Small and Medium Enterprises Department, Government of Tamil Nadu"
+  },
+  {
+   "schemeId": "TN2026-003",
+   "field": "content.eligibility.narrative.criteria",
+   "kept": "Existing micro and small manufacturing enterprises in Tamil Nadu that scale up through eligible expansion or diversification can apply.\nExisting micro and small manufacturing enterprises anywhere in Tamil Nadu that graduate to a higher category through expansion/diversification are eligible, subject to the scheme guidelines.",
+   "legacy": "Existing micro and small manufacturing enterprises in Tamil Nadu that scale up through eligible expansion or diversification can apply."
+  },
+  {
+   "schemeId": "TN2026-003",
+   "field": "content.classification.government.departmentText",
+   "kept": "District Industries Centres / Tamil Nadu MSME Department, Micro, Small and Medium Enterprises Department, Government of Tamil Nadu",
+   "legacy": "Micro, Small and Medium Enterprises Department, Government of Tamil Nadu"
+  },
+  {
+   "schemeId": "TN2026-004",
+   "field": "content.benefits.summary",
+   "kept": "5% additional capital subsidy on eligible plant and machinery, capped at ₹2 lakh, for qualifying women, Scheduled Caste, Scheduled Tribe, persons with disabilities or transgender entrepreneurs in eligible new manufacturing/agro-food enterprises.",
+   "legacy": "5% additional capital subsidy on eligible plant and machinery, subject to a maximum of ₹5 lakh."
+  },
+  {
+   "schemeId": "TN2026-004",
+   "field": "content.eligibility.narrative.criteria",
+   "kept": "Eligible manufacturing enterprises owned by women, SC/ST, differently abled or transgender entrepreneurs can receive the additional subsidy.\nEligible enterprises set up by Women, SC, ST, Differently Abled and Transgender entrepreneurs can receive the additional subsidy, subject to ownership and capital-subsidy conditions.",
+   "legacy": "Eligible manufacturing enterprises owned by women, SC/ST, differently abled or transgender entrepreneurs can receive the additional subsidy."
+  },
+  {
+   "schemeId": "TN2026-004",
+   "field": "content.classification.government.departmentText",
+   "kept": "District Industries Centres / Tamil Nadu MSME Department, Micro, Small and Medium Enterprises Department, Government of Tamil Nadu",
+   "legacy": "Micro, Small and Medium Enterprises Department, Government of Tamil Nadu"
+  },
+  {
+   "schemeId": "TN2026-005",
+   "field": "content.eligibility.narrative.criteria",
+   "kept": "Orphan girls aged 18+ at the time of marriage are eligible. There is no income ceiling; educational requirements apply only to the higher-assistance category.\nOrphan girls are eligible. The bride must have completed 18 years at marriage; there is no upper age or income limit. Scheme II requires an eligible degree or diploma; Scheme I has no educational requirement.",
+   "legacy": "Orphan girls aged 18+ at the time of marriage are eligible. There is no income ceiling; educational requirements apply only to the higher-assistance category."
+  },
+  {
+   "schemeId": "TN2026-005",
+   "field": "content.classification.government.departmentText",
+   "kept": "Government of Tamil Nadu social welfare administration, Social Welfare and Women Empowerment Department, Government of Tamil Nadu",
+   "legacy": "Social Welfare and Women Empowerment Department, Government of Tamil Nadu"
+  },
+  {
+   "schemeId": "TN2026-006",
+   "field": "content.eligibility.narrative.criteria",
+   "kept": "SC/ST entrepreneurs aged up to 55 whose enterprise is 100% owned by SC/ST persons can apply for new or expansion projects. No minimum educational qualification is required.\nIndividuals belonging to SC/ST communities, up to 55 years of age, may apply for new or expansion projects; no minimum educational qualification is required. The enterprise must be 100% owned by SC/ST persons.",
+   "legacy": "SC/ST entrepreneurs aged up to 55 whose enterprise is 100% owned by SC/ST persons can apply for new or expansion projects. No minimum educational qualification is required."
+  },
+  {
+   "schemeId": "TN2026-006",
+   "field": "content.classification.government.departmentText",
+   "kept": "Tamil Nadu MSME Department, Micro, Small and Medium Enterprises Department, Government of Tamil Nadu",
+   "legacy": "Micro, Small and Medium Enterprises Department, Government of Tamil Nadu"
+  },
+  {
+   "schemeId": "TN2026-007",
+   "field": "content.eligibility.narrative.criteria",
+   "kept": "Existing micro/small enterprise that has availed a term loan for technology upgradation/modernisation under CGTMSE, OR a substantial-expansion/diversification term loan under CGTMSE, OR upgraded plant/machinery under CLCSS-listed sub-sectors/products (as approved by the Technical Committee headed by the Principal Secretary, MSME Department). Application filed quarterly, after completion of each quarter.\nMicro and small manufacturing enterprises can receive back-ended interest subsidy on qualifying term loans for technology upgradation/modernization and eligible credit-guarantee-linked loans, subject to Tamil Nadu MSME guidelines.",
+   "legacy": "Existing micro/small enterprise that has availed a term loan for technology upgradation/modernisation under CGTMSE, OR a substantial-expansion/diversification term loan under CGTMSE, OR upgraded plant/machinery under CLCSS-listed sub-sectors/products (as approved by the Technical Committee headed by the Principal Secretary, MSME Department). Application filed quarterly, after completion of each quarter."
+  },
+  {
+   "schemeId": "TN2026-007",
+   "field": "content.classification.government.departmentText",
+   "kept": "Tamil Nadu Industries and Commerce / notified nodal agencies and lending institutions, Micro, Small and Medium Enterprises Department, Government of Tamil Nadu",
+   "legacy": "Micro, Small and Medium Enterprises Department, Government of Tamil Nadu"
+  },
+  {
+   "schemeId": "TN2026-008",
+   "field": "content.benefits.summary",
+   "kept": "25% capital subsidy on value of eligible plant and machinery, subject to maximum ₹150 lakh, plus applicable additional subsidies for specified categories.\nFor micro manufacturing enterprises specifically: 25% of eligible plant and machinery cost, subject to a maximum of Rs 25 lakh (lower than the Rs 150 lakh small/medium ceiling already recorded).",
+   "legacy": "25% capital subsidy on value of eligible plant and machinery, subject to maximum ₹150 lakh, plus applicable additional subsidies for specified categories."
+  },
+  {
+   "schemeId": "TN2026-008",
+   "field": "content.classification.government.departmentText",
+   "kept": "Tamil Nadu MSME Department / District Industries Centres, Micro, Small and Medium Enterprises Department, Government of Tamil Nadu",
+   "legacy": "Micro, Small and Medium Enterprises Department"
+  },
+  {
+   "schemeId": "TN2026-009",
+   "field": "content.classification.government.departmentText",
+   "kept": "Tamil Nadu social welfare administration, Social Welfare and Women Empowerment Department, Government of Tamil Nadu",
+   "legacy": "Social Welfare and Women Empowerment Department, Government of Tamil Nadu"
+  },
+  {
+   "schemeId": "TN2026-010",
+   "field": "content.classification.government.departmentText",
+   "kept": "Government of Tamil Nadu social welfare/child protection system, Social Welfare and Women Empowerment Department, Government of Tamil Nadu",
+   "legacy": "Social Welfare and Women Empowerment Department, Government of Tamil Nadu"
+  },
+  {
+   "schemeId": "TN2026-011",
+   "field": "content.classification.government.departmentText",
+   "kept": "Tamil Nadu social welfare administration, Social Welfare and Women Empowerment Department, Government of Tamil Nadu",
+   "legacy": "Social Welfare and Women Empowerment Department, Government of Tamil Nadu"
+  },
+  {
+   "schemeId": "TN2026-012",
+   "field": "content.classification.government.departmentText",
+   "kept": "Tamil Nadu social welfare administration, Social Welfare and Women Empowerment Department, Government of Tamil Nadu",
+   "legacy": "Social Welfare and Women Empowerment Department, Government of Tamil Nadu"
+  },
+  {
+   "schemeId": "TN2026-013",
+   "field": "content.benefits.summary",
+   "kept": "The Thanjavur District Government page lists assistance of Rs 25,000 in cash and an 8-gram gold coin; it lists Rs 50,000 in cash and an 8-gram gold coin for graduates. These are district-published details; a current statewide implementing order was not located in this audit.",
+   "legacy": "Scheme identity is retained from the master list; exact current benefit, income, education and application rules are left unfilled until a current official Tamil Nadu guideline is attached."
+  },
+  {
+   "schemeId": "TN2026-013",
+   "field": "content.eligibility.narrative.criteria",
+   "kept": "The Thanjavur District Government page says daughters of poor widows may qualify when annual family income is no more than Rs 72,000. The bride must be at least 18; a widow certificate for her mother is stated on the district's Tamil page. The higher assistance category is for graduates. Confirm statewide requirements with the District Social Welfare Office.",
+   "legacy": "Daughters of poor widows aged 18+ at the time of marriage can apply, subject to Tamil Nadu’s prescribed family-income limit. The higher assistance category requires an eligible degree or diploma."
+  },
+  {
+   "schemeId": "TN2026-013",
+   "field": "content.classification.government.departmentText",
+   "kept": "Tamil Nadu social welfare administration, Social Welfare and Women Empowerment Department, Government of Tamil Nadu",
+   "legacy": "Social Welfare and Women Empowerment Department, Government of Tamil Nadu"
+  },
+  {
+   "schemeId": "TN2026-014",
+   "field": "content.classification.government.departmentText",
+   "kept": "EDII-TN, Entrepreneurship Development and Innovation Institute, Tamil Nadu (EDII-TN)",
+   "legacy": "Entrepreneurship Development and Innovation Institute, Tamil Nadu (EDII-TN)"
+  },
+  {
+   "schemeId": "TN2026-015",
+   "field": "content.classification.government.departmentText",
+   "kept": "EDII-TN, Entrepreneurship Development and Innovation Institute, Tamil Nadu (EDII-TN)",
+   "legacy": "Entrepreneurship Development and Innovation Institute, Tamil Nadu (EDII-TN)"
+  },
+  {
+   "schemeId": "TN2026-016",
+   "field": "content.classification.government.departmentText",
+   "kept": "Tamil Nadu MSME Department / District Industries Centres, Micro, Small and Medium Enterprises Department, Government of Tamil Nadu",
+   "legacy": "Micro, Small and Medium Enterprises Department, Government of Tamil Nadu"
+  },
+  {
+   "schemeId": "TN2026-017",
+   "field": "content.classification.government.departmentText",
+   "kept": "Tamil Nadu Small Industries Development Corporation (TANSIDCO) / Micro, Small and Medium Enterprises Department, Government of Tamil Nadu",
+   "legacy": "Micro, Small and Medium Enterprises Department, Government of Tamil Nadu"
+  },
+  {
+   "schemeId": "TN2026-018",
+   "field": "content.classification.government.departmentText",
+   "kept": "Tamil Nadu Small Industries Development Corporation (TANSIDCO) / Micro, Small and Medium Enterprises Department, Government of Tamil Nadu",
+   "legacy": "Micro, Small and Medium Enterprises Department, Government of Tamil Nadu"
+  },
+  {
+   "schemeId": "TN2026-019",
+   "field": "content.classification.government.departmentText",
+   "kept": "Micro, Small and Medium Enterprises Department, Government of Tamil Nadu / Tamil Nadu Small Industries Development Corporation (TANSIDCO)",
+   "legacy": "Micro, Small and Medium Enterprises Department, Government of Tamil Nadu"
+  },
+  {
+   "schemeId": "TN2026-020",
+   "field": "content.classification.government.departmentText",
+   "kept": "EDII-TN / designated programme partners, Entrepreneurship Development and Innovation Institute, Tamil Nadu (EDII-TN) / Government of Tamil Nadu",
+   "legacy": "Entrepreneurship Development and Innovation Institute, Tamil Nadu (EDII-TN) / Government of Tamil Nadu"
+  },
+  {
+   "schemeId": "TN2026-021",
+   "field": "content.classification.government.departmentText",
+   "kept": "Government of Tamil Nadu, Government of Tamil Nadu / Social Welfare and Women Empowerment administration",
+   "legacy": "Government of Tamil Nadu / Social Welfare and Women Empowerment administration"
+  },
+  {
+   "schemeId": "TN2026-022",
+   "field": "content.classification.government.departmentText",
+   "kept": "Tamil Nadu MSME Department / designated electricity and industry authorities, Micro, Small and Medium Enterprises Department, Government of Tamil Nadu",
+   "legacy": "Micro, Small and Medium Enterprises Department, Government of Tamil Nadu"
+  },
+  {
+   "schemeId": "TN2026-023",
+   "field": "content.classification.government.departmentText",
+   "kept": "Tamil Nadu Corporation for Development of Women (TNCDW) / rural livelihoods institutions, Government of Tamil Nadu",
+   "legacy": "Government of Tamil Nadu"
+  },
+  {
+   "schemeId": "TN2026-024",
+   "field": "content.classification.government.departmentText",
+   "kept": "StartupTN, StartupTN / MSME ecosystem, Government of Tamil Nadu",
+   "legacy": "StartupTN / MSME ecosystem"
+  },
+  {
+   "schemeId": "TN2026-025",
+   "field": "content.classification.government.departmentText",
+   "kept": "Government of Tamil Nadu, Social Welfare and Women Empowerment Department",
+   "legacy": "Social Welfare and Women Empowerment Department"
+  },
+  {
+   "schemeId": "TN2026-026",
+   "field": "content.classification.government.departmentText",
+   "kept": "Tamil Nadu Skill Development Corporation (TNSDC), Special Programme Implementation Department, Government of Tamil Nadu",
+   "legacy": "Special Programme Implementation Department"
+  },
+  {
+   "schemeId": "TN2026-027",
+   "field": "content.classification.government.departmentText",
+   "kept": "Tamil Nadu Adi Dravidar Housing and Development Corporation (TAHDCO), Government of Tamil Nadu",
+   "legacy": "Not verified from current authoritative official source"
+  },
+  {
+   "schemeId": "TN2026-028",
+   "field": "content.classification.government.departmentText",
+   "kept": "Commissionerate of Industries and Commerce / DICs with TIIC, commercial banks and TAICO banks, Micro, Small and Medium Enterprises Department, Government of Tamil Nadu",
+   "legacy": "Micro, Small and Medium Enterprises Department"
+  },
+  {
+   "schemeId": "TN2026-029",
+   "field": "content.classification.government.departmentText",
+   "kept": "Tamil Nadu MSME ecosystem / designated agency, Micro, Small and Medium Enterprises Department, Government of Tamil Nadu",
+   "legacy": "Micro, Small and Medium Enterprises Department"
+  },
+  {
+   "schemeId": "TN2026-037",
+   "field": "content.classification.government.departmentText",
+   "kept": "Commissionerate of Industries and Commerce / District Industries Centres, Micro, Small and Medium Enterprises Department, Government of Tamil Nadu",
+   "legacy": "Micro, Small and Medium Enterprises Department"
+  },
+  {
+   "schemeId": "TN2026-039",
+   "field": "content.classification.government.departmentText",
+   "kept": "FaMe TN / MSME Department, Micro, Small and Medium Enterprises Department, Government of Tamil Nadu",
+   "legacy": "Micro, Small and Medium Enterprises Department"
+  },
+  {
+   "schemeId": "TN2026-042",
+   "field": "content.classification.government.departmentText",
+   "kept": "Tamil Nadu Startup and Innovation Mission (StartupTN), Micro, Small and Medium Enterprises Department, Government of Tamil Nadu",
+   "legacy": "Micro, Small and Medium Enterprises Department"
+  },
+  {
+   "schemeId": "TN2026-043",
+   "field": "content.classification.government.departmentText",
+   "kept": "StartupTN, Micro, Small and Medium Enterprises Department, Government of Tamil Nadu",
+   "legacy": "Micro, Small and Medium Enterprises Department"
+  },
+  {
+   "schemeId": "TN2026-044",
+   "field": "content.classification.government.departmentText",
+   "kept": "Tamil Nadu Corporation for Development of Women / TNSRLM ecosystem, Rural Development and Panchayat Raj Department, Government of Tamil Nadu",
+   "legacy": "Rural Development and Panchayat Raj Department"
+  },
+  {
+   "schemeId": "TN2026-044",
+   "field": "content.classification.government.level",
+   "kept": "state",
+   "legacy": "central_state"
+  },
+  {
+   "schemeId": "TN2026-044",
+   "field": "content.classification.government.levelText",
+   "kept": "State",
+   "legacy": "State / centrally supported rural livelihoods mission"
+  },
+  {
+   "schemeId": "TN2026-049",
+   "field": "content.benefits.summary",
+   "kept": "The initiative supports ONDC onboarding and compliant catalogue creation (up to Rs 2,500 per MSE), account-management support (up to Rs 5,000 per MSE), transport and logistics, packaging material, and packaging design. Activity-specific caps and conditions apply under the Operating Guidelines.",
+   "legacy": "Exact current eligibility, amount, rate, duration and application conditions are not entered unless supported by a specific authoritative source."
+  },
+  {
+   "schemeId": "TN2026-049",
+   "field": "content.eligibility.narrative.criteria",
+   "kept": "Udyam-registered Micro and Small Enterprises in manufacturing and services may qualify. The Operating Guidelines exclude MSEs that received similar assistance from another Central or State Government scheme and set additional initiative-specific onboarding conditions.",
+   "legacy": "Eligible micro and small enterprises seeking to sell through ONDC can receive onboarding/e-commerce support under TEAM, subject to Udyam registration and the programme’s seller, digital-catalogue and onboarding requirements."
+  },
+  {
+   "schemeId": "TN2026-049",
+   "field": "content.classification.government.level",
+   "kept": "central",
+   "legacy": "state"
+  },
+  {
+   "schemeId": "TN2026-049",
+   "field": "content.classification.government.levelText",
+   "kept": "Central",
+   "legacy": "State"
+  },
+  {
+   "schemeId": "TN2026-051",
+   "field": "content.classification.government.departmentText",
+   "kept": "Commissionerate of Industries and Commerce / District Industries Centres with commercial banks, Micro, Small and Medium Enterprises Department, Government of Tamil Nadu",
+   "legacy": "Micro, Small and Medium Enterprises Department"
+  }
+ ]
+}

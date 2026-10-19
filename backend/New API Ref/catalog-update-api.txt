@@ -1,0 +1,323 @@
+MSS CATALOG UPDATE API - FLUTTER INTEGRATION
+16 October 2026 | Implemented backend contract
+
+QUICK HANDOFF / CURRENT STATUS
+Verified database snapshot on 16 October 2026:
+- Imported release: 1.35.1-alpha; stored gzip: 713188 bytes.
+- 2061 stored records across catalogs and search index, NOT 2061 schemes.
+- Published pointer was empty at verification. GET current therefore returns null.
+- Backend operator must publish before the app can discover an update.
+- Restart a running backend without automatic reload to load the new routes.
+This document does not publish a release or modify Flutter source.
+
+Frontend needs no user form for catalog updates. Collect only the locally
+installed release identity/hash, a cached current-manifest ETag if available, and
+the app-supported schema major. Never collect database credentials in the app.
+
+API OVERVIEW
+GET /v1/catalog/current                 -> JSON object or null; update discovery
+GET /v1/catalog/releases/:tag           -> JSON object; original release details
+GET /v1/catalog/releases/:tag/bundle    -> binary gzip; catalog payload
+All three are public GET APIs. No login, query parameters or request body.
+No POST /catalog or Flutter publish API exists. Backend operators own publishing.
+
+PURPOSE
+The app already browses/searches/recommends schemes using its offline bundle.
+These APIs replace the Supabase current-release RPC and Storage download only.
+No profile answers or scheme search form are submitted to these endpoints.
+Flutter source was not modified. The frontend team implements the source adapter.
+
+BASE URL
+Local: http://127.0.0.1:5000
+Production target: https://api.msmeschemes.org (deployment not verified).
+Physical phone: use the development computer's reachable LAN address.
+Standard Android emulator host alias: http://10.0.2.2:5000.
+All routes public; no bearer token, body or Content-Type required for GET.
+Normal API-wide quota is 120 requests/minute/IP; 429 RATE_LIMITED + Retry-After.
+Production HTTPS enforcement still applies.
+
+1. GET /v1/catalog/current
+Collect from app: optional last received ETag, sent as If-None-Match.
+200 returns ONE object, not an array and not {data:...}:
+{
+  "release_version": "1.35.1-alpha",
+  "schema_version": 1,
+  "package_sha256": "cea438e919356453210a03afaf5f65e9c83dbec856a9767323b42804b92ee619",
+  "package_byte_size": 713188,
+  "record_counts": {"scheme_catalog.json": 171},
+  "published_at": "2026-10-16T00:00:00.000Z",
+  "bundle_url": "/v1/catalog/releases/1.35.1-alpha/bundle"
+}
+Example is illustrative; actual record_counts contains all catalog counts and
+published_at is the pointer publication time, not source release creation time.
+
+Field types:
+release_version: string; stable release tag, never compare lexicographically.
+schema_version: integer; major of original schemaVersion ("1.0.0" -> 1).
+package_sha256: string, 64 lowercase hexadecimal characters; compressed bytes hash.
+package_byte_size: positive integer; exact compressed byte count.
+record_counts: object mapping catalog filenames to nonnegative integer counts.
+published_at: string, UTC ISO-8601 timestamp.
+bundle_url: string, API-origin-relative download path. Resolve against BASE URL.
+Do not concatenate it with a base URL already containing /v1.
+
+No published pointer: HTTP 200 with JSON null. Keep installed/factory catalog.
+Do not infer an active release from imported rows, import time or highest tag.
+ETag is a quoted SHA-256 of the current JSON representation, not the bundle hash.
+Cache-Control: public, max-age=60, must-revalidate.
+If-None-Match matching normal revalidation: 304, empty body; keep cached manifest.
+Do not JSON-decode a 304 response. An explicit request Cache-Control: no-cache
+may force 200; normal conditional checks can send Cache-Control: max-age=0.
+Malformed stored published metadata: 503 {"error":"CATALOG_UNAVAILABLE"}.
+Database/unexpected failure: 500 {"error":"INTERNAL_ERROR"}.
+
+2. GET /v1/catalog/releases/:tag
+Path tag: string, URL-encode as one path segment.
+200: original immutable release.json, camelCase keys preserved:
+releaseId, releaseTag, schemaVersion (string), releasedAt, bundleAsset,
+bundleBytes, bundleSha256, uncompressedBytes, entityCount, searchIndexCount,
+recordCounts and perFileSha256.
+This is NOT the snake_case current-manifest response. bundleAsset is a source
+asset reference, not the HTTP download URL. Use current.bundle_url instead.
+ETag hashes this JSON representation. Matching revalidation returns 304.
+Cache-Control: public, max-age=31536000, immutable.
+Unknown tag: 404 {"error":"RELEASE_NOT_FOUND"}.
+Imported snapshots are public by known tag, as before. Import does not announce
+an update; the explicit pointer controls discovery. Do not put private data in
+public catalog snapshots.
+
+3. GET /v1/catalog/releases/:tag/bundle
+200 application/gzip, raw gzip file bytes; NOT JSON and not base64.
+No Content-Encoding: gzip: the gzip file is the downloadable artifact itself.
+ETag is the quoted package_sha256; normal matching revalidation returns 304.
+Cache-Control: public, max-age=31536000, immutable.
+Unknown tag: 404 {"error":"RELEASE_NOT_FOUND"}.
+Save bytes, verify length + SHA-256, THEN decompress with a bounded output limit.
+Do not hash decoded JSON or a transport-recompressed file. Proxy/CDN configuration
+must preserve exact artifact bytes. Download once at a time, keep prior catalog
+until all integrity/schema/install checks pass. A 304 download requires cached
+artifact bytes; without them retry without If-None-Match.
+
+FLUTTER INTEGRATION SEQUENCE
+1. Keep current offline catalog usable; run update checks in the background.
+2. GET current. On null/304/offline/error retain the current installed bundle.
+   For 304 use the previously cached manifest only if present.
+3. Parse a 200 object with CatalogManifest.fromReleaseRpc(jsonObject).
+   Keep bundle_url separately; CatalogManifest currently does not store it.
+4. Compare release_version + package_sha256, not version/tag ordering.
+5. Check schema_version against SchemeCatalogStore.supportedSchemaVersion.
+   Unsupported major: retain existing bundle and show app update guidance.
+6. Resolve bundle_url against the configured API origin and GET bytes.
+7. Before installation, enforce compressed size, bounded decompression and
+   parsed catalog structure/count checks in the frontend adapter. The current
+   SchemeCatalogStore.install verifies SHA-256 and schema compatibility, writes
+   release files, then updates the pointer; it does NOT itself enforce byte size,
+   decompression bounds or parsed catalog counts. Do not assume these are covered.
+8. Reuse SchemeCatalogSyncService single-flight, timeout and hourly throttle.
+   On rejection preserve installed catalog; do not replace local browsing with
+   online GET /schemes calls.
+
+CURRENT SOURCE MAPPING
+frontend/lib/services/catalog/scheme_catalog_sync_service.dart:
+  SupabaseCatalogReleaseSource.fetchCurrentManifest -> GET /v1/catalog/current.
+  SupabaseCatalogReleaseSource.fetchPayload -> current.bundle_url binary GET.
+frontend/lib/models/catalog_manifest.dart:
+  Existing fromReleaseRpc consumes compatible manifest fields.
+frontend/lib/services/catalog/scheme_catalog_store.dart:
+  Existing integrity/install boundary remains the integration point.
+Frontend team owns adapter implementation and real device testing.
+
+BACKEND SETUP / PUBLISHING
+New migration: database/migrations/007_catalog_current.sql.
+New singleton table mss.catalog_current references immutable catalog_releases.
+No automatic publication of imported data. Runtime has SELECT only on pointer;
+provision the updated deployment/runtime-role.sql grants via database admin.
+Import and publish tools run with deployment credentials, never mobile credentials.
+
+From mss-backend:
+  npm run db:migrate
+  npm run catalog:check
+  npm run catalog:import
+  npm run catalog:publish -- 1.35.1-alpha
+  npm run catalog:verify
+
+catalog:publish validates stored gzip checksum, size, decompressed size, record
+counts, duplicate IDs and DTO metadata, then swaps pointer in one transaction.
+Same-tag publish preserves publication timestamp. Publishing a previous validated
+tag rolls back discovery to that snapshot; old artifact bytes are retained.
+This CLI is a deployment operation, not a Flutter endpoint or full editorial
+approval/permission/audit workflow. It does not certify full semantic relations,
+localization correctness or compatibility with every app build; editorial review
+and staging/device checks remain required before production publication.
+
+POSTMAN
+Import docs/postman/MSS-catalog.postman_collection.json.
+base_url defaults to http://127.0.0.1:5000; release_tag defaults to shipped tag.
+Current can validly return null until a release is explicitly published.
+Collection covers current + conditional revalidation, immutable raw manifest and
+binary response. Exact downloaded SHA-256/bytes is tested by catalog:verify.
+
+VERIFICATION / LIMITS
+Unit/HTTP tests cover DTO mapping, malformed metadata, no-pointer fallback,
+conditional requests, immutable byte preservation, safe relative download links,
+parameterized tag lookups, publication validation and rollback failure paths.
+The separate catalog:verify script runs against configured PostgreSQL with an
+uncommitted temporary release/pointer; it rolls fixtures back on completion.
+It does not permanently select a published release or certify production hosting.
+Full editorial import reconciliation, publishing audit/jobs and CDN/load testing
+remain separate work. Existing production runtime-role blocker still applies.
+
+
+APPENDIX A - FULL RELEASE DETAILS RESPONSE
+Example request:
+GET http://127.0.0.1:5000/v1/catalog/releases/1.35.1-alpha
+Accept: application/json
+
+Example HTTP 200 body, from the shipped release metadata:
+{
+  "releaseId": "f85f512e-dbe5-4d8e-beb0-f64f94ef9fa9",
+  "releaseTag": "1.35.1-alpha",
+  "schemaVersion": "1.0.0",
+  "releasedAt": "2026-10-05T00:23:52Z",
+  "bundleAsset": "assets/catalog/catalog_bundle.json.gz",
+  "bundleBytes": 713188,
+  "bundleSha256": "cea438e919356453210a03afaf5f65e9c83dbec856a9767323b42804b92ee619",
+  "uncompressedBytes": 9263455,
+  "entityCount": 1131,
+  "searchIndexCount": 930,
+  "recordCounts": {
+    "common_catalog.json": 344,
+    "authority_catalog.json": 131,
+    "institution_catalog.json": 83,
+    "scheme_catalog.json": 171,
+    "finance_catalog.json": 115,
+    "tax_catalog.json": 13,
+    "treds_catalog.json": 16,
+    "csr_catalog.json": 16,
+    "export_catalog.json": 13,
+    "knowledge_catalog.json": 28,
+    "applicability_matrix_catalog.json": 171,
+    "enterprise_classification_catalog.json": 11,
+    "msme_privilege_catalog.json": 2,
+    "business_enablement_catalog.json": 7,
+    "cluster_assistance_catalog.json": 10
+  },
+  "perFileSha256": {
+    "common_catalog.json": "1e0716033bd021ec499cbfc41f001ae9cc6f560e09f4567cdf194d50376158a5",
+    "authority_catalog.json": "09967226fb1c0caf7014cf2363d304f431fa8b347b833dcf8a37bca62a2844db",
+    "institution_catalog.json": "e6c4b623c5fdeb1f82c1dcc5cbdf0d878f076ac82e877abcdc0beda962d585c2",
+    "scheme_catalog.json": "990f70eab45258a5f7911dbcfeed51ef5c897ba69f27743dcad1bb60df41746a",
+    "finance_catalog.json": "81f2489add9d517ebd2c985d6c16e96b3a0cbe5144e0ec4c78df1673b112cdce",
+    "tax_catalog.json": "b7d44de25abc167ce78141b3bb58aad995109f3b88383a715ea66b6e48b58179",
+    "treds_catalog.json": "faba1e765fd616b7733a03c0c8e4058e84cd33da943e16d5611270f0482ff169",
+    "csr_catalog.json": "26ec5ea2bb4a10a7af0a00a2a72a0c5a9588364b812e2a356b7e7e13ae457491",
+    "export_catalog.json": "8d6daa046d883a917f7dde894ba401d2e670292cc6d07ba7bc1d6bf448d27e2b",
+    "knowledge_catalog.json": "34ac510eefa9e7b0f0dde5a24f0745434c07fdb6d414b072c46cc14235afde80",
+    "applicability_matrix_catalog.json": "f5820b4fe20ff273a8c8a80c934738df663078a857848f5420271f150af391e5",
+    "enterprise_classification_catalog.json": "f767029274c398a46e89719aa0db6d5a512f87ade34e09436ed5e2a82a22aa36",
+    "msme_privilege_catalog.json": "0166ddfb7713b3097737407f877b2d2ac84181e35cfca0b8aed052e8ccdebcc8",
+    "business_enablement_catalog.json": "4c3aaf54265d179a392a2bde64b5e63c3f06faf11384e634cd05bb66797c35fd",
+    "cluster_assistance_catalog.json": "b0c56695e1d543ef13f1e1c5292a7414d4d28aefc29ead145a083912da56e371",
+    "search_index.json": "80148746d2394c0ac5e22f2a02a49adeed905638397ce9065349cc52d705b963"
+  }
+}
+
+Original release field types:
+releaseId          string (UUID); source release identifier
+releaseTag         string; immutable tag, e.g. 1.35.1-alpha
+schemaVersion      string; semantic schema version, e.g. 1.0.0
+releasedAt         string; source release UTC date/time
+bundleAsset        string; original asset path, not HTTP download address
+bundleBytes        integer; compressed package size
+bundleSha256       string; compressed package SHA-256
+uncompressedBytes integer; expected decompressed package size
+entityCount        integer; catalog entity count, excludes search index rows
+searchIndexCount   integer; search index row count
+recordCounts       object<string, integer>; per-catalog row counts
+perFileSha256      object<string, string>; catalog filename -> SHA-256
+
+Do not deserialize this endpoint using CatalogManifest.fromReleaseRpc: that
+factory expects GET current's snake_case representation. Raw release details
+are useful for diagnostics and optional extra download metadata validation.
+If fetched for installation, ensure releaseTag, bundleSha256 and bundleBytes
+match the selected current manifest. JSON key ordering has no semantic meaning.
+
+APPENDIX B - FRONTEND IMPLEMENTATION RECIPE
+This is implementation pseudocode, not a drop-in tested Dart adapter.
+
+Configuration:
+  apiOrigin = Uri.parse('https://api.msmeschemes.org'); // production target
+  // Development: http://127.0.0.1:5000 on desktop.
+  // Keep API origin configurable; do not hardcode production during testing.
+
+fetchCurrentManifest():
+  GET apiOrigin.resolve('/v1/catalog/current') with an explicit timeout.
+  Send Accept: application/json.
+  Send If-None-Match only when BOTH cached ETag and its manifest/null exist.
+  For conditional requests, use Cache-Control: max-age=0.
+  If 304: return cached manifest (which may be null); do not decode a body.
+  If 200: decode JSON. If null, cache null with its ETag and return null.
+  Otherwise validate expected types, parse CatalogManifest.fromReleaseRpc,
+  and keep bundle_url alongside that manifest. Cache body and ETag together.
+  Reject invalid/missing fields; never replace installed catalog on parse error.
+  On other statuses: map errors below; keep installed/factory catalog available.
+
+fetchPayload(manifest):
+  Resolve the matching cached bundle_url against apiOrigin.
+  Require the same scheme/host/port as apiOrigin and the expected catalog path.
+  Avoid redirects to unapproved origins. No bearer token is needed.
+  GET as bytes (for package:http, use response.bodyBytes, not response.body).
+  Require HTTP 200; parse JSON errors only when the response is an error.
+  Enforce byte cap while downloading, matching package_byte_size after download.
+  Verify SHA-256 on the exact downloaded gzip bytes.
+  Enforce an agreed decompression cap and validate expected catalog data.
+  Return bytes for SchemeCatalogStore.install(manifest, bytes).
+
+The existing CatalogReleaseSource interface returns CatalogManifest only; the
+HTTP implementation must retain the matching bundle_url internally, keyed by
+release identity/hash, or introduce an agreed descriptor in the frontend.
+Do not retain one global URL that can be mismatched with another manifest.
+
+Suggested frontend components:
+- HttpCatalogReleaseSource implements CatalogReleaseSource.
+- fetchCurrentManifest replaces Supabase RPC access.
+- fetchPayload replaces Supabase Storage access.
+- Inject this source into SchemeCatalogSyncService.
+- Keep its single-flight behavior and hourly throttle.
+- Apply retry/backoff only to safe GET requests; honor Retry-After on 429.
+- Mobile lifecycle/resume checks must not trigger repeated parallel downloads.
+- Do not disable normal offline browsing while checking for updates.
+
+APPENDIX C - UI / ERROR HANDLING
+200 object: valid current release; compare identity/hash and download if changed.
+200 null: no published release; keep factory/installed catalog, no blocking error.
+304: cached representation unchanged; no JSON body.
+404 RELEASE_NOT_FOUND: keep old catalog; recheck current later.
+429 RATE_LIMITED: honor Retry-After; keep old catalog.
+503 CATALOG_UNAVAILABLE: backend metadata needs attention; retain old catalog.
+500 INTERNAL_ERROR / network timeout: retain old catalog and retry later.
+426 HTTPS_REQUIRED in production: correct API URL/proxy HTTPS configuration.
+Unsupported schema: retain old catalog; guide user to an app update.
+Hash/size/structure failure: reject downloaded file; retain old catalog.
+The error body is JSON {"error":"CODE"}; a gzip success response is binary.
+Never decode all responses using the same JSON handler.
+
+APPENDIX D - FRONTEND ACCEPTANCE CHECKLIST
+[ ] First install can browse the bundled factory catalog without internet.
+[ ] Null current release does not blank the list or block navigation.
+[ ] Published current response maps all types correctly, including integer schema.
+[ ] Same release/hash avoids another download.
+[ ] URL resolution produces one /v1 path, without accidental duplication.
+[ ] Changed release downloads raw bytes, then passes integrity checks.
+[ ] Corrupted/truncated/oversized/incompatible bundles leave old data usable.
+[ ] Decompression is bounded; catalog structure/counts validated before activation.
+[ ] Conditional 304 uses a valid cached representation.
+[ ] No cached representation means unconditional retry, not decoding empty body.
+[ ] Repeated update triggers share one in-flight operation.
+[ ] 429/network/backend failures keep local browsing available.
+[ ] Test actual Android/iOS devices after the source adapter is integrated.
+
+TEAM RESPONSIBILITIES
+Backend: PostgreSQL snapshots/pointer, APIs, controlled publication and hosting.
+Frontend: HTTP source adapter, response mapping, local integrity/install flow,
+background checks and device/UI tests. No database credentials in mobile app.

@@ -7,10 +7,7 @@ import '../../../utils/app_spacing.dart';
 class ExportInteractivePanel extends StatefulWidget {
   final Color iconColor;
 
-  const ExportInteractivePanel({
-    super.key,
-    required this.iconColor,
-  });
+  const ExportInteractivePanel({super.key, required this.iconColor});
 
   @override
   State<ExportInteractivePanel> createState() => _ExportInteractivePanelState();
@@ -54,8 +51,9 @@ class _ExportInteractivePanelState extends State<ExportInteractivePanel> {
 
   @override
   Widget build(BuildContext context) {
-    int checkedCount =
-        _exportChecklist.where((item) => item['checked'] == true).length;
+    int checkedCount = _exportChecklist
+        .where((item) => item['checked'] == true)
+        .length;
     double progress = checkedCount / _exportChecklist.length;
 
     return Card(
@@ -70,7 +68,9 @@ class _ExportInteractivePanelState extends State<ExportInteractivePanel> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              CentralizedTranslator.instance.localize('Export Readiness Assessment'),
+              CentralizedTranslator.instance.localize(
+                'Export Readiness Assessment',
+              ),
               style: GoogleFonts.poppins(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -79,7 +79,9 @@ class _ExportInteractivePanelState extends State<ExportInteractivePanel> {
             ),
             const SizedBox(height: AppSpacing.xs),
             Text(
-              CentralizedTranslator.instance.localize('Complete this checklist to identify missing links for international trade registration.'),
+              CentralizedTranslator.instance.localize(
+                'Complete this checklist to identify missing links for international trade registration.',
+              ),
               style: GoogleFonts.inter(
                 fontSize: 11.5,
                 color: const Color(0xFF64748B),
@@ -115,8 +117,12 @@ class _ExportInteractivePanelState extends State<ExportInteractivePanel> {
             const SizedBox(height: AppSpacing.md),
             ...List.generate(_exportChecklist.length, (index) {
               final item = _exportChecklist[index];
-              final qText = CentralizedTranslator.instance.localize(item['question'] as String);
-              final tipText = CentralizedTranslator.instance.localize(item['tip'] as String);
+              final qText = CentralizedTranslator.instance.localize(
+                item['question'] as String,
+              );
+              final tipText = CentralizedTranslator.instance.localize(
+                item['tip'] as String,
+              );
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

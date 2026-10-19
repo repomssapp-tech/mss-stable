@@ -119,8 +119,10 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
     final searchQuery = _searchController.text.trim().toLowerCase();
 
     // Facet filters (from the Filter sheet), via the one shared matcher.
-    var schemesToFilter =
-        applySchemeFilters(_baseSchemes ?? const [], provider.filters);
+    var schemesToFilter = applySchemeFilters(
+      _baseSchemes ?? const [],
+      provider.filters,
+    );
 
     // Text refinement within an already-search-ranked base list.
     if (searchQuery.isNotEmpty) {
@@ -135,7 +137,10 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
 
     final filtered = [
       for (final scheme in schemesToFilter)
-        MapEntry(scheme, RecommendationEngine.evaluate(provider.profile, scheme)),
+        MapEntry(
+          scheme,
+          RecommendationEngine.evaluate(provider.profile, scheme),
+        ),
     ];
 
     // Sort. 'Relevance' keeps the base order (search-engine ranking, or
@@ -177,7 +182,8 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
     String Function(String value)? displayOf,
   }) {
     String show(String v) => displayOf?.call(v) ?? v;
-    final bool isActive = currentValue.isNotEmpty &&
+    final bool isActive =
+        currentValue.isNotEmpty &&
         currentValue != 'All' &&
         currentValue != 'Relevance';
     return Container(
@@ -266,7 +272,10 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
 
   Widget _buildFiltersStrip(AppProvider provider) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.tight, horizontal: AppSpacing.lg),
+      padding: const EdgeInsets.symmetric(
+        vertical: AppSpacing.tight,
+        horizontal: AppSpacing.lg,
+      ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         physics: const ClampingScrollPhysics(),
@@ -305,11 +314,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
             // Sort
             _buildDropdownChip(
               context.l10n.sortLabel,
-              const [
-                'Relevance',
-                'Best match for me',
-                'Scheme name (A-Z)',
-              ],
+              const ['Relevance', 'Best match for me', 'Scheme name (A-Z)'],
               _sortBy,
               (v) => setState(() => _sortBy = v),
               displayOf: _sortLabel,
@@ -322,7 +327,10 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
 
   Widget _buildSearchInput() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.tight),
+      margin: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.tight,
+      ),
       height: 46,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -341,10 +349,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
         focusNode: _searchFocusNode,
         textInputAction: TextInputAction.search,
         onChanged: (_) => setState(() {}),
-        style: GoogleFonts.inter(
-          fontSize: 13,
-          color: const Color(0xFF1E293B),
-        ),
+        style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF1E293B)),
         decoration: InputDecoration(
           hintText: context.l10n.searchPlaceholder,
           hintStyle: GoogleFonts.inter(
@@ -380,7 +385,9 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
-    final displayedTitle = CentralizedTranslator.instance.localize(widget.title);
+    final displayedTitle = CentralizedTranslator.instance.localize(
+      widget.title,
+    );
 
     final filteredSchemes = _getFilteredSchemes(provider);
 
@@ -436,109 +443,112 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                       ),
                     )
                   : filteredSchemes.isEmpty
-                      ? Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(AppSpacing.xxl),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.search_off_rounded,
-                                  size: 48,
-                                  color: Colors.grey[400],
-                                ),
-                                const SizedBox(height: AppSpacing.md),
-                                Text(
-                                  () {
-                                    final q = _searchController.text.trim();
-                                    if (q.isNotEmpty) {
-                                      return context.l10n.noSchemesFound(q);
-                                    }
-                                    if (widget.title.trim().isNotEmpty &&
-                                        widget.title.toLowerCase() != 'all') {
-                                      return context.l10n.noSchemesFound(widget.title);
-                                    }
-                                    return context.l10n.searchNoFilterMatchesTitle;
-                                  }(),
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: const Color(0xFF334155),
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(height: AppSpacing.tight),
-                                Text(
-                                  context.l10n.tryDifferentKeyword,
-                                  style: GoogleFonts.inter(
-                                    fontSize: 12,
-                                    color: const Color(0xFF64748B),
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(height: AppSpacing.lg),
-                                OutlinedButton.icon(
-                                  onPressed: _clearAllFilters,
-                                  icon: const Icon(
-                                    Icons.refresh_rounded,
-                                    size: 16,
-                                    color: Color(0xFF2563EB),
-                                  ),
-                                  label: Text(
-                                    context.l10n.clearFiltersAndExplore,
-                                    style: GoogleFonts.inter(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: const Color(0xFF2563EB),
-                                    ),
-                                  ),
-                                  style: OutlinedButton.styleFrom(
-                                    side: const BorderSide(
-                                      color: Color(0xFF93C5FD),
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: AppSpacing.lg,
-                                      vertical: AppSpacing.sm,
-                                    ),
-                                    backgroundColor: const Color(0xFFEFF6FF),
-                                  ),
-                                ),
-                              ],
+                  ? Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(AppSpacing.xxl),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.search_off_rounded,
+                              size: 48,
+                              color: Colors.grey[400],
                             ),
-                          ),
-                        )
-                      : ListView.builder(
-                          physics: const ClampingScrollPhysics(),
-                          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-                          itemCount: filteredSchemes.length,
-                          itemBuilder: (context, index) {
-                            final entry = filteredSchemes[index];
-                            return SchemeCard(
-                              scheme: entry.key,
-                              result: entry.value,
-                              isBookmarked: provider.bookmarkedIds.contains(
-                                entry.key.id,
+                            const SizedBox(height: AppSpacing.md),
+                            Text(
+                              () {
+                                final q = _searchController.text.trim();
+                                if (q.isNotEmpty) {
+                                  return context.l10n.noSchemesFound(q);
+                                }
+                                if (widget.title.trim().isNotEmpty &&
+                                    widget.title.toLowerCase() != 'all') {
+                                  return context.l10n.noSchemesFound(
+                                    widget.title,
+                                  );
+                                }
+                                return context.l10n.searchNoFilterMatchesTitle;
+                              }(),
+                              style: GoogleFonts.poppins(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: const Color(0xFF334155),
                               ),
-                              onBookmarkToggle: () =>
-                                  provider.toggleBookmark(entry.key.id),
-                              showActions: false,
-                              showMatchPercentage: false,
-                              onTap: () {
-                                provider.addToRecentlyViewed(entry.key.id);
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (_) => SchemeDetailsScreen(
-                                      scheme: entry.key,
-                                    ),
-                                  ),
-                                );
-                              },
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: AppSpacing.tight),
+                            Text(
+                              context.l10n.tryDifferentKeyword,
+                              style: GoogleFonts.inter(
+                                fontSize: 12,
+                                color: const Color(0xFF64748B),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: AppSpacing.lg),
+                            OutlinedButton.icon(
+                              onPressed: _clearAllFilters,
+                              icon: const Icon(
+                                Icons.refresh_rounded,
+                                size: 16,
+                                color: Color(0xFF2563EB),
+                              ),
+                              label: Text(
+                                context.l10n.clearFiltersAndExplore,
+                                style: GoogleFonts.inter(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: const Color(0xFF2563EB),
+                                ),
+                              ),
+                              style: OutlinedButton.styleFrom(
+                                side: const BorderSide(
+                                  color: Color(0xFF93C5FD),
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: AppSpacing.lg,
+                                  vertical: AppSpacing.sm,
+                                ),
+                                backgroundColor: const Color(0xFFEFF6FF),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : ListView.builder(
+                      physics: const ClampingScrollPhysics(),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: AppSpacing.sm,
+                      ),
+                      itemCount: filteredSchemes.length,
+                      itemBuilder: (context, index) {
+                        final entry = filteredSchemes[index];
+                        return SchemeCard(
+                          scheme: entry.key,
+                          result: entry.value,
+                          isBookmarked: provider.bookmarkedIds.contains(
+                            entry.key.id,
+                          ),
+                          onBookmarkToggle: () =>
+                              provider.toggleBookmark(entry.key.id),
+                          showActions: false,
+                          showMatchPercentage: false,
+                          onTap: () {
+                            provider.addToRecentlyViewed(entry.key.id);
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    SchemeDetailsScreen(scheme: entry.key),
+                              ),
                             );
                           },
-                        ),
+                        );
+                      },
+                    ),
             ),
             const CatalogFreshnessFooter(),
           ],

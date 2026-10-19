@@ -111,6 +111,8 @@ class SpeechOutputBridge(
                 "available" to false,
                 "english" to false,
                 "tamil" to false,
+                "hindi" to false,
+                "marathi" to false,
                 "englishVoice" to null,
                 "tamilVoice" to null,
             )
@@ -121,6 +123,8 @@ class SpeechOutputBridge(
             "available" to true,
             "english" to supports(engine, englishLocale),
             "tamil" to supports(engine, tamilLocale),
+            "hindi" to supports(engine, Locale("hi", "IN")),
+            "marathi" to supports(engine, Locale("mr", "IN")),
             "englishVoice" to bestVoice(engine, englishLocale)?.name,
             "tamilVoice" to bestVoice(engine, tamilLocale)?.name,
         )
@@ -147,10 +151,9 @@ class SpeechOutputBridge(
         }
 
         val requestedLocale = Locale.forLanguageTag(languageTag)
-        val locale = if (requestedLocale.language == "ta") {
-            Locale("ta", "IN")
-        } else {
-            Locale("en", "IN")
+        val locale = when (requestedLocale.language) {
+            "ta", "hi", "mr" -> Locale(requestedLocale.language, "IN")
+            else -> Locale("en", "IN")
         }
         if (!supports(engine, locale) || !applyVoice(engine, locale)) {
             result.error("language_unavailable", "$languageTag text-to-speech is unavailable.", null)

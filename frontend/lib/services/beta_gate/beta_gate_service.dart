@@ -1,24 +1,59 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../backend/pending_endpoints.dart';
+import '../network/api_client.dart';
+import '../network/api_exception.dart';
 import 'beta_config.dart';
 
-/// Service responsible for validating beta tester access passwords against
-/// Supabase and maintaining the local unlock state on the device.
+/// Service responsible for validating beta tester access passwords with the
+/// backend and maintaining the local unlock state on the device.
+///
+/// The password is checked on the server (`POST /beta-gate/verify`, an assumed
+/// route listed in [PendingEndpoints]); it is never downloaded to the device.
 class BetaGateService {
-  final SupabaseClient? _client;
+  final ApiClient? _client;
 
-  BetaGateService({SupabaseClient? client}) : _client = client;
+  BetaGateService({ApiClient? client}) : _client = client;
 
-  SupabaseClient get _supabase => _client ?? Supabase.instance.client;
+  static ApiClient _resolve(ApiClient? client) => client ?? ApiClient.instance;
+
+  /// Asks the server whether [password] is currently valid.
+  /// Returns null when the server cannot be reached or does not answer.
+  static Future<bool?> _serverAccepts(
+    String password, {
+    ApiClient? client,
+    Duration timeout = const Duration(milliseconds: 2500),
+  }) async {
+    try {
+      final response = await _resolve(client)
+          .post(
+            PendingEndpoints.betaGateVerify,
+            body: {'password': password},
+            requiresAuth: false,
+          )
+          .timeout(timeout);
+      final data = response.data;
+      if (data is Map && data['unlocked'] is bool) {
+        return data['unlocked'] as bool;
+      }
+      return null;
+    } on ApiException catch (e) {
+      // A rejected password is a definite "no"; anything else is "unknown".
+      return e.statusCode == 401 || e.statusCode == 403 ? false : null;
+    } catch (_) {
+      return null;
+    }
+  }
 
   /// Checks local storage to see if this device has unlocked beta access.
   ///
-  /// If an active internet connection is available, it queries Supabase to ensure
-  /// the table's `beta_password` has not changed. If the password in the database
-  /// was updated, the local unlock state is automatically invalidated and `false`
-  /// is returned so the user is required to enter the new password.
-  static Future<bool> hasUnlockedBeta({SupabaseClient? client}) async {
+  /// If an active internet connection is available, the saved password is
+  /// re-checked on the server. If it is no longer accepted (the password was
+  /// changed), the local unlock state is invalidated and `false` is returned so
+  /// the user must enter the new password. Offline, the earlier unlock is
+  /// trusted.
+  static Future<bool> hasUnlockedBeta({ApiClient? client}) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final isUnlocked = prefs.getBool(kBetaUnlockedKey) ?? false;
@@ -28,44 +63,16 @@ class BetaGateService {
         return false;
       }
 
-      // Check against current database value if online
-      try {
-        final supabaseClient = client ?? Supabase.instance.client;
-        final response = await supabaseClient
-            .from('beta_gate_config')
-            .select('beta_password')
-            .limit(1)
-            .maybeSingle()
-            .timeout(const Duration(milliseconds: 2500));
-
-        if (response != null) {
-          final currentDbPassword =
-              response['beta_password']?.toString().trim();
-
-          if (currentDbPassword != null && currentDbPassword.isNotEmpty) {
-            // If the admin changed the password in the database, relock the app
-            if (savedPassword != null && savedPassword.isNotEmpty) {
-              if (currentDbPassword != savedPassword) {
-                debugPrint(
-                  '[BetaGateService] Database password changed. Relocking gate.',
-                );
-                await resetBetaLock();
-                return false;
-              }
-            } else {
-              // Legacy unlock without saved password string: update or re-verify
-              await prefs.setString(
-                kBetaUnlockedPasswordKey,
-                currentDbPassword,
-              );
-            }
-          }
+      if (savedPassword != null && savedPassword.isNotEmpty) {
+        final accepted = await _serverAccepts(savedPassword, client: client);
+        if (accepted == false) {
+          debugPrint('[BetaGateService] Password changed. Relocking gate.');
+          await resetBetaLock();
+          return false;
         }
-      } catch (netErr) {
-        // Offline or request timeout: trust previously unlocked session
-        debugPrint(
-          '[BetaGateService] Offline or timeout during password sync: $netErr',
-        );
+        if (accepted == null) {
+          debugPrint('[BetaGateService] Offline; trusting previous unlock.');
+        }
       }
 
       return true;
@@ -103,44 +110,28 @@ class BetaGateService {
     }
   }
 
-  /// Verifies [userInput] against the `beta_password` stored in Supabase `beta_gate_config`.
+  /// Verifies [userInput] with the server.
   ///
-  /// Queries Supabase dynamically:
-  /// `supabase.from('beta_gate_config').select('beta_password').limit(1).maybeSingle()`
-  ///
-  /// If the password matches, persists the unlock state along with the current
-  /// password and returns `true`.
-  /// Otherwise, returns `false`.
+  /// If the password is accepted, persists the unlock state along with the
+  /// password and returns `true`. Otherwise, returns `false`.
   Future<bool> verifyPassword(String userInput) async {
     final trimmedInput = userInput.trim();
     if (trimmedInput.isEmpty) {
       return false;
     }
 
-    try {
-      final response = await _supabase
-          .from('beta_gate_config')
-          .select('beta_password')
-          .limit(1)
-          .maybeSingle();
-
-      if (response == null) {
-        debugPrint(
-          '[BetaGateService] Warning: beta_gate_config table is empty or inaccessible.',
-        );
-        return false;
-      }
-
-      final dbPassword = response['beta_password']?.toString().trim();
-      if (dbPassword != null && dbPassword == trimmedInput) {
-        await setUnlocked(true, password: dbPassword);
-        return true;
-      }
-
-      return false;
-    } catch (e) {
-      debugPrint('[BetaGateService] Error during password verification: $e');
-      return false;
+    final accepted = await _serverAccepts(
+      trimmedInput,
+      client: _client,
+      timeout: const Duration(seconds: 8),
+    );
+    if (accepted == true) {
+      await setUnlocked(true, password: trimmedInput);
+      return true;
     }
+    if (accepted == null) {
+      debugPrint('[BetaGateService] Could not reach the server to verify.');
+    }
+    return false;
   }
 }

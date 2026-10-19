@@ -10,7 +10,7 @@
 // This pumps a standalone NavigationBar rather than the real
 // MainTabsContainer: that widget's IndexedStack mounts all five tab screens
 // at once, and one of them (profile/saved) redirects to LoginScreen via
-// Navigator as soon as it mounts when there is no Supabase session in the
+// Navigator as soon as it mounts when there is no signed-in session in the
 // test harness -- an unrelated auth-gating side effect that has nothing to
 // do with the nav bar's semantics and would make this test fragile against
 // changes in screens group 0 has no business depending on. Not ratcheted:
@@ -27,17 +27,33 @@ import 'package:flutter/semantics.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  Widget harness(int selectedIndex, ValueChanged<int> onSelected) => MaterialApp(
+  Widget harness(int selectedIndex, ValueChanged<int> onSelected) =>
+      MaterialApp(
         home: Scaffold(
           bottomNavigationBar: NavigationBar(
             selectedIndex: selectedIndex,
             onDestinationSelected: onSelected,
             destinations: const [
-              NavigationDestination(icon: Icon(Icons.home_outlined), label: 'Home'),
-              NavigationDestination(icon: Icon(Icons.search_rounded), label: 'Search'),
-              NavigationDestination(icon: Icon(Icons.explore_outlined), label: 'Discover'),
-              NavigationDestination(icon: Icon(Icons.bookmark_border_rounded), label: 'Saved'),
-              NavigationDestination(icon: Icon(Icons.person_outline_rounded), label: 'Profile'),
+              NavigationDestination(
+                icon: Icon(Icons.home_outlined),
+                label: 'Home',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.search_rounded),
+                label: 'Search',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.explore_outlined),
+                label: 'Discover',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.bookmark_border_rounded),
+                label: 'Saved',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.person_outline_rounded),
+                label: 'Profile',
+              ),
             ],
           ),
         ),
@@ -47,9 +63,7 @@ void main() {
     'the selected bottom-nav destination carries the selected semantics flag',
     (tester) async {
       var selectedIndex = 0;
-      await tester.pumpWidget(
-        harness(selectedIndex, (i) => selectedIndex = i),
-      );
+      await tester.pumpWidget(harness(selectedIndex, (i) => selectedIndex = i));
 
       final destinations = find.descendant(
         of: find.byType(NavigationBar),

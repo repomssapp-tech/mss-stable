@@ -31,11 +31,16 @@ double? _dblOrNull(dynamic v) => v is num ? v.toDouble() : null;
 double _dbl(dynamic v, [double fallback = 0.0]) => _dblOrNull(v) ?? fallback;
 bool _bool(dynamic v, [bool fallback = false]) => v is bool ? v : fallback;
 
-List<String> _strList(dynamic v) =>
-    v is List ? v.whereType<String>().toList(growable: false) : const <String>[];
+List<String> _strList(dynamic v) => v is List
+    ? v.whereType<String>().toList(growable: false)
+    : const <String>[];
 
-List<T> _objList<T>(dynamic v, T Function(Map<String, dynamic>) parse) => v is List
-    ? v.whereType<Map>().map((e) => parse(Map<String, dynamic>.from(e))).toList()
+List<T> _objList<T>(dynamic v, T Function(Map<String, dynamic>) parse) =>
+    v is List
+    ? v
+          .whereType<Map>()
+          .map((e) => parse(Map<String, dynamic>.from(e)))
+          .toList()
     : <T>[];
 
 Map<String, dynamic> _map(dynamic v) =>
@@ -54,11 +59,11 @@ Map<String, dynamic> _clean(Map<String, dynamic> m) {
 enum SchemeStatus { active, closed, unknown, unrecognised }
 
 SchemeStatus schemeStatusFrom(String? v) => switch (v) {
-      'active' => SchemeStatus.active,
-      'closed' => SchemeStatus.closed,
-      'unknown' => SchemeStatus.unknown,
-      _ => SchemeStatus.unrecognised,
-    };
+  'active' => SchemeStatus.active,
+  'closed' => SchemeStatus.closed,
+  'unknown' => SchemeStatus.unknown,
+  _ => SchemeStatus.unrecognised,
+};
 
 String schemeStatusTo(SchemeStatus s) =>
     s == SchemeStatus.unrecognised ? 'unknown' : s.name;
@@ -67,11 +72,11 @@ String schemeStatusTo(SchemeStatus s) =>
 enum ConfidenceLevel { high, medium, low, unrecognised }
 
 ConfidenceLevel confidenceLevelFrom(String? v) => switch (v) {
-      'high' => ConfidenceLevel.high,
-      'medium' => ConfidenceLevel.medium,
-      'low' => ConfidenceLevel.low,
-      _ => ConfidenceLevel.unrecognised,
-    };
+  'high' => ConfidenceLevel.high,
+  'medium' => ConfidenceLevel.medium,
+  'low' => ConfidenceLevel.low,
+  _ => ConfidenceLevel.unrecognised,
+};
 
 enum VerificationStatus {
   verified,
@@ -79,23 +84,23 @@ enum VerificationStatus {
   unverified,
   historical,
   derived,
-  unrecognised
+  unrecognised,
 }
 
 VerificationStatus verificationStatusFrom(String? v) => switch (v) {
-      'verified' => VerificationStatus.verified,
-      'partially_verified' => VerificationStatus.partiallyVerified,
-      'unverified' => VerificationStatus.unverified,
-      'historical' => VerificationStatus.historical,
-      'derived' => VerificationStatus.derived,
-      _ => VerificationStatus.unrecognised,
-    };
+  'verified' => VerificationStatus.verified,
+  'partially_verified' => VerificationStatus.partiallyVerified,
+  'unverified' => VerificationStatus.unverified,
+  'historical' => VerificationStatus.historical,
+  'derived' => VerificationStatus.derived,
+  _ => VerificationStatus.unrecognised,
+};
 
 String? verificationStatusTo(VerificationStatus s) => switch (s) {
-      VerificationStatus.partiallyVerified => 'partially_verified',
-      VerificationStatus.unrecognised => null,
-      _ => s.name,
-    };
+  VerificationStatus.partiallyVerified => 'partially_verified',
+  VerificationStatus.unrecognised => null,
+  _ => s.name,
+};
 
 /// Whether the user can act on this scheme right now.
 enum ApplicationState {
@@ -103,43 +108,39 @@ enum ApplicationState {
   openOnline,
   openOffline,
   unconfirmed,
-  unrecognised
+  unrecognised,
 }
 
 ApplicationState applicationStateFrom(String? v) => switch (v) {
-      'closed' => ApplicationState.closed,
-      'open_online' => ApplicationState.openOnline,
-      'open_offline' => ApplicationState.openOffline,
-      'unconfirmed' => ApplicationState.unconfirmed,
-      _ => ApplicationState.unrecognised,
-    };
+  'closed' => ApplicationState.closed,
+  'open_online' => ApplicationState.openOnline,
+  'open_offline' => ApplicationState.openOffline,
+  'unconfirmed' => ApplicationState.unconfirmed,
+  _ => ApplicationState.unrecognised,
+};
 
 String applicationStateTo(ApplicationState s) => switch (s) {
-      ApplicationState.closed => 'closed',
-      ApplicationState.openOnline => 'open_online',
-      ApplicationState.openOffline => 'open_offline',
-      ApplicationState.unconfirmed => 'unconfirmed',
-      ApplicationState.unrecognised => 'unconfirmed',
-    };
+  ApplicationState.closed => 'closed',
+  ApplicationState.openOnline => 'open_online',
+  ApplicationState.openOffline => 'open_offline',
+  ApplicationState.unconfirmed => 'unconfirmed',
+  ApplicationState.unrecognised => 'unconfirmed',
+};
 
 /// Where a citation came from.
-enum CitationOrigin {
-  matchEvidence,
-  schemeSource,
-  unrecognised
-}
+enum CitationOrigin { matchEvidence, schemeSource, unrecognised }
 
 CitationOrigin citationOriginFrom(String? v) => switch (v) {
-      'match_evidence' => CitationOrigin.matchEvidence,
-      'scheme_source' => CitationOrigin.schemeSource,
-      _ => CitationOrigin.unrecognised,
-    };
+  'match_evidence' => CitationOrigin.matchEvidence,
+  'scheme_source' => CitationOrigin.schemeSource,
+  _ => CitationOrigin.unrecognised,
+};
 
 String? citationOriginTo(CitationOrigin o) => switch (o) {
-      CitationOrigin.matchEvidence => 'match_evidence',
-      CitationOrigin.schemeSource => 'scheme_source',
-      CitationOrigin.unrecognised => null,
-    };
+  CitationOrigin.matchEvidence => 'match_evidence',
+  CitationOrigin.schemeSource => 'scheme_source',
+  CitationOrigin.unrecognised => null,
+};
 
 // ---------------------------------------------------------------------------
 // Citation
@@ -185,16 +186,16 @@ class Citation {
   }
 
   Map<String, dynamic> toJson() => _clean({
-        'sourceName': sourceName,
-        'organization': organization,
-        'url': url,
-        'retrievedDate': retrievedDate,
-        'sourceTier': sourceTier,
-        'sourceId': sourceId,
-        'externalSource': externalSource,
-        'origin': citationOriginTo(origin),
-        'isPrimary': isPrimary ? true : null,
-      });
+    'sourceName': sourceName,
+    'organization': organization,
+    'url': url,
+    'retrievedDate': retrievedDate,
+    'sourceTier': sourceTier,
+    'sourceId': sourceId,
+    'externalSource': externalSource,
+    'origin': citationOriginTo(origin),
+    'isPrimary': isPrimary ? true : null,
+  });
 
   bool get isLiveOfficialFetch => externalSource && sourceTier == 5;
 
@@ -228,29 +229,33 @@ class BenefitAmount {
   });
 
   factory BenefitAmount.fromJson(Map<String, dynamic> j) => BenefitAmount(
-        displayText: _str(j['displayText']) ??
-            _str(j['maxText']) ??
-            _str(j['text']) ??
-            _str(j['formatted']),
-        maxAmountInr: _dblOrNull(j['maxAmountInr']) ??
-            _dblOrNull(j['maxInr']) ??
-            _dblOrNull(j['maximumAssistanceInr']),
-        minAmountInr: _dblOrNull(j['minAmountInr']) ??
-            _dblOrNull(j['minInr']) ??
-            _dblOrNull(j['minimumAssistanceInr']),
-        subsidyPercent: _dblOrNull(j['subsidyPercent']) ??
-            _dblOrNull(j['percentage']) ??
-            _dblOrNull(j['subsidyPercentage']),
-        rawText: _str(j['rawText']) ?? _str(j['description']),
-      );
+    displayText:
+        _str(j['displayText']) ??
+        _str(j['maxText']) ??
+        _str(j['text']) ??
+        _str(j['formatted']),
+    maxAmountInr:
+        _dblOrNull(j['maxAmountInr']) ??
+        _dblOrNull(j['maxInr']) ??
+        _dblOrNull(j['maximumAssistanceInr']),
+    minAmountInr:
+        _dblOrNull(j['minAmountInr']) ??
+        _dblOrNull(j['minInr']) ??
+        _dblOrNull(j['minimumAssistanceInr']),
+    subsidyPercent:
+        _dblOrNull(j['subsidyPercent']) ??
+        _dblOrNull(j['percentage']) ??
+        _dblOrNull(j['subsidyPercentage']),
+    rawText: _str(j['rawText']) ?? _str(j['description']),
+  );
 
   Map<String, dynamic> toJson() => _clean({
-        'displayText': displayText,
-        'maxAmountInr': maxAmountInr,
-        'minAmountInr': minAmountInr,
-        'subsidyPercent': subsidyPercent,
-        'rawText': rawText,
-      });
+    'displayText': displayText,
+    'maxAmountInr': maxAmountInr,
+    'minAmountInr': minAmountInr,
+    'subsidyPercent': subsidyPercent,
+    'rawText': rawText,
+  });
 
   bool get hasAnyValue =>
       displayText != null ||
@@ -275,16 +280,17 @@ class MatchReason {
   });
 
   factory MatchReason.fromJson(Map<String, dynamic> j) => MatchReason(
-        dimension: _str(j['dimension']) ?? _str(j['field']) ?? 'keyword',
-        detail: _str(j['detail']) ?? _str(j['reason']) ?? _str(j['message']) ?? '',
-        scoreContribution: _dblOrNull(j['scoreContribution']) ?? _dblOrNull(j['score']),
-      );
+    dimension: _str(j['dimension']) ?? _str(j['field']) ?? 'keyword',
+    detail: _str(j['detail']) ?? _str(j['reason']) ?? _str(j['message']) ?? '',
+    scoreContribution:
+        _dblOrNull(j['scoreContribution']) ?? _dblOrNull(j['score']),
+  );
 
   Map<String, dynamic> toJson() => _clean({
-        'dimension': dimension,
-        'detail': detail,
-        'scoreContribution': scoreContribution,
-      });
+    'dimension': dimension,
+    'detail': detail,
+    'scoreContribution': scoreContribution,
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -305,18 +311,18 @@ class DataConfidence {
   });
 
   factory DataConfidence.fromJson(Map<String, dynamic> j) => DataConfidence(
-        level: confidenceLevelFrom(_str(j['level'])),
-        verificationStatus: verificationStatusFrom(_str(j['verificationStatus'])),
-        schemeStatus: schemeStatusFrom(_str(j['schemeStatus'])),
-        missingFieldCount: _intOrNull(j['missingFieldCount']) ?? 0,
-      );
+    level: confidenceLevelFrom(_str(j['level'])),
+    verificationStatus: verificationStatusFrom(_str(j['verificationStatus'])),
+    schemeStatus: schemeStatusFrom(_str(j['schemeStatus'])),
+    missingFieldCount: _intOrNull(j['missingFieldCount']) ?? 0,
+  );
 
   Map<String, dynamic> toJson() => _clean({
-        'level': level.name,
-        'verificationStatus': verificationStatusTo(verificationStatus),
-        'schemeStatus': schemeStatusTo(schemeStatus),
-        'missingFieldCount': missingFieldCount,
-      });
+    'level': level.name,
+    'verificationStatus': verificationStatusTo(verificationStatus),
+    'schemeStatus': schemeStatusTo(schemeStatus),
+    'missingFieldCount': missingFieldCount,
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -335,16 +341,13 @@ class AuthorityRef {
   });
 
   factory AuthorityRef.fromJson(Map<String, dynamic> j) => AuthorityRef(
-        id: _str(j['id']) ?? _str(j['authorityId']) ?? '',
-        name: _str(j['name']) ?? _str(j['authorityName']) ?? '',
-        relationType: _str(j['relationType']) ?? '',
-      );
+    id: _str(j['id']) ?? _str(j['authorityId']) ?? '',
+    name: _str(j['name']) ?? _str(j['authorityName']) ?? '',
+    relationType: _str(j['relationType']) ?? '',
+  );
 
-  Map<String, dynamic> toJson() => _clean({
-        'id': id,
-        'name': name,
-        'relationType': relationType,
-      });
+  Map<String, dynamic> toJson() =>
+      _clean({'id': id, 'name': name, 'relationType': relationType});
 }
 
 // ---------------------------------------------------------------------------
@@ -369,22 +372,22 @@ class DetectedIntent {
   });
 
   factory DetectedIntent.fromJson(Map<String, dynamic> j) => DetectedIntent(
-        industries: _strList(j['industries']),
-        benefits: _strList(j['benefits']),
-        collateral: _strList(j['collateral']),
-        treds: _strList(j['treds']),
-        communities: _strList(j['communities']),
-        intents: _strList(j['intents']),
-      );
+    industries: _strList(j['industries']),
+    benefits: _strList(j['benefits']),
+    collateral: _strList(j['collateral']),
+    treds: _strList(j['treds']),
+    communities: _strList(j['communities']),
+    intents: _strList(j['intents']),
+  );
 
   Map<String, dynamic> toJson() => _clean({
-        'industries': industries,
-        'benefits': benefits,
-        'collateral': collateral,
-        'treds': treds,
-        'communities': communities,
-        'intents': intents,
-      });
+    'industries': industries,
+    'benefits': benefits,
+    'collateral': collateral,
+    'treds': treds,
+    'communities': communities,
+    'intents': intents,
+  });
 
   bool get isEmpty =>
       industries.isEmpty &&
@@ -413,11 +416,11 @@ class ResponseWarning {
   });
 
   factory ResponseWarning.fromJson(Map<String, dynamic> j) => ResponseWarning(
-        code: _str(j['code']) ?? _str(j['type']) ?? 'UNKNOWN',
-        field: _str(j['field']),
-        message: _str(j['message']) ?? '',
-        hint: _str(j['hint']),
-      );
+    code: _str(j['code']) ?? _str(j['type']) ?? 'UNKNOWN',
+    field: _str(j['field']),
+    message: _str(j['message']) ?? '',
+    hint: _str(j['hint']),
+  );
 
   Map<String, dynamic> toJson() =>
       _clean({'code': code, 'field': field, 'message': message, 'hint': hint});
@@ -431,10 +434,7 @@ class RankingSignals {
   final Map<String, double> components;
   final Map<String, double> weights;
 
-  const RankingSignals({
-    this.components = const {},
-    this.weights = const {},
-  });
+  const RankingSignals({this.components = const {}, this.weights = const {}});
 
   factory RankingSignals.fromJson(Map<String, dynamic> j) {
     final cMap = _map(j['components']);
@@ -447,9 +447,9 @@ class RankingSignals {
   }
 
   Map<String, dynamic> toJson() => _clean({
-        'components': components.isEmpty ? null : components,
-        'weights': weights.isEmpty ? null : weights,
-      });
+    'components': components.isEmpty ? null : components,
+    'weights': weights.isEmpty ? null : weights,
+  });
 
   double get recomputedScore {
     double total = 0.0;
@@ -479,18 +479,18 @@ class NextAction {
   });
 
   factory NextAction.fromJson(Map<String, dynamic> j) => NextAction(
-        action: _str(j['action']) ?? '',
-        label: _str(j['label']) ?? '',
-        url: _str(j['url']),
-        available: _bool(j['available'], true),
-      );
+    action: _str(j['action']) ?? '',
+    label: _str(j['label']) ?? '',
+    url: _str(j['url']),
+    available: _bool(j['available'], true),
+  );
 
   Map<String, dynamic> toJson() => _clean({
-        'action': action,
-        'label': label,
-        'url': url,
-        'available': available,
-      });
+    'action': action,
+    'label': label,
+    'url': url,
+    'available': available,
+  });
 
   bool get isClosedMarker => action == 'scheme_closed' || action == 'closed';
 }
@@ -554,21 +554,23 @@ class FinanceBenefit {
   }
 
   Map<String, dynamic> toJson() => _clean({
-        'financeId': financeId,
-        'type': type,
-        'typeText': typeText,
-        'isRepayable': isRepayable,
-        'isGuarantee': isGuarantee,
-        'amount': amount.toJson(),
-        'mode': mode,
-        'applicationUrl': applicationUrl,
-        'conditions': conditions,
-        'collateral': collateralStatus != null ? {'status': collateralStatus} : null,
-        'collateralStatus': collateralStatus,
-        'providers': providers.isEmpty ? null : providers,
-        'description': description,
-        'source': source?.toJson(),
-      });
+    'financeId': financeId,
+    'type': type,
+    'typeText': typeText,
+    'isRepayable': isRepayable,
+    'isGuarantee': isGuarantee,
+    'amount': amount.toJson(),
+    'mode': mode,
+    'applicationUrl': applicationUrl,
+    'conditions': conditions,
+    'collateral': collateralStatus != null
+        ? {'status': collateralStatus}
+        : null,
+    'collateralStatus': collateralStatus,
+    'providers': providers.isEmpty ? null : providers,
+    'description': description,
+    'source': source?.toJson(),
+  });
 
   bool get isCollateralFree => collateralStatus == 'not_required';
   bool get isGuaranteeBacked => collateralStatus == 'guarantee_covered';
@@ -600,8 +602,8 @@ class EligibilityMatch {
     final effectiveExclusions = rawExcludedAll.isNotEmpty
         ? rawExcludedAll
         : (fallbackSingle != null && fallbackSingle.isNotEmpty
-            ? [fallbackSingle]
-            : const <String>[]);
+              ? [fallbackSingle]
+              : const <String>[]);
 
     final isEligible = j.containsKey('eligible')
         ? _bool(j['eligible'])
@@ -610,28 +612,29 @@ class EligibilityMatch {
     return EligibilityMatch(
       schemeId: _str(j['schemeId']) ?? '',
       eligible: isEligible,
-      matchedFacets: _strList(j['matchedFacets'])
-          .map((f) => f == 'state' ? 'state (IN-TN)' : f)
-          .toList(),
+      matchedFacets: _strList(
+        j['matchedFacets'],
+      ).map((f) => f == 'state' ? 'state (IN-TN)' : f).toList(),
       neutralFacets: _strList(j['neutralFacets']),
       excludedByAll: effectiveExclusions,
     );
   }
 
   Map<String, dynamic> toJson() => _clean({
-        'schemeId': schemeId,
-        'eligible': eligible,
-        'matchedFacets': matchedFacets,
-        'neutralFacets': neutralFacets,
-        'excludedByAll': excludedByAll,
-        'excludedBy': excludedByAll.isNotEmpty ? excludedByAll.first : null,
-      });
+    'schemeId': schemeId,
+    'eligible': eligible,
+    'matchedFacets': matchedFacets,
+    'neutralFacets': neutralFacets,
+    'excludedByAll': excludedByAll,
+    'excludedBy': excludedByAll.isNotEmpty ? excludedByAll.first : null,
+  });
 
   bool get isExcludedOnMultipleCounts => excludedByAll.length > 1;
 
   String get summary {
     if (eligible) {
-      if (matchedFacets.isEmpty) return 'No exclusions recorded for your profile.';
+      if (matchedFacets.isEmpty)
+        return 'No exclusions recorded for your profile.';
       return 'Matched on ${matchedFacets.join(', ')}.';
     }
     if (excludedByAll.isEmpty) return 'Profile does not meet criteria.';
@@ -648,20 +651,17 @@ class Explanation {
   final String summary;
   final List<MatchReason> reasons;
 
-  const Explanation({
-    required this.summary,
-    this.reasons = const [],
-  });
+  const Explanation({required this.summary, this.reasons = const []});
 
   factory Explanation.fromJson(Map<String, dynamic> j) => Explanation(
-        summary: _str(j['summary']) ?? _str(j['text']) ?? '',
-        reasons: _objList(j['matchReasons'] ?? j['reasons'], MatchReason.fromJson),
-      );
+    summary: _str(j['summary']) ?? _str(j['text']) ?? '',
+    reasons: _objList(j['matchReasons'] ?? j['reasons'], MatchReason.fromJson),
+  );
 
   Map<String, dynamic> toJson() => _clean({
-        'summary': summary,
-        'matchReasons': reasons.map((e) => e.toJson()).toList(),
-      });
+    'summary': summary,
+    'matchReasons': reasons.map((e) => e.toJson()).toList(),
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -744,7 +744,10 @@ class SchemeResult {
       explanation: exp,
       citations: _objList(j['citations'], Citation.fromJson),
       confidence: conf,
-      assistance: _objList(j['assistance'] ?? j['finance'], FinanceBenefit.fromJson),
+      assistance: _objList(
+        j['assistance'] ?? j['finance'],
+        FinanceBenefit.fromJson,
+      ),
       authority: _objList(j['authority'], AuthorityRef.fromJson),
       eligibility: eligibilityMap != null
           ? EligibilityMatch.fromJson(eligibilityMap)
@@ -764,29 +767,31 @@ class SchemeResult {
         return ApplicationState.openOnline;
       }
     }
-    if (actions.any((a) => a.action == 'prepare_documents' || a.action == 'contact_authority')) {
+    if (actions.any(
+      (a) => a.action == 'prepare_documents' || a.action == 'contact_authority',
+    )) {
       return ApplicationState.openOffline;
     }
     return ApplicationState.unconfirmed;
   }
 
   Map<String, dynamic> toJson() => _clean({
-        'rank': rank,
-        'schemeId': schemeId,
-        'name': name,
-        'status': schemeStatusTo(status),
-        'matchScore': matchScore,
-        'rankingSignals': rankingSignals.toJson(),
-        'matchReasons': matchReasons.map((e) => e.toJson()).toList(),
-        'explanation': explanation.toJson(),
-        'citations': citations.map((e) => e.toJson()).toList(),
-        'confidence': confidence?.toJson(),
-        'assistance': assistance.map((e) => e.toJson()).toList(),
-        'authority': authority.map((e) => e.toJson()).toList(),
-        'eligibility': eligibility?.toJson(),
-        'applicationState': applicationStateTo(applicationState),
-        'nextActions': nextActions.map((e) => e.toJson()).toList(),
-      });
+    'rank': rank,
+    'schemeId': schemeId,
+    'name': name,
+    'status': schemeStatusTo(status),
+    'matchScore': matchScore,
+    'rankingSignals': rankingSignals.toJson(),
+    'matchReasons': matchReasons.map((e) => e.toJson()).toList(),
+    'explanation': explanation.toJson(),
+    'citations': citations.map((e) => e.toJson()).toList(),
+    'confidence': confidence?.toJson(),
+    'assistance': assistance.map((e) => e.toJson()).toList(),
+    'authority': authority.map((e) => e.toJson()).toList(),
+    'eligibility': eligibility?.toJson(),
+    'applicationState': applicationStateTo(applicationState),
+    'nextActions': nextActions.map((e) => e.toJson()).toList(),
+  });
 
   bool get isClosed => status == SchemeStatus.closed;
 
@@ -827,29 +832,30 @@ class UpdateMetadata {
   });
 
   factory UpdateMetadata.fromJson(Map<String, dynamic> j) => UpdateMetadata(
-        catalogVersion: _str(j['catalogVersion']),
-        lastUpdated: _str(j['lastUpdated']) ?? _str(j['generatedAt']),
-        catalogChecksum: _str(j['catalogChecksum']),
-        schemaVersion: _str(j['schemaVersion']),
-        contractVersion: _str(j['contractVersion']),
-        entityCounts:
-            _map(j['entityCounts']).map((k, v) => MapEntry(k, _intOrNull(v) ?? 0)),
-        supportedLanguages: _strList(j['supportedLanguages']).isEmpty
-            ? const ['en']
-            : _strList(j['supportedLanguages']),
-        profileDimensions: _map(j['profileDimensions']),
-      );
+    catalogVersion: _str(j['catalogVersion']),
+    lastUpdated: _str(j['lastUpdated']) ?? _str(j['generatedAt']),
+    catalogChecksum: _str(j['catalogChecksum']),
+    schemaVersion: _str(j['schemaVersion']),
+    contractVersion: _str(j['contractVersion']),
+    entityCounts: _map(
+      j['entityCounts'],
+    ).map((k, v) => MapEntry(k, _intOrNull(v) ?? 0)),
+    supportedLanguages: _strList(j['supportedLanguages']).isEmpty
+        ? const ['en']
+        : _strList(j['supportedLanguages']),
+    profileDimensions: _map(j['profileDimensions']),
+  );
 
   Map<String, dynamic> toJson() => _clean({
-        'contractVersion': contractVersion,
-        'catalogVersion': catalogVersion,
-        'lastUpdated': lastUpdated,
-        'catalogChecksum': catalogChecksum,
-        'schemaVersion': schemaVersion,
-        'entityCounts': entityCounts.isEmpty ? null : entityCounts,
-        'supportedLanguages': supportedLanguages,
-        'profileDimensions': profileDimensions.isEmpty ? null : profileDimensions,
-      });
+    'contractVersion': contractVersion,
+    'catalogVersion': catalogVersion,
+    'lastUpdated': lastUpdated,
+    'catalogChecksum': catalogChecksum,
+    'schemaVersion': schemaVersion,
+    'entityCounts': entityCounts.isEmpty ? null : entityCounts,
+    'supportedLanguages': supportedLanguages,
+    'profileDimensions': profileDimensions.isEmpty ? null : profileDimensions,
+  });
 
   bool isStaleAgainst(String? cachedCatalogVersion) =>
       catalogVersion != null && catalogVersion != cachedCatalogVersion;
@@ -898,10 +904,7 @@ class SearchRequest {
       if (offset != null) page['offset'] = offset;
     }
 
-    final m = <String, dynamic>{
-      'query': query,
-      'language': language,
-    };
+    final m = <String, dynamic>{'query': query, 'language': language};
     if (profile != null) m['profile'] = profile;
     if (filters != null) m['filters'] = filters;
     if (sort != null) m['sort'] = sort;
@@ -910,15 +913,19 @@ class SearchRequest {
   }
 
   factory SearchRequest.fromJson(Map<String, dynamic> j) => SearchRequest(
-        query: _str(j['query']) ?? '',
-        language: _str(j['language']) ?? 'en',
-        profile: j['profile'] is Map ? _map(j['profile']) : null,
-        filters: j['filters'] is Map ? _map(j['filters']) : null,
-        sort: j['sort'] is Map ? _map(j['sort']) : null,
-        limit: _map(j['page'])['limit'] is int ? _map(j['page'])['limit'] as int : null,
-        offset: _map(j['page'])['offset'] is int ? _map(j['page'])['offset'] as int : null,
-        cursor: _str(_map(j['page'])['cursor']),
-      );
+    query: _str(j['query']) ?? '',
+    language: _str(j['language']) ?? 'en',
+    profile: j['profile'] is Map ? _map(j['profile']) : null,
+    filters: j['filters'] is Map ? _map(j['filters']) : null,
+    sort: j['sort'] is Map ? _map(j['sort']) : null,
+    limit: _map(j['page'])['limit'] is int
+        ? _map(j['page'])['limit'] as int
+        : null,
+    offset: _map(j['page'])['offset'] is int
+        ? _map(j['page'])['offset'] as int
+        : null,
+    cursor: _str(_map(j['page'])['cursor']),
+  );
 }
 
 class EligibilityRequest {
@@ -944,7 +951,8 @@ class EligibilityRequest {
     return _clean(m);
   }
 
-  factory EligibilityRequest.fromJson(Map<String, dynamic> j) => EligibilityRequest(
+  factory EligibilityRequest.fromJson(Map<String, dynamic> j) =>
+      EligibilityRequest(
         profile: _map(j['profile']),
         onlyEligible: _bool(j['onlyEligible']),
         limit: _intOrNull(j['limit']),
@@ -980,7 +988,11 @@ class MSSSearchResponse {
   factory MSSSearchResponse.fromJson(Map<String, dynamic> j) {
     final data = j['data'] is Map ? _map(j['data']) : j;
     final q = data['query'] is Map ? _map(data['query']) : _map(j['query']);
-    final profileRaw = data['profileApplied'] ?? data['userProfile'] ?? j['profileApplied'] ?? j['userProfile'];
+    final profileRaw =
+        data['profileApplied'] ??
+        data['userProfile'] ??
+        j['profileApplied'] ??
+        j['userProfile'];
     final profile = profileRaw is Map
         ? _map(profileRaw).map((k, v) => MapEntry(k, v?.toString() ?? ''))
         : null;
@@ -1002,25 +1014,27 @@ class MSSSearchResponse {
   }
 
   Map<String, dynamic> toJson() => _clean({
-        'contractVersion': metadata.contractVersion,
-        'contract': 'search_response',
-        'generatedAt': metadata.lastUpdated,
-        'catalogVersion': metadata.catalogVersion,
-        'deterministic': deterministic,
-        'query': {
-          'text': query,
-          'language': language,
-          'detectedIntent': detectedIntent.toJson(),
-        },
-        'profileApplied': userProfile,
-        'warnings': warnings.map((e) => e.toJson()).toList(),
-        'resultCount': results.length,
-        'results': results.map((e) => e.toJson()).toList(),
-        'metadata': metadata.toJson(),
-      });
+    'contractVersion': metadata.contractVersion,
+    'contract': 'search_response',
+    'generatedAt': metadata.lastUpdated,
+    'catalogVersion': metadata.catalogVersion,
+    'deterministic': deterministic,
+    'query': {
+      'text': query,
+      'language': language,
+      'detectedIntent': detectedIntent.toJson(),
+    },
+    'profileApplied': userProfile,
+    'warnings': warnings.map((e) => e.toJson()).toList(),
+    'resultCount': results.length,
+    'results': results.map((e) => e.toJson()).toList(),
+    'metadata': metadata.toJson(),
+  });
 
   static MSSSearchResponse parse(String jsonString) =>
-      MSSSearchResponse.fromJson(jsonDecode(jsonString) as Map<String, dynamic>);
+      MSSSearchResponse.fromJson(
+        jsonDecode(jsonString) as Map<String, dynamic>,
+      );
 
   String encode() => jsonEncode(toJson());
 
@@ -1055,24 +1069,24 @@ class MssCitation {
   });
 
   factory MssCitation.fromJson(Map<String, dynamic> j) => MssCitation(
-        sourceName: _str(j['sourceName']) ?? _str(j['name']),
-        organization: _str(j['organization']),
-        url: _str(j['url']),
-        retrievedDate: _str(j['retrievedDate']),
-        sourceTier: _intOrNull(j['sourceTier']),
-        sourceId: _str(j['sourceId']),
-        externalSource: _bool(j['externalSource']),
-      );
+    sourceName: _str(j['sourceName']) ?? _str(j['name']),
+    organization: _str(j['organization']),
+    url: _str(j['url']),
+    retrievedDate: _str(j['retrievedDate']),
+    sourceTier: _intOrNull(j['sourceTier']),
+    sourceId: _str(j['sourceId']),
+    externalSource: _bool(j['externalSource']),
+  );
 
   Map<String, dynamic> toJson() => _clean({
-        'sourceName': sourceName,
-        'organization': organization,
-        'url': url,
-        'retrievedDate': retrievedDate,
-        'sourceTier': sourceTier,
-        'sourceId': sourceId,
-        'externalSource': externalSource,
-      });
+    'sourceName': sourceName,
+    'organization': organization,
+    'url': url,
+    'retrievedDate': retrievedDate,
+    'sourceTier': sourceTier,
+    'sourceId': sourceId,
+    'externalSource': externalSource,
+  });
 }
 
 class MssMatchReason {
@@ -1082,9 +1096,9 @@ class MssMatchReason {
   const MssMatchReason({required this.dimension, required this.detail});
 
   factory MssMatchReason.fromJson(Map<String, dynamic> j) => MssMatchReason(
-        dimension: _str(j['dimension']) ?? 'keyword',
-        detail: _str(j['detail']) ?? '',
-      );
+    dimension: _str(j['dimension']) ?? 'keyword',
+    detail: _str(j['detail']) ?? '',
+  );
 
   Map<String, dynamic> toJson() => {'dimension': dimension, 'detail': detail};
 }
@@ -1101,16 +1115,16 @@ class MssConfidence {
   });
 
   factory MssConfidence.fromJson(Map<String, dynamic> j) => MssConfidence(
-        level: confidenceLevelFrom(_str(j['level'])),
-        verificationStatus: verificationStatusFrom(_str(j['verificationStatus'])),
-        missingFieldCount: _intOrNull(j['missingFieldCount']) ?? 0,
-      );
+    level: confidenceLevelFrom(_str(j['level'])),
+    verificationStatus: verificationStatusFrom(_str(j['verificationStatus'])),
+    missingFieldCount: _intOrNull(j['missingFieldCount']) ?? 0,
+  );
 
   Map<String, dynamic> toJson() => _clean({
-        'level': level.name,
-        'verificationStatus': verificationStatusTo(verificationStatus),
-        'missingFieldCount': missingFieldCount,
-      });
+    'level': level.name,
+    'verificationStatus': verificationStatusTo(verificationStatus),
+    'missingFieldCount': missingFieldCount,
+  });
 }
 
 class MssRankingSignals {
@@ -1132,9 +1146,9 @@ class MssRankingSignals {
   }
 
   Map<String, dynamic> toJson() => _clean({
-        'components': components.isEmpty ? null : components,
-        'weights': weights.isEmpty ? null : weights,
-      });
+    'components': components.isEmpty ? null : components,
+    'weights': weights.isEmpty ? null : weights,
+  });
 
   double get recomputedScore {
     double total = 0.0;
@@ -1160,18 +1174,18 @@ class MssNextAction {
   });
 
   factory MssNextAction.fromJson(Map<String, dynamic> j) => MssNextAction(
-        action: _str(j['action']) ?? '',
-        label: _str(j['label']) ?? '',
-        url: _str(j['url']),
-        available: _bool(j['available'], true),
-      );
+    action: _str(j['action']) ?? '',
+    label: _str(j['label']) ?? '',
+    url: _str(j['url']),
+    available: _bool(j['available'], true),
+  );
 
   Map<String, dynamic> toJson() => _clean({
-        'action': action,
-        'label': label,
-        'url': url,
-        'available': available,
-      });
+    'action': action,
+    'label': label,
+    'url': url,
+    'available': available,
+  });
 
   bool get isClosedMarker => action == 'scheme_closed' || action == 'closed';
 }
@@ -1196,11 +1210,15 @@ class MssApplicabilityMatch {
     final singleEx = _str(j['excludedBy']);
     final exAll = rawEx.isNotEmpty
         ? rawEx
-        : (singleEx != null && singleEx.isNotEmpty ? [singleEx] : const <String>[]);
+        : (singleEx != null && singleEx.isNotEmpty
+              ? [singleEx]
+              : const <String>[]);
 
     return MssApplicabilityMatch(
       schemeId: _str(j['schemeId']) ?? '',
-      eligible: j.containsKey('eligible') ? _bool(j['eligible']) : exAll.isEmpty,
+      eligible: j.containsKey('eligible')
+          ? _bool(j['eligible'])
+          : exAll.isEmpty,
       matchedFacets: _strList(j['matchedFacets']),
       neutralFacets: _strList(j['neutralFacets']),
       excludedByAll: exAll,
@@ -1208,12 +1226,12 @@ class MssApplicabilityMatch {
   }
 
   Map<String, dynamic> toJson() => _clean({
-        'schemeId': schemeId,
-        'eligible': eligible,
-        'matchedFacets': matchedFacets,
-        'neutralFacets': neutralFacets,
-        'excludedByAll': excludedByAll,
-      });
+    'schemeId': schemeId,
+    'eligible': eligible,
+    'matchedFacets': matchedFacets,
+    'neutralFacets': neutralFacets,
+    'excludedByAll': excludedByAll,
+  });
 }
 
 class MssWarning {
@@ -1230,11 +1248,11 @@ class MssWarning {
   });
 
   factory MssWarning.fromJson(Map<String, dynamic> j) => MssWarning(
-        code: _str(j['code']) ?? _str(j['type']) ?? 'UNKNOWN',
-        field: _str(j['field']),
-        message: _str(j['message']) ?? '',
-        hint: _str(j['hint']),
-      );
+    code: _str(j['code']) ?? _str(j['type']) ?? 'UNKNOWN',
+    field: _str(j['field']),
+    message: _str(j['message']) ?? '',
+    hint: _str(j['hint']),
+  );
 
   Map<String, dynamic> toJson() =>
       _clean({'code': code, 'field': field, 'message': message, 'hint': hint});
@@ -1268,36 +1286,36 @@ class MssSearchResult {
   });
 
   factory MssSearchResult.fromJson(Map<String, dynamic> j) => MssSearchResult(
-        rank: _intOrNull(j['rank']) ?? 0,
-        schemeId: _str(j['schemeId']) ?? '',
-        name: _str(j['name']) ?? '',
-        score: _dbl(j['score']),
-        rankingSignals: MssRankingSignals.fromJson(_map(j['rankingSignals'])),
-        matchReasons: _objList(j['matchReasons'], MssMatchReason.fromJson),
-        explanation: _str(j['explanation']) ?? '',
-        citations: _objList(j['citations'], MssCitation.fromJson),
-        confidence: j['confidence'] is Map
-            ? MssConfidence.fromJson(_map(j['confidence']))
-            : null,
-        applicability: j['applicability'] is Map
-            ? MssApplicabilityMatch.fromJson(_map(j['applicability']))
-            : null,
-        nextActions: _objList(j['nextActions'], MssNextAction.fromJson),
-      );
+    rank: _intOrNull(j['rank']) ?? 0,
+    schemeId: _str(j['schemeId']) ?? '',
+    name: _str(j['name']) ?? '',
+    score: _dbl(j['score']),
+    rankingSignals: MssRankingSignals.fromJson(_map(j['rankingSignals'])),
+    matchReasons: _objList(j['matchReasons'], MssMatchReason.fromJson),
+    explanation: _str(j['explanation']) ?? '',
+    citations: _objList(j['citations'], MssCitation.fromJson),
+    confidence: j['confidence'] is Map
+        ? MssConfidence.fromJson(_map(j['confidence']))
+        : null,
+    applicability: j['applicability'] is Map
+        ? MssApplicabilityMatch.fromJson(_map(j['applicability']))
+        : null,
+    nextActions: _objList(j['nextActions'], MssNextAction.fromJson),
+  );
 
   Map<String, dynamic> toJson() => _clean({
-        'rank': rank,
-        'schemeId': schemeId,
-        'name': name,
-        'score': score,
-        'rankingSignals': rankingSignals.toJson(),
-        'matchReasons': matchReasons.map((e) => e.toJson()).toList(),
-        'explanation': explanation,
-        'citations': citations.map((e) => e.toJson()).toList(),
-        'confidence': confidence?.toJson(),
-        'applicability': applicability?.toJson(),
-        'nextActions': nextActions.map((e) => e.toJson()).toList(),
-      });
+    'rank': rank,
+    'schemeId': schemeId,
+    'name': name,
+    'score': score,
+    'rankingSignals': rankingSignals.toJson(),
+    'matchReasons': matchReasons.map((e) => e.toJson()).toList(),
+    'explanation': explanation,
+    'citations': citations.map((e) => e.toJson()).toList(),
+    'confidence': confidence?.toJson(),
+    'applicability': applicability?.toJson(),
+    'nextActions': nextActions.map((e) => e.toJson()).toList(),
+  });
 }
 
 class MssDetectedIntent {
@@ -1328,13 +1346,13 @@ class MssDetectedIntent {
       );
 
   Map<String, dynamic> toJson() => _clean({
-        'industries': industries,
-        'benefits': benefits,
-        'collateral': collateral,
-        'treds': treds,
-        'communities': communities,
-        'intents': intents,
-      });
+    'industries': industries,
+    'benefits': benefits,
+    'collateral': collateral,
+    'treds': treds,
+    'communities': communities,
+    'intents': intents,
+  });
 }
 
 class MssSearchResponse {
@@ -1359,31 +1377,36 @@ class MssSearchResponse {
   factory MssSearchResponse.fromJson(Map<String, dynamic> j) {
     final data = j['data'] is Map ? _map(j['data']) : j;
     final q = data['query'] is Map ? _map(data['query']) : _map(j['query']);
-    final profileRaw = data['profileApplied'] ?? data['userProfile'] ?? j['profileApplied'] ?? j['userProfile'];
+    final profileRaw =
+        data['profileApplied'] ??
+        data['userProfile'] ??
+        j['profileApplied'] ??
+        j['userProfile'];
 
     return MssSearchResponse(
       contractVersion: _str(j['contractVersion']) ?? '',
       catalogVersion: _str(j['catalogVersion']),
-      queryText: _str(q['text']) ?? _str(data['query']) ?? _str(j['query']) ?? '',
+      queryText:
+          _str(q['text']) ?? _str(data['query']) ?? _str(j['query']) ?? '',
       detectedIntent: MssDetectedIntent.fromJson(_map(q['detectedIntent'])),
       profileApplied: profileRaw is Map ? _map(profileRaw) : const {},
       warnings: _objList(j['warnings'], MssWarning.fromJson),
-      results: _objList(data['results'] ?? j['results'], MssSearchResult.fromJson),
+      results: _objList(
+        data['results'] ?? j['results'],
+        MssSearchResult.fromJson,
+      ),
     );
   }
 
   Map<String, dynamic> toJson() => _clean({
-        'contractVersion': contractVersion,
-        'contract': 'search_response',
-        'catalogVersion': catalogVersion,
-        'query': {
-          'text': queryText,
-          'detectedIntent': detectedIntent.toJson(),
-        },
-        'profileApplied': profileApplied.isEmpty ? null : profileApplied,
-        'warnings': warnings.map((e) => e.toJson()).toList(),
-        'results': results.map((e) => e.toJson()).toList(),
-      });
+    'contractVersion': contractVersion,
+    'contract': 'search_response',
+    'catalogVersion': catalogVersion,
+    'query': {'text': queryText, 'detectedIntent': detectedIntent.toJson()},
+    'profileApplied': profileApplied.isEmpty ? null : profileApplied,
+    'warnings': warnings.map((e) => e.toJson()).toList(),
+    'results': results.map((e) => e.toJson()).toList(),
+  });
 }
 
 class MssApplicabilityResponse {
@@ -1408,12 +1431,12 @@ class MssApplicabilityResponse {
       );
 
   Map<String, dynamic> toJson() => _clean({
-        'contractVersion': contractVersion,
-        'contract': 'applicability_response',
-        'profile': profile,
-        'warnings': warnings.map((e) => e.toJson()).toList(),
-        'results': results.map((e) => e.toJson()).toList(),
-      });
+    'contractVersion': contractVersion,
+    'contract': 'applicability_response',
+    'profile': profile,
+    'warnings': warnings.map((e) => e.toJson()).toList(),
+    'results': results.map((e) => e.toJson()).toList(),
+  });
 
   List<MssApplicabilityMatch> get eligibleOnly =>
       results.where((r) => r.eligible).toList();
@@ -1427,10 +1450,10 @@ class MssEntityRef {
   const MssEntityRef({required this.id, this.name, this.relationType});
 
   factory MssEntityRef.fromJson(Map<String, dynamic> j) => MssEntityRef(
-        id: _str(j['id']) ?? _str(j['entityId']) ?? '',
-        name: _str(j['name']),
-        relationType: _str(j['relationType']),
-      );
+    id: _str(j['id']) ?? _str(j['entityId']) ?? '',
+    name: _str(j['name']),
+    relationType: _str(j['relationType']),
+  );
 
   Map<String, dynamic> toJson() =>
       _clean({'id': id, 'name': name, 'relationType': relationType});
@@ -1484,7 +1507,8 @@ class MssSchemeIntelligence {
   });
 
   factory MssSchemeIntelligence.fromJson(Map<String, dynamic> j) {
-    List<MssEntityRef> refs(String key) => _objList(j[key], MssEntityRef.fromJson);
+    List<MssEntityRef> refs(String key) =>
+        _objList(j[key], MssEntityRef.fromJson);
     final di = _map(j['dataIntegrity']);
     final missingRefs = _strList(di['missingReferences']).isNotEmpty
         ? _strList(di['missingReferences'])
@@ -1518,29 +1542,29 @@ class MssSchemeIntelligence {
   }
 
   Map<String, dynamic> toJson() => _clean({
-        'contractVersion': contractVersion,
-        'contract': 'scheme_intelligence_response',
-        'generatedAt': generatedAt,
-        'catalogVersion': catalogVersion,
-        'schemeId': schemeId,
-        'name': name,
-        'schemeStatus': schemeStatusTo(schemeStatus),
-        'finance': finance.map((e) => e.toJson()).toList(),
-        'tax': tax.map((e) => e.toJson()).toList(),
-        'treds': treds.map((e) => e.toJson()).toList(),
-        'csr': csr.map((e) => e.toJson()).toList(),
-        'authority': authority.map((e) => e.toJson()).toList(),
-        'institution': institution.map((e) => e.toJson()).toList(),
-        'export': export.map((e) => e.toJson()).toList(),
-        'cluster': cluster.map((e) => e.toJson()).toList(),
-        'privileges': privileges.map((e) => e.toJson()).toList(),
-        'enablement': enablement.map((e) => e.toJson()).toList(),
-        'knowledge': knowledge.map((e) => e.toJson()).toList(),
-        'applicability': applicability.isEmpty ? null : applicability,
-        'confidence': confidence?.toJson(),
-        'nextActions': nextActions.map((e) => e.toJson()).toList(),
-        'dataIntegrity': {'missingReferences': missingReferences},
-      });
+    'contractVersion': contractVersion,
+    'contract': 'scheme_intelligence_response',
+    'generatedAt': generatedAt,
+    'catalogVersion': catalogVersion,
+    'schemeId': schemeId,
+    'name': name,
+    'schemeStatus': schemeStatusTo(schemeStatus),
+    'finance': finance.map((e) => e.toJson()).toList(),
+    'tax': tax.map((e) => e.toJson()).toList(),
+    'treds': treds.map((e) => e.toJson()).toList(),
+    'csr': csr.map((e) => e.toJson()).toList(),
+    'authority': authority.map((e) => e.toJson()).toList(),
+    'institution': institution.map((e) => e.toJson()).toList(),
+    'export': export.map((e) => e.toJson()).toList(),
+    'cluster': cluster.map((e) => e.toJson()).toList(),
+    'privileges': privileges.map((e) => e.toJson()).toList(),
+    'enablement': enablement.map((e) => e.toJson()).toList(),
+    'knowledge': knowledge.map((e) => e.toJson()).toList(),
+    'applicability': applicability.isEmpty ? null : applicability,
+    'confidence': confidence?.toJson(),
+    'nextActions': nextActions.map((e) => e.toJson()).toList(),
+    'dataIntegrity': {'missingReferences': missingReferences},
+  });
 }
 
 class MssMeta {
@@ -1557,21 +1581,22 @@ class MssMeta {
   });
 
   factory MssMeta.fromJson(Map<String, dynamic> j) => MssMeta(
-        catalogVersion: _str(j['catalogVersion']),
-        catalogChecksum: _str(j['catalogChecksum']),
-        entityCounts:
-            _map(j['entityCounts']).map((k, v) => MapEntry(k, _intOrNull(v) ?? 0)),
-        supportedLanguages: _strList(j['supportedLanguages']).isEmpty
-            ? const ['en']
-            : _strList(j['supportedLanguages']),
-      );
+    catalogVersion: _str(j['catalogVersion']),
+    catalogChecksum: _str(j['catalogChecksum']),
+    entityCounts: _map(
+      j['entityCounts'],
+    ).map((k, v) => MapEntry(k, _intOrNull(v) ?? 0)),
+    supportedLanguages: _strList(j['supportedLanguages']).isEmpty
+        ? const ['en']
+        : _strList(j['supportedLanguages']),
+  );
 
   Map<String, dynamic> toJson() => _clean({
-        'catalogVersion': catalogVersion,
-        'catalogChecksum': catalogChecksum,
-        'entityCounts': entityCounts.isEmpty ? null : entityCounts,
-        'supportedLanguages': supportedLanguages,
-      });
+    'catalogVersion': catalogVersion,
+    'catalogChecksum': catalogChecksum,
+    'entityCounts': entityCounts.isEmpty ? null : entityCounts,
+    'supportedLanguages': supportedLanguages,
+  });
 
   bool isStaleAgainst(String? cachedCatalogVersion) =>
       catalogVersion != null && catalogVersion != cachedCatalogVersion;
@@ -1608,18 +1633,18 @@ class MssApiError implements Exception {
   }
 
   Map<String, dynamic> toJson() => _clean({
-        'contract': 'error',
-        'error': {
-          'code': code,
-          'message': message,
-          'field': field,
-          'detail': detail,
-        },
-      });
+    'contract': 'error',
+    'error': {
+      'code': code,
+      'message': message,
+      'field': field,
+      'detail': detail,
+    },
+  });
 
-  bool get isRetryable => code == 'CATALOG_UNAVAILABLE' || code == 'INTERNAL_ERROR';
+  bool get isRetryable =>
+      code == 'CATALOG_UNAVAILABLE' || code == 'INTERNAL_ERROR';
 
   @override
   String toString() => 'MssApiError($code): $message';
 }
-

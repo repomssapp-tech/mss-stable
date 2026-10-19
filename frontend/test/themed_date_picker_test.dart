@@ -7,7 +7,9 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('Themed Date Picker Tests', () {
-    testWidgets('AppTheme.datePickerTheme defines correct colors and shapes', (tester) async {
+    testWidgets('AppTheme.datePickerTheme defines correct colors and shapes', (
+      tester,
+    ) async {
       final theme = AppTheme.datePickerTheme;
 
       expect(theme.headerBackgroundColor, equals(AppConstants.primaryColor));
@@ -19,37 +21,49 @@ void main() {
       expect(theme.dividerColor, equals(AppConstants.cardBorderColor));
 
       // Day foreground & background state tests
-      final selectedDayColor = theme.dayForegroundColor?.resolve({WidgetState.selected});
+      final selectedDayColor = theme.dayForegroundColor?.resolve({
+        WidgetState.selected,
+      });
       expect(selectedDayColor, equals(Colors.white));
 
       final unselectedDayColor = theme.dayForegroundColor?.resolve({});
       expect(unselectedDayColor, equals(AppConstants.primaryText));
 
-      final selectedDayBg = theme.dayBackgroundColor?.resolve({WidgetState.selected});
+      final selectedDayBg = theme.dayBackgroundColor?.resolve({
+        WidgetState.selected,
+      });
       expect(selectedDayBg, equals(AppConstants.primaryColor));
 
       final unselectedDayBg = theme.dayBackgroundColor?.resolve({});
       expect(unselectedDayBg, equals(Colors.transparent));
 
       // Today state tests
-      final todaySelectedColor = theme.todayForegroundColor?.resolve({WidgetState.selected});
+      final todaySelectedColor = theme.todayForegroundColor?.resolve({
+        WidgetState.selected,
+      });
       expect(todaySelectedColor, equals(Colors.white));
 
       final todayUnselectedColor = theme.todayForegroundColor?.resolve({});
       expect(todayUnselectedColor, equals(AppConstants.primaryColor));
 
       // Year selector state tests
-      final yearSelectedColor = theme.yearForegroundColor?.resolve({WidgetState.selected});
+      final yearSelectedColor = theme.yearForegroundColor?.resolve({
+        WidgetState.selected,
+      });
       expect(yearSelectedColor, equals(Colors.white));
 
       final yearUnselectedColor = theme.yearForegroundColor?.resolve({});
       expect(yearUnselectedColor, equals(AppConstants.primaryText));
 
-      final yearSelectedBg = theme.yearBackgroundColor?.resolve({WidgetState.selected});
+      final yearSelectedBg = theme.yearBackgroundColor?.resolve({
+        WidgetState.selected,
+      });
       expect(yearSelectedBg, equals(AppConstants.primaryColor));
     });
 
-    testWidgets('showThemedDatePicker renders with themed dialog and actions', (tester) async {
+    testWidgets('showThemedDatePicker renders with themed dialog and actions', (
+      tester,
+    ) async {
       DateTime? pickedDate;
 
       await tester.pumpWidget(
@@ -108,7 +122,9 @@ void main() {
       expect(pickedDate, equals(DateTime(2024, 6, 15)));
     });
 
-    testWidgets('Standard showDatePicker inherits global datePickerTheme', (tester) async {
+    testWidgets('Standard showDatePicker inherits global datePickerTheme', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           theme: ThemeData(

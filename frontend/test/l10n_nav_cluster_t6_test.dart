@@ -23,7 +23,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
@@ -46,12 +45,6 @@ void main() {
 
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    try {
-      await Supabase.initialize(
-        url: 'https://example.supabase.co',
-        publishableKey: 'test-publishable-key',
-      );
-    } catch (_) {}
   });
 
   group('T6 new keys: non-empty and ta != en', () {
@@ -63,61 +56,69 @@ void main() {
       ta = await AppLocalizations.delegate.load(const Locale('ta'));
     });
 
-    test('representative simple keys across every T6 namespace differ by locale',
-        () {
-      final pairs = <String, List<String>>{
-        // shared tooltips
-        'shareResultsTooltip': [en.shareResultsTooltip, ta.shareResultsTooltip],
-        'clearSearchTooltip': [en.clearSearchTooltip, ta.clearSearchTooltip],
-        'voiceSearchTooltip': [en.voiceSearchTooltip, ta.voiceSearchTooltip],
-        // eligibility_results_screen.dart
-        'eligResGreatNews': [en.eligResGreatNews, ta.eligResGreatNews],
-        'eligResSaveResults': [en.eligResSaveResults, ta.eligResSaveResults],
-        'eligResBasedOnInfo': [en.eligResBasedOnInfo, ta.eligResBasedOnInfo],
-        'eligResSecurePrivate': [
-          en.eligResSecurePrivate,
-          ta.eligResSecurePrivate,
-        ],
-        'eligResShareHeader': [en.eligResShareHeader, ta.eligResShareHeader],
-        // notifications_screen.dart
-        'notifCatNewSchemes': [en.notifCatNewSchemes, ta.notifCatNewSchemes],
-        'notifBadgeNew': [en.notifBadgeNew, ta.notifBadgeNew],
-        'notifMarkAllAsRead': [en.notifMarkAllAsRead, ta.notifMarkAllAsRead],
-        'notifNoMatchingAlerts': [
-          en.notifNoMatchingAlerts,
-          ta.notifNoMatchingAlerts,
-        ],
-        'notifTagEducation': [en.notifTagEducation, ta.notifTagEducation],
-        'timeAgoJustNow': [en.timeAgoJustNow, ta.timeAgoJustNow],
-        // app_state_provider.dart seed prose
-        'notifSeed2Title': [en.notifSeed2Title, ta.notifSeed2Title],
-        'notifSeed7Body': [en.notifSeed7Body, ta.notifSeed7Body],
-        // home_screen.dart
-        'commonUserFallback': [en.commonUserFallback, ta.commonUserFallback],
-        // search_screen.dart
-        'searchHintFallback': [en.searchHintFallback, ta.searchHintFallback],
-        'searchBestMatchesForCriteria': [
-          en.searchBestMatchesForCriteria,
-          ta.searchBestMatchesForCriteria,
-        ],
-        // saved_schemes_screen.dart
-        'savedKeepListUpdated': [
-          en.savedKeepListUpdated,
-          ta.savedKeepListUpdated,
-        ],
-        'savedRemoveFromSavedTooltip': [
-          en.savedRemoveFromSavedTooltip,
-          ta.savedRemoveFromSavedTooltip,
-        ],
-      };
+    test(
+      'representative simple keys across every T6 namespace differ by locale',
+      () {
+        final pairs = <String, List<String>>{
+          // shared tooltips
+          'shareResultsTooltip': [
+            en.shareResultsTooltip,
+            ta.shareResultsTooltip,
+          ],
+          'clearSearchTooltip': [en.clearSearchTooltip, ta.clearSearchTooltip],
+          'voiceSearchTooltip': [en.voiceSearchTooltip, ta.voiceSearchTooltip],
+          // eligibility_results_screen.dart
+          'eligResGreatNews': [en.eligResGreatNews, ta.eligResGreatNews],
+          'eligResSaveResults': [en.eligResSaveResults, ta.eligResSaveResults],
+          'eligResBasedOnInfo': [en.eligResBasedOnInfo, ta.eligResBasedOnInfo],
+          'eligResSecurePrivate': [
+            en.eligResSecurePrivate,
+            ta.eligResSecurePrivate,
+          ],
+          'eligResShareHeader': [en.eligResShareHeader, ta.eligResShareHeader],
+          // notifications_screen.dart
+          'notifCatNewSchemes': [en.notifCatNewSchemes, ta.notifCatNewSchemes],
+          'notifBadgeNew': [en.notifBadgeNew, ta.notifBadgeNew],
+          'notifMarkAllAsRead': [en.notifMarkAllAsRead, ta.notifMarkAllAsRead],
+          'notifNoMatchingAlerts': [
+            en.notifNoMatchingAlerts,
+            ta.notifNoMatchingAlerts,
+          ],
+          'notifTagEducation': [en.notifTagEducation, ta.notifTagEducation],
+          'timeAgoJustNow': [en.timeAgoJustNow, ta.timeAgoJustNow],
+          // app_state_provider.dart seed prose
+          'notifSeed2Title': [en.notifSeed2Title, ta.notifSeed2Title],
+          'notifSeed7Body': [en.notifSeed7Body, ta.notifSeed7Body],
+          // home_screen.dart
+          'commonUserFallback': [en.commonUserFallback, ta.commonUserFallback],
+          // search_screen.dart
+          'searchHintFallback': [en.searchHintFallback, ta.searchHintFallback],
+          'searchBestMatchesForCriteria': [
+            en.searchBestMatchesForCriteria,
+            ta.searchBestMatchesForCriteria,
+          ],
+          // saved_schemes_screen.dart
+          'savedKeepListUpdated': [
+            en.savedKeepListUpdated,
+            ta.savedKeepListUpdated,
+          ],
+          'savedRemoveFromSavedTooltip': [
+            en.savedRemoveFromSavedTooltip,
+            ta.savedRemoveFromSavedTooltip,
+          ],
+        };
 
-      pairs.forEach((key, values) {
-        expect(values[0].trim(), isNotEmpty, reason: '$key (en) non-empty');
-        expect(values[1].trim(), isNotEmpty, reason: '$key (ta) non-empty');
-        expect(values[1], isNot(equals(values[0])),
-            reason: '$key ta must be a real translation, not the en string');
-      });
-    });
+        pairs.forEach((key, values) {
+          expect(values[0].trim(), isNotEmpty, reason: '$key (en) non-empty');
+          expect(values[1].trim(), isNotEmpty, reason: '$key (ta) non-empty');
+          expect(
+            values[1],
+            isNot(equals(values[0])),
+            reason: '$key ta must be a real translation, not the en string',
+          );
+        });
+      },
+    );
 
     test('notifSelectedCount interpolates the count placeholder', () {
       expect(en.notifSelectedCount(3), contains('3'));
@@ -136,22 +137,34 @@ void main() {
     });
 
     test('eligibility clipboard + summary keys interpolate placeholders', () {
-      expect(en.eligResShareItem('PMEGP', 87), allOf(contains('PMEGP'), contains('87')));
-      expect(ta.eligResShareItem('PMEGP', 87), allOf(contains('PMEGP'), contains('87')));
-      expect(ta.eligResShareItem('PMEGP', 87),
-          isNot(equals(en.eligResShareItem('PMEGP', 87))));
+      expect(
+        en.eligResShareItem('PMEGP', 87),
+        allOf(contains('PMEGP'), contains('87')),
+      );
+      expect(
+        ta.eligResShareItem('PMEGP', 87),
+        allOf(contains('PMEGP'), contains('87')),
+      );
+      expect(
+        ta.eligResShareItem('PMEGP', 87),
+        isNot(equals(en.eligResShareItem('PMEGP', 87))),
+      );
 
       expect(en.eligResGovernmentSchemesCount(4), contains('4'));
       expect(ta.eligResGovernmentSchemesCount(4), contains('4'));
-      expect(ta.eligResGovernmentSchemesCount(4),
-          isNot(equals(en.eligResGovernmentSchemesCount(4))));
+      expect(
+        ta.eligResGovernmentSchemesCount(4),
+        isNot(equals(en.eligResGovernmentSchemesCount(4))),
+      );
     });
 
     test('search best-matches-for-query interpolates the query', () {
       expect(en.searchBestMatchesForQuery('mudra'), contains('mudra'));
       expect(ta.searchBestMatchesForQuery('mudra'), contains('mudra'));
-      expect(ta.searchBestMatchesForQuery('mudra'),
-          isNot(equals(en.searchBestMatchesForQuery('mudra'))));
+      expect(
+        ta.searchBestMatchesForQuery('mudra'),
+        isNot(equals(en.searchBestMatchesForQuery('mudra'))),
+      );
     });
 
     test('searchResultsShareHeader interpolates the title', () {

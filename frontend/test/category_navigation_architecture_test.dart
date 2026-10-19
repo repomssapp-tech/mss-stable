@@ -47,77 +47,80 @@ void main() {
       },
     );
 
+    test('2. MSME Category returns schemes matching MSME criteria', () async {
+      final schemes = await repo.getSchemesByCategory('MSME');
+      expect(schemes.length, greaterThanOrEqualTo(100));
+
+      for (final s in schemes) {
+        final text =
+            '${s.name} ${s.schemeType} ${s.category} ${s.sector} ${s.targetBeneficiary} ${s.searchKeywords} ${s.overview}'
+                .toLowerCase();
+        final matchesMSME =
+            text.contains('msme') ||
+            text.contains('micro') ||
+            text.contains('udyam') ||
+            text.contains('business');
+        expect(
+          matchesMSME,
+          isTrue,
+          reason: 'Scheme ${s.name} does not belong to MSME category',
+        );
+      }
+    });
+
     test(
-      '2. MSME Category returns schemes matching MSME criteria',
+      '3. Women Entrepreneurs Category returns schemes matching Women criteria',
       () async {
-        final schemes = await repo.getSchemesByCategory('MSME');
-        expect(schemes.length, greaterThanOrEqualTo(100));
+        final schemes = await repo.getSchemesByCategory('Women Entrepreneurs');
+        expect(schemes.length, greaterThanOrEqualTo(40));
 
         for (final s in schemes) {
           final text =
-              '${s.name} ${s.schemeType} ${s.category} ${s.sector} ${s.targetBeneficiary} ${s.searchKeywords} ${s.overview}'
+              '${s.name} ${s.schemeType} ${s.category} ${s.targetBeneficiary} ${s.searchKeywords}'
                   .toLowerCase();
-          final matchesMSME =
-              text.contains('msme') ||
-              text.contains('micro') ||
-              text.contains('udyam') ||
-              text.contains('business');
+          final matchesWomen =
+              text.contains('women') ||
+              text.contains('female') ||
+              text.contains('mahila') ||
+              text.contains('stree');
           expect(
-            matchesMSME,
+            matchesWomen,
             isTrue,
-            reason: 'Scheme ${s.name} does not belong to MSME category',
+            reason:
+                'Scheme ${s.name} does not belong to Women Entrepreneurs category',
           );
         }
       },
     );
 
-    test('3. Women Entrepreneurs Category returns schemes matching Women criteria', () async {
-      final schemes = await repo.getSchemesByCategory('Women Entrepreneurs');
-      expect(schemes.length, greaterThanOrEqualTo(40));
-
-      for (final s in schemes) {
-        final text =
-            '${s.name} ${s.schemeType} ${s.category} ${s.targetBeneficiary} ${s.searchKeywords}'
-                .toLowerCase();
-        final matchesWomen =
-            text.contains('women') ||
-            text.contains('female') ||
-            text.contains('mahila') ||
-            text.contains('stree');
-        expect(
-          matchesWomen,
-          isTrue,
-          reason:
-              'Scheme ${s.name} does not belong to Women Entrepreneurs category',
+    test(
+      '4. Business Loans & Credit Category returns schemes matching Loan criteria',
+      () async {
+        final schemes = await repo.getSchemesByCategory(
+          'Business Loans & Credit',
         );
-      }
-    });
+        expect(schemes.length, greaterThanOrEqualTo(31));
 
-    test('4. Business Loans & Credit Category returns schemes matching Loan criteria', () async {
-      final schemes = await repo.getSchemesByCategory(
-        'Business Loans & Credit',
-      );
-      expect(schemes.length, greaterThanOrEqualTo(31));
-
-      for (final s in schemes) {
-        final text =
-            '${s.name} ${s.schemeType} ${s.category} ${s.searchKeywords} ${s.overview}'
-                .toLowerCase();
-        final matchesLoan =
-            text.contains('loan') ||
-            text.contains('credit') ||
-            text.contains('mudra') ||
-            text.contains('cgtmse') ||
-            text.contains('financing') ||
-            text.contains('working capital');
-        expect(
-          matchesLoan,
-          isTrue,
-          reason:
-              'Scheme ${s.name} does not belong to Business Loans & Credit category',
-        );
-      }
-    });
+        for (final s in schemes) {
+          final text =
+              '${s.name} ${s.schemeType} ${s.category} ${s.searchKeywords} ${s.overview}'
+                  .toLowerCase();
+          final matchesLoan =
+              text.contains('loan') ||
+              text.contains('credit') ||
+              text.contains('mudra') ||
+              text.contains('cgtmse') ||
+              text.contains('financing') ||
+              text.contains('working capital');
+          expect(
+            matchesLoan,
+            isTrue,
+            reason:
+                'Scheme ${s.name} does not belong to Business Loans & Credit category',
+          );
+        }
+      },
+    );
 
     test('5. Startup Category returns schemes', () async {
       final schemes = await repo.getSchemesByCategory('Startup');
@@ -129,15 +132,12 @@ void main() {
       expect(schemes.length, greaterThanOrEqualTo(15));
     });
 
-    test(
-      '7. Export & Trade Promotion Category returns schemes',
-      () async {
-        final schemes = await repo.getSchemesByCategory(
-          'Export & Trade Promotion',
-        );
-        expect(schemes.length, greaterThanOrEqualTo(19));
-      },
-    );
+    test('7. Export & Trade Promotion Category returns schemes', () async {
+      final schemes = await repo.getSchemesByCategory(
+        'Export & Trade Promotion',
+      );
+      expect(schemes.length, greaterThanOrEqualTo(19));
+    });
 
     test('8. Manufacturing Category returns schemes', () async {
       final schemes = await repo.getSchemesByCategory('Manufacturing');

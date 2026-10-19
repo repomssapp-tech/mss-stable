@@ -15,9 +15,13 @@ void main() {
     schemes = bundle.byCatalog['scheme'] ?? [];
   });
 
-  group('Catalog v3.1 Contract Tests (1.35.1-alpha)', () {
-    test('Shape contract on all 171 schemes in bundle', () {
-      expect(schemes.length, 171, reason: 'Must have 171 schemes in bundle (D4 hides 131 draft schemes)');
+  group('Catalog v3.1 Contract Tests (1.37.0-alpha, schemes_json_only)', () {
+    test('Shape contract on all 406 schemes in bundle', () {
+      expect(
+        schemes.length,
+        406,
+        reason: 'Must have 406 schemes in bundle (274 central + 53 TN + 79 MH)',
+      );
 
       final forbiddenFacetKeys = {'applicable', 'min', 'max', 'range'};
 
@@ -25,32 +29,54 @@ void main() {
         final content = s.content;
 
         // 1. Classification is under content, not at entity root
-        expect(content.containsKey('classification'), isTrue,
-            reason: '${s.id} must have content.classification');
-        expect(content['classification'], isA<Map<String, dynamic>>(),
-            reason: '${s.id} classification must be a Map');
+        expect(
+          content.containsKey('classification'),
+          isTrue,
+          reason: '${s.id} must have content.classification',
+        );
+        expect(
+          content['classification'],
+          isA<Map<String, dynamic>>(),
+          reason: '${s.id} classification must be a Map',
+        );
 
         // 2. content.benefits.benefitTypes is a List
         final benefits = content['benefits'] as Map<String, dynamic>?;
-        expect(benefits, isNotNull,
-            reason: '${s.id} must have content.benefits');
-        expect(benefits!.containsKey('benefitTypes'), isTrue,
-            reason: '${s.id} must have content.benefits.benefitTypes');
-        expect(benefits['benefitTypes'], isA<List>(),
-            reason: '${s.id} benefitTypes must be a List');
+        expect(
+          benefits,
+          isNotNull,
+          reason: '${s.id} must have content.benefits',
+        );
+        expect(
+          benefits!.containsKey('benefitTypes'),
+          isTrue,
+          reason: '${s.id} must have content.benefits.benefitTypes',
+        );
+        expect(
+          benefits['benefitTypes'],
+          isA<List>(),
+          reason: '${s.id} benefitTypes must be a List',
+        );
 
         // 3. content.objectives is a List
-        expect(content.containsKey('objectives'), isTrue,
-            reason: '${s.id} must have content.objectives');
-        expect(content['objectives'], isA<List>(),
-            reason: '${s.id} objectives must be a List');
+        expect(
+          content.containsKey('objectives'),
+          isTrue,
+          reason: '${s.id} must have content.objectives',
+        );
+        expect(
+          content['objectives'],
+          isA<List>(),
+          reason: '${s.id} objectives must be a List',
+        );
 
         // 4. identity.status in {active, closed, unknown}
         final status = (s.identity['status'] as String?)?.toLowerCase();
         expect(
           status,
-          isIn(['active', 'closed', 'unknown']),
-          reason: '${s.id} identity.status must be active, closed, or unknown',
+          isIn(['active', 'closed', 'unknown', 'announced']),
+          reason:
+              '${s.id} identity.status must be active, closed, unknown, or announced',
         );
 
         // 5. Facets contain no forbidden keys (applicable, min, max, range)
@@ -70,7 +96,8 @@ void main() {
                   expect(
                     forbiddenFacetKeys.contains(subKey.toLowerCase()),
                     isFalse,
-                    reason: '${s.id} facet "${entry.key}" contains forbidden subKey "$subKey"',
+                    reason:
+                        '${s.id} facet "${entry.key}" contains forbidden subKey "$subKey"',
                   );
                 }
               }
@@ -80,78 +107,107 @@ void main() {
       }
     });
 
-    test('SCH000255: SchemeHeaderResolver resolves non-empty ministry and schemeType', () {
-      final s255 = bundle.byId['SCH000255'];
-      expect(s255, isNotNull, reason: 'SCH000255 must exist in bundle');
+    test(
+      'CEN2026-174: SchemeHeaderResolver resolves non-empty ministry and schemeType',
+      () {
+        final s255 = bundle.byId['CEN2026-174'];
+        expect(s255, isNotNull, reason: 'CEN2026-174 must exist in bundle');
 
-      final header = SchemeHeaderResolver.resolve(
-        s255!,
-        bundle,
-        langCode: 'en',
-      );
+        final header = SchemeHeaderResolver.resolve(
+          s255!,
+          bundle,
+          langCode: 'en',
+        );
 
-      expect(header.ministry, isNotEmpty,
-          reason: 'SCH000255 ministry must be non-empty');
-      expect(header.schemeType, isNotEmpty,
-          reason: 'SCH000255 schemeType must be non-empty');
-      expect(header.schemeType.toLowerCase(), anyOf('credit_guarantee', 'credit guarantee'),
-          reason: 'SCH000255 schemeType must resolve to credit guarantee');
-    });
+        expect(
+          header.ministry,
+          isNotEmpty,
+          reason: 'CEN2026-174 ministry must be non-empty',
+        );
+        expect(
+          header.schemeType,
+          isNotEmpty,
+          reason: 'CEN2026-174 schemeType must be non-empty',
+        );
+        expect(
+          header.schemeType.toLowerCase(),
+          anyOf('credit_guarantee', 'credit guarantee'),
+          reason: 'CEN2026-174 schemeType must resolve to credit guarantee',
+        );
+      },
+    );
 
-    test('SCH000255: SchemeEligibilityResolver produces structured facets', () {
-      final s255 = bundle.byId['SCH000255'];
-      expect(s255, isNotNull, reason: 'SCH000255 must exist in bundle');
+    test(
+      'CEN2026-174: SchemeEligibilityResolver produces structured facets',
+      () {
+        final s255 = bundle.byId['CEN2026-174'];
+        expect(s255, isNotNull, reason: 'CEN2026-174 must exist in bundle');
 
-      final header = SchemeHeaderResolver.resolve(
-        s255!,
-        bundle,
-        langCode: 'en',
-      );
+        final header = SchemeHeaderResolver.resolve(
+          s255!,
+          bundle,
+          langCode: 'en',
+        );
 
-      final eligibility = SchemeEligibilityResolver.resolve(
-        s255,
-        targetBeneficiary: header.targetBeneficiary,
-        langCode: 'en',
-      );
+        final eligibility = SchemeEligibilityResolver.resolve(
+          s255,
+          targetBeneficiary: header.targetBeneficiary,
+          langCode: 'en',
+        );
 
-      expect(eligibility.allowedBusinessTypes, containsAll(['micro', 'small', 'medium']),
-          reason: 'SCH000255 structured facets must include micro, small, medium');
-    });
+        expect(
+          eligibility.allowedBusinessTypes,
+          containsAll(['micro', 'small', 'medium']),
+          reason:
+              'CEN2026-174 structured facets must include micro, small, medium',
+        );
+      },
+    );
 
-    test('Graph symmetry: Every child_of relationship has a matching parent_of', () {
-      final childOfRels = <Map<String, String>>[];
-      final parentOfRels = <String, Set<String>>{};
+    test(
+      'Graph symmetry: Every child_of relationship has a matching parent_of',
+      () {
+        final childOfRels = <Map<String, String>>[];
+        final parentOfRels = <String, Set<String>>{};
 
-      for (final s in schemes) {
-        for (final ref in s.references) {
-          final relType = (ref['relationType'] ?? ref['relationshipType']) as String?;
-          final targetId = (ref['entityId'] ?? ref['targetEntityId'] ?? ref['targetId']) as String?;
+        for (final s in schemes) {
+          for (final ref in s.references) {
+            final relType =
+                (ref['relationType'] ?? ref['relationshipType']) as String?;
+            final targetId =
+                (ref['entityId'] ?? ref['targetEntityId'] ?? ref['targetId'])
+                    as String?;
 
-          if (targetId == null || targetId.isEmpty) continue;
+            if (targetId == null || targetId.isEmpty) continue;
 
-          if (relType == 'child_of') {
-            childOfRels.add({'source': s.id, 'target': targetId});
-          } else if (relType == 'parent_of') {
-            parentOfRels.putIfAbsent(s.id, () => <String>{}).add(targetId);
+            if (relType == 'child_of') {
+              childOfRels.add({'source': s.id, 'target': targetId});
+            } else if (relType == 'parent_of') {
+              parentOfRels.putIfAbsent(s.id, () => <String>{}).add(targetId);
+            }
           }
         }
-      }
 
-      // Assert 37 child_of relationships in the 171-scheme bundle
-      expect(childOfRels.length, 37, reason: 'Bundle must contain exactly 37 child_of relationships');
-
-      // Assert every child_of (A child_of B) has B parent_of A
-      for (final rel in childOfRels) {
-        final child = rel['source']!;
-        final parent = rel['target']!;
-
-        final hasParentOf = parentOfRels[parent]?.contains(child) ?? false;
+        // Assert 50 child_of relationships in the 406-scheme bundle (carried over via the legacy supplement)
         expect(
-          hasParentOf,
-          isTrue,
-          reason: 'Parent $parent must have parent_of targeting child $child',
+          childOfRels.length,
+          50,
+          reason: 'Bundle must contain exactly 50 child_of relationships',
         );
-      }
-    });
+
+        // Assert every child_of (A child_of B) has B parent_of A
+        for (final rel in childOfRels) {
+          final child = rel['source']!;
+          final parent = rel['target']!;
+
+          final hasParentOf = parentOfRels[parent]?.contains(child) ?? false;
+          expect(
+            hasParentOf,
+            isTrue,
+            reason: 'Parent $parent must have parent_of targeting child $child',
+          );
+        }
+      },
+    );
   });
 }

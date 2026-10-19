@@ -15,8 +15,6 @@ class Step1BasicDetailsForm extends StatelessWidget {
   final ValueChanged<String> onGenderChanged;
   final ValueChanged<DateTime?> onDobDerived;
   final bool hasSubmitted;
-  final bool hasConsented;
-  final ValueChanged<bool> onConsentChanged;
   final VoidCallback onOpenConsentModal;
   final VoidCallback onFieldChanged;
 
@@ -37,8 +35,6 @@ class Step1BasicDetailsForm extends StatelessWidget {
     required this.onGenderChanged,
     required this.onDobDerived,
     required this.hasSubmitted,
-    required this.hasConsented,
-    required this.onConsentChanged,
     required this.onOpenConsentModal,
     required this.onFieldChanged,
   });
@@ -73,10 +69,7 @@ class Step1BasicDetailsForm extends StatelessWidget {
         Text(
           l10n.basicDetailsSubtitle,
           textAlign: TextAlign.center,
-          style: GoogleFonts.inter(
-            fontSize: 13.5,
-            color: kSlate500,
-          ),
+          style: GoogleFonts.inter(fontSize: 13.5, color: kSlate500),
         ),
         const SizedBox(height: AppSpacing.xl),
 
@@ -102,7 +95,8 @@ class Step1BasicDetailsForm extends StatelessWidget {
           leadingIcon: Icons.mail_outline,
           trailingIcon: Icons.edit_outlined,
           keyboardType: TextInputType.emailAddress,
-          errorText: hasSubmitted &&
+          errorText:
+              hasSubmitted &&
                   (emailController.text.trim().isEmpty ||
                       !emailController.text.contains('@'))
               ? l10n.profileErrValidEmail
@@ -161,7 +155,9 @@ class Step1BasicDetailsForm extends StatelessWidget {
               children: [
                 Expanded(child: _buildGenderBox(l10n.genderMale, Icons.male)),
                 const SizedBox(width: AppSpacing.xs),
-                Expanded(child: _buildGenderBox(l10n.genderFemale, Icons.female)),
+                Expanded(
+                  child: _buildGenderBox(l10n.genderFemale, Icons.female),
+                ),
                 const SizedBox(width: AppSpacing.xs),
                 Expanded(
                   child: _buildGenderBox(l10n.genderOther, Icons.transgender),
@@ -246,51 +242,19 @@ class Step1BasicDetailsForm extends StatelessWidget {
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
-        // Whole row is one tap target (matches the login screen's consent
-        // row pattern in legal_consent_section.dart) so users don't have to
-        // hit the small 24x24 checkbox glyph precisely -- tapping anywhere
-        // on the row or its label toggles consent.
-        GestureDetector(
-          onTap: () => onConsentChanged(!hasConsented),
-          behavior: HitTestBehavior.opaque,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 24,
-                height: 24,
-                child: Checkbox(
-                  value: hasConsented,
-                  activeColor: kPrimaryBlue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  side: BorderSide(
-                    color: (hasSubmitted && !hasConsented)
-                        ? const Color(0xFFDC2626)
-                        : const Color(0xFF94A3B8),
-                    width: 1.5,
-                  ),
-                  onChanged: (val) => onConsentChanged(val ?? false),
-                ),
-              ),
-              const SizedBox(width: AppSpacing.sm),
-              Expanded(
-                child: Text(
-                  l10n.profileConsentCheckboxLabel,
-                  style: GoogleFonts.inter(
-                    fontSize: 13,
-                    color: kSlate800,
-                    height: 1.45,
-                  ),
-                ),
-              ),
-            ],
+        // The data-use consent is given by completing the profile: only a
+        // notice and a way to read the document are shown, no checkbox.
+        Text(
+          l10n.profileConsentCheckboxLabel,
+          style: GoogleFonts.inter(
+            fontSize: 13,
+            color: kSlate800,
+            height: 1.45,
           ),
         ),
         const SizedBox(height: AppSpacing.xs),
         Padding(
-          padding: const EdgeInsets.only(left: AppSpacing.xxxl),
+          padding: EdgeInsets.zero,
           child: InkWell(
             onTap: onOpenConsentModal,
             borderRadius: BorderRadius.circular(4),
@@ -309,32 +273,6 @@ class Step1BasicDetailsForm extends StatelessWidget {
             ),
           ),
         ),
-        if (hasSubmitted && !hasConsented) ...[
-          const SizedBox(height: AppSpacing.xs),
-          Padding(
-            padding: const EdgeInsets.only(left: AppSpacing.xxxl),
-            child: Row(
-              children: [
-                const Icon(
-                  Icons.error_outline_rounded,
-                  size: 13,
-                  color: Color(0xFFDC2626),
-                ),
-                const SizedBox(width: AppSpacing.xs),
-                Expanded(
-                  child: Text(
-                    l10n.profileConsentPleaseConsent,
-                    style: GoogleFonts.inter(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFFDC2626),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
       ],
     );
   }
@@ -360,11 +298,7 @@ class Step1BasicDetailsForm extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              icon,
-              color: isSelected ? kPrimaryBlue : kSlate500,
-              size: 13,
-            ),
+            Icon(icon, color: isSelected ? kPrimaryBlue : kSlate500, size: 13),
             const SizedBox(width: AppSpacing.hairline),
             Flexible(
               child: Text(

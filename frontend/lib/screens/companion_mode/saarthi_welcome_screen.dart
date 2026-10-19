@@ -180,10 +180,7 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
       if (!mounted) return;
       setState(() => _isSubmitting = false);
       // Unable to save profile notice
-      AppToast.showError(
-        context,
-        context.l10n.profileErrUnableToSave,
-      );
+      AppToast.showError(context, context.l10n.profileErrUnableToSave);
     }
   }
 

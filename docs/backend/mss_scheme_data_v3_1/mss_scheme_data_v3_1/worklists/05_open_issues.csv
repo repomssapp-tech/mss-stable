@@ -1,0 +1,283 @@
+our_id,name_en,issue_type,detail
+MSME2526-001,Prime Minister's Employment Generation Programme (PMEGP),agent_flag,"Booklet text obtained via WebFetch extraction (fetch model declined full verbatim reproduction); quotes are short phrases returned as evidence, not checked against the PDF by eye."
+MSME2526-001,Prime Minister's Employment Generation Programme (PMEGP),agent_flag,Implementing agency (KVIC/KVIB/DIC) not named in booklet section; division set to KVIC from general knowledge (nodal agency).
+MSME2526-001,Prime Minister's Employment Generation Programme (PMEGP),agent_flag,PMEGP continuation beyond 31.03.2026 unconfirmed; Rajya Sabha reply said MM subsidy release contingent on continuation approval.
+MSME2526-001,Prime Minister's Employment Generation Programme (PMEGP),agent_flag,Booklet own-contribution special category list includes OBC/PH while subsidy special list does not; kept as stated.
+MSME2526-001,Prime Minister's Employment Generation Programme (PMEGP),agent_flag,PMEGP e-portal fetch failed (DNS); official portal not re-checked.
+MSME2526-001,Prime Minister's Employment Generation Programme (PMEGP),status_uncertain,active (low): Listed in Booklet 2025-26. Scheme approved up to 31.03.2026; a Rajya Sabha reply (Unstarred Q.1694) said further margin money release is contingent on approval for continuation (EFC held). Continuation approval not confirmed in this check.
+MSME2526-002,2nd Loan for Upgradation of existing PMEGP/REGP/MUDRA units,agent_flag,"Booklet text obtained via WebFetch extraction (fetch model declined full verbatim reproduction); quotes are short phrases returned as evidence, not checked against the PDF by eye."
+MSME2526-002,2nd Loan for Upgradation of existing PMEGP/REGP/MUDRA units,agent_flag,Max subsidy caps Rs. 15 lakh / Rs. 20 lakh from WebFetch summary (derived as 15%/20% of max project cost); verify against PDF p05.
+MSME2526-002,2nd Loan for Upgradation of existing PMEGP/REGP/MUDRA units,agent_flag,TOC lists title as '2nd Loan for up-gradation of the existing PMEGP/MUDRA units'; body text includes REGP.
+MSME2526-002,2nd Loan for Upgradation of existing PMEGP/REGP/MUDRA units,status_uncertain,active (low): Listed in Booklet 2025-26 as PMEGP component; depends on PMEGP continuation beyond 31.03.2026 (unconfirmed).
+MSME2526-003,Credit Guarantee Scheme for Micro & Small Enterprises (CGTMSE),agent_flag,"Booklet text obtained via WebFetch extraction (fetch model declined full verbatim reproduction); quotes are short phrases returned as evidence, not checked against the PDF by eye."
+MSME2526-003,Credit Guarantee Scheme for Micro & Small Enterprises (CGTMSE),agent_flag,"Booklet coverage table (category x slab) came back garbled from WebFetch (inconsistent column mapping) — per-category % not recorded; only 75%-90% range, ICDD +5%, women-led 90%."
+MSME2526-003,Credit Guarantee Scheme for Micro & Small Enterprises (CGTMSE),agent_flag,cgtmse.in fetch failed (timeout); specific new AGF rates not captured.
+MSME2526-003,Credit Guarantee Scheme for Micro & Small Enterprises (CGTMSE),agent_flag,Catalog SCH000064 'Guarantee Schemes for MSEs' may be the same scheme — not linked.
+MSME2526-005,Micro & Small Enterprises Cluster Development Programme (MSE-CDP),agent_flag,"Booklet text obtained via WebFetch extraction (fetch model declined full verbatim reproduction); quotes are short phrases returned as evidence, not checked against the PDF by eye."
+MSME2526-005,Micro & Small Enterprises Cluster Development Programme (MSE-CDP),agent_flag,max_amount_inr derived (80% x Rs.30 cr; 70% x Rs.15 cr) — booklet states % and project cost caps only.
+MSME2526-005,Micro & Small Enterprises Cluster Development Programme (MSE-CDP),agent_flag,Higher grant % for NE/hill/SC-ST/women clusters (per guidelines) not found in booklet section; not recorded.
+MSME2526-005,Micro & Small Enterprises Cluster Development Programme (MSE-CDP),agent_flag,Infrastructure projects are typically proposed by State Govt agencies; booklet lists only SPV eligibility.
+MSME2526-006,Scheme of Fund for Regeneration of Traditional Industries (SFURTI),agent_flag,"Booklet text obtained via WebFetch extraction (fetch model declined full verbatim reproduction); quotes are short phrases returned as evidence, not checked against the PDF by eye."
+MSME2526-006,Scheme of Fund for Regeneration of Traditional Industries (SFURTI),agent_flag,Catalog SCH000144 is marked inactive (is_active=0) though scheme is in Booklet 2025-26.
+MSME2526-006,Scheme of Fund for Regeneration of Traditional Industries (SFURTI),agent_flag,"Division (ARI/KVIC/Coir Board nodal agencies) from general knowledge, not booklet text."
+MSME2526-006,Scheme of Fund for Regeneration of Traditional Industries (SFURTI),agent_flag,Individuals cannot apply directly; artisans benefit via IA/SPV.
+MSME2526-007,Entrepreneurship Skill Development Programme (ESDP),agent_flag,"Booklet text obtained via WebFetch extraction (fetch model declined full verbatim reproduction); quotes are short phrases returned as evidence, not checked against the PDF by eye."
+MSME2526-007,Entrepreneurship Skill Development Programme (ESDP),agent_flag,"Catalog has two entries for ESDP (SCH000055, SCH000095) — likely duplicates."
+MSME2526-007,Entrepreneurship Skill Development Programme (ESDP),agent_flag,Booklet section states no fees/stipends or SC/ST/women reservation %; none recorded.
+MSME2526-007,Entrepreneurship Skill Development Programme (ESDP),agent_flag,No v3 match for ESDP found.
+MSME2526-008,Entrepreneurship Awareness Programme (EAP),agent_flag,"Booklet text obtained via WebFetch extraction (fetch model declined full verbatim reproduction); quotes are short phrases returned as evidence, not checked against the PDF by eye."
+MSME2526-008,Entrepreneurship Awareness Programme (EAP),agent_flag,Component of ESDP; page_book 13-14 (exact page not confirmed).
+MSME2526-009,Entrepreneurship cum Skill Development Programme (E-SDP),agent_flag,"Booklet text obtained via WebFetch extraction (fetch model declined full verbatim reproduction); quotes are short phrases returned as evidence, not checked against the PDF by eye."
+MSME2526-009,Entrepreneurship cum Skill Development Programme (E-SDP),agent_flag,Component of ESDP; page_book 13-14 (exact page not confirmed).
+MSME2526-010,Advance Entrepreneurship cum Skill Development Programme (Advance E-SDP),agent_flag,"Booklet text obtained via WebFetch extraction (fetch model declined full verbatim reproduction); quotes are short phrases returned as evidence, not checked against the PDF by eye."
+MSME2526-010,Advance Entrepreneurship cum Skill Development Programme (Advance E-SDP),agent_flag,Component of ESDP; page_book 13-14 (exact page not confirmed).
+MSME2526-011,Management Development Programme (MDP),agent_flag,"Booklet text obtained via WebFetch extraction (fetch model declined full verbatim reproduction); quotes are short phrases returned as evidence, not checked against the PDF by eye."
+MSME2526-011,Management Development Programme (MDP),agent_flag,Component of ESDP; page_book 13-14 (exact page not confirmed).
+MSME2526-012,Advance Management Development Programme (Advance MDP),agent_flag,"Booklet text obtained via WebFetch extraction (fetch model declined full verbatim reproduction); quotes are short phrases returned as evidence, not checked against the PDF by eye."
+MSME2526-012,Advance Management Development Programme (Advance MDP),agent_flag,Component of ESDP; page_book 13-14 (exact page not confirmed).
+MSME2526-012,Advance Management Development Programme (Advance MDP),unverified_amount,training max=None pct=None :: Advance MDP
+MSME2526-020,Assistance to Training Institutions (ATI) Scheme,agent_flag,msme.gov.in ATI page returned 404; NI-MSME page used for current
+MSME2526-020,Assistance to Training Institutions (ATI) Scheme,agent_flag,Booklet also mentions skill training programme support but WebFetch gave no rates
+MSME2526-021,Coir Vikas Yojana,agent_flag,coirboard.gov.in fetch timed out; booklet gives no amounts for CVY components; current details not verified from Coir Board portal
+MSME2526-022,Science & Technology,agent_flag,coirboard.gov.in fetch timed out; booklet gives no amounts for CVY components; current details not verified from Coir Board portal
+MSME2526-022,Science & Technology,agent_flag,Exact booklet page of this component (16-18) not determined
+MSME2526-022,Science & Technology,agent_flag,"Third description point (testing/service facilities) is from WebFetch paraphrase, not verbatim"
+MSME2526-023,Skill Upgradation and Mahila Coir Yojana,agent_flag,coirboard.gov.in fetch timed out; booklet gives no amounts for CVY components; current details not verified from Coir Board portal
+MSME2526-023,Skill Upgradation and Mahila Coir Yojana,agent_flag,Exact booklet page of this component (16-18) not determined
+MSME2526-023,Skill Upgradation and Mahila Coir Yojana,agent_flag,Booklet gives no stipend amounts or equipment subsidy figures
+MSME2526-023,Skill Upgradation and Mahila Coir Yojana,agent_flag,Catalog SCH000082 (Mahila Coir Yojana) covers the MCY part; SCH000035 is marked inactive in catalog
+MSME2526-024,Export Market Promotion,agent_flag,coirboard.gov.in fetch timed out; booklet gives no amounts for CVY components; current details not verified from Coir Board portal
+MSME2526-024,Export Market Promotion,agent_flag,Exact booklet page of this component (16-18) not determined
+MSME2526-025,Domestic Market Promotion,agent_flag,coirboard.gov.in fetch timed out; booklet gives no amounts for CVY components; current details not verified from Coir Board portal
+MSME2526-025,Domestic Market Promotion,agent_flag,Exact booklet page of this component (16-18) not determined
+MSME2526-025,Domestic Market Promotion,agent_flag,MDA rate for coir cooperatives not given in booklet
+MSME2526-026,Trade and Industry Related Functional Support Services,agent_flag,coirboard.gov.in fetch timed out; booklet gives no amounts for CVY components; current details not verified from Coir Board portal
+MSME2526-026,Trade and Industry Related Functional Support Services,agent_flag,Exact booklet page of this component (16-18) not determined
+MSME2526-027,Welfare Measures (Pradhan Mantri Suraksha Bima Yojana for coir workers),agent_flag,coirboard.gov.in fetch timed out; booklet gives no amounts for CVY components; current details not verified from Coir Board portal
+MSME2526-027,Welfare Measures (Pradhan Mantri Suraksha Bima Yojana for coir workers),agent_flag,Exact booklet page of this component (16-18) not determined
+MSME2526-027,Welfare Measures (Pradhan Mantri Suraksha Bima Yojana for coir workers),agent_flag,Booklet heading is 'Welfare Measures'; PMSBY being replaced by a new (unnamed) welfare scheme - status uncertain
+MSME2526-027,Welfare Measures (Pradhan Mantri Suraksha Bima Yojana for coir workers),agent_flag,First description point partly derived from task framing; booklet text only states the replacement plan
+MSME2526-027,Welfare Measures (Pradhan Mantri Suraksha Bima Yojana for coir workers),status_uncertain,unknown (medium): Booklet 2025-26 says Coir Board plans to introduce a new welfare scheme in place of PMSBY.
+MSME2526-028,Procurement and Marketing Support (PMS) Scheme,agent_flag,Booklet section has no amounts; benefit_facts taken from dcmsme PMS guidelines page via WebFetch summary (as_of 2026-10-04)
+MSME2526-028,Procurement and Marketing Support (PMS) Scheme,agent_flag,Portal URLs differ: booklet COM_Matu.aspx vs guidelines page COM_ViewEvent.aspx
+MSME2526-029,International Cooperation Scheme,agent_flag,ic.msme.gov.in fetch timed out; portal not verified live
+MSME2526-029,International Cooperation Scheme,agent_flag,Implementing division not named in booklet
+MSME2526-030,Market Development Assistance of MSMEs (MDA),agent_flag,"Virtual-mode and conference rows came from WebFetch table rendering, not exact quotes (quote_verified=false)"
+MSME2526-030,Market Development Assistance of MSMEs (MDA),agent_flag,Applicants are organisations; MSMEs benefit through them
+MSME2526-030,Market Development Assistance of MSMEs (MDA),agent_flag,Catalog ids SCH000121/072/073 are possibly IC-MDA activities - verify
+MSME2526-030,Market Development Assistance of MSMEs (MDA),unverified_amount,reimbursement max=150000 pct=None :: Virtual international events: Space/Stall charges (including catalogue/digital) up to Rs. 1.5 lakh; Advertisement and publicity up to Rs. 5.00 lakh.
+MSME2526-030,Market Development Assistance of MSMEs (MDA),unverified_amount,"grant max=1000000 pct=None :: Organizing international conferences/summits/workshops/seminars (physical): venue rent, catering, advertisement, security up to Rs. 10.00 lakh; economy class airfare for foreign speakers/experts up to Rs. 5.00 lakh."
+MSME2526-030,Market Development Assistance of MSMEs (MDA),unverified_amount,grant max=200000 pct=None :: Organizing conferences (virtual): virtual space/platform/license fee up to Rs. 2.00 lakh; translation and interpretation up to Rs. 1.00 lakh; publicity up to Rs. 5.00 lakh.
+MSME2526-030,Market Development Assistance of MSMEs (MDA),unverified_amount,reimbursement max=500000 pct=None :: Advertisement and Publicity Charges up to Rs. 5.00 lakh (virtual)
+MSME2526-030,Market Development Assistance of MSMEs (MDA),unverified_amount,grant max=500000 pct=None :: Economy class airfare for foreign speakers/experts up to Rs. 5.00 lakh
+MSME2526-030,Market Development Assistance of MSMEs (MDA),unverified_amount,grant max=100000 pct=None :: Translation and Interpretation charges up to Rs. 1.00 lakh
+MSME2526-030,Market Development Assistance of MSMEs (MDA),unverified_amount,grant max=500000 pct=None :: Publicity Cost up to Rs. 5.00 lakh
+MSME2526-031,Capacity Building of First Time MSE Exporters (CBFTE),agent_flag,"Booklet gives no reimbursement ceilings/percent (detailed in CBFTE O.M. 15.07.2022, not fetched)"
+MSME2526-031,Capacity Building of First Time MSE Exporters (CBFTE),agent_flag,Booklet prints 'RCME' - read as RCMC
+MSME2526-031,Capacity Building of First Time MSE Exporters (CBFTE),agent_flag,Application step inferred from MoU text; mode not stated
+MSME2526-031,Capacity Building of First Time MSE Exporters (CBFTE),agent_flag,Booklet page not determined (21-23)
+MSME2526-032,Framework for International Market Intelligence Dissemination (IMID),agent_flag,"No details, amounts or eligibility in booklet"
+MSME2526-032,Framework for International Market Intelligence Dissemination (IMID),agent_flag,Booklet page not determined (21-23)
+MSME2526-032,Framework for International Market Intelligence Dissemination (IMID),status_uncertain,announced (medium): Booklet 2025-26 states it 'will be in operation soon'.
+MSME2526-050,National SC-ST Hub Scheme (NSSH),agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-050,National SC-ST Hub Scheme (NSSH),agent_flag,Booklet extract mentions 'Public Procurement Policy ... Order 2012'; 4% SC/ST procurement target in current summary is general knowledge — verify or drop
+MSME2526-050,National SC-ST Hub Scheme (NSSH),agent_flag,Official portal scsthub.in not fetchable (timeout)
+MSME2526-051,Special Credit Linked Capital Subsidy Scheme (SCLCSS),agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-052,Special Marketing Assistance Scheme (SMAS),agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-052,Special Marketing Assistance Scheme (SMAS),agent_flag,Booklet extract did not state which events/visits the airfare subsidy applies to; see NSSH_Guidelines_SMAS.pdf on scsthub.in
+MSME2526-053,Single Point Registration Scheme (SPRS) under NSSH,agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-053,Single Point Registration Scheme (SPRS) under NSSH,agent_flag,Booklet sentence was truncated with '...' in extract; full wording not captured
+MSME2526-054,Reimbursement of Bank Loan Processing Fee (NSSH),agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-055,Reimbursement of Performance Bank Guarantee charges (NSSH),agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-055,Reimbursement of Performance Bank Guarantee charges (NSSH),agent_flag,Booklet extract did not specify whether reimbursement is of PBG fee/commission; percent_of is an interpretation
+MSME2526-056,Reimbursement of Testing Fee (NSSH),agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-057,Reimbursement of Export Promotion Council Membership Fee (NSSH),agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-058,Reimbursement of Government e-Commerce Portals Membership Fee (NSSH),agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-059,Reimbursement of Management Training Programme Fee (NSSH),agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-059,Reimbursement of Management Training Programme Fee (NSSH),agent_flag,Booklet wording as extracted reads '90% or course fee or Rs. 1.0 lakh' — likely '90% of course fee'; verify
+MSME2526-060,"A Scheme for Promotion of Innovation, Rural Industries and Entrepreneurship (ASPIRE)",agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-060,"A Scheme for Promotion of Innovation, Rural Industries and Entrepreneurship (ASPIRE)",agent_flag,"Booklet ASPIRE section lists only the LBI component (no TBI / Fund of Funds), so no child records created"
+MSME2526-060,"A Scheme for Promotion of Innovation, Rural Industries and Entrepreneurship (ASPIRE)",agent_flag,Implementing division not stated in extract
+MSME2526-061,Khadi Gramodyog Vikas Yojana (KGVY),agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-061,Khadi Gramodyog Vikas Yojana (KGVY),agent_flag,Eligibility list appeared in the GVY part of the extract but refers to 'KGVY'; applied to parent and GVY
+MSME2526-062,Khadi Vikas Yojana (KVY),agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-062,Khadi Vikas Yojana (KVY),agent_flag,Catalog SCH000076 Khadi Vikas Yojana is marked inactive
+MSME2526-063,Modified Market Development Assistance (MMDA),agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-063,Modified Market Development Assistance (MMDA),agent_flag,MMDA sharing among artisans/institution not captured from booklet
+MSME2526-063,Modified Market Development Assistance (MMDA),agent_flag,page_book approximate (KGVY section spans pp. 28-30)
+MSME2526-064,Interest Subsidy Eligibility Certificate Scheme (ISEC),agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-064,Interest Subsidy Eligibility Certificate Scheme (ISEC),agent_flag,page_book approximate (KGVY section spans pp. 28-30)
+MSME2526-065,Work-shed Scheme for Khadi Artisans,agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-065,Work-shed Scheme for Khadi Artisans,agent_flag,"Group workshed Rs. 80,000 basis (per artisan vs per group) unclear in extract"
+MSME2526-065,Work-shed Scheme for Khadi Artisans,agent_flag,page_book approximate (KGVY section spans pp. 28-30)
+MSME2526-066,Strengthening Infrastructure of Existing Weak Khadi Institutions,agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-066,Strengthening Infrastructure of Existing Weak Khadi Institutions,agent_flag,page_book approximate (KGVY section spans pp. 28-30)
+MSME2526-067,Marketing Infrastructure (Khadi),agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-067,Marketing Infrastructure (Khadi),agent_flag,page_book approximate (KGVY section spans pp. 28-30)
+MSME2526-068,Gramodyog Vikas Yojana (GVY),agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-068,Gramodyog Vikas Yojana (GVY),agent_flag,"Catalog has only activity-level GVY entries (SCH000006, SCH000019, SCH000125) mapped on children"
+MSME2526-069,Agarbatti Programme – Gramodyog Vikas Yojana,agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-069,Agarbatti Programme – Gramodyog Vikas Yojana,agent_flag,page_book approximate
+MSME2526-070,Leather Footwear Programme – Gramodyog Vikas Yojana,agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-070,Leather Footwear Programme – Gramodyog Vikas Yojana,agent_flag,page_book approximate
+MSME2526-071,Pottery Programme – Gramodyog Vikas Yojana,agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-071,Pottery Programme – Gramodyog Vikas Yojana,agent_flag,page_book approximate
+MSME2526-071,Pottery Programme – Gramodyog Vikas Yojana,agent_flag,Catalog SCH000125 Pottery GVY marked inactive
+MSME2526-072,Honey Mission (Beekeeping) – Gramodyog Vikas Yojana,agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-072,Honey Mission (Beekeeping) – Gramodyog Vikas Yojana,agent_flag,page_book approximate
+MSME2526-072,Honey Mission (Beekeeping) – Gramodyog Vikas Yojana,agent_flag,Catalog SCH000019 Beekeeping GVY marked inactive
+MSME2526-073,Waste Wood / Turn Wood Craft Programme – Gramodyog Vikas Yojana,agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-073,Waste Wood / Turn Wood Craft Programme – Gramodyog Vikas Yojana,agent_flag,page_book approximate
+MSME2526-074,Hand Made Paper & Fibre Activities – Gramodyog Vikas Yojana,agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-074,Hand Made Paper & Fibre Activities – Gramodyog Vikas Yojana,agent_flag,page_book approximate
+MSME2526-075,Agro-Food Processing Programme – Gramodyog Vikas Yojana,agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-075,Agro-Food Processing Programme – Gramodyog Vikas Yojana,agent_flag,page_book approximate
+MSME2526-075,Agro-Food Processing Programme – Gramodyog Vikas Yojana,agent_flag,Booklet extract gave no exact quote/toolkit detail for agro-food processing
+MSME2526-076,"Service Industry Programme (Electrician, Plumber, DigniTEA) – Gramodyog Vikas Yojana",agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-076,"Service Industry Programme (Electrician, Plumber, DigniTEA) – Gramodyog Vikas Yojana",agent_flag,page_book approximate
+MSME2526-077,Promotion of MSMEs in North Eastern Region and Sikkim,agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-077,Promotion of MSMEs in North Eastern Region and Sikkim,agent_flag,"max_amount_inr in benefit_facts = GoI cap (90% of max project cost) from 2025 guidelines page; booklet states project-cost ceilings, so source_quote_en is only '90%'"
+MSME2526-077,Promotion of MSMEs in North Eastern Region and Sikkim,agent_flag,Booklet extract had no exact long quote for components
+MSME2526-078,PM Vishwakarma,agent_flag,Booklet quotes obtained via WebFetch summariser (PDF text not read raw); spot-check source_quote_en against PDF
+MSME2526-078,PM Vishwakarma,agent_flag,Booklet extract gave no explicit eligibility conditions; eligibility in 'current' from PIB Sept 2025
+MSME2526-078,PM Vishwakarma,agent_flag,pmvishwakarma.gov.in not fetchable (timeout)
+MSME2526-080,Tool Rooms and Technical Institutions,agent_flag,"Booklet gives no course fees, fee concessions, trainee counts or placement data; check individual TC websites."
+MSME2526-080,Tool Rooms and Technical Institutions,agent_flag,"Sector list (fragrance, glass, sports goods) from booklet summary; not individually verified."
+MSME2526-081,MSME Champions Scheme,agent_flag,Scheme period stated as 2021-22 to 2025-26; continuation into 2026-27 not confirmed by an official notice.
+MSME2526-081,MSME Champions Scheme,agent_flag,"Booklet says 'six components' but lists four (ZED, Innovative, Lean, Digital MSME)."
+MSME2526-082,MSME Sustainable (ZED) Certification Scheme,agent_flag,Booklet text as parsed by fetch tool; 'technology upgradation Rs 3 lakh' label inferred from 'graded incentives' wording — verify against ZED guidelines.
+MSME2526-082,MSME Sustainable (ZED) Certification Scheme,agent_flag,Original ZED guidelines also cover non-manufacturing/services—booklet does not specify sector.
+MSME2526-083,"MSME Innovative Scheme (Incubation, Design and IPR)",agent_flag,innovative.msme.gov.in not reachable for live status check.
+MSME2526-084,MSME Innovative Scheme (Incubation),agent_flag,Booklet does not specify which institutions qualify as Host Institutes.
+MSME2526-085,MSME Innovative Scheme (Design),agent_flag,page_book 43 estimated (section spans pp.42-44).
+MSME2526-085,MSME Innovative Scheme (Design),agent_flag,Booklet does not name implementing agencies (e.g. NID/IIT) for Design.
+MSME2526-086,MSME Innovative Scheme (Intellectual Property Rights – IPR),agent_flag,page_book 44 estimated (section spans pp.42-44).
+MSME2526-086,MSME Innovative Scheme (Intellectual Property Rights – IPR),agent_flag,Required documents not listed in booklet; 'IP registration documents' is generic.
+MSME2526-087,MSME Competitive (LEAN) Scheme,agent_flag,"percent=90 derived from Rs 1,08,000/1,20,000 and 10% beneficiary share; booklet states amounts not the 90% figure."
+MSME2526-088,Digital MSME,agent_flag,No benefits/eligibility published; not launched per booklet. Not separately searched for later launch.
+MSME2526-088,Digital MSME,status_uncertain,announced (medium): Booklet 2025-26 lists Digital MSME as 'Yet to be launched'.
+MSME2526-089,Self Reliant India (SRI) Fund,agent_flag,Booklet eligibility text on NBFC/SHG etc. was ambiguous in fetch (eligible as fund structures vs not as beneficiaries).
+MSME2526-089,Self Reliant India (SRI) Fund,agent_flag,No direct application by MSMEs; NVCFL site gave no contact details.
+MSME2526-090,Raising and Accelerating MSME Performance (RAMP),agent_flag,Booklet gives no per-MSME benefit amounts; benefits vary by State SIP.
+MSME2526-090,Raising and Accelerating MSME Performance (RAMP),agent_flag,official_url set to msme.gov.in (no dedicated RAMP portal URL in booklet).
+NEW2026-001,Mutual Credit Guarantee Scheme for MSMEs (MCGS-MSME),agent_flag,Exporter-window figures from PIB 21 Mar 2026 via fetch summary; '75% for eligible exporters' paraphrased — quote not verified verbatim.
+NEW2026-001,Mutual Credit Guarantee Scheme for MSMEs (MCGS-MSME),agent_flag,Equipment/machinery threshold changed 75%→60% in Mar 2026; original Jan 2025 guidelines said 75%.
+NEW2026-001,Mutual Credit Guarantee Scheme for MSMEs (MCGS-MSME),agent_flag,Not in the MSME booklet 2025-26 (Ministry of Finance / NCGTC scheme); duplicate MSME2526-004 dropped in favour of this record.
+NEW2026-001,Mutual Credit Guarantee Scheme for MSMEs (MCGS-MSME),unverified_amount,guarantee max=200000000 pct=75 :: 75% for eligible exporters
+NEW2026-002,Export Promotion Mission (EPM),agent_flag,Hindi names of sub-schemes not found on official source; Devanagari transliteration used.
+NEW2026-002,Export Promotion Mission (EPM),agent_flag,Outlay split between Niryat Protsahan and Niryat Disha not verified; omitted.
+NEW2026-002,Export Promotion Mission (EPM),agent_flag,catalog SCH000070 (Interest Equalisation Scheme) is a predecessor consolidated into EPM.
+NEW2026-002,Export Promotion Mission (EPM),agent_flag,Related catalog row SCH000070 (Interest Equalisation Scheme) is the predecessor; not same scheme.
+NEW2026-003,Niryat Protsahan (EPM financial enablers),agent_flag,Related catalog row SCH000070 (Interest Equalisation Scheme) is the predecessor; not same scheme.
+NEW2026-004,Interest Subvention on Pre- and Post-Shipment Export Credit (EPM – Niryat Protsahan),agent_flag,Related catalog row SCH000070 (Interest Equalisation Scheme) is the predecessor; not same scheme.
+NEW2026-007,E-Commerce Export Credit Facility (EPM – Niryat Protsahan),unverified_amount,guarantee max=5000000 pct=90 :: 90% guarantee (₹50 lakh cap)
+NEW2026-007,E-Commerce Export Credit Facility (EPM – Niryat Protsahan),unverified_amount,guarantee max=50000000 pct=75 :: 75% guarantee (₹5 crore cap)
+NEW2026-008,Emerging Export Opportunities – Risk Sharing (EPM – Niryat Protsahan),agent_flag,Operational mechanics (which banks/instruments) not detailed in source.
+NEW2026-008,Emerging Export Opportunities – Risk Sharing (EPM – Niryat Protsahan),unverified_amount,guarantee max=None pct=90 :: Risk-sharing between 10-90% of transaction value
+NEW2026-010,"TRACE – Trade Regulations, Accreditation & Compliance Support (EPM – Niryat Disha)",agent_flag,Documents for reimbursement claim inferred generically; not listed in source.
+NEW2026-010,"TRACE – Trade Regulations, Accreditation & Compliance Support (EPM – Niryat Disha)",unverified_amount,reimbursement max=2500000 pct=60 :: 60% of certification costs (Positive List)
+NEW2026-010,"TRACE – Trade Regulations, Accreditation & Compliance Support (EPM – Niryat Disha)",unverified_amount,reimbursement max=2500000 pct=75 :: 75% (Priority Positive List)
+NEW2026-011,LIFT – Logistics Interventions for Freight & Transport (EPM – Niryat Disha),agent_flag,List of notified districts/products not captured.
+NEW2026-013,FLOW – Overseas Warehousing & Fulfilment (EPM – Niryat Disha),unverified_amount,"grant max=100000000 pct=30 :: ₹10 crore or 30% of cost, whichever lower"
+NEW2026-014,Market Access Support (MAS) (EPM – Niryat Disha),agent_flag,MSME participation route via EPCs inferred from proposal-based design; airfare support amounts not stated.
+NEW2026-014,Market Access Support (MAS) (EPM – Niryat Disha),unverified_amount,grant max=50000000 pct=None :: ₹5 crore per event
+NEW2026-015,Credit Guarantee Scheme for Exporters (CGSE),agent_flag,Status 'closed' inferred from stated sanction deadline 31.03.2026; no official extension notice located — verify.
+NEW2026-015,Credit Guarantee Scheme for Exporters (CGSE),agent_flag,"Loan tenure/interest/₹50 crore cap from Indian Bank and YES Bank product pages, not PIB."
+NEW2026-015,Credit Guarantee Scheme for Exporters (CGSE),unverified_amount,loan max=500000000 pct=20 :: Maximum Loan: INR 50 Crore per borrower
+NEW2026-016,Interest Equalisation Scheme on Pre and Post Shipment Rupee Export Credit (IES),agent_flag,CATALOG FIX: SCH000070 'Interest Equalisation Scheme' is is_active=1 but scheme is closed/subsumed into EPM — set inactive and point users to NEW2026-004.
+NEW2026-016,Interest Equalisation Scheme on Pre and Post Shipment Rupee Export Credit (IES),agent_flag,End date 31 Dec 2024 from general knowledge/DGFT practice; PIB EPM release confirms consolidation but not the exact end date.
+NEW2026-016,Interest Equalisation Scheme on Pre and Post Shipment Rupee Export Credit (IES),unverified_amount,interest_subvention max=100000000 pct=3 :: 3%
+NEW2026-017,Credit Cards for Micro Enterprises Scheme,agent_flag,"Launch status sourced from a news report of a Lok Sabha answer (kashmirlife.net), not an official page — verify on sansad.in/PIB."
+NEW2026-017,Credit Cards for Micro Enterprises Scheme,agent_flag,Official scheme name 'Credit Cards for Micro Enterprises Scheme' taken from the news report; Hindi name is a translation.
+NEW2026-017,Credit Cards for Micro Enterprises Scheme,agent_flag,Application channel (which banks/portal) not confirmed.
+NEW2026-018,"Scheme for First-Time Entrepreneurs (Women, SC and ST) – Budget 2025-26",agent_flag,No official scheme name yet; name is descriptive.
+NEW2026-018,"Scheme for First-Time Entrepreneurs (Women, SC and ST) – Budget 2025-26",agent_flag,"'online capacity building' detail from budget speech recollection, not verified in fetched text."
+NEW2026-018,"Scheme for First-Time Entrepreneurs (Women, SC and ST) – Budget 2025-26",agent_flag,Do not show apply steps until launched; Stand-Up India (SCH000218) is the operational alternative.
+NEW2026-018,"Scheme for First-Time Entrepreneurs (Women, SC and ST) – Budget 2025-26",status_uncertain,announced (medium): Parliamentary Standing Committee (PIB 11 Mar 2026) stated it remained 'completely unimplemented'; no launch notification found as of 2026-10-04.
+NEW2026-019,Startup India Fund of Funds 2.0 (Startup India FoF 2.0),agent_flag,"catalog SCH000060 (FFS, 2016) is the predecessor fund; FoF 2.0 is a separate new scheme."
+NEW2026-019,Startup India Fund of Funds 2.0 (Startup India FoF 2.0),agent_flag,Related catalog row SCH000060 (FFS) is the predecessor; not same scheme.
+NEW2026-019,Startup India Fund of Funds 2.0 (Startup India FoF 2.0),unverified_amount,"other max=100000000000 pct=None :: ₹10,000 crore"
+NEW2026-020,"Research, Development and Innovation (RDI) Scheme",agent_flag,Sectors list inferred from 'strategic and sunrise domains' and fund managers; verify.
+NEW2026-020,"Research, Development and Innovation (RDI) Scheme",agent_flag,Fund-manager application URLs not captured.
+NEW2026-021,Credit Assessment Model (CAM) for MSMEs based on Digital Footprints,agent_flag,Loan amount thresholds per bank not stated in source.
+NEW2026-021,Credit Assessment Model (CAM) for MSMEs based on Digital Footprints,agent_flag,Udyam Registration in documents list assumed for MSME loans; not explicit in source.
+NEW2026-022,Trade Receivables Discounting System (TReDS),agent_flag,"Platform, not a funded scheme; consider showing as facility."
+NEW2026-022,Trade Receivables Discounting System (TReDS),agent_flag,"Platform names/URLs (RXIL, M1xchange, Invoicemart etc.) not listed in fetched official text — omitted."
+NEW2026-022,Trade Receivables Discounting System (TReDS),agent_flag,Registration documents generic; not listed in source.
+NEW2026-024,GENESIS – Gen-Next Support for Innovative Startups,agent_flag,Launched 2022 (not 2023–26) but missing from catalog; 5-year term may end ~2027.
+NEW2026-024,GENESIS – Gen-Next Support for Innovative Startups,agent_flag,Stage amounts from brochure via fetch summary; verify exact wording.
+NEW2026-024,GENESIS – Gen-Next Support for Innovative Startups,unverified_amount,grant max=1000000 pct=None :: Up to Rs. 10 Lakhs
+NEW2026-024,GENESIS – Gen-Next Support for Innovative Startups,unverified_amount,grant max=10000000 pct=None :: Up to Rs. 1 Crore
+NEW2026-025,SME Growth Fund (Budget 2026-27),agent_flag,Operational status unknown; recheck. SRI Fund itself is excluded (booklet core list).
+NEW2026-025,SME Growth Fund (Budget 2026-27),status_uncertain,announced (medium): Budget 2026-27 announcement; no operational guidelines found as of 2026-10-04.
+NEW2026-026,National Manufacturing Mission,agent_flag,Mission/policy framework rather than an applicable scheme; consider hiding in app.
+NEW2026-026,National Manufacturing Mission,status_uncertain,announced (low): Referenced in Budget 2026-27 documents (target 25% GDP share by 2035) but no separate operational scheme for enterprises found.
+NEW2026-050,Pradhan Mantri Viksit Bharat Rozgar Yojana (PM-VBRY) – Employment Linked Incentive Scheme,agent_flag,"Employer wage-slab detail (₹1,000/₹2,000/₹3,000) and minimum additional-hire thresholds not verified on official page; only 'up to ₹3,000' recorded."
+NEW2026-050,Pradhan Mantri Viksit Bharat Rozgar Yojana (PM-VBRY) – Employment Linked Incentive Scheme,agent_flag,Employer step wording based on PM-VBRY portal existence (pmvbry.epfindia.gov.in) and PIB 'portal goes live' release; ECR detail not quoted from source.
+NEW2026-051,Prime Minister's Internship Scheme (PMIS),agent_flag,"Non-official sources (nationalskillsnetwork.in, 2026) report a revamped PMIS with ₹9,000/month stipend, age 18–25 and 6–9 month duration; not verified on PIB/MCA — values above are the official pilot terms."
+NEW2026-051,Prime Minister's Internship Scheme (PMIS),agent_flag,Documents list not stated on source; generic.
+NEW2026-051,Prime Minister's Internship Scheme (PMIS),agent_flag,Duplicate NEW2026-023 dropped in favour of this record.
+NEW2026-052,"Skill India Programme (restructured: PMKVY 4.0, PM-NAPS, JSS)",agent_flag,PMKVY itself is already in catalog (SCH000126) — not duplicated; this is the umbrella parent.
+NEW2026-052,"Skill India Programme (restructured: PMKVY 4.0, PM-NAPS, JSS)",agent_flag,Skill India Digital Hub URL not verified on source; left null.
+NEW2026-052,"Skill India Programme (restructured: PMKVY 4.0, PM-NAPS, JSS)",agent_flag,Period ended 2025-26 on paper; status after March 2026 unverified.
+NEW2026-053,Pradhan Mantri National Apprenticeship Promotion Scheme (PM-NAPS),agent_flag,Apprenticeship portal URL not verified in this pass; left null.
+NEW2026-053,Pradhan Mantri National Apprenticeship Promotion Scheme (PM-NAPS),agent_flag,catalog_match partial because umbrella PMKVY (SCH000126) is in catalog; PM-NAPS itself not found.
+NEW2026-054,Jan Shikshan Sansthan (JSS) Scheme,agent_flag,Whether JSS charges any nominal fee is not stated; '100% grant' recorded.
+NEW2026-055,Prime Minister Dhan-Dhaanya Krishi Yojana (PMDDKY),agent_flag,"Annual outlay (reported ₹24,000 crore) not found in fetched official text; omitted."
+NEW2026-055,Prime Minister Dhan-Dhaanya Krishi Yojana (PMDDKY),agent_flag,No standalone application; delivered via 36 converged schemes.
+NEW2026-056,Mission for Aatmanirbharta in Pulses,agent_flag,NAFED eSamridhi / NCCF registration portal URLs not verified; left null.
+NEW2026-056,Mission for Aatmanirbharta in Pulses,agent_flag,Processing subsidy percentage/eligibility details not in source.
+NEW2026-057,National Mission on Natural Farming (NMNF),agent_flag,Krishi Sakhi route in application step is inferred from mission structure; source only says farmers join clusters each season.
+NEW2026-058,Pradhan Mantri Matsya Kisan Samridhi Sah-Yojana (PM-MKSSY),agent_flag,NFDP URL not reachable for verification (nfdp.dahd.gov.in DNS failure); left null.
+NEW2026-058,Pradhan Mantri Matsya Kisan Samridhi Sah-Yojana (PM-MKSSY),agent_flag,Application step 2 wording generalised; exact process not in source.
+NEW2026-058,Pradhan Mantri Matsya Kisan Samridhi Sah-Yojana (PM-MKSSY),agent_flag,Sector 'fisheries' not in vocabulary; mapped to agriculture.
+NEW2026-059,Agriculture Infrastructure Fund (AIF),agent_flag,Scheme end date (reported extension to 2032-33) not verified on fetched page.
+NEW2026-059,Agriculture Infrastructure Fund (AIF),agent_flag,"'Detailed project report' document inferred, not quoted."
+NEW2026-060,Pradhan Mantri Kisan Urja Suraksha evam Utthaan Mahabhiyan (PM-KUSUM),agent_flag,"Status source is trade press (solarquarter.com), not official; new sanctions after March 2026 uncertain."
+NEW2026-060,Pradhan Mantri Kisan Urja Suraksha evam Utthaan Mahabhiyan (PM-KUSUM),agent_flag,pmkusum.mnre.gov.in not verified; left null.
+NEW2026-060,Pradhan Mantri Kisan Urja Suraksha evam Utthaan Mahabhiyan (PM-KUSUM),agent_flag,'30% + 30% + 40%' split and income figures from PIB factsheet (2020-21 era).
+NEW2026-061,PM Surya Ghar: Muft Bijli Yojana,agent_flag,Vendor/MSME registration process on the portal not detailed on source; vendor angle noted in description only.
+NEW2026-061,PM Surya Ghar: Muft Bijli Yojana,agent_flag,"Step 1 field list (State, DISCOM) partially inferred; source says login with consumer number and mobile."
+NEW2026-062,PM Electric Drive Revolution in Innovative Vehicle Enhancement (PM E-DRIVE) Scheme,agent_flag,Per-vehicle incentive amounts and e-voucher/Aadhaar process not in fetched official text; omitted.
+NEW2026-062,PM Electric Drive Revolution in Innovative Vehicle Enhancement (PM E-DRIVE) Scheme,agent_flag,Low app relevance now that 2W/3W incentives have ended.
+NEW2026-063,Dharti Aaba Janjatiya Gram Utkarsh Abhiyan (DAJGUA),agent_flag,"Livelihood components (tribal homestays, FRA patta-holder support, Tribal Multipurpose Marketing Centres) not detailed in fetched official text; omitted."
+NEW2026-063,Dharti Aaba Janjatiya Gram Utkarsh Abhiyan (DAJGUA),agent_flag,Village eligibility criteria (population thresholds) not stated in source.
+NEW2026-064,Pradhan Mantri Dakshta Aur Kushalta Sampann Hitgrahi (PM-DAKSH) Yojana,agent_flag,Portal pmdaksh.dosje.gov.in could not be fetched for verification (timeout); widely cited as official.
+NEW2026-064,Pradhan Mantri Dakshta Aur Kushalta Sampann Hitgrahi (PM-DAKSH) Yojana,agent_flag,Documents list inferred from eligibility (caste/income); not quoted.
+NEW2026-064,Pradhan Mantri Dakshta Aur Kushalta Sampann Hitgrahi (PM-DAKSH) Yojana,agent_flag,Income ceiling and EWS inclusion from PIB 2025 reply (PRID 2149715).
+NEW2026-065,Scheme for Residential Education for Students in High Schools in Targeted Areas (SHRESHTA),agent_flag,Education scheme with no direct enterprise angle; included because task listed it.
+NEW2026-065,Scheme for Residential Education for Students in High Schools in Targeted Areas (SHRESHTA),agent_flag,NETS application URL not verified; left null. Documents inferred.
+NEW2026-065,Scheme for Residential Education for Students in High Schools in Targeted Areas (SHRESHTA),agent_flag,Status not re-verified for 2026.
+NEW2026-065,Scheme for Residential Education for Students in High Schools in Targeted Areas (SHRESHTA),status_uncertain,unknown (low): Launched 2022; no 2026 status confirmation found in this pass.
+NEW2026-066,Support for Marginalized Individuals for Livelihood and Enterprise (SMILE),agent_flag,Certificate requirement and portal-based application inferred from the 'National Portal & Helpline' component; portal URL not verified.
+NEW2026-066,Support for Marginalized Individuals for Livelihood and Enterprise (SMILE),agent_flag,No direct enterprise subsidy amounts found.
+NEW2026-067,National Action for Mechanised Sanitation Ecosystem (NAMASTE),agent_flag,Per-beneficiary capital subsidy ceiling (reported up to ₹5 lakh) not in fetched official text; omitted.
+NEW2026-067,National Action for Mechanised Sanitation Ecosystem (NAMASTE),agent_flag,Target group 'sc' is an approximation (majority of sanitation workers) and not a formal condition — review.
+NEW2026-067,National Action for Mechanised Sanitation Ecosystem (NAMASTE),agent_flag,Application steps generalised from implementation structure.
+NEW2026-068,Silk Samagra-2 (Integrated Scheme for Development of Silk Industry),agent_flag,Subsidy percentages for farmers/reelers not stated in source.
+NEW2026-068,Silk Samagra-2 (Integrated Scheme for Development of Silk Industry),agent_flag,May be subsumed in National Fibre Scheme (Budget 2026-27) — verify.
+NEW2026-068,Silk Samagra-2 (Integrated Scheme for Development of Silk Industry),status_uncertain,"unknown (low): Silk Samagra-2 ran 2021-22 to 2025-26; Union Budget 2026-27 announced a National Fibre Scheme covering silk, wool and jute — successor arrangement not confirmed."
+NEW2026-069,Samarth – Scheme for Capacity Building in Textiles Sector,agent_flag,Trainee cost not specified on source.
+NEW2026-069,Samarth – Scheme for Capacity Building in Textiles Sector,agent_flag,Samarth 2.0 details unknown — status 'unknown' pending launch.
+NEW2026-069,Samarth – Scheme for Capacity Building in Textiles Sector,status_uncertain,unknown (medium): Samarth extended only to March 2026; Samarth 2.0 announced in Union Budget 2026-27 but its guidelines/launch not found.
+NEW2026-070,PM Mega Integrated Textile Region and Apparel (PM MITRA) Parks,agent_flag,Competitiveness incentive amounts for units not verified; omitted.
+NEW2026-070,PM Mega Integrated Textile Region and Apparel (PM MITRA) Parks,agent_flag,Allotment step generic; not quoted from source.
+NEW2026-071,National Livestock Mission – Entrepreneurship Development Programme (NLM-EDP),agent_flag,source_quote '50% of project cost' is the fetch paraphrase; amounts from same PIB reply — verify exact wording.
+NEW2026-071,National Livestock Mission – Entrepreneurship Development Programme (NLM-EDP),agent_flag,"Step 1 workflow (State scrutiny, bank) not quoted from official source; portal existence verified."
+NEW2026-071,National Livestock Mission – Entrepreneurship Development Programme (NLM-EDP),agent_flag,Sector 'animal husbandry' mapped to agriculture.
+NEW2026-071,National Livestock Mission – Entrepreneurship Development Programme (NLM-EDP),unverified_amount,subsidy max=2500000 pct=50 :: 50% of project cost
+NEW2026-071,National Livestock Mission – Entrepreneurship Development Programme (NLM-EDP),unverified_amount,subsidy max=5000000 pct=50 :: 50% of project cost
+NEW2026-071,National Livestock Mission – Entrepreneurship Development Programme (NLM-EDP),unverified_amount,subsidy max=3000000 pct=50 :: 50% of project cost
+NEW2026-071,National Livestock Mission – Entrepreneurship Development Programme (NLM-EDP),unverified_amount,subsidy max=5000000 pct=50 :: 50% of project cost
+NEW2026-072,Animal Husbandry Infrastructure Development Fund (AHIDF),agent_flag,ahidf.udyamimitra.in page fetched but did not identify as application portal explicitly — verify URL.
+NEW2026-072,Animal Husbandry Infrastructure Development Fund (AHIDF),agent_flag,Loan 90% quote is fetch paraphrase.
+NEW2026-072,Animal Husbandry Infrastructure Development Fund (AHIDF),agent_flag,Check for continuation beyond 2025-26.
+NEW2026-072,Animal Husbandry Infrastructure Development Fund (AHIDF),status_uncertain,unknown (low): Extension approved only up to 2025-26; status after March 2026 not confirmed.
+NEW2026-072,Animal Husbandry Infrastructure Development Fund (AHIDF),unverified_amount,"loan max=None pct=90 :: Up to 90% from scheduled banks, NCDC, NABARD, and NDDB"
+NEW2026-073,"Formation and Promotion of 10,000 Farmer Producer Organisations (FPOs)",agent_flag,"Target of 10,000 FPOs already achieved; new FPO formation under this scheme may be limited."
+NEW2026-073,"Formation and Promotion of 10,000 Farmer Producer Organisations (FPOs)",agent_flag,Step 1 generalised; CBBO process not in source.
+NEW2026-074,Deendayal Jan Aajeevika Yojana – Shehari (DJAY-S),agent_flag,CATALOG FIX: SCH000043 'DAY-NULM' is marked is_active=1 but DAY-NULM ended on 30.09.2024 — should be set inactive and pointed to this successor.
+NEW2026-074,Deendayal Jan Aajeevika Yojana – Shehari (DJAY-S),agent_flag,Loan amounts / interest subvention under DJAY-S not found in official sources; omitted.
+NEW2026-074,Deendayal Jan Aajeevika Yojana – Shehari (DJAY-S),agent_flag,Application steps generalised from component structure; not quoted.
+NEW2026-074,Deendayal Jan Aajeevika Yojana – Shehari (DJAY-S),agent_flag,Status 'active' low confidence: only pilot documented officially; Delhi SULM and Nagaland IPR pages describe ongoing implementation.
+NEW2026-074,Deendayal Jan Aajeevika Yojana – Shehari (DJAY-S),status_uncertain,active (low): DAY-NULM ended 30.09.2024 (Lok Sabha reply 3 Apr 2025); DJAY-S pilot from 01.10.2024 extended till 31.03.2025 and states report continued rollout; full-scheme Cabinet approval not found.

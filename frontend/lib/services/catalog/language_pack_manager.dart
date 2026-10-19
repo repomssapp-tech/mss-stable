@@ -1,30 +1,26 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
-
-import 'package:archive/archive.dart';
-import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
+
+import 'mss_catalog_bundle.dart';
 
 /// LanguagePackManager
 /// ───────────────────
-/// Manages downloading, sha256 verification, caching, and in-memory indexing of
-/// on-demand language packs (e.g. Hindi `hi`, Tamil `ta`) per MASTER_PLAN §4.
+/// O(1) per-language lookup of catalog text, for Hindi `hi`, Tamil `ta` and any
+/// other language the catalog carries.
 ///
-/// Features:
-/// - O(1) lookup by (lang, entityType, entityId).
-/// - Atomic file caching so partial downloads never corrupt active packs.
-/// - Sha256 integrity verification against release.json metadata.
-/// - Silent fallback to English when a pack is missing or invalid (Decision D3).
+/// There are no separate language-pack files: every entity's translations live
+/// in its own `localization.<lang>` block inside `catalog_bundle.json.gz`. This
+/// class indexes those blocks by (language, entityType, entityId) on demand so
+/// callers keep a cheap, synchronous `getField`. Which languages are switched
+/// on comes from the bundle's embedded manifest (`manifest.languages`), so a
+/// release can turn a language off without an app update.
+///
+/// A missing language, entity or field returns `null` and callers fall back to
+/// English (Decision D3); nothing is ever invented.
 class LanguagePackManager {
   LanguagePackManager._();
   static final LanguagePackManager instance = LanguagePackManager._();
 
-  static const String _cacheSubdir = 'mss_language_packs';
-
-  /// In-memory index: key is "$lang:$entityType:$entityId" -> fields map.
+  /// In-memory index: key is "$lang:$entityType:$entityId" -> localization block.
   final Map<String, Map<String, dynamic>> _indexedContent = {};
   final Set<String> _loadedLanguages = {};
 
@@ -34,7 +30,7 @@ class LanguagePackManager {
   static String _key(String lang, String entityType, String entityId) =>
       '$lang:$entityType:$entityId';
 
-  /// Returns the localized field value if available in the loaded language pack.
+  /// Returns the localized field value if available for [lang].
   String? getField({
     required String lang,
     required String entityType,
@@ -44,11 +40,12 @@ class LanguagePackManager {
     if (!_loadedLanguages.contains(lang)) return null;
     final entityMap = _indexedContent[_key(lang, entityType, entityId)];
     if (entityMap == null) return null;
-    
+
     // Check exact match, camelCase, or snake_case
     final camelKey = _camelCase(fieldName);
     final snakeKey = _snakeCase(fieldName);
-    final val = entityMap[fieldName] ?? entityMap[camelKey] ?? entityMap[snakeKey];
+    final val =
+        entityMap[fieldName] ?? entityMap[camelKey] ?? entityMap[snakeKey];
     if (val is String && val.trim().isNotEmpty) {
       return val;
     }
@@ -60,7 +57,10 @@ class LanguagePackManager {
   }
 
   static String _snakeCase(String s) {
-    return s.replaceAllMapped(RegExp(r'([A-Z])'), (m) => '_${m[1]!.toLowerCase()}');
+    return s.replaceAllMapped(
+      RegExp(r'([A-Z])'),
+      (m) => '_${m[1]!.toLowerCase()}',
+    );
   }
 
   /// Returns whether this translated entity has been verified by a human reviewer.
@@ -73,128 +73,40 @@ class LanguagePackManager {
     return entityMap?['verified'] == true;
   }
 
-  /// Asynchronously loads a language pack into memory.
-  /// Tries: 1) Cached file in local app documents, 2) Shipped asset pack.
+  /// Loads [lang] into the in-memory index from the catalog bundle. Returns
+  /// false when the bundle has no content in that language.
   Future<bool> loadPack(String lang) async {
     if (_loadedLanguages.contains(lang)) return true;
-
     try {
-      // 1. Try local cache directory
-      final cachedBytes = await _readCachedPack(lang);
-      if (cachedBytes != null) {
-        final parsed = _decompressAndParse(cachedBytes);
-        if (parsed != null) {
-          _indexPackData(lang, parsed);
-          _loadedLanguages.add(lang);
-          return true;
-        }
-      }
-
-      // 2. Try bundled asset pack
-      final assetPath = 'assets/catalog/catalog_pack_$lang.json.gz';
-      try {
-        final assetData = await rootBundle.load(assetPath);
-        final bytes = assetData.buffer.asUint8List();
-        final parsed = _decompressAndParse(bytes);
-        if (parsed != null) {
-          _indexPackData(lang, parsed);
-          _loadedLanguages.add(lang);
-          return true;
-        }
-      } catch (_) {
-        // Asset pack may not exist for some languages yet
-      }
-
-      return false;
+      final bundle = await MssCatalogBundle.load();
+      return indexBundle(lang, bundle);
     } catch (e) {
-      debugPrint('LanguagePackManager: Error loading pack for $lang: $e');
+      debugPrint('LanguagePackManager: error loading $lang: $e');
       return false;
     }
   }
 
-  /// Installs and verifies a downloaded compressed pack into cache atomically.
-  Future<bool> installPackBytes({
-    required String lang,
-    required Uint8List compressedBytes,
-    required String expectedSha256,
-  }) async {
-    try {
-      final actualSha256 = sha256.convert(compressedBytes).toString().toLowerCase();
-      if (actualSha256 != expectedSha256.toLowerCase()) {
-        debugPrint('LanguagePackManager: SHA-256 mismatch for $lang pack. Discarding.');
-        return false;
-      }
-
-      // Verify it can decompress and parse
-      final parsed = _decompressAndParse(compressedBytes);
-      if (parsed == null) {
-        debugPrint('LanguagePackManager: Failed to parse $lang pack payload.');
-        return false;
-      }
-
-      // Atomic file write
-      final dir = await _getCacheDir();
-      final tempFile = File('${dir.path}/temp_$lang.json.gz');
-      final targetFile = File('${dir.path}/catalog_pack_$lang.json.gz');
-
-      await tempFile.writeAsBytes(compressedBytes, flush: true);
-      if (await targetFile.exists()) {
-        await targetFile.delete();
-      }
-      await tempFile.rename(targetFile.path);
-
-      // Index in memory
-      _indexPackData(lang, parsed);
-      _loadedLanguages.add(lang);
-      return true;
-    } catch (e) {
-      debugPrint('LanguagePackManager: Error installing pack for $lang: $e');
-      return false;
-    }
-  }
-
-  void _indexPackData(String lang, Map<String, dynamic> packJson) {
-    final data = packJson['data'];
-    if (data is! List) return;
-
-    for (final item in data) {
-      if (item is! Map<String, dynamic>) continue;
-      final entityType = item['entityType'] as String?;
-      final entityId = item['entityId'] as String?;
-      if (entityType != null && entityId != null) {
-        _indexedContent[_key(lang, entityType, entityId)] = item;
-      }
-    }
-  }
-
-  Map<String, dynamic>? _decompressAndParse(Uint8List compressedBytes) {
-    try {
-      final decompressed = GZipDecoder().decodeBytes(compressedBytes);
-      final jsonStr = utf8.decode(decompressed);
-      return jsonDecode(jsonStr) as Map<String, dynamic>;
-    } catch (e) {
-      debugPrint('LanguagePackManager: Decompression error: $e');
-      return null;
-    }
-  }
-
-  Future<Uint8List?> _readCachedPack(String lang) async {
-    try {
-      final dir = await _getCacheDir();
-      final file = File('${dir.path}/catalog_pack_$lang.json.gz');
-      if (await file.exists()) {
-        return await file.readAsBytes();
-      }
-    } catch (_) {}
-    return null;
-  }
-
-  Directory? _customCacheDir;
-
+  /// Indexes every entity's `localization.<lang>` block from [bundle].
   @visibleForTesting
+  bool indexBundle(String lang, MssCatalogBundle bundle) {
+    var found = 0;
+    for (final entity in bundle.byId.values) {
+      final localization = entity.raw['localization'];
+      final block = localization is Map ? localization[lang] : null;
+      if (block is Map) {
+        _indexedContent[_key(lang, entity.entityType, entity.id)] = block
+            .cast<String, dynamic>();
+        found++;
+      }
+    }
+    if (found == 0) return false;
+    _loadedLanguages.add(lang);
+    return true;
+  }
+
   Map<String, dynamic>? _releaseManifest;
 
-  /// Sets the active release manifest for pack verification and kill-switch checks.
+  /// Sets the active manifest for kill-switch checks (tests).
   void setReleaseManifest(Map<String, dynamic>? manifest) {
     _releaseManifest = manifest;
   }
@@ -207,40 +119,34 @@ class LanguagePackManager {
   @visibleForTesting
   bool Function(String lang)? hasValidPackOverride;
 
-  /// Loads release.json if not already loaded in memory.
+  /// Loads the bundle's embedded manifest if not already in memory.
   Future<void> ensureReleaseManifestLoaded() async {
     if (_releaseManifest != null || isLanguageActiveOverride != null) return;
     try {
-      final assetStr = await rootBundle.loadString('assets/catalog/release.json');
-      _releaseManifest = jsonDecode(assetStr) as Map<String, dynamic>;
+      _releaseManifest = (await MssCatalogBundle.load()).manifest;
     } catch (e) {
       debugPrint('LanguagePackManager: failed to load release manifest: $e');
     }
   }
 
-  /// Checks if the given language is listed as active in the current release manifest.
+  /// Checks if the given language is listed as active in the current manifest
+  /// (`languages: [{code, isActive}]`).
   bool isLanguageActiveInRelease(String lang) {
     if (isLanguageActiveOverride != null) {
       return isLanguageActiveOverride!(lang);
     }
-    final manifest = _releaseManifest;
-    if (manifest != null) {
-      final packs = manifest['languagePacks'] as Map<String, dynamic>?;
-      if (packs != null && packs.containsKey(lang)) {
-        final packInfo = packs[lang] as Map<String, dynamic>?;
-        if (packInfo != null && packInfo.containsKey('isActive')) {
-          return packInfo['isActive'] == true;
+    final languages = _releaseManifest?['languages'];
+    if (languages is List) {
+      for (final item in languages) {
+        if (item is Map && item['code'] == lang) {
+          return item['isActive'] == true;
         }
-      }
-      final activeLangs = manifest['activeLanguages'] as List<dynamic>?;
-      if (activeLangs != null) {
-        return activeLangs.contains(lang);
       }
     }
     return false;
   }
 
-  /// Checks if a valid, parseable language pack is available (in-memory, cache, or asset).
+  /// Checks that the catalog actually has content for [lang].
   Future<bool> hasValidPack(String lang) async {
     if (hasValidPackOverride != null) {
       return hasValidPackOverride!(lang);
@@ -249,30 +155,11 @@ class LanguagePackManager {
         _indexedContent.keys.any((k) => k.startsWith('$lang:'))) {
       return true;
     }
-    try {
-      final cachedBytes = await _readCachedPack(lang);
-      if (cachedBytes != null) {
-        final parsed = _decompressAndParse(cachedBytes);
-        if (parsed != null && (parsed['data'] as List?)?.isNotEmpty == true) {
-          return true;
-        }
-      }
-    } catch (_) {}
-
-    try {
-      final assetPath = 'assets/catalog/catalog_pack_$lang.json.gz';
-      final assetData = await rootBundle.load(assetPath);
-      final bytes = assetData.buffer.asUint8List();
-      final parsed = _decompressAndParse(bytes);
-      if (parsed != null && (parsed['data'] as List?)?.isNotEmpty == true) {
-        return true;
-      }
-    } catch (_) {}
-
-    return false;
+    return loadPack(lang);
   }
 
-  /// Returns true iff the release manifest lists the language as active AND a valid pack is present.
+  /// Returns true iff the manifest lists the language as active AND the catalog
+  /// carries content in it.
   Future<bool> isLanguageSupported(String lang) async {
     if (isLanguageActiveOverride != null) {
       if (!isLanguageActiveOverride!(lang)) return false;
@@ -283,27 +170,6 @@ class LanguagePackManager {
       }
     }
     return await hasValidPack(lang);
-  }
-
-  void setCacheDirectoryForTesting(Directory dir) {
-    _customCacheDir = dir;
-  }
-
-  Future<Directory> _getCacheDir() async {
-    if (_customCacheDir != null) return _customCacheDir!;
-    if (Platform.environment.containsKey('FLUTTER_TEST')) {
-      final temp = Directory('${Directory.systemTemp.path}/$_cacheSubdir');
-      if (!await temp.exists()) {
-        await temp.create(recursive: true);
-      }
-      return temp;
-    }
-    final docs = await getApplicationDocumentsDirectory();
-    final dir = Directory('${docs.path}/$_cacheSubdir');
-    if (!await dir.exists()) {
-      await dir.create(recursive: true);
-    }
-    return dir;
   }
 
   /// Clears in-memory index (used primarily for unit testing).

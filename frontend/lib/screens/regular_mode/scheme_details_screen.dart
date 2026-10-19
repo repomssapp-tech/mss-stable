@@ -16,6 +16,7 @@ import 'scheme_details/scheme_bottom_action_bar.dart';
 import 'scheme_details/scheme_documents_section.dart';
 import 'scheme_details/scheme_eligibility_section.dart';
 import 'scheme_details/scheme_expandable_section.dart';
+import 'scheme_details/scheme_extra_sections.dart';
 import 'scheme_details/scheme_hero_section.dart';
 import 'scheme_details/scheme_highlights_card.dart';
 import 'scheme_details/scheme_process_section.dart';
@@ -518,9 +519,24 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                           steps: scheme.applicationProcess,
                         ),
                       ),
-                      SizedBox(
-                        height: MediaQuery.sizeOf(context).height * 0.5,
+                      const SizedBox(height: AppSpacing.md),
+                      SchemeExtraSections(
+                        scheme: rawScheme,
+                        lang: provider.selectedLanguage,
+                        onOpenUrl: _openOfficialUrl,
+                        resolveScheme: (id) {
+                          for (final s in provider.allSchemes) {
+                            if (s.id == id) return s;
+                          }
+                          return null;
+                        },
+                        onOpenScheme: (s) => Navigator.of(context).push(
+                          MaterialPageRoute<void>(
+                            builder: (_) => SchemeDetailsScreen(scheme: s),
+                          ),
+                        ),
                       ),
+                      SizedBox(height: MediaQuery.sizeOf(context).height * 0.5),
                     ]),
                   ),
                 ),

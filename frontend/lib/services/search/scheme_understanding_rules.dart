@@ -1,4 +1,4 @@
-﻿import 'scheme_understanding_models.dart';
+import 'scheme_understanding_models.dart';
 
 /// Keyword aliases mapping broad intent categories to English, romanized Tamil,
 /// and Tamil script equivalents.
@@ -222,7 +222,8 @@ const Map<EligibilityFactKey, FollowUpQuestion> schemeFollowUpQuestions = {
   EligibilityFactKey.businessStage: FollowUpQuestion(
     factKey: EligibilityFactKey.businessStage,
     english: 'Are you starting a new business or expanding an existing one?',
-    tamil: 'புதிய தொழில் தொடங்குகிறீர்களா அல்லது உள்ள தொழிலை விரிவுபடுத்துகிறீர்களா?',
+    tamil:
+        'புதிய தொழில் தொடங்குகிறீர்களா அல்லது உள்ள தொழிலை விரிவுபடுத்துகிறீர்களா?',
     options: ['New business', 'Existing business', 'Expansion'],
   ),
   EligibilityFactKey.businessSector: FollowUpQuestion(

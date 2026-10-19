@@ -8,10 +8,7 @@ import '../../../utils/app_spacing.dart';
 class SchemeEligibilityContent extends StatelessWidget {
   final LocalizedScheme scheme;
 
-  const SchemeEligibilityContent({
-    super.key,
-    required this.scheme,
-  });
+  const SchemeEligibilityContent({super.key, required this.scheme});
 
   @override
   Widget build(BuildContext context) {

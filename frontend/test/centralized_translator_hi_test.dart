@@ -8,18 +8,25 @@ void main() {
   final t = CentralizedTranslator.instance;
 
   Map<String, dynamic> loadHi() =>
-      jsonDecode(File('assets/catalog/translation_dictionary_hi.json')
-          .readAsStringSync()) as Map<String, dynamic>;
+      jsonDecode(
+            File(
+              'assets/catalog/translation_dictionary_hi.json',
+            ).readAsStringSync(),
+          )
+          as Map<String, dynamic>;
 
   group('Hindi dictionary', () {
     test('covers every key the Tamil dictionary covers', () {
-      final ta = jsonDecode(
-        File('assets/catalog/translation_dictionary.json').readAsStringSync(),
-      ) as Map<String, dynamic>;
+      final ta =
+          jsonDecode(
+                File(
+                  'assets/catalog/translation_dictionary.json',
+                ).readAsStringSync(),
+              )
+              as Map<String, dynamic>;
       final hi = loadHi();
       for (final map in ['tagMap', 'phraseMap']) {
-        final missing = (ta[map] as Map)
-            .keys
+        final missing = (ta[map] as Map).keys
             .where((k) => !(hi[map] as Map).containsKey(k))
             .toList();
         expect(missing, isEmpty, reason: '$map missing Hindi entries');
@@ -65,13 +72,17 @@ void main() {
 
     test('hi is case/space tolerant and leaves unknown text in English', () {
       expect(t.localizeFor('hi', '  base amount '), 'मूल राशि');
-      expect(t.localizeFor('hi', 'Some brand new sentence'),
-          'Some brand new sentence');
+      expect(
+        t.localizeFor('hi', 'Some brand new sentence'),
+        'Some brand new sentence',
+      );
     });
 
     test('hi never touches URLs, emails or scheme codes', () {
-      expect(t.localizeFor('hi', 'https://udyamregistration.gov.in'),
-          'https://udyamregistration.gov.in');
+      expect(
+        t.localizeFor('hi', 'https://udyamregistration.gov.in'),
+        'https://udyamregistration.gov.in',
+      );
       expect(t.localizeFor('hi', 'help@msme.gov.in'), 'help@msme.gov.in');
       expect(t.localizeFor('hi', 'SCH000006'), 'SCH000006');
     });
@@ -103,10 +114,11 @@ void main() {
       r'''\.localize(?:Tag)?\(\s*(?:'((?:[^'\\]|\\.)*)'|"((?:[^"\\]|\\.)*)")\s*,?\s*\)''',
     );
     final missing = <String>[];
-    for (final file in Directory('lib')
-        .listSync(recursive: true)
-        .whereType<File>()
-        .where((f) => f.path.endsWith('.dart'))) {
+    for (final file
+        in Directory('lib')
+            .listSync(recursive: true)
+            .whereType<File>()
+            .where((f) => f.path.endsWith('.dart'))) {
       final src = file.readAsStringSync();
       for (final m in call.allMatches(src)) {
         final raw = (m.group(1) ?? m.group(2))!;

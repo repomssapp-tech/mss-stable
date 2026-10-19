@@ -11,7 +11,6 @@ import '../../../utils/responsive.dart';
 class ProfileContinueButton extends StatelessWidget {
   final int currentStep;
   final bool isSubmitting;
-  final bool hasConsentedDataProcessing;
   final bool isStep2Valid;
   final String? selectedRole;
   final bool isStep4Valid;
@@ -23,7 +22,6 @@ class ProfileContinueButton extends StatelessWidget {
     super.key,
     required this.currentStep,
     required this.isSubmitting,
-    required this.hasConsentedDataProcessing,
     required this.isStep2Valid,
     required this.selectedRole,
     required this.isStep4Valid,
@@ -31,7 +29,6 @@ class ProfileContinueButton extends StatelessWidget {
   });
 
   bool get _isEnabled {
-    if (currentStep == 1 && !hasConsentedDataProcessing) return false;
     if (currentStep == 2 && !isStep2Valid) return false;
     if (currentStep == 3 && selectedRole == null) return false;
     if (currentStep == 4 && !isStep4Valid) return false;
@@ -45,9 +42,7 @@ class ProfileContinueButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: _isEnabled ? kPrimaryBlue : Colors.grey.shade300,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         minimumSize: const Size.fromHeight(52),
         elevation: 0,
       ),

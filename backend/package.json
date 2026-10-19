@@ -2,24 +2,14 @@
   "name": "mss-backend",
   "version": "0.1.0",
   "private": true,
-  "description": "Supabase backend tooling and contracts for MSS - MSME Schemes Search",
+  "description": "Contracts and tooling for the MSS - MSME Schemes Search backend",
   "scripts": {
-    "supabase:start": "supabase start --exclude analytics",
-    "supabase:stop": "supabase stop",
-    "db:reset": "supabase db reset --local",
-    "db:test": "supabase test db",
-    "db:lint": "supabase db lint --local --level warning --fail-on warning",
-    "db:validate": "npm run db:reset && npm run db:test && npm run db:lint",
-    "functions:test": "deno test --allow-env --allow-read --node-modules-dir=auto supabase/functions",
     "openapi:lint": "redocly lint openapi/openapi.planned.yaml",
     "voice:test": "python -m unittest discover -s ../tools/voice-lab/tests -v",
-    "verify:links": "node scripts/verify_scheme_links.mjs",
-    "benchmark:search": "node scripts/benchmark_search_pipeline.mjs",
-    "types:generate": "supabase gen types typescript --local > supabase/database.types.ts"
+    "verify:links": "node scripts/verify_scheme_links.mjs"
   },
   "devDependencies": {
-    "@redocly/cli": "2.39.0",
-    "supabase": "2.109.1"
+    "@redocly/cli": "2.39.0"
   },
   "engines": {
     "node": ">=20.19.0 <21 || >=22.12.0"

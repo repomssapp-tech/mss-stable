@@ -65,7 +65,9 @@ class _TredsInteractivePanelState extends State<TredsInteractivePanel> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              CentralizedTranslator.instance.localize('TReDS Invoice Discounting Flow'),
+              CentralizedTranslator.instance.localize(
+                'TReDS Invoice Discounting Flow',
+              ),
               style: GoogleFonts.poppins(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -127,7 +129,9 @@ class _TredsInteractivePanelState extends State<TredsInteractivePanel> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    CentralizedTranslator.instance.localize(_tredsSteps[_tredsStepIndex]['title']!),
+                    CentralizedTranslator.instance.localize(
+                      _tredsSteps[_tredsStepIndex]['title']!,
+                    ),
                     style: GoogleFonts.poppins(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -136,7 +140,9 @@ class _TredsInteractivePanelState extends State<TredsInteractivePanel> {
                   ),
                   const SizedBox(height: AppSpacing.tight),
                   Text(
-                    CentralizedTranslator.instance.localize(_tredsSteps[_tredsStepIndex]['desc']!),
+                    CentralizedTranslator.instance.localize(
+                      _tredsSteps[_tredsStepIndex]['desc']!,
+                    ),
                     style: GoogleFonts.inter(
                       fontSize: 12,
                       color: const Color(0xFF334155),
@@ -155,7 +161,9 @@ class _TredsInteractivePanelState extends State<TredsInteractivePanel> {
                       const SizedBox(width: AppSpacing.tight),
                       Expanded(
                         child: Text(
-                          CentralizedTranslator.instance.localize(_tredsSteps[_tredsStepIndex]['action']!),
+                          CentralizedTranslator.instance.localize(
+                            _tredsSteps[_tredsStepIndex]['action']!,
+                          ),
                           style: GoogleFonts.inter(
                             fontSize: 10.5,
                             fontStyle: FontStyle.italic,

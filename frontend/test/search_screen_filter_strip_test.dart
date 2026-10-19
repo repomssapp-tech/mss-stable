@@ -6,34 +6,27 @@ import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// The Discover filter strip is just three controls now: Filter, For Me, Sort.
 /// The old Type / Benefit Type / Ministry dropdown chips are gone.
 void main() {
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    try {
-      await Supabase.initialize(
-        url: 'https://example.supabase.co',
-        publishableKey: 'test-publishable-key',
-      );
-    } catch (_) {}
   });
 
   Widget wrap(AppProvider provider) => ChangeNotifierProvider.value(
-        value: provider,
-        child: const MaterialApp(
-          localizationsDelegates: [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: [Locale('en'), Locale('ta')],
-          home: Scaffold(body: SearchScreen()),
-        ),
-      );
+    value: provider,
+    child: const MaterialApp(
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [Locale('en'), Locale('ta')],
+      home: Scaffold(body: SearchScreen()),
+    ),
+  );
 
   testWidgets('strip shows only Filter / For Me / Sort while searching', (
     tester,

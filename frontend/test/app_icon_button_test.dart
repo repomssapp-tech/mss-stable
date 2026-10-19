@@ -5,7 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/widgets/common/app_icon_button.dart';
 
 void main() {
-  Widget wrap(Widget child) => MaterialApp(home: Scaffold(body: Center(child: child)));
+  Widget wrap(Widget child) => MaterialApp(
+    home: Scaffold(body: Center(child: child)),
+  );
 
   testWidgets('hit area is at least 48x48dp', (tester) async {
     await tester.pumpWidget(
@@ -56,27 +58,28 @@ void main() {
     expect(tapped, isTrue);
   });
 
-  testWidgets('disabled (onPressed: null) announces enabled: false and ignores taps', (
-    tester,
-  ) async {
-    var tapped = false;
-    await tester.pumpWidget(
-      wrap(
-        AppIconButton(
-          icon: Icons.close,
-          semanticLabel: 'Close',
-          onPressed: null,
+  testWidgets(
+    'disabled (onPressed: null) announces enabled: false and ignores taps',
+    (tester) async {
+      var tapped = false;
+      await tester.pumpWidget(
+        wrap(
+          AppIconButton(
+            icon: Icons.close,
+            semanticLabel: 'Close',
+            onPressed: null,
+          ),
         ),
-      ),
-    );
+      );
 
-    final semantics = tester.getSemantics(find.byType(AppIconButton));
-    // ignore: deprecated_member_use
-    expect(semantics.hasFlag(SemanticsFlag.isEnabled), isFalse);
+      final semantics = tester.getSemantics(find.byType(AppIconButton));
+      // ignore: deprecated_member_use
+      expect(semantics.hasFlag(SemanticsFlag.isEnabled), isFalse);
 
-    await tester.tap(find.byType(AppIconButton));
-    expect(tapped, isFalse);
-  });
+      await tester.tap(find.byType(AppIconButton));
+      expect(tapped, isFalse);
+    },
+  );
 
   testWidgets('badgeCount above 9 shows "9+"', (tester) async {
     await tester.pumpWidget(

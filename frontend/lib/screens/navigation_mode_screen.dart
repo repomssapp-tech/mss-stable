@@ -420,7 +420,9 @@ class NavigationOptionCard extends StatelessWidget {
                         children: [
                           for (int i = 0; i < chips.length; i++) ...[
                             if (i > 0)
-                              const SizedBox(height: AppSpacing.xs), // Reduced chip spacing
+                              const SizedBox(
+                                height: AppSpacing.xs,
+                              ), // Reduced chip spacing
                             Container(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: AppSpacing.sm,

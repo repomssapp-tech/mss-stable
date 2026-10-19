@@ -49,10 +49,7 @@ class SaarthiWaveformBar extends StatelessWidget {
 
 /// User speech bubble item in companion transcript.
 class SaarthiUserMessage extends StatelessWidget {
-  const SaarthiUserMessage({
-    super.key,
-    required this.message,
-  });
+  const SaarthiUserMessage({super.key, required this.message});
 
   final SaarthiMessage message;
 

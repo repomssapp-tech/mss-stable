@@ -2,7 +2,7 @@ name: Deploy Voice Agent
 
 # Finding 8.3 (audit_fix.md) — deployment automation for the saarthi-agent
 # (Python LiveKit voice agent) component. Companion workflows:
-# deploy-edge-functions.yml, build-app.yml.
+# build-app.yml.
 #
 # ─── Rollout state: MANUAL / DRY-RUN FIRST ────────────────────────────────────
 # workflow_dispatch-only by design. dry_run=true builds the image and stops;
@@ -22,7 +22,7 @@ name: Deploy Voice Agent
 #   LIVEKIT_API_KEY     — project API key with agent-deploy rights.
 #   LIVEKIT_API_SECRET  — matching secret.
 #
-# The agent's own runtime secrets (SARVAM_API_KEY, SUPABASE_*, …) are configured
+# The agent's own runtime secrets (SARVAM_API_KEY, API_BASE_URL, …) are configured
 # on the LiveKit Cloud agent, not here — see saarthi-agent/.env.example for the
 # full list. This workflow ships image + config only.
 #

@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/l10n/app_localizations_en.dart';
@@ -33,10 +32,6 @@ Widget _host(Locale locale, Widget screen) {
 void main() {
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    await Supabase.initialize(
-      url: 'https://example.supabase.co',
-      publishableKey: 'test-publishable-key',
-    );
   });
 
   final en = AppLocalizationsEn();
@@ -81,7 +76,10 @@ void main() {
       expect(en.subsidyTitle, 'Business Subsidy Estimator');
       expect(ta.subsidyTitle, 'தொழில் மானிய கணிப்பான்');
       expect(en.subsidyExpectedLabel('15.0'), 'Expected Subsidy (15.0%)');
-      expect(ta.subsidyExpectedLabel('15.0'), 'எதிர்பார்க்கப்படும் மானியம் (15.0%)');
+      expect(
+        ta.subsidyExpectedLabel('15.0'),
+        'எதிர்பார்க்கப்படும் மானியம் (15.0%)',
+      );
       expect(en.subsidyLakhFmt('25.00'), '₹ 25.00 Lakhs');
       expect(ta.subsidyLakhFmt('25.00'), '₹ 25.00 லட்சம்');
     });

@@ -1,4 +1,4 @@
-﻿import 'intelligent_scheme_search.dart';
+import 'intelligent_scheme_search.dart';
 import 'scheme_understanding_models.dart';
 
 /// Extracts structured eligibility facts from free-form user statements
@@ -240,12 +240,7 @@ class SchemeFactExtractor {
           EligibilityFactKey.disability,
           EligibilityFactKey.studentStatus,
         }.contains(requestedFact)) {
-          final yes = containsAny(normalized, [
-            'yes',
-            'ஆம்',
-            'aama',
-            'irukku',
-          ]);
+          final yes = containsAny(normalized, ['yes', 'ஆம்', 'aama', 'irukku']);
           final no = containsAny(normalized, [
             'no',
             'இல்லை',

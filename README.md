@@ -13,7 +13,7 @@ The repository is structured into three self-contained, production-grade compone
 ```
 MSS_App/
 ├── frontend/             # Flutter Multi-Platform Application (Android, iOS, Web)
-├── backend/              # Supabase Infrastructure (PostgreSQL, RLS, Edge Functions)
+├── backend/              # REST API references, catalog sources, and contracts
 ├── saarthi-agent/        # LiveKit Python Multilingual Voice Agent Worker
 ├── tools/                # Catalog bundling, seed data, and ML evaluation utilities
 ├── docs/                 # System architecture, database schemas, runbooks, and audit logs
@@ -37,10 +37,10 @@ MSS_App/
   - Streamlined step-by-step questionnaire flow.
 
 ### 2. Verified Offline-First Catalog Engine
-- Bundles release **`1.34.3-alpha`** with **219 verified schemes**, **1,220 catalog entities**, and **971 search-indexed profiles** in a compressed gzip archive (`frontend/assets/catalog/catalog_bundle.json.gz`).
+- Bundles **406 schemes** (274 central, 53 Tamil Nadu, 79 Maharashtra), split into a core file plus one pack per state (`frontend/assets/catalog/catalog_core.json.gz`, `catalog_central.json.gz`, `catalog_tamil_nadu.json.gz`, `catalog_maharashtra.json.gz`).
 - Guaranteed sub-250ms query evaluation with zero network requests and zero user telemetry leakage.
 - Automatic SHA-256 integrity verification with safe rollback to bundled assets if OTA updates fail.
-- Over-the-air (OTA) catalog updates via Supabase Storage releases without requiring an app store update.
+- Over-the-air (OTA) catalog updates from the MSS backend (`GET /v1/catalog/current`) without requiring an app store update.
 
 ### 3. Intelligent Scheme Understanding & Reasoning
 - **Deterministic Rules Engine**: Offline matching engine analyzing applicant age boundaries, gender restrictions, community categories, income ceilings, landholdings, and occupation criteria.
@@ -60,9 +60,9 @@ MSS_App/
 | Layer | Technologies |
 |:---|:---|
 | **Frontend** | Flutter 3.44.2 (Dart 3.5+), Material 3, Provider, Flutter Localizations (ARB) |
-| **Backend** | Supabase (PostgreSQL 15+), Supabase Auth (Google OAuth), PostgREST, Deno Edge Functions |
+| **Backend** | MSS REST API (`api.msmeschemes.org`, `/v1`), Google OAuth with PKCE |
 | **Voice Agent** | Python 3.12+, LiveKit Agents SDK, Sarvam AI Voice APIs, `uv` Package Manager |
-| **CI / CD** | GitHub Actions (Matrix builds, RLS drift checks, automated function deployments) |
+| **CI / CD** | GitHub Actions (Flutter analyze/test/build, voice agent deployment) |
 
 ---
 
@@ -72,7 +72,6 @@ MSS_App/
 - **Flutter SDK**: 3.44.2 stable ([Installation Guide](https://flutter.dev/docs/get-started/install))
 - **Node.js**: >= 20.19.0 ([nodejs.org](https://nodejs.org/))
 - **Python**: >= 3.10, < 3.15 with `uv` ([astral.sh/uv](https://astral.sh/uv))
-- **Supabase CLI**: Pinned via npm in `backend/`
 
 ---
 
@@ -97,28 +96,11 @@ flutter run
 
 ---
 
-### 2. Running the Backend Locally
+### 2. Backend
 
-```bash
-# Navigate to backend
-cd backend
-
-# Install dependencies (pinned supabase CLI)
-npm ci
-
-# Start local Supabase containers (excluding heavy analytics)
-npm run supabase:start
-
-# Reset and seed local database
-npm run db:reset
-
-# Run database tests and RLS linter
-npm run db:test
-npm run db:lint
-
-# Run Edge Function tests
-npm run functions:test
-```
+The app talks to the MSS REST backend (default `https://api.msmeschemes.org`). To use
+another server, pass `--dart-define=API_BASE_URL=http://10.0.2.2:5000` (emulator host
+alias) to `flutter run`. The API references are in `backend/New API Ref/`.
 
 ---
 
@@ -151,7 +133,7 @@ Every commit in this repository enforces strict regression standards:
 - **Static Analysis**: `flutter analyze` must report **0 errors and 0 warnings**.
 - **Design Tokens**: `flutter test test/spacing_scale_test.dart` enforces 100% adherence to `AppSpacing` tokens with zero hardcoded visual spacing literals.
 - **Regression Suite**: `flutter test` must pass 100% (480 passed, 0 failed).
-- **Security & RLS**: All PostgreSQL tables must have Row Level Security enabled with automated drift detection via `.github/workflows/rls-drift-check.yml`.
+- **Security**: Secrets are never committed; the app holds no database credentials and authenticates with a bearer token only.
 
 ---
 

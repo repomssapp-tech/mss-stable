@@ -7,10 +7,7 @@ import '../../../models/scheme_model.dart';
 class SchemeServicesContent extends StatelessWidget {
   final List<SchemeService> services;
 
-  const SchemeServicesContent({
-    super.key,
-    required this.services,
-  });
+  const SchemeServicesContent({super.key, required this.services});
 
   @override
   Widget build(BuildContext context) {

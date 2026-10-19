@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../models/catalog_manifest.dart';
+import '../app_info_service.dart';
 
 enum SchemeCatalogSource { bundled, cached }
 
@@ -41,28 +42,37 @@ class StoredSchemeCatalog {
 /// see docs/specs/CATALOG_SPECIFICATIONS.md for why that made the whole sync
 /// mechanism a no-op end-to-end even when its data source worked.
 class SchemeCatalogStore {
-  SchemeCatalogStore();
+  SchemeCatalogStore({Directory? rootOverride}) : _rootOverride = rootOverride;
+  final Directory? _rootOverride;
   static final SchemeCatalogStore instance = SchemeCatalogStore();
   static const int supportedSchemaVersion = 1;
 
   static const String _rootDirName = 'mss_catalog_cache';
   static const String _activePointerFileName = 'active_manifest.json';
+  static const String _appBuildMarkerFileName = '.app_build';
   static const String _bundleFileName = 'catalog_bundle.json.gz';
   static const String _manifestFileName = 'release.json';
 
   Future<Directory> _rootDir() async {
-    final docs = await getApplicationDocumentsDirectory();
-    final dir = Directory('${docs.path}/$_rootDirName');
+    final dir =
+        _rootOverride ??
+        Directory(
+          '${(await getApplicationDocumentsDirectory()).path}/$_rootDirName',
+        );
     if (!await dir.exists()) {
       await dir.create(recursive: true);
     }
     return dir;
   }
 
-  String _releaseDirName(CatalogManifest manifest) =>
-      (manifest.releaseVersion?.isNotEmpty ?? false)
-      ? manifest.releaseVersion!
-      : manifest.id;
+  /// The release tag comes from the server: keep it to one safe path segment.
+  String _releaseDirName(CatalogManifest manifest) {
+    final raw = (manifest.releaseVersion?.isNotEmpty ?? false)
+        ? manifest.releaseVersion!
+        : manifest.id;
+    final safe = raw.replaceAll(RegExp(r'[^A-Za-z0-9._-]'), '_');
+    return safe.replaceAll('..', '_');
+  }
 
   Future<CatalogManifest?> readActiveManifest() async {
     try {
@@ -70,16 +80,14 @@ class SchemeCatalogStore {
       final pointerFile = File('${root.path}/$_activePointerFileName');
       if (!await pointerFile.exists()) return null;
       final json =
-          jsonDecode(await pointerFile.readAsString())
-              as Map<String, dynamic>;
+          jsonDecode(await pointerFile.readAsString()) as Map<String, dynamic>;
       final releaseDir = json['releaseDir'] as String?;
       final manifestJson = json['manifest'] as Map<String, dynamic>?;
       if (releaseDir == null || manifestJson == null) return null;
 
       // Confirm the bundle this pointer references still exists on disk --
       // a pointer with no backing file is not a valid active release.
-      final bundlePath =
-          '${root.path}/$releaseDir/$_bundleFileName';
+      final bundlePath = '${root.path}/$releaseDir/$_bundleFileName';
       if (!await File(bundlePath).exists()) return null;
 
       return CatalogManifest.fromReleaseRpc(manifestJson);
@@ -182,7 +190,30 @@ class SchemeCatalogStore {
   /// (used by [MssCatalogBundle] to prefer a downloaded release over the
   /// shipped asset). Returns null if nothing has ever been installed, or if
   /// the pointer is stale/missing its backing files.
+  /// A downloaded release is only trusted by the app build that fetched it. When
+  /// the installed app build changes (an in-place update), whatever the previous
+  /// build cached is dropped so the catalog shipped with the new build is used;
+  /// the next sync can download a newer one.
+  Future<void> _discardCacheFromOlderApp() async {
+    try {
+      final build = (await AppInfoService.installedVersion())?.build;
+      if (build == null) return;
+      final root = await _rootDir();
+      final marker = File('${root.path}/$_appBuildMarkerFileName');
+      final seen = await marker.exists() ? await marker.readAsString() : null;
+      if (seen == '$build') return;
+      await for (final entry in root.list()) {
+        if (entry.path == marker.path) continue;
+        await entry.delete(recursive: true);
+      }
+      await marker.writeAsString('$build');
+    } catch (e) {
+      debugPrint('[SchemeCatalogStore] stale-cache check failed: $e');
+    }
+  }
+
   Future<StoredSchemeCatalog?> resolveActive() async {
+    await _discardCacheFromOlderApp();
     final manifest = await readActiveManifest();
     if (manifest == null) return null;
     final root = await _rootDir();

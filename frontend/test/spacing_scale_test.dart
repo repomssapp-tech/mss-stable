@@ -73,7 +73,8 @@ void main() {
         final startLine = lineOf(src, call.start);
         final endLine = startLine + call.text.split('\n').length - 1;
         final hasMarker = [
-          for (var l = startLine; l <= endLine && l < lines.length; l++) lines[l],
+          for (var l = startLine; l <= endLine && l < lines.length; l++)
+            lines[l],
         ].any((l) => l.contains('// spacing-ok'));
         if (hasMarker) continue;
 
@@ -86,7 +87,8 @@ void main() {
     expectNoRatchetRegression(
       rule: 'spacing_scale',
       actual: actual,
-      violationDescription: 'Raw numeric padding/margin/gap literals (on- or off-scale)',
+      violationDescription:
+          'Raw numeric padding/margin/gap literals (on- or off-scale)',
     );
   });
 
@@ -120,7 +122,8 @@ void main() {
         final startLine = lineOf(src, call.start);
         final endLine = startLine + call.text.split('\n').length - 1;
         final hasMarker = [
-          for (var l = startLine; l <= endLine && l < lines.length; l++) lines[l],
+          for (var l = startLine; l <= endLine && l < lines.length; l++)
+            lines[l],
         ].any((l) => l.contains('// spacing-ok'));
         if (hasMarker) continue;
 
@@ -139,10 +142,9 @@ void main() {
     // Guards against silently widening the scale.
     final expected = <double>{0, 2, 4, 6, 8, 12, 16, 20, 24, 32};
     final src = File('lib/utils/app_spacing.dart').readAsStringSync();
-    final declared = RegExp(r'static const double \w+ = (\d+);')
-        .allMatches(src)
-        .map((m) => double.parse(m.group(1)!))
-        .toSet();
+    final declared = RegExp(
+      r'static const double \w+ = (\d+);',
+    ).allMatches(src).map((m) => double.parse(m.group(1)!)).toSet();
     expect(declared, expected);
   });
 }

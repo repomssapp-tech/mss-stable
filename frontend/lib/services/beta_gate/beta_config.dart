@@ -13,5 +13,5 @@ const bool isBetaModeEnabled = false;
 const String kBetaUnlockedKey = 'hasUnlockedBeta';
 
 /// SharedPreferences key for the specific password string that was unlocked.
-/// If the database password changes in Supabase, this is compared and invalidated.
+/// If the server stops accepting this password, the unlock is invalidated.
 const String kBetaUnlockedPasswordKey = 'unlocked_beta_password';

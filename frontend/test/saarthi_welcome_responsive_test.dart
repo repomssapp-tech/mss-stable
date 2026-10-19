@@ -5,15 +5,10 @@ import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/companion_mode/saarthi_welcome_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() {
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    await Supabase.initialize(
-      url: 'https://example.supabase.co',
-      publishableKey: 'test-publishable-key',
-    );
   });
 
   setUp(() {
@@ -29,8 +24,9 @@ void main() {
   };
 
   for (final entry in viewports.entries) {
-    testWidgets('SaarthiWelcomeScreen is overflow-free on ${entry.key}',
-        (tester) async {
+    testWidgets('SaarthiWelcomeScreen is overflow-free on ${entry.key}', (
+      tester,
+    ) async {
       tester.view.physicalSize = entry.value;
       tester.view.devicePixelRatio = 1.0;
       addTearDown(() {

@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:archive/archive.dart';
-import 'package:crypto/crypto.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:frontend/models/mss_entity.dart';
+import 'package:frontend/services/catalog/catalog_packs.dart';
 import 'package:frontend/services/catalog/mss_catalog_bundle.dart';
 import 'package:frontend/services/catalog/mss_scheme_adapter.dart';
 
@@ -13,84 +13,132 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   late Uint8List compressedBytes;
-  late Map<String, dynamic> releaseJson;
+  late Map<String, dynamic> manifest;
   late Map<String, dynamic> bundleJson;
 
+  Uint8List encode(Map<String, dynamic> json) =>
+      Uint8List.fromList(GZipEncoder().encode(utf8.encode(jsonEncode(json)))!);
+
   setUpAll(() async {
-    final releaseFile = File('assets/catalog/release.json');
+    final coreFile = File(MssCatalogBundle.coreAssetPath);
     expect(
-      releaseFile.existsSync(),
+      coreFile.existsSync(),
       isTrue,
-      reason: 'release.json asset file must exist',
+      reason: 'catalog_core.json.gz asset file must exist',
     );
-    releaseJson =
-        jsonDecode(await releaseFile.readAsString()) as Map<String, dynamic>;
+    compressedBytes = await coreFile.readAsBytes();
 
-    final bundleFile = File('assets/catalog/catalog_bundle.json.gz');
-    expect(
-      bundleFile.existsSync(),
-      isTrue,
-      reason: 'catalog_bundle.json.gz asset file must exist',
-    );
-    compressedBytes = await bundleFile.readAsBytes();
-
-    final decompressed = GZipDecoder().decodeBytes(compressedBytes);
-    bundleJson = jsonDecode(utf8.decode(decompressed)) as Map<String, dynamic>;
+    Map<String, dynamic> parse(Uint8List gz) =>
+        jsonDecode(utf8.decode(GZipDecoder().decodeBytes(gz)))
+            as Map<String, dynamic>;
+    bundleJson = parse(compressedBytes);
+    manifest =
+        (bundleJson['manifest.json']['data'] as List).first
+            as Map<String, dynamic>;
+    // The merged view: the core plus every jurisdiction pack, as the app sees it.
+    await CatalogPacks.mergeInto(bundleJson, manifest, (file) async {
+      final f = File('${MssCatalogBundle.catalogAssetDir}/$file');
+      return f.existsSync() ? await f.readAsBytes() : null;
+    }, (bytes) async => parse(bytes));
   });
 
-  group('MssCatalogBundle & Checksum Verification', () {
-    test(
-      'SHA-256 Checksum is computed strictly on compressed bytes (catalog_bundle.json.gz)',
-      () {
-        final expectedSha = (releaseJson['bundleSha256'] as String)
-            .toLowerCase();
-        // Hash raw compressed bytes directly before decompression
-        final actualSha = sha256
-            .convert(compressedBytes)
-            .toString()
-            .toLowerCase();
+  group('MssCatalogBundle & embedded manifest', () {
+    test('the asset is real GZIP holding UTF-8 JSON', () {
+      expect(compressedBytes[0], 0x1f);
+      expect(compressedBytes[1], 0x8b);
+      expect(bundleJson, isNotEmpty);
+    });
 
-        expect(
-          actualSha,
-          equals(expectedSha),
-          reason: 'SHA-256 hash must be computed on raw compressed Gzip bytes',
+    test('the embedded manifest identifies the release and format', () {
+      final release = manifest['release'] as Map<String, dynamic>;
+      expect(release['releaseTag'], '1.37.0-alpha');
+      expect(DateTime.tryParse(release['releasedAt'] as String), isNotNull);
+      expect(manifest['bundleFormat'], MssCatalogBundle.supportedBundleFormat);
+    });
+
+    test('manifest record counts match every section of the payload', () {
+      final counts = (manifest['recordCounts'] as Map).cast<String, int>();
+      expect(counts.length, 15, reason: 'one count per catalog section');
+      var entities = 0;
+      counts.forEach((section, expected) {
+        final data = bundleJson[section]['data'] as List;
+        expect(data.length, expected, reason: section);
+        entities += data.length;
+      });
+      expect(manifest['entityCount'], entities);
+      expect(entities, 1601, reason: '406 schemes + 1195 other entities');
+      expect(
+        (bundleJson['search_index.json']['data'] as List).length,
+        1165,
+        reason: '406 scheme rows + non-scheme rows',
+      );
+    });
+
+    test('manifest inventory, section metadata and data all agree', () {
+      final files = (manifest['files'] as List).cast<Map<String, dynamic>>();
+      expect(files.length, 16, reason: '15 catalogs + search index');
+      for (final f in files) {
+        final name = f['fileName'] as String;
+        final section = bundleJson[name] as Map<String, dynamic>;
+        final meta = section['metadata'] as Map<String, dynamic>;
+        final length = (section['data'] as List).length;
+        expect(f['recordCount'], length, reason: name);
+        expect(meta['recordCount'], length, reason: name);
+        expect(f['checksum'], meta['checksum'], reason: name);
+        expect(f['schemaVersion'], meta['schemaVersion'], reason: name);
+      }
+      expect(
+        manifest['releasedAt'],
+        (manifest['release'] as Map)['releasedAt'],
+      );
+      expect(
+        manifest['history'],
+        isA<Map>(),
+        reason: 'authoring history kept apart',
+      );
+      expect(manifest.containsKey('generationOrder'), isFalse);
+    });
+
+    test('a truncated bundle fails its own record-count check', () async {
+      final tampered =
+          jsonDecode(jsonEncode(bundleJson)) as Map<String, dynamic>;
+      (tampered['scheme_catalog.json']['data'] as List).removeLast();
+      await expectLater(
+        MssCatalogBundle.parseBytesForTest(encode(tampered)),
+        throwsA(
+          isA<StateError>().having(
+            (e) => e.message,
+            'message',
+            contains('scheme_catalog.json: expected 406, found 405'),
+          ),
+        ),
+      );
+    });
+
+    test(
+      'a bundle from a newer format is rejected with a clear message',
+      () async {
+        final tampered =
+            jsonDecode(jsonEncode(bundleJson)) as Map<String, dynamic>;
+        ((tampered['manifest.json']['data'] as List).first
+                as Map)['bundleFormat'] =
+            MssCatalogBundle.supportedBundleFormat + 1;
+        await expectLater(
+          MssCatalogBundle.parseBytesForTest(encode(tampered)),
+          throwsA(isA<UnsupportedError>()),
         );
       },
     );
 
-    test('Corrupt SHA-256 Checksum explicitly throws Exception', () {
-      final badChecksum =
-          '0000000000000000000000000000000000000000000000000000000000000000';
-      final expectedSha = (releaseJson['bundleSha256'] as String).toLowerCase();
-
-      expect(badChecksum, isNot(equals(expectedSha)));
-    });
-
-    test('Release manifest counts accurately match bundle payloads', () {
-      expect(
-        releaseJson['entityCount'],
-        equals(1131),
-        reason: 'release.json entityCount must equal 1131 (D4 hides 131 draft schemes & 131 matrix entries)',
-      );
-      expect(
-        releaseJson['searchIndexCount'],
-        equals(930),
-        reason: 'release.json searchIndexCount must equal 930 (1061 - 131 draft schemes)',
-      );
-
-      final searchIndexData =
-          bundleJson['search_index.json']?['data'] as List?;
-      expect(
-        searchIndexData,
-        isNotNull,
-        reason: 'search_index.json must be present in bundle',
-      );
-      expect(
-        searchIndexData!.length,
-        equals(releaseJson['searchIndexCount']),
-        reason:
-            'search_index.json record count must match release.json searchIndexCount',
-      );
+    test('the loaded bundle exposes manifest, languages and id map', () async {
+      final loaded = await MssCatalogBundle.load();
+      expect(loaded.releaseTag, '1.37.0-alpha');
+      expect(loaded.isLanguageActive('hi'), isTrue);
+      expect(loaded.isLanguageActive('mr'), isFalse);
+      expect(loaded.offeredLanguagesFor('tamil_nadu'), ['en', 'ta']);
+      expect(loaded.offeredLanguagesFor('maharashtra'), ['en', 'hi']);
+      expect(loaded.offeredLanguagesFor('central'), ['en', 'hi', 'ta']);
+      expect(loaded.schemeIdMap['SCH000130'], 'CEN2026-085');
     });
 
     test(
@@ -156,7 +204,8 @@ void main() {
         int danglingReferenceCount = 0;
         for (final entity in byId.values) {
           for (final ref in entity.references) {
-            final targetId = ref['entityId'] as String? ??
+            final targetId =
+                ref['entityId'] as String? ??
                 ref['targetId'] as String? ??
                 ref['target_id'] as String?;
             if (targetId != null &&
@@ -169,8 +218,8 @@ void main() {
 
         expect(
           byId.length,
-          equals(1131),
-          reason: 'Total entities in byId must be exactly 1131',
+          equals(1601),
+          reason: 'Total entities in byId must be exactly 1601',
         );
         expect(
           duplicateEntityIdCount,
@@ -184,14 +233,14 @@ void main() {
         );
         expect(
           totalRels,
-          equals(1527),
-          reason: 'Total relationships across entities must be exactly 1527',
+          equals(2066),
+          reason: 'Total relationships across entities must be exactly 2066',
         );
         expect(
           byCatalog['scheme']?.length,
-          equals(171),
+          equals(406),
           reason:
-              'Scheme catalog must contain exactly 171 schemes (155 active + 16 closed, D4 hides draft)',
+              'Scheme catalog must contain exactly 406 schemes (274 central + 53 Tamil Nadu + 79 Maharashtra)',
         );
       },
     );
@@ -247,13 +296,14 @@ void main() {
 
   group('Scheme Status & Distribution Verification', () {
     test(
-      'Status contract in bundle conforms to {active, closed, unknown}, with active=155 and closed=16 (D4 hides draft)',
+      'Status contract in bundle conforms to {active, closed, unknown, announced} with the 2026 source counts',
       () {
         final schemeData = (bundleJson['scheme_catalog.json']['data'] as List)
             .cast<Map<String, dynamic>>();
 
         int activeCount = 0;
         int unknownCount = 0;
+        int announcedCount = 0;
         int closedCount = 0;
         int invalidCount = 0;
 
@@ -263,10 +313,10 @@ void main() {
               .toLowerCase();
 
           expect(
-            ['active', 'closed', 'unknown'].contains(status),
+            ['active', 'closed', 'unknown', 'announced'].contains(status),
             isTrue,
             reason:
-                'Scheme ${identity['id']} has invalid status: "$status". Must be in {active, closed, unknown}.',
+                'Scheme ${identity['id']} has invalid status: "$status". Must be in {active, closed, unknown, announced}.',
           );
 
           if (status == 'active') {
@@ -275,25 +325,44 @@ void main() {
             closedCount++;
           } else if (status == 'unknown') {
             unknownCount++;
+          } else if (status == 'announced') {
+            announcedCount++;
           } else {
             invalidCount++;
           }
         }
 
-        expect(activeCount, equals(155), reason: 'Active status count must be 155');
-        expect(closedCount, equals(16), reason: 'Closed status count must be 16');
+        // The 2026 source carries its own status per scheme (no draft list), so
+        // `unknown` (status not confirmed) and `announced` schemes ship too.
+        expect(
+          activeCount,
+          equals(267),
+          reason: 'Active status count must be 267',
+        );
+        expect(
+          closedCount,
+          equals(26),
+          reason: 'Closed status count must be 26',
+        );
         expect(
           unknownCount,
-          equals(0),
-          reason:
-              'Unknown/DRAFT schemes must be hidden from bundle per Decision D4',
+          equals(68),
+          reason: 'Unknown status count must be 68',
         );
-        expect(invalidCount, equals(0), reason: 'No invalid status values allowed');
         expect(
-          activeCount + closedCount,
-          equals(171),
-          reason:
-              'Bundled schemes must equal 171 (155 PUBLISHED active + 16 ARCHIVED closed)',
+          announcedCount,
+          equals(45),
+          reason: 'Announced status count must be 45',
+        );
+        expect(
+          invalidCount,
+          equals(0),
+          reason: 'No invalid status values allowed',
+        );
+        expect(
+          activeCount + closedCount + unknownCount + announcedCount,
+          equals(406),
+          reason: 'Bundled schemes must equal 406',
         );
       },
     );
@@ -309,7 +378,8 @@ void main() {
       int totalRels = 0;
 
       for (final key in bundleJson.keys) {
-        if (key == 'manifest.json' || key == 'search_index.json') continue;
+        // Entity catalogs only; manifest/search_index/migrations are other sections.
+        if (!key.endsWith('_catalog.json')) continue;
         final catObj = bundleJson[key] as Map<String, dynamic>;
         final catName = catObj['metadata']['catalogName'] as String;
         final list = (catObj['data'] as List).cast<Map<String, dynamic>>();
@@ -359,6 +429,23 @@ class MssCatalogBundleProxy implements MssCatalogBundle {
   final Map<String, Map<String, dynamic>> searchProfiles = const {};
   @override
   final Map<String, List<String>> queryExpansions = const {};
+  @override
+  final Map<String, dynamic> manifest = const {};
+  @override
+  final Map<String, String> schemeIdMap = const {};
+  @override
+  final List<String> loadedPackIds = const [];
+  @override
+  List<CatalogPackInfo> get availablePacks => const [];
+
+  @override
+  List<({String code, bool isActive})> get languages => const [];
+
+  @override
+  bool isLanguageActive(String code) => false;
+
+  @override
+  List<String> offeredLanguagesFor(String jurisdiction) => const [];
 
   MssCatalogBundleProxy(
     this.byId,

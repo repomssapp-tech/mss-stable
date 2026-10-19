@@ -39,9 +39,9 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
         _hasSavedThisSession ||
         (provider.hasSavedEligibilityResults &&
             eligibleIds.isNotEmpty &&
-            provider.savedEligibilitySchemeIds
-                .toSet()
-                .containsAll(eligibleIds));
+            provider.savedEligibilitySchemeIds.toSet().containsAll(
+              eligibleIds,
+            ));
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
@@ -236,9 +236,9 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                             ElevatedButton.icon(
                               onPressed: () {
                                 provider.updateTabIndex(2);
-                                Navigator.of(context).popUntil(
-                                  (route) => route.isFirst,
-                                );
+                                Navigator.of(
+                                  context,
+                                ).popUntil((route) => route.isFirst);
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF2563EB),
@@ -248,7 +248,10 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                                 ),
                                 elevation: 0,
                               ),
-                              icon: const Icon(Icons.explore_outlined, size: 18),
+                              icon: const Icon(
+                                Icons.explore_outlined,
+                                size: 18,
+                              ),
                               label: Text(
                                 context.l10n.eligResExploreAll,
                                 style: GoogleFonts.inter(

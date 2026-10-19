@@ -184,9 +184,12 @@ class AutomaticSpeechBridge(
 
     private fun normalizeInitialLocale(requested: String?): String {
         val normalized = requested?.replace('_', '-')
-        if (normalized?.startsWith("ta", ignoreCase = true) == true) return "ta-IN"
-        if (normalized?.startsWith("en", ignoreCase = true) == true) return "en-IN"
-        return if (Locale.getDefault().language == "ta") "ta-IN" else "en-IN"
+        val supported = mapOf("ta" to "ta-IN", "hi" to "hi-IN", "mr" to "mr-IN", "en" to "en-IN")
+        val requestedTag = supported.entries.firstOrNull {
+            normalized?.startsWith(it.key, ignoreCase = true) == true
+        }
+        if (requestedTag != null) return requestedTag.value
+        return supported[Locale.getDefault().language] ?: "en-IN"
     }
 
     private fun scheduleTimeout(sessionId: Int) {

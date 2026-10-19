@@ -1,0 +1,228 @@
+MSS AUTHENTICATED STATE-BASED SCHEME API
+17 October 2026 | Live API deployed; 404 imported, 399 published, 5 unresolved drafts
+
+CORE BEHAVIOR
+The user's authenticated Node session identifies the account. The server reads
+that account's saved mss.profiles.state. The request never selects a different
+owner or state. Publication and state filtering run inside a consistent read-only
+transaction and are also enforced by database FORCE RLS.
+
+Tamil Nadu profile: published Tamil Nadu schemes + explicitly nationwide schemes.
+Maharashtra profile: published Maharashtra schemes + explicitly nationwide schemes.
+Other recognized state: matching published state schemes, if any, + nationwide.
+For example, no Karnataka source collection exists in this ZIP; Karnataka users
+still see nationwide published schemes, not TN/Maharashtra state schemes.
+No profile state/invalid state: 409, never a global/unfiltered feed.
+Changing the saved profile changes the next feed. This uses the user's declared
+profile state; it does NOT verify residence or determine personal eligibility.
+
+IMPLEMENTED ROUTES (all require Node bearer)
+GET /v1/schemes
+GET /v1/schemes/:id
+GET /v1/schemes/:id/application
+GET /v1/schemes/:id/related
+
+Intended base: https://api.msmeschemes.org
+All paths above include /v1. Do not append it twice.
+Authorization: Bearer <latest opaque Node access_token>
+Accept: application/json
+GET requests have no body. JSON bodies are rejected. Responses use no-store.
+Supabase JWTs and guest support tokens are not Node bearer credentials.
+
+STATE/OWNER OVERRIDES ARE NOT ALLOWED
+Do NOT send state, user_id, owner_id, collection, include_nationwide or publication
+parameters. Unknown query keys are rejected. Querying a scheme ID, a legacy alias
+or /application or /related cannot bypass state/publication restrictions.
+Wrong-state, unknown, draft and withdrawn IDs all return the same 404 response.
+
+STATE MATCHING
+Recognized profile values include canonical English names, internal two-letter
+keys, explicit aliases such as Tamilnadu, Tamil Nadu, TN, in-tn and தமிழ்நாடு.
+Maharashtra aliases include MH, महाराष्ट्र and மகாராஷ்டிரா. Matching trims outer
+whitespace and ignores case. Keys are internal application values, not verification
+of a legal address. Full dictionary: src/schemes/states.js / mss.scheme_states.
+Unknown state text must be corrected through the existing owner profile API.
+
+LIST / RELATED QUERY PARAMETERS
+language: en|ta|hi, default en.
+limit: query-string integer 1..50, default 20.
+cursor: opaque next_cursor from the preceding page.
+q: optional plain text search, <=120 characters. Deterministic PostgreSQL text
+search across names, aliases, source categories and authorities; no AI inference.
+status: active|announced|unknown|closed, default active.
+category: exact English source category, <=200 characters; optional.
+Repeated values/arrays, control characters in q and unsupported values are errors.
+Detail/application accepts ONLY language, not list filters.
+The current source categories are preserved. These are not automatically mapped
+into the app's eight browse topics. source_category is the value used for filters;
+category is the localized display value where present.
+
+LIST RESPONSE
+200 {"items":[],"next_cursor":null} when no matching published records exist.
+Otherwise items contain these summary fields:
+id: stable source ID, including CEN2026-..., TN2026-..., MAH2026-...,
+    MAHUSR2026-... and MAHWEB2026-...; never renumbered into UUIDs.
+name, short_name: localized strings (short_name nullable).
+category: localized display string or null; source_category: canonical string/null.
+level: central|state|central_state; state: preserved source scope label.
+collection: central|tamil_nadu|maharashtra (provenance, not user state).
+scheme_status: {value,note,as_of}; note/as_of may be null. Partial dates stay partial.
+application_status: open|unknown|closed|announced|temporarily_unavailable|
+                    historical_or_superseded.
+language_requested: requested code.
+translation_review_status: not_independently_reviewed.
+eligibility_verified: false. Geographic match never establishes full eligibility.
+field_fallbacks: fields served from English because requested text is unavailable.
+No raw import, editor review identity, source filesystem path or unpublished data.
+
+Order: canonical ID ascending, stable across language selection. The cursor binds
+to account, normalized profile state, language, search/status/category and related
+parent ID. Changing any of these requires starting a fresh first page. Cursor
+encoding is not an authorization credential; SQL/RLS always rechecks state and
+publication even if an attacker alters the cursor position.
+
+DETAIL RESPONSE
+The same summary plus alt_names, authority, description[], benefits[],
+eligibility[], benefit_facts, how_to_apply, contacts and application_action.
+Benefit facts preserve supplied structured data and as_of precision; missing
+facts are not changed to numeric zero and English prose is not converted into
+invented amounts. Read the original source notes before relying on financial data.
+
+how_to_apply fields:
+procedure_type, documents_basis, application_status_source, application_status,
+status_checked_on, procedure_checked_on, portal, apply_url, apply_url_basis,
+info_url, guidelines_url, prerequisite, fees, deadline, mode, steps[], documents,
+notes[]. Optional values remain null. Fees/deadline keep original JSON types.
+documents may be null, an ordered text array, or a grouped object such as
+{individual:[...],self_help_group:[...]}; Maharashtra has genuine grouped lists.
+Do not flatten groups or label missing/typical/inferred lists as mandatory.
+contacts: null or {email,phone,address}, fields nullable.
+
+application_action:
+unavailable: application status closed, historical_or_superseded or announced.
+check_official_site: other statuses with a syntactically safe source apply URL.
+no_verified_apply_link: no usable URL. This is not proof of current URL reachability.
+No 'Apply Now' eligibility decision is made. Active scheme != open application.
+Only HTTP/HTTPS URLs without credentials/control whitespace are exposed as links;
+the server never fetches those URLs during import or API requests (no URL-fetch SSRF).
+Texts are JSON data and must be rendered as text, never executable HTML.
+
+APPLICATION RESPONSE
+200 {id,language_requested,field_fallbacks,application_action,how_to_apply}.
+The same state/publication checks apply before any application data is returned.
+
+RELATED RESPONSE
+Same paginated summary shape as list. Both parent and target schemes must be
+published and geographically visible. Default status=active applies to targets.
+Unpublished/wrong-state related IDs are omitted. No cross-state ID leak.
+
+LIVE EXAMPLES (authenticated profile state required)
+GET /v1/schemes?language=ta&limit=20
+GET /v1/schemes?q=startup&language=en
+GET /v1/schemes/TN2026-001?language=ta
+GET /v1/schemes/SCH000001/application?language=ta
+GET /v1/schemes/TN2026-001/related?language=ta
+TN profile required for the TN examples. Legacy aliases resolve to canonical IDs
+only when the target itself is visible. IDs and aliases are case-sensitive.
+
+ERRORS
+400 INVALID_SCHEME_REQUEST -- forbidden/repeated query keys, bad cursor/id/body.
+401 UNAUTHORIZED -- missing/invalid/expired/revoked bearer.
+404 SCHEME_NOT_FOUND -- unknown, wrong-state, draft or withdrawn scheme/alias.
+409 PROFILE_STATE_REQUIRED -- profile absent, null or blank state.
+409 PROFILE_STATE_INVALID -- unrecognized saved state; correct owner profile.
+429 SCHEMES_RATE_LIMITED -- shared 60/minute/owner limit; Retry-After seconds.
+429 RATE_LIMITED -- existing global 120/minute/IP ingress limit.
+503 SCHEMES_UNAVAILABLE -- missing migration/grants, DB failure or invalid stored
+    presentation data. Missing tables do not masquerade as a valid empty feed.
+503 AUTH_TEMPORARILY_UNAVAILABLE -- owner quota store failure.
+Other unexpected shared authentication failures use the existing generic errors.
+Body: {"error":"CODE"}. Logs never contain credential/header/query/body/SQL details.
+
+SECURE DATA MODEL -- MIGRATION 011
+scheme_states: internal state aliases, immutable to API runtime.
+scheme_import_batches + scheme_import_records: source hashes, metadata and complete
+immutable research snapshots. API runtime gets no access to these raw tables.
+scheme_records: normalized jurisdiction/status/category + allowlisted detail JSON.
+scheme_localizations: per-language allowlisted presentation fields; English fallback.
+scheme_aliases: 327 supplied source IDs preserved, no guessed Maharashtra aliases.
+scheme_relations: deferred foreign keys, no dangling/self references.
+scheme_review_events: per-record source fingerprint, reviewer, note and timestamp.
+Published records require a matching review-event foreign key, not only a boolean.
+
+RLS is enabled and forced on every new table. Visibility functions derive state
+from mss.profiles and the authenticated app.user_id context, not a state GUC set
+from client input. Profile/filter reads share a repeatable-read snapshot to avoid
+mixed-state results during concurrent profile changes. No shared response caching.
+The migration owner has editorial policies; production runtime must be non-owner,
+non-superuser, NOBYPASSRLS (existing production startup check remains required).
+Runtime grants: SELECT only on state/published-projection/alias/relationship tables
+plus EXECUTE on two state visibility helpers. No import/publish/update/delete API.
+Use deployment/schemes-runtime-grants.sql after migration 011. Adapt runtime login
+when needed; never run the API using migration-owner credentials.
+
+IMPORT AND REVIEW (TRUSTED CLI ONLY)
+Source folder must contain the extracted canonical f1_central, f2_tamil_nadu and
+f3_maharashtra files and the two ID maps. The CLI reads JSON only; no ZIP-supplied
+scripts, network scrapes, external URL fetches or AI jobs are executed.
+File size <=10 MiB each, record <=512 KiB, total <=2000 records, strict known
+ID/level/status formats, finite JSON numbers, unique IDs/aliases, valid stable maps,
+and resolvable relationships. Source raw data remains unchanged and archived.
+
+1. npm run schemes:check -- --source-dir <extracted-root>
+   Dry-run only; no database connection.
+2. Apply migration 011 using the existing migration runner and a migration login.
+   Apply pending migration 010 too if deploying the current promotions code.
+3. npm run schemes:import -- --source-dir <extracted-root>
+   Uses MIGRATION_DATABASE_URL when configured. Atomic insertion of drafts only.
+   Repeating identical input replays its batch. New content with existing scheme
+   IDs returns SCHEME_IMPORT_CONFLICT; it never silently overwrites curated data.
+4. A human reviews source facts/applicability and an explicit allowlist of IDs.
+   Prepare a review JSON with source_sha256 from dry-run, reviewed_by, schemes:
+   [{id,note,allow_unreviewed_translation:true}]. Notes 10..2000 chars, explicit
+   translation acknowledgement required. This acknowledges source limitations;
+   it does not certify machine translations as approved. Example file supplied.
+5. npm run schemes:publish -- --review-file <review.json>
+   Atomic, locks rows, verifies source fingerprint, writes audit events and then
+   publishes only reviewed IDs. Unresolved scope is refused. Replay is a no-op.
+6. Deploy the updated Node code and test with a real owner's access token/profile.
+
+Production migrations 010/011 and restricted runtime grants were applied on 17 October 2026.
+All 404 supplied records were imported. The user explicitly authorized publication
+of the 399 records with resolved scopes, acknowledging unreviewed source data and
+translations. Five ambiguous records remain drafts. Authorization allowlist:
+docs/examples/scheme-publication-2026-10-17.json. The normal existing catalog release/download endpoints and
+Flutter offline discovery path were not changed. No frontend adapter was changed.
+
+SOURCE DRY-RUN RESULTS
+404 schemes: Central 274, Tamil Nadu 53, Maharashtra 77. 327 verified aliases.
+Five ambiguous scope records stay unresolved: CEN2026-019, CEN2026-021,
+CEN2026-051, CEN2026-080, CEN2026-090. Never promote vague scope to nationwide.
+TN2026-049 is central/All India despite being in the TN source collection.
+TN has 52 unknown application windows and one closed; preserve that distinction.
+
+VERIFICATION
+69 backend tests passed, including JSON-body state/owner override rejection. Full source dry-run
+passed for all 404 records. Real PostgreSQL verification used a temporary schema:
+all records staged as drafts, idempotent replay, conflict rollback, audited
+publication, unresolved-scope rejection, TN/MH/KA isolation, direct ID/alias/
+application/related checks, missing/invalid/profile-changed state, account/state
+cursor binding, language fallback and direct FORCE RLS on records/localizations/
+aliases with a non-bypass login. Temporary schema/fixtures were removed.
+Run: npm run schemes:verify -- --source-dir <extracted-root>.
+Postman: docs/postman/MSS-state-schemes.postman_collection.json.
+
+LIVE ROLLOUT VERIFIED - 17 October 2026
+Backend main deployment: 0e99522. Production migrations 010/011 and restricted
+runtime grants applied; all 29 expected tables present. Imported 404 records;
+published 399 with explicit user authorization; 5 unresolved scope records draft.
+Authenticated public-host verification with temporary synthetic accounts passed:
+Tamil Nadu 251 active schemes; Maharashtra 226; Karnataka 211 nationwide only.
+Exact feed IDs matched source scope/status. Tamil details/application/related
+passed, state override returned 400, wrong-state detail/application returned 404.
+Unauthenticated schemes returned 401; health returned 200. Tokens were never
+printed. Synthetic account/session/profile fixtures were removed after checks.
+69 backend unit tests and isolated PostgreSQL/RLS verification also passed.
+Supplied facts and translations remain independently unverified; API labels
+translations accordingly. Default status=active explains why feeds show fewer
+items than the total 399 published records.

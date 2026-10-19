@@ -2,7 +2,7 @@
 
 **Date:** 2026-09-13 · **Branch:** `main` · **Method:** targeted re-verification against the code by three read-only investigations, following the 2026-09-12/13 decomposition and docs-flattening commits. This supersedes `docs/audit/CODEBASE_AUDIT.md` as the **live status doc** — that file stays in place as a frozen, much deeper historical baseline from 2026-09-10 and is still the best single narrative introduction to the whole system.
 
-**Not re-verified this pass** (carried forward unchanged from the 2026-09-10 baseline, not re-checked here): live Supabase project state (`houpzsxmwemoztpuigmo`), `saarthi-agent` runtime behavior, secrets-on-disk findings, and the full database-migration content review (§4/§7/§11/§12 of `CODEBASE_AUDIT.md`). `flutter analyze` and `flutter test` **were** run as part of the 2026-09-13 decomposition follow-up below (full ~470-test suite, clean analyze) — that coverage is current as of this doc's date. Treat this document as scoped to: recent decomposition integrity, `v1` API routing, and docs/governance hygiene.
+**Not re-verified this pass** (carried forward unchanged from the 2026-09-10 baseline, not re-checked here): live state of the retired hosted backend (archived under `docs/old_supabase/`), `saarthi-agent` runtime behavior, secrets-on-disk findings, and the full database-migration content review (§4/§7/§11/§12 of `CODEBASE_AUDIT.md`). `flutter analyze` and `flutter test` **were** run as part of the 2026-09-13 decomposition follow-up below (full ~470-test suite, clean analyze) — that coverage is current as of this doc's date. Treat this document as scoped to: recent decomposition integrity, `v1` API routing, and docs/governance hygiene.
 
 **See also:** `docs/production-readiness/STATUS.md` for the current state of the production-readiness sweep on `fix/production-readiness` (Phases 1–3, correctness fixes + design system + the in-progress screen-by-screen sweep).
 
@@ -58,7 +58,7 @@ None of the four follow-up passes changed any public API, and each was verified 
 
 ## 2. Backend API routing — verified route-by-route
 
-`backend/supabase/functions/v1/index.ts` (684 lines) — current live route table, verified line-by-line against the code and cross-checked against `config.toml` auth settings:
+`docs/old_supabase/backend/supabase/functions/v1/index.ts` (684 lines) — the route table of the RETIRED backend, kept as a record (the app now uses the MSS REST API; see `backend/New API Ref/`):
 
 | Method | Path | Auth |
 |---|---|---|
@@ -89,7 +89,7 @@ None of the four follow-up passes changed any public API, and each was verified 
 
 | # | Issue | Location | Fix needed |
 |---|---|---|---|
-| 1 | Stale comment references a deleted Flutter class | `backend/supabase/config.toml:388-392` — cites `frontend/lib/services/mss_api_client.dart`, deleted in commit `aef431b` | Update or remove the comment; `v1` currently has no Flutter caller at all. |
+| 1 | Stale comment references a deleted Flutter class | `docs/old_supabase/backend/supabase/config.toml:388-392` — cites `frontend/lib/services/mss_api_client.dart`, deleted in commit `aef431b` | Update or remove the comment; `v1` currently has no Flutter caller at all. |
 | 2 | ✅ Resolved — API spec has zero overlap with real routes | `backend/openapi/openapi.planned.yaml` (renamed from `openapi.yaml`) — documents an admin/sync API (`/v1/admin/schemes`, `/v1/sync/*`, `/v1/admin/audit`, etc.) with **zero overlap** with the real `/v1/*` routes above. | Renamed to `openapi.planned.yaml` and its header now states explicitly it is a planned, not-yet-built API design and points readers to this section (§2) for the live routes. See `docs/RULES.md` §2. |
 
 ---

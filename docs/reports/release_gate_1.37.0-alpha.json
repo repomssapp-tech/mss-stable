@@ -1,0 +1,68 @@
+{
+  "releaseTag": "1.37.0-alpha",
+  "overallStatus": "PASS",
+  "checks": {
+    "G1_drift": {
+      "status": "PASS",
+      "details": "Source master, catalog.content, and candidate bundle reconcile cleanly without drift."
+    },
+    "G2_release_diff": {
+      "status": "PASS",
+      "totalDiffs": 3087,
+      "diffTypeCounts": {
+        "added": 1502,
+        "changed": 896,
+        "removed": 689
+      },
+      "details": "Analyzed 3087 diffs between previous and candidate: 1502 added, 896 changed, 689 removed."
+    },
+    "G3_declared_changes": {
+      "status": "PASS",
+      "unmatchedCount": 0,
+      "details": "All changes appear in declared changes list."
+    },
+    "G4_preservation": {
+      "status": "PASS",
+      "details": "Existing values and entities preserved according to declared changes."
+    },
+    "G5_hashes": {
+      "status": "PASS",
+      "details": "Artifact hashes and registration reconcile cleanly."
+    },
+    "G6_app_compatibility": {
+      "status": "PASS",
+      "details": "Catalog layout verified compatible with released Flutter app."
+    }
+  },
+  "diffSummary": {
+    "totalDiffs": 3087,
+    "unmatchedChanges": 0,
+    "diffTypeCounts": {
+      "added": 1502,
+      "changed": 896,
+      "removed": 689
+    }
+  },
+  "unmatchedChangesList": [],
+  "declaredMatches": {
+    "0": 577,
+    "1": 0,
+    "2": 1427,
+    "3": 571,
+    "4": 255,
+    "5": 113,
+    "6": 115,
+    "7": 14,
+    "8": 13,
+    "9": 2
+  },
+  "candidateIdentity": {
+    "bundleSha256": "44f9bcd299c9ad641b1cb07dca8d8dce5981d374cf497c6e29ba3f77be824207",
+    "bundleBytes": 1625317,
+    "activeLanguages": [
+      "en",
+      "ta",
+      "hi"
+    ]
+  }
+}

@@ -6,17 +6,10 @@ import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/regular_mode/search_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() {
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    try {
-      await Supabase.initialize(
-        url: 'https://example.supabase.co',
-        publishableKey: 'test-publishable-key',
-      );
-    } catch (_) {}
   });
 
   Widget createSearchTestApp(AppProvider provider) =>
@@ -123,9 +116,7 @@ void main() {
 
     // Immediately replace widget tree to trigger dispose() while Timer is active
     await tester.pumpWidget(
-      const MaterialApp(
-        home: Scaffold(body: Text('Replacement Screen')),
-      ),
+      const MaterialApp(home: Scaffold(body: Text('Replacement Screen'))),
     );
     await tester.pumpAndSettle();
 

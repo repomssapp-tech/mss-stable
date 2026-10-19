@@ -98,17 +98,30 @@ class NotificationHelpers {
     final parts = raw.split(' ');
     if (parts.length != 3) return raw;
     const enMonths = [
-      'jan', 'feb', 'mar', 'apr', 'may', 'jun',
-      'jul', 'aug', 'sep', 'oct', 'nov', 'dec',
+      'jan',
+      'feb',
+      'mar',
+      'apr',
+      'may',
+      'jun',
+      'jul',
+      'aug',
+      'sep',
+      'oct',
+      'nov',
+      'dec',
     ];
     final idx = enMonths.indexOf(
       parts[1].toLowerCase().substring(
-            0,
-            parts[1].length < 3 ? parts[1].length : 3,
-          ),
+        0,
+        parts[1].length < 3 ? parts[1].length : 3,
+      ),
     );
     if (idx < 0) return raw;
-    final localized = context.l10n.monthAbbrList.split(',').map((m) => m.trim()).toList();
+    final localized = context.l10n.monthAbbrList
+        .split(',')
+        .map((m) => m.trim())
+        .toList();
     if (localized.length != 12) return raw;
     return '${parts[0]} ${localized[idx]} ${parts[2]}';
   }

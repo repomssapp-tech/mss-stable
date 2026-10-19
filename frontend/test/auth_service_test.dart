@@ -1,3 +1,5 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:frontend/services/network/connectivity_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
@@ -74,14 +76,46 @@ void main() {
 
     test('returns false on a timeout', () async {
       final client = MockClient((request) async {
-        await Future.delayed(const Duration(seconds: 10));
+        await Future.delayed(const Duration(seconds: 2));
         return http.Response('ok', 200);
       });
 
       final reachable = await AuthService.canReachAuthenticationService(
         httpClient: client,
+        timeout: const Duration(milliseconds: 100),
       );
       expect(reachable, isFalse);
-    }, timeout: const Timeout(Duration(seconds: 8)));
+    });
+
+    test(
+      'is false without any request when the phone reports no network',
+      () async {
+        var requests = 0;
+        final client = MockClient((request) async {
+          requests++;
+          return http.Response('ok', 200);
+        });
+        ConnectivityService.testInstance = ConnectivityService(
+          probe: _NoNetworkProbe(),
+        );
+        await ConnectivityService.instance.start();
+        addTearDown(() => ConnectivityService.testInstance = null);
+
+        final reachable = await AuthService.canReachAuthenticationService(
+          httpClient: client,
+        );
+
+        expect(reachable, isFalse);
+        expect(requests, 0);
+      },
+    );
   });
+}
+
+class _NoNetworkProbe implements ConnectivityProbe {
+  @override
+  Future<List<ConnectivityResult>> check() async => [ConnectivityResult.none];
+
+  @override
+  Stream<List<ConnectivityResult>> get changes => const Stream.empty();
 }

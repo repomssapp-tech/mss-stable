@@ -1,13 +1,23 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/user_profile.dart';
 import '../models/scheme_model.dart';
 import '../services/recommendation/recommendation_engine.dart';
+import '../services/account/account_api_service.dart';
+import '../services/account/app_session.dart';
 import '../services/account/auth_service.dart';
 import '../services/account/google_identity.dart';
-import '../services/catalog/scheme_repository.dart';
+import '../services/catalog/scheme_id_migration.dart';
+import '../services/catalog/catalog_refresh_scheduler.dart';
+import '../services/library/library_sync_service.dart';
+import '../services/chat/chat_log_service.dart';
+import '../services/network/connectivity_service.dart';
+import '../services/network/debouncer.dart';
+import '../services/network/request_manager.dart';
+import '../l10n/app_localizations.dart';
+import '../services/catalog/content_language_resolver.dart';
 import '../services/catalog/scheme_catalog_sync_service.dart';
 import '../services/account/session_cache_service.dart';
 import '../services/catalog/centralized_translator.dart';
@@ -26,15 +36,32 @@ import 'controllers/scheme_catalog_controller.dart';
 import 'controllers/search_filter_controller.dart';
 import 'controllers/tab_navigation_controller.dart';
 import '../services/account/deep_link_service.dart';
+import '../models/user_profile_api_dto.dart' show serverLanguages;
+import '../services/account/onboarding_api_service.dart'
+    show LegalConsentStore, OnboardingApiService;
 import '../services/account/profile_api_service.dart';
 import '../services/account/rest_auth_service.dart';
 import '../services/account/token_storage.dart';
 
+bool _runningUnderTest() {
+  try {
+    return !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
+  } catch (_) {
+    return false;
+  }
+}
+
 class AppProvider with ChangeNotifier, WidgetsBindingObserver {
-  AppProvider({SchemeCatalogSyncService? catalogSyncService})
-    : _catalog = SchemeCatalogController(
-        catalogSyncService: catalogSyncService,
-      ) {
+  /// [startBackgroundSchedulers] runs the 30-minute catalog timer. It is off by
+  /// default under `flutter test` (a pending timer fails widget tests); a test
+  /// of the scheduling itself turns it on.
+  AppProvider({
+    SchemeCatalogSyncService? catalogSyncService,
+    bool? startBackgroundSchedulers,
+  }) : _startSchedulers = startBackgroundSchedulers ?? !_runningUnderTest(),
+       _catalog = SchemeCatalogController(
+         catalogSyncService: catalogSyncService,
+       ) {
     WidgetsBinding.instance.addObserver(this);
     _tabs.addListener(notifyListeners);
     _library.addListener(notifyListeners);
@@ -45,6 +72,11 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     DeepLinkService.instance.initialize(this);
     _loadState();
     _setupAuthListener();
+    _connectivitySubscription = ConnectivityService.instance.onChanged.listen((
+      online,
+    ) {
+      if (online) _reconnectCatchUp.run(_catchUpAfterReconnect);
+    });
   }
 
   /// Loaded scheme catalog + ranked recommendations + catalog-sync state and
@@ -66,17 +98,38 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   /// provider's own `notifyListeners` (frontend refactor C1.4).
   final SearchFilterController _searchFilter = SearchFilterController();
 
-  /// In-app notifications list + its Supabase realtime subscription and
+  /// In-app notifications list (REST inbox) and its
   /// read/delete mutations, forwarded through this provider's own
   /// `notifyListeners` (frontend refactor C1.4).
   final NotificationsController _notifications = NotificationsController();
 
-  /// Home-screen promo carousel source data (`promo_alerts` rows + in-progress
+  /// Home-screen promo carousel source data (`/v1/promotions` cards + in-progress
   /// draft sessions) and its fetch throttles, forwarded through this provider's
   /// own `notifyListeners` (frontend refactor C1.4). The profile-derived
   /// `carouselItems` getter stays here.
   final PromoContentController _promos = PromoContentController();
-  StreamSubscription<List<Map<String, dynamic>>>? _profileSubscription;
+  final bool _startSchedulers;
+  StreamSubscription<AuthChange>? _authSubscription;
+  StreamSubscription<bool>? _connectivitySubscription;
+
+  /// Looks for a newer scheme catalog: at every start, every 30 minutes of
+  /// active use, and on foreground / reconnect (at most once a minute).
+  late final CatalogRefreshScheduler _catalogScheduler =
+      CatalogRefreshScheduler(check: () => syncSchemeCatalog(force: true));
+
+  /// Keeps bookmarks and saved eligibility results in step with the server
+  /// (queued, batched, pulled rarely); the device copy always works offline.
+  late final LibrarySyncService _librarySync = LibrarySyncService(
+    host: _library,
+  );
+
+  // Profile edits are coalesced: a burst of changes becomes one request.
+  final Debouncer _profileSync = Debouncer(const Duration(seconds: 2));
+  UserProfile? _pendingProfile;
+  String? _pendingProfileOwner;
+
+  // A flapping network triggers one catch-up, not one per flip.
+  final Debouncer _reconnectCatchUp = Debouncer(const Duration(seconds: 3));
   bool _isLoggedIn = false;
   bool _isLoggingOut = false;
   String _mobileNumber = '';
@@ -88,6 +141,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _selectedLanguageValue = value;
     CentralizedTranslator.instance.activeLanguage = value;
   }
+
   // Ignores a server language value that contradicts a just-made explicit
   // changeLanguage() choice for a short window (a realtime echo or a
   // not-yet-updated profile row can still carry the OLD language briefly).
@@ -134,197 +188,39 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     return [...basePromos, ..._promos.draftSessions];
   }
 
-  // Guards against redundant re-subscription. `_subscribeToProfile` (and
-  // `NotificationsController.subscribe`) are each called from the auth-state
-  // listener, `_loadState`, and `checkSessionAndFetchProfile`, which can all
-  // run on a single launch. Every re-subscribe tears down the socket and
-  // replays an initial full-table fetch, so the old unconditional version
-  // paid for the same rows two or three times per launch.
-  String? _subscribedProfileUserId;
-
-  void _subscribeToProfile(String userId) {
-    if (_profileSubscription != null && _subscribedProfileUserId == userId) {
-      return;
-    }
-    _subscribedProfileUserId = userId;
-    _profileSubscription?.cancel();
-    _profileSubscription = Supabase.instance.client
-        .from('profiles')
-        .stream(primaryKey: ['id'])
-        .eq('id', userId)
-        .listen(
-          (data) async {
-            if (data.isNotEmpty) {
-              var dbProfile = UserProfile.fromJson(data.first);
-
-              // Preserve local custom photo or Google OAuth photo if remote photo is empty
-              if (dbProfile.profilePhoto.isEmpty ||
-                  dbProfile.profilePhoto.contains('user_avatar.webp')) {
-                final currentPhoto = _profile.profilePhoto;
-                if (currentPhoto.isNotEmpty &&
-                    !currentPhoto.contains('user_avatar.webp')) {
-                  dbProfile = dbProfile.copyWith(profilePhoto: currentPhoto);
-                } else {
-                  final googlePhoto = extractGooglePhoto(
-                    Supabase.instance.client.auth.currentUser,
-                  );
-                  if (googlePhoto.isNotEmpty) {
-                    dbProfile = dbProfile.copyWith(profilePhoto: googlePhoto);
-                  }
-                }
-              }
-
-              final remoteUpdated =
-                  dbProfile.updatedAt ?? DateTime.fromMillisecondsSinceEpoch(0);
-              final localUpdated =
-                  _profile.updatedAt ?? DateTime.fromMillisecondsSinceEpoch(0);
-
-              if (remoteUpdated.isAfter(localUpdated) ||
-                  dbProfile.name != _profile.name ||
-                  dbProfile.profilePhoto != _profile.profilePhoto ||
-                  dbProfile.language != _profile.language ||
-                  dbProfile.navigationMode != _profile.navigationMode ||
-                  dbProfile.state != _profile.state ||
-                  dbProfile.district != _profile.district ||
-                  dbProfile.pinCode != _profile.pinCode ||
-                  dbProfile.gender != _profile.gender ||
-                  dbProfile.employmentStatus != _profile.employmentStatus ||
-                  dbProfile.profileCompleted != _profile.profileCompleted) {
-                _profile = _profile.mergeFrom(dbProfile);
-                _selectedLanguage = _languageReconciler.reconcile(
-                  dbProfile.language,
-                );
-                _profile = _profile.copyWith(language: _selectedLanguage);
-                _navigationMode = _navigationModeReconciler.reconcile(
-                  dbProfile.navigationMode,
-                );
-                _profile = _profile.copyWith(navigationMode: _navigationMode);
-
-                _catalog.recomputeRecommendations(_profile);
-                fetchPromoAlerts();
-                fetchDraftSessions();
-                notifyListeners();
-
-                await SessionCacheService.instance.saveProfile(_profile);
-                await SessionCacheService.instance.saveLanguage(
-                  _selectedLanguage,
-                );
-                await SessionCacheService.instance.saveNavigationMode(
-                  _navigationMode,
-                );
-              }
-            }
-          },
-          onError: (err) {
-            debugPrint(
-              '[AppProvider] Real-time profile subscription error: $err',
-            );
-          },
-        );
-  }
-
-  void _unsubscribeFromProfile() {
-    _profileSubscription?.cancel();
-    _profileSubscription = null;
-    _subscribedProfileUserId = null;
-  }
-
+  /// Follows sign-in / sign-out of the backend session. Profile hydration after
+  /// sign-in is done by [checkSessionAndFetchProfile], which the login flows
+  /// (deep-link code exchange, password login) call once the tokens are saved.
   void _setupAuthListener() {
-    Supabase.instance.client.auth.onAuthStateChange.listen((data) async {
-      final Session? session = data.session;
-      final AuthChangeEvent event = data.event;
-
-      if (session != null &&
-          (event == AuthChangeEvent.signedIn ||
-              event == AuthChangeEvent.tokenRefreshed)) {
-        // Auth resolved -- retire the startup grace marker for OAuth redirects.
-        unawaited(AuthService.clearOAuthPending());
-        _isLoggedIn = true;
-        final user = session.user;
-        _mobileNumber = user.phone ?? '';
-        final googlePhoto = extractGooglePhoto(user);
-        final googleName = extractGoogleName(user);
-
-        // Authentication is complete at this point. Notify immediately so the
-        // login route can advance while profile hydration continues; a slow or
-        // unavailable profile query must never leave the user on the sign-in
-        // button after Google has already accepted them.
-        notifyListeners();
-
-        try {
-          final dbProfile = await SchemeRepository.instance.getProfile(user.id);
-          if (dbProfile != null) {
-            _profile = _profile.mergeFrom(dbProfile);
-            _selectedLanguage = _languageReconciler.reconcile(dbProfile.language);
-            _profile = _profile.copyWith(language: _selectedLanguage);
-            _navigationMode = dbProfile.navigationMode;
-            // Persist the merged (most complete) profile locally, and push
-            // back to Supabase any field the DB row was missing.
-            unawaited(SessionCacheService.instance.saveProfile(_profile));
-            if (!_profile.matchesStored(dbProfile)) {
-              unawaited(SchemeRepository.instance.updateProfile(_profile));
-            }
-
-            if ((_profile.profilePhoto.isEmpty ||
-                    _profile.profilePhoto.contains('user_avatar.webp')) &&
-                googlePhoto.isNotEmpty) {
-              _profile = _profile.copyWith(
-                profilePhoto: googlePhoto,
-                updatedAt: DateTime.now(),
-              );
-              unawaited(SessionCacheService.instance.saveProfile(_profile));
-              unawaited(SchemeRepository.instance.updateProfile(_profile));
-            }
-          } else {
-            _profile = UserProfile(
-              googleUserId: user.id,
-              name: googleName.isNotEmpty ? googleName : 'Google User',
-              email: user.email ?? '',
-              mobile: user.phone ?? '',
-              profilePhoto: googlePhoto,
-              language: _selectedLanguage,
-              navigationMode: _navigationMode,
-            );
-            unawaited(_saveProfile());
-            unawaited(SchemeRepository.instance.createProfile(_profile));
-          }
-
-          // Recompute immediately rather than relying solely on
-          // _subscribeToProfile's realtime listener to catch up -- that
-          // subscription is eventually-consistent (and does nothing at all
-          // if Realtime isn't enabled for the profiles table), so without
-          // this, "Recommended For You" keeps showing scores computed
-          // against the pre-sign-in default profile until something else
-          // happens to recompute it.
-          if (_catalog.hasSchemes) {
-            _catalog.recomputeRecommendations(_profile);
-          }
-
-          _subscribeToProfile(user.id);
-          _notifications.subscribe(user.id);
-          fetchPromoAlerts();
-          fetchDraftSessions();
-          await _saveProfile();
-        } catch (error, stackTrace) {
-          debugPrint(
-            '[AppProvider] Signed in, but profile hydration failed: $error\n$stackTrace',
-          );
-        }
-        notifyListeners();
-      } else if (event == AuthChangeEvent.signedOut) {
-        unawaited(AuthService.clearOAuthPending());
-        _isLoggedIn = false;
-        _mobileNumber = '';
-        _profile = UserProfile();
-        _library.reset();
-        _tabs.resetIndexOnly();
-        // reset() also clears the fetch-throttle stamps, or the next account to
-        // sign in on this device would be served the previous user's empty
-        // state until the throttle window expired.
-        _promos.reset();
-        _unsubscribeFromProfile();
-        _notifications.reset();
-        notifyListeners();
+    _authSubscription = AppSession.instance.changes.listen((change) {
+      switch (change) {
+        case AuthChange.signedIn:
+          // Auth resolved -- retire the startup grace marker for OAuth redirects.
+          unawaited(AuthService.clearOAuthPending());
+          _isLoggedIn = true;
+          final user = AppSession.instance.currentUser;
+          if (user != null) _notifications.subscribe(user.id);
+          notifyListeners();
+        case AuthChange.signedOut:
+          unawaited(AuthService.clearOAuthPending());
+          _isLoggedIn = false;
+          _mobileNumber = '';
+          _profile = UserProfile();
+          _library.reset();
+          _tabs.resetIndexOnly();
+          // reset() also clears the fetch-throttle stamps, or the next account to
+          // sign in on this device would be served the previous user's empty
+          // state until the throttle window expired.
+          _promos.reset();
+          _notifications.reset();
+          ProfileApiService.instance.clear();
+          _profileSync.cancel();
+          _pendingProfile = null;
+          _pendingProfileOwner = null;
+          unawaited(_librarySync.reset());
+          unawaited(LegalConsentStore.clear());
+          RequestManager.instance.reset();
+          notifyListeners();
       }
     });
   }
@@ -358,7 +254,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   /// Returns the effective profile photo URL or local file path.
   /// Priority:
   /// 1. Custom photo chosen by user (valid local file from gallery/camera or non-Google custom URL).
-  /// 2. Google OAuth profile photo from current Supabase session.
+  /// 2. Google OAuth profile photo of the signed-in account.
   /// 3. Empty string (falls back to local avatar illustration asset).
   String get effectiveProfilePhoto {
     final photo = _profile.profilePhoto.trim();
@@ -370,9 +266,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         return photo;
       }
     }
-    final googlePhoto = extractGooglePhoto(
-      Supabase.instance.client.auth.currentUser,
-    );
+    final googlePhoto = extractGooglePhoto(AppSession.instance.currentUser);
     if (googlePhoto.isNotEmpty) {
       return googlePhoto;
     }
@@ -384,9 +278,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     final photo = _profile.profilePhoto.trim();
     if (photo.isEmpty || photo.contains('user_avatar.webp')) return false;
     if (File(photo).existsSync()) return true;
-    final google = extractGooglePhoto(
-      Supabase.instance.client.auth.currentUser,
-    );
+    final google = extractGooglePhoto(AppSession.instance.currentUser);
     return google.isNotEmpty && photo != google;
   }
 
@@ -447,6 +339,11 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     // Needs the just-loaded catalog to map schemeCode -> id (H7), so it runs
     // here rather than at _loadState's earlier cache hydration.
     _library.normalizeBookmarkKeys(_catalog.allSchemes);
+    // Pre-2026 ids (SCH######, TN001...) -> 2026 ids, and drop saved items whose
+    // scheme left the catalog.
+    _library.migrateLegacyIds(await SchemeIdMigration.load(), {
+      for (final s in _catalog.allSchemes) s.id,
+    });
     notifyListeners();
   }
 
@@ -459,9 +356,27 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      unawaited(syncSchemeCatalog());
+    // The one lifecycle observer: schedulers and pollers are driven from here.
+    _catalogScheduler.didChangeAppLifecycleState(state);
+    _notifications.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.paused) {
+      unawaited(_profileSync.flush());
+      unawaited(_librarySync.flush());
+    } else if (state == AppLifecycleState.resumed) {
+      // Each is guarded by its own freshness window: usually a no-op.
+      unawaited(fetchPromoAlerts());
+      unawaited(_librarySync.pull());
     }
+  }
+
+  /// Work that was waiting for a network: queued chat sessions and any profile
+  /// edit that could not be sent. Notifications and the catalog catch up on
+  /// their own (their pollers react to the reconnect).
+  Future<void> _catchUpAfterReconnect() async {
+    unawaited(ChatLogService.syncPendingOfflineQueue());
+    unawaited(_librarySync.flush());
+    unawaited(_librarySync.pull());
+    await _profileSync.flush();
   }
 
   // Load state from SharedPreferences (for session continue support)
@@ -469,9 +384,12 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     try {
       _selectedLanguage =
           await SessionCacheService.instance.getLanguage() ?? 'en';
-      if (_selectedLanguage != 'en') {
-        unawaited(LanguagePackManager.instance.loadPack(_selectedLanguage));
-      }
+      // Started now (it overlaps the other hydration) but awaited before the
+      // first scheme load below, so a cold start in Hindi/Tamil adapts the
+      // catalog with the pack already indexed instead of showing English.
+      final startupPack = _selectedLanguage != 'en'
+          ? LanguagePackManager.instance.loadPack(_selectedLanguage)
+          : Future<void>.value();
       await _tabs.hydrate();
 
       final cachedProfile = await SessionCacheService.instance.loadProfile();
@@ -487,58 +405,28 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
       await _library.hydrate();
 
-      // Check MSS REST session first
-      final restToken = await TokenStorage.instance.getAccessToken();
-      final restUser = await TokenStorage.instance.getUser();
-      if (restToken != null && restToken.isNotEmpty) {
-        debugPrint('[AppProvider] Active MSS REST session found during _loadState');
+      // Restore the signed-in account (the stored backend session).
+      await AppSession.instance.hydrate();
+      final sessionUser = AppSession.instance.currentUser;
+      if (sessionUser != null) {
+        debugPrint('[AppProvider] Active MSS session found during _loadState');
         _isLoggedIn = true;
-        if (restUser != null) {
-          _notifications.subscribe(restUser.id);
-        }
+        _notifications.subscribe(sessionUser.id);
         fetchPromoAlerts();
         fetchDraftSessions();
+        unawaited(_librarySync.pull());
       } else {
-        try {
-          final session = Supabase.instance.client.auth.currentSession;
-          if (session != null) {
-            debugPrint(
-              '[AppProvider] Active Supabase session found during _loadState: user=${session.user.id}',
-            );
-            _isLoggedIn = true;
-            _mobileNumber = session.user.phone ?? '';
-
-            final googlePhoto = extractGooglePhoto(session.user);
-            if ((_profile.profilePhoto.isEmpty ||
-                    _profile.profilePhoto.contains('user_avatar.webp')) &&
-                googlePhoto.isNotEmpty) {
-              _profile = _profile.copyWith(
-                profilePhoto: googlePhoto,
-                updatedAt: DateTime.now(),
-              );
-              unawaited(SessionCacheService.instance.saveProfile(_profile));
-              unawaited(SchemeRepository.instance.updateProfile(_profile));
-            }
-
-            _subscribeToProfile(session.user.id);
-            _notifications.subscribe(session.user.id);
-            fetchPromoAlerts();
-            fetchDraftSessions();
-          } else {
-            debugPrint(
-              '[AppProvider] No active session found during _loadState.',
-            );
-          }
-        } catch (e) {
-          debugPrint('[AppProvider] Supabase session check notice: $e');
-        }
+        debugPrint('[AppProvider] No active session found during _loadState.');
       }
 
       notifyListeners();
 
       // Render local data first, then refresh the published snapshot silently.
+      await startupPack;
       await loadSchemes();
-      unawaited(syncSchemeCatalog());
+      // The local catalog is already in use; now look for a newer one.
+      if (_startSchedulers) _catalogScheduler.start();
+      unawaited(_catalogScheduler.checkOnStart());
     } catch (e) {
       debugPrint('Error loading state: $e');
     }
@@ -549,18 +437,55 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     await SessionCacheService.instance.saveProfile(_profile);
   }
 
-  Future<void> _syncProfileToSupabase(UserProfile profileToSync) =>
-      profile_cloud_sync.syncProfileToSupabase(
+  Future<void> _syncProfileToServer(UserProfile profileToSync) =>
+      profile_cloud_sync.syncProfileToServer(
         profileToSync,
         isLoggedIn: _isLoggedIn,
       );
 
-  void _syncProfileToSupabaseInBackground(UserProfile profileToSync) {
-    unawaited(
-      _syncProfileToSupabase(profileToSync).catchError((Object error) {
-        debugPrint('[AppProvider] Background Supabase sync failed: $error');
-      }),
-    );
+  /// Sends the latest profile in the background, [Debouncer] seconds after the
+  /// last edit. A failed send is kept and retried when the network returns.
+  void _syncProfileToServerInBackground(UserProfile profileToSync) {
+    // Signed out: there is no account to send it to, so nothing is queued.
+    if (!_isLoggedIn) return;
+    _pendingProfile = profileToSync;
+    _pendingProfileOwner = AppSession.instance.userId;
+    _profileSync.run(_flushProfileSync);
+  }
+
+  Future<void> _flushProfileSync() async {
+    final profile = _pendingProfile;
+    final owner = _pendingProfileOwner;
+    if (profile == null) return;
+    _pendingProfile = null;
+    // An edit made under another account (or after sign-out) is never sent.
+    if (owner == null || owner != AppSession.instance.userId) return;
+    try {
+      await _syncProfileToServer(profile);
+    } catch (error) {
+      debugPrint('[AppProvider] Background profile sync failed: $error');
+      _pendingProfile ??= profile;
+      _pendingProfileOwner ??= owner;
+    }
+  }
+
+  /// The language to use after reading the server profile. A language the
+  /// profile API cannot hold is never replaced by what the server reports;
+  /// otherwise the usual reconciliation applies.
+  ///
+  /// A profile that is not complete yet (a brand-new account) only carries the
+  /// server's default language, not a choice the user made, so the language
+  /// picked before signing in stays.
+  String _languageFromServer(
+    String serverLang, {
+    required bool serverProfileCompleted,
+  }) {
+    if (!serverLanguages.contains(_selectedLanguage)) return _selectedLanguage;
+    if (!serverProfileCompleted) {
+      _languageReconciler.markPending(_selectedLanguage);
+      return _selectedLanguage;
+    }
+    return _languageReconciler.reconcile(serverLang);
   }
 
   @visibleForTesting
@@ -572,19 +497,33 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       _languageReconciler.reconcile(serverLang);
 
   // Setters & Actions
-  Future<void> changeLanguage(String lang) async {
+  Future<void> changeLanguage(String requested) async {
+    // Only interface languages the app ships ARB resources for can become the
+    // app locale; an unsupported code (e.g. `mr` from a server profile) would
+    // otherwise silently render English while the translator tracks `mr`.
+    final lang = ContentLanguageResolver.normalizeCode(requested);
+    if (!AppLocalizations.supportedLocales.any((l) => l.languageCode == lang)) {
+      debugPrint('[AppProvider] ignoring unsupported language "$requested"');
+      return;
+    }
     _selectedLanguage = lang;
     _languageReconciler.markPending(lang);
     _profile = _profile.copyWith(language: lang, updatedAt: DateTime.now());
+    // Switch the interface and persist the choice first, so the root locale
+    // changes immediately and the choice survives the app being killed while
+    // the (slower) scheme content reloads below.
+    notifyListeners();
+    await SessionCacheService.instance.saveLanguage(lang);
     if (lang != 'en') {
       await LanguagePackManager.instance.loadPack(lang);
     }
     await loadSchemes(forceRefresh: true);
     notifyListeners();
-    await SessionCacheService.instance.saveLanguage(lang);
     await _saveProfile();
 
-    _syncProfileToSupabaseInBackground(_profile);
+    _syncProfileToServerInBackground(_profile);
+    // Promo card text is served in the chosen language.
+    unawaited(fetchPromoAlerts(force: true));
   }
 
   Future<void> changeNavigationMode(String mode) async {
@@ -598,7 +537,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     await SessionCacheService.instance.saveNavigationMode(mode);
     await SessionCacheService.instance.saveProfile(_profile);
 
-    _syncProfileToSupabaseInBackground(_profile);
+    _syncProfileToServerInBackground(_profile);
   }
 
   Future<bool> loginWithGoogle() async {
@@ -624,95 +563,59 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   }
 
   Future<bool> checkSessionAndFetchProfile() async {
-    // 1. Check MSS REST session first
-    final restToken = await TokenStorage.instance.getAccessToken();
-    if (restToken != null && restToken.isNotEmpty) {
-      try {
-        final profileAggregate = await ProfileApiService.instance.loadProfile();
-        final mappedProfile = profileAggregate.toUserProfile();
-        _isLoggedIn = true;
-        _profile = _profile.mergeFrom(mappedProfile);
-        _selectedLanguage = _languageReconciler.reconcile(mappedProfile.language);
-        _profile = _profile.copyWith(language: _selectedLanguage);
-        _navigationMode = mappedProfile.navigationMode;
-
-        await SessionCacheService.instance.saveProfile(_profile);
-        await SessionCacheService.instance.saveLanguage(_selectedLanguage);
-        await SessionCacheService.instance.saveNavigationMode(_navigationMode);
-
-        fetchPromoAlerts();
-        fetchDraftSessions();
-        notifyListeners();
-        return _profile.profileCompleted;
-      } catch (e) {
-        debugPrint('[AppProvider] REST checkSessionAndFetchProfile notice: $e');
-      }
+    await AppSession.instance.hydrate();
+    if (!AppSession.instance.isSignedIn) {
+      _isLoggedIn = false;
+      notifyListeners();
+      return false;
     }
 
-    // 2. Fallback to Supabase session
     try {
-      final session = Supabase.instance.client.auth.currentSession;
-      if (session == null) {
-        _isLoggedIn = false;
-        _unsubscribeFromProfile();
-        notifyListeners();
-        return false;
+      final profileAggregate = await ProfileApiService.instance.loadProfile();
+      final mappedProfile = profileAggregate.toUserProfile();
+      _isLoggedIn = true;
+      _profile = _profile.mergeFrom(mappedProfile);
+      _selectedLanguage = _languageFromServer(
+        mappedProfile.language,
+        serverProfileCompleted: mappedProfile.profileCompleted,
+      );
+      _profile = _profile.copyWith(language: _selectedLanguage);
+      _navigationMode = mappedProfile.navigationMode;
+
+      // Fall back to the Google account's name and photo while the server
+      // profile does not have them yet.
+      final account = AppSession.instance.currentUser;
+      final googlePhoto = extractGooglePhoto(account);
+      if ((_profile.profilePhoto.isEmpty ||
+              _profile.profilePhoto.contains('user_avatar.webp')) &&
+          googlePhoto.isNotEmpty) {
+        _profile = _profile.copyWith(profilePhoto: googlePhoto);
+      }
+      if (_profile.name.trim().isEmpty &&
+          extractGoogleName(account).isNotEmpty) {
+        _profile = _profile.copyWith(name: extractGoogleName(account));
       }
 
-      final user = session.user;
-      _isLoggedIn = true;
-      _mobileNumber = user.phone ?? '';
-      final googlePhoto = extractGooglePhoto(user);
-      final googleName = extractGoogleName(user);
+      await SessionCacheService.instance.saveProfile(_profile);
+      await SessionCacheService.instance.saveLanguage(_selectedLanguage);
+      await SessionCacheService.instance.saveNavigationMode(_navigationMode);
 
-      _subscribeToProfile(user.id);
       fetchPromoAlerts();
       fetchDraftSessions();
-
-      final dbProfile = await SchemeRepository.instance.getProfile(user.id);
-      if (dbProfile != null) {
-        _profile = _profile.mergeFrom(dbProfile);
-        _selectedLanguage = _languageReconciler.reconcile(dbProfile.language);
-        _profile = _profile.copyWith(language: _selectedLanguage);
-        _navigationMode = dbProfile.navigationMode;
-
-        if ((_profile.profilePhoto.isEmpty ||
-                _profile.profilePhoto.contains('user_avatar.webp')) &&
-            googlePhoto.isNotEmpty) {
-          _profile = _profile.copyWith(
-            profilePhoto: googlePhoto,
-            updatedAt: DateTime.now(),
-          );
-          unawaited(SchemeRepository.instance.updateProfile(_profile));
-        }
-
-        await SchemeRepository.instance.updateLastLogin(user.id);
-
-        await SessionCacheService.instance.saveProfile(_profile);
-        await SessionCacheService.instance.saveLanguage(_selectedLanguage);
-        await SessionCacheService.instance.saveNavigationMode(_navigationMode);
-
-        notifyListeners();
-        return dbProfile.profileCompleted;
-      } else {
-        _profile = UserProfile(
-          googleUserId: user.id,
-          name: googleName.isNotEmpty ? googleName : 'Google User',
-          email: user.email ?? '',
-          mobile: user.phone ?? '',
-          profilePhoto: googlePhoto,
-          language: _selectedLanguage,
-          navigationMode: _navigationMode,
-          profileCompleted: false,
-        );
-        await _saveProfile();
-        unawaited(SchemeRepository.instance.createProfile(_profile));
-        notifyListeners();
-        return false;
-      }
+      unawaited(_librarySync.pull(force: true));
+      // Turn the agreement given on the sign-in screen into recorded consent.
+      unawaited(
+        LegalConsentStore.recordFromLoginAgreement(
+          OnboardingApiService.instance,
+        ).catchError((Object e) {
+          debugPrint('[AppProvider] Could not record consent: $e');
+        }),
+      );
+      notifyListeners();
+      return _profile.profileCompleted;
     } catch (e) {
-      debugPrint('[AppProvider] Supabase session check notice: $e');
-      _isLoggedIn = false;
+      debugPrint('[AppProvider] checkSessionAndFetchProfile notice: $e');
+      _isLoggedIn = AppSession.instance.isSignedIn;
       notifyListeners();
       return false;
     }
@@ -733,7 +636,6 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _profile = UserProfile();
     _library.reset();
     _tabs.reset();
-    _unsubscribeFromProfile();
 
     await SessionCacheService.instance.clearSession();
     await TokenStorage.instance.clearTokens();
@@ -760,31 +662,25 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _isLoggingOut = true;
     notifyListeners();
 
-    // Account deletion must be confirmed by Supabase. Do not clear local
+    // Account deletion must be confirmed by the server. Do not clear local
     // state after an offline failure: that would falsely claim success.
-    if (_isLoggedIn) {
-      final user = Supabase.instance.client.auth.currentUser;
-      if (user != null) {
-        try {
-          debugPrint(
-            '[AppProvider] Calling delete_user RPC for user: ${user.id}',
+    if (_isLoggedIn && AppSession.instance.isSignedIn) {
+      try {
+        await AccountApiService.instance.deleteAccount();
+        debugPrint('[AppProvider] Account deleted on the server.');
+      } catch (e) {
+        debugPrint('[AppProvider] Error deleting account: $e');
+        _isLoggingOut = false;
+        notifyListeners();
+        if (context.mounted) {
+          AppToast.showWarning(
+            context,
+            CentralizedTranslator.instance.localize(
+              AccountApiService.deletionRefusalMessage(e),
+            ),
           );
-          await Supabase.instance.client.rpc('delete_user');
-          debugPrint(
-            '[AppProvider] Supabase user account deleted successfully.',
-          );
-        } catch (e) {
-          debugPrint('[AppProvider] Error calling delete_user RPC: $e');
-          _isLoggingOut = false;
-          notifyListeners();
-          if (context.mounted) {
-            AppToast.showWarning(
-              context,
-              CentralizedTranslator.instance.localize('Account deletion needs an internet connection. Nothing was changed.'),
-            );
-          }
-          return;
         }
+        return;
       }
     }
 
@@ -798,7 +694,6 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _profile = UserProfile();
     _library.reset();
     _tabs.reset();
-    _unsubscribeFromProfile();
     _notifications.unsubscribe();
 
     await SessionCacheService.instance.clearSession();
@@ -837,48 +732,47 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         return;
       }
 
-      final user = Supabase.instance.client.auth.currentUser;
+      final user = AppSession.instance.currentUser;
       if (user == null) return;
 
       debugPrint('[AppProvider] Starting silent background sync...');
-      final dbProfile = await SchemeRepository.instance.getProfile(user.id);
+      var syncProfile = (await ProfileApiService.instance.loadProfile())
+          .toUserProfile();
 
-      if (dbProfile != null) {
-        var syncProfile = dbProfile;
-        if (syncProfile.profilePhoto.isEmpty ||
-            syncProfile.profilePhoto.contains('user_avatar.webp')) {
-          final currentPhoto = _profile.profilePhoto;
-          if (currentPhoto.isNotEmpty &&
-              !currentPhoto.contains('user_avatar.webp')) {
-            syncProfile = syncProfile.copyWith(profilePhoto: currentPhoto);
-          } else {
-            final googlePhoto = extractGooglePhoto(user);
-            if (googlePhoto.isNotEmpty) {
-              syncProfile = syncProfile.copyWith(profilePhoto: googlePhoto);
-            }
+      if (syncProfile.profilePhoto.isEmpty ||
+          syncProfile.profilePhoto.contains('user_avatar.webp')) {
+        final currentPhoto = _profile.profilePhoto;
+        if (currentPhoto.isNotEmpty &&
+            !currentPhoto.contains('user_avatar.webp')) {
+          syncProfile = syncProfile.copyWith(profilePhoto: currentPhoto);
+        } else {
+          final googlePhoto = extractGooglePhoto(user);
+          if (googlePhoto.isNotEmpty) {
+            syncProfile = syncProfile.copyWith(profilePhoto: googlePhoto);
           }
         }
+      }
 
-        final remoteUpdated =
-            syncProfile.updatedAt ?? DateTime.fromMillisecondsSinceEpoch(0);
-        final localUpdated =
-            _profile.updatedAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+      final remoteUpdated =
+          syncProfile.updatedAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+      final localUpdated =
+          _profile.updatedAt ?? DateTime.fromMillisecondsSinceEpoch(0);
 
-        if (remoteUpdated.isAfter(localUpdated)) {
-          _profile = syncProfile;
-          _selectedLanguage = _languageReconciler.reconcile(
-            syncProfile.language,
-          );
-          _profile = _profile.copyWith(language: _selectedLanguage);
-          _navigationMode = syncProfile.navigationMode;
-          await SessionCacheService.instance.saveProfile(_profile);
-          notifyListeners();
-          debugPrint(
-            '[AppProvider] Silent background sync updated local profile.',
-          );
-        } else {
-          debugPrint('[AppProvider] Stale remote profile skipped during sync.');
-        }
+      if (remoteUpdated.isAfter(localUpdated)) {
+        _profile = _profile.mergeFrom(syncProfile);
+        _selectedLanguage = _languageFromServer(
+          syncProfile.language,
+          serverProfileCompleted: syncProfile.profileCompleted,
+        );
+        _profile = _profile.copyWith(language: _selectedLanguage);
+        _navigationMode = syncProfile.navigationMode;
+        await SessionCacheService.instance.saveProfile(_profile);
+        notifyListeners();
+        debugPrint(
+          '[AppProvider] Silent background sync updated local profile.',
+        );
+      } else {
+        debugPrint('[AppProvider] Stale remote profile skipped during sync.');
       }
       await SessionCacheService.instance.updateLastProfileSync();
     } catch (e) {
@@ -890,36 +784,28 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
   bool popTabIndex() => _tabs.popTabIndex();
 
-  void toggleBookmark(String id) => _library.toggleBookmark(id);
+  void toggleBookmark(String id) {
+    _library.toggleBookmark(id);
+    unawaited(
+      _librarySync.recordFavorite(
+        id,
+        saved: _library.bookmarkedIds.contains(id),
+      ),
+    );
+  }
 
   void addToRecentlyViewed(String id) => _library.addToRecentlyViewed(id);
 
   Future<void> saveEligibilityResults(List<String> schemeIds) async {
+    // Kept on the device. The REST profile API has no field for saved
+    // eligibility results yet (see lib/services/backend/pending_endpoints.dart).
     await _library.saveEligibilityResults(schemeIds);
-
-    if (_isLoggedIn) {
-      final user = Supabase.instance.client.auth.currentUser;
-      if (user != null) {
-        unawaited(
-          Supabase.instance.client
-              .from('profiles')
-              .update({
-                'saved_eligibility_schemes':
-                    _library.savedEligibilitySchemeIds,
-                'last_eligibility_saved_at': _library.lastEligibilitySavedAt!
-                    .toIso8601String(),
-              })
-              .eq('id', user.id)
-              .catchError((e) {
-                debugPrint('[AppProvider] Remote eligibility sync notice: $e');
-              }),
-        );
-      }
-    }
+    unawaited(_librarySync.recordEligibility(schemeIds));
   }
 
   // Search & Filter Operations — delegate to SearchFilterController.
-  void updateSearchQuery(String query) => _searchFilter.updateSearchQuery(query);
+  void updateSearchQuery(String query) =>
+      _searchFilter.updateSearchQuery(query);
 
   void updateFilter(String key, dynamic value) =>
       _searchFilter.updateFilter(key, value);
@@ -960,7 +846,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     // hosted database confirms both profile upserts. This prevents a restart
     // from bypassing onboarding after a failed or offline cloud write.
     if (requireCloudSync) {
-      await _syncProfileToSupabase(candidate);
+      await _syncProfileToServer(candidate);
     }
 
     _profile = candidate;
@@ -972,7 +858,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     await _saveProfile();
 
     if (!requireCloudSync) {
-      _syncProfileToSupabaseInBackground(_profile);
+      _syncProfileToServerInBackground(_profile);
     }
   }
 
@@ -980,7 +866,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     final trimmed = path.trim();
     // If removing custom photo, reset back to Google account photo as default
     final newPhoto = trimmed.isEmpty
-        ? extractGooglePhoto(Supabase.instance.client.auth.currentUser)
+        ? extractGooglePhoto(AppSession.instance.currentUser)
         : trimmed;
     _profile = _profile.copyWith(
       profilePhoto: newPhoto,
@@ -989,12 +875,12 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     notifyListeners();
     await _saveProfile();
 
-    _syncProfileToSupabaseInBackground(_profile);
+    _syncProfileToServerInBackground(_profile);
   }
 
   // Promo carousel content — delegate to PromoContentController.
   Future<void> fetchPromoAlerts({bool force = false}) =>
-      _promos.fetchPromoAlerts(force: force);
+      _promos.fetchPromoAlerts(force: force, language: _selectedLanguage);
 
   Future<void> fetchDraftSessions({bool force = false}) =>
       _promos.fetchDraftSessions(force: force);
@@ -1014,7 +900,12 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _promos.dispose();
     _catalog.removeListener(notifyListeners);
     _catalog.dispose();
-    _unsubscribeFromProfile();
+    _authSubscription?.cancel();
+    _connectivitySubscription?.cancel();
+    _catalogScheduler.stop();
+    _profileSync.cancel();
+    _librarySync.dispose();
+    _reconnectCatchUp.cancel();
     DeepLinkService.instance.dispose();
     super.dispose();
   }

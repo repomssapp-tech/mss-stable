@@ -173,7 +173,9 @@ class _AntiGravityHeroSectionState extends State<AntiGravityHeroSection>
                             final isActive = index == widget.activeDotIndex;
                             return AnimatedContainer(
                               duration: const Duration(milliseconds: 300),
-                              margin: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: AppSpacing.xs,
+                              ),
                               width: isActive ? 8.0 : 6.0,
                               height: isActive ? 8.0 : 6.0,
                               decoration: BoxDecoration(

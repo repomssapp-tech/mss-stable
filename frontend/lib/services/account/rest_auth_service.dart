@@ -31,11 +31,11 @@ class AuthUser {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'email': email,
-        'name': name,
-        'picture_url': pictureUrl,
-      };
+    'id': id,
+    'email': email,
+    'name': name,
+    'picture_url': pictureUrl,
+  };
 }
 
 /// Active session device record from GET /v1/me/sessions.
@@ -55,9 +55,11 @@ class UserSession {
   factory UserSession.fromJson(Map<String, dynamic> json) {
     return UserSession(
       id: json['id']?.toString() ?? '',
-      authenticatedAt: DateTime.tryParse(json['authenticated_at']?.toString() ?? '') ??
+      authenticatedAt:
+          DateTime.tryParse(json['authenticated_at']?.toString() ?? '') ??
           DateTime.fromMillisecondsSinceEpoch(0, isUtc: true),
-      expiresAt: DateTime.tryParse(json['expires_at']?.toString() ?? '') ??
+      expiresAt:
+          DateTime.tryParse(json['expires_at']?.toString() ?? '') ??
           DateTime.fromMillisecondsSinceEpoch(0, isUtc: true),
       current: json['current'] == true,
     );
@@ -76,18 +78,18 @@ class RestAuthService {
 
   static const String _kPkceVerifierKey = 'mss_pkce_code_verifier';
 
-  RestAuthService({
-    ApiClient? apiClient,
-    TokenStorage? tokenStorage,
-  })  : _apiClient = apiClient ?? ApiClient(),
-        _tokenStorage = tokenStorage ?? TokenStorage.instance;
+  RestAuthService({ApiClient? apiClient, TokenStorage? tokenStorage})
+    : _apiClient = apiClient ?? ApiClient(),
+      _tokenStorage = tokenStorage ?? TokenStorage.instance;
 
   /// Starts Google PKCE OAuth flow:
   /// 1. Generates RFC 7636 code_verifier and code_challenge.
   /// 2. Persists verifier locally across the browser roundtrip.
-  /// 3. Calls POST /v1/auth/google/start.
+  /// 3. Calls POST /v1/auth/google/start with only the challenge. The redirect
+  ///    back to the app (com.inschemes.app://login-callback/) is configured on
+  ///    the server, never sent by the client.
   /// 4. Returns authorization_url to be opened in the system browser.
-  Future<String> startGoogleLogin({String redirectUri = 'com.inschemes.app://login-callback'}) async {
+  Future<String> startGoogleLogin() async {
     final verifier = PkceHelper.generateCodeVerifier();
     final challenge = PkceHelper.generateCodeChallenge(verifier);
 
@@ -97,57 +99,38 @@ class RestAuthService {
 
     final response = await _apiClient.post(
       '/auth/google/start',
-      body: {
-        'code_challenge': challenge,
-        'redirect_uri': redirectUri,
-      },
+      body: {'code_challenge': challenge},
       requiresAuth: false,
     );
 
     final data = response.data as Map<String, dynamic>;
     final authUrl = data['authorization_url']?.toString();
     if (authUrl == null || authUrl.isEmpty) {
-      throw StateError('Missing authorization_url in response from /auth/google/start');
+      throw StateError(
+        'Missing authorization_url in response from /auth/google/start',
+      );
     }
     return authUrl;
   }
 
-  /// Exchanges the one-time app code received from deep-link redirect
-  /// with the saved code_verifier.
-  Future<AuthUser> exchangeCode(String code, {String redirectUri = 'com.inschemes.app://login-callback'}) async {
+  /// Exchanges the one-time app code received from the deep-link redirect
+  /// (valid 60 seconds, one use) with the saved code_verifier via
+  /// POST /v1/auth/exchange.
+  Future<AuthUser> exchangeCode(String code) async {
     final prefs = await SharedPreferences.getInstance();
     final verifier = prefs.getString(_kPkceVerifierKey);
     if (verifier == null || verifier.isEmpty) {
-      throw StateError('No pending PKCE code_verifier found. Please initiate login again.');
+      throw StateError(
+        'No pending PKCE code_verifier found. Please initiate login again.',
+      );
     }
 
     try {
-      ApiResponse<dynamic> response;
-      try {
-        response = await _apiClient.post(
-          '/auth/google/exchange',
-          body: {
-            'code': code.trim(),
-            'code_verifier': verifier,
-            'redirect_uri': redirectUri,
-          },
-          requiresAuth: false,
-        );
-      } on ApiException catch (e) {
-        if (e.statusCode == 404) {
-          response = await _apiClient.post(
-            '/auth/exchange',
-            body: {
-              'code': code.trim(),
-              'code_verifier': verifier,
-              'redirect_uri': redirectUri,
-            },
-            requiresAuth: false,
-          );
-        } else {
-          rethrow;
-        }
-      }
+      final response = await _apiClient.post(
+        '/auth/exchange',
+        body: {'code': code.trim(), 'code_verifier': verifier},
+        requiresAuth: false,
+      );
 
       final data = response.data as Map<String, dynamic>;
       final accessToken = data['access_token']?.toString() ?? '';
@@ -184,10 +167,7 @@ class RestAuthService {
   }) async {
     final response = await _apiClient.post(
       '/auth/password/login',
-      body: {
-        'email': email.trim().toLowerCase(),
-        'password': password,
-      },
+      body: {'email': email.trim().toLowerCase(), 'password': password},
       requiresAuth: false,
     );
 
@@ -239,12 +219,38 @@ class RestAuthService {
     return null;
   }
 
+  /// Asks the server whether the stored session is still valid.
+  ///
+  /// `true` = accepted, `false` = the server rejected it (deleted/disabled
+  /// account or revoked session; local credentials are cleared by the client's
+  /// refresh handling), `null` = could not tell (offline, timeout, 5xx), in
+  /// which case the cached session should be trusted.
+  Future<bool?> validateSession({
+    Duration timeout = const Duration(seconds: 4),
+  }) async {
+    try {
+      await _apiClient.get('/me').timeout(timeout);
+      return true;
+    } on TimeoutException {
+      return null;
+    } on ApiException catch (e) {
+      if (e.statusCode == 401 || e.statusCode == 403 || e.statusCode == 404) {
+        return false;
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
   /// Revokes the current session and clears local credentials.
   Future<void> logout() async {
     try {
       await _apiClient.post('/auth/logout');
     } catch (e) {
-      debugPrint('[RestAuthService] Remote logout failed (clearing locally): $e');
+      debugPrint(
+        '[RestAuthService] Remote logout failed (clearing locally): $e',
+      );
     } finally {
       await _tokenStorage.clear();
     }
@@ -255,7 +261,9 @@ class RestAuthService {
     try {
       await _apiClient.post('/auth/logout-all');
     } catch (e) {
-      debugPrint('[RestAuthService] Remote logout-all failed (clearing locally): $e');
+      debugPrint(
+        '[RestAuthService] Remote logout-all failed (clearing locally): $e',
+      );
     } finally {
       await _tokenStorage.clear();
     }
@@ -293,10 +301,7 @@ class RestAuthService {
     if (currentPassword != null && currentPassword.isNotEmpty) {
       payload['current_password'] = currentPassword;
     }
-    await _apiClient.put(
-      '/me/password',
-      body: payload,
-    );
+    await _apiClient.put('/me/password', body: payload);
     // Setting/updating password revokes existing sessions per spec
     await _tokenStorage.clear();
   }

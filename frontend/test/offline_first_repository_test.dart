@@ -22,7 +22,10 @@ void main() {
     });
 
     test('getTopRecommendedSchemes', () async {
-      final result = await repo.getTopRecommendedSchemes(UserProfile(), limit: 5);
+      final result = await repo.getTopRecommendedSchemes(
+        UserProfile(),
+        limit: 5,
+      );
       expect(result, isNotEmpty);
     });
 

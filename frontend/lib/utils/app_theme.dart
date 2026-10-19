@@ -50,21 +50,22 @@ class AppTheme {
       colorScheme: scheme,
       scaffoldBackgroundColor: AppColors.background,
       fontFamily: AppFonts.body,
-      textTheme: TextTheme(
-        headlineSmall: t.headline,
-        titleLarge: t.titleLarge,
-        titleMedium: t.titleSmall,
-        titleSmall: t.cardTitle,
-        bodyLarge: t.bodyLarge,
-        bodyMedium: t.body,
-        bodySmall: t.bodySmall,
-        labelLarge: t.button,
-        labelMedium: t.label,
-        labelSmall: t.label,
-      ).apply(
-        bodyColor: AppColors.textPrimary,
-        displayColor: AppColors.textPrimary,
-      ),
+      textTheme:
+          TextTheme(
+            headlineSmall: t.headline,
+            titleLarge: t.titleLarge,
+            titleMedium: t.titleSmall,
+            titleSmall: t.cardTitle,
+            bodyLarge: t.bodyLarge,
+            bodyMedium: t.body,
+            bodySmall: t.bodySmall,
+            labelLarge: t.button,
+            labelMedium: t.label,
+            labelSmall: t.label,
+          ).apply(
+            bodyColor: AppColors.textPrimary,
+            displayColor: AppColors.textPrimary,
+          ),
       materialTapTargetSize: MaterialTapTargetSize.padded,
       visualDensity: VisualDensity.standard,
 
@@ -193,7 +194,9 @@ class AppTheme {
         showDragHandle: false,
         dragHandleColor: AppColors.borderStrong,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(AppRadius.xl),
+          ),
         ),
       ),
       snackBarTheme: SnackBarThemeData(
@@ -294,9 +297,7 @@ class AppTheme {
         return null;
       }),
       dayShape: WidgetStateProperty.all(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
       todayForegroundColor: WidgetStateProperty.resolveWith<Color?>((states) {
         if (states.contains(WidgetState.selected)) {
@@ -340,25 +341,21 @@ class AppTheme {
       dividerColor: AppConstants.cardBorderColor,
       cancelButtonStyle: TextButton.styleFrom(
         foregroundColor: AppConstants.secondaryText,
-        textStyle: GoogleFonts.inter(
-          fontSize: 14,
-          fontWeight: FontWeight.w600,
+        textStyle: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.sm,
         ),
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
       confirmButtonStyle: TextButton.styleFrom(
         foregroundColor: AppConstants.primaryColor,
-        textStyle: GoogleFonts.inter(
-          fontSize: 14,
-          fontWeight: FontWeight.w700,
+        textStyle: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.xl,
+          vertical: AppSpacing.sm,
         ),
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl, vertical: AppSpacing.sm),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
@@ -436,11 +433,11 @@ Future<DateTime?> showThemedDatePicker({
         data: Theme.of(context).copyWith(
           datePickerTheme: AppTheme.datePickerTheme,
           colorScheme: Theme.of(context).colorScheme.copyWith(
-                primary: AppConstants.primaryColor,
-                onPrimary: Colors.white,
-                surface: AppConstants.surfaceColor,
-                onSurface: AppConstants.primaryText,
-              ),
+            primary: AppConstants.primaryColor,
+            onPrimary: Colors.white,
+            surface: AppConstants.surfaceColor,
+            onSurface: AppConstants.primaryText,
+          ),
         ),
         child: child!,
       );

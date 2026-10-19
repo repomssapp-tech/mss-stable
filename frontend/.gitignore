@@ -23,7 +23,7 @@ migrate_working_dir/
 # is commented out by default.
 #.vscode/
 
-# Local dart-define config (contains the Supabase publishable key)
+# Local dart-define config (backend origin for this machine)
 dart_defines.json
 dart-defines.json
 

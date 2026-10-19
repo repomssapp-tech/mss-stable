@@ -113,7 +113,7 @@ All color tokens are calibrated to achieve $\ge 8.5:1$ contrast against card and
 | **Navigation** | Search screen pre-query overload (4 competing sections) | First-time users hesitate on what to tap | Progressive disclosure with focused search bar and `SearchEmptyState` suggestions. |
 | **Localization** | Untranslated technical bureaucratic jargon in Tamil | Rural artisans cannot understand complex financial terms | Added conversational subtitles and comprehensive `.arb` translation keys. |
 | **Performance** | Main-thread catalog decompression on startup | Micro-stutters and frame drops on budget Android phones | Decompression and parsing offloaded to background isolate via `compute()`. |
-| **Network** | Unauthenticated background Supabase cloud upserts | Unhandled exceptions and console trace spam in guest mode | Guarded background cloud sync with `_isLoggedIn` and null-safety session checks. |
+| **Network** | Unauthenticated background cloud upserts | Unhandled exceptions and console trace spam in guest mode | Guarded background cloud sync with `_isLoggedIn` and null-safety session checks. |
 | **Forms** | Misplaced locality into district on reverse-geocoding | Users blocked with red validation errors | Created `LocationHelper.parsePlacemark` to place villages/sub-localities into Area field. |
 
 ---

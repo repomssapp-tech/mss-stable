@@ -55,7 +55,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   Future<void> _loadDynamicCounts() async {
     try {
       // Derive every Discover count from the offline catalog's structured
-      // fields (219 rows) via [DiscoverCounts] — no /v1/search, no keyword
+      // fields (one row per scheme) via [DiscoverCounts] — no /v1/search, no keyword
       // sweep of overview prose, no hardcoded totals, connectivity-independent.
       final schemes = await SchemeRepository.instance.getAllSchemes();
       final counts = DiscoverCounts.compute(schemes);
@@ -90,7 +90,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       'category',
       () async {
         final all = await SchemeRepository.instance.getAllSchemes();
-        final schemes = DiscoverCounts.schemesFor(categoryName, 'category', all);
+        final schemes = DiscoverCounts.schemesFor(
+          categoryName,
+          'category',
+          all,
+        );
         if (!mounted) return;
         if (schemes.isEmpty) {
           showComingSoonInfo(context, categoryName, 'category');
@@ -122,7 +126,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       'ministry',
       () async {
         final all = await SchemeRepository.instance.getAllSchemes();
-        final schemes = DiscoverCounts.schemesFor(ministryName, 'ministry', all);
+        final schemes = DiscoverCounts.schemesFor(
+          ministryName,
+          'ministry',
+          all,
+        );
         if (!mounted) return;
         if (schemes.isEmpty) {
           showComingSoonInfo(context, ministryName, 'ministry');

@@ -13,31 +13,28 @@ final _fitStart = RegExp(r'(?:FitOneLine|FittedBox)\(');
 final _textCall = RegExp(r'Text\(');
 
 void main() {
-  test(
-    'lib/ does not wrap Text( in FitOneLine()/FittedBox()',
-    () {
-      final actual = <String, int>{};
-      for (final file in dartFilesUnder('lib')) {
-        final path = relPath(file);
-        final src = file.readAsStringSync();
-        final lines = src.split('\n');
-        var count = 0;
+  test('lib/ does not wrap Text( in FitOneLine()/FittedBox()', () {
+    final actual = <String, int>{};
+    for (final file in dartFilesUnder('lib')) {
+      final path = relPath(file);
+      final src = file.readAsStringSync();
+      final lines = src.split('\n');
+      var count = 0;
 
-        for (final call in balancedCallsWithOffsets(src, _fitStart)) {
-          if (!_textCall.hasMatch(call.text)) continue;
-          final startLine = lineOf(src, call.start);
-          if (lines[startLine].contains('// type-ok: numeric')) continue;
-          count++;
-        }
-
-        if (count > 0) actual[path] = count;
+      for (final call in balancedCallsWithOffsets(src, _fitStart)) {
+        if (!_textCall.hasMatch(call.text)) continue;
+        final startLine = lineOf(src, call.start);
+        if (lines[startLine].contains('// type-ok: numeric')) continue;
+        count++;
       }
 
-      expectNoRatchetRegression(
-        rule: 'fit_one_line',
-        actual: actual,
-        violationDescription: 'FitOneLine()/FittedBox() shrinking a Text(',
-      );
-    },
-  );
+      if (count > 0) actual[path] = count;
+    }
+
+    expectNoRatchetRegression(
+      rule: 'fit_one_line',
+      actual: actual,
+      violationDescription: 'FitOneLine()/FittedBox() shrinking a Text(',
+    );
+  });
 }

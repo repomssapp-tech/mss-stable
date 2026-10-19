@@ -1,114 +1,101 @@
 import '../../models/notification_item_dto.dart';
 import '../network/api_client.dart';
 
-/// Service adapter for MSS REST Notifications API (`/v1/me/notifications`).
+/// Client for the MSS notifications API (`/v1/me/notifications`).
+///
+/// The owner comes from the bearer token; no user id is ever sent. Writes use
+/// the documented bodies: exactly one of `{ids: [...]}` (1..100 UUIDs) or
+/// `{all: true}`.
 class NotificationsApiService {
   NotificationsApiService({ApiClient? client})
-      : _client = client ?? ApiClient.instance;
+    : _client = client ?? ApiClient.instance;
 
   final ApiClient _client;
 
-  /// Fetches paginated notifications list.
-  Future<NotificationsListResponse> getNotifications({
-    int page = 1,
+  static const int maxIdsPerRequest = 100;
+  static const String _base = '/v1/me/notifications';
+
+  /// Lists a page of the inbox, newest first.
+  ///
+  /// [cursor] must be the exact `next_cursor` of the previous page with the same
+  /// filters; start a fresh first page when a filter changes.
+  Future<NotificationsPage> getNotifications({
+    String? category,
+    bool? isRead,
     int limit = 20,
-    bool unreadOnly = false,
+    String? cursor,
   }) async {
     final response = await _client.get(
-      '/v1/me/notifications',
+      _base,
       queryParameters: {
-        'page': page,
-        'limit': limit,
-        if (unreadOnly) 'unread_only': true,
+        'category': ?category,
+        if (isRead != null) 'is_read': isRead.toString(),
+        'limit': limit.clamp(1, 50),
+        'cursor': ?cursor,
       },
-      requiresAuth: true,
     );
-
-    if (response.data is Map<String, dynamic>) {
-      return NotificationsListResponse.fromJson(
-        response.data as Map<String, dynamic>,
-      );
-    }
-
-    return const NotificationsListResponse(
-      notifications: [],
-      total: 0,
-      unreadCount: 0,
-      page: 1,
-      limit: 20,
-    );
+    final data = response.data;
+    return data is Map<String, dynamic>
+        ? NotificationsPage.fromJson(data)
+        : NotificationsPage.empty;
   }
 
-  /// Marks a single notification as read or unread.
-  Future<NotificationItemDto> updateNotificationStatus(
-    String id, {
-    bool isRead = true,
-  }) async {
-    final response = await _client.patch(
-      '/v1/me/notifications/$id',
-      body: {'is_read': isRead},
-      requiresAuth: true,
-    );
-
-    return NotificationItemDto.fromJson(
-      response.data as Map<String, dynamic>,
-    );
+  /// Marks one notification read. Returns how many rows changed (0 if it was
+  /// already read or is not the caller's).
+  Future<int> markRead(String id) async {
+    final response = await _client.patch('$_base/$id', body: {'is_read': true});
+    return _count(response.data, 'updated');
   }
 
-  /// Marks multiple notifications as read.
-  Future<int> markManyAsRead(List<String> ids) async {
-    if (ids.isEmpty) return 0;
-    final response = await _client.patch(
-      '/v1/me/notifications/read',
-      body: {'notification_ids': ids},
-      requiresAuth: true,
-    );
+  /// Marks the given notifications read, in batches of at most 100.
+  Future<int> markManyAsRead(List<String> ids) => _inBatches(ids, (
+    batch,
+  ) async {
+    final response = await _client.patch('$_base/read', body: {'ids': batch});
+    return _count(response.data, 'updated');
+  });
 
-    if (response.data is Map<String, dynamic>) {
-      return (response.data['updated_count'] as num?)?.toInt() ?? ids.length;
-    }
-    return ids.length;
-  }
-
-  /// Marks all unread notifications as read.
+  /// Marks every notification of the owner read.
   Future<int> markAllAsRead() async {
-    final response = await _client.post(
-      '/v1/me/notifications/read-all',
-      body: {},
-      requiresAuth: true,
-    );
-
-    if (response.data is Map<String, dynamic>) {
-      return (response.data['updated_count'] as num?)?.toInt() ?? 0;
-    }
-    return 0;
+    final response = await _client.post('$_base/read-all', body: const {});
+    return _count(response.data, 'updated');
   }
 
-  /// Bulk deletes notifications by ID.
-  Future<int> deleteNotifications(List<String> ids) async {
-    if (ids.isEmpty) return 0;
-    final response = await _client.post(
-      '/v1/me/notifications/delete',
-      body: {'notification_ids': ids},
-      requiresAuth: true,
-    );
+  /// Permanently deletes the given notifications, in batches of at most 100.
+  Future<int> deleteNotifications(List<String> ids) => _inBatches(ids, (
+    batch,
+  ) async {
+    final response = await _client.post('$_base/delete', body: {'ids': batch});
+    return _count(response.data, 'deleted');
+  });
 
-    if (response.data is Map<String, dynamic>) {
-      return (response.data['deleted_count'] as num?)?.toInt() ?? ids.length;
-    }
-    return ids.length;
+  /// Permanently deletes the owner's entire inbox, across pages and
+  /// categories. Callers must have an explicit user confirmation.
+  Future<int> deleteAll() async {
+    final response = await _client.post('$_base/delete', body: {'all': true});
+    return _count(response.data, 'deleted');
   }
 
-  /// Fast unread counter for badge without fetching full list.
+  /// Unread badge count (all categories).
   Future<int> getUnreadCount() async {
-    final response = await _client.get(
-      '/v1/me/notifications/unread-count',
-      requiresAuth: true,
-    );
+    final response = await _client.get('$_base/unread-count');
+    return _count(response.data, 'unread_count');
+  }
 
-    if (response.data is Map<String, dynamic>) {
-      return (response.data['unread_count'] as num?)?.toInt() ?? 0;
+  int _count(dynamic data, String key) =>
+      data is Map<String, dynamic> ? (data[key] as num?)?.toInt() ?? 0 : 0;
+
+  /// Batches are not atomic: an error stops at the failing batch.
+  Future<int> _inBatches(
+    List<String> ids,
+    Future<int> Function(List<String> batch) send,
+  ) async {
+    final unique = ids.toSet().toList();
+    var total = 0;
+    for (var i = 0; i < unique.length; i += maxIdsPerRequest) {
+      final end = (i + maxIdsPerRequest).clamp(0, unique.length);
+      total += await send(unique.sublist(i, end));
     }
-    return 0;
+    return total;
   }
 }

@@ -68,7 +68,8 @@ class Step4SectorSelector extends StatelessWidget {
           AssistedSelectionCard(
             title: sectors[i]['title'] as String,
             icon: sectors[i]['icon'] as IconData?,
-            isSelected: selectedSector.toLowerCase() ==
+            isSelected:
+                selectedSector.toLowerCase() ==
                 (sectors[i]['id'] as String).toLowerCase(),
             onTap: () => onSectorSelected(sectors[i]['id'] as String),
           ),

@@ -9,10 +9,7 @@ import '../../../utils/responsive.dart';
 class TaxGstInteractivePanel extends StatefulWidget {
   final Color iconColor;
 
-  const TaxGstInteractivePanel({
-    super.key,
-    required this.iconColor,
-  });
+  const TaxGstInteractivePanel({super.key, required this.iconColor});
 
   @override
   State<TaxGstInteractivePanel> createState() => _TaxGstInteractivePanelState();

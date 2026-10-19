@@ -96,18 +96,23 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
       // fall back to the provider value / 'en'.
       final ambient = Localizations.localeOf(context).languageCode;
       setState(() {
-        final candidate = (ambient == 'ta' || ambient == 'en' || (ambient == 'hi' && _hiSupported))
+        final candidate =
+            (ambient == 'ta' ||
+                ambient == 'en' ||
+                (ambient == 'hi' && _hiSupported))
             ? ambient
             : (provider.selectedLanguage.isEmpty
-                ? 'en'
-                : provider.selectedLanguage);
+                  ? 'en'
+                  : provider.selectedLanguage);
         _selectedLang = (candidate == 'hi' && !_hiSupported) ? 'en' : candidate;
       });
     });
   }
 
   Future<void> _checkLanguageSupport() async {
-    final supported = await LanguagePackManager.instance.isLanguageSupported('hi');
+    final supported = await LanguagePackManager.instance.isLanguageSupported(
+      'hi',
+    );
     if (mounted && supported != _hiSupported) {
       setState(() {
         _hiSupported = supported;
@@ -233,7 +238,9 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                                 child: Row(
                                   children: [
                                     Container(
-                                      padding: const EdgeInsets.all(AppSpacing.sm),
+                                      padding: const EdgeInsets.all(
+                                        AppSpacing.sm,
+                                      ),
                                       decoration: const BoxDecoration(
                                         shape: BoxShape.circle,
                                         color: Color(0xFFDBEAFE),
@@ -258,7 +265,9 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                                               color: const Color(0xFF1E3A8A),
                                             ),
                                           ),
-                                          const SizedBox(height: AppSpacing.hairline),
+                                          const SizedBox(
+                                            height: AppSpacing.hairline,
+                                          ),
                                           Text(
                                             context.l10n.changeAnytime,
                                             style: GoogleFonts.inter(
@@ -370,7 +379,10 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
       borderRadius: BorderRadius.circular(16),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.lg),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.lg,
+        ),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),

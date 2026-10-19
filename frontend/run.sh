@@ -2,8 +2,8 @@
 # Dev helper for the MSS Flutter app (macOS / Linux / Git Bash / CI).
 #
 # Runs Flutter with the required build-time configuration so you never hit
-#   "Missing build-time configuration: SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY".
-# Connection values come from dart_defines.json (git-ignored); this script
+#   an app pointing at the wrong backend.
+# The backend origin comes from dart_defines.json (git-ignored); this script
 # always passes --dart-define-from-file so you don't have to remember it.
 #
 # Usage:
@@ -25,7 +25,7 @@ if [ ! -f "$DEFINES" ]; then
   if [ -f "$EXAMPLE" ]; then
     cp "$EXAMPLE" "$DEFINES"
     echo "Created $DEFINES from $EXAMPLE." >&2
-    echo "Fill in the real SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY, then run again." >&2
+    echo "Set API_BASE_URL to your backend (or keep the default), then run again." >&2
   else
     echo "Missing $DEFINES (and no $EXAMPLE to copy from)." >&2
   fi

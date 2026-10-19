@@ -1,0 +1,414 @@
+{
+  "releaseTag": "1.36.0-alpha",
+  "overallStatus": "FAIL",
+  "checks": {
+    "G1_drift": {
+      "status": "PASS",
+      "details": "Source master and candidate bundle reconcile cleanly without drift."
+    },
+    "G2_release_diff": {
+      "status": "PASS",
+      "totalDiffs": 907,
+      "details": "Analyzed 907 diffs between previous and candidate."
+    },
+    "G3_declared_changes": {
+      "status": "FAIL",
+      "unmatchedCount": 907,
+      "details": "907 undeclared change(s) found!"
+    },
+    "G4_preservation": {
+      "status": "FAIL",
+      "details": "907 unauthorized modifications found."
+    },
+    "G5_hashes": {
+      "status": "FAIL",
+      "details": [
+        "common_catalog.json sha256 mismatch: actual=518d0ea18a22f3d8e549875531d8a8b29c722e77af181cf232a3f1eccf2985cd declared=1e0716033bd021ec499cbfc41f001ae9cc6f560e09f4567cdf194d50376158a5",
+        "authority_catalog.json sha256 mismatch: actual=a1872c764f7214c6c7191dfb83dd1e9cc75820f0d203ddf42e7b7e20d2f8df64 declared=ac06b3b46399fc08a288a55ba63a4c99841a4cd9c127f2dd4311d793444108fc",
+        "institution_catalog.json sha256 mismatch: actual=1d2a4c82e69be9f30123598eca03d7ac8508b1013fadb5f085a6e547e4227919 declared=7a2a689690d8982830c8040a90490a815e39570d3aed2ae54ccf1b3e097ab726",
+        "scheme_catalog.json sha256 mismatch: actual=3585db45fd94397400b127440c33f285363ca949043c7127b59a4c6f3a8a61c0 declared=1f8a20c5573a26a7752c7e30cd5c8f9871e50e4d0fe88eb2a753bc75f8f1adcf",
+        "finance_catalog.json sha256 mismatch: actual=c6c44dbb3352944928a985f498f942aa723fe8bc500076e728778698d8ec6670 declared=81f2489add9d517ebd2c985d6c16e96b3a0cbe5144e0ec4c78df1673b112cdce",
+        "tax_catalog.json sha256 mismatch: actual=94b1a6f422c51f1850297df675e1cb92c016ae8e0639974b076d6ff4bbb5aaf4 declared=b7d44de25abc167ce78141b3bb58aad995109f3b88383a715ea66b6e48b58179",
+        "treds_catalog.json sha256 mismatch: actual=b757bc4efbc42d48502a010e458021dda5b4f5f77260ec286139e0d2936dd0a2 declared=faba1e765fd616b7733a03c0c8e4058e84cd33da943e16d5611270f0482ff169",
+        "csr_catalog.json sha256 mismatch: actual=9869be253dda2f6e8e00feb2519577aea1064e0482b0033956e62f397779b36c declared=26ec5ea2bb4a10a7af0a00a2a72a0c5a9588364b812e2a356b7e7e13ae457491",
+        "export_catalog.json sha256 mismatch: actual=a23bf20b470a15e6d021b8a746c2705aacec649d9b5e64c09f24b552680552d9 declared=8d6daa046d883a917f7dde894ba401d2e670292cc6d07ba7bc1d6bf448d27e2b",
+        "knowledge_catalog.json sha256 mismatch: actual=5e989164f61e9ccb64adc3d07ea56594669fdd9a9413afbf8d8b3cf888ff569d declared=34ac510eefa9e7b0f0dde5a24f0745434c07fdb6d414b072c46cc14235afde80",
+        "applicability_matrix_catalog.json sha256 mismatch: actual=9656a7d319342bf060e2df6b256bd3a7b11f273b81ec386a88b0882b39c22566 declared=f5820b4fe20ff273a8c8a80c934738df663078a857848f5420271f150af391e5",
+        "enterprise_classification_catalog.json sha256 mismatch: actual=906e0bbd49e30c1a8b06933bda2d7ce2aa87786db176a369f79b23ab7e1bfcf2 declared=f767029274c398a46e89719aa0db6d5a512f87ade34e09436ed5e2a82a22aa36",
+        "msme_privilege_catalog.json sha256 mismatch: actual=e23561aaa4367620a6ec0da1b9016c74a4a1bb0ce03a2c4ec81f9a0540ae0cd9 declared=0166ddfb7713b3097737407f877b2d2ac84181e35cfca0b8aed052e8ccdebcc8",
+        "business_enablement_catalog.json sha256 mismatch: actual=0d2be4f5e35b2556c78b06086d402919332bc6bdc3cd499ca21738ab9fcd1662 declared=4c3aaf54265d179a392a2bde64b5e63c3f06faf11384e634cd05bb66797c35fd",
+        "cluster_assistance_catalog.json sha256 mismatch: actual=70cd4def3795be99067596728dfd70e0e621bba4072091544642686cb7f6553e declared=b0c56695e1d543ef13f1e1c5292a7414d4d28aefc29ead145a083912da56e371",
+        "search_index.json sha256 mismatch: actual=ddee453c47642cd4bfeea84f8cd01c5452f90c5fe1b3feb7aa923c2176e44a6d declared=80148746d2394c0ac5e22f2a02a49adeed905638397ce9065349cc52d705b963"
+      ]
+    },
+    "G6_app_compatibility": {
+      "status": "PASS",
+      "details": "Catalog layout verified compatible with released Flutter app."
+    }
+  },
+  "diffSummary": {
+    "totalDiffs": 907,
+    "unmatchedChanges": 907
+  },
+  "unmatchedChangesList": [
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000006",
+      "lang": "hi",
+      "field": "shortName",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000006",
+      "lang": "hi",
+      "field": "eligibilityText",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000011",
+      "lang": "hi",
+      "field": "name",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000011",
+      "lang": "hi",
+      "field": "description",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000011",
+      "lang": "hi",
+      "field": "applicationText",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000011",
+      "lang": "hi",
+      "field": "shortName",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000011",
+      "lang": "hi",
+      "field": "eligibilityText",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000011",
+      "lang": "hi",
+      "field": "objective",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000011",
+      "lang": "hi",
+      "field": "benefitsText",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000011",
+      "lang": "hi",
+      "field": "summary",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000012",
+      "lang": "hi",
+      "field": "name",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000012",
+      "lang": "hi",
+      "field": "description",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000012",
+      "lang": "hi",
+      "field": "applicationText",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000012",
+      "lang": "hi",
+      "field": "shortName",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000012",
+      "lang": "hi",
+      "field": "eligibilityText",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000012",
+      "lang": "hi",
+      "field": "objective",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000012",
+      "lang": "hi",
+      "field": "benefitsText",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000012",
+      "lang": "hi",
+      "field": "summary",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000014",
+      "lang": "hi",
+      "field": "name",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000014",
+      "lang": "hi",
+      "field": "description",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000014",
+      "lang": "hi",
+      "field": "applicationText",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000014",
+      "lang": "hi",
+      "field": "shortName",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000014",
+      "lang": "hi",
+      "field": "eligibilityText",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000014",
+      "lang": "hi",
+      "field": "objective",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000014",
+      "lang": "hi",
+      "field": "benefitsText",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000014",
+      "lang": "hi",
+      "field": "summary",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000015",
+      "lang": "hi",
+      "field": "name",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000015",
+      "lang": "hi",
+      "field": "description",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000015",
+      "lang": "hi",
+      "field": "applicationText",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000015",
+      "lang": "hi",
+      "field": "shortName",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000015",
+      "lang": "hi",
+      "field": "eligibilityText",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000015",
+      "lang": "hi",
+      "field": "objective",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000015",
+      "lang": "hi",
+      "field": "benefitsText",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000015",
+      "lang": "hi",
+      "field": "summary",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000016",
+      "lang": "hi",
+      "field": "name",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000016",
+      "lang": "hi",
+      "field": "description",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000016",
+      "lang": "hi",
+      "field": "applicationText",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000016",
+      "lang": "hi",
+      "field": "shortName",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000016",
+      "lang": "hi",
+      "field": "eligibilityText",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000016",
+      "lang": "hi",
+      "field": "objective",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000016",
+      "lang": "hi",
+      "field": "benefitsText",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000016",
+      "lang": "hi",
+      "field": "summary",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000018",
+      "lang": "hi",
+      "field": "description",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000018",
+      "lang": "hi",
+      "field": "applicationText",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000018",
+      "lang": "hi",
+      "field": "eligibilityText",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000018",
+      "lang": "hi",
+      "field": "objective",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000018",
+      "lang": "hi",
+      "field": "benefitsText",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000018",
+      "lang": "hi",
+      "field": "summary",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000020",
+      "lang": "hi",
+      "field": "name",
+      "diffType": "changed"
+    },
+    {
+      "entityType": "scheme",
+      "entityId": "SCH000020",
+      "lang": "hi",
+      "field": "description",
+      "diffType": "changed"
+    }
+  ],
+  "declaredMatches": {},
+  "candidateIdentity": {
+    "bundleSha256": "be27bfc11e0d443a09cdca422845918ec02b968e1abcbf5c01c6216e2c8f94ce",
+    "bundleBytes": 761844,
+    "activeLanguages": [
+      "en",
+      "ta"
+    ]
+  }
+}

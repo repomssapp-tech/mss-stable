@@ -67,52 +67,53 @@ class HomeHeaderSection extends StatelessWidget {
       children: [
         Expanded(
           child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Flexible(
-                  child: Text(
-                    AppConstants.getTimeGreeting(context.l10n),
-                    style: context.text.body.copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.textMuted,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Flexible(
+                    child: Text(
+                      AppConstants.getTimeGreeting(context.l10n),
+                      style: context.text.body.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.textMuted,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(width: AppSpacing.xs),
-                ExcludeSemantics(
-                  child: Text("👋", style: GoogleFonts.inter(fontSize: 14)),
-                ),
-              ],
-            ),
-            const SizedBox(height: AppSpacing.hairline),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Flexible(
-                  child: Text(
-                    displayName,
-                    style: (provider.isGuest
-                            ? context.text.titleMedium
-                            : context.text.headline)
-                        .copyWith(color: AppColors.textPrimary),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                if (!provider.isGuest) ...[
-                  const SizedBox(width: AppSpacing.tight),
-                  const Icon(
-                    Icons.verified,
-                    color: Color(0xFF2563EB),
-                    size: 20,
+                  const SizedBox(width: AppSpacing.xs),
+                  ExcludeSemantics(
+                    child: Text("👋", style: GoogleFonts.inter(fontSize: 14)),
                   ),
                 ],
-              ],
-            ),
-          ],
-        ),
+              ),
+              const SizedBox(height: AppSpacing.hairline),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Flexible(
+                    child: Text(
+                      displayName,
+                      style:
+                          (provider.isGuest
+                                  ? context.text.titleMedium
+                                  : context.text.headline)
+                              .copyWith(color: AppColors.textPrimary),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  if (!provider.isGuest) ...[
+                    const SizedBox(width: AppSpacing.tight),
+                    const Icon(
+                      Icons.verified,
+                      color: Color(0xFF2563EB),
+                      size: 20,
+                    ),
+                  ],
+                ],
+              ),
+            ],
+          ),
         ),
         const SizedBox(width: AppSpacing.sm),
         Row(

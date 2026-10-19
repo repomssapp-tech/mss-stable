@@ -225,7 +225,9 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
     }
 
     final transTitle = CentralizedTranslator.instance.localize(displayTitle);
-    final transSubtitle = CentralizedTranslator.instance.localize(displaySubtitle);
+    final transSubtitle = CentralizedTranslator.instance.localize(
+      displaySubtitle,
+    );
 
     return Material(
       color: Colors.transparent,

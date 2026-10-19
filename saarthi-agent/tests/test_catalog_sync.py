@@ -74,8 +74,7 @@ def data_dir(tmp_path: Path) -> Path:
 
 def _service(data_dir: Path, clock_value: list[float]) -> CatalogSyncService:
     return CatalogSyncService(
-        supabase_url="https://example.supabase.co",
-        supabase_key="test-key",
+        api_base_url="https://api.example.org",
         data_dir=data_dir,
         clock=lambda: clock_value[0],
     )
@@ -250,3 +249,34 @@ async def test_incompatible_schema_version_is_rejected(data_dir: Path) -> None:
     outcome = await service.sync_if_needed()
 
     assert outcome == SyncOutcome.INCOMPATIBLE
+
+
+def test_bundle_url_stays_on_the_api_origin(data_dir: Path) -> None:
+    service = _service(data_dir, [0.0])
+    good = _manifest()
+    good.bundle_url = "/v1/catalog/releases/1.34.0-alpha/bundle"
+    assert (
+        service._bundle_url(good)
+        == "https://api.example.org/v1/catalog/releases/1.34.0-alpha/bundle"
+    )
+    # No bundle_url from the server: the documented release path is used.
+    assert service._bundle_url(_manifest()).endswith(
+        "/v1/catalog/releases/1.34.0-alpha/bundle"
+    )
+    for unsafe in (
+        "https://evil.example/v1/catalog/releases/x/bundle",
+        "//evil.example/v1/catalog/releases/x/bundle",
+        "/v1/other/bundle",
+        "/v1/catalog/../me/profile",
+    ):
+        bad = _manifest()
+        bad.bundle_url = unsafe
+        with pytest.raises(ValueError):
+            service._bundle_url(bad)
+
+
+@pytest.mark.asyncio
+async def test_sync_is_skipped_without_an_api_base_url(data_dir: Path) -> None:
+    service = CatalogSyncService(api_base_url="", data_dir=data_dir, clock=lambda: 0.0)
+
+    assert await service.sync_if_needed() == SyncOutcome.OFFLINE

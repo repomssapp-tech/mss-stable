@@ -17,7 +17,6 @@ import 'package:frontend/screens/regular_mode/eligibility_profile_screen.dart';
 import 'package:frontend/screens/regular_mode/location_profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 const Size _narrowPhone = Size(320, 568);
 const double _maxShippedTextScale = 1.30;
@@ -54,10 +53,6 @@ Future<void> _pumpStep(WidgetTester tester, Widget step) async {
 void main() {
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    await Supabase.initialize(
-      url: 'https://example.supabase.co',
-      publishableKey: 'test-publishable-key',
-    );
   });
 
   setUp(() {
@@ -118,9 +113,10 @@ void main() {
       );
       Color? bg() => button().style?.backgroundColor?.resolve(<WidgetState>{});
 
-      // Step 2 fields, in tree order: address, city/town, district, state.
+      // Step 2 fields, in tree order: address, city/town, district, state,
+      // pincode.
       final fields = find.byType(TextFormField);
-      expect(fields, findsNWidgets(4));
+      expect(fields, findsNWidgets(5));
 
       // Nothing filled in -> greyed.
       expect(bg(), Colors.grey.shade300);
@@ -136,7 +132,16 @@ void main() {
       await tester.enterText(fields.at(3), 'Tamil Nadu');
       await tester.pump();
 
-      // All four valid -> enabled.
+      // Pincode still blank (or short) -> still greyed.
+      expect(bg(), Colors.grey.shade300);
+      await tester.enterText(fields.at(4), '6000');
+      await tester.pump();
+      expect(bg(), Colors.grey.shade300);
+
+      await tester.enterText(fields.at(4), '600040');
+      await tester.pump();
+
+      // All five valid -> enabled.
       expect(bg(), const Color(0xFF2563EB));
       expect(tester.takeException(), isNull);
     },

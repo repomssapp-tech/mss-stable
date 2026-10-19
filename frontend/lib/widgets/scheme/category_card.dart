@@ -20,7 +20,10 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: AppSpacing.tight, horizontal: AppSpacing.lg),
+      margin: const EdgeInsets.symmetric(
+        vertical: AppSpacing.tight,
+        horizontal: AppSpacing.lg,
+      ),
       elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),

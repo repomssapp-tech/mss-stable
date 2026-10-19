@@ -15,7 +15,7 @@ servers:
   - url: https://api.example.gov.in
     description: Placeholder production URL
   - url: http://127.0.0.1:54321/functions/v1
-    description: Local Supabase Edge Functions
+    description: Local MSS REST backend
 security:
   - bearerAuth: []
 tags:

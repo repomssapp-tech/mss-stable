@@ -7,9 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'guard_support.dart';
 
-const _allowedFiles = <String>{
-  'lib/utils/app_colors.dart',
-};
+const _allowedFiles = <String>{'lib/utils/app_colors.dart'};
 
 // §3.5 painter/illustration allowlist (brand colours, decorative gradients).
 const _allowedSubstrings = <String>[
@@ -29,8 +27,9 @@ bool _isAllowed(String path) =>
     _allowedSubstrings.any((s) => path.contains(s));
 
 final _hexColorPattern = RegExp(r'Color\(0x[0-9A-Fa-f]{6,8}\)');
-final _namedColorPattern =
-    RegExp(r'Colors\.(grey|red|green|orange|blue|black|white)\b');
+final _namedColorPattern = RegExp(
+  r'Colors\.(grey|red|green|orange|blue|black|white)\b',
+);
 
 void main() {
   test('lib/ uses AppColors instead of raw Color()/Colors.* literals', () {

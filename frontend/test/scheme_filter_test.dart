@@ -11,15 +11,14 @@ void main() {
     String schemeType = '',
     List<String> special = const [],
     String category = '',
-  }) =>
-      Scheme(
-        id: id,
-        name: id,
-        state: state,
-        schemeType: schemeType,
-        category: category,
-        specialCategories: special,
-      );
+  }) => Scheme(
+    id: id,
+    name: id,
+    state: state,
+    schemeType: schemeType,
+    category: category,
+    specialCategories: special,
+  );
 
   final catalog = [
     s('TN_LOAN', state: 'Tamil Nadu', schemeType: 'loan'),
@@ -47,8 +46,13 @@ void main() {
     final out = applySchemeFilters(catalog, {'state': 'Tamil Nadu'});
     expect(
       out.map((e) => e.id),
-      unorderedEquals(
-          ['TN_LOAN', 'TN_SC', 'NAT_LOAN', 'NAT_GRANT', 'NAT_WOMEN']),
+      unorderedEquals([
+        'TN_LOAN',
+        'TN_SC',
+        'NAT_LOAN',
+        'NAT_GRANT',
+        'NAT_WOMEN',
+      ]),
     );
   });
 
@@ -56,8 +60,10 @@ void main() {
     final loans = applySchemeFilters(catalog, {
       'schemeTypes': ['loans'],
     });
-    expect(loans.map((e) => e.id),
-        unorderedEquals(['TN_LOAN', 'NAT_LOAN', 'NAT_WOMEN']));
+    expect(
+      loans.map((e) => e.id),
+      unorderedEquals(['TN_LOAN', 'NAT_LOAN', 'NAT_WOMEN']),
+    );
 
     final subsidies = applySchemeFilters(catalog, {
       'schemeTypes': ['subsidies'],
@@ -94,7 +100,11 @@ void main() {
   test('schemeFacetCount previews a toggle in the current context', () {
     // Within "nationwide", how many are loans?
     final n = schemeFacetCount(
-        catalog, {'coverage': 'nationwide'}, 'schemeTypes', 'loans');
+      catalog,
+      {'coverage': 'nationwide'},
+      'schemeTypes',
+      'loans',
+    );
     expect(n, 2); // NAT_LOAN, NAT_WOMEN
   });
 }

@@ -1,0 +1,659 @@
+[
+  {
+    "id": "SCH000122",
+    "scheme_code": "TN122",
+    "name_en": "Payroll Subsidy",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.fametn.com/ta/state-govt-schemes/payroll-subsidy",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.fametn.com/ta/state-govt-schemes/payroll-subsidy",
+      "page_title": "Schemes | Financial Assistance",
+      "content_length": 41402,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Schemes | Financial Assistance)",
+    "audited_at": "2026-10-05T18:07:39.328713+00:00"
+  },
+  {
+    "id": "SCH000125",
+    "scheme_code": "TN125",
+    "name_en": "Pottery Activity- Gramodyog Vikas Yojana (GVY)",
+    "ministry": "Ministry of Micro, Small & Medium Enterprises",
+    "department": "Khadi and Village Industries Commission (KVIC)",
+    "state": "Pan-India / eligible pottery clusters",
+    "primary_url": "https://en.vikaspedia.in/viewcontent/schemesall/schemes-for-entrepreneurs/pottery-activity-under-gramodyog-vikas-yojana-scheme?lgn=en",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://en.vikaspedia.in/viewcontent/schemesall/schemes-for-entrepreneurs/pottery-activity-under-gramodyog-vikas-yojana-scheme?lgn=en",
+      "page_title": "Pottery Activity under Gramodyog Vikas Yojana Scheme | Vikaspedia - English - Scheme",
+      "content_length": 48136,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [
+        "online application",
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Pottery Activity under Gramodyog Vikas Yojana Scheme | Vikaspedia - English - Scheme)",
+    "audited_at": "2026-10-05T18:07:39.679392+00:00"
+  },
+  {
+    "id": "SCH000133",
+    "scheme_code": "TN133",
+    "name_en": "Product Research and Development (for registered exporters/ institutions)",
+    "ministry": "Ministry of Commerce & Industry",
+    "department": "Spices Board India",
+    "state": "Pan-India",
+    "primary_url": "https://www.indianspices.com/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.indianspices.com/",
+      "page_title": "Spices Board",
+      "content_length": 114688,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Spices Board)",
+    "audited_at": "2026-10-05T18:07:41.233995+00:00"
+  },
+  {
+    "id": "SCH000134",
+    "scheme_code": "TN134",
+    "name_en": "Promotion of Energy Audit & Conservation of Energy (PEACE)",
+    "ministry": "Government of Tamil Nadu",
+    "department": "Micro, Small and Medium Enterprises Department",
+    "state": "Tamil Nadu",
+    "primary_url": "https://msmeonline.tn.gov.in/incentives/html_cye_peace1.php",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://msmeonline.tn.gov.in/incentives/html_cye_peace1.php",
+      "page_title": "MSME",
+      "content_length": 51698,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "apply online",
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: MSME)",
+    "audited_at": "2026-10-05T18:07:39.369682+00:00"
+  },
+  {
+    "id": "SCH000135",
+    "scheme_code": "TN135",
+    "name_en": "Promotion of Indian Spice Brands Abroad",
+    "ministry": "Ministry of Commerce & Industry",
+    "department": "Spices Board India",
+    "state": "Pan-India",
+    "primary_url": "https://www.indianspices.com/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.indianspices.com/",
+      "page_title": "Spices Board",
+      "content_length": 114688,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Spices Board)",
+    "audited_at": "2026-10-05T18:07:41.041544+00:00"
+  },
+  {
+    "id": "SCH000137",
+    "scheme_code": "TN137",
+    "name_en": "Punjab Startup Fund - 25% Reservation for Women-led Ventures",
+    "ministry": "Government of Punjab",
+    "department": null,
+    "state": "Punjab",
+    "primary_url": "https://pbindustries.gov.in/static/policy_framework;Key=Startup_and_Entrepreneurship",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://pbindustries.gov.in/static/policy_framework;Key=Startup_and_Entrepreneurship",
+      "page_title": "Invest Punjab - Business First Web Portal",
+      "content_length": 15646,
+      "content_type": "text/html",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Invest Punjab - Business First Web Portal)",
+    "audited_at": "2026-10-05T18:07:39.968637+00:00"
+  },
+  {
+    "id": "SCH000141",
+    "scheme_code": "TN141",
+    "name_en": "Reimbursement of fees for Certificate of Registration as Exporter of Spices (CRES)",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.indianspices.com/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.indianspices.com/",
+      "page_title": "Spices Board",
+      "content_length": 114688,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Spices Board)",
+    "audited_at": "2026-10-05T18:07:41.045727+00:00"
+  },
+  {
+    "id": "SCH000142",
+    "scheme_code": "TN142",
+    "name_en": "Reimbursement of Stamp duty and Registration charges",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.startupgrantsindia.com/tn-msme-stamp-duty-reimbursement",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.startupgrantsindia.com/tn-msme-stamp-duty-reimbursement",
+      "page_title": "Reimbursement of Stamp Duty and Registration Charges (2026)",
+      "content_length": 114688,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [
+        "online application",
+        "application status"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Reimbursement of Stamp Duty and Registration Charges (2026))",
+    "audited_at": "2026-10-05T18:07:40.058004+00:00"
+  },
+  {
+    "id": "SCH000143",
+    "scheme_code": "TN143",
+    "name_en": "Reservation for MSMEs in land parks setup by SIPCOT",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://sipcotweb.tn.gov.in/LManual",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://sipcotweb.tn.gov.in/LManual",
+      "page_title": "SIPCOT | State Industries Promotion Corporation of Tamil Nadu",
+      "content_length": 114688,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [
+        "closed"
+      ],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "closed",
+    "evidence_note": "Closure keywords detected on portal: ['closed']",
+    "audited_at": "2026-10-05T18:07:39.868447+00:00"
+  },
+  {
+    "id": "SCH000145",
+    "scheme_code": "TN145",
+    "name_en": "Sakhi Niwas (Working Women Hostels)",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://spniwcd.wcd.gov.in/sakhi-niwas-working-women-hostel/brief",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://spniwcd.wcd.gov.in/sakhi-niwas-working-women-hostel/brief",
+      "page_title": "savitribai phule national institute of women and child development",
+      "content_length": 37683,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: savitribai phule national institute of women and child development)",
+    "audited_at": "2026-10-05T18:07:39.911465+00:00"
+  },
+  {
+    "id": "SCH000147",
+    "scheme_code": "TN147",
+    "name_en": "Sathiyavanimuthu Ammaiyar Ninaivu Free Supply of Sewing Machine Scheme",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.tnsocialwelfare.tn.gov.in/en/sathiyavanimuthu-ammaiyar-ninaivu-free-supply-of-sewing-machine-scheme",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.tnsocialwelfare.tn.gov.in/en/sathiyavanimuthu-ammaiyar-ninaivu-free-supply-of-sewing-machine-scheme",
+      "page_title": "SATHIYAVANIMUTHU AMMAIYAR NINAIVU FREE SUPPLY OF SEWING MACHINE SCHEME | Social Welfare &amp; Women Empowerment Departme",
+      "content_length": 67989,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: SATHIYAVANIMUTHU AMMAIYAR NINAIVU FREE SUPPLY OF SEWING MACHINE SCHEME | Social Welfare &amp; Women Empowerment Departme)",
+    "audited_at": "2026-10-05T18:07:40.359931+00:00"
+  },
+  {
+    "id": "SCH000148",
+    "scheme_code": "TN148",
+    "name_en": "Scheme for acquiring Quality Certification (Q-Cert)",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.msmeonline.tn.gov.in/incentives/html_cye_qc.php",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.msmeonline.tn.gov.in/incentives/html_cye_qc.php",
+      "page_title": "MSME",
+      "content_length": 49250,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "apply online",
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: MSME)",
+    "audited_at": "2026-10-05T18:07:40.321140+00:00"
+  },
+  {
+    "id": "SCH000149",
+    "scheme_code": "TN149",
+    "name_en": "Scheme for Adolescent Girls (SAG)",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://wcd.mizoram.gov.in/page/scheme-for-adolescent-girls-sag-14-18yrs",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://wcd.mizoram.gov.in/page/scheme-for-adolescent-girls-sag-14-18yrs",
+      "page_title": "Women and Child Development, Government of Mizoram, India",
+      "content_length": 102309,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Women and Child Development, Government of Mizoram, India)",
+    "audited_at": "2026-10-05T18:07:40.267173+00:00"
+  },
+  {
+    "id": "SCH000154",
+    "scheme_code": "TN154",
+    "name_en": "Sending business samples abroad",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.dgft.gov.in/CP/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.dgft.gov.in/CP/",
+      "page_title": "Directorate General of Foreign Trade | Ministry of Commerce and Industry | Government of India",
+      "content_length": 100682,
+      "content_type": "text/html;charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Directorate General of Foreign Trade | Ministry of Commerce and Industry | Government of India)",
+    "audited_at": "2026-10-05T18:07:40.312730+00:00"
+  },
+  {
+    "id": "SCH000155",
+    "scheme_code": "TN155",
+    "name_en": "SERB-POWER Mobility Grant",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://anrfonline.in/ANRF/Spm",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://anrfonline.in/ANRF/Spm",
+      "page_title": "The Electronic Project Proposal Management System, For ANRF",
+      "content_length": 106496,
+      "content_type": "text/html;charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: The Electronic Project Proposal Management System, For ANRF)",
+    "audited_at": "2026-10-05T18:07:46.620199+00:00"
+  },
+  {
+    "id": "SCH000157",
+    "scheme_code": "TN157",
+    "name_en": "SIDBI and Google Partnership for Assistance to Micro Enterprises (SanGAM)",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.indiafilings.com/learn/sidbi-and-google-partnership-for-assistance-to-micro-enterprises-sangam",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.indiafilings.com/learn/sidbi-and-google-partnership-for-assistance-to-micro-enterprises-sangam",
+      "page_title": "SIDBI Google Sangam Partnership for Micro Enterprise Growth",
+      "content_length": 114688,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [
+        "online application"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: SIDBI Google Sangam Partnership for Micro Enterprise Growth)",
+    "audited_at": "2026-10-05T18:07:40.898902+00:00"
+  },
+  {
+    "id": "SCH000158",
+    "scheme_code": "TN158",
+    "name_en": "SIDBI Assistance to Export oriented MSMEs under Ubharte Sitaare Programme (USP)",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.sidbi.in/project-funding",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.sidbi.in/project-funding",
+      "page_title": "Direct Loans - Small Industries Development Bank of India",
+      "content_length": 114688,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Direct Loans - Small Industries Development Bank of India)",
+    "audited_at": "2026-10-05T18:07:41.036229+00:00"
+  },
+  {
+    "id": "SCH000161",
+    "scheme_code": "TN161",
+    "name_en": "Single Window Clearance System for MSMEs",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://tnswp.com/DIGIGOV/swp-tnswp.jsp",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://tnswp.com/DIGIGOV/swp-tnswp.jsp",
+      "page_title": "Single Window Portal",
+      "content_length": 94159,
+      "content_type": "text/html;charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Single Window Portal)",
+    "audited_at": "2026-10-05T18:07:40.636364+00:00"
+  },
+  {
+    "id": "SCH000162",
+    "scheme_code": "TN162",
+    "name_en": "SIP-EIT",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.indiascienceandtechnology.gov.in/funding-opportunities/startups/support-international-patent-protection-electronics-information-technology-sipeit",
+    "primary_result": {
+      "reachable": false,
+      "status_code": "CONN_ERROR",
+      "error": "HTTPSConnectionPool(host='www.indiascienceandtechnology.gov.in', port=443): Max retries exceeded wit"
+    },
+    "alt_results": [
+      {
+        "url": "https://www.meity.gov.in/",
+        "result": {
+          "reachable": true,
+          "status_code": 200,
+          "final_url": "https://www.meity.gov.in/",
+          "page_title": "Home",
+          "content_length": 3292,
+          "content_type": "text/html; charset=utf-8",
+          "closure_signals": [],
+          "active_signals": [],
+          "error": null
+        }
+      }
+    ],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP CONN_ERROR: Home)",
+    "audited_at": "2026-10-05T18:07:47.768872+00:00"
+  },
+  {
+    "id": "SCH000163",
+    "scheme_code": "TN163",
+    "name_en": "Skill training and Employment Scheme",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.skilltraining.tn.gov.in/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.skilltraining.tn.gov.in/",
+      "page_title": "Directorate of Employment & Training",
+      "content_length": 106488,
+      "content_type": "text/html; charset=utf-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Directorate of Employment & Training)",
+    "audited_at": "2026-10-05T18:07:41.298119+00:00"
+  },
+  {
+    "id": "SCH000164",
+    "scheme_code": "TN164",
+    "name_en": "Small Business Innovation Research Initiative (SBIRI)",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://birac.nic.in/desc_new.php?id=217",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://birac.nic.in/desc_new.php?id=217",
+      "page_title": "BIRAC-New",
+      "content_length": 46914,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "login / register"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: BIRAC-New)",
+    "audited_at": "2026-10-05T18:07:41.302078+00:00"
+  },
+  {
+    "id": "SCH000165",
+    "scheme_code": "TN165",
+    "name_en": "SMILE Equipment Finance (SEF)",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://yuvakanaja.in/small-industries-development-bank-of-india-sidbi/smile-equipment-finance-sef/",
+    "primary_result": {
+      "reachable": false,
+      "status_code": 403,
+      "final_url": "https://yuvakanaja.in/small-industries-development-bank-of-india-sidbi/smile-equipment-finance-sef/",
+      "page_title": "Just a moment...",
+      "content_length": 5912,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [
+      {
+        "url": "https://www.sidbi.in/",
+        "result": {
+          "reachable": true,
+          "status_code": 200,
+          "final_url": "https://www.sidbi.in/en/",
+          "page_title": "Home - Small Industries Development Bank of India",
+          "content_length": 114688,
+          "content_type": "text/html; charset=UTF-8",
+          "closure_signals": [],
+          "active_signals": [],
+          "error": null
+        }
+      }
+    ],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 403: Just a moment...)",
+    "audited_at": "2026-10-05T18:07:42.086159+00:00"
+  },
+  {
+    "id": "SCH000166",
+    "scheme_code": "TN166",
+    "name_en": "Special Capital Subsidy for Thrust Sector Enterprises",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://www.msmeonline.tn.gov.in/incentives/html_cye_CS.php",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://www.msmeonline.tn.gov.in/incentives/html_cye_CS.php",
+      "page_title": "MSME",
+      "content_length": 55083,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [
+        "apply online",
+        "guidelines"
+      ],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: MSME)",
+    "audited_at": "2026-10-05T18:07:41.418510+00:00"
+  },
+  {
+    "id": "SCH000167",
+    "scheme_code": "TN167",
+    "name_en": "Sponsorship of students",
+    "ministry": null,
+    "department": null,
+    "state": "All India",
+    "primary_url": "https://sponsorastudent.in/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://sponsorastudent.in/",
+      "page_title": "Sponsor a Student",
+      "content_length": 39952,
+      "content_type": "text/html; charset=UTF-8",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: Sponsor a Student)",
+    "audited_at": "2026-10-05T18:07:42.016685+00:00"
+  },
+  {
+    "id": "SCH000170",
+    "scheme_code": "TN170",
+    "name_en": "Startup India Seed Fund Scheme (SISFS)",
+    "ministry": "Ministry of Commerce & Industry",
+    "department": "Department for Promotion of Industry and Internal Trade (DPIIT)",
+    "state": "Pan-India",
+    "primary_url": "https://seedfund.startupindia.gov.in/",
+    "primary_result": {
+      "reachable": true,
+      "status_code": 200,
+      "final_url": "https://seedfund.startupindia.gov.in/",
+      "page_title": "SISFS",
+      "content_length": 5478,
+      "content_type": "text/html",
+      "closure_signals": [],
+      "active_signals": [],
+      "error": null
+    },
+    "alt_results": [],
+    "provisional_status": "active",
+    "evidence_note": "Live official portal verified (HTTP 200: SISFS)",
+    "audited_at": "2026-10-05T18:07:41.610217+00:00"
+  }
+]

@@ -7,7 +7,6 @@ import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// The Scheme Details screen has six hand-rolled tabs (no TabController).
 /// The bug: the tab tap called ExpansionTileController.expand() inside the
@@ -27,27 +26,21 @@ void main() {
 
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    try {
-      await Supabase.initialize(
-        url: 'https://example.supabase.co',
-        publishableKey: 'test-publishable-key',
-      );
-    } catch (_) {}
   });
 
   Widget wrap(Scheme scheme) => ChangeNotifierProvider.value(
-        value: AppProvider(),
-        child: MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('ta')],
-          home: SchemeDetailsScreen(scheme: scheme),
-        ),
-      );
+    value: AppProvider(),
+    child: MaterialApp(
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('en'), Locale('ta')],
+      home: SchemeDetailsScreen(scheme: scheme),
+    ),
+  );
 
   /// The tab strip renders the selected label bold and every other w500.
   void expectSelected(WidgetTester tester, String label) {
@@ -64,8 +57,11 @@ void main() {
       if (t == label) {
         expect(weight, FontWeight.bold, reason: '"$t" tab should be selected');
       } else {
-        expect(weight, isNot(FontWeight.bold),
-            reason: '"$t" tab should not be selected');
+        expect(
+          weight,
+          isNot(FontWeight.bold),
+          reason: '"$t" tab should not be selected',
+        );
       }
     }
   }

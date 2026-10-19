@@ -1,13 +1,7 @@
 import 'package:flutter/foundation.dart';
 import '../../../services/search/intelligent_scheme_search.dart';
 
-enum VoiceAssistantPhase {
-  starting,
-  listening,
-  processing,
-  ready,
-  unavailable,
-}
+enum VoiceAssistantPhase { starting, listening, processing, ready, unavailable }
 
 enum VoiceInputLanguage { english, tamil }
 

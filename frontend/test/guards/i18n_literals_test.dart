@@ -11,8 +11,9 @@ import 'guard_support.dart';
 
 final _tamilScriptPattern = RegExp(r'[஀-௿]');
 final _textLiteralPattern = RegExp(r'''Text\(\s*['"][A-Z]''');
-final _toastLiteralPattern =
-    RegExp(r'''AppToast\.show\w+\(\s*context,\s*['"]''');
+final _toastLiteralPattern = RegExp(
+  r'''AppToast\.show\w+\(\s*context,\s*['"]''',
+);
 
 void main() {
   test(
@@ -21,7 +22,8 @@ void main() {
       final actual = <String, int>{};
       for (final file in dartFilesUnder('lib')) {
         final path = relPath(file);
-        if (!path.startsWith('lib/screens/') && !path.startsWith('lib/widgets/')) {
+        if (!path.startsWith('lib/screens/') &&
+            !path.startsWith('lib/widgets/')) {
           continue;
         }
         final src = file.readAsStringSync();
@@ -38,7 +40,8 @@ void main() {
       expectNoRatchetRegression(
         rule: 'i18n_literals',
         actual: actual,
-        violationDescription: 'Hardcoded Tamil/English string literals bypassing ARB',
+        violationDescription:
+            'Hardcoded Tamil/English string literals bypassing ARB',
       );
     },
   );

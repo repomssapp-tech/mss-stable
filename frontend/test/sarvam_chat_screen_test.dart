@@ -72,39 +72,36 @@ void main() {
     expect(find.byKey(const Key('sarvam-chat-retry')), findsOneWidget);
   });
 
-  testWidgets(
-    'shows the AI disclaimer persistently, including on the welcome '
-    'screen before any message is sent',
-    (tester) async {
-      final client = _FakeSarvamChatClient();
-      await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: SarvamChatScreen(
-            client: client,
-            profile: UserProfile(name: 'Anto'),
-            language: 'en',
-          ),
+  testWidgets('shows the AI disclaimer persistently, including on the welcome '
+      'screen before any message is sent', (tester) async {
+    final client = _FakeSarvamChatClient();
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: SarvamChatScreen(
+          client: client,
+          profile: UserProfile(name: 'Anto'),
+          language: 'en',
         ),
-      );
+      ),
+    );
 
-      const disclaimer =
-          'AI can make mistakes. Check details on the official scheme website.';
-      expect(find.text(disclaimer), findsOneWidget);
+    const disclaimer =
+        'AI can make mistakes. Check details on the official scheme website.';
+    expect(find.text(disclaimer), findsOneWidget);
 
-      await tester.enterText(
-        find.byKey(const Key('sarvam-chat-input')),
-        'Find a business loan',
-      );
-      await tester.tap(find.byKey(const Key('sarvam-chat-send')));
-      await tester.pump();
+    await tester.enterText(
+      find.byKey(const Key('sarvam-chat-input')),
+      'Find a business loan',
+    );
+    await tester.tap(find.byKey(const Key('sarvam-chat-send')));
+    await tester.pump();
 
-      // Still shown once the thread has messages, not just on the empty
-      // welcome screen.
-      expect(find.text(disclaimer), findsOneWidget);
-    },
-  );
+    // Still shown once the thread has messages, not just on the empty
+    // welcome screen.
+    expect(find.text(disclaimer), findsOneWidget);
+  });
 }
 
 class _FakeSarvamChatClient implements SarvamChatClient {

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/app_spacing.dart';
-import 'legal_document_modal.dart';
 
 class DataProcessingConsentModal extends StatelessWidget {
   const DataProcessingConsentModal({super.key});
@@ -72,14 +71,20 @@ class DataProcessingConsentModal extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(CentralizedTranslator.instance.localize('Consent to Processing of Personal Data'),
+                      Text(
+                        CentralizedTranslator.instance.localize(
+                          'Consent to Processing of Personal Data',
+                        ),
                         style: GoogleFonts.poppins(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF0F172A),
                         ),
                       ),
-                      Text(CentralizedTranslator.instance.localize('Your consent helps MSS personalize your experience.'),
+                      Text(
+                        CentralizedTranslator.instance.localize(
+                          'Your consent helps MSS personalize your experience.',
+                        ),
                         style: GoogleFonts.inter(
                           fontSize: 12,
                           color: const Color(0xFF64748B),
@@ -105,7 +110,10 @@ class DataProcessingConsentModal extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(CentralizedTranslator.instance.localize('By selecting “I Consent”, you voluntarily consent to MSS collecting and processing information from your Google Sign-In and the personal information you provide, including:'),
+                  Text(
+                    CentralizedTranslator.instance.localize(
+                      'By completing your profile, you voluntarily consent to MSS collecting and processing information from your Google Sign-In and the personal information you provide, including:',
+                    ),
                     style: GoogleFonts.inter(
                       fontSize: 13,
                       color: const Color(0xFF334155),
@@ -141,7 +149,10 @@ class DataProcessingConsentModal extends StatelessWidget {
                   const SizedBox(height: AppSpacing.xl),
 
                   // Section 1: WHY WE USE YOUR INFORMATION
-                  Text(CentralizedTranslator.instance.localize('WHY WE USE YOUR INFORMATION'),
+                  Text(
+                    CentralizedTranslator.instance.localize(
+                      'WHY WE USE YOUR INFORMATION',
+                    ),
                     style: GoogleFonts.poppins(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
@@ -150,7 +161,10 @@ class DataProcessingConsentModal extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: AppSpacing.xs),
-                  Text(CentralizedTranslator.instance.localize('Your information may be used for:'),
+                  Text(
+                    CentralizedTranslator.instance.localize(
+                      'Your information may be used for:',
+                    ),
                     style: GoogleFonts.inter(
                       fontSize: 13,
                       color: const Color(0xFF334155),
@@ -178,7 +192,10 @@ class DataProcessingConsentModal extends StatelessWidget {
                   const SizedBox(height: AppSpacing.xl),
 
                   // Section 2: PLEASE UNDERSTAND
-                  Text(CentralizedTranslator.instance.localize('PLEASE UNDERSTAND'),
+                  Text(
+                    CentralizedTranslator.instance.localize(
+                      'PLEASE UNDERSTAND',
+                    ),
                     style: GoogleFonts.poppins(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
@@ -222,16 +239,15 @@ class DataProcessingConsentModal extends StatelessWidget {
             ),
             decoration: const BoxDecoration(
               color: Colors.white,
-              border: Border(
-                top: BorderSide(color: Color(0xFFE2E8F0)),
-              ),
+              border: Border(top: BorderSide(color: Color(0xFFE2E8F0))),
             ),
             child: SafeArea(
               top: false,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // [ I Consent ] button
+                  // Read-only: the data-use consent is recorded when the
+                  // profile is completed, so there is nothing to accept here.
                   SizedBox(
                     width: double.infinity,
                     height: 48,
@@ -244,75 +260,15 @@ class DataProcessingConsentModal extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      onPressed: () => Navigator.of(context).pop(true),
-                      child: Text(CentralizedTranslator.instance.localize('I Consent'),
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: Text(
+                        context.l10n.close,
                         style: GoogleFonts.inter(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: AppSpacing.xs),
-
-                  // [ I Do Not Consent ] button
-                  SizedBox(
-                    width: double.infinity,
-                    height: 48,
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        side: const BorderSide(color: Color(0xFFCBD5E1)),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      onPressed: () => Navigator.of(context).pop(false),
-                      child: Text(CentralizedTranslator.instance.localize('I Do Not Consent'),
-                        style: GoogleFonts.inter(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xFF475569),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-
-                  // Privacy Notice | Privacy Policy | Terms of Use links
-                  Wrap(
-                    alignment: WrapAlignment.center,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      _LinkButton(
-                        title: context.l10n.legalPrivacyNoticeLink,
-                        onTap: () =>
-                            LegalDocumentModal.showPrivacyNotice(context),
-                      ),
-                      const Text(
-                        ' | ',
-                        style: TextStyle(
-                          color: Color(0xFF94A3B8),
-                          fontSize: 12,
-                        ),
-                      ),
-                      _LinkButton(
-                        title: context.l10n.privacyPolicy,
-                        onTap: () =>
-                            LegalDocumentModal.showPrivacyPolicy(context),
-                      ),
-                      const Text(
-                        ' | ',
-                        style: TextStyle(
-                          color: Color(0xFF94A3B8),
-                          fontSize: 12,
-                        ),
-                      ),
-                      _LinkButton(
-                        title: context.l10n.legalTermsOfUseLink,
-                        onTap: () =>
-                            LegalDocumentModal.showTermsOfUse(context),
-                      ),
-                    ],
                   ),
                 ],
               ),
@@ -344,7 +300,8 @@ class _BulletItem extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Text(CentralizedTranslator.instance.localize(text),
+            child: Text(
+              CentralizedTranslator.instance.localize(text),
               style: GoogleFonts.inter(
                 fontSize: 12.5,
                 color: const Color(0xFF475569),
@@ -370,7 +327,8 @@ class _NumberedItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('$number. ',
+          Text(
+            '$number. ',
             style: GoogleFonts.inter(
               fontSize: 13,
               fontWeight: FontWeight.w600,
@@ -378,7 +336,8 @@ class _NumberedItem extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Text(CentralizedTranslator.instance.localize(text),
+            child: Text(
+              CentralizedTranslator.instance.localize(text),
               style: GoogleFonts.inter(
                 fontSize: 12.5,
                 color: const Color(0xFF475569),
@@ -387,35 +346,6 @@ class _NumberedItem extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _LinkButton extends StatelessWidget {
-  final String title;
-  final VoidCallback onTap;
-  const _LinkButton({required this.title, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(4),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.xs,
-          vertical: AppSpacing.hairline,
-        ),
-        child: Text(CentralizedTranslator.instance.localize(title),
-          style: GoogleFonts.inter(
-            fontSize: 11.5,
-            fontWeight: FontWeight.w500,
-            color: const Color(0xFF2563EB),
-            decoration: TextDecoration.underline,
-            decorationColor: const Color(0xFF93C5FD),
-          ),
-        ),
       ),
     );
   }

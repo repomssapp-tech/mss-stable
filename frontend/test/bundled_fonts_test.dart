@@ -25,12 +25,12 @@ void main() {
               children: [
                 Text(
                   'Sample heading',
-                  style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w700),
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-                Text(
-                  'Sample body text',
-                  style: TextStyle(fontFamily: 'Inter'),
-                ),
+                Text('Sample body text', style: TextStyle(fontFamily: 'Inter')),
                 Text(
                   'திட்டங்கள் மற்றும் மானியங்கள்',
                   style: TextStyle(
@@ -83,20 +83,23 @@ void main() {
     'Hindi type scale carries the same extra leading as Tamil',
     (tester) async {
       expect(AppFonts.fallback, contains('NotoSansDevanagari'));
-      expect(AppTextStyles.forLocale(const Locale('hi')).body.height,
-          closeTo(AppTextStyles.en.body.height! + 0.10, 1e-9));
-      expect(AppTextStyles.forLocale(const Locale('ta')).body.height,
-          AppTextStyles.forLocale(const Locale('hi')).body.height);
-      expect(AppTextStyles.forLocale(const Locale('en')).body.height,
-          AppTextStyles.en.body.height);
+      expect(
+        AppTextStyles.forLocale(const Locale('hi')).body.height,
+        closeTo(AppTextStyles.en.body.height! + 0.10, 1e-9),
+      );
+      expect(
+        AppTextStyles.forLocale(const Locale('ta')).body.height,
+        AppTextStyles.forLocale(const Locale('hi')).body.height,
+      );
+      expect(
+        AppTextStyles.forLocale(const Locale('en')).body.height,
+        AppTextStyles.en.body.height,
+      );
 
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: Text(
-              'योजनाएँ और सब्सिडी',
-              style: AppTextStyles.hi.body,
-            ),
+            body: Text('योजनाएँ और सब्सिडी', style: AppTextStyles.hi.body),
           ),
         ),
       );

@@ -5,16 +5,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/screens/regular_mode/categories/document_checklist_sheet.dart';
 
-Widget _host({
-  Locale locale = const Locale('en'),
-  Widget? child,
-}) {
+Widget _host({Locale locale = const Locale('en'), Widget? child}) {
   return MaterialApp(
     locale: locale,
     localizationsDelegates: AppLocalizations.localizationsDelegates,
     supportedLocales: AppLocalizations.supportedLocales,
     home: Scaffold(
-      body: child ??
+      body:
+          child ??
           Builder(
             builder: (context) => ElevatedButton(
               onPressed: () => showDocumentChecklistSheet(context),
@@ -29,11 +27,10 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('DocumentChecklistSheet Widget Tests', () {
-    testWidgets('renders default Private Limited checklist with 0/6 progress',
-        (tester) async {
-      await tester.pumpWidget(
-        _host(child: const DocumentChecklistSheet()),
-      );
+    testWidgets('renders default Private Limited checklist with 0/6 progress', (
+      tester,
+    ) async {
+      await tester.pumpWidget(_host(child: const DocumentChecklistSheet()));
       await tester.pumpAndSettle();
 
       expect(find.byKey(const Key('doc-checklist-sheet')), findsOneWidget);
@@ -42,7 +39,9 @@ void main() {
 
       final progressFinder = find.byKey(const Key('doc-progress-indicator'));
       expect(progressFinder, findsOneWidget);
-      final progressWidget = tester.widget<LinearProgressIndicator>(progressFinder);
+      final progressWidget = tester.widget<LinearProgressIndicator>(
+        progressFinder,
+      );
       expect(progressWidget.value, 0.0);
 
       // Verify initial 6 documents exist
@@ -51,42 +50,42 @@ void main() {
       expect(find.text('Digital Signature Certificate (DSC)'), findsOneWidget);
     });
 
-    testWidgets('toggling items updates progress counter, bar and strikethrough',
-        (tester) async {
-      await tester.pumpWidget(
-        _host(child: const DocumentChecklistSheet()),
-      );
-      await tester.pumpAndSettle();
+    testWidgets(
+      'toggling items updates progress counter, bar and strikethrough',
+      (tester) async {
+        await tester.pumpWidget(_host(child: const DocumentChecklistSheet()));
+        await tester.pumpAndSettle();
 
-      expect(find.text('0 / 6'), findsOneWidget);
+        expect(find.text('0 / 6'), findsOneWidget);
 
-      // Tap first item
-      await tester.tap(find.byKey(const Key('doc-checklist-item-0')));
-      await tester.pumpAndSettle();
+        // Tap first item
+        await tester.tap(find.byKey(const Key('doc-checklist-item-0')));
+        await tester.pumpAndSettle();
 
-      expect(find.text('1 / 6'), findsOneWidget);
-      var progress = tester.widget<LinearProgressIndicator>(
-        find.byKey(const Key('doc-progress-indicator')),
-      );
-      expect(progress.value, closeTo(1 / 6, 0.001));
+        expect(find.text('1 / 6'), findsOneWidget);
+        var progress = tester.widget<LinearProgressIndicator>(
+          find.byKey(const Key('doc-progress-indicator')),
+        );
+        expect(progress.value, closeTo(1 / 6, 0.001));
 
-      // Tap second item
-      await tester.tap(find.byKey(const Key('doc-checklist-item-1')));
-      await tester.pumpAndSettle();
+        // Tap second item
+        await tester.tap(find.byKey(const Key('doc-checklist-item-1')));
+        await tester.pumpAndSettle();
 
-      expect(find.text('2 / 6'), findsOneWidget);
+        expect(find.text('2 / 6'), findsOneWidget);
 
-      // Untap first item
-      await tester.tap(find.byKey(const Key('doc-checklist-item-0')));
-      await tester.pumpAndSettle();
+        // Untap first item
+        await tester.tap(find.byKey(const Key('doc-checklist-item-0')));
+        await tester.pumpAndSettle();
 
-      expect(find.text('1 / 6'), findsOneWidget);
-    });
+        expect(find.text('1 / 6'), findsOneWidget);
+      },
+    );
 
-    testWidgets('switching entity type updates checklist items', (tester) async {
-      await tester.pumpWidget(
-        _host(child: const DocumentChecklistSheet()),
-      );
+    testWidgets('switching entity type updates checklist items', (
+      tester,
+    ) async {
+      await tester.pumpWidget(_host(child: const DocumentChecklistSheet()));
       await tester.pumpAndSettle();
 
       // Open dropdown
@@ -114,14 +113,17 @@ void main() {
       expect(find.text('FiLLiP Form (LLP Incorporation)'), findsOneWidget);
     });
 
-    testWidgets('copy button copies formatted checklist to clipboard',
-        (tester) async {
+    testWidgets('copy button copies formatted checklist to clipboard', (
+      tester,
+    ) async {
       String? copiedText;
       tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
         SystemChannels.platform,
         (MethodCall methodCall) async {
           if (methodCall.method == 'Clipboard.setData') {
-            copiedText = (methodCall.arguments as Map<dynamic, dynamic>)['text'] as String?;
+            copiedText =
+                (methodCall.arguments as Map<dynamic, dynamic>)['text']
+                    as String?;
           }
           return null;
         },
@@ -133,9 +135,7 @@ void main() {
         );
       });
 
-      await tester.pumpWidget(
-        _host(child: const DocumentChecklistSheet()),
-      );
+      await tester.pumpWidget(_host(child: const DocumentChecklistSheet()));
       await tester.pumpAndSettle();
 
       // Check first item
@@ -160,8 +160,9 @@ void main() {
       await tester.pumpAndSettle();
     });
 
-    testWidgets('supports custom initialEntityType constructor parameter',
-        (tester) async {
+    testWidgets('supports custom initialEntityType constructor parameter', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         _host(child: const DocumentChecklistSheet(initialEntityType: 'LLP')),
       );
@@ -172,26 +173,28 @@ void main() {
       expect(find.text('FiLLiP Form (LLP Incorporation)'), findsOneWidget);
     });
 
-    testWidgets('showDocumentChecklistSheet opens and closes via close button',
-        (tester) async {
-      await tester.pumpWidget(_host());
-      await tester.pumpAndSettle();
+    testWidgets(
+      'showDocumentChecklistSheet opens and closes via close button',
+      (tester) async {
+        await tester.pumpWidget(_host());
+        await tester.pumpAndSettle();
 
-      // Not open yet
-      expect(find.byKey(const Key('doc-checklist-sheet')), findsNothing);
+        // Not open yet
+        expect(find.byKey(const Key('doc-checklist-sheet')), findsNothing);
 
-      // Open via launcher
-      await tester.tap(find.text('Open Sheet'));
-      await tester.pumpAndSettle();
+        // Open via launcher
+        await tester.tap(find.text('Open Sheet'));
+        await tester.pumpAndSettle();
 
-      expect(find.byKey(const Key('doc-checklist-sheet')), findsOneWidget);
+        expect(find.byKey(const Key('doc-checklist-sheet')), findsOneWidget);
 
-      // Dismiss via bottom button
-      await tester.tap(find.byKey(const Key('doc-close-button')));
-      await tester.pumpAndSettle();
+        // Dismiss via bottom button
+        await tester.tap(find.byKey(const Key('doc-close-button')));
+        await tester.pumpAndSettle();
 
-      expect(find.byKey(const Key('doc-checklist-sheet')), findsNothing);
-    });
+        expect(find.byKey(const Key('doc-checklist-sheet')), findsNothing);
+      },
+    );
 
     testWidgets('close icon button in header dismisses sheet', (tester) async {
       await tester.pumpWidget(_host());

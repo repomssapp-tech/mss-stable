@@ -62,7 +62,6 @@ class AppConstants {
         'https://www.nsic.co.in/',
   };
 
-
   /// Returns the localized greeting matching the actual time of day:
   /// - Morning (05:00 - 11:59): goodMorning
   /// - Afternoon (12:00 - 16:59): goodAfternoon

@@ -20,8 +20,10 @@ class ApiException implements Exception {
   bool get isForbidden => statusCode == 403;
   bool get isNotFound => statusCode == 404;
   bool get isConflict => statusCode == 409;
-  bool get isStaleVersion => statusCode == 412 || errorCode == 'PROFILE_VERSION_CONFLICT';
-  bool get isIfMatchRequired => statusCode == 428 || errorCode == 'IF_MATCH_REQUIRED';
+  bool get isStaleVersion =>
+      statusCode == 412 || errorCode == 'PROFILE_VERSION_CONFLICT';
+  bool get isIfMatchRequired =>
+      statusCode == 428 || errorCode == 'IF_MATCH_REQUIRED';
   bool get isRateLimited => statusCode == 429;
   bool get isServiceUnavailable => statusCode == 503;
 
@@ -29,8 +31,13 @@ class ApiException implements Exception {
   String toString() {
     final buffer = StringBuffer('ApiException($statusCode: $errorCode');
     if (message.isNotEmpty) buffer.write(' - $message');
+    if (details != null && details!.isNotEmpty) {
+      buffer.write(', details: $details');
+    }
     if (requestId != null) buffer.write(', req: $requestId');
-    if (retryAfterSeconds != null) buffer.write(', retryAfter: ${retryAfterSeconds}s');
+    if (retryAfterSeconds != null) {
+      buffer.write(', retryAfter: ${retryAfterSeconds}s');
+    }
     buffer.write(')');
     return buffer.toString();
   }

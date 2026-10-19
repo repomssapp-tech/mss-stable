@@ -1,0 +1,32 @@
+catalog_id,catalog_name_en,our_id,our_name_en,benefit_facts,application_steps,contacts,our_status
+SCH000130,Prime Minister's Employment Generation Programme (PMEGP),MSME2526-001,Prime Minister's Employment Generation Programme (PMEGP),6,3,1,active
+SCH000038,Credit Guarantee Scheme for Micro and Small Enterprises (CGTMSE),MSME2526-003,Credit Guarantee Scheme for Micro & Small Enterprises (CGTMSE),5,2,1,active
+SCH000092,Micro and Small Enterprises- Cluster Development Programme (MSE-CDP),MSME2526-005,Micro & Small Enterprises Cluster Development Programme (MSE-CDP),2,1,1,active
+SCH000144,Revamped Scheme of Fund for Regeneration of Traditional Industries (SFURTI),MSME2526-006,Scheme of Fund for Regeneration of Traditional Industries (SFURTI),5,1,1,active
+SCH000095,Ministry of MSME Entrepreneurship and Skill Development Programme (ESDP),MSME2526-007,Entrepreneurship Skill Development Programme (ESDP),1,1,2,active
+SCH000055,Entrepreneurship Skill Development Programme (ESDP),MSME2526-007,Entrepreneurship Skill Development Programme (ESDP),1,1,2,active
+SCH000013,Assistance to Training Institutions (ATI) Scheme,MSME2526-020,Assistance to Training Institutions (ATI) Scheme,2,1,1,active
+SCH000033,Coir Vikas Yojana,MSME2526-021,Coir Vikas Yojana,0,1,1,active
+SCH000035,Coir Vikas Yojana - Skill Upgradation and Mahila Coir Yojana,MSME2526-023,Skill Upgradation and Mahila Coir Yojana,0,1,1,active
+SCH000034,Coir Vikas Yojana - Export Market Promotion,MSME2526-024,Export Market Promotion,0,1,1,active
+SCH000132,Procurement and Marketing Support (PMS) Scheme,MSME2526-028,Procurement and Marketing Support (PMS) Scheme,3,1,3,active
+SCH000071,International Cooperation,MSME2526-029,International Cooperation Scheme,0,1,1,active
+SCH000113,National SC-ST Hub Scheme,MSME2526-050,National SC-ST Hub Scheme (NSSH),3,1,1,active
+SCH000150,"Scheme for Promotion of Innovation, Rural Industries and Entrepreneurship (ASPIRE)",MSME2526-060,"A Scheme for Promotion of Innovation, Rural Industries and Entrepreneurship (ASPIRE)",3,1,2,active
+SCH000075,Khadi Gramodyog Vikas Yojana,MSME2526-061,Khadi Gramodyog Vikas Yojana (KGVY),0,1,1,active
+SCH000076,Khadi Vikas Yojana,MSME2526-062,Khadi Vikas Yojana (KVY),0,1,1,active
+SCH000006,Agarbatti Making Project - Gramodyog Vikas Yojana(GVY),MSME2526-069,Agarbatti Programme – Gramodyog Vikas Yojana,2,1,1,active
+SCH000125,Pottery Activity- Gramodyog Vikas Yojana (GVY),MSME2526-071,Pottery Programme – Gramodyog Vikas Yojana,2,1,1,active
+SCH000019,Beekeeping Activity - Gramodyog Vikas Yojana (GVY),MSME2526-072,Honey Mission (Beekeeping) – Gramodyog Vikas Yojana,2,1,1,active
+SCH000136,Promotion of MSME in NER and SIKKIM,MSME2526-077,Promotion of MSMEs in North Eastern Region and Sikkim,4,1,2,active
+SCH000124,PM Vishwakarma- Enabling Artisans & Craftspeople to scale-up their Enterprises,MSME2526-078,PM Vishwakarma,8,1,1,active
+SCH000193,Tool Rooms and Technical Institutions,MSME2526-080,Tool Rooms and Technical Institutions,2,1,1,active
+SCH000099,MSME Champions Scheme,MSME2526-081,MSME Champions Scheme,0,1,3,active
+SCH000106,MSME Sustainable (ZED) certification,MSME2526-082,MSME Sustainable (ZED) Certification Scheme,10,1,1,active
+SCH000103,MSME Innovative Scheme (Incubation),MSME2526-084,MSME Innovative Scheme (Incubation),2,1,1,active
+SCH000102,MSME Innovative Scheme (Design),MSME2526-085,MSME Innovative Scheme (Design),3,1,1,active
+SCH000104,MSME Innovative Scheme (Intellectual Property Rights - IPR),MSME2526-086,MSME Innovative Scheme (Intellectual Property Rights – IPR),6,1,1,active
+SCH000100,MSME Competitive (LEAN) Scheme,MSME2526-087,MSME Competitive (LEAN) Scheme,5,1,1,active
+SCH000153,Self Reliant India (SRI) Fund,MSME2526-089,Self Reliant India (SRI) Fund,1,1,1,active
+SCH000138,Raising and Accelerating MSME Performance (RAMP),MSME2526-090,Raising and Accelerating MSME Performance (RAMP),0,1,0,active
+SCH000070,Interest Equalisation Scheme,NEW2026-016,Interest Equalisation Scheme on Pre and Post Shipment Rupee Export Credit (IES),1,0,0,closed

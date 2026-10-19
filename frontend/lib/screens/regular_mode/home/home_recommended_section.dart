@@ -16,11 +16,7 @@ class HomeRecommendedSection extends StatefulWidget {
   final List<Scheme>? schemes;
   final AppProvider? provider;
 
-  const HomeRecommendedSection({
-    super.key,
-    this.schemes,
-    this.provider,
-  });
+  const HomeRecommendedSection({super.key, this.schemes, this.provider});
 
   @override
   State<HomeRecommendedSection> createState() => _HomeRecommendedSectionState();
@@ -68,7 +64,9 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
                 appProvider.bookmarkedIds.contains(sRaw.id) ||
                 appProvider.bookmarkedIds.contains(sRaw.schemeCode),
             'chips': s.glanceChips.take(3).toList(),
-            'location': s.state.isNotEmpty ? s.state : context.l10n.regionAllIndia,
+            'location': s.state.isNotEmpty
+                ? s.state
+                : context.l10n.regionAllIndia,
             'scheme': sRaw,
           };
         }(),

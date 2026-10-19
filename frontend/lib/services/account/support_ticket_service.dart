@@ -1,5 +1,9 @@
 import 'package:flutter/foundation.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../network/api_exception.dart';
+import '../chat/chat_log_service.dart';
+import 'account_api_service.dart';
+import 'app_session.dart';
 
 /// Exception thrown when support ticket form inputs fail client validation.
 class SupportTicketValidationException implements Exception {
@@ -19,7 +23,7 @@ class SupportTicketRateLimitException implements Exception {
   String toString() => message;
 }
 
-/// Exception thrown when the Supabase database write fails.
+/// Exception thrown when the server rejects or cannot store the ticket.
 class SupportTicketSubmissionException implements Exception {
   final String message;
   const SupportTicketSubmissionException(this.message);
@@ -28,7 +32,7 @@ class SupportTicketSubmissionException implements Exception {
   String toString() => message;
 }
 
-/// Service handling validation, anti-bot rate limiting, and Supabase insertion
+/// Service handling validation, anti-bot rate limiting, and submission
 /// for user-submitted support tickets and issue reports.
 class SupportTicketService {
   SupportTicketService._();
@@ -51,12 +55,16 @@ class SupportTicketService {
     required String description,
   }) {
     if (category.trim().isEmpty) {
-      throw const SupportTicketValidationException('Please select an issue category.');
+      throw const SupportTicketValidationException(
+        'Please select an issue category.',
+      );
     }
 
     final trimmedEmail = email.trim();
     if (trimmedEmail.isEmpty) {
-      throw const SupportTicketValidationException('Please enter your contact email address.');
+      throw const SupportTicketValidationException(
+        'Please enter your contact email address.',
+      );
     }
 
     if (!_emailRegex.hasMatch(trimmedEmail)) {
@@ -67,7 +75,9 @@ class SupportTicketService {
 
     final trimmedDescription = description.trim();
     if (trimmedDescription.isEmpty) {
-      throw const SupportTicketValidationException('Please describe the issue you are facing.');
+      throw const SupportTicketValidationException(
+        'Please describe the issue you are facing.',
+      );
     }
 
     if (trimmedDescription.length < 10) {
@@ -77,18 +87,14 @@ class SupportTicketService {
     }
   }
 
-  /// Submits a support ticket to Supabase with anti-bot rate-limiting and input validation.
+  /// Submits a support ticket to the backend with anti-bot rate-limiting and input validation.
   Future<void> submitTicket({
     required String category,
     required String email,
     required String description,
   }) async {
     // 1. Client-Side Validation
-    validateInputs(
-      category: category,
-      email: email,
-      description: description,
-    );
+    validateInputs(category: category, email: email, description: description);
 
     // 2. Client-Side Anti-Bot / Flood Cooldown
     final now = DateTime.now();
@@ -102,31 +108,54 @@ class SupportTicketService {
       }
     }
 
-    // 3. Prepare Payload
-    final userId = Supabase.instance.client.auth.currentUser?.id;
+    // 3. Prepare the payload. The owner comes from the bearer token (or the
+    //    guest token), never from the body.
+    final mapped = _apiCategory(category);
+    var text = description.trim();
+    if (mapped.prefix.isNotEmpty) text = '${mapped.prefix}$text';
+    if (text.length > 5000) text = text.substring(0, 5000);
     final payload = <String, dynamic>{
-      'category': category.trim(),
+      'category': mapped.category,
       'contact_email': email.trim().toLowerCase(),
-      'description': description.trim(),
-      'status': 'open',
+      'description': text,
     };
 
-    if (userId != null && userId.isNotEmpty) {
-      payload['user_id'] = userId;
-    }
+    // One idempotency key per submission: reused when the same payload is sent
+    // again after an uncertain failure, so the server never files it twice.
+    final fingerprint =
+        '${payload['category']}|${payload['contact_email']}|$text';
+    final key = _retryKey != null && _retryFingerprint == fingerprint
+        ? _retryKey!
+        : ChatLogService.generateUuidV4();
+    _retryKey = key;
+    _retryFingerprint = fingerprint;
 
-    // 4. Supabase Insertion
+    // 4. Submission
     try {
-      await Supabase.instance.client.from('support_tickets').insert(payload);
+      await AccountApiService.instance.createSupportTicket(
+        payload,
+        idempotencyKey: key,
+        signedIn: AppSession.instance.isSignedIn,
+      );
       _lastSubmittedAt = DateTime.now();
-      debugPrint('[SupportTicketService] Successfully created support ticket for: ${email.trim()}');
-    } on PostgrestException catch (e) {
-      debugPrint('[SupportTicketService] PostgrestException: ${e.code} - ${e.message}');
-      final msg = e.message.toLowerCase();
-      if (msg.contains('too many requests') || msg.contains('rate limit') || msg.contains('hourly ticket limit')) {
-        throw SupportTicketRateLimitException(e.message);
+      _retryKey = null;
+      _retryFingerprint = null;
+      debugPrint('[SupportTicketService] Support ticket created.');
+    } on ApiException catch (e) {
+      debugPrint(
+        '[SupportTicketService] ApiException: ${e.statusCode} ${e.errorCode}',
+      );
+      if (e.statusCode == 429) {
+        throw const SupportTicketRateLimitException(
+          'Too many tickets. Please try again later.',
+        );
       }
-      throw SupportTicketSubmissionException(
+      if (e.statusCode >= 400 && e.statusCode < 500 && e.statusCode != 0) {
+        // The server refused this exact submission: the next one is new.
+        _retryKey = null;
+        _retryFingerprint = null;
+      }
+      throw const SupportTicketSubmissionException(
         'Unable to submit your ticket. Please check your connection and try again.',
       );
     } catch (e) {
@@ -135,5 +164,23 @@ class SupportTicketService {
         'An unexpected error occurred while submitting your ticket.',
       );
     }
+  }
+
+  String? _retryKey;
+  String? _retryFingerprint;
+
+  /// The categories the server accepts. Anything else (the feedback form's
+  /// "Feedback") is filed as a General Inquiry with a prefix.
+  static const Set<String> apiCategories = {
+    'General Inquiry',
+    'Eligibility Matcher Bug',
+    'Wrong Scheme Details',
+    'Feature Request',
+  };
+
+  ({String category, String prefix}) _apiCategory(String category) {
+    final trimmed = category.trim();
+    if (apiCategories.contains(trimmed)) return (category: trimmed, prefix: '');
+    return (category: 'General Inquiry', prefix: '[$trimmed] ');
   }
 }

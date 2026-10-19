@@ -50,6 +50,30 @@ void main() {
     );
   });
 
+  test('cloud profile context names the language the user chose', () {
+    expect(
+      buildCloudProfileMetadata(UserProfile()).containsKey('language'),
+      false,
+    );
+    for (final entry in {
+      'hi': 'hi',
+      'mr': 'mr',
+      'ta': 'ta',
+      'en': 'en',
+      'hi-IN': 'hi',
+      'fr': 'en',
+    }.entries) {
+      expect(
+        buildCloudProfileMetadata(
+          UserProfile(),
+          languageCode: entry.key,
+        )['language'],
+        entry.value,
+        reason: entry.key,
+      );
+    }
+  });
+
   test('cloud profile context includes eligibility facts but excludes PII', () {
     final metadata = buildCloudProfileMetadata(
       UserProfile(

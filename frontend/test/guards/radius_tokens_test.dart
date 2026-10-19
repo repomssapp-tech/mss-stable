@@ -6,9 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'guard_support.dart';
 
-const _allowedFiles = <String>{
-  'lib/utils/app_radius.dart',
-};
+const _allowedFiles = <String>{'lib/utils/app_radius.dart'};
 
 bool _isAllowed(String path) =>
     _allowedFiles.contains(path) ||
@@ -35,7 +33,8 @@ void main() {
     expectNoRatchetRegression(
       rule: 'radius_tokens',
       actual: actual,
-      violationDescription: 'Numeric BorderRadius.circular()/Radius.circular() literals',
+      violationDescription:
+          'Numeric BorderRadius.circular()/Radius.circular() literals',
     );
   });
 }

@@ -8,20 +8,20 @@
 //
 // Coverage map (tracker C1.4 prereq 2):
 //   - logout()                              -> full local reset + cache wipe + nav
-//   - deleteAccount() (no server session)   -> same reset when there is no
-//                                              delete_user RPC target
+//   - deleteAccount() (not signed in)       -> same reset when there is no
+//                                              server account to delete
 //   - changeLanguage()                      -> state + cache + stale-echo guard
-//   - didChangeAppLifecycleState(resumed)   -> one catalog sync; other states none
+//   - didChangeAppLifecycleState(resumed)   -> catalog recheck, at most once a minute
 //   - _reconcileServerLanguage in isolation -> also covered by
 //                                              l10n_language_reconcile_batch6_test.dart
 //
-// NOT covered here (needs a mock Supabase auth stream / RPC, out of scope for a
+// NOT covered here (needs a fake session store / API client, out of scope for a
 // pure unit test): the signed-in hydration branch of _setupAuthListener, and the
-// deleteAccount branch where a live delete_user RPC throws and local state must
+// deleteAccount branch where the server delete throws and local state must
 // be *preserved*. Those want an integration-style fake client.
 //
 // Harness notes:
-//  - The provider methods do real I/O (SchemeRepository HTTP, Supabase
+//  - The provider methods do real I/O (SchemeRepository HTTP, session
 //    sign-out). Plain `test()` runs in the real async zone so those awaits
 //    resolve; `testWidgets` fake-async would deadlock on their timers. The two
 //    cases that need a Navigator use `tester.runAsync()`.
@@ -29,8 +29,8 @@
 //    from the cache. Every test waits for that to finish — signalled by the
 //    injected sync service being called at the tail of _loadState — before it
 //    mutates provider state, otherwise _loadState clobbers the mutation.
-//  - Providers are deliberately not disposed: the Supabase auth stream emits its
-//    first event asynchronously and calls notifyListeners(); disposing races it
+//  - Providers are deliberately not disposed: the auth session stream may emit
+//    asynchronously and call notifyListeners(); disposing races it
 //    (same choice as l10n_language_reconcile_batch6_test.dart).
 
 import 'package:flutter/material.dart';
@@ -38,18 +38,19 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/models/user_profile.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/services/account/session_cache_service.dart';
+import 'package:frontend/services/network/request_manager.dart';
 import 'package:frontend/services/catalog/scheme_catalog_sync_service.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Counts syncIfNeeded() calls and hands back a caller-chosen result so the
 /// lifecycle hook can be observed without touching the network or the bundle.
 /// A call also marks that the constructor's _loadState() has reached its tail.
 class _RecordingSyncService extends SchemeCatalogSyncService {
   int calls = 0;
-  CatalogSyncResult result =
-      const CatalogSyncResult(CatalogSyncOutcome.unchanged);
+  CatalogSyncResult result = const CatalogSyncResult(
+    CatalogSyncOutcome.unchanged,
+  );
 
   @override
   Future<CatalogSyncResult> syncIfNeeded({bool force = false}) async {
@@ -90,69 +91,79 @@ void main() {
 
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    await Supabase.initialize(
-      url: 'https://example.supabase.co',
-      publishableKey: 'test-publishable-key',
-    );
   });
 
   setUp(() {
     SharedPreferences.setMockInitialValues({});
   });
 
-  test('changeLanguage() updates state, persists, and guards the stale echo',
-      () async {
-    final sync = _RecordingSyncService();
-    final provider = AppProvider(catalogSyncService: sync);
-    await _until(() => sync.calls > 0); // let _loadState() settle
-
-    var notifications = 0;
-    provider.addListener(() => notifications++);
-
-    await provider.changeLanguage('ta');
-
-    expect(provider.selectedLanguage, 'ta');
-    expect(provider.profile.language, 'ta');
-    expect(await SessionCacheService.instance.getLanguage(), 'ta');
-    expect(notifications, greaterThan(0));
-
-    // A realtime echo / profile row still carrying the pre-switch language is
-    // ignored while the guard window is open...
-    expect(provider.debugReconcileServerLanguage('en'), 'ta');
-    // ...until the server confirms the new value, which clears the marker...
-    expect(provider.debugReconcileServerLanguage('ta'), 'ta');
-    // ...after which later server-driven changes are trusted again.
-    expect(provider.debugReconcileServerLanguage('en'), 'en');
-  });
-
   test(
-      'didChangeAppLifecycleState: resumed triggers a catalog sync, '
-      'other states do not', () async {
-    final sync = _RecordingSyncService();
-    final provider = AppProvider(catalogSyncService: sync);
+    'changeLanguage() updates state, persists, and guards the stale echo',
+    () async {
+      final sync = _RecordingSyncService();
+      final provider = AppProvider(catalogSyncService: sync);
+      await _until(() => sync.calls > 0); // let _loadState() settle
 
-    // The constructor's _loadState() also kicks a sync. Wait for it to land,
-    // then zero the counter so the assertions only see lifecycle-driven calls.
+      var notifications = 0;
+      provider.addListener(() => notifications++);
+
+      await provider.changeLanguage('ta');
+
+      expect(provider.selectedLanguage, 'ta');
+      expect(provider.profile.language, 'ta');
+      expect(await SessionCacheService.instance.getLanguage(), 'ta');
+      expect(notifications, greaterThan(0));
+
+      // A realtime echo / profile row still carrying the pre-switch language is
+      // ignored while the guard window is open...
+      expect(provider.debugReconcileServerLanguage('en'), 'ta');
+      // ...until the server confirms the new value, which clears the marker...
+      expect(provider.debugReconcileServerLanguage('ta'), 'ta');
+      // ...after which later server-driven changes are trusted again.
+      expect(provider.debugReconcileServerLanguage('en'), 'en');
+    },
+  );
+
+  test('didChangeAppLifecycleState: returning to the app rechecks the catalog '
+      'at most once a minute', () async {
+    var now = DateTime.utc(2026, 10, 18, 12);
+    RequestManager.testInstance = RequestManager(clock: () => now);
+    addTearDown(() => RequestManager.testInstance = null);
+    final sync = _RecordingSyncService();
+    final provider = AppProvider(
+      catalogSyncService: sync,
+      startBackgroundSchedulers: true,
+    );
+
+    // Every start checks the catalog. Wait for it, then zero the counter so the
+    // assertions only see lifecycle-driven calls.
     await _until(() => sync.calls > 0);
     sync.calls = 0;
 
+    // Already in the foreground: nothing to do.
+    provider.didChangeAppLifecycleState(AppLifecycleState.resumed);
+    provider.didChangeAppLifecycleState(AppLifecycleState.inactive);
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+    expect(sync.calls, 0);
+
+    // A quick app switch (20 s) costs no request.
+    provider.didChangeAppLifecycleState(AppLifecycleState.paused);
+    now = now.add(const Duration(seconds: 20));
+    provider.didChangeAppLifecycleState(AppLifecycleState.resumed);
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+    expect(sync.calls, 0);
+
+    // Coming back after real time away rechecks.
+    provider.didChangeAppLifecycleState(AppLifecycleState.paused);
+    now = now.add(const Duration(minutes: 5));
     provider.didChangeAppLifecycleState(AppLifecycleState.resumed);
     await _until(() => sync.calls >= 1);
     expect(sync.calls, 1);
-
-    provider.didChangeAppLifecycleState(AppLifecycleState.inactive);
-    provider.didChangeAppLifecycleState(AppLifecycleState.paused);
-    provider.didChangeAppLifecycleState(AppLifecycleState.detached);
-    await Future<void>.delayed(const Duration(milliseconds: 100));
-    expect(sync.calls, 1, reason: 'only the resumed transition syncs');
-
-    provider.didChangeAppLifecycleState(AppLifecycleState.resumed);
-    await _until(() => sync.calls >= 2);
-    expect(sync.calls, 2);
   });
 
-  testWidgets('logout() resets every session field and wipes the cache',
-      (tester) async {
+  testWidgets('logout() resets every session field and wipes the cache', (
+    tester,
+  ) async {
     final sync = _RecordingSyncService();
     final provider = AppProvider(catalogSyncService: sync);
 
@@ -210,8 +221,7 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets(
-      'deleteAccount() with no server session skips the RPC and still '
+  testWidgets('deleteAccount() with no server session skips the RPC and still '
       'resets local state', (tester) async {
     final sync = _RecordingSyncService();
     final provider = AppProvider(catalogSyncService: sync);
@@ -237,8 +247,8 @@ void main() {
       await provider.changeNavigationMode('companion');
       provider.toggleBookmark('x');
       provider.updateTabIndex(2);
-      // _isLoggedIn is true but a stub Supabase has no currentUser, so
-      // delete_user is never called and cleanup proceeds.
+      // _isLoggedIn is true but there is no server account to delete, so
+      // cleanup proceeds without a delete request.
       provider.setLoggedInForTesting(true);
     });
 

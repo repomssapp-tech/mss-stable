@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 
 import 'voice_agent_preferences.dart';
+import 'voice_language.dart';
 
 class SpeechOutputCapabilities {
   const SpeechOutputCapabilities({
@@ -11,6 +12,8 @@ class SpeechOutputCapabilities {
     required this.tamil,
     this.englishVoice,
     this.tamilVoice,
+    this.hindi = false,
+    this.marathi = false,
   });
 
   final bool available;
@@ -18,9 +21,16 @@ class SpeechOutputCapabilities {
   final bool tamil;
   final String? englishVoice;
   final String? tamilVoice;
+  final bool hindi;
+  final bool marathi;
 
   bool supports(String languageTag) =>
-      languageTag.toLowerCase().startsWith('ta') ? tamil : english;
+      switch (VoiceLanguage.code(languageTag)) {
+        'ta' => tamil,
+        'hi' => hindi,
+        'mr' => marathi,
+        _ => english,
+      };
 }
 
 abstract interface class SpeechOutputController {
@@ -57,6 +67,8 @@ class NativeSpeechOutputController implements SpeechOutputController {
         tamil: response?['tamil'] == true,
         englishVoice: response?['englishVoice'] as String?,
         tamilVoice: response?['tamilVoice'] as String?,
+        hindi: response?['hindi'] == true,
+        marathi: response?['marathi'] == true,
       );
     } on PlatformException {
       return _unavailableCapabilities();

@@ -10,6 +10,7 @@ class Step2LocationForm extends StatelessWidget {
   final TextEditingController cityController;
   final TextEditingController districtController;
   final TextEditingController stateController;
+  final TextEditingController pincodeController;
   final bool isLoadingLocation;
   final bool hasSubmitted;
   final VoidCallback? onFetchLocation;
@@ -28,12 +29,17 @@ class Step2LocationForm extends StatelessWidget {
     return t.length >= min && _placeNameLetters.hasMatch(t);
   }
 
+  /// The server needs exactly six digits.
+  static bool isValidPincode(String value) =>
+      RegExp(r'^\d{6}$').hasMatch(value.trim());
+
   const Step2LocationForm({
     super.key,
     required this.addressController,
     required this.cityController,
     required this.districtController,
     required this.stateController,
+    required this.pincodeController,
     required this.isLoadingLocation,
     required this.hasSubmitted,
     required this.onFetchLocation,
@@ -126,10 +132,7 @@ class Step2LocationForm extends StatelessWidget {
         Row(
           children: [
             const Expanded(
-              child: Divider(
-                color: Color(0xFFE2E8F0),
-                thickness: 1,
-              ),
+              child: Divider(color: Color(0xFFE2E8F0), thickness: 1),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
@@ -144,10 +147,7 @@ class Step2LocationForm extends StatelessWidget {
               ),
             ),
             const Expanded(
-              child: Divider(
-                color: Color(0xFFE2E8F0),
-                thickness: 1,
-              ),
+              child: Divider(color: Color(0xFFE2E8F0), thickness: 1),
             ),
           ],
         ),
@@ -174,7 +174,8 @@ class Step2LocationForm extends StatelessWidget {
           controller: cityController,
           hintText: l10n.hintCityExample,
           icon: Icons.location_city_outlined,
-          errorText: hasSubmitted && !looksLikePlaceName(cityController.text, min: 2)
+          errorText:
+              hasSubmitted && !looksLikePlaceName(cityController.text, min: 2)
               ? l10n.profileErrValidCity
               : null,
           onChanged: (_) => onChanged(),
@@ -188,7 +189,9 @@ class Step2LocationForm extends StatelessWidget {
           controller: districtController,
           hintText: l10n.hintCityExample,
           icon: Icons.domain_outlined,
-          errorText: hasSubmitted && !looksLikePlaceName(districtController.text, min: 2)
+          errorText:
+              hasSubmitted &&
+                  !looksLikePlaceName(districtController.text, min: 2)
               ? l10n.profileErrValidCity
               : null,
           onChanged: (_) => onChanged(),
@@ -202,8 +205,28 @@ class Step2LocationForm extends StatelessWidget {
           controller: stateController,
           hintText: l10n.profileHintStateExample,
           icon: Icons.map_outlined,
-          errorText: hasSubmitted && !looksLikePlaceName(stateController.text, min: 3)
+          errorText:
+              hasSubmitted && !looksLikePlaceName(stateController.text, min: 3)
               ? l10n.profileErrValidState
+              : null,
+          onChanged: (_) => onChanged(),
+        ),
+        const SizedBox(height: AppSpacing.lg),
+
+        // Pincode Field
+        _buildLabel('${l10n.pincode} *'),
+        const SizedBox(height: AppSpacing.tight),
+        _buildTextField(
+          controller: pincodeController,
+          hintText: '600001',
+          icon: Icons.markunread_mailbox_outlined,
+          keyboardType: TextInputType.number,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+            LengthLimitingTextInputFormatter(6),
+          ],
+          errorText: hasSubmitted && !isValidPincode(pincodeController.text)
+              ? l10n.profileErrPincode6Digits
               : null,
           onChanged: (_) => onChanged(),
         ),

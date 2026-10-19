@@ -1,0 +1,39 @@
+{
+  "pmegp": ["prime", "minister", "employment", "generation", "programme"],
+  "mudra": ["pradhan", "mantri", "mudra", "yojana"],
+  "pmmy": ["mudra", "pradhan", "mantri", "yojana"],
+  "cgtmse": ["credit", "guarantee", "fund", "micro"],
+  "needs": ["entrepreneur", "enterprise", "development"],
+  "tread": ["trade", "entrepreneurship", "assistance", "development", "women"],
+  "wep": ["women", "entrepreneurship", "platform"],
+  "uyegp": ["unemployed", "youth", "employment", "generation", "programme"],
+  "tanseed": ["startup", "seed", "fund", "grant"],
+  "clcss": ["credit", "linked", "capital", "subsidy"],
+  "pmfme": ["food", "processing", "enterprises", "micro"],
+  "pmkvy": ["kaushal", "vikas", "skill", "training"],
+
+  "momsme": ["msme", "ministry", "enterprises"],
+  "kvic": ["khadi", "village", "industries"],
+  "sidbi": ["small", "industries", "development", "bank"],
+  "dpiit": ["industry", "trade", "promotion"],
+  "tansim": ["startup", "tamil", "nadu", "innovation"],
+
+  "kadan": ["loan", "credit", "கடன்"],
+  "udavi": ["subsidy", "grant", "assistance", "உதவி"],
+  "thozhil": ["business", "enterprise", "industry", "employment", "தொழில்"],
+  "magalir": ["women", "மகளிர்"],
+  "maniyam": ["subsidy", "மானியம்"],
+  "thittam": ["scheme", "programme", "திட்டம்"],
+  "vivasayi": ["agriculture", "agricultural", "farm"],
+  "velai": ["employment", "skill", "training"],
+
+  "stand up india": ["stand-up", "women", "enterprise"],
+  "street vendor": ["svanidhi", "street", "vendor", "vendors"],
+  "tea stall": ["svanidhi", "vendor", "micro", "street"],
+  "student startup": ["student", "innovation", "youth", "startup"],
+  "handicraft": ["craftspeople", "artisans"],
+  "handloom": ["artisans"],
+
+  "tax": ["gst", "customs", "duty", "income"],
+  "exemption": ["customs", "duty", "reimbursement"]
+}

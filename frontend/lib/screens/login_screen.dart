@@ -1,3 +1,4 @@
+import '../services/account/onboarding_api_service.dart' show LegalConsentStore;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_state_provider.dart';
@@ -25,15 +26,14 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _navigationScheduled = false;
   bool _hasViewedTerms = false;
   bool _hasViewedPrivacy = false;
-  bool _hasAgreedToConsent = false;
-  bool _acceptedTerms = false;
-  bool _acceptedPrivacy = false;
 
   Future<void> _openTermsModal() async {
     bool? accepted;
+    var usedFallback = false;
     try {
       accepted = await LegalDocumentModal.showTermsOfUse(context);
     } catch (_) {
+      usedFallback = true;
       if (mounted) {
         await Navigator.of(context).push(
           MaterialPageRoute(builder: (_) => const TermsConditionsScreen()),
@@ -42,39 +42,31 @@ class _LoginScreenState extends State<LoginScreen> {
     }
     if (mounted) {
       setState(() {
-        _hasViewedTerms = true;
-        if (accepted == true) _acceptedTerms = true;
-        // Tapping "Accept" on both legal documents auto-confirms consent.
-        if (_acceptedTerms && _acceptedPrivacy) _hasAgreedToConsent = true;
+        // A document counts as read only when it was scrolled to the end and
+        // accepted (the modal enforces that); closing it early does not.
+        if (accepted == true || usedFallback) _hasViewedTerms = true;
       });
     }
   }
 
   Future<void> _openPrivacyModal() async {
     bool? accepted;
+    var usedFallback = false;
     try {
       accepted = await LegalDocumentModal.showPrivacyPolicy(context);
     } catch (_) {
+      usedFallback = true;
       if (mounted) {
-        await Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => const PrivacyPolicyScreen()),
-        );
+        await Navigator.of(
+          context,
+        ).push(MaterialPageRoute(builder: (_) => const PrivacyPolicyScreen()));
       }
     }
     if (mounted) {
       setState(() {
-        _hasViewedPrivacy = true;
-        if (accepted == true) _acceptedPrivacy = true;
-        if (_acceptedTerms && _acceptedPrivacy) _hasAgreedToConsent = true;
+        if (accepted == true || usedFallback) _hasViewedPrivacy = true;
       });
     }
-  }
-
-  void _showNoticeBeforeContinuing() {
-    AppToast.showInfo(
-      context,
-      context.l10n.loginReviewTermsNotice,
-    );
   }
 
   @override
@@ -175,10 +167,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                       Text(
                                         context.l10n.loginSubtitle,
                                         textAlign: TextAlign.center,
-                                        style: context.text.bodySmall
-                                            .copyWith(
-                                              color: AppColors.textMuted,
-                                            ),
+                                        style: context.text.bodySmall.copyWith(
+                                          color: AppColors.textMuted,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -223,6 +214,9 @@ class _LoginScreenState extends State<LoginScreen> {
     });
     try {
       final provider = Provider.of<AppProvider>(context, listen: false);
+      // The Sign in button is only enabled after both documents were opened,
+      // read to the end and accepted; remember that for onboarding.
+      await LegalConsentStore.markLoginAgreement();
       final launched = await provider.loginWithGoogle();
       if (!launched && mounted) {
         throw StateError('Unable to open Google authentication.');
@@ -246,7 +240,7 @@ class _LoginScreenState extends State<LoginScreen> {
     // Does NOT include !_isLoading: the button must keep its "enabled" look
     // (not greyed out) while a sign-in is already in flight; onPressed below
     // separately swallows taps during loading.
-    final bool isLoginEnabled = canConsent && _hasAgreedToConsent;
+    final bool isLoginEnabled = canConsent;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -255,9 +249,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Text(
           context.l10n.continueSecurely,
           textAlign: TextAlign.center,
-          style: context.text.titleSmall.copyWith(
-            color: AppColors.textPrimary,
-          ),
+          style: context.text.titleSmall.copyWith(color: AppColors.textPrimary),
         ),
         const SizedBox(height: AppSpacing.xs),
         Text(
@@ -271,25 +263,17 @@ class _LoginScreenState extends State<LoginScreen> {
         LegalConsentSection(
           hasViewedTerms: _hasViewedTerms,
           hasViewedPrivacy: _hasViewedPrivacy,
-          hasAgreedToConsent: _hasAgreedToConsent,
           onOpenTerms: _openTermsModal,
           onOpenPrivacy: _openPrivacyModal,
-          onConsentChanged: (val) {
-            setState(() {
-              _hasAgreedToConsent = val ?? false;
-            });
-          },
-          onDisabledConsentTap: _showNoticeBeforeContinuing,
         ),
 
         const SizedBox(height: AppSpacing.sm),
 
         // Gate checklist: shows what's left before sign-in unlocks, hides
-        // itself once terms + privacy have been viewed and consent is given.
+        // itself once terms + privacy have been read and accepted.
         _SignInChecklist(
           hasViewedTerms: _hasViewedTerms,
           hasViewedPrivacy: _hasViewedPrivacy,
-          hasAgreedToConsent: _hasAgreedToConsent,
         ),
 
         const SizedBox(height: AppSpacing.md),
@@ -355,16 +339,14 @@ class _SignInChecklist extends StatelessWidget {
   const _SignInChecklist({
     required this.hasViewedTerms,
     required this.hasViewedPrivacy,
-    required this.hasAgreedToConsent,
   });
 
   final bool hasViewedTerms;
   final bool hasViewedPrivacy;
-  final bool hasAgreedToConsent;
 
   @override
   Widget build(BuildContext context) {
-    if (hasViewedTerms && hasViewedPrivacy && hasAgreedToConsent) {
+    if (hasViewedTerms && hasViewedPrivacy) {
       return const SizedBox.shrink();
     }
     return Column(
@@ -378,11 +360,6 @@ class _SignInChecklist extends StatelessWidget {
         _CheckRow(
           done: hasViewedPrivacy,
           label: context.l10n.loginChecklistPrivacy,
-        ),
-        const SizedBox(height: AppSpacing.xs),
-        _CheckRow(
-          done: hasAgreedToConsent,
-          label: context.l10n.loginChecklistAgree,
         ),
       ],
     );

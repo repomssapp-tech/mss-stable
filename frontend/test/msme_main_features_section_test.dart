@@ -25,31 +25,27 @@ void main() {
   }
 
   group('MsmeMainFeaturesSection (MS1/MS2)', () {
-    testWidgets(
-      'schemes module no longer claims deadline reminders or '
-      'side-by-side comparison, but keeps the real save claim',
-      (tester) async {
-        await tester.pumpWidget(buildTestWidget('schemes'));
-        await tester.pumpAndSettle();
+    testWidgets('schemes module no longer claims deadline reminders or '
+        'side-by-side comparison, but keeps the real save claim', (
+      tester,
+    ) async {
+      await tester.pumpWidget(buildTestWidget('schemes'));
+      await tester.pumpAndSettle();
 
-        expect(find.textContaining('Reminders for registration'), findsNothing);
-        expect(find.textContaining('side-by-side comparison'), findsNothing);
-        expect(find.text('Save schemes for later'), findsOneWidget);
-      },
-    );
+      expect(find.textContaining('Reminders for registration'), findsNothing);
+      expect(find.textContaining('side-by-side comparison'), findsNothing);
+      expect(find.text('Save schemes for later'), findsOneWidget);
+    });
 
-    testWidgets(
-      'tax_gst module keeps the late-payment calculator claim '
-      '(verified real: a live calculator exists)',
-      (tester) async {
-        await tester.pumpWidget(buildTestWidget('tax_gst'));
-        await tester.pumpAndSettle();
+    testWidgets('tax_gst module keeps the late-payment calculator claim '
+        '(verified real: a live calculator exists)', (tester) async {
+      await tester.pumpWidget(buildTestWidget('tax_gst'));
+      await tester.pumpAndSettle();
 
-        expect(
-          find.text('Late payment interest claim calculator (3x Bank Rate)'),
-          findsOneWidget,
-        );
-      },
-    );
+      expect(
+        find.text('Late payment interest claim calculator (3x Bank Rate)'),
+        findsOneWidget,
+      );
+    });
   });
 }

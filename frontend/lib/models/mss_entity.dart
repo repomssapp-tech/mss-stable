@@ -64,7 +64,14 @@ class MssEntity {
       }
     }
 
-    // 3. English fallback
+    // 3. The record's own default language, then English
+    final dflt = defaultLanguage;
+    if (dflt != 'en') {
+      final d = loc?[dflt];
+      if (d is Map && (d['name'] as String?)?.isNotEmpty == true) {
+        return d['name'] as String;
+      }
+    }
     final enLoc = loc?['en'] as Map<String, dynamic>?;
     if (enLoc != null && (enLoc['name'] as String?)?.isNotEmpty == true) {
       return enLoc['name'] as String;
@@ -102,7 +109,14 @@ class MssEntity {
       }
     }
 
-    // 3. English fallback
+    // 3. The record's own default language, then English
+    final dflt = defaultLanguage;
+    if (dflt != 'en') {
+      final d = loc?[dflt];
+      if (d is Map && (d[key] as String?)?.isNotEmpty == true) {
+        return d[key] as String;
+      }
+    }
     final en = loc?['en'] as Map<String, dynamic>?;
     if (en != null && (en[key] as String?)?.isNotEmpty == true) {
       return en[key] as String;
@@ -113,6 +127,31 @@ class MssEntity {
     }
 
     return '';
+  }
+
+  /// `content.languages` stamped by the catalog build: languages the record
+  /// carries (`available`), the ones the app offers for it (`offered`) and the
+  /// one used when the selected language has no value (`default`).
+  Map<String, dynamic> get _languages {
+    final l = content['languages'];
+    return l is Map ? l.cast<String, dynamic>() : const {};
+  }
+
+  List<String> get availableLanguages => _langList('available');
+  List<String> get offeredLanguages => _langList('offered');
+  String get defaultLanguage {
+    final d = _languages['default'];
+    return d is String && d.isNotEmpty ? d : 'en';
+  }
+
+  List<String> _langList(String key) {
+    final v = _languages[key];
+    return v is List
+        ? [
+            for (final c in v)
+              if (c is String) c,
+          ]
+        : const [];
   }
 
   /// Accessors for nested entity sections

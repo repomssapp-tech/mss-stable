@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
@@ -48,43 +47,42 @@ MSMEModuleDetailsScreen _udyamModule() => const MSMEModuleDetailsScreen(
 void main() {
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    await Supabase.initialize(
-      url: 'https://example.supabase.co',
-      publishableKey: 'test-publishable-key',
-    );
   });
 
-  group('MSMEModuleDetailsScreen (udyam) renders migrated Udyam panel strings', () {
-    testWidgets('Tamil locale: flow title + portal button + step 1 title', (
-      tester,
-    ) async {
-      await tester.pumpWidget(_host(const Locale('ta'), _udyamModule()));
-      await tester.pumpAndSettle();
+  group(
+    'MSMEModuleDetailsScreen (udyam) renders migrated Udyam panel strings',
+    () {
+      testWidgets('Tamil locale: flow title + portal button + step 1 title', (
+        tester,
+      ) async {
+        await tester.pumpWidget(_host(const Locale('ta'), _udyamModule()));
+        await tester.pumpAndSettle();
 
-      expect(find.text(_flowTitleTa), findsOneWidget);
-      expect(find.text(_portalBtnTa), findsOneWidget);
-      expect(find.text(_step1TitleTa), findsOneWidget);
+        expect(find.text(_flowTitleTa), findsOneWidget);
+        expect(find.text(_portalBtnTa), findsOneWidget);
+        expect(find.text(_step1TitleTa), findsOneWidget);
 
-      expect(find.text(_flowTitleEn), findsNothing);
-      expect(find.text(_portalBtnEn), findsNothing);
-      expect(find.text(_step1TitleEn), findsNothing);
-    });
+        expect(find.text(_flowTitleEn), findsNothing);
+        expect(find.text(_portalBtnEn), findsNothing);
+        expect(find.text(_step1TitleEn), findsNothing);
+      });
 
-    testWidgets('English locale: flow title + portal button + step 1 title', (
-      tester,
-    ) async {
-      await tester.pumpWidget(_host(const Locale('en'), _udyamModule()));
-      await tester.pumpAndSettle();
+      testWidgets('English locale: flow title + portal button + step 1 title', (
+        tester,
+      ) async {
+        await tester.pumpWidget(_host(const Locale('en'), _udyamModule()));
+        await tester.pumpAndSettle();
 
-      expect(find.text(_flowTitleEn), findsOneWidget);
-      expect(find.text(_portalBtnEn), findsOneWidget);
-      expect(find.text(_step1TitleEn), findsOneWidget);
+        expect(find.text(_flowTitleEn), findsOneWidget);
+        expect(find.text(_portalBtnEn), findsOneWidget);
+        expect(find.text(_step1TitleEn), findsOneWidget);
 
-      expect(find.text(_flowTitleTa), findsNothing);
-      expect(find.text(_portalBtnTa), findsNothing);
-      expect(find.text(_step1TitleTa), findsNothing);
-    });
-  });
+        expect(find.text(_flowTitleTa), findsNothing);
+        expect(find.text(_portalBtnTa), findsNothing);
+        expect(find.text(_step1TitleTa), findsNothing);
+      });
+    },
+  );
 
   group('Udyam ARB getters resolve for both locales', () {
     testWidgets('en getters', (tester) async {

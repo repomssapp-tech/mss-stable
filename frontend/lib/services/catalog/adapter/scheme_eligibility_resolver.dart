@@ -161,8 +161,7 @@ class SchemeEligibilityResolver {
       final investmentObj = structuredEl['investment'] as Map<String, dynamic>?;
       final iMin = investmentObj?['minInr'];
       final iMax = investmentObj?['maxInr'];
-      if (investmentObj?['applies'] == true &&
-          (iMin != null || iMax != null)) {
+      if (investmentObj?['applies'] == true && (iMin != null || iMax != null)) {
         investmentLimits = '₹${iMin ?? 0} to ₹${iMax ?? "No limit"}';
         elCriteriaList.add('Plant & Machinery Investment: $investmentLimits');
       }

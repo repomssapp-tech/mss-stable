@@ -26,6 +26,17 @@ class TokenStorage {
 
   SharedPreferences? _prefs;
 
+  final StreamController<void> _changes = StreamController<void>.broadcast(
+    sync: true,
+  );
+
+  /// Fires after tokens or the stored user change (sign-in, rotation, sign-out).
+  Stream<void> get changes => _changes.stream;
+
+  void _notify() {
+    if (!_changes.isClosed) _changes.add(null);
+  }
+
   Future<SharedPreferences> _getPrefs() async {
     return _prefs ??= await SharedPreferences.getInstance();
   }
@@ -45,6 +56,7 @@ class TokenStorage {
       final expiresAt = DateTime.now().add(Duration(seconds: expiresIn));
       await prefs.setInt(_kExpiresAt, expiresAt.millisecondsSinceEpoch);
     }
+    _notify();
   }
 
   /// Retrieves the current opaque access token.
@@ -72,7 +84,9 @@ class TokenStorage {
     if (expiresAtMs == null) return false;
     // Buffer by 30 seconds to refresh ahead of actual boundary
     final expiresAt = DateTime.fromMillisecondsSinceEpoch(expiresAtMs);
-    return DateTime.now().isAfter(expiresAt.subtract(const Duration(seconds: 30)));
+    return DateTime.now().isAfter(
+      expiresAt.subtract(const Duration(seconds: 30)),
+    );
   }
 
   /// Persists server user payload from exchange/login.
@@ -95,6 +109,7 @@ class TokenStorage {
     } else {
       await prefs.remove(_kUserPicture);
     }
+    _notify();
   }
 
   Future<String?> getUserId() async {
@@ -154,6 +169,7 @@ class TokenStorage {
     } catch (e) {
       debugPrint('[TokenStorage] Error clearing tokens: $e');
     }
+    _notify();
   }
 }
 

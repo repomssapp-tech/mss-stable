@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../models/scheme_model.dart';
 import '../../models/user_profile.dart';
 import '../search/hybrid_scheme_search.dart';
@@ -13,14 +12,12 @@ import '../recommendation/recommendation_engine.dart';
 /// Single source of truth for all scheme-related data. Scheme discovery
 /// (search, categories, details, recommendations) is offline-only, reading
 /// exclusively from the local MssCatalogBundle -- see docs and
-/// 2026-09-04's offline-first migration. Profile persistence still goes
-/// through Supabase directly (see the methods below _db).
+/// 2026-09-04's offline-first migration. Profiles are stored through the
+/// REST profile API (ProfileApiService), not here.
 class SchemeRepository {
   SchemeRepository._();
 
   static final SchemeRepository instance = SchemeRepository._();
-
-  SupabaseClient get _db => Supabase.instance.client;
 
   // ── In-memory cache ──────────────────────────────────────────────────
   List<Scheme>? _cachedSchemes;
@@ -171,7 +168,8 @@ class SchemeRepository {
           canonicalText.contains('financing') ||
           canonicalText.contains('collateral-free') ||
           canonicalText.contains('collateral free')) {
-        counts['Business Loans & Credit'] = counts['Business Loans & Credit']! + 1;
+        counts['Business Loans & Credit'] =
+            counts['Business Loans & Credit']! + 1;
       }
       if (target.contains('artisan') ||
           target.contains('shg') ||
@@ -199,7 +197,8 @@ class SchemeRepository {
           kw.contains('export') ||
           canonicalText.contains('trade promotion') ||
           canonicalText.contains('exhibition')) {
-        counts['Export & Trade Promotion'] = counts['Export & Trade Promotion']! + 1;
+        counts['Export & Trade Promotion'] =
+            counts['Export & Trade Promotion']! + 1;
       }
     }
 
@@ -223,9 +222,16 @@ class SchemeRepository {
   }
 
   // ── 5. getAllSchemes() ────────────────────────────────────────────────
-  /// Returns the complete curated catalog of schemes (217 records) for [langCode].
+  /// Returns the complete bundled catalog of schemes for [langCode].
   /// Kept local/offline as baseline catalog data (no /v1/schemes/all bulk endpoint exists).
-  Future<List<Scheme>> getAllSchemes({String langCode = 'en'}) async {
+  ///
+  /// When [langCode] is omitted the list already adapted for the app's active
+  /// language is reused (English on a cold cache). Callers that do not care
+  /// about the language therefore no longer flip the cache back to English and
+  /// force a full re-adaptation on every call; localisation happens at render
+  /// time via `Scheme.toLocalized`.
+  Future<List<Scheme>> getAllSchemes({String? langCode}) async {
+    langCode ??= _cachedLanguage ?? 'en';
     if (_cachedSchemes != null && _cachedLanguage == langCode) {
       return _cachedSchemes!;
     }
@@ -845,104 +851,6 @@ class SchemeRepository {
               bookmarkedIds.contains(s.schemeCode),
         )
         .toList();
-  }
-
-  // ── Profile Database Management Methods (Supabase — UNCHANGED) ────────
-
-  /// Retrieves a user profile by their UUID from public.profiles table.
-  Future<UserProfile?> getProfile(String uid) async {
-    try {
-      final rows = await _db
-          .from('profiles')
-          .select()
-          .eq('id', uid)
-          .limit(1)
-          .timeout(const Duration(seconds: 8));
-      if ((rows as List).isEmpty) {
-        debugPrint('[SchemeRepository] No profile found for user UUID: $uid');
-        return null;
-      }
-      final merged = Map<String, dynamic>.from(rows[0] as Map);
-
-      // The app collects business/applicant fields but stores them in a
-      // separate table (startup_profiles). getProfile() replaces the whole
-      // in-memory profile, so without this merge those fields silently
-      // reset to defaults on every login / background sync.
-      try {
-        final startup = await _db
-            .from('startup_profiles')
-            .select('industry, business_stage, business_registered, '
-                'funding_required_amount, registration_numbers')
-            .eq('user_id', uid)
-            .order('is_active', ascending: false)
-            .limit(1)
-            .timeout(const Duration(seconds: 8));
-        if ((startup as List).isNotEmpty) {
-          (startup[0] as Map).forEach((k, v) {
-            if (v != null) merged.putIfAbsent(k.toString(), () => v);
-          });
-        }
-      } catch (e) {
-        debugPrint('[SchemeRepository] startup_profiles fetch skipped: $e');
-      }
-      return UserProfile.fromJson(merged);
-    } catch (e) {
-      debugPrint('[SchemeRepository] Error fetching profile: $e');
-      return null;
-    }
-  }
-
-  /// Creates a new profile record in the database.
-  Future<void> createProfile(UserProfile profile) async {
-    try {
-      debugPrint(
-        '[SchemeRepository] Creating profile for user UUID: ${profile.googleUserId}',
-      );
-      await _db
-          .from('profiles')
-          .upsert(profile.toSupabase())
-          .timeout(const Duration(seconds: 15));
-      debugPrint('[SchemeRepository] Profile successfully created.');
-    } catch (e) {
-      debugPrint('[SchemeRepository] Error creating profile: $e');
-      rethrow;
-    }
-  }
-
-  /// Updates an existing profile record in the database.
-  Future<void> updateProfile(UserProfile profile) async {
-    try {
-      debugPrint(
-        '[SchemeRepository] Updating profile for user UUID: ${profile.googleUserId}',
-      );
-      await _db
-          .from('profiles')
-          .update(profile.toSupabase())
-          .eq('id', profile.googleUserId)
-          .timeout(const Duration(seconds: 15));
-      debugPrint('[SchemeRepository] Profile successfully updated.');
-    } catch (e) {
-      debugPrint('[SchemeRepository] Error updating profile: $e');
-      rethrow;
-    }
-  }
-
-  /// Updates the last login timestamp for the user.
-  Future<void> updateLastLogin(String uid) async {
-    try {
-      debugPrint(
-        '[SchemeRepository] Updating last login timestamp for user UUID: $uid',
-      );
-      await _db
-          .from('profiles')
-          .update({'last_login_at': DateTime.now().toIso8601String()})
-          .eq('id', uid);
-      debugPrint(
-        '[SchemeRepository] Last login timestamp successfully updated.',
-      );
-    } catch (e) {
-      debugPrint('[SchemeRepository] Error updating last login: $e');
-    }
   }
 }
 

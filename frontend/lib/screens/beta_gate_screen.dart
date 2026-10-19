@@ -87,9 +87,9 @@ class _BetaGateScreenState extends State<BetaGateScreen> {
         MaterialPageRoute(builder: (_) => const LanguageSelectionScreen()),
       );
     } else {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const LoginScreen()),
-      );
+      Navigator.of(
+        context,
+      ).pushReplacement(MaterialPageRoute(builder: (_) => const LoginScreen()));
     }
   }
 
@@ -123,9 +123,7 @@ class _BetaGateScreenState extends State<BetaGateScreen> {
         ),
         backgroundColor: const Color(0xFFDC2626), // Red 600
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         margin: const EdgeInsets.symmetric(
           horizontal: AppSpacing.lg,
           vertical: AppSpacing.md,
@@ -168,11 +166,12 @@ class _BetaGateScreenState extends State<BetaGateScreen> {
                               'assets/images/Logo/Logo.webp',
                               height: 100,
                               fit: BoxFit.contain,
-                              errorBuilder: (context, error, stackTrace) => const Icon(
-                                Icons.verified_user_rounded,
-                                size: 80,
-                                color: AppConstants.primaryColor,
-                              ),
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(
+                                    Icons.verified_user_rounded,
+                                    size: 80,
+                                    color: AppConstants.primaryColor,
+                                  ),
                             ),
                             const SizedBox(height: AppSpacing.lg),
 
@@ -230,9 +229,7 @@ class _BetaGateBackground extends StatelessWidget {
         'assets/images/Background/splash_screen.webp',
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) => Container(
-          decoration: const BoxDecoration(
-            gradient: AppConstants.blueGradient,
-          ),
+          decoration: const BoxDecoration(gradient: AppConstants.blueGradient),
         ),
       ),
     );
@@ -360,15 +357,11 @@ class _BetaGateCard extends StatelessWidget {
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(
-                  color: Color(0xFFCBD5E1),
-                ),
+                borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(
-                  color: Color(0xFFE2E8F0),
-                ),
+                borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -415,10 +408,7 @@ class _BetaGateCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: AppSpacing.xs),
-                        const Icon(
-                          Icons.arrow_forward_rounded,
-                          size: 16,
-                        ),
+                        const Icon(Icons.arrow_forward_rounded, size: 16),
                       ],
                     ),
             ),

@@ -1,0 +1,103 @@
+{
+  "sourceDir": "C:\\Users\\roger\\Downloads\\schemes_json_only",
+  "catalogVersion": "1.37.0-alpha",
+  "entityCount": 406,
+  "uniqueIds": 406,
+  "bySource": [
+    {
+      "jurisdiction": "central",
+      "file": "f1_central/central_schemes_app_2026.json",
+      "records": 274,
+      "metaVersion": "2.1",
+      "masterFile": "f1_central/central_schemes_master_2026.json",
+      "masterRecords": 274
+    },
+    {
+      "jurisdiction": "tamil_nadu",
+      "file": "f2_tamil_nadu/tamil_nadu_schemes_app_2026.json",
+      "records": 53,
+      "metaVersion": "1.0",
+      "masterFile": "f2_tamil_nadu/tamil_nadu_schemes_master_2026.json",
+      "masterRecords": 53
+    },
+    {
+      "jurisdiction": "maharashtra",
+      "file": "f3_maharashtra/maharashtra_schemes_app_2026.json",
+      "records": 79,
+      "metaVersion": "2.0",
+      "masterFile": null,
+      "masterRecords": 0
+    }
+  ],
+  "contentLanguagesByJurisdiction": {
+    "central": {
+      "en": 274,
+      "hi": 274,
+      "ta": 274
+    },
+    "tamil_nadu": {
+      "en": 53,
+      "ta": 53
+    },
+    "maharashtra": {
+      "en": 79,
+      "hi": 79,
+      "mr": 79
+    }
+  },
+  "statusCounts": {
+    "unknown": 68,
+    "closed": 26,
+    "active": 267,
+    "announced": 45
+  },
+  "withLegacySupplement": 277,
+  "withoutLegacySupplement": 129,
+  "jurisdictionExceptions": [
+    {
+      "id": "CEN2026-090",
+      "name": "Promotion of MSME in NER and SIKKIM",
+      "dataset": "central",
+      "sourceLevel": "central",
+      "state": "North Eastern States and Sikkim",
+      "level": "central",
+      "appliesNationally": false,
+      "states": []
+    },
+    {
+      "id": "TN2026-044",
+      "name": "Tamil Nadu State Rural Livelihoods Mission (TNSRLM)",
+      "dataset": "tamil_nadu",
+      "sourceLevel": "central_state",
+      "state": "Tamil Nadu",
+      "level": "state",
+      "appliesNationally": false,
+      "states": [
+        "IN-TN"
+      ]
+    },
+    {
+      "id": "TN2026-049",
+      "name": "TEAM Scheme for ONDC Onboarding",
+      "dataset": "tamil_nadu",
+      "sourceLevel": "central",
+      "state": "All India",
+      "level": "central",
+      "appliesNationally": true,
+      "states": []
+    }
+  ],
+  "remappedReferencesByCatalog": {
+    "authority_catalog.json": {},
+    "institution_catalog.json": {},
+    "finance_catalog.json": {},
+    "tax_catalog.json": {},
+    "export_catalog.json": {}
+  },
+  "idMapEntries": 892,
+  "idMapCodeAliases": 486,
+  "unmappedNewIds": [],
+  "emptyDescription": 27,
+  "emptyBenefits": 26,
+  "emptyEligibility": 30
+}

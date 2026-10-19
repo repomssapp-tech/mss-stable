@@ -277,9 +277,12 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     if (widget.voiceAgentController != null) {
       _voiceAgentController = widget.voiceAgentController;
     } else if (_sessionController != null) {
-      _voiceAgentController = LiveKitVoiceAgentController.tryFromSupabase(
+      _voiceAgentController = LiveKitVoiceAgentController.tryCreate(
         session: _sessionController!,
         profile: widget.profile ?? UserProfile(),
+        // The app language, read when the voice session starts.
+        languageCode: () =>
+            mounted ? Localizations.localeOf(context).languageCode : 'en',
       );
       _ownsVoiceAgentController = _voiceAgentController != null;
     }
@@ -462,7 +465,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           _conversationTurns[_conversationTurns.length - 1] = _conversationTurns
               .last
               .copyWith(schemeMatches: matches);
-          
+
           final schemeNames = matches.map((m) => m.scheme.name).toList();
           _chatLogService.upsertMessage(
             id: _conversationTurns.last.id,
@@ -497,20 +500,22 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     final id = suppliedId is String && suppliedId.trim().isNotEmpty
         ? suppliedId.trim()
         : '${speaker.name}-${_fallbackTranscriptId++}';
-    
+
     final pendingMatches = speaker == _VoiceTranscriptSpeaker.assistant
         ? _pendingCloudMatches
         : const <SchemeSearchMatch>[];
-        
+
     _chatLogService.upsertMessage(
       id: id,
       speaker: speaker == _VoiceTranscriptSpeaker.user
           ? ChatMessageSpeaker.user
           : ChatMessageSpeaker.assistant,
       text: text,
-      recommendations: recommendations ?? (pendingMatches.isNotEmpty 
-          ? pendingMatches.map((m) => m.scheme.name).toList() 
-          : null),
+      recommendations:
+          recommendations ??
+          (pendingMatches.isNotEmpty
+              ? pendingMatches.map((m) => m.scheme.name).toList()
+              : null),
     );
     final index = _conversationTurns.indexWhere((turn) => turn.id == id);
 
@@ -660,7 +665,9 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
             state.phase == AssistantSessionPhase.noConfidentMatch) &&
         reply != null) {
       _lastSpokenTurn = turnKey;
-      final schemeNames = state.recommendations.map((r) => r.scheme.name).toList();
+      final schemeNames = state.recommendations
+          .map((r) => r.scheme.name)
+          .toList();
       _upsertTranscriptTurn(
         VoiceAgentEvent(
           VoiceAgentEventType.outputTranscriptDone,
@@ -763,8 +770,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         _setListeningAnimations(false);
         setState(() {
           _voicePhase = _VoiceAssistantPhase.unavailable;
-          _message =
-              capabilities.reason ?? _l10n.voiceRecognitionUnavailable;
+          _message = capabilities.reason ?? _l10n.voiceRecognitionUnavailable;
         });
         return;
       }
@@ -1299,10 +1305,11 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                   child: Container(
                     key: const Key('voice-assistant-panel'),
                     decoration: BoxDecoration(
-                      color: (_isCompanion
-                              ? const Color(0xFF1C1008)
-                              : const Color(0xFF07111F))
-                          .withValues(alpha: 0.98),
+                      color:
+                          (_isCompanion
+                                  ? const Color(0xFF1C1008)
+                                  : const Color(0xFF07111F))
+                              .withValues(alpha: 0.98),
                       borderRadius: BorderRadius.circular(28),
                       border: Border.all(
                         color: _accent.withValues(alpha: 0.34),
@@ -1334,11 +1341,12 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                             l10n: _l10n,
                             languageSelector: _buildLanguageSelector(),
                             cloudSessionInUse: _cloudSessionInUse,
-                            isMuted: _voiceAgentController?.state.isMuted ?? false,
+                            isMuted:
+                                _voiceAgentController?.state.isMuted ?? false,
                             onToggleMute: _cloudSessionInUse
                                 ? () => _voiceAgentController!.setMuted(
-                                      !_voiceAgentController!.state.isMuted,
-                                    )
+                                    !_voiceAgentController!.state.isMuted,
+                                  )
                                 : null,
                             onClose: _close,
                           ),
@@ -1359,7 +1367,8 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                             onToggleListening: _toggleListening,
                             onSendTypedInput: _sendTypedInput,
                             onSuggestionSelected: _useSuggestion,
-                            showSuggestions: _transcript.isEmpty &&
+                            showSuggestions:
+                                _transcript.isEmpty &&
                                 _session?.statement.isEmpty != false,
                           ),
                           if (_conversationTurns.isNotEmpty) ...[
@@ -1420,7 +1429,8 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                               onOpenSource: _openReplySource,
                             ),
                           ],
-                          if (_groundingPhase != _OnlineGroundingPhase.idle) ...[
+                          if (_groundingPhase !=
+                              _OnlineGroundingPhase.idle) ...[
                             const SizedBox(height: AppSpacing.sm),
                             VoiceOnlineGroundingPill(
                               groundingPhase: _groundingPhase,
@@ -1444,7 +1454,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                             const SizedBox(height: AppSpacing.md),
                             VoiceQuestionCard(
                               question: _session!.question!,
-                              questionText: _questionText(_session!, _session!.question!),
+                              questionText: _questionText(
+                                _session!,
+                                _session!.question!,
+                              ),
                               l10n: _l10n,
                               onOptionSelected: _answerOption,
                               onRepeatQuestion: _speakQuestionAndListen,
@@ -1478,9 +1491,12 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                               onReviewProfile: widget.onProfileConfirmed != null
                                   ? _reviewAndSaveFacts
                                   : null,
-                              hasUnsavedProfileFacts: _session!.facts.values.any(
-                                (f) => f.source != EligibilityFactSource.profile,
-                              ),
+                              hasUnsavedProfileFacts: _session!.facts.values
+                                  .any(
+                                    (f) =>
+                                        f.source !=
+                                        EligibilityFactSource.profile,
+                                  ),
                             ),
                           ] else if (_legacyMatches.isNotEmpty) ...[
                             const SizedBox(height: AppSpacing.md),
@@ -1648,15 +1664,21 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                               const SizedBox(height: AppSpacing.xl),
                               RegularVoiceQuestionCard(
                                 question: question,
-                                questionText: _questionText(_session!, question),
+                                questionText: _questionText(
+                                  _session!,
+                                  question,
+                                ),
                                 l10n: _l10n,
-                                speechOutputSupported: _speechCapabilities?.supports(
-                                  _session!.isTamil ? 'ta-IN' : 'en-IN',
-                                ) ?? true,
+                                speechOutputSupported:
+                                    _speechCapabilities?.supports(
+                                      _session!.isTamil ? 'ta-IN' : 'en-IN',
+                                    ) ??
+                                    true,
                                 onOptionSelected: _answerOption,
                               ),
                             ],
-                            if (_session?.recommendations.isNotEmpty == true) ...[
+                            if (_session?.recommendations.isNotEmpty ==
+                                true) ...[
                               const SizedBox(height: 22),
                               RegularVoiceRecommendationsSection(
                                 session: _session!,
@@ -1668,12 +1690,16 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                                       !_showAllRecommendations,
                                 ),
                                 onSchemeSelected: widget.onSchemeSelected,
-                                onReviewProfile: widget.onProfileConfirmed != null
+                                onReviewProfile:
+                                    widget.onProfileConfirmed != null
                                     ? _reviewAndSaveFacts
                                     : null,
-                                hasUnsavedProfileFacts: _session!.facts.values.any(
-                                  (f) => f.source != EligibilityFactSource.profile,
-                                ),
+                                hasUnsavedProfileFacts: _session!.facts.values
+                                    .any(
+                                      (f) =>
+                                          f.source !=
+                                          EligibilityFactSource.profile,
+                                    ),
                               ),
                             ] else if (_legacyMatches.isNotEmpty) ...[
                               const SizedBox(height: 22),
@@ -1700,7 +1726,8 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                                 ),
                               ),
                             ],
-                            if (_groundingPhase != _OnlineGroundingPhase.idle) ...[
+                            if (_groundingPhase !=
+                                _OnlineGroundingPhase.idle) ...[
                               const SizedBox(height: AppSpacing.lg),
                               VoiceOnlineGroundingPill(
                                 groundingPhase: _groundingPhase,

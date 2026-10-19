@@ -70,10 +70,7 @@ class SaarthiLabeledControl extends StatelessWidget {
 
 /// Start voice speaking button when companion mode is in idle state.
 class SaarthiStartVoiceButton extends StatelessWidget {
-  const SaarthiStartVoiceButton({
-    super.key,
-    required this.onPressed,
-  });
+  const SaarthiStartVoiceButton({super.key, required this.onPressed});
 
   final VoidCallback onPressed;
 

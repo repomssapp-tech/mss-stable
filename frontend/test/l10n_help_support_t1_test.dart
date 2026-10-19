@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
@@ -18,7 +17,8 @@ import 'package:frontend/screens/regular_mode/help_support_screen.dart';
 
 // Exact ARB values for the strings this screen now pulls from AppLocalizations.
 const _faqEligibilityEn = 'How do I check my eligibility for a scheme?';
-const _faqEligibilityTa = 'ஒரு திட்டத்திற்கான எனது தகுதியை எப்படிச் சரிபார்ப்பது?';
+const _faqEligibilityTa =
+    'ஒரு திட்டத்திற்கான எனது தகுதியை எப்படிச் சரிபார்ப்பது?';
 const _headerSupportEn = 'Help & Support';
 const _headerSupportTa = 'உதவி & ஆதரவு';
 const _viewAllFaqsEn = 'View all FAQs';
@@ -39,10 +39,6 @@ Widget _host(Locale locale, Widget screen) {
 void main() {
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    await Supabase.initialize(
-      url: 'https://example.supabase.co',
-      publishableKey: 'test-publishable-key',
-    );
   });
 
   group('HelpSupportScreen renders migrated strings for the active locale', () {

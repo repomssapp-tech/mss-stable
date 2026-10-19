@@ -7,15 +7,10 @@ import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/widgets/legal/legal_consent_section.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() {
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    await Supabase.initialize(
-      url: 'https://example.supabase.co',
-      publishableKey: 'test-publishable-key',
-    );
   });
 
   testWidgets('login is Google-only with no mock phone or OTP controls', (
@@ -39,6 +34,17 @@ void main() {
     expect(find.text('Apple'), findsNothing);
   });
 
+  Future<void> scrollToEnd(WidgetTester tester) async {
+    for (var i = 0; i < 10; i++) {
+      await tester.drag(
+        find.byType(SingleChildScrollView).last,
+        const Offset(0, -600),
+      );
+      await tester.pump();
+    }
+    await tester.pumpAndSettle();
+  }
+
   testWidgets(
     'mandatory legal document consent flow gates Google sign-in button',
     (tester) async {
@@ -60,28 +66,16 @@ void main() {
         findsOneWidget,
       );
 
-      // Checkbox is unchecked
-      final checkboxFinder = find.byType(Checkbox);
-      expect(checkboxFinder, findsOneWidget);
-      Checkbox checkbox = tester.widget(checkboxFinder);
-      expect(checkbox.value, isFalse);
+      // The data-usage consent is collected on the profile page: no checkbox here.
+      expect(find.byType(Checkbox), findsNothing);
 
       // Button is disabled initially
-      final buttonFinder = find.widgetWithText(OutlinedButton, 'Continue with Google');
+      final buttonFinder = find.widgetWithText(
+        OutlinedButton,
+        'Continue with Google',
+      );
       expect(buttonFinder, findsOneWidget);
       OutlinedButton button = tester.widget(buttonFinder);
-      expect(button.onPressed, isNull);
-
-      // 2. Interacting with disabled checkbox shows notice
-      await tester.tap(checkboxFinder);
-      await tester.pumpAndSettle();
-      expect(
-        find.text('Please review the Terms of Use and Privacy Policy before continuing.'),
-        findsOneWidget,
-      );
-      checkbox = tester.widget(checkboxFinder);
-      expect(checkbox.value, isFalse);
-      button = tester.widget(buttonFinder);
       expect(button.onPressed, isNull);
 
       // 3. Open Terms of Use modal via link
@@ -92,33 +86,51 @@ void main() {
         ),
       );
       final textSpan = textWidget.textSpan! as TextSpan;
-      final termsSpan = textSpan.children!.firstWhere(
-        (s) => s is TextSpan && s.text == 'Terms of Use',
-      ) as TextSpan;
+      final termsSpan =
+          textSpan.children!.firstWhere(
+                (s) => s is TextSpan && s.text == 'Terms of Use',
+              )
+              as TextSpan;
       (termsSpan.recognizer as TapGestureRecognizer).onTap!();
       await tester.pumpAndSettle();
 
       // Modal content is visible
-      expect(find.text('Rules and guidelines for using the MSS App'), findsOneWidget);
+      expect(
+        find.text('Rules and guidelines for using the MSS App'),
+        findsOneWidget,
+      );
       expect(find.text('Effective Date: 1 September 2026'), findsOneWidget);
       expect(find.text('Use of the MSS App'), findsOneWidget);
 
-      // Accept Terms modal
+      // Accepting before reading to the end is refused with an alert...
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Accept'));
+      await tester.pumpAndSettle();
+      expect(
+        find.text(
+          'You must scroll to the end of this document before you can accept it.',
+        ),
+        findsOneWidget,
+      );
+      await tester.tap(find.text('OK'));
+      await tester.pumpAndSettle();
+      // ...and the sheet is still open: nothing was accepted.
+      expect(find.text('Use of the MSS App'), findsOneWidget);
+
+      // Accept Terms modal after scrolling to the end
+      await scrollToEnd(tester);
       await tester.tap(find.widgetWithText(ElevatedButton, 'Accept'));
       await tester.pumpAndSettle();
 
-      // Checkbox and button still disabled (Privacy Policy not yet viewed)
-      await tester.tap(checkboxFinder);
-      await tester.pumpAndSettle();
-      checkbox = tester.widget(checkboxFinder);
-      expect(checkbox.value, isFalse);
+      // Button still disabled (Privacy Policy not yet accepted)
       button = tester.widget(buttonFinder);
       expect(button.onPressed, isNull);
 
       // 4. Open Privacy Policy modal via link
-      final privacySpan = textSpan.children!.firstWhere(
-        (s) => s is TextSpan && s.text == 'Privacy Policy',
-      ) as TextSpan;
+      final privacySpan =
+          textSpan.children!.firstWhere(
+                (s) => s is TextSpan && s.text == 'Privacy Policy',
+              )
+              as TextSpan;
       (privacySpan.recognizer as TapGestureRecognizer).onTap!();
       await tester.pumpAndSettle();
 
@@ -129,24 +141,14 @@ void main() {
       );
       expect(find.text('Personal Data We Collect'), findsOneWidget);
 
-      // Accept Privacy modal
+      // Accept Privacy modal (after scrolling to the end)
+      await scrollToEnd(tester);
       await tester.tap(find.widgetWithText(ElevatedButton, 'Accept'));
       await tester.pumpAndSettle();
 
-      // 5. Accepting BOTH legal documents auto-checks consent and enables login
-      checkbox = tester.widget(checkboxFinder);
-      expect(checkbox.value, isTrue);
+      // 5. Accepting BOTH legal documents enables login
       button = tester.widget(buttonFinder);
       expect(button.onPressed, isNotNull);
-
-      // 6. Unchecking consent disables the button again
-      await tester.tap(checkboxFinder);
-      await tester.pumpAndSettle();
-
-      checkbox = tester.widget(checkboxFinder);
-      expect(checkbox.value, isFalse);
-      button = tester.widget(buttonFinder);
-      expect(button.onPressed, isNull);
     },
   );
 

@@ -1,0 +1,282 @@
+import '../services/catalog/content_language_resolver.dart';
+
+/// One labelled contact line, e.g. `(phone, '+91 22 3105 9000')`. [key] is the
+/// source key; known keys are labelled from the ARB files by the UI, unknown
+/// ones fall back to [SchemeExtras.humanize].
+typedef SchemeContactLine = ({String key, String value});
+
+/// One structured benefit fact, already localised for display.
+class SchemeBenefitFact {
+  const SchemeBenefitFact({
+    required this.type,
+    required this.metrics,
+    required this.notes,
+  });
+
+  /// Source `type` (e.g. `grant`, `loan`).
+  final String type;
+
+  /// Numeric attributes in source order: `(key, value)`. The UI formats them
+  /// by key.
+  final List<MapEntry<String, num>> metrics;
+
+  /// Localised text parts (`cap_text`, `basis`, `scope`, `note`...).
+  final List<String> notes;
+}
+
+/// Read-only view over the parts of a 2026 scheme record that the flat
+/// `Scheme` model has no dedicated field for. It wraps the verbatim source
+/// record plus the per-language `localization` blocks, so nothing in the
+/// source is lost and new keys stay reachable.
+class SchemeExtras {
+  const SchemeExtras._(
+    this._source,
+    this._localization,
+    this._jurisdiction,
+    this._portal,
+    this.legacyCodes,
+  );
+
+  static const SchemeExtras empty = SchemeExtras._({}, {}, '', {}, []);
+
+  factory SchemeExtras.fromEntity(Map<String, dynamic> raw) {
+    final source = _asMap(raw['source']);
+    if (source.isEmpty) return empty;
+    final loc = _asMap(raw['localization']);
+    final provenance = raw['provenance'];
+    final content = raw['content'];
+    final Map<String, dynamic> portal = content is Map
+        ? _asMap(content['portalInfo'])
+        : const <String, dynamic>{};
+    final identity = raw['identity'];
+    final codes = identity is Map ? identity['legacyCodes'] : null;
+    return SchemeExtras._(
+      source,
+      loc,
+      provenance is Map ? (provenance['jurisdiction'] as String? ?? '') : '',
+      portal,
+      [
+        if (codes is List)
+          for (final c in codes)
+            if (c is Map && c['code'] is String) c['code'] as String,
+      ],
+    );
+  }
+
+  /// Any `Map` (JSON-decoded or hand-built) as `Map<String, dynamic>`.
+  static Map<String, dynamic> _asMap(Object? v) =>
+      v is Map ? v.cast<String, dynamic>() : const {};
+
+  final Map<String, dynamic> _source;
+  final Map<String, dynamic> _localization;
+  final String _jurisdiction;
+
+  /// Resolved entry of the jurisdiction's portals directory, when the scheme
+  /// names one (`how_to_apply.portal`).
+  final Map<String, dynamic> _portal;
+
+  /// Pre-2026 codes of this scheme (`TN130`, `IN130`...). The private-AI
+  /// knowledge base still names schemes by these codes.
+  final List<String> legacyCodes;
+
+  bool get isEmpty => _source.isEmpty;
+
+  /// `central`, `tamil_nadu`, `maharashtra`, ... (from the import provenance).
+  String get jurisdiction => _jurisdiction;
+
+  Map<String, dynamic> get _how => _asMap(_source['how_to_apply']);
+
+  dynamic _loc(String lang, String key) {
+    final code = ContentLanguageResolver.normalizeCode(lang);
+    final block = _localization[code];
+    if (block is Map && block[key] != null) return block[key];
+    final en = _localization['en'];
+    return en is Map ? en[key] : null;
+  }
+
+  String _str(dynamic v) => v is String ? v.trim() : '';
+
+  /// A list the source stores per language (`eligibility`, `how_to_apply.steps`)
+  /// in [lang] only -- no English fallback, so callers can tell "no stored
+  /// text" from "stored text".
+  List<String> _storedList(Object? field, String lang) {
+    if (field is! Map) return const [];
+    final v = field[ContentLanguageResolver.normalizeCode(lang)];
+    if (v is! List) return const [];
+    return [
+      for (final item in v)
+        if (item is String && item.trim().isNotEmpty) item.trim(),
+    ];
+  }
+
+  List<String> storedEligibility(String lang) =>
+      _storedList(_source['eligibility'], lang);
+
+  List<String> storedSteps(String lang) => _storedList(_how['steps'], lang);
+
+  // ── Status ────────────────────────────────────────────────────────────
+  String get statusValue =>
+      _str((_source['status'] as Map?)?['value']).toLowerCase();
+  String get statusAsOf => _str((_source['status'] as Map?)?['as_of']);
+  String statusNote(String lang) =>
+      ContentLanguageResolver.text(_loc(lang, 'statusNote'), lang);
+
+  /// `open`, `closed`, `unknown`, `historical_or_superseded`, `announced`,
+  /// `temporarily unavailable`... as given by the source.
+  String get applicationStatus => _str(_how['application_status']);
+  String get procedureType => _str(_how['procedure_type']);
+  String get deadline => ContentLanguageResolver.text(_how['deadline']);
+  String get prerequisite => ContentLanguageResolver.text(_how['prerequisite']);
+  String get statusCheckedOn => _str(_how['status_checked_on']);
+
+  /// Application fees; `fees` may be text or a structured value.
+  String get fees => ContentLanguageResolver.text(_how['fees']);
+
+  // ── Contacts ──────────────────────────────────────────────────────────
+  static const List<String> _contactOrder = [
+    'phone',
+    'helpline',
+    'email',
+    'website',
+    'office',
+    'address',
+    'hours',
+  ];
+
+  List<SchemeContactLine> contacts(String lang) {
+    var base = _source['contacts'];
+    // No scheme-level contacts: fall back to the named portal's contact block.
+    if (base is! Map || base.isEmpty) base = _portal['contact'];
+    if (base is! Map) return const [];
+    final translated = base == _portal['contact']
+        ? null
+        : _loc(lang, 'contacts');
+    final merged = <String, dynamic>{
+      ...base.cast<String, dynamic>(),
+      if (translated is Map) ...translated.cast<String, dynamic>(),
+    };
+    final keys = <String>[
+      ..._contactOrder.where(merged.containsKey),
+      ...merged.keys.where((k) => !_contactOrder.contains(k)),
+    ];
+    final lines = <SchemeContactLine>[];
+    for (final key in keys) {
+      final value = ContentLanguageResolver.text(merged[key], lang);
+      if (value.isNotEmpty) lines.add((key: key, value: value));
+    }
+    return lines;
+  }
+
+  // ── Benefit facts ─────────────────────────────────────────────────────
+  static const _factMetaKeys = {'type', 'translations'};
+
+  List<SchemeBenefitFact> benefitFacts(String lang) {
+    final facts = (_source['benefit_facts'] as Map?)?['facts'];
+    if (facts is! List) return const [];
+    final code = ContentLanguageResolver.normalizeCode(lang);
+    final out = <SchemeBenefitFact>[];
+    for (final fact in facts.whereType<Map>()) {
+      final metrics = <MapEntry<String, num>>[];
+      final notes = <String>[];
+      fact.forEach((k, v) {
+        if (k is! String || _factMetaKeys.contains(k)) return;
+        if (v is num) {
+          metrics.add(MapEntry(k, v));
+        } else if (v is String && v.trim().isNotEmpty) {
+          notes.add(v.trim());
+        }
+      });
+      final tr = (fact['translations'] as Map?)?[code];
+      if (tr is Map) {
+        for (final v in tr.values) {
+          final t = ContentLanguageResolver.text(v, lang);
+          if (t.isNotEmpty) notes.add(t);
+        }
+      }
+      if (metrics.isEmpty && notes.isEmpty) continue;
+      out.add(
+        SchemeBenefitFact(
+          type: (fact['type'] as String?) ?? '',
+          metrics: metrics,
+          notes: notes.toSet().toList(growable: false),
+        ),
+      );
+    }
+    return out;
+  }
+
+  // ── Links ─────────────────────────────────────────────────────────────
+  /// Apply / info / guidelines links, then the named portal's links. [title]
+  /// is set for portal links (the portal's own name).
+  List<({String kind, String url, String? title})> links(String lang) {
+    final out = <({String kind, String url, String? title})>[];
+    final seen = <String>{};
+    void add(String kind, String url, [String? title]) {
+      if (url.isNotEmpty && seen.add(url)) {
+        out.add((kind: kind, url: url, title: title));
+      }
+    }
+
+    for (final kind in const ['apply', 'info', 'guidelines']) {
+      add(kind, _str(_how['${kind}_url']));
+    }
+    final i18n = _portal['name_i18n'];
+    final code = ContentLanguageResolver.normalizeCode(lang);
+    final title = (i18n is Map ? _str(i18n[code]) : '').isNotEmpty
+        ? _str((i18n as Map)[code])
+        : _str(_portal['name']);
+    add('portal', _str(_portal['url']), title.isEmpty ? null : title);
+    add(
+      'portalLogin',
+      _str(_portal['apply_url_login']),
+      title.isEmpty ? null : title,
+    );
+    add(
+      'portalServices',
+      _str(_portal['services_url']),
+      title.isEmpty ? null : title,
+    );
+    return out;
+  }
+
+  // ── Names, relations, notes ───────────────────────────────────────────
+  List<String> altNames(String lang) =>
+      ContentLanguageResolver.list(_loc(lang, 'altNames'), lang);
+
+  List<String> get relatedIds => ((_source['related_ids'] as List?) ?? const [])
+      .whereType<String>()
+      .toList(growable: false);
+
+  List<String> notes(String lang) =>
+      ContentLanguageResolver.list(_loc(lang, 'notes'), lang);
+
+  /// Documents grouped by audience when the source keys them (e.g. individual
+  /// vs self-help group). Empty when documents are a plain list.
+  List<({String audience, List<String> items})> documentsByAudience() {
+    final docs = _how['documents'];
+    if (docs is! Map) return const [];
+    return [
+      for (final e in docs.entries)
+        (
+          audience: humanize(e.key.toString()),
+          items: ContentLanguageResolver.list(e.value),
+        ),
+    ].where((g) => g.items.isNotEmpty).toList(growable: false);
+  }
+
+  /// True when the source flags [lang]'s text as machine-translated.
+  bool isMachineTranslated(String lang) {
+    final code = ContentLanguageResolver.normalizeCode(lang);
+    return _source['${code}_is_machine_translation'] == true;
+  }
+
+  /// `snake_case` / `camelCase` -> `Snake case`.
+  static String humanize(String key) {
+    final spaced = key
+        .replaceAllMapped(RegExp(r'([a-z])([A-Z])'), (m) => '${m[1]} ${m[2]}')
+        .replaceAll('_', ' ')
+        .trim();
+    if (spaced.isEmpty) return '';
+    return spaced[0].toUpperCase() + spaced.substring(1).toLowerCase();
+  }
+}

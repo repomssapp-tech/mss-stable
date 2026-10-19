@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/models/user_profile.dart';
@@ -20,12 +19,6 @@ void main() {
 
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    try {
-      await Supabase.initialize(
-        url: 'https://example.supabase.co',
-        publishableKey: 'test-publishable-key',
-      );
-    } catch (_) {}
   });
 
   Widget host(AppProvider provider, String title, String type) =>
@@ -71,62 +64,66 @@ void main() {
   }
 
   testWidgets(
-      'need-type answers become a schemeTypes filter; male keeps no beneficiary',
-      (tester) async {
-    final provider = AppProvider();
-    await tester.pumpWidget(
-      host(provider, 'Business Loans & Credit', 'category'),
-    );
-    await open(tester);
+    'need-type answers become a schemeTypes filter; male keeps no beneficiary',
+    (tester) async {
+      final provider = AppProvider();
+      await tester.pumpWidget(
+        host(provider, 'Business Loans & Credit', 'category'),
+      );
+      await open(tester);
 
-    // biz_q1 -> biz_q2_artisan -> biz_q3_artisan_need -> biz_q4 -> biz_q5
-    await tapOption(tester, 'No, operating as individual trader/artisan');
-    await tapOption(tester, 'No, not registered');
-    await tapOption(tester, 'Individual craft micro-loan');
-    await tapOption(tester, 'General category Male');
-    await tapOption(tester, 'Under ₹10 Lakhs');
+      // biz_q1 -> biz_q2_artisan -> biz_q3_artisan_need -> biz_q4 -> biz_q5
+      await tapOption(tester, 'No, operating as individual trader/artisan');
+      await tapOption(tester, 'No, not registered');
+      await tapOption(tester, 'Individual craft micro-loan');
+      await tapOption(tester, 'General category Male');
+      await tapOption(tester, 'Under ₹10 Lakhs');
 
-    final f = provider.filters;
-    expect(f['category'], 'Business Loans & Credit');
-    expect(
-      (f['schemeTypes'] as List).cast<String>(),
-      contains('loans'),
-      reason: 'the "micro-loan" answer must narrow the result list',
-    );
-    expect(
-      f.containsKey('beneficiaries'),
-      isFalse,
-      reason: 'a General-category male picked no beneficiary group',
-    );
-  });
+      final f = provider.filters;
+      expect(f['category'], 'Business Loans & Credit');
+      expect(
+        (f['schemeTypes'] as List).cast<String>(),
+        contains('loans'),
+        reason: 'the "micro-loan" answer must narrow the result list',
+      );
+      expect(
+        f.containsKey('beneficiaries'),
+        isFalse,
+        reason: 'a General-category male picked no beneficiary group',
+      );
+    },
+  );
 
-  testWidgets('a gender question is pre-filled from the profile (no tap needed)',
-      (tester) async {
-    final provider = AppProvider();
-    provider.updateProfile(
-      UserProfile(
-        gender: 'Female',
-        community: 'SC',
-        dob: DateTime(2000, 1, 1),
-        profileCompleted: true,
-      ),
-    );
+  testWidgets(
+    'a gender question is pre-filled from the profile (no tap needed)',
+    (tester) async {
+      final provider = AppProvider();
+      provider.updateProfile(
+        UserProfile(
+          gender: 'Female',
+          community: 'SC',
+          dob: DateTime(2000, 1, 1),
+          profileCompleted: true,
+        ),
+      );
 
-    // "Housing" matches no keyword -> the default category flow, whose
-    // cat_q3 asks gender and cat_q4 asks caste.
-    await tester.pumpWidget(host(provider, 'Housing', 'category'));
-    await open(tester);
+      // "Housing" matches no keyword -> the default category flow, whose
+      // cat_q3 asks gender and cat_q4 asks caste.
+      await tester.pumpWidget(host(provider, 'Housing', 'category'));
+      await open(tester);
 
-    await tapOption(tester, 'Student'); // cat_q1
-    await tapOption(tester, 'Subsidies & welfare grants'); // cat_q2
-    // Now on cat_q3 (gender). Do NOT answer it -- skip straight to results.
-    await tapOption(tester, 'Skip to Results');
+      await tapOption(tester, 'Student'); // cat_q1
+      await tapOption(tester, 'Subsidies & welfare grants'); // cat_q2
+      // Now on cat_q3 (gender). Do NOT answer it -- skip straight to results.
+      await tapOption(tester, 'Skip to Results');
 
-    expect(
-      (provider.filters['beneficiaries'] as List).cast<String>(),
-      contains('women'),
-      reason: 'gender was auto-seeded to Female from the profile, so the '
-          'beneficiary facet is applied without the user re-picking it',
-    );
-  });
+      expect(
+        (provider.filters['beneficiaries'] as List).cast<String>(),
+        contains('women'),
+        reason:
+            'gender was auto-seeded to Female from the profile, so the '
+            'beneficiary facet is applied without the user re-picking it',
+      );
+    },
+  );
 }

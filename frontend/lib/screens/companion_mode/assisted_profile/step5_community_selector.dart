@@ -59,7 +59,8 @@ class Step5CommunitySelector extends StatelessWidget {
             title: communities[i]['title'] as String,
             subtitle: communities[i]['subtitle'] as String?,
             icon: communities[i]['icon'] as IconData?,
-            isSelected: selectedCommunity.toUpperCase() ==
+            isSelected:
+                selectedCommunity.toUpperCase() ==
                 (communities[i]['id'] as String).toUpperCase(),
             onTap: () => onCommunitySelected(communities[i]['id'] as String),
           ),

@@ -49,7 +49,7 @@ class SearchScreenState extends State<SearchScreen> {
       _currentState != SearchState.idle ||
       _searchController.text.trim().isNotEmpty;
 
-  // Data list of scheme results from Supabase
+  // Data list of scheme results from the catalog
   List<Scheme> _searchResults = [];
   List<Scheme> _masterSearchResults = [];
   String _sortBy = 'Relevance';
@@ -107,7 +107,7 @@ class SearchScreenState extends State<SearchScreen> {
 
     // Only fall back to the whole catalog for a filter-only / browse view.
     // A text query that matched nothing must stay empty so the results view
-    // can show its "no scheme found" state -- not silently list all 219.
+    // can show its "no scheme found" state -- not silently list every scheme.
     if (_masterSearchResults.isEmpty && !hasTextQuery) {
       final catalog = provider.allSchemes.isNotEmpty
           ? provider.allSchemes
@@ -143,8 +143,14 @@ class SearchScreenState extends State<SearchScreen> {
         _sortBy == 'Match %' ||
         _sortBy == 'Match') {
       filteredResults.sort((a, b) {
-        final sa = RecommendationEngine.evaluate(provider.profile, a).percentage;
-        final sb = RecommendationEngine.evaluate(provider.profile, b).percentage;
+        final sa = RecommendationEngine.evaluate(
+          provider.profile,
+          a,
+        ).percentage;
+        final sb = RecommendationEngine.evaluate(
+          provider.profile,
+          b,
+        ).percentage;
         return sb.compareTo(sa);
       });
     } else if (_sortBy == 'Scheme name (A-Z)' ||
@@ -157,8 +163,8 @@ class SearchScreenState extends State<SearchScreen> {
       );
     }
 
-    final bool hasActiveFilter = _activeFilter == 'For Me' ||
-        hasActiveSchemeFilters(provider.filters);
+    final bool hasActiveFilter =
+        _activeFilter == 'For Me' || hasActiveSchemeFilters(provider.filters);
 
     if (_searchController.text.trim().isEmpty && !hasActiveFilter) {
       if (mounted) {
@@ -378,7 +384,8 @@ class SearchScreenState extends State<SearchScreen> {
       if (!mounted) return;
       if (_searchController.text.isEmpty && _currentState != SearchState.idle) {
         final provider = Provider.of<AppProvider>(context, listen: false);
-        final bool hasActiveFilter = _activeFilter == 'For Me' ||
+        final bool hasActiveFilter =
+            _activeFilter == 'For Me' ||
             hasActiveSchemeFilters(provider.filters);
         if (!hasActiveFilter) {
           setState(() {
@@ -603,7 +610,8 @@ class SearchScreenState extends State<SearchScreen> {
                       focusNode: _searchFocusNode,
                       isDictating: _isDictating,
                       onToggleDictation: _toggleDictation,
-                      onSubmitted: (val) => _triggerSearch(_searchController.text),
+                      onSubmitted: (val) =>
+                          _triggerSearch(_searchController.text),
                       onClear: () {
                         _searchController.clear();
                         setState(() {
@@ -626,8 +634,9 @@ class SearchScreenState extends State<SearchScreen> {
                         onOpenFilterPanel: _openFilterPanel,
                         onToggleForMe: () {
                           setState(() {
-                            _activeFilter =
-                                _activeFilter == 'For Me' ? 'All' : 'For Me';
+                            _activeFilter = _activeFilter == 'For Me'
+                                ? 'All'
+                                : 'For Me';
                           });
                           _applyFiltersAndSort();
                         },
@@ -638,10 +647,12 @@ class SearchScreenState extends State<SearchScreen> {
                       ),
                     ] else ...[
                       SearchTryBanner(
-                        hintText: _dynamicSearchHintText ??
+                        hintText:
+                            _dynamicSearchHintText ??
                             context.l10n.searchHintFallback,
                         onTap: () {
-                          final hint = _dynamicSearchHintText ??
+                          final hint =
+                              _dynamicSearchHintText ??
                               context.l10n.searchHintFallback;
                           _searchController.text = hint;
                           _searchFocusNode.unfocus();

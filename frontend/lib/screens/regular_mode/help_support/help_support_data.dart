@@ -7,43 +7,19 @@ import '../../../widgets/common/app_toast.dart';
 const String kSupportEmail = 'mssschemessearch@gmail.com';
 
 List<Map<String, String>> getHelpFaqs(AppLocalizations l10n) => [
-      {
-        'question': l10n.faqEligibilityQ,
-        'answer': l10n.faqEligibilityA,
-      },
-      {
-        'question': l10n.faqApplyQ,
-        'answer': l10n.faqApplyA,
-      },
-      {
-        'question': l10n.faqTrackQ,
-        'answer': l10n.faqTrackA,
-      },
-      {
-        'question': l10n.faqFreeQ,
-        'answer': l10n.faqFreeA,
-      },
-      {
-        'question': l10n.faqDataFreshnessQ,
-        'answer': l10n.faqDataFreshnessA,
-      },
-    ];
+  {'question': l10n.faqEligibilityQ, 'answer': l10n.faqEligibilityA},
+  {'question': l10n.faqApplyQ, 'answer': l10n.faqApplyA},
+  {'question': l10n.faqTrackQ, 'answer': l10n.faqTrackA},
+  {'question': l10n.faqFreeQ, 'answer': l10n.faqFreeA},
+  {'question': l10n.faqDataFreshnessQ, 'answer': l10n.faqDataFreshnessA},
+];
 
 List<Map<String, String>> getAllHelpFaqs(AppLocalizations l10n) => [
-      ...getHelpFaqs(l10n),
-      {
-        'question': l10n.faqScoringQ,
-        'answer': l10n.faqScoringA,
-      },
-      {
-        'question': l10n.faqDataSharingQ,
-        'answer': l10n.faqDataSharingA,
-      },
-      {
-        'question': l10n.faqMissingDocsQ,
-        'answer': l10n.faqMissingDocsA,
-      },
-    ];
+  ...getHelpFaqs(l10n),
+  {'question': l10n.faqScoringQ, 'answer': l10n.faqScoringA},
+  {'question': l10n.faqDataSharingQ, 'answer': l10n.faqDataSharingA},
+  {'question': l10n.faqMissingDocsQ, 'answer': l10n.faqMissingDocsA},
+];
 
 Future<void> emailSupportFallback(
   BuildContext context, {

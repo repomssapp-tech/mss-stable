@@ -2,7 +2,9 @@ import '../../services/catalog/centralized_translator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/l10n.dart';
+import '../../utils/app_colors.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/app_text.dart';
 
 class LegalSectionItem {
   final int number;
@@ -16,7 +18,13 @@ class LegalSectionItem {
   });
 }
 
-class LegalDocumentModal extends StatelessWidget {
+/// A legal document shown in a bottom sheet.
+///
+/// "Accept" works only after the user has scrolled to the end of the document:
+/// before that a hint says so, and tapping Accept shows an alert (in the app's
+/// language) instead of accepting. A document short enough to be fully visible
+/// counts as read.
+class LegalDocumentModal extends StatefulWidget {
   final String title;
   final String subtitle;
   final String effectiveDate;
@@ -33,6 +41,9 @@ class LegalDocumentModal extends StatelessWidget {
     required this.introText,
     required this.sections,
   });
+
+  @override
+  State<LegalDocumentModal> createState() => _LegalDocumentModalState();
 
   /// Returns `true` when the user tapped "Accept", otherwise `null`
   /// (dismissed via the X icon, drag, or back gesture).
@@ -248,6 +259,47 @@ class LegalDocumentModal extends StatelessWidget {
       ],
     );
   }
+}
+
+class _LegalDocumentModalState extends State<LegalDocumentModal> {
+  final ScrollController _scroll = ScrollController();
+  bool _reachedEnd = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _scroll.addListener(_checkEnd);
+    // A document that fits on screen has nothing to scroll: it counts as read.
+    WidgetsBinding.instance.addPostFrameCallback((_) => _checkEnd());
+  }
+
+  void _checkEnd() {
+    if (!mounted || _reachedEnd || !_scroll.hasClients) return;
+    final position = _scroll.position;
+    if (position.maxScrollExtent <= 0 ||
+        position.pixels >= position.maxScrollExtent - 24) {
+      setState(() => _reachedEnd = true);
+    }
+  }
+
+  Future<void> _explainScrollRequirement() => showDialog<void>(
+    context: context,
+    builder: (dialogContext) => AlertDialog(
+      content: Text(dialogContext.l10n.legalScrollToEndNotice),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(dialogContext).pop(),
+          child: Text(dialogContext.l10n.ok),
+        ),
+      ],
+    ),
+  );
+
+  @override
+  void dispose() {
+    _scroll.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -304,14 +356,18 @@ class LegalDocumentModal extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(CentralizedTranslator.instance.localize(title),
+                      Text(
+                        CentralizedTranslator.instance.localize(widget.title),
                         style: GoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF0F172A),
                         ),
                       ),
-                      Text(CentralizedTranslator.instance.localize(subtitle),
+                      Text(
+                        CentralizedTranslator.instance.localize(
+                          widget.subtitle,
+                        ),
                         style: GoogleFonts.inter(
                           fontSize: 12,
                           color: const Color(0xFF64748B),
@@ -333,6 +389,7 @@ class LegalDocumentModal extends StatelessWidget {
           // Scrollable Content
           Expanded(
             child: SingleChildScrollView(
+              controller: _scroll,
               padding: const EdgeInsets.all(AppSpacing.xl),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -349,7 +406,10 @@ class LegalDocumentModal extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(CentralizedTranslator.instance.localize('Effective Date: $effectiveDate'),
+                        Text(
+                          CentralizedTranslator.instance.localize(
+                            'Effective Date: ${widget.effectiveDate}',
+                          ),
                           style: GoogleFonts.inter(
                             fontSize: 13,
                             fontWeight: FontWeight.w700,
@@ -357,7 +417,10 @@ class LegalDocumentModal extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: AppSpacing.xs),
-                        Text(CentralizedTranslator.instance.localize(acknowledgmentText),
+                        Text(
+                          CentralizedTranslator.instance.localize(
+                            widget.acknowledgmentText,
+                          ),
                           style: GoogleFonts.inter(
                             fontSize: 12.5,
                             color: const Color(0xFF475569),
@@ -371,8 +434,9 @@ class LegalDocumentModal extends StatelessWidget {
                   const SizedBox(height: AppSpacing.lg),
 
                   // Intro Text
-                  if (introText.isNotEmpty) ...[
-                    Text(CentralizedTranslator.instance.localize(introText),
+                  if (widget.introText.isNotEmpty) ...[
+                    Text(
+                      CentralizedTranslator.instance.localize(widget.introText),
                       style: GoogleFonts.inter(
                         fontSize: 13,
                         color: const Color(0xFF334155),
@@ -383,7 +447,7 @@ class LegalDocumentModal extends StatelessWidget {
                   ],
 
                   // Numbered Sections
-                  for (final section in sections)
+                  for (final section in widget.sections)
                     Padding(
                       padding: const EdgeInsets.only(bottom: AppSpacing.lg),
                       child: Row(
@@ -397,7 +461,8 @@ class LegalDocumentModal extends StatelessWidget {
                               shape: BoxShape.circle,
                             ),
                             alignment: Alignment.center,
-                            child: Text('${section.number}',
+                            child: Text(
+                              '${section.number}',
                               style: const TextStyle(
                                 color: Color(0xFF1D4ED8),
                                 fontWeight: FontWeight.bold,
@@ -410,7 +475,10 @@ class LegalDocumentModal extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(CentralizedTranslator.instance.localize(section.title),
+                                Text(
+                                  CentralizedTranslator.instance.localize(
+                                    section.title,
+                                  ),
                                   style: GoogleFonts.poppins(
                                     fontSize: 14.5,
                                     fontWeight: FontWeight.bold,
@@ -418,7 +486,10 @@ class LegalDocumentModal extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(height: AppSpacing.xs),
-                                Text(CentralizedTranslator.instance.localize(section.body),
+                                Text(
+                                  CentralizedTranslator.instance.localize(
+                                    section.body,
+                                  ),
                                   style: GoogleFonts.inter(
                                     fontSize: 13,
                                     color: const Color(0xFF475569),
@@ -446,33 +517,51 @@ class LegalDocumentModal extends StatelessWidget {
             ),
             decoration: const BoxDecoration(
               color: Colors.white,
-              border: Border(
-                top: BorderSide(color: Color(0xFFE2E8F0)),
-              ),
+              border: Border(top: BorderSide(color: Color(0xFFE2E8F0))),
             ),
             child: SafeArea(
               top: false,
-              child: SizedBox(
-                width: double.infinity,
-                height: 48,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF0D53FC),
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (!_reachedEnd)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                      child: Text(
+                        context.l10n.legalScrollToEndHint,
+                        textAlign: TextAlign.center,
+                        style: context.text.bodySmall.copyWith(
+                          color: AppColors.textMuted,
+                        ),
+                      ),
+                    ),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 48,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _reachedEnd
+                            ? const Color(0xFF0D53FC)
+                            : AppColors.disabledFg,
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      onPressed: _reachedEnd
+                          ? () => Navigator.of(context).pop(true)
+                          : _explainScrollRequirement,
+                      child: Text(
+                        context.l10n.legalAccept,
+                        style: GoogleFonts.inter(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
                   ),
-                  onPressed: () => Navigator.of(context).pop(true),
-                  child: Text(
-                    context.l10n.legalAccept,
-                    style: GoogleFonts.inter(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
+                ],
               ),
             ),
           ),

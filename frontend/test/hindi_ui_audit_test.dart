@@ -48,7 +48,6 @@ import 'package:frontend/screens/regular_mode/search_screen.dart';
 import 'package:frontend/screens/regular_mode/settings_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 const _langEnv = String.fromEnvironment('AUDIT_LANG');
 const _full = bool.fromEnvironment('AUDIT_FULL');
@@ -125,10 +124,6 @@ void main() {
     LanguagePackManager.instance.isLanguageActiveOverride = (_) => true;
     LanguagePackManager.instance.hasValidPackOverride = (_) => true;
     SharedPreferences.setMockInitialValues({});
-    await Supabase.initialize(
-      url: 'https://example.supabase.co',
-      publishableKey: 'test-publishable-key',
-    );
   });
 
   Future<void> audit(

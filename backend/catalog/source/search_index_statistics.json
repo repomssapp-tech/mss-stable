@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-10-04T19:30:33Z",
+  "generatedAt": "2026-10-18T11:58:47Z",
   "catalog": "search_index.json",
-  "indexedEntities": 1061,
+  "indexedEntities": 1165,
   "catalogsIndexed": 10,
   "perCatalog": {
     "common_catalog.json": 344,
     "authority_catalog.json": 131,
     "institution_catalog.json": 83,
-    "scheme_catalog.json": 302,
+    "scheme_catalog.json": 406,
     "finance_catalog.json": 115,
     "tax_catalog.json": 13,
     "treds_catalog.json": 16,
@@ -16,13 +16,13 @@
     "knowledge_catalog.json": 28
   },
   "catalogsMissing": {},
-  "distinctTokensEn": 2506,
-  "distinctTokensTa": 1092,
-  "totalTokenPostingsEn": 8191,
-  "totalTokenPostingsTa": 4816,
-  "entriesWithTamilName": 971,
-  "entriesWithTamilTokens": 971,
-  "crossReferences": 1834,
+  "distinctTokensEn": 3700,
+  "distinctTokensTa": 1591,
+  "totalTokenPostingsEn": 10012,
+  "totalTokenPostingsTa": 5843,
+  "entriesWithTamilName": 1079,
+  "entriesWithTamilTokens": 1079,
+  "crossReferences": 2066,
   "duplicateEntityIds": 0,
   "unknownEntityIds": 0,
   "unresolvedCrossReferences": 0,
@@ -33,51 +33,51 @@
   "topTokensEn": [
     [
       "scheme",
-      113
-    ],
-    [
-      "current",
-      99
-    ],
-    [
-      "capital",
-      90
+      141
     ],
     [
       "subsidy",
-      86
+      103
+    ],
+    [
+      "capital",
+      95
+    ],
+    [
+      "current",
+      95
     ],
     [
       "development",
-      74
+      81
     ],
     [
-      "women",
+      "msme",
       72
     ],
     [
       "support",
-      65
+      72
     ],
     [
-      "msme",
-      59
+      "women",
+      68
+    ],
+    [
+      "nadu",
+      63
+    ],
+    [
+      "tamil",
+      63
     ],
     [
       "msmes",
-      58
-    ],
-    [
-      "exact",
-      58
+      60
     ],
     [
       "small",
-      57
-    ],
-    [
-      "programme",
-      52
+      58
     ]
   ]
 }

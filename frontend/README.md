@@ -9,12 +9,10 @@
    ```
    | Key | Value |
    |---|---|
-   | `SUPABASE_URL` | `https://<project-ref>.supabase.co` |
-   | `SUPABASE_PUBLISHABLE_KEY` | `sb_publishable_...` (anon key — safe in the client, RLS-protected) |
-   | `MSS_API_BASE_URL` | `https://<project-ref>.supabase.co/functions/v1` |
+   | `API_BASE_URL` | Backend origin without `/v1`, e.g. `https://api.msmeschemes.org` (default) or `http://10.0.2.2:5000` for a local server from the Android emulator |
 
-   `dart_defines.json` is git-ignored. Ask a teammate for the values, or read
-   them from the Supabase dashboard → Project Settings → API.
+   `dart_defines.json` is git-ignored. It holds no secrets; the app authenticates
+   with a bearer token and has no database credentials.
 
 ## Running the app
 
@@ -36,10 +34,9 @@ instead of the app. Use one of these so you never have to remember the flag:
 
 ## CI
 
-`.github/workflows/build-app.yml` writes `dart_defines.json` from the repo
-secrets `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`, then passes
-`--dart-define-from-file` to the build steps. Without those secrets the
-workflow runs `analyze` + `test` only.
+`.github/workflows/build-app.yml` writes `dart_defines.json` with `API_BASE_URL`
+from the optional repo secret of the same name (default: production), then
+passes `--dart-define-from-file` to the build steps.
 
 ## Flutter resources
 

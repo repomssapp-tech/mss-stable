@@ -31,7 +31,9 @@ class CategoriesBusinessUtilitiesSection extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
           child: Text(
-            CentralizedTranslator.instance.localize('Business Utilities & Tools'),
+            CentralizedTranslator.instance.localize(
+              'Business Utilities & Tools',
+            ),
             style: GoogleFonts.poppins(
               fontSize: isTa ? 14.0 : 15.0,
               fontWeight: FontWeight.bold,
@@ -49,44 +51,70 @@ class CategoriesBusinessUtilitiesSection extends StatelessWidget {
             children: [
               CategoryUtilityCard(
                 icon: Icons.domain_verification,
-                title: CentralizedTranslator.instance.localize('Udyam Classifier'),
-                desc: CentralizedTranslator.instance.localize('Check MSME tier'),
+                title: CentralizedTranslator.instance.localize(
+                  'Udyam Classifier',
+                ),
+                desc: CentralizedTranslator.instance.localize(
+                  'Check MSME tier',
+                ),
                 onTap: () => showUdyamClassifierSheet(context),
               ),
               CategoryUtilityCard(
                 icon: Icons.calculate_outlined,
-                title: CentralizedTranslator.instance.localize('Subsidy Estimator'),
-                desc: CentralizedTranslator.instance.localize('Machinery subsidies'),
+                title: CentralizedTranslator.instance.localize(
+                  'Subsidy Estimator',
+                ),
+                desc: CentralizedTranslator.instance.localize(
+                  'Machinery subsidies',
+                ),
                 onTap: () => showSubsidyEstimatorSheet(context),
               ),
               CategoryUtilityCard(
                 icon: Icons.percent_outlined,
-                title: CentralizedTranslator.instance.localize('GST Calculator'),
-                desc: CentralizedTranslator.instance.localize('Compute GST invoice'),
+                title: CentralizedTranslator.instance.localize(
+                  'GST Calculator',
+                ),
+                desc: CentralizedTranslator.instance.localize(
+                  'Compute GST invoice',
+                ),
                 onTap: () => showGstCalculatorSheet(context),
               ),
               CategoryUtilityCard(
                 icon: Icons.monetization_on_outlined,
-                title: CentralizedTranslator.instance.localize('EMI Calculator'),
-                desc: CentralizedTranslator.instance.localize('Calculate loan EMIs'),
+                title: CentralizedTranslator.instance.localize(
+                  'EMI Calculator',
+                ),
+                desc: CentralizedTranslator.instance.localize(
+                  'Calculate loan EMIs',
+                ),
                 onTap: () => showEmiCalculatorSheet(context),
               ),
               CategoryUtilityCard(
                 icon: Icons.rocket_launch_outlined,
-                title: CentralizedTranslator.instance.localize('DPIIT Eligibility'),
-                desc: CentralizedTranslator.instance.localize('Check startup criteria'),
+                title: CentralizedTranslator.instance.localize(
+                  'DPIIT Eligibility',
+                ),
+                desc: CentralizedTranslator.instance.localize(
+                  'Check startup criteria',
+                ),
                 onTap: () => showDpiitChecklistSheet(context),
               ),
               CategoryUtilityCard(
                 icon: Icons.trending_up_outlined,
-                title: CentralizedTranslator.instance.localize('Valuation Estimator'),
-                desc: CentralizedTranslator.instance.localize('Seed valuation ranges'),
+                title: CentralizedTranslator.instance.localize(
+                  'Valuation Estimator',
+                ),
+                desc: CentralizedTranslator.instance.localize(
+                  'Seed valuation ranges',
+                ),
                 onTap: () => showValuationEstimatorSheet(context),
               ),
               CategoryUtilityCard(
                 icon: Icons.rule_folder_outlined,
                 title: CentralizedTranslator.instance.localize('Doc Checklist'),
-                desc: CentralizedTranslator.instance.localize('Business setup docs'),
+                desc: CentralizedTranslator.instance.localize(
+                  'Business setup docs',
+                ),
                 onTap: () => showDocumentChecklistSheet(context),
               ),
             ],

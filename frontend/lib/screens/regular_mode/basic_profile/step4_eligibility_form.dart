@@ -171,11 +171,7 @@ class Step4EligibilityForm extends StatelessWidget {
         Text(
           l10n.eligibilitySubtitle,
           textAlign: TextAlign.center,
-          style: GoogleFonts.inter(
-            fontSize: 13,
-            color: kSlate500,
-            height: 1.3,
-          ),
+          style: GoogleFonts.inter(fontSize: 13, color: kSlate500, height: 1.3),
         ),
         const SizedBox(height: AppSpacing.lg),
 
@@ -304,11 +300,7 @@ class Step4EligibilityForm extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(
-            Icons.privacy_tip_outlined,
-            size: 14,
-            color: kPrimaryBlue,
-          ),
+          const Icon(Icons.privacy_tip_outlined, size: 14, color: kPrimaryBlue),
           const SizedBox(width: AppSpacing.tight),
           Expanded(
             child: Text(

@@ -1,0 +1,232 @@
+{
+  "layout": {
+    "before": {
+      "files": {
+        "catalog_bundle.json.gz": 1847391,
+        "catalog_pack_hi.json.gz": 117576,
+        "catalog_pack_ta.json.gz": 123604,
+        "release.json": 3625,
+        "scheme_id_map.json": 25788
+      },
+      "totalBytes": 2117984
+    },
+    "after": {
+      "files": {
+        "catalog_bundle.json.gz": 1616053
+      },
+      "totalBytes": 1616053
+    }
+  },
+  "bundle": {
+    "before": {
+      "gzipBytes": 1847391,
+      "uncompressedBytes": 19929136,
+      "ratio": 10.79
+    },
+    "after": {
+      "gzipBytes": 1616053,
+      "uncompressedBytes": 17947235,
+      "ratio": 11.11
+    }
+  },
+  "runtimeCatalogBytes": {
+    "before": 2117984,
+    "after": 1616053,
+    "savedBytes": 501931,
+    "savedPercent": 23.7
+  },
+  "sections": {
+    "before": {
+      "common_catalog.json": {
+        "records": 344,
+        "compactBytes": 1372885,
+        "standaloneGzipBytes": 48005
+      },
+      "authority_catalog.json": {
+        "records": 131,
+        "compactBytes": 762503,
+        "standaloneGzipBytes": 38503
+      },
+      "institution_catalog.json": {
+        "records": 83,
+        "compactBytes": 407202,
+        "standaloneGzipBytes": 19508
+      },
+      "scheme_catalog.json": {
+        "records": 406,
+        "compactBytes": 13095407,
+        "standaloneGzipBytes": 1378411
+      },
+      "finance_catalog.json": {
+        "records": 115,
+        "compactBytes": 952671,
+        "standaloneGzipBytes": 65908
+      },
+      "tax_catalog.json": {
+        "records": 13,
+        "compactBytes": 76682,
+        "standaloneGzipBytes": 5345
+      },
+      "treds_catalog.json": {
+        "records": 16,
+        "compactBytes": 90267,
+        "standaloneGzipBytes": 7637
+      },
+      "csr_catalog.json": {
+        "records": 16,
+        "compactBytes": 95390,
+        "standaloneGzipBytes": 8009
+      },
+      "export_catalog.json": {
+        "records": 13,
+        "compactBytes": 101518,
+        "standaloneGzipBytes": 10677
+      },
+      "knowledge_catalog.json": {
+        "records": 28,
+        "compactBytes": 181870,
+        "standaloneGzipBytes": 14824
+      },
+      "applicability_matrix_catalog.json": {
+        "records": 406,
+        "compactBytes": 1101831,
+        "standaloneGzipBytes": 61655
+      },
+      "enterprise_classification_catalog.json": {
+        "records": 11,
+        "compactBytes": 30637,
+        "standaloneGzipBytes": 2733
+      },
+      "msme_privilege_catalog.json": {
+        "records": 2,
+        "compactBytes": 10937,
+        "standaloneGzipBytes": 3492
+      },
+      "business_enablement_catalog.json": {
+        "records": 7,
+        "compactBytes": 27184,
+        "standaloneGzipBytes": 4677
+      },
+      "cluster_assistance_catalog.json": {
+        "records": 10,
+        "compactBytes": 56671,
+        "standaloneGzipBytes": 6377
+      },
+      "search_index.json": {
+        "records": 1165,
+        "compactBytes": 1560200,
+        "standaloneGzipBytes": 184134
+      },
+      "manifest.json": {
+        "records": 1,
+        "compactBytes": 4826,
+        "standaloneGzipBytes": 1594
+      }
+    },
+    "after": {
+      "common_catalog.json": {
+        "records": 344,
+        "compactBytes": 1372885,
+        "standaloneGzipBytes": 48005
+      },
+      "authority_catalog.json": {
+        "records": 131,
+        "compactBytes": 766838,
+        "standaloneGzipBytes": 38576
+      },
+      "institution_catalog.json": {
+        "records": 83,
+        "compactBytes": 408613,
+        "standaloneGzipBytes": 19522
+      },
+      "scheme_catalog.json": {
+        "records": 406,
+        "compactBytes": 11084363,
+        "standaloneGzipBytes": 1142176
+      },
+      "finance_catalog.json": {
+        "records": 115,
+        "compactBytes": 952671,
+        "standaloneGzipBytes": 65908
+      },
+      "tax_catalog.json": {
+        "records": 13,
+        "compactBytes": 76682,
+        "standaloneGzipBytes": 5345
+      },
+      "treds_catalog.json": {
+        "records": 16,
+        "compactBytes": 90267,
+        "standaloneGzipBytes": 7637
+      },
+      "csr_catalog.json": {
+        "records": 16,
+        "compactBytes": 95390,
+        "standaloneGzipBytes": 8009
+      },
+      "export_catalog.json": {
+        "records": 13,
+        "compactBytes": 101518,
+        "standaloneGzipBytes": 10677
+      },
+      "knowledge_catalog.json": {
+        "records": 28,
+        "compactBytes": 181870,
+        "standaloneGzipBytes": 14824
+      },
+      "applicability_matrix_catalog.json": {
+        "records": 406,
+        "compactBytes": 1101831,
+        "standaloneGzipBytes": 61658
+      },
+      "enterprise_classification_catalog.json": {
+        "records": 11,
+        "compactBytes": 30637,
+        "standaloneGzipBytes": 2733
+      },
+      "msme_privilege_catalog.json": {
+        "records": 2,
+        "compactBytes": 10937,
+        "standaloneGzipBytes": 3492
+      },
+      "business_enablement_catalog.json": {
+        "records": 7,
+        "compactBytes": 27184,
+        "standaloneGzipBytes": 4677
+      },
+      "cluster_assistance_catalog.json": {
+        "records": 10,
+        "compactBytes": 56671,
+        "standaloneGzipBytes": 6377
+      },
+      "search_index.json": {
+        "records": 1165,
+        "compactBytes": 1560200,
+        "standaloneGzipBytes": 184135
+      },
+      "manifest.json": {
+        "records": 1,
+        "compactBytes": 5898,
+        "standaloneGzipBytes": 1872
+      },
+      "migrations.json": {
+        "records": null,
+        "compactBytes": 22306,
+        "standaloneGzipBytes": 3974
+      }
+    }
+  },
+  "losslessComparison": {
+    "baselineEntities": 1601,
+    "currentEntities": 1601,
+    "entitiesMissingFromCurrent": [],
+    "entitiesAddedInCurrent": [],
+    "entitiesChangedBeyondDocumentedRules": [],
+    "changedCount": 0,
+    "baselinePackRows": 1018,
+    "packRowsFoundOnEntities": 1018,
+    "packProblems": [],
+    "packProblemCount": 0,
+    "lossless": true
+  }
+}

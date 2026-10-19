@@ -16,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
@@ -65,58 +64,60 @@ Widget _host(Locale locale) {
 void main() {
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
-    await Supabase.initialize(
-      url: 'https://example.supabase.co',
-      publishableKey: 'test-publishable-key',
-    );
   });
 
-  testWidgets('Tamil locale: first question, option, back/skip labels from ARB',
-      (tester) async {
-    _seedLocale(const Locale('ta'));
-    await tester.pumpWidget(_host(const Locale('ta')));
-    await tester.pumpAndSettle();
+  testWidgets(
+    'Tamil locale: first question, option, back/skip labels from ARB',
+    (tester) async {
+      _seedLocale(const Locale('ta'));
+      await tester.pumpWidget(_host(const Locale('ta')));
+      await tester.pumpAndSettle();
 
-    // First question + its first option render in Tamil.
-    expect(find.text(_eduQ1Ta), findsOneWidget);
-    expect(find.text(_eduQ1Opt1Ta), findsOneWidget);
-    expect(find.text(_eduQ1En), findsNothing);
-    expect(find.text(_eduQ1Opt1En), findsNothing);
+      // First question + its first option render in Tamil.
+      expect(find.text(_eduQ1Ta), findsOneWidget);
+      expect(find.text(_eduQ1Opt1Ta), findsOneWidget);
+      expect(find.text(_eduQ1En), findsNothing);
+      expect(find.text(_eduQ1Opt1En), findsNothing);
 
-    // Skip-to-results label (always visible) renders in Tamil.
-    expect(find.text(_skipTa), findsOneWidget);
-    expect(find.text(_skipEn), findsNothing);
+      // Skip-to-results label (always visible) renders in Tamil.
+      expect(find.text(_skipTa), findsOneWidget);
+      expect(find.text(_skipEn), findsNothing);
 
-    // Advance to the second question; the Back label then appears in Tamil.
-    await tester.tap(find.text(_eduQ1Opt1Ta));
-    await tester.pumpAndSettle();
+      // Advance to the second question; the Back label then appears in Tamil.
+      await tester.tap(find.text(_eduQ1Opt1Ta));
+      await tester.pumpAndSettle();
 
-    expect(find.text(_eduQ2SchoolTa), findsOneWidget);
-    expect(find.text(_backTa), findsOneWidget);
-    expect(find.text(_backEn), findsNothing);
-  });
+      expect(find.text(_eduQ2SchoolTa), findsOneWidget);
+      expect(find.text(_backTa), findsOneWidget);
+      expect(find.text(_backEn), findsNothing);
+    },
+  );
 
-  testWidgets('English locale: first question, option, back/skip labels from ARB',
-      (tester) async {
-    _seedLocale(const Locale('en'));
-    await tester.pumpWidget(_host(const Locale('en')));
-    await tester.pumpAndSettle();
+  testWidgets(
+    'English locale: first question, option, back/skip labels from ARB',
+    (tester) async {
+      _seedLocale(const Locale('en'));
+      await tester.pumpWidget(_host(const Locale('en')));
+      await tester.pumpAndSettle();
 
-    expect(find.text(_eduQ1En), findsOneWidget);
-    expect(find.text(_eduQ1Opt1En), findsOneWidget);
-    expect(find.text(_eduQ1Ta), findsNothing);
-    expect(find.text(_eduQ1Opt1Ta), findsNothing);
+      expect(find.text(_eduQ1En), findsOneWidget);
+      expect(find.text(_eduQ1Opt1En), findsOneWidget);
+      expect(find.text(_eduQ1Ta), findsNothing);
+      expect(find.text(_eduQ1Opt1Ta), findsNothing);
 
-    expect(find.text(_skipEn), findsOneWidget);
-    expect(find.text(_skipTa), findsNothing);
+      expect(find.text(_skipEn), findsOneWidget);
+      expect(find.text(_skipTa), findsNothing);
 
-    await tester.tap(find.text(_eduQ1Opt1En));
-    await tester.pumpAndSettle();
+      await tester.tap(find.text(_eduQ1Opt1En));
+      await tester.pumpAndSettle();
 
-    // Second question (edu_q2_school) in English + Back label.
-    expect(find.text('What class/grade are you currently enrolled in?'),
-        findsOneWidget);
-    expect(find.text(_backEn), findsOneWidget);
-    expect(find.text(_backTa), findsNothing);
-  });
+      // Second question (edu_q2_school) in English + Back label.
+      expect(
+        find.text('What class/grade are you currently enrolled in?'),
+        findsOneWidget,
+      );
+      expect(find.text(_backEn), findsOneWidget);
+      expect(find.text(_backTa), findsNothing);
+    },
+  );
 }

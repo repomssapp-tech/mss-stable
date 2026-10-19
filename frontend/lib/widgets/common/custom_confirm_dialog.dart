@@ -12,8 +12,10 @@ class CustomConfirmDialog extends StatelessWidget {
   final Color iconBgColor;
   final String title;
   final String message;
+
   /// When null, falls back to the localized default in [build].
   final String? cancelLabel;
+
   /// When null, falls back to the localized default in [build].
   final String? confirmLabel;
   final Color confirmColor;
@@ -78,7 +80,10 @@ class CustomConfirmDialog extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: AppRadius.xlAll,
-        border: Border.all(color: AppColors.border, width: AppSize.borderWidthSelected),
+        border: Border.all(
+          color: AppColors.border,
+          width: AppSize.borderWidthSelected,
+        ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.08),
@@ -115,7 +120,9 @@ class CustomConfirmDialog extends StatelessWidget {
             textAlign: TextAlign.center,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: context.text.titleSmall.copyWith(color: AppColors.textPrimary),
+            style: context.text.titleSmall.copyWith(
+              color: AppColors.textPrimary,
+            ),
           ),
           const SizedBox(height: AppSpacing.sm),
 
@@ -161,10 +168,14 @@ class CustomConfirmDialog extends StatelessWidget {
                     // B3: a destructive confirm always uses the vetted
                     // AppColors.danger (4.83:1 with white), never the
                     // caller's raw colour -- no call-site changes needed.
-                    backgroundColor: isDestructive ? AppColors.danger : confirmColor,
+                    backgroundColor: isDestructive
+                        ? AppColors.danger
+                        : confirmColor,
                     foregroundColor: AppColors.textOnPrimary,
                     minimumSize: const Size(0, AppSize.tapTarget),
-                    shape: RoundedRectangleBorder(borderRadius: AppRadius.mdAll),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: AppRadius.mdAll,
+                    ),
                     elevation: 0,
                   ),
                   onPressed: () {

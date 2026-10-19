@@ -200,8 +200,9 @@ class SearchFilterStrip extends StatelessWidget {
               ),
             ),
             style: OutlinedButton.styleFrom(
-              backgroundColor:
-                  isForMeActive ? const Color(0xFF2563EB) : Colors.white,
+              backgroundColor: isForMeActive
+                  ? const Color(0xFF2563EB)
+                  : Colors.white,
               side: const BorderSide(color: Color(0xFFE2E8F0)),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),

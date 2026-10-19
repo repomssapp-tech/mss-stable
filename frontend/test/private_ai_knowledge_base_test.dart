@@ -69,52 +69,55 @@ void main() {
     );
   });
 
-  test(
-    'answers questions and suggests only explicitly related schemes',
-    () async {
-      final schemes = await SchemeRepository.instance.getAllSchemes();
-      const engine = LocalSchemeUnderstandingEngine();
+  test('answers questions and suggests only explicitly related schemes', () async {
+    final schemes = await SchemeRepository.instance.getAllSchemes();
+    const engine = LocalSchemeUnderstandingEngine();
 
-      for (final edgeCase in edgeCases.entries) {
-        final result = await engine.understand(
-          SchemeUnderstandingRequest(
-            statement: edgeCase.key,
-            schemes: schemes,
-            knownFacts: const {},
-            questionsAsked: LocalSchemeUnderstandingEngine.maxFollowUpQuestions,
-          ),
-        );
-        expect(result.reply?.topic, edgeCase.value);
-        final allowed = PrivateAiKnowledgeBase.lookup(
-          edgeCase.key,
-        )!.relatedSchemeCodes.toSet();
-        // Under Decision D4, IN170 (SCH000170) is DRAFT and omitted from the bundle.
-        // As a result, topics whose sole related scheme was IN170 fall back to keyword matching.
-        if (allowed.contains('IN170')) {
-          expect(result.recommendations, isNotEmpty,
-              reason: '${edgeCase.value} should return recommendations');
-          continue;
-        }
+    for (final edgeCase in edgeCases.entries) {
+      final result = await engine.understand(
+        SchemeUnderstandingRequest(
+          statement: edgeCase.key,
+          schemes: schemes,
+          knownFacts: const {},
+          questionsAsked: LocalSchemeUnderstandingEngine.maxFollowUpQuestions,
+        ),
+      );
+      expect(result.reply?.topic, edgeCase.value);
+      final allowed = PrivateAiKnowledgeBase.lookup(
+        edgeCase.key,
+      )!.relatedSchemeCodes.toSet();
+      // IN170 (CEN2026-114) lists no recommendation target of its own in the bundle,
+      // As a result, topics whose sole related scheme was IN170 fall back to keyword matching.
+      if (allowed.contains('IN170')) {
         expect(
-          result.recommendations.every((item) {
-            final digits = item.scheme.schemeCode.replaceAll(
-              RegExp(r'[^0-9]'),
-              '',
-            );
-            return allowed.contains(item.scheme.schemeCode) ||
-                allowed.contains(item.scheme.id) ||
-                allowed.any(
-                  (code) =>
-                      item.scheme.searchKeywords.toUpperCase().contains(
-                        code.toUpperCase(),
-                      ) ||
-                      (digits.isNotEmpty && code.contains(digits)),
-                );
-          }),
-          isTrue,
-          reason: 'Unexpected scheme for ${edgeCase.value}',
+          result.recommendations,
+          isNotEmpty,
+          reason: '${edgeCase.value} should return recommendations',
         );
+        continue;
       }
-    },
-  );
+      expect(
+        result.recommendations.every((item) {
+          final digits = item.scheme.schemeCode.replaceAll(
+            RegExp(r'[^0-9]'),
+            '',
+          );
+          return allowed.contains(item.scheme.schemeCode) ||
+              allowed.contains(item.scheme.id) ||
+              // 2026 ids carry the pre-2026 codes (IN130...) the knowledge
+              // base still names schemes by.
+              item.scheme.extras.legacyCodes.any(allowed.contains) ||
+              allowed.any(
+                (code) =>
+                    item.scheme.searchKeywords.toUpperCase().contains(
+                      code.toUpperCase(),
+                    ) ||
+                    (digits.isNotEmpty && code.contains(digits)),
+              );
+        }),
+        isTrue,
+        reason: 'Unexpected scheme for ${edgeCase.value}',
+      );
+    }
+  });
 }

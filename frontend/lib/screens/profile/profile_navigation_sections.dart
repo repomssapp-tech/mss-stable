@@ -13,10 +13,7 @@ import 'profile_widgets.dart';
 class ProfileNavigationCard1 extends StatelessWidget {
   final AppProvider provider;
 
-  const ProfileNavigationCard1({
-    super.key,
-    required this.provider,
-  });
+  const ProfileNavigationCard1({super.key, required this.provider});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +40,8 @@ class ProfileNavigationCard1 extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => const LanguageSelectionScreen(isOnboarding: false),
+                builder: (_) =>
+                    const LanguageSelectionScreen(isOnboarding: false),
               ),
             );
           },
@@ -68,9 +66,9 @@ class ProfileNavigationCard2 extends StatelessWidget {
           title: context.l10n.profileSettingsTitle,
           subtitle: context.l10n.subSettings,
           onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const SettingsScreen()),
-            );
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => const SettingsScreen()));
           },
         ),
         ProfileTile(
@@ -81,9 +79,7 @@ class ProfileNavigationCard2 extends StatelessWidget {
           subtitle: context.l10n.subHelpSupport,
           onTap: () {
             Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => const HelpSupportScreen(),
-              ),
+              MaterialPageRoute(builder: (_) => const HelpSupportScreen()),
             );
           },
         ),
@@ -104,10 +100,7 @@ class ProfileNavigationCard2 extends StatelessWidget {
 class ProfileLogoutCard extends StatelessWidget {
   final AppProvider provider;
 
-  const ProfileLogoutCard({
-    super.key,
-    required this.provider,
-  });
+  const ProfileLogoutCard({super.key, required this.provider});
 
   void _handleLogout(BuildContext context) {
     CustomConfirmDialog.show(
