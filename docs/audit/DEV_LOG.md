@@ -21,3 +21,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-10-17 | praveen-ofl | #113 | unspecified | feat(api): integrate MSS REST backend client, auth PKCE flow, and pro… |
 | 2026-10-18 | Roger-Chris | #112 | unspecified | - Hindi UI localization across the app: language-aware translator + Hindi dictionary, ARB moves for hardcoded strings (en/ta/hi), Devanagari font, Home language menu, Hindi in the picker/Settings, Hindi activated in the release manifest. |
 | 2026-10-19 | Roger-Chris | #114 | unspecified | - Replace Supabase with the MSS REST backend (`https://api.msmeschemes.org`) for auth, profile, onboarding, notifications, promotions, favorites and support tickets. Old Supabase material is archived in `docs/old_supabase/`. |
+| 2026-10-19 | Roger-Chris | #115 | unspecified | fix(saarthi-agent): sort imports and apply ruff format to pass CI |
