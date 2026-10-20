@@ -188,3 +188,15 @@ and Hindi 19 -> 20; with the text index Tamil is 20/20.
   Python engine reproduces it exactly. The archived TypeScript engine was not updated.
 - `multilingual_search_parity_test` floors: en 18 -> 19, ta 20 -> 19 (one Tamil query's
   English expansions now also match descriptions).
+
+## Follow-up: fresh real-world-phrased set and weight tuning
+- `tools/search_eval_realworld.py` builds 120 queries (60 en, 30 hi, 30 ta; a third
+  with one dropped-letter typo) phrased like online scheme searches, each aimed at one
+  scheme, none a bare generic word. Web search returned scheme-guide pages but no
+  query-volume logs, so the phrasing follows those pages; the targets were labelled
+  by hand against the catalog. Split dev/test alternately.
+- Before tuning: hit@5 88% overall (en 92, hi 80, ta 90).
+- Tuned on **dev only**: Hindi/Tamil text-field weight 0.8 -> 1.2 (English text weight
+  0.5-1.2 made no real difference, kept 0.8). Held-out **test** half: 90% -> 92% overall
+  (Hindi 80 -> 87). Old 900-query set unchanged (77.6% overall).
+- Small samples (60 queries per half): treat differences of a few points as noise.

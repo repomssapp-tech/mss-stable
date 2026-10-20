@@ -429,7 +429,7 @@ class HybridSchemeSearch {
       (hiNameTokens, 1.0),
       (hiAliasTokens, 1.0),
       (hiKwTokens, 1.0),
-      (_localizedTextTokens(entry), 0.8),
+      (_localizedTextTokens(entry), 1.2),
       (_englishTextTokens(entry), 0.8),
       (
         _stringList(

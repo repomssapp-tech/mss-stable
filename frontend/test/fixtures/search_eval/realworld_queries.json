@@ -1,0 +1,1082 @@
+[
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "collateral free loan for street vendors",
+  "clean": "collateral free loan for street vendors",
+  "expected": "CEN2026-078",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "free LPG connecion for poor women",
+  "clean": "free LPG connection for poor women",
+  "expected": "CEN2026-084",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "how to apply for udyam registration certificate online",
+  "clean": "how to apply for udyam registration certificate online",
+  "expected": "CEN2026-124",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "subsidy on rooftop solar for homes free electricity",
+  "clean": "subsidy on rooftop solar for homes free electricity",
+  "expected": "CEN2026-208",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "reearch fellowship for disabled students",
+  "clean": "research fellowship for disabled students",
+  "expected": "CEN2026-265",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "free coaching for SC OBC students competitive exams",
+  "clean": "free coaching for SC OBC students competitive exams",
+  "expected": "CEN2026-266",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "savings account for girl child high interest tax benefit",
+  "clean": "savings account for girl child high interest tax benefit",
+  "expected": "CEN2026-116",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "marriage assistance for orphan girls taml nadu",
+  "clean": "marriage assistance for orphan girls tamil nadu",
+  "expected": "TN2026-005",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "widow remarriage financial help",
+  "clean": "widow remarriage financial help",
+  "expected": "TN2026-011",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "free sewing machine for poor women",
+  "clean": "free sewing machine for poor women",
+  "expected": "TN2026-032",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "free bus travel for women tail nadu",
+  "clean": "free bus travel for women tamil nadu",
+  "expected": "TN2026-053",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "monthly 1000 rupees for women heads of family",
+  "clean": "monthly 1000 rupees for women heads of family",
+  "expected": "TN2026-021",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "stamp duty refund for new industrial unit tamil nadu",
+  "clean": "stamp duty refund for new industrial unit tamil nadu",
+  "expected": "TN2026-030",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "single window approval for starting a factoy tamil nadu",
+  "clean": "single window approval for starting a factory tamil nadu",
+  "expected": "TN2026-034",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "seed grant for startup idea tamil nadu",
+  "clean": "seed grant for startup idea tamil nadu",
+  "expected": "TN2026-043",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "working women hostel accommodation",
+  "clean": "working women hostel accommodation",
+  "expected": "CEN2026-096",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "one stop centre for women facing violece",
+  "clean": "one stop centre for women facing violence",
+  "expected": "CEN2026-074",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "women helpline 181",
+  "clean": "women helpline 181",
+  "expected": "CEN2026-135",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "creche for children of working mothers",
+  "clean": "creche for children of working mothers",
+  "expected": "CEN2026-076",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "maternity cash benefit for first cild",
+  "clean": "maternity cash benefit for first child",
+  "expected": "CEN2026-082",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "pucca house for houseless rural families",
+  "clean": "pucca house for houseless rural families",
+  "expected": "CEN2026-261",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "village road connectivity programme",
+  "clean": "village road connectivity programme",
+  "expected": "CEN2026-262",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "free rtion wheat rice for poorest families",
+  "clean": "free ration wheat rice for poorest families",
+  "expected": "CEN2026-236",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "support for natural farming farmers",
+  "clean": "support for natural farming farmers",
+  "expected": "CEN2026-204",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "fishermen boat and insurance support",
+  "clean": "fishermen boat and insurance support",
+  "expected": "CEN2026-205",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "agri cliic agri business centre for agriculture graduates",
+  "clean": "agri clinic agri business centre for agriculture graduates",
+  "expected": "CEN2026-243",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "help to form a farmer producer organisation",
+  "clean": "help to form a farmer producer organisation",
+  "expected": "CEN2026-220",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "cold storage and value addition infrastructure",
+  "clean": "cold storage and value addition infrastructure",
+  "expected": "CEN2026-259",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "dary and livestock entrepreneurship support",
+  "clean": "dairy and livestock entrepreneurship support",
+  "expected": "CEN2026-218",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "textile skilling training for weavers",
+  "clean": "textile skilling training for weavers",
+  "expected": "CEN2026-216",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "ITI craftsmen training certificate",
+  "clean": "ITI craftsmen training certificate",
+  "expected": "CEN2026-229",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "internshp for youth with monthly allowance in top companies",
+  "clean": "internship for youth with monthly allowance in top companies",
+  "expected": "CEN2026-198",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "incentive for first job new employees EPFO",
+  "clean": "incentive for first job new employees EPFO",
+  "expected": "CEN2026-197",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "residential school for scheduled caste students in top schools",
+  "clean": "residential school for scheduled caste students in top schools",
+  "expected": "CEN2026-212",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "college students sill training naan mudhalvan",
+  "clean": "college students skill training naan mudhalvan",
+  "expected": "TN2026-026",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "monthly 1000 rupees to girls from government school in college",
+  "clean": "monthly 1000 rupees to girls from government school in college",
+  "expected": "TN2026-025",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "export credit insurance premium reimbursement maharashtra",
+  "clean": "export credit insurance premium reimbursement maharashtra",
+  "expected": "MAH2026-072",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "patent filing cost rebate for statups maharashtra",
+  "clean": "patent filing cost rebate for startups maharashtra",
+  "expected": "MAH2026-031",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "exit and winding up help for failed startups",
+  "clean": "exit and winding up help for failed startups",
+  "expected": "MAH2026-027",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "grant for women led startups maharashtra",
+  "clean": "grant for women led startups maharashtra",
+  "expected": "MAH2026-017",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "hackathon to solve governent problems",
+  "clean": "hackathon to solve government problems",
+  "expected": "MAH2026-012",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "power tariff subsidy one rupee per unit msme maharashtra",
+  "clean": "power tariff subsidy one rupee per unit msme maharashtra",
+  "expected": "MAH2026-049",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "provident fund reimbursement for employing workers in manufacturing",
+  "clean": "provident fund reimbursement for employing workers in manufacturing",
+  "expected": "MAH2026-050",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "reimbursement of listing expenses on SME exchane maharashtra",
+  "clean": "reimbursement of listing expenses on SME exchange maharashtra",
+  "expected": "MAH2026-053",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "technical textile parks maharashtra",
+  "clean": "technical textile parks maharashtra",
+  "expected": "MAH2026-067",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "drone and robotics policy for startups maharashtra",
+  "clean": "drone and robotics policy for startups maharashtra",
+  "expected": "MAH2026-078",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "fintech startups crpus fund",
+  "clean": "fintech startups corpus fund",
+  "expected": "MAH2026-037",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "interest subvention for exporters cheaper pre shipment credit",
+  "clean": "interest subvention for exporters cheaper pre shipment credit",
+  "expected": "CEN2026-177",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "advance authorisation duty free raw material for export production",
+  "clean": "advance authorisation duty free raw material for export production",
+  "expected": "CEN2026-222",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "credit card for micro enterpises",
+  "clean": "credit card for micro enterprises",
+  "expected": "CEN2026-188",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "first time women SC ST entrepreneurs term loan up to 2 crore",
+  "clean": "first time women SC ST entrepreneurs term loan up to 2 crore",
+  "expected": "CEN2026-189",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "work shed for khadi artisans",
+  "clean": "work shed for khadi artisans",
+  "expected": "CEN2026-163",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "pottey making unit rural assistance",
+  "clean": "pottery making unit rural assistance",
+  "expected": "CEN2026-080",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "agarbatti making unit assistance",
+  "clean": "agarbatti making unit assistance",
+  "expected": "CEN2026-223",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "beekeeping subsidy honey production",
+  "clean": "beekeeping subsidy honey production",
+  "expected": "CEN2026-009",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "chappal shoe making traning for artisans",
+  "clean": "chappal shoe making training for artisans",
+  "expected": "CEN2026-167",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "coir industry women self employment",
+  "clean": "coir industry women self employment",
+  "expected": "CEN2026-047",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "loan for buying capital equipment technology upgrade small units",
+  "clean": "loan for buying capital equipment technology upgrade small units",
+  "expected": "CEN2026-003",
+  "split": "test"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "reimbursement of lab testing fee for small exorters",
+  "clean": "reimbursement of lab testing fee for small exporters",
+  "expected": "CEN2026-157",
+  "split": "dev"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "mentoring for startups tamil nadu",
+  "clean": "mentoring for startups tamil nadu",
+  "expected": "TN2026-024",
+  "split": "test"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "रेहड़ी पटरी वालों को बिना गारंटी लोन",
+  "clean": "रेहड़ी पटरी वालों को बिना गारंटी लोन",
+  "expected": "CEN2026-078",
+  "split": "dev"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "गरीब महिलाओं को मुफ्त गैस कनेक्शन",
+  "clean": "गरीब महिलाओं को मुफ्त गैस कनेक्शन",
+  "expected": "CEN2026-084",
+  "split": "test"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "घर की छत पर सोलर लगाने पर सब्सिडी और मुफ्त बिजली",
+  "clean": "घर की छत पर सोलर लगाने पर सब्सिडी और मुफ्त बिजली",
+  "expected": "CEN2026-208",
+  "split": "dev"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "बेटी के नाम पर बचत खाता ज्यादा ब्याज",
+  "clean": "बेटी के नाम पर बचत खाता ज्यादा ब्याज",
+  "expected": "CEN2026-116",
+  "split": "test"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "पहले बच्चे के जन्म पर गर्भवती महिला को नकद सहायता",
+  "clean": "पहले बच्चे के जन्म पर गर्भवती महिला को नकद सहायता",
+  "expected": "CEN2026-082",
+  "split": "dev"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "बेघर परिवारों को गांव में पक्का मकान",
+  "clean": "बेघर परिवारों को गांव में पक्का मकान",
+  "expected": "CEN2026-261",
+  "split": "test"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "गांव को पक्की सड़क से जोड़ने की योजना",
+  "clean": "गांव को पक्की सड़क से जोड़ने की योजना",
+  "expected": "CEN2026-262",
+  "split": "dev"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "सबसे गरीब परिवारों को मुफ्त अनाज",
+  "clean": "सबसे गरीब परिवारों को मुफ्त अनाज",
+  "expected": "CEN2026-236",
+  "split": "test"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "प्राकृतिक खेती करने वाले किसानों को मदद",
+  "clean": "प्राकृतिक खेती करने वाले किसानों को मदद",
+  "expected": "CEN2026-204",
+  "split": "dev"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "मछुआरों और मछली पालकों के लिए योजना",
+  "clean": "मछुआरों और मछली पालकों के लिए योजना",
+  "expected": "CEN2026-205",
+  "split": "test"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "किसान उत्पादक संगठन बनाने के लिए सहायता",
+  "clean": "किसान उत्पादक संगठन बनाने के लिए सहायता",
+  "expected": "CEN2026-220",
+  "split": "dev"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "युवाओं के लिए बड़ी कंपनियों में इंटर्नशिप और मासिक भत्ता",
+  "clean": "युवाओं के लिए बड़ी कंपनियों में इंटर्नशिप और मासिक भत्ता",
+  "expected": "CEN2026-198",
+  "split": "test"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "पहली नौकरी पर नए कर्मचारियों के लिए प्रोत्साहन राशि",
+  "clean": "पहली नौकरी पर नए कर्मचारियों के लिए प्रोत्साहन राशि",
+  "expected": "CEN2026-197",
+  "split": "dev"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "आईटीआई प्रशिक्षण और शिल्पकार प्रमाणपत्र",
+  "clean": "आईटीआई प्रशिक्षण और शिल्पकार प्रमाणपत्र",
+  "expected": "CEN2026-229",
+  "split": "test"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "दिव्यांग विद्यार्थियों के लिए शोध फेलोशिप",
+  "clean": "दिव्यांग विद्यार्थियों के लिए शोध फेलोशिप",
+  "expected": "CEN2026-265",
+  "split": "dev"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "एससी ओबीसी छात्रों के लिए प्रतियोगी परीक्षा की मुफ्त कोचिंग",
+  "clean": "एससी ओबीसी छात्रों के लिए प्रतियोगी परीक्षा की मुफ्त कोचिंग",
+  "expected": "CEN2026-266",
+  "split": "test"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "कामकाजी महिलाओं के रहने के लिए छात्रावास",
+  "clean": "कामकाजी महिलाओं के रहने के लिए छात्रावास",
+  "expected": "CEN2026-096",
+  "split": "dev"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "हिंसा झेल रही महिलाओं के लिए एक ही जगह सहायता केंद्र",
+  "clean": "हिंसा झेल रही महिलाओं के लिए एक ही जगह सहायता केंद्र",
+  "expected": "CEN2026-074",
+  "split": "test"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "कामकाजी माताओं के बच्चों के लिए पालनाघर",
+  "clean": "कामकाजी माताओं के बच्चों के लिए पालनाघर",
+  "expected": "CEN2026-076",
+  "split": "dev"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "महिलाओं के लिए हेल्पलाइन 181",
+  "clean": "महिलाओं के लिए हेल्पलाइन 181",
+  "expected": "CEN2026-135",
+  "split": "test"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "पहली बार उद्यम शुरू करने वाली महिलाओं और अनुसूचित जाति जनजाति को ऋण",
+  "clean": "पहली बार उद्यम शुरू करने वाली महिलाओं और अनुसूचित जाति जनजाति को ऋण",
+  "expected": "CEN2026-189",
+  "split": "dev"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "सूक्ष्म उद्यमों के लिए क्रेडिट कार्ड",
+  "clean": "सूक्ष्म उद्यमों के लिए क्रेडिट कार्ड",
+  "expected": "CEN2026-188",
+  "split": "test"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "निर्यातकों को सस्ता कर्ज ब्याज में छूट",
+  "clean": "निर्यातकों को सस्ता कर्ज ब्याज में छूट",
+  "expected": "CEN2026-177",
+  "split": "dev"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "खादी कारीगरों के लिए कार्यशाला शेड",
+  "clean": "खादी कारीगरों के लिए कार्यशाला शेड",
+  "expected": "CEN2026-163",
+  "split": "test"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "मधुमक्खी पालन के लिए मदद",
+  "clean": "मधुमक्खी पालन के लिए मदद",
+  "expected": "CEN2026-009",
+  "split": "dev"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "अगरबत्ती बनाने की इकाई",
+  "clean": "अगरबत्ती बनाने की इकाई",
+  "expected": "CEN2026-223",
+  "split": "test"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "डेयरी और पशुपालन में उद्यमी बनने के लिए सहायता",
+  "clean": "डेयरी और पशुपालन में उद्यमी बनने के लिए सहायता",
+  "expected": "CEN2026-218",
+  "split": "dev"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "रेशम उद्योग के विकास की योजना",
+  "clean": "रेशम उद्योग के विकास की योजना",
+  "expected": "CEN2026-215",
+  "split": "test"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "बुनकरों और कपड़ा क्षेत्र के कारीगरों को प्रशिक्षण",
+  "clean": "बुनकरों और कपड़ा क्षेत्र के कारीगरों को प्रशिक्षण",
+  "expected": "CEN2026-216",
+  "split": "dev"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "सफाई कर्मचारियों के लिए मशीन से सीवर सफाई",
+  "clean": "सफाई कर्मचारियों के लिए मशीन से सीवर सफाई",
+  "expected": "CEN2026-214",
+  "split": "test"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "தெருவோர வியாபாரிகளுக்கு பிணையில்லா கடன்",
+  "clean": "தெருவோர வியாபாரிகளுக்கு பிணையில்லா கடன்",
+  "expected": "CEN2026-078",
+  "split": "dev"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "ஏழைப் பெண்களுக்கு இலவச எரிவாயு இணைப்பு",
+  "clean": "ஏழைப் பெண்களுக்கு இலவச எரிவாயு இணைப்பு",
+  "expected": "CEN2026-084",
+  "split": "test"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "வீட்டு மாடியில் சோலார் அமைக்க மானியம்",
+  "clean": "வீட்டு மாடியில் சோலார் அமைக்க மானியம்",
+  "expected": "CEN2026-208",
+  "split": "dev"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "பெண் குழந்தைகளுக்கான சேமிப்புத் திட்டம்",
+  "clean": "பெண் குழந்தைகளுக்கான சேமிப்புத் திட்டம்",
+  "expected": "CEN2026-116",
+  "split": "test"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "கர்ப்பிணிப் பெண்களுக்கு முதல் குழந்தைக்கு பண உதவி",
+  "clean": "கர்ப்பிணிப் பெண்களுக்கு முதல் குழந்தைக்கு பண உதவி",
+  "expected": "CEN2026-082",
+  "split": "dev"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "வீடற்ற குடும்பங்களுக்கு கிராமத்தில் வீடு கட்ட உதவி",
+  "clean": "வீடற்ற குடும்பங்களுக்கு கிராமத்தில் வீடு கட்ட உதவி",
+  "expected": "CEN2026-261",
+  "split": "test"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "கிராமங்களுக்கு சாலை இணைப்பு திட்டம்",
+  "clean": "கிராமங்களுக்கு சாலை இணைப்பு திட்டம்",
+  "expected": "CEN2026-262",
+  "split": "dev"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "ஏழைக் குடும்பங்களுக்கு இலவச உணவு தானியம்",
+  "clean": "ஏழைக் குடும்பங்களுக்கு இலவச உணவு தானியம்",
+  "expected": "CEN2026-236",
+  "split": "test"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "இயற்கை விவசாயம் செய்யும் விவசாயிகளுக்கு உதவி",
+  "clean": "இயற்கை விவசாயம் செய்யும் விவசாயிகளுக்கு உதவி",
+  "expected": "CEN2026-204",
+  "split": "dev"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "மீனவர்களுக்கு படகு மற்றும் காப்பீடு உதவி",
+  "clean": "மீனவர்களுக்கு படகு மற்றும் காப்பீடு உதவி",
+  "expected": "CEN2026-205",
+  "split": "test"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "இளைஞர்களுக்கு பெரிய நிறுவனங்களில் பயிற்சி மற்றும் மாத உதவித்தொகை",
+  "clean": "இளைஞர்களுக்கு பெரிய நிறுவனங்களில் பயிற்சி மற்றும் மாத உதவித்தொகை",
+  "expected": "CEN2026-198",
+  "split": "dev"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "மாற்றுத்திறனாளி மாணவர்களுக்கு ஆராய்ச்சி உதவித்தொகை",
+  "clean": "மாற்றுத்திறனாளி மாணவர்களுக்கு ஆராய்ச்சி உதவித்தொகை",
+  "expected": "CEN2026-265",
+  "split": "test"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "வன்முறையால் பாதிக்கப்பட்ட பெண்களுக்கு ஒரே இடத்தில் உதவி மையம்",
+  "clean": "வன்முறையால் பாதிக்கப்பட்ட பெண்களுக்கு ஒரே இடத்தில் உதவி மையம்",
+  "expected": "CEN2026-074",
+  "split": "dev"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "பணிபுரியும் தாய்மார்களின் குழந்தைகளுக்கான காப்பகம்",
+  "clean": "பணிபுரியும் தாய்மார்களின் குழந்தைகளுக்கான காப்பகம்",
+  "expected": "CEN2026-076",
+  "split": "test"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "பெண்களுக்கான உதவி எண் 181",
+  "clean": "பெண்களுக்கான உதவி எண் 181",
+  "expected": "CEN2026-135",
+  "split": "dev"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "முதல் முறை தொழில் தொடங்கும் பெண்கள் பட்டியல் சாதியினருக்கு கடன்",
+  "clean": "முதல் முறை தொழில் தொடங்கும் பெண்கள் பட்டியல் சாதியினருக்கு கடன்",
+  "expected": "CEN2026-189",
+  "split": "test"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "சிறு தொழில்களுக்கான கடன் அட்டை",
+  "clean": "சிறு தொழில்களுக்கான கடன் அட்டை",
+  "expected": "CEN2026-188",
+  "split": "dev"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "ஏற்றுமதியாளர்களுக்கு வட்டி மானியம்",
+  "clean": "ஏற்றுமதியாளர்களுக்கு வட்டி மானியம்",
+  "expected": "CEN2026-177",
+  "split": "test"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "காதி கைவினைஞர்களுக்கு பணிக்கூடம்",
+  "clean": "காதி கைவினைஞர்களுக்கு பணிக்கூடம்",
+  "expected": "CEN2026-163",
+  "split": "dev"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "தேனீ வளர்ப்புக்கு உதவி",
+  "clean": "தேனீ வளர்ப்புக்கு உதவி",
+  "expected": "CEN2026-009",
+  "split": "test"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "கால்நடை தொழில் முனைவோருக்கு உதவி",
+  "clean": "கால்நடை தொழில் முனைவோருக்கு உதவி",
+  "expected": "CEN2026-218",
+  "split": "dev"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "பட்டுப்புழு வளர்ப்பு தொழில் வளர்ச்சி",
+  "clean": "பட்டுப்புழு வளர்ப்பு தொழில் வளர்ச்சி",
+  "expected": "CEN2026-215",
+  "split": "test"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "நெசவாளர்களுக்கு ஜவுளி துறை பயிற்சி",
+  "clean": "நெசவாளர்களுக்கு ஜவுளி துறை பயிற்சி",
+  "expected": "CEN2026-216",
+  "split": "dev"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "தொழிற்சாலை தொடங்க ஒரே இடத்தில் அனுமதி",
+  "clean": "தொழிற்சாலை தொடங்க ஒரே இடத்தில் அனுமதி",
+  "expected": "TN2026-034",
+  "split": "test"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "புதிய தொழிலுக்கு முத்திரைத் தாள் கட்டணம் திரும்பப் பெறுதல்",
+  "clean": "புதிய தொழிலுக்கு முத்திரைத் தாள் கட்டணம் திரும்பப் பெறுதல்",
+  "expected": "TN2026-030",
+  "split": "dev"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "பெண்களுக்கு இலவச தையல் இயந்திரம்",
+  "clean": "பெண்களுக்கு இலவச தையல் இயந்திரம்",
+  "expected": "TN2026-032",
+  "split": "test"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "பெண்களுக்கு இலவச பேருந்து பயணம்",
+  "clean": "பெண்களுக்கு இலவச பேருந்து பயணம்",
+  "expected": "TN2026-053",
+  "split": "dev"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "குடும்பத் தலைவிகளுக்கு மாதம் ஆயிரம் ரூபாய்",
+  "clean": "குடும்பத் தலைவிகளுக்கு மாதம் ஆயிரம் ரூபாய்",
+  "expected": "TN2026-021",
+  "split": "test"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "அரசுப் பள்ளியில் படித்த மாணவிகளுக்கு கல்லூரியில் மாதம் ரூபாய் ஆயிரம்",
+  "clean": "அரசுப் பள்ளியில் படித்த மாணவிகளுக்கு கல்லூரியில் மாதம் ரூபாய் ஆயிரம்",
+  "expected": "TN2026-025",
+  "split": "dev"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "விதவை மறுமணத்திற்கு நிதி உதவி",
+  "clean": "விதவை மறுமணத்திற்கு நிதி உதவி",
+  "expected": "TN2026-011",
+  "split": "test"
+ }
+]

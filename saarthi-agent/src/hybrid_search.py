@@ -130,7 +130,7 @@ class HybridSearchEngine:
         return [
             (self._tokens_of(entry.search_profile, "en"), 1.0),
             (self._tokens_of(entry.search_profile, "ta"), 1.0),
-            (self._indic_tokens(entry), 0.8),
+            (self._indic_tokens(entry), 1.2),
             (self._english_text[entry.id], 0.8),
             (lower(sp.get("loanType")), 0.9),
             (lower(sp.get("subsidyType")), 0.9),
