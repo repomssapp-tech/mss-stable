@@ -56,7 +56,13 @@ class ProfileCanonicalizer {
     extra: {
       'Male': ['m', 'man', 'boy'],
       'Female': ['f', 'woman', 'women', 'girl'],
-      'Transgender': ['transgender', 'trans', 'திருநங்கை', 'ट्रांसजेंडर'],
+      'Transgender': [
+        'transgender',
+        'trans',
+        'திருநங்கை',
+        'மூன்றாம் பாலினத்தவர்',
+        'ट्रांसजेंडर',
+      ],
       'Other': ['others'],
     },
   );

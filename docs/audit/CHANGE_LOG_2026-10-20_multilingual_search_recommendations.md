@@ -221,3 +221,26 @@ and Hindi 19 -> 20; with the text index Tamil is 20/20.
   device and a backend with the push worker running.
 - CI: Saarthi Voice Agent CI was failing on ruff (import order, SIM905) for the earlier
   Python files; fixed and `ruff check` / `ruff format --check` pass.
+
+## Follow-up: in-app wording aligned with the catalog's own terms (Tamil / Hindi)
+Preferred forms were read off the scheme catalog (the DB translations), counting how it
+writes each term, and the app's ARB strings and translation dictionaries now match:
+- **Tamil:** women = "மகளிர்" (catalog 178x vs "பெண்கள்" 68x): "மகளிர் தொழில்முனைவோர்"
+  (women entrepreneurs), "மகளிர் தொழில்முனைவு" (the category; the dictionary had both
+  forms for it); MSME stays Latin "MSME" (catalog 282x), one stray "எம்எஸ்எம்இ" fixed;
+  "காதி" not "கதர்" (90x vs 0); "எரிசக்தி" for energy; "வேளாண்மை" for the agriculture
+  category; "Artisan & Craftsmen" no longer repeats the same word twice; "கடன் & வரவு"
+  (credit-entry sense) -> "கடன் & கடனுதவி"; transgender filter -> "மூன்றாம் பாலினத்தவர்";
+  ex-servicemen -> "முன்னாள் படைவீரர்கள்" (as in the catalog's scheme names).
+- **Hindi:** "औरत" -> "महिला"; "अलग रूप से सक्षम" -> "दिव्यांग" (and disability labels ->
+  "दिव्यांगता/दिव्यांगजन"); "बुनियादी ढाँचा/आधारभूत संरचना" -> "अवसंरचना"; "रसद" ->
+  "लॉजिस्टिक्स"; "ऋण और उधार" -> "ऋण और क्रेडिट"; ex-servicemen -> "पूर्व सैनिक";
+  dictionary "business & msme" now matches the ARB category title.
+- **States / union territories:** only a few had Tamil/Hindi names in the dictionaries, so
+  the rest showed in English in the state lists. All 36 now have official names (24 added
+  to each language); Telangana corrected to "தெலங்கானா".
+- Official proper names (MSME, Udyam, Startup India, KVIC, scheme names) are kept in their
+  official form rather than translated word by word.
+- `official_terms_test.dart` guards these choices.
+- Not changed: "ஸ்டார்ட்அப்" for startup (the catalog uses it 33x; Tamil Nadu government
+  texts also use "புத்தொழில்"); worth a native-speaker decision.

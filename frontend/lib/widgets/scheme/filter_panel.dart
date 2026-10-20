@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../providers/app_state_provider.dart';
 import '../../services/catalog/centralized_translator.dart';
+import '../../services/recommendation/profile_canonicalizer.dart';
 import '../../models/scheme_model.dart';
 import '../../models/scheme_filter.dart';
 import '../../utils/constants.dart';
@@ -127,8 +128,11 @@ class _FilterPanelState extends State<FilterPanel> {
         _beneficiaries.add('st');
       }
       if (c.contains('minorit')) _beneficiaries.add('minority');
-      final d = profile.disability.trim().toLowerCase();
-      if (d.isNotEmpty && d != 'none') _beneficiaries.add('differently_abled');
+      // The profile stores "No" / "None" for "not disabled": only a real
+      // declaration may narrow the list to differently-abled schemes.
+      if (ProfileCanonicalizer.isDifferentlyAbled(profile.disability)) {
+        _beneficiaries.add('differently_abled');
+      }
       if (profile.veteran) _beneficiaries.add('ex_servicemen');
     });
   }

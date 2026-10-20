@@ -25,7 +25,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get featured => 'சிறப்பு அம்சம்';
 
   @override
-  String get forWomenEntrepreneurs => 'பெண் தொழில்முனைவோருக்கு';
+  String get forWomenEntrepreneurs => 'மகளிர் தொழில்முனைவோருக்கு';
 
   @override
   String get exploreSpecialFundingSchemes =>
@@ -50,7 +50,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get udyamModuleDescription =>
-      'அதிகாரப்பூர்வ எம்எஸ்எம்இ பதிவு வழிகாட்டி மற்றும் நேரடி போர்டல் இணைப்பு';
+      'அதிகாரப்பூர்வ MSME பதிவு வழிகாட்டி மற்றும் நேரடி போர்டல் இணைப்பு';
 
   @override
   String get findFunding => 'நிதி கண்டறிக';
@@ -205,7 +205,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get tipOfTheDayContent =>
-      'PMEGP திட்டத்தின் கீழ் பெண் தொழில்முனைவோருக்கு கூடுதல் மானியம் கிடைக்கக்கூடும்.';
+      'PMEGP திட்டத்தின் கீழ் மகளிர் தொழில்முனைவோருக்கு கூடுதல் மானியம் கிடைக்கக்கூடும்.';
 
   @override
   String get tagNewScheme => 'புதிய திட்டம்';
@@ -404,7 +404,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get quickPillLoansQuery => 'கடன்';
 
   @override
-  String get quickPillWomenQuery => 'பெண்கள்';
+  String get quickPillWomenQuery => 'மகளிர்';
 
   @override
   String get quickPillAscendQuery => 'ASCEND';
@@ -1109,13 +1109,13 @@ class AppLocalizationsTa extends AppLocalizations {
   }
 
   @override
-  String get filterTypeLoans => 'கடன் & வரவு';
+  String get filterTypeLoans => 'கடன் & கடனுதவி';
 
   @override
   String get filterTypeSubsidies => 'மானியங்கள்';
 
   @override
-  String get filterTypeGrants => 'மானியம் & பங்கு';
+  String get filterTypeGrants => 'மானியம் & பங்கு மூலதனம்';
 
   @override
   String get filterTypeGuarantee => 'உத்தரவாதம்';
@@ -1130,7 +1130,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get filterTypeInfra => 'உள்கட்டமைப்பு';
 
   @override
-  String get filterBenWomen => 'பெண்கள்';
+  String get filterBenWomen => 'மகளிர்';
 
   @override
   String get filterBenSc => 'SC';
@@ -1142,13 +1142,13 @@ class AppLocalizationsTa extends AppLocalizations {
   String get filterBenDifferentlyAbled => 'மாற்றுத்திறனாளிகள்';
 
   @override
-  String get filterBenTransgender => 'திருநங்கை';
+  String get filterBenTransgender => 'மூன்றாம் பாலினத்தவர்';
 
   @override
   String get filterBenMinority => 'சிறுபான்மையினர்';
 
   @override
-  String get filterBenExServicemen => 'முன்னாள் ராணுவத்தினர்';
+  String get filterBenExServicemen => 'முன்னாள் படைவீரர்கள்';
 
   @override
   String get sortRelevance => 'பொருத்தம்';
@@ -2274,7 +2274,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get catLoansCreditSupport => 'கடன்கள் & கடன் உதவி';
 
   @override
-  String get catWomenEntrepreneurship => 'பெண் தொழில்முனைவோர்';
+  String get catWomenEntrepreneurship => 'மகளிர் தொழில்முனைவு';
 
   @override
   String get catFinanceBanking => 'நிதி & வங்கியியல்';
@@ -2283,7 +2283,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get catSkillDevelopment => 'திறன் மேம்பாடு';
 
   @override
-  String get catArtisanCraftsmen => 'கைவினைஞர்கள் & கைவினைஞர்கள்';
+  String get catArtisanCraftsmen => 'கைவினைஞர்கள் & கலைஞர்கள்';
 
   @override
   String get catDigitalIndiaTech => 'டிஜிட்டல் இந்தியா & தொழில்நுட்பம்';
@@ -2298,7 +2298,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get catExportTradePromotion => 'ஏற்றுமதி & வர்த்தக ஊக்குவிப்பு';
 
   @override
-  String get catAgricultureAllied => 'விவசாயம் & சார்ந்த துறைகள்';
+  String get catAgricultureAllied => 'வேளாண்மை & சார்ந்த துறைகள்';
 
   @override
   String get catRuralDevelopmentShg => 'ஊரக வளர்ச்சி & சுய உதவிக் குழுக்கள்';
@@ -2307,16 +2307,16 @@ class AppLocalizationsTa extends AppLocalizations {
   String get catTechnologyInnovation => 'தொழில்நுட்பம் & புத்தாக்கம்';
 
   @override
-  String get catKhadiVillageIndustries => 'கதர் & கிராமத் தொழில்கள்';
+  String get catKhadiVillageIndustries => 'காதி & கிராமத் தொழில்கள்';
 
   @override
   String get catScStMinority => 'SC / ST & சிறுபான்மையினர்';
 
   @override
-  String get catGreenEnergyEnvironment => 'பசுமை ஆற்றல் & சுற்றுச்சூழல்';
+  String get catGreenEnergyEnvironment => 'பசுமை எரிசக்தி & சுற்றுச்சூழல்';
 
   @override
-  String get catHealthHealthcare => 'சுகாதாரம் & நல்வாழ்வு';
+  String get catHealthHealthcare => 'சுகாதாரம் & மருத்துவ சேவை';
 
   @override
   String get catFoodProcessing => 'உணவு பதப்படுத்துதல்';
@@ -2332,7 +2332,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get catRenewableEnergyEfficiency =>
-      'புதுப்பிக்கத்தக்க ஆற்றல் & ஆற்றல் திறன்';
+      'புதுப்பிக்கத்தக்க எரிசக்தி & எரிசக்தி திறன்';
 
   @override
   String get msmeWhatTheUserGets => 'பயனர் பெறும் நன்மைகள்';
@@ -2588,7 +2588,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFeatureInstitutions4 =>
-      'KVIC (கதர் மற்றும் கிராம தொழில்கள் ஆணையம்) கிராமப்புற திட்டங்கள்';
+      'KVIC (காதி மற்றும் கிராமத் தொழில்கள் ஆணையம்) கிராமப்புற திட்டங்கள்';
 
   @override
   String get msmeFeatureInstitutions5 =>
@@ -2752,7 +2752,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get assessWomenQ1Opt2 => 'பெண் குழந்தை (பெற்றோர் விண்ணப்பிக்கின்றனர்)';
 
   @override
-  String get assessWomenQ1Opt3 => 'பெண் தொழில்முனைவோர்';
+  String get assessWomenQ1Opt3 => 'மகளிர் தொழில்முனைவோர்';
 
   @override
   String get assessWomenQ1Opt4 => 'தனித்து வாழும் பெண் / விதவை தாய்';
@@ -2993,7 +2993,7 @@ class AppLocalizationsTa extends AppLocalizations {
       'முதன்மையாளர் பெண் அல்லது SC/ST தொழில்முனைவோரா?';
 
   @override
-  String get assessBizQ4DemographicsOpt1 => 'ஆம், பெண் தொழில்முனைவோர்';
+  String get assessBizQ4DemographicsOpt1 => 'ஆம், மகளிர் தொழில்முனைவோர்';
 
   @override
   String get assessBizQ4DemographicsOpt2 => 'ஆம், SC/ST தொழில்முனைவோர்';
