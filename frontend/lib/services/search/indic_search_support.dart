@@ -39,6 +39,24 @@ List<String> indicTextTokens(
   return out.toList()..sort();
 }
 
+/// The words of a scheme's English summary / description / benefits /
+/// eligibility text. The prebuilt English index holds only a scheme's name-like
+/// tokens, so a plain-language query ("cooking gas", "sewer cleaners") could
+/// never reach a scheme whose own description says exactly that.
+List<String> englishTextTokens(
+  Object? localization,
+  List<String> Function(String text) tokenize,
+) {
+  final block = localization is Map ? localization['en'] : null;
+  if (block is! Map) return const [];
+  final out = <String>{};
+  for (final key in _kTextFields) {
+    final text = block[key];
+    if (text is String) out.addAll(tokenize(text));
+  }
+  return out.toList()..sort();
+}
+
 /// The Indic words of the search vocabulary, for matching inflected forms.
 ///
 /// Hindi and Tamil attach suffixes ("கொள்முதல்" -> "கொள்முதலுக்காக"), so a

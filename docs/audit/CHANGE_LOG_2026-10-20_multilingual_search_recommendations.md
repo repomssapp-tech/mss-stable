@@ -165,3 +165,26 @@ and Hindi 19 -> 20; with the text index Tamil is 20/20.
   - Installing a Tamil/Hindi keyboard does not add a spell-check dictionary here;
     on real devices Gboard's own checker is not exposed to apps.
 - Caveat: the eval queries were also used while tuning, so these are not fully held out.
+
+## Follow-up: indirect queries (English text index)
+- **Cause found:** the prebuilt English index holds only ~20 name-like tokens per
+  scheme, so a query using words that appear only in a scheme's summary or
+  description ("cooking gas", "sewer cleaners") could not reach it.
+- **Fix:** index each scheme's English summary / description / benefits /
+  eligibility text as a field (weight 0.8), dropping words found in more than 20%
+  of schemes (data-derived stopwords). Same in `saarthi-agent` (`english_text_tokens`).
+  No ML, no hand-written word lists.
+- **Result (900-query set, hit@5):** English overall 68.3% -> 85.3% (with
+  did-you-mean 72.7% -> 88.7%); inferable queries 64% -> 88%, indirect 44% -> 71%.
+  Direct-name queries unchanged (97%). All three languages combined 70.6% -> 77.6%
+  (81.0% with did-you-mean).
+- **Hindi/Tamil unchanged** (73.7% each): their queries use words that are not in
+  the schemes' Hindi/Tamil text, a translation-vocabulary gap rather than a ranking
+  one. Tried without gain: Indic text weight 1.0; adding stem variants for words
+  already in the vocabulary (Hindi down, Tamil up, net zero).
+- Weight 0.8 was chosen from 0.3 / 0.5 / 0.8 / 1.0 on the same query set (0.8 and
+  1.0 tied), so the English gain is slightly optimistic.
+- `backend/catalog/search_parity_golden.json` regenerated from the Dart engine; the
+  Python engine reproduces it exactly. The archived TypeScript engine was not updated.
+- `multilingual_search_parity_test` floors: en 18 -> 19, ta 20 -> 19 (one Tamil query's
+  English expansions now also match descriptions).

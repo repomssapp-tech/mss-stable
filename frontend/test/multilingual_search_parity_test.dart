@@ -143,8 +143,11 @@ void main() {
 }
 
 // Measured with the Hindi/Tamil vocabulary and Hindi/Tamil text index in
-// place (before either: en 18, hi 19, ta 14). Search is deterministic, so these
-// are exact regression floors.
-const minEnglish = 18;
+// place (before either: en 18, hi 19, ta 14), then with the English summary /
+// description text indexed (en 19; ta 20 -> 19: one Tamil query's English
+// expansions now also match descriptions, a trade accepted for the +15 point
+// gain on the 900-query set). Search is deterministic, so these are exact
+// regression floors.
+const minEnglish = 19;
 const minHindi = 20;
-const minTamil = 20;
+const minTamil = 19;

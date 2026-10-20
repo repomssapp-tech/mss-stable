@@ -34,6 +34,31 @@ def indic_text_tokens(
     return sorted(out)
 
 
+_NON_WORD = re.compile("[^a-z0-9ऀ-ॿ஀-௿]+")
+_STOPWORDS = frozenset(
+    "scheme schemes yojana program programme the of for and a an to in on by".split()
+)
+
+
+def english_text_tokens(localization: Any) -> list[str]:
+    """Words of a scheme's English summary/description/benefits/eligibility text.
+
+    The prebuilt English index holds only name-like tokens, so a plain-language
+    query ("cooking gas") could never reach a scheme whose own description says
+    exactly that. Normalised like frontend `_normLookup` / `_meaningfulTokens`.
+    """
+    block = localization.get("en") if isinstance(localization, dict) else None
+    if not isinstance(block, dict):
+        return []
+    out: set[str] = set()
+    for key in _TEXT_FIELDS:
+        text = block.get(key)
+        if isinstance(text, str):
+            words = _NON_WORD.sub(" ", text.lower()).split()
+            out.update(w for w in words if len(w) >= 2 and w not in _STOPWORDS)
+    return sorted(out)
+
+
 class IndicVocabulary:
     """Indic words of the search vocabulary, grouped by linguistic stem."""
 

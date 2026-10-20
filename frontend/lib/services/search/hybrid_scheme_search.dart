@@ -279,6 +279,38 @@ class HybridSchemeSearch {
       if (!_commonLocalizedWords.contains(t)) t,
   ];
 
+  final Map<String, List<String>> _rawEnglishTokens = {};
+
+  /// Words in more than [_kCommonWordShare] of schemes' English text ("the",
+  /// "eligible", "scheme"): data-derived stopwords for the text field.
+  late final Set<String> _commonEnglishWords = () {
+    final df = <String, int>{};
+    for (final entry in _schemeEntries) {
+      for (final t in _rawEnglishText(entry)) {
+        df[t] = (df[t] ?? 0) + 1;
+      }
+    }
+    final limit = _schemeEntries.length * _kCommonWordShare;
+    return {
+      for (final e in df.entries)
+        if (e.value > limit) e.key,
+    };
+  }();
+
+  List<String> _rawEnglishText(MssEntity entry) =>
+      _rawEnglishTokens.putIfAbsent(
+        entry.id,
+        () => englishTextTokens(
+          entry.raw['localization'],
+          (text) => _meaningfulTokens(_normLookup(text)),
+        ),
+      );
+
+  List<String> _englishTextTokens(MssEntity entry) => [
+    for (final t in _rawEnglishText(entry))
+      if (!_commonEnglishWords.contains(t)) t,
+  ];
+
   static Future<HybridSchemeSearch> build(MssCatalogBundle bundle) async {
     await SchemeSearchTaxonomy.ensureLoaded();
     return HybridSchemeSearch._(bundle, bundle.schemes, bundle.queryExpansions);
@@ -398,6 +430,7 @@ class HybridSchemeSearch {
       (hiAliasTokens, 1.0),
       (hiKwTokens, 1.0),
       (_localizedTextTokens(entry), 0.8),
+      (_englishTextTokens(entry), 0.8),
       (
         _stringList(
           searchProfile['loanType'],
@@ -540,7 +573,6 @@ class HybridSchemeSearch {
       // not literally in the vocabulary although its root is.
       if (indicScript.hasMatch(tok)) {
         if (!_vocab.contains(tok)) forms.addAll(_indicVocab.variants(tok));
-        // The English words the catalog's own text ties to this word's stem.
       }
 
       final gated = forms.where(_vocab.contains).toSet();
