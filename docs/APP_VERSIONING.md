@@ -42,6 +42,13 @@ build installable over the old one. Commit the `pubspec.yaml` change with the
 release, and tag the release commit `app-v<version>+<build>` (for example
 `app-v1.1.0+4`); the CI release check compares against the newest such tag.
 
+Release checklist: bump the version, move the **Unreleased** items in
+`CHANGELOG.md` under the new version heading, commit both together, push, then
+`git tag -a app-v<version>+<build> -m "<version>"`, `git push origin <tag>` and
+`gh release create <tag> --notes-file <notes>` (add `--prerelease` until the
+commit is on `main` and a signed build exists). Choose the bump from the changes:
+fixes only -> `patch`, new user-visible behaviour -> `minor`, breaking -> `major`.
+
 `check` fails when the build number is malformed (must be 1..2,100,000,000) or
 lower than the compared build. With `--require-increase` it also fails when it
 is equal, which is what a promotable release uses.
