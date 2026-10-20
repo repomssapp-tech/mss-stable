@@ -25,3 +25,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-10-20 | Roger-Chris | #116 | unspecified | Feat/multilingual search recommendations |
 | 2026-10-20 | Roger-Chris | #117 | unspecified | Feat/multilingual search recommendations |
 | 2026-10-20 | praveen-ofl | #118 | unspecified | feat(api): integrate push and sse notifications, password dialogs, an… |
+| 2026-10-20 | nyxri0f8 | #119 | docs | Redesigns the root README with a centred header, badges, an overview table and five Mermaid diagrams (system architecture, user journey, offline catalog sync, Saarthi voice pipeline, quality gates). Also corrects stale details: adds Hindi localization, Dart 3.11+ per `pubspec.yaml`, Push/SSE notifications, and drops the hard-coded test count. |
