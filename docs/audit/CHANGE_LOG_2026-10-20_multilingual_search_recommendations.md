@@ -200,3 +200,24 @@ and Hindi 19 -> 20; with the text index Tamil is 20/20.
   0.5-1.2 made no real difference, kept 0.8). Held-out **test** half: 90% -> 92% overall
   (Hindi 80 -> 87). Old 900-query set unchanged (77.6% overall).
 - Small samples (60 queries per half): treat differences of a few points as noise.
+
+## Follow-up: Firebase push notifications (FCM)
+- `android/app/google-services.json` (project `mss-app-sch`, package `com.inschemes.app`;
+  public client config, no server key) + Google services Gradle plugin; `firebase_core`
+  and `firebase_messaging` added. The debug APK builds and contains the config.
+- `PushNotificationService`: asks for notification permission after sign-in (a refusal
+  never blocks login or the inbox), then `PUT /v1/me/push-devices/:installation_uuid`
+  with `{"token", "platform":"android"}` using the Node bearer. Re-registers on token
+  rotation, fresh login and app resume; sign-out/account switch drop pending work and
+  re-check the account before every send. Installation UUID is a random id kept in
+  SharedPreferences. `getToken`/`onTokenRefresh` are used on purpose (the backend takes
+  an FCM registration token, not the newer Installation ID).
+- Messages: `notification_id` (UUID-validated) is de-duplicated. Foreground shows a banner
+  built from the authenticated inbox item; tapping a notification (background or cold
+  start) refreshes the inbox and opens it once the app has left the splash screen. The
+  text shown is never taken from the push payload.
+- Tests: `push_notification_service_test.dart` (9). **Not yet tested on a real phone**:
+  foreground/background/closed delivery, token rotation and account switching need a
+  device and a backend with the push worker running.
+- CI: Saarthi Voice Agent CI was failing on ruff (import order, SIM905) for the earlier
+  Python files; fixed and `ruff check` / `ruff format --check` pass.

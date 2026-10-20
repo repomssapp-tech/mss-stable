@@ -36,7 +36,23 @@ def indic_text_tokens(
 
 _NON_WORD = re.compile("[^a-z0-9ऀ-ॿ஀-௿]+")
 _STOPWORDS = frozenset(
-    "scheme schemes yojana program programme the of for and a an to in on by".split()
+    [
+        "scheme",
+        "schemes",
+        "yojana",
+        "program",
+        "programme",
+        "the",
+        "of",
+        "for",
+        "and",
+        "a",
+        "an",
+        "to",
+        "in",
+        "on",
+        "by",
+    ]
 )
 
 

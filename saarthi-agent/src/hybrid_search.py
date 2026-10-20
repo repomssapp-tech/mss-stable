@@ -18,8 +18,8 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from indic_search import (
-    english_text_tokens,
     IndicVocabulary,
+    english_text_tokens,
     indic_text_tokens,
 )
 from search_taxonomy import SchemeSearchTaxonomy
@@ -106,7 +106,9 @@ class HybridSearchEngine:
     _COMMON_WORD_SHARE = 0.20
 
     def _common_word_filtered_english_text(self) -> dict[str, list[str]]:
-        raw = {e.id: english_text_tokens(e.raw.get("localization")) for e in self.entries}
+        raw = {
+            e.id: english_text_tokens(e.raw.get("localization")) for e in self.entries
+        }
         df: dict[str, int] = {}
         for tokens in raw.values():
             for t in tokens:

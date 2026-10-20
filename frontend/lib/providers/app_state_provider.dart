@@ -30,12 +30,14 @@ import 'controllers/library_controller.dart';
 import 'controllers/navigation_mode_reconciler.dart';
 import 'controllers/notifications_controller.dart';
 import 'controllers/profile_cloud_sync.dart' as profile_cloud_sync;
+import 'controllers/push_controller.dart';
 import 'controllers/profile_completion.dart' as profile_completion;
 import 'controllers/promo_content_controller.dart';
 import 'controllers/scheme_catalog_controller.dart';
 import 'controllers/search_filter_controller.dart';
 import 'controllers/tab_navigation_controller.dart';
 import '../services/account/deep_link_service.dart';
+import '../services/notifications/push_models.dart' show PushMessagingGateway;
 import '../models/user_profile_api_dto.dart' show serverLanguages;
 import '../services/account/onboarding_api_service.dart'
     show LegalConsentStore, OnboardingApiService;
@@ -58,6 +60,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   AppProvider({
     SchemeCatalogSyncService? catalogSyncService,
     bool? startBackgroundSchedulers,
+    PushMessagingGateway? pushGateway,
   }) : _startSchedulers = startBackgroundSchedulers ?? !_runningUnderTest(),
        _catalog = SchemeCatalogController(
          catalogSyncService: catalogSyncService,
@@ -72,6 +75,13 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     DeepLinkService.instance.initialize(this);
     _loadState();
     _setupAuthListener();
+    if (pushGateway != null) {
+      _push = PushController(
+        gateway: pushGateway,
+        refreshInbox: () => _notifications.refresh(force: true),
+      );
+      unawaited(_push!.start());
+    }
     _connectivitySubscription = ConnectivityService.instance.onChanged.listen((
       online,
     ) {
@@ -102,6 +112,10 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   /// read/delete mutations, forwarded through this provider's own
   /// `notifyListeners` (frontend refactor C1.4).
   final NotificationsController _notifications = NotificationsController();
+
+  /// Push notifications (FCM registration + display); null where the platform
+  /// has no messaging SDK.
+  PushController? _push;
 
   /// Home-screen promo carousel source data (`/v1/promotions` cards + in-progress
   /// draft sessions) and its fetch throttles, forwarded through this provider's
@@ -359,6 +373,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     // The one lifecycle observer: schedulers and pollers are driven from here.
     _catalogScheduler.didChangeAppLifecycleState(state);
     _notifications.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) unawaited(_push?.onAppResumed());
     if (state == AppLifecycleState.paused) {
       unawaited(_profileSync.flush());
       unawaited(_librarySync.flush());
@@ -887,6 +902,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
   @override
   void dispose() {
+    unawaited(_push?.dispose());
     WidgetsBinding.instance.removeObserver(this);
     _tabs.removeListener(notifyListeners);
     _tabs.dispose();

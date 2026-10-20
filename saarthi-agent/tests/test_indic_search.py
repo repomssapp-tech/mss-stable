@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 import pytest
+
 from indic_search import IndicVocabulary, indic_text_tokens
 from indic_stemmer import indic_stem
 
