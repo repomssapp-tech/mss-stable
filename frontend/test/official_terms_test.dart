@@ -6,7 +6,8 @@ import 'package:flutter_test/flutter_test.dart';
 /// Keeps the in-app wording (ARB + translation dictionaries) on the terms the
 /// scheme catalog itself uses, so a scheme's own translated text and the app's
 /// labels around it read the same. The preferred forms were read off the catalog:
-/// Tamil writes MSME in Latin letters and women as "மகளிர்"; Hindi says
+/// Tamil writes women as "மகளிர்" (and MSME in the short Tamil-letter form
+/// "எம்எஸ்எம்இ", by product decision); Hindi says
 /// "दिव्यांग", "अवसंरचना" and "महिला".
 void main() {
   Map<String, dynamic> readJson(String path) =>
@@ -21,10 +22,25 @@ void main() {
   String hiTag(String key) => (hiDict['tagMap'] as Map)[key] as String;
 
   group('Tamil', () {
-    test('MSME stays MSME, as in the catalog', () {
-      expect(ta['catBusinessMsme'], contains('MSME'));
-      expect(ta['udyamModuleDescription'], contains('MSME'));
-      expect(taTag('msme'), 'MSME');
+    test('MSME is written short, in Tamil letters (எம்எஸ்எம்இ)', () {
+      expect(ta['catBusinessMsme'], contains('எம்எஸ்எம்இ'));
+      expect(ta['udyamModuleDescription'], contains('எம்எஸ்எம்இ'));
+      expect(taTag('msme'), 'எம்எஸ்எம்இ');
+    });
+
+    test('no UI string spells the word MSME in Latin letters', () {
+      // Official names (MSMED Act, CGTMSE, MSME-DI/DFO, the app name) stay.
+      final offenders = ta.entries
+          .where((e) => e.value is String)
+          .where(
+            (e) => RegExp(
+              r'(?<![A-Za-z/])MSME(?![A-Za-z]|-D)',
+            ).hasMatch(e.value as String),
+          )
+          .map((e) => e.key)
+          .where((k) => k != 'searchResultsShareHeader')
+          .toList();
+      expect(offenders, isEmpty);
     });
 
     test('women entrepreneurs use "மகளிர்"', () {
@@ -36,7 +52,7 @@ void main() {
     });
 
     test('no label uses a variant the catalog avoids', () {
-      const avoided = ['எம்எஸ்எம்இ', 'பெண் தொழில்முனைவோ', 'கதர்', 'வரவு'];
+      const avoided = ['பெண் தொழில்முனைவோ', 'கதர்', 'வரவு'];
       for (final e in ta.entries) {
         if (e.key.startsWith('@') || e.value is! String) continue;
         for (final w in avoided) {

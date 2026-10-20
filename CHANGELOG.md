@@ -11,6 +11,20 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+### Added
+- "Not applicable to you" pill: a scheme typed by exact name or acronym (e.g. PMEGP) now stays in the results, flagged with a distinct outlined pill, when "For Me" or a filter would have hidden it. The "eligible" count excludes these.
+- Guard tests: every catalog card chip is translated in Tamil and Hindi; Tamil UI strings never spell MSME in Latin letters; the bottom bar is not inflated by the status-bar padding.
+
+### Changed
+- Tamil: MSME is written short, in Tamil letters ("எம்எஸ்எம்இ"), in the UI strings and dictionary; official names (MSMED Act, CGTMSE, MSME-DI/DFO) and the app name are unchanged.
+- Tamil and Hindi: all 379 distinct scheme-card chip values (category / scheme type / sector) are translated.
+- Sharing results now copies the scheme names in the active language.
+
+### Fixed
+- Bottom navigation bar was about 50dp too tall (status-bar padding was added on top of the bar). It is now its own widget, `AppBottomNavBar`.
+- State questionnaire inserted the raw English state into Tamil sentences ("Maharashtra மாநிலத்தின்…"); it now uses the Tamil name, and the Tamil word for "resident" is corrected.
+- Card chips no longer split a bracketed list at its commas ("services)", "cooperatives)").
+
 ## [1.2.0+5] - 2026-10-20 (pre-release)
 
 ### Added

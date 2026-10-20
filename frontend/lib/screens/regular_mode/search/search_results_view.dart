@@ -89,6 +89,11 @@ class SearchResultsList extends StatelessWidget {
   final String? didYouMean;
   final ValueChanged<String>? onDidYouMeanTap;
 
+  /// Ids of results that were searched for by name but do not apply to the
+  /// user (dropped by "For Me" or a filter); they get the "not applicable"
+  /// pill and do not count as eligible matches.
+  final Set<String> notApplicableIds;
+
   const SearchResultsList({
     super.key,
     required this.searchResults,
@@ -99,6 +104,7 @@ class SearchResultsList extends StatelessWidget {
     required this.scaledFontSize,
     this.didYouMean,
     this.onDidYouMeanTap,
+    this.notApplicableIds = const {},
   });
 
   bool get _hasSuggestion => didYouMean != null && onDidYouMeanTap != null;
@@ -185,7 +191,9 @@ class SearchResultsList extends StatelessWidget {
       itemBuilder: (context, index) {
         if (index == 0) {
           final titleText = isForMe
-              ? context.l10n.eligibleSchemesForYouCount(searchResults.length)
+              ? context.l10n.eligibleSchemesForYouCount(
+                  searchResults.length - notApplicableIds.length,
+                )
               : context.l10n.matchingSchemesCount(searchResults.length);
 
           final subtitleText = isForMe
@@ -241,7 +249,8 @@ class SearchResultsList extends StatelessWidget {
           isBookmarked: provider.bookmarkedIds.contains(scheme.id),
           onBookmarkToggle: () => provider.toggleBookmark(scheme.id),
           showActions: false,
-          showMatchPercentage: isForMe,
+          showMatchPercentage: isForMe && !notApplicableIds.contains(scheme.id),
+          notApplicable: notApplicableIds.contains(scheme.id),
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(

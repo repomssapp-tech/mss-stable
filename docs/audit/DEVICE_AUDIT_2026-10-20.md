@@ -154,3 +154,16 @@ Legend: **FIXED** = changed in this branch and verified on the device or by a te
   tooling.
 - The emulator was memory-starved at times (about 1.2 GB free host RAM); the app died once
   and needed a force-stop and cold start.
+---
+
+## 5. Follow-up fixes (same day)
+
+User-reported items, reproduced on the emulator and fixed:
+
+- **PMEGP "missing" / "Did you mean" not updating (reproduced).** With the "For Me" chip on (it is separate from the Filter sheet and stays on across tabs and language changes) the eligibility gate dropped PMEGP, so the search looked broken. Fix: a typed exact name or acronym now stays in the list, last, with a distinct "Not applicable to you" pill. "Did you mean" itself worked in English, Tamil and Hindi.
+- **Footer too tall.** Root cause: `main.dart` rebuilt the bottom bar's `MediaQuery` from a context above the Scaffold, which put the status-bar padding (136px) back; `NavigationBar`'s SafeArea then added it above the icons. Fixed by extracting `AppBottomNavBar`; footer went from 149dp to 98dp (white region now starts at y=2144 instead of 2008 on 1080x2400).
+- **Tamil MSME and state names.** MSME is now the short "எம்எஸ்எம்இ"; the state questionnaire uses the Tamil state name ("நீங்கள் மகாராஷ்டிரா மாநிலத்தின் நிரந்தர குடியிருப்பாளரா?").
+- **English chips on cards.** 356 of 382 chip values were still English in Tamil and 358 in Hindi (the 2026 catalog uses free-text descriptions the dictionaries did not cover). All are translated now; a guard test fails when a catalog refresh adds untranslated chip text. The translations need a native-speaker review.
+- **Chip splitting.** Commas inside brackets no longer cut a phrase into fragments.
+
+Still open from the sweep: "GST" and official scheme acronyms (PMEGP, DDU-GKY, ESDP) stay in Latin letters in Tamil; default lists are still not state-scoped (section 1.6); onboarding still depends on the server's `LEGAL_DOCUMENT_VERSIONS` (section 1.1).

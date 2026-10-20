@@ -68,6 +68,10 @@ class SearchScreenState extends State<SearchScreen> {
   // tappable "Did you mean ...?"; null when the query needed no correction.
   String? _didYouMean;
 
+  // Results the user typed by name that "For Me" or a filter dropped; they stay
+  // in the list, last, flagged "not applicable".
+  Set<String> _notApplicableIds = {};
+
   double _scaledFontSize(double baseSize) {
     final provider = Provider.of<AppProvider>(context, listen: false);
     return provider.selectedLanguage == 'ta' ? baseSize * 0.92 : baseSize;
@@ -166,6 +170,18 @@ class SearchScreenState extends State<SearchScreen> {
       );
     }
 
+    // A scheme typed by name must not vanish because of "For Me" or a facet
+    // filter: list it last, flagged "not applicable".
+    final hiddenExact = hasTextQuery
+        ? exactMatchesHidden(
+            query: _searchController.text,
+            candidates: _masterSearchResults,
+            shown: filteredResults,
+          )
+        : <Scheme>[];
+    final notApplicableIds = {for (final s in hiddenExact) s.id};
+    filteredResults = [...filteredResults, ...hiddenExact];
+
     final bool hasActiveFilter =
         _activeFilter == 'For Me' || hasActiveSchemeFilters(provider.filters);
 
@@ -183,6 +199,7 @@ class SearchScreenState extends State<SearchScreen> {
     if (mounted) {
       setState(() {
         _searchResults = filteredResults;
+        _notApplicableIds = notApplicableIds;
         _currentState = SearchState.results;
       });
     }
@@ -583,6 +600,7 @@ class SearchScreenState extends State<SearchScreen> {
             scaledFontSize: _scaledFontSize,
             didYouMean: _didYouMean,
             onDidYouMeanTap: _applyDidYouMean,
+            notApplicableIds: _notApplicableIds,
           ),
         );
       case SearchState.idle:

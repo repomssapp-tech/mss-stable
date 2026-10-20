@@ -6352,6 +6352,12 @@ abstract class AppLocalizations {
   /// **'Try adjusting the filters, or update your profile details.'**
   String get searchNoProfileMatchesSubtitle;
 
+  /// No description provided for @schemeNotApplicable.
+  ///
+  /// In en, this message translates to:
+  /// **'Not applicable to you'**
+  String get schemeNotApplicable;
+
   /// No description provided for @searchNoFilterMatchesTitle.
   ///
   /// In en, this message translates to:

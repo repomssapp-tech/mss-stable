@@ -3390,6 +3390,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Try adjusting the filters, or update your profile details.';
 
   @override
+  String get schemeNotApplicable => 'Not applicable to you';
+
+  @override
   String get searchNoFilterMatchesTitle =>
       'No schemes found matching your filters';
 

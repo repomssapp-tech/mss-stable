@@ -1042,6 +1042,7 @@
   "searchCompleteProfileSubtitle": "अपनी जन्मतिथि, लिंग और राज्य जोड़ें ताकि \"मेरे लिए\" आपकी योजनाओं से मेल खा सके।",
   "searchNoProfileMatchesTitle": "अभी तक कोई भी योजना आपकी प्रोफ़ाइल से मेल नहीं खाती",
   "searchNoProfileMatchesSubtitle": "फ़िल्टर समायोजित करने का प्रयास करें, या अपना प्रोफ़ाइल विवरण अपडेट करें।",
+  "schemeNotApplicable": "आप पर लागू नहीं",
   "searchNoFilterMatchesTitle": "आपके फ़िल्टर से मेल खाती कोई योजना नहीं मिली",
   "searchNoFilterMatchesSubtitle": "अधिक परिणाम देखने के लिए अपने फ़िल्टर समायोजित या साफ़ करने का प्रयास करें।",
   "eligibleSchemesForYouCount": "आपके लिए योग्य योजनाएँ ({count})",

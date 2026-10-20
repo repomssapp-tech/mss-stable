@@ -87,7 +87,7 @@ void main() {
       final taLoc = await AppLocalizations.delegate.load(const Locale('ta'));
 
       expect(enLoc.calcUdyamClassifierTitle, 'Udyam MSME Classifier');
-      expect(taLoc.calcUdyamClassifierTitle, 'உத்யம் MSME வகைப்படுத்தி');
+      expect(taLoc.calcUdyamClassifierTitle, 'உத்யம் எம்எஸ்எம்இ வகைப்படுத்தி');
 
       expect(enLoc.calcGstTitle, 'GST / Tax Calculator');
       expect(taLoc.calcGstTitle, 'GST / வரி கால்குலேட்டர்');

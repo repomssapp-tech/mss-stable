@@ -24,9 +24,9 @@ import 'services/network/connectivity_service.dart';
 import 'services/catalog/centralized_translator.dart';
 import 'services/chat/chat_log_service.dart';
 import 'utils/constants.dart';
-import 'utils/app_colors.dart';
 import 'utils/app_theme.dart';
 import 'utils/app_spacing.dart';
+import 'widgets/common/app_bottom_nav_bar.dart';
 
 /// App-wide scroll behavior: Android-style clamping (no iOS rubber-band).
 /// The bounce read as "sticky and elastic" and let content be dragged well
@@ -343,98 +343,24 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
           body: IndexedStack(index: currentTabIndex, children: tabs),
           bottomNavigationBar: navigationMode == 'companion'
               ? null
-              : DecoratedBox(
-                  decoration: const BoxDecoration(
-                    border: Border(top: BorderSide(color: AppColors.border)),
-                  ),
-                  // Labels sit under 5 equal slots, so the bar follows the
-                  // system font size only up to a point; its height tracks the
-                  // (capped) scale so larger fonts get a taller bar, not
-                  // labels broken mid-word.
-                  child: MediaQuery(
-                    data: MediaQuery.of(context).copyWith(
-                      textScaler: MediaQuery.textScalerOf(context).clamp(
-                        minScaleFactor: 0.75,
-                        maxScaleFactor: _navLabelScaleCap(context, [
-                          l10n.navHome,
-                          l10n.navSearch,
-                          l10n.navDiscover,
-                          l10n.navSaved,
-                          l10n.navProfile,
-                        ]),
-                      ),
-                    ),
-                    child: Builder(
-                      builder: (navContext) => NavigationBar(
-                        height: MediaQuery.textScalerOf(
-                          navContext,
-                        ).scale(NavigationBarTheme.of(navContext).height ?? 64),
-                        selectedIndex: currentTabIndex,
-                        onDestinationSelected: (i) {
-                          if (currentTabIndex == i && i == 1) {
-                            searchTabKey.currentState?.resetToIdle();
-                          }
-                          provider.updateTabIndex(i);
-                        },
-                        destinations: [
-                          NavigationDestination(
-                            icon: const Icon(Icons.home_outlined),
-                            selectedIcon: const Icon(Icons.home_rounded),
-                            label: l10n.navHome,
-                          ),
-                          NavigationDestination(
-                            // G7: same glyph selected/unselected -- the pill
-                            // indicator carries the selected state instead.
-                            icon: const Icon(Icons.search_rounded),
-                            selectedIcon: const Icon(Icons.search_rounded),
-                            label: l10n.navSearch,
-                          ),
-                          NavigationDestination(
-                            icon: const Icon(Icons.explore_outlined),
-                            selectedIcon: const Icon(Icons.explore_rounded),
-                            label: l10n.navDiscover,
-                          ),
-                          NavigationDestination(
-                            icon: const Icon(Icons.bookmark_border_rounded),
-                            selectedIcon: const Icon(Icons.bookmark_rounded),
-                            label: l10n.navSaved,
-                          ),
-                          NavigationDestination(
-                            icon: const Icon(Icons.person_outline_rounded),
-                            selectedIcon: const Icon(Icons.person_rounded),
-                            label: l10n.navProfile,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+              : AppBottomNavBar(
+                  selectedIndex: currentTabIndex,
+                  onSelected: (i) {
+                    if (currentTabIndex == i && i == 1) {
+                      searchTabKey.currentState?.resetToIdle();
+                    }
+                    provider.updateTabIndex(i);
+                  },
+                  labels: [
+                    l10n.navHome,
+                    l10n.navSearch,
+                    l10n.navDiscover,
+                    l10n.navSaved,
+                    l10n.navProfile,
+                  ],
                 ),
         ),
       ),
     );
   }
-}
-
-/// Largest text scale at which every bottom-nav label still fits on one line in
-/// its slot. Measured from the actual labels (any language) and the screen
-/// width, so narrow phones and long translations shrink the labels slightly
-/// instead of breaking words, and roomy phones follow the system font size.
-double _navLabelScaleCap(BuildContext context, List<String> labels) {
-  final style =
-      NavigationBarTheme.of(context).labelTextStyle?.resolve(const {}) ??
-      Theme.of(context).textTheme.labelMedium ??
-      const TextStyle();
-  var widest = 0.0;
-  for (final label in labels) {
-    final painter = TextPainter(
-      text: TextSpan(text: label, style: style),
-      textDirection: Directionality.of(context),
-      maxLines: 1,
-    )..layout();
-    if (painter.width > widest) widest = painter.width;
-  }
-  if (widest == 0) return 1.15;
-  final slot = MediaQuery.sizeOf(context).width / labels.length;
-  final usable = slot - AppSpacing.sm * 2;
-  return (usable / widest).clamp(0.75, 1.15);
 }

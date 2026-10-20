@@ -58,7 +58,7 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
             tooltip: context.l10n.shareResultsTooltip,
             onPressed: () async {
               final shareText =
-                  '${context.l10n.eligResShareHeader}\n${eligibleMatches.map((e) => context.l10n.eligResShareItem(e.key.name, (e.value.score * 100).toInt())).take(5).join('\n')}';
+                  '${context.l10n.eligResShareHeader}\n${eligibleMatches.map((e) => context.l10n.eligResShareItem(e.key.getName(provider.selectedLanguage), (e.value.score * 100).toInt())).take(5).join('\n')}';
               await Clipboard.setData(ClipboardData(text: shareText));
               if (context.mounted) {
                 AppToast.showSuccess(

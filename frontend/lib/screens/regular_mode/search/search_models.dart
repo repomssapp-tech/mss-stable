@@ -44,6 +44,44 @@ List<Scheme> applyProviderFacetFilters(
   Map<String, dynamic> filters,
 ) => applySchemeFilters(input, filters);
 
+String _compact(String s) =>
+    s.toLowerCase().replaceAll(RegExp(r'[^\p{L}\p{N}]+', unicode: true), '');
+
+/// True when [query] is this scheme's name, short name or the acronym written
+/// in brackets in its name ("... (PMEGP)"); case, spaces and punctuation are
+/// ignored. Generic words and queries under three characters never match.
+bool isExactSchemeQuery(Scheme scheme, String query) {
+  final q = _compact(query);
+  if (q.length < 3) return false;
+  if (_compact(scheme.name) == q) return true;
+  if (_compact(scheme.name.replaceAll(RegExp(r'\([^()]*\)'), '')) == q) {
+    return true;
+  }
+  if (scheme.shortName.isNotEmpty && _compact(scheme.shortName) == q) {
+    return true;
+  }
+  for (final m in RegExp(r'\(([^()]{2,40})\)').allMatches(scheme.name)) {
+    if (_compact(m.group(1)!) == q) return true;
+  }
+  return false;
+}
+
+/// Exact name/acronym matches for [query] among [candidates] that [shown]
+/// lacks (dropped by "For Me" or a facet filter). The results view lists them
+/// last with a "not applicable" pill so a scheme the user typed by name never
+/// just disappears.
+List<Scheme> exactMatchesHidden({
+  required String query,
+  required List<Scheme> candidates,
+  required List<Scheme> shown,
+}) {
+  final shownIds = {for (final s in shown) s.id};
+  return [
+    for (final s in candidates)
+      if (!shownIds.contains(s.id) && isExactSchemeQuery(s, query)) s,
+  ];
+}
+
 /// Resolves the "For Me" results view from the master result set. Additive:
 /// score gate (>= RecommendationEngine.forMeThreshold) INTERSECTED with the
 /// FilterPanel facets. Returns an empty list — never the catalog — with a

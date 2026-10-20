@@ -1047,6 +1047,7 @@
   "searchCompleteProfileSubtitle": "Add your date of birth, gender and state so \"For Me\" can match schemes to you.",
   "searchNoProfileMatchesTitle": "No schemes match your profile yet",
   "searchNoProfileMatchesSubtitle": "Try adjusting the filters, or update your profile details.",
+  "schemeNotApplicable": "Not applicable to you",
   "searchNoFilterMatchesTitle": "No schemes found matching your filters",
   "searchNoFilterMatchesSubtitle": "Try adjusting or clearing your filters to see more results.",
   "eligibleSchemesForYouCount": "Eligible Schemes For You ({count})",
