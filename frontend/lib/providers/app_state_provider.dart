@@ -652,14 +652,17 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _library.reset();
     _tabs.reset();
 
-    await SessionCacheService.instance.clearSession();
-    await TokenStorage.instance.clearTokens();
-
+    // Revoke the session on the server first: POST /auth/logout needs the
+    // bearer token, so clearing local tokens before it sent an anonymous
+    // request and left the session (and its tokens) valid on the server.
     try {
       await AuthService.signOut();
     } catch (e) {
       debugPrint('[AppProvider] Error during AuthService.signOut(): $e');
     }
+
+    await SessionCacheService.instance.clearSession();
+    await TokenStorage.instance.clearTokens();
 
     _isLoggingOut = false;
     notifyListeners();

@@ -11,34 +11,10 @@ library;
 
 /// Promo-alert carousel fallback, used when `promo_alerts` returns no
 /// profile-matching rows.
+///
+/// Evergreen only: no deadlines, state-specific schemes or "updated" notices,
+/// because a fallback card cannot know they are true for this user.
 final List<Map<String, dynamic>> kDefaultPromoAlerts = [
-  {
-    'title': 'Applications Closing Soon',
-    'subtitle': 'PMEGP · 2 days left',
-    'badge_text': 'Alert',
-    'badge_text_color': '#EA580C',
-    'badge_bg_color': '#FFF7ED',
-    'target_route': 'notifications',
-    'bg_image': 'assets/images/Background/alert banner.webp',
-  },
-  {
-    'title': 'New Scheme',
-    'subtitle': 'TN Export Promotion Scheme',
-    'badge_text': 'New Scheme',
-    'badge_text_color': '#16A34A',
-    'badge_bg_color': '#DCFCE7',
-    'target_route': 'discover_results',
-    'bg_image': 'assets/images/Background/new scheme banner.webp',
-  },
-  {
-    'title': 'Important Update',
-    'subtitle': 'UDYAM registration process updated',
-    'badge_text': 'Notify',
-    'badge_text_color': '#2563EB',
-    'badge_bg_color': '#EFF6FF',
-    'target_route': 'discover_results',
-    'bg_image': 'assets/images/Background/notification banner.webp',
-  },
   {
     'title': 'For Women Entrepreneurs',
     'subtitle': 'Explore special funding schemes',

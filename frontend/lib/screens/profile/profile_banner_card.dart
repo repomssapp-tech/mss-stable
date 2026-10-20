@@ -65,93 +65,100 @@ class ProfileBannerCard extends StatelessWidget {
                   Stack(
                     alignment: Alignment.bottomRight,
                     children: [
-                      GestureDetector(
-                        onTap: () => changeProfilePicture(context, provider),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 2),
-                          ),
-                          child: CircleAvatar(
-                            radius: 38,
-                            backgroundColor: Colors.white,
-                            child: ClipOval(
-                              child: () {
-                                final photo = provider.effectiveProfilePhoto;
-                                if (photo.startsWith('http://') ||
-                                    photo.startsWith('https://')) {
-                                  return CachedNetworkImage(
-                                    imageUrl: photo,
-                                    cacheManager: avatarCacheManager,
-                                    width: 76,
-                                    height: 76,
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) => Image.asset(
-                                      'assets/images/supporting assets/user_avatar.webp',
+                      Semantics(
+                        button: true,
+                        label: context.l10n.changeProfilePhoto,
+                        child: GestureDetector(
+                          onTap: () => changeProfilePicture(context, provider),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.white, width: 2),
+                            ),
+                            child: CircleAvatar(
+                              radius: 38,
+                              backgroundColor: Colors.white,
+                              child: ClipOval(
+                                child: () {
+                                  final photo = provider.effectiveProfilePhoto;
+                                  if (photo.startsWith('http://') ||
+                                      photo.startsWith('https://')) {
+                                    return CachedNetworkImage(
+                                      imageUrl: photo,
+                                      cacheManager: avatarCacheManager,
                                       width: 76,
                                       height: 76,
                                       fit: BoxFit.cover,
-                                    ),
-                                    errorWidget: (context, url, error) =>
-                                        Image.asset(
-                                          'assets/images/supporting assets/user_avatar.webp',
-                                          width: 76,
-                                          height: 76,
-                                          fit: BoxFit.cover,
-                                        ),
-                                  );
-                                }
-                                if (photo.isNotEmpty) {
-                                  return Image.file(
-                                    File(photo),
+                                      placeholder: (context, url) => Image.asset(
+                                        'assets/images/supporting assets/user_avatar.webp',
+                                        width: 76,
+                                        height: 76,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Image.asset(
+                                            'assets/images/supporting assets/user_avatar.webp',
+                                            width: 76,
+                                            height: 76,
+                                            fit: BoxFit.cover,
+                                          ),
+                                    );
+                                  }
+                                  if (photo.isNotEmpty) {
+                                    return Image.file(
+                                      File(photo),
+                                      width: 76,
+                                      height: 76,
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (
+                                            context,
+                                            error,
+                                            stackTrace,
+                                          ) => Image.asset(
+                                            'assets/images/supporting assets/user_avatar.webp',
+                                            width: 76,
+                                            height: 76,
+                                            fit: BoxFit.cover,
+                                          ),
+                                    );
+                                  }
+                                  return Image.asset(
+                                    'assets/images/supporting assets/user_avatar.webp',
                                     width: 76,
                                     height: 76,
                                     fit: BoxFit.cover,
-                                    errorBuilder:
-                                        (
-                                          context,
-                                          error,
-                                          stackTrace,
-                                        ) => Image.asset(
-                                          'assets/images/supporting assets/user_avatar.webp',
-                                          width: 76,
-                                          height: 76,
-                                          fit: BoxFit.cover,
-                                        ),
                                   );
-                                }
-                                return Image.asset(
-                                  'assets/images/supporting assets/user_avatar.webp',
-                                  width: 76,
-                                  height: 76,
-                                  fit: BoxFit.cover,
-                                );
-                              }(),
+                                }(),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () => changeProfilePicture(context, provider),
-                        child: Container(
-                          width: 24,
-                          height: 24,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 4,
-                                offset: Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          alignment: Alignment.center,
-                          child: const Icon(
-                            Icons.camera_alt_outlined,
-                            size: 13,
-                            color: Color(0xFF64748B),
+                      // Decorative badge: the avatar above carries the label.
+                      ExcludeSemantics(
+                        child: GestureDetector(
+                          onTap: () => changeProfilePicture(context, provider),
+                          child: Container(
+                            width: 24,
+                            height: 24,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 4,
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            alignment: Alignment.center,
+                            child: const Icon(
+                              Icons.camera_alt_outlined,
+                              size: 13,
+                              color: Color(0xFF64748B),
+                            ),
                           ),
                         ),
                       ),

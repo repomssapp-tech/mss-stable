@@ -155,6 +155,59 @@ void main() {
       expect(await TokenStorage.instance.getAccessToken(), 'new_token');
     });
 
+    test('separate clients share one refresh flight (no token reuse)', () async {
+      await TokenStorage.instance.saveTokens(
+        accessToken: 'stale_token',
+        refreshToken: 'valid_refresh',
+      );
+
+      var refreshCalls = 0;
+      final mockClient = MockClient((request) async {
+        if (request.url.path == '/v1/auth/refresh') {
+          refreshCalls++;
+          final body = jsonDecode(request.body) as Map<String, dynamic>;
+          // The server revokes the whole session when a refresh token is used
+          // twice, so a second flight with the same token must never happen.
+          if (body['refresh_token'] != 'valid_refresh') {
+            return http.Response(
+              jsonEncode({'error': 'INVALID_REFRESH_TOKEN'}),
+              401,
+            );
+          }
+          return http.Response(
+            jsonEncode({
+              'access_token': 'new_token',
+              'refresh_token': 'new_refresh',
+              'expires_in': 900,
+            }),
+            200,
+          );
+        }
+        if (request.headers['Authorization'] == 'Bearer new_token') {
+          return http.Response(jsonEncode({'ok': true}), 200);
+        }
+        return http.Response(jsonEncode({'error': 'UNAUTHORIZED'}), 401);
+      });
+
+      // The app builds several clients (auth, profile, onboarding, shared).
+      final clients = [
+        for (var i = 0; i < 3; i++)
+          ApiClient(
+            baseUrl: 'https://api.msmeschemes.org/v1',
+            httpClient: mockClient,
+          ),
+      ];
+
+      final results = await Future.wait([
+        for (final c in clients) c.get('/me'),
+      ]);
+
+      expect(refreshCalls, 1, reason: 'one refresh flight across all clients');
+      expect(results.map((r) => r.statusCode), everyElement(200));
+      expect(await TokenStorage.instance.getAccessToken(), 'new_token');
+      expect(await TokenStorage.instance.getRefreshToken(), 'new_refresh');
+    });
+
     test(
       'refresh failure triggers onSessionExpired and clears tokens',
       () async {

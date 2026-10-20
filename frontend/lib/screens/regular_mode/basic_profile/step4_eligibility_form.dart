@@ -446,25 +446,29 @@ class Step4EligibilityForm extends StatelessWidget {
           width: 1.0,
         ),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Text(
-              title,
-              style: GoogleFonts.inter(
-                fontSize: 12.5,
-                fontWeight: FontWeight.w500,
-                color: kSlate800,
+      // One node for the title and its switch, so a screen reader announces
+      // which setting the switch controls.
+      child: MergeSemantics(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text(
+                title,
+                style: GoogleFonts.inter(
+                  fontSize: 12.5,
+                  fontWeight: FontWeight.w500,
+                  color: kSlate800,
+                ),
               ),
             ),
-          ),
-          Switch.adaptive(
-            value: value,
-            onChanged: onChanged,
-            activeTrackColor: kPrimaryBlue,
-          ),
-        ],
+            Switch.adaptive(
+              value: value,
+              onChanged: onChanged,
+              activeTrackColor: kPrimaryBlue,
+            ),
+          ],
+        ),
       ),
     );
   }

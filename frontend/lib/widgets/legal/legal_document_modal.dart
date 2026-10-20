@@ -378,6 +378,7 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
                 ),
                 IconButton(
                   icon: const Icon(Icons.close, color: Color(0xFF334155)),
+                  tooltip: context.l10n.close,
                   onPressed: () => Navigator.of(context).pop(),
                 ),
               ],

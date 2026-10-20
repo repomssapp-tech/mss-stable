@@ -42,8 +42,12 @@ class ApiClient {
   final TokenStorage _tokenStorage;
   final VoidCallback? onSessionExpired;
 
-  // Single-flight refresh mutex
-  Future<String?>? _inFlightRefresh;
+  // Single-flight refresh mutex. Static on purpose: the app builds several
+  // clients (auth, profile, onboarding, shared) over the same stored tokens.
+  // The server rotates the refresh token on every use and revokes the whole
+  // session if one is used twice, so concurrent 401s on different clients must
+  // share one refresh flight or the user is signed out.
+  static Future<String?>? _inFlightRefresh;
 
   ApiClient({
     String? baseUrl,
