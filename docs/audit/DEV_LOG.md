@@ -23,3 +23,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-10-19 | Roger-Chris | #114 | unspecified | - Replace Supabase with the MSS REST backend (`https://api.msmeschemes.org`) for auth, profile, onboarding, notifications, promotions, favorites and support tickets. Old Supabase material is archived in `docs/old_supabase/`. |
 | 2026-10-19 | Roger-Chris | #115 | unspecified | fix(saarthi-agent): sort imports and apply ruff format to pass CI |
 | 2026-10-20 | Roger-Chris | #116 | unspecified | Feat/multilingual search recommendations |
+| 2026-10-20 | Roger-Chris | #117 | unspecified | Feat/multilingual search recommendations |
