@@ -13,31 +13,31 @@
 
 **Offline-first** · **Multilingual** · **Explainable eligibility** · **Voice assistant (Saarthi)**
 
-[Overview](#-overview) · [Architecture](#-system-architecture) · [Features](#-key-features) · [Tech Stack](#-technology-stack) · [Getting Started](#-getting-started) · [Quality Gates](#-testing--quality-gates)
+[Overview](#overview) · [Architecture](#system-architecture) · [Features](#key-features) · [Tech Stack](#technology-stack) · [Getting Started](#getting-started) · [Quality Gates](#testing--quality-gates)
 
 </div>
 
 ---
 
-## 📌 Overview
+## Overview
 
 **MSS** is a multi-platform application that simplifies how citizens find, qualify for and apply to Central and State Government schemes. It bundles a verified catalog of **406 schemes**, evaluates eligibility **on-device** with an explainable rules engine, and offers a **voice-first companion mode** for users who are less comfortable with smartphones.
 
 | | |
 |:---|:---|
-| 🗂️ **Catalog** | 406 schemes — 274 Central, 53 Tamil Nadu, 79 Maharashtra |
-| ⚡ **Performance** | Sub-250 ms offline queries, zero network calls for search |
-| 🌐 **Localization** | English, Tamil and Hindi (Flutter ARB) |
-| 🎙️ **Voice** | Saarthi agent over WebRTC (LiveKit) with Sarvam AI STT/TTS |
-| 🔒 **Privacy** | No telemetry leakage, no DB credentials in the app, bearer-token auth only |
+| **Catalog** | 406 schemes — 274 Central, 53 Tamil Nadu, 79 Maharashtra |
+| **Performance** | Sub-250 ms offline queries, zero network calls for search |
+| **Localization** | English, Tamil and Hindi (Flutter ARB) |
+| **Voice** | Saarthi agent over WebRTC (LiveKit) with Sarvam AI STT/TTS |
+| **Privacy** | No telemetry leakage, no DB credentials in the app, bearer-token auth only |
 
 ---
 
-## 🏛️ System Architecture
+## System Architecture
 
 ```mermaid
 flowchart LR
-    subgraph Client["📱 Flutter App — Android · iOS · Web"]
+    subgraph Client["Flutter App — Android · iOS · Web"]
         UI["UI Layer<br/>Regular Mode · Companion Mode"]
         State["State<br/>Provider"]
         Engine["Offline Engine<br/>Hybrid Search · Rules Engine"]
@@ -45,13 +45,13 @@ flowchart LR
         UI <--> State <--> Engine <--> Store
     end
 
-    subgraph Backend["☁️ MSS REST API — /v1"]
+    subgraph Backend["MSS REST API — /v1"]
         Catalog["Catalog Releases<br/>GET /v1/catalog/current"]
         Auth["Auth & Profile<br/>Google OAuth + PKCE"]
         Notify["Notifications<br/>Push · SSE"]
     end
 
-    subgraph Voice["🎙️ Saarthi Voice Agent"]
+    subgraph Voice["Saarthi Voice Agent"]
         LK["LiveKit Cloud<br/>WebRTC"]
         Worker["Python Agent Worker"]
         Sarvam["Sarvam AI<br/>STT · TTS"]
@@ -78,7 +78,7 @@ MSS_App/
 
 ---
 
-## 🔄 How It Works
+## How It Works
 
 ### User journey
 
@@ -141,7 +141,7 @@ sequenceDiagram
 
 ---
 
-## 🚀 Key Features
+## Key Features
 
 <details open>
 <summary><b>1. Dual user-experience modes</b></summary>
@@ -196,7 +196,7 @@ Built-in calculators: Udyam Classifier · Subsidy Estimator · GST · EMI · DPI
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Layer | Technologies |
 |:---|:---|
@@ -207,7 +207,7 @@ Built-in calculators: Udyam Classifier · Subsidy Estimator · GST · EMI · DPI
 
 ---
 
-## 💻 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -250,7 +250,7 @@ uv run python src/main.py dev # start worker (needs a LiveKit server)
 
 ---
 
-## 🧪 Testing & Quality Gates
+## Testing & Quality Gates
 
 ```mermaid
 flowchart LR
@@ -272,7 +272,7 @@ flowchart LR
 
 ---
 
-## 📚 Documentation
+## Documentation
 
 | Document | Description |
 |:---|:---|
@@ -284,12 +284,12 @@ flowchart LR
 
 ---
 
-## 📄 License & Compliance
+## License & Compliance
 
 All government scheme data bundled in this repository is sourced from verified official Central and State government portals (PIB, Ministry of MSME, Startup India and the Government of Tamil Nadu). Content is intended for public awareness and entrepreneurship enablement.
 
 <div align="center">
 
-<sub>Built for India's entrepreneurs 🇮🇳</sub>
+<sub>Built for India's entrepreneurs</sub>
 
 </div>
