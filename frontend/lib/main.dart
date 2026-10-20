@@ -297,7 +297,7 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
               onSearchBarTap: () {
                 provider.updateTabIndex(1);
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  searchTabKey.currentState?.focusSearchField();
+                  searchTabKey.currentState?.focusFreshSearch();
                 });
               },
             ),

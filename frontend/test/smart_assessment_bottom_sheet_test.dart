@@ -123,7 +123,11 @@ void main() {
       // Skip to results
       await tapOption(tester, 'Skip to Results');
       expect(completed, isTrue);
-      expect(provider.filters['state'], 'Tamil Nadu');
+      expect(
+        provider.filters['state'],
+        isNull,
+        reason: 'the card is the browse page base set, not a second facet',
+      );
     });
 
     testWidgets('renders ministry flow correctly', (tester) async {
@@ -154,7 +158,11 @@ void main() {
 
       await tapOption(tester, 'Skip to Results');
       expect(completed, isTrue);
-      expect(provider.filters['ministry'], 'Ministry of Agriculture');
+      expect(
+        provider.filters['ministry'],
+        isNull,
+        reason: 'the card is the browse page base set, not a second facet',
+      );
     });
 
     testWidgets('seeds answer from user profile and sets filters', (
@@ -186,7 +194,11 @@ void main() {
       // Skip directly to results
       await tapOption(tester, 'Skip to Results');
       expect(completed, isTrue);
-      expect(provider.filters['state'], 'Tamil Nadu');
+      expect(
+        provider.filters['state'],
+        isNull,
+        reason: 'the card is the browse page base set, not a second facet',
+      );
     });
 
     testWidgets('close icon button dismisses sheet without completion', (

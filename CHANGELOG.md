@@ -11,6 +11,21 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [1.3.0+7] - 2026-10-21
+
+### Changed
+- Browse pages (Discover category / ministry / state cards, home tiles, the eligible list) are now the Search screen itself, opened on that card's schemes: the same header, search box, Filter / For Me / Sort strip, cards, empty states and "not applicable" pill. There is no second results interface any more.
+- Pressing the Home search bar opens a fresh search page (no old results, no leftover filters); results appear only once a query is run.
+- A pushed browse page starts with no filters from other screens, and leaves none behind.
+
+### Fixed
+- "Business & MSME" showed 83 schemes after the questionnaire while its card said 309: the questionnaire added the card's own category / ministry / state as a second, differently-worded filter. The card is now the base set and only the answers (offer types, beneficiaries) narrow it.
+- Six short category titles (Startup, Finance, Artisan, Digital India, Women Entrepreneurs, Student Startups) showed in English in Tamil and Hindi.
+- "Clear Filters & Explore Schemes" is available from every empty results page.
+
+### Added
+- Catalog-wide tests: every filter (offer type, beneficiary, nationwide, state, and combinations) returns exactly the schemes it describes for all schemes; card counts equal list sizes; every browse title and filter label is translated in Tamil and Hindi.
+
 ## [1.2.1+6] - 2026-10-20
 
 ### Added

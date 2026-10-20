@@ -1,17 +1,22 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../services/recommendation/recommendation_engine.dart';
 import '../../l10n/l10n.dart';
 import '../../models/scheme_model.dart';
 import '../../providers/app_state_provider.dart';
+import '../../services/catalog/centralized_translator.dart';
 import '../../services/catalog/scheme_repository.dart';
 import '../../services/voice/voice_recognition_controller.dart';
+import '../../utils/app_colors.dart';
 import '../../utils/app_spacing.dart';
 import '../../widgets/assistant/voice_assistant_overlay.dart';
 import '../../widgets/common/app_toast.dart';
+import '../../widgets/common/standard_page_header.dart';
 import '../../widgets/scheme/filter_panel.dart';
 import 'scheme_details_screen.dart';
+import 'search/browse_scope.dart';
 import 'search/search_filter_strip.dart';
 import 'search/search_idle_content.dart';
 import 'search/search_input_section.dart';
@@ -29,7 +34,29 @@ export 'search/search_results_view.dart';
 export 'search/shimmer_skeleton_card.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  const SearchScreen({
+    super.key,
+    this.scope,
+    this.initialQuery,
+    this.showBack = false,
+    this.keepFilters = false,
+  });
+
+  /// Opens the screen as a browse page on this base set (Discover category,
+  /// ministry, state, home tile, eligible list). Null for the Search tab.
+  final BrowseScope? scope;
+
+  /// Opens the screen as a results page for this already-chosen query.
+  final String? initialQuery;
+
+  /// A pushed page (browse / results) rather than the Search tab: shows a back
+  /// button and the page title instead of the tab header.
+  final bool showBack;
+
+  /// Keep the global filters the caller just set (the browse questionnaire's
+  /// answers). Otherwise a pushed page starts clean, so a filter left over from
+  /// another screen cannot silently narrow it.
+  final bool keepFilters;
 
   @override
   SearchScreenState createState() => SearchScreenState();
@@ -71,6 +98,11 @@ class SearchScreenState extends State<SearchScreen> {
   // Results the user typed by name that "For Me" or a filter dropped; they stay
   // in the list, last, flagged "not applicable".
   Set<String> _notApplicableIds = {};
+
+  // The base set when this is a browse page (see [BrowseScope]); null on the
+  // Search tab, and once the user types a query (a search leaves the browse).
+  BrowseScope? _scope;
+  AppProvider? _provider;
 
   double _scaledFontSize(double baseSize) {
     final provider = Provider.of<AppProvider>(context, listen: false);
@@ -115,7 +147,8 @@ class SearchScreenState extends State<SearchScreen> {
     // Only fall back to the whole catalog for a filter-only / browse view.
     // A text query that matched nothing must stay empty so the results view
     // can show its "no scheme found" state -- not silently list every scheme.
-    if (_masterSearchResults.isEmpty && !hasTextQuery) {
+    // A browse page with an empty base set stays empty (never the catalog).
+    if (_masterSearchResults.isEmpty && !hasTextQuery && _scope == null) {
       final catalog = provider.allSchemes.isNotEmpty
           ? provider.allSchemes
           : await SchemeRepository.instance.getAllSchemes();
@@ -185,7 +218,9 @@ class SearchScreenState extends State<SearchScreen> {
     final bool hasActiveFilter =
         _activeFilter == 'For Me' || hasActiveSchemeFilters(provider.filters);
 
-    if (_searchController.text.trim().isEmpty && !hasActiveFilter) {
+    if (_searchController.text.trim().isEmpty &&
+        !hasActiveFilter &&
+        _scope == null) {
       if (mounted) {
         setState(() {
           _searchResults = [];
@@ -208,7 +243,22 @@ class SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
+    _scope = widget.scope;
     _searchController.addListener(_onSearchTextChanged);
+    if (widget.showBack) {
+      final provider = Provider.of<AppProvider>(context, listen: false);
+      _provider = provider;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        if (!widget.keepFilters) provider.clearFilters();
+        final query = widget.initialQuery?.trim() ?? '';
+        if (_scope != null) {
+          _loadScope();
+        } else if (query.isNotEmpty) {
+          submitVoiceQuery(query);
+        }
+      });
+    }
   }
 
   @override
@@ -306,6 +356,17 @@ class SearchScreenState extends State<SearchScreen> {
 
   @override
   void dispose() {
+    if (widget.showBack) {
+      // A pushed page must not leave its filters behind for the Search tab.
+      final provider = _provider;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        try {
+          provider?.clearFilters();
+        } on FlutterError {
+          // The provider was disposed with the whole tree (app teardown).
+        }
+      });
+    }
     _searchDebounce?.cancel();
     _dictationController.dispose();
     _searchController.removeListener(_onSearchTextChanged);
@@ -338,6 +399,74 @@ class SearchScreenState extends State<SearchScreen> {
   void focusSearchField() {
     if (!mounted) return;
     FocusScope.of(context).requestFocus(_searchFocusNode);
+  }
+
+  /// The Home search bar: start a new search. It must never reopen the last
+  /// results (or a filter left from another screen) -- results appear only
+  /// once a query is actually run.
+  void focusFreshSearch() {
+    if (!mounted) return;
+    Provider.of<AppProvider>(context, listen: false).clearFilters();
+    resetToIdle();
+    if (_searchController.text.isNotEmpty) _searchController.clear();
+    focusSearchField();
+  }
+
+  Future<List<Scheme>> _fetchScope(BrowseScope scope) {
+    final repo = SchemeRepository.instance;
+    switch (scope.type?.toLowerCase()) {
+      case 'ministry':
+        return repo.getSchemesByMinistry(scope.title);
+      case 'state':
+        return repo.getSchemesByState(scope.title);
+      case 'category':
+        return repo.getSchemesByCategory(scope.title);
+      default:
+        return repo.getAllSchemes();
+    }
+  }
+
+  /// Loads a browse page's base set and shows it through the normal
+  /// filter / For Me / sort pipeline.
+  Future<void> _loadScope() async {
+    final scope = _scope;
+    if (scope == null) return;
+    setState(() {
+      _currentState = SearchState.loading;
+      _didYouMean = null;
+    });
+    final base = scope.schemes ?? await _fetchScope(scope);
+    if (!mounted || !identical(_scope, scope)) return;
+    _masterSearchResults = List<Scheme>.from(base);
+    await _applyFiltersAndSort();
+  }
+
+  void _clearFiltersAndReload() {
+    Provider.of<AppProvider>(context, listen: false).clearFilters();
+    setState(() {
+      _activeFilter = 'All';
+      _sortBy = 'Relevance';
+    });
+    _applyFiltersAndSort();
+  }
+
+  Future<void> _shareResults(String title) async {
+    final lang = Provider.of<AppProvider>(
+      context,
+      listen: false,
+    ).selectedLanguage;
+    final names = _searchResults
+        .take(5)
+        .map((s) => '• ${s.getName(lang)}')
+        .join('\n');
+    await Clipboard.setData(
+      ClipboardData(
+        text: '${context.l10n.searchResultsShareHeader(title)}\n$names',
+      ),
+    );
+    if (mounted) {
+      AppToast.showSuccess(context, context.l10n.resultsCopiedToClipboard);
+    }
   }
 
   Future<void> openVoiceAssistant() async {
@@ -402,7 +531,9 @@ class SearchScreenState extends State<SearchScreen> {
     _searchDebounce?.cancel();
     _searchDebounce = Timer(const Duration(milliseconds: 300), () {
       if (!mounted) return;
-      if (_searchController.text.isEmpty && _currentState != SearchState.idle) {
+      if (_searchController.text.isEmpty &&
+          _currentState != SearchState.idle &&
+          _scope == null) {
         final provider = Provider.of<AppProvider>(context, listen: false);
         final bool hasActiveFilter =
             _activeFilter == 'For Me' ||
@@ -421,6 +552,14 @@ class SearchScreenState extends State<SearchScreen> {
   }
 
   void _triggerSearch(String query) async {
+    if (_scope != null) {
+      if (query.trim().isEmpty) {
+        _applyFiltersAndSort();
+        return;
+      }
+      // A typed query is a catalog search, not a browse: leave the base set.
+      setState(() => _scope = null);
+    }
     final provider0 = Provider.of<AppProvider>(context, listen: false);
     if (query.isEmpty &&
         _activeFilter == 'All' &&
@@ -601,6 +740,10 @@ class SearchScreenState extends State<SearchScreen> {
             didYouMean: _didYouMean,
             onDidYouMeanTap: _applyDidYouMean,
             notApplicableIds: _notApplicableIds,
+            onClearFilters:
+                (_scope != null || hasActiveSchemeFilters(provider.filters))
+                ? _clearFiltersAndReload
+                : null,
           ),
         );
       case SearchState.idle:
@@ -629,9 +772,32 @@ class SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
     final categories = _getCategories(context);
+    final pageTitle = CentralizedTranslator.instance.localize(
+      widget.scope?.title ?? widget.initialQuery ?? '',
+    );
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
+      appBar: widget.showBack
+          ? StandardPageHeader(
+              title: pageTitle,
+              subtitle: _currentState == SearchState.results
+                  ? context.l10n.schemesAvailableCount(_searchResults.length)
+                  : null,
+              actions: [
+                IconButton(
+                  tooltip: context.l10n.shareResultsTooltip,
+                  icon: const Icon(
+                    Icons.share_outlined,
+                    size: 20,
+                    color: AppColors.primary,
+                  ),
+                  onPressed: () => _shareResults(pageTitle),
+                ),
+                const SizedBox(width: AppSpacing.sm),
+              ],
+            )
+          : null,
       body: SafeArea(
         child: Column(
           children: [
@@ -647,8 +813,10 @@ class SearchScreenState extends State<SearchScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SearchHeaderBar(),
-                    const SizedBox(height: AppSpacing.lg),
+                    if (!widget.showBack) ...[
+                      const SearchHeaderBar(),
+                      const SizedBox(height: AppSpacing.lg),
+                    ],
                     SearchInputField(
                       controller: _searchController,
                       focusNode: _searchFocusNode,
@@ -658,6 +826,16 @@ class SearchScreenState extends State<SearchScreen> {
                           _triggerSearch(_searchController.text),
                       onClear: () {
                         _searchController.clear();
+                        if (widget.scope != null) {
+                          // Back to the browse page the user came from.
+                          setState(() {
+                            _scope = widget.scope;
+                            _sortBy = 'Relevance';
+                            _activeFilter = 'All';
+                          });
+                          _loadScope();
+                          return;
+                        }
                         setState(() {
                           _sortBy = 'Relevance';
                           _activeFilter = "All";

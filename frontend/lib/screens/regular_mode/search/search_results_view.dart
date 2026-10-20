@@ -94,6 +94,10 @@ class SearchResultsList extends StatelessWidget {
   /// pill and do not count as eligible matches.
   final Set<String> notApplicableIds;
 
+  /// Shown in the empty state as "Clear Filters & Explore Schemes" when the
+  /// page has filters or a browse scope to step back from; null hides it.
+  final VoidCallback? onClearFilters;
+
   const SearchResultsList({
     super.key,
     required this.searchResults,
@@ -105,6 +109,7 @@ class SearchResultsList extends StatelessWidget {
     this.didYouMean,
     this.onDidYouMeanTap,
     this.notApplicableIds = const {},
+    this.onClearFilters,
   });
 
   bool get _hasSuggestion => didYouMean != null && onDidYouMeanTap != null;
@@ -174,6 +179,26 @@ class SearchResultsList extends StatelessWidget {
                   DidYouMeanSuggestion(
                     suggestion: didYouMean!,
                     onTap: onDidYouMeanTap!,
+                  ),
+                ],
+                if (onClearFilters != null) ...[
+                  const SizedBox(height: AppSpacing.lg),
+                  OutlinedButton.icon(
+                    onPressed: onClearFilters,
+                    icon: const Icon(
+                      Icons.refresh_rounded,
+                      size: AppSpacing.lg,
+                      color: AppColors.primary,
+                    ),
+                    label: Text(
+                      context.l10n.clearFiltersAndExplore,
+                      style: context.text.label.copyWith(
+                        color: AppColors.primary,
+                      ),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: AppColors.primaryBorder),
+                    ),
                   ),
                 ],
               ],
