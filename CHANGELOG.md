@@ -11,6 +11,8 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [1.2.1+6] - 2026-10-20
+
 ### Added
 - "Not applicable to you" pill: a scheme typed by exact name or acronym (e.g. PMEGP) now stays in the results, flagged with a distinct outlined pill, when "For Me" or a filter would have hidden it. The "eligible" count excludes these.
 - Guard tests: every catalog card chip is translated in Tamil and Hindi; Tamil UI strings never spell MSME in Latin letters; the bottom bar is not inflated by the status-bar padding.
