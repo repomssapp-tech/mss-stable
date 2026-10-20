@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="docs/assets/mss-banner.png" alt="MSS — MSME Schemes Search: every government scheme you qualify for, in one app, in your language, even offline" width="100%" />
+
 # MSS — MSME Schemes Search
 
 ### AI-powered discovery of Indian Government schemes for entrepreneurs, MSMEs, women and students
@@ -9,7 +11,7 @@
 ![Python](https://img.shields.io/badge/Python-3.12+-3776AB?logo=python&logoColor=white)
 ![LiveKit](https://img.shields.io/badge/Voice-LiveKit%20%2B%20Sarvam%20AI-FF6B35)
 ![Platforms](https://img.shields.io/badge/Platforms-Android%20%7C%20iOS%20%7C%20Web-4CAF50)
-![Languages](https://img.shields.io/badge/Languages-English%20%7C%20Tamil%20%7C%20Hindi-9C27B0)
+![Languages](https://img.shields.io/badge/Languages-English%20%7C%20Tamil%20%7C%20Hindi%20%7C%20Marathi-9C27B0)
 
 **Offline-first** · **Multilingual** · **Explainable eligibility** · **Voice assistant (Saarthi)**
 
