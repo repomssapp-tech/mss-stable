@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../utils/spell_check.dart';
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
 
@@ -78,6 +79,10 @@ class SearchInputField extends StatelessWidget {
         controller: controller,
         focusNode: focusNode,
         textInputAction: TextInputAction.search,
+        // The platform's own spell checker, where there is one (Android /
+        // iOS): underlines a misspelt word and offers corrections in the
+        // app's language, where the device has that dictionary.
+        spellCheckConfiguration: platformSpellCheck(),
         onSubmitted: onSubmitted,
         style: GoogleFonts.inter(
           fontSize: scaledFontSize(13),

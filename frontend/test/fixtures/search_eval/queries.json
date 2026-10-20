@@ -1,0 +1,7202 @@
+[
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "TRACE – Trade Regulations, Accreditation &",
+  "expected": "CEN2026-183",
+  "clean": "TRACE – Trade Regulations, Accreditation &"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "PM Steet Vendor's AtmaNirbgar Nidhi (PM",
+  "expected": "CEN2026-078",
+  "clean": "PM Street Vendor's AtmaNirbhar Nidhi (PM"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Self Reliant India (SRI) Fund",
+  "expected": "CEN2026-102",
+  "clean": "Self Reliant India (SRI) Fund"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Naan Mudhalvan",
+  "expected": "TN2026-026",
+  "clean": "Naan Mudhalvan"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Electronics Hardware Technlogy Pafk (EHTP) Scheme",
+  "expected": "CEN2026-256",
+  "clean": "Electronics Hardware Technology Park (EHTP) Scheme"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Market Devleopment Asistance of MSMEs (MDA)",
+  "expected": "CEN2026-149",
+  "clean": "Market Development Assistance of MSMEs (MDA)"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Special Policy for Women Entrepreneurs 2017",
+  "expected": "MAH2026-077",
+  "clean": "Special Policy for Women Entrepreneurs 2017"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Maharashtra Venture Fund (deep tech and",
+  "expected": "MAH2026-019",
+  "clean": "Maharashtra Venture Fund (deep tech and"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Entrepreneurship cum Skill Development Progfamme (ES-DP)",
+  "expected": "CEN2026-141",
+  "clean": "Entrepreneurship cum Skill Development Programme (E-SDP)"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Fud of Funds (inveatment in Daughter",
+  "expected": "MAH2026-020",
+  "clean": "Fund of Funds (investment in Daughter"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Market Promotion and Development Assistance (MPDA)",
+  "expected": "CEN2026-053",
+  "clean": "Market Promotion and Development Assistance (MPDA)"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Unemployed Youth Employment Generation Programme (UYEGP)",
+  "expected": "TN2026-051",
+  "clean": "Unemployed Youth Employment Generation Programme (UYEGP)"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Women Entreprreneurship Wing",
+  "expected": "MAH2026-015",
+  "clean": "Women Entrepreneurship Wing"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Skill India Programme (restructured: PMKVY 4.0,",
+  "expected": "CEN2026-199",
+  "clean": "Skill India Programme (restructured: PMKVY 4.0,"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "MIISP 2025 - Electricity Duy Exwmption",
+  "expected": "MAH2026-048",
+  "clean": "MIISP 2025 - Electricity Duty Exemption"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Single Window Clearance System for MSMEs",
+  "expected": "TN2026-034",
+  "clean": "Single Window Clearance System for MSMEs"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Namo Drone Didi",
+  "expected": "CEN2026-031",
+  "clean": "Namo Drone Didi"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Dr. Muthulakshmi Resdy Ninaivu Inter-Caset Marriage",
+  "expected": "TN2026-012",
+  "clean": "Dr. Muthulakshmi Reddy Ninaivu Inter-Caste Marriage"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Scheme for Residential Education for Students",
+  "expected": "CEN2026-212",
+  "clean": "Scheme for Residential Education for Students"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Support to Trainnig and Employyment Programme",
+  "expected": "CEN2026-117",
+  "clean": "Support to Training and Employment Programme"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Udyam Registration",
+  "expected": "CEN2026-124",
+  "clean": "Udyam Registration"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Clrporate Grand Challenge / CSR Grad",
+  "expected": "MAH2026-011",
+  "clean": "Corporate Grand Challenge / CSR Grand"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Capaity Building of Frst Time MSE",
+  "expected": "CEN2026-150",
+  "clean": "Capacity Building of First Time MSE"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "2nd Loan for Upgradation of existing",
+  "expected": "CEN2026-139",
+  "clean": "2nd Loan for Upgradation of existing"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Promotion of Energy Audit & Conservation",
+  "expected": "TN2026-029",
+  "clean": "Promotion of Energy Audit & Conservation"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Viksit Bharaat - Guarantee for Rozgaar",
+  "expected": "CEN2026-260",
+  "clean": "Viksit Bharat - Guarantee for Rozgar"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Seed Money Scheme (Disrict Inndustries Centres)",
+  "expected": "MAH2026-069",
+  "clean": "Seed Money Scheme (District Industries Centres)"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "MIIdP 2205 - Service-Sector Employment-Linked (EPF)",
+  "expected": "MAH2026-056",
+  "clean": "MIISP 2025 - Service-Sector Employment-Linked (EPF)"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Low Tension Power Tariff (LTP) Subsiddy",
+  "expected": "TN2026-022",
+  "clean": "Low Tension Power Tariff (LTPT) Subsidy"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Smal Business Innovation Reseaech Initiative (SBIRI)",
+  "expected": "CEN2026-110",
+  "clean": "Small Business Innovation Research Initiative (SBIRI)"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Maharashtra Fintech Policy 2018 incentives",
+  "expected": "MAH2026-038",
+  "clean": "Maharashtra Fintech Policy 2018 incentives"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "MIISP 2025 - Additional Incentives for",
+  "expected": "MAH2026-058",
+  "clean": "MIISP 2025 - Additional Incentives for"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Pqckaging developmeny, Bar Coding, QR code,",
+  "expected": "CEN2026-075",
+  "clean": "Packaging development, Bar Coding, QR code,"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Management Development Programme (MDP)",
+  "expected": "CEN2026-143",
+  "clean": "Management Development Programme (MDP)"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Technology Incubation and Development of Entrepreneurs",
+  "expected": "CEN2026-252",
+  "clean": "Technology Incubation and Development of Entrepreneurs"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "MISP 20225 - Capital Subsidy for",
+  "expected": "MAH2026-045",
+  "clean": "MIISP 2025 - Capital Subsidy for"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Guarahtee Scheemes for MSEs",
+  "expected": "CEN2026-038",
+  "clean": "Guarantee Schemes for MSEs"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Maharashtra Unmanned Systems Policy 2026 (drones,",
+  "expected": "MAH2026-078",
+  "clean": "Maharashtra Unmanned Systems Policy 2026 (drones,"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "New Entrepreneur cum Enterprise Development Scheme",
+  "expected": "TN2026-028",
+  "clean": "New Entrepreneur cum Enterprise Development Scheme"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Development of Commercial Horticulture through Production",
+  "expected": "CEN2026-246",
+  "clean": "Development of Commercial Horticulture through Production"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Sathiyavanimuhu Ammaiyar Ninaivu Fee Supply of",
+  "expected": "TN2026-032",
+  "clean": "Sathiyavanimuthu Ammaiyar Ninaivu Free Supply of"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Quuality Testing and Certification Suupport for",
+  "expected": "MAH2026-022",
+  "clean": "Quality Testing and Certification Support for"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Vidiyal Payanam Thittam (Free Bus Travel)",
+  "expected": "TN2026-053",
+  "clean": "Vidiyal Payanam Thittam (Free Bus Travel)"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Fintech Corpus Fund",
+  "expected": "MAH2026-037",
+  "clean": "Fintech Corpus Fund"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Maharashtar Innovarion City (MIC)",
+  "expected": "MAH2026-028",
+  "clean": "Maharashtra Innovation City (MIC)"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Chief Minister Employment Generation Programme (CMEGP)",
+  "expected": "MAH2026-068",
+  "clean": "Chief Minister Employment Generation Programme (CMEGP)"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Maharashtra State Social Venture Fund",
+  "expected": "MAH2026-041",
+  "clean": "Maharashtra State Social Venture Fund"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Subsidised Access to HPC, Cloud AI",
+  "expected": "MAH2026-006",
+  "clean": "Subsidised Access to HPC, Cloud AI"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Timley Workihg Capital Assistance to Revitalise",
+  "expected": "CEN2026-120",
+  "clean": "Timely Working Capital Assistance to Revitalise"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Capittal Subsidy",
+  "expected": "TN2026-008",
+  "clean": "Capital Subsidy"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Kalaignar Magaalir Urimai Thogai Tihttam",
+  "expected": "TN2026-021",
+  "clean": "Kalaignar Magalir Urimai Thogai Thittam"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "PM Electric Drive Revolution in Innovative",
+  "expected": "CEN2026-209",
+  "clean": "PM Electric Drive Revolution in Innovative"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Punyashlok Ahilyadevi Holkkar Women Staartup Scheme",
+  "expected": "MAH2026-034",
+  "clean": "Punyashlok Ahilyadevi Holkar Women Startup Scheme"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Khadi Vikas Yojana",
+  "expected": "CEN2026-045",
+  "clean": "Khadi Vikas Yojana"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Renewable Energy Research and Technology Development",
+  "expected": "CEN2026-231",
+  "clean": "Renewable Energy Research and Technology Development"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "MISIP 2025 - Employment-Linked EPF Reimbbursement",
+  "expected": "MAH2026-050",
+  "clean": "MIISP 2025 - Employment-Linked EPF Reimbursement"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Particilation in Internagional fairs",
+  "expected": "CEN2026-077",
+  "clean": "Participation in International fairs"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Maharshtra Startup Week (direct government woork",
+  "expected": "MAH2026-024",
+  "clean": "Maharashtra Startup Week (direct government work"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Incubation Support for Incubation Centres (incl.",
+  "expected": "MAH2026-003",
+  "clean": "Incubation Support for Incubation Centres (incl."
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "TEM Scheme for ONDC Onboatding",
+  "expected": "TN2026-049",
+  "clean": "TEAM Scheme for ONDC Onboarding"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "MIIISP 2025 - Service-Sector Electricity Dutty",
+  "expected": "MAH2026-055",
+  "clean": "MIISP 2025 - Service-Sector Electricity Duty"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Formation and Promotion of 10,000 Farmer",
+  "expected": "CEN2026-220",
+  "clean": "Formation and Promotion of 10,000 Farmer"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Regional Innovatino & Entrepreneurship Husb",
+  "expected": "MAH2026-005",
+  "clean": "Regional Innovation & Entrepreneurship Hubs"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Deendayal Antyodaya Yoana - National Rual",
+  "expected": "CEN2026-027",
+  "clean": "Deendayal Antyodaya Yojana - National Rural"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Tamil Nadu Women-led Startup Industrial Plot",
+  "expected": "TN2026-045",
+  "clean": "Tamil Nadu Women-led Startup Industrial Plot"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Exhibition Supprt for Sgartups",
+  "expected": "MAH2026-023",
+  "clean": "Exhibition Support for Startups"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Cradle Baby Sccheme",
+  "expected": "TN2026-010",
+  "clean": "Cradle Baby Scheme"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Mahila Police Volunteers (MPV)",
+  "expected": "CEN2026-049",
+  "clean": "Mahila Police Volunteers (MPV)"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Intellecttual Property Rights (IPR) Suppot for",
+  "expected": "MAH2026-021",
+  "clean": "Intellectual Property Rights (IPR) Support for"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Annai Therasa Ninaivu Marriage Assistance Scheme",
+  "expected": "TN2026-005",
+  "clean": "Annai Therasa Ninaivu Marriage Assistance Scheme"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Technical Textile Parks (six) under Textile",
+  "expected": "MAH2026-067",
+  "clean": "Technical Textile Parks (six) under Textile"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Incentives to entrepreneurs for shifting of",
+  "expected": "TN2026-018",
+  "clean": "Incentives to entrepreneurs for shifting of"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Vazhndhu Kaattuvom Project (VKP) / Tamil",
+  "expected": "TN2026-052",
+  "clean": "Vazhndhu Kaattuvom Project (VKP) / Tamil"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Patent Filing Rebate under Maharashtra State",
+  "expected": "MAH2026-031",
+  "clean": "Patent Filing Rebate under Maharashtra State"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Inffrastructure Subsody for privately developed industrial",
+  "expected": "TN2026-019",
+  "clean": "Infrastructure Subsidy for privately developed industrial"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Interest Subsidy Eligibility Certificate Scheme (ISEC)",
+  "expected": "CEN2026-162",
+  "clean": "Interest Subsidy Eligibility Certificate Scheme (ISEC)"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Public Procurement Rellaxations for Startups (20018",
+  "expected": "MAH2026-039",
+  "clean": "Public Procurement Relaxations for Startups (2018"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Fund of Funds for Startups (FFS)",
+  "expected": "CEN2026-036",
+  "clean": "Fund of Funds for Startups (FFS)"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Tamil Puthalvan Schmee",
+  "expected": "TN2026-046",
+  "clean": "Tamil Puthalvan Scheme"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Tamil Nadu Startup Seed Grant Fund",
+  "expected": "TN2026-043",
+  "clean": "Tamil Nadu Startup Seed Grant Fund"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Additional Capital Subsidy for Micro Manufacturing",
+  "expected": "TN2026-001",
+  "clean": "Additional Capital Subsidy for Micro Manufacturing"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "MIISP 2205 - Spcial Category Incentive",
+  "expected": "MAH2026-059",
+  "clean": "MIISP 2025 - Special Category Incentive"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Textile Policy 223-28 - Solar Pwoer",
+  "expected": "MAH2026-063",
+  "clean": "Textile Policy 2023-28 - Solar Power"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Expotr Orieented Infrastructure Grants (Export Oriented",
+  "expected": "MAH2026-076",
+  "clean": "Export Oriented Infrastructure Grants (Export Oriented"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Ministry of MSME Entrepreneurship and Skill",
+  "expected": "CEN2026-057",
+  "clean": "Ministry of MSME Entrepreneurship and Skill"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Recognition of Tourism Servkce Providres (Travel",
+  "expected": "CEN2026-269",
+  "clean": "Recognition of Tourism Service Providers (Travel"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Reimbursement of Stamp duty and Registration",
+  "expected": "TN2026-030",
+  "clean": "Reimbursement of Stamp duty and Registration"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Skill traiing and Employmment Scheme",
+  "expected": "TN2026-035",
+  "clean": "Skill training and Employment Scheme"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Tamil Nadu Startup and Innovation Mission",
+  "expected": "TN2026-042",
+  "clean": "Tamil Nadu Startup and Innovation Mission"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Textile Policy 2023-228 - Marketimg and",
+  "expected": "MAH2026-066",
+  "clean": "Textile Policy 2023-28 - Marketing and"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Subsidy for Fund Raising from SME",
+  "expected": "TN2026-038",
+  "clean": "Subsidy for Fund Raising from SME"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Additional Capital Subsidy for promotion of",
+  "expected": "TN2026-002",
+  "clean": "Additional Capital Subsidy for promotion of"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Special Financial Assistance (Grant) for Women",
+  "expected": "MAH2026-017",
+  "clean": "Special Financial Assistance (Grant) for Women"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Exprot Promotion Asssistance for Small Enterprises",
+  "expected": "MAH2026-075",
+  "clean": "Export Promotion Assistance for Small Enterprises"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Modified Marekt Development Assistance (MMfA)",
+  "expected": "CEN2026-161",
+  "clean": "Modified Market Development Assistance (MMDA)"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "ECGC Export Credit Insurance Premium Reimbursement",
+  "expected": "MAH2026-072",
+  "clean": "ECGC Export Credit Insurance Premium Reimbursement"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Sakhi Niwas (Worrking Women Hosteels)",
+  "expected": "CEN2026-096",
+  "clean": "Sakhi Niwas (Working Women Hostels)"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Doemstic Maeket Promotion Scheme",
+  "expected": "CEN2026-030",
+  "clean": "Domestic Market Promotion Scheme"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": false,
+  "query": "Textile Policy 2023-28 - Power Tariff",
+  "expected": "MAH2026-064",
+  "clean": "Textile Policy 2023-28 - Power Tariff"
+ },
+ {
+  "lang": "en",
+  "level": 1,
+  "typo": true,
+  "query": "Aerosace and Defence Manufacturing Corriors (MIISP",
+  "expected": "MAH2026-079",
+  "clean": "Aerospace and Defence Manufacturing Corridors (MIISP"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "scehme to empower tribal womne",
+  "expected": "CEN2026-273",
+  "clean": "scheme to empower tribal women"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "award recognising women engineers and researchers",
+  "expected": "CEN2026-127",
+  "clean": "award recognising women engineers and researchers"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "freight cot support for small exporters moving goods to pors",
+  "expected": "CEN2026-184",
+  "clean": "freight cost support for small exporters moving goods to ports"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "help for MSE associations to attend international traade fairs and buyer meets",
+  "expected": "CEN2026-054",
+  "clean": "help for MSME associations to attend international trade fairs and buyer meets"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "KVIC proyramme for village industries developmet",
+  "expected": "CEN2026-044",
+  "clean": "KVIC programme for village industries development"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "savings account for a girl chid's futue",
+  "expected": "CEN2026-116",
+  "clean": "savings account for a girl child's future"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "awareness campaigns for traditional Ayush medicine",
+  "expected": "CEN2026-234",
+  "clean": "awareness campaigns for traditional Ayush medicine"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "money for building or upgrading cold storage units",
+  "expected": "CEN2026-247",
+  "clean": "money for building or upgrading cold storage units"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "vilalge industry programme for agrob-ased and food products",
+  "expected": "CEN2026-170",
+  "clean": "village industry programme for agro-based and food products"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "coir research results taken to field testing and services",
+  "expected": "CEN2026-100",
+  "clean": "coir research results taken to field testing and services"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "lean, design and zero defect support to make MSMEs competitive",
+  "expected": "CEN2026-060",
+  "clean": "lean, design and zero defect support to make MSMEs competitive"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "support for MSME delegations and overseas buyer-seller meets",
+  "expected": "CEN2026-041",
+  "clean": "support for MSME delegations and overseas buyer-seller meets"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "huge fund to boost private sector research in new strategic fields",
+  "expected": "CEN2026-191",
+  "clean": "huge fund to boost private sector research in new strategic fields"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "one-week advanced programme at IITs and IIMs for business owners",
+  "expected": "CEN2026-142",
+  "clean": "one-week advanced programme at IITs and IIMs for business owners"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "capacity building workshops under ASCEND",
+  "expected": "CEN2026-224",
+  "clean": "capacity building workshops under ASCEND"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "DST proframme for woemn in science, Widushi",
+  "expected": "CEN2026-126",
+  "clean": "DST programme for women in science, Widushi"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "ITI courses to prlduce skilled craftsmne",
+  "expected": "CEN2026-229",
+  "clean": "ITI courses to produce skilled craftsmen"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "refinance support for women-led small businesses",
+  "expected": "CEN2026-052",
+  "clean": "refinance support for women-led small businesses"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "central funds given to the national cooperative development body",
+  "expected": "CEN2026-242",
+  "clean": "central funds given to the national cooperative development body"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "grant for women scientists to travel for research",
+  "expected": "CEN2026-104",
+  "clean": "grant for women scientists to travel for research"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "getting a milk booht or a fruuit and vegetable shop allotted",
+  "expected": "CEN2026-237",
+  "clean": "getting a milk booth or a fruit and vegetable shop allotted"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "SC/ST uits enrolling with NSIC for government purcchases",
+  "expected": "CEN2026-154",
+  "clean": "SC/ST units enrolling with NSIC for government purchases"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "lower interest cost on rupee export credit",
+  "expected": "CEN2026-040",
+  "clean": "lower interest cost on rupee export credit"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "risk cover for small firms selling to new risky overseas markets",
+  "expected": "CEN2026-181",
+  "clean": "risk cover for small firms selling to new risky overseas markets"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "money wiyhout collateral for buying machinery by smaall firms",
+  "expected": "CEN2026-174",
+  "clean": "money without collateral for buying machinery by small firms"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "NSIC groups small units together to bid for government tenders",
+  "expected": "CEN2026-022",
+  "clean": "NSIC groups small units together to bid for government tenders"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "cover for banks lending to micro and small units in case of default",
+  "expected": "CEN2026-023",
+  "clean": "cover for banks lending to micro and small units in case of default"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "non-financial help for exporters on quality, logistics and market access",
+  "expected": "CEN2026-182",
+  "clean": "non-financial help for exporters on quality, logistics and market access"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "spice sellers sgaring a pavilion at domestoc trade fairs",
+  "expected": "CEN2026-029",
+  "clean": "spice sellers sharing a pavilion at domestic trade fairs"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "umbrella proogramme for coir production, skilsl and marketing",
+  "expected": "CEN2026-019",
+  "clean": "umbrella programme for coir production, skills and marketing"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "short programme that teaches people to starrt their own enterorise",
+  "expected": "CEN2026-033",
+  "clean": "short programme that teaches people to start their own enterprise"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "marketing support for SC/ST owners to join exhibitions",
+  "expected": "CEN2026-153",
+  "clean": "marketing support for SC/ST owners to join exhibitions"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "making coties safer for women with better police afcess",
+  "expected": "CEN2026-073",
+  "clean": "making cities safer for women with better police access"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "approval and classifiication for stand-alone resturants by the tourism ministry",
+  "expected": "CEN2026-272",
+  "clean": "approval and classification for stand-alone restaurants by the tourism ministry"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "coir skill upgrading and a women-focused coir programme",
+  "expected": "CEN2026-021",
+  "clean": "coir skill upgrading and a women-focused coir programme"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "placcement-linked skillig for textile workers",
+  "expected": "CEN2026-216",
+  "clean": "placement-linked skilling for textile workers"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "leadership training for minority women",
+  "expected": "CEN2026-068",
+  "clean": "leadership training for minority women"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "ffee raation grains for the poorest families",
+  "expected": "CEN2026-236",
+  "clean": "free ration grains for the poorest families"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "codl chain and vaue addition infrastructure for produce",
+  "expected": "CEN2026-259",
+  "clean": "cold chain and value addition infrastructure for produce"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "solsr pumps and power plants for farming houesholds",
+  "expected": "CEN2026-207",
+  "clean": "solar pumps and power plants for farming households"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "SIDBI finance for big machinery investments by small and medium firms",
+  "expected": "CEN2026-003",
+  "clean": "SIDBI finance for big machinery investments by small and medium firms"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "refuhd of the bank's processing chsrge on finance taken by SC/ST owners",
+  "expected": "CEN2026-155",
+  "clean": "refund of the bank's processing charge on finance taken by SC/ST owners"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "tipper truck coal transpotr work for widows and disabled ex-swrvicemen",
+  "expected": "CEN2026-240",
+  "clean": "tipper truck coal transport work for widows and disabled ex-servicemen"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "toll-free number 181 for women in trouble",
+  "expected": "CEN2026-135",
+  "clean": "toll-free number 181 for women in trouble"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "support to SC/ST businesses with procurement and mrket acces",
+  "expected": "CEN2026-071",
+  "clean": "support to SC/ST businesses with procurement and market access"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "studies and publicity for minority welfare schemes",
+  "expected": "CEN2026-232",
+  "clean": "studies and publicity for minority welfare schemes"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "grownig fruits and fowers commercially with post-harvest handling",
+  "expected": "CEN2026-245",
+  "clean": "growing fruits and flowers commercially with post-harvest handling"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "common facility centres for clusters of small units",
+  "expected": "CEN2026-055",
+  "clean": "common facility centres for clusters of small units"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "incentives for milk and meat plants, animal feed units and breeding farms",
+  "expected": "CEN2026-219",
+  "clean": "incentives for milk and meat plants, animal feed units and breeding farms"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "biotehc research career suplort for women scientists",
+  "expected": "CEN2026-011",
+  "clean": "biotech research career support for women scientists"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "money to build work-sheds with tiolets for village weavvers",
+  "expected": "CEN2026-163",
+  "clean": "money to build work-sheds with toilets for village weavers"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "cmoplain wen buyers delay paying small suppliers",
+  "expected": "CEN2026-056",
+  "clean": "complain when buyers delay paying small suppliers"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "integrated mission for wmoen's safty and empowerment",
+  "expected": "CEN2026-059",
+  "clean": "integrated mission for women's safety and empowerment"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "technology development programme for women under the sicence departmeht",
+  "expected": "CEN2026-118",
+  "clean": "technology development programme for women under the science department"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "import raw material duty-free to make goods for sale abroad",
+  "expected": "CEN2026-222",
+  "clean": "import raw material duty-free to make goods for sale abroad"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "help buying quick food-testing kits for spice sellers abroad",
+  "expected": "CEN2026-001",
+  "clean": "help buying quick food-testing kits for spice sellers abroad"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "bringing traditional industry workers into groups with common facilities",
+  "expected": "CEN2026-095",
+  "clean": "bringing traditional industry workers into groups with common facilities"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "promotig Idnian spice brands in foreign markets",
+  "expected": "CEN2026-089",
+  "clean": "promoting Indian spice brands in foreign markets"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "science career suppot programme for women, SCPOE",
+  "expected": "CEN2026-133",
+  "clean": "science career support programme for women, SCOPE"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "women learnign intellectual property careesr",
+  "expected": "CEN2026-129",
+  "clean": "women learning intellectual property careers"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "government pays part of the apprentice pay to employers who take them",
+  "expected": "CEN2026-228",
+  "clean": "government pays part of the apprentice pay to employers who take them"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "SIDBI support for risijg export-oriented smmall companies",
+  "expected": "CEN2026-106",
+  "clean": "SIDBI support for rising export-oriented small companies"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "enrol small units with NSIC for government buying",
+  "expected": "CEN2026-226",
+  "clean": "enrol small units with NSIC for government buying"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "coaal loading and transport wok for retired soldiers",
+  "expected": "CEN2026-239",
+  "clean": "coal loading and transport work for retired soldiers"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "doorstep low-cost vocational courses through local centres",
+  "expected": "CEN2026-201",
+  "clean": "doorstep low-cost vocational courses through local centres"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "women's mediation forum at village council level to settle petty disputes",
+  "expected": "CEN2026-069",
+  "clean": "women's mediation forum at village council level to settle petty disputes"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "toolling facilities and traned staff for small manufacturers",
+  "expected": "CEN2026-121",
+  "clean": "tooling facilities and trained staff for small manufacturers"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "seed money for early-stage new companeis to buipd prototypes",
+  "expected": "CEN2026-114",
+  "clean": "seed money for early-stage new companies to build prototypes"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "retired officers running CNG stations in the Delhi region",
+  "expected": "CEN2026-241",
+  "clean": "retired officers running CNG stations in the Delhi region"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "research help for spice sellers on new products",
+  "expected": "CEN2026-088",
+  "clean": "research help for spice sellers on new products"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "small moey leding to poor women's groups",
+  "expected": "CEN2026-092",
+  "clean": "small money lending to poor women's groups"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "centre of excellence for new petrochemical products",
+  "expected": "CEN2026-249",
+  "clean": "centre of excellence for new petrochemical products"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "village service trades like electricians, plumbers and tea stalls",
+  "expected": "CEN2026-171",
+  "clean": "village service trades like electricians, plumbers and tea stalls"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "national honour for outstanding small business owners",
+  "expected": "CEN2026-225",
+  "clean": "national honour for outstanding small business owners"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "financing fzcility for farm-gate storage and processimg infrastructure",
+  "expected": "CEN2026-206",
+  "clean": "financing facility for farm-gate storage and processing infrastructure"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "support for institutions that teach entrepreneurship and skills",
+  "expected": "CEN2026-004",
+  "clean": "support for institutions that teach entrepreneurship and skills"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "apprenticeship learming for yung people in trades",
+  "expected": "CEN2026-233",
+  "clean": "apprenticeship learning for young people in trades"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "support to attend buyer-seller meets and delegations",
+  "expected": "CEN2026-187",
+  "clean": "support to attend buyer-seller meets and delegations"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "incubation help to turn new ideas ino vizble ventures",
+  "expected": "CEN2026-064",
+  "clean": "incubation help to turn new ideas into viable ventures"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "LPG dealership for deefence perosnnel applicants",
+  "expected": "CEN2026-238",
+  "clean": "LPG dealership for defence personnel applicants"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "cheaper interest on pre- and post-shipment finance for small exporters",
+  "expected": "CEN2026-177",
+  "clean": "cheaper interest on pre- and post-shipment finance for small exporters"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "economic ekpowerment of women throguh bank links and capacity support",
+  "expected": "CEN2026-122",
+  "clean": "economic empowerment of women through bank links and capacity support"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "equipment financing product from SIDBI",
+  "expected": "CEN2026-111",
+  "clean": "equipment financing product from SIDBI"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "mission to promote chemical-free natural farming",
+  "expected": "CEN2026-204",
+  "clean": "mission to promote chemical-free natural farming"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "new fund of fudns to bring venture money into ylung companies",
+  "expected": "CEN2026-190",
+  "clean": "new fund of funds to bring venture money into young companies"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "mega twxtile and apparel parkks",
+  "expected": "CEN2026-217",
+  "clean": "mega textile and apparel parks"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "incubation centres under the national inovation mission for new companes",
+  "expected": "CEN2026-005",
+  "clean": "incubation centres under the national innovation mission for new companies"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "proogramme to raisse MSME performance, credit access and technology",
+  "expected": "CEN2026-091",
+  "clean": "programme to raise MSME performance, credit access and technology"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "innoation labs in scholos for kids to tinker",
+  "expected": "CEN2026-007",
+  "clean": "innovation labs in schools for kids to tinker"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "banks must lend a shhare to prioriy sectors",
+  "expected": "CEN2026-086",
+  "clean": "banks must lend a share to priority sectors"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "on-the-job apprenticeship for AI, robotics and green energy",
+  "expected": "CEN2026-200",
+  "clean": "on-the-job apprenticeship for AI, robotics and green energy"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "digital empowerment component for small firms",
+  "expected": "CEN2026-173",
+  "clean": "digital empowerment component for small firms"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "validating a university protogype with an industry partndr",
+  "expected": "CEN2026-264",
+  "clean": "validating a university prototype with an industry partner"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": true,
+  "query": "bank lending decisiions using sale-stax data and bank statements",
+  "expected": "CEN2026-192",
+  "clean": "bank lending decisions using sales-tax data and bank statements"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "renovating KVIC sales outlets",
+  "expected": "CEN2026-165",
+  "clean": "renovating KVIC sales outlets"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "helping self-help group women earn at least one lakh a year",
+  "expected": "CEN2026-046",
+  "clean": "helping self-help group women earn at least one lakh a year"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "soft loan and quasi equity for small firms under Make in India",
+  "expected": "CEN2026-107",
+  "clean": "soft loan and quasi equity for small firms under Make in India"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "day-care creche for children aged six months to six years",
+  "expected": "CEN2026-076",
+  "clean": "day-care creche for children aged six months to six years"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "cyber security awareness and education",
+  "expected": "CEN2026-257",
+  "clean": "cyber security awareness and education"
+ },
+ {
+  "lang": "en",
+  "level": 2,
+  "typo": false,
+  "query": "platform to discount invoices of small firms with big buyers",
+  "expected": "CEN2026-193",
+  "clean": "platform to discount invoices of small firms with big buyers"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "my family still cooks on wood fires and we can't afford a gas connection",
+  "expected": "CEN2026-084",
+  "clean": "my family still cooks on wood fires and we can't afford a gas connection"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "what policy bacs factories under Mske in India",
+  "expected": "CEN2026-196",
+  "clean": "what policy backs factories under Make in India"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "where can my wife and her group sell homemae produccts online",
+  "expected": "CEN2026-048",
+  "clean": "where can my wife and her group sell homemade products online"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "trial villages need roadw, houses and electricity all at once",
+  "expected": "CEN2026-210",
+  "clean": "tribal villages need roads, houses and electricity all at once"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "lab tests for my product cost too much, is thhere a refund for people from reserved comunities",
+  "expected": "CEN2026-157",
+  "clean": "lab tests for my product cost too much, is there a refund for people from reserved communities"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "money for a pregnant mother so she can rest and eat well after childbirth",
+  "expected": "CEN2026-082",
+  "clean": "money for a pregnant mother so she can rest and eat well after childbirth"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "my small fish-selling business wants to become formal and be protected",
+  "expected": "CEN2026-205",
+  "clean": "my small fish-selling business wants to become formal and be protected"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "buying costly machinery from abroad with a promise to sell abroad later",
+  "expected": "CEN2026-034",
+  "clean": "buying costly machinery from abroad with a promise to sell abroad later"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "I want frree electricity from my own rlof",
+  "expected": "CEN2026-208",
+  "clean": "I want free electricity from my own roof"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "poor family's kid wants to prepare for competitive exams but can't afford coaching",
+  "expected": "CEN2026-266",
+  "clean": "poor family's kid wants to prepare for competitive exams but can't afford coaching"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "to sell spices overseas I must hold a certificate, can the fee be returned",
+  "expected": "CEN2026-094",
+  "clean": "to sell spices overseas I must hold a certificate, can the fee be returned"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "our lab has a promising biotech idea and nedds money to pilot it and attrract backers",
+  "expected": "CEN2026-015",
+  "clean": "our lab has a promising biotech idea and needs money to pilot it and attract backers"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "I sell on online marketplaaces abroad and nred guaranteed funding",
+  "expected": "CEN2026-180",
+  "clean": "I sell on online marketplaces abroad and need guaranteed funding"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "support for electronics and IT hardware makers",
+  "expected": "CEN2026-109",
+  "clean": "support for electronics and IT hardware makers"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "my hamlet has no all-weather road",
+  "expected": "CEN2026-262",
+  "clean": "my hamlet has no all-weather road"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "rural youth want a job placement after learning a trade",
+  "expected": "CEN2026-026",
+  "clean": "rural youth want a job placement after learning a trade"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "paying for my trpi to meet buyesr overseas",
+  "expected": "CEN2026-043",
+  "clean": "paying for my trip to meet buyers overseas"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "equty money to groow a mid-sized firm into a future champion",
+  "expected": "CEN2026-195",
+  "clean": "equity money to grow a mid-sized firm into a future champion"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "a woman facing violence needs shelter, a counsellor and police help in one place",
+  "expected": "CEN2026-074",
+  "clean": "a woman facing violence needs shelter, a counsellor and police help in one place"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "tech startup in a smaller city wants mentoring and acceleration",
+  "expected": "CEN2026-194",
+  "clean": "tech startup in a smaller city wants mentoring and acceleration"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "my factory wants a quality and eco-friendly certificate",
+  "expected": "CEN2026-067",
+  "clean": "my factory wants a quality and eco-friendly certificate"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "quaality assurance and certificatin for food safety",
+  "expected": "CEN2026-039",
+  "clean": "quality assurance and certification for food safety"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "I want to turn my overseas buyers' penidng bills into cawh quickly",
+  "expected": "CEN2026-179",
+  "clean": "I want to turn my overseas buyers' pending bills into cash quickly"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "I attended a management course as an SC entrepreneur, can the fee be reimbursed",
+  "expected": "CEN2026-160",
+  "clean": "I attended a management course as an SC entrepreneur, can the fee be reimbursed"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "ubran por looking for groups, shelter and livelihood skills",
+  "expected": "CEN2026-028",
+  "clean": "urban poor looking for groups, shelter and livelihood skills"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "successor of the urban livelihood mission started in 2024 in 25 cities",
+  "expected": "CEN2026-221",
+  "clean": "successor of the urban livelihood mission started in 2024 in 25 cities"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "how to improve the status of daughters and fix the declining sex ratio",
+  "expected": "CEN2026-010",
+  "clean": "how to improve the status of daughters and fix the declining sex ratio"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "my new venture's bank lender wants cover against default",
+  "expected": "CEN2026-024",
+  "clean": "my new venture's bank lender wants cover against default"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "ratnig a holidday ownership resort",
+  "expected": "CEN2026-267",
+  "clean": "rating a holiday ownership resort"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "making toys and furniture from scrap wood in a village",
+  "expected": "CEN2026-168",
+  "clean": "making toys and furniture from scrap wood in a village"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "I nded to powt product samples to overseas buyers",
+  "expected": "CEN2026-103",
+  "clean": "I need to post product samples to overseas buyers"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "post-doc fellowship for a woman researcher",
+  "expected": "CEN2026-131",
+  "clean": "post-doc fellowship for a woman researcher"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "hundred low-yield districts programme combining many farm schemes",
+  "expected": "CEN2026-202",
+  "clean": "hundred low-yield districts programme combining many farm schemes"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "teach my workshop to cut waste using lean methods",
+  "expected": "CEN2026-061",
+  "clean": "teach my workshop to cut waste using lean methods"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "villaeg potters need better whrels and kilns",
+  "expected": "CEN2026-080",
+  "clean": "village potters need better wheels and kilns"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "shared testig labs and engineering faiclities for machinery makers",
+  "expected": "CEN2026-230",
+  "clean": "shared testing labs and engineering facilities for machinery makers"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "I run a tihy shop and need a smmall sum without pledging anything",
+  "expected": "CEN2026-083",
+  "clean": "I run a tiny shop and need a small sum without pledging anything"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "I want to keep bees for honey in my village",
+  "expected": "CEN2026-009",
+  "clean": "I want to keep bees for honey in my village"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "a platforrm for a woman starting a small firm to get gudiance",
+  "expected": "CEN2026-125",
+  "clean": "a platform for a woman starting a small firm to get guidance"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "progarmme for teenage girls' nuyrition and life awareness",
+  "expected": "CEN2026-098",
+  "clean": "programme for teenage girls' nutrition and life awareness"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "get my idea recognised as a new startup with benefits",
+  "expected": "CEN2026-113",
+  "clean": "get my idea recognised as a new startup with benefits"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "rating for tented camps for travellers",
+  "expected": "CEN2026-268",
+  "clean": "rating for tented camps for travellers"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "rural family wants a puca hosue",
+  "expected": "CEN2026-261",
+  "clean": "rural family wants a pucca house"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "doctoral rsearch funding for a womaan in science",
+  "expected": "CEN2026-132",
+  "clean": "doctoral research funding for a woman in science"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "village digitl point to get govrnment services without going to town",
+  "expected": "CEN2026-253",
+  "clean": "village digital point to get government services without going to town"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "making paper by hand frrom fbire in the village",
+  "expected": "CEN2026-169",
+  "clean": "making paper by hand from fibre in the village"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "turn my invention into a product with design and patent help",
+  "expected": "CEN2026-172",
+  "clean": "turn my invention into a product with design and patent help"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "stall at a foreign trade show",
+  "expected": "CEN2026-042",
+  "clean": "stall at a foreign trade show"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "recognition for innovative scalable new companies",
+  "expected": "CEN2026-072",
+  "clean": "recognition for innovative scalable new companies"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "find a professional desgner for my factory's proudct",
+  "expected": "CEN2026-063",
+  "clean": "find a professional designer for my factory's product"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "bank looan for a first businrss owned by a woman or SC/ST person",
+  "expected": "CEN2026-112",
+  "clean": "bank loan for a first business owned by a woman or SC/ST person"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "NITI Aayog platform that brings together information for women business owners",
+  "expected": "CEN2026-134",
+  "clean": "NITI Aayog platform that brings together information for women business owners"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "inernational marekt intelligence information being shared",
+  "expected": "CEN2026-151",
+  "clean": "international market intelligence information being shared"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "rural livelihood business incubator",
+  "expected": "CEN2026-099",
+  "clean": "rural livelihood business incubator"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "bank finance for machinery, shop renovation and commercial vehicles",
+  "expected": "CEN2026-101",
+  "clean": "bank finance for machinery, shop renovation and commercial vehicles"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "fprmalising my home-made pckle and snack unit",
+  "expected": "CEN2026-138",
+  "clean": "formalising my home-made pickle and snack unit"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "fund of funds for biotech startups and SMEs",
+  "expected": "CEN2026-014",
+  "clean": "fund of funds for biotech startups and SMEs"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "I want to open a new small unit with bank money and a subsidy",
+  "expected": "CEN2026-085",
+  "clean": "I want to open a new small unit with bank money and a subsidy"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "government flagship to spur innovation and new ventures",
+  "expected": "CEN2026-006",
+  "clean": "government flagship to spur innovation and new ventures"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "recognition for big overseaas sellers with privileges under trrade policy",
+  "expected": "CEN2026-115",
+  "clean": "recognition for big overseas sellers with privileges under trade policy"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "MSME ministry outreach campaign for women",
+  "expected": "CEN2026-136",
+  "clean": "MSME ministry outreach campaign for women"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "COVIID eergency finance for small firms",
+  "expected": "CEN2026-002",
+  "clean": "COVID emergency finance for small firms"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "term finance to put solar panels on my roof",
+  "expected": "CEN2026-119",
+  "clean": "term finance to put solar panels on my roof"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "one-day awarenes tlak about working for yourself",
+  "expected": "CEN2026-140",
+  "clean": "one-day awareness talk about working for yourself"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "partial capital grant to SC/ST-owned small units buying machines",
+  "expected": "CEN2026-152",
+  "clean": "partial capital grant to SC/ST-owned small units buying machines"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "two-year savings certificate for women and girls",
+  "expected": "CEN2026-050",
+  "clean": "two-year savings certificate for women and girls"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "12-monh internship in top compaines for young people",
+  "expected": "CEN2026-198",
+  "clean": "12-month internship in top companies for young people"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "small finance for self-help groups",
+  "expected": "CEN2026-274",
+  "clean": "small finance for self-help groups"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "spreading Ayush medicine awareness internationally",
+  "expected": "CEN2026-235",
+  "clean": "spreading Ayush medicine awareness internationally"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "online place to file complaints on dlayed paymenst",
+  "expected": "CEN2026-066",
+  "clean": "online place to file complaints on delayed payments"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "incentive to employers who create new jos and social secruity",
+  "expected": "CEN2026-197",
+  "clean": "incentive to employers who create new jobs and social security"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "rehailitation for transgender perssons and people forced to beg",
+  "expected": "CEN2026-213",
+  "clean": "rehabilitation for transgender persons and people forced to beg"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "sgate science and tecnology councils' links with central agencies",
+  "expected": "CEN2026-263",
+  "clean": "state science and technology councils' links with central agencies"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "NSIC helps my firm get a bank facility through its tie-ups",
+  "expected": "CEN2026-008",
+  "clean": "NSIC helps my firm get a bank facility through its tie-ups"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "national award for service to women's empowerment",
+  "expected": "CEN2026-070",
+  "clean": "national award for service to women's empowerment"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "overseas warehouse and fulfilment hubs for e-commerce sellers",
+  "expected": "CEN2026-186",
+  "clean": "overseas warehouse and fulfilment hubs for e-commerce sellers"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "relief home for women in dustress after earler homes were merged",
+  "expected": "CEN2026-105",
+  "clean": "relief home for women in distress after earlier homes were merged"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "refund of performance guarantee charges I paid on a government order",
+  "expected": "CEN2026-156",
+  "clean": "refund of performance guarantee charges I paid on a government order"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "setting up my unit in a special economic zone",
+  "expected": "CEN2026-255",
+  "clean": "setting up my unit in a special economic zone"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "suupport to sell to government and gan visibility",
+  "expected": "CEN2026-087",
+  "clean": "support to sell to government and gain visibility"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "selling cori products in showrooms and loocal fairs",
+  "expected": "CEN2026-146",
+  "clean": "selling coir products in showrooms and local fairs"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "small firms in the north-east and Sikkim",
+  "expected": "CEN2026-090",
+  "clean": "small firms in the north-east and Sikkim"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "no security pledged yet finande for overseas orderrs",
+  "expected": "CEN2026-178",
+  "clean": "no security pledged yet finance for overseas orders"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "subisdy linked to trem loan for upgrading machinery technology",
+  "expected": "CEN2026-018",
+  "clean": "subsidy linked to term loan for upgrading machinery technology"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "online marketplace and busienss informaiton by NSIC",
+  "expected": "CEN2026-062",
+  "clean": "online marketplace and business information by NSIC"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "reskilling short clurses so tatget groups can earn",
+  "expected": "CEN2026-211",
+  "clean": "reskilling short courses so target groups can earn"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "village cobblers making shoes and sandals",
+  "expected": "CEN2026-167",
+  "clean": "village cobblers making shoes and sandals"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "shhort certificate courses for hottel and tourism staff",
+  "expected": "CEN2026-270",
+  "clean": "short certificate courses for hotel and tourism staff"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "term finance over five years for five lakh first-time women and SC/ST business owners",
+  "expected": "CEN2026-189",
+  "clean": "term finance over five years for five lakh first-time women and SC/ST business owners"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "dignity and safety for sewer and septic tank cleaners",
+  "expected": "CEN2026-214",
+  "clean": "dignity and safety for sewer and septic tank cleaners"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "refund of council membership fee for SC/ST frms selling abraod",
+  "expected": "CEN2026-158",
+  "clean": "refund of council membership fee for SC/ST firms selling abroad"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "a hub to guide women to their entitlements",
+  "expected": "CEN2026-097",
+  "clean": "a hub to guide women to their entitlements"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "framework supporting woemn scientists wiht fellowships and mobility",
+  "expected": "CEN2026-130",
+  "clean": "framework supporting women scientists with fellowships and mobility"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "reimbursement for registering my patent or trademark",
+  "expected": "CEN2026-065",
+  "clean": "reimbursement for registering my patent or trademark"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": false,
+  "query": "bring my informal tiny business into the formal system",
+  "expected": "CEN2026-123",
+  "clean": "bring my informal tiny business into the formal system"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "trrade analytics and tooolkits for overseas market study",
+  "expected": "CEN2026-185",
+  "clean": "trade analytics and toolkits for overseas market study"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "commin facilities park for plastic procsesing units",
+  "expected": "CEN2026-250",
+  "clean": "common facilities park for plastic processing units"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "cehaper phosphate and potah fertiliser",
+  "expected": "CEN2026-251",
+  "clean": "cheaper phosphate and potash fertiliser"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "affordable trade fiannce suport for exporters",
+  "expected": "CEN2026-176",
+  "clean": "affordable trade finance support for exporters"
+ },
+ {
+  "lang": "en",
+  "level": 3,
+  "typo": true,
+  "query": "women's prosperity shceme from state finance crporations",
+  "expected": "CEN2026-051",
+  "clean": "women's prosperity scheme from state finance corporations"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "माहराष्ट्र स्टाार्टअप वीक (सीधे सरकारी वर्क",
+  "expected": "MAH2026-024",
+  "clean": "महाराष्ट्र स्टार्टअप वीक (सीधे सरकारी वर्क"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "सीड फंड सहायता (इन्क्यूबेशन केंद्रों के",
+  "expected": "MAH2026-018",
+  "clean": "सीड फंड सहायता (इन्क्यूबेशन केंद्रों के"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "बडी निर्यातक इकाइों के लिए विशेष",
+  "expected": "MAH2026-074",
+  "clean": "बड़ी निर्यातक इकाइयों के लिए विशेष"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "एमएसई के लिए गारंटी योजनाएँ",
+  "expected": "CEN2026-038",
+  "clean": "एमएसई के लिए गारंटी योजनाएँ"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "इनक्यूबेशन केंद्रों (माइक्रो इनक्यूबेटर सहित) के",
+  "expected": "MAH2026-003",
+  "clean": "इनक्यूबेशन केंद्रों (माइक्रो इनक्यूबेटर सहित) के"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "MIISP 2025 - रोज़गार-आधारित EPF प्रतिपूर्ति",
+  "expected": "MAH2026-050",
+  "clean": "MIISP 2025 - रोज़गार-आधारित EPF प्रतिपूर्ति"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "महिलाओं के लिए प्रशिक्षषण और रोजजगार",
+  "expected": "CEN2026-117",
+  "clean": "महिलाओं के लिए प्रशिक्षण और रोजगार"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "जैव प्रौद्योगिकी प्रज्वलन अनुदान (बीआईजी)",
+  "expected": "CEN2026-012",
+  "clean": "जैव प्रौद्योगिकी प्रज्वलन अनुदान (बीआईजी)"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "विककसित भारत – रोोज़गार और आजीविका",
+  "expected": "CEN2026-260",
+  "clean": "विकसित भारत – रोज़गार और आजीविका"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "MIISSP 2025 - बिजली दर स्सिडी",
+  "expected": "MAH2026-049",
+  "clean": "MIISP 2025 - बिजली दर सब्सिडी"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "सखी निास (कामकाजी महिला छात्रावा)",
+  "expected": "CEN2026-096",
+  "clean": "सखी निवास (कामकाजी महिला छात्रावास)"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "2018 की नीति के तहत गुणवत्ता",
+  "expected": "MAH2026-032",
+  "clean": "2018 की नीति के तहत गुणवत्ता"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "MIISP 2025 - सकल SST प्रतिपपूर्ति",
+  "expected": "MAH2026-044",
+  "clean": "MIISP 2025 - सकल SGST प्रतिपूर्ति"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "MIISP 2025 - सेवा क्षेत्र बिजली",
+  "expected": "MAH2026-055",
+  "clean": "MIISP 2025 - सेवा क्षेत्र बिजली"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "माराष्ट्र नवाचार और प्रौद्योगिकी विकसा कोष",
+  "expected": "MAH2026-071",
+  "clean": "महाराष्ट्र नवाचार और प्रौद्योगिकी विकास कोष"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "महाराष्ट्र फिनटेक नीति 2018 के प्रोत्साहन",
+  "expected": "MAH2026-038",
+  "clean": "महाराष्ट्र फिनटेक नीति 2018 के प्रोत्साहन"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "सरकारी ई-मार्केटप्लेस (जीईएम) महिला स्वामित्व वाली",
+  "expected": "CEN2026-037",
+  "clean": "सरकारी ई-मार्केटप्लेस (जीईएम) महिला स्वामित्व वाली"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "स्टार्टअप के लिए वैश्विक विस्तार सहायता",
+  "expected": "MAH2026-014",
+  "clean": "स्टार्टअप के लिए वैश्विक विस्तार सहायता"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "वस्त्र नीति 2023-28 - पूंजीगत सब्सिडी",
+  "expected": "MAH2026-060",
+  "clean": "वस्त्र नीति 2023-28 - पूंजीगत सब्सिडी"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "TRACE – व्यापर विनिमय, प्रत्यायन एवं",
+  "expected": "CEN2026-183",
+  "clean": "TRACE – व्यापार विनियम, प्रत्यायन एवं"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "सूक्ष्म उद्मयों के लिए क्रेडिट कार््ड",
+  "expected": "CEN2026-188",
+  "clean": "सूक्ष्म उद्यमों के लिए क्रेडिट कार्ड"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "कल्याणकारी उपाय (यर श्रिमकों के लिए",
+  "expected": "CEN2026-148",
+  "clean": "कल्याणकारी उपाय (कयर श्रमिकों के लिए"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "MISIP 2025 - मपिला उद्यमियों के",
+  "expected": "MAH2026-058",
+  "clean": "MIISP 2025 - महिला उद्यमियों के"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "निर्यात-उन्मुख अवसंरचना अनुदान (निर्यात-उन्मुख विशिष्ट परियोजनाएँ",
+  "expected": "MAH2026-076",
+  "clean": "निर्यात-उन्मुख अवसंरचना अनुदान (निर्यात-उन्मुख विशिष्ट परियोजनाएँ"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "बागवानी उत्पाददों के शीत भंडार/भडारगृहों के",
+  "expected": "CEN2026-248",
+  "clean": "बागवानी उत्पादों के शीत भंडार/भंडारगृहों के"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "स्टार्टअप बंद कनने में सहाया",
+  "expected": "MAH2026-027",
+  "clean": "स्टार्टअप बंद करने में सहायता"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "निर्यात संवर््धन मिमन (EPM)",
+  "expected": "CEN2026-175",
+  "clean": "निर्यात संवर्धन मिशन (EPM)"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "क्षेत्रीय नवाचार और उद्यमिता केंद्र (हब)",
+  "expected": "MAH2026-005",
+  "clean": "क्षेत्रीय नवाचार और उद्यमिता केंद्र (हब)"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "उद्यम पंजीकरण",
+  "expected": "CEN2026-124",
+  "clean": "उद्यम पंजीकरण"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "फिनटेक कॉर्पस फंड",
+  "expected": "MAH2026-037",
+  "clean": "फिनटेक कॉर्पस फंड"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "MIISP 2205 - पता्र EOU के",
+  "expected": "MAH2026-047",
+  "clean": "MIISP 2025 - पात्र EOU के"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "एमएसएमई मंत्रालय का उद्यमिता एवं कौशल",
+  "expected": "CEN2026-057",
+  "clean": "एमएसएमई मंत्रालय का उद्यमिता एवं कौशल"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "प्रधनमंत्री कौशल विकैस योजना (पीएमकेवीवाई)",
+  "expected": "CEN2026-081",
+  "clean": "प्रधानमंत्री कौशल विकास योजना (पीएमकेवीवाई)"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "पर्यटन सेवा प्रदीताओं (ट्रैपल एजेंट, टूर",
+  "expected": "CEN2026-269",
+  "clean": "पर्यटन सेवा प्रदाताओं (ट्रैवल एजेंट, टूर"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "MIISP 2025 - प्राथमिकता क्षेत्र की",
+  "expected": "MAH2026-045",
+  "clean": "MIISP 2025 - प्राथमिकता क्षेत्र की"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "जििला उद्यमिता और नवाचरा फेलोशिप योजना",
+  "expected": "MAH2026-009",
+  "clean": "जिला उद्यमिता और नवाचार फेलोशिप योजना"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "स्डार्टअप के लिए HP, क्लाउड AI",
+  "expected": "MAH2026-006",
+  "clean": "स्टार्टअप के लिए HPC, क्लाउड AI"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "कृषि-क्लीनिक और कृषि-व्यवसाय केंद्र योजना (एसी",
+  "expected": "CEN2026-243",
+  "clean": "कृषि-क्लीनिक और कृषि-व्यवसाय केंद्र योजना (एसी"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "वस्त््र नीति 2023-28 के अंतर्गत तकननीकी",
+  "expected": "MAH2026-067",
+  "clean": "वस्त्र नीति 2023-28 के अंतर्गत तकनीकी"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "अक््षय ऊर्जा अनुसंधान और प्रौद्योगिकी विाकस",
+  "expected": "CEN2026-231",
+  "clean": "अक्षय ऊर्जा अनुसंधान और प्रौद्योगिकी विकास"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "दलहन में आत्मनिर्भरता मिशन",
+  "expected": "CEN2026-203",
+  "clean": "दलहन में आत्मनिर्भरता मिशन"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "स्टूडियो थिएटर (ला संस्कृति वकिास योजना",
+  "expected": "CEN2026-258",
+  "clean": "स्टूडियो थिएटर (कला संस्कृति विकास योजना"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "सॉफ्टवेयर प्रौद्योगिकी पार्क (STP) योजना",
+  "expected": "CEN2026-254",
+  "clean": "सॉफ्टवेयर प्रौद्योगिकी पार्क (STP) योजना"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "स्टार्टअप के लिए बौक्धिक संपदा अधिककार",
+  "expected": "MAH2026-021",
+  "clean": "स्टार्टअप के लिए बौद्धिक संपदा अधिकार"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "स्टार्टअप के लिए सार्वजनिक खरीद में",
+  "expected": "MAH2026-039",
+  "clean": "स्टार्टअप के लिए सार्वजनिक खरीद में"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "किराये पर जगह लेने वाले मान्यता",
+  "expected": "MAH2026-040",
+  "clean": "किराये पर जगह लेने वाले मान्यता"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "मुख्यमंत्री रोज़ार निर्मिती कार्यक्रम (CnEGP)",
+  "expected": "MAH2026-068",
+  "clean": "मुख्यमंत्री रोज़गार निर्मिती कार्यक्रम (CMEGP)"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "एक्टेलेरेटर सहायता",
+  "expected": "MAH2026-004",
+  "clean": "एक्सेलेरेटर सहायता"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "एमएसएमई के लिए बजा़ार वीकास सहायता",
+  "expected": "CEN2026-149",
+  "clean": "एमएसएमई के लिए बाज़ार विकास सहायता"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "अंतर्राष्ट्तीय मेलंो में भागीदारी",
+  "expected": "CEN2026-077",
+  "clean": "अंतर्राष्ट्रीय मेलों में भागीदारी"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "बीज पूंजी (सीड मनी) योजना (जिला",
+  "expected": "MAH2026-069",
+  "clean": "बीज पूंजी (सीड मनी) योजना (जिला"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "महाराष्ट्र ग्रैंड चैलेंज (MSInS, 2019 रिपोर्ट)",
+  "expected": "MAH2026-033",
+  "clean": "महाराष्ट्र ग्रैंड चैलेंज (MSInS, 2019 रिपोर्ट)"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "नए उद्यमों में पूंजीगत परिसंपत्तियों की",
+  "expected": "CEN2026-108",
+  "clean": "नए उद्यमों में पूंजीगत परिसंपत्तियों की"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "व्यापार एवं उद्योग संबंधी कार्यात्मक सहायता",
+  "expected": "CEN2026-147",
+  "clean": "व्यापार एवं उद्योग संबंधी कार्यात्मक सहायता"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "10,000 किसान उत्पादक संगठनों (एफपीओ) का",
+  "expected": "CEN2026-220",
+  "clean": "10,000 किसान उत्पादक संगठनों (एफपीओ) का"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "स्किल इंडिया कार्यक्रम (पुनर्गठित: पीएमकेवीवाई 4.0,",
+  "expected": "CEN2026-199",
+  "clean": "स्किल इंडिया कार्यक्रम (पुनर्गठित: पीएमकेवीवाई 4.0,"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "कयर विकास योजना – निर्यात बाज़ार",
+  "expected": "CEN2026-020",
+  "clean": "कयर विकास योजना – निर्यात बाज़ार"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "लक्षित क्षेत्रों में उच्च विद्यालयों में",
+  "expected": "CEN2026-212",
+  "clean": "लक्षित क्षेत्रों में उच्च विद्यालयों में"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "पीएम इलुक्ट्रिक ड्राइव रिवोल्यूशन इन इनीवेटिव",
+  "expected": "CEN2026-209",
+  "clean": "पीएम इलेक्ट्रिक ड्राइव रिवोल्यूशन इन इनोवेटिव"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "विंग क्षमता निर्माण कार्यशालाएँ",
+  "expected": "CEN2026-128",
+  "clean": "विंग क्षमता निर्माण कार्यशालाएँ"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "हरिकणी महाराष्ट्राची योजना",
+  "expected": "MAH2026-036",
+  "clean": "हिरकणी महाराष्ट्राची योजना"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "महिला-केंद्रत इन्क्यूबेशन केंद्र",
+  "expected": "MAH2026-016",
+  "clean": "महिला-केंद्रित इन्क्यूबेशन केंद्र"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "MAoTRI सिंगल विंडो (महाराष्ट्र उद्योग, व्यापरा",
+  "expected": "MAH2026-042",
+  "clean": "MAITRI सिंगल विंडो (महाराष्ट्र उद्योग, व्यापार"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "ग्रामोद्योग विकास योजना (जीवीवाई)",
+  "expected": "CEN2026-166",
+  "clean": "ग्रामोद्योग विकास योजना (जीवीवाई)"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "बागगवानी फसलों के उ्पादन और कटाई-उपरांत",
+  "expected": "CEN2026-244",
+  "clean": "बागवानी फसलों के उत्पादन और कटाई-उपरांत"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "नमो ड्रोन दीदी",
+  "expected": "CEN2026-031",
+  "clean": "नमो ड्रोन दीदी"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "आतिथ्य सित घरेललू संवर्धन और प्रचार",
+  "expected": "CEN2026-271",
+  "clean": "आतिथ्य सहित घरेलू संवर्धन और प्रचार"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "MIISP 2025 - सेवा क्षेत््र किरायया",
+  "expected": "MAH2026-054",
+  "clean": "MIISP 2025 - सेवा क्षेत्र किराया"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "वस्त्र नीति 2023-28 - हरित उत्पादन",
+  "expected": "MAH2026-062",
+  "clean": "वस्त्र नीति 2023-28 - हरित उत्पादन"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "महिला उद्यमिता वुंग",
+  "expected": "MAH2026-015",
+  "clean": "महिला उद्यमिता विंग"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "सिल्क समग्र-2 (रेशम उद्योग विकास हेतु",
+  "expected": "CEN2026-215",
+  "clean": "सिल्क समग्र-2 (रेशम उद्योग विकास हेतु"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "महारा्ट्र इनोेशन सिटी (MIC)",
+  "expected": "MAH2026-028",
+  "clean": "महाराष्ट्र इनोवेशन सिटी (MIC)"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "MIISP 2025 - बिजली शुल्क में",
+  "expected": "MAH2026-048",
+  "clean": "MIISP 2025 - बिजली शुल्क में"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "ECGC निर्यात ऋण बीमा प्रीमियम प्रतिपूर्ति",
+  "expected": "MAH2026-072",
+  "clean": "ECGC निर्यात ऋण बीमा प्रीमियम प्रतिपूर्ति"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "महाराष्ट्र राज्य नवोन्मेषी स्टार्टअप नीति 2018",
+  "expected": "MAH2026-030",
+  "clean": "महाराष्ट्र राज्य नवोन्मेषी स्टार्टअप नीति 2018"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "महिला उद्यमियों के लिए विशेष नीति",
+  "expected": "MAH2026-077",
+  "clean": "महिला उद्यमियों के लिए विशेष नीति"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "MIISP 2025 - प्रौद्डोगिकी उन्नयन सधायता",
+  "expected": "MAH2026-051",
+  "clean": "MIISP 2025 - प्रौद्योगिकी उन्नयन सहायता"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "मौजूदा कमजोर खादी संस्थाओं की अवसंरचना",
+  "expected": "CEN2026-164",
+  "clean": "मौजूदा कमजोर खादी संस्थाओं की अवसंरचना"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "इलेक्ट्रानिक्स हार्डवेयर टेक्नोलॉजी पार्क (EHTP) योजना",
+  "expected": "CEN2026-256",
+  "clean": "इलेक्ट्रानिक्स हार्डवेयर टेक्नोलॉजी पार्क (EHTP) योजना"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "महाराष्टर् इननोवेशन एक्सीलेंस अवार्ड्स",
+  "expected": "MAH2026-007",
+  "clean": "महाराष्ट्र इनोवेशन एक्सीलेंस अवार्ड्स"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "फंड ऑफ फंड्स (डॉटर फंड्स में",
+  "expected": "MAH2026-020",
+  "clean": "फंड ऑफ फंड्स (डॉटर फंड्स में"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "वस्त्र नीति 2023-28 - पुनर्चक्रण परियोजना",
+  "expected": "MAH2026-061",
+  "clean": "वस्त्र नीति 2023-28 - पुनर्चक्रण परियोजना"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "घरेठू बाज़ार संवर्धन योडना",
+  "expected": "CEN2026-030",
+  "clean": "घरेलू बाज़ार संवर्धन योजना"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "महिला स्टार्टअप के लिए वशिेष वि्ततीय",
+  "expected": "MAH2026-017",
+  "clean": "महिला स्टार्टअप के लिए विशेष वित्तीय"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "मानित निर्कात (डीम्ड एक्सपोरर्ट्स)",
+  "expected": "CEN2026-025",
+  "clean": "मानित निर्यात (डीम्ड एक्सपोर्ट्स)"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "मताराष्ट्र वेेंचर फंड (डीप टेक और",
+  "expected": "MAH2026-019",
+  "clean": "महाराष्ट्र वेंचर फंड (डीप टेक और"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "वक्त्र नीति 2023-8 - सौर ऊर्जा",
+  "expected": "MAH2026-063",
+  "clean": "वस्त्र नीति 2023-28 - सौर ऊर्जा"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "MIISP 2025 - SME स्टॉक एक्सचेंज",
+  "expected": "MAH2026-053",
+  "clean": "MIISP 2025 - SME स्टॉक एक्सचेंज"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "बाइरैक सीड फंड (hIRAC SwED Fund)",
+  "expected": "CEN2026-016",
+  "clean": "बाइरैक सीड फंड (BIRAC SEED Fund)"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "बैंक गारंटी के विरुद्ध कच्चा माल",
+  "expected": "CEN2026-093",
+  "clean": "बैंक गारंटी के विरुद्ध कच्चा माल"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "बागवापी फसलों के उत्पादन और कटाई-उउपरांत",
+  "expected": "CEN2026-246",
+  "clean": "बागवानी फसलों के उत्पादन और कटाई-उपरांत"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "प्रौद्योगिकी इन्क्यूबेशशन और उद्यमियों का वकिास",
+  "expected": "CEN2026-252",
+  "clean": "प्रौद्योगिकी इन्क्यूबेशन और उद्यमियों का विकास"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "खादी विकास योजना (केवीवाई)",
+  "expected": "CEN2026-045",
+  "clean": "खादी विकास योजना (केवीवाई)"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "पुण्यश्लोक अहिल्यादेवी हलोकर महिला स्टार्टअप योना",
+  "expected": "MAH2026-034",
+  "clean": "पुण्यश्लोक अहिल्यादेवी होलकर महिला स्टार्टअप योजना"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "शुल्क-मुक्त आयात प्राधिकरण (DFIA)",
+  "expected": "CEN2026-032",
+  "clean": "शुल्क-मुक्त आयात प्राधिकरण (DFIA)"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "MIISP 2025 - MSME के लिए",
+  "expected": "MAH2026-043",
+  "clean": "MIISP 2025 - MSME के लिए"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "पीएम स्ट्रीट वेंडर्स आत्मनिर्भर निधि (पीएम",
+  "expected": "CEN2026-078",
+  "clean": "पीएम स्ट्रीट वेंडर्स आत्मनिर्भर निधि (पीएम"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "विज्ञान एवं प्रौद्योगिी",
+  "expected": "CEN2026-145",
+  "clean": "विज्ञान एवं प्रौद्योगिकी"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": false,
+  "query": "मार्गदर्शन कार्यक्रम (मेंटरशिप प्रोग्राम)",
+  "expected": "MAH2026-010",
+  "clean": "मार्गदर्शन कार्यक्रम (मेंटरशिप प्रोग्राम)"
+ },
+ {
+  "lang": "hi",
+  "level": 1,
+  "typo": true,
+  "query": "बिल भुनाई (डिस्काउंिटंग) योजना (NxIC)",
+  "expected": "CEN2026-227",
+  "clean": "बिल भुनाई (डिस्काउंटिंग) योजना (NSIC)"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "आदिवासी बहनों को सशक्त बनाने की योजना",
+  "expected": "CEN2026-273",
+  "clean": "आदिवासी बहनों को सशक्त बनाने की योजना"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "इंजीनियरिंग और शोध में आगे बढ़ी औरतों को सम्मान देने वाला पुरस्कार",
+  "expected": "CEN2026-127",
+  "clean": "इंजीनियरिंग और शोध में आगे बढ़ी औरतों को सम्मान देने वाला पुरस्कार"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "छोटी इकाइयों का माल बंदभगाह तक ले जाने का भा़ा वापस मिलना",
+  "expected": "CEN2026-184",
+  "clean": "छोटी इकाइयों का माल बंदरगाह तक ले जाने का भाड़ा वापस मिलना"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "एमएसएमई संघों को विददेशी प्रदर्शनियों और खरीदार बैठकों में जाेन में मदद",
+  "expected": "CEN2026-054",
+  "clean": "एमएसएमई संघों को विदेशी प्रदर्शनियों और खरीदार बैठकों में जाने में मदद"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "ग्रामीण उद्योगों को बढ़ाने वालला केवीआईसी का कार्य्करम",
+  "expected": "CEN2026-044",
+  "clean": "ग्रामीण उद्योगों को बढ़ाने वाला केवीआईसी का कार्यक्रम"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "बेटी के भविष्य के लिए बचत खाता",
+  "expected": "CEN2026-116",
+  "clean": "बेटी के भविष्य के लिए बचत खाता"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "आयुष चिकित्सा पद्धतियों के बारे में जागरूकता फैलाना",
+  "expected": "CEN2026-234",
+  "clean": "आयुष चिकित्सा पद्धतियों के बारे में जागरूकता फैलाना"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "कोल्ड स्टोरेज बनाने या बड़ा करने पर आर्थिक छूट",
+  "expected": "CEN2026-247",
+  "clean": "कोल्ड स्टोरेज बनाने या बड़ा करने पर आर्थिक छूट"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "खेती से बनी चीजो़ं और खाने-पीने के सामन की ग्रामीण इकाइयों का कार्यक्रम",
+  "expected": "CEN2026-170",
+  "clean": "खेती से बनी चीज़ों और खाने-पीने के सामान की ग्रामीण इकाइयों का कार्यक्रम"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "नारियल रेशा बोर्ड के शोध नतीजों को खोतों और इकााइयों तक पहुँचाना",
+  "expected": "CEN2026-100",
+  "clean": "नारियल रेशा बोर्ड के शोध नतीजों को खेतों और इकाइयों तक पहुँचाना"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "छोटी इकाइयों को लीन, डिज़ाइन और जेडईडी से प्रतिस्पर्धी बनाना",
+  "expected": "CEN2026-060",
+  "clean": "छोटी इकाइयों को लीन, डिज़ाइन और जेडईडी से प्रतिस्पर्धी बनाना"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "विदेशों में परतिनिधिमंडल और खरीदार-विक्रेता मलाकातों का समर्थन",
+  "expected": "CEN2026-041",
+  "clean": "विदेशों में प्रतिनिधिमंडल और खरीदार-विक्रेता मुलाकातों का समर्थन"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "निजी कंपनियों के शोध को बढ़ाने के लिए एक लाख करोड़ का कोष",
+  "expected": "CEN2026-191",
+  "clean": "निजी कंपनियों के शोध को बढ़ाने के लिए एक लाख करोड़ का कोष"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "आईआईटी और आईआईएम में एक हफ्तते का उन्ननत कार्यक्रम",
+  "expected": "CEN2026-142",
+  "clean": "आईआईटी और आईआईएम में एक हफ्ते का उन्नत कार्यक्रम"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "एसेंड के तहत क्षमता निर्माण की बैठकें",
+  "expected": "CEN2026-224",
+  "clean": "एसेंड के तहत क्षमता निर्माण की बैठकें"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "विज्ञान में आगे बढ़ रही औरतों के लिए डीएसटी का विदुषी कार्यक्रम",
+  "expected": "CEN2026-126",
+  "clean": "विज्ञान में आगे बढ़ रही औरतों के लिए डीएसटी का विदुषी कार्यक्रम"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "आईटीआई में शिल्पकार तैयार करने के कोर्स",
+  "expected": "CEN2026-229",
+  "clean": "आईटीआई में शिल्पकार तैयार करने के कोर्स"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "औरतों द्वारा चलाए जाने वाले छोटे धंधों को पुनर्वित्त",
+  "expected": "CEN2026-052",
+  "clean": "औरतों द्वारा चलाए जाने वाले छोटे धंधों को पुनर्वित्त"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "राषट््रीय सहकारी विकास निमग को केंद्र की ओर से धन",
+  "expected": "CEN2026-242",
+  "clean": "राष्ट्रीय सहकारी विकास निगम को केंद्र की ओर से धन"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "शोध यात्रा के लिए वैज्ञानिक औरतों को आर्थिक मदद",
+  "expected": "CEN2026-104",
+  "clean": "शोध यात्रा के लिए वैज्ञानिक औरतों को आर्थिक मदद"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "दूध बूथ और फल-सब़्जी की सफल दुकान मिलनना",
+  "expected": "CEN2026-237",
+  "clean": "दूध बूथ और फल-सब्ज़ी की सफल दुकान मिलना"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "आरक्षित वर्ग की इकाइयों का सरकारी खरीद के लिए एनएसआईसी में नाम दर्ज",
+  "expected": "CEN2026-154",
+  "clean": "आरक्षित वर्ग की इकाइयों का सरकारी खरीद के लिए एनएसआईसी में नाम दर्ज"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "माल बाहर भेजने के लिए लिए पैसे पर ब्याज में राहत",
+  "expected": "CEN2026-040",
+  "clean": "माल बाहर भेजने के लिए लिए पैसे पर ब्याज में राहत"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "नए जोखिम भरे विदेशी बाज़ारों में बेचने वाली छोटी इकाइयों को जोखिम में साझेदारी",
+  "expected": "CEN2026-181",
+  "clean": "नए जोखिम भरे विदेशी बाज़ारों में बेचने वाली छोटी इकाइयों को जोखिम में साझेदारी"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "मशीन खरीदने के लिए जमानत दिए बगैर बैंक से रकम",
+  "expected": "CEN2026-174",
+  "clean": "मशीन खरीदने के लिए जमानत दिए बगैर बैंक से रकम"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "एनएसआईसी छटी इकाइयों का समूह बनाकर सकारी निविदा भरता है",
+  "expected": "CEN2026-022",
+  "clean": "एनएसआईसी छोटी इकाइयों का समूह बनाकर सरकारी निविदा भरता है"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "बैंकों द्वारा छोटी इकाइयों को दिए पिसे पर सरकारी सुर्षा कवच",
+  "expected": "CEN2026-023",
+  "clean": "बैंकों द्वारा छोटी इकाइयों को दिए पैसे पर सरकारी सुरक्षा कवच"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "माल बाहर भेजने वालों को गुणवत्ता, ढुलाई और बाज़ार जानकारी में गैर-आर्थिक मदद",
+  "expected": "CEN2026-182",
+  "clean": "माल बाहर भेजने वालों को गुणवत्ता, ढुलाई और बाज़ार जानकारी में गैर-आर्थिक मदद"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "मसााला बेचने वालों को देश के मेलोों में बोर्ड के स्टॉल में जगह",
+  "expected": "CEN2026-029",
+  "clean": "मसाला बेचने वालों को देश के मेलों में बोर्ड के स्टॉल में जगह"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "नारियल रेशा बनाथे, हुनर और बिक्री बढ़ाने वाटी बड़ी योजना",
+  "expected": "CEN2026-019",
+  "clean": "नारियल रेशा बनाने, हुनर और बिक्री बढ़ाने वाली बड़ी योजना"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "अपना काम शुरू करनना सिखाने वलाा छोटा कार्यक्रम",
+  "expected": "CEN2026-033",
+  "clean": "अपना काम शुरू करना सिखाने वाला छोटा कार्यक्रम"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "आररक्षित वर्ग के नए धंेधवालों को प्रदर्शनी में भाग लेने की मदद",
+  "expected": "CEN2026-153",
+  "clean": "आरक्षित वर्ग के नए धंधेवालों को प्रदर्शनी में भाग लेने की मदद"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "औरतों के लिए शहरों को सुरक्षित और पुलिस तक पहुँच आसान",
+  "expected": "CEN2026-073",
+  "clean": "औरतों के लिए शहरों को सुरक्षित और पुलिस तक पहुँच आसान"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "अकेले चलने वाले रेस्तरां को मं्तरालय से मंज़रूी",
+  "expected": "CEN2026-272",
+  "clean": "अकेले चलने वाले रेस्तरां को मंत्रालय से मंज़ूरी"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "नारियल रेशे का हुनर बढ़ाना और औरतों के लिए अलग योजना",
+  "expected": "CEN2026-021",
+  "clean": "नारियल रेशे का हुनर बढ़ाना और औरतों के लिए अलग योजना"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "टेक्सटाइल क्षेतर में नौकरी दिलाेन वाली ट्रेनिंग",
+  "expected": "CEN2026-216",
+  "clean": "टेक्सटाइल क्षेत्र में नौकरी दिलाने वाली ट्रेनिंग"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "कम संख्या वाले समुदायों की बहों को नेतृतव् सिखाना",
+  "expected": "CEN2026-068",
+  "clean": "कम संख्या वाले समुदायों की बहनों को नेतृत्व सिखाना"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "सबसे गरीब परिवारों को मुफ्त अनाज",
+  "expected": "CEN2026-236",
+  "clean": "सबसे गरीब परिवारों को मुफ्त अनाज"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "फल-सब्ज़ी की ठंडी आपूर्ति श्रृंखला और मूल्य संवर्धन का ढांचा",
+  "expected": "CEN2026-259",
+  "clean": "फल-सब्ज़ी की ठंडी आपूर्ति श्रृंखला और मूल्य संवर्धन का ढांचा"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "सूरज की रोशनी से चलने वाले पंप और बाजली संयंत्र खेती करने वाललों के लिए",
+  "expected": "CEN2026-207",
+  "clean": "सूरज की रोशनी से चलने वाले पंप और बिजली संयंत्र खेती करने वालों के लिए"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "बड़ी मशीनें लगाने के लिए सिडबी वित्त",
+  "expected": "CEN2026-003",
+  "clean": "बड़ी मशीनें लगाने के लिए सिडबी वित्त"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "आरक्षित वर्ग के धंधेवालों को बंक की प्रोसेसिंग फीस वपास",
+  "expected": "CEN2026-155",
+  "clean": "आरक्षित वर्ग के धंधेवालों को बैंक की प्रोसेसिंग फीस वापस"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "विधवाओं और अपंग पूर्व फौजियों को कोयला ढुलाई टिपर",
+  "expected": "CEN2026-240",
+  "clean": "विधवाओं और अपंग पूर्व फौजियों को कोयला ढुलाई टिपर"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "मुसीबत में औफतों के लिए 181 टोल फ्री नबंर",
+  "expected": "CEN2026-135",
+  "clean": "मुसीबत में औरतों के लिए 181 टोल फ्री नंबर"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "आरक्षिित वर््ग की इकाइयों को सरकारी खरीद और बाज़ार तक पहुँच",
+  "expected": "CEN2026-071",
+  "clean": "आरक्षित वर्ग की इकाइयों को सरकारी खरीद और बाज़ार तक पहुँच"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "कम संख्या वाले समुदायों की योजनाओं का शोध और प्रचार",
+  "expected": "CEN2026-232",
+  "clean": "कम संख्या वाले समुदायों की योजनाओं का शोध और प्रचार"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "फल-फूल की बश़े स्तर की बागवानी और कजाई के बाद की देखभाल",
+  "expected": "CEN2026-245",
+  "clean": "फल-फूल की बड़े स्तर की बागवानी और कटाई के बाद की देखभाल"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "छोटी इकइयों के गुच्छों के लिए साझझा सुविधा केंद्र",
+  "expected": "CEN2026-055",
+  "clean": "छोटी इकाइयों के गुच्छों के लिए साझा सुविधा केंद्र"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "दूध और मांस के प्लांट, पशु चारा इकाइयाँ और प्रजनन फार्म बनाने पर आर्थिक प्रोत्साहन",
+  "expected": "CEN2026-219",
+  "clean": "दूध और मांस के प्लांट, पशु चारा इकाइयाँ और प्रजनन फार्म बनाने पर आर्थिक प्रोत्साहन"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "जीव विज्ञान शोध में लगी औरत वैज््ञानिकों को करैयर मदद",
+  "expected": "CEN2026-011",
+  "clean": "जीव विज्ञान शोध में लगी औरत वैज्ञानिकों को करियर मदद"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "काम करने का शेड और शौचालय बनाने की रकम",
+  "expected": "CEN2026-163",
+  "clean": "काम करने का शेड और शौचालय बनाने की रकम"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "खरीदार समय पर भगतान न करे तो शौकायत",
+  "expected": "CEN2026-056",
+  "clean": "खरीदार समय पर भुगतान न करे तो शिकायत"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "औरतों की सुरक्षा और सशक्तिकरण का एकीकृत मिशन",
+  "expected": "CEN2026-059",
+  "clean": "औरतों की सुरक्षा और सशक्तिकरण का एकीकृत मिशन"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "विज्ञान विभाग का औरतों के लिए उपकरण-विकसा कार्यक्ररम",
+  "expected": "CEN2026-118",
+  "clean": "विज्ञान विभाग का औरतों के लिए उपकरण-विकास कार्यक्रम"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "बाहर भेजे जाने वाे माल के लिए कच्चा माल बिा शुल्क मंगाना",
+  "expected": "CEN2026-222",
+  "clean": "बाहर भेजे जाने वाले माल के लिए कच्चा माल बिना शुल्क मंगाना"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "मसाला बाहर बेचने वालों को फटाफट जांच किट खरीदने में मदद",
+  "expected": "CEN2026-001",
+  "clean": "मसाला बाहर बेचने वालों को फटाफट जांच किट खरीदने में मदद"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "परंपरागत उद्योगों के शिल्पकारों को समूह बनकार साझझा ढांचा",
+  "expected": "CEN2026-095",
+  "clean": "परंपरागत उद्योगों के शिल्पकारों को समूह बनाकर साझा ढांचा"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "भारतीय मसाला बरांड को विदेशौं में प्रचारित करना",
+  "expected": "CEN2026-089",
+  "clean": "भारतीय मसाला ब्रांड को विदेशों में प्रचारित करना"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "विज्ञान में औरतों के लिए डीएसटी की स्कोप योजना",
+  "expected": "CEN2026-133",
+  "clean": "विज्ञान में औरतों के लिए डीएसटी की स्कोप योजना"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "औतरों को बौद्धिक संपदा का काम सीखने का मौौका",
+  "expected": "CEN2026-129",
+  "clean": "औरतों को बौद्धिक संपदा का काम सीखने का मौका"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "प्रशिक्षु रखने वाले नियोक्ता को वेतन का हिस्सा सरकार देती है",
+  "expected": "CEN2026-228",
+  "clean": "प्रशिक्षु रखने वाले नियोक्ता को वेतन का हिस्सा सरकार देती है"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "विददेश में बेचने वााली उभरती छोटी इकाइयों को सिडबी की मदद",
+  "expected": "CEN2026-106",
+  "clean": "विदेश में बेचने वाली उभरती छोटी इकाइयों को सिडबी की मदद"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "सकारी खीरद के लिए छोटी इकाइयों का एनएसआईसी में नाम लिखवाना",
+  "expected": "CEN2026-226",
+  "clean": "सरकारी खरीद के लिए छोटी इकाइयों का एनएसआईसी में नाम लिखवाना"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "रिटायर फौौजियों को कोयला लदान और ढुलईा का काम",
+  "expected": "CEN2026-239",
+  "clean": "रिटायर फौजियों को कोयला लदान और ढुलाई का काम"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "घर के पास कम खर्च में व्यावनायिक कोर्स, स्थानीय केंद्रां से",
+  "expected": "CEN2026-201",
+  "clean": "घर के पास कम खर्च में व्यावसायिक कोर्स, स्थानीय केंद्रों से"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "पंचाययत स्तर पर औरतों की मध्यस्थता सभा, छोटटे झगड़े सुलझाना",
+  "expected": "CEN2026-069",
+  "clean": "पंचायत स्तर पर औरतों की मध्यस्थता सभा, छोटे झगड़े सुलझाना"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "छोटी इकाइयों को औज़ार बनाने की सुविधा और प्रशिक्षित कर्मी",
+  "expected": "CEN2026-121",
+  "clean": "छोटी इकाइयों को औज़ार बनाने की सुविधा और प्रशिक्षित कर्मी"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "शुरुआती दौर की नई कंपनियों को प्रोटोटाइप बनाने के लिए बीज पैसे",
+  "expected": "CEN2026-114",
+  "clean": "शुरुआती दौर की नई कंपनियों को प्रोटोटाइप बनाने के लिए बीज पैसे"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "दिल्ली क्षेत्र में रिटायर अफसरों को सीएनजी स्टेशन चलाने का मौका",
+  "expected": "CEN2026-241",
+  "clean": "दिल्ली क्षेत्र में रिटायर अफसरों को सीएनजी स्टेशन चलाने का मौका"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "मसाला बेचने वालं के लिए नए उत्डाद पर शोध मदद",
+  "expected": "CEN2026-088",
+  "clean": "मसाला बेचने वालों के लिए नए उत्पाद पर शोध मदद"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "गरीब औरतों को छोटी रकम का सूक्ष्म वित्त",
+  "expected": "CEN2026-092",
+  "clean": "गरीब औरतों को छोटी रकम का सूक्ष्म वित्त"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "पेट्रोकेमिकल के नए उ्तपादों के लिए उत्कृषटता केंद्र",
+  "expected": "CEN2026-249",
+  "clean": "पेट्रोकेमिकल के नए उत्पादों के लिए उत्कृष्टता केंद्र"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "बिजली मिस्त्री, प्लंबर और चाय की दुकान जैसे गाँव के काम",
+  "expected": "CEN2026-171",
+  "clean": "बिजली मिस्त्री, प्लंबर और चाय की दुकान जैसे गाँव के काम"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "उत्कृष्ट छोटे धधंेवालों का रााष्ट्रीय सम्मान",
+  "expected": "CEN2026-225",
+  "clean": "उत्कृष्ट छोटे धंधेवालों का राष्ट्रीय सम्मान"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "खेत के पास भंडारण और मूल्य संवर्धन के ढांचे के लिए वित्त सुविधा",
+  "expected": "CEN2026-206",
+  "clean": "खेत के पास भंडारण और मूल्य संवर्धन के ढांचे के लिए वित्त सुविधा"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "धंधा सखाने वाली संस्थाओं को भवन और का्यक्रम की मदद",
+  "expected": "CEN2026-004",
+  "clean": "धंधा सिखाने वाली संस्थाओं को भवन और कार्यक्रम की मदद"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "ट्रेड में काम सीखने का मौका नौजवानों को",
+  "expected": "CEN2026-233",
+  "clean": "ट्रेड में काम सीखने का मौका नौजवानों को"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "खरीदार-विक्रेता मुलाकात, मूलों और प्रतिनिधिमंडलों में जाेन का समर्थन",
+  "expected": "CEN2026-187",
+  "clean": "खरीदार-विक्रेता मुलाकात, मेलों और प्रतिनिधिमंडलों में जाने का समर्थन"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "नए विचार को चलने लायक धंधा बनाने में इन्क्यूबेशन",
+  "expected": "CEN2026-064",
+  "clean": "नए विचार को चलने लायक धंधा बनाने में इन्क्यूबेशन"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "रक्षा से जुड़े आवेदकों को एलपीजी वितरक का अधिकार",
+  "expected": "CEN2026-238",
+  "clean": "रक्षा से जुड़े आवेदकों को एलपीजी वितरक का अधिकार"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "माल भेजने से पहले और बाद के वित्त पर ब्याज छूट",
+  "expected": "CEN2026-177",
+  "clean": "माल भेजने से पहले और बाद के वित्त पर ब्याज छूट"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "औरतों को खुद के परैों पर खडा करने के लिए बैंक से जोड़ना और सहयोग",
+  "expected": "CEN2026-122",
+  "clean": "औरतों को खुद के पैरों पर खड़ा करने के लिए बैंक से जोड़ना और सहयोग"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "सिडबी का उपकरण खरीद वित्त उत्पाद",
+  "expected": "CEN2026-111",
+  "clean": "सिडबी का उपकरण खरीद वित्त उत्पाद"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "रसायन मुक्त प्राकृतिक खेती को बढ़ावा देने का मिशन",
+  "expected": "CEN2026-204",
+  "clean": "रसायन मुक्त प्राकृतिक खेती को बढ़ावा देने का मिशन"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "नई कंपनियों में वेंचर रााशि लाे के लिए फंड ऑफ फंड्स",
+  "expected": "CEN2026-190",
+  "clean": "नई कंपनियों में वेंचर राशि लाने के लिए फंड ऑफ फंड्स"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "बड़े टेक्सटाइल और रेडीमेड पार्क",
+  "expected": "CEN2026-217",
+  "clean": "बड़े टेक्सटाइल और रेडीमेड पार्क"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "नई कंपनियों को पालने वाले अटल इन्क्यूबेशन केंद्र",
+  "expected": "CEN2026-005",
+  "clean": "नई कंपनियों को पालने वाले अटल इन्क्यूबेशन केंद्र"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "प्रदर्शन और बाजा़र तक पहुँच सुधारने वाला कारयक्रम",
+  "expected": "CEN2026-091",
+  "clean": "प्रदर्शन और बाज़ार तक पहुँच सुधारने वाला कार्यक्रम"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "स्कूलों में बच्चों के खुद बनाकर सीखने की प्रयोगशाला",
+  "expected": "CEN2026-007",
+  "clean": "स्कूलों में बच्चों के खुद बनाकर सीखने की प्रयोगशाला"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "बैंकूं को प्राथमिकता वाले क्षेत्रों को निश्चित हिस्सा देा अनिवार्य",
+  "expected": "CEN2026-086",
+  "clean": "बैंकों को प्राथमिकता वाले क्षेत्रों को निश्चित हिस्सा देना अनिवार्य"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "एआ, रोबोटिक्स और हरित बिजली में काम करते हुए सीखखना",
+  "expected": "CEN2026-200",
+  "clean": "एआई, रोबोटिक्स और हरित बिजली में काम करते हुए सीखना"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "छोटी इकाइयों का डिजिटल सशक्तिकरण वाला हिस्सा",
+  "expected": "CEN2026-173",
+  "clean": "छोटी इकाइयों का डिजिटल सशक्तिकरण वाला हिस्सा"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "कॉलेज के बनाए नमूने को उद्योग साझेदार के साथ परखना",
+  "expected": "CEN2026-264",
+  "clean": "कॉलेज के बनाए नमूने को उद्योग साझेदार के साथ परखना"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "बैक के बही-खाते और बिक्री कर आंघड़ों से रकम तय",
+  "expected": "CEN2026-192",
+  "clean": "बैंक के बही-खाते और बिक्री कर आंकड़ों से रकम तय"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "केवीआईसी की बिक्री दुकानों का नवीनीकरण",
+  "expected": "CEN2026-165",
+  "clean": "केवीआईसी की बिक्री दुकानों का नवीनीकरण"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "एसचजी की बहतों की सालाना कमाई कम से कम एक लाख",
+  "expected": "CEN2026-046",
+  "clean": "एसएचजी की बहनों की सालाना कमाई कम से कम एक लाख"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "मेक इन इंडिया के तहत छोटी इकाइयों को नरम रकम",
+  "expected": "CEN2026-107",
+  "clean": "मेक इन इंडिया के तहत छोटी इकाइयों को नरम रकम"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": false,
+  "query": "छह महीने से छह साल के बच्चों के लिए झूलाघर",
+  "expected": "CEN2026-076",
+  "clean": "छह महीने से छह साल के बच्चों के लिए झूलाघर"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "साइबर सुरक्षषा की पढ़ाई और जागगरूकता",
+  "expected": "CEN2026-257",
+  "clean": "साइबर सुरक्षा की पढ़ाई और जागरूकता"
+ },
+ {
+  "lang": "hi",
+  "level": 2,
+  "typo": true,
+  "query": "बड़े खरीदाधों से छोटी इकाइदों के बिल भुनाने का मंच",
+  "expected": "CEN2026-193",
+  "clean": "बड़े खरीदारों से छोटी इकाइयों के बिल भुनाने का मंच"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "हमारे घर में अब भी चूल्हे पर खाान बनता है, गैस कनेक्शन लेने की हैसियत नहहीं",
+  "expected": "CEN2026-084",
+  "clean": "हमारे घर में अब भी चूल्हे पर खाना बनता है, गैस कनेक्शन लेने की हैसियत नहीं"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "मेक इन इंडिया के तहत बनाने वाली इकाइयों को सरकार की क्या नीति सहारा देती है",
+  "expected": "CEN2026-196",
+  "clean": "मेक इन इंडिया के तहत बनाने वाली इकाइयों को सरकार की क्या नीति सहारा देती है"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "मेरी पत्नी और उसके समूह के घर के बने सामान ऑनलाइन कहाँ बिकें",
+  "expected": "CEN2026-048",
+  "clean": "मेरी पत्नी और उसके समूह के घर के बने सामान ऑनलाइन कहाँ बिकें"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "आदुवासी गाँवों में सड़क, मकान, बििजली सब एक साथ चाहिए",
+  "expected": "CEN2026-210",
+  "clean": "आदिवासी गाँवों में सड़क, मकान, बिजली सब एक साथ चाहिए"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "मेरे सामान की लैब जाँच का खर्च बहुत है, आरक्षित वर्ग को वापस मिलता है क्या",
+  "expected": "CEN2026-157",
+  "clean": "मेरे सामान की लैब जाँच का खर्च बहुत है, आरक्षित वर्ग को वापस मिलता है क्या"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "गर्भवती माँ को प्रसव के बाद आराम और अच्छे खाने के लिए रकम",
+  "expected": "CEN2026-082",
+  "clean": "गर्भवती माँ को प्रसव के बाद आराम और अच्छे खाने के लिए रकम"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "तालाब की पैदावार बचेने वाली मेरी छोटी दुकान को क़ानूनी दर्जा और सुरद्षा चाहिए",
+  "expected": "CEN2026-205",
+  "clean": "तालाब की पैदावार बेचने वाली मेरी छोटी दुकान को क़ानूनी दर्जा और सुरक्षा चाहिए"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "विदेश से महंगगी मशीन मंगाकर बाद में माल वदेश बेचने का वादा",
+  "expected": "CEN2026-034",
+  "clean": "विदेश से महंगी मशीन मंगाकर बाद में माल विदेश बेचने का वादा"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "अपनी छत से मुफत् बिजली चााहिए",
+  "expected": "CEN2026-208",
+  "clean": "अपनी छत से मुफ्त बिजली चाहिए"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "गरीब परिवार का बच्चा प्रतियोगी परीक्षा की तैयारी करना चाहता है, कोचिंग की फीस नहीं",
+  "expected": "CEN2026-266",
+  "clean": "गरीब परिवार का बच्चा प्रतियोगी परीक्षा की तैयारी करना चाहता है, कोचिंग की फीस नहीं"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "मसाले विदेश में बेचने के लिए प्रमाणपत्र जरूरी है, फीस वापस मिल सकती है क्या",
+  "expected": "CEN2026-094",
+  "clean": "मसाले विदेश में बेचने के लिए प्रमाणपत्र जरूरी है, फीस वापस मिल सकती है क्या"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "हमारी प्रयोगशाला के जैव विचार को परखने और आगे पसैा लगाने वाले जौटाने के लिए रकम",
+  "expected": "CEN2026-015",
+  "clean": "हमारी प्रयोगशाला के जैव विचार को परखने और आगे पैसा लगाने वाले जुटाने के लिए रकम"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "मैं विदेशी ऑनलाइन बाज़ार में बेचता हूँ, पक्की रकम चाहिए",
+  "expected": "CEN2026-180",
+  "clean": "मैं विदेशी ऑनलाइन बाज़ार में बेचता हूँ, पक्की रकम चाहिए"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "इलेक्ट्रॉनिक्स और आईटी हार्डवेयर बनाने वालों को सरकारी मदद",
+  "expected": "CEN2026-109",
+  "clean": "इलेक्ट्रॉनिक्स और आईटी हार्डवेयर बनाने वालों को सरकारी मदद"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "हमारी बस्ती तक बारहमासी सडक नहं है",
+  "expected": "CEN2026-262",
+  "clean": "हमारी बस्ती तक बारहमासी सड़क नहीं है"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "गाँव के नौजजवान को काम सीखकर नौकरी भी चािहए",
+  "expected": "CEN2026-026",
+  "clean": "गाँव के नौजवान को काम सीखकर नौकरी भी चाहिए"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "विदेश जाकर खरीदारों से मिलने की यात्रा का खर्च",
+  "expected": "CEN2026-043",
+  "clean": "विदेश जाकर खरीदारों से मिलने की यात्रा का खर्च"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "मध्यम आकार की कंपनी को आगे चलकर बड़ा बनाने के लिए हिस्सेदारी राशि",
+  "expected": "CEN2026-195",
+  "clean": "मध्यम आकार की कंपनी को आगे चलकर बड़ा बनाने के लिए हिस्सेदारी राशि"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "हिंसा झेल रही औरत को एक ही जगह आश्रय, सलाहकार और पुलिस",
+  "expected": "CEN2026-074",
+  "clean": "हिंसा झेल रही औरत को एक ही जगह आश्रय, सलाहकार और पुलिस"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "छोटे शहर की टेक कंपनी को मार्गदर्शन और तेज़ी चाहिए",
+  "expected": "CEN2026-194",
+  "clean": "छोटे शहर की टेक कंपनी को मार्गदर्शन और तेज़ी चाहिए"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "मेरी इकाई को गुणवत्ता और पर्यावरण का प्रमाणपत्र चाहिए",
+  "expected": "CEN2026-067",
+  "clean": "मेरी इकाई को गुणवत्ता और पर्यावरण का प्रमाणपत्र चाहिए"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "खाने के सामान के सुरक्षा मानक का प्रमाणन",
+  "expected": "CEN2026-039",
+  "clean": "खाने के सामान के सुरक्षा मानक का प्रमाणन"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "विदेशशी खरीदारों के बकाया बिल को जल्ी नकद करना है",
+  "expected": "CEN2026-179",
+  "clean": "विदेशी खरीदारों के बकाया बिल को जल्दी नकद करना है"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "आरक्षित वर्ग के नाते मैने प्रंबधन कोर्स किया, फीस वापस मिलेगी",
+  "expected": "CEN2026-160",
+  "clean": "आरक्षित वर्ग के नाते मैंने प्रबंधन कोर्स किया, फीस वापस मिलेगी"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "शहरी गसीब को समूह, रैन बतेरा और आजीविका",
+  "expected": "CEN2026-028",
+  "clean": "शहरी गरीब को समूह, रैन बसेरा और आजीविका"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "2024 से 25 शहरों में शुरू शहरी आजीविका मिशन का नया रूप",
+  "expected": "CEN2026-221",
+  "clean": "2024 से 25 शहरों में शुरू शहरी आजीविका मिशन का नया रूप"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "बेटियों की हालत सुधारना और लड़कों-लड़कियों का अनुपात",
+  "expected": "CEN2026-010",
+  "clean": "बेटियों की हालत सुधारना और लड़कों-लड़कियों का अनुपात"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "मेरी नई कंपनी को पैसे देने वाले बैंक को चूक से सुरक्षा चाहिए",
+  "expected": "CEN2026-024",
+  "clean": "मेरी नई कंपनी को पैसे देने वाले बैंक को चूक से सुरक्षा चाहिए"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "छुट्टी बिताने वाले साझा स्वामित्व रिसॉर्ट की श्रेणी तय",
+  "expected": "CEN2026-267",
+  "clean": "छुट्टी बिताने वाले साझा स्वामित्व रिसॉर्ट की श्रेणी तय"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "गाँव में बेकार लकड़ी से खिलौने और फर्नीचर बनाना",
+  "expected": "CEN2026-168",
+  "clean": "गाँव में बेकार लकड़ी से खिलौने और फर्नीचर बनाना"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "विदेशी खरीदारों को नमूने भेजने हैं",
+  "expected": "CEN2026-103",
+  "clean": "विदेशी खरीदारों को नमूने भेजने हैं"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "पोस्ट-डॉक्टरेट शोध में लगी औरत के लिए फेलोशिप",
+  "expected": "CEN2026-131",
+  "clean": "पोस्ट-डॉक्टरेट शोध में लगी औरत के लिए फेलोशिप"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "कम पैदावार वाले सौ जिलों में कई योजनाओं को जोड़ने वाला कार्यक्रम",
+  "expected": "CEN2026-202",
+  "clean": "कम पैदावार वाले सौ जिलों में कई योजनाओं को जोड़ने वाला कार्यक्रम"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "मेरी इकाई में बर्बाी घमाने के लिए लीन तरीके सीखना",
+  "expected": "CEN2026-061",
+  "clean": "मेरी इकाई में बर्बादी घटाने के लिए लीन तरीके सीखना"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "गाँव के कुमह्ारों को बहतर चाक और भट्ठी",
+  "expected": "CEN2026-080",
+  "clean": "गाँव के कुम्हारों को बेहतर चाक और भट्ठी"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "मशीन बनाे वालों के लिए सााझ जाँच प्रयोगशाला और इंजीनियरिंग सुविधा",
+  "expected": "CEN2026-230",
+  "clean": "मशीन बनाने वालों के लिए साझा जाँच प्रयोगशाला और इंजीनियरिंग सुविधा"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "मेरी छोटी दुककान है, कुछ गोरवी रखे बिना थोड़ी रकम चाहिए",
+  "expected": "CEN2026-083",
+  "clean": "मेरी छोटी दुकान है, कुछ गिरवी रखे बिना थोड़ी रकम चाहिए"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "गाँव में शहद के लिए मधुमक्खी पालना चाहता हूँ",
+  "expected": "CEN2026-009",
+  "clean": "गाँव में शहद के लिए मधुमक्खी पालना चाहता हूँ"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "छोटा धंधा शुरू करने वाली औरत के लिए मार्गदर्शन का पोर्टल",
+  "expected": "CEN2026-125",
+  "clean": "छोटा धंधा शुरू करने वाली औरत के लिए मार्गदर्शन का पोर्टल"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "किशोरियों के पोषण और जीने की समझ",
+  "expected": "CEN2026-098",
+  "clean": "किशोरियों के पोषण और जीने की समझ"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "अपने विचार को नई कंपनी का दर्जा और फायदे दिलाना",
+  "expected": "CEN2026-113",
+  "clean": "अपने विचार को नई कंपनी का दर्जा और फायदे दिलाना"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "सैलानियों के तंबू वाले कैंप की श्रेणी",
+  "expected": "CEN2026-268",
+  "clean": "सैलानियों के तंबू वाले कैंप की श्रेणी"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "गाँँव के परिवार को पकका मकान चाहिए",
+  "expected": "CEN2026-261",
+  "clean": "गाँव के परिवार को पक्का मकान चाहिए"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "विज्ाञन में पीएचडी कर रही औरत को आर्थक सहारा",
+  "expected": "CEN2026-132",
+  "clean": "विज्ञान में पीएचडी कर रही औरत को आर्थिक सहारा"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "शहर जाए बिना गावँ में ही सरकाी काम का डिजिटल केंद्र",
+  "expected": "CEN2026-253",
+  "clean": "शहर जाए बिना गाँव में ही सरकारी काम का डिजिटल केंद्र"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "गाव में रेशे से हाथ का कागज़ बाना",
+  "expected": "CEN2026-169",
+  "clean": "गाँव में रेशे से हाथ का कागज़ बनाना"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "अपने आविद्कार को डिज़ाइन और पेटेंट मदद से उत्थाद बनाना",
+  "expected": "CEN2026-172",
+  "clean": "अपने आविष्कार को डिज़ाइन और पेटेंट मदद से उत्पाद बनाना"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "विदेशी व्यापार मेले में स्टॉल लगाना",
+  "expected": "CEN2026-042",
+  "clean": "विदेशी व्यापार मेले में स्टॉल लगाना"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "नवीन, बढ़ने लायक नई कंपनियों को राष्ट्रीय पहचान",
+  "expected": "CEN2026-072",
+  "clean": "नवीन, बढ़ने लायक नई कंपनियों को राष्ट्रीय पहचान"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "अपनी इकाई के उत्पाद के लिए पेशेवर डिज़ाइनर ढूँढना",
+  "expected": "CEN2026-063",
+  "clean": "अपनी इकाई के उत्पाद के लिए पेशेवर डिज़ाइनर ढूँढना"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "औरत या आरक्षित वर्ग के व्यक्ति के पलहे धंेध के लिए बैंक रकम",
+  "expected": "CEN2026-112",
+  "clean": "औरत या आरक्षित वर्ग के व्यक्ति के पहले धंधे के लिए बैंक रकम"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "नीति आयोग का मंच जहाँ औरतों के धंधे से जुड़ी जानकारी मिलती है",
+  "expected": "CEN2026-134",
+  "clean": "नीति आयोग का मंच जहाँ औरतों के धंधे से जुड़ी जानकारी मिलती है"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "विदेशी बाज़ार की खुफिया जानकारी का प्रसार",
+  "expected": "CEN2026-151",
+  "clean": "विदेशी बाज़ार की खुफिया जानकारी का प्रसार"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "गँव में आीजविका इन्क्यूबेटर",
+  "expected": "CEN2026-099",
+  "clean": "गाँव में आजीविका इन्क्यूबेटर"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "मशनी, दुकान की मरम्मत और ढुलाई वाली गा़डी के लिए वित्त",
+  "expected": "CEN2026-101",
+  "clean": "मशीन, दुकान की मरम्मत और ढुलाई वाली गाड़ी के लिए वित्त"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "घर में बने अचा-नमकीन की इकाई को औपचारूक बनाना",
+  "expected": "CEN2026-138",
+  "clean": "घर में बने अचार-नमकीन की इकाई को औपचारिक बनाना"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "जैव शोध वाली नई कंपनिियों के लिए नधियों की निधि",
+  "expected": "CEN2026-014",
+  "clean": "जैव शोध वाली नई कंपनियों के लिए निधियों की निधि"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "बैंक की रकम और छूट के साथ नई छोटी इकाई खोलना",
+  "expected": "CEN2026-085",
+  "clean": "बैंक की रकम और छूट के साथ नई छोटी इकाई खोलना"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "नवीनता और नई पहल को गति देने वाला सरकारी मिशन",
+  "expected": "CEN2026-006",
+  "clean": "नवीनता और नई पहल को गति देने वाला सरकारी मिशन"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "विदेश व्यापार नीति में बड़े विक्रेताओं का दर्जा और विशेषाधिकार",
+  "expected": "CEN2026-115",
+  "clean": "विदेश व्यापार नीति में बड़े विक्रेताओं का दर्जा और विशेषाधिकार"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "औरतों तक पहुँचने वाला एमएसएमई मंत्रालय का अभियान",
+  "expected": "CEN2026-136",
+  "clean": "औरतों तक पहुँचने वाला एमएसएमई मंत्रालय का अभियान"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "कोरोना के समय छोटी इकाइयों को आपात वित्त",
+  "expected": "CEN2026-002",
+  "clean": "कोरोना के समय छोटी इकाइयों को आपात वित्त"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "छत पर सोर पैनल लगाने के लिए सुवधि वित्त",
+  "expected": "CEN2026-119",
+  "clean": "छत पर सोलर पैनल लगाने के लिए सावधि वित्त"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "खुद का काम करने के बारे में एक दिन की जागरूकता बैठक",
+  "expected": "CEN2026-140",
+  "clean": "खुद का काम करने के बारे में एक दिन की जागरूकता बैठक"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "आगक्षित वरर्ग की इकाइयों को मशीन खरीदने पर आंशिक छूट",
+  "expected": "CEN2026-152",
+  "clean": "आरक्षित वर्ग की इकाइयों को मशीन खरीदने पर आंशिक छूट"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "औरतों और बच्चियंो के लिए दो साल का बचत प्रमाणपग्र",
+  "expected": "CEN2026-050",
+  "clean": "औरतों और बच्चियों के लिए दो साल का बचत प्रमाणपत्र"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "बड़ी कंपनियों में युवाओं के लिए बारह महीने की इंटर्नशिप",
+  "expected": "CEN2026-198",
+  "clean": "बड़ी कंपनियों में युवाओं के लिए बारह महीने की इंटर्नशिप"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "बचत समूहों को छोटी रकम",
+  "expected": "CEN2026-274",
+  "clean": "बचत समूहों को छोटी रकम"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "आयुष की अंतरराष्ट्रयी जालरूकता बढ़ाना",
+  "expected": "CEN2026-235",
+  "clean": "आयुष की अंतरराष्ट्रीय जागरूकता बढ़ाना"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "भुगतान में देरी की शिकायत दर्ज करने का ऑनलाइन पोर्टल",
+  "expected": "CEN2026-066",
+  "clean": "भुगतान में देरी की शिकायत दर्ज करने का ऑनलाइन पोर्टल"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "नई नौककरियाँ देनने वाले नियोक्ता को प्रोत्साहन",
+  "expected": "CEN2026-197",
+  "clean": "नई नौकरियाँ देने वाले नियोक्ता को प्रोत्साहन"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "तीसरे लिंग के लोगों और भीख माँगने वालों का पुनर्वास",
+  "expected": "CEN2026-213",
+  "clean": "तीसरे लिंग के लोगों और भीख माँगने वालों का पुनर्वास"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "राज्य विज्ञान परिषदों को केंद्रीय एजेंसियों से जोड़ना",
+  "expected": "CEN2026-263",
+  "clean": "राज्य विज्ञान परिषदों को केंद्रीय एजेंसियों से जोड़ना"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "एएसआईसी अपने बैंक समझौते से मेी इकाई को सुविधा दिलाता है",
+  "expected": "CEN2026-008",
+  "clean": "एनएसआईसी अपने बैंक समझौते से मेरी इकाई को सुविधा दिलाता है"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "औरतों के सशक्तिकरण में सेवा के लिए राष्ट्रीय पुरस्कार",
+  "expected": "CEN2026-070",
+  "clean": "औरतों के सशक्तिकरण में सेवा के लिए राष्ट्रीय पुरस्कार"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "ई-कॉमर्स विक्रेताओं के लिए वोदेश में गदाम और डिलीवरी केंद्र",
+  "expected": "CEN2026-186",
+  "clean": "ई-कॉमर्स विक्रेताओं के लिए विदेश में गोदाम और डिलीवरी केंद्र"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "संनट में फंसी औरतों के लिए विलय किया गया रहत गृह",
+  "expected": "CEN2026-105",
+  "clean": "संकट में फंसी औरतों के लिए विलय किया गया राहत गृह"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "सरकारी ऑर्डर पर चिकाई गई बैंक जमाानत शुल्क की वापसी",
+  "expected": "CEN2026-156",
+  "clean": "सरकारी ऑर्डर पर चुकाई गई बैंक जमानत शुल्क की वापसी"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "विशेष आ्रथिक क्षेत्र में अपनी इकाई लगूना",
+  "expected": "CEN2026-255",
+  "clean": "विशेष आर्थिक क्षेत्र में अपनी इकाई लगाना"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "सरकार को सूमान बचने और पहचान बढ़ाने में मदद",
+  "expected": "CEN2026-087",
+  "clean": "सरकार को सामान बेचने और पहचान बढ़ाने में मदद"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "नारिसल रेशशा उत्पाद शोरूम और स्थानीय मेलों में बेचना",
+  "expected": "CEN2026-146",
+  "clean": "नारियल रेशा उत्पाद शोरूम और स्थानीय मेलों में बेचना"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "पूर्वोत्तर और सिक्किम की छोटी इकाइयों को बढ़ावा",
+  "expected": "CEN2026-090",
+  "clean": "पूर्वोत्तर और सिक्किम की छोटी इकाइयों को बढ़ावा"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "बिना कुछ गिरवी रखे विदेशी ऑर्डर के लिए पैसे",
+  "expected": "CEN2026-178",
+  "clean": "बिना कुछ गिरवी रखे विदेशी ऑर्डर के लिए पैसे"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "मशीन आधुनिक करने के लिए साववि विित्त से जुड़ी छूट",
+  "expected": "CEN2026-018",
+  "clean": "मशीन आधुनिक करने के लिए सावधि वित्त से जुड़ी छूट"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "एनएसआईसी का ऑनलाइन बाज़ार और बाज़ार की जानकारी",
+  "expected": "CEN2026-062",
+  "clean": "एनएसआईसी का ऑनलाइन बाज़ार और बाज़ार की जानकारी"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "कमाई लायक बनाने के लिए छोोटे रीस्कििलिंग कोर्स",
+  "expected": "CEN2026-211",
+  "clean": "कमाई लायक बनाने के लिए छोटे रीस्किलिंग कोर्स"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "चप्पल और पादुका बनाने वूले गाव के मोची",
+  "expected": "CEN2026-167",
+  "clean": "चप्पल और पादुका बनाने वाले गाँव के मोची"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "होटल कर्मचारियों के लिए छोटे प्रमाणपत्र कोर्स",
+  "expected": "CEN2026-270",
+  "clean": "होटल कर्मचारियों के लिए छोटे प्रमाणपत्र कोर्स"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "पहली बार धंधा शुरू करने वााली औतों और आरक्षित वर्ग को पाँच साल रकम",
+  "expected": "CEN2026-189",
+  "clean": "पहली बार धंधा शुरू करने वाली औरतों और आरक्षित वर्ग को पाँच साल रकम"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "सीवर और सेप्टिक टैैंक साफफ़ करने वालों की सुरक्षा और सम्मान",
+  "expected": "CEN2026-214",
+  "clean": "सीवर और सेप्टिक टैंक साफ़ करने वालों की सुरक्षा और सम्मान"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "विदेश में बेचने वाली आरक्षति व्रग की इकाइयों की परिषद् सदस्यता फीस वापस",
+  "expected": "CEN2026-158",
+  "clean": "विदेश में बेचने वाली आरक्षित वर्ग की इकाइयों की परिषद् सदस्यता फीस वापस"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "औतों को उनके हक़ बताने वाला केंद््र",
+  "expected": "CEN2026-097",
+  "clean": "औरतों को उनके हक़ बताने वाला केंद्र"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "वैज्ञाानिक औरतों के लिए फेलशिप और गतिशीलता का ढांचा",
+  "expected": "CEN2026-130",
+  "clean": "वैज्ञानिक औरतों के लिए फेलोशिप और गतिशीलता का ढांचा"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "अपनना पेटेंट या ट्रेडमार्क दर्ज कराने का खर्च वापपस",
+  "expected": "CEN2026-065",
+  "clean": "अपना पेटेंट या ट्रेडमार्क दर्ज कराने का खर्च वापस"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "मेरे असंगठित छोेट धंधे को औपचारिक व्यवस्था में लनाा",
+  "expected": "CEN2026-123",
+  "clean": "मेरे असंगठित छोटे धंधे को औपचारिक व्यवस्था में लाना"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "विदशेी बाजार के अध्ययन के लिए व्यापार विश्लेषण",
+  "expected": "CEN2026-185",
+  "clean": "विदेशी बाज़ार के अध्ययन के लिए व्यापार विश्लेषण"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "प्लास्टिक इकाइयों के लिए सोझा सुविधा पार््क",
+  "expected": "CEN2026-250",
+  "clean": "प्लास्टिक इकाइयों के लिए साझा सुविधा पार्क"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "फॉस्फेट और पोटाश खाद सस्ती",
+  "expected": "CEN2026-251",
+  "clean": "फॉस्फेट और पोटाश खाद सस्ती"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": true,
+  "query": "विदेश में बेचने वालों को सस्तता व्यापार वितत्त",
+  "expected": "CEN2026-176",
+  "clean": "विदेश में बेचने वालों को सस्ता व्यापार वित्त"
+ },
+ {
+  "lang": "hi",
+  "level": 3,
+  "typo": false,
+  "query": "राज्य वित्त निगमों की औरतों की समृद्धि योजना",
+  "expected": "CEN2026-051",
+  "clean": "राज्य वित्त निगमों की औरतों की समृद्धि योजना"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "ONDC இணைப்புக்கான TEAM திட்டம்",
+  "expected": "TN2026-049",
+  "clean": "ONDC இணைப்புக்கான TEAM திட்டம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "MSME நிறுவனங்களில் முழுமையனா எிரசக்தி திறன் முதலீடுகளுக்கான",
+  "expected": "CEN2026-035",
+  "clean": "MSME நிறுவனங்களில் முழுமையான எரிசக்தி திறன் முதலீடுகளுக்கான"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "தொடக்க நிறுவனங்களுக்கான நிதிகளின் நிதி (FFS)",
+  "expected": "CEN2026-036",
+  "clean": "தொடக்க நிறுவனங்களுக்கான நிதிகளின் நிதி (FFS)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "WING தின் கடட்டமைப்புப் பட்டறைகள்",
+  "expected": "CEN2026-128",
+  "clean": "WING திறன் கட்டமைப்புப் பட்டறைகள்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "சங்கங்களால் ஏற்பாடு செய்யப்படும் நிகழ்வுகளுக்கு இணை நிதியாதரவு",
+  "expected": "TN2026-039",
+  "clean": "சங்கங்களால் ஏற்பாடு செய்யப்படும் நிகழ்வுகளுக்கு இணை நிதியாதரவு"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "மிஷன் சக்ஷம் அங்கனன்வாடி மற்்றும் போஷண் 2.0",
+  "expected": "CEN2026-058",
+  "clean": "மிஷன் சக்ஷம் அங்கன்வாடி மற்றும் போஷண் 2.0"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "தொட்டில் குழந்தைத் திட்டம்",
+  "expected": "TN2026-010",
+  "clean": "தொட்டில் குழந்தைத் திட்டம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "பொதியிடல் மேம்பாடு, பட்டைக் குறியீடு, QR குறியீடு,",
+  "expected": "CEN2026-075",
+  "clean": "பொதியிடல் மேம்பாடு, பட்டைக் குறியீடு, QR குறியீடு,"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "குறிப்பிட்ட வகைத் தொழில்முனைவோருக்கான கூடுதல் மூலதன மானியம்",
+  "expected": "TN2026-004",
+  "clean": "குறிப்பிட்ட வகைத் தொழில்முனைவோருக்கான கூடுதல் மூலதன மானியம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "தன்னாறைவு இந்தியயா (SRI) நிதி",
+  "expected": "CEN2026-102",
+  "clean": "தன்னிறைவு இந்தியா (SRI) நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "கலைஞர் மகளிிர் உரமிைத் தொகைத் திட்டம்",
+  "expected": "TN2026-021",
+  "clean": "கலைஞர் மகளிர் உரிமைத் தொகைத் திட்டம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "குறு நிறுவனங்களுக்கான கிரெடிட் கார்டுகள் திட்டம்",
+  "expected": "CEN2026-188",
+  "clean": "குறு நிறுவனங்களுக்கான கிரெடிட் கார்டுகள் திட்டம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "MSME க்நான சந்தை மேம்மாட்டு உதவி (MDA)",
+  "expected": "CEN2026-149",
+  "clean": "MSME க்கான சந்தை மேம்பாட்டு உதவி (MDA)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "பிற்சேர் வட்டி மானியம்",
+  "expected": "TN2026-007",
+  "clean": "பிற்சேர் வட்டி மானியம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "மேலாண்மை மேம்பாட்டுத் திட்டமம் (nDP)",
+  "expected": "CEN2026-143",
+  "clean": "மேலாண்மை மேம்பாட்டுத் திட்டம் (MDP)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "தமிழ்ப் புதல்வன் திட்டம்",
+  "expected": "TN2026-046",
+  "clean": "தமிழ்ப் புதல்வன் திட்டம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "கிராமோத்யோக் விகாஸ் யோனஜா (GGVY)",
+  "expected": "CEN2026-166",
+  "clean": "கிராமோத்யோக் விகாஸ் யோஜனா (GVY)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "தூய்மையான மற்றும் சுற்றுச்சூழல் நட்புத் தொழில்நுட்பங்களை ஊக்குவிப்பதற்கான",
+  "expected": "TN2026-002",
+  "clean": "தூய்மையான மற்றும் சுற்றுச்சூழல் நட்புத் தொழில்நுட்பங்களை ஊக்குவிப்பதற்கான"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "கயர் விகஸா் யோஜனா — ஏற்றுமதிச் சழ்தை",
+  "expected": "CEN2026-020",
+  "clean": "கயர் விகாஸ் யோஜனா — ஏற்றுமதிச் சந்தை"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "புதிய தொழில்முனைவோர் மற்றும் நிறுவன மேம்பாட்டுத் திட்டம்",
+  "expected": "TN2026-028",
+  "clean": "புதிய தொழில்முனைவோர் மற்றும் நிறுவன மேம்பாட்டுத் திட்டம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "வட்டி மானிய தகுதிற் சான்றிதழ் திட்டம் (ISwC)",
+  "expected": "CEN2026-162",
+  "clean": "வட்டி மானிய தகுதிச் சான்றிதழ் திட்டம் (ISEC)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "மகிளா காவல் தன்னார்வலர்கள் (MPV)",
+  "expected": "CEN2026-049",
+  "clean": "மகிளா காவல் தன்னார்வலர்கள் (MPV)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "டாக்டர் தர்மாம்பாள் அம்மையார் நினைவு விதவை மறுமண",
+  "expected": "TN2026-011",
+  "clean": "டாக்டர் தர்மாம்பாள் அம்மையார் நினைவு விதவை மறுமண"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "சுற்றுலா சேவை வழங்குநர்களுக்கு (பயண முகவர்கள், சுற்றுலா",
+  "expected": "CEN2026-269",
+  "clean": "சுற்றுலா சேவை வழங்குநர்களுக்கு (பயண முகவர்கள், சுற்றுலா"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "பருப்பு வககைளில் தற்சர்பு இயக்கம்",
+  "expected": "CEN2026-203",
+  "clean": "பருப்பு வகைகளில் தற்சார்பு இயக்கம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "அறிவுசார் சொத்து உருவாக்கத்திற்கான மானியம்",
+  "expected": "TN2026-037",
+  "clean": "அறிவுசார் சொத்து உருவாக்கத்திற்கான மானியம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "தேசிய கால்நடைத் திட்டம்-தொழில்முனைவோர் மேம்பாட்டுத் திட்டம் (என்எல்எம்-ஈடிபி)",
+  "expected": "CEN2026-218",
+  "clean": "தேசிய கால்நடைத் திட்டம்-தொழில்முனைவோர் மேம்பாட்டுத் திட்டம் (என்எல்எம்-ஈடிபி)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "தாழ்வழுத்த மி்ன கட்டண (LToT) மானியம்",
+  "expected": "TN2026-022",
+  "clean": "தாழ்வழுத்த மின் கட்டண (LTPT) மானியம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "தமிழ்்நாடு தொடக்க நிறுவன விதைநிதி (TNASEED)",
+  "expected": "TN2026-043",
+  "clean": "தமிழ்நாடு தொடக்க நிறுவன விதைநிதி (TANSEED)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "உள்நாட்டுச் சந்தை ஊக்குவிப்புத் திட்டம்",
+  "expected": "CEN2026-030",
+  "clean": "உள்நாட்டுச் சந்தை ஊக்குவிப்புத் திட்டம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "முதலமைச்சரின் பெ் குழந்தைப் பாதுகாப்புத் தடி்டம்",
+  "expected": "TN2026-009",
+  "clean": "முதலமைச்சரின் பெண் குழந்தைப் பாதுகாப்புத் திட்டம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "நகரங்கள் மற்றும் ஊர்களின் புறநகர்ப் பகுதிகளில் புதிய",
+  "expected": "TN2026-017",
+  "clean": "நகரங்கள் மற்றும் ஊர்களின் புறநகர்ப் பகுதிகளில் புதிய"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "TANSIDDCO தொழில்நுட்ப வணகி வளர்ப்பகம்",
+  "expected": "TN2026-048",
+  "clean": "TANSIDCO தொழில்நுட்ப வணிக வளர்ப்பகம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "காதி விகாஸ் யோஜனா",
+  "expected": "CEN2026-045",
+  "clean": "காதி விகாஸ் யோஜனா"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "தோட்டக்கலைப் பயிர்களின் உற்பத்ி மற்றும் அறுவடைக்குப் பிிந்தைய",
+  "expected": "CEN2026-244",
+  "clean": "தோட்டக்கலைப் பயிர்களின் உற்பத்தி மற்றும் அறுவடைக்குப் பிந்தைய"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "தோழி விடுதிகள்",
+  "expected": "TN2026-050",
+  "clean": "தோழி விடுதிகள்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "அறிவியயல் மற்றும் தொழில்நுட்பம்",
+  "expected": "CEN2026-145",
+  "clean": "அறிவியல் மற்றும் தொழில்நுட்பம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "10,000 விவசாய உற்பத்தியாளர் அமைப்புகளை உருவாக்கி ஊக்குவித்தல்",
+  "expected": "CEN2026-220",
+  "clean": "10,000 விவசாய உற்பத்தியாளர் அமைப்புகளை உருவாக்கி ஊக்குவித்தல்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "சென்ட் கல்யாணி",
+  "expected": "CEN2026-017",
+  "clean": "சென்ட் கல்யாணி"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "அரசசு இ-காமர்ஸ் இணையதள உறுப்பினர் கட்டணத்தை (SSH)",
+  "expected": "CEN2026-159",
+  "clean": "அரசு இ-காமர்ஸ் இணையதள உறுப்பினர் கட்டணத்தை (NSSH)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "வேளாண் கிளினிக்குகள் மற்றும் வேளாண் வணிக மையங்கள்",
+  "expected": "CEN2026-243",
+  "clean": "வேளாண் கிளினிக்குகள் மற்றும் வேளாண் வணிக மையங்கள்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "TRACE – வர்த்தக ஒழுங்குமுறைகள், அங்கீகாரம் மற்றும்",
+  "expected": "CEN2026-183",
+  "clean": "TRACE – வர்த்தக ஒழுங்குமுறைகள், அங்கீகாரம் மற்றும்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "தமிழ்நடு தொடக்க நிறுவனம் மற்ுறம் புத்தாக்க இயக்கம்",
+  "expected": "TN2026-042",
+  "clean": "தமிழ்நாடு தொடக்க நிறுவனம் மற்றும் புத்தாக்க இயக்கம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "சந்தை ஊக்குவிப்பு மற்றும் மேம்பாட்டு உதவி (MPDA)",
+  "expected": "CEN2026-053",
+  "clean": "சந்தை ஊக்குவிப்பு மற்றும் மேம்பாட்டு உதவி (MPDA)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "மூலதன மாடியம்",
+  "expected": "TN2026-008",
+  "clean": "மூலதன மானியம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "சறு குவி அறை மேம்பாட்டிற்கான ஆதரவு",
+  "expected": "TN2026-040",
+  "clean": "சிறு கருவி அறை மேம்பாட்டிற்கான ஆதரவு"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "முன்னுரிமைத் துறை நிறுவனங்களுக்கான சிற்பபு மூலததன மானியம்",
+  "expected": "TN2026-036",
+  "clean": "முன்னுரிமைத் துறை நிறுவனங்களுக்கான சிறப்பு மூலதன மானியம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "மாற்றியமைக்கப்பட்ட சந்தை மேம்பாட்டு உதவி (MMDA)",
+  "expected": "CEN2026-161",
+  "clean": "மாற்றியமைக்கப்பட்ட சந்தை மேம்பாட்டு உதவி (MMDA)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "அ்ணல் அம்பேத்கர் தொழில் முன்னோடிகள் திடட்டம்",
+  "expected": "TN2026-006",
+  "clean": "அண்ணல் அம்பேத்கர் தொழில் முன்னோடிகள் திட்டம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "பிரம மந்திரி தெருவோோர வியாபாரிகள் ஆத்மநிர்பர் நிதி",
+  "expected": "CEN2026-078",
+  "clean": "பிரதம மந்திரி தெருவோர வியாபாரிகள் ஆத்மநிர்பர் நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "அரசு மின்-சந்தை (Gej) — மகளரி் உரிமையிலான",
+  "expected": "CEN2026-037",
+  "clean": "அரசு மின்-சந்தை (GeM) — மகளிர் உரிமையிலான"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "கருதப்படும் ஏற்றுமதிகள்",
+  "expected": "CEN2026-025",
+  "clean": "கருதப்படும் ஏற்றுமதிகள்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "தொழில்முனைவோர் மற்று் திறன் மேம்பாட்டுுத் திட்டம் (இ-SDP)",
+  "expected": "CEN2026-141",
+  "clean": "தொழில்முனைவோர் மற்றும் திறன் மேம்பாட்டுத் திட்டம் (இ-SDP)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "விக்சித் பாரத் – வேலைவாய்ப்பு மற்றமு் வாழ்வாதாார",
+  "expected": "CEN2026-260",
+  "clean": "விக்சித் பாரத் – வேலைவாய்ப்பு மற்றும் வாழ்வாதார"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "Udyam பததிவு",
+  "expected": "CEN2026-124",
+  "clean": "Udyam பதிவு"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "தொழில்நுட்பத் தொழேல் வளர்ப்பு மற்றும் தொழில்முனைவோர் மேமப்ாடு",
+  "expected": "CEN2026-252",
+  "clean": "தொழில்நுட்பத் தொழில் வளர்ப்பு மற்றும் தொழில்முனைவோர் மேம்பாடு"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "தற்போதுள்ள பலீனமான கதாி நிறுவனங்களின் உள்கட்டமைப்பை வலுப்படுத்துதல்",
+  "expected": "CEN2026-164",
+  "clean": "தற்போதுள்ள பலவீனமான காதி நிறுவனங்களின் உள்கட்டமைப்பை வலுப்படுத்துதல்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "பஎம் இ-டிரைவ் (PM Electric Drive Revoljtion",
+  "expected": "CEN2026-209",
+  "clean": "பிஎம் இ-டிரைவ் (PM Electric Drive Revolution"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "வாழ்்நது காட்டுவோம் திட்டம் (VP) / தமிழ்நாடு",
+  "expected": "TN2026-052",
+  "clean": "வாழ்ந்து காட்டுவோம் திட்டம் (VKP) / தமிழ்நாடு"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "குறு மற்றும் சிறு நிறுவனங்களுக்கான உத்தரவாதத் திட்டங்கள்",
+  "expected": "CEN2026-038",
+  "clean": "குறு மற்றும் சிறு நிறுவனங்களுக்கான உத்தரவாதத் திட்டங்கள்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "எரிசக்தித் தணிக்கை மற்றும் எரிசக்திச் சேமிப்பு ஊக்குவிப்பு",
+  "expected": "TN2026-029",
+  "clean": "எரிசக்தித் தணிக்கை மற்றும் எரிசக்திச் சேமிப்பு ஊக்குவிப்பு"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "மேம்பட்ட மேலாண்மை மேம்பாட்டுத் திட்டம் (மேம்பட்ட MDP)",
+  "expected": "CEN2026-144",
+  "clean": "மேம்பட்ட மேலாண்மை மேம்பாட்டுத் திட்டம் (மேம்பட்ட MDP)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "MSME நிறுவனங்களுக்கான ஒற்றைச் சாளர அனுமதி முறை",
+  "expected": "TN2026-034",
+  "clean": "MSME நிறுவனங்களுக்கான ஒற்றைச் சாளர அனுமதி முறை"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "ஏற்கெனவே உ்ளள நிறுவனங்களை நகர்ப்புறங்களுக்கு வெணியே இடமாற்றம்",
+  "expected": "TN2026-018",
+  "clean": "ஏற்கெனவே உள்ள நிறுவனங்களை நகர்ப்புறங்களுக்கு வெளியே இடமாற்றம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "பிதரான் மந்திரி கௌஷல் விகாஸ் யஜோனா (PMKVY)",
+  "expected": "CEN2026-081",
+  "clean": "பிரதான் மந்திரி கௌஷல் விகாஸ் யோஜனா (PMKVY)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "நிறுவன விரிவாக்கத்திற்கான கூடுதல் மூலதன மானியம்",
+  "expected": "TN2026-003",
+  "clean": "நிறுவன விரிவாக்கத்திற்கான கூடுதல் மூலதன மானியம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "ஸ்டாண்ட்-அப் இ்தியா திட்டம்",
+  "expected": "CEN2026-137",
+  "clean": "ஸ்டாண்ட்-அப் இந்தியா திட்டம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "கொரோனா நெருக்கடிக் காலத்தில் தொழில்களை மீட்டெடுக்கும் காலத்தில்",
+  "expected": "CEN2026-120",
+  "clean": "கொரோனா நெருக்கடிக் காலத்தில் தொழில்களை மீட்டெடுக்கும் காலத்தில்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "உயயிரித் தொழில்நுட்பத் தொழில் கூட்டா்மைத் திட்டம் (BIPP)",
+  "expected": "CEN2026-013",
+  "clean": "உயிரித் தொழில்நுட்பத் தொழில் கூட்டாண்மைத் திட்டம் (BIPP)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "வங்கி உத்தரவாதத்தின் அடிப்படையில் மூலப்பொருள் உதவி (RMA)",
+  "expected": "CEN2026-093",
+  "clean": "வங்கி உத்தரவாதத்தின் அடிப்படையில் மூலப்பொருள் உதவி (RMA)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "தமிழ்நாடு மகளிர் தலைமையிலான தொடக்க நிறுவனங்களுக்கான தொழில்",
+  "expected": "TN2026-045",
+  "clean": "தமிழ்நாடு மகளிர் தலைமையிலான தொடக்க நிறுவனங்களுக்கான தொழில்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "தரச் சான்றிதழ் பெறுவதற்கான திட்டம் (Q-Cert)",
+  "expected": "TN2026-033",
+  "clean": "தரச் சான்றிதழ் பெறுவதற்கான திட்டம் (Q-Cert)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "MentorTN",
+  "expected": "TN2026-024",
+  "clean": "MentorTN"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "மி்னாக்கி மானியம்",
+  "expected": "TN2026-016",
+  "clean": "மின்னாக்கி மானியம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "தமிழ்நாடு மாநில ஊரக வாழ்வாதார இயக்கம் (TNSRLM)",
+  "expected": "TN2026-044",
+  "clean": "தமிழ்நாடு மாநில ஊரக வாழ்வாதார இயக்கம் (TNSRLM)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "தீய்தயாள் அந்த்யோதயயா யோஜனா — தேசிய ஊரக",
+  "expected": "CEN2026-027",
+  "clean": "தீன்தயாள் அந்த்யோதயா யோஜனா — தேசிய ஊரக"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "மகிருக்கான பயிற்சி மற்றும் வேலைவாய்ப்புத் திடட ஆதரவு",
+  "expected": "CEN2026-117",
+  "clean": "மகளிருக்கான பயிற்சி மற்றும் வேலைவாய்ப்புத் திட்ட ஆதரவு"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "நன்னிலம் மகளிர் நில உரிமைத் திட்டம்",
+  "expected": "TN2026-027",
+  "clean": "நன்னிலம் மகளிர் நில உரிமைத் திட்டம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "MSME நிறுவனங்களுக்கான TANSIIDCO ஏற்றுமதி ஊக்குவிப்ுப மற்றும்",
+  "expected": "TN2026-047",
+  "clean": "MSME நிறுவனங்களுக்கான TANSIDCO ஏற்றுமதி ஊக்குவிப்பு மற்றும்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "திறன் இந்தியா திட்டம் (மறுசீரமைக்கப்பட்டது: PMKVY 4.0,",
+  "expected": "CEN2026-199",
+  "clean": "திறன் இந்தியா திட்டம் (மறுசீரமைக்கப்பட்டது: PMKVY 4.0,"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "வரியில்லா இறக்குமதி அங்கீகாரம் (DFIA)",
+  "expected": "CEN2026-032",
+  "clean": "வரியில்லா இறக்குமதி அங்கீகாரம் (DFIA)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "BIRAC SEED நிதி",
+  "expected": "CEN2026-016",
+  "clean": "BIRAC SEED நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "விடியல் பயணம் திட்டம் (இதவசப் பேருந்துப் பயணம)்",
+  "expected": "TN2026-053",
+  "clean": "விடியல் பயணம் திட்டம் (இலவசப் பேருந்துப் பயணம்)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "மாற்றுத்திறனாளிகளுக்கான தேசிய ஆய்வு உதவித்தொகை (NFPwD)",
+  "expected": "CEN2026-265",
+  "clean": "மாற்றுத்திறனாளிகளுக்கான தேசிய ஆய்வு உதவித்தொகை (NFPwD)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "ஈ.வெ.ரா. மிணயம்மையார் நினைவு ஏழை விதவைகளின் மககள்களுக்கான",
+  "expected": "TN2026-013",
+  "clean": "ஈ.வெ.ரா. மணியம்மையார் நினைவு ஏழை விதவைகளின் மகள்களுக்கான"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "குளிர்பதனக் கிடங்குகள்/தோட்டக்கலை பொருட்களின் சேமிப்புக் கிடங்குகள் கட்டுதல்/விரிவாக்கம்/நவீனமயமாக்கலுக்கான",
+  "expected": "CEN2026-248",
+  "clean": "குளிர்பதனக் கிடங்குகள்/தோட்டக்கலை பொருட்களின் சேமிப்புக் கிடங்குகள் கட்டுதல்/விரிவாக்கம்/நவீனமயமாக்கலுக்கான"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "இலக்குப் பகுதிகளில் உள்ள உயர்நிலைப் பள்ளி மாணவர்களுக்கான",
+  "expected": "CEN2026-212",
+  "clean": "இலக்குப் பகுதிகளில் உள்ள உயர்நிலைப் பள்ளி மாணவர்களுக்கான"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "நைன் முதல்வன்",
+  "expected": "TN2026-026",
+  "clean": "நான் முதல்வன்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "உயிரித் தொழில்நுட்பத் தொடக்க ஊ்கக நிதிியுதவி (BIG)",
+  "expected": "CEN2026-012",
+  "clean": "உயிரித் தொழில்நுட்பத் தொடக்க ஊக்க நிதியுதவி (BIG)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "நமோ ட்ரனோ் திதி",
+  "expected": "CEN2026-031",
+  "clean": "நமோ ட்ரோன் திதி"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "EsII தொழில்நுட்ப மேம்பாட்டு நிததி",
+  "expected": "TN2026-014",
+  "clean": "EDII தொழில்நுட்ப மேம்பாட்டு நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "ஏற்றுமதி மேம்பாட்டு இயக்கம் (EPM)",
+  "expected": "CEN2026-175",
+  "clean": "ஏற்றுமதி மேம்பாட்டு இயக்கம் (EPM)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "டாக்டர் முத்துலட்சுமி ரெடட்டி நினைவு கலப்பது் திருமண",
+  "expected": "TN2026-012",
+  "clean": "டாக்டர் முத்துலட்சுமி ரெட்டி நினைவு கலப்புத் திருமண"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "தமிழ்நாடு கடன் உத்தரவாதத் திட்டம் (TNCGS)",
+  "expected": "TN2026-041",
+  "clean": "தமிழ்நாடு கடன் உத்தரவாதத் திட்டம் (TNCGS)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "தியாரால் உருவாக்கப்படுமம் தொழிற்பேட்டைகளுக்கான உள்கட்டமைப்பு மானியம்",
+  "expected": "TN2026-019",
+  "clean": "தனியாரால் உருவாக்கப்படும் தொழிற்பேட்டைகளுக்கான உள்கட்டமைப்பு மானியம்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "ஊதுபத்தி தயாரிப்புத் திட்டம் — கிராமோத்யோக் விகாஸ்",
+  "expected": "CEN2026-223",
+  "clean": "ஊதுபத்தி தயாரிப்புத் திட்டம் — கிராமோத்யோக் விகாஸ்"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "EDII-TN தொழில் வளளர்ப்பு மற்றுும் வழிகாட்டுதல் ஆதரவு",
+  "expected": "TN2026-015",
+  "clean": "EDII-TN தொழில் வளர்ப்பு மற்றும் வழிகாட்டுதல் ஆதரவு"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "மகிளா கயர் யோஜனா (MCY)",
+  "expected": "CEN2026-047",
+  "clean": "மகிளா கயர் யோஜனா (MCY)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": false,
+  "query": "சகி நிவாஸ் (பணிபுரியும் மகளிர் விடுதிகள்)",
+  "expected": "CEN2026-096",
+  "clean": "சகி நிவாஸ் (பணிபுரியும் மகளிர் விடுதிகள்)"
+ },
+ {
+  "lang": "ta",
+  "level": 1,
+  "typo": true,
+  "query": "பட்டு சமகர்ா-2 (பட்யுத் தொழில்துறையின் மேம்பாட்டுக்கான ஒருங்கிணைந்த",
+  "expected": "CEN2026-215",
+  "clean": "பட்டு சமக்ரா-2 (பட்டுத் தொழில்துறையின் மேம்பாட்டுக்கான ஒருங்கிணைந்த"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "ஆதிவாசி அம்மாக்கைள வலுப்படுத்தும் திட்ம்",
+  "expected": "CEN2026-273",
+  "clean": "ஆதிவாசி அம்மாக்களை வலுப்படுத்தும் திட்டம்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "பொறியியல் ஆராய்ச்சியில் சாதத்த அம்மாக்களுக்கான விிருது",
+  "expected": "CEN2026-127",
+  "clean": "பொறியியல் ஆராய்ச்சியில் சாதித்த அம்மாக்களுக்கான விருது"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "சிறு நிறுவனங்களின் சரக்கை துறைமுகம் வரை கொண்டு செல்லும் போக்குவரத்து செலவுக்கு உதவி",
+  "expected": "CEN2026-184",
+  "clean": "சிறு நிறுவனங்களின் சரக்கை துறைமுகம் வரை கொண்டு செல்லும் போக்குவரத்து செலவுக்கு உதவி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "வெளிநாட்டு வர்த்தகக் கண்காட்சிகளில் பங்கேற்க சங்கங்களுக்கு நிதி உதவி",
+  "expected": "CEN2026-054",
+  "clean": "வெளிநாட்டு வர்த்தகக் கண்காட்சிகளில் பங்கேற்க சங்கங்களுக்கு நிதி உதவி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "கிராமப்புற தொழிற்கூடங்களை மேம்படுத்தும் கேவிஐசி திட்டம்",
+  "expected": "CEN2026-044",
+  "clean": "கிராமப்புற தொழிற்கூடங்களை மேம்படுத்தும் கேவிஐசி திட்டம்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "மகளின் எதிர்காலத்துக்்கான சேமிப்புக் கணக்ு",
+  "expected": "CEN2026-116",
+  "clean": "மகளின் எதிர்காலத்துக்கான சேமிப்புக் கணக்கு"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "ஆயுஷ் மருத்துவ முறைகள் குறித்த விழிப்புணர்வு",
+  "expected": "CEN2026-234",
+  "clean": "ஆயுஷ் மருத்துவ முறைகள் குறித்த விழிப்புணர்வு"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "குளிர்பதனக் கிடங்கு கட்ட அல்லது விரிவாக்க நிதிச் சலுகை",
+  "expected": "CEN2026-247",
+  "clean": "குளிர்பதனக் கிடங்கு கட்ட அல்லது விரிவாக்க நிதிச் சலுகை"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "விவசாயப் பொருட்களை உணவாக்கு்ம கிராமத் தொழிற்பிரிவு தி்டம்",
+  "expected": "CEN2026-170",
+  "clean": "விவசாயப் பொருட்களை உணவாக்கும் கிராமத் தொழிற்பிரிவு திட்டம்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "தேங்காய் நார் ஆராய்ச்சி முடிவுகளை களத்தில் சோதித்துப் பயன்படுத்துதல்",
+  "expected": "CEN2026-100",
+  "clean": "தேங்காய் நார் ஆராய்ச்சி முடிவுகளை களத்தில் சோதித்துப் பயன்படுத்துதல்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "சிறு நிறுவனங்களை போட்டித்திறன் மிக்கவையாக்கும் லீன் டிசைன் ஆதரவு",
+  "expected": "CEN2026-060",
+  "clean": "சிறு நிறுவனங்களை போட்டித்திறன் மிக்கவையாக்கும் லீன் டிசைன் ஆதரவு"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "வெளிநாட்டுக் குழுக்கள் மற்ும் வாங்குவோர்-விற்பரோ் சந்திப்புகளுக்கு ஆதரவு",
+  "expected": "CEN2026-041",
+  "clean": "வெளிநாட்டுக் குழுக்கள் மற்றும் வாங்குவோர்-விற்போர் சந்திப்புகளுக்கு ஆதரவு"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "தனியார் ஆராய்ச்சியை ஊக்குவிக்கும் ஒரு லட்சம் கோடி நிதி",
+  "expected": "CEN2026-191",
+  "clean": "தனியார் ஆராய்ச்சியை ஊக்குவிக்கும் ஒரு லட்சம் கோடி நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "ஐஐடி ஐஐஎம் நிறுவனங்களில் ஒரு வார மேம்பட்ட திட்டம்",
+  "expected": "CEN2026-142",
+  "clean": "ஐஐடி ஐஐஎம் நிறுவனங்களில் ஒரு வார மேம்பட்ட திட்டம்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "அசெண்ட் கீழ் ஆற்றல் மேம்பாட்டுக் கூட்டங்கள்",
+  "expected": "CEN2026-224",
+  "clean": "அசெண்ட் கீழ் ஆற்றல் மேம்பாட்டுக் கூட்டங்கள்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "அறிவியலில் பணிபுரியும் அம்மாக்களுக்கான டிஎஸ்டி வித்துஷி திட்டம்",
+  "expected": "CEN2026-126",
+  "clean": "அறிவியலில் பணிபுரியும் அம்மாக்களுக்கான டிஎஸ்டி வித்துஷி திட்டம்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "ஐதிஐ-யில் வேலைத்திறன் வல்லுநர்களை உருவாக்கும் படப்பு",
+  "expected": "CEN2026-229",
+  "clean": "ஐடிஐ-யில் வேலைத்திறன் வல்லுநர்களை உருவாக்கும் படிப்பு"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "அம்மாக்கள் நடத்தும் சிறு வணிகங்களுக்கு மறுநிதி",
+  "expected": "CEN2026-052",
+  "clean": "அம்மாக்கள் நடத்தும் சிறு வணிகங்களுக்கு மறுநிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "தேசிய கூட்டுறவு மேம்பட்டுக் கழகத்துக்கு மத்ிய அரசு நிதி",
+  "expected": "CEN2026-242",
+  "clean": "தேசிய கூட்டுறவு மேம்பாட்டுக் கழகத்துக்கு மத்திய அரசு நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "ஆராய்ச்சிப் பயணத்துக்கான அறிவியலாளர் அம்மாக்களுக்கு நிதி",
+  "expected": "CEN2026-104",
+  "clean": "ஆராய்ச்சிப் பயணத்துக்கான அறிவியலாளர் அம்மாக்களுக்கு நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "பால் விற்பனை கூடம் மற்றும் காய்கனி சஃபல் கடை ஒதுக்கீடு",
+  "expected": "CEN2026-237",
+  "clean": "பால் விற்பனை கூடம் மற்றும் காய்கனி சஃபல் கடை ஒதுக்கீடு"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "அரு கொள்முதலுக்காக ஒதுக்கீட்டுப் பிரிவு நிறுவனங்ள் என்எஸ்ஐசி-யில் பெயர் சேர்த்தல்",
+  "expected": "CEN2026-154",
+  "clean": "அரசு கொள்முதலுக்காக ஒதுக்கீட்டுப் பிரிவு நிறுவனங்கள் என்எஸ்ஐசி-யில் பெயர் சேர்த்தல்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "வெளிநாட்டுக்கு பொருள் அனுப்ப வாங்ிகய பணத்தின் வட்டியிில் குறைப்பு",
+  "expected": "CEN2026-040",
+  "clean": "வெளிநாட்டுக்கு பொருள் அனுப்ப வாங்கிய பணத்தின் வட்டியில் குறைப்பு"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "புதிய ஆபத்தான வெளிநாட்டுச் சந்தைகளில் விற்கும் சறிு நிறுவனங்களுக்கு இட்ர பகிர்வு",
+  "expected": "CEN2026-181",
+  "clean": "புதிய ஆபத்தான வெளிநாட்டுச் சந்தைகளில் விற்கும் சிறு நிறுவனங்களுக்கு இடர் பகிர்வு"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "இயந்திரம் வாங்க அடமானம் வைக்காமல் வங்கியில் நிதி",
+  "expected": "CEN2026-174",
+  "clean": "இயந்திரம் வாங்க அடமானம் வைக்காமல் வங்கியில் நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "எக்எஸ்ஐசி சிறு நிறுவனங்களை இணைத்து அரசு டெண்டர் எுடக்க உதவுகிறது",
+  "expected": "CEN2026-022",
+  "clean": "என்எஸ்ஐசி சிறு நிறுவனங்களை இணைத்து அரசு டெண்டர் எடுக்க உதவுகிறது"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "சிறு நிறுவனங்களுக்கு வங்கி கொடுக்கும் பணத்துன்கு அரசு பாதுகாப்புக் கா்பு",
+  "expected": "CEN2026-023",
+  "clean": "சிறு நிறுவனங்களுக்கு வங்கி கொடுக்கும் பணத்துக்கு அரசு பாதுகாப்புக் காப்பு"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "தரம், சரக்குப் போக்குவரத்து, சந்தை நுழைவு ஆகியவற்றில் நிதி சாராத உதவி",
+  "expected": "CEN2026-182",
+  "clean": "தரம், சரக்குப் போக்குவரத்து, சந்தை நுழைவு ஆகியவற்றில் நிதி சாராத உதவி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "நாட்டிர்குள் நடக்கும் கண்காட்சிகளில் மசாலா வாரியத்தி்ன அரங்கில் இடம்",
+  "expected": "CEN2026-029",
+  "clean": "நாட்டிற்குள் நடக்கும் கண்காட்சிகளில் மசாலா வாரியத்தின் அரங்கில் இடம்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "தேங்காய் நார் செய்முறை, திறமை, சந்தைப்படுத்தல் குடை திட்டம்",
+  "expected": "CEN2026-019",
+  "clean": "தேங்காய் நார் செய்முறை, திறமை, சந்தைப்படுத்தல் குடை திட்டம்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "சொந்த நிறுவனம் தொடங்்கக் கற்றறுத் தரும் குறுகிய திட்டம்",
+  "expected": "CEN2026-033",
+  "clean": "சொந்த நிறுவனம் தொடங்கக் கற்றுத் தரும் குறுகிய திட்டம்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "ஒதுக்கீட்டடுப் பிரிவினரின் பொருடட்களுக்கு கண்காட்சியில் இடம்",
+  "expected": "CEN2026-153",
+  "clean": "ஒதுக்கீட்டுப் பிரிவினரின் பொருட்களுக்கு கண்காட்சியில் இடம்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "அம்மாக்களுக்கு நகரங்களை பாதுகாப்பாக்கி காவல்துறையை எளிதில் அணுகுதல்",
+  "expected": "CEN2026-073",
+  "clean": "அம்மாக்களுக்கு நகரங்களை பாதுகாப்பாக்கி காவல்துறையை எளிதில் அணுகுதல்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "தனி உணவகங்களுக்கு அமைச்சகத்தின் ஒப்புதல்",
+  "expected": "CEN2026-272",
+  "clean": "தனி உணவகங்களுக்கு அமைச்சகத்தின் ஒப்புதல்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "தேங்காய் நாார் திறமை மேண்பாடு மற்றும் அம்மாக்களுக்கான நார்த் திட்டம்",
+  "expected": "CEN2026-021",
+  "clean": "தேங்காய் நார் திறமை மேம்பாடு மற்றும் அம்மாக்களுக்கான நார்த் திட்டம்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "டகெ்ஸ்டைல் துறையில் வேலை வாங்கித் தரும் பயிிற்றுவிப்பு",
+  "expected": "CEN2026-216",
+  "clean": "டெக்ஸ்டைல் துறையில் வேலை வாங்கித் தரும் பயிற்றுவிப்பு"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "எண்ணிக்கையில் குறைந்த சமூக அம்மாக்களுக்குத் தலைமைப் பண்பு பயிற்றுவிப்பு",
+  "expected": "CEN2026-068",
+  "clean": "எண்ணிக்கையில் குறைந்த சமூக அம்மாக்களுக்குத் தலைமைப் பண்பு பயிற்றுவிப்பு"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "மிக ஏழைக் குடும்பங்களுக்கு இலவச தானியம்",
+  "expected": "CEN2026-236",
+  "clean": "மிக ஏழைக் குடும்பங்களுக்கு இலவச தானியம்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "விளைபொருள் குளிர்ச் சங்கிலி மற்றும் மதிப்புக் காட்டல் கட்டமபை்பு",
+  "expected": "CEN2026-259",
+  "clean": "விளைபொருள் குளிர்ச் சங்கிலி மற்றும் மதிப்புக் கூட்டல் கட்டமைப்பு"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "வயல்வெளி மி் இறைவைண் பம்புகள் பகல் வெளிச்ச மின்சாரத்தில்",
+  "expected": "CEN2026-207",
+  "clean": "வயல்வெளி மின் இறைவைப் பம்புகள் பகல் வெளிச்ச மின்சாரத்தில்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "பெரிய இயந்திரங்கள் நிுவ சிஞ்பி நிதி",
+  "expected": "CEN2026-003",
+  "clean": "பெரிய இயந்திரங்கள் நிறுவ சிட்பி நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "ஒதுக்கீட்டுப் பிரிவினர் வங்கியில் செலுத்திய செயலாக்கக் கட்டணம் திரும்பப் பெறுதல்",
+  "expected": "CEN2026-155",
+  "clean": "ஒதுக்கீட்டுப் பிரிவினர் வங்கியில் செலுத்திய செயலாக்கக் கட்டணம் திரும்பப் பெறுதல்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "இராணுவ ஓய்வு பெற்ற விதவைகளுக்கு நிலக்ககரி டிப்பர் லாாரி",
+  "expected": "CEN2026-240",
+  "clean": "இராணுவ ஓய்வு பெற்ற விதவைகளுக்கு நிலக்கரி டிப்பர் லாரி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "இக்கட்டில் உள்ள அம்மாக்களுக்கு 181 இலவச எண்",
+  "expected": "CEN2026-135",
+  "clean": "இக்கட்டில் உள்ள அம்மாக்களுக்கு 181 இலவச எண்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "ஒதுக்கீட்டுப் பிரிவு நிறுவனங்களுக்கு கொள்முதல் மற்றும் சந்ைத அணுகல் ஆபரவு",
+  "expected": "CEN2026-071",
+  "clean": "ஒதுக்கீட்டுப் பிரிவு நிறுவனங்களுக்கு கொள்முதல் மற்றும் சந்தை அணுகல் ஆதரவு"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "எண்ணிக்கையில் குறைந்த சமூகத் திட்டங்களின் ஆய்வு மற்றும் விளம்பரம்",
+  "expected": "CEN2026-232",
+  "clean": "எண்ணிக்கையில் குறைந்த சமூகத் திட்டங்களின் ஆய்வு மற்றும் விளம்பரம்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "பழம் பூ வணிகத் தோட்டக்கலை மற்றும் அறுவடைக்குப் பின் கவனிப்பு",
+  "expected": "CEN2026-245",
+  "clean": "பழம் பூ வணிகத் தோட்டக்கலை மற்றும் அறுவடைக்குப் பின் கவனிப்பு"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "சிறு நிறுவனக் குழும்களுக்கான பொதுப் பய்னபாட்டு மையம்",
+  "expected": "CEN2026-055",
+  "clean": "சிறு நிறுவனக் குழுமங்களுக்கான பொதுப் பயன்பாட்டு மையம்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "பால் இறைச்சி ஆலைவள், மாட்டுத் தீவன ஆலை, இனப்பெருக்கப் பண்ணை அமைகக ஊக்கத்தொகை",
+  "expected": "CEN2026-219",
+  "clean": "பால் இறைச்சி ஆலைகள், மாட்டுத் தீவன ஆலை, இனப்பெருக்கப் பண்ணை அமைக்க ஊக்கத்தொகை"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "உயரிி ஆராய்ச்சியில் பணிபுரியும் அம்மாக்களுக்கு பணி வளர்சசி",
+  "expected": "CEN2026-011",
+  "clean": "உயிரி ஆராய்ச்சியில் பணிபுரியும் அம்மாக்களுக்கு பணி வளர்ச்சி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "பணிக்கூடமும் கழிப்பறையும் கடட் நூதி",
+  "expected": "CEN2026-163",
+  "clean": "பணிக்கூடமும் கழிப்பறையும் கட்ட நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "வாங்குபவர் பணம் தாமதித்தால் புகார் அளிக்க",
+  "expected": "CEN2026-056",
+  "clean": "வாங்குபவர் பணம் தாமதித்தால் புகார் அளிக்க"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "அம்மாக்களின் பாதுகாப்பு மற்றும் வலுவூட்டலுக்கான ஒருங்கிணைந்த இயக்கம்",
+  "expected": "CEN2026-059",
+  "clean": "அம்மாக்களின் பாதுகாப்பு மற்றும் வலுவூட்டலுக்கான ஒருங்கிணைந்த இயக்கம்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "அறிவியல் துறைியன் அம்மாக்களுக்கான கருி மேம்பாட்டுத் திட்டம்",
+  "expected": "CEN2026-118",
+  "clean": "அறிவியல் துறையின் அம்மாக்களுக்கான கருவி மேம்பாட்டுத் திட்டம்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "வெளிநாட்டுக்கு அனுப்பும் பொருளுக்கான மூலப்பொருளை வரியின்றி இறக்குமதி",
+  "expected": "CEN2026-222",
+  "clean": "வெளிநாட்டுக்கு அனுப்பும் பொருளுக்கான மூலப்பொருளை வரியின்றி இறக்குமதி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "மசாலா வெளிநாட்டில் விற்போருக்கு விரைவு சோதனைக் கருுவி வாஙங்க உதவி",
+  "expected": "CEN2026-001",
+  "clean": "மசாலா வெளிநாட்டில் விற்போருக்கு விரைவு சோதனைக் கருவி வாங்க உதவி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "பாரம்பரியத் தொழிற்பிரிவுகளை குழுவாக்கி பொது வசதி",
+  "expected": "CEN2026-095",
+  "clean": "பாரம்பரியத் தொழிற்பிரிவுகளை குழுவாக்கி பொது வசதி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "இந்திய மசாலா பிராண்டுகளை வெளிநாட்டில் விளம்பரப்படுத்துதல்",
+  "expected": "CEN2026-089",
+  "clean": "இந்திய மசாலா பிராண்டுகளை வெளிநாட்டில் விளம்பரப்படுத்துதல்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "அறிவியலில் அம்மாக்களுக்கான டிஎஸ்டி ஸ்கோப்",
+  "expected": "CEN2026-133",
+  "clean": "அறிவியலில் அம்மாக்களுக்கான டிஎஸ்டி ஸ்கோப்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "அறிவுசரா் சொத்துரிமைப் பணிக்கு அம்மாக்கள் கறக",
+  "expected": "CEN2026-129",
+  "clean": "அறிவுசார் சொத்துரிமைப் பணிக்கு அம்மாக்கள் கற்க"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "பணியில் கற்போரை வைககும் முதலாளிக்கு ஊதியத்தில் ஒரு பகுதியை அரசு ஏற்ும்",
+  "expected": "CEN2026-228",
+  "clean": "பணியில் கற்போரை வைக்கும் முதலாளிக்கு ஊதியத்தில் ஒரு பகுதியை அரசு ஏற்கும்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "வெளிநாட்டில் விற்கும் வளரும் சிறு நிறுவனங்களுக்கு சிட்பி உதவி",
+  "expected": "CEN2026-106",
+  "clean": "வெளிநாட்டில் விற்கும் வளரும் சிறு நிறுவனங்களுக்கு சிட்பி உதவி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "அரசு கொள்முதலுக்கு என்எஸ்ஐசி-யில் சிறு நிறுவனங்களின் பெயர் சேர்ப்பு",
+  "expected": "CEN2026-226",
+  "clean": "அரசு கொள்முதலுக்கு என்எஸ்ஐசி-யில் சிறு நிறுவனங்களின் பெயர் சேர்ப்பு"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "ஓய்வு பெற்ற வரீர்களுக்கு நிலக்கரி ஏற்றி இறக்கு் பணி",
+  "expected": "CEN2026-239",
+  "clean": "ஓய்வு பெற்ற வீரர்களுக்கு நிலக்கரி ஏற்றி இறக்கும் பணி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "வீட்டருகே குறைந்த செலவி் தொழிற்க்லவி வகுப்புகள்",
+  "expected": "CEN2026-201",
+  "clean": "வீட்டருகே குறைந்த செலவில் தொழிற்கல்வி வகுப்புகள்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "ஊராடச்ி அளவில் அம்மாக்ககள் நடத்தும் சிறு பூசல் தீர்வு மன்றம்",
+  "expected": "CEN2026-069",
+  "clean": "ஊராட்சி அளவில் அம்மாக்கள் நடத்தும் சிறு பூசல் தீர்வு மன்றம்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "சிறு பருள் செய்வோருக்கு கருவி உருவாக்க வதசி மற்றும் திறமையான ஆட்கள்",
+  "expected": "CEN2026-121",
+  "clean": "சிறு பொருள் செய்வோருக்கு கருவி உருவாக்க வசதி மற்றும் திறமையான ஆட்கள்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "தடொக்கநிலை புதிய நிறுவன்ஙகள் முன்மாதிரி உருவாக்க விதை நிதி",
+  "expected": "CEN2026-114",
+  "clean": "தொடக்கநிலை புதிய நிறுவனங்கள் முன்மாதிரி உருவாக்க விதை நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "டெல்லிப் பகுதியில் ஓய்ுவ பெற்்ற அதிகாரிகளுக்கு சிஎன்ஜி நிலையம்",
+  "expected": "CEN2026-241",
+  "clean": "டெல்லிப் பகுதியில் ஓய்வு பெற்ற அதிகாரிகளுக்கு சிஎன்ஜி நிலையம்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "மசாலா விற்போருக்கு புதிய பொவுள் ஆய்ளு உதவி",
+  "expected": "CEN2026-088",
+  "clean": "மசாலா விற்போருக்கு புதிய பொருள் ஆய்வு உதவி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "ஏழை அம்மாக்களுச்கு சறு நிதி",
+  "expected": "CEN2026-092",
+  "clean": "ஏழை அம்மாக்களுக்கு சிறு நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "பெட்ரோகெமிர்கல் புதிய பொருள்களுக்கான சிற்பபு மையம்",
+  "expected": "CEN2026-249",
+  "clean": "பெட்ரோகெமிக்கல் புதிய பொருள்களுக்கான சிறப்பு மையம்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "மின்பணியாளர், குழாய்ப்பணியாளர், தேநீர்க் கடை போன்ற ஊர்ப்புற சேவைகள்",
+  "expected": "CEN2026-171",
+  "clean": "மின்பணியாளர், குழாய்ப்பணியாளர், தேநீர்க் கடை போன்ற ஊர்ப்புற சேவைகள்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "சிறந்த சிறு நிறுவன உரிமையாளர்களுக்கான தேசிய விருது",
+  "expected": "CEN2026-225",
+  "clean": "சிறந்த சிறு நிறுவன உரிமையாளர்களுக்கான தேசிய விருது"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "வய் அருகே சேமிப்பு மற்றும் மதிப்புக் கூட்டலுக்கனா நிதி வசதி",
+  "expected": "CEN2026-206",
+  "clean": "வயல் அருகே சேமிப்பு மற்றும் மதிப்புக் கூட்டலுக்கான நிதி வசதி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "சுய வணிக் கற்றுத் தரும் நிறுவனங்களுக்கு கட்மைப்பு நிதி",
+  "expected": "CEN2026-004",
+  "clean": "சுய வணிகம் கற்றுத் தரும் நிறுவனங்களுக்கு கட்டமைப்பு நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "இளைஞர்கள் தொழி்றபிரிவில் செயல்முறை கற்கும் வாயப்்பு",
+  "expected": "CEN2026-233",
+  "clean": "இளைஞர்கள் தொழிற்பிரிவில் செயல்முறை கற்கும் வாய்ப்பு"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "வாங்குவோர்-விற்போர் சந்திப்பு, கண்காட்ச,ி குழுக்கள் செல்்ல ஆதரவு",
+  "expected": "CEN2026-187",
+  "clean": "வாங்குவோர்-விற்போர் சந்திப்பு, கண்காட்சி, குழுக்கள் செல்ல ஆதரவு"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "புதிய யோசனையை நடைமுறை முயற்சியாக்க அடைகாப்பு உதவி",
+  "expected": "CEN2026-064",
+  "clean": "புதிய யோசனையை நடைமுறை முயற்சியாக்க அடைகாப்பு உதவி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "பாதுகாப்புத் துறை விண்ணப்பதாரரு்ககு எல்பிஜி விநியோோக உரிமை",
+  "expected": "CEN2026-238",
+  "clean": "பாதுகாப்புத் துறை விண்ணப்பதாரருக்கு எல்பிஜி விநியோக உரிமை"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "அனுப்புவதற்கு முன் பின் நிதிக்கு வட்டிக் குறைப்பு",
+  "expected": "CEN2026-177",
+  "clean": "அனுப்புவதற்கு முன் பின் நிதிக்கு வட்டிக் குறைப்பு"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "அம்மாக்களை சுயமாக நிற்கச் செய்ய வங்கி இணைப்பும் ஆதரவும்",
+  "expected": "CEN2026-122",
+  "clean": "அம்மாக்களை சுயமாக நிற்கச் செய்ய வங்கி இணைப்பும் ஆதரவும்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "சிட்பியின் உபகரணம் வாங்கும் நிதிப் பொருள்",
+  "expected": "CEN2026-111",
+  "clean": "சிட்பியின் உபகரணம் வாங்கும் நிதிப் பொருள்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "ரசாயனமில்லா இயற்கை வேளணா் இயகக்ம்",
+  "expected": "CEN2026-204",
+  "clean": "ரசாயனமில்லா இயற்கை வேளாண் இயக்கம்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "புதிய நறிுவனங்களுக்கு அபாய நிிதி கொண்டுவரும் நிதிகளின் நிதி",
+  "expected": "CEN2026-190",
+  "clean": "புதிய நிறுவனங்களுக்கு அபாய நிதி கொண்டுவரும் நிதிகளின் நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "மெகா டெக்ஸ்டைல் பூங்காக்கள்",
+  "expected": "CEN2026-217",
+  "clean": "மெகா டெக்ஸ்டைல் பூங்காக்கள்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "புதிய நிறுவனங்களை வளர்க்கும் அடல் அடைகாப்பு மையங்கள்",
+  "expected": "CEN2026-005",
+  "clean": "புதிய நிறுவனங்களை வளர்க்கும் அடல் அடைகாப்பு மையங்கள்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "சிறு நிறுவன செயல்திறன் மற்றும் சந்தை அணுகலை உயர்த்தும் திட்டம்",
+  "expected": "CEN2026-091",
+  "clean": "சிறு நிறுவன செயல்திறன் மற்றும் சந்தை அணுகலை உயர்த்தும் திட்டம்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "பள்ளிகளில் பிள்ளைகள் கருவி செய்து பார்க்கும் ஆய்வகம்",
+  "expected": "CEN2026-007",
+  "clean": "பள்ளிகளில் பிள்ளைகள் கருவி செய்து பார்க்கும் ஆய்வகம்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "வங்கிககள் முன்னுரிமைத் துறைகளுக்கு குறிப்பிட்ட பங்கு வழங்க வேண்ுடம்",
+  "expected": "CEN2026-086",
+  "clean": "வங்கிகள் முன்னுரிமைத் துறைகளுக்கு குறிப்பிட்ட பங்கு வழங்க வேண்டும்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "செயற்கை நுண்ணிவு, ரோபோடிகக்ஸ் துறைகளில் வேலைசெய்து கற்றல்",
+  "expected": "CEN2026-200",
+  "clean": "செயற்கை நுண்ணறிவு, ரோபோடிக்ஸ் துறைகளில் வேலைசெய்து கற்றல்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "சிறு நிறுவனங்களின் எண்ணிமமயமாக்கல் பகுதி",
+  "expected": "CEN2026-173",
+  "clean": "சிறு நிறுவனங்களின் எண்ணிமமயமாக்கல் பகுதி"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "பல்கலைக்கழக முன்மாதிரியை தொழிற்துறை கூட்டாளியுடன் சரிபார்த்தல்",
+  "expected": "CEN2026-264",
+  "clean": "பல்கலைக்கழக முன்மாதிரியை தொழிற்துறை கூட்டாளியுடன் சரிபார்த்தல்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "வரி விவரங்கள் மற்றும் வங்கிக் கணக்கு அடிப்படையில் வங்கி முடிவு",
+  "expected": "CEN2026-192",
+  "clean": "வரி விவரங்கள் மற்றும் வங்கிக் கணக்கு அடிப்படையில் வங்கி முடிவு"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "கேவஐசி விற்பனை நிலையங்கள் புதபு்பித்தல்",
+  "expected": "CEN2026-165",
+  "clean": "கேவிஐசி விற்பனை நிலையங்கள் புதுப்பித்தல்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "சுய உதவிக் குழு அம்மாக்கள் ஆண்டுக்கு ஒரு லட்சம் சம்பாதிக்க",
+  "expected": "CEN2026-046",
+  "clean": "சுய உதவிக் குழு அம்மாக்கள் ஆண்டுக்கு ஒரு லட்சம் சம்பாதிக்க"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "மேக் இன் இந்தியாவில் சிறு நிறுவனங்களுக்கு மென்கடன்",
+  "expected": "CEN2026-107",
+  "clean": "மேக் இன் இந்தியாவில் சிறு நிறுவனங்களுக்கு மென்கடன்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": true,
+  "query": "ஆறு மாதம் முத்ல ஆறு வதயு குழந்தைகளுக்கான காப்பகம்",
+  "expected": "CEN2026-076",
+  "clean": "ஆறு மாதம் முதல் ஆறு வயது குழந்தைகளுக்கான காப்பகம்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "இணையப் பாதுகாப்பு விழிப்புணர்வு மற்றும் கற்றல்",
+  "expected": "CEN2026-257",
+  "clean": "இணையப் பாதுகாப்பு விழிப்புணர்வு மற்றும் கற்றல்"
+ },
+ {
+  "lang": "ta",
+  "level": 2,
+  "typo": false,
+  "query": "பெரிய வாங்குநர்களிடமிருந்து சிறு நிறுவன பில்களை பணமாக்கும் தளம்",
+  "expected": "CEN2026-193",
+  "clean": "பெரிய வாங்குநர்களிடமிருந்து சிறு நிறுவன பில்களை பணமாக்கும் தளம்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "எங்கள் வீட்டில் இன்னும் விறகு அடுப்பு, எிரவாயு இைணப்பு வாங்க முடியவில்லை",
+  "expected": "CEN2026-084",
+  "clean": "எங்கள் வீட்டில் இன்னும் விறகு அடுப்பு, எரிவாயு இணைப்பு வாங்க முடியவில்லை"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "மக் இன் இந்தியா கீழழ் பொருள் செய்யும் துறைகளுக்கு அரசின் கொள்கை என்ன",
+  "expected": "CEN2026-196",
+  "clean": "மேக் இன் இந்தியா கீழ் பொருள் செய்யும் துறைகளுக்கு அரசின் கொள்கை என்ன"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "என் மனைவியும் அவர் குழுவும் வீட்டில் செய்த பொருட்களை இணையத்தில் எங்கு விற்பது",
+  "expected": "CEN2026-048",
+  "clean": "என் மனைவியும் அவர் குழுவும் வீட்டில் செய்த பொருட்களை இணையத்தில் எங்கு விற்பது"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "ஆதிவாயி கிராமங்களுக்கு சாலை வீடு மின்சாரம் எல்லம் ஒரே நேரத்தில்",
+  "expected": "CEN2026-210",
+  "clean": "ஆதிவாசி கிராமங்களுக்கு சாலை வீடு மின்சாரம் எல்லாம் ஒரே நேரத்தில்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "என் பொருளின் ஆய்வக சோதனைச் செலவு அதிமக், ஒதுக்கீட்டுப் பிரிறினருக்கு திரும்ப கிடைக்குமா",
+  "expected": "CEN2026-157",
+  "clean": "என் பொருளின் ஆய்வக சோதனைச் செலவு அதிகம், ஒதுக்கீட்டுப் பிரிவினருக்கு திரும்ப கிடைக்குமா"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "கர்ப்பிணித் தாய்க்கு பிரசவத்துக்குப் பின் ஓய்வு மற்றும் ஊட்டத்திற்கு பணம்",
+  "expected": "CEN2026-082",
+  "clean": "கர்ப்பிணித் தாய்க்கு பிரசவத்துக்குப் பின் ஓய்வு மற்றும் ஊட்டத்திற்கு பணம்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "என் சிறு மீீன் விற்பனைக்கு முறையான அந்தஸ்தும் பாாதுகாப்பும் வேண்டும்",
+  "expected": "CEN2026-205",
+  "clean": "என் சிறு மீன் விற்பனைக்கு முறையான அந்தஸ்தும் பாதுகாப்பும் வேண்டும்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "வெளிநாட்டிலிருந்து விலையுயர்ந்த இயந்திரம் வாங்கி பின்னர் வெளிநாட்டில் விற்கும் உறுதி",
+  "expected": "CEN2026-034",
+  "clean": "வெளிநாட்டிலிருந்து விலையுயர்ந்த இயந்திரம் வாங்கி பின்னர் வெளிநாட்டில் விற்கும் உறுதி"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "என் வீட்டு மொட்ைட மாடியிரிருந்தே இலவச மின்சாரம் வேண்டும்",
+  "expected": "CEN2026-208",
+  "clean": "என் வீட்டு மொட்டை மாடியிலிருந்தே இலவச மின்சாரம் வேண்டும்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "ஏழைக் குடும்பப் பிள்ளை போட்டித் தேர்வுக்குத் தயாராக விரும்புகிறது, கோச்சிங் க்டடணம் செலுத்த முடடியாது",
+  "expected": "CEN2026-266",
+  "clean": "ஏழைக் குடும்பப் பிள்ளை போட்டித் தேர்வுக்குத் தயாராக விரும்புகிறது, கோச்சிங் கட்டணம் செலுத்த முடியாது"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "மசாலாவை வெளிநாட்டில் விற்க சான்றிதழ் அவிசயம், கட்டணம் திரும்பகக் கிடைக்குமா",
+  "expected": "CEN2026-094",
+  "clean": "மசாலாவை வெளிநாட்டில் விற்க சான்றிதழ் அவசியம், கட்டணம் திரும்பக் கிடைக்குமா"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "எங்கள் ஆய்வகத்தின் உயிரி யோசனையை சோதிக்கவும் பணம் போடுவரை ஈர்க்கவும் நிித",
+  "expected": "CEN2026-015",
+  "clean": "எங்கள் ஆய்வகத்தின் உயிரி யோசனையை சோதிக்கவும் பணம் போடுவோரை ஈர்க்கவும் நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "வெளிநாட்டு இணையச் சந்தையில் விற்கிறேன், உறுதியான நிதி வேண்டும்",
+  "expected": "CEN2026-180",
+  "clean": "வெளிநாட்டு இணையச் சந்தையில் விற்கிறேன், உறுதியான நிதி வேண்டும்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "மி்னணு மற்றும் ஐடி தயாரிபப்பாளருக்கு அரசு ஆதரவு",
+  "expected": "CEN2026-109",
+  "clean": "மின்னணு மற்றும் ஐடி தயாரிப்பாளருக்கு அரசு ஆதரவு"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "எங்கள் குக்கிராமத்துக்கு எல்லா பருவத்திலும் செல்லும் சாலை இல்லை",
+  "expected": "CEN2026-262",
+  "clean": "எங்கள் குக்கிராமத்துக்கு எல்லா பருவத்திலும் செல்லும் சாலை இல்லை"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "கிராமத்து இளைஞர் ஒரு வலேை கற்றபின் வேேலை வாய்ப்பும் பெற",
+  "expected": "CEN2026-026",
+  "clean": "கிராமத்து இளைஞர் ஒரு வேலை கற்றபின் வேலை வாய்ப்பும் பெற"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "வெளிநாடு சென்றறு வாங்குவோரைச் சந்திக்கும் பயயணச் செலவு",
+  "expected": "CEN2026-043",
+  "clean": "வெளிநாடு சென்று வாங்குவோரைச் சந்திக்கும் பயணச் செலவு"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "நடுுத்தர நிறுவனத்தை எதி்ரகால வெற்றியாளராக்கும் பங்கு நிதி",
+  "expected": "CEN2026-195",
+  "clean": "நடுத்தர நிறுவனத்தை எதிர்கால வெற்றியாளராக்கும் பங்கு நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "வன்முறைக்குள்ளான அம்மாவுக்கு ஒரே இடத்தில் தங்குமிடம் ஆலோசனை காவல்",
+  "expected": "CEN2026-074",
+  "clean": "வன்முறைக்குள்ளான அம்மாவுக்கு ஒரே இடத்தில் தங்குமிடம் ஆலோசனை காவல்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "சிறு நகரத்தில் உள்ள டெக் புதிய நிறுவனம் வழிகாட்டலும் வேகமும்",
+  "expected": "CEN2026-194",
+  "clean": "சிறு நகரத்தில் உள்ள டெக் புதிய நிறுவனம் வழிகாட்டலும் வேகமும்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "என் நிறுவனத்துக்கு தரம் மற்றும் சுற்றுச்சூழல் சான்றிதழ் வேண்டும்",
+  "expected": "CEN2026-067",
+  "clean": "என் நிறுவனத்துக்கு தரம் மற்றும் சுற்றுச்சூழல் சான்றிதழ் வேண்டும்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "சபா்பிடும் பொருள் பாதுகாப்பு தசர் சான்று",
+  "expected": "CEN2026-039",
+  "clean": "சாப்பிடும் பொருள் பாதுகாப்பு தரச் சான்று"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "வெளிநாட்டு வாங்குநர்களின் நிலுவைப் படட்ியலை விரரைவில் பணமாக்க",
+  "expected": "CEN2026-179",
+  "clean": "வெளிநாட்டு வாங்குநர்களின் நிலுவைப் பட்டியலை விரைவில் பணமாக்க"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "ஒதுக்கீட்டுப் பிரிவில் நிர்வாகப் பாடம் படித்தேன், கட்டணம் திரும்பக் கிடைக்குமா",
+  "expected": "CEN2026-160",
+  "clean": "ஒதுக்கீட்டுப் பிரிவில் நிர்வாகப் பாடம் படித்தேன், கட்டணம் திரும்பக் கிடைக்குமா"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "நகர்ப்புற ஏழைகளுக்கு சுய உதவிக் குழு தங்குமிடம் வாழ்வாதாரம்",
+  "expected": "CEN2026-028",
+  "clean": "நகர்ப்புற ஏழைகளுக்கு சுய உதவிக் குழு தங்குமிடம் வாழ்வாதாரம்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "2024ல் 25 நகரங்களில் தொடங்கிய நகர்ப்புற வாழ்வாதார இயக்கத்தின் வாரிசு",
+  "expected": "CEN2026-221",
+  "clean": "2024ல் 25 நகரங்களில் தொடங்கிய நகர்ப்புற வாழ்வாதார இயக்கத்தின் வாரிசு"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "மகள்களின் நிலையை உயர்த்தி பாலின விகிதத்தை சமப்படுத்த",
+  "expected": "CEN2026-010",
+  "clean": "மகள்களின் நிலையை உயர்த்தி பாலின விகிதத்தை சமப்படுத்த"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "என் புதிய நிறுவனத்துக்கு நிதி தரும் வங்கிககு தவறுதல் காப்பு வேண்டொம்",
+  "expected": "CEN2026-024",
+  "clean": "என் புதிய நிறுவனத்துக்கு நிதி தரும் வங்கிக்கு தவறுதல் காப்பு வேண்டும்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "விடுமுறை பகிர்வு உரிமை ரிசார்ட் தரம் நிர்ணயம்",
+  "expected": "CEN2026-267",
+  "clean": "விடுமுறை பகிர்வு உரிமை ரிசார்ட் தரம் நிர்ணயம்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "ஊரில் வீணான மரத்தில் பொொம்மை மற்றும் மர்சாமான் செய்தல்",
+  "expected": "CEN2026-168",
+  "clean": "ஊரில் வீணான மரத்தில் பொம்மை மற்றும் மரச்சாமான் செய்தல்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "வெளிநாட்டு வாங்குநர்களுக்ககு மாதிரிகள் அனுப்ப வே்ணடும்",
+  "expected": "CEN2026-103",
+  "clean": "வெளிநாட்டு வாங்குநர்களுக்கு மாதிரிகள் அனுப்ப வேண்டும்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "முதுமுனைவ் ஆய்வில் உள்ள அம்மாவுக்கு ஆ்யவு நல்கை",
+  "expected": "CEN2026-131",
+  "clean": "முதுமுனைவர் ஆய்வில் உள்ள அம்மாவுக்கு ஆய்வு நல்கை"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "குறைந்த விளைச்சல் உள்ள நாறு மாவட்டங்களில் பல திடட்ங்களை இணைக்கும் செயல்",
+  "expected": "CEN2026-202",
+  "clean": "குறைந்த விளைச்சல் உள்ள நூறு மாவட்டங்களில் பல திட்டங்களை இணைக்கும் செயல்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "என் கூடத்தில் வீணை் குறைகக் லீன் முறை",
+  "expected": "CEN2026-061",
+  "clean": "என் கூடத்தில் வீணைக் குறைக்க லீன் முறை"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "ஊர் குயவர்களுக்கு நல்ல சக்கரம் மற்றும் சூளை",
+  "expected": "CEN2026-080",
+  "clean": "ஊர் குயவர்களுக்கு நல்ல சக்கரம் மற்றும் சூளை"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "இயந்திர தயாரிப்போருக்கு பொதது சோதனை ஆய்வவகம்",
+  "expected": "CEN2026-230",
+  "clean": "இயந்திர தயாரிப்போருக்கு பொது சோதனை ஆய்வகம்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "என் சிறு கடடைக்கு எதையும் அடுக வைக்காமல் சிறு தொகை",
+  "expected": "CEN2026-083",
+  "clean": "என் சிறு கடைக்கு எதையும் அடகு வைக்காமல் சிறு தொகை"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "ஊரில் தேபுக்காக தேனீ வளர்க்க வீரும்புகிறேன்",
+  "expected": "CEN2026-009",
+  "clean": "ஊரில் தேனுக்காக தேனீ வளர்க்க விரும்புகிறேன்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "சிறு நிறுவனம் தொடங்கும் அம்மாவுக்கு வழிகாட்டும் தளம்",
+  "expected": "CEN2026-125",
+  "clean": "சிறு நிறுவனம் தொடங்கும் அம்மாவுக்கு வழிகாட்டும் தளம்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "பதின்ம வயது மகள்களுக்கு ஊட்டம் மற்றும் வாழ்வியல் அறிவு",
+  "expected": "CEN2026-098",
+  "clean": "பதின்ம வயது மகள்களுக்கு ஊட்டம் மற்றும் வாழ்வியல் அறிவு"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "என் யோசனைக்கு புதிய நிறுவன அங்கீகாரமும் நன்மைகளும்",
+  "expected": "CEN2026-113",
+  "clean": "என் யோசனைக்கு புதிய நிறுவன அங்கீகாரமும் நன்மைகளும்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "பயணிகளுக்கான கூடார முகாம் தரம்",
+  "expected": "CEN2026-268",
+  "clean": "பயணிகளுக்கான கூடார முகாம் தரம்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "கெராமக் குடும்பத்துக்ககு கான்கிரீட் வீடு",
+  "expected": "CEN2026-261",
+  "clean": "கிராமக் குடும்பத்துக்கு கான்கிரீட் வீடு"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "அறிவியலில் முனைவர் பட்ட ஆய்பு செய்யும் அம்மாவுக்கு நதிி",
+  "expected": "CEN2026-132",
+  "clean": "அறிவியலில் முனைவர் பட்ட ஆய்வு செய்யும் அம்மாவுக்கு நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "நகருக்குப் போகாமல் ஊரிலேயே அநசு சேவைகளுக்கான எண்ிம மையம்",
+  "expected": "CEN2026-253",
+  "clean": "நகருக்குப் போகாமல் ஊரிலேயே அரசு சேவைகளுக்கான எண்ணிம மையம்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "ஊரில் நாரிலிருந்து கயைால் காகிம் செய்தல்",
+  "expected": "CEN2026-169",
+  "clean": "ஊரில் நாரிலிருந்து கையால் காகிதம் செய்தல்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "என் கண்டுபிடிப்பை வடிவமைப்பு மற்றும் காப்புரிமை உதவியுடன் பொருளாக்க",
+  "expected": "CEN2026-172",
+  "clean": "என் கண்டுபிடிப்பை வடிவமைப்பு மற்றும் காப்புரிமை உதவியுடன் பொருளாக்க"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "வெளிநாட்டு வர்த்தகக் கண்காட்சியில் அரங்கு",
+  "expected": "CEN2026-042",
+  "clean": "வெளிநாட்டு வர்த்தகக் கண்காட்சியில் அரங்கு"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "புத்தாக்க வளரக்கூடிய புதிய நிறுவனங்களுக்கு தேசிய அங்கீகாரம்",
+  "expected": "CEN2026-072",
+  "clean": "புத்தாக்க வளரக்கூடிய புதிய நிறுவனங்களுக்கு தேசிய அங்கீகாரம்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "என் நிறுடனப் பொருளுக்கு நிபுணத்துவ வடிவமைப்பாசர்",
+  "expected": "CEN2026-063",
+  "clean": "என் நிறுவனப் பொருளுக்கு நிபுணத்துவ வடிவமைப்பாளர்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "அம்மா அ்லலது ஒதுக்கீட்ுடப் பிரிவினரின் முதல் தொடக்க முயற்சிக்கு வங்கி நிதி",
+  "expected": "CEN2026-112",
+  "clean": "அம்மா அல்லது ஒதுக்கீட்டுப் பிரிவினரின் முதல் தொடக்க முயற்சிக்கு வங்கி நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "நிதி ஆயோக் தளம் அம்்மா வணிகர்களுக்கான தகவச்",
+  "expected": "CEN2026-134",
+  "clean": "நிதி ஆயோக் தளம் அம்மா வணிகர்களுக்கான தகவல்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "வெளிநாட்டுச் சந்தை நுண்ணறிவுத் தகவல் பகிர்வு",
+  "expected": "CEN2026-151",
+  "clean": "வெளிநாட்டுச் சந்தை நுண்ணறிவுத் தகவல் பகிர்வு"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "கிராமப்புற வெழ்வாதார அடைகாப்பு மையமம்",
+  "expected": "CEN2026-099",
+  "clean": "கிராமப்புற வாழ்வாதார அடைகாப்பு மையம்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "இநய்திரம் கடை புதுப்பிப்பு மற்றறும் சரக்கு ஊர்தி",
+  "expected": "CEN2026-101",
+  "clean": "இயந்திரம் கடை புதுப்பிப்பு மற்றும் சரக்கு ஊர்தி"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "வீட்டில் செய்யும் ஊறுகாய் முறுக்கு அலகை முறைப்படுத்த",
+  "expected": "CEN2026-138",
+  "clean": "வீட்டில் செய்யும் ஊறுகாய் முறுக்கு அலகை முறைப்படுத்த"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "உயிரித் துறை புதிய நிறுவனங்களுக்கு நிதிகளின் நிதி",
+  "expected": "CEN2026-014",
+  "clean": "உயிரித் துறை புதிய நிறுவனங்களுக்கு நிதிகளின் நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "வங்கி நிதி மற்றும் சலுகையுடன் புதிய சிறு அலகு",
+  "expected": "CEN2026-085",
+  "clean": "வங்கி நிதி மற்றும் சலுகையுடன் புதிய சிறு அலகு"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "புிதய கண்டுபிடிப்புகளையும் முயற்சிகைளயும் தூண்டும் அரசு இயக்கம்",
+  "expected": "CEN2026-006",
+  "clean": "புதிய கண்டுபிடிப்புகளையும் முயற்சிகளையும் தூண்டும் அரசு இயக்கம்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "வெளிநாட்டு வணிகக் கொள்கையில் பெரிய விற்பனையாளர் அந்தஸ்தும் சலுகையும்",
+  "expected": "CEN2026-115",
+  "clean": "வெளிநாட்டு வணிகக் கொள்கையில் பெரிய விற்பனையாளர் அந்தஸ்தும் சலுகையும்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "அம்மாக்களை சென்றடையும் குறு சிறு நடுத்தர அமைச்சக இயக்கம்",
+  "expected": "CEN2026-136",
+  "clean": "அம்மாக்களை சென்றடையும் குறு சிறு நடுத்தர அமைச்சக இயக்கம்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "கரொோனா காலத்தில் சிறு நிறுவனங்களுக்கு அவசர நிவி",
+  "expected": "CEN2026-002",
+  "clean": "கொரோனா காலத்தில் சிறு நிறுவனங்களுக்கு அவசர நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "மேற்கூரையில் சோலார் பலகை அமைக்க கால நிதி",
+  "expected": "CEN2026-119",
+  "clean": "மேற்கூரையில் சோலார் பலகை அமைக்க கால நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "சொந்த வேலை செய்வது பற்றிய ஒரு நாள் விழிப்புணர்வு",
+  "expected": "CEN2026-140",
+  "clean": "சொந்த வேலை செய்வது பற்றிய ஒரு நாள் விழிப்புணர்வு"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "ஒதுக்கீட்டுப் பிரிவு நிறுவனங்கள் இயந்திரம் வாங்கும்போது பகுதி சலுகை",
+  "expected": "CEN2026-152",
+  "clean": "ஒதுக்கீட்டுப் பிரிவு நிறுவனங்கள் இயந்திரம் வாங்கும்போது பகுதி சலுகை"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "அம்மாக்கள் மற்றுும் குழந்தைகளுக்கான இரண்டு ஆணடு சேமிப்புச் சான்று",
+  "expected": "CEN2026-050",
+  "clean": "அம்மாக்கள் மற்றும் குழந்தைகளுக்கான இரண்டு ஆண்டு சேமிப்புச் சான்று"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "முன்னணி நிறுவனங்களில் இளைஞர்களுக்கு பன்னிரண்டு மாத இன்டர்ன்ஷிப்",
+  "expected": "CEN2026-198",
+  "clean": "முன்னணி நிறுவனங்களில் இளைஞர்களுக்கு பன்னிரண்டு மாத இன்டர்ன்ஷிப்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "சுய உதவிக் குழுக்களுக்கு சிறு நிதி",
+  "expected": "CEN2026-274",
+  "clean": "சுய உதவிக் குழுக்களுக்கு சிறு நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "ஆயுஷ் பற்றய சர்வதேச வெழிப்புணர்வு",
+  "expected": "CEN2026-235",
+  "clean": "ஆயுஷ் பற்றிய சர்வதேச விழிப்புணர்வு"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "பணம் தாமதமானால் புகார் தாக்கல் செய்ய இணையத் தளம்",
+  "expected": "CEN2026-066",
+  "clean": "பணம் தாமதமானால் புகார் தாக்கல் செய்ய இணையத் தளம்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "புதிய வேலைகள் உருவாக்கும் முதலாளிக்கு ஊக்கம்",
+  "expected": "CEN2026-197",
+  "clean": "புதிய வேலைகள் உருவாக்கும் முதலாளிக்கு ஊக்கம்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "பிச்சை எடுப்போருக்கும் பாலினம் கடந்தோருககும் முவாழ்வு",
+  "expected": "CEN2026-213",
+  "clean": "பிச்சை எடுப்போருக்கும் பாலினம் கடந்தோருக்கும் மறுவாழ்வு"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "மாநில அறிவியல் மன்றங்களை மத்திய முகமைகளுடன் இணைத்தல்",
+  "expected": "CEN2026-263",
+  "clean": "மாநில அறிவியல் மன்றங்களை மத்திய முகமைகளுடன் இணைத்தல்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "என்எஸ்ஐசி வங்கி ஒப்பந்தங்கள் மூலம் என் நிறுவனத்துக்கு வசதி பெற்றுத் தருகிறது",
+  "expected": "CEN2026-008",
+  "clean": "என்எஸ்ஐசி வங்கி ஒப்பந்தங்கள் மூலம் என் நிறுவனத்துக்கு வசதி பெற்றுத் தருகிறது"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "அம்மாக்கள் வலுவூட்டலுக்கான சேவைக்கு தேசிய விருது",
+  "expected": "CEN2026-070",
+  "clean": "அம்மாக்கள் வலுவூட்டலுக்கான சேவைக்கு தேசிய விருது"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "இணைய வணிகர்களுக்கு வெளிநாட்டுக் கிடங்கு மற்றும் விநியோக மையம்",
+  "expected": "CEN2026-186",
+  "clean": "இணைய வணிகர்களுக்கு வெளிநாட்டுக் கிடங்கு மற்றும் விநியோக மையம்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "துயரத்தில் உள்ள அம்மாக்களுக்கான ஒருங்ிணைந்த நிவாரண இலல்லம்",
+  "expected": "CEN2026-105",
+  "clean": "துயரத்தில் உள்ள அம்மாக்களுக்கான ஒருங்கிணைந்த நிவாரண இல்லம்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "அரரசு ஆமைக்காக செலுத்திய வங்கி உத்தரவாதக் கட்டணம்",
+  "expected": "CEN2026-156",
+  "clean": "அரசு ஆணைக்காக செலுத்திய வங்கி உத்தரவாதக் கட்டணம்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "சிறப்புப் பொருளாதார மண்டலத்தில் என் அலகை அமைத்தல்",
+  "expected": "CEN2026-255",
+  "clean": "சிறப்புப் பொருளாதார மண்டலத்தில் என் அலகை அமைத்தல்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "அரசுக்கு விற்கவும் அறியப்படவும் உதவி",
+  "expected": "CEN2026-087",
+  "clean": "அரசுக்கு விற்கவும் அறியப்படவும் உதவி"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "தேங்ஞாய் நார்்ப் பொருட்களை காட்சியகங்களிலும் உள்ளூர் கண்காட்சிகளிலும் விற்றல்",
+  "expected": "CEN2026-146",
+  "clean": "தேங்காய் நார்ப் பொருட்களை காட்சியகங்களிலும் உள்ளூர் கண்காட்சிகளிலும் விற்றல்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "வடகிழக்கு மற்றும் சிக்கிம் சிறு நிறுவனங்களை ஊக்குவித்தல்",
+  "expected": "CEN2026-090",
+  "clean": "வடகிழக்கு மற்றும் சிக்கிம் சிறு நிறுவனங்களை ஊக்குவித்தல்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "எதையும் அடமானம் வைக்காமல் வெளிநாட்டு ஆர்டருக்கு நிதி",
+  "expected": "CEN2026-178",
+  "clean": "எதையும் அடமானம் வைக்காமல் வெளிநாட்டு ஆர்டருக்கு நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "இயந்திரங்களை மேம்படுத்த கால நிதியுடன் இணைந்த சலுகை",
+  "expected": "CEN2026-018",
+  "clean": "இயந்திரங்களை மேம்படுத்த கால நிதியுடன் இணைந்த சலுகை"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "என்எஸ்ஐசி இணையச் சந்தையும் வணிகத் தகவலும்",
+  "expected": "CEN2026-062",
+  "clean": "என்எஸ்ஐசி இணையச் சந்தையும் வணிகத் தகவலும்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "வருமானம் ஈட்ட குறுகிய மறுதிறன் படிப்புகள்",
+  "expected": "CEN2026-211",
+  "clean": "வருமானம் ஈட்ட குறுகிய மறுதிறன் படிப்புகள்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "செருப்பு செெய்யும் ஊ்ரத் தொழிலாளர்",
+  "expected": "CEN2026-167",
+  "clean": "செருப்பு செய்யும் ஊர்த் தொழிலாளர்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "ஹோட்டல் பணியாளர்களுக்கு குறுகிய சான்றிதழ் படிப்பு",
+  "expected": "CEN2026-270",
+  "clean": "ஹோட்டல் பணியாளர்களுக்கு குறுகிய சான்றிதழ் படிப்பு"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "முதன்முறை வணிகம் தொடங்கும் அம்மா்ககள் மற்றும் ஒதுக்கீட்டுப் பிபிவினர்",
+  "expected": "CEN2026-189",
+  "clean": "முதன்முறை வணிகம் தொடங்கும் அம்மாக்கள் மற்றும் ஒதுக்கீட்டுப் பிரிவினர்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "கழிவுநீர் தொட்டி சுத்தம் செய்வோரின் பாதுகாப்பு மற்்றும் கணண்ியம்",
+  "expected": "CEN2026-214",
+  "clean": "கழிவுநீர் தொட்டி சுத்தம் செய்வோரின் பாதுகாப்பு மற்றும் கண்ணியம்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "வெளிநாட்டிில் விற்கும் ஒதுக்கீட்டுப் பிரிவு நிறுவனங்களுக்கு மன்ற உறுப்பினர் கட்ணம் திரும்ப",
+  "expected": "CEN2026-158",
+  "clean": "வெளிநாட்டில் விற்கும் ஒதுக்கீட்டுப் பிரிவு நிறுவனங்களுக்கு மன்ற உறுப்பினர் கட்டணம் திரும்ப"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "அம்மாக்களுக்கு உரிைகளை வழிகாட்டும் மையயம்",
+  "expected": "CEN2026-097",
+  "clean": "அம்மாக்களுக்கு உரிமைகளை வழிகாட்டும் மையம்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "அறிவியலாளர் அம்மாக்களுக்கு நல்கை மற்றும் இயக்கதத்ுக்கான கட்டமை்பு",
+  "expected": "CEN2026-130",
+  "clean": "அறிவியலாளர் அம்மாக்களுக்கு நல்கை மற்றும் இயக்கத்துக்கான கட்டமைப்பு"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "என் காப்புரிமை அல்லது வர்த்தகக் குறியீட்டுக்கான செலவு திரும்ப",
+  "expected": "CEN2026-065",
+  "clean": "என் காப்புரிமை அல்லது வர்த்தகக் குறியீட்டுக்கான செலவு திரும்ப"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "என் முறைசாரா சிறு வணிகத்தை முறையான அமைப்பில் சேர்த்தல்",
+  "expected": "CEN2026-123",
+  "clean": "என் முறைசாரா சிறு வணிகத்தை முறையான அமைப்பில் சேர்த்தல்"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "வெளிநாட்டுச் ச்தை ஆய்வவுக்கு வர்த்தகப் பகுப்பாய்வு",
+  "expected": "CEN2026-185",
+  "clean": "வெளிநாட்டுச் சந்தை ஆய்வுக்கு வர்த்தகப் பகுப்பாய்வு"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "பிளாஸ்டிக் அலகுகளுக்கான பதொுப் பய்னபாட்டுப் பூங்கா",
+  "expected": "CEN2026-250",
+  "clean": "பிளாஸ்டிக் அலகுகளுக்கான பொதுப் பயன்பாட்டுப் பூங்கா"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "பாஸ்பேட் பொட்டாஷ் உரம் மலிவு",
+  "expected": "CEN2026-251",
+  "clean": "பாஸ்பேட் பொட்டாஷ் உரம் மலிவு"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": false,
+  "query": "வெளிநாட்டில் விற்போருக்கு மலிவான வர்த்தக நிதி",
+  "expected": "CEN2026-176",
+  "clean": "வெளிநாட்டில் விற்போருக்கு மலிவான வர்த்தக நிதி"
+ },
+ {
+  "lang": "ta",
+  "level": 3,
+  "typo": true,
+  "query": "மாநில நிிதி நிறுவனங்களின் அம்மாக்க் செழிப்புத் திட்டம்",
+  "expected": "CEN2026-051",
+  "clean": "மாநில நிதி நிறுவனங்களின் அம்மாக்கள் செழிப்புத் திட்டம்"
+ }
+]

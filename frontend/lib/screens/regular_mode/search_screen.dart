@@ -64,6 +64,9 @@ class SearchScreenState extends State<SearchScreen> {
   // screen's state survives Home<->Search tab switches via IndexedStack, so
   // an in-flight request from a previous query can still land here).
   int _searchGeneration = 0;
+  // A corrected spelling of the last query ("laon" -> "loan"), offered as a
+  // tappable "Did you mean ...?"; null when the query needed no correction.
+  String? _didYouMean;
 
   double _scaledFontSize(double baseSize) {
     final provider = Provider.of<AppProvider>(context, listen: false);
@@ -418,12 +421,14 @@ class SearchScreenState extends State<SearchScreen> {
 
     setState(() {
       _currentState = SearchState.loading;
+      _didYouMean = null;
     });
 
     final String normalQuery = query.toLowerCase().trim();
 
     try {
       List<Scheme> results;
+      String? suggestion;
       if (normalQuery.isEmpty ||
           normalQuery == 'all' ||
           normalQuery == 'suitable schemes' ||
@@ -431,11 +436,20 @@ class SearchScreenState extends State<SearchScreen> {
         results = await SchemeRepository.instance.getAllSchemes();
       } else {
         results = await SchemeRepository.instance.searchSchemes(query);
+        // A failed suggestion must never cost the user their results.
+        try {
+          suggestion = await SchemeRepository.instance.suggestQueryCorrection(
+            query,
+          );
+        } catch (e) {
+          debugPrint('[SearchScreen] spelling suggestion failed: $e');
+        }
       }
 
       if (!mounted || requestGeneration != _searchGeneration) return;
 
       _masterSearchResults = results;
+      _didYouMean = suggestion;
       _applyFiltersAndSort();
     } catch (e, st) {
       debugPrint('[SearchScreen] search failed for "$query": $e\n$st');
@@ -446,6 +460,16 @@ class SearchScreenState extends State<SearchScreen> {
         _currentState = SearchState.results;
       });
     }
+  }
+
+  /// Runs the search again with the corrected spelling the user tapped.
+  void _applyDidYouMean(String suggestion) {
+    _searchController.value = TextEditingValue(
+      text: suggestion,
+      selection: TextSelection.collapsed(offset: suggestion.length),
+    );
+    _searchFocusNode.unfocus();
+    _triggerSearch(suggestion);
   }
 
   void _openFilterPanel() {
@@ -557,6 +581,8 @@ class SearchScreenState extends State<SearchScreen> {
             forMeEmptyState: _forMeEmptyState,
             provider: provider,
             scaledFontSize: _scaledFontSize,
+            didYouMean: _didYouMean,
+            onDidYouMeanTap: _applyDidYouMean,
           ),
         );
       case SearchState.idle:

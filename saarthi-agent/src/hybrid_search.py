@@ -17,6 +17,11 @@ import re
 from dataclasses import dataclass, field
 from typing import Any
 
+from indic_search import (
+    IndicVocabulary,
+    english_text_tokens,
+    indic_text_tokens,
+)
 from search_taxonomy import SchemeSearchTaxonomy
 
 
@@ -83,7 +88,9 @@ class HybridSearchEngine:
             }
             self._semantic_codes[entry.id] = codes
 
+        self._english_text = self._common_word_filtered_english_text()
         self._build_idf()
+        self._indic_vocab = IndicVocabulary(self.vocab)
 
     @staticmethod
     def _tokens_of(profile: dict[str, Any], path: str) -> list[str]:
@@ -94,6 +101,28 @@ class HybridSearchEngine:
     def _search_profile_of(entry: SchemeEntry) -> dict[str, Any]:
         return entry.search_profile.get("schemeSearchProfile") or {}
 
+    # A word in more than this share of schemes' English text ("eligible",
+    # "support") carries no meaning for ranking (mirrors the Dart engine).
+    _COMMON_WORD_SHARE = 0.20
+
+    def _common_word_filtered_english_text(self) -> dict[str, list[str]]:
+        raw = {
+            e.id: english_text_tokens(e.raw.get("localization")) for e in self.entries
+        }
+        df: dict[str, int] = {}
+        for tokens in raw.values():
+            for t in tokens:
+                df[t] = df.get(t, 0) + 1
+        limit = len(self.entries) * self._COMMON_WORD_SHARE
+        return {i: [t for t in ts if df[t] <= limit] for i, ts in raw.items()}
+
+    def _indic_tokens(self, entry: SchemeEntry) -> list[str]:
+        """The scheme's own Hindi/Tamil text words (the prebuilt index has none)."""
+        return indic_text_tokens(
+            entry.raw.get("localization"),
+            lambda text: [m.group(0).lower() for m in self.tax.token_re.finditer(text)],
+        )
+
     def _searchable_fields(self, entry: SchemeEntry) -> list[tuple[list[str], float]]:
         sp = self._search_profile_of(entry)
 
@@ -103,6 +132,8 @@ class HybridSearchEngine:
         return [
             (self._tokens_of(entry.search_profile, "en"), 1.0),
             (self._tokens_of(entry.search_profile, "ta"), 1.0),
+            (self._indic_tokens(entry), 1.2),
+            (self._english_text[entry.id], 0.8),
             (lower(sp.get("loanType")), 0.9),
             (lower(sp.get("subsidyType")), 0.9),
             (lower(sp.get("taxBenefits")), 0.7),
@@ -169,6 +200,9 @@ class HybridSearchEngine:
             expansion = self.tax.token_expansions.get(tok)
             if expansion:
                 forms.update(expansion)
+
+            if tok not in self.vocab:
+                forms.update(self._indic_vocab.variants(tok))
 
             gated = {f for f in forms if f in self.vocab}
             forms = gated if gated else {tok}

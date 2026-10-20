@@ -380,6 +380,14 @@ class SchemeRepository {
     );
   }
 
+  /// A corrected spelling of [query] ("laon" -> "loan") when it contains a
+  /// misspelt word and the correction finds better results, else null.
+  /// On-device, from the catalog's own vocabulary.
+  Future<String?> suggestQueryCorrection(String query) async {
+    final bundle = await _loadBundle();
+    return HybridSchemeSearch.suggestCorrection(query, bundle);
+  }
+
   /// Ranks an already-filtered (category/ministry/state) offline listing by
   /// the same relevance engine [searchSchemes] uses, instead of leaving it in
   /// arbitrary catalog order. Does NOT drop members with a zero score --

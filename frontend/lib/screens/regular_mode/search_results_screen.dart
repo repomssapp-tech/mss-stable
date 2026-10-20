@@ -15,7 +15,9 @@ import '../../widgets/scheme/catalog_freshness_footer.dart';
 import '../../services/catalog/centralized_translator.dart';
 import '../../l10n/l10n.dart';
 import 'scheme_details_screen.dart';
+import 'search/search_results_view.dart' show DidYouMeanSuggestion;
 import '../../utils/app_spacing.dart';
+import '../../utils/spell_check.dart';
 
 class SearchResultsScreen extends StatefulWidget {
   final String title;
@@ -40,6 +42,8 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
 
   List<Scheme>? _baseSchemes;
   bool _isLoading = false;
+  // A corrected spelling of a free-text query that found nothing.
+  String? _didYouMean;
 
   @override
   void initState() {
@@ -64,6 +68,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
   Future<void> _loadBaseSchemes() async {
     setState(() => _isLoading = true);
     List<Scheme> list;
+    String? suggestion;
     final type = widget.type?.toLowerCase();
 
     if (type == 'ministry') {
@@ -79,6 +84,16 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
       final query = widget.title.trim();
       if (query.isNotEmpty) {
         list = await SchemeRepository.instance.searchSchemes(query);
+        if (list.isEmpty) {
+          // A failed suggestion must never turn "no results" into an error.
+          try {
+            suggestion = await SchemeRepository.instance.suggestQueryCorrection(
+              query,
+            );
+          } catch (e) {
+            debugPrint('[SearchResults] spelling suggestion failed: $e');
+          }
+        }
       } else {
         list = await SchemeRepository.instance.getAllSchemes();
       }
@@ -87,6 +102,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
     if (!mounted) return;
     setState(() {
       _baseSchemes = list;
+      _didYouMean = suggestion;
       _isLoading = false;
     });
   }
@@ -348,6 +364,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
         controller: _searchController,
         focusNode: _searchFocusNode,
         textInputAction: TextInputAction.search,
+        spellCheckConfiguration: platformSpellCheck(),
         onChanged: (_) => setState(() {}),
         style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF1E293B)),
         decoration: InputDecoration(
@@ -485,6 +502,21 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                               ),
                               textAlign: TextAlign.center,
                             ),
+                            if (_didYouMean != null) ...[
+                              const SizedBox(height: AppSpacing.md),
+                              DidYouMeanSuggestion(
+                                suggestion: _didYouMean!,
+                                onTap: (corrected) =>
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (_) => SearchResultsScreen(
+                                          title: corrected,
+                                          type: widget.type,
+                                        ),
+                                      ),
+                                    ),
+                              ),
+                            ],
                             const SizedBox(height: AppSpacing.lg),
                             OutlinedButton.icon(
                               onPressed: _clearAllFilters,

@@ -69,7 +69,9 @@ class SchemeSearchTaxonomy:
     def normalize(self, text: str) -> dict[str, list[str]]:
         """Deterministic: same text always returns the same tags in the same
         order (table-declaration order, not match order)."""
-        text_lower = " " + re.sub(r"[^a-z0-9 ]", " ", text.lower()) + " "
+        # Keep Devanagari (U+0900-097F) and Tamil (U+0B80-0BFF), as the Dart
+        # engine does, so the Hindi/Tamil taxonomy terms can match.
+        text_lower = " " + re.sub(r"[^a-z0-9ऀ-ॿ஀-௿ ]", " ", text.lower()) + " "
         return {
             "industries": self._find(text_lower, self.industries),
             "benefits": self._find(text_lower, self.benefits),

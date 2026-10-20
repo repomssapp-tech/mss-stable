@@ -17,7 +17,9 @@ import 'screens/regular_mode/search_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/regular_mode/saved_schemes_screen.dart';
 import 'screens/companion_mode/saarthi_home_screen.dart';
+import 'screens/notifications/push_message_presenter.dart';
 import 'services/account/app_session.dart';
+import 'services/notifications/firebase_push_gateway.dart';
 import 'services/network/connectivity_service.dart';
 import 'services/catalog/centralized_translator.dart';
 import 'services/chat/chat_log_service.dart';
@@ -108,8 +110,15 @@ void main() async {
     ),
   );
 
+  // Firebase Cloud Messaging for push notifications. Without a Firebase
+  // configuration the app runs normally, just without push.
+  final pushGateway = await initializeFirebase() ? FirebasePushGateway() : null;
+
   runApp(
-    ChangeNotifierProvider(create: (_) => AppProvider(), child: const MSSApp()),
+    ChangeNotifierProvider(
+      create: (_) => AppProvider(pushGateway: pushGateway),
+      child: const MSSApp(),
+    ),
   );
 }
 
@@ -175,6 +184,9 @@ class MSSApp extends StatelessWidget {
       title: 'MSS',
       debugShowCheckedModeBanner: false,
       scrollBehavior: const AppScrollBehavior(),
+      navigatorKey: appNavigatorKey,
+      scaffoldMessengerKey: appMessengerKey,
+      navigatorObservers: [appRouteObserver],
       locale: Locale(selectedLanguage),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,

@@ -81,6 +81,7 @@
   "schemesMatchProfile": "{count} schemes match your profile.",
   "noSchemesFound": "No schemes found for \"{query}\"",
   "tryDifferentKeyword": "Try a different keyword or browse categories.",
+  "searchDidYouMean": "Did you mean \"{suggestion}\"?",
   "resultsFor": "{count} results for \"{query}\"",
   "matchScorePercent": "{percent}% Match",
   "filterAll": "All",

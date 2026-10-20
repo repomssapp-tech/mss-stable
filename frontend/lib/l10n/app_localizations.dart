@@ -586,6 +586,12 @@ abstract class AppLocalizations {
   /// **'Try a different keyword or browse categories.'**
   String get tryDifferentKeyword;
 
+  /// No description provided for @searchDidYouMean.
+  ///
+  /// In en, this message translates to:
+  /// **'Did you mean \"{suggestion}\"?'**
+  String searchDidYouMean(Object suggestion);
+
   /// No description provided for @resultsFor.
   ///
   /// In en, this message translates to:
