@@ -4925,4 +4925,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get schemeLinkPortalServices => 'Portal services';
+
+  @override
+  String get passwordSetting => 'Password';
+
+  @override
+  String get activeSessionsSetting => 'Active Sessions';
+
+  @override
+  String get setPasswordTitle => 'Set Password';
+
+  @override
+  String get changePasswordTitle => 'Change Password';
+
+  @override
+  String get removePasswordTitle => 'Remove Password';
+
+  @override
+  String get currentPasswordLabel => 'Current Password';
+
+  @override
+  String get newPasswordLabel => 'New Password';
+
+  @override
+  String get confirmPasswordLabel => 'Confirm Password';
+
+  @override
+  String get passwordChangedNotice => 'Password updated. Please sign in again.';
+
+  @override
+  String get revokeSession => 'Revoke';
+
+  @override
+  String get logoutAllSessions => 'Log Out All Devices';
+
+  @override
+  String get sessionCurrent => 'Current Device';
+
+  @override
+  String get noActiveSessions => 'No active sessions found.';
+
+  @override
+  String get passwordRemovedNotice => 'Password removed. Please sign in again.';
+
+  @override
+  String get signInWithPassword => 'Sign in with password';
 }

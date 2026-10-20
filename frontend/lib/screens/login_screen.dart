@@ -13,6 +13,7 @@ import '../utils/app_colors.dart';
 import '../utils/app_radius.dart';
 import '../utils/app_text.dart';
 import '../utils/app_elevation.dart';
+import 'login/password_login_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -329,6 +330,17 @@ class _LoginScreenState extends State<LoginScreen> {
           context.l10n.secureBrowserAuth,
           textAlign: TextAlign.center,
           style: context.text.bodySmall.copyWith(color: AppColors.textMuted),
+        ),
+        const SizedBox(height: AppSpacing.xs),
+        TextButton(
+          onPressed: () => PasswordLoginDialog.show(context),
+          child: Text(
+            context.l10n.signInWithPassword,
+            style: context.text.bodySmall.copyWith(
+              color: AppColors.primary,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ),
       ],
     );

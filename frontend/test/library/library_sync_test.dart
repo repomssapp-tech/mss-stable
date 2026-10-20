@@ -136,7 +136,7 @@ void main() {
   LibrarySyncService service({String? Function()? ownerId}) {
     final api = LibraryApiService(
       client: ApiClient(
-        baseUrl: 'https://api.msmeschemes.org',
+        baseUrl: 'https://mssapi.msmeschemes.org',
         httpClient: MockClient((r) async {
           calls.add(Call(r.method, r.url.path, r));
           return server(r);
@@ -208,8 +208,9 @@ void main() {
         server = (r) async {
           final id = r.url.path.split('/').last;
           if (id == 'HIDDEN') return _json({'error': 'SCHEME_NOT_FOUND'}, 404);
-          if (id == 'NOSTATE')
+          if (id == 'NOSTATE') {
             return _json({'error': 'PROFILE_STATE_REQUIRED'}, 409);
+          }
           return defaultServer(r);
         };
         final sync = service();
@@ -266,7 +267,7 @@ void main() {
           host: other,
           api: LibraryApiService(
             client: ApiClient(
-              baseUrl: 'https://api.msmeschemes.org',
+              baseUrl: 'https://mssapi.msmeschemes.org',
               httpClient: MockClient((r) async {
                 calls.add(Call(r.method, r.url.path, r));
                 return server(r);

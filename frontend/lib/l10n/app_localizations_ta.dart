@@ -5000,4 +5000,51 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get schemeLinkPortalServices => 'தள சேவைகள்';
+
+  @override
+  String get passwordSetting => 'கடவுச்சொல்';
+
+  @override
+  String get activeSessionsSetting => 'செயலில் உள்ள அமர்வுகள்';
+
+  @override
+  String get setPasswordTitle => 'கடவுச்சொல் அமை';
+
+  @override
+  String get changePasswordTitle => 'கடவுச்சொல்லை மாற்றவும்';
+
+  @override
+  String get removePasswordTitle => 'கடவுச்சொல்லை நீக்கு';
+
+  @override
+  String get currentPasswordLabel => 'தற்போதைய கடவுச்சொல்';
+
+  @override
+  String get newPasswordLabel => 'புதிய கடவுச்சொல்';
+
+  @override
+  String get confirmPasswordLabel => 'கடவுச்சொல்லை உறுதிப்படுத்தவும்';
+
+  @override
+  String get passwordChangedNotice =>
+      'கடவுச்சொல் புதுப்பிக்கப்பட்டது. மீண்டும் உள்நுழையவும்.';
+
+  @override
+  String get revokeSession => 'ரத்து செய்';
+
+  @override
+  String get logoutAllSessions => 'எல்லா சாதனங்களிலிருந்தும் வெளியேறவும்';
+
+  @override
+  String get sessionCurrent => 'தற்போதைய சாதனம்';
+
+  @override
+  String get noActiveSessions => 'செயலில் உள்ள அமர்வுகள் எதுவும் இல்லை.';
+
+  @override
+  String get passwordRemovedNotice =>
+      'கடவுச்சொல் நீக்கப்பட்டது. மீண்டும் உள்நுழையவும்.';
+
+  @override
+  String get signInWithPassword => 'கடவுச்சொல் மூலம் உள்நுழையவும்';
 }

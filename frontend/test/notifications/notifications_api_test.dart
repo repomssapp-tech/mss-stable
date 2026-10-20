@@ -49,7 +49,7 @@ void main() {
     Future<http.Response> Function(http.Request) handler,
   ) => NotificationsApiService(
     client: ApiClient(
-      baseUrl: 'https://api.msmeschemes.org',
+      baseUrl: 'https://mssapi.msmeschemes.org',
       httpClient: MockClient(handler),
       tokenStorage: tokenStorage,
     ),

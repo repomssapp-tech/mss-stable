@@ -1521,5 +1521,20 @@
   "@schemeMonthsValue": {"placeholders": {"count": {"type": "int"}}},
   "schemeLinkPortal": "आधिकारिक पोर्टल",
   "schemeLinkPortalLogin": "पोर्टल लॉगिन",
-  "schemeLinkPortalServices": "पोर्टल सेवाएं"
+  "schemeLinkPortalServices": "पोर्टल सेवाएं",
+  "passwordSetting": "पासवर्ड",
+  "activeSessionsSetting": "सक्रिय सत्र",
+  "setPasswordTitle": "पासवर्ड सेट करें",
+  "changePasswordTitle": "पासवर्ड बदलें",
+  "removePasswordTitle": "पासवर्ड हटाएं",
+  "currentPasswordLabel": "वर्तमान पासवर्ड",
+  "newPasswordLabel": "नया पासवर्ड",
+  "confirmPasswordLabel": "पासवर्ड की पुष्टि करें",
+  "passwordChangedNotice": "पासवर्ड अपडेट हो गया। कृपया फिर से साइन इन करें।",
+  "revokeSession": "निरस्त करें",
+  "logoutAllSessions": "सभी डिवाइस से लॉग आउट करें",
+  "sessionCurrent": "वर्तमान डिवाइस",
+  "noActiveSessions": "कोई सक्रिय सत्र नहीं मिला।",
+  "passwordRemovedNotice": "पासवर्ड हटा दिया गया। कृपया फिर से साइन इन करें।",
+  "signInWithPassword": "पासवर्ड से साइन इन करें"
 }

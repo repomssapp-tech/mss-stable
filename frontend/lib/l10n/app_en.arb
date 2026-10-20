@@ -1518,5 +1518,20 @@
   "@schemeMonthsValue": {"placeholders": {"count": {"type": "int"}}},
   "schemeLinkPortal": "Official portal",
   "schemeLinkPortalLogin": "Portal login",
-  "schemeLinkPortalServices": "Portal services"
+  "schemeLinkPortalServices": "Portal services",
+  "passwordSetting": "Password",
+  "activeSessionsSetting": "Active Sessions",
+  "setPasswordTitle": "Set Password",
+  "changePasswordTitle": "Change Password",
+  "removePasswordTitle": "Remove Password",
+  "currentPasswordLabel": "Current Password",
+  "newPasswordLabel": "New Password",
+  "confirmPasswordLabel": "Confirm Password",
+  "passwordChangedNotice": "Password updated. Please sign in again.",
+  "revokeSession": "Revoke",
+  "logoutAllSessions": "Log Out All Devices",
+  "sessionCurrent": "Current Device",
+  "noActiveSessions": "No active sessions found.",
+  "passwordRemovedNotice": "Password removed. Please sign in again.",
+  "signInWithPassword": "Sign in with password"
 }

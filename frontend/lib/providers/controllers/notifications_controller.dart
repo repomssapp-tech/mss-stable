@@ -6,6 +6,7 @@ import '../../services/network/debouncer.dart';
 import '../../services/network/foreground_poller.dart';
 import '../../services/network/request_manager.dart';
 import '../../services/notifications/notifications_api_service.dart';
+import '../../services/notifications/sse_event_service.dart';
 
 /// Owns the in-app notifications inbox backed by the MSS REST API
 /// ([NotificationsApiService]).
@@ -26,10 +27,12 @@ import '../../services/notifications/notifications_api_service.dart';
 class NotificationsController extends ChangeNotifier {
   NotificationsController({
     NotificationsApiService? apiService,
+    SseEventService? sseService,
     RequestManager? requests,
     Duration writeDelay = const Duration(milliseconds: 1500),
     ForegroundPoller? poller,
   }) : _apiService = apiService ?? NotificationsApiService(),
+       _sseService = sseService ?? SseEventService(),
        _requests = requests ?? RequestManager.instance,
        _writes = Debouncer(writeDelay) {
     _poller =
@@ -52,6 +55,7 @@ class NotificationsController extends ChangeNotifier {
   static const String _requestKey = 'notifications';
 
   final NotificationsApiService _apiService;
+  final SseEventService _sseService;
   final RequestManager _requests;
   final Debouncer _writes;
   late final ForegroundPoller _poller;
@@ -84,6 +88,11 @@ class NotificationsController extends ChangeNotifier {
     if (_subscribedUserId == userId) return;
     _subscribedUserId = userId;
     _poller.start();
+    unawaited(
+      _sseService.startListening(
+        onRefetchNeeded: () => refresh(force: true),
+      ),
+    );
     unawaited(refresh(force: true));
   }
 
@@ -146,6 +155,7 @@ class NotificationsController extends ChangeNotifier {
   }
 
   void unsubscribe() {
+    _sseService.stopListening();
     _subscribedUserId = null;
     _nextCursor = null;
     _poller.stop();
@@ -159,6 +169,7 @@ class NotificationsController extends ChangeNotifier {
   /// Full reset for sign-out or account switch: nothing may carry over.
   void reset() {
     unsubscribe();
+    unawaited(_sseService.clearCursor());
     _notificationsList = [];
     _serverUnreadCount = null;
     _requests.invalidate(_requestKey);
@@ -244,6 +255,7 @@ class NotificationsController extends ChangeNotifier {
 
   @override
   void dispose() {
+    _sseService.stopListening();
     _poller.stop();
     _writes.cancel();
     super.dispose();

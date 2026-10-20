@@ -27,7 +27,7 @@ class AppConfig {
     return 'https://mssapi.msmeschemes.org';
   }
 
-  /// REST API /v1 prefix, e.g. `https://api.msmeschemes.org/v1`.
+  /// REST API /v1 prefix, e.g. `https://mssapi.msmeschemes.org/v1`.
   static String get apiV1Url => '$apiBaseUrl/v1';
 
   /// Human-readable reason the current build-time configuration is unusable,

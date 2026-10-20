@@ -223,7 +223,7 @@ void main() {
         });
 
         final apiClient = ApiClient(
-          baseUrl: 'https://api.msmeschemes.org/v1',
+          baseUrl: 'https://mssapi.msmeschemes.org/v1',
           httpClient: mockClient,
         );
         final profileService = ProfileApiService(apiClient: apiClient);
@@ -289,7 +289,7 @@ void main() {
         });
         final profileService = ProfileApiService(
           apiClient: ApiClient(
-            baseUrl: 'https://api.msmeschemes.org/v1',
+            baseUrl: 'https://mssapi.msmeschemes.org/v1',
             httpClient: mockClient,
           ),
         );
@@ -329,7 +329,7 @@ void main() {
       });
       final profileService = ProfileApiService(
         apiClient: ApiClient(
-          baseUrl: 'https://api.msmeschemes.org/v1',
+          baseUrl: 'https://mssapi.msmeschemes.org/v1',
           httpClient: mockClient,
         ),
       );
@@ -355,7 +355,7 @@ void main() {
       });
 
       final apiClient = ApiClient(
-        baseUrl: 'https://api.msmeschemes.org/v1',
+        baseUrl: 'https://mssapi.msmeschemes.org/v1',
         httpClient: mockClient,
       );
       final profileService = ProfileApiService(
@@ -393,7 +393,7 @@ void main() {
       });
 
       final apiClient = ApiClient(
-        baseUrl: 'https://api.msmeschemes.org/v1',
+        baseUrl: 'https://mssapi.msmeschemes.org/v1',
         httpClient: mockClient,
       );
       final service = OnboardingApiService(apiClient: apiClient);
@@ -434,7 +434,7 @@ void main() {
         });
 
         final apiClient = ApiClient(
-          baseUrl: 'https://api.msmeschemes.org/v1',
+          baseUrl: 'https://mssapi.msmeschemes.org/v1',
           httpClient: mockClient,
         );
         final service = OnboardingApiService(apiClient: apiClient);
@@ -503,7 +503,7 @@ void main() {
         'business': null,
       };
       client = ApiClient(
-        baseUrl: 'https://api.msmeschemes.org/v1',
+        baseUrl: 'https://mssapi.msmeschemes.org/v1',
         httpClient: MockClient((request) async {
           seen.add('${request.method} ${request.url.path}');
           if (request.url.path == '/v1/me/onboarding') {
