@@ -1,4 +1,5 @@
 import '../../../l10n/app_localizations.dart';
+import '../../../services/catalog/centralized_translator.dart';
 import '../question_node.dart';
 
 class AssessmentFlowResult {
@@ -852,11 +853,16 @@ Map<String, QuestionNode> getStateFlow(
   AppLocalizations en,
   AppLocalizations ta,
 ) {
+  // The Tamil sentences must carry the Tamil state name, not the English tag.
+  final taState = CentralizedTranslator.instance.localizeTagFor(
+    'ta',
+    stateName,
+  );
   return {
     'state_q1': QuestionNode(
       id: 'state_q1',
       questionText: en.assessStateQ1(stateName),
-      questionTextTa: ta.assessStateQ1(stateName),
+      questionTextTa: ta.assessStateQ1(taState),
       options: [en.assessStateQ1Opt1, en.assessStateQ1Opt2],
       optionsTa: [ta.assessStateQ1Opt1, ta.assessStateQ1Opt2],
       nextId: (_) => "state_q2",
@@ -864,7 +870,7 @@ Map<String, QuestionNode> getStateFlow(
     'state_q2': QuestionNode(
       id: 'state_q2',
       questionText: en.assessStateQ2(stateName),
-      questionTextTa: ta.assessStateQ2(stateName),
+      questionTextTa: ta.assessStateQ2(taState),
       options: [
         en.assessStateQ2Opt1,
         en.assessStateQ2Opt2,
@@ -882,7 +888,7 @@ Map<String, QuestionNode> getStateFlow(
     'state_q3': QuestionNode(
       id: 'state_q3',
       questionText: en.assessStateQ3(stateName),
-      questionTextTa: ta.assessStateQ3(stateName),
+      questionTextTa: ta.assessStateQ3(taState),
       options: [
         en.assessStateQ3Opt1,
         en.assessStateQ3Opt2,

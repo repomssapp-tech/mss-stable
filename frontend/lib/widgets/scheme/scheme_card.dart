@@ -10,7 +10,11 @@ import '../../providers/app_state_provider.dart';
 import '../../services/catalog/centralized_translator.dart';
 import '../../utils/emblem_helper.dart';
 import '../common/app_toast.dart';
+import '../../utils/app_colors.dart';
+import '../../utils/app_radius.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/app_text.dart';
+import '../../utils/chip_list.dart';
 
 class SchemeCard extends StatefulWidget {
   final Scheme scheme;
@@ -21,6 +25,10 @@ class SchemeCard extends StatefulWidget {
   final bool showActions;
   final bool showMatchPercentage;
 
+  /// The scheme was searched for by name but does not apply to this user (or
+  /// is hidden by the active filters); shown with a distinct outlined pill.
+  final bool notApplicable;
+
   const SchemeCard({
     super.key,
     required this.scheme,
@@ -30,10 +38,49 @@ class SchemeCard extends StatefulWidget {
     required this.onTap,
     this.showActions = true,
     this.showMatchPercentage = true,
+    this.notApplicable = false,
   });
 
   @override
   State<SchemeCard> createState() => _SchemeCardState();
+}
+
+/// Outlined amber pill with an icon: deliberately unlike the filled, coloured
+/// tag chips so "this does not apply to you" reads at a glance.
+class _NotApplicablePill extends StatelessWidget {
+  const _NotApplicablePill();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.sm,
+        vertical: AppSpacing.xs,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: AppRadius.pillAll,
+        border: Border.all(color: AppColors.warningText, width: 1.2),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(
+            Icons.block_rounded,
+            size: AppSpacing.md,
+            color: AppColors.warningText,
+          ),
+          const SizedBox(width: AppSpacing.xs),
+          Flexible(
+            child: Text(
+              context.l10n.schemeNotApplicable,
+              style: context.text.label.copyWith(color: AppColors.warningText),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _SchemeCardState extends State<SchemeCard> {
@@ -86,20 +133,8 @@ class _SchemeCardState extends State<SchemeCard> {
   List<String> _getOtherTags(LocalizedScheme locScheme) {
     final List<String> list = [];
 
-    void addSplit(String value) {
-      if (value.isNotEmpty) {
-        list.addAll(
-          value
-              .split(',')
-              .map((s) => s.trim())
-              .where(
-                (s) =>
-                    s.isNotEmpty &&
-                    s.toLowerCase() != 'pending official verification',
-              ),
-        );
-      }
-    }
+    // Commas inside brackets stay in one chip (see splitChipList).
+    void addSplit(String value) => list.addAll(splitChipList(value));
 
     addSplit(locScheme.category);
     addSplit(locScheme.schemeType);
@@ -347,30 +382,33 @@ class _SchemeCardState extends State<SchemeCard> {
                       Wrap(
                         spacing: AppSpacing.tight,
                         runSpacing: AppSpacing.tight,
-                        children: tags.map((tag) {
-                          final colors = _getTagColors(
-                            tag,
-                            widget.scheme.category,
-                          );
-                          return Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: AppSpacing.sm,
-                              vertical: AppSpacing.xs,
-                            ),
-                            decoration: BoxDecoration(
-                              color: colors['bg'],
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Text(
+                        children: [
+                          if (widget.notApplicable) const _NotApplicablePill(),
+                          ...tags.map((tag) {
+                            final colors = _getTagColors(
                               tag,
-                              style: GoogleFonts.inter(
-                                fontSize: isTa ? 9.0 : 9.5,
-                                fontWeight: FontWeight.bold,
-                                color: colors['text'],
+                              widget.scheme.category,
+                            );
+                            return Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: AppSpacing.sm,
+                                vertical: AppSpacing.xs,
                               ),
-                            ),
-                          );
-                        }).toList(),
+                              decoration: BoxDecoration(
+                                color: colors['bg'],
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Text(
+                                tag,
+                                style: GoogleFonts.inter(
+                                  fontSize: isTa ? 9.0 : 9.5,
+                                  fontWeight: FontWeight.bold,
+                                  color: colors['text'],
+                                ),
+                              ),
+                            );
+                          }),
+                        ],
                       ),
                     ],
                   ),

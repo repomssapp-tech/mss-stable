@@ -425,7 +425,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
             onPressed: () async {
               final shareText =
                   '${context.l10n.searchResultsShareHeader(displayedTitle)}\n'
-                  '${filteredSchemes.take(5).map((e) => '• ${e.key.name}').join('\n')}';
+                  '${filteredSchemes.take(5).map((e) => '• ${e.key.getName(provider.selectedLanguage)}').join('\n')}';
               await Clipboard.setData(ClipboardData(text: shareText));
               if (context.mounted) {
                 AppToast.showSuccess(

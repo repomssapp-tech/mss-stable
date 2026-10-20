@@ -3395,6 +3395,9 @@ class AppLocalizationsHi extends AppLocalizations {
       'फ़िल्टर समायोजित करने का प्रयास करें, या अपना प्रोफ़ाइल विवरण अपडेट करें।';
 
   @override
+  String get schemeNotApplicable => 'आप पर लागू नहीं';
+
+  @override
   String get searchNoFilterMatchesTitle =>
       'आपके फ़िल्टर से मेल खाती कोई योजना नहीं मिली';
 
