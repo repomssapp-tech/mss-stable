@@ -134,10 +134,34 @@ and Hindi 19 -> 20; with the text index Tamil is 20/20.
 - Those figures were measured on a set also used to choose the two index changes;
   both changes are general (no query-specific words), but a fresh held-out set is
   the right next check.
-- **Voice agent not at parity:** the Python engine still lacks the Hindi/Tamil text
-  index and suffix matching (it has the taxonomy, expansions and normaliser fix).
 - English meaning-based search is capped by lexical matching; the catalog has no
   structured income, education or disability eligibility facets, so those profile
   fields cannot be scored.
 - `frontend/pubspec.lock` is rewritten by Flutter on every test run; deliberately
   not part of this branch.
+
+## Follow-up: Hindi/Tamil stemming, voice-agent parity, emulator runs
+- **Stemming:** `indic_stemmer.dart` (Snowball lightweight Hindi stemmer port plus a
+  conservative Tamil suffix stripper built from suffixes mined from the catalog's
+  own text). `IndicVocabulary` matches words that share a stem before falling back
+  to the older prefix rule. `saarthi-agent/src/indic_stemmer.py` mirrors it; both
+  are tested against `frontend/test/fixtures/indic_stem_cases.json`.
+- **Voice agent parity:** `saarthi-agent/src/indic_search.py` + `hybrid_search.py`
+  now index each scheme's own Hindi/Tamil text and match inflected words (golden
+  parity test unchanged and passing).
+- **Tried and dropped:** catalog-derived Hindi/Tamil -> English expansions
+  (Dice association over parallel catalog text). On the 900-query set they lowered
+  Hindi hit@5 73.7 -> 72.0 and Tamil 73.3 -> 71.3, so they are not shipped.
+  Stemming alone: overall hit@5 71.8% (75.8% with did-you-mean) vs 71.1% / 75.2% before.
+- **Emulator runs** (headless Android emulator, 300 cases per language, real app UI
+  via `integration_test/search_emulator_test.dart`; helpers in `tools/search_eval_*.py`):
+  - English: system spell checker flagged 148/150 misspelt queries and suggested the
+    right word for 232/296 misspelt words; 19/150 false alarms on clean queries.
+    hit@5 by level 97 / 64 / 44% (100 / 68 / 50% with did-you-mean).
+  - Tamil: **the system spell checker has no Tamil dictionary** (probe returns no
+    spans), so Tamil/Hindi rely on the catalog-based "Did you mean". hit@5 by level
+    96 / 68 / 56% (100 / 73 / 60% with did-you-mean).
+  - Hindi: same, no system dictionary. hit@5 98 / 66 / 57% (100 / 70 / 61%).
+  - Installing a Tamil/Hindi keyboard does not add a spell-check dictionary here;
+    on real devices Gboard's own checker is not exposed to apps.
+- Caveat: the eval queries were also used while tuning, so these are not fully held out.

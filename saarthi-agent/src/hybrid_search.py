@@ -17,6 +17,10 @@ import re
 from dataclasses import dataclass, field
 from typing import Any
 
+from indic_search import (
+    IndicVocabulary,
+    indic_text_tokens,
+)
 from search_taxonomy import SchemeSearchTaxonomy
 
 
@@ -84,6 +88,7 @@ class HybridSearchEngine:
             self._semantic_codes[entry.id] = codes
 
         self._build_idf()
+        self._indic_vocab = IndicVocabulary(self.vocab)
 
     @staticmethod
     def _tokens_of(profile: dict[str, Any], path: str) -> list[str]:
@@ -94,6 +99,13 @@ class HybridSearchEngine:
     def _search_profile_of(entry: SchemeEntry) -> dict[str, Any]:
         return entry.search_profile.get("schemeSearchProfile") or {}
 
+    def _indic_tokens(self, entry: SchemeEntry) -> list[str]:
+        """The scheme's own Hindi/Tamil text words (the prebuilt index has none)."""
+        return indic_text_tokens(
+            entry.raw.get("localization"),
+            lambda text: [m.group(0).lower() for m in self.tax.token_re.finditer(text)],
+        )
+
     def _searchable_fields(self, entry: SchemeEntry) -> list[tuple[list[str], float]]:
         sp = self._search_profile_of(entry)
 
@@ -103,6 +115,7 @@ class HybridSearchEngine:
         return [
             (self._tokens_of(entry.search_profile, "en"), 1.0),
             (self._tokens_of(entry.search_profile, "ta"), 1.0),
+            (self._indic_tokens(entry), 1.0),
             (lower(sp.get("loanType")), 0.9),
             (lower(sp.get("subsidyType")), 0.9),
             (lower(sp.get("taxBenefits")), 0.7),
@@ -169,6 +182,9 @@ class HybridSearchEngine:
             expansion = self.tax.token_expansions.get(tok)
             if expansion:
                 forms.update(expansion)
+
+            if tok not in self.vocab:
+                forms.update(self._indic_vocab.variants(tok))
 
             gated = {f for f in forms if f in self.vocab}
             forms = gated if gated else {tok}

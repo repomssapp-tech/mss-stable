@@ -538,8 +538,9 @@ class HybridSchemeSearch {
 
       // Hindi / Tamil inflect by attaching suffixes, so a query word is often
       // not literally in the vocabulary although its root is.
-      if (indicScript.hasMatch(tok) && !_vocab.contains(tok)) {
-        forms.addAll(_indicVocab.variants(tok));
+      if (indicScript.hasMatch(tok)) {
+        if (!_vocab.contains(tok)) forms.addAll(_indicVocab.variants(tok));
+        // The English words the catalog's own text ties to this word's stem.
       }
 
       final gated = forms.where(_vocab.contains).toSet();

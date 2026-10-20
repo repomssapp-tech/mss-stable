@@ -3,6 +3,8 @@
 /// Kept apart from `hybrid_scheme_search.dart` so that file does not grow.
 library;
 
+import 'indic_stemmer.dart';
+
 /// Whether a token contains Devanagari or Tamil script.
 final RegExp indicScript = RegExp(r'[ऀ-ॿ஀-௿]');
 
@@ -47,7 +49,17 @@ class IndicVocabulary {
         for (final v in vocabulary)
           if (indicScript.hasMatch(v))
             (word: v, stem: _stem(v), runes: v.runes.length),
-      ];
+      ] {
+    for (final w in _words) {
+      _byLinguisticStem
+          .putIfAbsent(indicStem(w.word), () => <String>{})
+          .add(w.word);
+    }
+  }
+
+  /// Words that share a real (Snowball Hindi / Tamil) stem, so "महिला",
+  /// "महिलाओं" and "महिलाएं" meet. See [indicStem].
+  final Map<String, Set<String>> _byLinguisticStem = {};
 
   /// Longest suffix (in code points) treated as an inflection of a root.
   static const int maxSuffixRunes = 7;
@@ -78,6 +90,13 @@ class IndicVocabulary {
   /// prefix of the token, up to [maxSuffixRunes] extra characters) or that
   /// extend it (the token is a prefix of the word).
   Set<String> variants(String token) {
+    // 1. Words with the same linguistic stem (the precise match).
+    final sameStem = _byLinguisticStem[indicStem(token)];
+    if (sameStem != null) {
+      final others = {...sameStem}..remove(token);
+      if (others.isNotEmpty) return others;
+    }
+    // 2. Otherwise fall back to the looser prefix rule below.
     final tokenRunes = token.runes.length;
     if (tokenRunes < minRootRunes) return const {};
     final out = <String>{};
