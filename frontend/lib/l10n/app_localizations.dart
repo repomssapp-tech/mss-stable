@@ -9099,6 +9099,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Portal services'**
   String get schemeLinkPortalServices;
+
+  /// No description provided for @passwordSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get passwordSetting;
+
+  /// No description provided for @activeSessionsSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Sessions'**
+  String get activeSessionsSetting;
+
+  /// No description provided for @setPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Password'**
+  String get setPasswordTitle;
+
+  /// No description provided for @changePasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get changePasswordTitle;
+
+  /// No description provided for @removePasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Password'**
+  String get removePasswordTitle;
+
+  /// No description provided for @currentPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Password'**
+  String get currentPasswordLabel;
+
+  /// No description provided for @newPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get newPasswordLabel;
+
+  /// No description provided for @confirmPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get confirmPasswordLabel;
+
+  /// No description provided for @passwordChangedNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Password updated. Please sign in again.'**
+  String get passwordChangedNotice;
+
+  /// No description provided for @revokeSession.
+  ///
+  /// In en, this message translates to:
+  /// **'Revoke'**
+  String get revokeSession;
+
+  /// No description provided for @logoutAllSessions.
+  ///
+  /// In en, this message translates to:
+  /// **'Log Out All Devices'**
+  String get logoutAllSessions;
+
+  /// No description provided for @sessionCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Device'**
+  String get sessionCurrent;
+
+  /// No description provided for @noActiveSessions.
+  ///
+  /// In en, this message translates to:
+  /// **'No active sessions found.'**
+  String get noActiveSessions;
+
+  /// No description provided for @passwordRemovedNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Password removed. Please sign in again.'**
+  String get passwordRemovedNotice;
+
+  /// No description provided for @signInWithPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with password'**
+  String get signInWithPassword;
 }
 
 class _AppLocalizationsDelegate

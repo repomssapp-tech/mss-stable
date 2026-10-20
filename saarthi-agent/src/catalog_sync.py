@@ -39,7 +39,7 @@ SEARCH_INDEX_PATH = DATA_DIR / "search_index.json"
 LOCAL_MANIFEST_PATH = DATA_DIR / "catalog_manifest.json"
 
 SUPPORTED_SCHEMA_VERSION = 1
-DEFAULT_API_BASE_URL = "https://api.msmeschemes.org"
+DEFAULT_API_BASE_URL = "https://mssapi.msmeschemes.org"
 CURRENT_RELEASE_PATH = "/v1/catalog/current"
 CATALOG_PATH_PREFIX = "/v1/catalog/"
 

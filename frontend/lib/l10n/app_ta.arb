@@ -1511,5 +1511,20 @@
   "@schemeMonthsValue": {"placeholders": {"count": {"type": "int"}}},
   "schemeLinkPortal": "அதிகாரப்பூர்வ தளம்",
   "schemeLinkPortalLogin": "தள உள்நுழைவு",
-  "schemeLinkPortalServices": "தள சேவைகள்"
+  "schemeLinkPortalServices": "தள சேவைகள்",
+  "passwordSetting": "கடவுச்சொல்",
+  "activeSessionsSetting": "செயலில் உள்ள அமர்வுகள்",
+  "setPasswordTitle": "கடவுச்சொல் அமை",
+  "changePasswordTitle": "கடவுச்சொல்லை மாற்றவும்",
+  "removePasswordTitle": "கடவுச்சொல்லை நீக்கு",
+  "currentPasswordLabel": "தற்போதைய கடவுச்சொல்",
+  "newPasswordLabel": "புதிய கடவுச்சொல்",
+  "confirmPasswordLabel": "கடவுச்சொல்லை உறுதிப்படுத்தவும்",
+  "passwordChangedNotice": "கடவுச்சொல் புதுப்பிக்கப்பட்டது. மீண்டும் உள்நுழையவும்.",
+  "revokeSession": "ரத்து செய்",
+  "logoutAllSessions": "எல்லா சாதனங்களிலிருந்தும் வெளியேறவும்",
+  "sessionCurrent": "தற்போதைய சாதனம்",
+  "noActiveSessions": "செயலில் உள்ள அமர்வுகள் எதுவும் இல்லை.",
+  "passwordRemovedNotice": "கடவுச்சொல் நீக்கப்பட்டது. மீண்டும் உள்நுழையவும்.",
+  "signInWithPassword": "கடவுச்சொல் மூலம் உள்நுழையவும்"
 }

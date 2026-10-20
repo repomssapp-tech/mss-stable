@@ -4938,4 +4938,51 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get schemeLinkPortalServices => 'पोर्टल सेवाएं';
+
+  @override
+  String get passwordSetting => 'पासवर्ड';
+
+  @override
+  String get activeSessionsSetting => 'सक्रिय सत्र';
+
+  @override
+  String get setPasswordTitle => 'पासवर्ड सेट करें';
+
+  @override
+  String get changePasswordTitle => 'पासवर्ड बदलें';
+
+  @override
+  String get removePasswordTitle => 'पासवर्ड हटाएं';
+
+  @override
+  String get currentPasswordLabel => 'वर्तमान पासवर्ड';
+
+  @override
+  String get newPasswordLabel => 'नया पासवर्ड';
+
+  @override
+  String get confirmPasswordLabel => 'पासवर्ड की पुष्टि करें';
+
+  @override
+  String get passwordChangedNotice =>
+      'पासवर्ड अपडेट हो गया। कृपया फिर से साइन इन करें।';
+
+  @override
+  String get revokeSession => 'निरस्त करें';
+
+  @override
+  String get logoutAllSessions => 'सभी डिवाइस से लॉग आउट करें';
+
+  @override
+  String get sessionCurrent => 'वर्तमान डिवाइस';
+
+  @override
+  String get noActiveSessions => 'कोई सक्रिय सत्र नहीं मिला।';
+
+  @override
+  String get passwordRemovedNotice =>
+      'पासवर्ड हटा दिया गया। कृपया फिर से साइन इन करें।';
+
+  @override
+  String get signInWithPassword => 'पासवर्ड से साइन इन करें';
 }

@@ -13,8 +13,8 @@ library;
 class AppConfig {
   AppConfig._();
 
-  /// REST API Base URL origin, e.g. `https://api.msmeschemes.org` or `http://10.0.2.2:5000`.
-  /// Defaults to `https://api.msmeschemes.org` if not explicitly supplied
+  /// REST API Base URL origin, e.g. `https://mssapi.msmeschemes.org` or `http://10.0.2.2:5000`.
+  /// Defaults to `https://mssapi.msmeschemes.org` if not explicitly supplied
   /// (`--dart-define=API_BASE_URL=...`). No other connection value is needed.
   static const String _envApiBaseUrl = String.fromEnvironment('API_BASE_URL');
 
@@ -24,10 +24,10 @@ class AppConfig {
           .replaceAll(RegExp(r'/v1/?$'), '')
           .replaceAll(RegExp(r'/$'), '');
     }
-    return 'https://api.msmeschemes.org';
+    return 'https://mssapi.msmeschemes.org';
   }
 
-  /// REST API /v1 prefix, e.g. `https://api.msmeschemes.org/v1`.
+  /// REST API /v1 prefix, e.g. `https://mssapi.msmeschemes.org/v1`.
   static String get apiV1Url => '$apiBaseUrl/v1';
 
   /// Human-readable reason the current build-time configuration is unusable,
