@@ -151,7 +151,7 @@ void main() {
         expect(translator.translateTag('Startup'), equals('ஸ்டார்ட்அப்'));
         expect(
           translator.translateTag('Women Entrepreneurs'),
-          equals('பெண் தொழில்முனைவோர்'),
+          equals('மகளிர் தொழில்முனைவோர்'),
         );
         expect(
           translator.translateTag('Business Loans & Credit'),

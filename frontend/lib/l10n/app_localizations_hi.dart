@@ -401,7 +401,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get quickPillLoansQuery => 'ऋण';
 
   @override
-  String get quickPillWomenQuery => 'औरत';
+  String get quickPillWomenQuery => 'महिला';
 
   @override
   String get quickPillAscendQuery => 'चढ़ा';
@@ -690,7 +690,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get labelAnnualIncome => 'वार्षिक आय';
 
   @override
-  String get labelDifferentlyAbled => 'अलग रूप से सक्षम';
+  String get labelDifferentlyAbled => 'दिव्यांग';
 
   @override
   String get labelExServiceman => 'भूतपूर्व सैनिक/वयोवृद्ध';
@@ -967,7 +967,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get labelFirstGenGraduate => 'पहली पीढ़ी के स्नातक';
 
   @override
-  String get labelDisability => 'विकलांगता';
+  String get labelDisability => 'दिव्यांगता';
 
   @override
   String get filterSchemeStatus => 'योजना की स्थिति';
@@ -1100,7 +1100,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get filterTypeLoans => 'ऋण और उधार';
+  String get filterTypeLoans => 'ऋण और क्रेडिट';
 
   @override
   String get filterTypeSubsidies => 'सब्सिडी';
@@ -1118,10 +1118,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get filterTypeMarket => 'बाज़ार एवं निर्यात';
 
   @override
-  String get filterTypeInfra => 'आधारभूत संरचना';
+  String get filterTypeInfra => 'अवसंरचना';
 
   @override
-  String get filterBenWomen => 'औरत';
+  String get filterBenWomen => 'महिला';
 
   @override
   String get filterBenSc => 'अनुसूचित जाति';
@@ -1130,7 +1130,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get filterBenSt => 'अनुसूचित जनजाति';
 
   @override
-  String get filterBenDifferentlyAbled => 'अलग रूप से सक्षम';
+  String get filterBenDifferentlyAbled => 'दिव्यांग';
 
   @override
   String get filterBenTransgender => 'ट्रांसजेंडर';
@@ -1139,7 +1139,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get filterBenMinority => 'अल्पसंख्यक';
 
   @override
-  String get filterBenExServicemen => 'भूतपूर्व सैनिकों';
+  String get filterBenExServicemen => 'पूर्व सैनिक';
 
   @override
   String get sortRelevance => 'प्रासंगिकता';
@@ -1967,10 +1967,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get veteran => 'भूतपूर्व सैनिक/वयोवृद्ध';
 
   @override
-  String get disability => 'विकलांग व्यक्ति';
+  String get disability => 'दिव्यांगजन';
 
   @override
-  String get disabilityType => 'विकलांगता प्रकार';
+  String get disabilityType => 'दिव्यांगता का प्रकार';
 
   @override
   String get hasExistingBusiness => 'मेरे पास एक मौजूदा व्यवसाय है';
@@ -2251,7 +2251,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get catStartupIncubation => 'स्टार्टअप और इन्क्यूबेशन';
 
   @override
-  String get catLoansCreditSupport => 'ऋण एवं ऋण सहायता';
+  String get catLoansCreditSupport => 'ऋण एवं क्रेडिट सहायता';
 
   @override
   String get catWomenEntrepreneurship => 'महिला उद्यमिता';
@@ -2305,7 +2305,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get catEducationFellowship => 'शिक्षा एवं फैलोशिप';
 
   @override
-  String get catInfrastructureLogistics => 'बुनियादी ढाँचा और रसद';
+  String get catInfrastructureLogistics => 'अवसंरचना एवं लॉजिस्टिक्स';
 
   @override
   String get catSocialWelfareSupport => 'समाज कल्याण एवं सहायता';
@@ -3292,7 +3292,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get assessMinQ1Opt3 => 'किसान कृषि सहायता की मांग कर रहे हैं';
 
   @override
-  String get assessMinQ1Opt4 => 'ग्रामीण बुनियादी ढांचे/एसएचजी सहायता की तलाश';
+  String get assessMinQ1Opt4 => 'ग्रामीण अवसंरचना/एसएचजी सहायता की तलाश';
 
   @override
   String get assessMinQ2 => 'आवेदक की वर्तमान आयु क्या है?';
@@ -4065,7 +4065,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get saarthiQDisability =>
-      'क्या कोई विकलांगता श्रेणी आप पर लागू होती है?';
+      'क्या कोई दिव्यांगता श्रेणी आप पर लागू होती है?';
 
   @override
   String get saarthiQMaritalStatus => 'आपकी वैवाहिक स्थिति क्या है?';

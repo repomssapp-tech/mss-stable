@@ -37,7 +37,7 @@ void main() {
       final phrases = decoded['phraseMap'] as Map<String, dynamic>;
       final terms = decoded['termMap'] as Map<String, dynamic>;
 
-      expect(tags.length, 93);
+      expect(tags.length, 117);
       expect(
         phrases.length,
         greaterThanOrEqualTo(428),

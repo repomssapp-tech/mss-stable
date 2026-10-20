@@ -85,7 +85,7 @@ void main() {
       expect(translator.translateTag('Business & MSME'), contains('தொழில்'));
       expect(
         translator.translateTag('Women Entrepreneurship'),
-        contains('பெண்'),
+        contains('மகளிர்'),
       );
       expect(
         translator.translateTag('Ministry of Finance'),
