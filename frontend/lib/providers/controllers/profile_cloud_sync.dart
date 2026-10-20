@@ -123,10 +123,7 @@ List<String> missingOnboardingFields(Map<String, dynamic> profile) {
 /// Business section, or null when none applies. An active student venture with
 /// no registration, funding or registration numbers is rejected by the server
 /// (`business.STUDENT_WITHOUT_VENTURE`), so it is left out.
-BusinessProfileDto? buildOnboardingBusiness(
-  UserProfile p,
-  String applicantType,
-) {
+BusinessProfileDto? buildOnboardingBusiness(UserProfile p, String applicantType) {
   if (!p.existingBusiness && p.businessStage.isEmpty) return null;
   if (applicantType.toLowerCase() == 'student' &&
       !p.existingBusiness &&
