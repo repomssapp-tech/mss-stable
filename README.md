@@ -286,6 +286,13 @@ flowchart LR
 
 ## License & Compliance
 
+The source code in this repository is dual-licensed under either of the following, at your option:
+
+- **MIT License** — see [`LICENSE-MIT`](LICENSE-MIT)
+- **Apache License, Version 2.0** — see [`LICENSE-APACHE`](LICENSE-APACHE)
+
+Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in this repository shall be dual-licensed as above, without any additional terms or conditions. Bundled third-party assets (such as fonts under `frontend/assets/fonts/`) keep their own licenses.
+
 All government scheme data bundled in this repository is sourced from verified official Central and State government portals (PIB, Ministry of MSME, Startup India and the Government of Tamil Nadu). Content is intended for public awareness and entrepreneurship enablement.
 
 <div align="center">
