@@ -38,3 +38,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-10-21 | Yogeeshwar-project | #138 | frontend/hindi-qa | Fix the remaining frontend findings from the Hindi QA report: translate PMEGP beneficiary/amount/document content, make scheme tabs scroll to distant sections, run typed searches with no-match feedback, align the Profile completion badge with Settings, and correct the Hindi EMI total label and eligibility FAQ. Add regression coverage and a finding-by-finding Markdown fix log. |
 | 2026-10-21 | Roger-Chris | #139 | unspecified | Fix/hindi test report |
 | 2026-10-21 | nyxri0f8 | #140 | unspecified | chore(release): app 1.4.2+10 |
+| 2026-10-21 | Anto-Merary | #141 | unspecified | Replace LiveKit with accessible Sarvam voice conversations |
