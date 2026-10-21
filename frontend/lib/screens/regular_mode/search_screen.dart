@@ -362,6 +362,7 @@ class SearchScreenState extends State<SearchScreen> {
       return;
     }
 
+    if (!mounted) return;
     setState(() => _isDictating = true);
     // Listen in the app's language (issue #128: Tamil speech was recognised
     // as English). English keeps automatic English/Tamil detection.

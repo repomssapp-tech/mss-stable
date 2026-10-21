@@ -3,7 +3,6 @@
 // And the Home search bar starts a fresh search instead of reopening the last
 // results: results appear only once a query is actually run.
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/l10n/app_localizations.dart';
