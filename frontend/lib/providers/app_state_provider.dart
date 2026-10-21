@@ -935,6 +935,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     // from bypassing onboarding after a failed or offline cloud write.
     if (requireCloudSync) {
       await _syncProfileToServer(candidate);
+      // This save is newer than any queued background draft, which must not
+      // be sent after it.
+      _pendingProfile = null;
     }
 
     _profile = candidate;

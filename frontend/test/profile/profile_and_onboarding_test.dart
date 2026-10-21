@@ -165,9 +165,9 @@ void main() {
           reason: 'Zero income must be preserved',
         );
         expect(
-          patch['religion'],
-          isNull,
-          reason: 'Cleared field must serialize as JSON null',
+          patch.containsKey('religion'),
+          isFalse,
+          reason: 'religion was removed from the profile API',
         );
         expect(patch['veteran'], isFalse);
         expect(

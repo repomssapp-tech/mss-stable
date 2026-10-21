@@ -237,7 +237,8 @@ class ProfileAggregate {
     checkString('house', current.house, base.house);
     checkString('area', current.area, base.area);
     checkString('community', current.community, base.community);
-    checkString('religion', current.religion, base.religion);
+    // `religion` is not part of the profile API any more (backend migration
+    // 017); a legacy local value is never sent.
     checkString('education_level', current.educationLevel, base.educationLevel);
     checkString('qualification', current.qualification, base.qualification);
     checkString('applicant_type', current.employmentStatus, base.applicantType);

@@ -32,6 +32,12 @@ class SseEventService {
   Timer? _reconnectTimer;
   String? _lastHandledEventId;
 
+  static const int _maxPermanentFailures = 5;
+  int _permanentFailures = 0;
+
+  static bool _isPermanentError(int status) =>
+      status >= 400 && status < 500 && status != 408 && status != 429;
+
   /// Starts listening to the SSE stream. Calls [onRefetchNeeded] whenever
   /// invalidation hints or notification events arrive.
   Future<void> startListening({
@@ -70,7 +76,7 @@ class SseEventService {
         break;
       }
 
-      final uri = Uri.parse('${_client.baseUrl}/v1/me/notifications/events');
+      final uri = _client.buildUri('/v1/me/notifications/events');
       final request = http.Request('GET', uri);
       request.headers['Accept'] = 'text/event-stream';
       request.headers['Authorization'] = 'Bearer $token';
@@ -82,6 +88,7 @@ class SseEventService {
         final streamedResponse = await _httpClient.send(request);
 
         if (streamedResponse.statusCode == 200) {
+          _permanentFailures = 0;
           String? currentId;
           String? currentEvent;
           final currentDataLines = <String>[];
@@ -123,6 +130,23 @@ class SseEventService {
         } else if (streamedResponse.statusCode == 429) {
           debugPrint('[SseEventService] 429 Rate limited; reconnecting with backoff');
           _scheduleReconnect(onRefetchNeeded, delaySeconds: 10);
+          break;
+        } else if (_isPermanentError(streamedResponse.statusCode)) {
+          // A wrong route or configuration will not fix itself: back off and
+          // give up after a few attempts instead of retrying every second.
+          _permanentFailures++;
+          debugPrint(
+            '[SseEventService] ${streamedResponse.statusCode} from stream '
+            '(attempt $_permanentFailures/$_maxPermanentFailures)',
+          );
+          if (_permanentFailures >= _maxPermanentFailures) {
+            stopListening();
+          } else {
+            _scheduleReconnect(
+              onRefetchNeeded,
+              delaySeconds: min(300, 30 * (1 << (_permanentFailures - 1))),
+            );
+          }
           break;
         }
       } catch (e) {

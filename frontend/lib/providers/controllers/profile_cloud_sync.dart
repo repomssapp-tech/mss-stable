@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 
 import '../../models/onboarding_api_dto.dart';
 import '../../models/user_profile.dart';
-import '../../models/user_profile_api_dto.dart';
 import '../../services/account/app_session.dart';
 import '../../services/account/onboarding_api_service.dart';
 import '../../services/account/profile_api_service.dart';
@@ -24,12 +23,9 @@ Future<void> syncProfileToServer(
     throw StateError('Your session expired. Please sign in again.');
   }
 
-  final patchPayload = ProfileAggregate.buildPatchPayload(
-    current: profileToSync,
-  );
-  if (patchPayload.isNotEmpty) {
-    await ProfileApiService.instance.saveDraft(patchPayload);
-  }
+  // Compared with the server's current profile inside the write queue, so
+  // only real changes are sent and writes never share an ETag.
+  await ProfileApiService.instance.saveProfileChanges(profileToSync);
 
   if (profileToSync.profileCompleted) {
     // The server completes onboarding only with the acceptance of all four
