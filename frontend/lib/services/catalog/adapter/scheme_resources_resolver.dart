@@ -118,6 +118,19 @@ class SchemeResourcesResolver {
               estimatedCostTa: dCostTa,
               remarks: dRemEn,
               remarksTa: dRemTa,
+              nameHi: SchemeAdapterTextUtils.extractHi(
+                docItem['name'] ?? docItem['title'],
+              ),
+              descriptionHi: SchemeAdapterTextUtils.extractHi(
+                docItem['description'] ?? docItem['summary'],
+              ),
+              issuingAuthorityHi: SchemeAdapterTextUtils.extractHi(
+                docItem['issuingAuthorityText'] ?? docItem['issuingAuthority'],
+              ),
+              estimatedCostHi: SchemeAdapterTextUtils.extractHi(
+                docItem['estimatedCostText'] ?? docItem['estimatedCostInr'],
+              ),
+              remarksHi: SchemeAdapterTextUtils.extractHi(docItem['remarks']),
               sourceUrl: (docItem['sourceUrl'] as String?) ?? '',
               validityMonths: docItem['validityMonths']?.toString() ?? '',
               downloadTemplateUrl:
@@ -256,6 +269,18 @@ class SchemeResourcesResolver {
               status: (sItem['status'] as String?) ?? 'ACTIVE',
               notes: sNotesEn,
               notesTa: sNotesTa,
+              nameHi: SchemeAdapterTextUtils.extractHi(
+                sItem['name'] ?? sItem['title'],
+              ),
+              categoryHi: SchemeAdapterTextUtils.extractHi(sItem['category']),
+              descriptionHi: SchemeAdapterTextUtils.extractHi(
+                sItem['description'],
+              ),
+              purposeHi: SchemeAdapterTextUtils.extractHi(sItem['purpose']),
+              departmentHi: SchemeAdapterTextUtils.extractHi(
+                sItem['department'],
+              ),
+              notesHi: SchemeAdapterTextUtils.extractHi(sItem['notes']),
             ),
           );
         }

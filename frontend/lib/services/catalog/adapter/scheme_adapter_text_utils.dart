@@ -42,6 +42,16 @@ class SchemeAdapterTextUtils {
     return (defaultStr, '');
   }
 
+  /// The Hindi string of a multilingual object (`{"en": ..., "hi": ...}`), or
+  /// '' when [rawObj] is plain text or has no Hindi.
+  static String extractHi(dynamic rawObj) {
+    if (rawObj is Map) {
+      final hi = rawObj['hi'];
+      if (hi is String) return hi.trim();
+    }
+    return '';
+  }
+
   /// Extracts localized text from a map, list, or string. Delegates to
   /// [ContentLanguageResolver]: selected language -> English -> any other
   /// language present. Never stringifies a Map/List.

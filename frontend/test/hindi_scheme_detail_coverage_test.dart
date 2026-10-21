@@ -77,6 +77,22 @@ void main() {
     expect(leaks, isEmpty, reason: 'English in Hindi:\n${leaks.join('\n')}');
   });
 
+  test('Hindi detail text is read from the catalogue record itself', () {
+    final pmegp = all.firstWhere((s) => s.id == 'CEN2026-085');
+    expect(
+      pmegp.documents.where((d) => d.descriptionHi.isNotEmpty),
+      isNotEmpty,
+      reason: 'requiredDocuments[].description carries {"en": ..., "hi": ...}',
+    );
+    final shown = pmegp.toLocalized('hi').documents;
+    for (var i = 0; i < pmegp.documents.length; i++) {
+      final d = pmegp.documents[i];
+      if (d.descriptionHi.isNotEmpty) {
+        expect(shown[i].description, d.descriptionHi);
+      }
+    }
+  });
+
   test('English left across the catalogue in Hindi does not grow', () {
     var total = 0;
     for (final s in all) {

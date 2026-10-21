@@ -334,35 +334,57 @@ class LocalizedScheme {
         applicationProcess: _storedSteps(scheme, 'hi'),
         documents: scheme.documents
             .map(
+              // Hindi stored in the catalogue record first, then the
+              // dictionary, then the original English.
               (d) => d.copyWith(
-                name: docNameHi[d.name] ?? text(d.name),
-                description: text(d.description),
-                issuingAuthority: text(d.issuingAuthority),
-                estimatedCost: text(d.estimatedCost),
+                name: d.nameHi.isNotEmpty
+                    ? d.nameHi
+                    : (docNameHi[d.name] ?? text(d.name)),
+                description: d.descriptionHi.isNotEmpty
+                    ? d.descriptionHi
+                    : text(d.description),
+                issuingAuthority: d.issuingAuthorityHi.isNotEmpty
+                    ? d.issuingAuthorityHi
+                    : text(d.issuingAuthority),
+                estimatedCost: d.estimatedCostHi.isNotEmpty
+                    ? d.estimatedCostHi
+                    : text(d.estimatedCost),
                 mandatory: meta(d.mandatory),
-                remarks: text(d.remarks),
+                remarks: d.remarksHi.isNotEmpty ? d.remarksHi : text(d.remarks),
               ),
             )
             .toList(),
         requiredServices: scheme.requiredServices
             .map(
               (s) => SchemeService(
-                name: text(s.name),
+                name: s.nameHi.isNotEmpty ? s.nameHi : text(s.name),
                 nameTa: s.nameTa,
-                category: meta(s.category),
+                category: s.categoryHi.isNotEmpty
+                    ? s.categoryHi
+                    : meta(s.category),
                 categoryTa: s.categoryTa,
                 mandatory: s.mandatory,
-                description: text(s.description),
+                description: s.descriptionHi.isNotEmpty
+                    ? s.descriptionHi
+                    : text(s.description),
                 descriptionTa: s.descriptionTa,
-                purpose: text(s.purpose),
+                purpose: s.purposeHi.isNotEmpty ? s.purposeHi : text(s.purpose),
                 purposeTa: s.purposeTa,
-                department: text(s.department),
+                department: s.departmentHi.isNotEmpty
+                    ? s.departmentHi
+                    : text(s.department),
                 departmentTa: s.departmentTa,
                 website: s.website,
                 contact: s.contact,
                 status: s.status,
-                notes: text(s.notes),
+                notes: s.notesHi.isNotEmpty ? s.notesHi : text(s.notes),
                 notesTa: s.notesTa,
+                nameHi: s.nameHi,
+                categoryHi: s.categoryHi,
+                descriptionHi: s.descriptionHi,
+                purposeHi: s.purposeHi,
+                departmentHi: s.departmentHi,
+                notesHi: s.notesHi,
               ),
             )
             .toList(),
