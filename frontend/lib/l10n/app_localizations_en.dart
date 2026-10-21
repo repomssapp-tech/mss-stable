@@ -1619,7 +1619,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get calcGstTitle => 'GST / Tax Calculator';
 
   @override
-  String get calcGstSub => 'Calculate CGST, SGST, and Total invoice amounts.';
+  String get calcGstSub =>
+      'Calculate CGST + SGST or IGST, and the total invoice amount.';
+
+  @override
+  String get calcGstWithinState => 'Within state (CGST + SGST)';
+
+  @override
+  String get calcGstInterState => 'Inter-state (IGST)';
 
   @override
   String get calcBaseAmountLabel => 'Base Amount';

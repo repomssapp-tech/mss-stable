@@ -3,7 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../services/catalog/centralized_translator.dart';
+import '../../../utils/app_colors.dart';
+import '../../../utils/app_radius.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 import '../../../utils/responsive.dart';
 
 /// GST / tax calculator bottom sheet (CGST + SGST + total invoice).
@@ -88,9 +91,7 @@ void showGstCalculatorSheet(BuildContext context) {
                               ),
                             ),
                             Text(
-                              CentralizedTranslator.instance.localize(
-                                'Calculate CGST + SGST or IGST, and the total invoice amount.',
-                              ),
+                              context.l10n.calcGstSub,
                               style: GoogleFonts.inter(
                                 fontSize: 10,
                                 color: const Color(0xFF64748B),
@@ -234,20 +235,17 @@ void showGstCalculatorSheet(BuildContext context) {
                           child: ChoiceChip(
                             label: Center(
                               child: Text(
-                                CentralizedTranslator.instance.localize(
-                                  inter
-                                      ? 'Inter-state (IGST)'
-                                      : 'Within state (CGST + SGST)',
-                                ),
+                                inter
+                                    ? context.l10n.calcGstInterState
+                                    : context.l10n.calcGstWithinState,
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.inter(
-                                  fontSize: 11,
+                                style: context.text.label.copyWith(
                                   fontWeight: isSelected
                                       ? FontWeight.bold
                                       : FontWeight.normal,
                                   color: isSelected
-                                      ? const Color(0xFF2563EB)
-                                      : const Color(0xFF475569),
+                                      ? AppColors.primary
+                                      : AppColors.textSecondary,
                                 ),
                               ),
                             ),
@@ -264,15 +262,15 @@ void showGstCalculatorSheet(BuildContext context) {
                                 });
                               }
                             },
-                            selectedColor: const Color(0xFFEFF6FF),
-                            backgroundColor: Colors.white,
+                            selectedColor: AppColors.primarySoft,
+                            backgroundColor: AppColors.surface,
                             showCheckmark: false,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: AppRadius.mdAll,
                               side: BorderSide(
                                 color: isSelected
-                                    ? const Color(0xFF2563EB)
-                                    : const Color(0xFFE2E8F0),
+                                    ? AppColors.primary
+                                    : AppColors.border,
                                 width: isSelected ? 1.5 : 1,
                               ),
                             ),
@@ -351,94 +349,19 @@ void showGstCalculatorSheet(BuildContext context) {
                             child: Divider(color: Color(0xFFDBEAFE), height: 1),
                           ),
                           if (interState)
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Flexible(
-                                  child: Text(
-                                    'IGST (${gstPercentage.toStringAsFixed(0)}%)',
-                                    softWrap: true,
-                                    style: GoogleFonts.inter(
-                                      fontSize: 11,
-                                      color: const Color(0xFF475569),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: AppSpacing.sm),
-                                Flexible(
-                                  child: FitOneLine(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                      '₹ ${igstVal.toStringAsFixed(2)}',
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600,
-                                        color: const Color(0xFF0F172A),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            _taxRow(
+                              'IGST (${gstPercentage.toStringAsFixed(0)}%)',
+                              igstVal,
                             )
                           else ...[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Flexible(
-                                  child: Text(
-                                    'CGST (${(gstPercentage / 2).toStringAsFixed(1)}%)',
-                                    softWrap: true,
-                                    style: GoogleFonts.inter(
-                                      fontSize: 11,
-                                      color: const Color(0xFF475569),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: AppSpacing.sm),
-                                Flexible(
-                                  child: FitOneLine(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                      '₹ ${cgstVal.toStringAsFixed(2)}',
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600,
-                                        color: const Color(0xFF0F172A),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            _taxRow(
+                              'CGST (${(gstPercentage / 2).toStringAsFixed(1)}%)',
+                              cgstVal,
                             ),
                             const SizedBox(height: AppSpacing.xs),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Flexible(
-                                  child: Text(
-                                    'SGST (${(gstPercentage / 2).toStringAsFixed(1)}%)',
-                                    softWrap: true,
-                                    style: GoogleFonts.inter(
-                                      fontSize: 11,
-                                      color: const Color(0xFF475569),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: AppSpacing.sm),
-                                Flexible(
-                                  child: FitOneLine(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                      '₹ ${sgstVal.toStringAsFixed(2)}',
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600,
-                                        color: const Color(0xFF0F172A),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            _taxRow(
+                              'SGST (${(gstPercentage / 2).toStringAsFixed(1)}%)',
+                              sgstVal,
                             ),
                           ],
                           const Padding(
@@ -536,3 +459,31 @@ void showGstCalculatorSheet(BuildContext context) {
     },
   );
 }
+
+/// One tax line in the result card: label on the left, rupee amount right.
+Widget _taxRow(String label, double amount) => Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    Flexible(
+      child: Text(
+        label,
+        softWrap: true,
+        style: GoogleFonts.inter(fontSize: 11, color: AppColors.textSecondary),
+      ),
+    ),
+    const SizedBox(width: AppSpacing.sm),
+    Flexible(
+      child: FitOneLine(
+        alignment: Alignment.centerRight,
+        child: Text(
+          '₹ ${amount.toStringAsFixed(2)}',
+          style: GoogleFonts.poppins(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: AppColors.textPrimary,
+          ),
+        ),
+      ),
+    ),
+  ],
+);

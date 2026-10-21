@@ -1640,7 +1640,13 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get calcGstSub =>
-      'CGST, SGST மற்றும் மொத்த இன்வாய்ஸ் தொகைகளைக் கணக்கிடுங்கள்.';
+      'CGST + SGST அல்லது IGST மற்றும் மொத்த இன்வாய்ஸ் தொகையைக் கணக்கிடுங்கள்.';
+
+  @override
+  String get calcGstWithinState => 'மாநிலத்துக்குள் (CGST + SGST)';
+
+  @override
+  String get calcGstInterState => 'மாநிலங்களுக்கு இடையே (IGST)';
 
   @override
   String get calcBaseAmountLabel => 'அடிப்படைத் தொகை';

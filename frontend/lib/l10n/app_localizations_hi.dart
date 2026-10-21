@@ -1624,7 +1624,14 @@ class AppLocalizationsHi extends AppLocalizations {
   String get calcGstTitle => 'जीएसटी / कर कैलकुलेटर';
 
   @override
-  String get calcGstSub => 'सीजीएसटी, एसजीएसटी और कुल चालान राशि की गणना करें।';
+  String get calcGstSub =>
+      'सीजीएसटी + एसजीएसटी या आईजीएसटी और कुल चालान राशि की गणना करें।';
+
+  @override
+  String get calcGstWithinState => 'राज्य के भीतर (CGST + SGST)';
+
+  @override
+  String get calcGstInterState => 'अंतर-राज्यीय (IGST)';
 
   @override
   String get calcBaseAmountLabel => 'आधार राशि';

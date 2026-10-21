@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../l10n/l10n.dart';
 import '../../../models/localized_scheme.dart';
 import '../../../services/catalog/centralized_translator.dart';
+import '../../../utils/app_colors.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/emblem_helper.dart';
 
@@ -300,7 +301,7 @@ class SchemeHeroSection extends StatelessWidget {
                                         text: context.l10n.schemeNotApplicable,
                                         style: const TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          color: Color(0xFFB45309),
+                                          color: AppColors.warningText,
                                         ),
                                       )
                                     else ...[

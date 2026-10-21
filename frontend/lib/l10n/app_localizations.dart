@@ -3067,8 +3067,20 @@ abstract class AppLocalizations {
   /// No description provided for @calcGstSub.
   ///
   /// In en, this message translates to:
-  /// **'Calculate CGST, SGST, and Total invoice amounts.'**
+  /// **'Calculate CGST + SGST or IGST, and the total invoice amount.'**
   String get calcGstSub;
+
+  /// No description provided for @calcGstWithinState.
+  ///
+  /// In en, this message translates to:
+  /// **'Within state (CGST + SGST)'**
+  String get calcGstWithinState;
+
+  /// No description provided for @calcGstInterState.
+  ///
+  /// In en, this message translates to:
+  /// **'Inter-state (IGST)'**
+  String get calcGstInterState;
 
   /// No description provided for @calcBaseAmountLabel.
   ///

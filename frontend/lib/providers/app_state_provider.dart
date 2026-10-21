@@ -477,6 +477,10 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     if (owner == null || owner != AppSession.instance.userId) return;
     try {
       await _syncProfileToServer(profile);
+      // The server now holds this mode, so it is the source of truth again.
+      if (profile.navigationMode == _navigationMode) {
+        await SessionCacheService.instance.setNavigationModePending(false);
+      }
     } catch (error) {
       debugPrint('[AppProvider] Background profile sync failed: $error');
       _pendingProfile ??= profile;
