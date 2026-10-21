@@ -133,13 +133,20 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     _stateController = TextEditingController(text: profile.state);
     _pincodeController = TextEditingController(text: profile.pinCode);
 
-    // 3. Initialize Step 3 role
-    if (profile.profileCompleted && profile.employmentStatus.isNotEmpty) {
+    // 3. Initialize Step 3 role. Saved answers prefill steps 3-4 even while
+    // the server has not marked the profile complete; otherwise a re-run of
+    // onboarding showed them blank and required (issue #123).
+    if (profile.employmentStatus.isNotEmpty) {
       _selectedRole = _roleIdFromEmploymentStatus(profile.employmentStatus);
     }
 
     // 4. Initialize Step 4 eligibility
-    if (profile.profileCompleted) {
+    final hasSavedEligibility =
+        profile.qualification.isNotEmpty ||
+        profile.educationLevel.isNotEmpty ||
+        profile.community.isNotEmpty ||
+        profile.annualIncome > 0;
+    if (profile.profileCompleted || hasSavedEligibility) {
       _selectedEducation = ProfileValueFormatters.inLanguageOf(
         profile.qualification.isNotEmpty
             ? profile.qualification

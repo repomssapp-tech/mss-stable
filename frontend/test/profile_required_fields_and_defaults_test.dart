@@ -298,11 +298,13 @@ void main() {
   );
 
   testWidgets(
-    'Uncompleted profile restores a saved gender but does not pre-select Eligibility options',
+    'Uncompleted profile restores the saved gender and Eligibility answers (#123)',
     (WidgetTester tester) async {
       final provider = AppProvider();
-      // A draft saved on the server: gender was chosen on step 1, the
-      // eligibility step was never completed.
+      // A draft saved on the server whose onboarding was never confirmed
+      // (issue #123: the server keeps is_profile_complete=false until legal
+      // consent is recorded). The model no longer has default values, so
+      // these are the user's own answers and must not be shown blank.
       await provider.updateProfile(
         provider.profile.copyWith(
           gender: 'Male',
@@ -322,13 +324,14 @@ void main() {
       final maleText = tester.widget<Text>(find.text('Male'));
       expect(maleText.style?.fontWeight, isNot(FontWeight.normal));
 
-      // 2. In EligibilityProfileScreen, no chips should be selected
+      // 2. In EligibilityProfileScreen the saved qualification, community and
+      // income are selected again.
       await tester.pumpWidget(
         buildTestApp(const EligibilityProfileScreen(), provider),
       );
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.check), findsNothing);
+      expect(find.byIcon(Icons.check), findsNWidgets(3));
     },
   );
 }
