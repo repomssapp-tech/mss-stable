@@ -11,6 +11,21 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [1.4.3+11] - 2026-10-21
+
+### Changed
+- Saarthi voice uses Sarvam through the MSS backend instead of LiveKit (#141).
+  - Recorded and reviewed voice turns, plus native live conversations on Android.
+  - Answers come in the selected language, with captions, correction, repeat and screen-reader controls.
+  - Up to 60 seconds of speech per turn, and listening waits until the reply has finished playing.
+  - Chat replies appear gradually.
+  - Scheme lookup understands acronyms and titles, including PMEGP/PMEPG.
+  - Provider keys and signed URLs stay on the server.
+- A failed or slow voice connection shows an error with Retry instead of hanging.
+
+### Removed
+- LiveKit voice transport and its package.
+
 ## [1.4.2+10] - 2026-10-21
 
 ### Fixed (Hindi test report)
