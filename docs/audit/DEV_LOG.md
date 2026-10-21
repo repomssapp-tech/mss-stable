@@ -33,3 +33,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-10-21 | nyxri0f8 | #133 | unspecified | Fix onboarding loop after signing in again (#123) |
 | 2026-10-21 | nyxri0f8 | #134 | unspecified | chore(release): app 1.4.1+9 |
 | 2026-10-21 | Roger-Chris | #135 | unspecified | fix(profile): adopt ETag from every profile write, serialize saves, f… |
+| 2026-10-21 | Roger-Chris | #136 | unspecified | Fix/login consent links |
