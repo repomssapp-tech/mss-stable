@@ -2872,13 +2872,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'What is the total investment in machinery/equipment?';
 
   @override
-  String get assessBizQ2MsmeOpt1 => 'Micro (Under ₹1 Crore)';
+  String get assessBizQ2MsmeOpt1 => 'Micro (up to ₹2.5 Crore investment)';
 
   @override
-  String get assessBizQ2MsmeOpt2 => 'Small (₹1 Crore - ₹10 Crore)';
+  String get assessBizQ2MsmeOpt2 => 'Small (₹2.5 Crore - ₹25 Crore)';
 
   @override
-  String get assessBizQ2MsmeOpt3 => 'Medium (Over ₹10 Crore)';
+  String get assessBizQ2MsmeOpt3 => 'Medium (₹25 Crore - ₹125 Crore)';
 
   @override
   String get assessBizQ2Startup => 'What stage is your startup currently in?';
@@ -3767,6 +3767,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get docEntityPrivateLimited => 'Private Limited';
 
   @override
+  String get docEntitySoleProprietorship => 'Sole Proprietorship';
+
+  @override
+  String get docItemProprietorPanAadhaar => 'Owner\'s PAN card and Aadhaar';
+
+  @override
+  String get docItemUdyamRegistration =>
+      'Udyam registration certificate (free, udyamregistration.gov.in)';
+
+  @override
+  String get docItemShopEstablishmentLicence =>
+      'Shop & Establishment licence from your state / local body';
+
+  @override
+  String get docItemProprietorBankAccount =>
+      'Current bank account in the business name';
+
+  @override
   String get docEntityPartnership => 'Partnership';
 
   @override
@@ -4006,6 +4024,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get saarthiVoiceServiceUnavailable =>
       'Voice service is unavailable. Tap retry.';
+
+  @override
+  String get saarthiVoiceFallbackOnDevice =>
+      'Cloud voice isn\'t available right now. Saarthi is listening on your phone instead.';
 
   @override
   String get saarthiCloudErrorSignIn =>

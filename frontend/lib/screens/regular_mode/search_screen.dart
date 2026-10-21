@@ -351,7 +351,14 @@ class SearchScreenState extends State<SearchScreen> {
     }
 
     setState(() => _isDictating = true);
-    await _dictationController.listen();
+    // Listen in the app's language (issue #128: Tamil speech was recognised
+    // as English). English keeps automatic English/Tamil detection.
+    final lang = Provider.of<AppProvider>(
+      context,
+      listen: false,
+    ).selectedLanguage;
+    const speechLocales = {'ta': 'ta-IN', 'hi': 'hi-IN', 'mr': 'mr-IN'};
+    await _dictationController.listen(localeId: speechLocales[lang]);
   }
 
   @override

@@ -15,6 +15,8 @@ import '../../widgets/common/app_toast.dart';
 import '../../widgets/scheme/catalog_freshness_footer.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/language_names.dart';
+import '../../utils/app_version.dart';
+import '../../services/app_info_service.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -530,14 +532,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(height: AppSpacing.lg),
 
             // Centered App Version Footer
+            // The installed build's real version (was a stale '1.2.0' literal).
             Center(
-              child: Text(
-                context.l10n.settingsAppVersion('1.2.0'),
-                style: GoogleFonts.inter(
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xFF94A3B8),
-                ),
+              child: FutureBuilder<AppVersion?>(
+                future: AppInfoService.installedVersion(),
+                builder: (context, snapshot) {
+                  final v = snapshot.data;
+                  return Text(
+                    v == null
+                        ? ''
+                        : context.l10n.settingsAppVersion(
+                            '${v.name} (${v.build})',
+                          ),
+                    style: GoogleFonts.inter(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xFF94A3B8),
+                    ),
+                  );
+                },
               ),
             ),
             const CatalogFreshnessFooter(),

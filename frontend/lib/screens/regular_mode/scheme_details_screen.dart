@@ -38,7 +38,18 @@ export 'scheme_details/sticky_tab_bar_delegate.dart';
 class SchemeDetailsScreen extends StatefulWidget {
   final Scheme scheme;
 
-  const SchemeDetailsScreen({super.key, required this.scheme});
+  /// Real match % from the results list (null = don't show a score).
+  final int? matchPercentage;
+
+  /// Eligibility engine marked the scheme "not applicable" for this user.
+  final bool notApplicable;
+
+  const SchemeDetailsScreen({
+    super.key,
+    required this.scheme,
+    this.matchPercentage,
+    this.notApplicable = false,
+  });
 
   @override
   State<SchemeDetailsScreen> createState() => _SchemeDetailsScreenState();
@@ -108,6 +119,15 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
   void initState() {
     super.initState();
     _loadDetails();
+    // Record every opened scheme, whichever screen it was opened from
+    // (Recently viewed used to stay empty outside the eligibility results).
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      Provider.of<AppProvider>(
+        context,
+        listen: false,
+      ).addToRecentlyViewed(widget.scheme.id);
+    });
   }
 
   Future<void> _loadDetails() async {
@@ -313,6 +333,8 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                   child: SchemeHeroSection(
                     scheme: scheme,
                     imagePath: _getImageForCategory(scheme.category),
+                    matchPercentage: widget.matchPercentage,
+                    notApplicable: widget.notApplicable,
                   ),
                 ),
 

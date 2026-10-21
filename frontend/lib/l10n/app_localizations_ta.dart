@@ -2908,13 +2908,13 @@ class AppLocalizationsTa extends AppLocalizations {
       'இயந்திரங்கள் / உபகரணங்களில் மொத்த முதலீடு எவ்வளவு?';
 
   @override
-  String get assessBizQ2MsmeOpt1 => 'குறுந்தொழில் (₹1 கோடிக்கு கீழ்)';
+  String get assessBizQ2MsmeOpt1 => 'குறுந்தொழில் (₹2.5 கோடி வரை முதலீடு)';
 
   @override
-  String get assessBizQ2MsmeOpt2 => 'சிறு தொழில் (₹1 கோடி - ₹10 கோடி)';
+  String get assessBizQ2MsmeOpt2 => 'சிறு தொழில் (₹2.5 கோடி - ₹25 கோடி)';
 
   @override
-  String get assessBizQ2MsmeOpt3 => 'நடுத்தர தொழில் (₹10 கோடிக்கு மேல்)';
+  String get assessBizQ2MsmeOpt3 => 'நடுத்தர தொழில் (₹25 கோடி - ₹125 கோடி)';
 
   @override
   String get assessBizQ2Startup =>
@@ -3817,6 +3817,25 @@ class AppLocalizationsTa extends AppLocalizations {
   String get docEntityPrivateLimited => 'தனியார் லிமிடெட்';
 
   @override
+  String get docEntitySoleProprietorship => 'தனி உரிமையாளர் நிறுவனம்';
+
+  @override
+  String get docItemProprietorPanAadhaar =>
+      'உரிமையாளரின் பான் கார்டு மற்றும் ஆதார்';
+
+  @override
+  String get docItemUdyamRegistration =>
+      'உத்யம் பதிவு சான்றிதழ் (இலவசம், udyamregistration.gov.in)';
+
+  @override
+  String get docItemShopEstablishmentLicence =>
+      'உங்கள் மாநில / உள்ளாட்சி அமைப்பின் கடை மற்றும் நிறுவன உரிமம்';
+
+  @override
+  String get docItemProprietorBankAccount =>
+      'வணிகப் பெயரில் நடப்பு வங்கிக் கணக்கு';
+
+  @override
   String get docEntityPartnership => 'கூட்டாண்மை';
 
   @override
@@ -4061,6 +4080,10 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get saarthiVoiceServiceUnavailable =>
       'குரல் சேவை கிடைக்கவில்லை. மீண்டும் முயற்சிக்கத் தட்டவும்.';
+
+  @override
+  String get saarthiVoiceFallbackOnDevice =>
+      'கிளவுட் குரல் சேவை இப்போது கிடைக்கவில்லை. சாரதி உங்கள் போனிலேயே கேட்கிறது.';
 
   @override
   String get saarthiCloudErrorSignIn =>

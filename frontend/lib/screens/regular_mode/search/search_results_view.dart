@@ -279,7 +279,14 @@ class SearchResultsList extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => SchemeDetailsScreen(scheme: scheme),
+                builder: (_) => SchemeDetailsScreen(
+                  scheme: scheme,
+                  notApplicable: notApplicableIds.contains(scheme.id),
+                  matchPercentage:
+                      isForMe && !notApplicableIds.contains(scheme.id)
+                      ? recResult.percentage
+                      : null,
+                ),
               ),
             );
           },

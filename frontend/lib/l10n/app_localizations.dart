@@ -5371,19 +5371,19 @@ abstract class AppLocalizations {
   /// No description provided for @assessBizQ2MsmeOpt1.
   ///
   /// In en, this message translates to:
-  /// **'Micro (Under ₹1 Crore)'**
+  /// **'Micro (up to ₹2.5 Crore investment)'**
   String get assessBizQ2MsmeOpt1;
 
   /// No description provided for @assessBizQ2MsmeOpt2.
   ///
   /// In en, this message translates to:
-  /// **'Small (₹1 Crore - ₹10 Crore)'**
+  /// **'Small (₹2.5 Crore - ₹25 Crore)'**
   String get assessBizQ2MsmeOpt2;
 
   /// No description provided for @assessBizQ2MsmeOpt3.
   ///
   /// In en, this message translates to:
-  /// **'Medium (Over ₹10 Crore)'**
+  /// **'Medium (₹25 Crore - ₹125 Crore)'**
   String get assessBizQ2MsmeOpt3;
 
   /// No description provided for @assessBizQ2Startup.
@@ -7024,6 +7024,36 @@ abstract class AppLocalizations {
   /// **'Private Limited'**
   String get docEntityPrivateLimited;
 
+  /// No description provided for @docEntitySoleProprietorship.
+  ///
+  /// In en, this message translates to:
+  /// **'Sole Proprietorship'**
+  String get docEntitySoleProprietorship;
+
+  /// No description provided for @docItemProprietorPanAadhaar.
+  ///
+  /// In en, this message translates to:
+  /// **'Owner\'s PAN card and Aadhaar'**
+  String get docItemProprietorPanAadhaar;
+
+  /// No description provided for @docItemUdyamRegistration.
+  ///
+  /// In en, this message translates to:
+  /// **'Udyam registration certificate (free, udyamregistration.gov.in)'**
+  String get docItemUdyamRegistration;
+
+  /// No description provided for @docItemShopEstablishmentLicence.
+  ///
+  /// In en, this message translates to:
+  /// **'Shop & Establishment licence from your state / local body'**
+  String get docItemShopEstablishmentLicence;
+
+  /// No description provided for @docItemProprietorBankAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Current bank account in the business name'**
+  String get docItemProprietorBankAccount;
+
   /// No description provided for @docEntityPartnership.
   ///
   /// In en, this message translates to:
@@ -7437,6 +7467,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Voice service is unavailable. Tap retry.'**
   String get saarthiVoiceServiceUnavailable;
+
+  /// No description provided for @saarthiVoiceFallbackOnDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud voice isn\'t available right now. Saarthi is listening on your phone instead.'**
+  String get saarthiVoiceFallbackOnDevice;
 
   /// No description provided for @saarthiCloudErrorSignIn.
   ///

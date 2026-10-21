@@ -550,6 +550,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     );
     notifyListeners();
     await SessionCacheService.instance.saveNavigationMode(mode);
+    await SessionCacheService.instance.setNavigationModePending(true);
     await SessionCacheService.instance.saveProfile(_profile);
 
     _syncProfileToServerInBackground(_profile);
@@ -595,7 +596,22 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         serverProfileCompleted: mappedProfile.profileCompleted,
       );
       _profile = _profile.copyWith(language: _selectedLanguage);
-      _navigationMode = mappedProfile.navigationMode;
+      // A mode chosen on this device that the server hasn't confirmed yet wins
+      // over the server copy; otherwise the server is the source of truth.
+      final serverMode = mappedProfile.navigationMode;
+      final localModePending = await SessionCacheService.instance
+          .isNavigationModePending();
+      if (localModePending &&
+          _navigationMode.isNotEmpty &&
+          serverMode != _navigationMode) {
+        _profile = _profile.copyWith(navigationMode: _navigationMode);
+        _syncProfileToServerInBackground(_profile);
+      } else {
+        _navigationMode = serverMode;
+        if (localModePending) {
+          await SessionCacheService.instance.setNavigationModePending(false);
+        }
+      }
 
       // Fall back to the Google account's name and photo while the server
       // profile does not have them yet.

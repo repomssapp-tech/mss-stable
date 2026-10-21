@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../l10n/l10n.dart';
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/msme_classification.dart';
 
 /// Udyam MSME Classifier bottom sheet.
 ///
@@ -323,24 +324,27 @@ void showUdyamClassifierSheet(BuildContext context) {
                         }
 
                         String category = '';
-                        if (invest <= 1 && turn <= 5) {
-                          category = 'MICRO Enterprise';
-                          resultColor = const Color(0xFF0D9488); // Teal
-                        } else if (invest <= 10 && turn <= 50) {
-                          category = 'SMALL Enterprise';
-                          resultColor = const Color(0xFF2563EB); // Royal Blue
-                        } else if (invest <= 50 && turn <= 250) {
-                          category = 'MEDIUM Enterprise';
-                          resultColor = const Color(0xFFD97706); // Amber
-                        } else {
-                          category = 'Large Enterprise (Beyond MSME Limits)';
-                          resultColor = const Color(0xFFDC2626); // Red
+                        switch (classifyMsme(
+                          investmentCr: invest,
+                          turnoverCr: turn,
+                        )) {
+                          case MsmeTier.micro:
+                            category = 'MICRO Enterprise';
+                            resultColor = const Color(0xFF0D9488); // Teal
+                          case MsmeTier.small:
+                            category = 'SMALL Enterprise';
+                            resultColor = const Color(0xFF2563EB); // Royal Blue
+                          case MsmeTier.medium:
+                            category = 'MEDIUM Enterprise';
+                            resultColor = const Color(0xFFD97706); // Amber
+                          case MsmeTier.large:
+                            category = 'Large Enterprise (Beyond MSME Limits)';
+                            resultColor = const Color(0xFFDC2626); // Red
                         }
 
                         setModalState(() {
                           result = category;
-                          subResult =
-                              'Limits: Micro (≤1cr / ≤5cr) | Small (≤10cr / ≤50cr) | Medium (≤50cr / ≤250cr)';
+                          subResult = msmeLimitsSummary();
                         });
                       },
                       style: ElevatedButton.styleFrom(
