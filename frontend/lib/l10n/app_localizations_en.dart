@@ -3565,6 +3565,35 @@ class AppLocalizationsEn extends AppLocalizations {
       'Failed to submit feedback. Please check your connection.';
 
   @override
+  String get helpTicketErrCategory => 'Please select an issue category.';
+
+  @override
+  String get helpTicketErrEmailMissing =>
+      'Please enter your contact email address.';
+
+  @override
+  String get helpTicketErrEmailInvalid =>
+      'Please enter a valid email address (e.g. name@example.com).';
+
+  @override
+  String get helpTicketErrDescriptionMissing =>
+      'Please describe your issue or feedback.';
+
+  @override
+  String helpTicketErrDescriptionShort(int count) {
+    return 'Please add a bit more detail (at least $count characters).';
+  }
+
+  @override
+  String helpTicketErrWait(int seconds) {
+    return 'Please wait $seconds seconds before submitting again.';
+  }
+
+  @override
+  String get helpTicketErrTooMany =>
+      'Too many submissions. Please try again later.';
+
+  @override
   String get helpSubmitFeedback => 'Submit Feedback';
 
   @override

@@ -3605,6 +3605,35 @@ class AppLocalizationsTa extends AppLocalizations {
       'கருத்தைச் சமர்ப்பிக்க முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்க்கவும்.';
 
   @override
+  String get helpTicketErrCategory => 'சிக்கலின் வகையைத் தேர்ந்தெடுக்கவும்.';
+
+  @override
+  String get helpTicketErrEmailMissing =>
+      'தொடர்புக்கு உங்கள் மின்னஞ்சல் முகவரியை உள்ளிடவும்.';
+
+  @override
+  String get helpTicketErrEmailInvalid =>
+      'சரியான மின்னஞ்சல் முகவரியை உள்ளிடவும் (எ.கா. name@example.com).';
+
+  @override
+  String get helpTicketErrDescriptionMissing =>
+      'உங்கள் சிக்கல் அல்லது கருத்தை எழுதவும்.';
+
+  @override
+  String helpTicketErrDescriptionShort(int count) {
+    return 'இன்னும் சற்று விவரம் சேர்க்கவும் (குறைந்தது $count எழுத்துகள்).';
+  }
+
+  @override
+  String helpTicketErrWait(int seconds) {
+    return 'மீண்டும் சமர்ப்பிக்கும் முன் $seconds விநாடிகள் காத்திருக்கவும்.';
+  }
+
+  @override
+  String get helpTicketErrTooMany =>
+      'அதிகமான கோரிக்கைகள் அனுப்பப்பட்டுள்ளன. சிறிது நேரம் கழித்து மீண்டும் முயற்சிக்கவும்.';
+
+  @override
   String get helpSubmitFeedback => 'கருத்தைச் சமர்ப்பி';
 
   @override

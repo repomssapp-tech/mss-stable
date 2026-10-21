@@ -6646,6 +6646,48 @@ abstract class AppLocalizations {
   /// **'Failed to submit feedback. Please check your connection.'**
   String get helpFeedbackSubmitFailed;
 
+  /// No description provided for @helpTicketErrCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select an issue category.'**
+  String get helpTicketErrCategory;
+
+  /// No description provided for @helpTicketErrEmailMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your contact email address.'**
+  String get helpTicketErrEmailMissing;
+
+  /// No description provided for @helpTicketErrEmailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address (e.g. name@example.com).'**
+  String get helpTicketErrEmailInvalid;
+
+  /// No description provided for @helpTicketErrDescriptionMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Please describe your issue or feedback.'**
+  String get helpTicketErrDescriptionMissing;
+
+  /// No description provided for @helpTicketErrDescriptionShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Please add a bit more detail (at least {count} characters).'**
+  String helpTicketErrDescriptionShort(int count);
+
+  /// No description provided for @helpTicketErrWait.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait {seconds} seconds before submitting again.'**
+  String helpTicketErrWait(int seconds);
+
+  /// No description provided for @helpTicketErrTooMany.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many submissions. Please try again later.'**
+  String get helpTicketErrTooMany;
+
   /// No description provided for @helpSubmitFeedback.
   ///
   /// In en, this message translates to:

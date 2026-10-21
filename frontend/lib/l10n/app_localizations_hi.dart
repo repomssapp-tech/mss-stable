@@ -3571,6 +3571,35 @@ class AppLocalizationsHi extends AppLocalizations {
       'फ़ीडबैक सबमिट करने में विफल. कृपया अपना कनेक्शन जांचें.';
 
   @override
+  String get helpTicketErrCategory => 'कृपया समस्या की श्रेणी चुनें।';
+
+  @override
+  String get helpTicketErrEmailMissing =>
+      'कृपया संपर्क के लिए अपना ईमेल पता दर्ज करें।';
+
+  @override
+  String get helpTicketErrEmailInvalid =>
+      'कृपया सही ईमेल पता दर्ज करें (जैसे name@example.com)।';
+
+  @override
+  String get helpTicketErrDescriptionMissing =>
+      'कृपया अपनी समस्या या सुझाव लिखें।';
+
+  @override
+  String helpTicketErrDescriptionShort(int count) {
+    return 'कृपया थोड़ा और विवरण लिखें (कम से कम $count अक्षर)।';
+  }
+
+  @override
+  String helpTicketErrWait(int seconds) {
+    return 'दोबारा भेजने से पहले कृपया $seconds सेकंड प्रतीक्षा करें।';
+  }
+
+  @override
+  String get helpTicketErrTooMany =>
+      'बहुत अधिक अनुरोध भेजे गए हैं। कृपया कुछ देर बाद फिर से प्रयास करें।';
+
+  @override
   String get helpSubmitFeedback => 'प्रतिक्रिया सबमिट करें';
 
   @override
