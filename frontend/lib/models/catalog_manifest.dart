@@ -73,6 +73,45 @@ class CatalogManifest {
     );
   }
 
+  /// Builds from `GET /v1/catalog/releases/:tag`, which returns the original
+  /// immutable `release.json` with camelCase keys (`releaseTag`,
+  /// `bundleSha256`, `bundleBytes`, `recordCounts`, `schemaVersion` as a
+  /// semantic string such as "1.0.0", `releasedAt`) -- not the snake_case
+  /// shape of `/v1/catalog/current` that [CatalogManifest.fromReleaseRpc]
+  /// reads. Its `bundleAsset` is a source path, not a download URL, so
+  /// [bundleUrl] stays null and the download uses the release-tag route.
+  factory CatalogManifest.fromReleaseDetails(Map<String, dynamic> json) {
+    final releaseVersion = json['releaseTag']?.toString().trim() ?? '';
+    final sha256 = json['bundleSha256']?.toString().toLowerCase() ?? '';
+    final rawCounts = json['recordCounts'];
+    final recordCounts = rawCounts is Map ? rawCounts : const {};
+    final schemaMajor = _schemaMajor(json['schemaVersion']);
+    return CatalogManifest(
+      id: sha256.isNotEmpty
+          ? sha256.substring(0, 36.clamp(0, sha256.length)).padRight(36, '0')
+          : '',
+      version: schemaMajor,
+      schemaVersion: schemaMajor,
+      sha256: sha256,
+      byteSize: (json['bundleBytes'] as num?)?.toInt() ?? 0,
+      schemeCount: (recordCounts['scheme_catalog.json'] as num?)?.toInt() ?? 0,
+      documentCount: 0,
+      serviceCount: 0,
+      publishedAt:
+          DateTime.tryParse(json['releasedAt']?.toString() ?? '')?.toUtc() ??
+          DateTime.fromMillisecondsSinceEpoch(0, isUtc: true),
+      releaseVersion: releaseVersion.isEmpty ? null : releaseVersion,
+    );
+  }
+
+  /// Major version of a `schemaVersion` given as a number (`1`) or a semantic
+  /// string (`"1.0.0"`); 0 when it is missing or unreadable.
+  static int _schemaMajor(Object? raw) {
+    if (raw is num) return raw.toInt();
+    final major = raw?.toString().trim().split('.').first ?? '';
+    return int.tryParse(major) ?? 0;
+  }
+
   factory CatalogManifest.fromJson(Map<String, dynamic> json) =>
       CatalogManifest.fromReleaseRpc(json);
 
