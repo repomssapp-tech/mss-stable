@@ -349,7 +349,9 @@ class LocalizedScheme {
                 estimatedCost: d.estimatedCostHi.isNotEmpty
                     ? d.estimatedCostHi
                     : text(d.estimatedCost),
-                mandatory: meta(d.mandatory),
+                // Canonical flag ("Yes"/"Required"): `isMandatory` reads it and
+                // the details screen shows the localized badge itself.
+                mandatory: d.mandatory,
                 remarks: d.remarksHi.isNotEmpty ? d.remarksHi : text(d.remarks),
               ),
             )
