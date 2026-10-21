@@ -1,71 +1,58 @@
 # Selected-language and audio repair — 2026-10-21
 
-Backend: `7078bdc44016e66c1429662246352f7dec5f466c`, deployed through the existing
-immutable release command. API and DB health passed. Previous release retained.
-No schema changes or production fixture writes were needed.
+Final backend: `4fc12cb17f5977b066bad2664abf455cd6169427`, deployed and healthy
+on v0.2.3. Android 1.2.3 build 2008 is installed with data preserved.
 
-The explicit request language now determines reply delivery and speech locale.
-The model drafts from the same verified catalog evidence in English; Indic
-answers use `sarvam-translate:v1` with source `en-IN` and the exact selected target.
-This costs one extra bounded translation request on Indic turns; English skips it.
-Script guards fail closed to a static selected-language retry message with no
-scheme cards. Hindi and Marathi share a script; their separate target locales
-control delivery. This is stronger delivery enforcement, not a claim that any
-model's wording is linguistically perfect.
+The explicit request language determines reply delivery and synthesis locale.
+Grounded English drafts use sarvam-translate:v1 with exact ta-IN, hi-IN or mr-IN
+targets. English skips translation. Script guards fail closed to a localized retry
+message without scheme cards. Metadata validation and replay invalidation prevent
+old-locale audio. Voice preference persists across restart and follows a later
+app-language change. This does not claim linguistically perfect model wording.
 
-The app validates returned locale metadata, invalidates replay on language change,
-remembers the voice choice, and follows a later app-language change. An Android
-spoken-feedback/touch-exploration query distinguishes readers from a generic
-accessible-navigation flag. Reader exit restores the default audio preference;
-explicit user choices survive changes. Playback reapplies speech/media/normal
-routing after recording. Audio failures offer retry without another chat call.
+A generic accessibility flag previously disabled audio without restoring it.
+Android now checks actual spoken-feedback/touch-exploration services, restores
+default audio when the reader leaves, and preserves explicit user choices.
+Playback reapplies speech/media/normal context after recording. Failures preserve
+text and retry speech without repeating the chat request.
 
 ## Evidence
 
-- Full Node verification: 181 tests; 179 passed, 2 skipped, 0 failed.
-- Final focused Flutter suite: 62 passed, including design spacing and accessibility.
-- Flutter analysis: no issues.
-- Existing unrelated account-dialog guard failures from the previous broad run
-  were not changed or hidden by baseline updates.
-- Live real-provider synthetic greetings with Hindi in history:
+- Final full Node verification: 189 passed, 2 skipped, 0 failed.
+- Focused Flutter suite: 62 passed; analysis clean; signed release build passed.
+- Existing unrelated account-dialog guard failures remain unchanged.
+- API/DB healthy; chat/speech reject missing auth with 401; public WSS upgrades
+  and rejects an invalid token.
+- Phone selected Tamil, sent English Hello and displayed:
+  “வணக்கம்! இன்று நான் உங்களுக்கு எப்படி உதவ முடியும்?”.
+- Human user explicitly confirmed the Tamil replay was audible.
+- Runtime observed app transient audio focus with media/speech attributes and
+  24 kHz preparation; playback completed back to paused without audio failure.
+- Tamil remained selected after full process restart. Read aloud restored on;
+  End used at completion; microphone off.
+- Full physical TalkBack and controlled recognition-in-noise testing were not done.
 
-| Selected language | Reply + MP3 time (one sample) | MP3 bytes |
+Real-provider synthetic greetings, with Hindi in history, returned each selected
+language and nonempty MP3s. One local sample per language, not a device benchmark:
+
+| Target | Reply + MP3 time | MP3 bytes |
 | --- | ---: | ---: |
 | English | 1332 ms | 33792 |
 | Tamil | 2054 ms | 62208 |
 | Hindi | 1873 ms | 66432 |
 | Marathi | 1921 ms | 59520 |
 
-These local samples include generation, delivery translation where applicable,
-and speech synthesis. They are not a device benchmark or latency guarantee.
-Selected replies were native text in each target language, not fallback messages.
+## Deployment continuity
 
-The connected phone's media stream was not muted. Earlier UI automation had
-triggered the broad accessibility flag; previous code disabled audio on entry
-without restoring it on exit. Regression tests cover that failure and the native
-probe. The phone disconnected during final packaging, so installing release
-1.2.3 build 2008 and checking physical playback are pending reconnection.
-No physical TalkBack or controlled on-phone hearing test is claimed.
+Independent releases 4f622df, 9ab487b and 3b6a1e1 omitted voice routes. Expected-
+release checks prevented overwriting those changes during integration. After the
+user paused other deployments, the final source preserved their legal/profile/
+logging updates and version. Migration/grant files match the final base; no
+production migrations or fixtures were run. Prior releases remain for rollback.
+
+Git CLI and GitHub connector return 404 for mssschemes/backend. Before resuming
+its deployments, apply `MSS-Backend-Voice-current.patch` to the deploying branch
+(source base 3b6a1e1); a full current Git bundle is also in workspace deliverables.
 
 [Official Sarvam translation contract](https://docs.sarvam.ai/api-reference/text/translate-text)
 [AudioContextAndroid contract](https://pub.dev/documentation/audioplayers/latest/audioplayers/AudioContextAndroid-class.html)
-
-## Reconnected phone and deployment conflict
-
-Android 1.2.3 build 2008 was installed successfully with `adb install -r`; package
-metadata and the running app confirmed the version. The accessibility automation
-no longer exposed an unexpected audio-off/reader state. Functional voice failed
-because a separate deployment had replaced the server with release `4f622df`,
-which has no voice source/routes. While integrating its legal/profile changes,
-another release `9ab487b` (v0.2.3 metadata) appeared. The expected-release guard
-stopped activation, avoiding an overwrite of concurrent work.
-
-Prepared integration `6107ebcec22fcd8922481427ee173a65222e8702` retains that latest
-source and adds the voice fixes. Its full verification passed 189 tests with
-2 skipped. Migration/grant files match the latest release; no database operation
-is proposed. The patch can be applied to source at `9ab487b`:
-`MSS-Backend-Voice-v0.2.3.patch`, with a full local Git bundle also supplied in
-the workspace deliverables folder. Git CLI and the connected GitHub app both
-return 404 for `mssschemes/backend`, so publishing to its deploying branch needs
-repository access. The phone journey stopped on the route failure and remaining
-audio/language assertions were skipped. End was used afterward; microphone off.

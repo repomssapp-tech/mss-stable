@@ -1,123 +1,89 @@
 # Saarthi conversational voice
 
-Current rollout: Android **1.2.3 build 2008 is installed**, with data preserved.
-A separate backend deployment subsequently replaced the tested voice-enabled
-release; the latest observed server release is `9ab487b` and omits the voice
-routes. Full phone audio verification is blocked by those 404 responses.
-An integration preserving the newer v0.2.3 legal/profile changes is prepared at
-`6107ebcec22fcd8922481427ee173a65222e8702` (189 passed, 2 skipped). Activation
-stopped when the expected running release changed again. Pause concurrent API
-deployments and include the voice patch upstream before continuing activation.
+Android **1.2.3 build 2008 is installed**, with existing data preserved. Backend
+`4fc12cb17f5977b066bad2664abf455cd6169427` is deployed and healthy on v0.2.3.
+It preserves the latest legal/profile/logging source at `3b6a1e1` and includes
+the voice routes and selected-language fixes.
 
-Saarthi AI mode uses the MSS Node API and Sarvam directly through a protected
-WebSocket relay. The mobile app has no LiveKit/WebRTC dependency or Supabase
-runtime dependency. Keys stay in the server environment.
+## Conversation and language
 
-Tap once to start. Partial words appear while speaking; Sarvam detects the end
-of the turn and returns a final transcript. Only that final text is submitted to
-chat. Input stops completely before inference and speech playback. After playback
-and a 900 ms echo guard, listening resumes. Pause, End and backgrounding stop the
-microphone and invalidate pending callbacks. Backgrounding never auto-resumes.
+Saarthi AI mode uses the MSS Node API and Sarvam through an authenticated
+WebSocket relay. The mobile app has no LiveKit/WebRTC or Supabase runtime
+dependency. Provider keys stay on the server.
 
-Choose English, Tamil, Hindi or Marathi explicitly in voice options; the selected
-locale is sent to recognition, chat and speech. The voice choice is remembered
-when Saarthi is reopened; a later change to the app language supersedes an older
-voice override. Chat drafts grounded guidance in English, then a dedicated
-translator renders Tamil/Hindi/Marathi using the explicit selected target.
-Wrong-script output or translation failure returns a localized retry message
-instead of exposing the English draft. Responses echo the selected language,
-and the client rejects mismatching metadata. Changing language clears cached
-replies so Repeat cannot play the previous language. Longer pauses change endpointing
-from 1200 to 1800 ms. Finish speaking manually is also available. Correct and Type
-pause input and open an inline editor. Review before sending is optional. Correcting
-the latest completed request removes that mistaken exchange from model history.
+Tap once to start. Partial words appear while speaking; the server detects the
+end of the turn and returns a final transcript. Only final or explicitly corrected
+text is submitted to chat. Capture stops before inference and speech. After audio
+and a 900 ms echo guard, listening resumes. Pause, End and backgrounding stop input
+and invalidate pending callbacks. Backgrounding does not automatically resume.
 
-Android checks enabled spoken-feedback/touch-exploration services; a generic
-accessible-navigation flag alone cannot disable reply audio. Explicit audio
-choices are preserved and the default is restored when a reader leaves.
-Screen reader mode defaults to text replies and explicit Resume, preventing a
-reader's speech from becoming a new request. Status is one live region; partial
-words are readable without repeated announcements. Controls have labels, the view
-supports large text and keyboard access, and Latest reveals the start of a reply
-without forcing the user's scroll position. Read aloud and cached Repeat are
-available. Audio-off exposes a Read aloud action. Speech failure preserves the
-written reply and offers a specific retry message; Repeat retries speech without
-resubmitting chat. Each playback reapplies normal Android media routing with
-speech content and transient audio focus, respecting connected headphones and
-system media volume.
+English, Tamil, Hindi and Marathi are explicit choices. The voice choice survives
+reopening; a later app-language change supersedes an earlier voice override. The
+same selected locale controls recognition, reply delivery and speech. Chat drafts
+from verified catalog evidence in English, then sarvam-translate:v1 renders Indic
+replies using source en-IN and the exact target locale. Wrong-script output or
+translation failure produces a selected-language retry message with no scheme
+cards, rather than exposing the English draft. The app validates response locale
+metadata and invalidates cached replay when language changes. Dedicated target
+translation is stronger than following conversation language; it is not a claim
+that every model wording is linguistically perfect.
 
-The regular chatbot still offers recorded audio: up to 60 seconds in memory,
-explicit-language Sarvam batch job, five-second status polling and editable review.
-This asynchronous flow is useful for dictation; conversational endpointing is used
-in Saarthi mode to avoid waiting for a batch job every turn.
+Correct and Type pause input and use an inline editor. Review before sending is
+optional. Longer pauses change endpointing from 1200 to 1800 ms; manual Finish is
+also available. Corrections remove the mistaken latest exchange from model
+history. The regular chatbot retains optional asynchronous recorded dictation
+with explicit language, batch status polling and editable review.
 
-## Transport and efficiency
+## Audio and accessibility
 
-`wss://mssapi.msmeschemes.org/v1/voice/stream` authenticates with the existing MSS
-bearer token in its first frame, never a URL. It relays PCM16 mono 16 kHz. Sessions
-are bounded and rate limited. The existing token refresh is shared across calls.
-There is no per-turn account lookup from the client. Partial UI rebuilds are capped
-at one per 120 ms. Audio remains in memory; Repeat reuses the last MP3. Model
-history is bounded. Chat uses published schemes scoped by the existing server
-scheme service; model output cannot invent card identities. Offline scheme browsing
-retains the bundled catalog path.
+Android checks spoken-feedback/touch-exploration services; a generic accessible-
+navigation flag does not silence replies. Reader entry defaults to text and
+explicit Resume, while reader exit restores default audio. Explicit audio choices
+are preserved. Audio-off exposes Read aloud; speech failure preserves text and
+provides retry without another chat request. Repeat reuses cached MP3 when present.
+Each playback reapplies normal media routing with speech content and transient
+focus, respecting headphones and system media volume.
 
-## Deployment and validation
+Status has one live region; partials do not repeatedly announce themselves. The
+view supports labeled controls, large text, keyboard editing and an explicit
+Latest action without forced scrolling. Reader mode uses explicit Resume after
+replies to avoid recording the reader's speech.
 
-Backend commit `bb7ec782f3f545842c13e5a16a1fc2d7451c5820` was deployed through the
-existing immutable release procedure on 2026-10-21 after user approval. Nginx HTTPS
-WebSocket upgrade and route timeouts were validated and reloaded; only the API was
-restarted. Health/database checks and public unauthorized-route tests passed. The
-previous release and Nginx backup remain available for rollback. No schema changes
-or production test accounts were created. The backend commit is local/deployed;
-GitHub push credentials were unavailable.
+## Efficiency and verification
 
-Backend verification: 171 tests, 169 passed and 2 skipped. A synthetic English clip
-through the real Sarvam realtime provider produced partial text about 615 ms after
-streaming began and a final about 1.9 seconds after the clip ended. This is one
-local relay measurement, not an on-device latency guarantee. Batch jobs and speech
-in all four selected languages were checked separately.
+Tokens use the existing shared refresh mutex, never a URL. PCM16 mono 16 kHz is
+streamed in bounded chunks. Partial UI rebuilds are capped at 120 ms; audio stays
+in memory; model history is bounded. English delivery needs no translation call;
+Indic turns add one translation bounded to 10 seconds. Scheme cards come from
+published records scoped through the existing server service. Offline browsing
+keeps the bundled catalog path.
 
-Final focused Flutter checks: 50 passed, including layout at 320dp/200% text in
-en/ta/hi, keyboard editing, labels/contrast/tap targets, token refresh, correction,
-manual finish, late events, stopping input before replies and screen reader mode.
-Analysis reports no issues. The broad run passed 1233 tests with 3 skipped; its
-six failures included five existing design guard failures in untouched account
-dialogs and one new spacing issue. The new issue and added button overrides were
-fixed; final spacing/focused checks pass and the remaining five guard failures
-reference only the same three untouched account dialogs. Baselines were unchanged.
-Physical TalkBack and a spoken conversation still require a human check; automated
-semantics checks do not establish recognition accuracy on the phone.
+Final Node verification: 189 passed, 2 skipped. Focused Flutter checks: 62 passed.
+Flutter analysis is clean and the signed release build passed. Existing unrelated
+account-dialog guard failures from the earlier broad run were not hidden by
+baseline updates. API/database health, HTTP authorization and public WebSocket
+upgrade/auth checks passed after activation.
 
-The generated backend API reference is copied under `backend/New API Ref/`.
-Keep legacy LiveKit resources available for older installed clients until their
-rollout is complete; this update does not shut down shared legacy infrastructure.
+On the connected phone, English Hello received the written Tamil reply
+“வணக்கம்! இன்று நான் உங்களுக்கு எப்படி உதவ முடியும்?”. Tamil remained selected
+after a full process restart. The user confirmed a Tamil replay was audible;
+runtime showed app media/speech audio preparation at 24 kHz and playback completed
+back to paused without an error. Read aloud was restored on and End used, leaving
+the microphone off. Full physical TalkBack and recognition-in-noise testing remain
+outside these checks. See `verification/saarthi-language-audio-results.json`.
 
-## Installed Android release
+## Deployment continuity
 
-Version 1.2.2 build 2007 was installed successfully with `adb install -r`, using
-the same signing certificate and retaining existing data. On the connected phone,
-Start reached Listening with the deployed relay, Pause exposed Resume, and End
-returned to the initial screen. The app moved to the background during the inline
-editor assertion, so that device journey stopped there. No physical TalkBack
-service was enabled. See `verification/saarthi-android-results.json` for the exact
-checks and limits. The signed APK is in
-`frontend/build/app/outputs/flutter-apk/app-release.apk`.
+Separate deployments previously replaced the voice-enabled server with sources
+that omitted the routes, causing 404 responses. After the user paused those
+updates, the final integration preserved their legal/profile/logging changes and
+version metadata. No migration/grant files changed relative to that deployed
+source; no database rollout was performed. Previous releases remain for rollback.
 
-## Selected-language and audio fix (2026-10-21)
-
-Backend `7078bdc44016e66c1429662246352f7dec5f466c` was deployed and verified healthy,
-then was superseded by the separate releases described above.
-Its full verification passed 179 tests with 2 skipped. Live synthetic requests
-returned selected-language replies and nonempty MP3s in en/ta/hi/mr despite a
-different language in history. Final app checks passed 62 focused tests and clean
-analysis. This includes actual playback adapter configuration, audio preference
-restoration, native accessibility probing, wrong-locale rejection, retry without
-repeating chat, language cache invalidation and persistence.
-
-Release 1.2.3 build 2008 was installed after USB reconnection; version and
-package checks passed. End was used after the failed route check to leave the
-microphone off. Integration and upstream publication are still pending deployment
-coordination. Provider audio
-generation and automated playback checks do not establish that sound was heard
-on the physical phone. See `verification/voice-language-audio-fix.md`.
+Git CLI and the connected GitHub app cannot access mssschemes/backend (404).
+Before resuming deployments, include `MSS-Backend-Voice-current.patch` in the
+actual deploying branch. Workspace deliverables also contain a full current Git
+bundle. The patch applies relative to source at `3b6a1e1`. The generated API
+reference is copied under `backend/New API Ref/`. Keep legacy LiveKit resources
+for older clients until their rollout is complete; shared resources were not shut
+down. The signed APK is `../deliverables/MSS-Saarthi-1.2.3-2008.apk`.

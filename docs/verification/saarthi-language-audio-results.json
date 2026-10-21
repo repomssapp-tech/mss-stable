@@ -15,7 +15,7 @@
     "deployment": "healthy; preserves source at 3b6a1e1a094f76e3a82e4cd4fde4c34e1ddf9a8f",
     "publicHealth": "status ok; db ok; version 0.2.3; chat/speech reject unauthorized callers with 401; public WSS authentication rejects invalid token",
     "tests": {
-      "passed": 179,
+      "passed": 189,
       "skipped": 2,
       "failed": 0
     },
