@@ -39,3 +39,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-10-21 | Roger-Chris | #139 | unspecified | Fix/hindi test report |
 | 2026-10-21 | nyxri0f8 | #140 | unspecified | chore(release): app 1.4.2+10 |
 | 2026-10-21 | Anto-Merary | #141 | unspecified | Replace LiveKit with accessible Sarvam voice conversations |
+| 2026-10-21 | nyxri0f8 | #142 | unspecified | chore(release): app 1.4.3+11 |
