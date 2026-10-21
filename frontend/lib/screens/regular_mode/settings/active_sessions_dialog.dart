@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../services/account/rest_auth_service.dart';
 import '../../../utils/app_colors.dart';
+import '../../../utils/app_radius.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 import '../../../widgets/common/app_toast.dart';
 import '../../splash_screen.dart';
 
@@ -64,12 +65,12 @@ class _ActiveSessionsDialogState extends State<ActiveSessionsDialog> {
       } else {
         await _fetchSessions();
         if (mounted) {
-          AppToast.showSuccess(context, 'Session revoked.');
+          AppToast.showSuccess(context, context.l10n.sessionRevoked);
         }
       }
     } catch (_) {
       if (mounted) {
-        AppToast.showWarning(context, 'Unable to revoke session.');
+        AppToast.showWarning(context, context.l10n.sessionRevokeFailed);
       }
     }
   }
@@ -86,7 +87,7 @@ class _ActiveSessionsDialogState extends State<ActiveSessionsDialog> {
       }
     } catch (_) {
       if (mounted) {
-        AppToast.showWarning(context, 'Unable to log out all devices.');
+        AppToast.showWarning(context, context.l10n.logoutAllFailed);
       }
     }
   }
@@ -98,10 +99,10 @@ class _ActiveSessionsDialogState extends State<ActiveSessionsDialog> {
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.xxl,
       ),
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24),
-        side: const BorderSide(color: Color(0xFFE2E8F0)),
+      backgroundColor: AppColors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: AppRadius.xlAll,
+        side: BorderSide(color: AppColors.border),
       ),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.xxl),
@@ -114,7 +115,7 @@ class _ActiveSessionsDialogState extends State<ActiveSessionsDialog> {
                 Container(
                   padding: const EdgeInsets.all(AppSpacing.sm),
                   decoration: const BoxDecoration(
-                    color: Color(0xFFEFF6FF),
+                    color: AppColors.primarySoft,
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
@@ -127,15 +128,14 @@ class _ActiveSessionsDialogState extends State<ActiveSessionsDialog> {
                 Expanded(
                   child: Text(
                     context.l10n.activeSessionsSetting,
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF0F172A),
+                    style: context.text.titleSmall.copyWith(
+                      color: AppColors.textPrimary,
                     ),
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.close, color: Color(0xFF94A3B8)),
+                  icon: const Icon(Icons.close, color: AppColors.iconMuted),
+                  tooltip: context.l10n.close,
                   onPressed: () => Navigator.pop(context),
                 ),
               ],
@@ -152,9 +152,8 @@ class _ActiveSessionsDialogState extends State<ActiveSessionsDialog> {
                 child: Center(
                   child: Text(
                     context.l10n.noActiveSessions,
-                    style: GoogleFonts.inter(
-                      fontSize: 13,
-                      color: const Color(0xFF64748B),
+                    style: context.text.bodySmall.copyWith(
+                      color: AppColors.textMuted,
                     ),
                   ),
                 ),
@@ -165,7 +164,7 @@ class _ActiveSessionsDialogState extends State<ActiveSessionsDialog> {
                   shrinkWrap: true,
                   itemCount: _sessions.length,
                   separatorBuilder: (context, index) =>
-                      const Divider(color: Color(0xFFE2E8F0), height: 1),
+                      const Divider(color: AppColors.border, height: 1),
                   itemBuilder: (context, index) {
                     final session = _sessions[index];
                     return Padding(
@@ -180,7 +179,7 @@ class _ActiveSessionsDialogState extends State<ActiveSessionsDialog> {
                                 : Icons.devices_other_rounded,
                             color: session.current
                                 ? AppColors.primary
-                                : const Color(0xFF64748B),
+                                : AppColors.textMuted,
                             size: 22,
                           ),
                           const SizedBox(width: AppSpacing.md),
@@ -193,11 +192,9 @@ class _ActiveSessionsDialogState extends State<ActiveSessionsDialog> {
                                     Text(
                                       session.current
                                           ? context.l10n.sessionCurrent
-                                          : 'Signed-in device',
-                                      style: GoogleFonts.inter(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w600,
-                                        color: const Color(0xFF0F172A),
+                                          : context.l10n.sessionOtherDevice,
+                                      style: context.text.label.copyWith(
+                                        color: AppColors.textPrimary,
                                       ),
                                     ),
                                     if (session.current) ...[
@@ -207,17 +204,14 @@ class _ActiveSessionsDialogState extends State<ActiveSessionsDialog> {
                                           horizontal: AppSpacing.xs,
                                           vertical: AppSpacing.hairline,
                                         ),
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFFDCFCE7),
-                                          borderRadius:
-                                              BorderRadius.circular(4),
+                                        decoration: const BoxDecoration(
+                                          color: AppColors.successSoft,
+                                          borderRadius: AppRadius.xsAll,
                                         ),
                                         child: Text(
-                                          'Active',
-                                          style: GoogleFonts.inter(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w600,
-                                            color: const Color(0xFF16A34A),
+                                          context.l10n.activeBadge,
+                                          style: context.text.label.copyWith(
+                                            color: AppColors.success,
                                           ),
                                         ),
                                       ),
@@ -226,10 +220,14 @@ class _ActiveSessionsDialogState extends State<ActiveSessionsDialog> {
                                 ),
                                 const SizedBox(height: AppSpacing.hairline),
                                 Text(
-                                  'Auth: ${session.authenticatedAt.toLocal().toString().split('.')[0]}',
-                                  style: GoogleFonts.inter(
-                                    fontSize: 11,
-                                    color: const Color(0xFF94A3B8),
+                                  context.l10n.sessionSignedInAt(
+                                    session.authenticatedAt
+                                        .toLocal()
+                                        .toString()
+                                        .split('.')[0],
+                                  ),
+                                  style: context.text.bodySmall.copyWith(
+                                    color: AppColors.textMuted,
                                   ),
                                 ),
                               ],
@@ -239,18 +237,9 @@ class _ActiveSessionsDialogState extends State<ActiveSessionsDialog> {
                             TextButton(
                               onPressed: () => _revokeSession(session),
                               style: TextButton.styleFrom(
-                                foregroundColor: const Color(0xFFDC2626),
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: AppSpacing.sm,
-                                ),
+                                foregroundColor: AppColors.danger,
                               ),
-                              child: Text(
-                                context.l10n.revokeSession,
-                                style: GoogleFonts.inter(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
+                              child: Text(context.l10n.revokeSession),
                             ),
                         ],
                       ),
@@ -262,17 +251,10 @@ class _ActiveSessionsDialogState extends State<ActiveSessionsDialog> {
             OutlinedButton.icon(
               onPressed: _sessions.isEmpty ? null : _logoutAll,
               icon: const Icon(Icons.logout, size: 16),
-              label: Text(
-                context.l10n.logoutAllSessions,
-                style: GoogleFonts.inter(fontWeight: FontWeight.w600),
-              ),
+              label: Text(context.l10n.logoutAllSessions),
               style: OutlinedButton.styleFrom(
-                foregroundColor: const Color(0xFFDC2626),
-                side: const BorderSide(color: Color(0xFFFCA5A5)),
-                minimumSize: const Size.fromHeight(44),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                foregroundColor: AppColors.danger,
+                side: const BorderSide(color: AppColors.dangerBorder),
               ),
             ),
           ],

@@ -94,6 +94,13 @@ class SearchResultsList extends StatelessWidget {
   /// pill and do not count as eligible matches.
   final Set<String> notApplicableIds;
 
+  /// Of [notApplicableIds], those hidden only by the Filter sheet.
+  final Set<String> filterMismatchIds;
+
+  /// Shown in the empty state as "Clear Filters & Explore Schemes" when the
+  /// page has filters or a browse scope to step back from; null hides it.
+  final VoidCallback? onClearFilters;
+
   const SearchResultsList({
     super.key,
     required this.searchResults,
@@ -105,6 +112,8 @@ class SearchResultsList extends StatelessWidget {
     this.didYouMean,
     this.onDidYouMeanTap,
     this.notApplicableIds = const {},
+    this.filterMismatchIds = const {},
+    this.onClearFilters,
   });
 
   bool get _hasSuggestion => didYouMean != null && onDidYouMeanTap != null;
@@ -174,6 +183,26 @@ class SearchResultsList extends StatelessWidget {
                   DidYouMeanSuggestion(
                     suggestion: didYouMean!,
                     onTap: onDidYouMeanTap!,
+                  ),
+                ],
+                if (onClearFilters != null) ...[
+                  const SizedBox(height: AppSpacing.lg),
+                  OutlinedButton.icon(
+                    onPressed: onClearFilters,
+                    icon: const Icon(
+                      Icons.refresh_rounded,
+                      size: AppSpacing.lg,
+                      color: AppColors.primary,
+                    ),
+                    label: Text(
+                      context.l10n.clearFiltersAndExplore,
+                      style: context.text.label.copyWith(
+                        color: AppColors.primary,
+                      ),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: AppColors.primaryBorder),
+                    ),
                   ),
                 ],
               ],
@@ -251,10 +280,18 @@ class SearchResultsList extends StatelessWidget {
           showActions: false,
           showMatchPercentage: isForMe && !notApplicableIds.contains(scheme.id),
           notApplicable: notApplicableIds.contains(scheme.id),
+          filterMismatch: filterMismatchIds.contains(scheme.id),
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => SchemeDetailsScreen(scheme: scheme),
+                builder: (_) => SchemeDetailsScreen(
+                  scheme: scheme,
+                  notApplicable: notApplicableIds.contains(scheme.id),
+                  matchPercentage:
+                      isForMe && !notApplicableIds.contains(scheme.id)
+                      ? recResult.percentage
+                      : null,
+                ),
               ),
             );
           },

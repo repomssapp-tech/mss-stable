@@ -77,6 +77,10 @@ class LibrarySyncService {
   String? _owner;
   bool _initialised = false;
   final Map<String, bool> _favoriteOps = {};
+
+  /// Saved on this device but refused by the server (400/404). Kept so the
+  /// next pull doesn't drop them (issue #127: a bookmark vanished on restart).
+  final Set<String> _localOnly = {};
   bool _eligibilityDirty = false;
   List<String> _eligibilityIds = [];
   String? _eligibilityEtag;
@@ -91,6 +95,7 @@ class LibrarySyncService {
     if (!LibraryApiService.isValidId(id)) return;
     if (!await _ensureOwner()) return;
     _favoriteOps[id] = saved;
+    if (!saved) _localOnly.remove(id);
     await _persist();
     _writes.run(flush);
   }
@@ -131,6 +136,7 @@ class LibrarySyncService {
       } on ApiException catch (e) {
         if (e.statusCode == 400 || e.statusCode == 404) {
           // Refused for good (not visible to this account): stays local-only.
+          if (entry.value) _localOnly.add(entry.key);
           _favoriteOps.remove(entry.key);
         } else if (e.statusCode == 409) {
           // Profile state missing: keep it queued, do not block the others.
@@ -229,6 +235,8 @@ class LibrarySyncService {
           remote.remove(id);
         }
       });
+      // Local-only bookmarks the server refused stay saved on this device.
+      remote.addAll(local.where(_localOnly.contains));
       merged
         ..addAll(local.where(remote.contains))
         ..addAll(remote.where((id) => !local.contains(id)));
@@ -266,6 +274,7 @@ class LibrarySyncService {
     _owner = null;
     _initialised = false;
     _favoriteOps.clear();
+    _localOnly.clear();
     _eligibilityDirty = false;
     _eligibilityIds = [];
     _eligibilityEtag = null;
@@ -300,6 +309,10 @@ class LibrarySyncService {
             if (ops is Map) {
               ops.forEach((k, v) => _favoriteOps[k.toString()] = v == true);
             }
+            final localOnly = json['local_only'];
+            if (localOnly is List) {
+              _localOnly.addAll([for (final i in localOnly) '$i']);
+            }
             _eligibilityDirty = json['eligibility_dirty'] == true;
             final ids = json['eligibility_ids'];
             if (ids is List) _eligibilityIds = [for (final i in ids) '$i'];
@@ -314,6 +327,7 @@ class LibrarySyncService {
       _owner = current;
       _initialised = false;
       _favoriteOps.clear();
+      _localOnly.clear();
       _eligibilityDirty = false;
       _eligibilityIds = [];
       _eligibilityEtag = null;
@@ -331,6 +345,7 @@ class LibrarySyncService {
           'owner': owner,
           'initialised': _initialised,
           'favorites': _favoriteOps,
+          'local_only': _localOnly.toList(),
           'eligibility_dirty': _eligibilityDirty,
           'eligibility_ids': _eligibilityIds,
         }),

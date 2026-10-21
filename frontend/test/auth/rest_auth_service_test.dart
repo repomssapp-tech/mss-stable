@@ -48,20 +48,19 @@ void main() {
         expect(authUrl, 'https://accounts.google.com/o/oauth2/auth?test=1');
         expect(capturedChallenge, isNotNull);
 
-        // Verifier should be saved in SharedPreferences
-        final prefs = await SharedPreferences.getInstance();
-        final savedVerifier = prefs.getString('mss_pkce_code_verifier');
+        // Verifier is saved in the encrypted store, not SharedPreferences
+        final savedVerifier = await TokenStorage.instance.readPkceVerifier();
         expect(savedVerifier, isNotNull);
         expect(savedVerifier!.length, 64);
+        final prefs = await SharedPreferences.getInstance();
+        expect(prefs.getString('mss_pkce_code_verifier'), isNull);
       },
     );
 
     test(
       'exchangeCode sends code and original verifier then saves session',
       () async {
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString(
-          'mss_pkce_code_verifier',
+        await TokenStorage.instance.savePkceVerifier(
           'my_saved_verifier_123456789012345678901234567890',
         );
 
@@ -109,7 +108,7 @@ void main() {
         expect(await TokenStorage.instance.getUserId(), 'user_uuid_100');
 
         // Temporary verifier must be cleaned up
-        expect(prefs.getString('mss_pkce_code_verifier'), isNull);
+        expect(await TokenStorage.instance.readPkceVerifier(), isNull);
       },
     );
 

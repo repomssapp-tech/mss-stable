@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../l10n/l10n.dart';
@@ -9,12 +8,12 @@ import '../../services/recommendation/recommendation_engine.dart';
 import '../../providers/app_state_provider.dart';
 import '../../services/catalog/centralized_translator.dart';
 import '../../utils/emblem_helper.dart';
-import '../common/app_toast.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_radius.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/app_text.dart';
 import '../../utils/chip_list.dart';
+import '../../utils/share_text.dart';
 
 class SchemeCard extends StatefulWidget {
   final Scheme scheme;
@@ -29,6 +28,10 @@ class SchemeCard extends StatefulWidget {
   /// is hidden by the active filters); shown with a distinct outlined pill.
   final bool notApplicable;
 
+  /// With [notApplicable]: hidden only by the Filter sheet, not by the
+  /// user's eligibility, so the pill says so (test report BUG-09).
+  final bool filterMismatch;
+
   const SchemeCard({
     super.key,
     required this.scheme,
@@ -39,6 +42,7 @@ class SchemeCard extends StatefulWidget {
     this.showActions = true,
     this.showMatchPercentage = true,
     this.notApplicable = false,
+    this.filterMismatch = false,
   });
 
   @override
@@ -48,7 +52,14 @@ class SchemeCard extends StatefulWidget {
 /// Outlined amber pill with an icon: deliberately unlike the filled, coloured
 /// tag chips so "this does not apply to you" reads at a glance.
 class _NotApplicablePill extends StatelessWidget {
-  const _NotApplicablePill();
+  const _NotApplicablePill({required this.filterMismatch});
+
+  final bool filterMismatch;
+
+  static String label(BuildContext context, {required bool filterMismatch}) =>
+      filterMismatch
+      ? context.l10n.schemeNotMatchingFilters
+      : context.l10n.schemeNotApplicable;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +84,7 @@ class _NotApplicablePill extends StatelessWidget {
           const SizedBox(width: AppSpacing.xs),
           Flexible(
             child: Text(
-              context.l10n.schemeNotApplicable,
+              label(context, filterMismatch: filterMismatch),
               style: context.text.label.copyWith(color: AppColors.warningText),
             ),
           ),
@@ -91,7 +102,10 @@ class _SchemeCardState extends State<SchemeCard> {
   // when the source scheme or the active language actually changes.
   String? _lang;
   LocalizedScheme? _loc;
-  List<String>? _tags;
+
+  /// (shown text, English key). The key drives chip colour and order so
+  /// both stay the same in every language (test report L10N-09 / NEW-07).
+  List<(String, String)>? _tags;
   String? _subtitle;
 
   @override
@@ -104,14 +118,16 @@ class _SchemeCardState extends State<SchemeCard> {
 
   void _recomputeDerived(String lang) {
     final loc = widget.scheme.toLocalized(lang);
+    final en = lang == 'en' ? loc : widget.scheme.toLocalized('en');
 
-    final rawTags = List<String>.from(_getOtherTags(loc))
-      ..sort((a, b) => a.length.compareTo(b.length));
+    final rawTags = List<(String, String)>.from(_getOtherTags(loc, en))
+      ..sort((a, b) => a.$2.length.compareTo(b.$2.length));
     // Generic labels (level, state, category) follow the active language;
     // English leaves them unchanged.
-    final tags = rawTags
-        .map((t) => CentralizedTranslator.instance.localizeTagFor(lang, t))
-        .toList();
+    final tags = [
+      for (final (shown, key) in rawTags)
+        (CentralizedTranslator.instance.localizeTagFor(lang, shown), key),
+    ];
 
     final department = loc.sponsoringBody.isNotEmpty
         ? loc.sponsoringBody
@@ -130,26 +146,39 @@ class _SchemeCardState extends State<SchemeCard> {
     _subtitle = subtitle;
   }
 
-  List<String> _getOtherTags(LocalizedScheme locScheme) {
-    final List<String> list = [];
+  List<(String, String)> _getOtherTags(
+    LocalizedScheme locScheme,
+    LocalizedScheme en,
+  ) {
+    final List<(String, String)> list = [];
+
+    // Pairs each shown chip with its English original when both split into
+    // the same number of chips; otherwise the shown text is its own key.
+    void addPaired(List<String> shown, List<String> english) {
+      final paired = shown.length == english.length;
+      for (var i = 0; i < shown.length; i++) {
+        list.add((shown[i], paired ? english[i] : shown[i]));
+      }
+    }
 
     // Commas inside brackets stay in one chip (see splitChipList).
-    void addSplit(String value) => list.addAll(splitChipList(value));
+    void addSplit(String value, String enValue) =>
+        addPaired(splitChipList(value), splitChipList(enValue));
 
-    addSplit(locScheme.category);
-    addSplit(locScheme.schemeType);
-    addSplit(locScheme.sector);
-    if (list.isEmpty) list.addAll(locScheme.glanceChips);
+    addSplit(locScheme.category, en.category);
+    addSplit(locScheme.schemeType, en.schemeType);
+    addSplit(locScheme.sector, en.sector);
+    if (list.isEmpty) addPaired(locScheme.glanceChips, en.glanceChips);
 
     final Set<String> seen = {};
-    final List<String> uniqueList = [];
+    final List<(String, String)> uniqueList = [];
 
     final sponsoringLower = locScheme.sponsoringBody.toLowerCase();
     final govLevelLower = locScheme.governmentLevel.toLowerCase();
     final stateLower = locScheme.state.toLowerCase();
 
     for (final tag in list) {
-      final lower = tag.toLowerCase();
+      final lower = tag.$1.toLowerCase();
       final isSubtitleTerm =
           sponsoringLower.contains(lower) ||
           govLevelLower.contains(lower) ||
@@ -286,198 +315,218 @@ class _SchemeCardState extends State<SchemeCard> {
           ),
         ],
       ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: widget.onTap,
-          borderRadius: BorderRadius.circular(18),
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.lg),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Left: Circular Logo Container (72x72)
-                Container(
-                  width: 72,
-                  height: 72,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: const Color(0xFFE2E8F0),
-                      width: 1.2,
+      // The pill is read first by TalkBack (test report NEW-09).
+      child: Semantics(
+        label: widget.notApplicable
+            ? _NotApplicablePill.label(
+                context,
+                filterMismatch: widget.filterMismatch,
+              )
+            : null,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: widget.onTap,
+            borderRadius: BorderRadius.circular(18),
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Left: Circular Logo Container (72x72)
+                  Container(
+                    width: 72,
+                    height: 72,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: const Color(0xFFE2E8F0),
+                        width: 1.2,
+                      ),
+                    ),
+                    padding: EdgeInsets.zero,
+                    // The square emblem is drawn at 80% so its bottom text
+                    // ("Government of India") stays inside the circle (UI-05).
+                    child: ClipOval(
+                      child: Center(
+                        child: _buildSchemeLogo(
+                          context,
+                          widget.scheme,
+                          size: 58,
+                        ),
+                      ),
                     ),
                   ),
-                  padding: EdgeInsets.zero,
-                  child: ClipOval(
-                    child: _buildSchemeLogo(context, widget.scheme, size: 72),
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.lg),
+                  const SizedBox(width: AppSpacing.lg),
 
-                // Middle Content Block
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Match Badge Pill & Title block
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              locScheme.name,
-                              style: GoogleFonts.poppins(
-                                fontSize: isTa ? 13.0 : 14.0,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFF0F172A),
-                                height: isTa ? 1.35 : 1.25,
-                              ),
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          if (widget.showMatchPercentage) ...[
-                            const SizedBox(width: AppSpacing.tight),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: AppSpacing.tight,
-                                vertical: AppSpacing.hairline,
-                              ),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFE8F5E8),
-                                borderRadius: BorderRadius.circular(4),
-                              ),
+                  // Middle Content Block
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Match Badge Pill & Title block
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
                               child: Text(
-                                context.l10n.matchPercentageFormat(
-                                  widget.result.percentage,
-                                ),
-                                style: GoogleFonts.inter(
-                                  color: const Color(0xFF2E7D32),
-                                  fontSize: 8.5,
+                                locScheme.name,
+                                style: GoogleFonts.poppins(
+                                  fontSize: isTa ? 13.0 : 14.0,
                                   fontWeight: FontWeight.bold,
+                                  color: const Color(0xFF0F172A),
+                                  height: isTa ? 1.35 : 1.25,
                                 ),
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
+                            if (widget.showMatchPercentage) ...[
+                              const SizedBox(width: AppSpacing.tight),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: AppSpacing.tight,
+                                  vertical: AppSpacing.hairline,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFE8F5E8),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Text(
+                                  context.l10n.matchPercentageFormat(
+                                    widget.result.percentage,
+                                  ),
+                                  style: GoogleFonts.inter(
+                                    color: const Color(0xFF2E7D32),
+                                    fontSize: 8.5,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ],
-                        ],
-                      ),
-                      if (subtitleText.isNotEmpty) ...[
-                        const SizedBox(height: AppSpacing.xs),
-                        Text(
-                          subtitleText,
-                          style: GoogleFonts.inter(
-                            fontSize: isTa ? 10.5 : 11.0,
-                            color: const Color(0xFF64748B),
-                            fontWeight: FontWeight.w500,
-                            height: 1.3,
+                        ),
+                        if (subtitleText.isNotEmpty) ...[
+                          const SizedBox(height: AppSpacing.xs),
+                          Text(
+                            subtitleText,
+                            style: GoogleFonts.inter(
+                              fontSize: isTa ? 10.5 : 11.0,
+                              color: const Color(0xFF64748B),
+                              fontWeight: FontWeight.w500,
+                              height: 1.3,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
+                        ],
+                        const SizedBox(height: AppSpacing.md),
+
+                        // Tags Row
+                        Wrap(
+                          spacing: AppSpacing.tight,
+                          runSpacing: AppSpacing.tight,
+                          children: [
+                            if (widget.notApplicable)
+                              _NotApplicablePill(
+                                filterMismatch: widget.filterMismatch,
+                              ),
+                            ...tags.map((tag) {
+                              final (shown, key) = tag;
+                              final colors = _getTagColors(
+                                key,
+                                widget.scheme.category,
+                              );
+                              return Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: AppSpacing.sm,
+                                  vertical: AppSpacing.xs,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: colors['bg'],
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: Text(
+                                  shown,
+                                  style: GoogleFonts.inter(
+                                    fontSize: isTa ? 9.0 : 9.5,
+                                    fontWeight: FontWeight.bold,
+                                    color: colors['text'],
+                                  ),
+                                ),
+                              );
+                            }),
+                          ],
                         ),
                       ],
-                      const SizedBox(height: AppSpacing.md),
-
-                      // Tags Row
-                      Wrap(
-                        spacing: AppSpacing.tight,
-                        runSpacing: AppSpacing.tight,
-                        children: [
-                          if (widget.notApplicable) const _NotApplicablePill(),
-                          ...tags.map((tag) {
-                            final colors = _getTagColors(
-                              tag,
-                              widget.scheme.category,
-                            );
-                            return Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: AppSpacing.sm,
-                                vertical: AppSpacing.xs,
-                              ),
-                              decoration: BoxDecoration(
-                                color: colors['bg'],
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: Text(
-                                tag,
-                                style: GoogleFonts.inter(
-                                  fontSize: isTa ? 9.0 : 9.5,
-                                  fontWeight: FontWeight.bold,
-                                  color: colors['text'],
-                                ),
-                              ),
-                            );
-                          }),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
-                ),
 
-                // Far Right Actions Column
-                if (widget.showActions) ...[
-                  const SizedBox(width: AppSpacing.sm),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      GestureDetector(
-                        onTap: widget.onBookmarkToggle,
-                        child: Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(color: const Color(0xFFDBEAFE)),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Icon(
-                            widget.isBookmarked
-                                ? Icons.bookmark
-                                : Icons.bookmark_border,
-                            color: const Color(0xFF2563EB),
-                            size: 16,
+                  // Far Right Actions Column
+                  if (widget.showActions) ...[
+                    const SizedBox(width: AppSpacing.sm),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: widget.onBookmarkToggle,
+                          child: Container(
+                            width: 30,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: const Color(0xFFDBEAFE),
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Icon(
+                              widget.isBookmarked
+                                  ? Icons.bookmark
+                                  : Icons.bookmark_border,
+                              color: const Color(0xFF2563EB),
+                              size: 16,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: AppSpacing.sm),
-                      GestureDetector(
-                        onTap: () async {
-                          final destination =
-                              widget.scheme.applicationUrl.isNotEmpty
-                              ? widget.scheme.applicationUrl
-                              : widget.scheme.officialWebsite;
-                          final shareText = destination.isNotEmpty
-                              ? '${locScheme.name}\n$destination'
-                              : locScheme.name;
-                          await Clipboard.setData(
-                            ClipboardData(text: shareText),
-                          );
-                          if (context.mounted) {
-                            AppToast.showSuccess(
+                        const SizedBox(height: AppSpacing.sm),
+                        GestureDetector(
+                          onTap: () async {
+                            final destination =
+                                widget.scheme.applicationUrl.isNotEmpty
+                                ? widget.scheme.applicationUrl
+                                : widget.scheme.officialWebsite;
+                            await shareText(
                               context,
-                              context.l10n.schemeCopiedToast,
+                              destination.isNotEmpty
+                                  ? '${locScheme.name}\n$destination'
+                                  : locScheme.name,
+                              copiedMessage: context.l10n.schemeCopiedToast,
                             );
-                          }
-                        },
-                        child: Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(color: const Color(0xFFDBEAFE)),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Icon(
-                            Icons.share_outlined,
-                            color: Color(0xFF2563EB),
-                            size: 16,
+                          },
+                          child: Container(
+                            width: 30,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: const Color(0xFFDBEAFE),
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Icon(
+                              Icons.share_outlined,
+                              color: Color(0xFF2563EB),
+                              size: 16,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                  ],
                 ],
-              ],
+              ),
             ),
           ),
         ),

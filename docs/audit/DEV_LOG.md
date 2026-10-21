@@ -29,3 +29,12 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-10-20 | nyxri0f8 | #120 | docs | Adds `LICENSE-MIT` and `LICENSE-APACHE` (official texts from GitHubs license API) so the code is dual-licensed under MIT or Apache-2.0 at the users option, and updates the README License section to explain this and the contribution terms. Bundled third-party assets (e.g. OFL fonts) keep their own licenses. |
 | 2026-10-20 | Roger-Chris | #121 | unspecified | Feat/multilingual search recommendations |
 | 2026-10-20 | nyxri0f8 | #122 | docs | Adds a papercraft-style app banner (`docs/assets/mss-banner.png`, 1600x600) to the top of the README, built from real screens of release 1.2.1 (Discover, Search with the new Not applicable to you pill, Scheme Details). Also adds Marathi to the Languages badge, since Saarthi speaks Tamil, English, Hindi and Marathi. |
+| 2026-10-21 | nyxri0f8 | #132 | unspecified | Fix QA bugs from the 1.2.1 / 1.3.0 test reports; security hardening; app 1.4.0+8 |
+| 2026-10-21 | nyxri0f8 | #133 | unspecified | Fix onboarding loop after signing in again (#123) |
+| 2026-10-21 | nyxri0f8 | #134 | unspecified | chore(release): app 1.4.1+9 |
+| 2026-10-21 | Roger-Chris | #135 | unspecified | fix(profile): adopt ETag from every profile write, serialize saves, f… |
+| 2026-10-21 | Roger-Chris | #136 | unspecified | Fix/login consent links |
+| 2026-10-21 | Roger-Chris | #137 | unspecified | fix(a11y): label the remaining close buttons; guard test |
+| 2026-10-21 | Yogeeshwar-project | #138 | frontend/hindi-qa | Fix the remaining frontend findings from the Hindi QA report: translate PMEGP beneficiary/amount/document content, make scheme tabs scroll to distant sections, run typed searches with no-match feedback, align the Profile completion badge with Settings, and correct the Hindi EMI total label and eligibility FAQ. Add regression coverage and a finding-by-finding Markdown fix log. |
+| 2026-10-21 | Roger-Chris | #139 | unspecified | Fix/hindi test report |
+| 2026-10-21 | nyxri0f8 | #140 | unspecified | chore(release): app 1.4.2+10 |

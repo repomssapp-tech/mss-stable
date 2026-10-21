@@ -169,21 +169,25 @@ class OnboardingApiService {
     List<LegalDocumentItem> acceptances, {
     required String etag,
   }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/json',
-      'X-Profile-If-Match': etag,
-    };
+    final profileService = _profileApiService ?? ProfileApiService.instance;
+    return profileService.runExclusive(() async {
+      final headers = <String, String>{
+        'Content-Type': 'application/json',
+        'X-Profile-If-Match': etag,
+      };
 
-    final response = await _apiClient.post(
-      '/me/legal-acceptances',
-      headers: headers,
-      body: {'acceptances': acceptances.map((a) => a.toJson()).toList()},
-    );
+      final response = await _apiClient.post(
+        '/me/legal-acceptances',
+        headers: headers,
+        body: {'acceptances': acceptances.map((a) => a.toJson()).toList()},
+      );
 
-    final data = response.data as Map<String, dynamic>;
-    final updated = ProfileAggregate.fromJson(data);
-    return updated;
+      return profileService.adoptResponse(response);
+    });
   }
+
+  String? _pendingBodyJson;
+  String? _pendingKey;
 
   /// Submits profile, optional business, and legal acceptances in one transactional call.
   ///
@@ -196,27 +200,35 @@ class OnboardingApiService {
     String? etag,
     String? idempotencyKey,
   }) async {
-    final effectiveEtag =
-        etag ??
-        _profileApiService?.currentEtag ??
-        ProfileApiService.instance.currentEtag ??
-        '';
-    final key = idempotencyKey ?? ChatLogService.generateUuidV4();
+    final profileService = _profileApiService ?? ProfileApiService.instance;
+    final body = submission.toJson();
+    final bodyJson = jsonEncode(body);
+    // The same payload retried after an uncertain delivery keeps its key; a
+    // changed payload, or one sent after a success, gets a new one.
+    final key =
+        idempotencyKey ??
+        (_pendingBodyJson == bodyJson ? _pendingKey : null) ??
+        ChatLogService.generateUuidV4();
+    _pendingBodyJson = bodyJson;
+    _pendingKey = key;
 
-    final headers = <String, String>{
-      'Content-Type': 'application/json',
-      if (effectiveEtag.isNotEmpty) 'X-Profile-If-Match': effectiveEtag,
-      'Idempotency-Key': key,
-    };
+    final completed = await profileService.runExclusive(() async {
+      final effectiveEtag = etag ?? profileService.currentEtag ?? '';
+      final headers = <String, String>{
+        'Content-Type': 'application/json',
+        if (effectiveEtag.isNotEmpty) 'X-Profile-If-Match': effectiveEtag,
+        'Idempotency-Key': key,
+      };
 
-    final response = await _apiClient.put(
-      '/me/onboarding',
-      headers: headers,
-      body: submission.toJson(),
-    );
-
-    final data = response.data as Map<String, dynamic>;
-    final completed = ProfileAggregate.fromJson(data);
+      final response = await _apiClient.put(
+        '/me/onboarding',
+        headers: headers,
+        body: body,
+      );
+      return profileService.adoptResponse(response);
+    });
+    _pendingBodyJson = null;
+    _pendingKey = null;
     return completed;
   }
 }

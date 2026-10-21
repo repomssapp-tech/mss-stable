@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../network/api_client.dart';
 import '../network/api_exception.dart';
@@ -76,8 +75,6 @@ class RestAuthService {
   final ApiClient _apiClient;
   final TokenStorage _tokenStorage;
 
-  static const String _kPkceVerifierKey = 'mss_pkce_code_verifier';
-
   RestAuthService({ApiClient? apiClient, TokenStorage? tokenStorage})
     : _apiClient = apiClient ?? ApiClient(),
       _tokenStorage = tokenStorage ?? TokenStorage.instance;
@@ -94,8 +91,7 @@ class RestAuthService {
     final challenge = PkceHelper.generateCodeChallenge(verifier);
 
     // Save verifier locally for the post-redirect exchange
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_kPkceVerifierKey, verifier);
+    await _tokenStorage.savePkceVerifier(verifier);
 
     final response = await _apiClient.post(
       '/auth/google/start',
@@ -117,8 +113,7 @@ class RestAuthService {
   /// (valid 60 seconds, one use) with the saved code_verifier via
   /// POST /v1/auth/exchange.
   Future<AuthUser> exchangeCode(String code) async {
-    final prefs = await SharedPreferences.getInstance();
-    final verifier = prefs.getString(_kPkceVerifierKey);
+    final verifier = await _tokenStorage.readPkceVerifier();
     if (verifier == null || verifier.isEmpty) {
       throw StateError(
         'No pending PKCE code_verifier found. Please initiate login again.',
@@ -156,7 +151,7 @@ class RestAuthService {
 
       return user;
     } finally {
-      await prefs.remove(_kPkceVerifierKey);
+      await _tokenStorage.deletePkceVerifier();
     }
   }
 

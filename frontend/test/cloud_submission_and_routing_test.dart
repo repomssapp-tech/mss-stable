@@ -34,7 +34,7 @@ void main() {
       ).readAsStringSync();
 
       expect(source, contains('Future<void> syncProfileToServer('));
-      expect(source, contains('ProfileApiService.instance.saveDraft'));
+      expect(source, contains('ProfileApiService.instance.saveProfileChanges'));
       expect(
         source,
         contains('OnboardingApiService.instance.submitOnboarding'),
@@ -73,6 +73,7 @@ void main() {
     expect(login, contains('TermsConditionsScreen'));
     expect(login, contains('PrivacyPolicyScreen'));
     expect(details, contains('onPressed: () => _copySchemeDetails(scheme)'));
-    expect(details, contains('Clipboard.setData'));
+    // Opens the share sheet (copies only where none exists): BUG-10.
+    expect(details, contains('shareText('));
   });
 }

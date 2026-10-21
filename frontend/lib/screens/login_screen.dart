@@ -13,7 +13,6 @@ import '../utils/app_colors.dart';
 import '../utils/app_radius.dart';
 import '../utils/app_text.dart';
 import '../utils/app_elevation.dart';
-import 'login/password_login_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -262,19 +261,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
         // Legal & Privacy Consent Section
         LegalConsentSection(
-          hasViewedTerms: _hasViewedTerms,
-          hasViewedPrivacy: _hasViewedPrivacy,
           onOpenTerms: _openTermsModal,
           onOpenPrivacy: _openPrivacyModal,
         ),
 
         const SizedBox(height: AppSpacing.sm),
 
-        // Gate checklist: shows what's left before sign-in unlocks, hides
-        // itself once terms + privacy have been read and accepted.
+        // Gate checklist: ticks each document once it was read and accepted
+        // and stays visible, so the user sees both are done.
         _SignInChecklist(
           hasViewedTerms: _hasViewedTerms,
           hasViewedPrivacy: _hasViewedPrivacy,
+          onOpenTerms: _openTermsModal,
+          onOpenPrivacy: _openPrivacyModal,
         ),
 
         const SizedBox(height: AppSpacing.md),
@@ -331,17 +330,6 @@ class _LoginScreenState extends State<LoginScreen> {
           textAlign: TextAlign.center,
           style: context.text.bodySmall.copyWith(color: AppColors.textMuted),
         ),
-        const SizedBox(height: AppSpacing.xs),
-        TextButton(
-          onPressed: () => PasswordLoginDialog.show(context),
-          child: Text(
-            context.l10n.signInWithPassword,
-            style: context.text.bodySmall.copyWith(
-              color: AppColors.primary,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
       ],
     );
   }
@@ -351,61 +339,98 @@ class _SignInChecklist extends StatelessWidget {
   const _SignInChecklist({
     required this.hasViewedTerms,
     required this.hasViewedPrivacy,
+    required this.onOpenTerms,
+    required this.onOpenPrivacy,
   });
 
   final bool hasViewedTerms;
   final bool hasViewedPrivacy;
+  final VoidCallback onOpenTerms;
+  final VoidCallback onOpenPrivacy;
 
   @override
   Widget build(BuildContext context) {
-    if (hasViewedTerms && hasViewedPrivacy) {
-      return const SizedBox.shrink();
-    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _CheckRow(
           done: hasViewedTerms,
           label: context.l10n.loginChecklistTerms,
+          linkText: context.l10n.legalTermsOfUseLink,
+          onTap: onOpenTerms,
         ),
-        const SizedBox(height: AppSpacing.xs),
         _CheckRow(
           done: hasViewedPrivacy,
           label: context.l10n.loginChecklistPrivacy,
+          linkText: context.l10n.privacyPolicy,
+          onTap: onOpenPrivacy,
         ),
       ],
     );
   }
 }
 
+/// A "Read the Terms of Use" style row. The document name is the link; the
+/// whole row is the tap target and opens the document.
 class _CheckRow extends StatelessWidget {
-  const _CheckRow({required this.done, required this.label});
+  const _CheckRow({
+    required this.done,
+    required this.label,
+    required this.linkText,
+    required this.onTap,
+  });
 
   final bool done;
   final String label;
+  final String linkText;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
+    final base = context.text.bodySmall.copyWith(
+      color: done ? AppColors.textBody : AppColors.textMuted,
+    );
+    final link = base.copyWith(
+      color: AppColors.primary,
+      fontWeight: FontWeight.w600,
+      decoration: TextDecoration.underline,
+    );
+    // The document name is the link. Where a language inflects the name inside
+    // the sentence, the whole row is the link instead.
+    final at = label.indexOf(linkText);
+    final spans = at < 0
+        ? [TextSpan(text: label, style: link)]
+        : [
+            TextSpan(text: label.substring(0, at)),
+            TextSpan(text: linkText, style: link),
+            TextSpan(text: label.substring(at + linkText.length)),
+          ];
     return Semantics(
       checked: done,
+      button: true,
       label: label,
-      child: Row(
-        children: [
-          Icon(
-            done ? Icons.check_circle_rounded : Icons.radio_button_unchecked,
-            size: 18,
-            color: done ? AppColors.success : AppColors.iconMuted,
-          ),
-          const SizedBox(width: AppSpacing.sm),
-          Expanded(
-            child: Text(
-              label,
-              style: context.text.bodySmall.copyWith(
-                color: done ? AppColors.textBody : AppColors.textMuted,
+      excludeSemantics: true,
+      onTap: onTap,
+      child: InkWell(
+        onTap: onTap,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 40),
+          child: Row(
+            children: [
+              Icon(
+                done
+                    ? Icons.check_circle_rounded
+                    : Icons.radio_button_unchecked,
+                size: 18,
+                color: done ? AppColors.success : AppColors.iconMuted,
               ),
-            ),
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(
+                child: Text.rich(TextSpan(style: base, children: spans)),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

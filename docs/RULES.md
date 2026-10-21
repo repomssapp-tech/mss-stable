@@ -12,11 +12,11 @@ This is the single entry point for "what rules apply here." It does not restate 
 | Coding standards & architecture invariants (offline-first, design tokens, i18n, decomposition, RLS) | `AGENTS.md` |
 | Search/discovery/recommendation architecture, catalog sync, API routing | `docs/OFFLINE_DISCOVERY_AND_SEARCH_ARCHITECTURE.md` |
 | UI/UX design system, typography, spacing tokens | `docs/UI_UX_DESIGN_SYSTEM.md` |
-| Database schema, migrations, RLS, ADRs | `docs/old_supabase/docs/backend/BACKEND_SPECIFICATION.md` (archived, old backend) |
+| Database schema, migrations, RLS, ADRs | Owned by the separate `mss-backend` project (the retired Supabase backend was removed in app 1.4.0; see git history before that release) |
 | Catalog data contract, release manifest, sync state machine | `docs/specs/CATALOG_SPECIFICATIONS.md` |
 | Deployment topology & CI | `docs/DEPLOYMENT_ARCHITECTURE.md` |
-| Production catalog publish / key-rotation runbooks | `docs/old_supabase/docs/runbooks/OPERATIONS_RUNBOOK.md` (archived, old backend) |
-| Current known-good vs known-broken state | `docs/audit/AUDIT.md` (live) / `docs/old_supabase/docs/audit/CODEBASE_AUDIT.md` (deep historical baseline) |
+| Production catalog publish / key-rotation runbooks | Owned by `mss-backend` (the old Supabase runbooks are in git history before app 1.4.0) |
+| Current known-good vs known-broken state | `docs/audit/AUDIT.md` |
 | Repo orientation for a new dev or AI assistant | `docs/SKILLS.md` |
 | Who changed what, and when | `docs/audit/DEV_LOG.md` |
 
@@ -42,4 +42,4 @@ Three files (`app_state_provider.dart`, `saarthi_home_screen.dart`, `voice_assis
 **Decision (2026-09-13): don't do either.** These three stay as single files above the ~500-line ceiling. This is a deliberate, accepted exception — not a violation to "fix" in a future pass. Do not introduce `part` files or a controller-injection rewrite on these files without a fresh, explicit decision to revisit this. New code added to these files should still avoid growing them further where avoidable, but correctness and stability take priority over the line-count rule here.
 
 ### 6. Audit refresh, not audit rewrite
-When re-verifying the codebase, update `docs/audit/AUDIT.md` in place (mark items Verified/Needs work, add new findings) rather than replacing it wholesale. `docs/old_supabase/docs/audit/CODEBASE_AUDIT.md` stays frozen as the original deep-dive baseline for historical comparison.
+When re-verifying the codebase, update `docs/audit/AUDIT.md` in place (mark items Verified/Needs work, add new findings) rather than replacing it wholesale. The original 2026-09-10 deep-dive (CODEBASE_AUDIT.md) is in git history before app 1.4.0.

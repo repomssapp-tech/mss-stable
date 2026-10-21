@@ -1,6 +1,6 @@
 # MSS - MSME Schemes Search Backend
 
-Contracts and tooling for the MSS REST backend (`https://api.msmeschemes.org`),
+Contracts and tooling for the MSS REST backend (`https://mssapi.msmeschemes.org`),
 which the Flutter app and the Saarthi voice agent talk to. The server itself
 lives in the separate `mss-backend` project; this folder holds the shared
 reference material.

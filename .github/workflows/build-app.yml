@@ -108,7 +108,7 @@ jobs:
           API_BASE_URL: ${{ secrets.API_BASE_URL }}
         run: |
           set -euo pipefail
-          jq -n --arg url "${API_BASE_URL:-https://api.msmeschemes.org}" \
+          jq -n --arg url "${API_BASE_URL:-https://mssapi.msmeschemes.org}" \
             '{API_BASE_URL: $url}' > dart_defines.json
           echo "present=true" >> "$GITHUB_OUTPUT"
 
@@ -143,7 +143,12 @@ jobs:
 
       - name: Build release APK
         if: ${{ steps.dart_defines.outputs.present == 'true' && steps.signing.outputs.signed == 'true' }}
-        run: flutter build apk --release --dart-define-from-file=dart_defines.json
+        # Obfuscated Dart (test report SEC-07); the symbol files needed to
+        # read crash stack traces are uploaded as their own artifact below.
+        run: >-
+          flutter build apk --release
+          --obfuscate --split-debug-info=build/debug-symbols
+          --dart-define-from-file=dart_defines.json
 
       - name: Build debug APK (no signing secrets)
         if: ${{ steps.dart_defines.outputs.present == 'true' && steps.signing.outputs.signed != 'true' }}
@@ -165,6 +170,15 @@ jobs:
           path: frontend/build/app/outputs/flutter-apk/*.apk
           if-no-files-found: error
           retention-days: 14
+
+      - name: Upload Dart debug symbols
+        if: ${{ steps.dart_defines.outputs.present == 'true' && steps.signing.outputs.signed == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-symbols-${{ steps.version.outputs.name }}-${{ github.sha }}
+          path: frontend/build/debug-symbols
+          if-no-files-found: error
+          retention-days: 90
 
       - name: Upload web bundle
         if: ${{ steps.dart_defines.outputs.present == 'true' }}

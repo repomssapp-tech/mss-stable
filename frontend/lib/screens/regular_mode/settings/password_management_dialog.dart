@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../services/account/rest_auth_service.dart';
 import '../../../services/network/api_exception.dart';
 import '../../../utils/app_colors.dart';
+import '../../../utils/app_radius.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 import '../../../widgets/common/app_toast.dart';
 import '../../splash_screen.dart';
 
@@ -74,26 +75,17 @@ class _PasswordManagementDialogState extends State<PasswordManagementDialog> {
     final currentPass = _currentPasswordController.text;
 
     if (newPass.length < 15 || newPass.length > 128) {
-      AppToast.showWarning(
-        context,
-        'Password must be between 15 and 128 characters.',
-      );
+      AppToast.showWarning(context, context.l10n.pwLengthRule);
       return;
     }
 
     if (newPass != confirmPass) {
-      AppToast.showWarning(
-        context,
-        'New password and confirmation do not match.',
-      );
+      AppToast.showWarning(context, context.l10n.pwMismatch);
       return;
     }
 
     if (_hasPassword && currentPass.isEmpty) {
-      AppToast.showWarning(
-        context,
-        'Please enter your current password.',
-      );
+      AppToast.showWarning(context, context.l10n.pwEnterCurrent);
       return;
     }
 
@@ -107,10 +99,7 @@ class _PasswordManagementDialogState extends State<PasswordManagementDialog> {
 
       if (mounted) {
         Navigator.of(context).pop();
-        AppToast.showSuccess(
-          context,
-          context.l10n.passwordChangedNotice,
-        );
+        AppToast.showSuccess(context, context.l10n.passwordChangedNotice);
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (_) => const SplashScreen()),
           (route) => false,
@@ -120,36 +109,22 @@ class _PasswordManagementDialogState extends State<PasswordManagementDialog> {
       if (mounted) {
         setState(() => _submitting = false);
         if (e.statusCode == 403 || e.errorCode == 'REAUTHENTICATION_REQUIRED') {
-          AppToast.showWarning(
-            context,
-            'Recent authentication required. Please sign in again.',
-          );
+          AppToast.showWarning(context, context.l10n.pwReauthRequired);
         } else if (e.errorCode == 'PASSWORD_POLICY_FAILED') {
-          AppToast.showWarning(
-            context,
-            'Password does not meet complexity requirements.',
-          );
-        } else if (e.statusCode == 401 || e.errorCode == 'INVALID_CREDENTIALS') {
-          AppToast.showWarning(
-            context,
-            'Current password is incorrect.',
-          );
+          AppToast.showWarning(context, context.l10n.pwPolicyFailed);
+        } else if (e.statusCode == 401 ||
+            e.errorCode == 'INVALID_CREDENTIALS') {
+          AppToast.showWarning(context, context.l10n.pwCurrentIncorrect);
         } else if (e.isRateLimited) {
-          AppToast.showWarning(
-            context,
-            'Too many attempts. Please try again later.',
-          );
+          AppToast.showWarning(context, context.l10n.pwTooManyAttempts);
         } else {
-          AppToast.showWarning(
-            context,
-            e.message.isNotEmpty ? e.message : 'Failed to update password.',
-          );
+          AppToast.showWarning(context, context.l10n.pwUpdateFailed);
         }
       }
     } catch (e) {
       if (mounted) {
         setState(() => _submitting = false);
-        AppToast.showWarning(context, 'Unexpected error updating password.');
+        AppToast.showWarning(context, context.l10n.pwUpdateFailed);
       }
     }
   }
@@ -157,10 +132,7 @@ class _PasswordManagementDialogState extends State<PasswordManagementDialog> {
   Future<void> _removePassword() async {
     final currentPass = _currentPasswordController.text;
     if (currentPass.isEmpty) {
-      AppToast.showWarning(
-        context,
-        'Enter current password to remove it.',
-      );
+      AppToast.showWarning(context, context.l10n.pwRemoveNeedsCurrent);
       return;
     }
 
@@ -170,10 +142,7 @@ class _PasswordManagementDialogState extends State<PasswordManagementDialog> {
       await RestAuthService.instance.deletePassword(currentPass);
       if (mounted) {
         Navigator.of(context).pop();
-        AppToast.showSuccess(
-          context,
-          context.l10n.passwordRemovedNotice,
-        );
+        AppToast.showSuccess(context, context.l10n.passwordRemovedNotice);
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (_) => const SplashScreen()),
           (route) => false,
@@ -183,15 +152,15 @@ class _PasswordManagementDialogState extends State<PasswordManagementDialog> {
       if (mounted) {
         setState(() => _submitting = false);
         if (e.statusCode == 401 || e.errorCode == 'INVALID_CREDENTIALS') {
-          AppToast.showWarning(context, 'Current password is incorrect.');
+          AppToast.showWarning(context, context.l10n.pwCurrentIncorrect);
         } else {
-          AppToast.showWarning(context, 'Failed to remove password.');
+          AppToast.showWarning(context, context.l10n.pwRemoveFailed);
         }
       }
     } catch (_) {
       if (mounted) {
         setState(() => _submitting = false);
-        AppToast.showWarning(context, 'Failed to remove password.');
+        AppToast.showWarning(context, context.l10n.pwRemoveFailed);
       }
     }
   }
@@ -203,10 +172,10 @@ class _PasswordManagementDialogState extends State<PasswordManagementDialog> {
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.xxl,
       ),
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24),
-        side: const BorderSide(color: Color(0xFFE2E8F0)),
+      backgroundColor: AppColors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: AppRadius.xlAll,
+        side: BorderSide(color: AppColors.border),
       ),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.xxl),
@@ -225,7 +194,7 @@ class _PasswordManagementDialogState extends State<PasswordManagementDialog> {
                         Container(
                           padding: const EdgeInsets.all(AppSpacing.sm),
                           decoration: const BoxDecoration(
-                            color: Color(0xFFEFF6FF),
+                            color: AppColors.primarySoft,
                             shape: BoxShape.circle,
                           ),
                           child: const Icon(
@@ -240,15 +209,17 @@ class _PasswordManagementDialogState extends State<PasswordManagementDialog> {
                             _hasPassword
                                 ? context.l10n.changePasswordTitle
                                 : context.l10n.setPasswordTitle,
-                            style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: const Color(0xFF0F172A),
+                            style: context.text.titleSmall.copyWith(
+                              color: AppColors.textPrimary,
                             ),
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.close, color: Color(0xFF94A3B8)),
+                          icon: const Icon(
+                            Icons.close,
+                            color: AppColors.iconMuted,
+                          ),
+                          tooltip: context.l10n.close,
                           onPressed: () => Navigator.pop(context),
                         ),
                       ],
@@ -279,7 +250,7 @@ class _PasswordManagementDialogState extends State<PasswordManagementDialog> {
                       obscureText: _obscureNew,
                       decoration: InputDecoration(
                         labelText: context.l10n.newPasswordLabel,
-                        hintText: 'Min 15 characters',
+                        hintText: context.l10n.pwMinHint,
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscureNew
@@ -312,30 +283,20 @@ class _PasswordManagementDialogState extends State<PasswordManagementDialog> {
                     const SizedBox(height: AppSpacing.xl),
                     ElevatedButton(
                       onPressed: _submitting ? null : _submitSetOrChange,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
-                        minimumSize: const Size.fromHeight(48),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
                       child: _submitting
-                          ? const SizedBox( // spacing-ok
+                          ? const SizedBox(
+                              // spacing-ok
                               height: AppSpacing.xl,
                               width: AppSpacing.xl,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
-                                color: Colors.white,
+                                color: AppColors.textOnPrimary,
                               ),
                             )
                           : Text(
                               _hasPassword
                                   ? context.l10n.changePasswordTitle
                                   : context.l10n.setPasswordTitle,
-                              style: GoogleFonts.inter(
-                                fontWeight: FontWeight.w600,
-                              ),
                             ),
                     ),
                     if (_hasPassword) ...[
@@ -343,14 +304,9 @@ class _PasswordManagementDialogState extends State<PasswordManagementDialog> {
                       TextButton(
                         onPressed: _submitting ? null : _removePassword,
                         style: TextButton.styleFrom(
-                          foregroundColor: const Color(0xFFDC2626),
+                          foregroundColor: AppColors.danger,
                         ),
-                        child: Text(
-                          context.l10n.removePasswordTitle,
-                          style: GoogleFonts.inter(
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                        child: Text(context.l10n.removePasswordTitle),
                       ),
                     ],
                   ],

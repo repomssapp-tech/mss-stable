@@ -80,7 +80,11 @@ void main() {
       await tapOption(tester, 'Under ₹10 Lakhs');
 
       final f = provider.filters;
-      expect(f['category'], 'Business Loans & Credit');
+      expect(
+        f['category'],
+        isNull,
+        reason: 'the card is the browse page base set, not a second facet',
+      );
       expect(
         (f['schemeTypes'] as List).cast<String>(),
         contains('loans'),

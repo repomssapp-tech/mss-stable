@@ -126,6 +126,10 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
 
   void _handleCarouselTap(BuildContext context, Map<String, dynamic> item) {
     final route = item['target_route'] as String?;
+    // The card names the browse page it opens; older cards without one keep
+    // opening Business & MSME (test report NEW-04).
+    final targetTitle = item['browse_title'] as String? ?? 'Business & MSME';
+    final targetType = item['browse_type'] as String? ?? 'category';
     if (route == 'notifications') {
       Navigator.of(
         context,
@@ -133,28 +137,19 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
     } else if (route == 'discover_results') {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (_) => const SearchResultsScreen(
-            title: 'Business & MSME',
-            type: 'category',
-          ),
+          builder: (_) =>
+              SearchResultsScreen(title: targetTitle, type: targetType),
         ),
       );
     } else if (route == 'draft_session') {
-      SmartAssessmentBottomSheet.show(
-        context,
-        'Business & MSME',
-        'category',
-        () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => const SearchResultsScreen(
-                title: 'Business & MSME',
-                type: 'category',
-              ),
-            ),
-          );
-        },
-      );
+      SmartAssessmentBottomSheet.show(context, targetTitle, targetType, () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) =>
+                SearchResultsScreen(title: targetTitle, type: targetType),
+          ),
+        );
+      });
     }
   }
 

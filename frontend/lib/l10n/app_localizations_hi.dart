@@ -22,7 +22,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get applicationsClosingSoon => 'आवेदन जल्द ही बंद हो रहे हैं';
 
   @override
-  String get featured => 'प्रदर्शित';
+  String get featured => 'विशेष';
 
   @override
   String get forWomenEntrepreneurs => 'महिला उद्यमियों के लिए';
@@ -61,7 +61,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get exploreMsmeSupport => 'एमएसएमई सहायता का अन्वेषण करें';
 
   @override
-  String get schemes => 'योजनाओं';
+  String get schemes => 'योजनाएं';
 
   @override
   String get finance => 'वित्त';
@@ -110,7 +110,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get filter => 'फ़िल्टर';
 
   @override
-  String get navHome => 'घर';
+  String get navHome => 'होम';
 
   @override
   String get navSearch => 'खोज';
@@ -433,7 +433,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get clearFilters => 'फ़िल्टर साफ़ करें';
 
   @override
-  String get clearSearch => 'स्पष्ट खोज';
+  String get clearSearch => 'खोज साफ़ करें';
 
   @override
   String get forMeTooltip =>
@@ -1624,7 +1624,14 @@ class AppLocalizationsHi extends AppLocalizations {
   String get calcGstTitle => 'जीएसटी / कर कैलकुलेटर';
 
   @override
-  String get calcGstSub => 'सीजीएसटी, एसजीएसटी और कुल चालान राशि की गणना करें।';
+  String get calcGstSub =>
+      'सीजीएसटी + एसजीएसटी या आईजीएसटी और कुल चालान राशि की गणना करें।';
+
+  @override
+  String get calcGstWithinState => 'राज्य के भीतर (CGST + SGST)';
+
+  @override
+  String get calcGstInterState => 'अंतर-राज्यीय (IGST)';
 
   @override
   String get calcBaseAmountLabel => 'आधार राशि';
@@ -2874,13 +2881,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get assessBizQ2Msme => 'मशीनरी/उपकरण में कुल निवेश कितना है?';
 
   @override
-  String get assessBizQ2MsmeOpt1 => 'माइक्रो (₹1 करोड़ से कम)';
+  String get assessBizQ2MsmeOpt1 => 'सूक्ष्म (₹2.5 करोड़ तक निवेश)';
 
   @override
-  String get assessBizQ2MsmeOpt2 => 'छोटा (₹1 करोड़ - ₹10 करोड़)';
+  String get assessBizQ2MsmeOpt2 => 'लघु (₹2.5 करोड़ - ₹25 करोड़)';
 
   @override
-  String get assessBizQ2MsmeOpt3 => 'मध्यम (₹10 करोड़ से अधिक)';
+  String get assessBizQ2MsmeOpt3 => 'मध्यम (₹25 करोड़ - ₹125 करोड़)';
 
   @override
   String get assessBizQ2Startup => 'आपका स्टार्टअप इस समय किस चरण में है?';
@@ -3372,7 +3379,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get openSaarthiAiChat => 'सारथी एआई चैट खोलें';
 
   @override
-  String get sortLabel => 'क्रम से लगाना';
+  String get sortLabel => 'क्रमबद्ध करें';
 
   @override
   String get searchDiscoverSubtitle =>
@@ -3450,7 +3457,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get faqEligibilityA =>
-      '\'मेरी योजनाएं ढूंढें\' टैब पर जाएं, अपना प्रोफ़ाइल विवरण (आयु, लिंग, राज्य, आय, आदि) भरें, और मैचर इंजन तुरंत सभी उपलब्ध योजनाओं के लिए आपका पात्रता स्कोर दिखाएगा!';
+      'प्रोफ़ाइल टैब में अपना विवरण (आयु, लिंग, राज्य, आय, आदि) भरें, फिर खोज टैब देखें, जहाँ हर योजना दिखाती है कि वह आपकी प्रोफ़ाइल से मेल खाती है या नहीं। त्वरित जाँच के लिए एक्सप्लोर टैब का आकलन भी आज़मा सकते हैं।';
 
   @override
   String get faqApplyQ => 'मैं किसी योजना के लिए कैसे आवेदन कर सकता हूं?';
@@ -3656,7 +3663,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get emiTotalInterest => 'कुल देय ब्याज';
 
   @override
-  String get emiTotalAmount => 'कुल राशि (मूलधन + पूर्णांक)';
+  String get emiTotalAmount => 'कुल राशि (मूलधन + ब्याज)';
 
   @override
   String get emiInvalidInputs => 'कृपया मान्य इनपुट दर्ज करें';
@@ -3775,6 +3782,23 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get docEntityPrivateLimited => 'प्राइवेट लिमिटेड';
+
+  @override
+  String get docEntitySoleProprietorship => 'एकल स्वामित्व';
+
+  @override
+  String get docItemProprietorPanAadhaar => 'मालिक का पैन कार्ड और आधार';
+
+  @override
+  String get docItemUdyamRegistration =>
+      'उद्यम पंजीकरण प्रमाणपत्र (निःशुल्क, udyamregistration.gov.in)';
+
+  @override
+  String get docItemShopEstablishmentLicence =>
+      'राज्य / स्थानीय निकाय से दुकान एवं स्थापना लाइसेंस';
+
+  @override
+  String get docItemProprietorBankAccount => 'व्यवसाय के नाम पर चालू बैंक खाता';
 
   @override
   String get docEntityPartnership => 'साझेदारी';
@@ -4019,6 +4043,10 @@ class AppLocalizationsHi extends AppLocalizations {
       'ध्वनि सेवा उपलब्ध नहीं है. पुनः प्रयास करें टैप करें.';
 
   @override
+  String get saarthiVoiceFallbackOnDevice =>
+      'क्लाउड वॉइस अभी उपलब्ध नहीं है। सारथी आपके फ़ोन पर ही सुन रहा है।';
+
+  @override
   String get saarthiCloudErrorSignIn =>
       'कृपया दोबारा साइन इन करें, फिर आवाज देकर पुनः प्रयास करें।';
 
@@ -4238,7 +4266,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get shareResultsTooltip => 'परिणाम साझा करें';
 
   @override
-  String get clearSearchTooltip => 'स्पष्ट खोज';
+  String get clearSearchTooltip => 'खोज साफ़ करें';
 
   @override
   String get voiceSearchTooltip => 'आवाज खोज';
@@ -4993,6 +5021,117 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get signInWithPassword => 'पासवर्ड से साइन इन करें';
+
+  @override
+  String get pwInvalidEmail => 'कृपया एक मान्य ईमेल पता दर्ज करें।';
+
+  @override
+  String get pwEnterPassword => 'कृपया अपना पासवर्ड दर्ज करें।';
+
+  @override
+  String get pwLoginFailed =>
+      'साइन इन विफल रहा। कृपया अपना ईमेल और पासवर्ड जांचें।';
+
+  @override
+  String get pwInvalidCredentials => 'ईमेल या पासवर्ड गलत है।';
+
+  @override
+  String get pwTooManyAttempts =>
+      'बहुत अधिक प्रयास। कृपया कुछ देर बाद फिर से कोशिश करें।';
+
+  @override
+  String get pwLoginUnexpected => 'साइन इन करते समय कुछ गलत हो गया।';
+
+  @override
+  String get pwSignInButton => 'साइन इन करें';
+
+  @override
+  String get pwLengthRule => 'पासवर्ड 15 से 128 अक्षरों का होना चाहिए।';
+
+  @override
+  String get pwMismatch => 'नया पासवर्ड और पुष्टि मेल नहीं खाते।';
+
+  @override
+  String get pwEnterCurrent => 'कृपया अपना वर्तमान पासवर्ड दर्ज करें।';
+
+  @override
+  String get pwReauthRequired =>
+      'सुरक्षा के लिए, कृपया पहले फिर से साइन इन करें।';
+
+  @override
+  String get pwPolicyFailed => 'पासवर्ड आवश्यकताओं को पूरा नहीं करता।';
+
+  @override
+  String get pwCurrentIncorrect => 'वर्तमान पासवर्ड गलत है।';
+
+  @override
+  String get pwUpdateFailed => 'पासवर्ड अपडेट नहीं हो सका।';
+
+  @override
+  String get pwRemoveNeedsCurrent =>
+      'हटाने के लिए अपना वर्तमान पासवर्ड दर्ज करें।';
+
+  @override
+  String get pwRemoveFailed => 'पासवर्ड हटाया नहीं जा सका।';
+
+  @override
+  String get pwMinHint => 'कम से कम 15 अक्षर';
+
+  @override
+  String get sessionRevoked => 'सत्र रद्द किया गया।';
+
+  @override
+  String get sessionRevokeFailed => 'सत्र रद्द नहीं किया जा सका।';
+
+  @override
+  String get logoutAllFailed => 'सभी डिवाइस से लॉग आउट नहीं किया जा सका।';
+
+  @override
+  String get sessionOtherDevice => 'साइन इन किया हुआ डिवाइस';
+
+  @override
+  String sessionSignedInAt(String time) {
+    return 'साइन इन: $time';
+  }
+
+  @override
+  String get udyamMicro => 'सूक्ष्म उद्यम';
+
+  @override
+  String get udyamSmall => 'लघु उद्यम';
+
+  @override
+  String get udyamMedium => 'मध्यम उद्यम';
+
+  @override
+  String get udyamLarge => 'बड़ा उद्यम (MSME सीमा से बाहर)';
+
+  @override
+  String get udyamInvalid => 'अमान्य इनपुट';
+
+  @override
+  String get udyamInvalidSub => '0 या उससे अधिक की संख्या दर्ज करें।';
+
+  @override
+  String udyamLimitsSummary(
+    String microInv,
+    String microTurn,
+    String smallInv,
+    String smallTurn,
+    String medInv,
+    String medTurn,
+  ) {
+    return 'सीमाएं (2025): सूक्ष्म ≤$microInv / ≤$microTurn करोड़ · लघु ≤$smallInv / ≤$smallTurn करोड़ · मध्यम ≤$medInv / ≤$medTurn करोड़ (निवेश / टर्नओवर)';
+  }
+
+  @override
+  String get schemeNotMatchingFilters => 'आपके फ़िल्टर से मेल नहीं खाता';
+
+  @override
+  String get greetingLateNight => 'नमस्ते,';
+
+  @override
+  String get copyChecklistTooltip => 'सूची कॉपी करें';
 
   @override
   String get voiceClipError =>

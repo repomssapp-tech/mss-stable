@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../widgets/scheme/scheme_card.dart';
@@ -11,6 +10,7 @@ import '../../widgets/common/app_toast.dart';
 import 'scheme_details_screen.dart';
 import 'search_results_screen.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/share_text.dart';
 
 class EligibilityResultsScreen extends StatefulWidget {
   const EligibilityResultsScreen({super.key});
@@ -57,15 +57,13 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
             ),
             tooltip: context.l10n.shareResultsTooltip,
             onPressed: () async {
-              final shareText =
+              final text =
                   '${context.l10n.eligResShareHeader}\n${eligibleMatches.map((e) => context.l10n.eligResShareItem(e.key.getName(provider.selectedLanguage), (e.value.score * 100).toInt())).take(5).join('\n')}';
-              await Clipboard.setData(ClipboardData(text: shareText));
-              if (context.mounted) {
-                AppToast.showSuccess(
-                  context,
-                  context.l10n.eligibilityResultsCopiedToClipboard,
-                );
-              }
+              await shareText(
+                context,
+                text,
+                copiedMessage: context.l10n.eligibilityResultsCopiedToClipboard,
+              );
             },
           ),
           const SizedBox(width: AppSpacing.sm),

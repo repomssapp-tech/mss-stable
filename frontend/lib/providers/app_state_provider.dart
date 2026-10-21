@@ -38,7 +38,8 @@ import 'controllers/search_filter_controller.dart';
 import 'controllers/tab_navigation_controller.dart';
 import '../services/account/deep_link_service.dart';
 import '../services/notifications/push_models.dart' show PushMessagingGateway;
-import '../models/user_profile_api_dto.dart' show serverLanguages;
+import '../models/user_profile_api_dto.dart'
+    show ProfileAggregate, serverLanguages;
 import '../services/account/onboarding_api_service.dart'
     show LegalConsentStore, OnboardingApiService;
 import '../services/account/profile_api_service.dart';
@@ -477,6 +478,10 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     if (owner == null || owner != AppSession.instance.userId) return;
     try {
       await _syncProfileToServer(profile);
+      // The server now holds this mode, so it is the source of truth again.
+      if (profile.navigationMode == _navigationMode) {
+        await SessionCacheService.instance.setNavigationModePending(false);
+      }
     } catch (error) {
       debugPrint('[AppProvider] Background profile sync failed: $error');
       _pendingProfile ??= profile;
@@ -550,6 +555,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     );
     notifyListeners();
     await SessionCacheService.instance.saveNavigationMode(mode);
+    await SessionCacheService.instance.setNavigationModePending(true);
     await SessionCacheService.instance.saveProfile(_profile);
 
     _syncProfileToServerInBackground(_profile);
@@ -577,6 +583,49 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     }
   }
 
+  /// Issue #123: the server marks a profile complete only once onboarding is
+  /// submitted with the four legal acceptances. When those cannot be recorded
+  /// (e.g. the server's LEGAL_DOCUMENT_VERSIONS is not configured) the profile
+  /// fields are saved but the flag stays false, so every launch used to send
+  /// the user back through onboarding. If the server lists no missing profile
+  /// field (only consent is pending) and this copy has every required field,
+  /// the profile counts as complete here and onboarding is retried in the
+  /// background.
+  UserProfile _withServerCompletion(
+    UserProfile merged,
+    ProfileAggregate server,
+  ) {
+    if (!completedPendingConsent(merged, server.missingFields)) return merged;
+    final completed = merged.copyWith(profileCompleted: true);
+    _syncProfileToServerInBackground(completed);
+    return completed;
+  }
+
+  /// True when [profile] is not marked complete, yet the server's
+  /// [serverMissingFields] name only legal consent and [profile] has every
+  /// field onboarding requires.
+  @visibleForTesting
+  static bool completedPendingConsent(
+    UserProfile profile,
+    List<String> serverMissingFields,
+  ) {
+    if (profile.profileCompleted) return false;
+    if (!profileFieldsCompleteOnServer(serverMissingFields)) return false;
+    final fields = profile_cloud_sync.buildOnboardingProfile(profile);
+    return profile_cloud_sync.missingOnboardingFields(fields).isEmpty;
+  }
+
+  /// True when [missingFields] names nothing but legal consent.
+  @visibleForTesting
+  static bool profileFieldsCompleteOnServer(List<String> missingFields) =>
+      missingFields.every((f) {
+        final k = f.toLowerCase();
+        return k.contains('legal') ||
+            k.contains('consent') ||
+            k.contains('terms') ||
+            k.contains('privacy');
+      });
+
   Future<bool> checkSessionAndFetchProfile() async {
     await AppSession.instance.hydrate();
     if (!AppSession.instance.isSignedIn) {
@@ -589,13 +638,31 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       final profileAggregate = await ProfileApiService.instance.loadProfile();
       final mappedProfile = profileAggregate.toUserProfile();
       _isLoggedIn = true;
-      _profile = _profile.mergeFrom(mappedProfile);
+      _profile = _withServerCompletion(
+        _profile.mergeFrom(mappedProfile),
+        profileAggregate,
+      );
       _selectedLanguage = _languageFromServer(
         mappedProfile.language,
         serverProfileCompleted: mappedProfile.profileCompleted,
       );
       _profile = _profile.copyWith(language: _selectedLanguage);
-      _navigationMode = mappedProfile.navigationMode;
+      // A mode chosen on this device that the server hasn't confirmed yet wins
+      // over the server copy; otherwise the server is the source of truth.
+      final serverMode = mappedProfile.navigationMode;
+      final localModePending = await SessionCacheService.instance
+          .isNavigationModePending();
+      if (localModePending &&
+          _navigationMode.isNotEmpty &&
+          serverMode != _navigationMode) {
+        _profile = _profile.copyWith(navigationMode: _navigationMode);
+        _syncProfileToServerInBackground(_profile);
+      } else {
+        _navigationMode = serverMode;
+        if (localModePending) {
+          await SessionCacheService.instance.setNavigationModePending(false);
+        }
+      }
 
       // Fall back to the Google account's name and photo while the server
       // profile does not have them yet.
@@ -754,8 +821,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       if (user == null) return;
 
       debugPrint('[AppProvider] Starting silent background sync...');
-      var syncProfile = (await ProfileApiService.instance.loadProfile())
-          .toUserProfile();
+      final syncAggregate = await ProfileApiService.instance.loadProfile();
+      var syncProfile = syncAggregate.toUserProfile();
 
       if (syncProfile.profilePhoto.isEmpty ||
           syncProfile.profilePhoto.contains('user_avatar.webp')) {
@@ -777,7 +844,10 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           _profile.updatedAt ?? DateTime.fromMillisecondsSinceEpoch(0);
 
       if (remoteUpdated.isAfter(localUpdated)) {
-        _profile = _profile.mergeFrom(syncProfile);
+        _profile = _withServerCompletion(
+          _profile.mergeFrom(syncProfile),
+          syncAggregate,
+        );
         _selectedLanguage = _languageFromServer(
           syncProfile.language,
           serverProfileCompleted: syncProfile.profileCompleted,
@@ -865,6 +935,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     // from bypassing onboarding after a failed or offline cloud write.
     if (requireCloudSync) {
       await _syncProfileToServer(candidate);
+      // This save is newer than any queued background draft, which must not
+      // be sent after it.
+      _pendingProfile = null;
     }
 
     _profile = candidate;

@@ -65,14 +65,18 @@ class AppConstants {
   /// Returns the localized greeting matching the actual time of day:
   /// - Morning (05:00 - 11:59): goodMorning
   /// - Afternoon (12:00 - 16:59): goodAfternoon
-  /// - Evening / Night (17:00 - 04:59): goodEvening
+  /// - Evening (17:00 - 23:59): goodEvening
+  /// - After midnight (00:00 - 04:59): a plain "Hello," (test report: "Good
+  ///   Evening" was shown at 00:14)
   ///
   /// The ARB values already carry the trailing comma (e.g. "Good Morning,").
   static String getTimeGreeting(AppLocalizations l10n) {
     final hour = DateTime.now().hour;
-    if (hour >= 5 && hour < 12) {
+    if (hour < 5) {
+      return l10n.greetingLateNight;
+    } else if (hour < 12) {
       return l10n.goodMorning;
-    } else if (hour >= 12 && hour < 17) {
+    } else if (hour < 17) {
       return l10n.goodAfternoon;
     } else {
       return l10n.goodEvening;

@@ -39,17 +39,22 @@ void main() {
     await tester.enterText(find.byType(TextField), 'loan');
     // Pump 100ms: within the 300ms debounce window
     await tester.pump(const Duration(milliseconds: 100));
+    expect(find.byKey(const ValueKey('SearchIdleState')), findsOneWidget);
 
     // Pump remainder of debounce window (250ms -> 350ms total)
     await tester.pump(const Duration(milliseconds: 250));
-    await tester.pumpAndSettle();
+    // The offline index may still be loading in this fake-clock test.
+    expect(find.byKey(const ValueKey('SearchLoadingState')), findsOneWidget);
 
     // Results or filter strip controls should now be visible
     expect(find.widgetWithText(OutlinedButton, 'Filter'), findsOneWidget);
     expect(find.widgetWithText(OutlinedButton, 'For Me'), findsOneWidget);
+    await tester.enterText(find.byType(TextField), '');
+    await tester.pump(const Duration(milliseconds: 350));
+    await tester.pumpAndSettle();
   });
 
-  testWidgets('rapid typing resets the debounce timer and executes only once', (
+  testWidgets('rapid typing waits for the final debounce window', (
     tester,
   ) async {
     final provider = AppProvider();
@@ -61,21 +66,27 @@ void main() {
     // Keystroke 1: 'p'
     await tester.enterText(inputFinder, 'p');
     await tester.pump(const Duration(milliseconds: 100));
+    expect(find.byKey(const ValueKey('SearchIdleState')), findsOneWidget);
 
     // Keystroke 2: 'pm'
     await tester.enterText(inputFinder, 'pm');
     await tester.pump(const Duration(milliseconds: 100));
+    expect(find.byKey(const ValueKey('SearchIdleState')), findsOneWidget);
 
     // Keystroke 3: 'pmegp'
     await tester.enterText(inputFinder, 'pmegp');
     await tester.pump(const Duration(milliseconds: 100));
+    expect(find.byKey(const ValueKey('SearchIdleState')), findsOneWidget);
 
     // Wait full debounce window after final keystroke
     await tester.pump(const Duration(milliseconds: 350));
-    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('SearchLoadingState')), findsOneWidget);
 
     // Search results active
     expect(find.widgetWithText(OutlinedButton, 'Filter'), findsOneWidget);
+    await tester.enterText(inputFinder, '');
+    await tester.pump(const Duration(milliseconds: 350));
+    await tester.pumpAndSettle();
   });
 
   testWidgets('clearing search field resets state and cancels debounce', (
@@ -90,7 +101,7 @@ void main() {
     // Enter text and let search trigger
     await tester.enterText(inputFinder, 'startup');
     await tester.pump(const Duration(milliseconds: 350));
-    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('SearchLoadingState')), findsOneWidget);
 
     expect(find.widgetWithText(OutlinedButton, 'Filter'), findsOneWidget);
 

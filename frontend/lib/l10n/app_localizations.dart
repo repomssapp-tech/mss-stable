@@ -3067,8 +3067,20 @@ abstract class AppLocalizations {
   /// No description provided for @calcGstSub.
   ///
   /// In en, this message translates to:
-  /// **'Calculate CGST, SGST, and Total invoice amounts.'**
+  /// **'Calculate CGST + SGST or IGST, and the total invoice amount.'**
   String get calcGstSub;
+
+  /// No description provided for @calcGstWithinState.
+  ///
+  /// In en, this message translates to:
+  /// **'Within state (CGST + SGST)'**
+  String get calcGstWithinState;
+
+  /// No description provided for @calcGstInterState.
+  ///
+  /// In en, this message translates to:
+  /// **'Inter-state (IGST)'**
+  String get calcGstInterState;
 
   /// No description provided for @calcBaseAmountLabel.
   ///
@@ -5371,19 +5383,19 @@ abstract class AppLocalizations {
   /// No description provided for @assessBizQ2MsmeOpt1.
   ///
   /// In en, this message translates to:
-  /// **'Micro (Under ₹1 Crore)'**
+  /// **'Micro (up to ₹2.5 Crore investment)'**
   String get assessBizQ2MsmeOpt1;
 
   /// No description provided for @assessBizQ2MsmeOpt2.
   ///
   /// In en, this message translates to:
-  /// **'Small (₹1 Crore - ₹10 Crore)'**
+  /// **'Small (₹2.5 Crore - ₹25 Crore)'**
   String get assessBizQ2MsmeOpt2;
 
   /// No description provided for @assessBizQ2MsmeOpt3.
   ///
   /// In en, this message translates to:
-  /// **'Medium (Over ₹10 Crore)'**
+  /// **'Medium (₹25 Crore - ₹125 Crore)'**
   String get assessBizQ2MsmeOpt3;
 
   /// No description provided for @assessBizQ2Startup.
@@ -6439,7 +6451,7 @@ abstract class AppLocalizations {
   /// No description provided for @faqEligibilityA.
   ///
   /// In en, this message translates to:
-  /// **'Go to the \'Find My Schemes\' tab, fill out your profile details (age, gender, state, income, etc.), and the matcher engine will instantly show your eligibility score for all available schemes!'**
+  /// **'Fill in your profile details (age, gender, state, income, etc.) in the Profile tab, then browse the Search tab, where each scheme shows whether it matches your profile. For a quick check, you can also try the assessment under Discover.'**
   String get faqEligibilityA;
 
   /// No description provided for @faqApplyQ.
@@ -7024,6 +7036,36 @@ abstract class AppLocalizations {
   /// **'Private Limited'**
   String get docEntityPrivateLimited;
 
+  /// No description provided for @docEntitySoleProprietorship.
+  ///
+  /// In en, this message translates to:
+  /// **'Sole Proprietorship'**
+  String get docEntitySoleProprietorship;
+
+  /// No description provided for @docItemProprietorPanAadhaar.
+  ///
+  /// In en, this message translates to:
+  /// **'Owner\'s PAN card and Aadhaar'**
+  String get docItemProprietorPanAadhaar;
+
+  /// No description provided for @docItemUdyamRegistration.
+  ///
+  /// In en, this message translates to:
+  /// **'Udyam registration certificate (free, udyamregistration.gov.in)'**
+  String get docItemUdyamRegistration;
+
+  /// No description provided for @docItemShopEstablishmentLicence.
+  ///
+  /// In en, this message translates to:
+  /// **'Shop & Establishment licence from your state / local body'**
+  String get docItemShopEstablishmentLicence;
+
+  /// No description provided for @docItemProprietorBankAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Current bank account in the business name'**
+  String get docItemProprietorBankAccount;
+
   /// No description provided for @docEntityPartnership.
   ///
   /// In en, this message translates to:
@@ -7437,6 +7479,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Voice service is unavailable. Tap retry.'**
   String get saarthiVoiceServiceUnavailable;
+
+  /// No description provided for @saarthiVoiceFallbackOnDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud voice isn\'t available right now. Saarthi is listening on your phone instead.'**
+  String get saarthiVoiceFallbackOnDevice;
 
   /// No description provided for @saarthiCloudErrorSignIn.
   ///
@@ -9201,6 +9249,205 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign in with password'**
   String get signInWithPassword;
+
+  /// No description provided for @pwInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address.'**
+  String get pwInvalidEmail;
+
+  /// No description provided for @pwEnterPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your password.'**
+  String get pwEnterPassword;
+
+  /// No description provided for @pwLoginFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in failed. Please check your email and password.'**
+  String get pwLoginFailed;
+
+  /// No description provided for @pwInvalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email or password.'**
+  String get pwInvalidCredentials;
+
+  /// No description provided for @pwTooManyAttempts.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Please wait and try again.'**
+  String get pwTooManyAttempts;
+
+  /// No description provided for @pwLoginUnexpected.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong while signing in.'**
+  String get pwLoginUnexpected;
+
+  /// No description provided for @pwSignInButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get pwSignInButton;
+
+  /// No description provided for @pwLengthRule.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be 15 to 128 characters long.'**
+  String get pwLengthRule;
+
+  /// No description provided for @pwMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'New password and confirmation do not match.'**
+  String get pwMismatch;
+
+  /// No description provided for @pwEnterCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your current password.'**
+  String get pwEnterCurrent;
+
+  /// No description provided for @pwReauthRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'For your security, please sign in again first.'**
+  String get pwReauthRequired;
+
+  /// No description provided for @pwPolicyFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Password does not meet the requirements.'**
+  String get pwPolicyFailed;
+
+  /// No description provided for @pwCurrentIncorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Current password is incorrect.'**
+  String get pwCurrentIncorrect;
+
+  /// No description provided for @pwUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not update the password.'**
+  String get pwUpdateFailed;
+
+  /// No description provided for @pwRemoveNeedsCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your current password to remove it.'**
+  String get pwRemoveNeedsCurrent;
+
+  /// No description provided for @pwRemoveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not remove the password.'**
+  String get pwRemoveFailed;
+
+  /// No description provided for @pwMinHint.
+  ///
+  /// In en, this message translates to:
+  /// **'At least 15 characters'**
+  String get pwMinHint;
+
+  /// No description provided for @sessionRevoked.
+  ///
+  /// In en, this message translates to:
+  /// **'Session revoked.'**
+  String get sessionRevoked;
+
+  /// No description provided for @sessionRevokeFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to revoke the session.'**
+  String get sessionRevokeFailed;
+
+  /// No description provided for @logoutAllFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to log out all devices.'**
+  String get logoutAllFailed;
+
+  /// No description provided for @sessionOtherDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed-in device'**
+  String get sessionOtherDevice;
+
+  /// No description provided for @sessionSignedInAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in: {time}'**
+  String sessionSignedInAt(String time);
+
+  /// No description provided for @udyamMicro.
+  ///
+  /// In en, this message translates to:
+  /// **'MICRO Enterprise'**
+  String get udyamMicro;
+
+  /// No description provided for @udyamSmall.
+  ///
+  /// In en, this message translates to:
+  /// **'SMALL Enterprise'**
+  String get udyamSmall;
+
+  /// No description provided for @udyamMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'MEDIUM Enterprise'**
+  String get udyamMedium;
+
+  /// No description provided for @udyamLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'Large Enterprise (Beyond MSME Limits)'**
+  String get udyamLarge;
+
+  /// No description provided for @udyamInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid Input'**
+  String get udyamInvalid;
+
+  /// No description provided for @udyamInvalidSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter numbers of 0 or more.'**
+  String get udyamInvalidSub;
+
+  /// No description provided for @udyamLimitsSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Limits (2025): Micro ≤{microInv} / ≤{microTurn} Cr · Small ≤{smallInv} / ≤{smallTurn} Cr · Medium ≤{medInv} / ≤{medTurn} Cr (investment / turnover)'**
+  String udyamLimitsSummary(
+    String microInv,
+    String microTurn,
+    String smallInv,
+    String smallTurn,
+    String medInv,
+    String medTurn,
+  );
+
+  /// No description provided for @schemeNotMatchingFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Doesn\'t match your filters'**
+  String get schemeNotMatchingFilters;
+
+  /// No description provided for @greetingLateNight.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello,'**
+  String get greetingLateNight;
+
+  /// No description provided for @copyChecklistTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy checklist'**
+  String get copyChecklistTooltip;
 
   /// No description provided for @voiceClipError.
   ///
