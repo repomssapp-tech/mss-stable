@@ -1440,7 +1440,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get voiceCloudDisclosure =>
-      'लाइव ऑडियो को सुरक्षित रूप से संसाधित किया जाता है। यह ऐप ऑडियो या कच्ची प्रतिलेखों को सहेजता नहीं है।';
+      'अनुरोध रिकॉर्ड करें, टेक्स्ट जाँचें और फिर सहायक को भेजें। ऑडियो ट्रांसक्रिप्शन के लिए Sarvam को भेजा जाता है।';
 
   @override
   String get voiceNoConfidentMatch =>
@@ -4993,4 +4993,41 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get signInWithPassword => 'पासवर्ड से साइन इन करें';
+
+  @override
+  String get voiceClipError =>
+      'अनुरोध पूरा नहीं हुआ। माइक्रोफ़ोन की अनुमति और इंटरनेट जाँचें। उसी रिकॉर्डिंग को फिर से बदलें, भाषा बदलें या अनुरोध टाइप करें।';
+
+  @override
+  String get voiceRecordTitle => 'अपना अनुरोध रिकॉर्ड करें';
+
+  @override
+  String get voiceRecordDisclosure =>
+      'बोलने की भाषा चुनें। अधिकतम 60 सेकंड रिकॉर्ड करें, फिर भेजने से पहले टेक्स्ट जाँचें। रिकॉर्डिंग ट्रांसक्रिप्शन के लिए Sarvam को भेजी जाती है। डिवाइस पर यह रिकॉर्डिंग इस स्क्रीन को बंद करने तक ही रहती है।';
+
+  @override
+  String get voiceSpokenLanguage => 'बोलने की भाषा';
+
+  @override
+  String get voiceTranscribingClip =>
+      'रिकॉर्डिंग को टेक्स्ट में बदला जा रहा है। कुछ मिनट लग सकते हैं। आप रद्द करके टाइप कर सकते हैं।';
+
+  @override
+  String get voiceRecordingClip =>
+      'रिकॉर्ड हो रहा है — बोलने के बाद रोकें (अधिकतम 60 सेकंड)।';
+
+  @override
+  String get voiceReviewTranscript => 'अपना अनुरोध जाँचें और सुधारें';
+
+  @override
+  String get voiceStopAndTranscribe => 'रोकें और टेक्स्ट बनाएँ';
+
+  @override
+  String get voiceRecordClip => 'नया अनुरोध रिकॉर्ड करें';
+
+  @override
+  String get voiceRetryClip => 'इसी रिकॉर्डिंग को फिर से टेक्स्ट बनाएँ';
+
+  @override
+  String get voiceSendReviewed => 'जाँचा हुआ अनुरोध भेजें';
 }

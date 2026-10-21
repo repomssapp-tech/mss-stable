@@ -1,6 +1,5 @@
 import '../../services/catalog/centralized_translator.dart';
 import '../account/app_session.dart';
-import '../backend/pending_endpoints.dart';
 import '../network/api_client.dart';
 import '../voice/voice_language.dart';
 
@@ -36,8 +35,7 @@ abstract interface class SarvamChatClient {
   });
 }
 
-/// Chat client for the backend text assistant (`POST /chat`, an assumed route
-/// listed in `PendingEndpoints`). The bearer token identifies the account; the
+/// Chat client for the authenticated backend text assistant (`POST /chat`). The bearer token identifies the account; the
 /// request carries only the messages and the language.
 class RestSarvamChatClient implements SarvamChatClient {
   RestSarvamChatClient({ApiClient? client}) : _client = client;
@@ -53,12 +51,23 @@ class RestSarvamChatClient implements SarvamChatClient {
       throw const SarvamChatException('Sign in to chat with Saarthi.');
     }
 
+    final contextMessages = messages
+        .map((message) => message.toJson())
+        .toList();
+    while (contextMessages.length > 11 ||
+        contextMessages.fold<int>(
+              0,
+              (sum, item) => sum + item['content']!.length,
+            ) >
+            12000) {
+      contextMessages.removeAt(0);
+    }
     try {
       final response = await (_client ?? ApiClient.instance).post(
-        PendingEndpoints.chat,
+        '/chat',
         body: {
           'language': VoiceLanguage.chatCode(language),
-          'messages': messages.map((message) => message.toJson()).toList(),
+          'messages': contextMessages,
         },
       );
       final data = response.data;

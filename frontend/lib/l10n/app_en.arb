@@ -445,7 +445,7 @@
   "voiceKeepSessionOnly": "Keep session only",
   "voiceSaveConfirmed": "Save confirmed",
   "voiceProfileSavedMessage": "Confirmed details saved to your profile.",
-  "voiceCloudDisclosure": "Live audio is processed securely. This app does not save audio or raw transcripts.",
+  "voiceCloudDisclosure": "Record a request, review its transcription, then send it to the assistant. Audio is uploaded to Sarvam for transcription.",
   "voiceNoConfidentMatch": "No confident scheme match yet. Tell me a little more about your situation.",
   "voiceHeaderTalkToSaarthi": "Talk to Saarthi",
   "voiceUnmute": "Unmute",
@@ -1534,5 +1534,16 @@
   "sessionCurrent": "Current Device",
   "noActiveSessions": "No active sessions found.",
   "passwordRemovedNotice": "Password removed. Please sign in again.",
-  "signInWithPassword": "Sign in with password"
+  "signInWithPassword": "Sign in with password",
+  "voiceClipError": "Could not process your request. Check microphone permission or your connection. You can retry the same recording, change its language, or type your request.",
+  "voiceRecordTitle": "Record your request",
+  "voiceRecordDisclosure": "Choose the language you will speak. Record up to 60 seconds, then review the text before sending. Your recording is uploaded to Sarvam for transcription. It is kept in this screen only until you close it.",
+  "voiceSpokenLanguage": "Spoken language",
+  "voiceTranscribingClip": "Transcribing your recording. This may take a few minutes. You can cancel and type instead.",
+  "voiceRecordingClip": "Recording — tap Stop when you finish (60-second limit).",
+  "voiceReviewTranscript": "Review and edit your request",
+  "voiceStopAndTranscribe": "Stop and transcribe",
+  "voiceRecordClip": "Record a new request",
+  "voiceRetryClip": "Transcribe this recording again",
+  "voiceSendReviewed": "Send reviewed request"
 }

@@ -2743,7 +2743,7 @@ abstract class AppLocalizations {
   /// No description provided for @voiceCloudDisclosure.
   ///
   /// In en, this message translates to:
-  /// **'Live audio is processed securely. This app does not save audio or raw transcripts.'**
+  /// **'Record a request, review its transcription, then send it to the assistant. Audio is uploaded to Sarvam for transcription.'**
   String get voiceCloudDisclosure;
 
   /// No description provided for @voiceNoConfidentMatch.
@@ -9201,6 +9201,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign in with password'**
   String get signInWithPassword;
+
+  /// No description provided for @voiceClipError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not process your request. Check microphone permission or your connection. You can retry the same recording, change its language, or type your request.'**
+  String get voiceClipError;
+
+  /// No description provided for @voiceRecordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Record your request'**
+  String get voiceRecordTitle;
+
+  /// No description provided for @voiceRecordDisclosure.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the language you will speak. Record up to 60 seconds, then review the text before sending. Your recording is uploaded to Sarvam for transcription. It is kept in this screen only until you close it.'**
+  String get voiceRecordDisclosure;
+
+  /// No description provided for @voiceSpokenLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Spoken language'**
+  String get voiceSpokenLanguage;
+
+  /// No description provided for @voiceTranscribingClip.
+  ///
+  /// In en, this message translates to:
+  /// **'Transcribing your recording. This may take a few minutes. You can cancel and type instead.'**
+  String get voiceTranscribingClip;
+
+  /// No description provided for @voiceRecordingClip.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording — tap Stop when you finish (60-second limit).'**
+  String get voiceRecordingClip;
+
+  /// No description provided for @voiceReviewTranscript.
+  ///
+  /// In en, this message translates to:
+  /// **'Review and edit your request'**
+  String get voiceReviewTranscript;
+
+  /// No description provided for @voiceStopAndTranscribe.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop and transcribe'**
+  String get voiceStopAndTranscribe;
+
+  /// No description provided for @voiceRecordClip.
+  ///
+  /// In en, this message translates to:
+  /// **'Record a new request'**
+  String get voiceRecordClip;
+
+  /// No description provided for @voiceRetryClip.
+  ///
+  /// In en, this message translates to:
+  /// **'Transcribe this recording again'**
+  String get voiceRetryClip;
+
+  /// No description provided for @voiceSendReviewed.
+  ///
+  /// In en, this message translates to:
+  /// **'Send reviewed request'**
+  String get voiceSendReviewed;
 }
 
 class _AppLocalizationsDelegate

@@ -1454,7 +1454,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get voiceCloudDisclosure =>
-      'நேரடி ஒலி பாதுகாப்பாக செயலாக்கப்படுகிறது. இந்த செயலி ஒலி அல்லது மூல எழுத்துப் பிரதிகளை சேமிக்காது.';
+      'கோரிக்கையைப் பதிவு செய்து, உரையைச் சரிபார்த்து உதவியாளருக்கு அனுப்பவும். உரையாக்கத்திற்காக ஒலி Sarvam-க்கு அனுப்பப்படும்.';
 
   @override
   String get voiceNoConfidentMatch =>
@@ -5052,4 +5052,41 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get signInWithPassword => 'கடவுச்சொல் மூலம் உள்நுழையவும்';
+
+  @override
+  String get voiceClipError =>
+      'கோரிக்கையைச் செயலாக்க முடியவில்லை. மைக்ரோஃபோன் அனுமதியையும் இணைய இணைப்பையும் சரிபார்க்கவும். அதே பதிவை மீண்டும் உரையாக்கலாம், மொழியை மாற்றலாம் அல்லது தட்டச்சு செய்யலாம்.';
+
+  @override
+  String get voiceRecordTitle => 'உங்கள் கோரிக்கையைப் பதிவு செய்யுங்கள்';
+
+  @override
+  String get voiceRecordDisclosure =>
+      'நீங்கள் பேசும் மொழியைத் தேர்ந்தெடுக்கவும். 60 வினாடிகள் வரை பதிவு செய்து, அனுப்பும் முன் உரையைச் சரிபார்க்கவும். ஒலிப்பதிவு உரையாக்கத்திற்காக Sarvam-க்கு அனுப்பப்படும். இந்தத் திரையை மூடும் வரை மட்டுமே பதிவு சாதனத்தில் இருக்கும்.';
+
+  @override
+  String get voiceSpokenLanguage => 'பேசும் மொழி';
+
+  @override
+  String get voiceTranscribingClip =>
+      'உங்கள் பதிவு உரையாக்கப்படுகிறது. சில நிமிடங்கள் ஆகலாம். ரத்து செய்து தட்டச்சு செய்யலாம்.';
+
+  @override
+  String get voiceRecordingClip =>
+      'பதிவாகிறது — பேசி முடித்ததும் நிறுத்தவும் (அதிகபட்சம் 60 வினாடிகள்).';
+
+  @override
+  String get voiceReviewTranscript => 'கோரிக்கையைச் சரிபார்த்துத் திருத்தவும்';
+
+  @override
+  String get voiceStopAndTranscribe => 'நிறுத்தி உரையாக்கு';
+
+  @override
+  String get voiceRecordClip => 'புதிய கோரிக்கையைப் பதிவு செய்';
+
+  @override
+  String get voiceRetryClip => 'இந்தப் பதிவை மீண்டும் உரையாக்கு';
+
+  @override
+  String get voiceSendReviewed => 'சரிபார்த்த கோரிக்கையை அனுப்பு';
 }

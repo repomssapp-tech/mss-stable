@@ -11,7 +11,7 @@ import '../../models/scheme_model.dart';
 import '../../models/user_profile.dart';
 import '../../services/voice/assistant_session_controller.dart';
 import '../../services/search/intelligent_scheme_search.dart';
-import '../../services/voice/livekit_voice_agent_controller.dart';
+import '../../services/voice/http_voice_agent_controller.dart';
 import '../../services/search/official_grounded_search.dart';
 import '../../services/search/private_ai_knowledge_base.dart';
 import '../../services/search/scheme_understanding_engine.dart';
@@ -41,6 +41,8 @@ import 'voice/voice_interactive_widgets.dart';
 import 'voice/voice_overlay_models.dart';
 import 'voice/voice_recommendation_cards.dart';
 import 'voice/voice_transcript_widgets.dart';
+import 'voice/recorded_voice_dialog.dart';
+import '../../services/voice/recorded_transcription_service.dart';
 
 typedef _VoiceAssistantPhase = VoiceAssistantPhase;
 typedef _OnlineGroundingPhase = OnlineGroundingPhase;
@@ -123,6 +125,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
   bool _speaking = false;
   bool _closing = false;
   bool _fallingBackToLocal = false;
+  bool _recordedDialogOpen = false;
   List<SchemeSearchMatch> _legacyMatches = const [];
   bool _legacySearching = false;
   int _operationGeneration = 0;
@@ -205,6 +208,9 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
   }
 
   String get _languageBadgeLabel {
+    if (_detectedLanguage?.toLowerCase().startsWith('hi') == true) {
+      return 'हिन्दी';
+    }
     if (_detectedLanguage?.toLowerCase().startsWith('ta') == true ||
         _session?.isTamil == true) {
       return 'தமிழ்';
@@ -277,10 +283,9 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     if (widget.voiceAgentController != null) {
       _voiceAgentController = widget.voiceAgentController;
     } else if (_sessionController != null) {
-      _voiceAgentController = LiveKitVoiceAgentController.tryCreate(
+      _voiceAgentController = HttpVoiceAgentController.tryCreate(
         session: _sessionController!,
         profile: widget.profile ?? UserProfile(),
-        // The app language, read when the voice session starts.
         languageCode: () =>
             mounted ? Localizations.localeOf(context).languageCode : 'en',
       );
@@ -359,6 +364,8 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
           _handleVoiceAgentChanged();
           if (widget.initialText?.trim().isNotEmpty == true) {
             await agent.sendText(widget.initialText!.trim());
+          } else if (widget.autoStart && agent is HttpVoiceAgentController) {
+            await _recordCloudInput();
           }
           return;
         }
@@ -394,14 +401,14 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
     setState(() {
       _voicePhase = state.isListening && !state.isMuted
           ? _VoiceAssistantPhase.listening
-          : state.isSpeaking
+          : state.isSpeaking || state.isProcessing
           ? _VoiceAssistantPhase.processing
           : _VoiceAssistantPhase.ready;
       _speaking = state.isSpeaking;
       if (state.inputTranscript.isNotEmpty) {
         _transcript = state.inputTranscript;
       }
-      _message = state.message;
+      _message = state.message == null ? null : _l10n.voiceClipError;
     });
   }
 
@@ -622,7 +629,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
         _recommendationStatement = state.statement;
         _showAllRecommendations = false;
       }
-      _message = state.message;
+      _message = state.message == null ? null : _l10n.voiceClipError;
       if (state.latestTranscript.isNotEmpty) {
         _transcript = state.latestTranscript;
       }
@@ -735,6 +742,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
 
   Future<void> _startListening({bool preserveTranscript = false}) async {
     if (!mounted || _startingRecognition || _speaking) return;
+    if (_voiceAgentController is HttpVoiceAgentController) {
+      await _recordCloudInput();
+      return;
+    }
     if (_cloudSessionInUse) {
       await _voiceAgentController!.setMuted(false);
       return;
@@ -970,6 +981,11 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
   }
 
   Future<void> _toggleListening() async {
+    if (_cloudSessionInUse &&
+        _voiceAgentController is HttpVoiceAgentController) {
+      await _recordCloudInput();
+      return;
+    }
     if (_cloudSessionInUse && _speaking) {
       await _voiceAgentController!.interrupt();
       await _voiceAgentController!.setMuted(false);
@@ -996,6 +1012,55 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
       _voicePhase = _VoiceAssistantPhase.ready;
     });
     await _startListening(preserveTranscript: _session?.question != null);
+  }
+
+  Future<void> _recordCloudInput() async {
+    if (_recordedDialogOpen || !mounted) return;
+    _recordedDialogOpen = true;
+    try {
+      await _voiceAgentController!.interrupt();
+      if (!mounted) return;
+      final selected = Localizations.localeOf(context).languageCode;
+      final result = await showDialog<ReviewedVoiceInput>(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => RecordedVoiceDialog(
+          service: RestRecordedTranscriptionService(),
+          initialText:
+              (_voiceAgentController as HttpVoiceAgentController).pendingText ??
+              '',
+          initialLanguage:
+              _detectedLanguage ??
+              switch (selected) {
+                'ta' => 'ta-IN',
+                'hi' => 'hi-IN',
+                'mr' => 'mr-IN',
+                _ => 'en-IN',
+              },
+          onSend: (input) async {
+            final agent = _voiceAgentController;
+            if (agent is! HttpVoiceAgentController) {
+              throw StateError('Disconnected');
+            }
+            if (agent.state.phase != VoiceAgentConnectionPhase.connected) {
+              await agent.connect();
+            }
+            await agent.setResponseLanguage(input.language);
+            if (!mounted) throw StateError('Closed');
+            setState(() {
+              _detectedLanguage = input.language;
+              _transcript = input.text;
+            });
+            await agent.sendText(input.text);
+          },
+        ),
+      );
+      if (!mounted || result == null) return;
+    } catch (_) {
+      if (mounted) setState(() => _message = _l10n.voiceClipError);
+    } finally {
+      _recordedDialogOpen = false;
+    }
   }
 
   Future<void> _speakQuestionAndListen() async {
@@ -1340,7 +1405,10 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                             statusColor: _statusColor,
                             l10n: _l10n,
                             languageSelector: _buildLanguageSelector(),
-                            cloudSessionInUse: _cloudSessionInUse,
+                            cloudSessionInUse:
+                                _cloudSessionInUse &&
+                                _voiceAgentController
+                                    is! HttpVoiceAgentController,
                             isMuted:
                                 _voiceAgentController?.state.isMuted ?? false,
                             onToggleMute: _cloudSessionInUse

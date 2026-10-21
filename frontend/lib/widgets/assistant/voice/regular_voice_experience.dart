@@ -278,15 +278,13 @@ class RegularVoiceTurn extends StatelessWidget {
           ),
           if (turn.schemeMatches.isNotEmpty) ...[
             const SizedBox(height: 14),
-            ...turn.schemeMatches
-                .take(3)
-                .map(
-                  (match) => VoiceTurnSchemeCard(
-                    match: match,
-                    presentInTamil: presentInTamil,
-                    onSchemeSelected: onSchemeSelected,
-                  ),
-                ),
+            ...turn.schemeMatches.take(3).map(
+              (match) => VoiceTurnSchemeCard(
+                match: match,
+                presentInTamil: presentInTamil,
+                onSchemeSelected: onSchemeSelected,
+              ),
+            ),
           ],
         ],
       ),
@@ -334,7 +332,10 @@ class RegularVoiceTranscript extends StatelessWidget {
 }
 
 class RegularVoiceNotice extends StatelessWidget {
-  const RegularVoiceNotice({super.key, required this.text});
+  const RegularVoiceNotice({
+    super.key,
+    required this.text,
+  });
 
   final String text;
 
@@ -435,8 +436,9 @@ class RegularVoiceControls extends StatelessWidget {
         if (cloudSessionInUse) ...[
           const SizedBox(height: 9),
           Text(
-            l10n.voiceNoiseControlSecure,
+            l10n.voiceCloudDisclosure,
             key: const Key('voice-cloud-disclosure'),
+            textAlign: TextAlign.center,
             style: GoogleFonts.inter(
               color: const Color(0xFF707A91),
               fontSize: 9,

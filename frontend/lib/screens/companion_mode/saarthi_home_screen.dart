@@ -10,12 +10,14 @@ import '../../providers/app_state_provider.dart';
 import '../../services/chat/chat_log_service.dart';
 import '../../services/search/scheme_understanding_engine.dart';
 import '../../services/voice/assistant_session_controller.dart';
-import '../../services/voice/livekit_voice_agent_controller.dart';
+import '../../services/voice/http_voice_agent_controller.dart';
 import '../../services/voice/speech_output_controller.dart';
 import '../../services/voice/voice_agent_controller.dart';
 import '../../services/voice/voice_language.dart';
 import '../../services/voice/voice_recognition_controller.dart';
 import '../../utils/app_spacing.dart';
+import '../../services/voice/recorded_transcription_service.dart';
+import '../../widgets/assistant/voice/recorded_voice_dialog.dart';
 import 'saarthi_home/saarthi_bottom_panel.dart';
 import 'saarthi_home/saarthi_character_header.dart';
 import 'saarthi_home/saarthi_home_models.dart';
@@ -50,7 +52,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   late final AutomaticVoiceRecognitionController _recognitionController;
   late final NativeSpeechOutputController _speechOutputController;
   AssistantSessionController? _sessionController;
-  LiveKitVoiceAgentController? _voiceAgentController;
+  HttpVoiceAgentController? _voiceAgentController;
   StreamSubscription<VoiceAgentEvent>? _voiceAgentEvents;
 
   // Animation controllers
@@ -69,6 +71,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   bool _controllersInitialized = false;
   bool _usingCloudVoice = false;
   bool _cloudRetrying = false;
+  bool _recordedDialogOpen = false;
   String? _cloudConnectionError;
   String _lastCloudInputTranscript = '';
   String _lastCloudOutputTranscript = '';
@@ -152,7 +155,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
     );
     _sessionController!.addListener(_handleSessionChanged);
 
-    _voiceAgentController = LiveKitVoiceAgentController.tryCreate(
+    _voiceAgentController = HttpVoiceAgentController.tryCreate(
       session: _sessionController!,
       profile: provider.profile,
       languageCode: () => provider.selectedLanguage,
@@ -226,14 +229,14 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
           await cloud.setMuted(false);
           if (mounted) {
             setState(() {
-              _voiceState = SaarthiVoiceState.listening;
+              _voiceState = SaarthiVoiceState.idle;
               _cloudConnectionError = null;
             });
           }
           break;
         }
         lastError = StateError(
-          cloud.state.message ?? 'LiveKit did not enter cloud mode.',
+          cloud.state.message ?? 'Voice service unavailable.',
         );
       } catch (error) {
         lastError = error;
@@ -259,6 +262,10 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
     if (!mounted || !_usingCloudVoice || _voiceAgentController == null) return;
     final state = _voiceAgentController!.state;
     _soundLevel.value = state.audioLevel.clamp(0.0, 1.0);
+    final previousError = _cloudConnectionError;
+    _cloudConnectionError = state.message == null
+        ? null
+        : context.l10n.voiceClipError;
     final transcript = state.inputTranscript.trim();
     if (transcript.isNotEmpty && transcript != _lastCloudInputTranscript) {
       _lastCloudInputTranscript = transcript;
@@ -278,8 +285,12 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
         ? SaarthiVoiceState.speaking
         : state.isListening
         ? SaarthiVoiceState.listening
-        : SaarthiVoiceState.processing;
-    if (_voiceState != nextState || _speaking != state.isSpeaking) {
+        : state.isProcessing
+        ? SaarthiVoiceState.processing
+        : SaarthiVoiceState.idle;
+    if (_voiceState != nextState ||
+        _speaking != state.isSpeaking ||
+        previousError != _cloudConnectionError) {
       setState(() {
         _voiceState = nextState;
         _speaking = state.isSpeaking;
@@ -400,7 +411,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   Future<void> _startListening({bool preserveTranscript = false}) async {
     if (!mounted || _startingRecognition || _speaking) return;
     if (_usingCloudVoice) {
-      await _voiceAgentController?.setMuted(false);
+      await _recordCloudInput();
       return;
     }
     if (_isConversationActive) {
@@ -464,6 +475,35 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
       });
     } finally {
       _startingRecognition = false;
+    }
+  }
+
+  Future<void> _recordCloudInput() async {
+    if (_recordedDialogOpen || !mounted) return;
+    final agent = _voiceAgentController;
+    if (agent == null) return;
+    _recordedDialogOpen = true;
+    try {
+      await agent.interrupt();
+      if (!mounted) return;
+      await showDialog<ReviewedVoiceInput>(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => RecordedVoiceDialog(
+          service: RestRecordedTranscriptionService(),
+          initialText: agent.pendingText ?? '',
+          initialLanguage: VoiceLanguage.speechLocale(
+            Localizations.localeOf(context).languageCode,
+          ),
+          onSend: (input) async {
+            await agent.connect();
+            await agent.setResponseLanguage(input.language);
+            await agent.sendText(input.text);
+          },
+        ),
+      );
+    } finally {
+      _recordedDialogOpen = false;
     }
   }
 
@@ -820,14 +860,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   Future<void> _handleControllerMicTap() async {
     await HapticFeedback.selectionClick();
     if (_usingCloudVoice) {
-      if (_voiceState == SaarthiVoiceState.listening) {
-        await _stopListening();
-      } else if (_voiceState == SaarthiVoiceState.speaking) {
-        await _voiceAgentController?.interrupt();
-        await _voiceAgentController?.setMuted(false);
-      } else {
-        await _voiceAgentController?.setMuted(false);
-      }
+      await _recordCloudInput();
       return;
     }
     if (_voiceState == SaarthiVoiceState.listening) {

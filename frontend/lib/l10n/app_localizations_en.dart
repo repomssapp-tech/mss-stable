@@ -1437,7 +1437,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get voiceCloudDisclosure =>
-      'Live audio is processed securely. This app does not save audio or raw transcripts.';
+      'Record a request, review its transcription, then send it to the assistant. Audio is uploaded to Sarvam for transcription.';
 
   @override
   String get voiceNoConfidentMatch =>
@@ -4973,4 +4973,41 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signInWithPassword => 'Sign in with password';
+
+  @override
+  String get voiceClipError =>
+      'Could not process your request. Check microphone permission or your connection. You can retry the same recording, change its language, or type your request.';
+
+  @override
+  String get voiceRecordTitle => 'Record your request';
+
+  @override
+  String get voiceRecordDisclosure =>
+      'Choose the language you will speak. Record up to 60 seconds, then review the text before sending. Your recording is uploaded to Sarvam for transcription. It is kept in this screen only until you close it.';
+
+  @override
+  String get voiceSpokenLanguage => 'Spoken language';
+
+  @override
+  String get voiceTranscribingClip =>
+      'Transcribing your recording. This may take a few minutes. You can cancel and type instead.';
+
+  @override
+  String get voiceRecordingClip =>
+      'Recording — tap Stop when you finish (60-second limit).';
+
+  @override
+  String get voiceReviewTranscript => 'Review and edit your request';
+
+  @override
+  String get voiceStopAndTranscribe => 'Stop and transcribe';
+
+  @override
+  String get voiceRecordClip => 'Record a new request';
+
+  @override
+  String get voiceRetryClip => 'Transcribe this recording again';
+
+  @override
+  String get voiceSendReviewed => 'Send reviewed request';
 }

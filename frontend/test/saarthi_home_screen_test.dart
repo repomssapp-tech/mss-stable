@@ -12,7 +12,7 @@ import 'package:frontend/screens/companion_mode/saarthi_home/saarthi_compact_sch
 import 'package:frontend/screens/companion_mode/saarthi_home/saarthi_top_bar.dart';
 import 'package:frontend/screens/companion_mode/saarthi_home/saarthi_transcript_view.dart';
 import 'package:frontend/screens/companion_mode/saarthi_home_screen.dart';
-import 'package:frontend/services/voice/livekit_voice_agent_controller.dart';
+import 'package:frontend/services/voice/cloud_voice_protocol.dart';
 
 Widget _host({Locale locale = const Locale('en'), Widget? child}) {
   return ChangeNotifierProvider<AppProvider>(

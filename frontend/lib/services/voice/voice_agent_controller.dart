@@ -50,6 +50,7 @@ class VoiceAgentState {
     this.phase = VoiceAgentConnectionPhase.idle,
     this.isListening = false,
     this.isSpeaking = false,
+    this.isProcessing = false,
     this.isMuted = false,
     this.usingCloud = false,
     this.inputTranscript = '',
@@ -61,6 +62,7 @@ class VoiceAgentState {
   final VoiceAgentConnectionPhase phase;
   final bool isListening;
   final bool isSpeaking;
+  final bool isProcessing;
   final bool isMuted;
   final bool usingCloud;
   final String inputTranscript;
@@ -72,6 +74,7 @@ class VoiceAgentState {
     VoiceAgentConnectionPhase? phase,
     bool? isListening,
     bool? isSpeaking,
+    bool? isProcessing,
     bool? isMuted,
     bool? usingCloud,
     String? inputTranscript,
@@ -83,6 +86,7 @@ class VoiceAgentState {
     phase: phase ?? this.phase,
     isListening: isListening ?? this.isListening,
     isSpeaking: isSpeaking ?? this.isSpeaking,
+    isProcessing: isProcessing ?? this.isProcessing,
     isMuted: isMuted ?? this.isMuted,
     usingCloud: usingCloud ?? this.usingCloud,
     inputTranscript: inputTranscript ?? this.inputTranscript,

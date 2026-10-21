@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/models/scheme_model.dart';
 import 'package:frontend/models/user_profile.dart';
 import 'package:frontend/services/voice/assistant_session_controller.dart';
-import 'package:frontend/services/voice/livekit_voice_agent_controller.dart';
+import 'package:frontend/services/voice/cloud_voice_protocol.dart';
 import 'package:frontend/services/search/scheme_understanding_engine.dart';
 import 'package:frontend/services/voice/voice_agent_controller.dart';
 
@@ -113,45 +113,6 @@ void main() {
     expect(metadata.toString(), isNot(contains('9999999999')));
     expect(metadata.toString(), isNot(contains('600001')));
     expect(metadata.toString(), isNot(contains('2000-08-06')));
-  });
-
-  test('cloud voice listens while pre-connect audio is buffering', () {
-    expect(cloudVoicePreConnectAudio, isTrue);
-    expect(cloudClientAudioProcessingEnabled, isTrue);
-    expect(cloudHighPassFilterEnabled, isTrue);
-    expect(
-      shouldReportCloudListening(
-        agentCanListen: true,
-        isMuted: false,
-        isSpeaking: false,
-      ),
-      isTrue,
-    );
-    expect(
-      shouldReportCloudListening(
-        agentCanListen: true,
-        isMuted: true,
-        isSpeaking: false,
-      ),
-      isFalse,
-    );
-    expect(
-      shouldReportCloudListening(
-        agentCanListen: true,
-        isMuted: false,
-        isSpeaking: true,
-      ),
-      isFalse,
-    );
-    expect(
-      shouldReportCloudListening(
-        agentCanListen: true,
-        isMuted: false,
-        isSpeaking: false,
-        isThinking: true,
-      ),
-      isFalse,
-    );
   });
 
   test('local controller never enters a cloud session', () async {

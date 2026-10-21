@@ -5,7 +5,7 @@ import '../../../models/scheme_model.dart';
 import '../../../services/search/intelligent_scheme_search.dart';
 import '../../../services/search/scheme_understanding_engine.dart';
 import '../../../services/voice/assistant_session_controller.dart';
-import '../../../services/voice/livekit_voice_agent_controller.dart';
+import '../../../services/voice/cloud_voice_protocol.dart';
 
 /// Pure helpers for turning session/voice-agent state into user-facing text
 /// and scheme rankings, extracted from `SaarthiHomeScreen` orchestration code.
