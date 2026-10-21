@@ -191,6 +191,10 @@ void main() {
     // 5. Accepting BOTH legal documents enables login
     button = tester.widget(buttonFinder);
     expect(button.onPressed, isNotNull);
+
+    // The two rows stay on screen, both ticked.
+    expect(find.byIcon(Icons.check_circle_rounded), findsNWidgets(2));
+    expect(find.byIcon(Icons.radio_button_unchecked), findsNothing);
   });
 
   const testDevices = <String, Size>{

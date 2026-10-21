@@ -267,8 +267,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
         const SizedBox(height: AppSpacing.sm),
 
-        // Gate checklist: shows what's left before sign-in unlocks, hides
-        // itself once terms + privacy have been read and accepted.
+        // Gate checklist: ticks each document once it was read and accepted
+        // and stays visible, so the user sees both are done.
         _SignInChecklist(
           hasViewedTerms: _hasViewedTerms,
           hasViewedPrivacy: _hasViewedPrivacy,
@@ -350,9 +350,6 @@ class _SignInChecklist extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (hasViewedTerms && hasViewedPrivacy) {
-      return const SizedBox.shrink();
-    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
