@@ -222,6 +222,7 @@ class _PasswordManagementDialogState extends State<PasswordManagementDialog> {
                             Icons.close,
                             color: AppColors.iconMuted,
                           ),
+                          tooltip: context.l10n.close,
                           onPressed: () => Navigator.pop(context),
                         ),
                       ],
