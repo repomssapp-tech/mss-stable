@@ -106,6 +106,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               title: categoryName,
               type: 'category',
               initialSchemes: schemes,
+              keepFilters: true,
             ),
           ),
         );
@@ -142,6 +143,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               title: ministryName,
               type: 'ministry',
               initialSchemes: schemes,
+              keepFilters: true,
             ),
           ),
         );
@@ -170,6 +172,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             title: stateName,
             type: 'state',
             initialSchemes: schemes,
+            keepFilters: true,
           ),
         ),
       );

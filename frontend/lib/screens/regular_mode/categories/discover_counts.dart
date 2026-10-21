@@ -58,6 +58,19 @@ String localizedCategoryLabel(BuildContext context, String enTitle) {
       return l.catSocialWelfareSupport;
     case 'Renewable & Energy Efficiency':
       return l.catRenewableEnergyEfficiency;
+    // Short aliases a browse page can still be opened with.
+    case 'Startup':
+      return l.filterStartup;
+    case 'Finance':
+      return l.finance;
+    case 'Artisan':
+      return l.catArtisanCraftsmen;
+    case 'Digital India':
+      return l.catDigitalIndiaTech;
+    case 'Women Entrepreneurs':
+      return l.catWomenEntrepreneurship;
+    case 'Student Startups':
+      return l.catStudentYouthStartups;
     default:
       return enTitle;
   }

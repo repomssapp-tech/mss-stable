@@ -9,7 +9,15 @@ import '../../../widgets/common/app_toast.dart';
 
 /// Business-setup document checklist helper per entity type.
 List<String> _docChecklist(AppLocalizations l10n, String entityType) {
-  if (entityType == 'Partnership') {
+  if (entityType == 'Sole Proprietorship') {
+    return [
+      l10n.docItemProprietorPanAadhaar,
+      l10n.docItemUdyamRegistration,
+      l10n.docItemShopEstablishmentLicence,
+      l10n.docItemProprietorBankAccount,
+      l10n.docItemGstRegistrationOptional,
+    ];
+  } else if (entityType == 'Partnership') {
     return [
       l10n.docItemPartnershipDeed,
       l10n.docItemDeedRegistration,
@@ -90,6 +98,7 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
     final progress = checklist.isEmpty ? 0.0 : checkedCount / checklist.length;
 
     final entityEntries = <String, String>{
+      'Sole Proprietorship': l10n.docEntitySoleProprietorship,
       'Private Limited': l10n.docEntityPrivateLimited,
       'Partnership': l10n.docEntityPartnership,
       'One Person Company (OPC)': l10n.docEntityOpc,
@@ -168,7 +177,7 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
                     size: 18,
                     color: Color(0xFF64748B),
                   ),
-                  tooltip: l10n.resultsCopiedToClipboard,
+                  tooltip: l10n.copyChecklistTooltip,
                 ),
                 IconButton(
                   key: const Key('doc-checklist-close-btn'),

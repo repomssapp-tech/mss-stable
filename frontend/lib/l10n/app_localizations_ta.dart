@@ -1081,10 +1081,10 @@ class AppLocalizationsTa extends AppLocalizations {
   String get navChipExplainsScreens => 'ஒவ்வொரு திரையையும் விளக்கும்';
 
   @override
-  String get filterTitle => 'வடிப்பான்கள்';
+  String get filterTitle => 'வடிகட்டிகள்';
 
   @override
-  String get filterButton => 'வடிப்பான்';
+  String get filterButton => 'வடிகட்டி';
 
   @override
   String filterUseMyProfile(Object state) {
@@ -1640,7 +1640,13 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get calcGstSub =>
-      'CGST, SGST மற்றும் மொத்த இன்வாய்ஸ் தொகைகளைக் கணக்கிடுங்கள்.';
+      'CGST + SGST அல்லது IGST மற்றும் மொத்த இன்வாய்ஸ் தொகையைக் கணக்கிடுங்கள்.';
+
+  @override
+  String get calcGstWithinState => 'மாநிலத்துக்குள் (CGST + SGST)';
+
+  @override
+  String get calcGstInterState => 'மாநிலங்களுக்கு இடையே (IGST)';
 
   @override
   String get calcBaseAmountLabel => 'அடிப்படைத் தொகை';
@@ -2908,13 +2914,13 @@ class AppLocalizationsTa extends AppLocalizations {
       'இயந்திரங்கள் / உபகரணங்களில் மொத்த முதலீடு எவ்வளவு?';
 
   @override
-  String get assessBizQ2MsmeOpt1 => 'குறுந்தொழில் (₹1 கோடிக்கு கீழ்)';
+  String get assessBizQ2MsmeOpt1 => 'குறுந்தொழில் (₹2.5 கோடி வரை முதலீடு)';
 
   @override
-  String get assessBizQ2MsmeOpt2 => 'சிறு தொழில் (₹1 கோடி - ₹10 கோடி)';
+  String get assessBizQ2MsmeOpt2 => 'சிறு தொழில் (₹2.5 கோடி - ₹25 கோடி)';
 
   @override
-  String get assessBizQ2MsmeOpt3 => 'நடுத்தர தொழில் (₹10 கோடிக்கு மேல்)';
+  String get assessBizQ2MsmeOpt3 => 'நடுத்தர தொழில் (₹25 கோடி - ₹125 கோடி)';
 
   @override
   String get assessBizQ2Startup =>
@@ -3817,6 +3823,25 @@ class AppLocalizationsTa extends AppLocalizations {
   String get docEntityPrivateLimited => 'தனியார் லிமிடெட்';
 
   @override
+  String get docEntitySoleProprietorship => 'தனி உரிமையாளர் நிறுவனம்';
+
+  @override
+  String get docItemProprietorPanAadhaar =>
+      'உரிமையாளரின் பான் கார்டு மற்றும் ஆதார்';
+
+  @override
+  String get docItemUdyamRegistration =>
+      'உத்யம் பதிவு சான்றிதழ் (இலவசம், udyamregistration.gov.in)';
+
+  @override
+  String get docItemShopEstablishmentLicence =>
+      'உங்கள் மாநில / உள்ளாட்சி அமைப்பின் கடை மற்றும் நிறுவன உரிமம்';
+
+  @override
+  String get docItemProprietorBankAccount =>
+      'வணிகப் பெயரில் நடப்பு வங்கிக் கணக்கு';
+
+  @override
   String get docEntityPartnership => 'கூட்டாண்மை';
 
   @override
@@ -4061,6 +4086,10 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get saarthiVoiceServiceUnavailable =>
       'குரல் சேவை கிடைக்கவில்லை. மீண்டும் முயற்சிக்கத் தட்டவும்.';
+
+  @override
+  String get saarthiVoiceFallbackOnDevice =>
+      'கிளவுட் குரல் சேவை இப்போது கிடைக்கவில்லை. சாரதி உங்கள் போனிலேயே கேட்கிறது.';
 
   @override
   String get saarthiCloudErrorSignIn =>
@@ -5052,4 +5081,118 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get signInWithPassword => 'கடவுச்சொல் மூலம் உள்நுழையவும்';
+
+  @override
+  String get pwInvalidEmail => 'சரியான மின்னஞ்சல் முகவரியை உள்ளிடவும்.';
+
+  @override
+  String get pwEnterPassword => 'உங்கள் கடவுச்சொல்லை உள்ளிடவும்.';
+
+  @override
+  String get pwLoginFailed =>
+      'உள்நுழைவு தோல்வியடைந்தது. உங்கள் மின்னஞ்சல் மற்றும் கடவுச்சொல்லைச் சரிபார்க்கவும்.';
+
+  @override
+  String get pwInvalidCredentials => 'மின்னஞ்சல் அல்லது கடவுச்சொல் தவறானது.';
+
+  @override
+  String get pwTooManyAttempts =>
+      'பல முறை முயற்சிக்கப்பட்டது. சிறிது நேரம் கழித்து மீண்டும் முயற்சிக்கவும்.';
+
+  @override
+  String get pwLoginUnexpected => 'உள்நுழையும்போது ஏதோ தவறு ஏற்பட்டது.';
+
+  @override
+  String get pwSignInButton => 'உள்நுழைக';
+
+  @override
+  String get pwLengthRule =>
+      'கடவுச்சொல் 15 முதல் 128 எழுத்துகள் வரை இருக்க வேண்டும்.';
+
+  @override
+  String get pwMismatch =>
+      'புதிய கடவுச்சொல்லும் உறுதிப்படுத்தலும் பொருந்தவில்லை.';
+
+  @override
+  String get pwEnterCurrent => 'உங்கள் தற்போதைய கடவுச்சொல்லை உள்ளிடவும்.';
+
+  @override
+  String get pwReauthRequired =>
+      'பாதுகாப்புக்காக, முதலில் மீண்டும் உள்நுழையவும்.';
+
+  @override
+  String get pwPolicyFailed => 'கடவுச்சொல் தேவைகளைப் பூர்த்தி செய்யவில்லை.';
+
+  @override
+  String get pwCurrentIncorrect => 'தற்போதைய கடவுச்சொல் தவறானது.';
+
+  @override
+  String get pwUpdateFailed => 'கடவுச்சொல்லைப் புதுப்பிக்க முடியவில்லை.';
+
+  @override
+  String get pwRemoveNeedsCurrent =>
+      'அதை நீக்க உங்கள் தற்போதைய கடவுச்சொல்லை உள்ளிடவும்.';
+
+  @override
+  String get pwRemoveFailed => 'கடவுச்சொல்லை நீக்க முடியவில்லை.';
+
+  @override
+  String get pwMinHint => 'குறைந்தது 15 எழுத்துகள்';
+
+  @override
+  String get sessionRevoked => 'அமர்வு ரத்து செய்யப்பட்டது.';
+
+  @override
+  String get sessionRevokeFailed => 'அமர்வை ரத்து செய்ய முடியவில்லை.';
+
+  @override
+  String get logoutAllFailed =>
+      'எல்லா சாதனங்களிலிருந்தும் வெளியேற முடியவில்லை.';
+
+  @override
+  String get sessionOtherDevice => 'உள்நுழைந்த சாதனம்';
+
+  @override
+  String sessionSignedInAt(String time) {
+    return 'உள்நுழைந்தது: $time';
+  }
+
+  @override
+  String get udyamMicro => 'குறு நிறுவனம்';
+
+  @override
+  String get udyamSmall => 'சிறு நிறுவனம்';
+
+  @override
+  String get udyamMedium => 'நடுத்தர நிறுவனம்';
+
+  @override
+  String get udyamLarge => 'பெரிய நிறுவனம் (எம்எஸ்எம்இ வரம்புக்கு அப்பால்)';
+
+  @override
+  String get udyamInvalid => 'தவறான உள்ளீடு';
+
+  @override
+  String get udyamInvalidSub => '0 அல்லது அதற்கு மேற்பட்ட எண்களை உள்ளிடவும்.';
+
+  @override
+  String udyamLimitsSummary(
+    String microInv,
+    String microTurn,
+    String smallInv,
+    String smallTurn,
+    String medInv,
+    String medTurn,
+  ) {
+    return 'வரம்புகள் (2025): குறு ≤$microInv / ≤$microTurn கோடி · சிறு ≤$smallInv / ≤$smallTurn கோடி · நடுத்தர ≤$medInv / ≤$medTurn கோடி (முதலீடு / விற்றுமுதல்)';
+  }
+
+  @override
+  String get schemeNotMatchingFilters => 'உங்கள் வடிகட்டிகளுடன் பொருந்தவில்லை';
+
+  @override
+  String get greetingLateNight => 'வணக்கம்,';
+
+  @override
+  String get copyChecklistTooltip => 'பட்டியலை நகலெடுக்கவும்';
 }

@@ -40,7 +40,10 @@ class DeepLinkService {
   }
 
   Future<void> _handleUri(Uri uri, AppProvider provider) async {
-    debugPrint('[DeepLinkService] Received deep link: $uri');
+    // Never log the query: the OAuth callback carries a one-time code (#131).
+    debugPrint(
+      '[DeepLinkService] Received deep link: ${uri.scheme}://${uri.host}${uri.path}',
+    );
     if (uri.scheme == 'com.inschemes.app' && uri.host == 'login-callback') {
       final code = uri.queryParameters['code'];
       final error = uri.queryParameters['error'];

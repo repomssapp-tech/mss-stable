@@ -1,6 +1,45 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+/// Where the access and refresh tokens live. Production uses the Android
+/// Keystore / iOS Keychain; tests inject a plain in-memory store.
+abstract class SecretStore {
+  Future<String?> read(String key);
+  Future<void> write(String key, String value);
+  Future<void> delete(String key);
+}
+
+/// Encrypted at rest (issue #131: tokens used to sit in plain SharedPreferences).
+class KeystoreSecretStore implements SecretStore {
+  KeystoreSecretStore([FlutterSecureStorage? storage])
+    : _storage =
+          storage ??
+          const FlutterSecureStorage(
+            aOptions: AndroidOptions(encryptedSharedPreferences: true),
+          );
+  final FlutterSecureStorage _storage;
+  @override
+  Future<String?> read(String key) => _storage.read(key: key);
+  @override
+  Future<void> write(String key, String value) =>
+      _storage.write(key: key, value: value);
+  @override
+  Future<void> delete(String key) => _storage.delete(key: key);
+}
+
+/// Unencrypted store backed by SharedPreferences, for tests only.
+class PrefsSecretStore implements SecretStore {
+  PrefsSecretStore(this._prefs);
+  final SharedPreferences _prefs;
+  @override
+  Future<String?> read(String key) async => _prefs.getString(key);
+  @override
+  Future<void> write(String key, String value) => _prefs.setString(key, value);
+  @override
+  Future<void> delete(String key) => _prefs.remove(key);
+}
 
 /// Storage manager for opaque OAuth/session tokens and server user identity.
 ///
@@ -9,7 +48,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// - Access tokens have short TTL (typically 900s), refresh tokens are rotated.
 /// - Clear all tokens and identities on logout or refresh expiration.
 class TokenStorage {
-  TokenStorage([SharedPreferences? prefs]) : _prefs = prefs;
+  TokenStorage([SharedPreferences? prefs, SecretStore? secrets])
+    : _prefs = prefs,
+      _secrets =
+          secrets ??
+          (prefs != null ? PrefsSecretStore(prefs) : KeystoreSecretStore());
   static TokenStorage? _instance;
   static TokenStorage get instance => _instance ??= TokenStorage();
   @visibleForTesting
@@ -23,8 +66,10 @@ class TokenStorage {
   static const String _kUserEmail = 'mss_auth_user_email';
   static const String _kUserName = 'mss_auth_user_name';
   static const String _kUserPicture = 'mss_auth_user_picture';
+  static const String _kPkceVerifier = 'mss_pkce_code_verifier';
 
   SharedPreferences? _prefs;
+  final SecretStore _secrets;
 
   final StreamController<void> _changes = StreamController<void>.broadcast(
     sync: true,
@@ -49,8 +94,8 @@ class TokenStorage {
     int? expiresIn,
   }) async {
     final prefs = await _getPrefs();
-    await prefs.setString(_kAccessToken, accessToken);
-    await prefs.setString(_kRefreshToken, refreshToken);
+    await _secrets.write(_kAccessToken, accessToken);
+    await _secrets.write(_kRefreshToken, refreshToken);
     await prefs.setString(_kTokenType, tokenType);
     if (expiresIn != null) {
       final expiresAt = DateTime.now().add(Duration(seconds: expiresIn));
@@ -59,17 +104,25 @@ class TokenStorage {
     _notify();
   }
 
-  /// Retrieves the current opaque access token.
-  Future<String?> getAccessToken() async {
+  /// Reads a token from the secret store, moving a legacy plain-text copy
+  /// (app <= 1.3.0) into it on first read so existing sessions survive.
+  Future<String?> _readSecret(String key) async {
+    final value = await _secrets.read(key);
+    if (value != null) return value;
     final prefs = await _getPrefs();
-    return prefs.getString(_kAccessToken);
+    if (_secrets is PrefsSecretStore) return null;
+    final legacy = prefs.getString(key);
+    if (legacy == null) return null;
+    await _secrets.write(key, legacy);
+    await prefs.remove(key);
+    return legacy;
   }
 
+  /// Retrieves the current opaque access token.
+  Future<String?> getAccessToken() => _readSecret(_kAccessToken);
+
   /// Retrieves the latest refresh token.
-  Future<String?> getRefreshToken() async {
-    final prefs = await _getPrefs();
-    return prefs.getString(_kRefreshToken);
-  }
+  Future<String?> getRefreshToken() => _readSecret(_kRefreshToken);
 
   /// Retrieves token type ('Bearer').
   Future<String> getTokenType() async {
@@ -98,7 +151,10 @@ class TokenStorage {
   }) async {
     final prefs = await _getPrefs();
     await prefs.setString(_kUserId, id);
-    await prefs.setString(_kUserEmail, email);
+    // The email is personal data: encrypted like the tokens (SEC-02).
+    await _secrets.write(_kUserEmail, email);
+    // Drop a legacy plain copy (a test PrefsSecretStore shares that slot).
+    if (_secrets is! PrefsSecretStore) await prefs.remove(_kUserEmail);
     if (name != null && name.isNotEmpty) {
       await prefs.setString(_kUserName, name);
     } else {
@@ -117,10 +173,16 @@ class TokenStorage {
     return prefs.getString(_kUserId);
   }
 
-  Future<String?> getUserEmail() async {
-    final prefs = await _getPrefs();
-    return prefs.getString(_kUserEmail);
-  }
+  Future<String?> getUserEmail() => _readSecret(_kUserEmail);
+
+  /// The PKCE code_verifier kept across the browser round trip, encrypted
+  /// (SEC-02). Deleted as soon as the code exchange finishes.
+  Future<void> savePkceVerifier(String verifier) =>
+      _secrets.write(_kPkceVerifier, verifier);
+
+  Future<String?> readPkceVerifier() => _secrets.read(_kPkceVerifier);
+
+  Future<void> deletePkceVerifier() => _secrets.delete(_kPkceVerifier);
 
   Future<String?> getUserName() async {
     final prefs = await _getPrefs();
@@ -158,6 +220,11 @@ class TokenStorage {
   Future<void> clear() async {
     try {
       final prefs = await _getPrefs();
+      await _secrets.delete(_kAccessToken);
+      await _secrets.delete(_kRefreshToken);
+      await _secrets.delete(_kUserEmail);
+      await _secrets.delete(_kPkceVerifier);
+      // Legacy plain-text copies from app <= 1.3.0.
       await prefs.remove(_kAccessToken);
       await prefs.remove(_kRefreshToken);
       await prefs.remove(_kTokenType);

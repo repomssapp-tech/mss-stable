@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../l10n/l10n.dart';
 import '../../../models/localized_scheme.dart';
 import '../../../services/catalog/centralized_translator.dart';
+import '../../../utils/app_colors.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/emblem_helper.dart';
 
@@ -16,10 +17,20 @@ class SchemeHeroSection extends StatelessWidget {
   final LocalizedScheme scheme;
   final String imagePath;
 
+  /// Real match percentage from the results list, when the caller has one.
+  /// The banner is hidden when null, so the page never shows an invented
+  /// score (issue #129: every scheme used to show a hard-coded 96%).
+  final int? matchPercentage;
+
+  /// True when the eligibility engine marked this scheme "not applicable".
+  final bool notApplicable;
+
   const SchemeHeroSection({
     super.key,
     required this.scheme,
     required this.imagePath,
+    this.matchPercentage,
+    this.notApplicable = false,
   });
 
   Widget _buildSchemeLogo(
@@ -136,8 +147,12 @@ class SchemeHeroSection extends StatelessWidget {
                     ],
                   ),
                   padding: EdgeInsets.zero,
+                  // 80% of the circle, so the emblem's bottom text is not
+                  // cropped (test report UI-05).
                   child: ClipOval(
-                    child: _buildSchemeLogo(context, scheme, size: 120),
+                    child: Center(
+                      child: _buildSchemeLogo(context, scheme, size: 96),
+                    ),
                   ),
                 ),
               ),
@@ -254,58 +269,72 @@ class SchemeHeroSection extends StatelessWidget {
                     ),
                     const SizedBox(height: AppSpacing.tight),
 
-                    // Match Banner (Single-row layout)
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.sm,
-                        vertical: AppSpacing.xs,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFEFF6FF),
-                        borderRadius: BorderRadius.circular(6),
-                        border: Border.all(
-                          color: const Color(
-                            0xFF2563EB,
-                          ).withValues(alpha: 0.15),
+                    // Match Banner (Single-row layout); only with a real score.
+                    if (notApplicable || matchPercentage != null)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.sm,
+                          vertical: AppSpacing.xs,
                         ),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.auto_awesome,
-                            color: Color(0xFF2563EB),
-                            size: 12,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFEFF6FF),
+                          borderRadius: BorderRadius.circular(6),
+                          border: Border.all(
+                            color: const Color(
+                              0xFF2563EB,
+                            ).withValues(alpha: 0.15),
                           ),
-                          const SizedBox(width: AppSpacing.xs),
-                          Expanded(
-                            child: RichText(
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              text: TextSpan(
-                                style: GoogleFonts.inter(fontSize: 10),
-                                children: [
-                                  TextSpan(
-                                    text: context.l10n.matchPercentageFormat(
-                                      96,
-                                    ),
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF2563EB),
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: " • ${context.l10n.highlyRelevant}",
-                                    style: const TextStyle(
-                                      color: Color(0xFF64748B),
-                                    ),
-                                  ),
-                                ],
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.auto_awesome,
+                              color: Color(0xFF2563EB),
+                              size: 12,
+                            ),
+                            const SizedBox(width: AppSpacing.xs),
+                            Expanded(
+                              child: RichText(
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                text: TextSpan(
+                                  style: GoogleFonts.inter(fontSize: 10),
+                                  children: [
+                                    if (notApplicable)
+                                      TextSpan(
+                                        text: context.l10n.schemeNotApplicable,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.warningText,
+                                        ),
+                                      )
+                                    else ...[
+                                      TextSpan(
+                                        text: context.l10n
+                                            .matchPercentageFormat(
+                                              matchPercentage!,
+                                            ),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF2563EB),
+                                        ),
+                                      ),
+                                      if (matchPercentage! >= 80)
+                                        TextSpan(
+                                          text:
+                                              " • ${context.l10n.highlyRelevant}",
+                                          style: const TextStyle(
+                                            color: Color(0xFF64748B),
+                                          ),
+                                        ),
+                                    ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),

@@ -118,8 +118,19 @@ class SchemeExtras {
   String get statusValue =>
       _str((_source['status'] as Map?)?['value']).toLowerCase();
   String get statusAsOf => _str((_source['status'] as Map?)?['as_of']);
-  String statusNote(String lang) =>
-      ContentLanguageResolver.text(_loc(lang, 'statusNote'), lang);
+
+  /// Empty when the English note is the catalogue's generated metadata line
+  /// ("Catalogue status active; verification verified (high)."), which read
+  /// like debug text; the application status is shown separately.
+  String statusNote(String lang) {
+    final en = ContentLanguageResolver.text(_loc('en', 'statusNote'), 'en');
+    if (_generatedStatusNote.hasMatch(en)) return '';
+    return ContentLanguageResolver.text(_loc(lang, 'statusNote'), lang);
+  }
+
+  static final RegExp _generatedStatusNote = RegExp(
+    r'^Catalogue status [\w ]+; verification [\w ]+ \(\w+\)\.?$',
+  );
 
   /// `open`, `closed`, `unknown`, `historical_or_superseded`, `announced`,
   /// `temporarily unavailable`... as given by the source.

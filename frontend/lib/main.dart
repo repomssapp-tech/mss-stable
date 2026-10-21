@@ -205,12 +205,14 @@ class MSSApp extends StatelessWidget {
         // ceiling so layouts stay intact. Tamil glyphs are taller and
         // denser than Latin, so the +20% floor made Tamil screens feel
         // cramped -- drop the floor (and lower the ceiling) for `ta`.
+        //
+        // The device setting multiplies the per-language base (so the default
+        // size is unchanged) and is no longer capped at 1.12-1.30x: a user who
+        // asks for 1.5x gets 1.5x, up to 2x (WCAG 1.4.4; test report BUG-11).
         final isTamil = selectedLanguage == 'ta';
+        final base = isTamil ? 1.0 : 1.20;
         final deviceScale = mediaQueryData.textScaler.scale(1.0);
-        final boundedScale = deviceScale.clamp(
-          isTamil ? 1.0 : 1.20,
-          isTamil ? 1.12 : 1.30,
-        );
+        final boundedScale = (deviceScale * base).clamp(base, 2.0);
         return MediaQuery(
           data: mediaQueryData.copyWith(
             textScaler: TextScaler.linear(boundedScale),
@@ -297,7 +299,7 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
               onSearchBarTap: () {
                 provider.updateTabIndex(1);
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  searchTabKey.currentState?.focusSearchField();
+                  searchTabKey.currentState?.focusFreshSearch();
                 });
               },
             ),

@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../l10n/l10n.dart';
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/msme_classification.dart';
 
 /// Udyam MSME Classifier bottom sheet.
 ///
@@ -271,9 +272,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                                     ),
                                     const SizedBox(height: AppSpacing.xs),
                                     Text(
-                                      CentralizedTranslator.instance.localize(
-                                        result,
-                                      ),
+                                      result,
                                       style: GoogleFonts.poppins(
                                         fontSize: 13,
                                         fontWeight: FontWeight.bold,
@@ -283,9 +282,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                                     if (subResult.isNotEmpty) ...[
                                       const SizedBox(height: AppSpacing.xs),
                                       Text(
-                                        CentralizedTranslator.instance.localize(
-                                          subResult,
-                                        ),
+                                        subResult,
                                         style: GoogleFonts.inter(
                                           fontSize: 10,
                                           color: const Color(0xFF475569),
@@ -312,35 +309,53 @@ void showUdyamClassifierSheet(BuildContext context) {
                         final double turn =
                             double.tryParse(turnoverController.text) ?? 0;
 
-                        if (invest <= 0 || turn <= 0) {
+                        // 0 is valid (a new unit); only blanks, text and
+                        // negatives are rejected (test report BUG-12).
+                        final investOk =
+                            (double.tryParse(investmentController.text) ??
+                                -1) >=
+                            0;
+                        final turnOk =
+                            (double.tryParse(turnoverController.text) ?? -1) >=
+                            0;
+                        if (!investOk || !turnOk) {
                           setModalState(() {
-                            result = 'Invalid Input';
-                            subResult =
-                                'Please enter valid values greater than 0';
+                            result = context.l10n.udyamInvalid;
+                            subResult = context.l10n.udyamInvalidSub;
                             resultColor = const Color(0xFFDC2626);
                           });
                           return;
                         }
 
                         String category = '';
-                        if (invest <= 1 && turn <= 5) {
-                          category = 'MICRO Enterprise';
-                          resultColor = const Color(0xFF0D9488); // Teal
-                        } else if (invest <= 10 && turn <= 50) {
-                          category = 'SMALL Enterprise';
-                          resultColor = const Color(0xFF2563EB); // Royal Blue
-                        } else if (invest <= 50 && turn <= 250) {
-                          category = 'MEDIUM Enterprise';
-                          resultColor = const Color(0xFFD97706); // Amber
-                        } else {
-                          category = 'Large Enterprise (Beyond MSME Limits)';
-                          resultColor = const Color(0xFFDC2626); // Red
+                        switch (classifyMsme(
+                          investmentCr: invest,
+                          turnoverCr: turn,
+                        )) {
+                          case MsmeTier.micro:
+                            category = context.l10n.udyamMicro;
+                            resultColor = const Color(0xFF0D9488); // Teal
+                          case MsmeTier.small:
+                            category = context.l10n.udyamSmall;
+                            resultColor = const Color(0xFF2563EB); // Royal Blue
+                          case MsmeTier.medium:
+                            category = context.l10n.udyamMedium;
+                            resultColor = const Color(0xFFD97706); // Amber
+                          case MsmeTier.large:
+                            category = context.l10n.udyamLarge;
+                            resultColor = const Color(0xFFDC2626); // Red
                         }
 
                         setModalState(() {
                           result = category;
-                          subResult =
-                              'Limits: Micro (≤1cr / ≤5cr) | Small (≤10cr / ≤50cr) | Medium (≤50cr / ≤250cr)';
+                          subResult = context.l10n.udyamLimitsSummary(
+                            formatCrore(kMicroLimits.investmentCr),
+                            formatCrore(kMicroLimits.turnoverCr),
+                            formatCrore(kSmallLimits.investmentCr),
+                            formatCrore(kSmallLimits.turnoverCr),
+                            formatCrore(kMediumLimits.investmentCr),
+                            formatCrore(kMediumLimits.turnoverCr),
+                          );
                         });
                       },
                       style: ElevatedButton.styleFrom(

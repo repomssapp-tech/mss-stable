@@ -23,13 +23,10 @@ class AssessmentSubmissionResult {
   /// Applies the updated profile and filters to the [AppProvider].
   void applyToProvider(AppProvider provider) {
     provider.clearFilters();
-    if (stateFilter != null) {
-      provider.updateFilter('state', stateFilter);
-    } else if (categoryFilter != null) {
-      provider.updateFilter('category', categoryFilter);
-    } else if (ministryFilter != null) {
-      provider.updateFilter('ministry', ministryFilter);
-    }
+    // The card that opened the questionnaire (category / ministry / state) is
+    // the browse page's base set, so it is NOT added again as a facet: a second,
+    // differently-worded match on top of it shrank "Business & MSME" from the
+    // 309 on its card to 83. Only the answers narrow the list.
     if (schemeTypes.isNotEmpty) {
       provider.updateFilter('schemeTypes', schemeTypes);
     }

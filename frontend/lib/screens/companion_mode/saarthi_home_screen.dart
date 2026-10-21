@@ -69,6 +69,11 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   bool _controllersInitialized = false;
   bool _usingCloudVoice = false;
   bool _cloudRetrying = false;
+
+  /// Cloud voice failed for good this session (e.g. the voice-token route
+  /// returns 404). Saarthi then keeps working with on-device speech instead of
+  /// retrying forever (issue #125).
+  bool _cloudUnavailable = false;
   String? _cloudConnectionError;
   String _lastCloudInputTranscript = '';
   String _lastCloudOutputTranscript = '';
@@ -198,10 +203,12 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
     final cloud = _voiceAgentController;
     if (cloud == null) {
       if (!mounted) return;
+      _cloudUnavailable = true;
       setState(() {
         _voiceState = SaarthiVoiceState.idle;
-        _cloudConnectionError = context.l10n.saarthiVoiceServiceUnavailable;
+        _cloudConnectionError = context.l10n.saarthiVoiceFallbackOnDevice;
       });
+      await _startListening();
       return;
     }
 
@@ -246,13 +253,15 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
     }
     _cloudRetrying = false;
     if (!mounted || _usingCloudVoice) return;
+    // Graceful fallback: keep the conversation going on the phone's own speech
+    // recognition and voice, and say so, instead of a dead "not connected".
+    _cloudUnavailable = true;
+    debugPrint('Saarthi: cloud voice unavailable, using on-device speech');
     setState(() {
       _voiceState = SaarthiVoiceState.idle;
-      _cloudConnectionError = SaarthiResponseHelpers.cloudErrorMessage(
-        context,
-        lastError,
-      );
+      _cloudConnectionError = context.l10n.saarthiVoiceFallbackOnDevice;
     });
+    await _startListening();
   }
 
   void _handleCloudAgentChanged() {
@@ -403,7 +412,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
       await _voiceAgentController?.setMuted(false);
       return;
     }
-    if (_isConversationActive) {
+    if (_isConversationActive && !_cloudUnavailable) {
       await _connectCloudVoice();
       return;
     }

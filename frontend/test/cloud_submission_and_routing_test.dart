@@ -73,6 +73,7 @@ void main() {
     expect(login, contains('TermsConditionsScreen'));
     expect(login, contains('PrivacyPolicyScreen'));
     expect(details, contains('onPressed: () => _copySchemeDetails(scheme)'));
-    expect(details, contains('Clipboard.setData'));
+    // Opens the share sheet (copies only where none exists): BUG-10.
+    expect(details, contains('shareText('));
   });
 }

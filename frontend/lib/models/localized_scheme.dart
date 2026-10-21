@@ -163,6 +163,16 @@ class LocalizedScheme {
     return fallback == null ? base : fallback(base);
   }
 
+  /// A word-by-word machine translation that still has two or more ordinary
+  /// English words reads as a mix ("Eligible individuals/நிறுவனங்கள்
+  /// establishing புதிய micro-..."), which is harder to read than the
+  /// original. Then the original English sentence is shown whole (test report
+  /// BUG-07 / L10N-01). Acronyms (PMEGP, MSME) are upper-case and not counted.
+  static String _wholeOrOriginal(String translated, String original) {
+    final englishWords = RegExp(r'\b[a-z]{3,}\b').allMatches(translated).length;
+    return englishWords >= 2 ? original : translated;
+  }
+
   static const Map<String, String> _stepWord = {'hi': 'चरण', 'ta': 'படி'};
   static final RegExp _stepPrefix = RegExp(r'^Step (\d+):\s*');
 
@@ -413,7 +423,10 @@ class LocalizedScheme {
           translator.translate(scheme.issuingBody),
       state: translator.translateTag(scheme.state),
       sector: translator.translateTag(scheme.sector),
-      targetBeneficiary: translator.translate(scheme.targetBeneficiary),
+      targetBeneficiary: _wholeOrOriginal(
+        translator.translate(scheme.targetBeneficiary),
+        scheme.targetBeneficiary,
+      ),
       schemeType: translator.translateTag(scheme.schemeType),
       category: translator.translateTag(scheme.category),
       overview: overview,

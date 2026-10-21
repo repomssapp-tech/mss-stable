@@ -12,6 +12,7 @@ class SessionCacheService {
   static const String _keyProfile = 'userProfile';
   static const String _keyLanguage = 'language';
   static const String _keyNavigationMode = 'navigationMode';
+  static const String _keyNavigationModePending = 'navigationModePending';
   static const String _keyOnboardingCompleted = 'onboardingCompleted';
   static const String _keyLastProfileSync = 'last_profile_sync';
   static const String _keyIsLoggedIn = 'isLoggedIn';
@@ -115,6 +116,27 @@ class SessionCacheService {
     } catch (e) {
       debugPrint('[SessionCacheService] Error getting language: $e');
       return null;
+    }
+  }
+
+  /// True while a navigation-mode change made on this device has not yet been
+  /// confirmed by the server (issue #127: the server copy used to overwrite it).
+  Future<void> setNavigationModePending(bool pending) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool(_keyNavigationModePending, pending);
+    } catch (e) {
+      debugPrint('[SessionCacheService] Error saving nav-mode flag: $e');
+    }
+  }
+
+  Future<bool> isNavigationModePending() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getBool(_keyNavigationModePending) ?? false;
+    } catch (e) {
+      debugPrint('[SessionCacheService] Error reading nav-mode flag: $e');
+      return false;
     }
   }
 

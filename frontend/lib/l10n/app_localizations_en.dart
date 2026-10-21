@@ -1619,7 +1619,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get calcGstTitle => 'GST / Tax Calculator';
 
   @override
-  String get calcGstSub => 'Calculate CGST, SGST, and Total invoice amounts.';
+  String get calcGstSub =>
+      'Calculate CGST + SGST or IGST, and the total invoice amount.';
+
+  @override
+  String get calcGstWithinState => 'Within state (CGST + SGST)';
+
+  @override
+  String get calcGstInterState => 'Inter-state (IGST)';
 
   @override
   String get calcBaseAmountLabel => 'Base Amount';
@@ -2872,13 +2879,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'What is the total investment in machinery/equipment?';
 
   @override
-  String get assessBizQ2MsmeOpt1 => 'Micro (Under ₹1 Crore)';
+  String get assessBizQ2MsmeOpt1 => 'Micro (up to ₹2.5 Crore investment)';
 
   @override
-  String get assessBizQ2MsmeOpt2 => 'Small (₹1 Crore - ₹10 Crore)';
+  String get assessBizQ2MsmeOpt2 => 'Small (₹2.5 Crore - ₹25 Crore)';
 
   @override
-  String get assessBizQ2MsmeOpt3 => 'Medium (Over ₹10 Crore)';
+  String get assessBizQ2MsmeOpt3 => 'Medium (₹25 Crore - ₹125 Crore)';
 
   @override
   String get assessBizQ2Startup => 'What stage is your startup currently in?';
@@ -3767,6 +3774,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get docEntityPrivateLimited => 'Private Limited';
 
   @override
+  String get docEntitySoleProprietorship => 'Sole Proprietorship';
+
+  @override
+  String get docItemProprietorPanAadhaar => 'Owner\'s PAN card and Aadhaar';
+
+  @override
+  String get docItemUdyamRegistration =>
+      'Udyam registration certificate (free, udyamregistration.gov.in)';
+
+  @override
+  String get docItemShopEstablishmentLicence =>
+      'Shop & Establishment licence from your state / local body';
+
+  @override
+  String get docItemProprietorBankAccount =>
+      'Current bank account in the business name';
+
+  @override
   String get docEntityPartnership => 'Partnership';
 
   @override
@@ -4006,6 +4031,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get saarthiVoiceServiceUnavailable =>
       'Voice service is unavailable. Tap retry.';
+
+  @override
+  String get saarthiVoiceFallbackOnDevice =>
+      'Cloud voice isn\'t available right now. Saarthi is listening on your phone instead.';
 
   @override
   String get saarthiCloudErrorSignIn =>
@@ -4973,4 +5002,115 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signInWithPassword => 'Sign in with password';
+
+  @override
+  String get pwInvalidEmail => 'Please enter a valid email address.';
+
+  @override
+  String get pwEnterPassword => 'Please enter your password.';
+
+  @override
+  String get pwLoginFailed =>
+      'Sign-in failed. Please check your email and password.';
+
+  @override
+  String get pwInvalidCredentials => 'Invalid email or password.';
+
+  @override
+  String get pwTooManyAttempts =>
+      'Too many attempts. Please wait and try again.';
+
+  @override
+  String get pwLoginUnexpected => 'Something went wrong while signing in.';
+
+  @override
+  String get pwSignInButton => 'Sign In';
+
+  @override
+  String get pwLengthRule => 'Password must be 15 to 128 characters long.';
+
+  @override
+  String get pwMismatch => 'New password and confirmation do not match.';
+
+  @override
+  String get pwEnterCurrent => 'Please enter your current password.';
+
+  @override
+  String get pwReauthRequired =>
+      'For your security, please sign in again first.';
+
+  @override
+  String get pwPolicyFailed => 'Password does not meet the requirements.';
+
+  @override
+  String get pwCurrentIncorrect => 'Current password is incorrect.';
+
+  @override
+  String get pwUpdateFailed => 'Could not update the password.';
+
+  @override
+  String get pwRemoveNeedsCurrent =>
+      'Enter your current password to remove it.';
+
+  @override
+  String get pwRemoveFailed => 'Could not remove the password.';
+
+  @override
+  String get pwMinHint => 'At least 15 characters';
+
+  @override
+  String get sessionRevoked => 'Session revoked.';
+
+  @override
+  String get sessionRevokeFailed => 'Unable to revoke the session.';
+
+  @override
+  String get logoutAllFailed => 'Unable to log out all devices.';
+
+  @override
+  String get sessionOtherDevice => 'Signed-in device';
+
+  @override
+  String sessionSignedInAt(String time) {
+    return 'Signed in: $time';
+  }
+
+  @override
+  String get udyamMicro => 'MICRO Enterprise';
+
+  @override
+  String get udyamSmall => 'SMALL Enterprise';
+
+  @override
+  String get udyamMedium => 'MEDIUM Enterprise';
+
+  @override
+  String get udyamLarge => 'Large Enterprise (Beyond MSME Limits)';
+
+  @override
+  String get udyamInvalid => 'Invalid Input';
+
+  @override
+  String get udyamInvalidSub => 'Enter numbers of 0 or more.';
+
+  @override
+  String udyamLimitsSummary(
+    String microInv,
+    String microTurn,
+    String smallInv,
+    String smallTurn,
+    String medInv,
+    String medTurn,
+  ) {
+    return 'Limits (2025): Micro ≤$microInv / ≤$microTurn Cr · Small ≤$smallInv / ≤$smallTurn Cr · Medium ≤$medInv / ≤$medTurn Cr (investment / turnover)';
+  }
+
+  @override
+  String get schemeNotMatchingFilters => 'Doesn\'t match your filters';
+
+  @override
+  String get greetingLateNight => 'Hello,';
+
+  @override
+  String get copyChecklistTooltip => 'Copy checklist';
 }

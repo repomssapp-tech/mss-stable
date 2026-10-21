@@ -443,12 +443,14 @@ void showEmiCalculatorSheet(BuildContext context) {
                       onPressed: () {
                         final double p =
                             double.tryParse(loanController.text) ?? 0;
+                        // A blank rate is invalid, but 0% is a real offer
+                        // (interest-free loans; test report BUG-12).
                         final double annualRate =
-                            double.tryParse(rateController.text) ?? 0;
+                            double.tryParse(rateController.text) ?? -1;
                         final double n =
                             double.tryParse(tenureController.text) ?? 0;
 
-                        if (p <= 0 || annualRate <= 0 || n <= 0) {
+                        if (p <= 0 || annualRate < 0 || n <= 0) {
                           setModalState(() {
                             error = l10n.emiInvalidInputs;
                             emiVal = 0;
@@ -457,8 +459,9 @@ void showEmiCalculatorSheet(BuildContext context) {
                         }
 
                         final double r = (annualRate / 12) / 100;
-                        final double emi =
-                            (p * r * pow(1 + r, n)) / (pow(1 + r, n) - 1);
+                        final double emi = r == 0
+                            ? p / n
+                            : (p * r * pow(1 + r, n)) / (pow(1 + r, n) - 1);
                         final double totalPayable = emi * n;
                         final double totalInterest = totalPayable - p;
 
