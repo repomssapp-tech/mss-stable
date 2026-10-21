@@ -11,6 +11,23 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [1.4.2+10] - 2026-10-21
+
+### Fixed (Hindi test report)
+- PMEGP and other scheme details read in Hindi: beneficiary, amount notes ("Current project-cost ceiling applies"), documents, services, conditions, fees, timelines and FAQs. About 1,250 new Hindi translations, and Hindi detail text stored in the bundled catalogue (#138, #139).
+- EMI total label in Hindi says "कुल राशि (मूलधन + ब्याज)" instead of "पूर्णांक" (#138).
+- Profile shows Entrepreneur, Business, MSME Owner and Artisan in Hindi (#138, #139).
+- The eligibility FAQ points to tabs that exist (Profile, Search, and the assessment under Discover) in English, Hindi and Tamil (#138, #139).
+- Scheme tabs scroll to their section, including distant ones (#138).
+- Profile's completion badge matches the percentage in Settings (#138).
+- Typing a search runs it automatically after a short pause, so a query with no matches shows "no results" (#138).
+- The EMI calculator rejects non-numeric input; the password-update fallback message is translated (#138).
+
+### Changed
+- Login: one consent sentence with tappable "Read the …" rows; password sign-in was removed (#136).
+- Profile saves are queued and always use the latest version from the server, so two saves never conflict; the live notification stream URL is fixed; religion is no longer collected (#135).
+- Every close (X) button has a screen-reader label (#137).
+
 ## [1.4.1+9] - 2026-10-21
 
 ### Fixed
