@@ -413,155 +413,161 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                     top: AppSpacing.lg,
                     bottom: 120,
                   ),
-                  sliver: SliverList(
-                    delegate: SliverChildListDelegate([
-                      // Overview Paragraph
-                      Container(
-                        key: _overviewKey,
-                        child: Text(
-                          scheme.overview,
-                          style: GoogleFonts.inter(
-                            color: const Color(0xFF64748B),
-                            fontSize: 12.0,
-                            height: 1.5,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: AppSpacing.xxl),
-
-                      // Highlights and official source cards
-                      SchemeHighlightsCard(scheme: scheme),
-                      const SizedBox(height: AppSpacing.md),
-                      SchemeOfficialSourceCard(
-                        scheme: scheme,
-                        onOpenUrl: _openOfficialUrl,
-                        isSafeWebUrl: _isSafeWebUrl,
-                      ),
-                      const SizedBox(height: AppSpacing.xxl),
-
-                      if (_detailsLoading)
-                        const Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: AppSpacing.xxl,
-                          ),
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Color(0xFF2563EB),
+                  // Keep section anchors mounted so any tab can reveal its target.
+                  sliver: SliverToBoxAdapter(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // Overview Paragraph
+                        Container(
+                          key: _overviewKey,
+                          child: Text(
+                            scheme.overview,
+                            style: GoogleFonts.inter(
+                              color: const Color(0xFF64748B),
+                              fontSize: 12.0,
+                              height: 1.5,
                             ),
                           ),
                         ),
+                        const SizedBox(height: AppSpacing.xxl),
 
-                      // Expandable Sections
-                      SchemeExpandableSection(
-                        key: _benefitsKey,
-                        controller: _benefitsController,
-                        title: context.l10n.benefitsDetails,
-                        icon: Icons.card_giftcard_outlined,
-                        iconColor: const Color(0xFF047857),
-                        iconBg: const Color(0xFFECFDF5),
-                        isExpanded: _benefitsExpanded,
-                        onToggle: () {
-                          setState(() {
-                            _benefitsExpanded = !_benefitsExpanded;
-                          });
-                        },
-                        child: SchemeBenefitsContent(scheme: scheme),
-                      ),
-                      const SizedBox(height: AppSpacing.md),
-
-                      SchemeExpandableSection(
-                        key: _eligibilityKey,
-                        controller: _eligibilityController,
-                        title: context.l10n.eligibilityCriteria,
-                        icon: Icons.verified_user_outlined,
-                        iconColor: const Color(0xFF1D4ED8),
-                        iconBg: const Color(0xFFEFF6FF),
-                        isExpanded: _eligibilityExpanded,
-                        onToggle: () {
-                          setState(() {
-                            _eligibilityExpanded = !_eligibilityExpanded;
-                          });
-                        },
-                        child: SchemeEligibilityContent(scheme: scheme),
-                      ),
-                      const SizedBox(height: AppSpacing.md),
-
-                      SchemeExpandableSection(
-                        key: _documentsKey,
-                        controller: _documentsController,
-                        title: context.l10n.requiredDocuments,
-                        icon: Icons.description_outlined,
-                        iconColor: const Color(0xFF6D28D9),
-                        iconBg: const Color(0xFFF5F3FF),
-                        isExpanded: _documentsExpanded,
-                        onToggle: () {
-                          setState(() {
-                            _documentsExpanded = !_documentsExpanded;
-                          });
-                        },
-                        child: SchemeDocumentsContent(
+                        // Highlights and official source cards
+                        SchemeHighlightsCard(scheme: scheme),
+                        const SizedBox(height: AppSpacing.md),
+                        SchemeOfficialSourceCard(
                           scheme: scheme,
                           onOpenUrl: _openOfficialUrl,
+                          isSafeWebUrl: _isSafeWebUrl,
                         ),
-                      ),
-                      const SizedBox(height: AppSpacing.md),
+                        const SizedBox(height: AppSpacing.xxl),
 
-                      SchemeExpandableSection(
-                        key: _servicesKey,
-                        controller: _servicesController,
-                        title: context.l10n.requiredServices,
-                        icon: Icons.support_agent_outlined,
-                        iconColor: const Color(0xFF0F766E),
-                        iconBg: const Color(0xFFCCFBF1),
-                        isExpanded: _servicesExpanded,
-                        onToggle: () {
-                          setState(() {
-                            _servicesExpanded = !_servicesExpanded;
-                          });
-                        },
-                        child: SchemeServicesContent(
-                          services: scheme.requiredServices,
-                        ),
-                      ),
-                      const SizedBox(height: AppSpacing.md),
+                        if (_detailsLoading)
+                          const Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: AppSpacing.xxl,
+                            ),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Color(0xFF2563EB),
+                              ),
+                            ),
+                          ),
 
-                      SchemeExpandableSection(
-                        key: _processKey,
-                        controller: _processController,
-                        title: context.l10n.applicationProcessHeader,
-                        icon: Icons.account_tree_outlined,
-                        iconColor: const Color(0xFFEA580C),
-                        iconBg: const Color(0xFFFFEDD5),
-                        isExpanded: _processExpanded,
-                        onToggle: () {
-                          setState(() {
-                            _processExpanded = !_processExpanded;
-                          });
-                        },
-                        child: SchemeProcessContent(
-                          steps: scheme.applicationProcess,
+                        // Expandable Sections
+                        SchemeExpandableSection(
+                          key: _benefitsKey,
+                          controller: _benefitsController,
+                          title: context.l10n.benefitsDetails,
+                          icon: Icons.card_giftcard_outlined,
+                          iconColor: const Color(0xFF047857),
+                          iconBg: const Color(0xFFECFDF5),
+                          isExpanded: _benefitsExpanded,
+                          onToggle: () {
+                            setState(() {
+                              _benefitsExpanded = !_benefitsExpanded;
+                            });
+                          },
+                          child: SchemeBenefitsContent(scheme: scheme),
                         ),
-                      ),
-                      const SizedBox(height: AppSpacing.md),
-                      SchemeExtraSections(
-                        scheme: rawScheme,
-                        lang: provider.selectedLanguage,
-                        onOpenUrl: _openOfficialUrl,
-                        resolveScheme: (id) {
-                          for (final s in provider.allSchemes) {
-                            if (s.id == id) return s;
-                          }
-                          return null;
-                        },
-                        onOpenScheme: (s) => Navigator.of(context).push(
-                          MaterialPageRoute<void>(
-                            builder: (_) => SchemeDetailsScreen(scheme: s),
+                        const SizedBox(height: AppSpacing.md),
+
+                        SchemeExpandableSection(
+                          key: _eligibilityKey,
+                          controller: _eligibilityController,
+                          title: context.l10n.eligibilityCriteria,
+                          icon: Icons.verified_user_outlined,
+                          iconColor: const Color(0xFF1D4ED8),
+                          iconBg: const Color(0xFFEFF6FF),
+                          isExpanded: _eligibilityExpanded,
+                          onToggle: () {
+                            setState(() {
+                              _eligibilityExpanded = !_eligibilityExpanded;
+                            });
+                          },
+                          child: SchemeEligibilityContent(scheme: scheme),
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+
+                        SchemeExpandableSection(
+                          key: _documentsKey,
+                          controller: _documentsController,
+                          title: context.l10n.requiredDocuments,
+                          icon: Icons.description_outlined,
+                          iconColor: const Color(0xFF6D28D9),
+                          iconBg: const Color(0xFFF5F3FF),
+                          isExpanded: _documentsExpanded,
+                          onToggle: () {
+                            setState(() {
+                              _documentsExpanded = !_documentsExpanded;
+                            });
+                          },
+                          child: SchemeDocumentsContent(
+                            scheme: scheme,
+                            onOpenUrl: _openOfficialUrl,
                           ),
                         ),
-                      ),
-                      SizedBox(height: MediaQuery.sizeOf(context).height * 0.5),
-                    ]),
+                        const SizedBox(height: AppSpacing.md),
+
+                        SchemeExpandableSection(
+                          key: _servicesKey,
+                          controller: _servicesController,
+                          title: context.l10n.requiredServices,
+                          icon: Icons.support_agent_outlined,
+                          iconColor: const Color(0xFF0F766E),
+                          iconBg: const Color(0xFFCCFBF1),
+                          isExpanded: _servicesExpanded,
+                          onToggle: () {
+                            setState(() {
+                              _servicesExpanded = !_servicesExpanded;
+                            });
+                          },
+                          child: SchemeServicesContent(
+                            services: scheme.requiredServices,
+                          ),
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+
+                        SchemeExpandableSection(
+                          key: _processKey,
+                          controller: _processController,
+                          title: context.l10n.applicationProcessHeader,
+                          icon: Icons.account_tree_outlined,
+                          iconColor: const Color(0xFFEA580C),
+                          iconBg: const Color(0xFFFFEDD5),
+                          isExpanded: _processExpanded,
+                          onToggle: () {
+                            setState(() {
+                              _processExpanded = !_processExpanded;
+                            });
+                          },
+                          child: SchemeProcessContent(
+                            steps: scheme.applicationProcess,
+                          ),
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        SchemeExtraSections(
+                          scheme: rawScheme,
+                          lang: provider.selectedLanguage,
+                          onOpenUrl: _openOfficialUrl,
+                          resolveScheme: (id) {
+                            for (final s in provider.allSchemes) {
+                              if (s.id == id) return s;
+                            }
+                            return null;
+                          },
+                          onOpenScheme: (s) => Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (_) => SchemeDetailsScreen(scheme: s),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).height * 0.5,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

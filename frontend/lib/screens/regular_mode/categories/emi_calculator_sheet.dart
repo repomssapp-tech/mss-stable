@@ -450,7 +450,12 @@ void showEmiCalculatorSheet(BuildContext context) {
                         final double n =
                             double.tryParse(tenureController.text) ?? 0;
 
-                        if (p <= 0 || annualRate < 0 || n <= 0) {
+                        if (!p.isFinite ||
+                            p <= 0 ||
+                            !annualRate.isFinite ||
+                            annualRate < 0 ||
+                            !n.isFinite ||
+                            n <= 0) {
                           setModalState(() {
                             error = l10n.emiInvalidInputs;
                             emiVal = 0;

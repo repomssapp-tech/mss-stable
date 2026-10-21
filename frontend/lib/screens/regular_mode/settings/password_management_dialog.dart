@@ -118,10 +118,7 @@ class _PasswordManagementDialogState extends State<PasswordManagementDialog> {
         } else if (e.isRateLimited) {
           AppToast.showWarning(context, context.l10n.pwTooManyAttempts);
         } else {
-          AppToast.showWarning(
-            context,
-            e.message.isNotEmpty ? e.message : context.l10n.pwUpdateFailed,
-          );
+          AppToast.showWarning(context, context.l10n.pwUpdateFailed);
         }
       }
     } catch (e) {
@@ -222,6 +219,7 @@ class _PasswordManagementDialogState extends State<PasswordManagementDialog> {
                             Icons.close,
                             color: AppColors.iconMuted,
                           ),
+                          tooltip: context.l10n.close,
                           onPressed: () => Navigator.pop(context),
                         ),
                       ],

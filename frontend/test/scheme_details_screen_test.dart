@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:frontend/screens/regular_mode/scheme_details_screen.dart';
 import 'package:frontend/models/scheme_model.dart';
 import 'package:frontend/providers/app_state_provider.dart';
+import 'package:frontend/services/catalog/scheme_repository.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,6 +27,7 @@ void main() {
 
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
+    await SchemeRepository.instance.getAllSchemes();
   });
 
   Widget wrap(Scheme scheme) => ChangeNotifierProvider.value(
@@ -109,6 +111,48 @@ void main() {
       await tapTab(tester, label);
       expectSelected(tester, label);
     }
+  });
+
+  testWidgets('FN-01 distant section tabs scroll to their mounted targets', (
+    tester,
+  ) async {
+    final longScheme = Scheme(
+      id: 'TESTLONG',
+      name: 'Long scheme',
+      overview: List.filled(80, 'A long overview paragraph.').join('\n'),
+      benefits: 'Benefits text',
+    );
+    await tester.pumpWidget(wrap(longScheme));
+    await tester.pump(const Duration(seconds: 1));
+    await tester.pump(const Duration(milliseconds: 300));
+    final processSection = find.byWidgetPredicate(
+      (widget) =>
+          widget is SchemeExpandableSection &&
+          widget.title == 'Application Process',
+    );
+    expect(processSection, findsOneWidget);
+    expect(tester.getTopLeft(processSection).dy, greaterThan(600));
+    await tapTab(tester, 'Process');
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(tester.getTopLeft(processSection).dy, inInclusiveRange(0, 500));
+    await tapTab(tester, 'Overview');
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(
+      tester.getTopLeft(find.text(longScheme.overview)).dy,
+      inInclusiveRange(0, 500),
+    );
+  });
+
+  testWidgets('FN-02 opening details records the scheme in viewing history', (
+    tester,
+  ) async {
+    await tester.pumpWidget(wrap(richScheme));
+    await tester.pump(const Duration(seconds: 1));
+    final provider = Provider.of<AppProvider>(
+      tester.element(find.byType(SchemeDetailsScreen)),
+      listen: false,
+    );
+    expect(provider.recentlyViewedIds, contains(richScheme.id));
   });
 
   testWidgets('repeated taps on one tab keep it selected', (tester) async {

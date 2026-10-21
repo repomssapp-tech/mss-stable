@@ -18,6 +18,7 @@ class ProfileBannerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profile = provider.profile;
+    final isComplete = provider.profileCompletionPercentage == 100;
 
     return Container(
       width: double.infinity,
@@ -198,7 +199,7 @@ class ProfileBannerCard extends StatelessWidget {
                               decoration: BoxDecoration(
                                 color: Colors.white.withAlpha(25),
                                 border: Border.all(
-                                  color: profile.profileCompleted
+                                  color: isComplete
                                       ? const Color(0xFF4ADE80)
                                       : const Color(0xFFF59E0B),
                                   width: 0.8,
@@ -209,10 +210,10 @@ class ProfileBannerCard extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Icon(
-                                    profile.profileCompleted
+                                    isComplete
                                         ? Icons.check_circle
                                         : Icons.warning_amber_rounded,
-                                    color: profile.profileCompleted
+                                    color: isComplete
                                         ? const Color(0xFF4ADE80)
                                         : const Color(0xFFF59E0B),
                                     size: 10,
@@ -220,12 +221,12 @@ class ProfileBannerCard extends StatelessWidget {
                                   const SizedBox(width: AppSpacing.xs),
                                   Flexible(
                                     child: Text(
-                                      profile.profileCompleted
+                                      isComplete
                                           ? context.l10n.profileVerified
                                           : context.l10n.profileIncomplete,
                                       style: GoogleFonts.inter(
                                         fontSize: 8.5,
-                                        color: profile.profileCompleted
+                                        color: isComplete
                                             ? const Color(0xFF4ADE80)
                                             : const Color(0xFFF59E0B),
                                         fontWeight: FontWeight.bold,

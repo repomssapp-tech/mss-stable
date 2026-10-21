@@ -58,7 +58,8 @@ void main() {
     await tester.pump();
 
     await tester.tap(find.textContaining('Sort'));
-    await tester.pumpAndSettle();
+    // Finish the menu transition before the independent search debounce fires.
+    await tester.pump(const Duration(milliseconds: 200));
 
     expect(find.text('Relevance'), findsWidgets);
     expect(find.text('Best match for me'), findsOneWidget);

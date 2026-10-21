@@ -82,6 +82,7 @@ class ProfileValueFormatters {
     }
     if (lower == 'unemployed') return context.l10n.empUnemployed;
     if (lower == 'retired') return context.l10n.empRetired;
+    if (lower == 'entrepreneur') return context.l10n.aspiringEntrepreneur;
 
     // The role picked on the "About you" step is stored by its English title.
     if (lower == 'entrepreneur' || lower == 'aspiring entrepreneur') {
