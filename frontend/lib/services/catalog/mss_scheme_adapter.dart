@@ -88,6 +88,8 @@ class MssSchemeAdapter {
       sponsoringBody: header.sponsoringBody,
       issuingBody: header.issuingBody,
       state: header.state,
+      appliesNationally: header.appliesNationally,
+      stateCodes: header.stateCodes,
       sector: header.sector,
       targetBeneficiary: header.targetBeneficiary,
       schemeType: header.schemeType,

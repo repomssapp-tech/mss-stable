@@ -140,16 +140,20 @@ void main() {
   group('every scheme survives the facet that describes it', () {
     test('state, nationwide and offer type', () {
       for (final s in all) {
-        if (schemeIsNationwide(s)) {
+        if (schemeAppliesNationally(s)) {
           expect(applySchemeFilters([s], {'coverage': 'nationwide'}), [
             s,
           ], reason: s.id);
-        } else if (s.state.trim().isNotEmpty) {
-          expect(
-            applySchemeFilters([s], {'coverage': 'state', 'state': s.state}),
-            [s],
-            reason: s.id,
-          );
+        } else {
+          for (final code in s.stateCodes) {
+            expect(
+              applySchemeFilters([s], {'coverage': 'state', 'state': code}),
+              [s],
+              reason: '${s.id} $code',
+            );
+          }
+          // Not nationwide -- and with no states given (CEN2026-090 in the
+          // shipped data) its coverage is unknown, so no state claims it.
           expect(
             applySchemeFilters([s], {'coverage': 'nationwide'}),
             isEmpty,

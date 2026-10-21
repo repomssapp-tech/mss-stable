@@ -1,3 +1,4 @@
+import '../services/recommendation/indian_states.dart';
 import 'scheme_model.dart';
 
 /// Single source of truth for scheme facet filtering.
@@ -39,6 +40,27 @@ bool schemeIsNationwide(Scheme s) {
   return st.startsWith('allindia') ||
       st.startsWith('panindia') ||
       st.startsWith('panindian');
+}
+
+/// True when [s] applies in every state: the catalog's structured
+/// `appliesNationally` when the record has it, else its state text.
+bool schemeAppliesNationally(Scheme s) =>
+    s.appliesNationally ?? schemeIsNationwide(s);
+
+/// Whether [s] is available in [state], given as a name in any supported
+/// language or as a code (`tn`, `IN-TN`). Decided from the structured
+/// coverage only, never from the government level, the scheme's name or its
+/// id: nationwide schemes match every state, state-limited ones match their
+/// own states, and a scheme whose coverage is unknown matches none (it still
+/// appears in unfiltered lists).
+bool schemeAppliesInState(Scheme s, String state) {
+  if (schemeAppliesNationally(s)) return true;
+  final code = IndianStates.code(state);
+  if (code == null) return false;
+  if (s.stateCodes.isNotEmpty) return s.stateCodes.contains(code);
+  if (s.appliesNationally != null) return false; // known, but no states given
+  // A record without structured coverage: its state text is all there is.
+  return IndianStates.code(s.state) == code;
 }
 
 /// A human-facing grouping of the catalog's raw `schemeType` values.
@@ -153,14 +175,9 @@ List<Scheme> applySchemeFilters(List<Scheme> input, Map<String, dynamic> f) {
   final coverage = _clean(f['coverage']).toLowerCase();
   final state = _clean(f['state']);
   if (coverage == 'nationwide') {
-    out = out.where(schemeIsNationwide).toList();
+    out = out.where(schemeAppliesNationally).toList();
   } else if (state.isNotEmpty && state.toLowerCase() != 'all') {
-    final st = state.toLowerCase();
-    out = out
-        .where(
-          (s) => schemeIsNationwide(s) || s.state.toLowerCase().contains(st),
-        )
-        .toList();
+    out = out.where((s) => schemeAppliesInState(s, state)).toList();
   }
 
   final typeIds = _asStrList(f['schemeTypes']).toSet();

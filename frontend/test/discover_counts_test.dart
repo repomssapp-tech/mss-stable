@@ -159,22 +159,24 @@ void main() {
     // the count logic must not drift silently.
     expect(
       national,
-      275,
+      274,
       reason:
-          'nationally-applicable baseline (274 central + the all-India central scheme filed by Tamil Nadu)',
+          'nationally-applicable baseline (273 all-India central schemes + the '
+          'all-India central scheme filed by Tamil Nadu; CEN2026-090 is '
+          'central but limited to the North East, issue #143)',
     );
     expect(
       counts['Tamil Nadu'],
-      327,
+      326,
       reason:
           'national + 52 TN-scoped schemes (incl. the state-run central_state mission)',
     );
     expect(
       counts['Maharashtra'],
-      354,
+      353,
       reason: 'national + 79 MH-scoped schemes',
     );
-    expect(counts['Uttar Pradesh'], 275, reason: 'national only');
+    expect(counts['Uttar Pradesh'], 274, reason: 'national only');
     expect(counts['Ministry of MSME'], 118);
     expect(counts['Ministry of Education'], 1);
   });
