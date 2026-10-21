@@ -11,6 +11,8 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [1.4.1+9] - 2026-10-21
+
 ### Fixed
 - Signing in again no longer sends the user through onboarding on every launch (#123). When the server has every profile field but has not recorded legal consent yet, the profile counts as complete and onboarding is retried in the background; saved role, qualification, category and income prefill the profile steps instead of showing blank.
 
