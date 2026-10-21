@@ -30,3 +30,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-10-20 | Roger-Chris | #121 | unspecified | Feat/multilingual search recommendations |
 | 2026-10-20 | nyxri0f8 | #122 | docs | Adds a papercraft-style app banner (`docs/assets/mss-banner.png`, 1600x600) to the top of the README, built from real screens of release 1.2.1 (Discover, Search with the new Not applicable to you pill, Scheme Details). Also adds Marathi to the Languages badge, since Saarthi speaks Tamil, English, Hindi and Marathi. |
 | 2026-10-21 | nyxri0f8 | #132 | unspecified | Fix QA bugs from the 1.2.1 / 1.3.0 test reports; security hardening; app 1.4.0+8 |
+| 2026-10-21 | nyxri0f8 | #133 | unspecified | Fix onboarding loop after signing in again (#123) |
