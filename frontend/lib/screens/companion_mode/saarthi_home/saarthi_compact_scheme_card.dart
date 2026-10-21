@@ -6,7 +6,7 @@ import '../../../l10n/l10n.dart';
 import '../../../models/localized_scheme.dart';
 import '../../../models/scheme_model.dart';
 import '../../../providers/app_state_provider.dart';
-import '../../../services/voice/livekit_voice_agent_controller.dart';
+import '../../../services/voice/cloud_voice_protocol.dart';
 import '../../../utils/app_spacing.dart';
 import '../../regular_mode/scheme_details_screen.dart';
 

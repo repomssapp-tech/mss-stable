@@ -1437,7 +1437,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get voiceCloudDisclosure =>
-      'Live audio is processed securely. This app does not save audio or raw transcripts.';
+      'Record a request, review its transcription, then send it to the assistant. Audio is uploaded to Sarvam for transcription.';
 
   @override
   String get voiceNoConfidentMatch =>
@@ -5113,4 +5113,154 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get copyChecklistTooltip => 'Copy checklist';
+
+  @override
+  String get voiceClipError =>
+      'Could not process your request. Check microphone permission or your connection. You can retry the same recording, change its language, or type your request.';
+
+  @override
+  String get voiceRecordTitle => 'Record your request';
+
+  @override
+  String get voiceRecordDisclosure =>
+      'Choose the language you will speak. Record up to 60 seconds, then review the text before sending. Your recording is uploaded to Sarvam for transcription. It is kept in this screen only until you close it.';
+
+  @override
+  String get voiceSpokenLanguage => 'Spoken language';
+
+  @override
+  String get voiceTranscribingClip =>
+      'Transcribing your recording. This may take a few minutes. You can cancel and type instead.';
+
+  @override
+  String get voiceRecordingClip =>
+      'Recording — tap Stop when you finish (60-second limit).';
+
+  @override
+  String get voiceReviewTranscript => 'Review and edit your request';
+
+  @override
+  String get voiceStopAndTranscribe => 'Stop and transcribe';
+
+  @override
+  String get voiceRecordClip => 'Record a new request';
+
+  @override
+  String get voiceRetryClip => 'Transcribe this recording again';
+
+  @override
+  String get voiceSendReviewed => 'Send reviewed request';
+
+  @override
+  String get liveVoiceReady => 'Ready to talk';
+
+  @override
+  String get liveVoiceConnecting => 'Starting microphone…';
+
+  @override
+  String get liveVoiceListening => 'Listening';
+
+  @override
+  String get liveVoiceTranscribing => 'Finishing your request…';
+
+  @override
+  String get liveVoiceThinking => 'Finding an answer…';
+
+  @override
+  String get liveVoiceSpeaking => 'Saarthi is speaking';
+
+  @override
+  String get liveVoicePaused => 'Conversation paused';
+
+  @override
+  String get liveVoiceError => 'Voice needs attention';
+
+  @override
+  String get liveVoiceEnd => 'End';
+
+  @override
+  String get liveVoicePause => 'Pause conversation';
+
+  @override
+  String get liveVoiceResume => 'Resume listening';
+
+  @override
+  String get liveVoiceHeard => 'What I heard';
+
+  @override
+  String get liveVoiceFinish => 'Finish speaking';
+
+  @override
+  String get liveVoiceCorrect => 'Correct request';
+
+  @override
+  String get liveVoiceType => 'Type instead';
+
+  @override
+  String get liveVoiceRepeat => 'Hear reply again';
+
+  @override
+  String get liveVoiceEditRequest => 'Your request';
+
+  @override
+  String get liveVoiceEditingHint =>
+      'The microphone is paused. Edit your words, then send.';
+
+  @override
+  String get liveVoiceOptions => 'Voice options';
+
+  @override
+  String get liveVoiceLongPauses => 'Allow longer pauses';
+
+  @override
+  String get liveVoiceLongPausesHint =>
+      'Take more time between words before Saarthi replies.';
+
+  @override
+  String get liveVoiceReadAloud => 'Read replies aloud';
+
+  @override
+  String get liveVoiceReview => 'Review before sending';
+
+  @override
+  String get liveVoiceReviewHint =>
+      'Check and correct each transcript before it is sent.';
+
+  @override
+  String get liveVoiceConversationHint =>
+      'Speak, then pause. Saarthi replies and listens again. Pause whenever you need; correct or type your request below.';
+
+  @override
+  String get liveVoiceScreenReaderHint =>
+      'The microphone stays paused after each reply so your screen reader can finish. Choose Resume listening when you are ready.';
+
+  @override
+  String get liveVoiceMicrophonePermission =>
+      'Allow microphone access in your device settings, then resume. You can also type your request.';
+
+  @override
+  String get liveVoiceNoSpeech =>
+      'No speech was heard. Resume to try again, or type your request.';
+
+  @override
+  String get liveVoiceConnectionError =>
+      'Voice could not finish. Check your connection, then resume or type your request.';
+
+  @override
+  String get liveVoiceTitle => 'Saarthi';
+
+  @override
+  String get liveVoiceLatest => 'Latest reply';
+
+  @override
+  String get liveVoiceScreenReaderShort =>
+      'Screen reader mode: resume after each reply.';
+
+  @override
+  String get liveVoiceFinalTimeout =>
+      'The transcript did not finish. Correct the words we heard, or resume to try again.';
+
+  @override
+  String get liveVoiceSpeechUnavailable =>
+      'I couldn’t play the audio. Your reply is below. Tap Hear reply again to retry, and check your media volume.';
 }

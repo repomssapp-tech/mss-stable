@@ -1,0 +1,12 @@
+<journey name="Selected language and reply audio on Android">
+  <description>Verify the updated release uses the chosen voice language despite another input language and Android starts media speech playback.</description>
+  <actions>
+    <action>Verify version 1.2.3 build 2008 is installed and launches</action>
+    <action>Start Saarthi and verify generic accessibility automation does not turn audio off</action>
+    <action>Pause input and select Tamil in Voice options</action>
+    <action>Type Hello and send it</action>
+    <action>Verify a Tamil written reply and started Android media/speech playback for this app</action>
+    <action>End the conversation and reopen it</action>
+    <action>Verify Tamil remains selected and End stops the conversation</action>
+  </actions>
+</journey>

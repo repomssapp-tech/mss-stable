@@ -9,7 +9,7 @@
 ![Flutter](https://img.shields.io/badge/Flutter-3.44-02569B?logo=flutter&logoColor=white)
 ![Dart](https://img.shields.io/badge/Dart-3.11+-0175C2?logo=dart&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.12+-3776AB?logo=python&logoColor=white)
-![LiveKit](https://img.shields.io/badge/Voice-LiveKit%20%2B%20Sarvam%20AI-FF6B35)
+![LiveKit](https://img.shields.io/badge/Voice-Sarvam%20Recorded%20Audio-FF6B35)
 ![Platforms](https://img.shields.io/badge/Platforms-Android%20%7C%20iOS%20%7C%20Web-4CAF50)
 ![Languages](https://img.shields.io/badge/Languages-English%20%7C%20Tamil%20%7C%20Hindi%20%7C%20Marathi-9C27B0)
 
@@ -30,7 +30,7 @@
 | **Catalog** | 406 schemes — 274 Central, 53 Tamil Nadu, 79 Maharashtra |
 | **Performance** | Sub-250 ms offline queries, zero network calls for search |
 | **Localization** | English, Tamil and Hindi (Flutter ARB) |
-| **Voice** | Saarthi agent over WebRTC (LiveKit) with Sarvam AI STT/TTS |
+| **Voice** | Recorded requests, transcript review, grounded chat and Sarvam audio over MSS REST |
 | **Privacy** | No telemetry leakage, no DB credentials in the app, bearer-token auth only |
 
 ---
@@ -53,17 +53,16 @@ flowchart LR
         Notify["Notifications<br/>Push · SSE"]
     end
 
-    subgraph Voice["Saarthi Voice Agent"]
-        LK["LiveKit Cloud<br/>WebRTC"]
-        Worker["Python Agent Worker"]
-        Sarvam["Sarvam AI<br/>STT · TTS"]
-        LK <--> Worker <--> Sarvam
+    subgraph Voice["Recorded Saarthi Voice"]
+        Node["MSS Node API<br/>Authenticated recorded turns"]
+        Sarvam["Sarvam AI<br/>Batch STT · Chat · TTS"]
+        Node <--> Sarvam
     end
 
     Store -. "OTA update<br/>SHA-256 verified" .- Catalog
     State <--> Auth
     State <--> Notify
-    UI <--> LK
+    UI <--> Node
 ```
 
 ### Monorepo layout
@@ -72,7 +71,7 @@ flowchart LR
 MSS_App/
 ├── frontend/            # Flutter multi-platform app (Android, iOS, Web)
 ├── backend/             # REST API references, OpenAPI specs, catalog sources & contracts
-├── saarthi-agent/       # LiveKit Python multilingual voice agent worker
+├── saarthi-agent/       # Legacy LiveKit worker retained for older installed clients
 ├── tools/               # Catalog bundling, seed data and ML evaluation utilities
 ├── docs/                # Architecture, design system, runbooks and audit logs
 └── .github/workflows/   # CI/CD — app build, voice agent CI/deploy, dev log, URL health
@@ -119,27 +118,11 @@ flowchart TD
 
 ### Saarthi voice pipeline
 
-```mermaid
-sequenceDiagram
-    autonumber
-    participant U as User
-    participant App as Flutter App
-    participant LK as LiveKit (WebRTC)
-    participant AG as Saarthi Worker
-    participant SV as Sarvam AI
+Record a request in the selected language, upload after stopping, then review and
+edit the transcript before sending. The MSS Node API finds published schemes,
+generates a grounded reply and synthesizes MP3 audio through Sarvam. Text remains
+readable if audio fails. See [recorded voice and rollout](docs/RECORDED_VOICE.md).
 
-    U->>App: Speaks (English / Tamil)
-    App->>LK: Stream audio
-    LK->>AG: Audio frames
-    AG->>SV: Speech-to-Text
-    SV-->>AG: Transcript
-    AG->>AG: Understand intent & match schemes
-    AG->>SV: Text-to-Speech
-    SV-->>AG: Synthesised voice
-    AG-->>LK: Audio response
-    LK-->>App: Play response
-    Note over App: Falls back to on-device<br/>STT/TTS when offline
-```
 
 ---
 
@@ -189,9 +172,9 @@ Built-in calculators: Udyam Classifier · Subsidy Estimator · GST · EMI · DPI
 <details open>
 <summary><b>4. Saarthi voice agent</b></summary>
 
-- Real-time conversational assistant in English and Tamil
-- Low-latency WebRTC streaming via LiveKit Cloud
-- Domain-tuned STT and expressive TTS from Sarvam AI
+- Recorded requests in English, Tamil, Hindi and Marathi
+- Explicit language selection and editable transcription before sending
+- Asynchronous Sarvam STT, grounded replies and MP3 speech over MSS REST
 - On-device speech fallback when offline
 
 </details>
@@ -204,7 +187,7 @@ Built-in calculators: Udyam Classifier · Subsidy Estimator · GST · EMI · DPI
 |:---|:---|
 | **Frontend** | Flutter 3.44 (Dart 3.11+), Material 3, Provider, Flutter Localizations (ARB) |
 | **Backend** | MSS REST API (`api.msmeschemes.org/v1`), Google OAuth with PKCE, Push & SSE notifications |
-| **Voice Agent** | Python 3.12+, LiveKit Agents SDK, Sarvam AI voice APIs, `uv` |
+| **Voice** | MSS Node API, Sarvam batch STT/chat/TTS, Flutter recording and audio playback |
 | **CI / CD** | GitHub Actions — Flutter analyze/test/build, voice agent lint/test/deploy |
 
 ---
@@ -239,7 +222,7 @@ flutter run --dart-define=API_BASE_URL=http://10.0.2.2:5000
 
 `10.0.2.2` is the Android emulator's alias for the host machine. API references live in [`backend/New API Ref/`](backend/New%20API%20Ref/).
 
-### 3 · Run the Saarthi voice agent
+### 3 · Legacy voice worker (older mobile clients)
 
 ```bash
 cd saarthi-agent

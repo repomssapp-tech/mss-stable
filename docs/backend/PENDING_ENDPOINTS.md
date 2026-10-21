@@ -1,3 +1,9 @@
+> Recorded voice migration: the Node backend change adds `/chat`, `/voice/transcriptions`,
+> `/voice/transcriptions/status`, and `/voice/speech`. See `docs/RECORDED_VOICE.md`.
+> `/voice/token` is no longer called by this app. Until the Node change is deployed,
+> chat/recorded transcription report an error and keep the reviewed request available.
+> The historical endpoint inventory below describes the earlier migration.
+
 # Backend routes the app expects but `backend/New API Ref` does not define
 
 The app now talks only to the MSS REST backend (`https://api.msmeschemes.org`,

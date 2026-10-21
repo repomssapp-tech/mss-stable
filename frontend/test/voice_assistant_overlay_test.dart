@@ -7,7 +7,7 @@ import 'package:frontend/models/scheme_model.dart';
 import 'package:frontend/models/user_profile.dart';
 import 'package:frontend/services/voice/assistant_session_controller.dart';
 import 'package:frontend/services/search/intelligent_scheme_search.dart';
-import 'package:frontend/services/voice/livekit_voice_agent_controller.dart';
+import 'package:frontend/services/voice/cloud_voice_protocol.dart';
 import 'package:frontend/services/search/official_grounded_search.dart';
 import 'package:frontend/services/search/scheme_understanding_engine.dart';
 import 'package:frontend/services/voice/speech_output_controller.dart';
@@ -135,7 +135,7 @@ void main() {
     session.dispose();
   });
 
-  testWidgets('mic controls LiveKit during pre-connect instead of local STT', (
+  testWidgets('mic controls an injected cloud session without opening local STT', (
     tester,
   ) async {
     final recognition = _FakeVoiceRecognitionController();

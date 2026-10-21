@@ -2743,7 +2743,7 @@ abstract class AppLocalizations {
   /// No description provided for @voiceCloudDisclosure.
   ///
   /// In en, this message translates to:
-  /// **'Live audio is processed securely. This app does not save audio or raw transcripts.'**
+  /// **'Record a request, review its transcription, then send it to the assistant. Audio is uploaded to Sarvam for transcription.'**
   String get voiceCloudDisclosure;
 
   /// No description provided for @voiceNoConfidentMatch.
@@ -9448,6 +9448,276 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Copy checklist'**
   String get copyChecklistTooltip;
+
+  /// No description provided for @voiceClipError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not process your request. Check microphone permission or your connection. You can retry the same recording, change its language, or type your request.'**
+  String get voiceClipError;
+
+  /// No description provided for @voiceRecordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Record your request'**
+  String get voiceRecordTitle;
+
+  /// No description provided for @voiceRecordDisclosure.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the language you will speak. Record up to 60 seconds, then review the text before sending. Your recording is uploaded to Sarvam for transcription. It is kept in this screen only until you close it.'**
+  String get voiceRecordDisclosure;
+
+  /// No description provided for @voiceSpokenLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Spoken language'**
+  String get voiceSpokenLanguage;
+
+  /// No description provided for @voiceTranscribingClip.
+  ///
+  /// In en, this message translates to:
+  /// **'Transcribing your recording. This may take a few minutes. You can cancel and type instead.'**
+  String get voiceTranscribingClip;
+
+  /// No description provided for @voiceRecordingClip.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording — tap Stop when you finish (60-second limit).'**
+  String get voiceRecordingClip;
+
+  /// No description provided for @voiceReviewTranscript.
+  ///
+  /// In en, this message translates to:
+  /// **'Review and edit your request'**
+  String get voiceReviewTranscript;
+
+  /// No description provided for @voiceStopAndTranscribe.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop and transcribe'**
+  String get voiceStopAndTranscribe;
+
+  /// No description provided for @voiceRecordClip.
+  ///
+  /// In en, this message translates to:
+  /// **'Record a new request'**
+  String get voiceRecordClip;
+
+  /// No description provided for @voiceRetryClip.
+  ///
+  /// In en, this message translates to:
+  /// **'Transcribe this recording again'**
+  String get voiceRetryClip;
+
+  /// No description provided for @voiceSendReviewed.
+  ///
+  /// In en, this message translates to:
+  /// **'Send reviewed request'**
+  String get voiceSendReviewed;
+
+  /// No description provided for @liveVoiceReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to talk'**
+  String get liveVoiceReady;
+
+  /// No description provided for @liveVoiceConnecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting microphone…'**
+  String get liveVoiceConnecting;
+
+  /// No description provided for @liveVoiceListening.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening'**
+  String get liveVoiceListening;
+
+  /// No description provided for @liveVoiceTranscribing.
+  ///
+  /// In en, this message translates to:
+  /// **'Finishing your request…'**
+  String get liveVoiceTranscribing;
+
+  /// No description provided for @liveVoiceThinking.
+  ///
+  /// In en, this message translates to:
+  /// **'Finding an answer…'**
+  String get liveVoiceThinking;
+
+  /// No description provided for @liveVoiceSpeaking.
+  ///
+  /// In en, this message translates to:
+  /// **'Saarthi is speaking'**
+  String get liveVoiceSpeaking;
+
+  /// No description provided for @liveVoicePaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Conversation paused'**
+  String get liveVoicePaused;
+
+  /// No description provided for @liveVoiceError.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice needs attention'**
+  String get liveVoiceError;
+
+  /// No description provided for @liveVoiceEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'End'**
+  String get liveVoiceEnd;
+
+  /// No description provided for @liveVoicePause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause conversation'**
+  String get liveVoicePause;
+
+  /// No description provided for @liveVoiceResume.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume listening'**
+  String get liveVoiceResume;
+
+  /// No description provided for @liveVoiceHeard.
+  ///
+  /// In en, this message translates to:
+  /// **'What I heard'**
+  String get liveVoiceHeard;
+
+  /// No description provided for @liveVoiceFinish.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish speaking'**
+  String get liveVoiceFinish;
+
+  /// No description provided for @liveVoiceCorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct request'**
+  String get liveVoiceCorrect;
+
+  /// No description provided for @liveVoiceType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type instead'**
+  String get liveVoiceType;
+
+  /// No description provided for @liveVoiceRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Hear reply again'**
+  String get liveVoiceRepeat;
+
+  /// No description provided for @liveVoiceEditRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Your request'**
+  String get liveVoiceEditRequest;
+
+  /// No description provided for @liveVoiceEditingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The microphone is paused. Edit your words, then send.'**
+  String get liveVoiceEditingHint;
+
+  /// No description provided for @liveVoiceOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice options'**
+  String get liveVoiceOptions;
+
+  /// No description provided for @liveVoiceLongPauses.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow longer pauses'**
+  String get liveVoiceLongPauses;
+
+  /// No description provided for @liveVoiceLongPausesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Take more time between words before Saarthi replies.'**
+  String get liveVoiceLongPausesHint;
+
+  /// No description provided for @liveVoiceReadAloud.
+  ///
+  /// In en, this message translates to:
+  /// **'Read replies aloud'**
+  String get liveVoiceReadAloud;
+
+  /// No description provided for @liveVoiceReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Review before sending'**
+  String get liveVoiceReview;
+
+  /// No description provided for @liveVoiceReviewHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Check and correct each transcript before it is sent.'**
+  String get liveVoiceReviewHint;
+
+  /// No description provided for @liveVoiceConversationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Speak, then pause. Saarthi replies and listens again. Pause whenever you need; correct or type your request below.'**
+  String get liveVoiceConversationHint;
+
+  /// No description provided for @liveVoiceScreenReaderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The microphone stays paused after each reply so your screen reader can finish. Choose Resume listening when you are ready.'**
+  String get liveVoiceScreenReaderHint;
+
+  /// No description provided for @liveVoiceMicrophonePermission.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow microphone access in your device settings, then resume. You can also type your request.'**
+  String get liveVoiceMicrophonePermission;
+
+  /// No description provided for @liveVoiceNoSpeech.
+  ///
+  /// In en, this message translates to:
+  /// **'No speech was heard. Resume to try again, or type your request.'**
+  String get liveVoiceNoSpeech;
+
+  /// No description provided for @liveVoiceConnectionError.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice could not finish. Check your connection, then resume or type your request.'**
+  String get liveVoiceConnectionError;
+
+  /// No description provided for @liveVoiceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Saarthi'**
+  String get liveVoiceTitle;
+
+  /// No description provided for @liveVoiceLatest.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest reply'**
+  String get liveVoiceLatest;
+
+  /// No description provided for @liveVoiceScreenReaderShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen reader mode: resume after each reply.'**
+  String get liveVoiceScreenReaderShort;
+
+  /// No description provided for @liveVoiceFinalTimeout.
+  ///
+  /// In en, this message translates to:
+  /// **'The transcript did not finish. Correct the words we heard, or resume to try again.'**
+  String get liveVoiceFinalTimeout;
+
+  /// No description provided for @liveVoiceSpeechUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'I couldn’t play the audio. Your reply is below. Tap Hear reply again to retry, and check your media volume.'**
+  String get liveVoiceSpeechUnavailable;
 }
 
 class _AppLocalizationsDelegate

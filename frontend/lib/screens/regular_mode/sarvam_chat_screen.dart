@@ -35,6 +35,9 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
   final List<SarvamChatMessage> _messages = [];
   bool _sending = false;
   String? _error;
+  Timer? _replyRevealTimer;
+  int? _revealingMessageIndex;
+  String _visibleReply = '';
 
   @override
   void initState() {
@@ -44,6 +47,7 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
 
   @override
   void dispose() {
+    _replyRevealTimer?.cancel();
     unawaited(_chatLog.syncChatSession(mode: 'text'));
     _inputController.dispose();
     _scrollController.dispose();
@@ -78,9 +82,9 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
         _messages.add(
           SarvamChatMessage(role: 'assistant', content: response.reply),
         );
-        _sending = false;
       });
       _chatLog.recordAiMessage(response.reply);
+      _revealReply(response.reply);
     } catch (error) {
       if (!mounted) return;
       setState(() {
@@ -90,7 +94,42 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
             : context.l10n.sarvamCouldNotReach;
       });
     }
-    _scrollToEnd();
+    // Keep the start of the reply in view. Scrolling to the bottom after a
+    // complete answer arrives skips the text the citizen needs to read first.
+  }
+
+  void _revealReply(String reply) {
+    _replyRevealTimer?.cancel();
+    if (MediaQuery.disableAnimationsOf(context) ||
+        MediaQuery.accessibleNavigationOf(context)) {
+      setState(() => _sending = false);
+      return;
+    }
+    // Reveal whole grapheme clusters so Tamil/Hindi vowel signs and emoji are
+    // never split. The complete reply stays in history and logs throughout.
+    final characters = reply.characters.toList(growable: false);
+    var visibleCount = characters.length.clamp(0, 3);
+    setState(() {
+      _revealingMessageIndex = _messages.length - 1;
+      _visibleReply = characters.take(visibleCount).join();
+    });
+    _replyRevealTimer = Timer.periodic(const Duration(milliseconds: 45), (
+      timer,
+    ) {
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
+      visibleCount = (visibleCount + 3).clamp(0, characters.length);
+      setState(() {
+        _visibleReply = characters.take(visibleCount).join();
+        if (visibleCount == characters.length) {
+          timer.cancel();
+          _revealingMessageIndex = null;
+          _sending = false;
+        }
+      });
+    });
   }
 
   Future<void> _retry() async {
@@ -181,11 +220,20 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
                       ),
                       itemCount:
                           _messages.length +
-                          (_sending ? 1 : 0) +
+                          (_sending && _revealingMessageIndex == null ? 1 : 0) +
                           (_error != null ? 1 : 0),
                       itemBuilder: (context, index) {
                         if (index < _messages.length) {
-                          return _MessageBubble(message: _messages[index]);
+                          final message = _messages[index];
+                          return _MessageBubble(
+                            key: ValueKey('sarvam-message-$index'),
+                            message: index == _revealingMessageIndex
+                                ? SarvamChatMessage(
+                                    role: message.role,
+                                    content: _visibleReply,
+                                  )
+                                : message,
+                          );
                         }
                         if (_sending && index == _messages.length) {
                           return const _ThinkingBubble();
@@ -354,7 +402,7 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
 }
 
 class _MessageBubble extends StatelessWidget {
-  const _MessageBubble({required this.message});
+  const _MessageBubble({super.key, required this.message});
 
   final SarvamChatMessage message;
 

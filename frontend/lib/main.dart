@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:livekit_client/livekit_client.dart' as livekit;
 import 'config/app_config.dart';
 import 'l10n/app_localizations.dart';
 import 'providers/app_state_provider.dart';
@@ -97,21 +96,6 @@ void main() async {
   // offline.
   unawaited(ChatLogService.syncPendingOfflineQueue());
 
-  // Warm WebRTC in the background while the user is on the app shell. This
-  // also selects Android's communication audio path early, allowing supported
-  // phones to use their hardware AEC/noise suppressor before voice connects.
-  unawaited(
-    livekit.LiveKitClient.initialize(
-      bypassVoiceProcessing: false,
-      // LiveKit marks this Android audio-session preset experimental, but it
-      // is the supported API for priming communication mode before first use.
-      initialAudioSessionOptions:
-          const livekit.AudioSessionOptions.communication(),
-    ),
-  );
-
-  // Firebase Cloud Messaging for push notifications. Without a Firebase
-  // configuration the app runs normally, just without push.
   final pushGateway = await initializeFirebase() ? FirebasePushGateway() : null;
 
   runApp(

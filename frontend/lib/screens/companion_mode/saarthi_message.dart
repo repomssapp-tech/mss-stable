@@ -1,5 +1,5 @@
 import '../../models/scheme_model.dart';
-import '../../services/voice/livekit_voice_agent_controller.dart';
+import '../../services/voice/cloud_voice_protocol.dart';
 
 /// The Saarthi (companion-mode voice assistant) conversation states.
 enum SaarthiVoiceState { idle, listening, processing, speaking, ended }

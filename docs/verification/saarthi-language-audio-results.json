@@ -1,0 +1,113 @@
+{
+  "journey": "Selected language and reply audio on Android",
+  "date": "2026-10-21",
+  "status": "PASSED",
+  "reason": "After user paused other deployments, integrated the latest v0.2.3 legal/profile/logging release, deployed successfully, and completed connected-phone checks. The user confirmed reply audio is audible.",
+  "apk": {
+    "name": "MSS-Saarthi-1.2.3-2008.apk",
+    "versionName": "1.2.3",
+    "versionCode": 2008,
+    "signature": "Verified; matches previous installed certificate",
+    "sha256": "3dcf1149d9af624d3572c7a2f09b7205d4c5f9448dbd4f1fbaa6477d55f4d1aa"
+  },
+  "backend": {
+    "commit": "4fc12cb17f5977b066bad2664abf455cd6169427",
+    "deployment": "healthy; preserves source at 3b6a1e1a094f76e3a82e4cd4fde4c34e1ddf9a8f",
+    "publicHealth": "status ok; db ok; version 0.2.3; chat/speech reject unauthorized callers with 401; public WSS authentication rejects invalid token",
+    "tests": {
+      "passed": 189,
+      "skipped": 2,
+      "failed": 0
+    },
+    "preparedIntegrationCommit": "4fc12cb17f5977b066bad2664abf455cd6169427",
+    "integrationTests": {
+      "passed": 189,
+      "skipped": 2,
+      "failed": 0
+    }
+  },
+  "flutter": {
+    "focusedPassed": 62,
+    "analysis": "No issues found",
+    "releaseBuild": "passed"
+  },
+  "liveProvider": {
+    "selectedLanguages": [
+      "en",
+      "ta",
+      "hi",
+      "mr"
+    ],
+    "result": "Each selected language returned native reply text and nonempty MP3; mixed-language history did not override delivery. Synthetic requests, no production test accounts."
+  },
+  "results": [
+    {
+      "action": "Verify version 1.2.3 build 2008 is installed and launches",
+      "status": "PASSED",
+      "commands": [
+        "adb install -r MSS-Saarthi-1.2.3-2008.apk",
+        "adb shell am start -n com.inschemes.app/.MainActivity",
+        "adb shell dumpsys package com.inschemes.app"
+      ],
+      "comment": "adb install -r succeeded; version 1.2.3 build 2008 confirmed; app data preserved."
+    },
+    {
+      "action": "Start Saarthi and verify generic accessibility automation does not turn audio off",
+      "status": "PASSED",
+      "commands": [
+        "adb shell input tap 540 1381",
+        "adb shell uiautomator dump /sdcard/mss-voice-ui.xml"
+      ],
+      "comment": "Phone reached Listening with the restored backend; generic accessibility automation did not expose unexpected screen-reader/audio-off mode. Input was then paused."
+    },
+    {
+      "action": "Pause input and select Tamil in Voice options",
+      "status": "PASSED",
+      "commands": [],
+      "comment": "Selected Spoken language / தமிழ் in Voice options while capture was paused."
+    },
+    {
+      "action": "Type Hello and send it",
+      "status": "PASSED",
+      "commands": [],
+      "comment": "Typed the synthetic English greeting Hello and sent it with spoken language still Tamil. Text-only mode was used for the repeat check to prevent automatic microphone reopening."
+    },
+    {
+      "action": "Verify a Tamil written reply and started Android media/speech playback for this app",
+      "status": "PASSED",
+      "commands": [],
+      "comment": "Phone displayed Tamil: வணக்கம்! இன்று நான் உங்களுக்கு எப்படி உதவ முடியும்? Enabling Read aloud replayed the reply; Android runtime reported app USAGE_MEDIA / CONTENT_TYPE_SPEECH with 24 kHz audio preparation. Playback completed without an error, returning to paused. The human user explicitly confirmed the earlier Tamil test replay was audible."
+    },
+    {
+      "action": "End the conversation and reopen it",
+      "status": "PASSED",
+      "commands": [],
+      "comment": "End returned to the idle screen; force-stopped and relaunched the app to check persistent language storage, then started and immediately paused input."
+    },
+    {
+      "action": "Verify Tamil remains selected and End stops the conversation",
+      "status": "PASSED",
+      "commands": [],
+      "comment": "Voice options still showed Spoken language / தமிழ் after full process restart. Final Read aloud setting restored on; End used to stop the conversation and leave the microphone off."
+    }
+  ],
+  "appInstall": {
+    "status": "PASSED",
+    "versionName": "1.2.3",
+    "versionCode": 2008,
+    "dataPreserved": true
+  },
+  "phoneEvidence": {
+    "tamilReply": "MSS Saarthi  16:11\nவணக்கம்! இன்று நான் உங்களுக்கு எப்படி உதவ முடியும்?",
+    "pausedAfterPlayback": true,
+    "appMediaSpeechObserved": true,
+    "audioPreferenceRestored": true,
+    "tamilRetainedAfterProcessRestart": true,
+    "userConfirmedAudible": true
+  },
+  "limits": [
+    "Physical TalkBack navigation and controlled speech-recognition accuracy in noise were not comprehensively tested.",
+    "This verifies selected-language delivery and audible playback; model wording is not guaranteed to be linguistically perfect.",
+    "GitHub access to mssschemes/backend is unavailable (404). Include the prepared patch in its deploying branch before resuming deployments that would otherwise omit voice routes."
+  ]
+}

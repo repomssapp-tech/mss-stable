@@ -109,3 +109,7 @@ uv run pytest -v
    - Manage dependencies and execution strictly via `uv` (`uv sync`, `uv run pytest`, `uv run ruff`).
    - App code resides under `src/` with `agent.py` as entrypoint; maintain test coverage in `tests/`.
    - Never guess LiveKit APIs or behaviors; verify with official LiveKit CLI (`lk docs`) or docs.
+
+9. **Connected phone data**:
+   - Do not run `flutter test integration_test/...` against the user's installed `com.inschemes.app`. Flutter's integration-test cleanup uninstalls that package even when its test build fails, deleting local login and unsynced data.
+   - Use an isolated application ID and synthetic account for automated device tests. Verify the real installed app through ADB UI journeys; check the APK signer first and install with `adb install -r`. Never allow a tool to uninstall the user's app unless the user explicitly requested a data reset.

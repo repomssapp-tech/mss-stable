@@ -21,12 +21,4 @@ class PendingEndpoints {
   /// (was the `voice_chat_sessions` table).
   static const String chatSessions = '/me/chat-sessions';
 
-  /// `POST {messages, language}` → `{reply}` — text assistant
-  /// (was the `sarvam-chat` function).
-  static const String chat = '/chat';
-
-  /// `POST {language}` → LiveKit token response
-  /// `{server_url, participant_token, participant_name, room_name}`
-  /// (was the `livekit-token` function).
-  static const String voiceToken = '/voice/token';
 }
