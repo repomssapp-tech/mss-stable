@@ -8,7 +8,7 @@ server, and signed provider URLs never reach the app.
 
 The committed voice agent is `Saarthi-Sch-91830352-d966` version 9. The reviewed
 chat twin is `Saarthi-Sch-f1200b0a-9d34` version 2. The backend release is
-`47f4848f2ec99e012113c2402f9e32262cb73b21` (API 0.2.3).
+`801b49af519785166850789e51d4eabce209a4b7` (API 0.2.3).
 Tamil uses Vijay Narrator, English/Hindi use Shubh AI Companion, and Marathi
 uses Nilesh Conversational Voice. Reviewed playback uses matching Bulbul v4
 Flash personas, and selected-language Mayura classic-colloquial translation.
@@ -40,7 +40,7 @@ not a formal compliance certification.
 
 ## Verification and device incident
 
-Backend verification: 201 passed, 2 skipped, no failures. Flutter analysis: no
+Backend verification: 203 passed, 2 skipped, no failures. Flutter analysis: no
 issues. Focused Flutter voice and spacing tests: 17 passed. Release APK build passed and
 retains the existing signing certificate. Real provider probes confirmed audible
 PCM and replies in all four configured languages. The user confirmed the phone
@@ -80,3 +80,16 @@ The 406-record catalog publication used the exact imported source fingerprint
 only visibility and its audit link; it does not mark applications open or
 eligibility verified. A protected catalog-table backup was made before the
 atomic publication. Existing RLS and runtime state scoping remain in force.
+
+## Named scheme search
+
+After catalog publication, the live call returned records but a PMEGP request
+still missed its named scheme. Voice lookup had reused the feed's ID ordering,
+which could select three generic matches before the named record. Native and
+reviewed voice now use an internal search ordered by short-name/acronym rank,
+then title rank, then body rank. Generic words such as scheme/details are
+removed, and PMEPG is normalized to PMEGP. Public feed cursor ordering is
+unchanged. The same owner/profile, published visibility, active status and RLS
+constraints still apply. A read-only catalog query returned CEN2026-085 first
+for PMEGP OR loan. The user's follow-up spoken PMEGP test remains pending; the
+phone was in a normal telephone call when the final UI check was attempted.

@@ -1146,6 +1146,10 @@ Configure the tool's Authorization header as Agent variable mss_lookup_token,
 not "Let the agent decide" or a literal template. The runtime supplies its full
 Bearer value. Set Content-Type to fixed application/json; query is the required
 model-generated keyword argument. Keep mss_lookup_token out of model context.
+Voice lookup ranks matching short names/acronyms and titles before body text;
+it does not reuse the public feed's ID ordering. Generic search words are
+omitted and the PMEPG transposition is normalized to PMEGP. Both native and
+reviewed turns use this published, owner/state-scoped ranked search.
 Reviewed/long-pause workflows continue using the editable one-turn path. Their
 translation now uses mayura:v1 classic-colloquial with spoken-form-in-native
 script, explicit target locale and a main-script guard which permits familiar
@@ -7322,7 +7326,7 @@ ca93666ff3c0c2d4a24c0f6954a1e6e718adc3f0e0901d25b397046e7e85a718  database/migra
 
 3fdcfe44a51412aa923dd5833d59877e79c119a712f8813e99548d5771cc1775  docs/api/contracts.mjs
 
-e5a3c70329e6458a4ce2b8c998dfa34499515385e4157f02f3b646d2d35c8b37  docs/api/integration.txt
+c6ded82256bce152117376d7dfebe1e55b9895dd5c943af21e0d3b6516e36648  docs/api/integration.txt
 
 327dfb50b303d3a1c9552a95deead0162373d819f2e0adf55939cfe473ca140f  package.json
 
@@ -7436,7 +7440,7 @@ ac5f3d5cba8b99c5dc32a833f9bde0b2eaff602b503a0dd74223f7c12c7f3cf1  src/schemes/im
 
 fffa9b3dab8995bd647cb2c9ec5c3a12c3938b90bde68afb174fd3002452c2aa  src/schemes/routes.js
 
-68a31e054b6471e6bad6b158ef8835c057652f78688ace1ab60702cf57dec124  src/schemes/service.js
+40d56e3724872a160a6074f740d4143326b538d2e8090c6f06699d36a753e1df  src/schemes/service.js
 
 600309b23c1b0f1827aca4641a7bde242dea55b57f9a31b16c2110d11278da39  src/schemes/source.js
 
@@ -7460,9 +7464,11 @@ f7b43108331fe039befd315ce9d0d1daf9c2ac9b555e5f3f164e2c1bcb71f1b9  src/support/se
 
 fad71ee6125ab938f6099eeb8934d3b9d601e7dcec76a7ff7d4149b1cceef9b2  src/voice/agent-runtime.js
 
-504c94260ad85f3dbfebe6d070c7d27e70755e501589b06b92c3519c2039e218  src/voice/agent.js
+8ecb52d55f2f465b9525480977143951f56f8eafc1a49b9af55aeed09d03bd5a  src/voice/agent.js
 
-cd5bf05a3ebd2e01b7a9d41fe98b52e7d051019c8740ded39af0eb0a71bc1188  src/voice/chat.js
+a8108c65093863935567bc8b9d096022c3af1d4206d69e23bd8040d810905030  src/voice/catalog.js
+
+2f88f031d1aaae74751372b0b194f0809293773cbdae8298ab7d27f3a027ef4f  src/voice/chat.js
 
 25646ed8e32dcd5b2450563ed2a3e3dfe45801d7d8eabc7cedd1650d89ca2796  src/voice/managed-agent.js
 
