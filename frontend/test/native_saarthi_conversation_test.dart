@@ -121,6 +121,15 @@ class Legacy implements RealtimeSpeechTransport {
   Future<void> dispose() => output.close();
 }
 
+class RecordedOutput implements RecordedSpeechOutput {
+  @override
+  Future<void> play(Uint8List bytes) async {}
+  @override
+  Future<void> stop() async {}
+  @override
+  Future<void> dispose() async {}
+}
+
 class Harness {
   Harness({bool reader = false}) {
     session = AssistantSessionController(
@@ -130,6 +139,7 @@ class Harness {
     );
     agent = HttpVoiceAgentController(
       session: session,
+      output: RecordedOutput(),
       available: () => true,
       languageCode: () => 'ta',
     );

@@ -1,15 +1,15 @@
 # Saarthi native conversation — 2026-10-21
 
-MSS 1.2.5+2010 uses the authenticated MSS WebSocket at `/v1/voice/agent` for
+MSS 1.2.6+2011 uses the authenticated MSS WebSocket at `/v1/voice/agent` for
 Android conversation mode. Sarvam produces conversational speech directly;
 the selected session language remains fixed. Reviewed speech and longer-pause
 settings retain the editable one-turn path. Provider credentials stay on the
 server, and signed provider URLs never reach the app.
 
-The committed voice agent is `Saarthi-Sch-91830352-d966` version 8. The reviewed
+The committed voice agent is `Saarthi-Sch-91830352-d966` version 9. The reviewed
 chat twin is `Saarthi-Sch-f1200b0a-9d34` version 2. The backend release is
-`02974de99581980492ff43e99f16813706e9a427` (API 0.2.3).
-Tamil uses Aravind Ad Voice, English/Hindi use Shubh AI Companion, and Marathi
+`47f4848f2ec99e012113c2402f9e32262cb73b21` (API 0.2.3).
+Tamil uses Vijay Narrator, English/Hindi use Shubh AI Companion, and Marathi
 uses Nilesh Conversational Voice. Reviewed playback uses matching Bulbul v4
 Flash personas, and selected-language Mayura classic-colloquial translation.
 
@@ -41,12 +41,16 @@ not a formal compliance certification.
 ## Verification and device incident
 
 Backend verification: 201 passed, 2 skipped, no failures. Flutter analysis: no
-issues. Focused Flutter voice tests: 29 passed. Release APK build passed and
+issues. Focused Flutter voice and spacing tests: 17 passed. Release APK build passed and
 retains the existing signing certificate. Real provider probes confirmed audible
 PCM and replies in all four configured languages. The user confirmed the phone
 voice and audio were working well, then reported the lookup authentication
 failure. Version 8 and its matching backend were deployed to address that failure;
-a fresh authenticated phone lookup is the remaining acceptance check.
+subsequent successful HTTP calls still returned empty arrays because the imported
+catalog was entirely draft. The user explicitly approved publication of all 406
+records and unreviewed translations on 21 October 2026. Catalog release 2 now
+contains these records, retaining geographic restrictions, unknown application
+statuses and translation review labels. Fresh phone lookup acceptance is pending.
 
 An attempted Flutter integration test failed during its debug build, and the
 runner's cleanup uninstalled the target package, removing local login/data. No
@@ -61,3 +65,18 @@ verify the signer and use `adb install -r`, without uninstalling or clearing dat
 - https://docs.sarvam.ai/voice-agents/build/tools/https-tool
 - https://docs.sarvam.ai/api-reference/text-to-speech/convert
 - https://docs.sarvam.ai/api-reference/text/translate-text
+
+## Longer listening update
+
+Agent version 9 uses the maximum Patient turn-taking setting. MSS 1.2.6+2011
+increases native capture's maximum per turn from 30 to 60 seconds. This is a
+maximum capture window: Sarvam can reply earlier when it detects a completed
+utterance. Pause, End and background closure remain immediate. Tamil uses the
+gentler Vijay persona (`vijay_ta_narration`) for both native and reviewed speech.
+
+The 406-record catalog publication used the exact imported source fingerprint
+`0f294200a75cf910d4ec4e3ad18268e272adbe023a47814bd230234936213ef3`.
+274 records are central, 53 Tamil Nadu and 79 Maharashtra. Publication changes
+only visibility and its audit link; it does not mark applications open or
+eligibility verified. A protected catalog-table backup was made before the
+atomic publication. Existing RLS and runtime state scoping remain in force.

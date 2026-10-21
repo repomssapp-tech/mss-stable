@@ -195,7 +195,7 @@ class NativeSaarthiConversationController
     }, onError: (Object _) => unawaited(_fail('MIC_UNAVAILABLE')));
     draft = '';
     _phase(ConversationPhase.listening);
-    _limit = Timer(const Duration(seconds: 30), () => unawaited(finishTurn()));
+    _limit = Timer(const Duration(seconds: 60), () => unawaited(finishTurn()));
   }
 
   Future<void> _stopMic() async {
