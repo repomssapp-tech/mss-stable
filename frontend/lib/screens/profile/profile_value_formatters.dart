@@ -21,6 +21,9 @@ class ProfileValueFormatters {
     (l) => l.empUnemployed,
     (l) => l.empRetired,
     (l) => l.aspiringEntrepreneur,
+    (l) => l.existingBusiness,
+    (l) => l.msmeOwner,
+    (l) => l.artisanShg,
     (l) => l.commGeneral,
     (l) => l.commObc,
     (l) => l.commEws,
@@ -80,6 +83,18 @@ class ProfileValueFormatters {
     if (lower == 'unemployed') return context.l10n.empUnemployed;
     if (lower == 'retired') return context.l10n.empRetired;
     if (lower == 'entrepreneur') return context.l10n.aspiringEntrepreneur;
+
+    // The role picked on the "About you" step is stored by its English title.
+    if (lower == 'entrepreneur' || lower == 'aspiring entrepreneur') {
+      return context.l10n.aspiringEntrepreneur;
+    }
+    if (lower == 'business' || lower == 'existing business') {
+      return context.l10n.existingBusiness;
+    }
+    if (lower == 'msme owner' || lower == 'msme') return context.l10n.msmeOwner;
+    if (lower == 'artisan / shg member' || lower == 'artisan') {
+      return context.l10n.artisanShg;
+    }
 
     if (lower == 'school') return context.l10n.eduSchool;
     if (lower == 'diploma') return context.l10n.eduDiploma;

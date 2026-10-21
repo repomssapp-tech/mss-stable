@@ -6451,7 +6451,7 @@ abstract class AppLocalizations {
   /// No description provided for @faqEligibilityA.
   ///
   /// In en, this message translates to:
-  /// **'Complete your details in Profile, then open Search and select For Me to see matching schemes. Open a scheme to review its eligibility criteria.'**
+  /// **'Fill in your profile details (age, gender, state, income, etc.) in the Profile tab, then browse the Search tab, where each scheme shows whether it matches your profile. For a quick check, you can also try the assessment under Discover.'**
   String get faqEligibilityA;
 
   /// No description provided for @faqApplyQ.

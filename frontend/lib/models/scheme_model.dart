@@ -14,6 +14,12 @@ class SchemeDocument {
   final String estimatedCostTa;
   final String remarks;
   final String remarksTa;
+  // Hindi text stored in the catalogue record (`{"en": ..., "hi": ...}`).
+  final String nameHi;
+  final String issuingAuthorityHi;
+  final String descriptionHi;
+  final String estimatedCostHi;
+  final String remarksHi;
   final String sourceUrl;
   final String validityMonths;
   final String downloadTemplateUrl;
@@ -33,6 +39,11 @@ class SchemeDocument {
     this.estimatedCostTa = '',
     this.remarks = '',
     this.remarksTa = '',
+    this.nameHi = '',
+    this.issuingAuthorityHi = '',
+    this.descriptionHi = '',
+    this.estimatedCostHi = '',
+    this.remarksHi = '',
     this.sourceUrl = '',
     this.validityMonths = '',
     this.downloadTemplateUrl = '',
@@ -56,6 +67,11 @@ class SchemeDocument {
     String? estimatedCostTa,
     String? remarks,
     String? remarksTa,
+    String? nameHi,
+    String? issuingAuthorityHi,
+    String? descriptionHi,
+    String? estimatedCostHi,
+    String? remarksHi,
     String? sourceUrl,
     String? validityMonths,
     String? downloadTemplateUrl,
@@ -75,6 +91,11 @@ class SchemeDocument {
       estimatedCostTa: estimatedCostTa ?? this.estimatedCostTa,
       remarks: remarks ?? this.remarks,
       remarksTa: remarksTa ?? this.remarksTa,
+      nameHi: nameHi ?? this.nameHi,
+      issuingAuthorityHi: issuingAuthorityHi ?? this.issuingAuthorityHi,
+      descriptionHi: descriptionHi ?? this.descriptionHi,
+      estimatedCostHi: estimatedCostHi ?? this.estimatedCostHi,
+      remarksHi: remarksHi ?? this.remarksHi,
       sourceUrl: sourceUrl ?? this.sourceUrl,
       validityMonths: validityMonths ?? this.validityMonths,
       downloadTemplateUrl: downloadTemplateUrl ?? this.downloadTemplateUrl,
@@ -102,6 +123,13 @@ class SchemeService {
   final String status;
   final String notes;
   final String notesTa;
+  // Hindi text stored in the catalogue record (`{"en": ..., "hi": ...}`).
+  final String nameHi;
+  final String categoryHi;
+  final String descriptionHi;
+  final String purposeHi;
+  final String departmentHi;
+  final String notesHi;
 
   const SchemeService({
     required this.name,
@@ -120,6 +148,12 @@ class SchemeService {
     this.status = 'ACTIVE',
     this.notes = '',
     this.notesTa = '',
+    this.nameHi = '',
+    this.categoryHi = '',
+    this.descriptionHi = '',
+    this.purposeHi = '',
+    this.departmentHi = '',
+    this.notesHi = '',
   });
 }
 
