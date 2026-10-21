@@ -5089,4 +5089,113 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get voiceSendReviewed => 'சரிபார்த்த கோரிக்கையை அனுப்பு';
+
+  @override
+  String get liveVoiceReady => 'பேசத் தயார்';
+
+  @override
+  String get liveVoiceConnecting => 'மைக்ரோஃபோன் தொடங்குகிறது…';
+
+  @override
+  String get liveVoiceListening => 'கேட்டுக்கொண்டிருக்கிறேன்';
+
+  @override
+  String get liveVoiceTranscribing => 'உங்கள் கோரிக்கையை முடிக்கிறேன்…';
+
+  @override
+  String get liveVoiceThinking => 'பதிலைத் தேடுகிறேன்…';
+
+  @override
+  String get liveVoiceSpeaking => 'சாரதி பேசுகிறார்';
+
+  @override
+  String get liveVoicePaused => 'உரையாடல் இடைநிறுத்தப்பட்டது';
+
+  @override
+  String get liveVoiceError => 'குரல் சேவையைக் கவனிக்கவும்';
+
+  @override
+  String get liveVoiceEnd => 'முடி';
+
+  @override
+  String get liveVoicePause => 'உரையாடலை இடைநிறுத்து';
+
+  @override
+  String get liveVoiceResume => 'மீண்டும் கேட்கத் தொடங்கு';
+
+  @override
+  String get liveVoiceHeard => 'நான் கேட்டது';
+
+  @override
+  String get liveVoiceFinish => 'பேசி முடித்துவிட்டேன்';
+
+  @override
+  String get liveVoiceCorrect => 'கோரிக்கையைத் திருத்து';
+
+  @override
+  String get liveVoiceType => 'தட்டச்சு செய்';
+
+  @override
+  String get liveVoiceRepeat => 'பதிலை மீண்டும் கேள்';
+
+  @override
+  String get liveVoiceEditRequest => 'உங்கள் கோரிக்கை';
+
+  @override
+  String get liveVoiceEditingHint =>
+      'மைக்ரோஃபோன் இடைநிறுத்தப்பட்டுள்ளது. உங்கள் சொற்களைத் திருத்தி அனுப்பவும்.';
+
+  @override
+  String get liveVoiceOptions => 'குரல் விருப்பங்கள்';
+
+  @override
+  String get liveVoiceLongPauses => 'நீண்ட இடைவெளிகளை அனுமதி';
+
+  @override
+  String get liveVoiceLongPausesHint =>
+      'சாரதி பதிலளிக்கும் முன் சொற்களுக்கு இடையில் அதிக நேரம் எடுத்துக்கொள்ளலாம்.';
+
+  @override
+  String get liveVoiceReadAloud => 'பதில்களைச் சத்தமாக வாசி';
+
+  @override
+  String get liveVoiceReview => 'அனுப்பும் முன் சரிபார்';
+
+  @override
+  String get liveVoiceReviewHint =>
+      'ஒவ்வொரு உரையையும் அனுப்பும் முன் சரிபார்த்துத் திருத்தவும்.';
+
+  @override
+  String get liveVoiceConversationHint =>
+      'பேசிவிட்டு இடைநிறுத்தவும். சாரதி பதிலளித்து மீண்டும் கேட்பார். தேவைப்படும்போது இடைநிறுத்தலாம்; கீழே உங்கள் கோரிக்கையைத் திருத்தலாம் அல்லது தட்டச்சு செய்யலாம்.';
+
+  @override
+  String get liveVoiceScreenReaderHint =>
+      'திரை வாசிப்பான் வாசித்து முடிக்க ஒவ்வொரு பதிலுக்குப் பிறகும் மைக்ரோஃபோன் இடைநிறுத்தப்படும். தயாரானதும் மீண்டும் கேட்கத் தொடங்கு என்பதைத் தேர்ந்தெடுக்கவும்.';
+
+  @override
+  String get liveVoiceMicrophonePermission =>
+      'சாதன அமைப்புகளில் மைக்ரோஃபோன் அனுமதியை வழங்கி மீண்டும் தொடங்கவும். கோரிக்கையைத் தட்டச்சும் செய்யலாம்.';
+
+  @override
+  String get liveVoiceNoSpeech =>
+      'பேச்சு கேட்கவில்லை. மீண்டும் தொடங்கவும் அல்லது கோரிக்கையைத் தட்டச்சு செய்யவும்.';
+
+  @override
+  String get liveVoiceConnectionError =>
+      'குரல் கோரிக்கையை முடிக்க முடியவில்லை. இணைய இணைப்பைச் சரிபார்த்து மீண்டும் தொடங்கவும் அல்லது தட்டச்சு செய்யவும்.';
+
+  @override
+  String get liveVoiceTitle => 'சாரதி';
+
+  @override
+  String get liveVoiceLatest => 'சமீபத்திய பதில்';
+
+  @override
+  String get liveVoiceScreenReaderShort =>
+      'திரை வாசிப்பான் பயன்முறை: ஒவ்வொரு பதிலுக்குப் பிறகும் மீண்டும் தொடங்கவும்.';
+
+  @override
+  String get liveVoiceFinalTimeout =>
+      'உரையாக்கம் முடியவில்லை. கேட்ட சொற்களைத் திருத்தவும் அல்லது மீண்டும் தொடங்கவும்.';
 }

@@ -12,6 +12,7 @@ import 'package:frontend/screens/companion_mode/saarthi_home/saarthi_compact_sch
 import 'package:frontend/screens/companion_mode/saarthi_home/saarthi_top_bar.dart';
 import 'package:frontend/screens/companion_mode/saarthi_home/saarthi_transcript_view.dart';
 import 'package:frontend/screens/companion_mode/saarthi_home_screen.dart';
+import 'package:frontend/screens/companion_mode/saarthi_home/saarthi_live_conversation_view.dart';
 import 'package:frontend/services/voice/cloud_voice_protocol.dart';
 
 Widget _host({Locale locale = const Locale('en'), Widget? child}) {
@@ -69,21 +70,11 @@ void main() {
       await tester.tap(find.byKey(const Key('saarthi-start-speaking')));
       await tester.pumpAndSettle();
 
-      // Conversation mode is now active with all controls
-      expect(find.byKey(const Key('saarthi-voice-status')), findsOneWidget);
-      expect(
-        find.byKey(const Key('saarthi-accessible-controls')),
-        findsOneWidget,
-      );
-      expect(
-        find.byKey(const Key('saarthi-primary-voice-control')),
-        findsOneWidget,
-      );
-      expect(find.byKey(const Key('saarthi-end-control')), findsOneWidget);
-
-      // Transcript view should be present with empty state
-      expect(find.byType(SaarthiTranscriptView), findsOneWidget);
-      expect(find.byKey(const Key('voice-empty-state')), findsOneWidget);
+      expect(find.byType(SaarthiLiveConversationView), findsOneWidget);
+      expect(find.byKey(const Key('live-voice-status')), findsOneWidget);
+      expect(find.byKey(const Key('live-voice-pause-resume')), findsOneWidget);
+      expect(find.byKey(const Key('live-voice-end')), findsOneWidget);
+      expect(find.byType(Dialog), findsNothing);
     });
 
     testWidgets('SaarthiBottomPanel fires callbacks for voice controls', (

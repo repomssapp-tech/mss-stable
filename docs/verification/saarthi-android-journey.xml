@@ -1,0 +1,11 @@
+<journey name="Saarthi hands-free voice on connected Android">
+  <description>Verify the installed release opens, starts an inline voice conversation, exposes pause/correction controls and can end without a recording dialog.</description>
+  <actions>
+    <action>Verify version 1.2.2 build 2007 is installed and launches</action>
+    <action>Tap the observed start conversation control</action>
+    <action>Verify inline voice state, Pause, Correct and Type controls without a recording dialog</action>
+    <action>Tap Pause and verify Resume is available</action>
+    <action>Tap Type and verify inline editor and Send are visible</action>
+    <action>Tap End and verify the starting Saarthi screen returns</action>
+  </actions>
+</journey>

@@ -1,0 +1,73 @@
+{
+  "journey": "Saarthi hands-free voice on connected Android",
+  "date": "2026-10-21",
+  "app": {
+    "package": "com.inschemes.app",
+    "version": "1.2.2",
+    "versionCode": 2007,
+    "install": "adb install -r; Success; existing data preserved"
+  },
+  "results": [
+    {
+      "action": "Verify version 1.2.2 build 2007 is installed and launches",
+      "status": "PASSED",
+      "commands": [
+        "adb install -r app-release.apk",
+        "adb shell am start -n com.inschemes.app/.MainActivity",
+        "adb shell dumpsys package com.inschemes.app"
+      ],
+      "comment": "Installed version and running application confirmed. Signing certificate matches existing installation."
+    },
+    {
+      "action": "Tap the observed start conversation control",
+      "status": "PASSED",
+      "commands": [
+        "adb shell input tap 540 1381"
+      ],
+      "comment": "Observed Start speaking to Saarthi bounds [53,1297][1028,1465]."
+    },
+    {
+      "action": "Verify inline voice state, Pause, Correct and Type controls without a recording dialog",
+      "status": "PASSED",
+      "commands": [
+        "adb shell uiautomator dump /sdcard/mss-voice-ui.xml"
+      ],
+      "comment": "App tree showed Listening, Finish speaking, Correct request, Type instead, Hear reply again, Voice options, Pause conversation and End. No recording modal."
+    },
+    {
+      "action": "Tap Pause and verify Resume is available",
+      "status": "PASSED",
+      "commands": [
+        "adb shell input tap 477 2224"
+      ],
+      "comment": "Conversation paused and Resume listening appeared. UI automation also temporarily triggered accessible-navigation mode; no physical TalkBack service was enabled."
+    },
+    {
+      "action": "Tap Type and verify inline editor and Send are visible",
+      "status": "FAILED",
+      "commands": [
+        "adb shell input tap 729 512"
+      ],
+      "comment": "The app moved to the background before the assertion. No subsequent journey steps were executed; editor/keyboard assertions passed separately in widget tests."
+    },
+    {
+      "action": "Tap End and verify the starting Saarthi screen returns",
+      "status": "SKIPPED",
+      "commands": [],
+      "comment": "Skipped after preceding interrupted step. End was independently exercised during setup and returned to the initial Start speaking to Saarthi screen."
+    }
+  ],
+  "automated": {
+    "focused_flutter": "50 passed",
+    "flutter_analysis": "No issues found",
+    "backend": "169 passed, 2 skipped of 171",
+    "remaining_guard_failures": "Five pre-existing guard failures reference only untouched password_login_dialog.dart, active_sessions_dialog.dart and password_management_dialog.dart; no baseline changes."
+  },
+  "limits": [
+    "No physical TalkBack test or controlled spoken accuracy test completed on phone.",
+    "Public WSS upgrade and unauthorized rejection passed; phone reached Listening with its existing account.",
+    "Synthetic real-provider latency is one local English clip, not a service guarantee."
+  ],
+  "backend_commit": "bb7ec782f3f545842c13e5a16a1fc2d7451c5820",
+  "apk_sha256": "1083ea3dd2be2b130302d80c66c296449b87008fd2cd395bf51093f464188cf5"
+}

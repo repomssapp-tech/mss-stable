@@ -97,6 +97,12 @@ class HttpVoiceAgentController extends ChangeNotifier
   int _turn = 0;
   String? _selectedLanguage;
   String? _pending;
+  bool speakReplies = true;
+  Future<void> _turnCompleted = Future.value();
+  Future<void> get turnCompleted => _turnCompleted;
+  Uint8List? _lastAudio;
+  String? _lastReply;
+  String? _lastReplyLanguage;
   @override
   VoiceAgentState get state => _state;
   @override
@@ -154,7 +160,8 @@ class HttpVoiceAgentController extends ChangeNotifier
         clearMessage: true,
       ),
     );
-    unawaited(_complete(value, turn, _generation));
+    _turnCompleted = _complete(value, turn, _generation);
+    unawaited(_turnCompleted);
   }
 
   Future<void> _complete(String text, int turn, int generation) async {
@@ -212,21 +219,13 @@ class HttpVoiceAgentController extends ChangeNotifier
           data: {'messageId': 'http-assistant-$turn'},
         ),
       );
-      _set(_state.copyWith(outputTranscript: reply, isProcessing: false));
-      final speech = await _client
-          .post('/voice/speech', body: {'text': reply, 'language': language})
-          .timeout(const Duration(seconds: 35));
-      if (!current() || _state.isMuted) return;
-      final body = speech.data;
-      if (body is! Map ||
-          body['audio'] is! String ||
-          (body['audio'] as String).length > 8000000) {
-        throw StateError('Invalid audio');
-      }
-      final bytes = base64Decode(body['audio'] as String);
-      _set(_state.copyWith(isSpeaking: true));
-      _events.add(const VoiceAgentEvent(VoiceAgentEventType.speechStarted));
-      await _output.play(bytes);
+      _lastAudio = null;
+      _lastReply = reply;
+      _lastReplyLanguage = language;
+      _set(
+        _state.copyWith(outputTranscript: reply, isProcessing: speakReplies),
+      );
+      if (speakReplies) await _speakReply(reply, language, generation);
     } catch (_) {
       if (!current()) return;
       // Keep reviewed text pending for retry. An audio failure never replaces
@@ -240,6 +239,53 @@ class HttpVoiceAgentController extends ChangeNotifier
       if (current()) {
         _set(_state.copyWith(isProcessing: false, isSpeaking: false));
         _events.add(const VoiceAgentEvent(VoiceAgentEventType.speechStopped));
+      }
+    }
+  }
+
+  Future<void> _speakReply(
+    String reply,
+    String language,
+    int generation,
+  ) async {
+    var bytes = _lastAudio;
+    if (bytes == null) {
+      final speech = await _client
+          .post('/voice/speech', body: {'text': reply, 'language': language})
+          .timeout(const Duration(seconds: 35));
+      if (_disposed || generation != _generation || _state.isMuted) return;
+      final body = speech.data;
+      if (body is! Map ||
+          body['audio'] is! String ||
+          (body['audio'] as String).length > 8000000) {
+        throw StateError('Invalid audio');
+      }
+      bytes = base64Decode(body['audio'] as String);
+      _lastAudio = bytes;
+    }
+    if (_disposed || generation != _generation || _state.isMuted) return;
+    _set(_state.copyWith(isSpeaking: true, isProcessing: false));
+    _events.add(const VoiceAgentEvent(VoiceAgentEventType.speechStarted));
+    await _output.play(bytes);
+  }
+
+  Future<void> replayLastReply() async {
+    final reply = _lastReply, language = _lastReplyLanguage;
+    if (reply == null || language == null) return;
+    await interrupt();
+    final generation = _generation;
+    _set(
+      _state.copyWith(isProcessing: true, isMuted: false, clearMessage: true),
+    );
+    try {
+      await _speakReply(reply, language, generation);
+    } catch (_) {
+      if (generation == _generation) {
+        _set(_state.copyWith(message: 'speech-unavailable'));
+      }
+    } finally {
+      if (generation == _generation) {
+        _set(_state.copyWith(isProcessing: false, isSpeaking: false));
       }
     }
   }
@@ -263,11 +309,27 @@ class HttpVoiceAgentController extends ChangeNotifier
     await connect();
     if (_pending != null) {
       _set(_state.copyWith(isProcessing: true, clearMessage: true));
-      unawaited(_complete(_pending!, _turn, _generation));
+      _turnCompleted = _complete(_pending!, _turn, _generation);
+      unawaited(_turnCompleted);
     }
   }
 
   String? get pendingText => _pending;
+
+  /// A correction supersedes the last exchange so a misheard age, location or
+  /// scheme name cannot remain as context for the corrected request.
+  void discardLastExchange(String request) {
+    if (_history.length >= 2 &&
+        _history[_history.length - 2]['role'] == 'user' &&
+        _history[_history.length - 2]['content'] == request) {
+      _history.removeRange(_history.length - 2, _history.length);
+    }
+    if (_pending == request) _pending = null;
+    _lastAudio = null;
+    _lastReply = null;
+    _lastReplyLanguage = null;
+  }
+
   @override
   Future<void> close() async {
     await interrupt();

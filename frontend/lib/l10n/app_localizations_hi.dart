@@ -5030,4 +5030,113 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get voiceSendReviewed => 'जाँचा हुआ अनुरोध भेजें';
+
+  @override
+  String get liveVoiceReady => 'बात करने के लिए तैयार';
+
+  @override
+  String get liveVoiceConnecting => 'माइक्रोफ़ोन शुरू हो रहा है…';
+
+  @override
+  String get liveVoiceListening => 'सुन रहा हूँ';
+
+  @override
+  String get liveVoiceTranscribing => 'आपका अनुरोध पूरा हो रहा है…';
+
+  @override
+  String get liveVoiceThinking => 'जवाब ढूँढ रहा हूँ…';
+
+  @override
+  String get liveVoiceSpeaking => 'सारथी बोल रहा है';
+
+  @override
+  String get liveVoicePaused => 'बातचीत रुकी हुई है';
+
+  @override
+  String get liveVoiceError => 'वॉइस सेवा पर ध्यान दें';
+
+  @override
+  String get liveVoiceEnd => 'समाप्त करें';
+
+  @override
+  String get liveVoicePause => 'बातचीत रोकें';
+
+  @override
+  String get liveVoiceResume => 'फिर से सुनें';
+
+  @override
+  String get liveVoiceHeard => 'मैंने यह सुना';
+
+  @override
+  String get liveVoiceFinish => 'मैंने बोल लिया';
+
+  @override
+  String get liveVoiceCorrect => 'अनुरोध सुधारें';
+
+  @override
+  String get liveVoiceType => 'टाइप करें';
+
+  @override
+  String get liveVoiceRepeat => 'जवाब फिर सुनें';
+
+  @override
+  String get liveVoiceEditRequest => 'आपका अनुरोध';
+
+  @override
+  String get liveVoiceEditingHint =>
+      'माइक्रोफ़ोन रुका हुआ है। अपने शब्द सुधारें, फिर भेजें।';
+
+  @override
+  String get liveVoiceOptions => 'वॉइस विकल्प';
+
+  @override
+  String get liveVoiceLongPauses => 'लंबे विराम की अनुमति दें';
+
+  @override
+  String get liveVoiceLongPausesHint =>
+      'सारथी के जवाब देने से पहले शब्दों के बीच अधिक समय लें।';
+
+  @override
+  String get liveVoiceReadAloud => 'जवाब ज़ोर से पढ़ें';
+
+  @override
+  String get liveVoiceReview => 'भेजने से पहले जाँचें';
+
+  @override
+  String get liveVoiceReviewHint =>
+      'हर प्रतिलेख भेजने से पहले जाँचें और सुधारें।';
+
+  @override
+  String get liveVoiceConversationHint =>
+      'बोलें, फिर रुकें। सारथी जवाब देगा और फिर सुनेगा। ज़रूरत पर बातचीत रोकें; नीचे अनुरोध सुधारें या टाइप करें।';
+
+  @override
+  String get liveVoiceScreenReaderHint =>
+      'हर जवाब के बाद माइक्रोफ़ोन रुका रहेगा ताकि स्क्रीन रीडर पढ़ना पूरा कर सके। तैयार होने पर फिर से सुनें चुनें।';
+
+  @override
+  String get liveVoiceMicrophonePermission =>
+      'डिवाइस सेटिंग में माइक्रोफ़ोन की अनुमति दें, फिर शुरू करें। आप अनुरोध टाइप भी कर सकते हैं।';
+
+  @override
+  String get liveVoiceNoSpeech =>
+      'कोई आवाज़ सुनाई नहीं दी। फिर से कोशिश करें या अपना अनुरोध टाइप करें।';
+
+  @override
+  String get liveVoiceConnectionError =>
+      'वॉइस अनुरोध पूरा नहीं हो सका। कनेक्शन जाँचें, फिर शुरू करें या अनुरोध टाइप करें।';
+
+  @override
+  String get liveVoiceTitle => 'सारथी';
+
+  @override
+  String get liveVoiceLatest => 'नवीनतम जवाब';
+
+  @override
+  String get liveVoiceScreenReaderShort =>
+      'स्क्रीन रीडर मोड: हर जवाब के बाद फिर से शुरू करें।';
+
+  @override
+  String get liveVoiceFinalTimeout =>
+      'प्रतिलेख पूरा नहीं हुआ। सुने गए शब्द सुधारें या फिर से कोशिश करें।';
 }

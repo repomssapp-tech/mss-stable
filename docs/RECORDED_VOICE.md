@@ -1,56 +1,82 @@
-# Recorded Saarthi voice over MSS REST
+# Saarthi conversational voice
 
-The current Flutter app no longer depends on LiveKit/WebRTC or a Python cloud
-worker. Authentication uses the MSS Node bearer token and the existing API
-client, including its single-flight refresh logic.
+Saarthi AI mode uses the MSS Node API and Sarvam directly through a protected
+WebSocket relay. The mobile app has no LiveKit/WebRTC dependency or Supabase
+runtime dependency. Keys stay in the server environment.
 
-1. Choose English, Tamil, Hindi or Marathi explicitly. Record at most 60 seconds
-   of PCM16 mono 16 kHz in memory; recording stops when the app loses focus.
-2. Stop recording, then upload to `POST /v1/voice/transcriptions`. The server starts
-   a Sarvam batch job with the selected locale (no automatic language guessing).
-3. Poll `POST /v1/voice/transcriptions/status` every five seconds with the returned
-   handle. It is signed, bound to the authenticated account and expires in 15 minutes.
-4. Review/edit the transcript before sending. Retry polling the same job after
-   transient errors; changing language resubmits the retained clip. Typed input
-   remains available. No recording is written to application storage.
-5. Send reviewed text to `/v1/chat`. The server uses published active schemes
-   visible to the signed-in user's saved profile state, through its existing
-   scheme service. The model cannot create scheme card identities. Results are
-   guidance, not eligibility certification.
-6. Display text, then call `/v1/voice/speech` and play MP3 bytes. Speech failure
-   preserves the text reply. Interrupt/close invalidate late responses and stop
-   playback. Failed requests retain the reviewed text for the next microphone tap.
+Tap once to start. Partial words appear while speaking; Sarvam detects the end
+of the turn and returns a final transcript. Only that final text is submitted to
+chat. Input stops completely before inference and speech playback. After playback
+and a 900 ms echo guard, listening resumes. Pause, End and backgrounding stop the
+microphone and invalidate pending callbacks. Backgrounding never auto-resumes.
 
-The regular chatbot reveals replies gradually using Unicode grapheme clusters;
-reduced-motion users receive the whole reply. Long replies do not force a scroll
-to the end.
+Choose English, Tamil, Hindi or Marathi explicitly in voice options; the selected
+locale is sent to recognition, chat and speech. Longer pauses change endpointing
+from 1200 to 1800 ms. Finish speaking manually is also available. Correct and Type
+pause input and open an inline editor. Review before sending is optional. Correcting
+the latest completed request removes that mistaken exchange from model history.
 
-## Server rollout (operator)
+Screen reader mode defaults to text replies and explicit Resume, preventing a
+reader's speech from becoming a new request. Status is one live region; partial
+words are readable without repeated announcements. Controls have labels, the view
+supports large text and keyboard access, and Latest reveals the start of a reply
+without forcing the user's scroll position. Read aloud and cached Repeat are
+available. Speech failure preserves the written reply.
 
-The server source is in the sibling `mss-backend` checkout. Its generated
-`API_DOCUMENTATION.txt` is authoritative; the copy here documents the same change.
-Server environment needs `SARVAM_API_KEY` (never in Flutter defines or source).
-The supplied key has been configured in the private server environment. Live
-Sarvam chat, MP3 synthesis and batch jobs in English, Tamil, Hindi and Marathi
-passed with their selected locales; the Node routes are
-not deployed yet. The server checkout has no GitHub push credentials, so backend
-commit `1aae14e` remains local and in a transferred Git bundle.
-No database migration or production fixture/import is required for this change.
+The regular chatbot still offers recorded audio: up to 60 seconds in memory,
+explicit-language Sarvam batch job, five-second status polling and editable review.
+This asynchronous flow is useful for dictation; conversational endpointing is used
+in Saarthi mode to avoid waiting for a batch job every turn.
 
-Run Node >=24, `npm ci`, then `npm run verify`. Publish/review the backend branch
-and deploy using the existing release procedure. Existing production code was
-left running. This checkout alone does not make the routes live.
+## Transport and efficiency
 
-The reverse proxy must permit a 3 MB request body for `/v1/voice/transcriptions`
-(JSON includes base64 overhead), and allow at least 90 seconds for job creation.
-Use at least 70 seconds for `/v1/chat`, and 40 seconds for speech and status.
-Retain HTTPS, authentication and the current trusted-proxy policy.
+`wss://mssapi.msmeschemes.org/v1/voice/stream` authenticates with the existing MSS
+bearer token in its first frame, never a URL. It relays PCM16 mono 16 kHz. Sessions
+are bounded and rate limited. The existing token refresh is shared across calls.
+There is no per-turn account lookup from the client. Partial UI rebuilds are capped
+at one per 120 ms. Audio remains in memory; Repeat reuses the last MP3. Model
+history is bounded. Chat uses published schemes scoped by the existing server
+scheme service; model output cannot invent card identities. Offline scheme browsing
+retains the bundled catalog path.
 
-Before installing the release, test signed-in chat, each voice language, transcript
-correction, permission denial, silence, offline retry, interruption and backgrounding.
-Vendor processing can continue after the dialog closes; closing stops local polling.
-Audio and text are sent to Sarvam, and are not logged by these Node routes.
+## Deployment and validation
 
-Keep the legacy LiveKit worker available for older installed clients until the
-mobile rollout is verified. Its workflow is already manual-only. Retire its cloud
-resources separately after migration; this change does not shut down shared services.
+Backend commit `bb7ec782f3f545842c13e5a16a1fc2d7451c5820` was deployed through the
+existing immutable release procedure on 2026-10-21 after user approval. Nginx HTTPS
+WebSocket upgrade and route timeouts were validated and reloaded; only the API was
+restarted. Health/database checks and public unauthorized-route tests passed. The
+previous release and Nginx backup remain available for rollback. No schema changes
+or production test accounts were created. The backend commit is local/deployed;
+GitHub push credentials were unavailable.
+
+Backend verification: 171 tests, 169 passed and 2 skipped. A synthetic English clip
+through the real Sarvam realtime provider produced partial text about 615 ms after
+streaming began and a final about 1.9 seconds after the clip ended. This is one
+local relay measurement, not an on-device latency guarantee. Batch jobs and speech
+in all four selected languages were checked separately.
+
+Final focused Flutter checks: 50 passed, including layout at 320dp/200% text in
+en/ta/hi, keyboard editing, labels/contrast/tap targets, token refresh, correction,
+manual finish, late events, stopping input before replies and screen reader mode.
+Analysis reports no issues. The broad run passed 1233 tests with 3 skipped; its
+six failures included five existing design guard failures in untouched account
+dialogs and one new spacing issue. The new issue and added button overrides were
+fixed; final spacing/focused checks pass and the remaining five guard failures
+reference only the same three untouched account dialogs. Baselines were unchanged.
+Physical TalkBack and a spoken conversation still require a human check; automated
+semantics checks do not establish recognition accuracy on the phone.
+
+The generated backend API reference is copied under `backend/New API Ref/`.
+Keep legacy LiveKit resources available for older installed clients until their
+rollout is complete; this update does not shut down shared legacy infrastructure.
+
+## Installed Android release
+
+Version 1.2.2 build 2007 was installed successfully with `adb install -r`, using
+the same signing certificate and retaining existing data. On the connected phone,
+Start reached Listening with the deployed relay, Pause exposed Resume, and End
+returned to the initial screen. The app moved to the background during the inline
+editor assertion, so that device journey stopped there. No physical TalkBack
+service was enabled. See `verification/saarthi-android-results.json` for the exact
+checks and limits. The signed APK is in
+`frontend/build/app/outputs/flutter-apk/app-release.apk`.

@@ -1,0 +1,366 @@
+import 'dart:async';
+import 'package:flutter/foundation.dart';
+import '../network/api_exception.dart';
+
+import 'http_voice_agent_controller.dart';
+import 'realtime_speech_transport.dart';
+import 'voice_microphone.dart';
+
+enum ConversationPhase {
+  idle,
+  connecting,
+  listening,
+  transcribing,
+  thinking,
+  speaking,
+  paused,
+  error,
+}
+
+/// Half-duplex conversation: input is completely stopped before inference or
+/// audio output. Every async operation is invalidated by pause, edit or End.
+class SaarthiConversationController extends ChangeNotifier {
+  SaarthiConversationController({
+    required this.agent,
+    required this.transport,
+    required this.microphone,
+    required this.language,
+    this.screenReader = false,
+    this.replyGuard = const Duration(milliseconds: 900),
+  }) {
+    _events = transport.events.listen(_onSpeech);
+    agent.addListener(_onAgent);
+    agent.speakReplies = !screenReader;
+  }
+  final HttpVoiceAgentController agent;
+  final RealtimeSpeechTransport transport;
+  final VoiceMicrophone microphone;
+  final Duration replyGuard;
+  bool screenReader;
+  String language;
+  bool longerPauses = false;
+  bool get readAloud => agent.speakReplies;
+  ConversationPhase phase = ConversationPhase.idle;
+  String draft = '';
+  String lastRequest = '';
+  String? error;
+  bool active = false;
+  bool editing = false;
+  bool reviewBeforeSend = false;
+  int _generation = 0;
+  bool _disposed = false;
+  bool _finishing = false;
+  String? _replacedRequest;
+  int _captured = 0;
+  Timer? _turnLimit;
+  Timer? _finalLimit;
+  Timer? _partialUpdate;
+  StreamSubscription<LiveSpeechEvent>? _events;
+  StreamSubscription<Uint8List>? _audio;
+  void _update(ConversationPhase value) {
+    if (_disposed) return;
+    phase = value;
+    notifyListeners();
+  }
+
+  void _onAgent() {
+    if (!active ||
+        _disposed ||
+        editing ||
+        phase == ConversationPhase.paused ||
+        phase == ConversationPhase.error) {
+      return;
+    }
+    if (agent.state.isSpeaking) {
+      _update(ConversationPhase.speaking);
+    } else if (agent.state.isProcessing) {
+      _update(ConversationPhase.thinking);
+    }
+  }
+
+  Future<void> start() async {
+    if (_disposed) return;
+    active = true;
+    await resume();
+  }
+
+  Future<void> resume() async {
+    if (!active || _disposed) return;
+    final generation = ++_generation;
+    _update(ConversationPhase.connecting);
+    await _stopInput();
+    if (!_current(generation)) return;
+    await agent.interrupt();
+    if (!_current(generation)) return;
+    editing = false;
+    error = null;
+    draft = '';
+    _finishing = false;
+    _captured = 0;
+    _update(ConversationPhase.connecting);
+    try {
+      await agent.connect();
+      await agent.setResponseLanguage(language);
+      await transport.connect(
+        language: language,
+        silenceMs: longerPauses ? 1800 : 1200,
+      );
+      if (!_current(generation)) return;
+      final stream = await microphone.start();
+      if (!_current(generation)) {
+        await microphone.stop();
+        return;
+      }
+      _audio = stream.listen((bytes) {
+        if (!_current(generation) || phase != ConversationPhase.listening) {
+          return;
+        }
+        _captured += bytes.length;
+        if (_captured <= 960000) {
+          transport.audio(bytes);
+        } else {
+          unawaited(finishTurn());
+        }
+      }, onError: (Object _) => unawaited(_fail('MIC_UNAVAILABLE')));
+      _update(ConversationPhase.listening);
+      _turnLimit = Timer(
+        const Duration(seconds: 30),
+        () => unawaited(finishTurn()),
+      );
+    } catch (error) {
+      if (_current(generation)) {
+        await _fail(_failureCode(error));
+      }
+    }
+  }
+
+  bool _current(int generation) =>
+      !_disposed && active && generation == _generation;
+
+  String _failureCode(Object error) {
+    if (error is ApiException && error.statusCode == 401) return 'UNAUTHORIZED';
+    final message = error is StateError ? error.message : '';
+    if (message.contains('Authentication') || message == 'UNAUTHORIZED') {
+      return 'UNAUTHORIZED';
+    }
+    if (message == 'MIC_PERMISSION') return message;
+    if (RegExp(r'^(VOICE_|AUTH_|SILENCE_)[A-Z_]+$').hasMatch(message)) {
+      return message;
+    }
+    return 'VOICE_UNAVAILABLE';
+  }
+
+  void _onSpeech(LiveSpeechEvent event) {
+    if (!active ||
+        _disposed ||
+        editing ||
+        ![
+          ConversationPhase.listening,
+          ConversationPhase.transcribing,
+          ConversationPhase.connecting,
+        ].contains(phase)) {
+      return;
+    }
+    switch (event.type) {
+      case 'transcript.partial':
+        draft = event.text;
+        // Cap live-text rebuilds; PCM frames never rebuild the UI.
+        _partialUpdate ??= Timer(const Duration(milliseconds: 120), () {
+          _partialUpdate = null;
+          if (!_disposed && active) notifyListeners();
+        });
+      case 'speech_end':
+        unawaited(_waitForFinal());
+      case 'transcript.final':
+        final text = event.text.trim();
+        if (text.isEmpty) {
+          unawaited(_fail('NO_SPEECH'));
+          return;
+        }
+        _finalLimit?.cancel();
+        draft = text;
+        if (reviewBeforeSend) {
+          unawaited(correct());
+        } else {
+          unawaited(send(text));
+        }
+      case 'error':
+        unawaited(_fail(event.code ?? 'VOICE_UNAVAILABLE'));
+    }
+  }
+
+  Future<void> _waitForFinal() async {
+    if (phase != ConversationPhase.listening) return;
+    final generation = _generation;
+    _update(ConversationPhase.transcribing);
+    _turnLimit?.cancel();
+    try {
+      await microphone.stop();
+    } catch (_) {
+      await _fail('MIC_UNAVAILABLE');
+      return;
+    }
+    if (!_current(generation) || phase != ConversationPhase.transcribing) {
+      return;
+    }
+    _finalLimit = Timer(
+      const Duration(seconds: 10),
+      () => unawaited(_fail('FINAL_TIMEOUT')),
+    );
+  }
+
+  Future<void> finishTurn() async {
+    if (_finishing || phase != ConversationPhase.listening) return;
+    _finishing = true;
+    await _waitForFinal();
+    if (phase == ConversationPhase.transcribing) {
+      try {
+        transport.finish();
+      } catch (_) {
+        await _fail('VOICE_CONNECTION_LOST');
+      }
+    }
+  }
+
+  Future<bool> _stopInput() async {
+    _turnLimit?.cancel();
+    _finalLimit?.cancel();
+    _partialUpdate?.cancel();
+    _partialUpdate = null;
+    final audio = _audio;
+    _audio = null;
+    // Stop capture before cancelling its stream; native streams can wait for
+    // recorder shutdown when cancellation is awaited first.
+    var stopped = true;
+    try {
+      await microphone.stop();
+    } catch (_) {
+      stopped = false;
+    }
+    if (audio != null) unawaited(audio.cancel().catchError((Object _) {}));
+    try {
+      await transport.close();
+    } catch (_) {
+      stopped = false;
+    }
+    return stopped;
+  }
+
+  Future<void> send(String text) async {
+    final value = text.trim();
+    if (value.isEmpty || value.length > 2000 || _disposed) return;
+    active = true;
+    final generation = ++_generation;
+    editing = false;
+    error = null;
+    draft = value;
+    lastRequest = value;
+    _update(ConversationPhase.thinking);
+    final stopped = await _stopInput();
+    if (!_current(generation)) return;
+    if (!stopped) {
+      await _fail('MIC_UNAVAILABLE');
+      return;
+    }
+    try {
+      await agent.connect();
+      await agent.setResponseLanguage(language);
+      final replaced = _replacedRequest;
+      _replacedRequest = null;
+      if (replaced != null) agent.discardLastExchange(replaced);
+      await agent.sendText(value);
+      await agent.turnCompleted;
+      if (!_current(generation)) return;
+      if (agent.state.message != null) {
+        await _fail(agent.state.message!);
+        return;
+      }
+      // A screen reader owns reading the reply. Resume is explicit so its
+      // speech cannot be misinterpreted as the user's next request.
+      if (screenReader || !readAloud) {
+        _update(ConversationPhase.paused);
+        return;
+      }
+      await Future<void>.delayed(replyGuard);
+      if (_current(generation)) await resume();
+    } catch (error) {
+      if (_current(generation)) await _fail(_failureCode(error));
+    }
+  }
+
+  Future<void> pause() async {
+    ++_generation;
+    _update(ConversationPhase.paused);
+    await _stopInput();
+    await agent.interrupt();
+  }
+
+  Future<void> correct({bool blank = false}) async {
+    final previous = draft.isNotEmpty ? draft : lastRequest;
+    await pause();
+    _replacedRequest = !blank && previous == lastRequest && previous.isNotEmpty
+        ? previous
+        : null;
+    editing = true;
+    draft = blank ? '' : previous;
+    notifyListeners();
+  }
+
+  Future<void> updateAccessibility(bool enabled) async {
+    if (enabled == screenReader) return;
+    await pause();
+    screenReader = enabled;
+    if (enabled) agent.speakReplies = false;
+    notifyListeners();
+  }
+
+  Future<void> configure({
+    String? languageCode,
+    bool? longPauses,
+    bool? aloud,
+    bool? review,
+  }) async {
+    await pause();
+    if (languageCode != null) language = languageCode;
+    if (longPauses != null) longerPauses = longPauses;
+    if (aloud != null) agent.speakReplies = aloud;
+    if (review != null) reviewBeforeSend = review;
+    notifyListeners();
+  }
+
+  Future<void> repeat() async {
+    await pause();
+    final generation = _generation;
+    _update(ConversationPhase.thinking);
+    await agent.replayLastReply();
+    if (_current(generation)) _update(ConversationPhase.paused);
+  }
+
+  Future<void> _fail(String code) async {
+    ++_generation;
+    error = code;
+    _update(ConversationPhase.error);
+    await _stopInput();
+    await agent.interrupt();
+  }
+
+  Future<void> end() async {
+    active = false;
+    ++_generation;
+    _update(ConversationPhase.idle);
+    await _stopInput();
+    await agent.close();
+  }
+
+  @override
+  Future<void> dispose() async {
+    if (_disposed) return;
+    await end();
+    _disposed = true;
+    agent.removeListener(_onAgent);
+    await _events?.cancel();
+    await transport.dispose();
+    await microphone.dispose();
+    super.dispose();
+  }
+}

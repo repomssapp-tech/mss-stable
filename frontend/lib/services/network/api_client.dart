@@ -60,6 +60,30 @@ class ApiClient {
 
   String get baseUrl => _baseUrl;
 
+  /// Native/browser voice sockets authenticate in their first frame. Reuse
+  /// the shared refresh mutex so opening a voice turn cannot rotate twice.
+  Future<String> validAccessToken({bool forceRefresh = false}) async {
+    if (forceRefresh || await _tokenStorage.isAccessTokenExpired()) {
+      final refreshed = await _refreshTokensShared();
+      if (refreshed == null) {
+        throw const ApiException(
+          statusCode: 401,
+          errorCode: 'UNAUTHORIZED',
+          message: 'Authentication required',
+        );
+      }
+    }
+    final token = await _tokenStorage.getAccessToken();
+    if (token == null || token.isEmpty) {
+      throw const ApiException(
+        statusCode: 401,
+        errorCode: 'UNAUTHORIZED',
+        message: 'Authentication required',
+      );
+    }
+    return token;
+  }
+
   Uri buildUri(String path, [Map<String, dynamic>? queryParameters]) {
     final cleanPath = path.startsWith('/') ? path : '/$path';
     final normalizedBase = _baseUrl.endsWith('/')

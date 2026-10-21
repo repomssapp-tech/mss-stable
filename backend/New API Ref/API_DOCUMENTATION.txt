@@ -1,8 +1,9 @@
 MSS NODE BACKEND - CENTRAL API DOCUMENTATION
 ==========================================
 This generated file is the primary reference for the active mss-backend Node API.
-Scope: registered Express application routes only. Archived Supabase services remain historical. The registered recorded voice and
-grounded chat routes use Sarvam directly; LiveKit is not required for these routes.
+Scope: registered Express application routes and the documented standalone voice
+WebSocket upgrade. Archived Supabase services remain historical. Recorded voice,
+conversational speech and grounded chat use Sarvam without LiveKit.
 Do not edit API_DOCUMENTATION.txt directly. See DOCUMENTATION WORKFLOW below.
 Examples contain synthetic identities and credential placeholders, never secrets.
 Replace angle-bracket placeholders at runtime; they are not usable credentials.
@@ -34,6 +35,7 @@ SHARED GUIDANCE CONTENTS
 - LEGACY CATALOG MIGRATION AND COMPATIBILITY
 - FRONTEND SCHEMES SYNC CONTRACT (GUIDANCE ONLY)
 - SETUP, VERIFICATION AND DEPLOYMENT RESPONSIBILITIES
+- CONVERSATIONAL SAARTHI VOICE
 
 REGISTERED ENDPOINT INDEX
 -------------------------
@@ -59,74 +61,75 @@ SCHEMES (15 operations)
 16. GET    /v1/schemes/:id/application - Scheme application info
 17. GET    /v1/schemes/:id - Scheme details
 
-VOICE (4 operations)
-18. POST   /v1/voice/transcriptions - Start recorded transcription
-19. POST   /v1/voice/transcriptions/status - Poll recorded transcription
-20. POST   /v1/chat - Grounded assistant reply
-21. POST   /v1/voice/speech - Synthesize reply audio
+VOICE (5 operations)
+18. GET    /v1/voice/stream - Conversational speech recognition
+19. POST   /v1/voice/transcriptions - Start recorded transcription
+20. POST   /v1/voice/transcriptions/status - Poll recorded transcription
+21. POST   /v1/chat - Grounded assistant reply
+22. POST   /v1/voice/speech - Synthesize reply audio
 
 AUTH (10 operations)
-22. POST   /v1/auth/google/start - Start Google login
-23. GET    /v1/auth/google/callback - Google callback
-24. POST   /v1/auth/exchange - Exchange app login code
-25. POST   /v1/auth/refresh - Rotate tokens
-26. GET    /v1/me - Current user
-27. DELETE /v1/me - Delete account
-28. POST   /v1/auth/logout - Logout
-29. POST   /v1/auth/logout-all - Logout all
-30. GET    /v1/me/sessions - List sessions
-31. DELETE /v1/me/sessions/:id - Revoke session
+23. POST   /v1/auth/google/start - Start Google login
+24. GET    /v1/auth/google/callback - Google callback
+25. POST   /v1/auth/exchange - Exchange app login code
+26. POST   /v1/auth/refresh - Rotate tokens
+27. GET    /v1/me - Current user
+28. DELETE /v1/me - Delete account
+29. POST   /v1/auth/logout - Logout
+30. POST   /v1/auth/logout-all - Logout all
+31. GET    /v1/me/sessions - List sessions
+32. DELETE /v1/me/sessions/:id - Revoke session
 
 PROFILES (5 operations)
-32. GET    /v1/me/profile - Read full profile
-33. PATCH  /v1/me/profile - Update profile
-34. PUT    /v1/me/onboarding - Complete onboarding
-35. POST   /v1/me/legal-acceptances - Accept legal documents
-36. GET    /v1/me/legal-documents - Current legal versions
+33. GET    /v1/me/profile - Read full profile
+34. PATCH  /v1/me/profile - Update profile
+35. PUT    /v1/me/onboarding - Complete onboarding
+36. POST   /v1/me/legal-acceptances - Accept legal documents
+37. GET    /v1/me/legal-documents - Current legal versions
 
 PASSWORDS (4 operations)
-37. POST   /v1/auth/password/login - Password login
-38. GET    /v1/me/password - Password status
-39. PUT    /v1/me/password - Set/change password
-40. DELETE /v1/me/password - Remove password
+38. POST   /v1/auth/password/login - Password login
+39. GET    /v1/me/password - Password status
+40. PUT    /v1/me/password - Set/change password
+41. DELETE /v1/me/password - Remove password
 
 ADMIN (2 operations)
-41. GET    /v1/admin/security/status - Admin security probe
-42. POST   /v1/admin/notifications - Publish notification
+42. GET    /v1/admin/security/status - Admin security probe
+43. POST   /v1/admin/notifications - Publish notification
 
 CATALOG (3 operations)
-43. GET    /v1/catalog/current - Current catalog release
-44. GET    /v1/catalog/releases/:tag - Catalog release manifest
-45. GET    /v1/catalog/releases/:tag/bundle - Download catalog bundle
+44. GET    /v1/catalog/current - Current catalog release
+45. GET    /v1/catalog/releases/:tag - Catalog release manifest
+46. GET    /v1/catalog/releases/:tag/bundle - Download catalog bundle
 
 NOTIFICATIONS (10 operations)
-46. GET    /v1/me/notifications/events - Notification realtime stream
-47. GET    /v1/me/push-devices - List push registrations
-48. PUT    /v1/me/push-devices/:id - Register push device
-49. DELETE /v1/me/push-devices/:id - Unregister push device
-50. GET    /v1/me/notifications - Notification inbox
-51. GET    /v1/me/notifications/unread-count - Unread count
-52. PATCH  /v1/me/notifications/read - Mark selected/all read
-53. POST   /v1/me/notifications/read-all - Read all notifications
-54. POST   /v1/me/notifications/delete - Delete notifications
-55. PATCH  /v1/me/notifications/:id - Read one notification
+47. GET    /v1/me/notifications/events - Notification realtime stream
+48. GET    /v1/me/push-devices - List push registrations
+49. PUT    /v1/me/push-devices/:id - Register push device
+50. DELETE /v1/me/push-devices/:id - Unregister push device
+51. GET    /v1/me/notifications - Notification inbox
+52. GET    /v1/me/notifications/unread-count - Unread count
+53. PATCH  /v1/me/notifications/read - Mark selected/all read
+54. POST   /v1/me/notifications/read-all - Read all notifications
+55. POST   /v1/me/notifications/delete - Delete notifications
+56. PATCH  /v1/me/notifications/:id - Read one notification
 
 SUPPORT (2 operations)
-56. POST   /v1/support-tickets/guest-session - Create support guest session
-57. POST   /v1/support-tickets - Submit support ticket
+57. POST   /v1/support-tickets/guest-session - Create support guest session
+58. POST   /v1/support-tickets - Submit support ticket
 
 PROMOTIONS (1 operation)
-58. GET    /v1/promotions - Promotions feed
+59. GET    /v1/promotions - Promotions feed
 
 LIBRARY (5 operations)
-59. GET    /v1/me/favorites - List saved favorites
-60. PUT    /v1/me/favorites/:id - Save favorite
-61. DELETE /v1/me/favorites/:id - Remove favorite
-62. GET    /v1/me/eligibility-results - Read saved eligibility results
-63. PUT    /v1/me/eligibility-results - Save or clear eligibility results
+60. GET    /v1/me/favorites - List saved favorites
+61. PUT    /v1/me/favorites/:id - Save favorite
+62. DELETE /v1/me/favorites/:id - Remove favorite
+63. GET    /v1/me/eligibility-results - Read saved eligibility results
+64. PUT    /v1/me/eligibility-results - Save or clear eligibility results
 
 
-63 explicit API operations. Express also provides implicit HEAD handling for GET
+64 explicit API operations. Express also provides implicit HEAD handling for GET
 and automatic OPTIONS/CORS behavior; these are not additional business endpoints.
 
 RUNNING VERSION
@@ -176,6 +179,7 @@ Configuration names (actual values belong only in private environment/secret sto
 - VERCEL=1 is a server deployment flag used for exact forwarded-HTTPS recognition;
   never derived from caller input. Production HTTP requests receive426 HTTPS_REQUIRED.
 - GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET: server-only provider configuration.
+- SARVAM_API_KEY: server-only speech/chat credential; never a Flutter define or URL.
 - GOOGLE_REDIRECT_URI: exact registered callback ending /v1/auth/google/callback.
   Use the configured local port (3000 by default); production callback must be HTTPS.
 - AUTH_APP_REDIRECT_URI: approved app callback, default
@@ -831,6 +835,70 @@ test login. It refuses an existing mss schema, applies all migrations and remove
 only its newly created schema. No DATABASE_URL/.env fallback; default suite skips
 this test. Service/HTTP tests use synthetic query doubles; they do not certify SQL
 execution, restricted-role isolation or actual concurrent PostgreSQL sessions.
+
+CONVERSATIONAL SAARTHI VOICE
+--------------------------
+Tap once begins a conversation with explicit selected speech language. Use the
+standalone server's GET /v1/voice/stream WebSocket; it proxies Sarvam's documented
+Realtime API, not the legacy streaming endpoint or a batch job. No provider key
+reaches the app. No saved profile/contact/identity metadata is added to the STT
+provider URL or audio messages. First-frame authentication supports browsers, which cannot set
+Authorization on WebSockets. CORS_ORIGINS must list an exact approved web origin;
+empty configuration permits native clients only. Never add a wildcard.
+
+Wait for ready before capture/transmission. Show partial transcription in-screen,
+but only a final or the user's explicit correction may enter grounded POST /chat.
+Pause/end/background/navigation close STT and stop capture immediately; audio is
+not queued for later replay. Stop the microphone during processing, assistant
+playback, screen-reader announcements and correction. Reopen only when the user
+has left the conversation running and the previous output has finished. This
+half-duplex choice avoids speaker/TalkBack feedback entering the next request.
+Interrupt stops playback and invalidates late work before returning to listening.
+Always offer text, correction, done-speaking and an obvious pause/end action.
+Use1800ms endpoint silence for speakers needing longer pauses;1200ms otherwise.
+These are initial settings requiring testing with real speakers, not universal
+accessibility or transcription accuracy claims. Never auto-switch the language.
+
+The relay emits one final then closes. Final speech goes through existing owner-
+scoped schemeService retrieval; its transaction-local RLS/state scope is preserved.
+Speech failure must preserve the text reply. Stream/provider errors preserve
+visible partial text for correction, stop the mic and allow explicit retry or
+typing. Do not automatically send a partial or loop reconnects on invalid auth,
+missing configuration, rate limits, silence or denied browser origin. Refresh
+expired access once through the normal shared token-refresh client and reconnect
+only if the conversation is still active. Revoked/expired sessions are rechecked
+each60 seconds; this bounds rather than eliminates the revocation window.
+
+Resource bounds:5s first-frame authentication,8s provider readiness/finalization,
+45s without speech,30s per spoken turn (graceful provider end, never truncating to
+a fabricated final),15min session maximum. PCM16 mono16kHz is32000 bytes/second;
+base64 to Sarvam adds roughly one third. Relay queues cap at256KB per direction;
+input rate64KB/s permits short bursts above normal audio without unbounded replay.
+Each process caps32 sockets including unauthenticated connections,4/IP,2/owner;
+PostgreSQL enforces30 starts/minute/owner across processes. Increase deployment
+capacity only after measuring provider quotas and process memory; process caps
+are not a distributed fleet-wide concurrency guarantee. No recordings, transcript,
+credentials, raw provider errors or query strings are logged by the relay.
+
+Efficiency verification: synthetic tests demonstrate one LLM call for exact
+greetings and a narrow first-turn English scheme taxonomy, instead of two calls.
+Follow-ups, free-form English and other languages retain the query rewrite to
+preserve contextual retrieval. No measured provider latency improvement is claimed.
+Before activation, measure speech-end to final, chat response and first audio
+separately on actual Wi-Fi/mobile connections in en/ta/hi/mr, including slow speech,
+code mixing, silence, noisy rooms, TalkBack, app background and lost connectivity.
+Report median/p95 and failure rate; do not treat mock timings as network benchmarks.
+
+Hosting: attachVoiceStream is wired into src/server.js. Vercel's request function
+cannot host this connection; it returns426 for this route. The reviewed Nginx
+template includes an exact /v1/voice/stream upgrade location; an operator must
+apply it to the existing verified HTTPS site and validate nginx -t before rollout.
+Keep ordinary API routes/header protections intact. The20s WebSocket heartbeat
+fits the60s proxy read timeout. Shutdown closes both client/provider connections.
+Repository edits and verification do not deploy or restart the server.
+Official transport reference:
+https://docs.sarvam.ai/api/api-guides-tutorials/speech-to-text/realtime-streaming
+https://docs.sarvam.ai/api/api-guides-tutorials/speech-to-text/which-api-to-use
 
 READING THE ENDPOINT ENTRIES
 ----------------------------
@@ -3257,7 +3325,91 @@ Local test entry: node --test test/schemes.test.js
 
 
 ==============================================================================================
-18. START RECORDED TRANSCRIPTION
+18. CONVERSATIONAL SPEECH RECOGNITION
+GET /v1/voice/stream
+==============================================================================================
+
+Purpose: One-turn realtime Sarvam speech stream for hands-free Saarthi; partial text and
+automatic end of speech.
+
+URL: <configured-origin>/v1/voice/stream
+
+Authentication / permission: Opaque owner access token in first WebSocket JSON frame within5
+seconds; never in URL/subprotocol.
+
+Headers example:
+
+{
+  "Accept": "application/json",
+  "Authorization": "Bearer <access-token>",
+  "Content-Type": "application/json"
+}
+
+Parameters and body rules: No query parameters or request body. WebSocket Upgrade required.
+Browser Origin must exactly match CORS_ORIGINS; native clients may omit Origin. HTTP without
+Upgrade returns426 WEBSOCKET_REQUIRED. Supported on the standalone Node server, not Vercel
+functions.
+
+Sample JSON request:
+
+{
+  "type": "session.start",
+  "access_token": "<latest opaque MSS access token>",
+  "language": "ta",
+  "silence_ms": 1200
+}
+
+Success HTTP: 101
+
+Sample response:
+
+{
+  "type": "ready"
+}
+
+Additional errors:
+
+- 400 INVALID_REQUEST
+
+- 403 VOICE_ORIGIN_DENIED
+
+- 426 WEBSOCKET_REQUIRED / HTTPS_REQUIRED
+
+- 429 VOICE_SESSION_LIMIT (HTTP handshake)
+
+- WebSocket error frame: UNAUTHORIZED / AUTH_TEMPORARILY_UNAVAILABLE / INVALID_VOICE_LANGUAGE
+/ VOICE_NOT_CONFIGURED / VOICE_PROVIDER_UNAVAILABLE / VOICE_RATE_LIMITED / VOICE_SESSION_LIMIT
+/ INVALID_RECORDING / VOICE_NOT_READY / SILENCE_TIMEOUT / VOICE_FINAL_TIMEOUT /
+VOICE_SESSION_EXPIRED / VOICE_CONNECTION_LOST / VOICE_CONNECTION_SLOW
+
+Sample error JSON: {  "error": "INVALID_REQUEST"}
+
+Database tables (including auth/quota dependencies where applicable): mss.auth_tokens,
+mss.auth_sessions, mss.users, mss.auth_rate_limits
+
+Usage / client integration:
+
+After ready, send binary PCM16 little-endian mono16kHz chunks2..32000 bytes. First JSON frame
+<=4KiB: type,access_token,language,silence_ms only. Explicit language en/ta/hi/mr or matching
+-IN locale; silence_ms1200(default) or1800 for longer pauses. Server frames use type: ready,
+speech_start, speech_end, transcript.partial/text, transcript.final/text, error/code. Final is
+emitted once then the stream closes normally; use existing POST /chat and /voice/speech,
+reopening after playback for the next turn. Client {type:finish} gracefully ends input;30
+seconds from speech_start also ends input and waits up to8 seconds for final. No speech for45
+seconds closes with SILENCE_TIMEOUT. Auth/ready limits5/8 seconds; session15 minutes; token
+revalidated each60 seconds. Process caps32 sockets,4/IP,2/owner;30 starts/minute/owner shared
+through PostgreSQL; binary ingress64KB/s with64KB burst, queues capped256KB. Do not replay
+audio after disconnect. Preserve visible partials for explicit correction if final fails.
+Pause/background/reply must close the stream and stop microphone capture; no live mic during
+speaker/TalkBack output. Never auto-submit partials or recover by silently enabling language
+detection. SARVAM_API_KEY remains only in the backend. See conversational voice guidance
+below; these settings are bounds, not measured provider latency guarantees.
+
+Local test entry: node --test test/voice-stream.test.js
+
+
+==============================================================================================
+19. START RECORDED TRANSCRIPTION
 POST /v1/voice/transcriptions
 ==============================================================================================
 
@@ -3321,18 +3473,19 @@ mss.auth_sessions, mss.users, mss.auth_rate_limits
 
 Usage / client integration:
 
-Set SARVAM_API_KEY only on the server. Audio is uploaded to Sarvam only after recording stops.
-No live microphone streaming. The app must let users review/edit transcripts before submitting
-chat. Keep the same recording on transient errors, reuse the job handle on poll retry, and
-start a new job when changing language. Audio/transcripts and signed URLs are never logged.
-Vendor jobs may continue after the client cancels; polling stops locally. Backend Git
-publication does not deploy these routes.
+Set SARVAM_API_KEY only on the server. Recorded batch endpoints remain available for explicit
+recording/review workflows; conversational Saarthi uses GET /voice/stream instead. For batch:
+upload only after recording stops, preserve recording on transient errors, reuse handle on
+poll retry, and start a new job when changing language. Users can correct conversational
+transcripts in-screen; only final transcripts or explicitly corrected text enter chat.
+Audio/transcripts and signed URLs are never logged. Vendor batch jobs may continue after
+client cancellation. Backend Git publication does not deploy these routes.
 
 Local test entry: node --test test/voice.test.js
 
 
 ==============================================================================================
-19. POLL RECORDED TRANSCRIPTION
+20. POLL RECORDED TRANSCRIPTION
 POST /v1/voice/transcriptions/status
 ==============================================================================================
 
@@ -3396,18 +3549,19 @@ mss.auth_sessions, mss.users, mss.auth_rate_limits
 
 Usage / client integration:
 
-Set SARVAM_API_KEY only on the server. Audio is uploaded to Sarvam only after recording stops.
-No live microphone streaming. The app must let users review/edit transcripts before submitting
-chat. Keep the same recording on transient errors, reuse the job handle on poll retry, and
-start a new job when changing language. Audio/transcripts and signed URLs are never logged.
-Vendor jobs may continue after the client cancels; polling stops locally. Backend Git
-publication does not deploy these routes.
+Set SARVAM_API_KEY only on the server. Recorded batch endpoints remain available for explicit
+recording/review workflows; conversational Saarthi uses GET /voice/stream instead. For batch:
+upload only after recording stops, preserve recording on transient errors, reuse handle on
+poll retry, and start a new job when changing language. Users can correct conversational
+transcripts in-screen; only final transcripts or explicitly corrected text enter chat.
+Audio/transcripts and signed URLs are never logged. Vendor batch jobs may continue after
+client cancellation. Backend Git publication does not deploy these routes.
 
 Local test entry: node --test test/voice.test.js
 
 
 ==============================================================================================
-20. GROUNDED ASSISTANT REPLY
+21. GROUNDED ASSISTANT REPLY
 POST /v1/chat
 ==============================================================================================
 
@@ -3477,18 +3631,19 @@ mss.scheme_localizations, mss.scheme_aliases
 
 Usage / client integration:
 
-Set SARVAM_API_KEY only on the server. Audio is uploaded to Sarvam only after recording stops.
-No live microphone streaming. The app must let users review/edit transcripts before submitting
-chat. Keep the same recording on transient errors, reuse the job handle on poll retry, and
-start a new job when changing language. Audio/transcripts and signed URLs are never logged.
-Vendor jobs may continue after the client cancels; polling stops locally. Backend Git
-publication does not deploy these routes.
+Set SARVAM_API_KEY only on the server. Recorded batch endpoints remain available for explicit
+recording/review workflows; conversational Saarthi uses GET /voice/stream instead. For batch:
+upload only after recording stops, preserve recording on transient errors, reuse handle on
+poll retry, and start a new job when changing language. Users can correct conversational
+transcripts in-screen; only final transcripts or explicitly corrected text enter chat.
+Audio/transcripts and signed URLs are never logged. Vendor batch jobs may continue after
+client cancellation. Backend Git publication does not deploy these routes.
 
 Local test entry: node --test test/voice.test.js
 
 
 ==============================================================================================
-21. SYNTHESIZE REPLY AUDIO
+22. SYNTHESIZE REPLY AUDIO
 POST /v1/voice/speech
 ==============================================================================================
 
@@ -3551,18 +3706,19 @@ mss.auth_sessions, mss.users, mss.auth_rate_limits
 
 Usage / client integration:
 
-Set SARVAM_API_KEY only on the server. Audio is uploaded to Sarvam only after recording stops.
-No live microphone streaming. The app must let users review/edit transcripts before submitting
-chat. Keep the same recording on transient errors, reuse the job handle on poll retry, and
-start a new job when changing language. Audio/transcripts and signed URLs are never logged.
-Vendor jobs may continue after the client cancels; polling stops locally. Backend Git
-publication does not deploy these routes.
+Set SARVAM_API_KEY only on the server. Recorded batch endpoints remain available for explicit
+recording/review workflows; conversational Saarthi uses GET /voice/stream instead. For batch:
+upload only after recording stops, preserve recording on transient errors, reuse handle on
+poll retry, and start a new job when changing language. Users can correct conversational
+transcripts in-screen; only final transcripts or explicitly corrected text enter chat.
+Audio/transcripts and signed URLs are never logged. Vendor batch jobs may continue after
+client cancellation. Backend Git publication does not deploy these routes.
 
 Local test entry: node --test test/voice.test.js
 
 
 ==============================================================================================
-22. START GOOGLE LOGIN
+23. START GOOGLE LOGIN
 POST /v1/auth/google/start
 ==============================================================================================
 
@@ -3620,7 +3776,7 @@ Local test entry: node --test test/auth-http.test.js
 
 
 ==============================================================================================
-23. GOOGLE CALLBACK
+24. GOOGLE CALLBACK
 GET /v1/auth/google/callback
 ==============================================================================================
 
@@ -3676,7 +3832,7 @@ Local test entry: node --test test/auth-http.test.js
 
 
 ==============================================================================================
-24. EXCHANGE APP LOGIN CODE
+25. EXCHANGE APP LOGIN CODE
 POST /v1/auth/exchange
 ==============================================================================================
 
@@ -3741,7 +3897,7 @@ Local test entry: node --test test/auth-http.test.js
 
 
 ==============================================================================================
-25. ROTATE TOKENS
+26. ROTATE TOKENS
 POST /v1/auth/refresh
 ==============================================================================================
 
@@ -3796,7 +3952,7 @@ Local test entry: node --test test/auth-http.test.js
 
 
 ==============================================================================================
-26. CURRENT USER
+27. CURRENT USER
 GET /v1/me
 ==============================================================================================
 
@@ -3850,7 +4006,7 @@ Local test entry: node --test test/auth-http.test.js
 
 
 ==============================================================================================
-27. DELETE ACCOUNT
+28. DELETE ACCOUNT
 DELETE /v1/me
 ==============================================================================================
 
@@ -3923,7 +4079,7 @@ Local test entry: node --test test/account-deletion.test.js
 
 
 ==============================================================================================
-28. LOGOUT
+29. LOGOUT
 POST /v1/auth/logout
 ==============================================================================================
 
@@ -3969,7 +4125,7 @@ Local test entry: node --test test/auth-http.test.js
 
 
 ==============================================================================================
-29. LOGOUT ALL
+30. LOGOUT ALL
 POST /v1/auth/logout-all
 ==============================================================================================
 
@@ -4015,7 +4171,7 @@ Local test entry: node --test test/auth-http.test.js
 
 
 ==============================================================================================
-30. LIST SESSIONS
+31. LIST SESSIONS
 GET /v1/me/sessions
 ==============================================================================================
 
@@ -4071,7 +4227,7 @@ Local test entry: node --test test/auth-http.test.js
 
 
 ==============================================================================================
-31. REVOKE SESSION
+32. REVOKE SESSION
 DELETE /v1/me/sessions/:id
 ==============================================================================================
 
@@ -4118,7 +4274,7 @@ Local test entry: node --test test/auth-http.test.js
 
 
 ==============================================================================================
-32. READ FULL PROFILE
+33. READ FULL PROFILE
 GET /v1/me/profile
 ==============================================================================================
 
@@ -4224,7 +4380,7 @@ Local test entry: node --test test/profiles.test.js
 
 
 ==============================================================================================
-33. UPDATE PROFILE
+34. UPDATE PROFILE
 PATCH /v1/me/profile
 ==============================================================================================
 
@@ -4342,7 +4498,7 @@ Local test entry: node --test test/profiles.test.js
 
 
 ==============================================================================================
-34. COMPLETE ONBOARDING
+35. COMPLETE ONBOARDING
 PUT /v1/me/onboarding
 ==============================================================================================
 
@@ -4508,7 +4664,7 @@ Local test entry: node --test test/profiles.test.js
 
 
 ==============================================================================================
-35. ACCEPT LEGAL DOCUMENTS
+36. ACCEPT LEGAL DOCUMENTS
 POST /v1/me/legal-acceptances
 ==============================================================================================
 
@@ -4659,7 +4815,7 @@ Local test entry: node --test test/profiles.test.js
 
 
 ==============================================================================================
-36. CURRENT LEGAL VERSIONS
+37. CURRENT LEGAL VERSIONS
 GET /v1/me/legal-documents
 ==============================================================================================
 
@@ -4709,7 +4865,7 @@ Local test entry: node --test test/profiles.test.js
 
 
 ==============================================================================================
-37. PASSWORD LOGIN
+38. PASSWORD LOGIN
 POST /v1/auth/password/login
 ==============================================================================================
 
@@ -4775,7 +4931,7 @@ Local test entry: node --test test/security.test.js
 
 
 ==============================================================================================
-38. PASSWORD STATUS
+39. PASSWORD STATUS
 GET /v1/me/password
 ==============================================================================================
 
@@ -4824,7 +4980,7 @@ Local test entry: node --test test/security.test.js
 
 
 ==============================================================================================
-39. SET/CHANGE PASSWORD
+40. SET/CHANGE PASSWORD
 PUT /v1/me/password
 ==============================================================================================
 
@@ -4887,7 +5043,7 @@ Local test entry: node --test test/security.test.js
 
 
 ==============================================================================================
-40. REMOVE PASSWORD
+41. REMOVE PASSWORD
 DELETE /v1/me/password
 ==============================================================================================
 
@@ -4943,7 +5099,7 @@ Local test entry: node --test test/security.test.js
 
 
 ==============================================================================================
-41. ADMIN SECURITY PROBE
+42. ADMIN SECURITY PROBE
 GET /v1/admin/security/status
 ==============================================================================================
 
@@ -4995,7 +5151,7 @@ Local test entry: node --test test/security.test.js
 
 
 ==============================================================================================
-42. PUBLISH NOTIFICATION
+43. PUBLISH NOTIFICATION
 POST /v1/admin/notifications
 ==============================================================================================
 
@@ -5073,7 +5229,7 @@ Local test entry: node --test test/notification-delivery.test.js
 
 
 ==============================================================================================
-43. CURRENT CATALOG RELEASE
+44. CURRENT CATALOG RELEASE
 GET /v1/catalog/current
 ==============================================================================================
 
@@ -5139,7 +5295,7 @@ Local test entry: node --test test/catalog-http.test.js
 
 
 ==============================================================================================
-44. CATALOG RELEASE MANIFEST
+45. CATALOG RELEASE MANIFEST
 GET /v1/catalog/releases/:tag
 ==============================================================================================
 
@@ -5216,7 +5372,7 @@ Local test entry: node --test test/catalog-http.test.js
 
 
 ==============================================================================================
-45. DOWNLOAD CATALOG BUNDLE
+46. DOWNLOAD CATALOG BUNDLE
 GET /v1/catalog/releases/:tag/bundle
 ==============================================================================================
 
@@ -5274,7 +5430,7 @@ Local test entry: node --test test/catalog-http.test.js
 
 
 ==============================================================================================
-46. NOTIFICATION REALTIME STREAM
+47. NOTIFICATION REALTIME STREAM
 GET /v1/me/notifications/events
 ==============================================================================================
 
@@ -5340,7 +5496,7 @@ Local test entry: node --test test/notification-delivery.test.js
 
 
 ==============================================================================================
-47. LIST PUSH REGISTRATIONS
+48. LIST PUSH REGISTRATIONS
 GET /v1/me/push-devices
 ==============================================================================================
 
@@ -5401,7 +5557,7 @@ Local test entry: node --test test/notification-delivery.test.js
 
 
 ==============================================================================================
-48. REGISTER PUSH DEVICE
+49. REGISTER PUSH DEVICE
 PUT /v1/me/push-devices/:id
 ==============================================================================================
 
@@ -5478,7 +5634,7 @@ Local test entry: node --test test/notification-delivery.test.js
 
 
 ==============================================================================================
-49. UNREGISTER PUSH DEVICE
+50. UNREGISTER PUSH DEVICE
 DELETE /v1/me/push-devices/:id
 ==============================================================================================
 
@@ -5532,7 +5688,7 @@ Local test entry: node --test test/notification-delivery.test.js
 
 
 ==============================================================================================
-50. NOTIFICATION INBOX
+51. NOTIFICATION INBOX
 GET /v1/me/notifications
 ==============================================================================================
 
@@ -5595,7 +5751,7 @@ Local test entry: node --test test/notifications.test.js
 
 
 ==============================================================================================
-51. UNREAD COUNT
+52. UNREAD COUNT
 GET /v1/me/notifications/unread-count
 ==============================================================================================
 
@@ -5644,7 +5800,7 @@ Local test entry: node --test test/notifications.test.js
 
 
 ==============================================================================================
-52. MARK SELECTED/ALL READ
+53. MARK SELECTED/ALL READ
 PATCH /v1/me/notifications/read
 ==============================================================================================
 
@@ -5698,7 +5854,7 @@ Local test entry: node --test test/notifications.test.js
 
 
 ==============================================================================================
-53. READ ALL NOTIFICATIONS
+54. READ ALL NOTIFICATIONS
 POST /v1/me/notifications/read-all
 ==============================================================================================
 
@@ -5748,7 +5904,7 @@ Local test entry: node --test test/notifications.test.js
 
 
 ==============================================================================================
-54. DELETE NOTIFICATIONS
+55. DELETE NOTIFICATIONS
 POST /v1/me/notifications/delete
 ==============================================================================================
 
@@ -5802,7 +5958,7 @@ Local test entry: node --test test/notifications.test.js
 
 
 ==============================================================================================
-55. READ ONE NOTIFICATION
+56. READ ONE NOTIFICATION
 PATCH /v1/me/notifications/:id
 ==============================================================================================
 
@@ -5853,7 +6009,7 @@ Local test entry: node --test test/notifications.test.js
 
 
 ==============================================================================================
-56. CREATE SUPPORT GUEST SESSION
+57. CREATE SUPPORT GUEST SESSION
 POST /v1/support-tickets/guest-session
 ==============================================================================================
 
@@ -5905,7 +6061,7 @@ Local test entry: node --test test/support.test.js
 
 
 ==============================================================================================
-57. SUBMIT SUPPORT TICKET
+58. SUBMIT SUPPORT TICKET
 POST /v1/support-tickets
 ==============================================================================================
 
@@ -5981,7 +6137,7 @@ Local test entry: node --test test/support.test.js
 
 
 ==============================================================================================
-58. PROMOTIONS FEED
+59. PROMOTIONS FEED
 GET /v1/promotions
 ==============================================================================================
 
@@ -6061,7 +6217,7 @@ Local test entry: node --test test/promotions.test.js
 
 
 ==============================================================================================
-59. LIST SAVED FAVORITES
+60. LIST SAVED FAVORITES
 GET /v1/me/favorites
 ==============================================================================================
 
@@ -6125,7 +6281,7 @@ Local test entry: node --test test/library.test.js
 
 
 ==============================================================================================
-60. SAVE FAVORITE
+61. SAVE FAVORITE
 PUT /v1/me/favorites/:id
 ==============================================================================================
 
@@ -6189,7 +6345,7 @@ Local test entry: node --test test/library.test.js
 
 
 ==============================================================================================
-61. REMOVE FAVORITE
+62. REMOVE FAVORITE
 DELETE /v1/me/favorites/:id
 ==============================================================================================
 
@@ -6243,7 +6399,7 @@ Local test entry: node --test test/library.test.js
 
 
 ==============================================================================================
-62. READ SAVED ELIGIBILITY RESULTS
+63. READ SAVED ELIGIBILITY RESULTS
 GET /v1/me/eligibility-results
 ==============================================================================================
 
@@ -6308,7 +6464,7 @@ Local test entry: node --test test/library.test.js
 
 
 ==============================================================================================
-63. SAVE OR CLEAR ELIGIBILITY RESULTS
+64. SAVE OR CLEAR ELIGIBILITY RESULTS
 PUT /v1/me/eligibility-results
 ==============================================================================================
 
@@ -6433,7 +6589,7 @@ operations: error literals=(see shared errors); SQL tables=(see endpoint/shared 
 
 schemes: error literals=DRAFT_PRECONDITION_REQUIRED, FORBIDDEN, IDEMPOTENCY_CONFLICT, IDEMPOTENCY_KEY_REQUIRED, INVALID_SCHEME_DRAFT, INVALID_SCHEME_PUBLICATION, INVALID_SCHEME_RELATION_OR_ALIAS, INVALID_SCHEME_REQUEST, INVALID_SCHEME_REVIEW, INVALID_SCHEME_SOURCE, INVALID_SCHEME_UPLOAD, JSON_REQUIRED, PROFILE_STATE_INVALID, PROFILE_STATE_REQUIRED, SCHEMES_UNAVAILABLE, SCHEME_ALIAS_CONFLICT, SCHEME_DRAFT_BASE_CHANGED, SCHEME_DRAFT_CHANGED, SCHEME_DRAFT_CLOSED, SCHEME_DRAFT_EXISTS, SCHEME_DRAFT_NOT_APPROVED, SCHEME_DRAFT_NOT_FOUND, SCHEME_ENCODING_NOT_ACCEPTABLE, SCHEME_IMPORT_CONFLICT, SCHEME_NOT_FOUND, SCHEME_PREVIEW_CHANGED, SCHEME_RELATION_CONFLICT, SCHEME_RELEASE_REQUIRED, SCHEME_REVIEW_CONFLICT, SCHEME_SYNC_CHANGED, SCHEME_UPLOAD_INVALID, SCHEME_UPLOAD_MEDIA_REQUIRED, SCHEME_UPLOAD_NOT_FOUND; SQL tables=profiles, scheme_aliases, scheme_audit, scheme_catalog_current, scheme_drafts, scheme_import_batches, scheme_import_records, scheme_localizations, scheme_publication_receipts, scheme_records, scheme_relations, scheme_releases, scheme_review_events, scheme_uploads
 
-voice: error literals=INVALID_CHAT_MESSAGES, INVALID_RECORDING, INVALID_REQUEST, INVALID_SPEECH_TEXT, INVALID_TRANSCRIPTION_HANDLE, INVALID_VOICE_LANGUAGE, VOICE_NOT_CONFIGURED, VOICE_PROVIDER_UNAVAILABLE; SQL tables=(see endpoint/shared dependencies)
+voice: error literals=AUTH_TEMPORARILY_UNAVAILABLE, INVALID_CHAT_MESSAGES, INVALID_RECORDING, INVALID_REQUEST, INVALID_SPEECH_TEXT, INVALID_TRANSCRIPTION_HANDLE, INVALID_VOICE_LANGUAGE, SILENCE_TIMEOUT, UNAUTHORIZED, VOICE_CONNECTION_LOST, VOICE_CONNECTION_SLOW, VOICE_FINAL_TIMEOUT, VOICE_NOT_CONFIGURED, VOICE_NOT_READY, VOICE_ORIGIN_DENIED, VOICE_PROVIDER_UNAVAILABLE, VOICE_RATE_LIMITED, VOICE_SESSION_EXPIRED, VOICE_SESSION_LIMIT; SQL tables=auth_rate_limits
 
 auth: error literals=ACCOUNT_DELETION_UNAVAILABLE, FORBIDDEN, GOOGLE_LOGIN_CANCELLED, GOOGLE_LOGIN_FAILED, GOOGLE_NOT_CONFIGURED, INVALID_ACCOUNT_DELETION_REQUEST, INVALID_APP_REDIRECT, INVALID_CODE_CHALLENGE, INVALID_GOOGLE_CALLBACK, INVALID_LOGIN_CODE, INVALID_OAUTH_CALLBACK, INVALID_OAUTH_STATE, INVALID_REFRESH_TOKEN, INVALID_SESSION_ID, REAUTHENTICATION_REQUIRED, UNAUTHORIZED; SQL tables=auth_rate_limits, auth_sessions, auth_tokens, login_codes, oauth_attempts, support_tickets, user_roles, users
 
@@ -6487,11 +6643,11 @@ ca93666ff3c0c2d4a24c0f6954a1e6e718adc3f0e0901d25b397046e7e85a718  database/migra
 
 0ae1957b564d216aaf102fa8268b2008833ed0305f2d54e86b81e85d825c9a66  database/migrations/015_scheme_workflow.sql
 
-c93af24dc1a21ae909e098b03730cb4f69e988d207f5affd5de510a9a80de873  docs/api/contracts.mjs
+2fea63b33408035d2f1be2a310e8f373f65f17499a96ad97fdf5badb9279af5c  docs/api/contracts.mjs
 
-e110dc731adaa6683552f5c4c7509bdd6067f62dcb01107b7776d483f7317a14  docs/api/integration.txt
+1affbfa06c10b5d66b1af6201c55920e2bd2dec58860dad97574f2d77021b4c5  docs/api/integration.txt
 
-3f46e072dffae1084258c6c4061d48480ecd7598c849a52d290ac3997c3804dd  package.json
+084b58df818533fcd13182141cfd167e0fe332c724fe4d3585dfb840968d02b2  package.json
 
 ad0bfa74e29e4e609bc9f5940c214b7330540a5fbcc3e88a8b269427bc4d89d0  scripts/api-documentation.mjs
 
@@ -6611,7 +6767,7 @@ fdf3864e875cc2d6620223a5dee8da302d0f6efef5f915af7316e733c0b95f47  src/schemes/wo
 
 f834c83460dfd9cafaf287dafd00c52e405398c69a4165e26f1fb955397f6931  src/schemes/workflow.js
 
-22df98e873966179553b25f3d2fde88d3e14a1736158ced702c77ce96eb09313  src/server.js
+bff8c7539818518a6057579390d074600b0eacbc728e3fc3bff5e15ecdf193a3  src/server.js
 
 d44ee8ce5dbd4b10d525dee470c5d84669949d77eaabef17aae5181acf92f390  src/support/routes.js
 
@@ -6619,8 +6775,10 @@ f7b43108331fe039befd315ce9d0d1daf9c2ac9b555e5f3f164e2c1bcb71f1b9  src/support/se
 
 1cc289e2b7ae26ab512e4153f4aa10856ac1b65194efd178b92276e8ba3233d4  src/support/validation.js
 
-2212a1fec98ab700ef4e5b5ce9608b70808d3b0490635f3bf03358cdc08f9cad  src/voice/chat.js
+d63cb8da638aca1290d1a9348cbbab2c54b19faae290f4e613d36c7fdeaf22d3  src/voice/chat.js
 
 4e5782bb5d39edc850ae48dc48e3bd15bef85ffda48bcbe60adb2205ee70db09  src/voice/provider.js
 
-565a19766a98028a22a047be1bb96ba3e392cea77a563481a37c4ec916b3b7f0  src/voice/routes.js
+8210faa14671a548b58c54960b69ec6f9771dacdfbc04cecc714a818a2ba0512  src/voice/routes.js
+
+298981dc925048b8ec2685a325488bbd32621501a7a851327d8e63f4bb14c6db  src/voice/stream.js
