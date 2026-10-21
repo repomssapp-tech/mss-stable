@@ -27,10 +27,12 @@ SHARED GUIDANCE CONTENTS
 - QUICK START / ENVIRONMENTS
 - SHARED HTTP CONTRACT / SECURITY
 - SHARED SCHEMAS
+- LEGAL DOCUMENT CONTENT AND ONBOARDING
 - CLIENT INTEGRATION / WORKFLOW OVERVIEW
 - CLIENT TRANSPORT RULES
 - TESTING / DEPLOYMENT LIMITS
 - DOCUMENTATION WORKFLOW / SINGLE REFERENCE
+- FLUTTER FIREBASE PUSH - FRONTEND HANDOFF
 - UNIFIED SCHEME RELEASE WORKFLOW
 - LEGACY CATALOG MIGRATION AND COMPATIBILITY
 - FRONTEND SCHEMES SYNC CONTRACT (GUIDANCE ONLY)
@@ -80,56 +82,60 @@ AUTH (10 operations)
 31. GET    /v1/me/sessions - List sessions
 32. DELETE /v1/me/sessions/:id - Revoke session
 
+LEGAL (2 operations)
+33. GET    /v1/legal-documents - Read legal documents before sign-in
+34. GET    /v1/legal-documents/:type/:version - Read an exact legal document revision
+
 PROFILES (5 operations)
-33. GET    /v1/me/profile - Read full profile
-34. PATCH  /v1/me/profile - Update profile
-35. PUT    /v1/me/onboarding - Complete onboarding
-36. POST   /v1/me/legal-acceptances - Accept legal documents
-37. GET    /v1/me/legal-documents - Current legal versions
+35. GET    /v1/me/profile - Read full profile
+36. PATCH  /v1/me/profile - Update profile
+37. PUT    /v1/me/onboarding - Complete onboarding
+38. POST   /v1/me/legal-acceptances - Accept legal documents
+39. GET    /v1/me/legal-documents - Current legal versions
 
 PASSWORDS (4 operations)
-38. POST   /v1/auth/password/login - Password login
-39. GET    /v1/me/password - Password status
-40. PUT    /v1/me/password - Set/change password
-41. DELETE /v1/me/password - Remove password
+40. POST   /v1/auth/password/login - Password login
+41. GET    /v1/me/password - Password status
+42. PUT    /v1/me/password - Set/change password
+43. DELETE /v1/me/password - Remove password
 
 ADMIN (2 operations)
-42. GET    /v1/admin/security/status - Admin security probe
-43. POST   /v1/admin/notifications - Publish notification
+44. GET    /v1/admin/security/status - Admin security probe
+45. POST   /v1/admin/notifications - Publish notification
 
 CATALOG (3 operations)
-44. GET    /v1/catalog/current - Current catalog release
-45. GET    /v1/catalog/releases/:tag - Catalog release manifest
-46. GET    /v1/catalog/releases/:tag/bundle - Download catalog bundle
+46. GET    /v1/catalog/current - Current catalog release
+47. GET    /v1/catalog/releases/:tag - Catalog release manifest
+48. GET    /v1/catalog/releases/:tag/bundle - Download catalog bundle
 
 NOTIFICATIONS (10 operations)
-47. GET    /v1/me/notifications/events - Notification realtime stream
-48. GET    /v1/me/push-devices - List push registrations
-49. PUT    /v1/me/push-devices/:id - Register push device
-50. DELETE /v1/me/push-devices/:id - Unregister push device
-51. GET    /v1/me/notifications - Notification inbox
-52. GET    /v1/me/notifications/unread-count - Unread count
-53. PATCH  /v1/me/notifications/read - Mark selected/all read
-54. POST   /v1/me/notifications/read-all - Read all notifications
-55. POST   /v1/me/notifications/delete - Delete notifications
-56. PATCH  /v1/me/notifications/:id - Read one notification
+49. GET    /v1/me/notifications/events - Notification realtime stream
+50. GET    /v1/me/push-devices - List push registrations
+51. PUT    /v1/me/push-devices/:id - Register push device
+52. DELETE /v1/me/push-devices/:id - Unregister push device
+53. GET    /v1/me/notifications - Notification inbox
+54. GET    /v1/me/notifications/unread-count - Unread count
+55. PATCH  /v1/me/notifications/read - Mark selected/all read
+56. POST   /v1/me/notifications/read-all - Read all notifications
+57. POST   /v1/me/notifications/delete - Delete notifications
+58. PATCH  /v1/me/notifications/:id - Read one notification
 
 SUPPORT (2 operations)
-57. POST   /v1/support-tickets/guest-session - Create support guest session
-58. POST   /v1/support-tickets - Submit support ticket
+59. POST   /v1/support-tickets/guest-session - Create support guest session
+60. POST   /v1/support-tickets - Submit support ticket
 
 PROMOTIONS (1 operation)
-59. GET    /v1/promotions - Promotions feed
+61. GET    /v1/promotions - Promotions feed
 
 LIBRARY (5 operations)
-60. GET    /v1/me/favorites - List saved favorites
-61. PUT    /v1/me/favorites/:id - Save favorite
-62. DELETE /v1/me/favorites/:id - Remove favorite
-63. GET    /v1/me/eligibility-results - Read saved eligibility results
-64. PUT    /v1/me/eligibility-results - Save or clear eligibility results
+62. GET    /v1/me/favorites - List saved favorites
+63. PUT    /v1/me/favorites/:id - Save favorite
+64. DELETE /v1/me/favorites/:id - Remove favorite
+65. GET    /v1/me/eligibility-results - Read saved eligibility results
+66. PUT    /v1/me/eligibility-results - Save or clear eligibility results
 
 
-64 explicit API operations. Express also provides implicit HEAD handling for GET
+66 explicit API operations. Express also provides implicit HEAD handling for GET
 and automatic OPTIONS/CORS behavior; these are not additional business endpoints.
 
 RUNNING VERSION
@@ -149,10 +155,47 @@ Pushing a Git tag or commit does not mean it is live: compare the health respons
 with the desired release, or inspect Vercel's Current Production deployment Source.
 Backend publishing is Git-only; deployment is performed by the user.
 
+APP HANDOFF STATUS (source review, 20 October 2026)
+-------------------------------------------------
+The frontend's docs/backend/PENDING_ENDPOINTS.md is supplementary. Account
+deletion is implemented as DELETE /v1/me; support is implemented as POST
+/v1/support-tickets and POST /v1/support-tickets/guest-session. See the generated
+operations for authentication, validation, quotas and response contracts.
+POST /v1/beta-gate/verify, /v1/me/chat-sessions, /v1/chat and /v1/voice/token
+are not registered Node routes. Chat/voice provider configuration, server-owned
+dispatch/profile handling and session storage require a separate implementation;
+the frontend's assumed payloads do not establish active backend contracts.
+
+All four legal types are supported in one acceptance/onboarding submission:
+terms, privacy_policy, privacy_notice, consent. Each must use its current version;
+completion checks stored plus submitted acceptances. The API records submitted
+acceptances; it does not create consent automatically from a completed profile.
+The four English documents are now shipped with the backend, copied from the
+existing app legal screens. Unset/empty LEGAL_DOCUMENT_VERSIONS selects these
+content-bound versions and returns configured=true. Public GET /legal-documents
+and authenticated GET /me/legal-documents expose the same registry with full
+plain text and exact revision URLs. A nonempty external override preserves its
+existing versions; configured still describes version completeness, so inspect
+content_available before assuming backend text exists for an external version.
+
+Catalog discovery and binary download routes already exist. A null current
+response means no pointer was published in that database. The existing importer
+expects catalog_bundle.json.gz plus release.json; the frontend now ships split
+core/central/state assets instead. A merged, validated release artifact is still
+needed before import and explicit publication. Do not publish stale content or
+assume scheme-admin publication also updates the independent catalog pointer.
+
+Promotions may legitimately return items:[] when no visible active cards match
+the audience/time window. The current API accepts only en|ta, and its database
+translations constraint permits only ta alongside base English. Publishing hi/mr
+banners needs both code/schema changes and reviewed translated content; adding
+translations alone is insufficient. Profile hi/mr support does not change this.
+These findings describe local source, not a fresh production database inspection.
+
 QUICK START / ENVIRONMENTS
 --------------------------
 Node >=24. From mss-backend: npm ci; copy .env.example to .env privately.
-Configure a reachable PostgreSQL database with migrations 001..015 and runtime
+Configure a reachable PostgreSQL database with migrations 001..016 and runtime
 grants. Do not put migration-owner credentials in the HTTP application environment.
 Run npm run db:migrate only with intended migration credentials on the intended DB;
 it changes schema. It is not part of routine documentation/test generation.
@@ -184,8 +227,10 @@ Configuration names (actual values belong only in private environment/secret sto
   Use the configured local port (3000 by default); production callback must be HTTPS.
 - AUTH_APP_REDIRECT_URI: approved app callback, default
   com.inschemes.app://login-callback/; configure Flutter deep links to match.
-- LEGAL_DOCUMENT_VERSIONS: JSON mapping terms,privacy_policy,privacy_notice,consent
-  to actual published versions. Missing configuration blocks final legal onboarding.
+- LEGAL_DOCUMENT_VERSIONS: optional JSON mapping terms,privacy_policy,privacy_notice,
+  consent to an external set of published versions. Unset or {} selects the bundled
+  legal documents. Nonempty mappings are used exactly, without filling missing
+  types; partial mappings keep onboarding blocked. Never use arbitrary versions.
 - MIGRATION_DATABASE_URL: privileged migration CLI only; never mobile configuration.
 No endpoint returns server configuration secrets, database connection settings or
 role credentials. Authentication endpoints return session credentials only to the
@@ -259,7 +304,7 @@ fabricated defaults. annual_income and business funding are JSON numbers, not st
 
 Writable profile fields (unknown keys rejected):
 - name: trimmed nonempty string<=150, not nullable.
-- gender<=50; state/district/city/community/religion/education_level/qualification/
+- gender<=50; state/district/city/community/education_level/qualification/
   applicant_type/disability<=150; house/area<=255: nullable strings.
 - phone: null or exactly10 digits. pincode: null or exactly6 digits.
 - Never silently truncate phone/pincode to satisfy length. Normalize known phone
@@ -267,16 +312,35 @@ Writable profile fields (unknown keys rejected):
   For draft saves omit an unanswered/invalid field, or send null only to clear it.
 - dob: null or real YYYY-MM-DD, year>=1900, not future.
 - annual_income: null or nonnegative JSON number<=9999999999999.99, at most2 decimals.
-- first_gen_graduate/veteran: nullable booleans. notifications: non-null boolean.
-- language: en|ta (profile does not accept hi although schemes support hi).
+- first_gen_graduate/veteran: booleans defaulting to false. Explicit null or blank
+  strings (including whitespace) normalize to false. Omit on PATCH to keep the
+  saved answer; omission on a new profile defaults to false. Responses always
+  return booleans. Apply migration018_profile_boolean_defaults.sql to replace
+  existing nulls with false and enforce NOT NULL/default false; true is preserved.
+  Nonblank strings and numbers are rejected. notifications: non-null boolean.
+- language: en|ta|hi|mr; non-null. Apply migration016_profile_languages.sql before
+  serving code that accepts hi/mr; earlier databases constrain language to en|ta.
 - theme: light|dark|system; navigation_mode: regular|companion; non-null enums.
 Text disallows markup brackets and control characters; strings trimmed.
+religion has been removed from profile requests and responses. Apply migration
+017_remove_profile_religion.sql to drop the column; it also works if already dropped.
+Completion still requires the required profile fields and current legal acceptances;
+religion is not a completion requirement. Direct database edits do not recalculate
+the stored is_profile_complete flag; profile saves through the API do.
 applicant_type is free text, not an enum: Student and Individual are accepted
 examples, not an exhaustive list. Maximum150 characters; a nonempty value is
 required for onboarding completion. The server does not convert employment status
 into an applicant category; the frontend owns that mapping. The sample Individual
 does not restrict accepted values. email/photo_url are response-only identity data;
 exclude them from profile PATCH and onboarding writes.
+education_level, community and gender are also free text, not enums. Accepted app
+examples: applicant_type Student|Entrepreneur|Business|MSME Owner|Farmer|
+Artisan / SHG Member; education_level School|Diploma|Undergraduate|Postgraduate|
+Ph.D.; community General|OBC|SC|ST|EWS|Minority; gender Male|Female|Other.
+These are examples, not exhaustive allowed lists; the text limits above apply.
+annual_income is an amount in rupees, not an income-band label or enum. For
+example450000 is accepted;0 is valid. Nullable draft values must be filled before
+completion. No separate allowed-values discovery endpoint exists.
 Omitted PATCH keys unchanged; false,0,null intentional. At least one field required.
 Profile GET lazily creates owner row with identity name. Defaults: notifications=true,
 language=en,theme=light,navigation_mode=regular. User identity UUID is preserved.
@@ -309,6 +373,60 @@ business_stage: Idea|Prototype|Registered|Operational|Expansion.
 Both flags boolean; funding amount same numeric rules as annual_income, not null.
 Response adds id,user_id,is_active,created_at,updated_at. Only active business
 included. Legal document types: terms|privacy_policy|privacy_notice|consent.
+
+LEGAL DOCUMENT CONTENT AND ONBOARDING
+-------------------------------------
+src/legal/documents.json contains the existing English Terms of Use, Privacy
+Policy, Privacy Notice and data-processing Consent text from the app's legal
+modals, with source paths/hashes for traceability. This copies existing product
+content; it does not assert independent legal review or certification. The first
+three documents keep their original effective_date2026-09-01; consent has null
+because its source gives no effective date. Version prefixes identify backend
+publication, not a change to those original effective dates.
+
+Empty/unset LEGAL_DOCUMENT_VERSIONS selects this bundled set. No database import,
+migration or environment edit is needed for legal content. The application factory
+also uses the bundle when legalVersions is omitted. Explicit injected {} remains
+unconfigured for controlled tests. Nonempty environment maps retain legacy external
+versions exactly; missing types are not silently filled, and missing bundled text
+is indicated by content_available:false. Those external versions still require
+operator-supplied content; configured only reports all four versions are present.
+
+GET /v1/legal-documents is public for pre-login reading. GET /v1/me/legal-documents
+requires a bearer and returns the same registry under no-store. Both retain
+{configured,items:[{document_type,document_version,...}]} for existing clients.
+Bundled items add content_available:true, language:en, title, subtitle,
+effective_date, content (plain text), document_sha256 and document_url. These
+documents are English; accepting hi/mr in a profile does not translate legal text.
+GET document_url reads the exact revision without a bearer. Public legal routes
+do not query the database; they use representation ETags and60-second revalidation.
+Unknown versions/types404; unsupported public query parameters400; matching
+If-None-Match304 (unless the request explicitly forces a fresh200).
+
+Document versions bind to SHA-256 of canonical JSON containing document_type,
+language,title,subtitle,effective_date,content: sorted object keys, compact JSON,
+UTF-8, no trailing newline. document_sha256 is the full digest; version is
+publication-date plus '.' plus its first16 hex characters. Startup checks this
+binding. To change text, append a revision with a new version/hash after content
+review; retain old revisions. Last entry per document type selects bundled current.
+Do not edit or remove already published revisions or clear acceptance history.
+The documentation fingerprint includes the JSON bundle as well as source code.
+
+Onboarding acceptance sequence (unchanged client protocol):
+1. Read/show the documents; retain their exact type/version pairs. The app's
+   existing three-screen flow maps Terms to terms, Privacy Policy to privacy_policy,
+   and its data-use page to privacy_notice+consent submitted together.
+2. GET /me/profile; retain ETag. Reading documents/profile never records consent.
+3. PUT /me/onboarding with all required profile values, business:null or a complete
+   business, all four current legal_acceptances, X-Profile-If-Match and a persistent
+   Idempotency-Key. Existing stored current acceptances may also satisfy completion.
+4. Proceed only when the response is_profile_complete:true and missing_fields:[].
+   A changed document version is rejected; fetch current documents and collect the
+   appropriate agreement again. Failed writes roll back profile/business/consents.
+
+Backend rollout remains Git-only. User/operator activates the tested code; this
+document does not deploy it. Existing nonempty external version configuration
+continues to take precedence and must be reviewed if the bundled set is desired.
 
 Concurrency: retain quoted ETag from GET/updated profile and send
 X-Profile-If-Match: "profile-<version>" for PATCH/onboarding/acceptance writes.
@@ -375,10 +493,22 @@ Node authentication and storage boundary:
 
 1. Generate PKCE verifier/challenge -> /auth/google/start -> external browser ->
    server callback -> approved app deep link -> /auth/exchange -> secure token pair.
-2. Cold start: restore token pair, GET /me; refresh single-flight if expired.
+2. Both POST /auth/exchange and POST /auth/password/login return top-level
+   is_profile_complete:boolean and missing_fields:string[] alongside tokens/user.
+   On login, route is_profile_complete:true directly to app home; false resumes
+   Complete Profile using missing_fields. Account registration alone is insufficient.
+   Status uses the same saved fields, active business and current legal versions as
+   /me/profile; stale stored completion flags are not trusted. Login never resets
+   or creates a profile. Missing profile/current consents means incomplete.
+   Cold start: restore token pair, GET /me for the same current completion fields;
+   refresh single-flight if expired, then retry /me. Refresh returns tokens only.
+   Re-evaluate completion after profile/consent saves; do not cache it forever.
+   The frontend must implement navigation using this response; backend status alone
+   does not change app screens.
    Rotation consumes old credentials; don't retry with a consumed refresh token.
 3. GET /me/profile and /me/legal-documents; PATCH drafts or PUT full onboarding
-   with current version/idempotency key. Missing legal versions need server setup.
+   with current version/idempotency key. The bundled default provides all four
+   versions; an incomplete external override needs server configuration correction.
 4. Save profile state before scheme requests. Use list/detail/application/related
    for online browsing. For the release check and complete offline download,
    follow FRONTEND SCHEMES SYNC CONTRACT below; it is the detailed sync sequence.
@@ -565,6 +695,66 @@ https://firebase.google.com/docs/cloud-messaging/error-codes
 https://firebase.google.com/docs/cloud-messaging/flutter/get-started
 https://firebase.google.com/docs/cloud-messaging/flutter/receive-messages
 
+FLUTTER FIREBASE PUSH - FRONTEND HANDOFF
+--------------------------------------
+Use the existing Firebase project mss-app-sch and Android application ID
+com.inschemes.app. These are public app identifiers, not server credentials.
+The reviewed google-services.json matches both identifiers. Share this mobile
+configuration file with the frontend team; never substitute the server's
+Firebase service-account JSON. The mobile configuration is not embedded here.
+
+Frontend implementation checklist:
+1. Place google-services.json at frontend/android/app/google-services.json.
+   Configure the Google services Gradle plugin using the Flutter project's
+   existing plugin layout. Do not blindly paste native Android sample blocks.
+2. Add firebase_core and firebase_messaging to the Flutter project. Follow the
+   official FlutterFire setup/configure workflow, selecting the existing project
+   and matching Android app. Initialize Firebase before using Messaging.
+   Firebase Analytics is optional and is not required for push delivery.
+3. Request OS notification permission and handle denial without blocking login
+   or the in-app inbox. Obtain the FCM registration token through the SDK.
+4. After Node login, register a persistent local installation UUID:
+   PUT https://mssapi.msmeschemes.org/v1/me/push-devices/:id
+   Authorization: Bearer <Node-access-token>
+   Content-Type: application/json
+   Synthetic request: {"token":"<FCM-device-registration-token>","platform":"android"}
+   The UUID is the installation ID, not the user ID. The FCM token and Node bearer
+   are different credentials. Follow the numbered endpoint contract for exact
+   validation, responses and errors. Registration itself sends no notification.
+5. Re-register on FCM token rotation and fresh login. Handle logout/account
+   switching; DELETE /v1/me/push-devices/:id unregisters the owner's installation.
+   Stop old listeners and prevent previous-account pending registrations from
+   being sent with a new account's bearer token.
+6. Implement foreground presentation, background notification taps and cold-start
+   handling. Push data contains notification_id; fetch inbox content/count using
+   the current Node bearer and deduplicate overlapping push/SSE hints by UUID.
+   Recheck session/account before displaying authenticated private content.
+7. Test on a consented real Android phone: foreground, background, normally closed
+   app, token rotation, permission denial, logout and account switching. Distinguish
+   a normally closed app from Android force-stop, which requires reopening before
+   messaging resumes. Record device/build and actual receipt/tap behavior; backend
+   health, worker startup and provider authentication do not prove device delivery.
+8. If shipping iOS, register its actual bundle ID in the same Firebase project;
+   complete APNs credentials, capabilities and permissions, then register the SDK
+   token using platform:"ios". Android configuration does not configure iOS.
+
+Operator configuration boundary:
+- API environment: FCM_PROJECT_ID and PUSH_TOKEN_ENCRYPTION_KEY.
+- Worker environment: the same project and encryption key, worker-only
+  PUSH_DATABASE_URL, database TLS settings, and GOOGLE_APPLICATION_CREDENTIALS
+  pointing to a private server-side service-account file outside Git.
+- A Windows S:/... credential path is local-only; use the actual Linux file path
+  on the server. API and worker may use separate private environment files.
+- Never put encryption keys, database credentials or service-account private keys
+  into Flutter, this document, mobile configuration or source control.
+- Apply migration014/runtime grants, run the separate worker and arrange cleanup
+  as described above. Changing environment files requires the affected processes
+  to reload them through the operator's approved activation procedure.
+
+Official Flutter setup: https://firebase.google.com/docs/flutter/setup
+Messaging setup: https://firebase.google.com/docs/cloud-messaging/flutter/get-started
+Message handling: https://firebase.google.com/docs/cloud-messaging/flutter/receive-messages
+
 UNIFIED SCHEME RELEASE WORKFLOW
 -------------------------------
 Authoritative data: mss.scheme_records and its localizations/aliases/relations.
@@ -716,8 +906,10 @@ This backend answers requests; it creates no timer per user and no client code.
    {"state":"Tamil Nadu"}. Existing profile version/conflict rules apply. Save
    profile before the initial sync. The scheme API never accepts a query state or
    owner override; missing/invalid saved state409 PROFILE_STATE_REQUIRED/INVALID.
-   Language is explicit language=en|ta|hi; profile currently supports en|ta only.
-   Pass hi explicitly to scheme sync rather than PATCHing unsupported profile hi.
+   Language is explicit language=en|ta|hi; profile accepts en|ta|hi|mr. Scheme
+   translations and promotions have their own separate language contracts.
+   Pass the scheme query language explicitly; saving a profile language does not
+   select a scheme translation. mr is not supported by the scheme query API.
 2. Show previously saved COMPLETE schemes immediately for the current account,
    state and language; display last successful sync time and offline/stale state.
    Do not show another account/context's copy or discard a good copy on a failure.
@@ -1018,8 +1210,8 @@ Sample response:
 {
   "status": "ok",
   "db": "ok",
-  "version": "0.2.2",
-  "tag": "v0.2.2"
+  "version": "0.2.3",
+  "tag": "v0.2.3"
 }
 
 Response headers:
@@ -1032,7 +1224,7 @@ Additional errors:
 
 - 503 body retains version/tag alongside status:degraded,db:fail (not standard error envelope)
 
-Sample error JSON (503): {  "status": "degraded",  "db": "fail",  "version": "0.2.2",  "tag": "v0.2.2"}
+Sample error JSON (503): {  "status": "degraded",  "db": "fail",  "version": "0.2.3",  "tag": "v0.2.3"}
 
 Database tables (including auth/quota dependencies where applicable): No application table;
 SELECT 1 for health.
@@ -3906,7 +4098,9 @@ Sample response:
     "email": "developer@example.invalid",
     "name": "Example User",
     "picture_url": null
-  }
+  },
+  "is_profile_complete": true,
+  "missing_fields": []
 }
 
 Additional errors:
@@ -3918,12 +4112,15 @@ Additional errors:
 Sample error JSON: {  "error": "INVALID_REQUEST"}
 
 Database tables (including auth/quota dependencies where applicable): mss.login_codes,
-mss.auth_sessions, mss.auth_tokens, mss.users, mss.auth_rate_limits
+mss.auth_sessions, mss.auth_tokens, mss.users, mss.profiles, mss.startup_profiles,
+mss.legal_acceptances, mss.auth_rate_limits
 
 Usage / client integration:
 
 After callback, exchange once; securely store both opaque tokens. Access expires in 900
-seconds, absolute session lifetime 30 days. Replay/expired/mismatched code fails.
+seconds, absolute session lifetime 30 days. Replay/expired/mismatched code fails. Use
+top-level is_profile_complete for routing: true opens home; false opens Complete Profile with
+missing_fields. Registration alone does not imply completion.
 
 Local test entry: node --test test/auth-http.test.js
 
@@ -3988,7 +4185,7 @@ Local test entry: node --test test/auth-http.test.js
 GET /v1/me
 ==============================================================================================
 
-Purpose: Read authenticated identity metadata.
+Purpose: Read authenticated identity metadata and current profile completion.
 
 URL: <configured-origin>/v1/me
 
@@ -4017,7 +4214,9 @@ Sample response:
     "email": "developer@example.invalid",
     "name": "Example User",
     "picture_url": null
-  }
+  },
+  "is_profile_complete": true,
+  "missing_fields": []
 }
 
 Additional errors:
@@ -4026,13 +4225,15 @@ None beyond the applicable shared errors.
 
 Sample error JSON: {  "error": "UNAUTHORIZED"}
 
-Database tables (including auth/quota dependencies where applicable): mss.users,
-mss.auth_sessions, mss.auth_tokens
+Database tables (including auth/quota dependencies where applicable): mss.profiles,
+mss.startup_profiles, mss.legal_acceptances, mss.users, mss.auth_sessions, mss.auth_tokens
 
 Usage / client integration:
 
-Restore session with GET /me. Identity metadata is provider/server-owned; update editable
-profile through PATCH /me/profile.
+Restore session with GET /me; route to home only when top-level is_profile_complete is true,
+otherwise resume Complete Profile using missing_fields. Status is recalculated from saved
+fields, active business and current legal versions; no profile is created or reset. Identity
+metadata is provider/server-owned; update editable profile through PATCH /me/profile.
 
 Local test entry: node --test test/auth-http.test.js
 
@@ -4306,7 +4507,184 @@ Local test entry: node --test test/auth-http.test.js
 
 
 ==============================================================================================
-33. READ FULL PROFILE
+33. READ LEGAL DOCUMENTS BEFORE SIGN-IN
+GET /v1/legal-documents
+==============================================================================================
+
+Purpose: Read the current legal registry and bundled English document text without an account.
+
+URL: <configured-origin>/v1/legal-documents
+
+Authentication / permission: public
+
+Headers example:
+
+{
+  "Accept": "application/json"
+}
+
+Parameters and body rules: No query or body. Optional If-None-Match header.
+
+Sample JSON request:
+
+No body.
+
+Success HTTP: 200
+
+Sample response:
+
+{
+  "configured": true,
+  "items": [
+    {
+      "document_type": "terms",
+      "document_version": "2026-10-20.54e420fa474b93c4",
+      "content_available": true,
+      "language": "en",
+      "title": "Terms of Use",
+      "subtitle": "Rules and guidelines for using the MSS App",
+      "effective_date": "2026-09-01",
+      "content": "<full plain text of this exact document revision>",
+      "document_sha256": "54e420fa474b93c4472c17a7367b74c756b3ad287d0b0cbd3f5943659bcb75f6",
+      "document_url": "/v1/legal-documents/terms/2026-10-20.54e420fa474b93c4"
+    },
+    {
+      "document_type": "privacy_policy",
+      "document_version": "2026-10-20.656f523c323da2d5",
+      "content_available": true,
+      "language": "en",
+      "title": "Privacy Policy",
+      "subtitle": "How MSS collects, uses and protects your information",
+      "effective_date": "2026-09-01",
+      "content": "<full plain text of this exact document revision>",
+      "document_sha256": "656f523c323da2d5b7d71168ec65963dafd0986365481bd3eac6bd7066778e76",
+      "document_url": "/v1/legal-documents/privacy_policy/2026-10-20.656f523c323da2d5"
+    },
+    {
+      "document_type": "privacy_notice",
+      "document_version": "2026-10-20.15ef191eff679d8c",
+      "content_available": true,
+      "language": "en",
+      "title": "Privacy Notice",
+      "subtitle": "Personal data processing notice under DPDPA 2023",
+      "effective_date": "2026-09-01",
+      "content": "<full plain text of this exact document revision>",
+      "document_sha256": "15ef191eff679d8cd2e2cfee3f64fdd8171b8efd5afbe9e94cf1dcc3d647b696",
+      "document_url": "/v1/legal-documents/privacy_notice/2026-10-20.15ef191eff679d8c"
+    },
+    {
+      "document_type": "consent",
+      "document_version": "2026-10-20.bf576e8213574015",
+      "content_available": true,
+      "language": "en",
+      "title": "Consent to Processing of Personal Data",
+      "subtitle": "Your consent helps MSS personalize your experience.",
+      "effective_date": null,
+      "content": "<full plain text of this exact document revision>",
+      "document_sha256": "bf576e821357401593df95712aab5876e9982b0bc1d2b63400e83ee4b682aaa8",
+      "document_url": "/v1/legal-documents/consent/2026-10-20.bf576e8213574015"
+    }
+  ]
+}
+
+Response headers:
+
+{
+  "ETag": "<representation-sha256>",
+  "Cache-Control": "public, max-age=60, must-revalidate"
+}
+
+Additional errors:
+
+- 400 INVALID_LEGAL_DOCUMENT_REQUEST
+
+Sample error JSON: {  "error": "INVALID_LEGAL_DOCUMENT_REQUEST"}
+
+Database tables (including auth/quota dependencies where applicable): No application table;
+SELECT 1 for health.
+
+Usage / client integration:
+
+Show actual content before agreement. Bundled defaults provide all four types. Content is
+plain text, never HTML. language is en; no translated text is claimed. Retain type/version
+pairs for acceptance. A nonempty external version override may return content_available:false;
+its content must be supplied separately. Matching ETag returns304 with no body.
+
+Local test entry: node --test test/legal-documents.test.js
+
+
+==============================================================================================
+34. READ AN EXACT LEGAL DOCUMENT REVISION
+GET /v1/legal-documents/:type/:version
+==============================================================================================
+
+Purpose: Read a bundled legal document by its type and version, including retained historical
+revisions.
+
+URL: <configured-origin>/v1/legal-documents/:type/:version
+
+Authentication / permission: public
+
+Headers example:
+
+{
+  "Accept": "application/json"
+}
+
+Parameters and body rules: Path type: terms|privacy_policy|privacy_notice|consent. Path
+version: exact document_version from registry; URL-encode each segment. No query or body.
+Optional If-None-Match header.
+
+Sample JSON request:
+
+No body.
+
+Success HTTP: 200
+
+Sample response:
+
+{
+  "document_type": "terms",
+  "document_version": "2026-10-20.54e420fa474b93c4",
+  "language": "en",
+  "title": "Terms of Use",
+  "subtitle": "Rules and guidelines for using the MSS App",
+  "effective_date": "2026-09-01",
+  "content": "<full plain text of this exact document revision>",
+  "document_sha256": "54e420fa474b93c4472c17a7367b74c756b3ad287d0b0cbd3f5943659bcb75f6"
+}
+
+Response headers:
+
+{
+  "ETag": "<representation-sha256>",
+  "Cache-Control": "public, max-age=60, must-revalidate"
+}
+
+Additional errors:
+
+- 400 INVALID_LEGAL_DOCUMENT_REQUEST
+
+- 404 LEGAL_DOCUMENT_NOT_FOUND
+
+Sample error JSON: {  "error": "INVALID_LEGAL_DOCUMENT_REQUEST"}
+
+Database tables (including auth/quota dependencies where applicable): No application table;
+SELECT 1 for health.
+
+Usage / client integration:
+
+Use document_url from registry. Returns plain text inside JSON content plus title, subtitle,
+language, effective_date, document_type, document_version and document_sha256. The digest is
+SHA-256 over canonical JSON of type/language/title/subtitle/effective_date/content (sorted
+keys, compact JSON, UTF-8). Matching ETag returns304. External-only or unknown revisions
+return404; no fallback to a different version.
+
+Local test entry: node --test test/legal-documents.test.js
+
+
+==============================================================================================
+35. READ FULL PROFILE
 GET /v1/me/profile
 ==============================================================================================
 
@@ -4346,13 +4724,12 @@ Sample response:
   "house": null,
   "area": null,
   "community": null,
-  "religion": null,
   "education_level": null,
   "qualification": null,
   "applicant_type": null,
   "disability": null,
-  "first_gen_graduate": null,
-  "veteran": null,
+  "first_gen_graduate": false,
+  "veteran": false,
   "notifications": true,
   "language": "en",
   "theme": "light",
@@ -4412,7 +4789,7 @@ Local test entry: node --test test/profiles.test.js
 
 
 ==============================================================================================
-34. UPDATE PROFILE
+36. UPDATE PROFILE
 PATCH /v1/me/profile
 ==============================================================================================
 
@@ -4432,7 +4809,9 @@ Headers example:
 }
 
 Parameters and body rules: Writable fields and exact validation rules: section SHARED SCHEMAS
-/ Profile. At least one key. Omitted unchanged; null clears nullable fields; false and zero
+/ Profile. language: en|ta|hi|mr. applicant_type, education_level, community and gender are
+free text within documented limits, not enums; annual_income is a nonnegative JSON amount, not
+a band label. At least one key. Omitted unchanged; null clears nullable fields; false and zero
 are deliberate.
 
 Sample JSON request:
@@ -4459,13 +4838,12 @@ Sample response:
   "house": null,
   "area": null,
   "community": null,
-  "religion": null,
   "education_level": null,
   "qualification": null,
   "applicant_type": null,
   "disability": null,
-  "first_gen_graduate": null,
-  "veteran": null,
+  "first_gen_graduate": false,
+  "veteran": false,
   "notifications": false,
   "language": "en",
   "theme": "light",
@@ -4530,7 +4908,7 @@ Local test entry: node --test test/profiles.test.js
 
 
 ==============================================================================================
-35. COMPLETE ONBOARDING
+37. COMPLETE ONBOARDING
 PUT /v1/me/onboarding
 ==============================================================================================
 
@@ -4614,13 +4992,12 @@ Sample response:
   "house": "Example address",
   "area": null,
   "community": "General",
-  "religion": null,
   "education_level": "Graduate",
   "qualification": null,
   "applicant_type": "Individual",
   "disability": null,
-  "first_gen_graduate": null,
-  "veteran": null,
+  "first_gen_graduate": false,
+  "veteran": false,
   "notifications": true,
   "language": "en",
   "theme": "light",
@@ -4696,7 +5073,7 @@ Local test entry: node --test test/profiles.test.js
 
 
 ==============================================================================================
-36. ACCEPT LEGAL DOCUMENTS
+38. ACCEPT LEGAL DOCUMENTS
 POST /v1/me/legal-acceptances
 ==============================================================================================
 
@@ -4758,13 +5135,12 @@ Sample response:
   "house": null,
   "area": null,
   "community": null,
-  "religion": null,
   "education_level": null,
   "qualification": null,
   "applicant_type": null,
   "disability": null,
-  "first_gen_graduate": null,
-  "veteran": null,
+  "first_gen_graduate": false,
+  "veteran": false,
   "notifications": true,
   "language": "en",
   "theme": "light",
@@ -4847,11 +5223,11 @@ Local test entry: node --test test/profiles.test.js
 
 
 ==============================================================================================
-37. CURRENT LEGAL VERSIONS
+39. CURRENT LEGAL VERSIONS
 GET /v1/me/legal-documents
 ==============================================================================================
 
-Purpose: Read configured published document versions; does not provide legal text.
+Purpose: Read current document versions and available bundled text for onboarding.
 
 URL: <configured-origin>/v1/me/legal-documents
 
@@ -4875,8 +5251,57 @@ Success HTTP: 200
 Sample response:
 
 {
-  "configured": false,
-  "items": []
+  "configured": true,
+  "items": [
+    {
+      "document_type": "terms",
+      "document_version": "2026-10-20.54e420fa474b93c4",
+      "content_available": true,
+      "language": "en",
+      "title": "Terms of Use",
+      "subtitle": "Rules and guidelines for using the MSS App",
+      "effective_date": "2026-09-01",
+      "content": "<full plain text of this exact document revision>",
+      "document_sha256": "54e420fa474b93c4472c17a7367b74c756b3ad287d0b0cbd3f5943659bcb75f6",
+      "document_url": "/v1/legal-documents/terms/2026-10-20.54e420fa474b93c4"
+    },
+    {
+      "document_type": "privacy_policy",
+      "document_version": "2026-10-20.656f523c323da2d5",
+      "content_available": true,
+      "language": "en",
+      "title": "Privacy Policy",
+      "subtitle": "How MSS collects, uses and protects your information",
+      "effective_date": "2026-09-01",
+      "content": "<full plain text of this exact document revision>",
+      "document_sha256": "656f523c323da2d5b7d71168ec65963dafd0986365481bd3eac6bd7066778e76",
+      "document_url": "/v1/legal-documents/privacy_policy/2026-10-20.656f523c323da2d5"
+    },
+    {
+      "document_type": "privacy_notice",
+      "document_version": "2026-10-20.15ef191eff679d8c",
+      "content_available": true,
+      "language": "en",
+      "title": "Privacy Notice",
+      "subtitle": "Personal data processing notice under DPDPA 2023",
+      "effective_date": "2026-09-01",
+      "content": "<full plain text of this exact document revision>",
+      "document_sha256": "15ef191eff679d8cd2e2cfee3f64fdd8171b8efd5afbe9e94cf1dcc3d647b696",
+      "document_url": "/v1/legal-documents/privacy_notice/2026-10-20.15ef191eff679d8c"
+    },
+    {
+      "document_type": "consent",
+      "document_version": "2026-10-20.bf576e8213574015",
+      "content_available": true,
+      "language": "en",
+      "title": "Consent to Processing of Personal Data",
+      "subtitle": "Your consent helps MSS personalize your experience.",
+      "effective_date": null,
+      "content": "<full plain text of this exact document revision>",
+      "document_sha256": "bf576e821357401593df95712aab5876e9982b0bc1d2b63400e83ee4b682aaa8",
+      "document_url": "/v1/legal-documents/consent/2026-10-20.bf576e8213574015"
+    }
+  ]
 }
 
 Additional errors:
@@ -4890,14 +5315,18 @@ mss.auth_sessions, mss.auth_tokens, mss.auth_rate_limits
 
 Usage / client integration:
 
-Check configured=true before final onboarding. Use actual returned versions, never literal
-placeholders. Terms/privacy text must be supplied separately by content owners.
+Same registry as public GET /legal-documents, but bearer-protected and no-store. Empty/unset
+LEGAL_DOCUMENT_VERSIONS uses the bundled four documents. Check configured=true before final
+onboarding; use actual returned versions, never placeholders. Explicit nonempty external
+overrides preserve their versions, may have content_available:false and require separate text;
+partial overrides remain configured=false. GET does not record acceptance. Existing
+type/version-only clients can ignore the additive content metadata.
 
-Local test entry: node --test test/profiles.test.js
+Local test entry: node --test test/legal-documents.test.js
 
 
 ==============================================================================================
-38. PASSWORD LOGIN
+40. PASSWORD LOGIN
 POST /v1/auth/password/login
 ==============================================================================================
 
@@ -4938,7 +5367,9 @@ Sample response:
     "email": "developer@example.invalid",
     "name": "Example User",
     "picture_url": null
-  }
+  },
+  "is_profile_complete": true,
+  "missing_fields": []
 }
 
 Additional errors:
@@ -4952,18 +5383,21 @@ Additional errors:
 Sample error JSON: {  "error": "INVALID_CREDENTIALS"}
 
 Database tables (including auth/quota dependencies where applicable):
-mss.password_credentials, mss.users, mss.auth_sessions, mss.auth_tokens, mss.auth_rate_limits
+mss.password_credentials, mss.users, mss.auth_sessions, mss.auth_tokens, mss.profiles,
+mss.startup_profiles, mss.legal_acceptances, mss.auth_rate_limits
 
 Usage / client integration:
 
 Only available after the Google user explicitly sets a password. No registration, password
-reset or OTP API. Store tokens through shared session manager.
+reset or OTP API. Store tokens through shared session manager. Use top-level
+is_profile_complete and missing_fields exactly as for Google exchange: true opens home, false
+resumes Complete Profile.
 
 Local test entry: node --test test/security.test.js
 
 
 ==============================================================================================
-39. PASSWORD STATUS
+41. PASSWORD STATUS
 GET /v1/me/password
 ==============================================================================================
 
@@ -5012,7 +5446,7 @@ Local test entry: node --test test/security.test.js
 
 
 ==============================================================================================
-40. SET/CHANGE PASSWORD
+42. SET/CHANGE PASSWORD
 PUT /v1/me/password
 ==============================================================================================
 
@@ -5075,7 +5509,7 @@ Local test entry: node --test test/security.test.js
 
 
 ==============================================================================================
-41. REMOVE PASSWORD
+43. REMOVE PASSWORD
 DELETE /v1/me/password
 ==============================================================================================
 
@@ -5131,7 +5565,7 @@ Local test entry: node --test test/security.test.js
 
 
 ==============================================================================================
-42. ADMIN SECURITY PROBE
+44. ADMIN SECURITY PROBE
 GET /v1/admin/security/status
 ==============================================================================================
 
@@ -5183,7 +5617,7 @@ Local test entry: node --test test/security.test.js
 
 
 ==============================================================================================
-43. PUBLISH NOTIFICATION
+45. PUBLISH NOTIFICATION
 POST /v1/admin/notifications
 ==============================================================================================
 
@@ -5261,7 +5695,7 @@ Local test entry: node --test test/notification-delivery.test.js
 
 
 ==============================================================================================
-44. CURRENT CATALOG RELEASE
+46. CURRENT CATALOG RELEASE
 GET /v1/catalog/current
 ==============================================================================================
 
@@ -5327,7 +5761,7 @@ Local test entry: node --test test/catalog-http.test.js
 
 
 ==============================================================================================
-45. CATALOG RELEASE MANIFEST
+47. CATALOG RELEASE MANIFEST
 GET /v1/catalog/releases/:tag
 ==============================================================================================
 
@@ -5404,7 +5838,7 @@ Local test entry: node --test test/catalog-http.test.js
 
 
 ==============================================================================================
-46. DOWNLOAD CATALOG BUNDLE
+48. DOWNLOAD CATALOG BUNDLE
 GET /v1/catalog/releases/:tag/bundle
 ==============================================================================================
 
@@ -5462,7 +5896,7 @@ Local test entry: node --test test/catalog-http.test.js
 
 
 ==============================================================================================
-47. NOTIFICATION REALTIME STREAM
+49. NOTIFICATION REALTIME STREAM
 GET /v1/me/notifications/events
 ==============================================================================================
 
@@ -5528,7 +5962,7 @@ Local test entry: node --test test/notification-delivery.test.js
 
 
 ==============================================================================================
-48. LIST PUSH REGISTRATIONS
+50. LIST PUSH REGISTRATIONS
 GET /v1/me/push-devices
 ==============================================================================================
 
@@ -5589,7 +6023,7 @@ Local test entry: node --test test/notification-delivery.test.js
 
 
 ==============================================================================================
-49. REGISTER PUSH DEVICE
+51. REGISTER PUSH DEVICE
 PUT /v1/me/push-devices/:id
 ==============================================================================================
 
@@ -5666,7 +6100,7 @@ Local test entry: node --test test/notification-delivery.test.js
 
 
 ==============================================================================================
-50. UNREGISTER PUSH DEVICE
+52. UNREGISTER PUSH DEVICE
 DELETE /v1/me/push-devices/:id
 ==============================================================================================
 
@@ -5720,7 +6154,7 @@ Local test entry: node --test test/notification-delivery.test.js
 
 
 ==============================================================================================
-51. NOTIFICATION INBOX
+53. NOTIFICATION INBOX
 GET /v1/me/notifications
 ==============================================================================================
 
@@ -5783,7 +6217,7 @@ Local test entry: node --test test/notifications.test.js
 
 
 ==============================================================================================
-52. UNREAD COUNT
+54. UNREAD COUNT
 GET /v1/me/notifications/unread-count
 ==============================================================================================
 
@@ -5832,7 +6266,7 @@ Local test entry: node --test test/notifications.test.js
 
 
 ==============================================================================================
-53. MARK SELECTED/ALL READ
+55. MARK SELECTED/ALL READ
 PATCH /v1/me/notifications/read
 ==============================================================================================
 
@@ -5886,7 +6320,7 @@ Local test entry: node --test test/notifications.test.js
 
 
 ==============================================================================================
-54. READ ALL NOTIFICATIONS
+56. READ ALL NOTIFICATIONS
 POST /v1/me/notifications/read-all
 ==============================================================================================
 
@@ -5936,7 +6370,7 @@ Local test entry: node --test test/notifications.test.js
 
 
 ==============================================================================================
-55. DELETE NOTIFICATIONS
+57. DELETE NOTIFICATIONS
 POST /v1/me/notifications/delete
 ==============================================================================================
 
@@ -5990,7 +6424,7 @@ Local test entry: node --test test/notifications.test.js
 
 
 ==============================================================================================
-56. READ ONE NOTIFICATION
+58. READ ONE NOTIFICATION
 PATCH /v1/me/notifications/:id
 ==============================================================================================
 
@@ -6041,7 +6475,7 @@ Local test entry: node --test test/notifications.test.js
 
 
 ==============================================================================================
-57. CREATE SUPPORT GUEST SESSION
+59. CREATE SUPPORT GUEST SESSION
 POST /v1/support-tickets/guest-session
 ==============================================================================================
 
@@ -6093,7 +6527,7 @@ Local test entry: node --test test/support.test.js
 
 
 ==============================================================================================
-58. SUBMIT SUPPORT TICKET
+60. SUBMIT SUPPORT TICKET
 POST /v1/support-tickets
 ==============================================================================================
 
@@ -6169,7 +6603,7 @@ Local test entry: node --test test/support.test.js
 
 
 ==============================================================================================
-59. PROMOTIONS FEED
+61. PROMOTIONS FEED
 GET /v1/promotions
 ==============================================================================================
 
@@ -6249,7 +6683,7 @@ Local test entry: node --test test/promotions.test.js
 
 
 ==============================================================================================
-60. LIST SAVED FAVORITES
+62. LIST SAVED FAVORITES
 GET /v1/me/favorites
 ==============================================================================================
 
@@ -6313,7 +6747,7 @@ Local test entry: node --test test/library.test.js
 
 
 ==============================================================================================
-61. SAVE FAVORITE
+63. SAVE FAVORITE
 PUT /v1/me/favorites/:id
 ==============================================================================================
 
@@ -6377,7 +6811,7 @@ Local test entry: node --test test/library.test.js
 
 
 ==============================================================================================
-62. REMOVE FAVORITE
+64. REMOVE FAVORITE
 DELETE /v1/me/favorites/:id
 ==============================================================================================
 
@@ -6431,7 +6865,7 @@ Local test entry: node --test test/library.test.js
 
 
 ==============================================================================================
-63. READ SAVED ELIGIBILITY RESULTS
+65. READ SAVED ELIGIBILITY RESULTS
 GET /v1/me/eligibility-results
 ==============================================================================================
 
@@ -6496,7 +6930,7 @@ Local test entry: node --test test/library.test.js
 
 
 ==============================================================================================
-64. SAVE OR CLEAR ELIGIBILITY RESULTS
+66. SAVE OR CLEAR ELIGIBILITY RESULTS
 PUT /v1/me/eligibility-results
 ==============================================================================================
 
@@ -6625,6 +7059,8 @@ voice: error literals=AUTH_TEMPORARILY_UNAVAILABLE, INVALID_CHAT_MESSAGES, INVAL
 
 auth: error literals=ACCOUNT_DELETION_UNAVAILABLE, FORBIDDEN, GOOGLE_LOGIN_CANCELLED, GOOGLE_LOGIN_FAILED, GOOGLE_NOT_CONFIGURED, INVALID_ACCOUNT_DELETION_REQUEST, INVALID_APP_REDIRECT, INVALID_CODE_CHALLENGE, INVALID_GOOGLE_CALLBACK, INVALID_LOGIN_CODE, INVALID_OAUTH_CALLBACK, INVALID_OAUTH_STATE, INVALID_REFRESH_TOKEN, INVALID_SESSION_ID, REAUTHENTICATION_REQUIRED, UNAUTHORIZED; SQL tables=auth_rate_limits, auth_sessions, auth_tokens, login_codes, oauth_attempts, support_tickets, user_roles, users
 
+legal: error literals=INVALID_LEGAL_DOCUMENT_REQUEST, LEGAL_DOCUMENT_NOT_FOUND; SQL tables=(see endpoint/shared dependencies)
+
 profiles: error literals=CONFLICTING_PROFILE_PRECONDITIONS, EMPTY_PROFILE, IDEMPOTENCY_CONFLICT, IDEMPOTENCY_KEY_REQUIRED, IF_MATCH_REQUIRED, LEGAL_DOCUMENTS_NOT_CONFIGURED, LEGAL_VERSION_MISMATCH, ONBOARDING_INCOMPLETE, PROFILE_VERSION_CONFLICT, VALIDATION_ERROR; SQL tables=legal_acceptances, onboarding_requests, profiles, startup_profiles, users
 
 passwords: error literals=INVALID_CREDENTIALS, PASSWORD_POLICY_FAILED, PASSWORD_SERVICE_BUSY, PASSWORD_SETUP_UNAVAILABLE, REAUTHENTICATION_REQUIRED; SQL tables=auth_sessions, password_credentials, users
@@ -6675,17 +7111,23 @@ ca93666ff3c0c2d4a24c0f6954a1e6e718adc3f0e0901d25b397046e7e85a718  database/migra
 
 0ae1957b564d216aaf102fa8268b2008833ed0305f2d54e86b81e85d825c9a66  database/migrations/015_scheme_workflow.sql
 
-3ae1f6579815b05eafe6e1fa299525b21b63050a6bc63a3979faa14e4b8dcc9d  docs/api/contracts.mjs
+8e33deef96fff5f253bd887b806ebdc27294c3435e7e59fe9ff1cb70bca07a1b  database/migrations/016_profile_languages.sql
 
-fd21899f35506b9e648ca68e45754da469ea4c4ef3066ea10c6ff9b63003936d  docs/api/integration.txt
+0c80f1dea6f74f6caa6aa5682ce6207027fe349742f9fd1625cf3b066a76f2fa  database/migrations/017_remove_profile_religion.sql
 
-084b58df818533fcd13182141cfd167e0fe332c724fe4d3585dfb840968d02b2  package.json
+97c9e6053b1f33a0a4f83bde79fbb0dd40a30f5d4ceb62914190d72d669d3378  database/migrations/018_profile_boolean_defaults.sql
 
-ad0bfa74e29e4e609bc9f5940c214b7330540a5fbcc3e88a8b269427bc4d89d0  scripts/api-documentation.mjs
+59bd850ef74e37c3d0dda902668a3430996376caf9c5164ebe35b490cd8afd63  docs/api/contracts.mjs
+
+f41414b5ca234e35f506b39abe44a2a71050395c3e25a2c215535fa508526e40  docs/api/integration.txt
+
+327dfb50b303d3a1c9552a95deead0162373d819f2e0adf55939cfe473ca140f  package.json
+
+1220f8b297d5bd31a7b0df13b1c77de3ba5d5b949698e409c9cbc7eb1f50df23  scripts/api-documentation.mjs
 
 f508c96dd2424020344169db0066120506ee5b677379bdd8a4523a5e5efa04ae  src/admin/routes.js
 
-c607a0a811f2f13b937f3580d52c645c1b4041fcfe148e466294252cd64600e6  src/app.js
+8bb8168b90ae219acb8c41b59ac2e2411e844f6ed849d723d5e9555f2b834d35  src/app.js
 
 8408580c880870b2856aabd31d4a33c25dba2673b8437062b122555ab70198b0  src/auth/account-deletion.js
 
@@ -6695,11 +7137,11 @@ f9ac71d9370be3424ea89c4c5de98aa0fb101f37bcb3b1f95b791157949743b1  src/auth/googl
 
 f401ba1cc06ecc2bf294673928838944d353d9977d7207de33e40c7b7091cacc  src/auth/middleware.js
 
-90d1b849aa69667f5815b95d496f0e46fa4d6fe025961e1e0cfe455a6b130311  src/auth/routes.js
+c27da354724b2bb9d4419f2ec0541ed6356a585fccc5813fcf17ca8d0be6ef84  src/auth/routes.js
 
 dc1008eb4bd6bbc70eafa0a865db74e8a3fc72140b5e12cd8afff9373495492a  src/auth/security.js
 
-161d04f962e5b589da500e14536744ff6707f1b02d9a6cfdaba4e613202041fd  src/auth/service.js
+8196eacf12243e6a75b82ad7c57bf2cde71238e3b4f8485eccd45051714cbe58  src/auth/service.js
 
 79796d89188003dc61b437b1c4bffcbd8c9ab748f5bc12e583cbf30edf1f1c78  src/auth/tokens.js
 
@@ -6715,7 +7157,7 @@ fbe6c11caaf8742afeea10afae89d3a7291dd55b46d8a66da72f1c9825f69d1d  src/common/can
 
 08b09ebe57c545d4e904cc17c374321ce803265bb39eb9cb7e2ee46a79152501  src/common/cursor.js
 
-90259af46970d7f5d1b69d675dc6aaef4d3fa9bd80c1c935e06c21d6b23dacbb  src/common/errors.js
+b516b2b54987486bfa231da7328a2117767cf0556d3d799e4677d0e0c4300d38  src/common/errors.js
 
 44ef008df6112dec22652436ad88ec2b30860c4502a668390e641059d81cdfe6  src/common/logging.js
 
@@ -6723,7 +7165,7 @@ fbe6c11caaf8742afeea10afae89d3a7291dd55b46d8a66da72f1c9825f69d1d  src/common/can
 
 17e399a3887499171cec9080d1d2b61d9dae0434ac447aeaff3bbd3f878a5045  src/config/build-info.js
 
-6ebb066337c60c64b4165f30e5ee24225cbc69b6961e41b4025dd2f66a66b35b  src/config/environment.js
+2f7babff4bb2b107e1ed5932fbb614313c0a5f8d72a4fb9fb156a624fc4a5ad7  src/config/environment.js
 
 e63f552b2ce6a10cece0f448845525057eb2000e021f03cb24701f7af9035c1b  src/db/pool.js
 
@@ -6734,6 +7176,12 @@ e63f552b2ce6a10cece0f448845525057eb2000e021f03cb24701f7af9035c1b  src/db/pool.js
 f4e907366298a8a2c37f1d4d1e680b0b3bb859ad5afc28be39b0c6b6dc831b5c  src/db/transaction.js
 
 40d8c0a95cbe78d0910f3c4afd4265d8506be8541e2e811c64dd0c23be82a3be  src/hosted.js
+
+e7ac82ca3ae19d97617aafa82177dd55e4e5a91be481ddd50ca623460a291784  src/legal/documents.json
+
+9053a222921ce5b13da9501eebd4b2b522cd9de6953c8c9ae9803d94eb8b4db2  src/legal/registry.js
+
+c73debb0c2ec2ce244920cde33409a01d438465f2bf8e3af6366292acd72b0ee  src/legal/routes.js
 
 4e0849d0395afb27cf52f95d23dfcfd98eefc181f25bd00863112167d64c9985  src/library/routes.js
 
@@ -6761,15 +7209,15 @@ da568bfa3e2265b9c927439dbb199ad17e8b0e618814a4e4eada176ad7ae0eaa  src/notificati
 
 dc925658804b3f2d8d97be55aa81c386a4ab26b29b0595fdab3f27beac710ae2  src/passwords/hashing.js
 
-7505b8397f6070f3e3c808cf501a1167b9e29b3a792bca4870c153711ea2b958  src/passwords/routes.js
+248247170fdcfb415a99f7030aea4bc7071837afc388ac8a646b8afde65c77c6  src/passwords/routes.js
 
-67c1f27e293e51f744590723db1e3a3a7c10ebf1888edd51ba555bdb8f69155f  src/passwords/service.js
+0e2930930d1dd948e11fa64b107e8b9ab795af299e372a85b0575d926cbbc5a3  src/passwords/service.js
 
-f3cd9a2691dbaf6cd88b77f5906d741ba4f85c0de10d4904850efe192f41a05e  src/profiles/routes.js
+904d737b750513cc7298405dce5dfc1a4e11395285cef20dcce9287cf023dcb5  src/profiles/routes.js
 
-37f659fb1fa9b44599a1d9e63e70ef97affd3cbe61d2eab5d2edb7daa2eeca79  src/profiles/service.js
+8ef9a83fa52d551b414a7e2ae45df78b42f1d7428f6720e84da0af017aebc00f  src/profiles/service.js
 
-eb90300d37866949f78b83aa3c530f880c80cace17b2204b18ac8c631ff85718  src/profiles/validation.js
+a3396391ab790f4b64bf5847a0f277f7668937b261e18ba6bdc5340525023774  src/profiles/validation.js
 
 e8525c5b405369a1d7f5c6265594b14e6688acd89f2add8d6a15653006dc911b  src/promotions/routes.js
 
