@@ -333,8 +333,8 @@
   "navChipPersonalized": "தனிப்பயன் வழிகாட்டுதல்",
   "navChipSmartRecs": "சிறந்த பரிந்துரைகள்",
   "navChipExplainsScreens": "ஒவ்வொரு திரையையும் விளக்கும்",
-  "filterTitle": "வடிப்பான்கள்",
-  "filterButton": "வடிப்பான்",
+  "filterTitle": "வடிகட்டிகள்",
+  "filterButton": "வடிகட்டி",
   "filterUseMyProfile": "எனது சுயவிவரத்தைப் பயன்படுத்து ({state})",
   "filterGroupCoverage": "பரப்பளவு",
   "filterGroupOffers": "என்ன வழங்குகிறது",
@@ -1558,5 +1558,15 @@
   "sessionRevokeFailed": "அமர்வை ரத்து செய்ய முடியவில்லை.",
   "logoutAllFailed": "எல்லா சாதனங்களிலிருந்தும் வெளியேற முடியவில்லை.",
   "sessionOtherDevice": "உள்நுழைந்த சாதனம்",
-  "sessionSignedInAt": "உள்நுழைந்தது: {time}"
+  "sessionSignedInAt": "உள்நுழைந்தது: {time}",
+  "udyamMicro": "குறு நிறுவனம்",
+  "udyamSmall": "சிறு நிறுவனம்",
+  "udyamMedium": "நடுத்தர நிறுவனம்",
+  "udyamLarge": "பெரிய நிறுவனம் (எம்எஸ்எம்இ வரம்புக்கு அப்பால்)",
+  "udyamInvalid": "தவறான உள்ளீடு",
+  "udyamInvalidSub": "0 அல்லது அதற்கு மேற்பட்ட எண்களை உள்ளிடவும்.",
+  "udyamLimitsSummary": "வரம்புகள் (2025): குறு ≤{microInv} / ≤{microTurn} கோடி · சிறு ≤{smallInv} / ≤{smallTurn} கோடி · நடுத்தர ≤{medInv} / ≤{medTurn} கோடி (முதலீடு / விற்றுமுதல்)",
+  "schemeNotMatchingFilters": "உங்கள் வடிகட்டிகளுடன் பொருந்தவில்லை",
+  "greetingLateNight": "வணக்கம்,",
+  "copyChecklistTooltip": "பட்டியலை நகலெடுக்கவும்"
 }

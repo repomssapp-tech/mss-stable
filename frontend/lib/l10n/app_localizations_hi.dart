@@ -22,7 +22,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get applicationsClosingSoon => 'आवेदन जल्द ही बंद हो रहे हैं';
 
   @override
-  String get featured => 'प्रदर्शित';
+  String get featured => 'विशेष';
 
   @override
   String get forWomenEntrepreneurs => 'महिला उद्यमियों के लिए';
@@ -61,7 +61,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get exploreMsmeSupport => 'एमएसएमई सहायता का अन्वेषण करें';
 
   @override
-  String get schemes => 'योजनाओं';
+  String get schemes => 'योजनाएं';
 
   @override
   String get finance => 'वित्त';
@@ -110,7 +110,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get filter => 'फ़िल्टर';
 
   @override
-  String get navHome => 'घर';
+  String get navHome => 'होम';
 
   @override
   String get navSearch => 'खोज';
@@ -433,7 +433,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get clearFilters => 'फ़िल्टर साफ़ करें';
 
   @override
-  String get clearSearch => 'स्पष्ट खोज';
+  String get clearSearch => 'खोज साफ़ करें';
 
   @override
   String get forMeTooltip =>
@@ -3379,7 +3379,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get openSaarthiAiChat => 'सारथी एआई चैट खोलें';
 
   @override
-  String get sortLabel => 'क्रम से लगाना';
+  String get sortLabel => 'क्रमबद्ध करें';
 
   @override
   String get searchDiscoverSubtitle =>
@@ -4266,7 +4266,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get shareResultsTooltip => 'परिणाम साझा करें';
 
   @override
-  String get clearSearchTooltip => 'स्पष्ट खोज';
+  String get clearSearchTooltip => 'खोज साफ़ करें';
 
   @override
   String get voiceSearchTooltip => 'आवाज खोज';
@@ -5093,4 +5093,43 @@ class AppLocalizationsHi extends AppLocalizations {
   String sessionSignedInAt(String time) {
     return 'साइन इन: $time';
   }
+
+  @override
+  String get udyamMicro => 'सूक्ष्म उद्यम';
+
+  @override
+  String get udyamSmall => 'लघु उद्यम';
+
+  @override
+  String get udyamMedium => 'मध्यम उद्यम';
+
+  @override
+  String get udyamLarge => 'बड़ा उद्यम (MSME सीमा से बाहर)';
+
+  @override
+  String get udyamInvalid => 'अमान्य इनपुट';
+
+  @override
+  String get udyamInvalidSub => '0 या उससे अधिक की संख्या दर्ज करें।';
+
+  @override
+  String udyamLimitsSummary(
+    String microInv,
+    String microTurn,
+    String smallInv,
+    String smallTurn,
+    String medInv,
+    String medTurn,
+  ) {
+    return 'सीमाएं (2025): सूक्ष्म ≤$microInv / ≤$microTurn करोड़ · लघु ≤$smallInv / ≤$smallTurn करोड़ · मध्यम ≤$medInv / ≤$medTurn करोड़ (निवेश / टर्नओवर)';
+  }
+
+  @override
+  String get schemeNotMatchingFilters => 'आपके फ़िल्टर से मेल नहीं खाता';
+
+  @override
+  String get greetingLateNight => 'नमस्ते,';
+
+  @override
+  String get copyChecklistTooltip => 'सूची कॉपी करें';
 }

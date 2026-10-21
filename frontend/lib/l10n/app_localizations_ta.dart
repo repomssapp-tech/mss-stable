@@ -1081,10 +1081,10 @@ class AppLocalizationsTa extends AppLocalizations {
   String get navChipExplainsScreens => 'ஒவ்வொரு திரையையும் விளக்கும்';
 
   @override
-  String get filterTitle => 'வடிப்பான்கள்';
+  String get filterTitle => 'வடிகட்டிகள்';
 
   @override
-  String get filterButton => 'வடிப்பான்';
+  String get filterButton => 'வடிகட்டி';
 
   @override
   String filterUseMyProfile(Object state) {
@@ -5156,4 +5156,43 @@ class AppLocalizationsTa extends AppLocalizations {
   String sessionSignedInAt(String time) {
     return 'உள்நுழைந்தது: $time';
   }
+
+  @override
+  String get udyamMicro => 'குறு நிறுவனம்';
+
+  @override
+  String get udyamSmall => 'சிறு நிறுவனம்';
+
+  @override
+  String get udyamMedium => 'நடுத்தர நிறுவனம்';
+
+  @override
+  String get udyamLarge => 'பெரிய நிறுவனம் (எம்எஸ்எம்இ வரம்புக்கு அப்பால்)';
+
+  @override
+  String get udyamInvalid => 'தவறான உள்ளீடு';
+
+  @override
+  String get udyamInvalidSub => '0 அல்லது அதற்கு மேற்பட்ட எண்களை உள்ளிடவும்.';
+
+  @override
+  String udyamLimitsSummary(
+    String microInv,
+    String microTurn,
+    String smallInv,
+    String smallTurn,
+    String medInv,
+    String medTurn,
+  ) {
+    return 'வரம்புகள் (2025): குறு ≤$microInv / ≤$microTurn கோடி · சிறு ≤$smallInv / ≤$smallTurn கோடி · நடுத்தர ≤$medInv / ≤$medTurn கோடி (முதலீடு / விற்றுமுதல்)';
+  }
+
+  @override
+  String get schemeNotMatchingFilters => 'உங்கள் வடிகட்டிகளுடன் பொருந்தவில்லை';
+
+  @override
+  String get greetingLateNight => 'வணக்கம்,';
+
+  @override
+  String get copyChecklistTooltip => 'பட்டியலை நகலெடுக்கவும்';
 }

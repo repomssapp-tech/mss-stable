@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../services/recommendation/recommendation_engine.dart';
 import '../../l10n/l10n.dart';
@@ -11,6 +10,7 @@ import '../../services/catalog/scheme_repository.dart';
 import '../../services/voice/voice_recognition_controller.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/share_text.dart';
 import '../../widgets/assistant/voice_assistant_overlay.dart';
 import '../../widgets/common/app_toast.dart';
 import '../../widgets/common/standard_page_header.dart';
@@ -98,6 +98,9 @@ class SearchScreenState extends State<SearchScreen> {
   // Results the user typed by name that "For Me" or a filter dropped; they stay
   // in the list, last, flagged "not applicable".
   Set<String> _notApplicableIds = {};
+
+  /// The subset of [_notApplicableIds] hidden only by the Filter sheet.
+  Set<String> _filterMismatchIds = {};
 
   // The base set when this is a browse page (see [BrowseScope]); null on the
   // Search tab, and once the user types a query (a search leaves the browse).
@@ -213,6 +216,14 @@ class SearchScreenState extends State<SearchScreen> {
           )
         : <Scheme>[];
     final notApplicableIds = {for (final s in hiddenExact) s.id};
+    // Outside "For Me" only the Filter sheet can hide a scheme. In "For Me",
+    // one that passes the Filter sheet was hidden by eligibility instead.
+    final filterMismatchIds = {
+      for (final s in hiddenExact)
+        if (_activeFilter != 'For Me' ||
+            applySchemeFilters([s], provider.filters).isEmpty)
+          s.id,
+    };
     filteredResults = [...filteredResults, ...hiddenExact];
 
     final bool hasActiveFilter =
@@ -235,6 +246,7 @@ class SearchScreenState extends State<SearchScreen> {
       setState(() {
         _searchResults = filteredResults;
         _notApplicableIds = notApplicableIds;
+        _filterMismatchIds = filterMismatchIds;
         _currentState = SearchState.results;
       });
     }
@@ -466,14 +478,11 @@ class SearchScreenState extends State<SearchScreen> {
         .take(5)
         .map((s) => '• ${s.getName(lang)}')
         .join('\n');
-    await Clipboard.setData(
-      ClipboardData(
-        text: '${context.l10n.searchResultsShareHeader(title)}\n$names',
-      ),
+    await shareText(
+      context,
+      '${context.l10n.searchResultsShareHeader(title)}\n$names',
+      copiedMessage: context.l10n.resultsCopiedToClipboard,
     );
-    if (mounted) {
-      AppToast.showSuccess(context, context.l10n.resultsCopiedToClipboard);
-    }
   }
 
   Future<void> openVoiceAssistant() async {
@@ -747,6 +756,7 @@ class SearchScreenState extends State<SearchScreen> {
             didYouMean: _didYouMean,
             onDidYouMeanTap: _applyDidYouMean,
             notApplicableIds: _notApplicableIds,
+            filterMismatchIds: _filterMismatchIds,
             onClearFilters:
                 (_scope != null || hasActiveSchemeFilters(provider.filters))
                 ? _clearFiltersAndReload

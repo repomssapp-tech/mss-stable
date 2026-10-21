@@ -22,12 +22,31 @@ Unreleased items under a new heading, commit, and tag the commit.
 - Saarthi: when cloud voice cannot connect, it switches to the phone's own speech and says so, instead of hanging (#125).
 - Settings shows the real app version; "Recently viewed" fills in; the document checklist has a Sole Proprietorship option.
 - The password sign-in, password settings and active sessions screens are translated into Tamil and Hindi and follow the design system.
+- Share buttons open the Android share sheet instead of only copying (BUG-10).
+- Text follows the phone's font-size setting up to 2× instead of stopping at 1.12–1.3× (BUG-11).
+- EMI calculator accepts 0% interest and the Udyam classifier accepts ₹0; Udyam results are in Tamil and Hindi (BUG-12, L10N-05).
+- A scheme hidden only by the Filter sheet says "Doesn't match your filters" instead of "Not applicable to you", and TalkBack reads the pill (BUG-09, NEW-09).
+- Scheme chips keep the same colour and order in every language (L10N-09).
+- The Featured "Women Entrepreneurs" card opens the Women Entrepreneurship list (NEW-04).
+- The search Filter / For Me / Sort strip wraps instead of cutting off the Tamil Sort chip; Tamil uses one word for "Filter" (L10N-04, L10N-06).
+- Hindi wording: होम, विशेष, योजनाएं, खोज साफ़ करें, क्रमबद्ध करें (L10N-03).
+- The "who can apply" line is no longer a word-by-word English/Tamil mix (BUG-07).
+- The generated "Catalogue status …; verification …" line is no longer shown on scheme pages.
+- After midnight the greeting is "Hello," instead of "Good Evening,".
+- Login: the Terms of Use and Privacy Policy have full-size buttons with a tick once read (NEW-10).
+- The document checklist's copy button is labelled "Copy checklist" for screen readers (A11Y-03).
+- The government emblem fits inside its circle ("Government of India" no longer cropped) (UI-05).
 
 ### Security
 - Access and refresh tokens are stored encrypted (Android Keystore) instead of plain SharedPreferences; sessions from older versions carry over (#131).
 - The OAuth callback (with its one-time code) is no longer written to the log (#131).
 - Voice agent dependencies: PyJWT 2.15.1, aiohttp 3.14.5, urllib3 2.8.0, yarl 1.25.1 (0 known advisories) (#131).
 - CI scans every push and pull request for committed secrets (gitleaks).
+- The sign-in PKCE verifier and the account email are stored encrypted too (SEC-02).
+- Release builds are obfuscated; the symbol files are kept as a CI artifact (SEC-07).
+
+### Removed
+- The retired Supabase backend: the `docs/old_supabase` archive, the `tools/` scripts that queried it, and its SQL migrations. The app uses the MSS REST backend and Firebase.
 
 ### Known issues
 - Onboarding can repeat after signing in again (#123).

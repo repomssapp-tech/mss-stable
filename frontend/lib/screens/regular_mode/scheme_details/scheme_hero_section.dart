@@ -147,8 +147,12 @@ class SchemeHeroSection extends StatelessWidget {
                     ],
                   ),
                   padding: EdgeInsets.zero,
+                  // 80% of the circle, so the emblem's bottom text is not
+                  // cropped (test report UI-05).
                   child: ClipOval(
-                    child: _buildSchemeLogo(context, scheme, size: 120),
+                    child: Center(
+                      child: _buildSchemeLogo(context, scheme, size: 96),
+                    ),
                   ),
                 ),
               ),

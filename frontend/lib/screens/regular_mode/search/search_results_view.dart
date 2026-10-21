@@ -94,6 +94,9 @@ class SearchResultsList extends StatelessWidget {
   /// pill and do not count as eligible matches.
   final Set<String> notApplicableIds;
 
+  /// Of [notApplicableIds], those hidden only by the Filter sheet.
+  final Set<String> filterMismatchIds;
+
   /// Shown in the empty state as "Clear Filters & Explore Schemes" when the
   /// page has filters or a browse scope to step back from; null hides it.
   final VoidCallback? onClearFilters;
@@ -109,6 +112,7 @@ class SearchResultsList extends StatelessWidget {
     this.didYouMean,
     this.onDidYouMeanTap,
     this.notApplicableIds = const {},
+    this.filterMismatchIds = const {},
     this.onClearFilters,
   });
 
@@ -276,6 +280,7 @@ class SearchResultsList extends StatelessWidget {
           showActions: false,
           showMatchPercentage: isForMe && !notApplicableIds.contains(scheme.id),
           notApplicable: notApplicableIds.contains(scheme.id),
+          filterMismatch: filterMismatchIds.contains(scheme.id),
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(

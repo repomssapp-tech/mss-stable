@@ -1565,5 +1565,16 @@
   "logoutAllFailed": "Unable to log out all devices.",
   "sessionOtherDevice": "Signed-in device",
   "sessionSignedInAt": "Signed in: {time}",
-  "@sessionSignedInAt": {"placeholders": {"time": {"type": "String"}}}
+  "@sessionSignedInAt": {"placeholders": {"time": {"type": "String"}}},
+  "udyamMicro": "MICRO Enterprise",
+  "udyamSmall": "SMALL Enterprise",
+  "udyamMedium": "MEDIUM Enterprise",
+  "udyamLarge": "Large Enterprise (Beyond MSME Limits)",
+  "udyamInvalid": "Invalid Input",
+  "udyamInvalidSub": "Enter numbers of 0 or more.",
+  "udyamLimitsSummary": "Limits (2025): Micro ≤{microInv} / ≤{microTurn} Cr · Small ≤{smallInv} / ≤{smallTurn} Cr · Medium ≤{medInv} / ≤{medTurn} Cr (investment / turnover)",
+  "@udyamLimitsSummary": {"placeholders": {"microInv": {"type": "String"}, "microTurn": {"type": "String"}, "smallInv": {"type": "String"}, "smallTurn": {"type": "String"}, "medInv": {"type": "String"}, "medTurn": {"type": "String"}}},
+  "schemeNotMatchingFilters": "Doesn't match your filters",
+  "greetingLateNight": "Hello,",
+  "copyChecklistTooltip": "Copy checklist"
 }

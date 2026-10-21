@@ -66,6 +66,7 @@ class TokenStorage {
   static const String _kUserEmail = 'mss_auth_user_email';
   static const String _kUserName = 'mss_auth_user_name';
   static const String _kUserPicture = 'mss_auth_user_picture';
+  static const String _kPkceVerifier = 'mss_pkce_code_verifier';
 
   SharedPreferences? _prefs;
   final SecretStore _secrets;
@@ -150,7 +151,10 @@ class TokenStorage {
   }) async {
     final prefs = await _getPrefs();
     await prefs.setString(_kUserId, id);
-    await prefs.setString(_kUserEmail, email);
+    // The email is personal data: encrypted like the tokens (SEC-02).
+    await _secrets.write(_kUserEmail, email);
+    // Drop a legacy plain copy (a test PrefsSecretStore shares that slot).
+    if (_secrets is! PrefsSecretStore) await prefs.remove(_kUserEmail);
     if (name != null && name.isNotEmpty) {
       await prefs.setString(_kUserName, name);
     } else {
@@ -169,10 +173,16 @@ class TokenStorage {
     return prefs.getString(_kUserId);
   }
 
-  Future<String?> getUserEmail() async {
-    final prefs = await _getPrefs();
-    return prefs.getString(_kUserEmail);
-  }
+  Future<String?> getUserEmail() => _readSecret(_kUserEmail);
+
+  /// The PKCE code_verifier kept across the browser round trip, encrypted
+  /// (SEC-02). Deleted as soon as the code exchange finishes.
+  Future<void> savePkceVerifier(String verifier) =>
+      _secrets.write(_kPkceVerifier, verifier);
+
+  Future<String?> readPkceVerifier() => _secrets.read(_kPkceVerifier);
+
+  Future<void> deletePkceVerifier() => _secrets.delete(_kPkceVerifier);
 
   Future<String?> getUserName() async {
     final prefs = await _getPrefs();
@@ -212,6 +222,8 @@ class TokenStorage {
       final prefs = await _getPrefs();
       await _secrets.delete(_kAccessToken);
       await _secrets.delete(_kRefreshToken);
+      await _secrets.delete(_kUserEmail);
+      await _secrets.delete(_kPkceVerifier);
       // Legacy plain-text copies from app <= 1.3.0.
       await prefs.remove(_kAccessToken);
       await prefs.remove(_kRefreshToken);

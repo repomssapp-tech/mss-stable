@@ -9381,6 +9381,73 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Signed in: {time}'**
   String sessionSignedInAt(String time);
+
+  /// No description provided for @udyamMicro.
+  ///
+  /// In en, this message translates to:
+  /// **'MICRO Enterprise'**
+  String get udyamMicro;
+
+  /// No description provided for @udyamSmall.
+  ///
+  /// In en, this message translates to:
+  /// **'SMALL Enterprise'**
+  String get udyamSmall;
+
+  /// No description provided for @udyamMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'MEDIUM Enterprise'**
+  String get udyamMedium;
+
+  /// No description provided for @udyamLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'Large Enterprise (Beyond MSME Limits)'**
+  String get udyamLarge;
+
+  /// No description provided for @udyamInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid Input'**
+  String get udyamInvalid;
+
+  /// No description provided for @udyamInvalidSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter numbers of 0 or more.'**
+  String get udyamInvalidSub;
+
+  /// No description provided for @udyamLimitsSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Limits (2025): Micro ≤{microInv} / ≤{microTurn} Cr · Small ≤{smallInv} / ≤{smallTurn} Cr · Medium ≤{medInv} / ≤{medTurn} Cr (investment / turnover)'**
+  String udyamLimitsSummary(
+    String microInv,
+    String microTurn,
+    String smallInv,
+    String smallTurn,
+    String medInv,
+    String medTurn,
+  );
+
+  /// No description provided for @schemeNotMatchingFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Doesn\'t match your filters'**
+  String get schemeNotMatchingFilters;
+
+  /// No description provided for @greetingLateNight.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello,'**
+  String get greetingLateNight;
+
+  /// No description provided for @copyChecklistTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy checklist'**
+  String get copyChecklistTooltip;
 }
 
 class _AppLocalizationsDelegate

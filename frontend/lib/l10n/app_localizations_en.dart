@@ -5074,4 +5074,43 @@ class AppLocalizationsEn extends AppLocalizations {
   String sessionSignedInAt(String time) {
     return 'Signed in: $time';
   }
+
+  @override
+  String get udyamMicro => 'MICRO Enterprise';
+
+  @override
+  String get udyamSmall => 'SMALL Enterprise';
+
+  @override
+  String get udyamMedium => 'MEDIUM Enterprise';
+
+  @override
+  String get udyamLarge => 'Large Enterprise (Beyond MSME Limits)';
+
+  @override
+  String get udyamInvalid => 'Invalid Input';
+
+  @override
+  String get udyamInvalidSub => 'Enter numbers of 0 or more.';
+
+  @override
+  String udyamLimitsSummary(
+    String microInv,
+    String microTurn,
+    String smallInv,
+    String smallTurn,
+    String medInv,
+    String medTurn,
+  ) {
+    return 'Limits (2025): Micro ≤$microInv / ≤$microTurn Cr · Small ≤$smallInv / ≤$smallTurn Cr · Medium ≤$medInv / ≤$medTurn Cr (investment / turnover)';
+  }
+
+  @override
+  String get schemeNotMatchingFilters => 'Doesn\'t match your filters';
+
+  @override
+  String get greetingLateNight => 'Hello,';
+
+  @override
+  String get copyChecklistTooltip => 'Copy checklist';
 }

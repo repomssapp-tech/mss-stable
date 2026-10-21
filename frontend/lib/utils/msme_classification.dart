@@ -18,7 +18,7 @@ const MsmeLimits kMicroLimits = MsmeLimits(2.5, 10);
 const MsmeLimits kSmallLimits = MsmeLimits(25, 100);
 const MsmeLimits kMediumLimits = MsmeLimits(125, 500);
 
-/// Classifies a unit. Both values must be > 0 (callers validate input).
+/// Classifies a unit. Both values must be >= 0 (callers validate input).
 MsmeTier classifyMsme({
   required double investmentCr,
   required double turnoverCr,
@@ -31,11 +31,12 @@ MsmeTier classifyMsme({
   return MsmeTier.large;
 }
 
-String _fmt(double v) =>
+/// `2.5` -> "2.5", `10.0` -> "10".
+String formatCrore(double v) =>
     v == v.roundToDouble() ? v.toStringAsFixed(0) : v.toString();
 
 /// Human-readable summary of the current limits, e.g. for the result footer.
 String msmeLimitsSummary() =>
-    'Limits (2025): Micro (≤${_fmt(kMicroLimits.investmentCr)}cr / ≤${_fmt(kMicroLimits.turnoverCr)}cr) | '
-    'Small (≤${_fmt(kSmallLimits.investmentCr)}cr / ≤${_fmt(kSmallLimits.turnoverCr)}cr) | '
-    'Medium (≤${_fmt(kMediumLimits.investmentCr)}cr / ≤${_fmt(kMediumLimits.turnoverCr)}cr)';
+    'Limits (2025): Micro (≤${formatCrore(kMicroLimits.investmentCr)}cr / ≤${formatCrore(kMicroLimits.turnoverCr)}cr) | '
+    'Small (≤${formatCrore(kSmallLimits.investmentCr)}cr / ≤${formatCrore(kSmallLimits.turnoverCr)}cr) | '
+    'Medium (≤${formatCrore(kMediumLimits.investmentCr)}cr / ≤${formatCrore(kMediumLimits.turnoverCr)}cr)';

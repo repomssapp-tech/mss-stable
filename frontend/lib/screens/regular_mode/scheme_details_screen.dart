@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show RenderAbstractViewport;
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -10,6 +9,7 @@ import '../../models/scheme_model.dart';
 import '../../providers/app_state_provider.dart';
 import '../../services/catalog/scheme_repository.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/share_text.dart';
 import '../../widgets/common/app_toast.dart';
 import 'scheme_details/scheme_benefits_section.dart';
 import 'scheme_details/scheme_bottom_action_bar.dart';
@@ -255,12 +255,14 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
 
   Future<void> _copySchemeDetails(LocalizedScheme scheme) async {
     final destination = _applicationDestination(scheme);
-    final shareText = destination.isEmpty
+    final text = destination.isEmpty
         ? scheme.name
         : '${scheme.name}\n$destination';
-    await Clipboard.setData(ClipboardData(text: shareText));
-    if (!mounted) return;
-    AppToast.showSuccess(context, 'Scheme details copied to clipboard');
+    await shareText(
+      context,
+      text,
+      copiedMessage: context.l10n.schemeCopiedToast,
+    );
   }
 
   String _getImageForCategory(String category) {

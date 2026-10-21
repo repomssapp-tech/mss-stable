@@ -22,6 +22,9 @@ final List<Map<String, dynamic>> kDefaultPromoAlerts = [
     'badge_text_color': '#7C3AED',
     'badge_bg_color': '#F5F3FF',
     'target_route': 'discover_results',
+    // Opens the Women Entrepreneurship list, not Business & MSME (NEW-04).
+    'browse_title': 'Women Entrepreneurship',
+    'browse_type': 'category',
     'bg_image': 'assets/images/Background/suggestion banner.webp',
   },
 ];

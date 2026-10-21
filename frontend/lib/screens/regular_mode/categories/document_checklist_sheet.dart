@@ -177,7 +177,7 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
                     size: 18,
                     color: Color(0xFF64748B),
                   ),
-                  tooltip: l10n.resultsCopiedToClipboard,
+                  tooltip: l10n.copyChecklistTooltip,
                 ),
                 IconButton(
                   key: const Key('doc-checklist-close-btn'),
