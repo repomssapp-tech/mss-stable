@@ -34,6 +34,48 @@ void main() {
     expect(find.text('Apple'), findsNothing);
   });
 
+  testWidgets('no password sign-in; the checklist rows open the documents', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      ChangeNotifierProvider(
+        create: (_) => AppProvider(),
+        child: MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: const LoginScreen(),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    expect(find.text('Sign in with password'), findsNothing);
+
+    // One consent sentence, then the two "Read the ..." rows: the document
+    // names are not repeated as separate buttons.
+    expect(find.byType(TextButton), findsNothing);
+    final rows = find.byWidgetPredicate(
+      (w) =>
+          w is Text &&
+          w.textSpan != null &&
+          w.textSpan!.toPlainText().startsWith('Read the '),
+    );
+    expect(rows, findsNWidgets(2));
+    expect(
+      tester.widget<Text>(rows.at(0)).textSpan!.toPlainText(),
+      'Read the Terms of Use',
+    );
+    expect(
+      tester.widget<Text>(rows.at(1)).textSpan!.toPlainText(),
+      'Read the Privacy Policy',
+    );
+
+    await tester.ensureVisible(rows.at(0));
+    await tester.tap(rows.at(0));
+    await tester.pumpAndSettle();
+    expect(find.text('Use of the MSS App'), findsOneWidget);
+  });
+
   Future<void> scrollToEnd(WidgetTester tester) async {
     for (var i = 0; i < 10; i++) {
       await tester.drag(
