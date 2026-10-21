@@ -205,6 +205,19 @@ class LocalizedScheme {
       // exact dictionary matches; anything unmatched stays English.
       String meta(String v) =>
           CentralizedTranslator.instance.localizeTagFor('hi', v);
+      // Free text: an exact dictionary entry, otherwise the original English
+      // (never a word-by-word mix).
+      String text(String v) =>
+          CentralizedTranslator.instance.localizeFor('hi', v);
+      // Hindi names of the required documents that the catalogue stores
+      // alongside the English list, keyed by the English name.
+      final storedDocNames = scheme.extras.storedDocumentNames('hi');
+      final docNameHi = <String, String>{
+        if (storedDocNames.length == scheme.requiredDocuments.length)
+          for (var i = 0; i < storedDocNames.length; i++)
+            if (storedDocNames[i].isNotEmpty)
+              scheme.requiredDocuments[i]: storedDocNames[i],
+      };
       final nameHi = pack.getField(
         lang: 'hi',
         entityType: 'scheme',
@@ -282,40 +295,85 @@ class LocalizedScheme {
         overview: overview,
         objectives: objectives,
         benefits: benefits,
-        subsidyAmount: scheme.subsidyAmount,
+        subsidyAmount: text(scheme.subsidyAmount),
         verificationStatus: meta(scheme.verificationStatus),
-        verificationNotes: scheme.verificationNotes,
+        verificationNotes: text(scheme.verificationNotes),
         lastUpdated: scheme.lastUpdated,
         glanceChips: scheme.glanceChips.map(meta).toList(),
         benefitTypesList: scheme.benefitTypesList.map(meta).toList(),
-        capitalSubsidyDetails: scheme.capitalSubsidyDetails,
-        interestSubventionDetails: scheme.interestSubventionDetails,
-        marginMoneyDetails: scheme.marginMoneyDetails,
-        loanGuaranteeDetails: scheme.loanGuaranteeDetails,
-        supportTypes: scheme.supportTypes,
+        capitalSubsidyDetails: text(scheme.capitalSubsidyDetails),
+        interestSubventionDetails: text(scheme.interestSubventionDetails),
+        marginMoneyDetails: text(scheme.marginMoneyDetails),
+        loanGuaranteeDetails: text(scheme.loanGuaranteeDetails),
+        supportTypes: scheme.supportTypes.map(meta).toList(),
         rawBenefitsDisplayText: benefits,
-        eligibilityAgeRange: scheme.eligibilityAgeRange,
-        turnoverLimits: scheme.turnoverLimits,
-        investmentLimits: scheme.investmentLimits,
-        allowedBusinessTypes: scheme.allowedBusinessTypes,
-        educationRequirements: scheme.educationRequirements,
-        mandatoryConditions: scheme.mandatoryConditions,
-        optionalConditions: scheme.optionalConditions,
-        specialCategories: scheme.specialCategories,
-        applicationFee: scheme.applicationFee,
-        processingDurationDays: scheme.processingDurationDays,
-        intakeTimelineText: scheme.intakeTimelineText,
-        financeProductsSummary: scheme.financeProductsSummary,
-        taxExemptionsSummary: scheme.taxExemptionsSummary,
-        applicableTaxesList: scheme.applicableTaxesList,
-        knowledgeGuidanceList: scheme.knowledgeGuidanceList,
+        eligibilityAgeRange: text(scheme.eligibilityAgeRange),
+        turnoverLimits: text(scheme.turnoverLimits),
+        investmentLimits: text(scheme.investmentLimits),
+        allowedBusinessTypes: scheme.allowedBusinessTypes.map(meta).toList(),
+        educationRequirements: text(scheme.educationRequirements),
+        mandatoryConditions: scheme.mandatoryConditions.map(text).toList(),
+        optionalConditions: scheme.optionalConditions.map(text).toList(),
+        specialCategories: scheme.specialCategories.map(meta).toList(),
+        applicationFee: text(scheme.applicationFee),
+        processingDurationDays: text(scheme.processingDurationDays),
+        intakeTimelineText: text(scheme.intakeTimelineText),
+        financeProductsSummary: scheme.financeProductsSummary
+            .map(text)
+            .toList(),
+        taxExemptionsSummary: scheme.taxExemptionsSummary.map(text).toList(),
+        applicableTaxesList: scheme.applicableTaxesList.map(meta).toList(),
+        knowledgeGuidanceList: scheme.knowledgeGuidanceList
+            .map(text)
+            .toList(),
         helplineContactsMap: scheme.helplineContactsMap,
         eligibilityCriteria: _storedEligibility(scheme, 'hi'),
-        requiredDocuments: scheme.requiredDocuments,
+        requiredDocuments: [
+          for (final d in scheme.requiredDocuments) docNameHi[d] ?? text(d),
+        ],
         applicationProcess: _storedSteps(scheme, 'hi'),
-        documents: scheme.documents,
-        requiredServices: scheme.requiredServices,
-        faqs: scheme.faqs,
+        documents: scheme.documents
+            .map(
+              (d) => d.copyWith(
+                name: docNameHi[d.name] ?? text(d.name),
+                description: text(d.description),
+                issuingAuthority: text(d.issuingAuthority),
+                estimatedCost: text(d.estimatedCost),
+                mandatory: meta(d.mandatory),
+                remarks: text(d.remarks),
+              ),
+            )
+            .toList(),
+        requiredServices: scheme.requiredServices
+            .map(
+              (s) => SchemeService(
+                name: text(s.name),
+                nameTa: s.nameTa,
+                category: meta(s.category),
+                categoryTa: s.categoryTa,
+                mandatory: s.mandatory,
+                description: text(s.description),
+                descriptionTa: s.descriptionTa,
+                purpose: text(s.purpose),
+                purposeTa: s.purposeTa,
+                department: text(s.department),
+                departmentTa: s.departmentTa,
+                website: s.website,
+                contact: s.contact,
+                status: s.status,
+                notes: text(s.notes),
+                notesTa: s.notesTa,
+              ),
+            )
+            .toList(),
+        faqs: scheme.faqs
+            .map(
+              (faq) => {
+                'question': text(faq['question'] ?? ''),
+                'answer': text(faq['answer'] ?? ''),
+              },
+            )
+            .toList(),
       );
     }
 

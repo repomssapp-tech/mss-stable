@@ -1063,7 +1063,7 @@
   "eligibilityResultsTitle": "Eligibility Results",
   "eligibilityResultsCopiedToClipboard": "Eligibility results copied to clipboard",
   "faqEligibilityQ": "How do I check my eligibility for a scheme?",
-  "faqEligibilityA": "Go to the 'Find My Schemes' tab, fill out your profile details (age, gender, state, income, etc.), and the matcher engine will instantly show your eligibility score for all available schemes!",
+  "faqEligibilityA": "Fill in your profile details (age, gender, state, income, etc.) in the Profile tab, then browse the Search tab, where each scheme shows whether it matches your profile. For a quick check, you can also try the assessment under Discover.",
   "faqApplyQ": "How can I apply for a scheme?",
   "faqApplyA": "Select any scheme to see its detailed description, benefits, and required documents. Tap the 'Apply Now' button to open the official government application portal in your browser.",
   "faqTrackQ": "Where can I track my application status?",

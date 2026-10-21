@@ -3457,7 +3457,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get faqEligibilityA =>
-      '\'मेरी योजनाएं ढूंढें\' टैब पर जाएं, अपना प्रोफ़ाइल विवरण (आयु, लिंग, राज्य, आय, आदि) भरें, और मैचर इंजन तुरंत सभी उपलब्ध योजनाओं के लिए आपका पात्रता स्कोर दिखाएगा!';
+      'प्रोफ़ाइल टैब में अपना विवरण (आयु, लिंग, राज्य, आय, आदि) भरें, फिर खोज टैब देखें, जहाँ हर योजना दिखाती है कि वह आपकी प्रोफ़ाइल से मेल खाती है या नहीं। त्वरित जाँच के लिए एक्सप्लोर टैब का आकलन भी आज़मा सकते हैं।';
 
   @override
   String get faqApplyQ => 'मैं किसी योजना के लिए कैसे आवेदन कर सकता हूं?';
@@ -3663,7 +3663,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get emiTotalInterest => 'कुल देय ब्याज';
 
   @override
-  String get emiTotalAmount => 'कुल राशि (मूलधन + पूर्णांक)';
+  String get emiTotalAmount => 'कुल राशि (मूलधन + ब्याज)';
 
   @override
   String get emiInvalidInputs => 'कृपया मान्य इनपुट दर्ज करें';

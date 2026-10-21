@@ -114,6 +114,15 @@ class SchemeExtras {
 
   List<String> storedSteps(String lang) => _storedList(_how['steps'], lang);
 
+  /// Names of the required documents in [lang] (`localization.<lang>.documents`),
+  /// in the same order as the English list. Empty when the catalogue has none.
+  List<String> storedDocumentNames(String lang) {
+    final block = _localization[ContentLanguageResolver.normalizeCode(lang)];
+    final v = block is Map ? block['documents'] : null;
+    if (v is! List) return const [];
+    return [for (final item in v) item is String ? item.trim() : ''];
+  }
+
   // ── Status ────────────────────────────────────────────────────────────
   String get statusValue =>
       _str((_source['status'] as Map?)?['value']).toLowerCase();
