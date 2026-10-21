@@ -108,7 +108,7 @@ jobs:
           API_BASE_URL: ${{ secrets.API_BASE_URL }}
         run: |
           set -euo pipefail
-          jq -n --arg url "${API_BASE_URL:-https://api.msmeschemes.org}" \
+          jq -n --arg url "${API_BASE_URL:-https://mssapi.msmeschemes.org}" \
             '{API_BASE_URL: $url}' > dart_defines.json
           echo "present=true" >> "$GITHUB_OUTPUT"
 

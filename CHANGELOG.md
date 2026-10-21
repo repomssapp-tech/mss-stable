@@ -44,6 +44,7 @@ Unreleased items under a new heading, commit, and tag the commit.
 - CI scans every push and pull request for committed secrets (gitleaks).
 - The sign-in PKCE verifier and the account email are stored encrypted too (SEC-02).
 - Release builds are obfuscated; the symbol files are kept as a CI artifact (SEC-07).
+- CI release builds use the live API host `https://mssapi.msmeschemes.org` by default (the old `api.msmeschemes.org` host is paused).
 
 ### Removed
 - The retired Supabase backend: the `docs/old_supabase` archive, the `tools/` scripts that queried it, and its SQL migrations. The app uses the MSS REST backend and Firebase.
