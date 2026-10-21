@@ -14,6 +14,20 @@ class VoiceLanguage {
 
   static const List<String> supported = ['en', 'ta', 'hi', 'mr'];
 
+  /// A final guard for main-script drift, while allowing familiar borrowed
+  /// terms. Hindi/Marathi are distinguished by the explicit server locale.
+  static bool hasMainScript(String text, String language) {
+    final tamil = RegExp(r'[\u0B80-\u0BFF]').allMatches(text).length;
+    final devanagari = RegExp(r'[\u0900-\u097F]').allMatches(text).length;
+    final latin = RegExp(r'[A-Za-z]+').allMatches(text).length;
+    if (language == 'en') return latin > 0 && tamil == 0 && devanagari == 0;
+    final native = RegExp(
+      language == 'ta' ? r'[\u0B80-\u0BFF]+' : r'[\u0900-\u097F]+',
+    ).allMatches(text).length;
+    final other = language == 'ta' ? devanagari : tamil;
+    return native > 0 && other == 0 && native >= latin;
+  }
+
   /// `ta`, `ta-IN`, `TA_in` -> `ta`; unknown or blank -> `en`.
   static String code(String? tagOrCode) {
     final c = (tagOrCode ?? '')

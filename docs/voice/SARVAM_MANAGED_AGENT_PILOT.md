@@ -1,3 +1,6 @@
+> Historical pilot snapshot. The current enabled integration is documented in
+> [SARVAM_NATIVE_CONVERSATION.md](SARVAM_NATIVE_CONVERSATION.md).
+
 # Sarvam managed voice-agent pilot — 2026-10-21
 
 Status: managed Tamil pilot created in Sarvam and committed through v2. It is

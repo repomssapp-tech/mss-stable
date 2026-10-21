@@ -67,6 +67,52 @@ HttpVoiceAgentController _controller(_Client client, _Audio audio) =>
 
 void main() {
   test(
+    'managed reply in the wrong main language is neither displayed nor spoken',
+    () async {
+      final client = _Client(
+        (_, _) async => {
+          'reply': 'Use the application link to apply.',
+          'language': 'ta',
+          'engine': 'sarvam_voice_agent',
+          'results': [],
+        },
+      );
+      final audio = _Audio(), agent = _controller(client, _Audio());
+      await agent.dispose();
+      final active = _controller(client, audio);
+      await active.connect();
+      await active.sendText('Please help me');
+      await active.turnCompleted;
+      expect(active.state.outputTranscript, isEmpty);
+      expect(active.pendingText, 'Please help me');
+      expect(audio.played, isEmpty);
+      expect(client.calls, hasLength(1));
+      await active.dispose();
+    },
+  );
+  test(
+    'managed native reply preserves a verified official scheme name',
+    () async {
+      final client = _Client(
+        (_, _) async => {
+          'reply': 'PMEGP திட்டம் பற்றிய விவரங்களைச் சொல்லுங்கள்.',
+          'language': 'ta',
+          'engine': 'sarvam_voice_agent',
+          'results': [
+            {'id': 'SYNTHETIC', 'name': 'PMEGP'},
+          ],
+        },
+      );
+      final agent = _controller(client, _Audio())..speakReplies = false;
+      await agent.connect();
+      await agent.sendText('Please help me');
+      await agent.turnCompleted;
+      expect(agent.state.outputTranscript, startsWith('PMEGP'));
+      expect(agent.pendingText, isNull);
+      await agent.dispose();
+    },
+  );
+  test(
     'HTTP session never opens microphone and sends the selected language',
     () async {
       final client = _Client(

@@ -12,6 +12,7 @@ import '../../services/voice/assistant_session_controller.dart';
 import '../../services/voice/http_voice_agent_controller.dart';
 import '../../services/voice/realtime_speech_transport.dart';
 import '../../services/voice/saarthi_conversation_controller.dart';
+import '../../services/voice/native_saarthi_conversation_controller.dart';
 import '../../services/voice/voice_agent_controller.dart';
 import '../../services/voice/voice_microphone.dart';
 import '../../services/voice/voice_accessibility.dart';
@@ -114,7 +115,7 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
         session: _session!,
         languageCode: () => provider.selectedLanguage,
       );
-      _conversation = SaarthiConversationController(
+      _conversation = NativeSaarthiConversationController(
         agent: agent,
         transport: MssRealtimeSpeechTransport(),
         microphone: DeviceVoiceMicrophone(),

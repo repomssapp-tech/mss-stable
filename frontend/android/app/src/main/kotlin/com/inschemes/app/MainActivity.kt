@@ -11,6 +11,7 @@ class MainActivity : FlutterActivity() {
     private var voiceAccessibility: MethodChannel? = null
     private var automaticSpeechBridge: AutomaticSpeechBridge? = null
     private var speechOutputBridge: SpeechOutputBridge? = null
+    private var pcmPlaybackBridge: PcmPlaybackBridge? = null
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -39,6 +40,7 @@ class MainActivity : FlutterActivity() {
             activity = this,
             messenger = flutterEngine.dartExecutor.binaryMessenger,
         )
+        pcmPlaybackBridge = PcmPlaybackBridge(this, flutterEngine.dartExecutor.binaryMessenger)
     }
 
     override fun cleanUpFlutterEngine(flutterEngine: FlutterEngine) {
@@ -48,6 +50,8 @@ class MainActivity : FlutterActivity() {
         automaticSpeechBridge = null
         speechOutputBridge?.dispose()
         speechOutputBridge = null
+        pcmPlaybackBridge?.dispose()
+        pcmPlaybackBridge = null
         super.cleanUpFlutterEngine(flutterEngine)
     }
 }

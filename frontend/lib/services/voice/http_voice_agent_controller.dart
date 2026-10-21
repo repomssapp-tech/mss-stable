@@ -95,6 +95,52 @@ class HttpVoiceAgentController extends ChangeNotifier
     _selectedLanguage = code;
   }
 
+  List<Map<String, String>> get conversationHistory =>
+      _history.map((item) => Map<String, String>.from(item)).toList();
+
+  /// Native calls share the same accessible transcript and correction history.
+  void acceptNativeTranscript(String text, {required bool user}) {
+    if (_disposed || text.trim().isEmpty) return;
+    _history.add({'role': user ? 'user' : 'assistant', 'content': text});
+    while (_history.length > 8 ||
+        _history.fold<int>(0, (sum, item) => sum + item['content']!.length) >
+            7000) {
+      _history.removeAt(0);
+    }
+    if (!user) {
+      _lastReply = text;
+      _lastReplyLanguage =
+          _selectedLanguage ?? VoiceLanguage.code(_languageCode());
+      _lastAudio = null;
+    }
+    _events.add(
+      VoiceAgentEvent(
+        user
+            ? VoiceAgentEventType.inputTranscriptDone
+            : VoiceAgentEventType.outputTranscriptDone,
+        text: text,
+        data: {'messageId': 'native-${++_turn}'},
+      ),
+    );
+  }
+
+  void acceptNativeResults(Object? results) {
+    if (_disposed) return;
+    _events.add(
+      VoiceAgentEvent(
+        VoiceAgentEventType.schemeResults,
+        data: {
+          'results': parseCloudSchemeResultsAttribute(
+            jsonEncode({
+              'schema': 'in-schemes-results-v1',
+              'results': results ?? [],
+            }),
+          ),
+        },
+      ),
+    );
+  }
+
   @override
   Future<void> sendText(String text) async {
     final value = text.trim();
@@ -152,6 +198,10 @@ class HttpVoiceAgentController extends ChangeNotifier
         throw StateError('Invalid reply');
       }
       final reply = (data['reply'] as String).trim();
+      if (data['engine'] == 'sarvam_voice_agent' &&
+          !VoiceLanguage.hasMainScript(reply, language)) {
+        throw StateError('Invalid reply language');
+      }
       _pending = null;
       answered = true;
       _history.addAll([
@@ -289,6 +339,11 @@ class HttpVoiceAgentController extends ChangeNotifier
   /// A correction supersedes the last exchange so a misheard age, location or
   /// scheme name cannot remain as context for the corrected request.
   void discardLastExchange(String request) {
+    if (_history.isNotEmpty &&
+        _history.last['role'] == 'user' &&
+        _history.last['content'] == request) {
+      _history.removeLast();
+    }
     if (_history.length >= 2 &&
         _history[_history.length - 2]['role'] == 'user' &&
         _history[_history.length - 2]['content'] == request) {
