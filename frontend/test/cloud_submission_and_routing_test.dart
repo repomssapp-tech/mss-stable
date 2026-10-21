@@ -34,7 +34,7 @@ void main() {
       ).readAsStringSync();
 
       expect(source, contains('Future<void> syncProfileToServer('));
-      expect(source, contains('ProfileApiService.instance.saveDraft'));
+      expect(source, contains('ProfileApiService.instance.saveProfileChanges'));
       expect(
         source,
         contains('OnboardingApiService.instance.submitOnboarding'),
