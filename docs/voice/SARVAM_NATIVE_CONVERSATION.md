@@ -50,7 +50,7 @@ subsequent successful HTTP calls still returned empty arrays because the importe
 catalog was entirely draft. The user explicitly approved publication of all 406
 records and unreviewed translations on 21 October 2026. Catalog release 2 now
 contains these records, retaining geographic restrictions, unknown application
-statuses and translation review labels. Fresh phone lookup acceptance is pending.
+statuses and translation review labels. The user confirmed that spoken PMEGP lookup now answers correctly.
 
 An attempted Flutter integration test failed during its debug build, and the
 runner's cleanup uninstalled the target package, removing local login/data. No
@@ -91,5 +91,12 @@ then title rank, then body rank. Generic words such as scheme/details are
 removed, and PMEPG is normalized to PMEGP. Public feed cursor ordering is
 unchanged. The same owner/profile, published visibility, active status and RLS
 constraints still apply. A read-only catalog query returned CEN2026-085 first
-for PMEGP OR loan. The user's follow-up spoken PMEGP test remains pending; the
-phone was in a normal telephone call when the final UI check was attempted.
+for PMEGP OR loan. The user subsequently confirmed that the spoken PMEGP reply is correct.
+
+## Acceptance
+
+On 21 October 2026 the user confirmed that Saarthi answers the PMEGP question
+correctly on the installed phone. Both the app and deployed backend are ready
+to preserve in Git. The app branch must be integrated with newer upstream app
+changes before merge; the installed 1.2.6 version must not replace a newer
+release version during that integration.
