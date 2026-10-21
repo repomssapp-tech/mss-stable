@@ -159,7 +159,7 @@ void main() {
       seen = [];
       service = OnboardingApiService(
         apiClient: ApiClient(
-          baseUrl: 'https://api.msmeschemes.org/v1',
+          baseUrl: 'https://mssapi.msmeschemes.org/v1',
           httpClient: MockClient((request) async {
             seen.add('${request.method} ${request.url.path}');
             return http.Response(

@@ -31,7 +31,7 @@ void main() {
     Future<http.Response> Function(http.Request) h,
   ) => AccountApiService(
     apiClient: ApiClient(
-      baseUrl: 'https://api.msmeschemes.org',
+      baseUrl: 'https://mssapi.msmeschemes.org',
       httpClient: MockClient(h),
       tokenStorage: tokens,
     ),

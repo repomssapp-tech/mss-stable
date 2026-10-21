@@ -17,6 +17,8 @@ import '../../utils/app_spacing.dart';
 import '../../utils/language_names.dart';
 import '../../utils/app_version.dart';
 import '../../services/app_info_service.dart';
+import 'settings/active_sessions_dialog.dart';
+import 'settings/password_management_dialog.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -435,6 +437,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
             // GROUP 4: Security & Privacy
             _buildGroupHeader(context.l10n.securityPrivacyGroupHeader),
             _buildGroupContainer([
+              _buildSettingRow(
+                icon: Icons.lock_outline,
+                title: context.l10n.passwordSetting,
+                onTap: () => PasswordManagementDialog.show(context),
+              ),
+              _buildSettingRow(
+                icon: Icons.devices_outlined,
+                title: context.l10n.activeSessionsSetting,
+                onTap: () => ActiveSessionsDialog.show(context),
+              ),
               _buildSettingRow(
                 icon: Icons.security,
                 title: context.l10n.privacyPolicySetting,

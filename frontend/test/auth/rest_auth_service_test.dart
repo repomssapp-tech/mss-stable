@@ -39,7 +39,7 @@ void main() {
         });
 
         final apiClient = ApiClient(
-          baseUrl: 'https://api.msmeschemes.org/v1',
+          baseUrl: 'https://mssapi.msmeschemes.org/v1',
           httpClient: mockClient,
         );
         final authService = RestAuthService(apiClient: apiClient);
@@ -93,7 +93,7 @@ void main() {
         });
 
         final apiClient = ApiClient(
-          baseUrl: 'https://api.msmeschemes.org/v1',
+          baseUrl: 'https://mssapi.msmeschemes.org/v1',
           httpClient: mockClient,
         );
         final authService = RestAuthService(apiClient: apiClient);
@@ -137,7 +137,7 @@ void main() {
       });
 
       final apiClient = ApiClient(
-        baseUrl: 'https://api.msmeschemes.org/v1',
+        baseUrl: 'https://mssapi.msmeschemes.org/v1',
         httpClient: mockClient,
       );
       final authService = RestAuthService(apiClient: apiClient);
@@ -172,7 +172,7 @@ void main() {
       });
 
       final apiClient = ApiClient(
-        baseUrl: 'https://api.msmeschemes.org/v1',
+        baseUrl: 'https://mssapi.msmeschemes.org/v1',
         httpClient: mockClient,
       );
       final authService = RestAuthService(apiClient: apiClient);
@@ -195,7 +195,7 @@ void main() {
       });
 
       final apiClient = ApiClient(
-        baseUrl: 'https://api.msmeschemes.org/v1',
+        baseUrl: 'https://mssapi.msmeschemes.org/v1',
         httpClient: mockClient,
       );
       final authService = RestAuthService(apiClient: apiClient);
@@ -237,7 +237,7 @@ void main() {
       });
 
       final apiClient = ApiClient(
-        baseUrl: 'https://api.msmeschemes.org/v1',
+        baseUrl: 'https://mssapi.msmeschemes.org/v1',
         httpClient: mockClient,
       );
       final authService = RestAuthService(apiClient: apiClient);

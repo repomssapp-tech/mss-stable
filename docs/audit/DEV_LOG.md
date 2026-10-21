@@ -23,3 +23,9 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-10-19 | Roger-Chris | #114 | unspecified | - Replace Supabase with the MSS REST backend (`https://api.msmeschemes.org`) for auth, profile, onboarding, notifications, promotions, favorites and support tickets. Old Supabase material is archived in `docs/old_supabase/`. |
 | 2026-10-19 | Roger-Chris | #115 | unspecified | fix(saarthi-agent): sort imports and apply ruff format to pass CI |
 | 2026-10-20 | Roger-Chris | #116 | unspecified | Feat/multilingual search recommendations |
+| 2026-10-20 | Roger-Chris | #117 | unspecified | Feat/multilingual search recommendations |
+| 2026-10-20 | praveen-ofl | #118 | unspecified | feat(api): integrate push and sse notifications, password dialogs, an… |
+| 2026-10-20 | nyxri0f8 | #119 | docs | Redesigns the root README with a centred header, badges, an overview table and five Mermaid diagrams (system architecture, user journey, offline catalog sync, Saarthi voice pipeline, quality gates). Also corrects stale details: adds Hindi localization, Dart 3.11+ per `pubspec.yaml`, Push/SSE notifications, and drops the hard-coded test count. |
+| 2026-10-20 | nyxri0f8 | #120 | docs | Adds `LICENSE-MIT` and `LICENSE-APACHE` (official texts from GitHubs license API) so the code is dual-licensed under MIT or Apache-2.0 at the users option, and updates the README License section to explain this and the contribution terms. Bundled third-party assets (e.g. OFL fonts) keep their own licenses. |
+| 2026-10-20 | Roger-Chris | #121 | unspecified | Feat/multilingual search recommendations |
+| 2026-10-20 | nyxri0f8 | #122 | docs | Adds a papercraft-style app banner (`docs/assets/mss-banner.png`, 1600x600) to the top of the README, built from real screens of release 1.2.1 (Discover, Search with the new Not applicable to you pill, Scheme Details). Also adds Marathi to the Languages badge, since Saarthi speaks Tamil, English, Hindi and Marathi. |

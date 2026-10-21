@@ -5034,4 +5034,126 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get schemeLinkPortalServices => 'தள சேவைகள்';
+
+  @override
+  String get passwordSetting => 'கடவுச்சொல்';
+
+  @override
+  String get activeSessionsSetting => 'செயலில் உள்ள அமர்வுகள்';
+
+  @override
+  String get setPasswordTitle => 'கடவுச்சொல் அமை';
+
+  @override
+  String get changePasswordTitle => 'கடவுச்சொல்லை மாற்றவும்';
+
+  @override
+  String get removePasswordTitle => 'கடவுச்சொல்லை நீக்கு';
+
+  @override
+  String get currentPasswordLabel => 'தற்போதைய கடவுச்சொல்';
+
+  @override
+  String get newPasswordLabel => 'புதிய கடவுச்சொல்';
+
+  @override
+  String get confirmPasswordLabel => 'கடவுச்சொல்லை உறுதிப்படுத்தவும்';
+
+  @override
+  String get passwordChangedNotice =>
+      'கடவுச்சொல் புதுப்பிக்கப்பட்டது. மீண்டும் உள்நுழையவும்.';
+
+  @override
+  String get revokeSession => 'ரத்து செய்';
+
+  @override
+  String get logoutAllSessions => 'எல்லா சாதனங்களிலிருந்தும் வெளியேறவும்';
+
+  @override
+  String get sessionCurrent => 'தற்போதைய சாதனம்';
+
+  @override
+  String get noActiveSessions => 'செயலில் உள்ள அமர்வுகள் எதுவும் இல்லை.';
+
+  @override
+  String get passwordRemovedNotice =>
+      'கடவுச்சொல் நீக்கப்பட்டது. மீண்டும் உள்நுழையவும்.';
+
+  @override
+  String get signInWithPassword => 'கடவுச்சொல் மூலம் உள்நுழையவும்';
+
+  @override
+  String get pwInvalidEmail => 'சரியான மின்னஞ்சல் முகவரியை உள்ளிடவும்.';
+
+  @override
+  String get pwEnterPassword => 'உங்கள் கடவுச்சொல்லை உள்ளிடவும்.';
+
+  @override
+  String get pwLoginFailed =>
+      'உள்நுழைவு தோல்வியடைந்தது. உங்கள் மின்னஞ்சல் மற்றும் கடவுச்சொல்லைச் சரிபார்க்கவும்.';
+
+  @override
+  String get pwInvalidCredentials => 'மின்னஞ்சல் அல்லது கடவுச்சொல் தவறானது.';
+
+  @override
+  String get pwTooManyAttempts =>
+      'பல முறை முயற்சிக்கப்பட்டது. சிறிது நேரம் கழித்து மீண்டும் முயற்சிக்கவும்.';
+
+  @override
+  String get pwLoginUnexpected => 'உள்நுழையும்போது ஏதோ தவறு ஏற்பட்டது.';
+
+  @override
+  String get pwSignInButton => 'உள்நுழைக';
+
+  @override
+  String get pwLengthRule =>
+      'கடவுச்சொல் 15 முதல் 128 எழுத்துகள் வரை இருக்க வேண்டும்.';
+
+  @override
+  String get pwMismatch =>
+      'புதிய கடவுச்சொல்லும் உறுதிப்படுத்தலும் பொருந்தவில்லை.';
+
+  @override
+  String get pwEnterCurrent => 'உங்கள் தற்போதைய கடவுச்சொல்லை உள்ளிடவும்.';
+
+  @override
+  String get pwReauthRequired =>
+      'பாதுகாப்புக்காக, முதலில் மீண்டும் உள்நுழையவும்.';
+
+  @override
+  String get pwPolicyFailed => 'கடவுச்சொல் தேவைகளைப் பூர்த்தி செய்யவில்லை.';
+
+  @override
+  String get pwCurrentIncorrect => 'தற்போதைய கடவுச்சொல் தவறானது.';
+
+  @override
+  String get pwUpdateFailed => 'கடவுச்சொல்லைப் புதுப்பிக்க முடியவில்லை.';
+
+  @override
+  String get pwRemoveNeedsCurrent =>
+      'அதை நீக்க உங்கள் தற்போதைய கடவுச்சொல்லை உள்ளிடவும்.';
+
+  @override
+  String get pwRemoveFailed => 'கடவுச்சொல்லை நீக்க முடியவில்லை.';
+
+  @override
+  String get pwMinHint => 'குறைந்தது 15 எழுத்துகள்';
+
+  @override
+  String get sessionRevoked => 'அமர்வு ரத்து செய்யப்பட்டது.';
+
+  @override
+  String get sessionRevokeFailed => 'அமர்வை ரத்து செய்ய முடியவில்லை.';
+
+  @override
+  String get logoutAllFailed =>
+      'எல்லா சாதனங்களிலிருந்தும் வெளியேற முடியவில்லை.';
+
+  @override
+  String get sessionOtherDevice => 'உள்நுழைந்த சாதனம்';
+
+  @override
+  String sessionSignedInAt(String time) {
+    return 'உள்நுழைந்தது: $time';
+  }
 }

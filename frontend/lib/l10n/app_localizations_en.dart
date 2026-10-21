@@ -4957,4 +4957,121 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get schemeLinkPortalServices => 'Portal services';
+
+  @override
+  String get passwordSetting => 'Password';
+
+  @override
+  String get activeSessionsSetting => 'Active Sessions';
+
+  @override
+  String get setPasswordTitle => 'Set Password';
+
+  @override
+  String get changePasswordTitle => 'Change Password';
+
+  @override
+  String get removePasswordTitle => 'Remove Password';
+
+  @override
+  String get currentPasswordLabel => 'Current Password';
+
+  @override
+  String get newPasswordLabel => 'New Password';
+
+  @override
+  String get confirmPasswordLabel => 'Confirm Password';
+
+  @override
+  String get passwordChangedNotice => 'Password updated. Please sign in again.';
+
+  @override
+  String get revokeSession => 'Revoke';
+
+  @override
+  String get logoutAllSessions => 'Log Out All Devices';
+
+  @override
+  String get sessionCurrent => 'Current Device';
+
+  @override
+  String get noActiveSessions => 'No active sessions found.';
+
+  @override
+  String get passwordRemovedNotice => 'Password removed. Please sign in again.';
+
+  @override
+  String get signInWithPassword => 'Sign in with password';
+
+  @override
+  String get pwInvalidEmail => 'Please enter a valid email address.';
+
+  @override
+  String get pwEnterPassword => 'Please enter your password.';
+
+  @override
+  String get pwLoginFailed =>
+      'Sign-in failed. Please check your email and password.';
+
+  @override
+  String get pwInvalidCredentials => 'Invalid email or password.';
+
+  @override
+  String get pwTooManyAttempts =>
+      'Too many attempts. Please wait and try again.';
+
+  @override
+  String get pwLoginUnexpected => 'Something went wrong while signing in.';
+
+  @override
+  String get pwSignInButton => 'Sign In';
+
+  @override
+  String get pwLengthRule => 'Password must be 15 to 128 characters long.';
+
+  @override
+  String get pwMismatch => 'New password and confirmation do not match.';
+
+  @override
+  String get pwEnterCurrent => 'Please enter your current password.';
+
+  @override
+  String get pwReauthRequired =>
+      'For your security, please sign in again first.';
+
+  @override
+  String get pwPolicyFailed => 'Password does not meet the requirements.';
+
+  @override
+  String get pwCurrentIncorrect => 'Current password is incorrect.';
+
+  @override
+  String get pwUpdateFailed => 'Could not update the password.';
+
+  @override
+  String get pwRemoveNeedsCurrent =>
+      'Enter your current password to remove it.';
+
+  @override
+  String get pwRemoveFailed => 'Could not remove the password.';
+
+  @override
+  String get pwMinHint => 'At least 15 characters';
+
+  @override
+  String get sessionRevoked => 'Session revoked.';
+
+  @override
+  String get sessionRevokeFailed => 'Unable to revoke the session.';
+
+  @override
+  String get logoutAllFailed => 'Unable to log out all devices.';
+
+  @override
+  String get sessionOtherDevice => 'Signed-in device';
+
+  @override
+  String sessionSignedInAt(String time) {
+    return 'Signed in: $time';
+  }
 }

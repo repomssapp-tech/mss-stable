@@ -9159,6 +9159,228 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Portal services'**
   String get schemeLinkPortalServices;
+
+  /// No description provided for @passwordSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get passwordSetting;
+
+  /// No description provided for @activeSessionsSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Sessions'**
+  String get activeSessionsSetting;
+
+  /// No description provided for @setPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Password'**
+  String get setPasswordTitle;
+
+  /// No description provided for @changePasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get changePasswordTitle;
+
+  /// No description provided for @removePasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Password'**
+  String get removePasswordTitle;
+
+  /// No description provided for @currentPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Password'**
+  String get currentPasswordLabel;
+
+  /// No description provided for @newPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get newPasswordLabel;
+
+  /// No description provided for @confirmPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get confirmPasswordLabel;
+
+  /// No description provided for @passwordChangedNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Password updated. Please sign in again.'**
+  String get passwordChangedNotice;
+
+  /// No description provided for @revokeSession.
+  ///
+  /// In en, this message translates to:
+  /// **'Revoke'**
+  String get revokeSession;
+
+  /// No description provided for @logoutAllSessions.
+  ///
+  /// In en, this message translates to:
+  /// **'Log Out All Devices'**
+  String get logoutAllSessions;
+
+  /// No description provided for @sessionCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Device'**
+  String get sessionCurrent;
+
+  /// No description provided for @noActiveSessions.
+  ///
+  /// In en, this message translates to:
+  /// **'No active sessions found.'**
+  String get noActiveSessions;
+
+  /// No description provided for @passwordRemovedNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Password removed. Please sign in again.'**
+  String get passwordRemovedNotice;
+
+  /// No description provided for @signInWithPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with password'**
+  String get signInWithPassword;
+
+  /// No description provided for @pwInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address.'**
+  String get pwInvalidEmail;
+
+  /// No description provided for @pwEnterPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your password.'**
+  String get pwEnterPassword;
+
+  /// No description provided for @pwLoginFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in failed. Please check your email and password.'**
+  String get pwLoginFailed;
+
+  /// No description provided for @pwInvalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email or password.'**
+  String get pwInvalidCredentials;
+
+  /// No description provided for @pwTooManyAttempts.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Please wait and try again.'**
+  String get pwTooManyAttempts;
+
+  /// No description provided for @pwLoginUnexpected.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong while signing in.'**
+  String get pwLoginUnexpected;
+
+  /// No description provided for @pwSignInButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get pwSignInButton;
+
+  /// No description provided for @pwLengthRule.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be 15 to 128 characters long.'**
+  String get pwLengthRule;
+
+  /// No description provided for @pwMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'New password and confirmation do not match.'**
+  String get pwMismatch;
+
+  /// No description provided for @pwEnterCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your current password.'**
+  String get pwEnterCurrent;
+
+  /// No description provided for @pwReauthRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'For your security, please sign in again first.'**
+  String get pwReauthRequired;
+
+  /// No description provided for @pwPolicyFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Password does not meet the requirements.'**
+  String get pwPolicyFailed;
+
+  /// No description provided for @pwCurrentIncorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Current password is incorrect.'**
+  String get pwCurrentIncorrect;
+
+  /// No description provided for @pwUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not update the password.'**
+  String get pwUpdateFailed;
+
+  /// No description provided for @pwRemoveNeedsCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your current password to remove it.'**
+  String get pwRemoveNeedsCurrent;
+
+  /// No description provided for @pwRemoveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not remove the password.'**
+  String get pwRemoveFailed;
+
+  /// No description provided for @pwMinHint.
+  ///
+  /// In en, this message translates to:
+  /// **'At least 15 characters'**
+  String get pwMinHint;
+
+  /// No description provided for @sessionRevoked.
+  ///
+  /// In en, this message translates to:
+  /// **'Session revoked.'**
+  String get sessionRevoked;
+
+  /// No description provided for @sessionRevokeFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to revoke the session.'**
+  String get sessionRevokeFailed;
+
+  /// No description provided for @logoutAllFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to log out all devices.'**
+  String get logoutAllFailed;
+
+  /// No description provided for @sessionOtherDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed-in device'**
+  String get sessionOtherDevice;
+
+  /// No description provided for @sessionSignedInAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in: {time}'**
+  String sessionSignedInAt(String time);
 }
 
 class _AppLocalizationsDelegate

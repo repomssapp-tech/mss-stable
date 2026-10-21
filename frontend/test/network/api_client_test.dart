@@ -71,7 +71,7 @@ void main() {
       });
 
       final client = ApiClient(
-        baseUrl: 'https://api.msmeschemes.org/v1',
+        baseUrl: 'https://mssapi.msmeschemes.org/v1',
         httpClient: mockClient,
       );
 
@@ -87,7 +87,7 @@ void main() {
       });
 
       final client = ApiClient(
-        baseUrl: 'https://api.msmeschemes.org/v1',
+        baseUrl: 'https://mssapi.msmeschemes.org/v1',
         httpClient: mockClient,
       );
 
@@ -138,7 +138,7 @@ void main() {
       });
 
       final client = ApiClient(
-        baseUrl: 'https://api.msmeschemes.org/v1',
+        baseUrl: 'https://mssapi.msmeschemes.org/v1',
         httpClient: mockClient,
       );
 
@@ -229,7 +229,7 @@ void main() {
         });
 
         final client = ApiClient(
-          baseUrl: 'https://api.msmeschemes.org/v1',
+          baseUrl: 'https://mssapi.msmeschemes.org/v1',
           httpClient: mockClient,
           onSessionExpired: () => sessionExpiredCalled = true,
         );
@@ -263,7 +263,7 @@ void main() {
       });
 
       final client = ApiClient(
-        baseUrl: 'https://api.msmeschemes.org/v1',
+        baseUrl: 'https://mssapi.msmeschemes.org/v1',
         httpClient: mockClient,
       );
 
@@ -290,7 +290,7 @@ void main() {
       });
 
       final client = ApiClient(
-        baseUrl: 'https://api.msmeschemes.org/v1',
+        baseUrl: 'https://mssapi.msmeschemes.org/v1',
         httpClient: mockClient,
       );
 

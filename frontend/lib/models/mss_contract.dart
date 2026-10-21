@@ -633,8 +633,9 @@ class EligibilityMatch {
 
   String get summary {
     if (eligible) {
-      if (matchedFacets.isEmpty)
+      if (matchedFacets.isEmpty) {
         return 'No exclusions recorded for your profile.';
+      }
       return 'Matched on ${matchedFacets.join(', ')}.';
     }
     if (excludedByAll.isEmpty) return 'Profile does not meet criteria.';

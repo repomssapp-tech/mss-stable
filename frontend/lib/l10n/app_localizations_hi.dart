@@ -4974,4 +4974,123 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get schemeLinkPortalServices => 'पोर्टल सेवाएं';
+
+  @override
+  String get passwordSetting => 'पासवर्ड';
+
+  @override
+  String get activeSessionsSetting => 'सक्रिय सत्र';
+
+  @override
+  String get setPasswordTitle => 'पासवर्ड सेट करें';
+
+  @override
+  String get changePasswordTitle => 'पासवर्ड बदलें';
+
+  @override
+  String get removePasswordTitle => 'पासवर्ड हटाएं';
+
+  @override
+  String get currentPasswordLabel => 'वर्तमान पासवर्ड';
+
+  @override
+  String get newPasswordLabel => 'नया पासवर्ड';
+
+  @override
+  String get confirmPasswordLabel => 'पासवर्ड की पुष्टि करें';
+
+  @override
+  String get passwordChangedNotice =>
+      'पासवर्ड अपडेट हो गया। कृपया फिर से साइन इन करें।';
+
+  @override
+  String get revokeSession => 'निरस्त करें';
+
+  @override
+  String get logoutAllSessions => 'सभी डिवाइस से लॉग आउट करें';
+
+  @override
+  String get sessionCurrent => 'वर्तमान डिवाइस';
+
+  @override
+  String get noActiveSessions => 'कोई सक्रिय सत्र नहीं मिला।';
+
+  @override
+  String get passwordRemovedNotice =>
+      'पासवर्ड हटा दिया गया। कृपया फिर से साइन इन करें।';
+
+  @override
+  String get signInWithPassword => 'पासवर्ड से साइन इन करें';
+
+  @override
+  String get pwInvalidEmail => 'कृपया एक मान्य ईमेल पता दर्ज करें।';
+
+  @override
+  String get pwEnterPassword => 'कृपया अपना पासवर्ड दर्ज करें।';
+
+  @override
+  String get pwLoginFailed =>
+      'साइन इन विफल रहा। कृपया अपना ईमेल और पासवर्ड जांचें।';
+
+  @override
+  String get pwInvalidCredentials => 'ईमेल या पासवर्ड गलत है।';
+
+  @override
+  String get pwTooManyAttempts =>
+      'बहुत अधिक प्रयास। कृपया कुछ देर बाद फिर से कोशिश करें।';
+
+  @override
+  String get pwLoginUnexpected => 'साइन इन करते समय कुछ गलत हो गया।';
+
+  @override
+  String get pwSignInButton => 'साइन इन करें';
+
+  @override
+  String get pwLengthRule => 'पासवर्ड 15 से 128 अक्षरों का होना चाहिए।';
+
+  @override
+  String get pwMismatch => 'नया पासवर्ड और पुष्टि मेल नहीं खाते।';
+
+  @override
+  String get pwEnterCurrent => 'कृपया अपना वर्तमान पासवर्ड दर्ज करें।';
+
+  @override
+  String get pwReauthRequired =>
+      'सुरक्षा के लिए, कृपया पहले फिर से साइन इन करें।';
+
+  @override
+  String get pwPolicyFailed => 'पासवर्ड आवश्यकताओं को पूरा नहीं करता।';
+
+  @override
+  String get pwCurrentIncorrect => 'वर्तमान पासवर्ड गलत है।';
+
+  @override
+  String get pwUpdateFailed => 'पासवर्ड अपडेट नहीं हो सका।';
+
+  @override
+  String get pwRemoveNeedsCurrent =>
+      'हटाने के लिए अपना वर्तमान पासवर्ड दर्ज करें।';
+
+  @override
+  String get pwRemoveFailed => 'पासवर्ड हटाया नहीं जा सका।';
+
+  @override
+  String get pwMinHint => 'कम से कम 15 अक्षर';
+
+  @override
+  String get sessionRevoked => 'सत्र रद्द किया गया।';
+
+  @override
+  String get sessionRevokeFailed => 'सत्र रद्द नहीं किया जा सका।';
+
+  @override
+  String get logoutAllFailed => 'सभी डिवाइस से लॉग आउट नहीं किया जा सका।';
+
+  @override
+  String get sessionOtherDevice => 'साइन इन किया हुआ डिवाइस';
+
+  @override
+  String sessionSignedInAt(String time) {
+    return 'साइन इन: $time';
+  }
 }

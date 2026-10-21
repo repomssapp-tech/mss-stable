@@ -46,7 +46,7 @@ void main() {
         });
 
         final apiClient = ApiClient(
-          baseUrl: 'https://api.msmeschemes.org',
+          baseUrl: 'https://mssapi.msmeschemes.org',
           httpClient: mockClient,
           tokenStorage: tokenStorage,
         );
@@ -79,7 +79,7 @@ void main() {
           );
         });
         final apiClient = ApiClient(
-          baseUrl: 'https://api.msmeschemes.org',
+          baseUrl: 'https://mssapi.msmeschemes.org',
           httpClient: mockClient,
           tokenStorage: tokenStorage,
         );
@@ -103,7 +103,7 @@ void main() {
         () async {
           var requested = false;
           final apiClient = ApiClient(
-            baseUrl: 'https://api.msmeschemes.org',
+            baseUrl: 'https://mssapi.msmeschemes.org',
             httpClient: MockClient((request) async {
               requested = true;
               return http.Response.bytes(Uint8List(0), 200);
@@ -151,7 +151,7 @@ void main() {
       });
 
       final apiClient = ApiClient(
-        baseUrl: 'https://api.msmeschemes.org',
+        baseUrl: 'https://mssapi.msmeschemes.org',
         httpClient: mockClient,
         tokenStorage: tokenStorage,
       );
@@ -194,7 +194,7 @@ void main() {
         });
 
         final apiClient = ApiClient(
-          baseUrl: 'https://api.msmeschemes.org',
+          baseUrl: 'https://mssapi.msmeschemes.org',
           httpClient: mockClient,
           tokenStorage: tokenStorage,
         );
@@ -226,7 +226,7 @@ void main() {
       });
 
       final apiClient = ApiClient(
-        baseUrl: 'https://api.msmeschemes.org',
+        baseUrl: 'https://mssapi.msmeschemes.org',
         httpClient: mockClient,
         tokenStorage: tokenStorage,
       );
@@ -265,7 +265,7 @@ void main() {
       });
 
       final apiClient = ApiClient(
-        baseUrl: 'https://api.msmeschemes.org',
+        baseUrl: 'https://mssapi.msmeschemes.org',
         httpClient: mockClient,
         tokenStorage: tokenStorage,
       );

@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/services/search/hybrid_scheme_search.dart';
 import 'package:frontend/services/catalog/mss_catalog_bundle.dart';
@@ -9,11 +10,10 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   late MssCatalogBundle bundle;
-  late HybridSchemeSearch engine;
 
   setUpAll(() async {
     bundle = await MssCatalogBundle.load(overrideChecksumForTest: true);
-    engine = await HybridSchemeSearch.build(bundle);
+    await HybridSchemeSearch.build(bundle);
   });
 
   final hindiQueries = <String, String>{
