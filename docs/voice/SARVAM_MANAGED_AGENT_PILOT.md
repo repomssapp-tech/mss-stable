@@ -1,7 +1,41 @@
 # Sarvam managed voice-agent pilot — 2026-10-21
 
-Status: feasible candidate; not enabled or deployed. The tested 1.2.3 app and
-current Node voice flow remain live. Agent/workspace access is still needed.
+Status: managed Tamil pilot created in Sarvam and committed through v2. It is
+not enabled in the mobile app. The tested 1.2.3 app and current Node voice flow
+remain live. A separately approved Voice Agents credential is stored only in
+the server's private environment; credential values are not recorded here.
+
+## Created pilot
+
+- Agent: Saarthi Scheme Assistant (`Saarthi-Sch-91830352-d966`).
+- Organisation: `019fce01-6f3b-7533-bb39-fa646862c464`.
+- Workspace: `019fce01-6f42-797f-b7ab-07ffba1fa3a3`.
+- Tamil is the sole allowed/starting language. Both smart and automatically
+  detected language switching were explicitly disabled.
+- Speaking speed 1.0, full output volume, Patient turn taking, normal sound
+  threshold, no artificial background sound, no silence nudges or voicemail.
+- Greeting and both gender-specific greeting translations identify Saarthi
+  in Tamil. The template's original name was removed.
+- v2 uses Tamil instructions to reduce mixed English phrases seen in a v1
+  dashboard reply. Scheme facts remain restricted until the verified lookup
+  is implemented and connected. This is intentionally a pilot, not a complete
+  scheme-advice deployment.
+
+The authenticated runtime signed-URL request succeeded with HTTP 200. Synthetic
+speech testing of v2 produced an actual Tamil reply with nonzero audio samples
+after an English request to answer in English. Captured output: 435200 PCM bytes,
+16000 Hz mono, peak 25641, 147114 nonzero samples; the recording includes greeting
+and silence as well as the reply. Reply: "என் பெயர் சாரதி. அரசுத் திட்டங்கள்
+பற்றி உங்களுக்கு என்ன உதவி தேவை என்று சொல்லுங்க."
+This is a server-side protocol test, not a phone speaker or TalkBack test.
+
+**Strict-language gate is not passed.** The dashboard test against the equivalent
+v3 working draft (unchanged from committed v2) refused to invent a housing benefit
+or application link, but still inserted the English words "application link" in
+its Tamil response. Disabling language switching and adding Tamil instructions
+does not by itself prove zero code-switching. A reviewed output-language check
+and fallback are required before production rollout; do not label the managed
+agent as guaranteeing the user's selected delivery language.
 
 ## Verified platform fit
 
@@ -72,14 +106,43 @@ links or final eligibility/approval. Never ask for Aadhaar, OTPs, passwords or b
 account credentials. Accept corrections and use the corrected details for future
 answers. The app's Pause, End and Type controls manage the interaction.
 
-This is an instruction draft, not an uploaded or committed Sarvam agent.
+This generic instruction draft describes the eventual grounded integration.
+The created Tamil pilot uses a stricter Tamil instruction set which explicitly
+states that verified lookup is not yet connected.
+
+## Runtime findings from the synthetic pilot
+
+- A socket can emit continuous silent PCM before the interaction is ready.
+  Initial silent input frames were required in the tested runtime before the
+  connected event/greeting. Send bounded synthetic silence for bootstrap;
+  do not open the real microphone merely because the socket is open.
+- Current TypeScript SDK 0.0.42 uses `input_sample_rate` and
+  `output_sample_rate` URL parameters; Flutter 1.0.2 still uses `sample_rate`.
+  Use the current verified runtime contract for a reviewed custom adapter.
+- Transcripts arrive as `server.event.transcription` with `role` and `content`.
+  Flutter 1.0.2's parser does not support that current event. Its text callback
+  alone cannot be relied upon to populate accessible live captions.
+- TypeScript 0.0.42 restricts `sendText` to chat interactions. A direct typed
+  message during the voice pilot did not produce another reply. Typed correction
+  and session context therefore need a deliberate integration, not an assumed
+  capability of the old Flutter SDK.
+- An interruption can generate an empty completed-audio event. Only count a
+  reply after input finishes and actual nonzero output is received; this was
+  caught while improving the smoke test.
+
+The local deliverables/sarvam-agent directory contains synthetic smoke evidence
+and screenshots. No production personal speech or credentials are included.
 
 ## Needed to run the pilot
 
-- A Sarvam Voice Agents workspace with a created agent and committed version.
-- Organisation ID, workspace ID and agent/app ID (not secret keys in chat).
-- Voice Agents API credentials configured in the private server environment, or
-  an authenticated Sarvam MCP connection for account-side authoring.
+- A reviewed Android PCM adapter and accessible transcript/event integration.
+- A backend session proxy and a published, owner/state-scoped lookup tool,
+  bound to the authenticated MSS user with short-lived opaque capabilities.
+- Verified typed correction, explicit pause/resume and session-context behavior.
+- Separately restricted delivery-language configurations for en/hi/mr, or proof
+  that one runtime configuration enforces each explicit language selection.
+- Real-device audio, pause/background cleanup and TalkBack verification before
+  the managed controller replaces the working production flow.
 - The actual deployment branch must include the Node integration before rollout;
   current private backend GitHub access still returns 404.
 
