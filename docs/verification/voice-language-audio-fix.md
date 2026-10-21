@@ -49,3 +49,23 @@ No physical TalkBack or controlled on-phone hearing test is claimed.
 
 [Official Sarvam translation contract](https://docs.sarvam.ai/api-reference/text/translate-text)
 [AudioContextAndroid contract](https://pub.dev/documentation/audioplayers/latest/audioplayers/AudioContextAndroid-class.html)
+
+## Reconnected phone and deployment conflict
+
+Android 1.2.3 build 2008 was installed successfully with `adb install -r`; package
+metadata and the running app confirmed the version. The accessibility automation
+no longer exposed an unexpected audio-off/reader state. Functional voice failed
+because a separate deployment had replaced the server with release `4f622df`,
+which has no voice source/routes. While integrating its legal/profile changes,
+another release `9ab487b` (v0.2.3 metadata) appeared. The expected-release guard
+stopped activation, avoiding an overwrite of concurrent work.
+
+Prepared integration `6107ebcec22fcd8922481427ee173a65222e8702` retains that latest
+source and adds the voice fixes. Its full verification passed 189 tests with
+2 skipped. Migration/grant files match the latest release; no database operation
+is proposed. The patch can be applied to source at `9ab487b`:
+`MSS-Backend-Voice-v0.2.3.patch`, with a full local Git bundle also supplied in
+the workspace deliverables folder. Git CLI and the connected GitHub app both
+return 404 for `mssschemes/backend`, so publishing to its deploying branch needs
+repository access. The phone journey stopped on the route failure and remaining
+audio/language assertions were skipped. End was used afterward; microphone off.

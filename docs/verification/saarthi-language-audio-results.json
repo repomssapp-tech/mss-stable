@@ -1,8 +1,8 @@
 {
   "journey": "Selected language and reply audio on Android",
   "date": "2026-10-21",
-  "status": "BLOCKED_ON_DEVICE_CONNECTION",
-  "reason": "ADB initially saw the phone and its media stream was not muted; it disconnected during packaging and the final device list is empty. No attempt to uninstall or clear data was made.",
+  "status": "INSTALLED_DEVICE_TEST_BLOCKED_BY_CONCURRENT_BACKEND_DEPLOYMENTS",
+  "reason": "Installed with adb install -r; version 1.2.3 build 2008 confirmed. Independent backend deployments 4f622df and 9ab487b replaced the voice-enabled release and omit src/voice, producing public /chat 404 and failed conversational requests. Activation stopped on the expected-release check to preserve newer changes.",
   "apk": {
     "name": "MSS-Saarthi-1.2.3-2008.apk",
     "versionName": "1.2.3",
@@ -12,10 +12,16 @@
   },
   "backend": {
     "commit": "7078bdc44016e66c1429662246352f7dec5f466c",
-    "deployment": "healthy",
-    "publicHealth": "status ok, db ok",
+    "deployment": "Voice fixes superseded by independent deployments; current observed release 9ab487b50e710215d670c46c7373128281401ae6 has no voice directory.",
+    "publicHealth": "API/database healthy; voice/chat routes return 404 on the intervening release",
     "tests": {
       "passed": 179,
+      "skipped": 2,
+      "failed": 0
+    },
+    "preparedIntegrationCommit": "6107ebcec22fcd8922481427ee173a65222e8702",
+    "integrationTests": {
+      "passed": 189,
       "skipped": 2,
       "failed": 0
     }
@@ -37,49 +43,63 @@
   "results": [
     {
       "action": "Verify version 1.2.3 build 2008 is installed and launches",
-      "status": "SKIPPED",
-      "commands": [],
-      "comment": "Requires the phone to be reconnected; this new release is not yet installed."
+      "status": "PASSED",
+      "commands": [
+        "adb install -r MSS-Saarthi-1.2.3-2008.apk",
+        "adb shell am start -n com.inschemes.app/.MainActivity",
+        "adb shell dumpsys package com.inschemes.app"
+      ],
+      "comment": "Success; version 1.2.3 and build 2008 confirmed; existing app data preserved."
     },
     {
       "action": "Start Saarthi and verify generic accessibility automation does not turn audio off",
-      "status": "SKIPPED",
-      "commands": [],
-      "comment": "Requires the phone to be reconnected; this new release is not yet installed."
+      "status": "FAILED",
+      "commands": [
+        "adb shell input tap 540 1381",
+        "adb shell uiautomator dump /sdcard/mss-voice-ui.xml"
+      ],
+      "comment": "New view opened without the audio-off control or spurious screen-reader mode, but the missing deployed voice routes prevent a functional conversation. Failed phone journey; subsequent assertions skipped. End was used afterward to leave the microphone off."
     },
     {
       "action": "Pause input and select Tamil in Voice options",
       "status": "SKIPPED",
       "commands": [],
-      "comment": "Requires the phone to be reconnected; this new release is not yet installed."
+      "comment": "Skipped after missing backend voice routes blocked the journey. Device is connected and new APK is installed."
     },
     {
       "action": "Type Hello and send it",
       "status": "SKIPPED",
       "commands": [],
-      "comment": "Requires the phone to be reconnected; this new release is not yet installed."
+      "comment": "Skipped after missing backend voice routes blocked the journey. Device is connected and new APK is installed."
     },
     {
       "action": "Verify a Tamil written reply and started Android media/speech playback for this app",
       "status": "SKIPPED",
       "commands": [],
-      "comment": "Requires the phone to be reconnected; this new release is not yet installed."
+      "comment": "Skipped after missing backend voice routes blocked the journey. Device is connected and new APK is installed."
     },
     {
       "action": "End the conversation and reopen it",
       "status": "SKIPPED",
       "commands": [],
-      "comment": "Requires the phone to be reconnected; this new release is not yet installed."
+      "comment": "Skipped after missing backend voice routes blocked the journey. Device is connected and new APK is installed."
     },
     {
       "action": "Verify Tamil remains selected and End stops the conversation",
       "status": "SKIPPED",
       "commands": [],
-      "comment": "Requires the phone to be reconnected; this new release is not yet installed."
+      "comment": "Skipped after missing backend voice routes blocked the journey. Device is connected and new APK is installed."
     }
   ],
   "limitations": [
     "No physical TalkBack test or controlled hearing test completed for this release.",
-    "Earlier five account-dialog design guard failures are unrelated and remain unchanged."
-  ]
+    "Earlier five account-dialog design guard failures are unrelated and remain unchanged.",
+    "Latest legal/profile changes and v0.2.3 metadata were preserved in the prepared integration. Database migrations/grants match the latest deployed release. No rollback to the older backend was performed. GitHub connector and CLI both cannot access mssschemes/backend (404), so a local patch and Git bundle were prepared for upstream integration."
+  ],
+  "appInstall": {
+    "status": "PASSED",
+    "versionName": "1.2.3",
+    "versionCode": 2008,
+    "dataPreserved": true
+  }
 }

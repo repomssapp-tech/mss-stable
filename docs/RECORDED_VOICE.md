@@ -1,5 +1,14 @@
 # Saarthi conversational voice
 
+Current rollout: Android **1.2.3 build 2008 is installed**, with data preserved.
+A separate backend deployment subsequently replaced the tested voice-enabled
+release; the latest observed server release is `9ab487b` and omits the voice
+routes. Full phone audio verification is blocked by those 404 responses.
+An integration preserving the newer v0.2.3 legal/profile changes is prepared at
+`6107ebcec22fcd8922481427ee173a65222e8702` (189 passed, 2 skipped). Activation
+stopped when the expected running release changed again. Pause concurrent API
+deployments and include the voice patch upstream before continuing activation.
+
 Saarthi AI mode uses the MSS Node API and Sarvam directly through a protected
 WebSocket relay. The mobile app has no LiveKit/WebRTC dependency or Supabase
 runtime dependency. Keys stay in the server environment.
@@ -97,7 +106,8 @@ checks and limits. The signed APK is in
 
 ## Selected-language and audio fix (2026-10-21)
 
-Backend `7078bdc44016e66c1429662246352f7dec5f466c` is deployed and healthy.
+Backend `7078bdc44016e66c1429662246352f7dec5f466c` was deployed and verified healthy,
+then was superseded by the separate releases described above.
 Its full verification passed 179 tests with 2 skipped. Live synthetic requests
 returned selected-language replies and nonempty MP3s in en/ta/hi/mr despite a
 different language in history. Final app checks passed 62 focused tests and clean
@@ -105,7 +115,9 @@ analysis. This includes actual playback adapter configuration, audio preference
 restoration, native accessibility probing, wrong-locale rejection, retry without
 repeating chat, language cache invalidation and persistence.
 
-Release 1.2.3 build 2008 is the replacement APK. Installation is pending a USB
-reconnection; the phone disconnected during final preparation. Provider audio
+Release 1.2.3 build 2008 was installed after USB reconnection; version and
+package checks passed. End was used after the failed route check to leave the
+microphone off. Integration and upstream publication are still pending deployment
+coordination. Provider audio
 generation and automated playback checks do not establish that sound was heard
 on the physical phone. See `verification/voice-language-audio-fix.md`.
