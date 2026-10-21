@@ -11,6 +11,28 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [1.4.0+8] - 2026-10-21
+
+### Fixed
+- Udyam classifier and the assessment's business-size question use the 2025 MSME limits (Micro ≤ ₹2.5 Cr investment / ₹10 Cr turnover, Small ≤ ₹25 / ₹100 Cr, Medium ≤ ₹125 / ₹500 Cr) in English, Tamil and Hindi (#124).
+- GST calculator uses the GST 2.0 slabs (0 / 5 / 18 / 40 %) and has a within-state (CGST + SGST) / inter-state (IGST) choice (#130).
+- A scheme's details page shows its real match score, or "Not applicable to you", instead of a hard-coded "96% Match" (#129).
+- A saved scheme the server refuses stays saved on the phone, and a navigation mode chosen on the phone is no longer overwritten by the server copy after a restart (#127).
+- Voice search listens in the app's language (Tamil, Hindi, Marathi) instead of always en-IN (#128).
+- Saarthi: when cloud voice cannot connect, it switches to the phone's own speech and says so, instead of hanging (#125).
+- Settings shows the real app version; "Recently viewed" fills in; the document checklist has a Sole Proprietorship option.
+- The password sign-in, password settings and active sessions screens are translated into Tamil and Hindi and follow the design system.
+
+### Security
+- Access and refresh tokens are stored encrypted (Android Keystore) instead of plain SharedPreferences; sessions from older versions carry over (#131).
+- The OAuth callback (with its one-time code) is no longer written to the log (#131).
+- Voice agent dependencies: PyJWT 2.15.1, aiohttp 3.14.5, urllib3 2.8.0, yarl 1.25.1 (0 known advisories) (#131).
+- CI scans every push and pull request for committed secrets (gitleaks).
+
+### Known issues
+- Onboarding can repeat after signing in again (#123).
+- The Supabase service_role key in git history must still be rotated in the Supabase dashboard (#126).
+
 ## [1.3.0+7] - 2026-10-21
 
 ### Changed
