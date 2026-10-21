@@ -5,6 +5,7 @@ import '../network/api_exception.dart';
 import 'http_voice_agent_controller.dart';
 import 'realtime_speech_transport.dart';
 import 'voice_microphone.dart';
+import 'voice_language.dart';
 
 enum ConversationPhase {
   idle,
@@ -26,6 +27,7 @@ class SaarthiConversationController extends ChangeNotifier {
     required this.microphone,
     required this.language,
     this.screenReader = false,
+    this.persistLanguage,
     this.replyGuard = const Duration(milliseconds: 900),
   }) {
     _events = transport.events.listen(_onSpeech);
@@ -36,9 +38,12 @@ class SaarthiConversationController extends ChangeNotifier {
   final RealtimeSpeechTransport transport;
   final VoiceMicrophone microphone;
   final Duration replyGuard;
+  final Future<void> Function(String)? persistLanguage;
   bool screenReader;
   String language;
   bool longerPauses = false;
+  bool? _readAloudPreference;
+  bool get canRepeat => agent.canReplay;
   bool get readAloud => agent.speakReplies;
   ConversationPhase phase = ConversationPhase.idle;
   String draft = '';
@@ -310,7 +315,7 @@ class SaarthiConversationController extends ChangeNotifier {
     if (enabled == screenReader) return;
     await pause();
     screenReader = enabled;
-    if (enabled) agent.speakReplies = false;
+    agent.speakReplies = _readAloudPreference ?? !enabled;
     notifyListeners();
   }
 
@@ -321,19 +326,38 @@ class SaarthiConversationController extends ChangeNotifier {
     bool? review,
   }) async {
     await pause();
-    if (languageCode != null) language = languageCode;
+    if (languageCode != null) {
+      language = VoiceLanguage.code(languageCode);
+      await agent.setResponseLanguage(language);
+      try {
+        await persistLanguage?.call(language);
+      } catch (_) {
+        // Keep the explicit selection for this conversation if storage fails.
+      }
+    }
     if (longPauses != null) longerPauses = longPauses;
-    if (aloud != null) agent.speakReplies = aloud;
+    if (aloud != null) {
+      _readAloudPreference = aloud;
+      agent.speakReplies = aloud;
+    }
     if (review != null) reviewBeforeSend = review;
     notifyListeners();
   }
 
   Future<void> repeat() async {
+    if (!canRepeat) return;
     await pause();
+    error = null;
     final generation = _generation;
     _update(ConversationPhase.thinking);
     await agent.replayLastReply();
-    if (_current(generation)) _update(ConversationPhase.paused);
+    if (_current(generation)) {
+      if (agent.state.message != null) {
+        await _fail(agent.state.message!);
+      } else {
+        _update(ConversationPhase.paused);
+      }
+    }
   }
 
   Future<void> _fail(String code) async {

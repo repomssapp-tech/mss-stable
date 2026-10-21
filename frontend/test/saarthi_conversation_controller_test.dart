@@ -100,6 +100,7 @@ class _Client extends ApiClient {
   final paths = <String>[];
   final chatBodies = <dynamic>[];
   Completer<Object?>? reply;
+  bool speechFails = false;
   @override
   Future<ApiResponse<dynamic>> post(
     String path, {
@@ -113,6 +114,7 @@ class _Client extends ApiClient {
       reason: 'Microphone must stop before inference and playback',
     );
     paths.add(path);
+    if (path == '/voice/speech' && speechFails) throw StateError('Unavailable');
     if (path == '/chat') chatBodies.add(body);
     return ApiResponse(
       data: path == '/chat'
@@ -350,6 +352,69 @@ void main() {
       h.transport.emit('transcript.final', text: 'late words');
       await pumpEventQueue();
       expect(h.client.paths, isEmpty);
+    },
+  );
+  test('temporary accessibility changes restore default reply audio', () async {
+    final h = _Harness();
+    addTearDown(h.dispose);
+    expect(h.conversation.readAloud, isTrue);
+    await h.conversation.updateAccessibility(true);
+    expect(h.conversation.readAloud, isFalse);
+    await h.conversation.updateAccessibility(false);
+    expect(h.conversation.readAloud, isTrue);
+    final sending = h.conversation.send('speak my reply');
+    await pumpEventQueue();
+    expect(h.audio.plays, 1);
+    await h.conversation.pause();
+    await sending;
+  });
+  test('explicit audio choice survives accessibility changes', () async {
+    final h = _Harness();
+    addTearDown(h.dispose);
+    await h.conversation.configure(aloud: false);
+    await h.conversation.updateAccessibility(true);
+    await h.conversation.updateAccessibility(false);
+    expect(h.conversation.readAloud, isFalse);
+    await h.conversation.configure(aloud: true);
+    await h.conversation.updateAccessibility(true);
+    expect(h.conversation.readAloud, isTrue);
+  });
+  test(
+    'changing language invalidates replay in the previous language',
+    () async {
+      final h = _Harness(screenReader: true);
+      addTearDown(h.dispose);
+      await h.conversation.send('one request');
+      expect(h.conversation.canRepeat, isTrue);
+      await h.conversation.configure(languageCode: 'hi-IN');
+      expect(h.conversation.language, 'hi');
+      expect(h.conversation.canRepeat, isFalse);
+      await h.conversation.repeat();
+      expect(h.audio.plays, 0);
+      expect(h.client.paths, ['/chat']);
+      await h.conversation.send('अगला प्रश्न');
+      expect(h.client.chatBodies.last['language'], 'hi');
+    },
+  );
+  test(
+    'audio retry clears failure and never resubmits the chat request',
+    () async {
+      final h = _Harness();
+      addTearDown(h.dispose);
+      h.client.speechFails = true;
+      await h.conversation.send('request');
+      expect(h.conversation.error, 'speech-unavailable');
+      expect(h.conversation.phase, ConversationPhase.error);
+      expect(h.microphone.recording, isFalse);
+      h.client.speechFails = false;
+      final repeating = h.conversation.repeat();
+      await pumpEventQueue();
+      expect(h.audio.plays, 1);
+      expect(h.client.paths, ['/chat', '/voice/speech', '/voice/speech']);
+      h.audio.playing!.complete();
+      await repeating;
+      expect(h.conversation.error, isNull);
+      expect(h.conversation.phase, ConversationPhase.paused);
     },
   );
 }

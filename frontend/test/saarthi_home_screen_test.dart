@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,6 +33,11 @@ void main() {
 
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel('com.inschemes.app/voice_accessibility'),
+          (_) async => false,
+        );
   });
 
   group('SaarthiHomeScreen & Sub-components Tests', () {

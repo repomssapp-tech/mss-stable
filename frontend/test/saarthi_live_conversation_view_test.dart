@@ -363,6 +363,7 @@ void main() {
     'UNAUTHORIZED',
     'SILENCE_TIMEOUT',
     'VOICE_FINAL_TIMEOUT',
+    'speech-unavailable',
   ]) {
     testWidgets('$code offers specific recovery and preserves correction', (
       tester,
@@ -375,6 +376,7 @@ void main() {
         find.textContaining(switch (code) {
           'UNAUTHORIZED' => 'sign in again',
           'SILENCE_TIMEOUT' => 'No speech was heard',
+          'speech-unavailable' => 'couldn’t play the audio',
           _ => 'transcript did not finish',
         }),
         findsOneWidget,
@@ -387,4 +389,13 @@ void main() {
       expect(field.controller!.text, 'The words already recognized');
     });
   }
+  testWidgets('audio off exposes an explicit enable control', (tester) async {
+    conversation.agent.speakReplies = false;
+    await host(tester);
+    await tester.tap(find.byKey(const Key('live-voice-enable-audio')));
+    await tester.pumpAndSettle();
+    expect(conversation.readAloud, isTrue);
+    expect(find.byKey(const Key('live-voice-enable-audio')), findsNothing);
+    expect(conversation.pauses, 1);
+  });
 }

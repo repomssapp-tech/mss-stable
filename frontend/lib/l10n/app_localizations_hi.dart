@@ -5139,4 +5139,8 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get liveVoiceFinalTimeout =>
       'प्रतिलेख पूरा नहीं हुआ। सुने गए शब्द सुधारें या फिर से कोशिश करें।';
+
+  @override
+  String get liveVoiceSpeechUnavailable =>
+      'ऑडियो नहीं चल सका। उत्तर नीचे है। दोबारा सुनने के लिए उत्तर फिर सुनें दबाएँ और मीडिया की आवाज़ जाँचें।';
 }

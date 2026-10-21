@@ -5119,4 +5119,8 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get liveVoiceFinalTimeout =>
       'The transcript did not finish. Correct the words we heard, or resume to try again.';
+
+  @override
+  String get liveVoiceSpeechUnavailable =>
+      'I couldn’t play the audio. Your reply is below. Tap Hear reply again to retry, and check your media volume.';
 }

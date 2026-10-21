@@ -105,6 +105,7 @@ class _SaarthiLiveConversationViewState
         'AUTH_REQUIRED' ||
         'INVALID_TOKEN' ||
         '401' => context.l10n.saarthiCloudErrorSignIn,
+        'SPEECH-UNAVAILABLE' => context.l10n.liveVoiceSpeechUnavailable,
         'FINAL_TIMEOUT' ||
         'VOICE_FINAL_TIMEOUT' => context.l10n.liveVoiceFinalTimeout,
         _ => context.l10n.liveVoiceConnectionError,
@@ -213,6 +214,18 @@ class _SaarthiLiveConversationViewState
                             color: AppColors.textSecondary,
                           ),
                         ),
+                      if (!conversation.readAloud)
+                        TextButton.icon(
+                          key: const Key('live-voice-enable-audio'),
+                          onPressed: () async {
+                            await conversation.configure(aloud: true);
+                            if (conversation.canRepeat) {
+                              await conversation.repeat();
+                            }
+                          },
+                          icon: const Icon(Icons.volume_up_outlined),
+                          label: Text(l10n.liveVoiceReadAloud),
+                        ),
                       if (conversation.error != null) ...[
                         const SizedBox(height: AppSpacing.sm),
                         Text(
@@ -267,7 +280,7 @@ class _SaarthiLiveConversationViewState
                           ),
                           TextButton.icon(
                             key: const Key('live-voice-repeat'),
-                            onPressed: lastAssistant < 0
+                            onPressed: !conversation.canRepeat
                                 ? null
                                 : () => unawaited(conversation.repeat()),
                             icon: const Icon(Icons.replay),

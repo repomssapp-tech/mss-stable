@@ -1578,5 +1578,6 @@
   "liveVoiceTitle": "Saarthi",
   "liveVoiceLatest": "Latest reply",
   "liveVoiceScreenReaderShort": "Screen reader mode: resume after each reply.",
-  "liveVoiceFinalTimeout": "The transcript did not finish. Correct the words we heard, or resume to try again."
+  "liveVoiceFinalTimeout": "The transcript did not finish. Correct the words we heard, or resume to try again.",
+  "liveVoiceSpeechUnavailable": "I couldn’t play the audio. Your reply is below. Tap Hear reply again to retry, and check your media volume."
 }

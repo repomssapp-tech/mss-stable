@@ -9465,6 +9465,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The transcript did not finish. Correct the words we heard, or resume to try again.'**
   String get liveVoiceFinalTimeout;
+
+  /// No description provided for @liveVoiceSpeechUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'I couldn’t play the audio. Your reply is below. Tap Hear reply again to retry, and check your media volume.'**
+  String get liveVoiceSpeechUnavailable;
 }
 
 class _AppLocalizationsDelegate

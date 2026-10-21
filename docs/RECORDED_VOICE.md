@@ -11,17 +11,31 @@ and a 900 ms echo guard, listening resumes. Pause, End and backgrounding stop th
 microphone and invalidate pending callbacks. Backgrounding never auto-resumes.
 
 Choose English, Tamil, Hindi or Marathi explicitly in voice options; the selected
-locale is sent to recognition, chat and speech. Longer pauses change endpointing
+locale is sent to recognition, chat and speech. The voice choice is remembered
+when Saarthi is reopened; a later change to the app language supersedes an older
+voice override. Chat drafts grounded guidance in English, then a dedicated
+translator renders Tamil/Hindi/Marathi using the explicit selected target.
+Wrong-script output or translation failure returns a localized retry message
+instead of exposing the English draft. Responses echo the selected language,
+and the client rejects mismatching metadata. Changing language clears cached
+replies so Repeat cannot play the previous language. Longer pauses change endpointing
 from 1200 to 1800 ms. Finish speaking manually is also available. Correct and Type
 pause input and open an inline editor. Review before sending is optional. Correcting
 the latest completed request removes that mistaken exchange from model history.
 
+Android checks enabled spoken-feedback/touch-exploration services; a generic
+accessible-navigation flag alone cannot disable reply audio. Explicit audio
+choices are preserved and the default is restored when a reader leaves.
 Screen reader mode defaults to text replies and explicit Resume, preventing a
 reader's speech from becoming a new request. Status is one live region; partial
 words are readable without repeated announcements. Controls have labels, the view
 supports large text and keyboard access, and Latest reveals the start of a reply
 without forcing the user's scroll position. Read aloud and cached Repeat are
-available. Speech failure preserves the written reply.
+available. Audio-off exposes a Read aloud action. Speech failure preserves the
+written reply and offers a specific retry message; Repeat retries speech without
+resubmitting chat. Each playback reapplies normal Android media routing with
+speech content and transient audio focus, respecting connected headphones and
+system media volume.
 
 The regular chatbot still offers recorded audio: up to 60 seconds in memory,
 explicit-language Sarvam batch job, five-second status polling and editable review.
@@ -80,3 +94,18 @@ editor assertion, so that device journey stopped there. No physical TalkBack
 service was enabled. See `verification/saarthi-android-results.json` for the exact
 checks and limits. The signed APK is in
 `frontend/build/app/outputs/flutter-apk/app-release.apk`.
+
+## Selected-language and audio fix (2026-10-21)
+
+Backend `7078bdc44016e66c1429662246352f7dec5f466c` is deployed and healthy.
+Its full verification passed 179 tests with 2 skipped. Live synthetic requests
+returned selected-language replies and nonempty MP3s in en/ta/hi/mr despite a
+different language in history. Final app checks passed 62 focused tests and clean
+analysis. This includes actual playback adapter configuration, audio preference
+restoration, native accessibility probing, wrong-locale rejection, retry without
+repeating chat, language cache invalidation and persistence.
+
+Release 1.2.3 build 2008 is the replacement APK. Installation is pending a USB
+reconnection; the phone disconnected during final preparation. Provider audio
+generation and automated playback checks do not establish that sound was heard
+on the physical phone. See `verification/voice-language-audio-fix.md`.

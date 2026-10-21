@@ -205,4 +205,25 @@ void main() {
       );
     },
   );
+  test(
+    'mismatched speech language is never played or retried through chat',
+    () async {
+      final client = _Client(
+        (path, _) async => path == '/chat'
+            ? {'reply': 'தமிழ் பதில்', 'language': 'ta', 'results': []}
+            : {'audio': 'AAAA', 'language': 'hi'},
+      );
+      final audio = _Audio(), agent = _controller(client, _Audio());
+      await agent.dispose();
+      final active = _controller(client, audio);
+      addTearDown(active.dispose);
+      await active.connect();
+      await active.sendText('hello');
+      await active.turnCompleted;
+      expect(audio.played, isEmpty);
+      expect(active.state.outputTranscript, 'தமிழ் பதில்');
+      expect(active.state.message, 'speech-unavailable');
+      expect(client.calls.where((c) => c.$1 == '/chat'), hasLength(1));
+    },
+  );
 }

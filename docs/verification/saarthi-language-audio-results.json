@@ -1,0 +1,85 @@
+{
+  "journey": "Selected language and reply audio on Android",
+  "date": "2026-10-21",
+  "status": "BLOCKED_ON_DEVICE_CONNECTION",
+  "reason": "ADB initially saw the phone and its media stream was not muted; it disconnected during packaging and the final device list is empty. No attempt to uninstall or clear data was made.",
+  "apk": {
+    "name": "MSS-Saarthi-1.2.3-2008.apk",
+    "versionName": "1.2.3",
+    "versionCode": 2008,
+    "signature": "Verified; matches previous installed certificate",
+    "sha256": "3dcf1149d9af624d3572c7a2f09b7205d4c5f9448dbd4f1fbaa6477d55f4d1aa"
+  },
+  "backend": {
+    "commit": "7078bdc44016e66c1429662246352f7dec5f466c",
+    "deployment": "healthy",
+    "publicHealth": "status ok, db ok",
+    "tests": {
+      "passed": 179,
+      "skipped": 2,
+      "failed": 0
+    }
+  },
+  "flutter": {
+    "focusedPassed": 62,
+    "analysis": "No issues found",
+    "releaseBuild": "passed"
+  },
+  "liveProvider": {
+    "selectedLanguages": [
+      "en",
+      "ta",
+      "hi",
+      "mr"
+    ],
+    "result": "Each selected language returned native reply text and nonempty MP3; mixed-language history did not override delivery. Synthetic requests, no production test accounts."
+  },
+  "results": [
+    {
+      "action": "Verify version 1.2.3 build 2008 is installed and launches",
+      "status": "SKIPPED",
+      "commands": [],
+      "comment": "Requires the phone to be reconnected; this new release is not yet installed."
+    },
+    {
+      "action": "Start Saarthi and verify generic accessibility automation does not turn audio off",
+      "status": "SKIPPED",
+      "commands": [],
+      "comment": "Requires the phone to be reconnected; this new release is not yet installed."
+    },
+    {
+      "action": "Pause input and select Tamil in Voice options",
+      "status": "SKIPPED",
+      "commands": [],
+      "comment": "Requires the phone to be reconnected; this new release is not yet installed."
+    },
+    {
+      "action": "Type Hello and send it",
+      "status": "SKIPPED",
+      "commands": [],
+      "comment": "Requires the phone to be reconnected; this new release is not yet installed."
+    },
+    {
+      "action": "Verify a Tamil written reply and started Android media/speech playback for this app",
+      "status": "SKIPPED",
+      "commands": [],
+      "comment": "Requires the phone to be reconnected; this new release is not yet installed."
+    },
+    {
+      "action": "End the conversation and reopen it",
+      "status": "SKIPPED",
+      "commands": [],
+      "comment": "Requires the phone to be reconnected; this new release is not yet installed."
+    },
+    {
+      "action": "Verify Tamil remains selected and End stops the conversation",
+      "status": "SKIPPED",
+      "commands": [],
+      "comment": "Requires the phone to be reconnected; this new release is not yet installed."
+    }
+  ],
+  "limitations": [
+    "No physical TalkBack test or controlled hearing test completed for this release.",
+    "Earlier five account-dialog design guard failures are unrelated and remain unchanged."
+  ]
+}

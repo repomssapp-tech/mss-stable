@@ -900,6 +900,31 @@ Official transport reference:
 https://docs.sarvam.ai/api/api-guides-tutorials/speech-to-text/realtime-streaming
 https://docs.sarvam.ai/api/api-guides-tutorials/speech-to-text/which-api-to-use
 
+Selected-language delivery and audio recovery
+--------------------------------------------
+The explicit language field is the sole delivery setting on every chat and speech
+request. Conversational history may contain other languages; it does not change
+the target. Chat drafts factual guidance in English and uses sarvam-translate:v1
+with source en-IN and the selected target locale for Tamil, Hindi and Marathi.
+This adds one bounded translation call (10s maximum) to Indic turns. English
+turns require no translation request. Unicode script guards reject known wrong-
+script delivery; translation failure returns a static retry message in the
+selected language and no cards, never the English draft. This is a delivery
+constraint with a dedicated translator, not a guarantee that every model wording
+is linguistically perfect. Hindi and Marathi share a script; their distinct
+explicit translator targets, not script guessing, determine the language.
+Chat and speech responses echo language. Clients must reject mismatching metadata
+rather than play audio for another target. Invalidate cached reply audio/text on
+a language change so Repeat cannot play the previous language. Keep typed input
+and readable replies when speech fails; retry speech without resubmitting chat.
+Android media playback should use speech content with media usage/normal mode,
+respecting connected headphones and system media volume. A generic accessible-
+navigation flag alone is not a screen reader: query spoken-feedback services or
+touch exploration before disabling automatic reply audio. Restore the default
+audio setting when a reader leaves, preserving the user's explicit choice.
+Official translation reference:
+https://docs.sarvam.ai/api-reference/text/translate-text
+
 READING THE ENDPOINT ENTRIES
 ----------------------------
 Shared transport, authentication, parser and quota errors apply where relevant. Each entry lists additional operation-specific errors. Use synthetic data for manual smoke checks: send the documented method, URL, headers and request; verify the success shape and applicable error cases. Replace path parameters and placeholders before sending. Request bodies appear once as JSON examples; no platform-specific implementation is generated.
@@ -3582,7 +3607,11 @@ Headers example:
 Parameters and body rules: JSON language and messages only. 1..12 user/assistant messages,
 last user, each1..2000 chars, total<=12000. Saved recognized profile state required for scheme
 retrieval. Only visible active published scheme details ground the response. 12
-requests/minute/owner. No final eligibility decision.
+requests/minute/owner. Delivery language is fixed by the explicit language field; input
+speech, history and switch-language instructions cannot override it. English grounded drafts
+are translated with an explicit target locale for ta/hi/mr. Script guards fail closed to a
+localized retry message with no cards if delivery fails. Response includes language. No final
+eligibility decision.
 
 Sample JSON request:
 
@@ -3602,6 +3631,7 @@ Sample response:
 
 {
   "reply": "Synthetic guidance",
+  "language": "en",
   "results": []
 }
 
@@ -3662,7 +3692,8 @@ Headers example:
 }
 
 Parameters and body rules: JSON language and text only. 1..2500 text chars. 12
-requests/minute/owner. Output audio is independent of chat: preserve the text reply if speech
+requests/minute/owner. The exact language field sets the synthesis target locale; response
+includes language. Output audio is independent of chat: preserve the text reply if speech
 fails.
 
 Sample JSON request:
@@ -3678,7 +3709,8 @@ Sample response:
 
 {
   "audio": "<base64 MP3>",
-  "mime_type": "audio/mpeg"
+  "mime_type": "audio/mpeg",
+  "language": "ta"
 }
 
 Additional errors:
@@ -6643,9 +6675,9 @@ ca93666ff3c0c2d4a24c0f6954a1e6e718adc3f0e0901d25b397046e7e85a718  database/migra
 
 0ae1957b564d216aaf102fa8268b2008833ed0305f2d54e86b81e85d825c9a66  database/migrations/015_scheme_workflow.sql
 
-2fea63b33408035d2f1be2a310e8f373f65f17499a96ad97fdf5badb9279af5c  docs/api/contracts.mjs
+3ae1f6579815b05eafe6e1fa299525b21b63050a6bc63a3979faa14e4b8dcc9d  docs/api/contracts.mjs
 
-1affbfa06c10b5d66b1af6201c55920e2bd2dec58860dad97574f2d77021b4c5  docs/api/integration.txt
+fd21899f35506b9e648ca68e45754da469ea4c4ef3066ea10c6ff9b63003936d  docs/api/integration.txt
 
 084b58df818533fcd13182141cfd167e0fe332c724fe4d3585dfb840968d02b2  package.json
 
@@ -6775,9 +6807,11 @@ f7b43108331fe039befd315ce9d0d1daf9c2ac9b555e5f3f164e2c1bcb71f1b9  src/support/se
 
 1cc289e2b7ae26ab512e4153f4aa10856ac1b65194efd178b92276e8ba3233d4  src/support/validation.js
 
-d63cb8da638aca1290d1a9348cbbab2c54b19faae290f4e613d36c7fdeaf22d3  src/voice/chat.js
+39687eacfaf898a2f3bda4ed38d78e0c203216d7f9f161a1950665889483e8d2  src/voice/chat.js
 
-4e5782bb5d39edc850ae48dc48e3bd15bef85ffda48bcbe60adb2205ee70db09  src/voice/provider.js
+4c1765fd6b43a7e557c254264e6cb2d18effaf66c5a20b86d78125e0cddc1206  src/voice/provider.js
+
+c2d04ec0194c619e4b74e6622554a9def487a0cf1bfeebc1d9913fd26ec2dbbd  src/voice/reply-language.js
 
 8210faa14671a548b58c54960b69ec6f9771dacdfbc04cecc714a818a2ba0512  src/voice/routes.js
 

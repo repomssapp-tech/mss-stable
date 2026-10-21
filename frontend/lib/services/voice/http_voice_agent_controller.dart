@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../models/user_profile.dart';
@@ -11,54 +10,11 @@ import 'assistant_session_controller.dart';
 import 'cloud_voice_protocol.dart';
 import 'voice_agent_controller.dart';
 import 'voice_language.dart';
+import 'recorded_speech_output.dart';
+
+export 'recorded_speech_output.dart';
 
 export 'cloud_voice_protocol.dart';
-
-abstract interface class RecordedSpeechOutput {
-  Future<void> play(Uint8List bytes);
-  Future<void> stop();
-  Future<void> dispose();
-}
-
-class _AudioOutput implements RecordedSpeechOutput {
-  AudioPlayer? _player;
-  Completer<void>? _finished;
-  int _generation = 0;
-  @override
-  Future<void> play(Uint8List bytes) async {
-    final ticket = _generation;
-    final player = _player ??= AudioPlayer();
-    final done = _finished = Completer<void>();
-    final completion = player.onPlayerComplete.listen((_) {
-      if (!done.isCompleted) done.complete();
-    });
-    try {
-      await player.play(BytesSource(bytes, mimeType: 'audio/mpeg'));
-      if (ticket != _generation) {
-        await player.stop();
-        return;
-      }
-      await done.future.timeout(const Duration(minutes: 3));
-    } finally {
-      await completion.cancel();
-    }
-  }
-
-  @override
-  Future<void> stop() async {
-    _generation++;
-    final done = _finished;
-    _finished = null;
-    if (done != null && !done.isCompleted) done.complete();
-    await _player?.stop();
-  }
-
-  @override
-  Future<void> dispose() async {
-    await stop();
-    await _player?.dispose();
-  }
-}
 
 /// Sequential recorded turns over the authenticated MSS API. No room, socket,
 /// live microphone, or LiveKit credentials are involved.
@@ -71,7 +27,7 @@ class HttpVoiceAgentController extends ChangeNotifier
     String Function()? languageCode,
     bool Function()? available,
   }) : _client = client ?? ApiClient.instance,
-       _output = output ?? _AudioOutput(),
+       _output = output ?? DeviceSpeechOutput(),
        _languageCode = languageCode ?? (() => 'en'),
        _available = available ?? (() => AppSession.instance.isSignedIn);
 
@@ -130,7 +86,13 @@ class HttpVoiceAgentController extends ChangeNotifier
   }
 
   Future<void> setResponseLanguage(String language) async {
-    _selectedLanguage = VoiceLanguage.code(language);
+    final code = VoiceLanguage.code(language);
+    if (_lastReplyLanguage != null && _lastReplyLanguage != code) {
+      _lastAudio = null;
+      _lastReply = null;
+      _lastReplyLanguage = null;
+    }
+    _selectedLanguage = code;
   }
 
   @override
@@ -185,7 +147,8 @@ class HttpVoiceAgentController extends ChangeNotifier
       final data = response.data;
       if (data is! Map ||
           data['reply'] is! String ||
-          (data['reply'] as String).trim().isEmpty) {
+          (data['reply'] as String).trim().isEmpty ||
+          (data['language'] != null && data['language'] != language)) {
         throw StateError('Invalid reply');
       }
       final reply = (data['reply'] as String).trim();
@@ -257,7 +220,8 @@ class HttpVoiceAgentController extends ChangeNotifier
       final body = speech.data;
       if (body is! Map ||
           body['audio'] is! String ||
-          (body['audio'] as String).length > 8000000) {
+          (body['audio'] as String).length > 8000000 ||
+          (body['language'] != null && body['language'] != language)) {
         throw StateError('Invalid audio');
       }
       bytes = base64Decode(body['audio'] as String);
@@ -269,7 +233,13 @@ class HttpVoiceAgentController extends ChangeNotifier
     await _output.play(bytes);
   }
 
+  bool get canReplay =>
+      _lastReply != null &&
+      _lastReplyLanguage ==
+          (_selectedLanguage ?? VoiceLanguage.code(_languageCode()));
+
   Future<void> replayLastReply() async {
+    if (!canReplay) return;
     final reply = _lastReply, language = _lastReplyLanguage;
     if (reply == null || language == null) return;
     await interrupt();

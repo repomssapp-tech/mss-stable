@@ -14,6 +14,8 @@ import '../../services/voice/realtime_speech_transport.dart';
 import '../../services/voice/saarthi_conversation_controller.dart';
 import '../../services/voice/voice_agent_controller.dart';
 import '../../services/voice/voice_microphone.dart';
+import '../../services/voice/voice_accessibility.dart';
+import '../../services/voice/voice_preferences.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_spacing.dart';
 import 'saarthi_home/saarthi_bottom_panel.dart';
@@ -46,6 +48,9 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   late final SaarthiVoiceAnimations _animations;
   late final AppLifecycleListener _lifecycle;
   bool _active = false;
+  bool _starting = false;
+  int _readerCheck = 0;
+  String? _appLanguage;
   List<CloudSchemeResult> _pendingMetadata = const [];
   bool get _ownsConversation => widget.conversation == null;
 
@@ -69,16 +74,24 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final reader = MediaQuery.of(context).accessibleNavigation;
+    unawaited(_refreshAccessibility());
+  }
+
+  Future<void> _refreshAccessibility() async {
     final conversation = _conversation;
-    if (conversation != null && conversation.screenReader != reader) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) unawaited(conversation.updateAccessibility(reader));
-      });
+    if (conversation == null) return;
+    final check = ++_readerCheck;
+    final reader = await VoiceAccessibility.screenReaderEnabled(
+      platformHint: MediaQuery.of(context).accessibleNavigation,
+    );
+    if (mounted &&
+        check == _readerCheck &&
+        conversation.screenReader != reader) {
+      await conversation.updateAccessibility(reader);
     }
   }
 
-  void _initializeConversation() {
+  Future<void> _initializeConversation() async {
     if (_conversation != null) return;
     final provider = context.read<AppProvider>();
     final injected = widget.conversation;
@@ -90,6 +103,13 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
         schemes: provider.allSchemes,
         profile: provider.profile,
       );
+      final reader = await VoiceAccessibility.screenReaderEnabled(
+        platformHint: MediaQuery.of(context).accessibleNavigation,
+      );
+      final preferences = VoicePreferences();
+      final language = await preferences.languageFor(provider.selectedLanguage);
+      if (!mounted) return;
+      _appLanguage = provider.selectedLanguage;
       final agent = HttpVoiceAgentController(
         session: _session!,
         languageCode: () => provider.selectedLanguage,
@@ -98,8 +118,10 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
         agent: agent,
         transport: MssRealtimeSpeechTransport(),
         microphone: DeviceVoiceMicrophone(),
-        language: provider.selectedLanguage,
-        screenReader: MediaQuery.of(context).accessibleNavigation,
+        language: language,
+        persistLanguage: (code) =>
+            preferences.saveLanguage(code, provider.selectedLanguage),
+        screenReader: reader,
       );
     }
     _conversation!.addListener(_onConversation);
@@ -107,10 +129,17 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   }
 
   Future<void> _start() async {
-    _initializeConversation();
-    _chatLog.startSession();
-    setState(() => _active = true);
-    await _conversation!.start();
+    if (_starting || _active) return;
+    _starting = true;
+    try {
+      await _initializeConversation();
+      if (!mounted) return;
+      _chatLog.startSession();
+      setState(() => _active = true);
+      await _conversation!.start();
+    } finally {
+      _starting = false;
+    }
   }
 
   void _onConversation() {
@@ -225,6 +254,16 @@ class _SaarthiHomeScreenState extends State<SaarthiHomeScreen>
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<AppProvider>();
+    if (_conversation != null &&
+        _appLanguage != null &&
+        _appLanguage != provider.selectedLanguage) {
+      final selected = _appLanguage = provider.selectedLanguage;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          unawaited(_conversation?.configure(languageCode: selected));
+        }
+      });
+    }
     final userName = provider.profile.name.trim().isEmpty
         ? context.l10n.saarthiGreetingFriend
         : provider.profile.name.trim().split(' ').first;

@@ -5198,4 +5198,8 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get liveVoiceFinalTimeout =>
       'உரையாக்கம் முடியவில்லை. கேட்ட சொற்களைத் திருத்தவும் அல்லது மீண்டும் தொடங்கவும்.';
+
+  @override
+  String get liveVoiceSpeechUnavailable =>
+      'ஒலியை இயக்க முடியவில்லை. பதில் கீழே உள்ளது. மீண்டும் கேட்கும் பொத்தானை அழுத்தவும்; ஊடக ஒலி அளவையும் சரிபார்க்கவும்.';
 }
