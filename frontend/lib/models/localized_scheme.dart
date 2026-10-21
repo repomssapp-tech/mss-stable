@@ -282,7 +282,7 @@ class LocalizedScheme {
         overview: overview,
         objectives: objectives,
         benefits: benefits,
-        subsidyAmount: scheme.subsidyAmount,
+        subsidyAmount: meta(scheme.subsidyAmount),
         verificationStatus: meta(scheme.verificationStatus),
         verificationNotes: scheme.verificationNotes,
         lastUpdated: scheme.lastUpdated,
@@ -311,9 +311,19 @@ class LocalizedScheme {
         knowledgeGuidanceList: scheme.knowledgeGuidanceList,
         helplineContactsMap: scheme.helplineContactsMap,
         eligibilityCriteria: _storedEligibility(scheme, 'hi'),
-        requiredDocuments: scheme.requiredDocuments,
+        requiredDocuments: scheme.requiredDocuments.map(meta).toList(),
         applicationProcess: _storedSteps(scheme, 'hi'),
-        documents: scheme.documents,
+        documents: scheme.documents
+            .map(
+              (document) => document.copyWith(
+                name: meta(document.name),
+                description: meta(document.description),
+                issuingAuthority: meta(document.issuingAuthority),
+                estimatedCost: meta(document.estimatedCost),
+                remarks: meta(document.remarks),
+              ),
+            )
+            .toList(),
         requiredServices: scheme.requiredServices,
         faqs: scheme.faqs,
       );

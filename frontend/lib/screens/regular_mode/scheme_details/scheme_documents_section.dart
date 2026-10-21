@@ -38,7 +38,12 @@ class SchemeDocumentsContent extends StatelessWidget {
     }
 
     return Column(
-      children: documents.map((document) {
+      children: documents.asMap().entries.map((entry) {
+        final document = entry.value;
+        // Portal matching uses the catalog name, independent of display language.
+        final catalogName = scheme.rawScheme.documents.isNotEmpty
+            ? scheme.rawScheme.documents[entry.key].name
+            : scheme.rawScheme.requiredDocuments[entry.key];
         return Container(
           width: double.infinity,
           margin: const EdgeInsets.only(bottom: AppSpacing.sm),
@@ -85,6 +90,8 @@ class SchemeDocumentsContent extends StatelessWidget {
                       child: Text(
                         document.isMandatory
                             ? context.l10n.badgeRequired
+                            : document.mandatory.toLowerCase() == 'conditional'
+                            ? context.l10n.badgeConditional
                             : document.mandatory,
                         style: GoogleFonts.inter(
                           color: document.isMandatory
@@ -133,7 +140,7 @@ class SchemeDocumentsContent extends StatelessWidget {
                   entry,
                 ) {
                   final key = entry.key.toLowerCase();
-                  final name = document.name.toLowerCase();
+                  final name = catalogName.toLowerCase();
                   return name.contains(key) || key.contains(name);
                 }, orElse: () => const MapEntry('', ''));
 
@@ -166,7 +173,7 @@ class SchemeDocumentsContent extends StatelessWidget {
                                 Flexible(
                                   child: FitOneLine(
                                     child: Text(
-                                      '${context.l10n.getDocumentOnline} (Official Portal)',
+                                      context.l10n.getDocumentOnline,
                                       style: GoogleFonts.inter(
                                         color: const Color(0xFF2563EB),
                                         fontSize: 10.5,

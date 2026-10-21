@@ -543,12 +543,18 @@ class SearchScreenState extends State<SearchScreen> {
   }
 
   void _onSearchTextChanged() {
+    _searchGeneration++;
     setState(() {});
 
     _searchDebounce?.cancel();
     _searchDebounce = Timer(const Duration(milliseconds: 300), () {
       if (!mounted) return;
-      if (_searchController.text.isEmpty &&
+      final query = _searchController.text.trim();
+      if (query.isNotEmpty) {
+        _triggerSearch(query);
+        return;
+      }
+      if (query.isEmpty &&
           _currentState != SearchState.idle &&
           _scope == null) {
         final provider = Provider.of<AppProvider>(context, listen: false);
@@ -569,6 +575,7 @@ class SearchScreenState extends State<SearchScreen> {
   }
 
   void _triggerSearch(String query) async {
+    _searchDebounce?.cancel();
     if (_scope != null) {
       if (query.trim().isEmpty) {
         _applyFiltersAndSort();

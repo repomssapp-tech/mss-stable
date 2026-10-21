@@ -27,6 +27,7 @@ void main() {
     expect(await _format(t, 'ta', 'Male'), 'ஆண்');
     expect(await _format(t, 'hi', 'School'), 'स्कूल (10वीं/12वीं)');
     expect(await _format(t, 'hi', 'Minority'), 'अल्पसंख्यक');
+    expect(await _format(t, 'hi', 'Entrepreneur'), 'उद्यमी');
   });
 
   testWidgets('a value stored in another language is re-rendered', (t) async {
@@ -35,6 +36,7 @@ void main() {
     expect(await _format(t, 'hi', 'ஆண்'), 'पुरुष');
     expect(await _format(t, 'en', 'पुरुष'), 'Male');
     expect(await _format(t, 'hi', 'மாணவர்'), 'विद्यार्थी');
+    expect(await _format(t, 'en', 'उद्यमी'), 'Entrepreneur');
   });
 
   testWidgets('unknown text is left unchanged', (t) async {

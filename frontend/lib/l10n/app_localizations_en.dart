@@ -3450,7 +3450,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get faqEligibilityA =>
-      'Go to the \'Find My Schemes\' tab, fill out your profile details (age, gender, state, income, etc.), and the matcher engine will instantly show your eligibility score for all available schemes!';
+      'Complete your details in Profile, then open Search and select For Me to see matching schemes. Open a scheme to review its eligibility criteria.';
 
   @override
   String get faqApplyQ => 'How can I apply for a scheme?';

@@ -20,6 +20,7 @@ class ProfileValueFormatters {
     (l) => l.empSelfEmployed,
     (l) => l.empUnemployed,
     (l) => l.empRetired,
+    (l) => l.aspiringEntrepreneur,
     (l) => l.commGeneral,
     (l) => l.commObc,
     (l) => l.commEws,
@@ -78,6 +79,7 @@ class ProfileValueFormatters {
     }
     if (lower == 'unemployed') return context.l10n.empUnemployed;
     if (lower == 'retired') return context.l10n.empRetired;
+    if (lower == 'entrepreneur') return context.l10n.aspiringEntrepreneur;
 
     if (lower == 'school') return context.l10n.eduSchool;
     if (lower == 'diploma') return context.l10n.eduDiploma;
