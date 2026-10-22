@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../services/catalog/centralized_translator.dart';
 import '../../utils/app_spacing.dart';
 import '../../widgets/common/standard_page_header.dart';
 import 'msme/msme_action_panels.dart';
@@ -44,10 +43,9 @@ class MSMEModuleDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
-      appBar: StandardPageHeader(
-        title: CentralizedTranslator.instance.localize(title),
-        elevation: 1,
-      ),
+      // The header card below carries the module title; the bar keeps only
+      // the back arrow so the title is not shown twice.
+      appBar: const StandardPageHeader(title: '', elevation: 1),
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
         child: Column(

@@ -182,79 +182,80 @@ class _InstitutionsInteractivePanelState
               ),
             ),
             const SizedBox(height: AppSpacing.md),
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 280),
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const ClampingScrollPhysics(),
-                itemCount: filtered.length,
-                itemBuilder: (context, index) {
-                  final inst = filtered[index];
-                  final roleText = CentralizedTranslator.instance.localize(
-                    inst['role'],
-                  );
-                  final servicesText = CentralizedTranslator.instance.localize(
-                    inst['services'],
-                  );
-                  final schemesText = CentralizedTranslator.instance.localize(
-                    inst['schemes'],
-                  );
+            // Inline rather than a small nested scroller: the card grows with
+            // its content and the page scrolls, so institutions are easy to
+            // look up.
+            Column(
+              children: [
+                for (final inst in filtered)
+                  Builder(
+                    builder: (context) {
+                      final roleText = CentralizedTranslator.instance.localize(
+                        inst['role'],
+                      );
+                      final servicesText = CentralizedTranslator.instance
+                          .localize(inst['services']);
+                      final schemesText = CentralizedTranslator.instance
+                          .localize(inst['schemes']);
 
-                  return Container(
-                    margin: const EdgeInsets.only(bottom: AppSpacing.sm),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF8FAFC),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: const Color(0xFFE2E8F0)),
-                    ),
-                    child: Theme(
-                      data: Theme.of(
-                        context,
-                      ).copyWith(dividerColor: Colors.transparent),
-                      child: ExpansionTile(
-                        title: Text(
-                          inst['name'],
-                          style: GoogleFonts.poppins(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                            color: widget.iconColor,
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: AppSpacing.sm),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF8FAFC),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: const Color(0xFFE2E8F0)),
+                        ),
+                        child: Theme(
+                          data: Theme.of(
+                            context,
+                          ).copyWith(dividerColor: Colors.transparent),
+                          child: ExpansionTile(
+                            title: Text(
+                              inst['name'],
+                              style: GoogleFonts.poppins(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: widget.iconColor,
+                              ),
+                            ),
+                            subtitle: Text(
+                              CentralizedTranslator.instance.localize(
+                                inst['fullName'],
+                              ),
+                              style: GoogleFonts.inter(
+                                fontSize: 11,
+                                color: const Color(0xFF64748B),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            tilePadding: const EdgeInsets.symmetric(
+                              horizontal: AppSpacing.md,
+                            ),
+                            childrenPadding: const EdgeInsets.all(
+                              AppSpacing.md,
+                            ),
+                            children: [
+                              _buildExpansionItem(
+                                context.l10n.msmeRoleLabel,
+                                roleText,
+                              ),
+                              const SizedBox(height: AppSpacing.tight),
+                              _buildExpansionItem(
+                                context.l10n.msmeKeyServicesLabel,
+                                servicesText,
+                              ),
+                              const SizedBox(height: AppSpacing.tight),
+                              _buildExpansionItem(
+                                context.l10n.msmeTopSchemesLabel,
+                                schemesText,
+                              ),
+                            ],
                           ),
                         ),
-                        subtitle: Text(
-                          CentralizedTranslator.instance.localize(
-                            inst['fullName'],
-                          ),
-                          style: GoogleFonts.inter(
-                            fontSize: 11,
-                            color: const Color(0xFF64748B),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        tilePadding: const EdgeInsets.symmetric(
-                          horizontal: AppSpacing.md,
-                        ),
-                        childrenPadding: const EdgeInsets.all(AppSpacing.md),
-                        children: [
-                          _buildExpansionItem(
-                            context.l10n.msmeRoleLabel,
-                            roleText,
-                          ),
-                          const SizedBox(height: AppSpacing.tight),
-                          _buildExpansionItem(
-                            context.l10n.msmeKeyServicesLabel,
-                            servicesText,
-                          ),
-                          const SizedBox(height: AppSpacing.tight),
-                          _buildExpansionItem(
-                            context.l10n.msmeTopSchemesLabel,
-                            schemesText,
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
+                      );
+                    },
+                  ),
+              ],
             ),
           ],
         ),
