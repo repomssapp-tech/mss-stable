@@ -50,6 +50,9 @@ class AppVersion implements Comparable<AppVersion> {
   /// The version name users see: `1.2.3`.
   String get name => '$major.$minor.$patch';
 
+  /// The one display form used everywhere in the app: `1.2.3 (4)`.
+  String get label => '$name ($build)';
+
   /// True when [build] is usable as an Android `versionCode`.
   bool get isValidAndroidVersionCode =>
       build > 0 && build <= maxAndroidVersionCode;
