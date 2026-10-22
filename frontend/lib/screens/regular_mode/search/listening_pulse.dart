@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../utils/app_colors.dart';
+
 /// Rings that expand and fade behind [child] while the microphone is open,
 /// so voice search visibly reads as "listening". Falls back to a steady halo
 /// when the platform asks for reduced motion.
@@ -7,7 +9,7 @@ class ListeningPulse extends StatefulWidget {
   const ListeningPulse({
     super.key,
     required this.child,
-    this.color = const Color(0xFFDC2626),
+    this.color = AppColors.danger,
     this.size = 40,
   });
 

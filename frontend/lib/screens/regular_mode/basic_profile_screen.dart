@@ -7,7 +7,9 @@ import '../../l10n/app_localizations.dart';
 import '../../l10n/l10n.dart';
 import '../../services/recommendation/indian_states.dart';
 import '../profile/profile_value_formatters.dart';
+import '../../utils/app_colors.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/app_text.dart';
 import '../../utils/app_theme.dart';
 import '../../widgets/common/app_toast.dart';
 import '../../widgets/legal/data_processing_consent_modal.dart';
@@ -530,7 +532,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
             if (_isSubmitting)
               Positioned.fill(
                 child: ColoredBox(
-                  color: Colors.black.withValues(alpha: 0.35),
+                  color: AppColors.textPrimary.withValues(alpha: 0.35),
                   child: Center(
                     child: Semantics(
                       liveRegion: true,
@@ -538,14 +540,14 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const CircularProgressIndicator(color: Colors.white),
+                          const CircularProgressIndicator(
+                            color: AppColors.textOnPrimary,
+                          ),
                           const SizedBox(height: AppSpacing.lg),
                           Text(
                             l10n.profileSettingUp,
-                            style: GoogleFonts.inter(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
+                            style: context.text.button.copyWith(
+                              color: AppColors.textOnPrimary,
                             ),
                           ),
                         ],
