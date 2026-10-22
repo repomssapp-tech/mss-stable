@@ -283,4 +283,133 @@ void main() {
       );
     });
   });
+
+  // Issue #143: `/v1/catalog/releases/:tag` returns the original camelCase
+  // release.json, not the snake_case shape of `/v1/catalog/current`.
+  group('fetchManifestByVersion', () {
+    final bundle = Uint8List.fromList(utf8.encode('release bundle bytes'));
+    final bundleSha = sha256.convert(bundle).toString();
+
+    Map<String, dynamic> releaseJson({String? sha, int? bytes}) => {
+      'releaseId': 'f85f512e-dbe5-4d8e-beb0-f64f94ef9fa9',
+      'releaseTag': '1.35.1-alpha',
+      'schemaVersion': '1.0.0',
+      'releasedAt': '2026-10-05T00:23:52Z',
+      'bundleAsset': 'assets/catalog/catalog_bundle.json.gz',
+      'bundleBytes': bytes ?? bundle.length,
+      'bundleSha256': sha ?? bundleSha,
+      'uncompressedBytes': 9263455,
+      'entityCount': 1131,
+      'recordCounts': {'common_catalog.json': 344, 'scheme_catalog.json': 171},
+    };
+
+    HttpCatalogReleaseSource sourceFor(
+      Object? Function(http.Request request) answer,
+    ) {
+      final mockClient = MockClient((request) async {
+        final body = answer(request);
+        if (body is Uint8List) return http.Response.bytes(body, 200);
+        return http.Response(
+          jsonEncode(body),
+          200,
+          headers: {'content-type': 'application/json; charset=utf-8'},
+        );
+      });
+      return HttpCatalogReleaseSource(
+        client: ApiClient(
+          baseUrl: 'https://mssapi.msmeschemes.org',
+          httpClient: mockClient,
+          tokenStorage: tokenStorage,
+        ),
+      );
+    }
+
+    test('maps the camelCase release details', () async {
+      final source = sourceFor((request) {
+        expect(request.url.path, '/v1/catalog/releases/1.35.1-alpha');
+        return releaseJson();
+      });
+      final manifest = await source.fetchManifestByVersion('1.35.1-alpha');
+
+      expect(manifest, isNotNull);
+      expect(manifest!.releaseVersion, '1.35.1-alpha');
+      expect(manifest.sha256, bundleSha);
+      expect(manifest.byteSize, bundle.length);
+      expect(manifest.schemeCount, 171);
+      expect(manifest.schemaVersion, 1); // "1.0.0" -> major 1
+      expect(manifest.publishedAt, DateTime.utc(2026, 10, 5, 0, 23, 52));
+      // bundleAsset is a source path, never a download URL.
+      expect(manifest.bundleUrl, isNull);
+      expect(manifest.isStructurallyValid, isTrue);
+    });
+
+    test('still accepts the snake_case shape', () async {
+      final source = sourceFor(
+        (_) => {
+          'release_version': '1.35.1-alpha',
+          'schema_version': 1,
+          'package_sha256': bundleSha,
+          'package_byte_size': bundle.length,
+          'record_counts': {'scheme_catalog.json': 171},
+          'bundle_url': '/v1/catalog/releases/1.35.1-alpha/bundle',
+        },
+      );
+      final manifest = await source.fetchManifestByVersion('1.35.1-alpha');
+      expect(manifest!.sha256, bundleSha);
+      expect(manifest.byteSize, bundle.length);
+      expect(manifest.schemeCount, 171);
+    });
+
+    test('rejects details without a checksum or size', () async {
+      expect(
+        await sourceFor(
+          (_) => releaseJson(sha: ''),
+        ).fetchManifestByVersion('1.35.1-alpha'),
+        isNull,
+      );
+      expect(
+        await sourceFor(
+          (_) => releaseJson(bytes: 0),
+        ).fetchManifestByVersion('1.35.1-alpha'),
+        isNull,
+      );
+      expect(
+        await sourceFor(
+          (_) => {'unexpected': true},
+        ).fetchManifestByVersion('1.35.1-alpha'),
+        isNull,
+      );
+    });
+
+    test('the parsed manifest downloads and verifies the bundle', () async {
+      final source = sourceFor((request) {
+        if (request.url.path.endsWith('/bundle')) {
+          expect(request.url.path, '/v1/catalog/releases/1.35.1-alpha/bundle');
+          return bundle;
+        }
+        return releaseJson();
+      });
+      final manifest = await source.fetchManifestByVersion('1.35.1-alpha');
+      expect(await source.fetchPayload(manifest!), equals(bundle));
+    });
+
+    test('corrupted bytes are rejected', () async {
+      final corrupted = Uint8List.fromList(bundle.reversed.toList());
+      final source = sourceFor(
+        (request) =>
+            request.url.path.endsWith('/bundle') ? corrupted : releaseJson(),
+      );
+      final manifest = await source.fetchManifestByVersion('1.35.1-alpha');
+      expect(
+        () => source.fetchPayload(manifest!),
+        throwsA(
+          isA<ApiException>().having(
+            (e) => e.errorCode,
+            'errorCode',
+            'CHECKSUM_MISMATCH',
+          ),
+        ),
+      );
+    });
+  });
 }

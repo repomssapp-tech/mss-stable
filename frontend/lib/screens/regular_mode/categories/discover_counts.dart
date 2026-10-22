@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../models/scheme_model.dart';
+import '../../../models/scheme_filter.dart';
 import '../../../providers/app_state_provider.dart';
 import '../../../l10n/l10n.dart';
 import '../../../services/catalog/centralized_translator.dart';
@@ -457,17 +458,10 @@ class DiscoverCounts {
               '${s.targetBeneficiary} ${s.searchKeywords} ${s.overview} ${s.benefits}')
           .toLowerCase();
 
-  /// A scheme that applies across India regardless of the user's state:
-  /// central / central+state government level, or a Pan-India / All-India /
-  /// blank state field.
-  static bool nationallyApplicable(Scheme s) {
-    final level = s.governmentLevel.toLowerCase();
-    final state = s.state.toLowerCase();
-    return level.contains('central') ||
-        state.contains('pan-india') ||
-        state.contains('all india') ||
-        state.trim().isEmpty;
-  }
+  /// A scheme that applies across India regardless of the user's state
+  /// (`classification.government.appliesNationally`). A central scheme
+  /// limited to some states, or one whose coverage is unknown, is not.
+  static bool nationallyApplicable(Scheme s) => schemeAppliesNationally(s);
 
   static bool matchesCategory(Scheme s, String label) {
     final keywords = _categoryKeywords[label];
@@ -483,10 +477,8 @@ class DiscoverCounts {
     return aliases.any(hay.contains);
   }
 
-  static bool matchesState(Scheme s, String label) {
-    if (nationallyApplicable(s)) return true;
-    return s.state.toLowerCase().contains(label.toLowerCase());
-  }
+  static bool matchesState(Scheme s, String label) =>
+      schemeAppliesInState(s, label);
 
   /// The exact rows [compute] counted for ([label], [kind]) — so the
   /// drilldown list opened from a Discover card can never disagree with the

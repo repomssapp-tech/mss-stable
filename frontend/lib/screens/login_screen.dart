@@ -278,52 +278,77 @@ class _LoginScreenState extends State<LoginScreen> {
 
         const SizedBox(height: AppSpacing.md),
 
-        // Google Sign-In Button (strictly gated behind mandatory consent)
-        SizedBox(
-          width: double.infinity,
-          child: OutlinedButton(
-            style: OutlinedButton.styleFrom( // style-ok: CTA height + explicit loading foreground colour
-              minimumSize: const Size.fromHeight(52),
-              foregroundColor: _isLoading ? AppColors.primary : null,
+        // Google Sign-In Button (strictly gated behind mandatory consent).
+        // While it is disabled, a tap on it says why instead of doing
+        // nothing, and screen readers hear the same reason as a hint.
+        GestureDetector( // tap-ok: only explains taps on the disabled button
+          onTap: isLoginEnabled || _isLoading
+              ? null
+              : () => AppToast.showWarning(
+                  context,
+                  context.l10n.loginReviewTermsNotice,
+                ),
+          child: Semantics(
+            hint: isLoginEnabled ? null : context.l10n.loginReviewTermsNotice,
+            child: SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                style: OutlinedButton.styleFrom( // style-ok: CTA height + explicit loading foreground colour
+                  minimumSize: const Size.fromHeight(52),
+                  foregroundColor: _isLoading ? AppColors.primary : null,
+                ),
+                // Swallow taps while loading (so a stray tap can't double-fire
+                // sign-in) without visually disabling the button.
+                onPressed: _isLoading
+                    ? () {}
+                    : (isLoginEnabled ? _signIn : null),
+                child: _isLoading
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                          const SizedBox(width: AppSpacing.sm),
+                          Flexible(
+                            child: Text(
+                              context.l10n.loginOpeningGoogle,
+                              maxLines: 2,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const GoogleIcon(size: 18),
+                          const SizedBox(width: AppSpacing.sm),
+                          Flexible(
+                            child: Text(
+                              context.l10n.continueWithGoogle,
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                            ),
+                          ),
+                        ],
+                      ),
+              ),
             ),
-            // Swallow taps while loading (so a stray tap can't double-fire
-            // sign-in) without visually disabling the button.
-            onPressed: _isLoading ? () {} : (isLoginEnabled ? _signIn : null),
-            child: _isLoading
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(
-                        width: 18,
-                        height: 18,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      ),
-                      const SizedBox(width: AppSpacing.sm),
-                      Flexible(
-                        child: Text(
-                          context.l10n.loginOpeningGoogle,
-                          maxLines: 2,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const GoogleIcon(size: 18),
-                      const SizedBox(width: AppSpacing.sm),
-                      Flexible(
-                        child: Text(
-                          context.l10n.continueWithGoogle,
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                        ),
-                      ),
-                    ],
-                  ),
           ),
         ),
+        if (!isLoginEnabled) ...[
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            context.l10n.loginReviewTermsNotice,
+            textAlign: TextAlign.center,
+            style: context.text.bodySmall.copyWith(
+              color: AppColors.warningText,
+            ),
+          ),
+        ],
         const SizedBox(height: AppSpacing.md),
         Text(
           context.l10n.secureBrowserAuth,

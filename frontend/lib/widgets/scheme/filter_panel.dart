@@ -34,7 +34,11 @@ class _FilterPanelState extends State<FilterPanel> {
   late Set<String> _types;
   late Set<String> _beneficiaries;
 
-  int _countsForLen = -1;
+  // The list and profile state [_counts] were computed for. Keyed by
+  // identity, not length: the catalog can be replaced by one of the same size
+  // (a language switch, a catalog update).
+  List<Scheme>? _countsFor;
+  String? _countsForState;
   Map<String, int> _counts = const {};
 
   @override
@@ -66,12 +70,15 @@ class _FilterPanelState extends State<FilterPanel> {
   /// (nationwide vs state-specific) so the numbers add up.
   Map<String, int> _computeCounts(List<Scheme> catalog, String profileState) {
     final m = <String, int>{};
-    m['cov:nationwide'] = catalog.where(schemeIsNationwide).length;
+    // The same coverage predicates [applySchemeFilters] uses, so a chip's
+    // count agrees with what selecting it shows.
+    m['cov:nationwide'] = catalog.where(schemeAppliesNationally).length;
     if (profileState.isNotEmpty) {
-      final st = profileState.toLowerCase();
       m['cov:state'] = catalog
           .where(
-            (s) => !schemeIsNationwide(s) && s.state.toLowerCase().contains(st),
+            (s) =>
+                !schemeAppliesNationally(s) &&
+                schemeAppliesInState(s, profileState),
           )
           .length;
     }
@@ -143,9 +150,10 @@ class _FilterPanelState extends State<FilterPanel> {
     final catalog = widget.baseSchemes ?? provider.allSchemes;
     final profileState = provider.profile.state.trim();
 
-    if (catalog.length != _countsForLen) {
+    if (!identical(catalog, _countsFor) || profileState != _countsForState) {
       _counts = _computeCounts(catalog, profileState);
-      _countsForLen = catalog.length;
+      _countsFor = catalog;
+      _countsForState = profileState;
     }
 
     final active = activeSchemeFilterCount(_draft);

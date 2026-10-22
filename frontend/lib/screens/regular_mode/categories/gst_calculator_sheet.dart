@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
-import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_radius.dart';
 import '../../../utils/app_spacing.dart';
@@ -25,7 +24,7 @@ void showGstCalculatorSheet(BuildContext context) {
   double cgstVal = 0.0;
   double sgstVal = 0.0;
   double totalVal = 0.0;
-  String error = '';
+  bool invalidAmount = false;
 
   showModalBottomSheet(
     context: context,
@@ -39,10 +38,10 @@ void showGstCalculatorSheet(BuildContext context) {
         builder: (context, setModalState) {
           return Padding(
             padding: EdgeInsets.only(
-              left: 20,
-              right: 20,
-              top: 14,
-              bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+              left: AppSpacing.xl,
+              right: AppSpacing.xl,
+              top: AppSpacing.md,
+              bottom: MediaQuery.of(context).viewInsets.bottom + AppSpacing.xxl,
             ),
             child: SingleChildScrollView(
               physics: const ClampingScrollPhysics(),
@@ -81,9 +80,7 @@ void showGstCalculatorSheet(BuildContext context) {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              CentralizedTranslator.instance.localize(
-                                'GST / Tax Calculator',
-                              ),
+                              context.l10n.calcGstTitle,
                               style: GoogleFonts.poppins(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -113,7 +110,7 @@ void showGstCalculatorSheet(BuildContext context) {
                   ),
                   const SizedBox(height: AppSpacing.xl),
                   Text(
-                    CentralizedTranslator.instance.localize('Base Amount'),
+                    context.l10n.calcBaseAmountLabel,
                     style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
@@ -135,9 +132,7 @@ void showGstCalculatorSheet(BuildContext context) {
                         color: const Color(0xFF94A3B8),
                       ),
                       prefixText: '₹ ',
-                      helperText: CentralizedTranslator.instance.localize(
-                        'Enter net value of goods or services before GST',
-                      ),
+                      helperText: context.l10n.calcBaseAmountHelper,
                       helperStyle: GoogleFonts.inter(
                         fontSize: 9,
                         color: const Color(0xFF64748B),
@@ -166,7 +161,7 @@ void showGstCalculatorSheet(BuildContext context) {
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   Text(
-                    CentralizedTranslator.instance.localize('GST Rate (%)'),
+                    context.l10n.calcGstRateLabel,
                     style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
@@ -280,7 +275,7 @@ void showGstCalculatorSheet(BuildContext context) {
                     }).toList(),
                   ),
                   const SizedBox(height: AppSpacing.xl),
-                  if (error.isNotEmpty) ...[
+                  if (invalidAmount) ...[
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(AppSpacing.md),
@@ -290,7 +285,7 @@ void showGstCalculatorSheet(BuildContext context) {
                         border: Border.all(color: const Color(0xFFFCA5A5)),
                       ),
                       child: Text(
-                        CentralizedTranslator.instance.localize(error),
+                        context.l10n.calcErrValidBaseAmount,
                         style: GoogleFonts.inter(
                           fontSize: 11,
                           color: const Color(0xFFB91C1C),
@@ -316,9 +311,7 @@ void showGstCalculatorSheet(BuildContext context) {
                             children: [
                               Flexible(
                                 child: Text(
-                                  CentralizedTranslator.instance.localize(
-                                    'Base Price',
-                                  ),
+                                  context.l10n.calcBasePrice,
                                   softWrap: true,
                                   style: GoogleFonts.inter(
                                     fontSize: 11.5,
@@ -375,9 +368,7 @@ void showGstCalculatorSheet(BuildContext context) {
                             children: [
                               Flexible(
                                 child: Text(
-                                  CentralizedTranslator.instance.localize(
-                                    'Total Invoice',
-                                  ),
+                                  context.l10n.calcTotalInvoice,
                                   softWrap: true,
                                   style: GoogleFonts.inter(
                                     fontSize: 12,
@@ -416,14 +407,14 @@ void showGstCalculatorSheet(BuildContext context) {
                             double.tryParse(amountController.text) ?? 0;
                         if (base <= 0) {
                           setModalState(() {
-                            error = 'Please enter a valid base amount';
+                            invalidAmount = true;
                             baseVal = 0;
                           });
                           return;
                         }
                         final double gstAmount = base * (gstPercentage / 100);
                         setModalState(() {
-                          error = '';
+                          invalidAmount = false;
                           baseVal = base;
                           igstVal = gstAmount;
                           cgstVal = gstAmount / 2;
@@ -440,9 +431,7 @@ void showGstCalculatorSheet(BuildContext context) {
                         ),
                       ),
                       child: Text(
-                        CentralizedTranslator.instance.localize(
-                          'Calculate Tax',
-                        ),
+                        context.l10n.calcBtnCalculateTax,
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.5,

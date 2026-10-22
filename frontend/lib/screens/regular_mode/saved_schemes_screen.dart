@@ -7,7 +7,9 @@ import '../../models/localized_scheme.dart';
 import '../../l10n/l10n.dart';
 import 'scheme_details_screen.dart';
 import '../../utils/responsive.dart';
+import '../../utils/app_colors.dart';
 import '../../utils/app_spacing.dart';
+import '../../widgets/scheme/inactive_scheme_badge.dart';
 
 class SavedSchemesScreen extends StatefulWidget {
   const SavedSchemesScreen({super.key});
@@ -208,6 +210,12 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
+                      // A saved scheme the catalog has since closed stays in
+                      // the list (the user saved it) but says so.
+                      if (!scheme.isActive) ...[
+                        const SizedBox(height: AppSpacing.xs),
+                        const InactiveSchemeBadge(),
+                      ],
                     ],
                   ),
                 ),
@@ -222,7 +230,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                               padding: EdgeInsets.zero,
                               icon: const Icon(
                                 Icons.delete_outline_rounded,
-                                color: Color(0xFFEF4444),
+                                color: AppColors.danger,
                                 size: 20,
                               ),
                               tooltip: context.l10n.savedRemoveFromSavedTooltip,

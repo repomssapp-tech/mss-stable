@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import '../../utils/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../providers/app_state_provider.dart';
@@ -531,13 +532,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 CustomConfirmDialog.show(
                   context,
                   icon: Icons.logout_rounded,
-                  iconColor: const Color(0xFFEF4444),
+                  iconColor: AppColors.danger,
                   iconBgColor: const Color(0xFFFEE2E2),
                   title: context.l10n.confirmLogoutTitle,
                   message: context.l10n.confirmLogoutMsg,
                   confirmLabel: context.l10n.logoutButton,
-                  confirmColor: const Color(0xFFEF4444),
+                  confirmColor: AppColors.danger,
                   onConfirm: () => provider.logout(context),
+                  isDestructive: true,
                 );
               },
             ),

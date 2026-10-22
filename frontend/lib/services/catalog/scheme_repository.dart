@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import '../../models/scheme_filter.dart';
 import '../../models/scheme_model.dart';
 import '../../models/user_profile.dart';
 import '../search/hybrid_scheme_search.dart';
@@ -727,36 +728,17 @@ class SchemeRepository {
   }
 
   // ── 10. getSchemesByState() ───────────────────────────────────────────
-  /// Returns schemes applicable to a specific state or All India.
+  /// Returns the schemes available in [state] (a name in any supported
+  /// language, or a code such as `tn` / `IN-TN`): nationwide schemes plus the
+  /// ones limited to that state. Coverage comes from the catalog's
+  /// structured `appliesNationally` / `states` (see [schemeAppliesInState]),
+  /// never from the government level, a scheme's name or its id.
   /// Offline-only.
   Future<List<Scheme>> getSchemesByState(String state) async {
     if (state.trim().isEmpty) return getAllSchemes();
 
-    final q = state.toLowerCase().trim();
     final all = await getAllSchemes();
-
-    final matches = all.where((s) {
-      final st = s.state.toLowerCase();
-      final code = s.schemeCode.toLowerCase();
-      final name = s.name.toLowerCase();
-      final isCentral =
-          s.governmentLevel.toLowerCase() == 'central' ||
-          st.contains('all india') ||
-          st.isEmpty;
-
-      if (q.contains('tamil nadu') || q == 'tn') {
-        return isCentral ||
-            st.contains('tamil') ||
-            st.contains('tn') ||
-            code.contains('tn_') ||
-            name.contains('tamil');
-      }
-
-      return isCentral ||
-          st.contains(q) ||
-          code.contains(q) ||
-          name.contains(q);
-    }).toList();
+    final matches = all.where((s) => schemeAppliesInState(s, state)).toList();
     return _rankByQuery(matches, state);
   }
 

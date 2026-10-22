@@ -61,6 +61,106 @@ class IndianStates {
     ],
   };
 
+  /// English name -> ISO 3166-2:IN code, the form the catalog stores in
+  /// `classification.government.states`.
+  static const Map<String, String> _isoCodes = {
+    'Andhra Pradesh': 'IN-AP',
+    'Arunachal Pradesh': 'IN-AR',
+    'Assam': 'IN-AS',
+    'Bihar': 'IN-BR',
+    'Chhattisgarh': 'IN-CT',
+    'Goa': 'IN-GA',
+    'Gujarat': 'IN-GJ',
+    'Haryana': 'IN-HR',
+    'Himachal Pradesh': 'IN-HP',
+    'Jharkhand': 'IN-JH',
+    'Karnataka': 'IN-KA',
+    'Kerala': 'IN-KL',
+    'Madhya Pradesh': 'IN-MP',
+    'Maharashtra': 'IN-MH',
+    'Manipur': 'IN-MN',
+    'Meghalaya': 'IN-ML',
+    'Mizoram': 'IN-MZ',
+    'Nagaland': 'IN-NL',
+    'Odisha': 'IN-OD',
+    'Punjab': 'IN-PB',
+    'Rajasthan': 'IN-RJ',
+    'Sikkim': 'IN-SK',
+    'Tamil Nadu': 'IN-TN',
+    'Telangana': 'IN-TG',
+    'Tripura': 'IN-TR',
+    'Uttar Pradesh': 'IN-UP',
+    'Uttarakhand': 'IN-UK',
+    'West Bengal': 'IN-WB',
+    'Delhi': 'IN-DL',
+    'Jammu and Kashmir': 'IN-JK',
+    'Ladakh': 'IN-LA',
+    'Puducherry': 'IN-PY',
+    'Chandigarh': 'IN-CH',
+    'Andaman and Nicobar Islands': 'IN-AN',
+    'Lakshadweep': 'IN-LD',
+    'Dadra and Nagar Haveli and Daman and Diu': 'IN-DH',
+  };
+
+  /// Superseded ISO codes still seen in data (`OR` became `OD`, ...).
+  static const Map<String, String> _formerCodes = {
+    'OR': 'IN-OD',
+    'TS': 'IN-TG',
+    'UT': 'IN-UK',
+    'UA': 'IN-UK',
+    'CG': 'IN-CT',
+    'DN': 'IN-DH',
+    'DD': 'IN-DH',
+  };
+
+  static Map<String, String>? _namesByCode;
+
+  static Map<String, String> get _names =>
+      _namesByCode ??= {for (final e in _isoCodes.entries) e.value: e.key};
+
+  static final RegExp _codeShape = RegExp(r'^(?:IN[-_ ]?)?([A-Z]{2})$');
+
+  /// The ISO 3166-2 code (`IN-TN`) for a state given as a code (`IN-TN`,
+  /// `tn`) or as a name in any supported language; null when unrecognised.
+  /// "Tamil Nadu", "tn", "IN-TN" and "தமிழ்நாடு" all give `IN-TN`.
+  static String? code(String raw) {
+    final shape = _codeShape.firstMatch(raw.trim().toUpperCase());
+    if (shape != null) {
+      final short = shape.group(1)!;
+      final iso = 'IN-$short';
+      if (_names.containsKey(iso)) return iso;
+      final former = _formerCodes[short];
+      if (former != null) return former;
+    }
+    return _isoCodes[canonical(raw)];
+  }
+
+  /// English name for an ISO code from [code]; null when unknown.
+  static String? nameForCode(String isoCode) => _names[isoCode];
+
+  /// English names of every state and union territory, A-Z: the values a
+  /// structured state picker offers.
+  static List<String> get names =>
+      _isoCodes.keys.toList(growable: false)..sort();
+
+  static final RegExp _devanagari = RegExp(r'[ऀ-ॿ]');
+  static final RegExp _tamil = RegExp(r'[஀-௿]');
+
+  /// [englishName] as written in [lang] (`hi`, `ta`); the English name for
+  /// English or when no spelling in that script is known.
+  static String displayName(String englishName, String lang) {
+    final script = switch (lang) {
+      'hi' => _devanagari,
+      'ta' => _tamil,
+      _ => null,
+    };
+    if (script == null) return englishName;
+    for (final alias in _aliases[englishName] ?? const <String>[]) {
+      if (script.hasMatch(alias)) return alias;
+    }
+    return englishName;
+  }
+
   static Map<String, String>? _lookup;
 
   static Map<String, String> get _table => _lookup ??= {

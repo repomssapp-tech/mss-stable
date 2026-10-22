@@ -3118,6 +3118,12 @@ abstract class AppLocalizations {
   /// **'Calculate Tax'**
   String get calcBtnCalculateTax;
 
+  /// No description provided for @calcErrValidBaseAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid base amount'**
+  String get calcErrValidBaseAmount;
+
   /// No description provided for @calcEmiTitle.
   ///
   /// In en, this message translates to:
@@ -3195,6 +3201,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Essential documents for registering and operating a business in India.'**
   String get calcDocChecklistSub;
+
+  /// No description provided for @discoverUtilitiesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Business Utilities & Tools'**
+  String get discoverUtilitiesTitle;
+
+  /// No description provided for @utilUdyamTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Udyam Classifier'**
+  String get utilUdyamTitle;
+
+  /// No description provided for @utilUdyamDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Check MSME tier'**
+  String get utilUdyamDesc;
+
+  /// No description provided for @utilSubsidyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Subsidy Estimator'**
+  String get utilSubsidyTitle;
+
+  /// No description provided for @utilSubsidyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Machinery subsidies'**
+  String get utilSubsidyDesc;
+
+  /// No description provided for @utilGstTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'GST Calculator'**
+  String get utilGstTitle;
+
+  /// No description provided for @utilGstDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Compute GST invoice'**
+  String get utilGstDesc;
+
+  /// No description provided for @utilEmiTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'EMI Calculator'**
+  String get utilEmiTitle;
+
+  /// No description provided for @utilEmiDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculate loan EMIs'**
+  String get utilEmiDesc;
+
+  /// No description provided for @utilDpiitTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'DPIIT Eligibility'**
+  String get utilDpiitTitle;
+
+  /// No description provided for @utilDpiitDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Check startup criteria'**
+  String get utilDpiitDesc;
+
+  /// No description provided for @utilValuationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Valuation Estimator'**
+  String get utilValuationTitle;
+
+  /// No description provided for @utilValuationDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Seed valuation ranges'**
+  String get utilValuationDesc;
+
+  /// No description provided for @utilDocChecklistTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Doc Checklist'**
+  String get utilDocChecklistTitle;
+
+  /// No description provided for @utilDocChecklistDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Business setup docs'**
+  String get utilDocChecklistDesc;
 
   /// No description provided for @notifToastSelectedRead.
   ///
@@ -6646,6 +6742,48 @@ abstract class AppLocalizations {
   /// **'Failed to submit feedback. Please check your connection.'**
   String get helpFeedbackSubmitFailed;
 
+  /// No description provided for @helpTicketErrCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select an issue category.'**
+  String get helpTicketErrCategory;
+
+  /// No description provided for @helpTicketErrEmailMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your contact email address.'**
+  String get helpTicketErrEmailMissing;
+
+  /// No description provided for @helpTicketErrEmailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address (e.g. name@example.com).'**
+  String get helpTicketErrEmailInvalid;
+
+  /// No description provided for @helpTicketErrDescriptionMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Please describe your issue or feedback.'**
+  String get helpTicketErrDescriptionMissing;
+
+  /// No description provided for @helpTicketErrDescriptionShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Please add a bit more detail (at least {count} characters).'**
+  String helpTicketErrDescriptionShort(int count);
+
+  /// No description provided for @helpTicketErrWait.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait {seconds} seconds before submitting again.'**
+  String helpTicketErrWait(int seconds);
+
+  /// No description provided for @helpTicketErrTooMany.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many submissions. Please try again later.'**
+  String get helpTicketErrTooMany;
+
   /// No description provided for @helpSubmitFeedback.
   ///
   /// In en, this message translates to:
@@ -7747,8 +7885,26 @@ abstract class AppLocalizations {
   /// No description provided for @profileErrValidState.
   ///
   /// In en, this message translates to:
-  /// **'Please enter a valid state'**
+  /// **'Please select your state'**
   String get profileErrValidState;
+
+  /// No description provided for @profileSelectState.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your state'**
+  String get profileSelectState;
+
+  /// No description provided for @profileSearchStateHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search state or union territory'**
+  String get profileSearchStateHint;
+
+  /// No description provided for @profileNoStateMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching state'**
+  String get profileNoStateMatch;
 
   /// No description provided for @profileErrSelectOptionToContinue.
   ///
@@ -8229,6 +8385,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Remove from saved'**
   String get savedRemoveFromSavedTooltip;
+
+  /// No description provided for @savedInactiveBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive'**
+  String get savedInactiveBadge;
+
+  /// No description provided for @savedInactiveHint.
+  ///
+  /// In en, this message translates to:
+  /// **'This scheme is no longer active in the latest catalog.'**
+  String get savedInactiveHint;
 
   /// No description provided for @savedKeepListUpdated.
   ///

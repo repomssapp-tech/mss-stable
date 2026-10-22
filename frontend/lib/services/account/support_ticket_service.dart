@@ -5,10 +5,22 @@ import '../chat/chat_log_service.dart';
 import 'account_api_service.dart';
 import 'app_session.dart';
 
+/// Which support-ticket input failed client validation. The UI turns it into
+/// a localized message; [SupportTicketValidationException.message] is the
+/// English text for logs.
+enum SupportTicketInputError {
+  missingCategory,
+  missingEmail,
+  invalidEmail,
+  missingDescription,
+  descriptionTooShort,
+}
+
 /// Exception thrown when support ticket form inputs fail client validation.
 class SupportTicketValidationException implements Exception {
+  final SupportTicketInputError reason;
   final String message;
-  const SupportTicketValidationException(this.message);
+  const SupportTicketValidationException(this.reason, this.message);
 
   @override
   String toString() => message;
@@ -16,8 +28,11 @@ class SupportTicketValidationException implements Exception {
 
 /// Exception thrown when ticket submission exceeds rate limits (client or database).
 class SupportTicketRateLimitException implements Exception {
+  /// Seconds left of the client-side cooldown; null when the server refused
+  /// the ticket (HTTP 429).
+  final int? retryAfterSeconds;
   final String message;
-  const SupportTicketRateLimitException(this.message);
+  const SupportTicketRateLimitException(this.message, {this.retryAfterSeconds});
 
   @override
   String toString() => message;
@@ -41,6 +56,9 @@ class SupportTicketService {
   /// Cooldown between submissions in seconds to mitigate bots and rapid multi-taps.
   static const int kCooldownSeconds = 30;
 
+  /// Shortest description the server accepts (`description: 10..5000`).
+  static const int kMinDescriptionLength = 10;
+
   DateTime? _lastSubmittedAt;
 
   /// RFC 5322 compliant regex for validating email addresses.
@@ -56,6 +74,7 @@ class SupportTicketService {
   }) {
     if (category.trim().isEmpty) {
       throw const SupportTicketValidationException(
+        SupportTicketInputError.missingCategory,
         'Please select an issue category.',
       );
     }
@@ -63,12 +82,14 @@ class SupportTicketService {
     final trimmedEmail = email.trim();
     if (trimmedEmail.isEmpty) {
       throw const SupportTicketValidationException(
+        SupportTicketInputError.missingEmail,
         'Please enter your contact email address.',
       );
     }
 
     if (!_emailRegex.hasMatch(trimmedEmail)) {
       throw const SupportTicketValidationException(
+        SupportTicketInputError.invalidEmail,
         'Please enter a valid email address (e.g. name@example.com).',
       );
     }
@@ -76,12 +97,14 @@ class SupportTicketService {
     final trimmedDescription = description.trim();
     if (trimmedDescription.isEmpty) {
       throw const SupportTicketValidationException(
+        SupportTicketInputError.missingDescription,
         'Please describe the issue you are facing.',
       );
     }
 
-    if (trimmedDescription.length < 10) {
+    if (trimmedDescription.length < kMinDescriptionLength) {
       throw const SupportTicketValidationException(
+        SupportTicketInputError.descriptionTooShort,
         'Please provide a bit more detail (at least 10 characters).',
       );
     }
@@ -104,6 +127,7 @@ class SupportTicketService {
         final remaining = kCooldownSeconds - elapsedSeconds;
         throw SupportTicketRateLimitException(
           'Please wait $remaining seconds before submitting another ticket.',
+          retryAfterSeconds: remaining,
         );
       }
     }
