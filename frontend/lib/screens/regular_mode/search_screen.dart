@@ -652,13 +652,26 @@ class SearchScreenState extends State<SearchScreen> {
     _triggerSearch(suggestion);
   }
 
+  /// The list the Filter sheet counts over: the current results' base set
+  /// when a query or browse page defines one, else null so the sheet counts
+  /// over the live catalog. On the idle Search tab [_masterSearchResults] is
+  /// an empty placeholder, not "no schemes": passing it made every count and
+  /// "Show N schemes" read 0 until a search had run.
+  List<Scheme>? get _filterPanelBase {
+    final idle =
+        _scope == null &&
+        _searchController.text.trim().isEmpty &&
+        _currentState != SearchState.results;
+    return idle ? null : _masterSearchResults;
+  }
+
   void _openFilterPanel() {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => FilterPanel(
-        baseSchemes: _masterSearchResults,
+        baseSchemes: _filterPanelBase,
         onApplied: () {
           _applyFiltersAndSort();
         },
