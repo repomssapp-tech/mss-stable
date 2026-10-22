@@ -261,7 +261,7 @@ void showValuationEstimatorSheet(BuildContext context) {
                                     return DropdownMenuItem<String>(
                                       value: sector,
                                       child: Text(
-                                        sector,
+                                        _sectorLabel(context, sector),
                                         style: const TextStyle(fontSize: 12),
                                       ),
                                     );
@@ -474,4 +474,22 @@ void showValuationEstimatorSheet(BuildContext context) {
       );
     },
   );
+}
+
+/// Localized label for a sector. The English value stays the internal key the
+/// multiple logic matches on.
+String _sectorLabel(BuildContext context, String sector) {
+  final l10n = context.l10n;
+  switch (sector) {
+    case 'SaaS / Tech':
+      return l10n.valuationSectorSaasTech;
+    case 'E-commerce':
+      return l10n.valuationSectorEcommerce;
+    case 'Fintech':
+      return l10n.valuationSectorFintech;
+    case 'AgriTech':
+      return l10n.valuationSectorAgritech;
+    default:
+      return sector;
+  }
 }

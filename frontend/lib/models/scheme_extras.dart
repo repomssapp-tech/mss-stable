@@ -198,21 +198,17 @@ class SchemeExtras {
     for (final fact in facts.whereType<Map>()) {
       final metrics = <MapEntry<String, num>>[];
       final notes = <String>[];
+      final tr = (fact['translations'] as Map?)?[code];
       fact.forEach((k, v) {
         if (k is! String || _factMetaKeys.contains(k)) return;
         if (v is num) {
           metrics.add(MapEntry(k, v));
         } else if (v is String && v.trim().isNotEmpty) {
-          notes.add(v.trim());
+          // A translated note replaces its English source.
+          final t = tr is Map ? ContentLanguageResolver.text(tr[k], lang) : '';
+          notes.add(t.isNotEmpty ? t : v.trim());
         }
       });
-      final tr = (fact['translations'] as Map?)?[code];
-      if (tr is Map) {
-        for (final v in tr.values) {
-          final t = ContentLanguageResolver.text(v, lang);
-          if (t.isNotEmpty) notes.add(t);
-        }
-      }
       if (metrics.isEmpty && notes.isEmpty) continue;
       out.add(
         SchemeBenefitFact(

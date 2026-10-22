@@ -7096,6 +7096,30 @@ abstract class AppLocalizations {
   /// **'Business Sector'**
   String get valuationSector;
 
+  /// No description provided for @valuationSectorSaasTech.
+  ///
+  /// In en, this message translates to:
+  /// **'SaaS / Tech'**
+  String get valuationSectorSaasTech;
+
+  /// No description provided for @valuationSectorEcommerce.
+  ///
+  /// In en, this message translates to:
+  /// **'E-commerce'**
+  String get valuationSectorEcommerce;
+
+  /// No description provided for @valuationSectorFintech.
+  ///
+  /// In en, this message translates to:
+  /// **'Fintech'**
+  String get valuationSectorFintech;
+
+  /// No description provided for @valuationSectorAgritech.
+  ///
+  /// In en, this message translates to:
+  /// **'AgriTech'**
+  String get valuationSectorAgritech;
+
   /// No description provided for @valuationRange.
   ///
   /// In en, this message translates to:
@@ -8385,6 +8409,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Remove from saved'**
   String get savedRemoveFromSavedTooltip;
+
+  /// No description provided for @savedRemoveFromRecentTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from recently viewed'**
+  String get savedRemoveFromRecentTooltip;
 
   /// No description provided for @savedInactiveBadge.
   ///

@@ -116,13 +116,17 @@ void showAllCategoriesBottomSheet({
                       horizontal: AppSpacing.xl,
                       vertical: AppSpacing.sm,
                     ),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: AppSpacing.sm,
-                          mainAxisSpacing: AppSpacing.md,
-                          childAspectRatio: 0.78,
-                        ),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: AppSpacing.sm,
+                      mainAxisSpacing: AppSpacing.md,
+                      // Taller cells for larger text (issue #144).
+                      childAspectRatio:
+                          0.78 /
+                          MediaQuery.textScalerOf(
+                            context,
+                          ).scale(1).clamp(1.0, 2.0),
+                    ),
                     itemCount: filtered.length,
                     itemBuilder: (context, index) {
                       final category = filtered[index];

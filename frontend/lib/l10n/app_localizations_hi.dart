@@ -3725,7 +3725,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get emiTenureMonths => 'कार्यकाल (महीने)';
 
   @override
-  String get emiTenureSuffixMo => 'एमओ';
+  String get emiTenureSuffixMo => 'माह';
 
   @override
   String get emiTenureHelper => 'अवधि महीनों में दर्ज करें';
@@ -3815,6 +3815,18 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get valuationSector => 'व्यवसाय का क्षेत्र';
+
+  @override
+  String get valuationSectorSaasTech => 'SaaS / टेक';
+
+  @override
+  String get valuationSectorEcommerce => 'ई-कॉमर्स';
+
+  @override
+  String get valuationSectorFintech => 'फिनटेक';
+
+  @override
+  String get valuationSectorAgritech => 'एग्रीटेक (कृषि तकनीक)';
 
   @override
   String get valuationRange => 'मूल्यांकन सीमा';
@@ -4557,6 +4569,9 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get savedRemoveFromSavedTooltip => 'सहेजे गए से हटाएँ';
+
+  @override
+  String get savedRemoveFromRecentTooltip => 'हाल ही में देखी गई सूची से हटाएँ';
 
   @override
   String get savedInactiveBadge => 'निष्क्रिय';

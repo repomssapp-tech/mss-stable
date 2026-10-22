@@ -63,10 +63,8 @@ void main() {
       expect(find.text('Recently Added'), findsNothing);
     });
 
-    testWidgets('has no card menu at all for an unbookmarked item, so it is '
-        'structurally impossible to call toggleBookmark from this tab', (
-      tester,
-    ) async {
+    testWidgets('the card menu removes the item from Recently viewed and '
+        'never touches bookmarks (issue #144)', (tester) async {
       final provider = AppProvider();
       provider.setAllSchemesForTesting([viewedOnlyScheme]);
       provider.addToRecentlyViewed(viewedOnlyScheme.id);
@@ -78,18 +76,16 @@ void main() {
       // Switch to the Recently viewed tab.
       await tester.tap(find.text('Recently viewed'));
       await tester.pumpAndSettle();
-
       expect(find.text(viewedOnlyScheme.name), findsOneWidget);
-      // The card's overflow menu (PopupMenuButton, the only card-level
-      // control whose onSelected calls toggleBookmark) is not rendered at
-      // all for this tab, so there is no UI path that can call
-      // provider.toggleBookmark() and accidentally create a bookmark.
-      // (Icons.more_vert_rounded / delete_outline_rounded alone aren't
-      // checked here -- the "Manage" banner below the list legitimately
-      // reuses delete_outline_rounded for an unrelated, list-wide toggle.)
-      expect(find.byType(PopupMenuButton<String>), findsNothing);
 
-      // Confirm the bookmark set is still untouched after rendering.
+      await tester.tap(find.byType(PopupMenuButton<String>));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Remove from recently viewed'));
+      await tester.pumpAndSettle();
+
+      expect(provider.recentlyViewedIds, isEmpty);
+      expect(find.text(viewedOnlyScheme.name), findsNothing);
+      // Removing from this tab must not create (or remove) a bookmark.
       expect(provider.bookmarkedIds, isEmpty);
     });
 

@@ -41,7 +41,9 @@ class CategoriesBusinessUtilitiesSection extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.sm),
         SizedBox(
-          height: 98,
+          // Icon and padding are fixed; the two text lines grow with the
+          // user's font size (issue #144).
+          height: 50 + MediaQuery.textScalerOf(context).scale(48),
           child: ListView(
             scrollDirection: Axis.horizontal,
             physics: const ClampingScrollPhysics(),

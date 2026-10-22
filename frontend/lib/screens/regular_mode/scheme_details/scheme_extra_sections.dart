@@ -4,6 +4,7 @@ import '../../../l10n/l10n.dart';
 import '../../../models/localized_scheme.dart';
 import '../../../models/scheme_extras.dart';
 import '../../../models/scheme_model.dart';
+import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_radius.dart';
 import '../../../utils/app_spacing.dart';
@@ -315,7 +316,10 @@ class _BenefitFactsCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: AppSpacing.xs),
               child: Text(
-                SchemeExtras.humanize(fact.type),
+                CentralizedTranslator.instance.localizeTagFor(
+                  lang,
+                  SchemeExtras.humanize(fact.type),
+                ),
                 style: text.label.copyWith(color: AppColors.primaryStrong),
               ),
             ),

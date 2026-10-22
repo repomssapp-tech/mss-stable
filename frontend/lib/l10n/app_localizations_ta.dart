@@ -3856,6 +3856,18 @@ class AppLocalizationsTa extends AppLocalizations {
   String get valuationSector => 'தொழில் துறை';
 
   @override
+  String get valuationSectorSaasTech => 'SaaS / தொழில்நுட்பம்';
+
+  @override
+  String get valuationSectorEcommerce => 'இ-காமர்ஸ்';
+
+  @override
+  String get valuationSectorFintech => 'ஃபின்டெக்';
+
+  @override
+  String get valuationSectorAgritech => 'அக்ரிடெக் (வேளாண் தொழில்நுட்பம்)';
+
+  @override
   String get valuationRange => 'மதிப்பீட்டு வரம்பு';
 
   @override
@@ -4615,6 +4627,10 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get savedRemoveFromSavedTooltip => 'சேமித்தவற்றிலிருந்து அகற்று';
+
+  @override
+  String get savedRemoveFromRecentTooltip =>
+      'சமீபத்தில் பார்த்தவற்றிலிருந்து அகற்று';
 
   @override
   String get savedInactiveBadge => 'செயலில் இல்லை';
