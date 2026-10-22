@@ -134,9 +134,17 @@ class _InstitutionsInteractivePanelState
   Widget build(BuildContext context) {
     final filtered = _institutions.where((inst) {
       final text = _institutionsSearch.toLowerCase();
-      return inst['name'].toLowerCase().contains(text) ||
-          inst['fullName'].toLowerCase().contains(text) ||
-          inst['role'].toLowerCase().contains(text);
+      final translator = CentralizedTranslator.instance;
+      // Match the English constants and the localized text the card shows.
+      return [
+        inst['name'],
+        inst['fullName'],
+        inst['role'],
+        translator.localize(inst['fullName']),
+        translator.localize(inst['role']),
+        translator.localize(inst['services']),
+        translator.localize(inst['schemes']),
+      ].any((field) => field.toString().toLowerCase().contains(text));
     }).toList();
 
     return Card(
