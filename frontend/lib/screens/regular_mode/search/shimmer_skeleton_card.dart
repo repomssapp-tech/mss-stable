@@ -106,18 +106,18 @@ class _ShimmerSweepState extends State<ShimmerSweep>
 class ShimmerSkeletonCard extends StatelessWidget {
   const ShimmerSkeletonCard({super.key});
 
-  static Widget _bar(double height, {double widthFactor = 1}) =>
-      FractionallySizedBox(
-        alignment: Alignment.centerLeft,
-        widthFactor: widthFactor,
-        child: Container(
-          height: height,
-          decoration: BoxDecoration(
-            color: const Color(0xFFE2E8F0),
-            borderRadius: BorderRadius.circular(4),
-          ),
-        ),
-      );
+  static const _barDecoration = BoxDecoration(
+    color: Color(0xFFE2E8F0),
+    borderRadius: BorderRadius.all(Radius.circular(4)),
+  );
+
+  static Widget _bar(double height, {double widthFactor = 1}) => Align(
+    alignment: Alignment.centerLeft,
+    child: FractionallySizedBox(
+      widthFactor: widthFactor,
+      child: Container(height: height, decoration: _barDecoration),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {

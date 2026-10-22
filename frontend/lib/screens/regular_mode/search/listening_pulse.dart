@@ -48,9 +48,8 @@ class _ListeningPulseState extends State<ListeningPulse>
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: widget.size,
-      height: widget.size,
+    return SizedBox.square(
+      dimension: widget.size,
       child: AnimatedBuilder(
         animation: _controller,
         builder: (context, child) {
