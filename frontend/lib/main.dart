@@ -56,9 +56,6 @@ void main() async {
   // codemod; this line is the one the spec calls for in the meantime.
   GoogleFonts.config.allowRuntimeFetching = false;
 
-  // Preload translation dictionary JSON into memory for synchronous catalog translations
-  await CentralizedTranslator.instance.ensureLoaded();
-
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -88,23 +85,26 @@ void main() async {
     return;
   }
 
-  // Restore the signed-in account from secure local storage so the rest of the
-  // app can read it synchronously.
-  await AppSession.instance.hydrate();
-
-  // Follow the phone's own network status (Wi-Fi / mobile data / none).
-  await ConnectivityService.instance.start();
+  // These startup steps do not depend on each other, so they run together
+  // instead of one after another (a cold start used to wait for each in turn):
+  // the translation dictionary preloaded for synchronous catalog translations,
+  // the signed-in account restored from secure storage so the rest of the app
+  // can read it synchronously, the phone's network status, Firebase, the
+  // haptics on/off setting and the phone-notification channel (a tap on a
+  // notification that launched the app is opened once the shell is up).
+  final startup = await Future.wait<Object?>([
+    CentralizedTranslator.instance.ensureLoaded(),
+    AppSession.instance.hydrate(),
+    ConnectivityService.instance.start(),
+    initializeFirebase(),
+    HapticsService.instance.load(),
+    LocalNotificationService.instance.init(),
+  ]);
+  final pushGateway = startup[3] == true ? FirebasePushGateway() : null;
 
   // App Startup Recovery: upload chat sessions that were saved locally while
   // offline.
   unawaited(ChatLogService.syncPendingOfflineQueue());
-
-  final pushGateway = await initializeFirebase() ? FirebasePushGateway() : null;
-
-  // Haptics on/off (Settings) and the phone-notification channel. A tap on a
-  // notification that launched the app is opened once the shell is up.
-  await HapticsService.instance.load();
-  await LocalNotificationService.instance.init();
 
   runApp(
     ChangeNotifierProvider(
@@ -256,6 +256,10 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
   final GlobalKey<SearchScreenState> searchTabKey =
       GlobalKey<SearchScreenState>();
 
+  /// Tabs shown at least once. A tab is built on its first visit and then kept
+  /// alive by the IndexedStack, so a cold start builds one tab, not five.
+  final Set<int> _visitedTabs = {0};
+
   @override
   Widget build(BuildContext context) {
     // Listen only to the fields this shell renders. Listening to the whole
@@ -269,6 +273,7 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
     final currentTabIndex = context.select<AppProvider, int>(
       (p) => p.currentTabIndex,
     );
+    _visitedTabs.add(currentTabIndex);
     final l10n = AppLocalizations.of(context)!;
 
     // List of screens matching tabs
@@ -334,9 +339,15 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
         },
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          // The frosted nav bar floats over the tab content.
-          extendBody: true,
-          body: IndexedStack(index: currentTabIndex, children: tabs),
+          // No extendBody: the floating bar sits below the tab content, so
+          // it never covers the last list rows or breaks nested Scaffolds.
+          body: IndexedStack(
+            index: currentTabIndex,
+            children: [
+              for (var i = 0; i < tabs.length; i++)
+                _visitedTabs.contains(i) ? tabs[i] : const SizedBox.shrink(),
+            ],
+          ),
           bottomNavigationBar: navigationMode == 'companion'
               ? null
               : AppBottomNavBar(
