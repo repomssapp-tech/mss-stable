@@ -179,6 +179,14 @@ void main() {
       }
     });
 
+    // #152: the shipped record had `appliesNationally: false` and no states,
+    // so it appeared nowhere; tools/fix_ner_scheme_coverage.py adds them.
+    test('CEN2026-090 appears in every North Eastern state', () async {
+      for (final state in _northEast) {
+        expect(await ids(state), contains('CEN2026-090'), reason: state);
+      }
+    });
+
     test('genuine nationwide schemes stay available everywhere', () async {
       for (final state in ['Tamil Nadu', 'Maharashtra', 'Kerala', 'Assam']) {
         final got = await ids(state);
