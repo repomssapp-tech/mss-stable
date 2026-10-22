@@ -40,9 +40,9 @@ void main() {
   group('Calculator ARB getters resolve for en/ta', () {
     test('EMI calculator', () {
       expect(en.emiCalcTitle, 'Business Loan EMI Calculator');
-      expect(ta.emiCalcTitle, 'தொழில் கடன் EMI கால்குலேட்டர்');
+      expect(ta.emiCalcTitle, 'தொழில் கடன் இஎம்ஐ கால்குலேட்டர்');
       expect(en.emiCalculate, 'Calculate EMI');
-      expect(ta.emiCalculate, 'EMI கணக்கிடுங்கள்');
+      expect(ta.emiCalculate, 'இஎம்ஐ கணக்கிடுங்கள்');
       expect(en.emiTenureSuffixMo, 'Mo');
       expect(ta.emiTenureSuffixMo, 'மா');
       expect(en.emiInvalidInputs, 'Please enter valid inputs');
@@ -50,7 +50,7 @@ void main() {
 
     test('DPIIT checklist', () {
       expect(en.dpiitTitle, 'DPIIT Recognition Checklist');
-      expect(ta.dpiitTitle, 'DPIIT அங்கீகார சரிபார்ப்புப் பட்டியல்');
+      expect(ta.dpiitTitle, 'டிபிஐஐடி அங்கீகார சரிபார்ப்புப் பட்டியல்');
       expect(en.dpiitCheckEligibility, 'Check Eligibility');
       expect(ta.dpiitCheckEligibility, 'தகுதியைச் சரிபார்க்கவும்');
     });
@@ -68,7 +68,7 @@ void main() {
       expect(en.docChecklistTitle, 'Setup Document Checklist');
       expect(ta.docChecklistTitle, 'அமைப்பு ஆவணப் பட்டியல்');
       expect(en.docItemDsc, 'Digital Signature Certificate (DSC)');
-      expect(ta.docItemDsc, 'மின்னணு கையொப்பச் சான்றிதழ் (DSC)');
+      expect(ta.docItemDsc, 'மின்னணு கையொப்பச் சான்றிதழ் (டிஎஸ்சி)');
       expect(en.docCloseChecklist, 'Close Checklist');
     });
 

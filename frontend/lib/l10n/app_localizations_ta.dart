@@ -1636,27 +1636,27 @@ class AppLocalizationsTa extends AppLocalizations {
   String get calcBtnCalculate => 'வகைப்பாட்டைக் கணக்கிடுக';
 
   @override
-  String get calcGstTitle => 'GST / வரி கால்குலேட்டர்';
+  String get calcGstTitle => 'ஜிஎஸ்டி / வரி கால்குலேட்டர்';
 
   @override
   String get calcGstSub =>
-      'CGST + SGST அல்லது IGST மற்றும் மொத்த இன்வாய்ஸ் தொகையைக் கணக்கிடுங்கள்.';
+      'சிஜிஎஸ்டி + எஸ்ஜிஎஸ்டி அல்லது ஐஜிஎஸ்டி மற்றும் மொத்த இன்வாய்ஸ் தொகையைக் கணக்கிடுங்கள்.';
 
   @override
-  String get calcGstWithinState => 'மாநிலத்துக்குள் (CGST + SGST)';
+  String get calcGstWithinState => 'மாநிலத்துக்குள் (சிஜிஎஸ்டி + எஸ்ஜிஎஸ்டி)';
 
   @override
-  String get calcGstInterState => 'மாநிலங்களுக்கு இடையே (IGST)';
+  String get calcGstInterState => 'மாநிலங்களுக்கு இடையே (ஐஜிஎஸ்டி)';
 
   @override
   String get calcBaseAmountLabel => 'அடிப்படைத் தொகை';
 
   @override
   String get calcBaseAmountHelper =>
-      'GSTக்கு முந்தைய பொருட்கள் அல்லது சேவைகளின் நிகர மதிப்பை உள்ளிடவும்';
+      'ஜிஎஸ்டிக்கு முந்தைய பொருட்கள் அல்லது சேவைகளின் நிகர மதிப்பை உள்ளிடவும்';
 
   @override
-  String get calcGstRateLabel => 'GST விகிதம் (%)';
+  String get calcGstRateLabel => 'ஜிஎஸ்டி விகிதம் (%)';
 
   @override
   String get calcBasePrice => 'அடிப்படை விலை';
@@ -1671,7 +1671,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get calcErrValidBaseAmount => 'சரியான அடிப்படைத் தொகையை உள்ளிடவும்';
 
   @override
-  String get calcEmiTitle => 'தொழில் கடன் EMI கால்குலேட்டர்';
+  String get calcEmiTitle => 'தொழில் கடன் இஎம்ஐ கால்குலேட்டர்';
 
   @override
   String get calcEmiSub =>
@@ -1691,21 +1691,21 @@ class AppLocalizationsTa extends AppLocalizations {
   String get calcTenureLabel => 'கால அளவு (மாதங்களில்)';
 
   @override
-  String get calcBtnCalculateEmi => 'EMI கணக்கிடுக';
+  String get calcBtnCalculateEmi => 'இஎம்ஐ கணக்கிடுக';
 
   @override
-  String get calcDpiitTitle => 'DPIIT அங்கீகார சரிபார்ப்புப் பட்டியல்';
+  String get calcDpiitTitle => 'டிபிஐஐடி அங்கீகார சரிபார்ப்புப் பட்டியல்';
 
   @override
   String get calcDpiitSub =>
-      'DPIIT விதிகளின் கீழ் உங்கள் தொழில் ஸ்டார்ட்அப்பாக தகுதி பெறுகிறதா என்பதை மதிப்பிடுங்கள்.';
+      'டிபிஐஐடி விதிகளின் கீழ் உங்கள் தொழில் ஸ்டார்ட்அப்பாக தகுதி பெறுகிறதா என்பதை மதிப்பிடுங்கள்.';
 
   @override
   String get calcValuationTitle => 'விதை நிலை மதிப்பீடு கணக்கிடுபவர்';
 
   @override
   String get calcValuationSub =>
-      'MRR மற்றும் வளர்ச்சியின் அடிப்படையில் விதை நிலை மதிப்பீட்டு வரம்பைக் கணக்கிடுங்கள்.';
+      'எம்ஆர்ஆர் மற்றும் வளர்ச்சியின் அடிப்படையில் விதை நிலை மதிப்பீட்டு வரம்பைக் கணக்கிடுங்கள்.';
 
   @override
   String get calcDocChecklistTitle => 'தொழில் தொடக்க ஆவணப் பட்டியல்';
@@ -1730,19 +1730,19 @@ class AppLocalizationsTa extends AppLocalizations {
   String get utilSubsidyDesc => 'இயந்திர மானியங்கள்';
 
   @override
-  String get utilGstTitle => 'GST கால்குலேட்டர்';
+  String get utilGstTitle => 'ஜிஎஸ்டி கால்குலேட்டர்';
 
   @override
-  String get utilGstDesc => 'GST இன்வாய்ஸைக் கணக்கிடுக';
+  String get utilGstDesc => 'ஜிஎஸ்டி இன்வாய்ஸைக் கணக்கிடுக';
 
   @override
-  String get utilEmiTitle => 'EMI கால்குலேட்டர்';
+  String get utilEmiTitle => 'இஎம்ஐ கால்குலேட்டர்';
 
   @override
-  String get utilEmiDesc => 'கடன் EMIகளைக் கணக்கிடுக';
+  String get utilEmiDesc => 'கடன் இஎம்ஐகளைக் கணக்கிடுக';
 
   @override
-  String get utilDpiitTitle => 'DPIIT தகுதிநிலை';
+  String get utilDpiitTitle => 'டிபிஐஐடி தகுதிநிலை';
 
   @override
   String get utilDpiitDesc => 'ஸ்டார்ட்அப் தகுதிகளைச் சரிபார்க்கவும்';
@@ -3740,7 +3740,7 @@ class AppLocalizationsTa extends AppLocalizations {
       'எங்கள் ஆதரவுக் குழு உங்களுக்கு உதவ எப்போதும் தயாராக உள்ளது.';
 
   @override
-  String get emiCalcTitle => 'தொழில் கடன் EMI கால்குலேட்டர்';
+  String get emiCalcTitle => 'தொழில் கடன் இஎம்ஐ கால்குலேட்டர்';
 
   @override
   String get emiCalcSubtitle =>
@@ -3769,7 +3769,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get emiTenureHelper => 'காலத்தை மாதங்களில் உள்ளிடுங்கள்';
 
   @override
-  String get emiMonthlyEmi => 'மாதாந்திர EMI';
+  String get emiMonthlyEmi => 'மாதாந்திர இஎம்ஐ';
 
   @override
   String get emiPrincipal => 'அசல் தொகை';
@@ -3784,14 +3784,14 @@ class AppLocalizationsTa extends AppLocalizations {
   String get emiInvalidInputs => 'சரியான மதிப்புகளை உள்ளிடுங்கள்';
 
   @override
-  String get emiCalculate => 'EMI கணக்கிடுங்கள்';
+  String get emiCalculate => 'இஎம்ஐ கணக்கிடுங்கள்';
 
   @override
-  String get dpiitTitle => 'DPIIT அங்கீகார சரிபார்ப்புப் பட்டியல்';
+  String get dpiitTitle => 'டிபிஐஐடி அங்கீகார சரிபார்ப்புப் பட்டியல்';
 
   @override
   String get dpiitSubtitle =>
-      'DPIIT விதிகளின் கீழ் உங்கள் தொழில் ஸ்டார்ட்அப்பாக தகுதி பெறுகிறதா என மதிப்பிடுங்கள்.';
+      'டிபிஐஐடி விதிகளின் கீழ் உங்கள் தொழில் ஸ்டார்ட்அப்பாக தகுதி பெறுகிறதா என மதிப்பிடுங்கள்.';
 
   @override
   String get dpiitCriteriaRegistered =>
@@ -3839,10 +3839,10 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get valuationSubtitle =>
-      'MRR அடிப்படையில் தோராயமான ப்ரீ-சீட்/சீட் மதிப்பீட்டு வரம்பைப் பெறுங்கள்.';
+      'எம்ஆர்ஆர் அடிப்படையில் தோராயமான ப்ரீ-சீட்/சீட் மதிப்பீட்டு வரம்பைப் பெறுங்கள்.';
 
   @override
-  String get valuationMrrLabel => 'மாதாந்திர தொடர் வருவாய் (MRR)';
+  String get valuationMrrLabel => 'மாதாந்திர தொடர் வருவாய் (எம்ஆர்ஆர்)';
 
   @override
   String get valuationMrrHelper => 'மாதாந்திர வருவாயை ரூபாயில் உள்ளிடுங்கள்';
@@ -3872,13 +3872,13 @@ class AppLocalizationsTa extends AppLocalizations {
   String get valuationRange => 'மதிப்பீட்டு வரம்பு';
 
   @override
-  String get valuationCalculatedArr => 'கணக்கிடப்பட்ட ARR';
+  String get valuationCalculatedArr => 'கணக்கிடப்பட்ட ஏஆர்ஆர்';
 
   @override
-  String get valuationAppliedMultiple => 'பயன்படுத்தப்பட்ட ARR மடங்கு';
+  String get valuationAppliedMultiple => 'பயன்படுத்தப்பட்ட ஏஆர்ஆர் மடங்கு';
 
   @override
-  String get valuationInvalidMrr => 'சரியான MRR-ஐ உள்ளிடுங்கள்';
+  String get valuationInvalidMrr => 'சரியான எம்ஆர்ஆர்-ஐ உள்ளிடுங்கள்';
 
   @override
   String get valuationEstimate => 'மதிப்பீட்டைக் கணக்கிடுங்கள்';
@@ -3935,10 +3935,10 @@ class AppLocalizationsTa extends AppLocalizations {
   String get docEntityPartnership => 'கூட்டாண்மை';
 
   @override
-  String get docEntityOpc => 'ஒரு நபர் நிறுவனம் (OPC)';
+  String get docEntityOpc => 'ஒரு நபர் நிறுவனம்';
 
   @override
-  String get docEntityLlp => 'LLP';
+  String get docEntityLlp => 'எல்எல்பி';
 
   @override
   String get docItemDsc => 'மின்னணு கையொப்பச் சான்றிதழ் (டிஎஸ்சி)';
@@ -3965,28 +3965,29 @@ class AppLocalizationsTa extends AppLocalizations {
   String get docItemDeedRegistration => 'பதிவாளரிடம் பத்திரப் பதிவு';
 
   @override
-  String get docItemFirmPanTan => 'நிறுவனத்தின் PAN & TAN அட்டைகள்';
+  String get docItemFirmPanTan => 'நிறுவனத்தின் பான் & டேன் அட்டைகள்';
 
   @override
   String get docItemFirmBankAccount => 'நிறுவன வங்கிக் கணக்கு';
 
   @override
-  String get docItemGstRegistrationOptional => 'GST பதிவு (விருப்பத்தேர்வு)';
+  String get docItemGstRegistrationOptional =>
+      'ஜிஎஸ்டி பதிவு (விருப்பத்தேர்வு)';
 
   @override
-  String get docItemLlpNameApproval => 'LLP பெயர் ஒப்புதல் (RUN-LLP)';
+  String get docItemLlpNameApproval => 'எல்எல்பி பெயர் ஒப்புதல் (ரன்-எல்எல்பி)';
 
   @override
-  String get docItemFillipForm => 'FiLLiP படிவம் (LLP பதிவு)';
+  String get docItemFillipForm => 'ஃபில்லிப் படிவம் (எல்எல்பி பதிவு)';
 
   @override
-  String get docItemLlpAgreement => 'LLP ஒப்பந்த வரைவு';
+  String get docItemLlpAgreement => 'எல்எல்பி ஒப்பந்த வரைவு';
 
   @override
-  String get docItemLlpPanTan => 'LLP PAN & TAN அட்டைகள்';
+  String get docItemLlpPanTan => 'எல்எல்பி பான் & டேன் அட்டைகள்';
 
   @override
-  String get docItemLlpBankAccount => 'LLP வங்கிக் கணக்கு';
+  String get docItemLlpBankAccount => 'எல்எல்பி வங்கிக் கணக்கு';
 
   @override
   String get subsidyTitle => 'தொழில் மானிய கணிப்பான்';
