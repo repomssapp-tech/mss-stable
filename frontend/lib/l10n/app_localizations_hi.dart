@@ -4291,6 +4291,21 @@ class AppLocalizationsHi extends AppLocalizations {
   String get profileNoStateMatch => 'कोई मेल खाता राज्य नहीं';
 
   @override
+  String get profileSelectDistrict => 'अपना ज़िला चुनें';
+
+  @override
+  String get profileSelectStateFirst => 'पहले अपना राज्य चुनें';
+
+  @override
+  String get profileSearchDistrictHint => 'ज़िला खोजें';
+
+  @override
+  String get profileNoDistrictMatch => 'कोई मिलता-जुलता ज़िला नहीं';
+
+  @override
+  String get profileErrValidDistrict => 'कृपया अपना ज़िला चुनें';
+
+  @override
   String get profileErrSelectOptionToContinue =>
       'कृपया जारी रखने के लिए एक विकल्प चुनें.';
 
@@ -5001,6 +5016,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get schemeAppStatusUnavailable => 'अस्थायी रूप से अनुपलब्ध';
 
   @override
+  String get schemeAppStatusUnknown => 'अपुष्ट';
+
+  @override
+  String get officialInfoButton => 'आधिकारिक जानकारी';
+
+  @override
   String get schemeDeadline => 'अंतिम तिथि';
 
   @override
@@ -5183,6 +5204,15 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get pwMinHint => 'कम से कम 15 अक्षर';
+
+  @override
+  String pwLengthProgress(int count) {
+    return 'कम से कम 15 में से $count अक्षर';
+  }
+
+  @override
+  String get pwLongTip =>
+      'लंबा पासवर्ड सुरक्षित होता है: “मंदिर के पास आम का पेड़” जैसे याद रहने वाले कुछ शब्द अच्छे रहते हैं।';
 
   @override
   String get sessionRevoked => 'सत्र रद्द किया गया।';

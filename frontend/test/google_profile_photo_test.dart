@@ -10,6 +10,7 @@ import 'package:frontend/services/account/google_identity.dart';
 import 'package:frontend/services/account/rest_auth_service.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:frontend/widgets/common/name_initial_avatar.dart';
 
 void main() {
   setUpAll(() async {
@@ -29,7 +30,11 @@ void main() {
         'https://lh3.googleusercontent.com/avatar1',
       );
 
-      const withoutPicture = AuthUser(id: 'u2', email: 'b@example.com', name: 'B');
+      const withoutPicture = AuthUser(
+        id: 'u2',
+        email: 'b@example.com',
+        name: 'B',
+      );
       expect(extractGooglePhoto(withoutPicture), isEmpty);
       expect(extractGooglePhoto(null), isEmpty);
     });
@@ -113,22 +118,17 @@ void main() {
     );
 
     testWidgets(
-      'ProfileScreen falls back to user_avatar.webp when effectiveProfilePhoto is empty',
+      'ProfileScreen shows the name-initial avatar when there is no photo',
       (WidgetTester tester) async {
+        // #145: no stock illustration and no Google letter avatar; the
+        // profile name's initial is drawn instead.
         final provider = AppProvider();
         await provider.updateProfilePhoto('');
 
         await tester.pumpWidget(buildTestApp(provider));
         await tester.pump();
 
-        final imageWidgets = tester.widgetList<Image>(find.byType(Image));
-        final hasAssetFallback = imageWidgets.any(
-          (img) =>
-              img.image is AssetImage &&
-              (img.image as AssetImage).assetName.contains('user_avatar.webp'),
-        );
-
-        expect(hasAssetFallback, isTrue);
+        expect(find.byType(NameInitialAvatar), findsWidgets);
       },
     );
   });

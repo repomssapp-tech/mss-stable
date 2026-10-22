@@ -4279,6 +4279,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileNoStateMatch => 'No matching state';
 
   @override
+  String get profileSelectDistrict => 'Select your district';
+
+  @override
+  String get profileSelectStateFirst => 'Select your state first';
+
+  @override
+  String get profileSearchDistrictHint => 'Search district';
+
+  @override
+  String get profileNoDistrictMatch => 'No matching district';
+
+  @override
+  String get profileErrValidDistrict => 'Please select your district';
+
+  @override
   String get profileErrSelectOptionToContinue =>
       'Please select an option to continue.';
 
@@ -4985,6 +5000,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get schemeAppStatusUnavailable => 'Temporarily unavailable';
 
   @override
+  String get schemeAppStatusUnknown => 'Not confirmed';
+
+  @override
+  String get officialInfoButton => 'Official information';
+
+  @override
   String get schemeDeadline => 'Deadline';
 
   @override
@@ -5165,6 +5186,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pwMinHint => 'At least 15 characters';
+
+  @override
+  String pwLengthProgress(int count) {
+    return '$count of 15 characters minimum';
+  }
+
+  @override
+  String get pwLongTip =>
+      'Long is strong: a few words you remember, like “mango tree near the temple”, work well.';
 
   @override
   String get sessionRevoked => 'Session revoked.';

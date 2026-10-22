@@ -274,17 +274,17 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   String get effectiveProfilePhoto {
     final photo = _profile.profilePhoto.trim();
     if (photo.isNotEmpty && !photo.contains('user_avatar.webp')) {
-      if (photo.startsWith('http://') || photo.startsWith('https://')) {
+      if ((photo.startsWith('http://') || photo.startsWith('https://')) &&
+          hasCustomPhoto) {
         return photo;
       }
       if (File(photo).existsSync()) {
         return photo;
       }
     }
-    final googlePhoto = extractGooglePhoto(AppSession.instance.currentUser);
-    if (googlePhoto.isNotEmpty) {
-      return googlePhoto;
-    }
+    // The Google account picture is not used: for many accounts it is
+    // Google's generated letter avatar (an old "J"), so the app shows the
+    // profile name's initial instead (issue #145).
     return '';
   }
 
@@ -294,7 +294,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     if (photo.isEmpty || photo.contains('user_avatar.webp')) return false;
     if (File(photo).existsSync()) return true;
     final google = extractGooglePhoto(AppSession.instance.currentUser);
-    return google.isNotEmpty && photo != google;
+    return photo.startsWith('http') && photo != google;
   }
 
   List<String> get bookmarkedIds => _library.bookmarkedIds;

@@ -182,8 +182,10 @@ String? _applicationStatusLabel(BuildContext context, String raw) {
       return l10n.schemeAppStatusHistorical;
     case 'temporarily unavailable':
       return l10n.schemeAppStatusUnavailable;
+    case 'unknown':
+      return l10n.schemeAppStatusUnknown;
   }
-  return null; // `unknown` and unrecognised values are not shown
+  return null; // absent and unrecognised values are not shown
 }
 
 String? _procedureLabel(BuildContext context, String raw) {

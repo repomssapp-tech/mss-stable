@@ -47,13 +47,17 @@ class SchemeEligibilityResolver {
   }) {
     final content = entity.content;
     final eligibilityObj =
-        (content['eligibility'] as Map<String, dynamic>?) ?? {};
+        (SchemeAdapterTextUtils.mapOrNull(content['eligibility'])) ?? {};
     final eligibilityTextObj =
-        (content['eligibilityText'] as Map<String, dynamic>?) ?? {};
+        (SchemeAdapterTextUtils.mapOrNull(content['eligibilityText'])) ?? {};
 
     final elCriteriaList = <String>[];
-    final structuredEl = eligibilityObj['structured'] as Map<String, dynamic>?;
-    final narrativeEl = eligibilityObj['narrative'] as Map<String, dynamic>?;
+    final structuredEl = SchemeAdapterTextUtils.mapOrNull(
+      eligibilityObj['structured'],
+    );
+    final narrativeEl = SchemeAdapterTextUtils.mapOrNull(
+      eligibilityObj['narrative'],
+    );
 
     // A. Narrative Summary & Bullets
     if (narrativeEl != null) {
@@ -117,7 +121,7 @@ class SchemeEligibilityResolver {
       // `applies` (not mere key presence) is the authoritative signal that
       // the facet actually constrains this scheme -- see taxonomy_engine.py
       // and build_search_index.py's use of the same "applies" gate.
-      final ageObj = structuredEl['age'] as Map<String, dynamic>?;
+      final ageObj = SchemeAdapterTextUtils.mapOrNull(structuredEl['age']);
       if (ageObj?['applies'] == true) {
         final aMin = ageObj?['minYears'];
         final aMax = ageObj?['maxYears'];
@@ -129,7 +133,9 @@ class SchemeEligibilityResolver {
         }
       }
 
-      final genderObj = structuredEl['gender'] as Map<String, dynamic>?;
+      final genderObj = SchemeAdapterTextUtils.mapOrNull(
+        structuredEl['gender'],
+      );
       if (genderObj?['applies'] == true) {
         final values = SchemeAdapterTextUtils.asList(genderObj?['values']);
         if (values != null) {
@@ -137,8 +143,9 @@ class SchemeEligibilityResolver {
         }
       }
 
-      final businessStageObj =
-          structuredEl['businessStage'] as Map<String, dynamic>?;
+      final businessStageObj = SchemeAdapterTextUtils.mapOrNull(
+        structuredEl['businessStage'],
+      );
       if (businessStageObj?['applies'] == true) {
         final values = SchemeAdapterTextUtils.asList(
           businessStageObj?['values'],
@@ -150,7 +157,9 @@ class SchemeEligibilityResolver {
         }
       }
 
-      final turnoverObj = structuredEl['turnover'] as Map<String, dynamic>?;
+      final turnoverObj = SchemeAdapterTextUtils.mapOrNull(
+        structuredEl['turnover'],
+      );
       final tMin = turnoverObj?['minInr'];
       final tMax = turnoverObj?['maxInr'];
       if (turnoverObj?['applies'] == true && (tMin != null || tMax != null)) {
@@ -158,7 +167,9 @@ class SchemeEligibilityResolver {
         elCriteriaList.add('Enterprise Turnover: $turnoverLimits');
       }
 
-      final investmentObj = structuredEl['investment'] as Map<String, dynamic>?;
+      final investmentObj = SchemeAdapterTextUtils.mapOrNull(
+        structuredEl['investment'],
+      );
       final iMin = investmentObj?['minInr'];
       final iMax = investmentObj?['maxInr'];
       if (investmentObj?['applies'] == true && (iMin != null || iMax != null)) {
@@ -166,7 +177,9 @@ class SchemeEligibilityResolver {
         elCriteriaList.add('Plant & Machinery Investment: $investmentLimits');
       }
 
-      final enterpriseObj = structuredEl['enterprise'] as Map<String, dynamic>?;
+      final enterpriseObj = SchemeAdapterTextUtils.mapOrNull(
+        structuredEl['enterprise'],
+      );
       if (enterpriseObj?['applies'] == true) {
         final bTypes = SchemeAdapterTextUtils.asList(enterpriseObj?['types']);
         if (bTypes != null && bTypes.isNotEmpty) {
@@ -188,8 +201,9 @@ class SchemeEligibilityResolver {
         }
       }
 
-      final specialCategoryObj =
-          structuredEl['specialCategory'] as Map<String, dynamic>?;
+      final specialCategoryObj = SchemeAdapterTextUtils.mapOrNull(
+        structuredEl['specialCategory'],
+      );
       if (specialCategoryObj?['applies'] == true) {
         final sCats = SchemeAdapterTextUtils.asList(
           specialCategoryObj?['values'],
@@ -202,7 +216,9 @@ class SchemeEligibilityResolver {
         }
       }
 
-      final locationObj = structuredEl['location'] as Map<String, dynamic>?;
+      final locationObj = SchemeAdapterTextUtils.mapOrNull(
+        structuredEl['location'],
+      );
       final locText = locationObj?['text'];
       if (locationObj?['applies'] == true &&
           locText is String &&

@@ -42,3 +42,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-10-21 | nyxri0f8 | #142 | unspecified | chore(release): app 1.4.3+11 |
 | 2026-10-22 | nyxri0f8 | #146 | unspecified | Fix toasts behind sheets, filter counts at startup, catalog coverage, and #145 UI findings |
 | 2026-10-22 | nyxri0f8 | #147 | unspecified | fix(hindi): resolve Hindi QA findings (#144) |
+| 2026-10-22 | nyxri0f8 | #154 | frontend/profile, frontend/catalog | Finishes the items #146 and #150 left open: the three #145 decisions (district picker, avatar, password rule) and the `CEN2026-090` coverage gap that #143/#152 require, plus the lint #150 introduced. |

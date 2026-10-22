@@ -4342,6 +4342,22 @@ class AppLocalizationsTa extends AppLocalizations {
   String get profileNoStateMatch => 'பொருந்தும் மாநிலம் இல்லை';
 
   @override
+  String get profileSelectDistrict => 'உங்கள் மாவட்டத்தைத் தேர்ந்தெடுக்கவும்';
+
+  @override
+  String get profileSelectStateFirst =>
+      'முதலில் உங்கள் மாநிலத்தைத் தேர்ந்தெடுக்கவும்';
+
+  @override
+  String get profileSearchDistrictHint => 'மாவட்டத்தைத் தேடுங்கள்';
+
+  @override
+  String get profileNoDistrictMatch => 'பொருந்தும் மாவட்டம் இல்லை';
+
+  @override
+  String get profileErrValidDistrict => 'உங்கள் மாவட்டத்தைத் தேர்ந்தெடுக்கவும்';
+
+  @override
   String get profileErrSelectOptionToContinue =>
       'தொடர ஒரு விருப்பத்தைத் தேர்ந்தெடுக்கவும்.';
 
@@ -5065,6 +5081,12 @@ class AppLocalizationsTa extends AppLocalizations {
   String get schemeAppStatusUnavailable => 'தற்காலிகமாக கிடைக்கவில்லை';
 
   @override
+  String get schemeAppStatusUnknown => 'உறுதிசெய்யப்படவில்லை';
+
+  @override
+  String get officialInfoButton => 'அதிகாரப்பூர்வ தகவல்';
+
+  @override
   String get schemeDeadline => 'கடைசி தேதி';
 
   @override
@@ -5250,6 +5272,15 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get pwMinHint => 'குறைந்தது 15 எழுத்துகள்';
+
+  @override
+  String pwLengthProgress(int count) {
+    return 'குறைந்தது 15 எழுத்துகளில் $count';
+  }
+
+  @override
+  String get pwLongTip =>
+      'நீளமான கடவுச்சொல் பாதுகாப்பானது: “கோவில் அருகே மாமரம்” போன்ற நினைவில் வரும் சில சொற்கள் நன்றாக வேலை செய்யும்.';
 
   @override
   String get sessionRevoked => 'அமர்வு ரத்து செய்யப்பட்டது.';
