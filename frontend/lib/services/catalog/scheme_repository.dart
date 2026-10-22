@@ -15,6 +15,17 @@ import '../recommendation/recommendation_engine.dart';
 /// exclusively from the local MssCatalogBundle -- see docs and
 /// 2026-09-04's offline-first migration. Profiles are stored through the
 /// REST profile API (ProfileApiService), not here.
+/// A catalog record that [SchemeRepository] could not turn into a [Scheme].
+class SchemeConversionFailure {
+  const SchemeConversionFailure(this.schemeId, this.error);
+
+  final String schemeId;
+  final Object error;
+
+  @override
+  String toString() => '$schemeId: $error';
+}
+
 class SchemeRepository {
   SchemeRepository._();
 
@@ -42,6 +53,7 @@ class SchemeRepository {
     _cachedLanguage = null;
     _bundleFuture = null;
     _cachedCategoryCounts = null;
+    _conversionFailures = const [];
     _inFlightSchemeSearches.clear();
     _searchSchemesCache.clear();
     _inFlightMatchSearches.clear();
@@ -53,6 +65,12 @@ class SchemeRepository {
     // until the app process fully restarts.
     MssCatalogBundle.invalidate();
   }
+
+  List<SchemeConversionFailure> _conversionFailures = const [];
+
+  /// Records that could not be converted in the last load; empty when every
+  /// scheme converted. A non-empty list means the catalog is incomplete.
+  List<SchemeConversionFailure> get conversionFailures => _conversionFailures;
 
   Future<MssCatalogBundle> _loadBundle() =>
       _bundleFuture ??= MssCatalogBundle.load();
@@ -243,13 +261,28 @@ class SchemeRepository {
 
       final schemes = <Scheme>[];
       final byIdMap = <String, Scheme>{};
+      final failures = <SchemeConversionFailure>[];
 
       for (final entity in schemeEntities) {
-        final scheme = MssSchemeAdapter.toScheme(
-          entity,
-          bundle,
-          langCode: langCode,
-        );
+        // One record with an unexpected shape must not discard the whole
+        // catalog (the outer catch used to fall back to the previous list or
+        // to nothing). Skip it, say which record failed and why, and keep
+        // the rest.
+        final Scheme scheme;
+        try {
+          scheme = MssSchemeAdapter.toScheme(
+            entity,
+            bundle,
+            langCode: langCode,
+          );
+        } catch (e, st) {
+          failures.add(SchemeConversionFailure(entity.id, e));
+          debugPrint(
+            '[SchemeRepository] could not convert scheme ${entity.id} '
+            '($langCode): $e\n$st',
+          );
+          continue;
+        }
         schemes.add(scheme);
         byIdMap[scheme.id.toLowerCase()] = scheme;
         if (scheme.schemeCode.isNotEmpty) {
@@ -260,6 +293,7 @@ class SchemeRepository {
       _cachedLanguage = langCode;
       _cachedSchemes = List.unmodifiable(schemes);
       _schemeByIdMap = Map.unmodifiable(byIdMap);
+      _conversionFailures = List.unmodifiable(failures);
       return _cachedSchemes!;
     } catch (e) {
       debugPrint('[SchemeRepository] catalog bundle load error: $e');

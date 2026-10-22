@@ -76,14 +76,24 @@ class SchemeHeaderResolver {
     required String langCode,
   }) {
     final content = entity.content;
-    final classification =
-        (content['classification'] as Map<String, dynamic>?) ?? {};
-    final gov = (classification['government'] as Map<String, dynamic>?) ?? {};
-    final overviewObj = (content['overview'] as Map<String, dynamic>?) ?? {};
-    final targetBeneficiariesObj =
-        (content['targetBeneficiaries'] as Map<String, dynamic>?) ?? {};
-    final eligibilityTextObj =
-        (content['eligibilityText'] as Map<String, dynamic>?) ?? {};
+    final classification = SchemeAdapterTextUtils.asMap(
+      content['classification'],
+    );
+    final gov = SchemeAdapterTextUtils.asMap(classification['government']);
+    final overviewObj = SchemeAdapterTextUtils.asMap(content['overview']);
+    final targetBeneficiariesObj = SchemeAdapterTextUtils.asMap(
+      content['targetBeneficiaries'],
+    );
+    final eligibilityTextObj = SchemeAdapterTextUtils.asMap(
+      content['eligibilityText'],
+    );
+    String text(dynamic v) =>
+        SchemeAdapterTextUtils.getLocalizedText(v, langCode);
+    // `["a", "b"]` or `"a"` as "a, b"; localized items are resolved one by one.
+    String joined(dynamic v) => (SchemeAdapterTextUtils.asList(v) ?? const [])
+        .map(text)
+        .where((s) => s.isNotEmpty)
+        .join(', ');
 
     // ── 1. Status & Header Information ──────────────────────────────────
     final rawStatus = entity.status.toLowerCase().trim();
@@ -197,8 +207,10 @@ class SchemeHeaderResolver {
       'shortName': _storedNames(entity, key: 'shortName'),
     }..removeWhere((_, names) => names.isEmpty);
 
-    final govLevelRaw =
-        (gov['levelText'] as String?) ?? (gov['level'] as String?) ?? 'Central';
+    final govLevelRaw = SchemeAdapterTextUtils.firstText([
+      text(gov['levelText']),
+      text(gov['level']),
+    ]);
     final governmentLevel = govLevelRaw.isNotEmpty ? govLevelRaw : 'Central';
 
     // Where a scheme applies comes from the structured coverage fields
@@ -213,27 +225,24 @@ class SchemeHeaderResolver {
           in SchemeAdapterTextUtils.asList(gov['states']) ?? const [])
         ?IndianStates.code(raw.toString()),
     }.toList(growable: false);
-    final stateRaw = (gov['statesText'] as String?)?.trim() ?? '';
+    final stateRaw = text(gov['statesText']);
     final state = stateRaw.isNotEmpty
         ? stateRaw
         : appliesNationally == true
         ? 'All India'
         : stateCodes.map((c) => IndianStates.nameForCode(c) ?? c).join(', ');
 
-    final sector =
-        (classification['sectorsText'] as String?) ??
-        SchemeAdapterTextUtils.asList(classification['sectors'])?.join(', ') ??
-        (classification['sector'] as String?) ??
-        (content['sector'] as String?) ??
-        '';
+    final sector = SchemeAdapterTextUtils.firstText([
+      text(classification['sectorsText']),
+      joined(classification['sectors']),
+      text(classification['sector']),
+      text(content['sector']),
+    ]);
 
-    final schemeType =
-        (classification['schemeTypeText'] as String?) ??
-        SchemeAdapterTextUtils.asList(
-          classification['schemeType'],
-        )?.join(', ') ??
-        (classification['schemeType'] as String?) ??
-        '';
+    final schemeType = SchemeAdapterTextUtils.firstText([
+      text(classification['schemeTypeText']),
+      joined(classification['schemeType']),
+    ]);
 
     final category = schemeType.isNotEmpty
         ? schemeType
@@ -255,9 +264,9 @@ class SchemeHeaderResolver {
         content['summary'] ??
         content['description'] ??
         content['overview'];
-    if (summaryRaw is Map<String, dynamic>) {
-      final en = summaryRaw['en'] as String? ?? '';
-      final ta = summaryRaw['ta'] as String? ?? '';
+    if (summaryRaw is Map) {
+      final en = SchemeAdapterTextUtils.str(summaryRaw['en']);
+      final ta = SchemeAdapterTextUtils.str(summaryRaw['ta']);
       overviewEn = en.isNotEmpty ? en : ta;
       if (overviewTa.isEmpty && ta.isNotEmpty) overviewTa = ta;
     } else if (summaryRaw is String) {
@@ -281,10 +290,16 @@ class SchemeHeaderResolver {
         : 'Eligible MSMEs & Enterprises';
 
     if (overviewEn.isEmpty) {
-      final elTextEn =
-          (eligibilityTextObj['summary'] as String?) ??
-          (content['eligibilityText'] as String?) ??
-          entity.getLocalizedAttribute('eligibilityText', 'en');
+      // `summary` and `eligibilityText` itself may each be plain text or a
+      // localized map; resolve both rather than casting.
+      final elTextEn = SchemeAdapterTextUtils.firstText([
+        SchemeAdapterTextUtils.getLocalizedText(
+          eligibilityTextObj['summary'],
+          'en',
+        ),
+        SchemeAdapterTextUtils.str(content['eligibilityText']),
+        entity.getLocalizedAttribute('eligibilityText', 'en'),
+      ]);
       final elTextTa = entity.getLocalizedAttribute('eligibilityText', 'ta');
       if (elTextEn.isNotEmpty) {
         overviewEn = elTextEn;
@@ -330,7 +345,7 @@ class SchemeHeaderResolver {
     final tags = SchemeAdapterTextUtils.asList(classification['tags']);
     if (tags != null) glanceChips.addAll(tags.map((e) => e.toString()));
 
-    final districtApplicable = (gov['districtsText'] as String?) ?? '';
+    final districtApplicable = text(gov['districtsText']);
 
     return SchemeHeaderData(
       statusStr: statusStr,

@@ -1,6 +1,7 @@
 import '../../models/mss_entity.dart';
 import '../../models/scheme_extras.dart';
 import '../../models/scheme_model.dart';
+import 'adapter/scheme_adapter_text_utils.dart';
 import 'adapter/scheme_benefits_resolver.dart';
 import 'adapter/scheme_eligibility_resolver.dart';
 import 'adapter/scheme_header_resolver.dart';
@@ -112,9 +113,12 @@ class MssSchemeAdapter {
       districtApplicable: header.districtApplicable,
       subsidyAmount: benefits.subsidyAmountText,
       verificationStatus:
-          (metadata['verificationStatus'] as String?) ?? 'VERIFIED',
-      verificationNotes: (metadata['sourceNotes'] as String?) ?? '',
-      lastUpdated: (metadata['updatedAt'] as String?) ?? '',
+          (SchemeAdapterTextUtils.textOrNull(metadata['verificationStatus'])) ??
+          'VERIFIED',
+      verificationNotes:
+          (SchemeAdapterTextUtils.textOrNull(metadata['sourceNotes'])) ?? '',
+      lastUpdated:
+          (SchemeAdapterTextUtils.textOrNull(metadata['updatedAt'])) ?? '',
       searchKeywords: searchKeywords,
       status: header.statusStr,
       isActive: header.isActive,
