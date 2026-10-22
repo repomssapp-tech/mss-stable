@@ -2082,6 +2082,9 @@ class AppLocalizationsTa extends AppLocalizations {
   String get completeProfile => 'சுயவிவரத்தை நிறைவு செய்க';
 
   @override
+  String get profileSettingUp => 'உங்கள் சுயவிவரம் அமைக்கப்படுகிறது…';
+
+  @override
   String get incomeNoIncome => 'வருமானம் இல்லை';
 
   @override

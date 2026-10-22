@@ -524,6 +524,36 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                 ),
               ),
             ),
+
+            // 3. Final-submit overlay: the cloud sync can take a few seconds,
+            // so show progress instead of an idle-looking form.
+            if (_isSubmitting)
+              Positioned.fill(
+                child: ColoredBox(
+                  color: Colors.black.withValues(alpha: 0.35),
+                  child: Center(
+                    child: Semantics(
+                      liveRegion: true,
+                      label: l10n.profileSettingUp,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const CircularProgressIndicator(color: Colors.white),
+                          const SizedBox(height: AppSpacing.lg),
+                          Text(
+                            l10n.profileSettingUp,
+                            style: GoogleFonts.inter(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

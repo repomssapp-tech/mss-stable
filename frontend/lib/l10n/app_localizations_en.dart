@@ -2050,6 +2050,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get completeProfile => 'Complete Profile';
 
   @override
+  String get profileSettingUp => 'Setting up your profile…';
+
+  @override
   String get incomeNoIncome => 'No Income';
 
   @override

@@ -2062,6 +2062,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get completeProfile => 'संपूर्ण प्रोफ़ाइल';
 
   @override
+  String get profileSettingUp => 'आपकी प्रोफ़ाइल तैयार की जा रही है…';
+
+  @override
   String get incomeNoIncome => 'कोई आय नहीं';
 
   @override

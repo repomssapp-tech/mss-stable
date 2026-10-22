@@ -3886,6 +3886,12 @@ abstract class AppLocalizations {
   /// **'Complete Profile'**
   String get completeProfile;
 
+  /// No description provided for @profileSettingUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Setting up your profile…'**
+  String get profileSettingUp;
+
   /// No description provided for @incomeNoIncome.
   ///
   /// In en, this message translates to:
