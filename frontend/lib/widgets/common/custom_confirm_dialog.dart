@@ -142,6 +142,11 @@ class CustomConfirmDialog extends StatelessWidget {
                 child: TextButton(
                   style: TextButton.styleFrom( // style-ok: dialog-local shape/hit-area, not a theme-wide button variant
                     minimumSize: const Size(0, AppSize.tapTarget),
+                    // Two buttons share a narrow dialog: the default 24 dp
+                    // side padding left Tamil labels too little room.
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.sm,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: AppRadius.mdAll,
                       side: const BorderSide(color: AppColors.border),
@@ -173,6 +178,9 @@ class CustomConfirmDialog extends StatelessWidget {
                         : confirmColor,
                     foregroundColor: AppColors.textOnPrimary,
                     minimumSize: const Size(0, AppSize.tapTarget),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.sm,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: AppRadius.mdAll,
                     ),

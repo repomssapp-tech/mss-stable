@@ -151,9 +151,9 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         profile.annualIncome > 0;
     if (profile.profileCompleted || hasSavedEligibility) {
       _selectedEducation = ProfileValueFormatters.inLanguageOf(
-        profile.qualification.isNotEmpty
-            ? profile.qualification
-            : profile.educationLevel,
+        profile.educationLevel.isNotEmpty
+            ? profile.educationLevel
+            : profile.qualification,
         labels,
       );
       _selectedCommunity = ProfileValueFormatters.inLanguageOf(

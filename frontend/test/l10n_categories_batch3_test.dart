@@ -18,7 +18,7 @@ import 'package:frontend/screens/regular_mode/msme_module_details_screen.dart';
 
 // Exact values that used to be hardcoded in the two in-scope files.
 const _businessMsmeEn = 'Business & MSME';
-const _businessMsmeTa = 'தொழில் & எம்எஸ்எம்இ'; // catBusinessMsme (ARB)
+const _businessMsmeTa = 'தொழில் & எம் எஸ் எம் ஈ'; // catBusinessMsme (ARB)
 const _viewAllEn = 'View All';
 const _viewAllTa = 'அனைத்தையும் காண்க'; // reused viewAll key
 

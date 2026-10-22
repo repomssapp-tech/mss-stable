@@ -46,11 +46,11 @@ class AppLocalizationsTa extends AppLocalizations {
   String get growBusiness => 'தொழிலை வளர்க்க';
 
   @override
-  String get registerUdyam => 'உத்யம் பதிவு';
+  String get registerUdyam => 'உத்யம் (Udyam) பதிவு';
 
   @override
   String get udyamModuleDescription =>
-      'அதிகாரப்பூர்வ எம்எஸ்எம்இ பதிவு வழிகாட்டி மற்றும் நேரடி போர்டல் இணைப்பு';
+      'அதிகாரப்பூர்வ எம் எஸ் எம் ஈ பதிவு வழிகாட்டி மற்றும் நேரடி போர்டல் இணைப்பு';
 
   @override
   String get findFunding => 'நிதி கண்டறிக';
@@ -59,7 +59,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get startABusiness => 'தொழில் தொடங்க';
 
   @override
-  String get exploreMsmeSupport => 'எம்எஸ்எம்இ ஆதரவை ஆராய்க';
+  String get exploreMsmeSupport => 'எம் எஸ் எம் ஈ ஆதரவை ஆராய்க';
 
   @override
   String get schemes => 'திட்டங்கள்';
@@ -68,7 +68,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get finance => 'நிதி';
 
   @override
-  String get taxGst => 'வரி & ஜிஎஸ்டி';
+  String get taxGst => 'வரி & ஜி எஸ் டி';
 
   @override
   String get export => 'ஏற்றுமதி';
@@ -132,7 +132,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get quickPillStartup => 'ஸ்டார்ட்அப் இந்தியா தேடுக';
 
   @override
-  String get quickPillLoans => 'எம்எஸ்எம்இ கடன்கள் தேடுக';
+  String get quickPillLoans => 'எம் எஸ் எம் ஈ கடன்கள் தேடுக';
 
   @override
   String get quickPillWomen => 'மகளிர் திட்டங்கள் தேடுக';
@@ -166,7 +166,8 @@ class AppLocalizationsTa extends AppLocalizations {
   String get carouselTitleImportantUpdate => 'முக்கிய புதுப்பிப்பு';
 
   @override
-  String get carouselSubUdyamProcess => 'உத்யம் பதிவு முறை புதுப்பிக்கப்பட்டது';
+  String get carouselSubUdyamProcess =>
+      'உத்யம் (Udyam) பதிவு முறை புதுப்பிக்கப்பட்டது';
 
   @override
   String get carouselBadgeNotify => 'அறிவிப்பு';
@@ -181,7 +182,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get taxBenefitsGstSupportCompliance =>
-      'வரி நன்மைகள், ஜிஎஸ்டி ஆதரவு மற்றும் விதிகள்';
+      'வரி நன்மைகள், ஜி எஸ் டி ஆதரவு மற்றும் விதிகள்';
 
   @override
   String get exportIncentivesFinanceMarketSupport =>
@@ -189,11 +190,11 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get invoiceDiscountingWorkingCapital =>
-      'இன்வாய்ஸ் தள்ளுபடி மற்றும் நடைமுறை மூலதனம்';
+      'வர்த்தக பெறத்தக்கவை தள்ளுபடி முறைமை · நடைமுறை மூலதனம்';
 
   @override
   String get csrProgramsIncubatorsClusterSupport =>
-      'CSR திட்டங்கள், மையங்கள் மற்றும் குழு ஆதரவு';
+      'பெருநிறுவன சமூகப் பொறுப்பு (CSR) திட்டங்கள், மையங்கள் மற்றும் குழு ஆதரவு';
 
   @override
   String get centralStateDistrictGovtStructure =>
@@ -201,7 +202,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get sidbiNsicDicKvicMoreOrganizations =>
-      'SIDBI, NSIC, DIC, KVIC மற்றும் பிற அமைப்புகள்';
+      'சிறு தொழில் வளர்ச்சி வங்கி (SIDBI), NSIC மற்றும் பிற அமைப்புகள்';
 
   @override
   String get tipOfTheDayContent =>
@@ -301,7 +302,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get filterLoan => 'கடன்';
 
   @override
-  String get filterUdyam => 'உத்யம்';
+  String get filterUdyam => 'உத்யம் (Udyam)';
 
   @override
   String get filterStartup => 'ஸ்டார்ட்அப்';
@@ -1242,7 +1243,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get companionIntroSuffix =>
-      ', எம்எஸ்எம்இ வெற்றிக்கான\nஉங்கள் AI துணை.';
+      ', எம் எஸ் எம் ஈ வெற்றிக்கான\nஉங்கள் AI துணை.';
 
   @override
   String get companionEmptyStateHint =>
@@ -1609,7 +1610,8 @@ class AppLocalizationsTa extends AppLocalizations {
   }
 
   @override
-  String get calcUdyamClassifierTitle => 'உத்யம் எம்எஸ்எம்இ வகைப்படுத்தி';
+  String get calcUdyamClassifierTitle =>
+      'உத்யம் (Udyam) எம் எஸ் எம் ஈ வகைப்படுத்தி';
 
   @override
   String get calcUdyamClassifierSub =>
@@ -1636,7 +1638,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get calcBtnCalculate => 'வகைப்பாட்டைக் கணக்கிடுக';
 
   @override
-  String get calcGstTitle => 'GST / வரி கால்குலேட்டர்';
+  String get calcGstTitle => 'ஜி எஸ் டி / வரி கால்குலேட்டர்';
 
   @override
   String get calcGstSub =>
@@ -1653,10 +1655,10 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get calcBaseAmountHelper =>
-      'GSTக்கு முந்தைய பொருட்கள் அல்லது சேவைகளின் நிகர மதிப்பை உள்ளிடவும்';
+      'ஜி எஸ் டி-க்கு முந்தைய பொருட்கள் அல்லது சேவைகளின் நிகர மதிப்பை உள்ளிடவும்';
 
   @override
-  String get calcGstRateLabel => 'GST விகிதம் (%)';
+  String get calcGstRateLabel => 'ஜி எஸ் டி விகிதம் (%)';
 
   @override
   String get calcBasePrice => 'அடிப்படை விலை';
@@ -1671,7 +1673,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get calcErrValidBaseAmount => 'சரியான அடிப்படைத் தொகையை உள்ளிடவும்';
 
   @override
-  String get calcEmiTitle => 'தொழில் கடன் EMI கால்குலேட்டர்';
+  String get calcEmiTitle => 'தொழில் கடன் இ எம் ஐ கால்குலேட்டர்';
 
   @override
   String get calcEmiSub =>
@@ -1691,14 +1693,14 @@ class AppLocalizationsTa extends AppLocalizations {
   String get calcTenureLabel => 'கால அளவு (மாதங்களில்)';
 
   @override
-  String get calcBtnCalculateEmi => 'EMI கணக்கிடுக';
+  String get calcBtnCalculateEmi => 'இ எம் ஐ கணக்கிடுக';
 
   @override
   String get calcDpiitTitle => 'DPIIT அங்கீகார சரிபார்ப்புப் பட்டியல்';
 
   @override
   String get calcDpiitSub =>
-      'DPIIT விதிகளின் கீழ் உங்கள் தொழில் ஸ்டார்ட்அப்பாக தகுதி பெறுகிறதா என்பதை மதிப்பிடுங்கள்.';
+      'DPIIT (தொழில் மற்றும் உள்நாட்டு வர்த்தக மேம்பாட்டுத் துறை) விதிகளின் கீழ் உங்கள் தொழில் ஸ்டார்ட்அப்பாக தகுதி பெறுகிறதா என்பதை மதிப்பிடுங்கள்.';
 
   @override
   String get calcValuationTitle => 'விதை நிலை மதிப்பீடு கணக்கிடுபவர்';
@@ -1718,10 +1720,10 @@ class AppLocalizationsTa extends AppLocalizations {
   String get discoverUtilitiesTitle => 'தொழில்முறை பயன்பாடுகள் & கருவிகள்';
 
   @override
-  String get utilUdyamTitle => 'உத்யம் வகைப்படுத்தி';
+  String get utilUdyamTitle => 'உத்யம் (Udyam) வகைப்படுத்தி';
 
   @override
-  String get utilUdyamDesc => 'எம்எஸ்எம்இ நிலையைச் சரிபார்க்கவும்';
+  String get utilUdyamDesc => 'எம் எஸ் எம் ஈ நிலையைச் சரிபார்க்கவும்';
 
   @override
   String get utilSubsidyTitle => 'மானியம் மதிப்பீட்டாளர்';
@@ -1730,16 +1732,16 @@ class AppLocalizationsTa extends AppLocalizations {
   String get utilSubsidyDesc => 'இயந்திர மானியங்கள்';
 
   @override
-  String get utilGstTitle => 'GST கால்குலேட்டர்';
+  String get utilGstTitle => 'ஜி எஸ் டி கால்குலேட்டர்';
 
   @override
-  String get utilGstDesc => 'GST இன்வாய்ஸைக் கணக்கிடுக';
+  String get utilGstDesc => 'ஜி எஸ் டி இன்வாய்ஸைக் கணக்கிடுக';
 
   @override
-  String get utilEmiTitle => 'EMI கால்குலேட்டர்';
+  String get utilEmiTitle => 'இ எம் ஐ கால்குலேட்டர்';
 
   @override
-  String get utilEmiDesc => 'கடன் EMIகளைக் கணக்கிடுக';
+  String get utilEmiDesc => 'கடன் இ எம் ஐ-களைக் கணக்கிடுக';
 
   @override
   String get utilDpiitTitle => 'DPIIT தகுதிநிலை';
@@ -1971,7 +1973,7 @@ class AppLocalizationsTa extends AppLocalizations {
       'பதிவு செய்யப்பட்ட அல்லது பதிவு செய்யப்படாத தொழிலை நடத்துகிறேன்.';
 
   @override
-  String get msmeOwner => 'எம்எஸ்எம்இ உரிமையாளர்';
+  String get msmeOwner => 'எம் எஸ் எம் ஈ உரிமையாளர்';
 
   @override
   String get msmeOwnerSubtitle =>
@@ -2060,7 +2062,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get fundingRequired => 'தேவையான நிதி';
 
   @override
-  String get registrationNumbers => 'பதிவு எண்கள் (உத்யம், ஜிஎஸ்டி, முதலியன)';
+  String get registrationNumbers => 'பதிவு எண்கள் (உத்யம், ஜி எஸ் டி, முதலியன)';
 
   @override
   String get checkEligibility => 'தகுதி சரிபார்ப்பு';
@@ -2224,7 +2226,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get sarvamPromptExplainMsmeLoans =>
-      'எம்எஸ்எம்இ கடன் பற்றி சொல்லுங்கள்';
+      'எம் எஸ் எம் ஈ கடன் பற்றி சொல்லுங்கள்';
 
   @override
   String get sarvamAskAboutSchemes =>
@@ -2324,7 +2326,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get searchCategoriesHint => 'பிரிவுகளைத் தேடுங்கள்...';
 
   @override
-  String get catBusinessMsme => 'தொழில் & எம்எஸ்எம்இ';
+  String get catBusinessMsme => 'தொழில் & எம் எஸ் எம் ஈ';
 
   @override
   String get catStartupIncubation => 'ஸ்டார்ட்அப் & இன்குபேஷன்';
@@ -2412,7 +2414,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeDelayedPaymentCalcDesc =>
-      'MSMED சட்டம் பிரிவு 15/16-ன் கீழ், 45 நாட்களுக்கு மேல் தாமதமாகும் செலுத்துகைகளுக்கு வாங்குபவர்கள் RBI வங்கி வீதத்தை விட 3 மடங்கு கூட்டு வட்டியை செலுத்த வேண்டும்.';
+      'MSMED சட்டம் பிரிவு 15/16-ன் கீழ், 45 நாட்களுக்கு மேல் தாமதமாகும் செலுத்துகைகளுக்கு வாங்குபவர்கள் இந்திய ரிசர்வ் வங்கியின் வங்கி வீதத்தை விட 3 மடங்கு கூட்டு வட்டியை செலுத்த வேண்டும்.';
 
   @override
   String get msmeInvoiceAmountRupees => 'இன்வாய்ஸ் தொகை (₹)';
@@ -2507,15 +2509,16 @@ class AppLocalizationsTa extends AppLocalizations {
       'SME IPO பட்டியல் தேவைகள் (BSE SME & NSE Emerge)';
 
   @override
-  String get msmeFeatureTaxGst1 => 'எம்எஸ்எம்இ கார்ப்பரேட் வருமான வரி சலுகைகள்';
+  String get msmeFeatureTaxGst1 =>
+      'எம் எஸ் எம் ஈ கார்ப்பரேட் வருமான வரி சலுகைகள்';
 
   @override
   String get msmeFeatureTaxGst2 =>
-      'GST பதிவு வரம்புகள் (₹40/₹20 லட்சம் விலக்குகள்)';
+      'ஜி எஸ் டி பதிவு வரம்புகள் (₹40/₹20 லட்சம் விலக்குகள்)';
 
   @override
   String get msmeFeatureTaxGst3 =>
-      'GST கூட்டு திட்ட அளவுருக்கள் (1% வரி, எளிய தாக்கல்கள்)';
+      'ஜி எஸ் டி கூட்டு திட்ட அளவுருக்கள் (1% வரி, எளிய தாக்கல்கள்)';
 
   @override
   String get msmeFeatureTaxGst4 =>
@@ -2531,7 +2534,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFeatureTaxGst7 =>
-      'எம்எஸ்எம்இ சமாதான் போர்டல் மீட்பு வழிகாட்டுதல்கள்';
+      'எம் எஸ் எம் ஈ சமாதான் போர்டல் மீட்பு வழிகாட்டுதல்கள்';
 
   @override
   String get msmeFeatureExport1 =>
@@ -2545,11 +2548,12 @@ class AppLocalizationsTa extends AppLocalizations {
   String get msmeFeatureExport3 => 'அந்நிய செலாவணி கடன்களுக்கான வட்டி சலுகை';
 
   @override
-  String get msmeFeatureExport4 => 'ECGC கடன் அபாய காப்பீட்டு திட்டங்கள்';
+  String get msmeFeatureExport4 =>
+      'ஏற்றுமதி கடன் உறுதி கழகம் (ECGC) கடன் அபாய காப்பீட்டு திட்டங்கள்';
 
   @override
   String get msmeFeatureExport5 =>
-      'வெளிநாட்டு கண்காட்சி பங்கேற்புக்கான MDA & MAI திட்டங்கள்';
+      'சந்தை மேம்பாட்டு உதவி (MDA) & சந்தை அணுகல் முயற்சி (MAI) திட்டங்கள்: வெளிநாட்டு கண்காட்சி பங்கேற்பு';
 
   @override
   String get msmeFeatureExport6 =>
@@ -2557,7 +2561,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFeatureExport7 =>
-      'HS கோட் வகைப்பாடுகள் & AD கோட் பதிவு வழிகாட்டி';
+      'HS குறியீடு வகைப்பாடுகள் & AD குறியீடு பதிவு வழிகாட்டி';
 
   @override
   String get msmeFeatureTreds1 =>
@@ -2565,7 +2569,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFeatureTreds2 =>
-      'எம்எஸ்எம்இ விற்பனையாளர்களுக்கான இணைவு வழிகாட்டுதல்கள்';
+      'எம் எஸ் எம் ஈ விற்பனையாளர்களுக்கான இணைவு வழிகாட்டுதல்கள்';
 
   @override
   String get msmeFeatureTreds3 => 'RXIL, M1xchange & Invoicemart பதிவு படிகள்';
@@ -2583,11 +2587,11 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFeatureTreds7 =>
-      'திரும்பப்பெறும் vs. திரும்பப்பெறாத கடன் வசூல் (factoring) வரையறைகள்';
+      'திரும்பப்பெறும் மற்றும் திரும்பப்பெறாத கடன் வசூல் (Factoring) வரையறைகள்';
 
   @override
   String get msmeFeatureCsr1 =>
-      'கார்ப்பரேட் CSR-ஆதரவு கிளஸ்டர் மேம்பாட்டு நிதி';
+      'பெருநிறுவன சமூகப் பொறுப்பு (CSR) ஆதரவு கிளஸ்டர் மேம்பாட்டு நிதி';
 
   @override
   String get msmeFeatureCsr2 =>
@@ -2603,7 +2607,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFeatureCsr5 =>
-      'CSR செயல்படுத்தும் நிறுவனங்கள் & NGO-க்களின் பட்டியல்';
+      'பெருநிறுவன சமூகப் பொறுப்பு (CSR) செயல்படுத்தும் நிறுவனங்கள் & அரசு சாரா நிறுவனங்களின் (NGO) பட்டியல்';
 
   @override
   String get msmeFeatureCsr6 =>
@@ -2611,7 +2615,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFeatureGovt1 =>
-      'எம்எஸ்எம்இ அமைச்சகத்தின் (மத்திய அரசு) கொள்கைகள் & முயற்சிகள்';
+      'எம் எஸ் எம் ஈ அமைச்சகத்தின் (மத்திய அரசு) கொள்கைகள் & முயற்சிகள்';
 
   @override
   String get msmeFeatureGovt2 =>
@@ -2639,15 +2643,15 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFeatureInstitutions2 =>
-      'NSIC (தேசிய சிறு தொழில் கூட்டமைப்பு) மூலப்பொருள் ஆதரவு';
+      'தேசிய சிறு தொழில்கள் கழகம் (NSIC) மூலப்பொருள் ஆதரவு';
 
   @override
   String get msmeFeatureInstitutions3 =>
-      'DIC (மாவட்ட தொழில் மையம்) ஒருங்கிணைந்த பதிவுகள்';
+      'மாவட்டத் தொழில் மையம் (DIC) ஒருங்கிணைந்த பதிவுகள்';
 
   @override
   String get msmeFeatureInstitutions4 =>
-      'KVIC (காதி மற்றும் கிராமத் தொழில்கள் ஆணையம்) கிராமப்புற திட்டங்கள்';
+      'காதி கிராமத் தொழில் ஆணையம் (KVIC) கிராமப்புற திட்டங்கள்';
 
   @override
   String get msmeFeatureInstitutions5 =>
@@ -2665,7 +2669,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFeatureUdyam3 =>
-      'தானியங்கி CGTMSE அடமானமில்லா கடன் & TReDS தகுதி';
+      'தானியங்கி CGTMSE (கடன் உத்தரவாத திட்டம்) அடமானமில்லா கடன் & TReDS தகுதி';
 
   @override
   String get msmeFeatureUdyam4 =>
@@ -2901,7 +2905,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get assessWomenQ3BizCreditOpt2 =>
-      'எம்எஸ்எம்இ கடன் (₹1 இலட்சம் - ₹10 இலட்சம்)';
+      'எம் எஸ் எம் ஈ கடன் (₹1 இலட்சம் - ₹10 இலட்சம்)';
 
   @override
   String get assessWomenQ3BizCreditOpt3 =>
@@ -2949,7 +2953,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get assessBizQ1 => 'உங்கள் தொழில் முறைப்படி பதிவு செய்யப்பட்டுள்ளதா?';
 
   @override
-  String get assessBizQ1Opt1 => 'ஆம், எம்எஸ்எம்இ உத்யம் மூலம்';
+  String get assessBizQ1Opt1 => 'ஆம், எம் எஸ் எம் ஈ உத்யம் மூலம்';
 
   @override
   String get assessBizQ1Opt2 => 'ஆம், DPIIT ஸ்டார்ட்அப்பாக';
@@ -3337,7 +3341,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get assessStateQ3Opt1 => 'வேளாண்மை / விவசாயி';
 
   @override
-  String get assessStateQ3Opt2 => 'எம்எஸ்எம்இ / ஸ்டார்ட்அப் உரிமையாளர்';
+  String get assessStateQ3Opt2 => 'எம் எஸ் எம் ஈ / ஸ்டார்ட்அப் உரிமையாளர்';
 
   @override
   String get assessStateQ3Opt3 => 'நெசவு / பாரம்பரிய கைவினைஞர்கள்';
@@ -3591,16 +3595,16 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get faqMissingDocsA =>
-      'திட்ட விவரங்கள் பக்கத்தில், \"Missing\" எனக் குறிக்கப்பட்ட எந்த ஆவணத்திற்கும் \"Get Document\" இணைப்பு இருக்கும்; அது உங்களை நேரடியாக அதிகாரப்பூர்வ தளத்திற்கு (எ.கா., Aadhaar-க்கு UIDAI, PAN-க்கு NSDL) திருப்பிவிடும்.';
+      'திட்ட விவரங்கள் பக்கத்தில், \"இல்லை\" எனக் குறிக்கப்பட்ட எந்த ஆவணத்திற்கும் \"ஆவணத்தைப் பெறுக\" இணைப்பு இருக்கும்; அது உங்களை நேரடியாக அதிகாரப்பூர்வ தளத்திற்கு (எ.கா., ஆதாருக்கு இந்திய தனித்துவ அடையாள ஆணையம் (யுஐடிஏஐ), PAN-க்கு NSDL) திருப்பிவிடும்.';
 
   @override
   String get helpCatGeneralInquiry => 'பொது விசாரணை';
 
   @override
-  String get helpFaqAnswerTitle => 'FAQ பதில்';
+  String get helpFaqAnswerTitle => 'அடிக்கடி கேட்கப்படும் கேள்வி: பதில்';
 
   @override
-  String get helpAllFaqsTitle => 'அனைத்து FAQ-களும்';
+  String get helpAllFaqsTitle => 'அடிக்கடி கேட்கப்படும் கேள்விகள்';
 
   @override
   String get helpReportIssueTitle => 'சிக்கலைப் புகாரளிக்கவும்';
@@ -3697,14 +3701,14 @@ class AppLocalizationsTa extends AppLocalizations {
   String get helpHeaderSubtitle => 'உங்களுக்கு உதவ நாங்கள் இங்கே இருக்கிறோம்';
 
   @override
-  String get helpFaqsGroupTitle => 'FAQ-கள்';
+  String get helpFaqsGroupTitle => 'அடிக்கடி கேட்கப்படும் கேள்விகள்';
 
   @override
   String get helpFaqsGroupSubtitle =>
       'பொதுவான கேள்விகளுக்கான பதில்களைக் காணுங்கள்';
 
   @override
-  String get helpViewAllFaqs => 'அனைத்து FAQ-களையும் காண்க';
+  String get helpViewAllFaqs => 'அனைத்து கேள்விகளையும் காண்க';
 
   @override
   String get helpContactGroupTitle => 'ஆதரவைத் தொடர்பு கொள்ளுங்கள்';
@@ -3742,7 +3746,7 @@ class AppLocalizationsTa extends AppLocalizations {
       'எங்கள் ஆதரவுக் குழு உங்களுக்கு உதவ எப்போதும் தயாராக உள்ளது.';
 
   @override
-  String get emiCalcTitle => 'தொழில் கடன் EMI கால்குலேட்டர்';
+  String get emiCalcTitle => 'தொழில் கடன் இ எம் ஐ கால்குலேட்டர்';
 
   @override
   String get emiCalcSubtitle =>
@@ -3771,7 +3775,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get emiTenureHelper => 'காலத்தை மாதங்களில் உள்ளிடுங்கள்';
 
   @override
-  String get emiMonthlyEmi => 'மாதாந்திர EMI';
+  String get emiMonthlyEmi => 'மாதாந்திர இ எம் ஐ';
 
   @override
   String get emiPrincipal => 'அசல் தொகை';
@@ -3786,18 +3790,18 @@ class AppLocalizationsTa extends AppLocalizations {
   String get emiInvalidInputs => 'சரியான மதிப்புகளை உள்ளிடுங்கள்';
 
   @override
-  String get emiCalculate => 'EMI கணக்கிடுங்கள்';
+  String get emiCalculate => 'இ எம் ஐ கணக்கிடுங்கள்';
 
   @override
   String get dpiitTitle => 'DPIIT அங்கீகார சரிபார்ப்புப் பட்டியல்';
 
   @override
   String get dpiitSubtitle =>
-      'DPIIT விதிகளின் கீழ் உங்கள் தொழில் ஸ்டார்ட்அப்பாக தகுதி பெறுகிறதா என மதிப்பிடுங்கள்.';
+      'DPIIT (தொழில் மற்றும் உள்நாட்டு வர்த்தக மேம்பாட்டுத் துறை) விதிகளின் கீழ் உங்கள் தொழில் ஸ்டார்ட்அப்பாக தகுதி பெறுகிறதா என மதிப்பிடுங்கள்.';
 
   @override
   String get dpiitCriteriaRegistered =>
-      'Pvt Ltd / LLP / கூட்டாண்மையாக பதிவு செய்யப்பட்டுள்ளது';
+      'தனியார் நிறுவனம் / LLP / கூட்டாண்மையாக பதிவு செய்யப்பட்டுள்ளது';
 
   @override
   String get dpiitCriteriaRegisteredSub =>
@@ -3932,11 +3936,11 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get docItemProprietorPanAadhaar =>
-      'உரிமையாளரின் பான் கார்டு மற்றும் ஆதார்';
+      'உரிமையாளரின் PAN (நிரந்தரக் கணக்கு எண்) அட்டை மற்றும் ஆதார்';
 
   @override
   String get docItemUdyamRegistration =>
-      'உத்யம் பதிவு சான்றிதழ் (இலவசம், udyamregistration.gov.in)';
+      'உத்யம் (Udyam) பதிவு சான்றிதழ் (இலவசம், udyamregistration.gov.in)';
 
   @override
   String get docItemShopEstablishmentLicence =>
@@ -3968,7 +3972,8 @@ class AppLocalizationsTa extends AppLocalizations {
   String get docItemCoi => 'நிறுவன பதிவுச் சான்றிதழ் (COI)';
 
   @override
-  String get docItemCompanyPanTan => 'நிறுவன PAN & TAN அட்டைகள்';
+  String get docItemCompanyPanTan =>
+      'நிறுவன PAN (நிரந்தரக் கணக்கு எண்) & TAN (வரி கழிவுக் கணக்கு எண்) அட்டைகள்';
 
   @override
   String get docItemCorporateBankAccount => 'பெருநிறுவன வங்கிக் கணக்கு';
@@ -3980,13 +3985,15 @@ class AppLocalizationsTa extends AppLocalizations {
   String get docItemDeedRegistration => 'பதிவாளரிடம் பத்திரப் பதிவு';
 
   @override
-  String get docItemFirmPanTan => 'நிறுவனத்தின் PAN & TAN அட்டைகள்';
+  String get docItemFirmPanTan =>
+      'நிறுவனத்தின் PAN (நிரந்தரக் கணக்கு எண்) & TAN (வரி கழிவுக் கணக்கு எண்) அட்டைகள்';
 
   @override
   String get docItemFirmBankAccount => 'நிறுவன வங்கிக் கணக்கு';
 
   @override
-  String get docItemGstRegistrationOptional => 'GST பதிவு (விருப்பத்தேர்வு)';
+  String get docItemGstRegistrationOptional =>
+      'ஜி எஸ் டி பதிவு (விருப்பத்தேர்வு)';
 
   @override
   String get docItemLlpNameApproval => 'LLP பெயர் ஒப்புதல் (RUN-LLP)';
@@ -3998,7 +4005,8 @@ class AppLocalizationsTa extends AppLocalizations {
   String get docItemLlpAgreement => 'LLP ஒப்பந்த வரைவு';
 
   @override
-  String get docItemLlpPanTan => 'LLP PAN & TAN அட்டைகள்';
+  String get docItemLlpPanTan =>
+      'LLP PAN (நிரந்தரக் கணக்கு எண்) & TAN (வரி கழிவுக் கணக்கு எண்) அட்டைகள்';
 
   @override
   String get docItemLlpBankAccount => 'LLP வங்கிக் கணக்கு';
@@ -4056,22 +4064,23 @@ class AppLocalizationsTa extends AppLocalizations {
   }
 
   @override
-  String get msmeUdyamFlowTitle => 'Udyam பதிவு வழிமுறை';
+  String get msmeUdyamFlowTitle => 'உத்யம் (Udyam) பதிவு வழிமுறை';
 
   @override
   String get msmeUdyamGoToPortal =>
-      'அதிகாரப்பூர்வ Udyam போர்ட்டலுக்குச் செல்லவும்';
+      'அதிகாரப்பூர்வ உத்யம் (Udyam) போர்ட்டலுக்குச் செல்லவும்';
 
   @override
-  String get msmeUdyamStep1Title => '1. Aadhaar & PAN சரிபார்ப்பு';
+  String get msmeUdyamStep1Title =>
+      '1. ஆதார் & PAN (நிரந்தரக் கணக்கு எண்) சரிபார்ப்பு';
 
   @override
   String get msmeUdyamStep1Desc =>
-      'தொழில்முனைவோரின் Aadhaar எண் மற்றும் Aadhaar-படி பெயரை உள்ளிடவும். OTP மூலம் சரிபார்க்கவும். அடுத்து, தானியங்கி GSTIN சரிபார்ப்புக்காக நிறுவன வகை மற்றும் PAN விவரங்களை உள்ளிடவும்.';
+      'தொழில்முனைவோரின் ஆதார் எண் மற்றும் ஆதாரில் உள்ள பெயரை உள்ளிடவும். ஒருமுறை கடவுச்சொல் (ஓடிபி) மூலம் சரிபார்க்கவும். அடுத்து, தானியங்கி GSTIN சரிபார்ப்புக்காக நிறுவன வகை மற்றும் PAN (நிரந்தரக் கணக்கு எண்) விவரங்களை உள்ளிடவும்.';
 
   @override
   String get msmeUdyamStep1Action =>
-      'Aadhaar OTP அங்கீகாரம் மற்றும் PAN விவரங்கள் உள்ளீடு.';
+      'ஆதார் ஓடிபி அங்கீகாரம் மற்றும் PAN விவரங்கள் உள்ளீடு.';
 
   @override
   String get msmeUdyamStep2Title => '2. நிறுவனம் மற்றும் இருப்பிட விவரங்கள்';
@@ -4641,7 +4650,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get searchHintFallback =>
-      'PMEGP, Startup India, எம்எஸ்எம்இ கடன்கள் தேடுங்கள்...';
+      'PMEGP, Startup India, எம் எஸ் எம் ஈ கடன்கள் தேடுங்கள்...';
 
   @override
   String searchBestMatchesForQuery(Object query) {
@@ -4683,7 +4692,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get eduSchool => 'பள்ளி (10 / 12ம்)';
 
   @override
-  String get eduDiploma => 'டிப்ளமோ / ITI';
+  String get eduDiploma => 'டிப்ளமோ / தொழிற்பயிற்சி நிலையம் (ITI)';
 
   @override
   String get eduUndergraduate => 'இளங்கலை (பட்டப்படிப்பு)';
@@ -4698,7 +4707,8 @@ class AppLocalizationsTa extends AppLocalizations {
   String get commGeneralOc => 'பொதுப் பிரிவு (OC)';
 
   @override
-  String get commObcBcMbc => 'OBC / BC / MBC';
+  String get commObcBcMbc =>
+      'OBC (இதர பிற்படுத்தப்பட்டோர்) / BC (பிற்படுத்தப்பட்டோர்) / MBC (மிகவும் பிற்படுத்தப்பட்டோர்)';
 
   @override
   String get commScCategory => 'பட்டியலினம் (SC)';
@@ -5324,7 +5334,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get udyamMedium => 'நடுத்தர நிறுவனம்';
 
   @override
-  String get udyamLarge => 'பெரிய நிறுவனம் (எம்எஸ்எம்இ வரம்புக்கு அப்பால்)';
+  String get udyamLarge => 'பெரிய நிறுவனம் (எம் எஸ் எம் ஈ வரம்புக்கு அப்பால்)';
 
   @override
   String get udyamInvalid => 'தவறான உள்ளீடு';

@@ -40,9 +40,9 @@ void main() {
   group('Calculator ARB getters resolve for en/ta', () {
     test('EMI calculator', () {
       expect(en.emiCalcTitle, 'Business Loan EMI Calculator');
-      expect(ta.emiCalcTitle, 'தொழில் கடன் EMI கால்குலேட்டர்');
+      expect(ta.emiCalcTitle, 'தொழில் கடன் இ எம் ஐ கால்குலேட்டர்');
       expect(en.emiCalculate, 'Calculate EMI');
-      expect(ta.emiCalculate, 'EMI கணக்கிடுங்கள்');
+      expect(ta.emiCalculate, 'இ எம் ஐ கணக்கிடுங்கள்');
       expect(en.emiTenureSuffixMo, 'Mo');
       expect(ta.emiTenureSuffixMo, 'மா');
       expect(en.emiInvalidInputs, 'Please enter valid inputs');

@@ -717,13 +717,16 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     notifyListeners();
 
     // 1. Perform cleanup and await asynchronous operations
+    // The interface language is a choice about this device, not the account:
+    // signing out must not flip a Tamil or Hindi user back to English on the
+    // login screen.
+    final keptLanguage = _selectedLanguage;
     _isLoggedIn = false;
     _mobileNumber = '';
-    _selectedLanguage = 'en';
     _languageReconciler.reset();
     _navigationMode = 'regular';
     _navigationModeReconciler.reset();
-    _profile = UserProfile();
+    _profile = UserProfile(language: keptLanguage);
     _library.reset();
     _tabs.reset();
 
@@ -737,6 +740,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     }
 
     await SessionCacheService.instance.clearSession();
+    await SessionCacheService.instance.saveLanguage(keptLanguage);
     await TokenStorage.instance.clearTokens();
 
     _isLoggingOut = false;
