@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
+import 'dpiit_eligibility.dart';
 
 /// DPIIT startup-recognition eligibility checklist bottom sheet.
 ///
@@ -12,12 +13,30 @@ import '../../../utils/app_spacing.dart';
 /// AND-gate result logic are unchanged.
 void showDpiitChecklistSheet(BuildContext context) {
   final l10n = context.l10n;
-  bool isPvtLtdOrLlp = false;
-  bool isUnder10Years = false;
-  bool turnoverUnder100Cr = false;
-  bool isInnovative = false;
-  String result = '';
-  Color resultColor = const Color(0xFF2563EB);
+  final met = <DpiitCriterion>{};
+  // Null until "Check Eligibility" is pressed; cleared again when any answer
+  // changes so a stale verdict is never shown beside new answers.
+  bool? passed;
+  List<DpiitCriterion> unmet = const [];
+  final criteria = <DpiitCriterion, (String, String)>{
+    DpiitCriterion.entityType: (
+      l10n.dpiitCriteriaRegistered,
+      l10n.dpiitCriteriaRegisteredSub,
+    ),
+    DpiitCriterion.age: (l10n.dpiitCriteriaAge, l10n.dpiitCriteriaAgeSub),
+    DpiitCriterion.turnover: (
+      l10n.dpiitCriteriaTurnover,
+      l10n.dpiitCriteriaTurnoverSub,
+    ),
+    DpiitCriterion.notReconstruction: (
+      l10n.dpiitCriteriaNotSplit,
+      l10n.dpiitCriteriaNotSplitSub,
+    ),
+    DpiitCriterion.innovation: (
+      l10n.dpiitCriteriaInnovation,
+      l10n.dpiitCriteriaInnovationSub,
+    ),
+  };
 
   showModalBottomSheet(
     context: context,
@@ -109,132 +128,101 @@ void showDpiitChecklistSheet(BuildContext context) {
                     ),
                     child: Column(
                       children: [
-                        CheckboxListTile(
-                          title: Text(
-                            l10n.dpiitCriteriaRegistered,
-                            style: const TextStyle(
-                              fontSize: 11.5,
-                              fontWeight: FontWeight.w600,
+                        for (final entry in criteria.entries) ...[
+                          if (entry.key != DpiitCriterion.entityType)
+                            const Divider(height: 1, color: Color(0xFFE2E8F0)),
+                          CheckboxListTile(
+                            title: Text(
+                              entry.value.$1,
+                              style: const TextStyle(
+                                fontSize: 11.5,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            subtitle: Text(
+                              entry.value.$2,
+                              style: const TextStyle(fontSize: 9.5),
+                            ),
+                            value: met.contains(entry.key),
+                            activeColor: const Color(0xFF2563EB),
+                            onChanged: (val) => setModalState(() {
+                              if (val ?? false) {
+                                met.add(entry.key);
+                              } else {
+                                met.remove(entry.key);
+                              }
+                              passed = null;
+                            }),
+                            controlAffinity: ListTileControlAffinity.leading,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(
+                                  entry.key == DpiitCriterion.entityType
+                                      ? 16
+                                      : 0,
+                                ),
+                                bottom: Radius.circular(
+                                  entry.key == DpiitCriterion.innovation
+                                      ? 16
+                                      : 0,
+                                ),
+                              ),
                             ),
                           ),
-                          subtitle: Text(
-                            l10n.dpiitCriteriaRegisteredSub,
-                            style: const TextStyle(fontSize: 9.5),
-                          ),
-                          value: isPvtLtdOrLlp,
-                          activeColor: const Color(0xFF2563EB),
-                          onChanged: (val) =>
-                              setModalState(() => isPvtLtdOrLlp = val ?? false),
-                          controlAffinity: ListTileControlAffinity.leading,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(16),
-                            ),
-                          ),
-                        ),
-                        const Divider(height: 1, color: Color(0xFFE2E8F0)),
-                        CheckboxListTile(
-                          title: Text(
-                            l10n.dpiitCriteriaAge,
-                            style: const TextStyle(
-                              fontSize: 11.5,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          subtitle: Text(
-                            l10n.dpiitCriteriaAgeSub,
-                            style: const TextStyle(fontSize: 9.5),
-                          ),
-                          value: isUnder10Years,
-                          activeColor: const Color(0xFF2563EB),
-                          onChanged: (val) => setModalState(
-                            () => isUnder10Years = val ?? false,
-                          ),
-                          controlAffinity: ListTileControlAffinity.leading,
-                        ),
-                        const Divider(height: 1, color: Color(0xFFE2E8F0)),
-                        CheckboxListTile(
-                          title: Text(
-                            l10n.dpiitCriteriaTurnover,
-                            style: const TextStyle(
-                              fontSize: 11.5,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          subtitle: Text(
-                            l10n.dpiitCriteriaTurnoverSub,
-                            style: const TextStyle(fontSize: 9.5),
-                          ),
-                          value: turnoverUnder100Cr,
-                          activeColor: const Color(0xFF2563EB),
-                          onChanged: (val) => setModalState(
-                            () => turnoverUnder100Cr = val ?? false,
-                          ),
-                          controlAffinity: ListTileControlAffinity.leading,
-                        ),
-                        const Divider(height: 1, color: Color(0xFFE2E8F0)),
-                        CheckboxListTile(
-                          title: Text(
-                            l10n.dpiitCriteriaInnovation,
-                            style: const TextStyle(
-                              fontSize: 11.5,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          subtitle: Text(
-                            l10n.dpiitCriteriaInnovationSub,
-                            style: const TextStyle(fontSize: 9.5),
-                          ),
-                          value: isInnovative,
-                          activeColor: const Color(0xFF2563EB),
-                          onChanged: (val) =>
-                              setModalState(() => isInnovative = val ?? false),
-                          controlAffinity: ListTileControlAffinity.leading,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                              bottom: Radius.circular(16),
-                            ),
-                          ),
-                        ),
+                        ],
                       ],
                     ),
                   ),
                   const SizedBox(height: AppSpacing.xl),
-                  if (result.isNotEmpty) ...[
-                    Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: resultColor.withValues(alpha: 0.05),
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(
-                          color: resultColor.withValues(alpha: 0.2),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(AppSpacing.md),
-                        child: Row(
-                          children: [
-                            Icon(
-                              resultColor == const Color(0xFF047857)
-                                  ? Icons.check_circle
-                                  : Icons.cancel,
-                              color: resultColor,
-                              size: 18,
+                  if (passed != null) ...[
+                    Builder(
+                      builder: (context) {
+                        final ok = passed!;
+                        final resultColor = ok
+                            ? const Color(0xFF0D9488)
+                            : const Color(0xFFDC2626);
+                        final missing = unmet
+                            .map((c) => criteria[c]!.$1)
+                            .join('; ');
+                        final message = ok
+                            ? l10n.dpiitResultEligible
+                            : '${l10n.dpiitResultNotEligible}\n'
+                                  '${l10n.dpiitResultUnmet(missing)}';
+                        return Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: resultColor.withValues(alpha: 0.05),
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(
+                              color: resultColor.withValues(alpha: 0.2),
                             ),
-                            const SizedBox(width: AppSpacing.sm),
-                            Expanded(
-                              child: Text(
-                                result,
-                                style: GoogleFonts.inter(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(AppSpacing.md),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  ok ? Icons.check_circle : Icons.cancel,
                                   color: resultColor,
+                                  size: 18,
                                 ),
-                              ),
+                                const SizedBox(width: AppSpacing.sm),
+                                Expanded(
+                                  child: Text(
+                                    message,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.bold,
+                                      color: resultColor,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
+                          ),
+                        );
+                      },
                     ),
                     const SizedBox(height: AppSpacing.xl),
                   ],
@@ -243,19 +231,9 @@ void showDpiitChecklistSheet(BuildContext context) {
                     height: 44,
                     child: ElevatedButton(
                       onPressed: () {
-                        final eligible =
-                            isPvtLtdOrLlp &&
-                            isUnder10Years &&
-                            turnoverUnder100Cr &&
-                            isInnovative;
                         setModalState(() {
-                          if (eligible) {
-                            result = l10n.dpiitResultEligible;
-                            resultColor = const Color(0xFF0D9488); // Teal Green
-                          } else {
-                            result = l10n.dpiitResultNotEligible;
-                            resultColor = const Color(0xFFDC2626); // Red
-                          }
+                          unmet = unmetDpiitCriteria(met);
+                          passed = unmet.isEmpty;
                         });
                       },
                       style: ElevatedButton.styleFrom(

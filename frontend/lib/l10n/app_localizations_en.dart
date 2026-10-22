@@ -3764,6 +3764,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dpiitCriteriaAgeSub => 'From incorporation date';
 
   @override
+  String get dpiitCriteriaNotSplit =>
+      'Not formed by splitting up or rebuilding an existing business';
+
+  @override
+  String get dpiitCriteriaNotSplitSub => 'Must be a genuinely new entity';
+
+  @override
   String get dpiitCriteriaTurnover =>
       'Annual turnover has never exceeded ₹100 Cr';
 
@@ -3778,11 +3785,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dpiitResultEligible =>
-      'Highly Eligible for DPIIT Startup India Recognition!';
+      'You appear to meet all DPIIT criteria. Apply for recognition on the Startup India portal.';
 
   @override
   String get dpiitResultNotEligible =>
-      'Not Eligible. Startups must satisfy all 4 criteria to qualify.';
+      'Not eligible yet. A startup must satisfy all 5 criteria.';
+
+  @override
+  String dpiitResultUnmet(String criteria) {
+    return 'Not met: $criteria';
+  }
 
   @override
   String get dpiitCheckEligibility => 'Check Eligibility';
