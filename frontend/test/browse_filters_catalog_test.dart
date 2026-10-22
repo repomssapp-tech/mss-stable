@@ -12,6 +12,7 @@ import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/l10n/app_localizations_en.dart';
 import 'package:frontend/l10n/app_localizations_hi.dart';
 import 'package:frontend/l10n/app_localizations_ta.dart';
+import 'package:frontend/models/geo_coverage.dart';
 import 'package:frontend/models/scheme_filter.dart';
 import 'package:frontend/models/scheme_model.dart';
 import 'package:frontend/screens/regular_mode/categories/discover_counts.dart';
@@ -144,12 +145,17 @@ void main() {
           expect(applySchemeFilters([s], {'coverage': 'nationwide'}), [
             s,
           ], reason: s.id);
-        } else if (s.state.trim().isNotEmpty) {
-          expect(
-            applySchemeFilters([s], {'coverage': 'state', 'state': s.state}),
-            [s],
-            reason: s.id,
-          );
+        } else if (s.coverage.isKnown) {
+          for (final code in s.coverage.stateCodes) {
+            expect(
+              applySchemeFilters([s], {
+                'coverage': 'state',
+                'state': GeoCoverage.stateName(code),
+              }),
+              [s],
+              reason: '${s.id} $code',
+            );
+          }
           expect(
             applySchemeFilters([s], {'coverage': 'nationwide'}),
             isEmpty,

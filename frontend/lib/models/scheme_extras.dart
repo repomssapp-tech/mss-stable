@@ -35,19 +35,32 @@ class SchemeExtras {
     this._jurisdiction,
     this._portal,
     this.legacyCodes,
+    this._normalized,
   );
 
-  static const SchemeExtras empty = SchemeExtras._({}, {}, '', {}, []);
+  static const SchemeExtras empty = SchemeExtras._({}, {}, '', {}, [], {});
+
+  /// `content` keys that carry the extras of a normalized (database-built)
+  /// record, which has no legacy `source` block.
+  static const _normalizedKeys = [
+    'applicationProcess',
+    'status',
+    'benefitFacts',
+    'contacts',
+  ];
 
   factory SchemeExtras.fromEntity(Map<String, dynamic> raw) {
     final source = _asMap(raw['source']);
-    if (source.isEmpty) return empty;
+    final content = raw['content'];
+    final contentMap = content is Map ? _asMap(content) : const {};
+    final normalized = <String, dynamic>{
+      for (final k in _normalizedKeys)
+        if (contentMap[k] != null) k: contentMap[k],
+    };
+    if (source.isEmpty && normalized.isEmpty) return empty;
     final loc = _asMap(raw['localization']);
     final provenance = raw['provenance'];
-    final content = raw['content'];
-    final Map<String, dynamic> portal = content is Map
-        ? _asMap(content['portalInfo'])
-        : const <String, dynamic>{};
+    final Map<String, dynamic> portal = _asMap(contentMap['portalInfo']);
     final identity = raw['identity'];
     final codes = identity is Map ? identity['legacyCodes'] : null;
     return SchemeExtras._(
@@ -60,6 +73,7 @@ class SchemeExtras {
           for (final c in codes)
             if (c is Map && c['code'] is String) c['code'] as String,
       ],
+      normalized,
     );
   }
 
@@ -71,6 +85,10 @@ class SchemeExtras {
   final Map<String, dynamic> _localization;
   final String _jurisdiction;
 
+  /// The [_normalizedKeys] of `content`; the fallback for every field the
+  /// legacy [_source] block would otherwise supply.
+  final Map<String, dynamic> _normalized;
+
   /// Resolved entry of the jurisdiction's portals directory, when the scheme
   /// names one (`how_to_apply.portal`).
   final Map<String, dynamic> _portal;
@@ -79,12 +97,21 @@ class SchemeExtras {
   /// knowledge base still names schemes by these codes.
   final List<String> legacyCodes;
 
-  bool get isEmpty => _source.isEmpty;
+  bool get isEmpty => _source.isEmpty && _normalized.isEmpty;
 
   /// `central`, `tamil_nadu`, `maharashtra`, ... (from the import provenance).
   String get jurisdiction => _jurisdiction;
 
   Map<String, dynamic> get _how => _asMap(_source['how_to_apply']);
+
+  /// `content.applicationProcess` of a normalized record.
+  Map<String, dynamic> get _proc => _asMap(_normalized['applicationProcess']);
+
+  /// First non-empty text of [legacy] then [normalized].
+  String _text(Object? legacy, Object? normalized) {
+    final a = ContentLanguageResolver.text(legacy);
+    return a.isNotEmpty ? a : ContentLanguageResolver.text(normalized);
+  }
 
   dynamic _loc(String lang, String key) {
     final code = ContentLanguageResolver.normalizeCode(lang);
@@ -109,10 +136,25 @@ class SchemeExtras {
     ];
   }
 
-  List<String> storedEligibility(String lang) =>
-      _storedList(_source['eligibility'], lang);
+  /// A normalized record keeps its per-language lists in
+  /// `localization.<lang>.<key>`; used only when there is no legacy source.
+  List<String> _localizedList(String lang, String key) {
+    final block = _localization[ContentLanguageResolver.normalizeCode(lang)];
+    final v = block is Map ? block[key] : null;
+    if (v is! List) return const [];
+    return [
+      for (final item in v)
+        if (item is String && item.trim().isNotEmpty) item.trim(),
+    ];
+  }
 
-  List<String> storedSteps(String lang) => _storedList(_how['steps'], lang);
+  List<String> storedEligibility(String lang) => _source.isEmpty
+      ? _localizedList(lang, 'eligibilityList')
+      : _storedList(_source['eligibility'], lang);
+
+  List<String> storedSteps(String lang) => _source.isEmpty
+      ? _localizedList(lang, 'stepsList')
+      : _storedList(_how['steps'], lang);
 
   /// Names of the required documents in [lang] (`localization.<lang>.documents`),
   /// in the same order as the English list. Empty when the catalogue has none.
@@ -124,9 +166,17 @@ class SchemeExtras {
   }
 
   // ── Status ────────────────────────────────────────────────────────────
-  String get statusValue =>
-      _str((_source['status'] as Map?)?['value']).toLowerCase();
-  String get statusAsOf => _str((_source['status'] as Map?)?['as_of']);
+  Map<String, dynamic> get _status => _asMap(_normalized['status']);
+
+  String get statusValue {
+    final v = _str((_source['status'] as Map?)?['value']);
+    return (v.isNotEmpty ? v : _str(_status['value'])).toLowerCase();
+  }
+
+  String get statusAsOf {
+    final v = _str((_source['status'] as Map?)?['as_of']);
+    return v.isNotEmpty ? v : _str(_status['asOf']);
+  }
 
   /// Empty when the English note is the catalogue's generated metadata line
   /// ("Catalogue status active; verification verified (high)."), which read
@@ -143,14 +193,20 @@ class SchemeExtras {
 
   /// `open`, `closed`, `unknown`, `historical_or_superseded`, `announced`,
   /// `temporarily unavailable`... as given by the source.
-  String get applicationStatus => _str(_how['application_status']);
-  String get procedureType => _str(_how['procedure_type']);
-  String get deadline => ContentLanguageResolver.text(_how['deadline']);
-  String get prerequisite => ContentLanguageResolver.text(_how['prerequisite']);
-  String get statusCheckedOn => _str(_how['status_checked_on']);
+  String get applicationStatus => _text(
+    _how['application_status'],
+    _proc['applicationStatus'],
+  );
+  String get procedureType =>
+      _text(_how['procedure_type'], _proc['procedureType']);
+  String get deadline => _text(_how['deadline'], _proc['deadline']);
+  String get prerequisite =>
+      _text(_how['prerequisite'], _proc['prerequisite']);
+  String get statusCheckedOn =>
+      _text(_how['status_checked_on'], _proc['statusCheckedOn']);
 
   /// Application fees; `fees` may be text or a structured value.
-  String get fees => ContentLanguageResolver.text(_how['fees']);
+  String get fees => _text(_how['fees'], _proc['applicationFeeText']);
 
   // ── Contacts ──────────────────────────────────────────────────────────
   static const List<String> _contactOrder = [
@@ -165,6 +221,7 @@ class SchemeExtras {
 
   List<SchemeContactLine> contacts(String lang) {
     var base = _source['contacts'];
+    if (base is! Map || base.isEmpty) base = _normalized['contacts'];
     // No scheme-level contacts: fall back to the named portal's contact block.
     if (base is! Map || base.isEmpty) base = _portal['contact'];
     if (base is! Map) return const [];
@@ -191,7 +248,13 @@ class SchemeExtras {
   static const _factMetaKeys = {'type', 'translations'};
 
   List<SchemeBenefitFact> benefitFacts(String lang) {
-    final facts = (_source['benefit_facts'] as Map?)?['facts'];
+    var facts = (_source['benefit_facts'] as Map?)?['facts'];
+    if (facts is! List) {
+      // Normalized records carry the same block as `content.benefitFacts`,
+      // either `{facts: [...]}` or the bare list.
+      final nb = _normalized['benefitFacts'];
+      facts = nb is Map ? nb['facts'] : nb;
+    }
     if (facts is! List) return const [];
     final code = ContentLanguageResolver.normalizeCode(lang);
     final out = <SchemeBenefitFact>[];

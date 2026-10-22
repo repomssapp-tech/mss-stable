@@ -18,28 +18,10 @@ import 'scheme_model.dart';
 /// search-results screen call it. Matching is normalized set-membership /
 /// tolerant substring -- never a brittle `== 'All India'` literal.
 
-/// True when a scheme's [Scheme.state] denotes nationwide scope, so a state
-/// facet must not hide it. The catalog labels this inconsistently
-/// ("Pan-India", "All India", "India", "Nationwide", ...). Only the state
-/// string is consulted -- `Scheme.governmentLevel` defaults to "Central" on
-/// the model, so it cannot distinguish national from state schemes.
-bool schemeIsNationwide(Scheme s) {
-  final st = s.state.toLowerCase().replaceAll(RegExp(r'[^a-z]'), '');
-  const exact = {
-    'india',
-    'national',
-    'nationwide',
-    'acrossindia',
-    'allstates',
-    'allstatesut',
-    'central',
-  };
-  if (exact.contains(st)) return true;
-  // Catches "Pan-India / coir sector", "All India (framework)", etc.
-  return st.startsWith('allindia') ||
-      st.startsWith('panindia') ||
-      st.startsWith('panindian');
-}
+/// True when a scheme's catalog coverage is nationwide, so a state facet must
+/// not hide it. Read from [Scheme.coverage] (`appliesNationally`), never from
+/// government level: a central scheme can be limited to some states.
+bool schemeIsNationwide(Scheme s) => s.coverage.isNationwide;
 
 /// A human-facing grouping of the catalog's raw `schemeType` values.
 class SchemeTypeGroup {
@@ -155,12 +137,7 @@ List<Scheme> applySchemeFilters(List<Scheme> input, Map<String, dynamic> f) {
   if (coverage == 'nationwide') {
     out = out.where(schemeIsNationwide).toList();
   } else if (state.isNotEmpty && state.toLowerCase() != 'all') {
-    final st = state.toLowerCase();
-    out = out
-        .where(
-          (s) => schemeIsNationwide(s) || s.state.toLowerCase().contains(st),
-        )
-        .toList();
+    out = out.where((s) => s.coverage.coversState(state)).toList();
   }
 
   final typeIds = _asStrList(f['schemeTypes']).toSet();

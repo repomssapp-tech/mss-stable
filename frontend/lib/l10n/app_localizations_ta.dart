@@ -4953,6 +4953,12 @@ class AppLocalizationsTa extends AppLocalizations {
   String get schemeAppStatusUnavailable => 'தற்காலிகமாக கிடைக்கவில்லை';
 
   @override
+  String get schemeAppStatusUnknown => 'உறுதிசெய்யப்படவில்லை';
+
+  @override
+  String get officialInfoButton => 'அதிகாரப்பூர்வ தகவல்';
+
+  @override
   String get schemeDeadline => 'கடைசி தேதி';
 
   @override

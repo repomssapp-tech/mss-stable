@@ -11,6 +11,7 @@ import '../../services/catalog/scheme_repository.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/share_text.dart';
 import '../../widgets/common/app_toast.dart';
+import 'scheme_details/scheme_action_target.dart';
 import 'scheme_details/scheme_benefits_section.dart';
 import 'scheme_details/scheme_bottom_action_bar.dart';
 import 'scheme_details/scheme_documents_section.dart';
@@ -227,18 +228,16 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
     });
   }
 
-  String _applicationDestination(LocalizedScheme scheme) {
-    final url = scheme.schemeUrl.trim();
-    return _isSafeWebUrl(url) ? url : '';
-  }
-
-  bool _isSafeWebUrl(String value) {
-    final uri = Uri.tryParse(value);
-    return uri != null && (uri.scheme == 'https' || uri.scheme == 'http');
-  }
+  SchemeActionTarget _actionTarget(LocalizedScheme scheme) =>
+      resolveSchemeAction(
+        applicationUrl: scheme.applicationUrl,
+        schemeUrl: scheme.schemeUrl,
+        officialWebsite: scheme.officialWebsite,
+        applicationStatus: scheme.rawScheme.extras.applicationStatus,
+      );
 
   Future<void> _openOfficialUrl(String value) async {
-    if (!_isSafeWebUrl(value)) {
+    if (!isSafeWebUrl(value)) {
       if (!mounted) return;
       AppToast.showInfo(context, context.l10n.noVerifiedLink);
       return;
@@ -254,7 +253,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
   }
 
   Future<void> _copySchemeDetails(LocalizedScheme scheme) async {
-    final destination = _applicationDestination(scheme);
+    final destination = _actionTarget(scheme).url;
     final text = destination.isEmpty
         ? scheme.name
         : '${scheme.name}\n$destination';
@@ -438,7 +437,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                         SchemeOfficialSourceCard(
                           scheme: scheme,
                           onOpenUrl: _openOfficialUrl,
-                          isSafeWebUrl: _isSafeWebUrl,
+                          isSafeWebUrl: isSafeWebUrl,
                         ),
                         const SizedBox(height: AppSpacing.xxl),
 
@@ -586,8 +585,10 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
               onBookmarkToggle: () {
                 provider.toggleBookmark(widget.scheme.id);
               },
-              onApply: () => _openOfficialUrl(_applicationDestination(scheme)),
-              applyEnabled: _applicationDestination(scheme).isNotEmpty,
+              onApply: () => _openOfficialUrl(_actionTarget(scheme).url),
+              applyEnabled: _actionTarget(scheme).isEnabled,
+              isDirectApply:
+                  _actionTarget(scheme).kind == SchemeActionKind.apply,
             ),
           ),
         ],

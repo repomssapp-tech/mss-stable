@@ -54,16 +54,19 @@ class HttpCatalogReleaseSource implements CatalogReleaseSource {
   }
 
   /// Fetches a specific release manifest by its semantic version.
+  ///
+  /// This endpoint returns the camelCase release.json, unlike `current`'s
+  /// snake_case row; both shapes are accepted.
   Future<CatalogManifest?> fetchManifestByVersion(String version) async {
     try {
       final response = await _client.get(
-        '/v1/catalog/releases/$version',
+        '/v1/catalog/releases/${Uri.encodeComponent(version)}',
         requiresAuth: false,
       );
       if (response.data == null || response.data is! Map<String, dynamic>) {
         return null;
       }
-      return CatalogManifest.fromReleaseRpc(
+      return CatalogManifest.fromAnyReleaseShape(
         response.data as Map<String, dynamic>,
       );
     } on ApiException catch (e) {

@@ -4877,6 +4877,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get schemeAppStatusUnavailable => 'Temporarily unavailable';
 
   @override
+  String get schemeAppStatusUnknown => 'Not confirmed';
+
+  @override
+  String get officialInfoButton => 'Official information';
+
+  @override
   String get schemeDeadline => 'Deadline';
 
   @override

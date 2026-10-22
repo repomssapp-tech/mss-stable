@@ -136,8 +136,9 @@ void main() {
       expect(scheme.isActive, isTrue);
       // Name falls back to code
       expect(scheme.name, 'TEST_SPARSE');
-      // State for non-central level defaults to Tamil Nadu
-      expect(scheme.state, 'Tamil Nadu');
+      // Missing coverage stays unknown: no default region, whatever the level
+      expect(scheme.state, isEmpty);
+      expect(scheme.coverage.isKnown, isFalse);
       // Overview falls back to synthetic overview
       expect(
         scheme.overview,

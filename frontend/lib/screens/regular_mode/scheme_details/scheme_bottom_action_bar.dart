@@ -13,12 +13,17 @@ class SchemeBottomActionBar extends StatelessWidget {
   final VoidCallback onApply;
   final bool applyEnabled;
 
+  /// True for a confirmed direct application link ("Apply Now"); false for an
+  /// official information page ("Official information").
+  final bool isDirectApply;
+
   const SchemeBottomActionBar({
     super.key,
     required this.isBookmarked,
     required this.onBookmarkToggle,
     required this.onApply,
     required this.applyEnabled,
+    this.isDirectApply = true,
   });
 
   @override
@@ -116,7 +121,9 @@ class SchemeBottomActionBar extends StatelessWidget {
                   children: [
                     Flexible(
                       child: Text(
-                        context.l10n.applyNowButton,
+                        isDirectApply
+                            ? context.l10n.applyNowButton
+                            : context.l10n.officialInfoButton,
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,

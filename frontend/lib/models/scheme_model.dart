@@ -1,4 +1,5 @@
 import '../services/catalog/language_pack_manager.dart';
+import 'geo_coverage.dart';
 import 'scheme_extras.dart';
 
 class SchemeDocument {
@@ -176,6 +177,13 @@ class Scheme {
   final String sponsoringBody; // issuing_department
   final String issuingBody; // issuing_body (implementing agency)
   final String state;
+
+  /// Where the scheme applies, from the catalog's coverage data. Null on
+  /// schemes built without it, which fall back to reading [state] as a label.
+  final GeoCoverage? geoCoverage;
+
+  GeoCoverage get coverage => geoCoverage ?? GeoCoverage.fromLabel(state);
+
   final String sector;
   final String targetBeneficiary;
   final String schemeType; // assistance_type
@@ -291,6 +299,7 @@ class Scheme {
     this.sponsoringBody = '',
     this.issuingBody = '',
     this.state = 'All India',
+    this.geoCoverage,
     this.sector = '',
     this.targetBeneficiary = '',
     this.schemeType = '',
@@ -439,6 +448,7 @@ class Scheme {
       sponsoringBody: sponsoringBody,
       issuingBody: issuingBody,
       state: state,
+      geoCoverage: geoCoverage,
       sector: sector,
       targetBeneficiary: targetBeneficiary,
       schemeType: schemeType,
@@ -558,6 +568,7 @@ class Scheme {
       sponsoringBody: sponsoringBody,
       issuingBody: issuingBody,
       state: state,
+      geoCoverage: geoCoverage,
       sector: sector,
       targetBeneficiary: targetBeneficiary,
       schemeType: schemeType,

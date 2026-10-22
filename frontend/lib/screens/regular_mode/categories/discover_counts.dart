@@ -105,12 +105,12 @@ String localizedProperName(String enName, AppProvider provider) {
 /// india" / blank-state scheme as matching *every* state name.
 ///
 /// Design decisions (see PR body):
-///   • State  — a scheme counts for a state if it is nationally applicable
-///     (central / central+state / Pan-India) OR its own `state` field names
-///     that state. The central-schemes-count-for-every-state overlap is
-///     INTENTIONAL and honest: those schemes genuinely apply there. Tamil
-///     Nadu therefore legitimately shows more than Maharashtra (it has
-///     state-scoped schemes on top of the national baseline).
+///   • State  — a scheme counts for a state if its catalog coverage is
+///     nationwide (`appliesNationally`) OR its explicit coverage states
+///     include that state (`GeoCoverage.coversState`). Government level is
+///     ownership, not coverage: a central scheme limited to the North East
+///     does not count for Tamil Nadu. The nationwide overlap is INTENTIONAL
+///     and honest: those schemes genuinely apply there.
 ///   • Ministry — matched on the structured `ministry` field (falling back to
 ///     `sponsoringBody`), via a small normalized-alias map. NOT a substring
 ///     search of overview text. Ministries with no schemes legitimately
@@ -457,17 +457,10 @@ class DiscoverCounts {
               '${s.targetBeneficiary} ${s.searchKeywords} ${s.overview} ${s.benefits}')
           .toLowerCase();
 
-  /// A scheme that applies across India regardless of the user's state:
-  /// central / central+state government level, or a Pan-India / All-India /
-  /// blank state field.
-  static bool nationallyApplicable(Scheme s) {
-    final level = s.governmentLevel.toLowerCase();
-    final state = s.state.toLowerCase();
-    return level.contains('central') ||
-        state.contains('pan-india') ||
-        state.contains('all india') ||
-        state.trim().isEmpty;
-  }
+  /// A scheme that applies across India regardless of the user's state, per
+  /// its catalog coverage (`appliesNationally`). A central scheme limited to
+  /// some states is not nationally applicable.
+  static bool nationallyApplicable(Scheme s) => s.coverage.isNationwide;
 
   static bool matchesCategory(Scheme s, String label) {
     final keywords = _categoryKeywords[label];
@@ -483,10 +476,8 @@ class DiscoverCounts {
     return aliases.any(hay.contains);
   }
 
-  static bool matchesState(Scheme s, String label) {
-    if (nationallyApplicable(s)) return true;
-    return s.state.toLowerCase().contains(label.toLowerCase());
-  }
+  static bool matchesState(Scheme s, String label) =>
+      s.coverage.coversState(label);
 
   /// The exact rows [compute] counted for ([label], [kind]) — so the
   /// drilldown list opened from a Discover card can never disagree with the

@@ -64,9 +64,9 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
                 appProvider.bookmarkedIds.contains(sRaw.id) ||
                 appProvider.bookmarkedIds.contains(sRaw.schemeCode),
             'chips': s.glanceChips.take(3).toList(),
-            'location': s.state.isNotEmpty
-                ? s.state
-                : context.l10n.regionAllIndia,
+            'location': s.state.isEmpty && sRaw.coverage.isNationwide
+                ? context.l10n.regionAllIndia
+                : s.state,
             'scheme': sRaw,
           };
         }(),

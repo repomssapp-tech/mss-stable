@@ -1,3 +1,4 @@
+import '../../../models/geo_coverage.dart';
 import '../../../models/mss_entity.dart';
 import '../mss_catalog_bundle.dart';
 import 'scheme_adapter_text_utils.dart';
@@ -18,6 +19,7 @@ class SchemeHeaderData {
   final String issuingBody;
   final String governmentLevel;
   final String state;
+  final GeoCoverage coverage;
   final String sector;
   final String schemeType;
   final String category;
@@ -47,6 +49,7 @@ class SchemeHeaderData {
     required this.issuingBody,
     required this.governmentLevel,
     required this.state,
+    required this.coverage,
     required this.sector,
     required this.schemeType,
     required this.category,
@@ -196,12 +199,19 @@ class SchemeHeaderResolver {
         (gov['levelText'] as String?) ?? (gov['level'] as String?) ?? 'Central';
     final governmentLevel = govLevelRaw.isNotEmpty ? govLevelRaw : 'Central';
 
-    final stateRaw = (gov['statesText'] as String?);
-    final state = (stateRaw != null && stateRaw.isNotEmpty)
+    // Coverage is read from the record's coverage fields only; government
+    // level says who runs the scheme, not where it applies. Missing coverage
+    // stays unknown (blank label) rather than defaulting to a region.
+    final coverage = GeoCoverage.fromGovernment(gov);
+    final stateRaw = (gov['statesText'] as String?)?.trim() ?? '';
+    final state = stateRaw.isNotEmpty
         ? stateRaw
-        : (governmentLevel.toLowerCase().contains('central')
-              ? 'All India'
-              : 'Tamil Nadu');
+        : coverage.isNationwide
+        ? 'All India'
+        : coverage.stateCodes
+              .map(GeoCoverage.stateName)
+              .whereType<String>()
+              .join(', ');
 
     final sector =
         (classification['sectorsText'] as String?) ??
@@ -329,6 +339,7 @@ class SchemeHeaderResolver {
       issuingBody: issuingBody,
       governmentLevel: governmentLevel,
       state: state,
+      coverage: coverage,
       sector: sector,
       schemeType: schemeType,
       category: category,

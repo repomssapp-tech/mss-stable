@@ -9004,6 +9004,18 @@ abstract class AppLocalizations {
   /// **'Temporarily unavailable'**
   String get schemeAppStatusUnavailable;
 
+  /// No description provided for @schemeAppStatusUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Not confirmed'**
+  String get schemeAppStatusUnknown;
+
+  /// No description provided for @officialInfoButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Official information'**
+  String get officialInfoButton;
+
   /// No description provided for @schemeDeadline.
   ///
   /// In en, this message translates to:

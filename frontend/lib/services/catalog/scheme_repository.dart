@@ -727,36 +727,16 @@ class SchemeRepository {
   }
 
   // ── 10. getSchemesByState() ───────────────────────────────────────────
-  /// Returns schemes applicable to a specific state or All India.
-  /// Offline-only.
+  /// Returns schemes whose catalog coverage includes [state] (a name, short
+  /// code or ISO code: "Tamil Nadu", "tn" and "IN-TN" are equivalent):
+  /// nationwide schemes plus those scoped to that state. Government level,
+  /// scheme names and IDs play no part; schemes with unknown coverage are
+  /// excluded. Offline-only.
   Future<List<Scheme>> getSchemesByState(String state) async {
     if (state.trim().isEmpty) return getAllSchemes();
 
-    final q = state.toLowerCase().trim();
     final all = await getAllSchemes();
-
-    final matches = all.where((s) {
-      final st = s.state.toLowerCase();
-      final code = s.schemeCode.toLowerCase();
-      final name = s.name.toLowerCase();
-      final isCentral =
-          s.governmentLevel.toLowerCase() == 'central' ||
-          st.contains('all india') ||
-          st.isEmpty;
-
-      if (q.contains('tamil nadu') || q == 'tn') {
-        return isCentral ||
-            st.contains('tamil') ||
-            st.contains('tn') ||
-            code.contains('tn_') ||
-            name.contains('tamil');
-      }
-
-      return isCentral ||
-          st.contains(q) ||
-          code.contains(q) ||
-          name.contains(q);
-    }).toList();
+    final matches = all.where((s) => s.coverage.coversState(state)).toList();
     return _rankByQuery(matches, state);
   }
 
@@ -795,9 +775,10 @@ class SchemeRepository {
       final keywords = '${s.searchKeywords} ${s.targetBeneficiary} ${s.sector}'
           .toLowerCase();
 
-      if (s.state.toLowerCase() == 'all india') score += 0.1;
+      if (s.coverage.isNationwide) score += 0.1;
       if (profile.state.isNotEmpty &&
-          s.state.toLowerCase().contains(profile.state.toLowerCase())) {
+          !s.coverage.isNationwide &&
+          s.coverage.coversState(profile.state)) {
         score += 0.2;
       }
 
