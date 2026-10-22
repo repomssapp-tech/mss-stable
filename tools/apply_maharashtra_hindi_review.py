@@ -19,6 +19,8 @@ What this does
 - Then normalises a few spellings and terms to the project's Hindi glossary
   (frontend/assets/catalog/translation_dictionary_hi.json): nukta spellings,
   "स्टाम्प शुल्क", "बिजली शुल्क", "इन्क्यूबेशन", and the Marathi "भांडवल".
+  Only Maharashtra schemes are touched, and never the `search` subtree
+  (keywords and aliases are matched against what users type).
 
 Idempotent. Rewrites the packs and the core manifest hashes via catalog_packs.
 
@@ -36,6 +38,8 @@ import catalog_packs  # noqa: E402
 PACKS = repo / "frontend" / "assets" / "catalog"
 REVIEW = repo / "tools" / "data" / "maharashtra_hindi_review_2026-10-23.json"
 INCLUDE_LOW = "--include-low" in sys.argv
+JURISDICTION = "maharashtra"  # the glossary pass and the patches touch only this pack's schemes
+SKIP_KEYS = {"search"}
 
 # Glossary-backed spelling and term normalisation, applied to Hindi text only.
 TERM_FIXES = [
@@ -88,6 +92,8 @@ def rewrite(node, path, fn):
     changed = 0
     if isinstance(node, dict):
         for key, child in node.items():
+            if key in SKIP_KEYS and not path:
+                continue  # search keywords/aliases are matched against user queries
             if isinstance(child, str):
                 if is_hindi_path(path + (key,)):
                     new = fn(child)
@@ -155,6 +161,8 @@ for sid, mapping in per_scheme.items():
 
 term_changes = 0
 for scheme in schemes.values():
+    if scheme.get("provenance", {}).get("jurisdiction") != JURISDICTION:
+        continue
 
     def fix_terms(text):
         for a, b in TERM_FIXES:
