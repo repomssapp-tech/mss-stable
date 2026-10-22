@@ -3589,16 +3589,16 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get faqMissingDocsA =>
-      'திட்ட விவரங்கள் பக்கத்தில், \"Missing\" எனக் குறிக்கப்பட்ட எந்த ஆவணத்திற்கும் \"Get Document\" இணைப்பு இருக்கும்; அது உங்களை நேரடியாக அதிகாரப்பூர்வ தளத்திற்கு (எ.கா., Aadhaar-க்கு UIDAI, PAN-க்கு NSDL) திருப்பிவிடும்.';
+      'திட்ட விவரங்கள் பக்கத்தில், \"இல்லை\" எனக் குறிக்கப்பட்ட எந்த ஆவணத்திற்கும் \"ஆவணத்தைப் பெறுக\" இணைப்பு இருக்கும்; அது உங்களை நேரடியாக அதிகாரப்பூர்வ தளத்திற்கு (எ.கா., ஆதாருக்கு யுஐடிஏஐ, பானுக்கு என்எஸ்டிஎல்) திருப்பிவிடும்.';
 
   @override
   String get helpCatGeneralInquiry => 'பொது விசாரணை';
 
   @override
-  String get helpFaqAnswerTitle => 'FAQ பதில்';
+  String get helpFaqAnswerTitle => 'அடிக்கடி கேட்கப்படும் கேள்வி: பதில்';
 
   @override
-  String get helpAllFaqsTitle => 'அனைத்து FAQ-களும்';
+  String get helpAllFaqsTitle => 'அடிக்கடி கேட்கப்படும் கேள்விகள்';
 
   @override
   String get helpReportIssueTitle => 'சிக்கலைப் புகாரளிக்கவும்';
@@ -3695,14 +3695,14 @@ class AppLocalizationsTa extends AppLocalizations {
   String get helpHeaderSubtitle => 'உங்களுக்கு உதவ நாங்கள் இங்கே இருக்கிறோம்';
 
   @override
-  String get helpFaqsGroupTitle => 'FAQ-கள்';
+  String get helpFaqsGroupTitle => 'அடிக்கடி கேட்கப்படும் கேள்விகள்';
 
   @override
   String get helpFaqsGroupSubtitle =>
       'பொதுவான கேள்விகளுக்கான பதில்களைக் காணுங்கள்';
 
   @override
-  String get helpViewAllFaqs => 'அனைத்து FAQ-களையும் காண்க';
+  String get helpViewAllFaqs => 'அனைத்து கேள்விகளையும் காண்க';
 
   @override
   String get helpContactGroupTitle => 'ஆதரவைத் தொடர்பு கொள்ளுங்கள்';

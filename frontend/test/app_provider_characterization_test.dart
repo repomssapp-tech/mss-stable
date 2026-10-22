@@ -70,11 +70,11 @@ Future<void> _until(
   }
 }
 
-void _expectSignedOutDefaults(AppProvider p) {
+void _expectSignedOutDefaults(AppProvider p, {String language = 'en'}) {
   expect(p.isLoggedIn, isFalse);
   expect(p.isLoggingOut, isFalse);
   expect(p.mobileNumber, isEmpty);
-  expect(p.selectedLanguage, 'en');
+  expect(p.selectedLanguage, language);
   expect(p.navigationMode, 'regular');
   expect(p.profile.name, isEmpty);
   expect(p.profile.profileCompleted, isFalse);
@@ -208,11 +208,11 @@ void main() {
     await tester.runAsync(() => provider.logout(hostContext));
     await tester.pump();
 
-    _expectSignedOutDefaults(provider);
-    expect(
-      await SessionCacheService.instance.getLanguage(),
-      anyOf(isNull, 'en'),
-    );
+    // The interface language belongs to the device and survives a logout
+    // (issue 148: Tamil flipped back to English on the login screen).
+    _expectSignedOutDefaults(provider, language: 'ta');
+    expect(provider.profile.language, 'ta');
+    expect(await SessionCacheService.instance.getLanguage(), 'ta');
     expect(await SessionCacheService.instance.loadProfile(), isNull);
 
     // Drop the pushed SplashScreen before its 3.2s timer / 1.6s animation

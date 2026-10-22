@@ -22,7 +22,7 @@ const _faqEligibilityTa =
 const _headerSupportEn = 'Help & Support';
 const _headerSupportTa = 'உதவி & ஆதரவு';
 const _viewAllFaqsEn = 'View all FAQs';
-const _viewAllFaqsTa = 'அனைத்து FAQ-களையும் காண்க';
+const _viewAllFaqsTa = 'அனைத்து கேள்விகளையும் காண்க';
 
 Widget _host(Locale locale, Widget screen) {
   return ChangeNotifierProvider<AppProvider>(

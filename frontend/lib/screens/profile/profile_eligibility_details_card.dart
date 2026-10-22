@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/l10n.dart';
+import '../../models/user_profile.dart';
 import '../../providers/app_state_provider.dart';
 import '../../utils/app_spacing.dart';
 import 'profile_value_formatters.dart';
@@ -11,6 +12,9 @@ class ProfileEligibilityDetailsCard extends StatelessWidget {
   final AppProvider provider;
 
   const ProfileEligibilityDetailsCard({super.key, required this.provider});
+
+  static String _education(UserProfile p) =>
+      p.educationLevel.isNotEmpty ? p.educationLevel : p.qualification;
 
   @override
   Widget build(BuildContext context) {
@@ -77,9 +81,12 @@ class ProfileEligibilityDetailsCard extends StatelessWidget {
             children: [
               ProfileInfoCol(
                 label: context.l10n.labelEducationLevel,
-                value: profile.qualification.isNotEmpty
+                // educationLevel is the field the server stores and returns;
+                // qualification is only a local mirror, so it can be stale
+                // after a sync (issue 148: education never updated).
+                value: _education(profile).isNotEmpty
                     ? ProfileValueFormatters.getLocalizedProfileValue(
-                        profile.qualification,
+                        _education(profile),
                         context,
                       )
                     : '-',
