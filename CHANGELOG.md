@@ -18,6 +18,9 @@ Unreleased items under a new heading, commit, and tag the commit.
 - Tapping a notification opens a details screen with the full message, the time it arrived, and delete.
 - A light haptic tick on every tap, with a Haptic feedback switch in Settings (on by default).
 
+### Fixed
+- Hindi is offered in the language picker again. Catalogs published from the admin panel carry no language list, and the app read that as "Hindi off".
+
 ### Changed
 - The notifications panel is one list grouped Today / Yesterday / Earlier; long press to select.
 - The bottom navigation bar is a floating frosted-glass blue pill.
