@@ -8,6 +8,7 @@ import '../../l10n/l10n.dart';
 import 'scheme_details_screen.dart';
 import '../../utils/responsive.dart';
 import '../../utils/app_colors.dart';
+import '../../utils/app_size.dart';
 import '../../utils/app_spacing.dart';
 import '../../widgets/scheme/inactive_scheme_badge.dart';
 
@@ -451,6 +452,9 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
               elevation: 0,
+              // A full-height touch target: the 10.5 sp Tamil label alone
+              // left a sliver that was easy to miss.
+              minimumSize: const Size(0, AppSize.tapTarget),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
                 side: const BorderSide(color: Color(0xFFBFDBFE)),
