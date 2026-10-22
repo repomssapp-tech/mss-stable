@@ -41,3 +41,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-10-21 | Anto-Merary | #141 | unspecified | Replace LiveKit with accessible Sarvam voice conversations |
 | 2026-10-21 | nyxri0f8 | #142 | unspecified | chore(release): app 1.4.3+11 |
 | 2026-10-22 | nyxri0f8 | #146 | unspecified | Fix toasts behind sheets, filter counts at startup, catalog coverage, and #145 UI findings |
+| 2026-10-22 | nyxri0f8 | #147 | unspecified | fix(hindi): resolve Hindi QA findings (#144) |
