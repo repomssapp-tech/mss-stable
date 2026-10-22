@@ -12,6 +12,7 @@ import '../../utils/app_colors.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/share_text.dart';
 import '../../widgets/assistant/voice_assistant_overlay.dart';
+import '../../widgets/common/app_bottom_nav_bar.dart';
 import '../../widgets/common/app_toast.dart';
 import '../../widgets/common/standard_page_header.dart';
 import '../../widgets/scheme/filter_panel.dart';
@@ -816,6 +817,25 @@ class SearchScreenState extends State<SearchScreen> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
+      // A pushed browse / results page sits above the tab shell and hid its
+      // bar; show it again so the user can switch tab from here.
+      bottomNavigationBar:
+          widget.showBack && provider.navigationMode != 'companion'
+          ? AppBottomNavBar(
+              selectedIndex: provider.currentTabIndex,
+              onSelected: (i) {
+                provider.updateTabIndex(i);
+                Navigator.of(context).popUntil((route) => route.isFirst);
+              },
+              labels: [
+                context.l10n.navHome,
+                context.l10n.navSearch,
+                context.l10n.navDiscover,
+                context.l10n.navSaved,
+                context.l10n.navProfile,
+              ],
+            )
+          : null,
       appBar: widget.showBack
           ? StandardPageHeader(
               title: pageTitle,
