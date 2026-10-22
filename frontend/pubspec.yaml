@@ -162,15 +162,19 @@ flutter:
           weight: 600
         - asset: assets/fonts/Poppins-Bold.ttf
           weight: 700
+    # Static per-weight instances of the variable font: Flutter only picks a
+    # variable font's weight axis when fontVariations is set, and the ~600
+    # GoogleFonts.* call sites never set it, so Tamil text rendered at Regular
+    # whatever weight was asked for (issue 148).
     - family: NotoSansTamil
       fonts:
-        - asset: assets/fonts/NotoSansTamil-Variable.ttf
+        - asset: assets/fonts/NotoSansTamil-Regular.ttf
           weight: 400
-        - asset: assets/fonts/NotoSansTamil-Variable.ttf
+        - asset: assets/fonts/NotoSansTamil-Medium.ttf
           weight: 500
-        - asset: assets/fonts/NotoSansTamil-Variable.ttf
+        - asset: assets/fonts/NotoSansTamil-SemiBold.ttf
           weight: 600
-        - asset: assets/fonts/NotoSansTamil-Variable.ttf
+        - asset: assets/fonts/NotoSansTamil-Bold.ttf
           weight: 700
     - family: NotoSansDevanagari
       fonts:
