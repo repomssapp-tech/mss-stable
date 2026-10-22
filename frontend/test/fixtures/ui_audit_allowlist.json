@@ -1,21 +1,4 @@
 {
- "hi": [
-  "!! layout error: ListTile background color or ink splashes may be invisible. The ListTile is wrapped in a DecoratedBox that has a background color. Because L",
-  "ASCEND कार्यशालाएँ खोजें",
-  "DPDPA 2023: केवल आपको कल्याणकारी योजनाओं से जोड़ने के लिए उपयोग किया जाता है। कभी साझा नहीं किया.",
-  "English",
-  "Hindi",
-  "MoM वृद्धि (%)",
-  "RXIL, M1xchange और इनवॉइसमार्ट पंजीकरण चरण",
-  "SaaS / टेक",
-  "TIIC, स्टार्टअपTN, FaMeTN, SIPCOT क्षेत्रीय सेवा विवरण",
-  "Tamil",
-  "govt",
-  "schemes",
-  "tax_gst",
-  "शुल्क वापसी योजनाएं (RoDTEP, RoSCTL) और कमियां",
-  "• Rajalakshmi Institute of Technology (RIT)\n• Swadeshi Shodh Sansthan (SSS TN Chapter)"
- ],
  "ta": [
   "!! layout error: ListTile background color or ink splashes may be invisible. The ListTile is wrapped in a DecoratedBox that has a background color. Because L",
   "15% CLCSS தொழில்நுட்பம் & மூலதன மானியங்களுக்கு தகுதி",
@@ -31,8 +14,11 @@
   "PM Vishwakarma Yojana",
   "Post Matric உதவித்தொகை திட்டம்",
   "RXIL, M1xchange & Invoicemart பதிவு படிகள்",
+  "SIPCOT",
   "SME IPO பட்டியல் தேவைகள் (BSE SME & NSE Emerge)",
   "SaaS / தொழில்நுட்பம்",
+  "StartupTN / FaMeTN",
+  "TIIC",
   "TIIC, StartupTN, FaMeTN, SIPCOT பிராந்திய சேவை விவரங்கள்",
   "Tamil",
   "schemes",
@@ -54,6 +40,26 @@
   "பெருநிறுவன சமூகப் பொறுப்பு (CSR) செயல்படுத்தும் நிறுவனங்கள் & அரசு சாரா நிறுவனங்களின் (NGO) பட்டியல்",
   "மின்னணு கையொப்பச் சான்றிதழ் (DSC)",
   "முயற்சிக்க: PMEGP, Startup India, எம் எஸ் எம் ஈ கடன்கள் தேடுங்கள்...",
+  "• Rajalakshmi Institute of Technology (RIT)\n• Swadeshi Shodh Sansthan (SSS TN Chapter)"
+ ],
+ "hi": [
+  "!! layout error: ListTile background color or ink splashes may be invisible. The ListTile is wrapped in a DecoratedBox that has a background color. Because L",
+  "ASCEND कार्यशालाएँ खोजें",
+  "DPDPA 2023: केवल आपको कल्याणकारी योजनाओं से जोड़ने के लिए उपयोग किया जाता है। कभी साझा नहीं किया.",
+  "English",
+  "Hindi",
+  "MoM वृद्धि (%)",
+  "RXIL, M1xchange और इनवॉइसमार्ट पंजीकरण चरण",
+  "SIPCOT",
+  "SaaS / टेक",
+  "StartupTN / FaMeTN",
+  "TIIC",
+  "TIIC, स्टार्टअपTN, FaMeTN, SIPCOT क्षेत्रीय सेवा विवरण",
+  "Tamil",
+  "govt",
+  "schemes",
+  "tax_gst",
+  "शुल्क वापसी योजनाएं (RoDTEP, RoSCTL) और कमियां",
   "• Rajalakshmi Institute of Technology (RIT)\n• Swadeshi Shodh Sansthan (SSS TN Chapter)"
  ]
 }

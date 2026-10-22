@@ -7,7 +7,9 @@ import '../../l10n/app_localizations.dart';
 import '../../l10n/l10n.dart';
 import '../../services/recommendation/indian_states.dart';
 import '../profile/profile_value_formatters.dart';
+import '../../utils/app_colors.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/app_text.dart';
 import '../../utils/app_theme.dart';
 import '../../widgets/common/app_toast.dart';
 import '../../widgets/legal/data_processing_consent_modal.dart';
@@ -524,6 +526,36 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                 ),
               ),
             ),
+
+            // 3. Final-submit overlay: the cloud sync can take a few seconds,
+            // so show progress instead of an idle-looking form.
+            if (_isSubmitting)
+              Positioned.fill(
+                child: ColoredBox(
+                  color: AppColors.textPrimary.withValues(alpha: 0.35),
+                  child: Center(
+                    child: Semantics(
+                      liveRegion: true,
+                      label: l10n.profileSettingUp,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const CircularProgressIndicator(
+                            color: AppColors.textOnPrimary,
+                          ),
+                          const SizedBox(height: AppSpacing.lg),
+                          Text(
+                            l10n.profileSettingUp,
+                            style: context.text.button.copyWith(
+                              color: AppColors.textOnPrimary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

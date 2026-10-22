@@ -600,8 +600,13 @@ class SearchScreenState extends State<SearchScreen> {
 
     final int requestGeneration = ++_searchGeneration;
 
+    // Refining a search that is already showing results keeps them on screen
+    // until the new ones arrive; swapping to the skeleton on every keystroke
+    // made the list flash.
     setState(() {
-      _currentState = SearchState.loading;
+      if (_currentState != SearchState.results) {
+        _currentState = SearchState.loading;
+      }
       _didYouMean = null;
     });
 

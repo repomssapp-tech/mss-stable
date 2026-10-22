@@ -19,15 +19,17 @@ class SearchLoadingSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      key: const ValueKey("LoadingContent"),
-      primary: false,
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: 5,
-      itemBuilder: (context, index) {
-        return const ShimmerSkeletonCard();
-      },
+    return ShimmerSweep(
+      child: ListView.builder(
+        key: const ValueKey("LoadingContent"),
+        primary: false,
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: 5,
+        itemBuilder: (context, index) {
+          return const ShimmerSkeletonCard();
+        },
+      ),
     );
   }
 }

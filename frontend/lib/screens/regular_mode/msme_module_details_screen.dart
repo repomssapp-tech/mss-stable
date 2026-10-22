@@ -42,50 +42,57 @@ class MSMEModuleDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
-      appBar: StandardPageHeader(
-        title: CentralizedTranslator.instance.localize(title),
-        elevation: 1,
-      ),
-      body: SingleChildScrollView(
-        physics: const ClampingScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Module Header Card & What the User Gets
-            MsmeHeaderSection(
-              moduleId: moduleId,
-              title: title,
-              description: description,
-              icon: icon,
-              iconColor: iconColor,
-              themeColor: themeColor,
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: AppSpacing.xxl),
-
-                  // Interactive Feature Panel (The Core Function)
-                  _buildInteractiveFeaturePanel(),
-
-                  const SizedBox(height: AppSpacing.xxl),
-
-                  // Main Features Inside Section
-                  MsmeMainFeaturesSection(
-                    moduleId: moduleId,
-                    iconColor: iconColor,
-                  ),
-
-                  const SizedBox(height: AppSpacing.xxxl),
-                ],
+    // The app bar title is empty (see below), so name the route for screen
+    // readers with the same localized text the header card shows.
+    return Semantics(
+      scopesRoute: true,
+      explicitChildNodes: true,
+      namesRoute: true,
+      label: CentralizedTranslator.instance.localize(title),
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF8FAFC),
+        // The header card below carries the module title; the bar keeps only
+        // the back arrow so the title is not shown twice.
+        appBar: const StandardPageHeader(title: '', elevation: 1),
+        body: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Module Header Card & What the User Gets
+              MsmeHeaderSection(
+                moduleId: moduleId,
+                title: title,
+                description: description,
+                icon: icon,
+                iconColor: iconColor,
+                themeColor: themeColor,
               ),
-            ),
-          ],
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: AppSpacing.xxl),
+
+                    // Interactive Feature Panel (The Core Function)
+                    _buildInteractiveFeaturePanel(),
+
+                    const SizedBox(height: AppSpacing.xxl),
+
+                    // Main Features Inside Section
+                    MsmeMainFeaturesSection(
+                      moduleId: moduleId,
+                      iconColor: iconColor,
+                    ),
+
+                    const SizedBox(height: AppSpacing.xxxl),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

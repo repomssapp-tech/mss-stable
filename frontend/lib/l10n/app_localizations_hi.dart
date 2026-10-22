@@ -2062,6 +2062,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get completeProfile => 'संपूर्ण प्रोफ़ाइल';
 
   @override
+  String get profileSettingUp => 'आपकी प्रोफ़ाइल तैयार की जा रही है…';
+
+  @override
   String get incomeNoIncome => 'कोई आय नहीं';
 
   @override
@@ -3760,13 +3763,21 @@ class AppLocalizationsHi extends AppLocalizations {
       'प्राइवेट लिमिटेड/एलएलपी/पार्टनरशिप के रूप में पंजीकृत';
 
   @override
-  String get dpiitCriteriaRegisteredSub => 'भारत में पंजीकृत होना चाहिए';
+  String get dpiitCriteriaRegisteredSub =>
+      'भारत में पंजीकृत होना चाहिए। एकल स्वामित्व (प्रोप्राइटरशिप) पात्र नहीं हैं।';
 
   @override
   String get dpiitCriteriaAge => 'निगमन की आयु 10 वर्ष से कम है';
 
   @override
   String get dpiitCriteriaAgeSub => 'निगमन दिनांक से';
+
+  @override
+  String get dpiitCriteriaNotSplit =>
+      'किसी मौजूदा कारोबार को बाँटकर या पुनर्गठित करके नहीं बनाया गया';
+
+  @override
+  String get dpiitCriteriaNotSplitSub => 'वास्तव में नई इकाई होनी चाहिए';
 
   @override
   String get dpiitCriteriaTurnover =>
@@ -3785,11 +3796,16 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get dpiitResultEligible =>
-      'DPIIT स्टार्टअप इंडिया मान्यता के लिए अत्यधिक योग्य!';
+      'आप DPIIT के सभी मानदंड पूरे करते प्रतीत होते हैं। मान्यता के लिए Startup India पोर्टल पर आवेदन करें।';
 
   @override
   String get dpiitResultNotEligible =>
-      'पात्र नहीं है। अर्हता प्राप्त करने के लिए स्टार्टअप को सभी 4 मानदंडों को पूरा करना होगा।';
+      'अभी पात्र नहीं। स्टार्टअप को सभी 5 मानदंड पूरे करने होंगे।';
+
+  @override
+  String dpiitResultUnmet(String criteria) {
+    return 'पूरे नहीं हुए: $criteria';
+  }
 
   @override
   String get dpiitCheckEligibility => 'पात्रता जांचें';

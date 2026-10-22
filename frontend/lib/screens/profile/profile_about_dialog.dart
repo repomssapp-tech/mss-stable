@@ -71,7 +71,7 @@ void showAboutAppDialog(BuildContext context) {
                         builder: (context, snapshot) {
                           final v = snapshot.data;
                           return Text(
-                            v == null ? '' : 'v${v.name} (${v.build})',
+                            v == null ? '' : 'v${v.label}',
                             style: GoogleFonts.inter(
                               fontSize: 11,
                               fontWeight: FontWeight.bold,

@@ -19,9 +19,13 @@ int calculateProfileCompletionPercentage(UserProfile profile) {
   checks.add(profile.dob != null);
   checks.add(profile.gender.trim().isNotEmpty);
 
-  // Address Info (6)
-  checks.add(profile.house.trim().isNotEmpty);
-  checks.add(profile.area.trim().isNotEmpty);
+  // Address Info (6). The server stores one address line (`house`) and has
+  // no separate `area`, so either one fills both slots: a profile restored
+  // from the server must not stay incomplete because `area` came back empty.
+  final hasAddressLine =
+      profile.house.trim().isNotEmpty || profile.area.trim().isNotEmpty;
+  checks.add(hasAddressLine);
+  checks.add(hasAddressLine);
   checks.add(profile.city.trim().isNotEmpty);
   checks.add(profile.district.trim().isNotEmpty);
   checks.add(profile.state.trim().isNotEmpty);
@@ -74,8 +78,7 @@ List<String> calculateMissingProfileSections(UserProfile profile) {
   }
 
   // Address
-  if (profile.house.trim().isEmpty ||
-      profile.area.trim().isEmpty ||
+  if ((profile.house.trim().isEmpty && profile.area.trim().isEmpty) ||
       profile.state.trim().isEmpty ||
       profile.district.trim().isEmpty ||
       profile.city.trim().isEmpty ||

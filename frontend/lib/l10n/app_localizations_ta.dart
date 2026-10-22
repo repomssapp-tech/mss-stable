@@ -2084,6 +2084,9 @@ class AppLocalizationsTa extends AppLocalizations {
   String get completeProfile => 'சுயவிவரத்தை நிறைவு செய்க';
 
   @override
+  String get profileSettingUp => 'உங்கள் சுயவிவரம் அமைக்கப்படுகிறது…';
+
+  @override
   String get incomeNoIncome => 'வருமானம் இல்லை';
 
   @override
@@ -3802,7 +3805,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get dpiitCriteriaRegisteredSub =>
-      'இந்தியாவில் பதிவு செய்யப்பட்டிருக்க வேண்டும்';
+      'இந்தியாவில் பதிவு செய்யப்பட்டிருக்க வேண்டும். தனி உரிமையாளர் நிறுவனங்கள் தகுதி பெறாது.';
 
   @override
   String get dpiitCriteriaAge =>
@@ -3810,6 +3813,14 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get dpiitCriteriaAgeSub => 'நிறுவனம் தொடங்கிய தேதியிலிருந்து';
+
+  @override
+  String get dpiitCriteriaNotSplit =>
+      'ஏற்கனவே உள்ள தொழிலைப் பிரித்தோ மறுசீரமைத்தோ உருவாக்கப்படவில்லை';
+
+  @override
+  String get dpiitCriteriaNotSplitSub =>
+      'உண்மையிலேயே புதிய நிறுவனமாக இருக்க வேண்டும்';
 
   @override
   String get dpiitCriteriaTurnover =>
@@ -3828,11 +3839,16 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get dpiitResultEligible =>
-      'DPIIT Startup India அங்கீகாரத்திற்கு மிகவும் தகுதியானது!';
+      'நீங்கள் DPIIT-இன் அனைத்து அளவுகோல்களையும் பூர்த்தி செய்வதாகத் தெரிகிறது. அங்கீகாரத்திற்கு Startup India இணையதளத்தில் விண்ணப்பிக்கவும்.';
 
   @override
   String get dpiitResultNotEligible =>
-      'தகுதியில்லை. தகுதிபெற ஸ்டார்ட்அப்கள் 4 நிபந்தனைகளையும் பூர்த்தி செய்ய வேண்டும்.';
+      'இன்னும் தகுதி இல்லை. ஸ்டார்ட்அப் அனைத்து 5 அளவுகோல்களையும் பூர்த்தி செய்ய வேண்டும்.';
+
+  @override
+  String dpiitResultUnmet(String criteria) {
+    return 'பூர்த்தியாகாதவை: $criteria';
+  }
 
   @override
   String get dpiitCheckEligibility => 'தகுதியைச் சரிபார்க்கவும்';

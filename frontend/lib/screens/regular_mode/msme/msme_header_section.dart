@@ -68,12 +68,15 @@ class MsmeHeaderSection extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      CentralizedTranslator.instance.localize(title),
-                      style: GoogleFonts.poppins(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFF0F172A),
+                    Semantics(
+                      header: true,
+                      child: Text(
+                        CentralizedTranslator.instance.localize(title),
+                        style: GoogleFonts.poppins(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFF0F172A),
+                        ),
                       ),
                     ),
                     const SizedBox(height: AppSpacing.xs),
