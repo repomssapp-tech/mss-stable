@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import '../../models/scheme_filter.dart';
 import '../../models/scheme_model.dart';
 import '../../models/user_profile.dart';
 import '../search/hybrid_scheme_search.dart';
@@ -727,16 +728,17 @@ class SchemeRepository {
   }
 
   // ── 10. getSchemesByState() ───────────────────────────────────────────
-  /// Returns schemes whose catalog coverage includes [state] (a name, short
-  /// code or ISO code: "Tamil Nadu", "tn" and "IN-TN" are equivalent):
-  /// nationwide schemes plus those scoped to that state. Government level,
-  /// scheme names and IDs play no part; schemes with unknown coverage are
-  /// excluded. Offline-only.
+  /// Returns the schemes available in [state] (a name in any supported
+  /// language, or a code such as `tn` / `IN-TN`): nationwide schemes plus the
+  /// ones limited to that state. Coverage comes from the catalog's
+  /// structured `appliesNationally` / `states` (see [schemeAppliesInState]),
+  /// never from the government level, a scheme's name or its id.
+  /// Offline-only.
   Future<List<Scheme>> getSchemesByState(String state) async {
     if (state.trim().isEmpty) return getAllSchemes();
 
     final all = await getAllSchemes();
-    final matches = all.where((s) => s.coverage.coversState(state)).toList();
+    final matches = all.where((s) => schemeAppliesInState(s, state)).toList();
     return _rankByQuery(matches, state);
   }
 
@@ -775,10 +777,9 @@ class SchemeRepository {
       final keywords = '${s.searchKeywords} ${s.targetBeneficiary} ${s.sector}'
           .toLowerCase();
 
-      if (s.coverage.isNationwide) score += 0.1;
+      if (s.state.toLowerCase() == 'all india') score += 0.1;
       if (profile.state.isNotEmpty &&
-          !s.coverage.isNationwide &&
-          s.coverage.coversState(profile.state)) {
+          s.state.toLowerCase().contains(profile.state.toLowerCase())) {
         score += 0.2;
       }
 

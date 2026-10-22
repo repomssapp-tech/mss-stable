@@ -198,7 +198,10 @@ void showFeedbackBottomSheet(BuildContext context) {
                                   description: text,
                                 );
                               } on SupportTicketValidationException catch (e) {
-                                AppToast.showWarning(context, e.message);
+                                AppToast.showWarning(
+                                  context,
+                                  supportTicketInputErrorText(l10n, e),
+                                );
                                 return;
                               }
 
@@ -221,7 +224,10 @@ void showFeedbackBottomSheet(BuildContext context) {
                                 }
                               } on SupportTicketRateLimitException catch (e) {
                                 if (context.mounted) {
-                                  AppToast.showWarning(context, e.message);
+                                  AppToast.showWarning(
+                                    context,
+                                    supportTicketRateLimitText(l10n, e),
+                                  );
                                 }
                               } catch (e) {
                                 debugPrint(

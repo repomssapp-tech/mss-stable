@@ -48,24 +48,28 @@ class Step2GenderAgeSelector extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // Gender Row
-        Row(
-          children: [
-            for (int i = 0; i < genders.length; i++) ...[
-              if (i > 0) const SizedBox(width: AppSpacing.sm),
-              Expanded(
-                child: _buildGenderTile(
-                  label: genders[i]['label'] as String,
-                  value: genders[i]['value'] as String,
-                  icon: genders[i]['icon'] as IconData,
-                  color: genders[i]['color'] as Color,
-                  isSelected:
-                      selectedGender.toLowerCase() ==
-                      (genders[i]['value'] as String).toLowerCase(),
+        // Gender Row. Equal-height tiles, so a label that wraps to a second
+        // line (the Tamil "third gender" label) keeps the row even.
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (int i = 0; i < genders.length; i++) ...[
+                if (i > 0) const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: _buildGenderTile(
+                    label: genders[i]['label'] as String,
+                    value: genders[i]['value'] as String,
+                    icon: genders[i]['icon'] as IconData,
+                    color: genders[i]['color'] as Color,
+                    isSelected:
+                        selectedGender.toLowerCase() ==
+                        (genders[i]['value'] as String).toLowerCase(),
+                  ),
                 ),
-              ),
+              ],
             ],
-          ],
+          ),
         ),
 
         const SizedBox(height: AppSpacing.xxl),
@@ -224,6 +228,7 @@ class Step2GenderAgeSelector extends StatelessWidget {
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               width: 44,
@@ -244,7 +249,9 @@ class Step2GenderAgeSelector extends StatelessWidget {
             Text(
               label,
               textAlign: TextAlign.center,
-              maxLines: 1,
+              // Two lines: a three-column row is too narrow for some Tamil
+              // and Hindi labels on one line.
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.inter(
                 fontSize: 14,

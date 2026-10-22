@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import '../utils/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/utils/constants.dart';
-import 'package:frontend/services/catalog/centralized_translator.dart';
 import 'package:frontend/l10n/l10n.dart';
 import 'package:frontend/widgets/common/app_toast.dart';
 import 'regular_mode/basic_profile_screen.dart';
@@ -134,9 +134,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           provider.markNotificationsRead(_selectedIds.toList());
                           AppToast.showSuccess(
                             context,
-                            CentralizedTranslator.instance.localize(
-                              'Selected notifications marked as read',
-                            ),
+                            context.l10n.notifToastSelectedRead,
                           );
                           setState(() {
                             _isSelectionMode = false;
@@ -147,7 +145,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 IconButton(
                   icon: const Icon(
                     Icons.delete_outline,
-                    color: Color(0xFFEF4444),
+                    color: AppColors.danger,
                     size: 22,
                   ),
                   tooltip: context.l10n.notifTooltipDeleteSelected,
@@ -157,9 +155,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           provider.deleteNotifications(_selectedIds.toList());
                           AppToast.showSuccess(
                             context,
-                            CentralizedTranslator.instance.localize(
-                              'Selected notifications deleted',
-                            ),
+                            context.l10n.notifToastSelectedDeleted,
                           );
                           setState(() {
                             _isSelectionMode = false;
@@ -187,17 +183,13 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       provider.markAllNotificationsRead();
                       AppToast.showSuccess(
                         context,
-                        CentralizedTranslator.instance.localize(
-                          'All notifications marked as read',
-                        ),
+                        context.l10n.notifToastAllRead,
                       );
                     } else if (value == 'delete_all') {
                       provider.deleteAllNotifications();
                       AppToast.showSuccess(
                         context,
-                        CentralizedTranslator.instance.localize(
-                          'All notifications deleted',
-                        ),
+                        context.l10n.notifToastAllDeleted,
                       );
                     } else if (value == 'select') {
                       setState(() {
@@ -233,7 +225,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         children: [
                           const Icon(
                             Icons.delete_sweep_outlined,
-                            color: Color(0xFFEF4444),
+                            color: AppColors.danger,
                             size: 20,
                           ),
                           const SizedBox(width: AppSpacing.sm),
@@ -243,7 +235,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                               softWrap: true,
                               style: GoogleFonts.inter(
                                 fontSize: 13.5,
-                                color: const Color(0xFFEF4444),
+                                color: AppColors.danger,
                               ),
                             ),
                           ),

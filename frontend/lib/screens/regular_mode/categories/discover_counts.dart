@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../models/scheme_model.dart';
+import '../../../models/scheme_filter.dart';
 import '../../../providers/app_state_provider.dart';
 import '../../../l10n/l10n.dart';
 import '../../../services/catalog/centralized_translator.dart';
@@ -105,12 +106,12 @@ String localizedProperName(String enName, AppProvider provider) {
 /// india" / blank-state scheme as matching *every* state name.
 ///
 /// Design decisions (see PR body):
-///   • State  — a scheme counts for a state if its catalog coverage is
-///     nationwide (`appliesNationally`) OR its explicit coverage states
-///     include that state (`GeoCoverage.coversState`). Government level is
-///     ownership, not coverage: a central scheme limited to the North East
-///     does not count for Tamil Nadu. The nationwide overlap is INTENTIONAL
-///     and honest: those schemes genuinely apply there.
+///   • State  — a scheme counts for a state if it is nationally applicable
+///     (central / central+state / Pan-India) OR its own `state` field names
+///     that state. The central-schemes-count-for-every-state overlap is
+///     INTENTIONAL and honest: those schemes genuinely apply there. Tamil
+///     Nadu therefore legitimately shows more than Maharashtra (it has
+///     state-scoped schemes on top of the national baseline).
 ///   • Ministry — matched on the structured `ministry` field (falling back to
 ///     `sponsoringBody`), via a small normalized-alias map. NOT a substring
 ///     search of overview text. Ministries with no schemes legitimately
@@ -457,10 +458,10 @@ class DiscoverCounts {
               '${s.targetBeneficiary} ${s.searchKeywords} ${s.overview} ${s.benefits}')
           .toLowerCase();
 
-  /// A scheme that applies across India regardless of the user's state, per
-  /// its catalog coverage (`appliesNationally`). A central scheme limited to
-  /// some states is not nationally applicable.
-  static bool nationallyApplicable(Scheme s) => s.coverage.isNationwide;
+  /// A scheme that applies across India regardless of the user's state
+  /// (`classification.government.appliesNationally`). A central scheme
+  /// limited to some states, or one whose coverage is unknown, is not.
+  static bool nationallyApplicable(Scheme s) => schemeAppliesNationally(s);
 
   static bool matchesCategory(Scheme s, String label) {
     final keywords = _categoryKeywords[label];
@@ -477,7 +478,7 @@ class DiscoverCounts {
   }
 
   static bool matchesState(Scheme s, String label) =>
-      s.coverage.coversState(label);
+      schemeAppliesInState(s, label);
 
   /// The exact rows [compute] counted for ([label], [kind]) — so the
   /// drilldown list opened from a Discover card can never disagree with the

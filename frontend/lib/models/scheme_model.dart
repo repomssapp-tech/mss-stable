@@ -1,5 +1,4 @@
 import '../services/catalog/language_pack_manager.dart';
-import 'geo_coverage.dart';
 import 'scheme_extras.dart';
 
 class SchemeDocument {
@@ -176,14 +175,21 @@ class Scheme {
   final String governmentLevel; // Central / State
   final String sponsoringBody; // issuing_department
   final String issuingBody; // issuing_body (implementing agency)
+  /// Display text of where the scheme applies ("All India", "Maharashtra",
+  /// "North Eastern States and Sikkim"). For filtering use [appliesNationally]
+  /// and [stateCodes]; `schemeAppliesInState` in scheme_filter.dart combines
+  /// them.
   final String state;
 
-  /// Where the scheme applies, from the catalog's coverage data. Null on
-  /// schemes built without it, which fall back to reading [state] as a label.
-  final GeoCoverage? geoCoverage;
+  /// Whether the scheme applies in every state, from the catalog's
+  /// `classification.government.appliesNationally`. Null when the record does
+  /// not say, which is different from false: false with no [stateCodes]
+  /// means the coverage is unknown.
+  final bool? appliesNationally;
 
-  GeoCoverage get coverage => geoCoverage ?? GeoCoverage.fromLabel(state);
-
+  /// ISO 3166-2 codes of the states the scheme is limited to (`IN-TN`), from
+  /// `classification.government.states`. Empty when nationwide or unknown.
+  final List<String> stateCodes;
   final String sector;
   final String targetBeneficiary;
   final String schemeType; // assistance_type
@@ -299,7 +305,8 @@ class Scheme {
     this.sponsoringBody = '',
     this.issuingBody = '',
     this.state = 'All India',
-    this.geoCoverage,
+    this.appliesNationally,
+    this.stateCodes = const [],
     this.sector = '',
     this.targetBeneficiary = '',
     this.schemeType = '',
@@ -448,7 +455,8 @@ class Scheme {
       sponsoringBody: sponsoringBody,
       issuingBody: issuingBody,
       state: state,
-      geoCoverage: geoCoverage,
+      appliesNationally: appliesNationally,
+      stateCodes: stateCodes,
       sector: sector,
       targetBeneficiary: targetBeneficiary,
       schemeType: schemeType,
@@ -568,7 +576,8 @@ class Scheme {
       sponsoringBody: sponsoringBody,
       issuingBody: issuingBody,
       state: state,
-      geoCoverage: geoCoverage,
+      appliesNationally: appliesNationally,
+      stateCodes: stateCodes,
       sector: sector,
       targetBeneficiary: targetBeneficiary,
       schemeType: schemeType,

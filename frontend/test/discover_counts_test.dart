@@ -161,9 +161,9 @@ void main() {
       national,
       274,
       reason:
-          'nationally-applicable baseline: appliesNationally schemes only '
-          '(central ownership is not coverage: CEN2026-090 is limited to the '
-          'eight North Eastern states)',
+          'nationally-applicable baseline (273 all-India central schemes + the '
+          'all-India central scheme filed by Tamil Nadu; CEN2026-090 is '
+          'central but limited to the North East, issue #143)',
     );
     expect(
       counts['Tamil Nadu'],

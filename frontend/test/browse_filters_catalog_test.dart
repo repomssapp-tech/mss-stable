@@ -12,7 +12,6 @@ import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/l10n/app_localizations_en.dart';
 import 'package:frontend/l10n/app_localizations_hi.dart';
 import 'package:frontend/l10n/app_localizations_ta.dart';
-import 'package:frontend/models/geo_coverage.dart';
 import 'package:frontend/models/scheme_filter.dart';
 import 'package:frontend/models/scheme_model.dart';
 import 'package:frontend/screens/regular_mode/categories/discover_counts.dart';
@@ -141,21 +140,20 @@ void main() {
   group('every scheme survives the facet that describes it', () {
     test('state, nationwide and offer type', () {
       for (final s in all) {
-        if (schemeIsNationwide(s)) {
+        if (schemeAppliesNationally(s)) {
           expect(applySchemeFilters([s], {'coverage': 'nationwide'}), [
             s,
           ], reason: s.id);
-        } else if (s.coverage.isKnown) {
-          for (final code in s.coverage.stateCodes) {
+        } else {
+          for (final code in s.stateCodes) {
             expect(
-              applySchemeFilters([s], {
-                'coverage': 'state',
-                'state': GeoCoverage.stateName(code),
-              }),
+              applySchemeFilters([s], {'coverage': 'state', 'state': code}),
               [s],
               reason: '${s.id} $code',
             );
           }
+          // Not nationwide -- and with no states given (CEN2026-090 in the
+          // shipped data) its coverage is unknown, so no state claims it.
           expect(
             applySchemeFilters([s], {'coverage': 'nationwide'}),
             isEmpty,

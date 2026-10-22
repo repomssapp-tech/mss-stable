@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../providers/app_state_provider.dart';
 import '../../l10n/app_localizations.dart';
 import '../../l10n/l10n.dart';
+import '../../services/recommendation/indian_states.dart';
 import '../profile/profile_value_formatters.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/app_theme.dart';
@@ -233,7 +234,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       _addressController.text.trim().isNotEmpty &&
       _looksLikePlaceName(_cityController.text, min: 2) &&
       _looksLikePlaceName(_districtController.text, min: 2) &&
-      _looksLikePlaceName(_stateController.text, min: 3) &&
+      Step2LocationForm.isKnownState(_stateController.text) &&
       Step2LocationForm.isValidPincode(_pincodeController.text);
 
   // Step 4 (Eligibility) now requires education, community and income --
@@ -324,7 +325,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       final address = _addressController.text.trim();
       final city = _cityController.text.trim();
       final district = _districtController.text.trim();
-      final state = _stateController.text.trim();
+      final state = IndianStates.canonical(_stateController.text);
 
       final provider = Provider.of<AppProvider>(context, listen: false);
       provider.updateProfile(

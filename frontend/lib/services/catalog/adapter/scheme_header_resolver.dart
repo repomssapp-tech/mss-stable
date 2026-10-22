@@ -1,6 +1,6 @@
-import '../../../models/geo_coverage.dart';
 import '../../../models/mss_entity.dart';
 import '../mss_catalog_bundle.dart';
+import '../../recommendation/indian_states.dart';
 import 'scheme_adapter_text_utils.dart';
 
 /// Immutable container holding resolved header, classification, authority,
@@ -19,7 +19,8 @@ class SchemeHeaderData {
   final String issuingBody;
   final String governmentLevel;
   final String state;
-  final GeoCoverage coverage;
+  final bool? appliesNationally;
+  final List<String> stateCodes;
   final String sector;
   final String schemeType;
   final String category;
@@ -49,7 +50,8 @@ class SchemeHeaderData {
     required this.issuingBody,
     required this.governmentLevel,
     required this.state,
-    required this.coverage,
+    this.appliesNationally,
+    this.stateCodes = const [],
     required this.sector,
     required this.schemeType,
     required this.category,
@@ -199,19 +201,24 @@ class SchemeHeaderResolver {
         (gov['levelText'] as String?) ?? (gov['level'] as String?) ?? 'Central';
     final governmentLevel = govLevelRaw.isNotEmpty ? govLevelRaw : 'Central';
 
-    // Coverage is read from the record's coverage fields only; government
-    // level says who runs the scheme, not where it applies. Missing coverage
-    // stays unknown (blank label) rather than defaulting to a region.
-    final coverage = GeoCoverage.fromGovernment(gov);
+    // Where a scheme applies comes from the structured coverage fields
+    // (`appliesNationally`, explicit `states` codes). The government level
+    // says who runs a scheme, not where: a central scheme can be limited to
+    // some states. A record that gives no coverage stays unknown rather than
+    // defaulting to All India or Tamil Nadu.
+    final national = gov['appliesNationally'];
+    final appliesNationally = national is bool ? national : null;
+    final stateCodes = <String>{
+      for (final raw
+          in SchemeAdapterTextUtils.asList(gov['states']) ?? const [])
+        ?IndianStates.code(raw.toString()),
+    }.toList(growable: false);
     final stateRaw = (gov['statesText'] as String?)?.trim() ?? '';
     final state = stateRaw.isNotEmpty
         ? stateRaw
-        : coverage.isNationwide
+        : appliesNationally == true
         ? 'All India'
-        : coverage.stateCodes
-              .map(GeoCoverage.stateName)
-              .whereType<String>()
-              .join(', ');
+        : stateCodes.map((c) => IndianStates.nameForCode(c) ?? c).join(', ');
 
     final sector =
         (classification['sectorsText'] as String?) ??
@@ -339,7 +346,8 @@ class SchemeHeaderResolver {
       issuingBody: issuingBody,
       governmentLevel: governmentLevel,
       state: state,
-      coverage: coverage,
+      appliesNationally: appliesNationally,
+      stateCodes: stateCodes,
       sector: sector,
       schemeType: schemeType,
       category: category,

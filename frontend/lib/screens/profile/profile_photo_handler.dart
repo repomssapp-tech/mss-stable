@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import '../../utils/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -82,12 +83,12 @@ Future<void> changeProfilePicture(
               ListTile(
                 leading: const Icon(
                   Icons.delete_outline_rounded,
-                  color: Color(0xFFEF4444),
+                  color: AppColors.danger,
                 ),
                 title: Text(
                   context.l10n.removePhoto,
                   style: GoogleFonts.inter(
-                    color: const Color(0xFFEF4444),
+                    color: AppColors.danger,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

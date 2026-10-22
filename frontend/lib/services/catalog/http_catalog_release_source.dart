@@ -55,20 +55,28 @@ class HttpCatalogReleaseSource implements CatalogReleaseSource {
 
   /// Fetches a specific release manifest by its semantic version.
   ///
-  /// This endpoint returns the camelCase release.json, unlike `current`'s
-  /// snake_case row; both shapes are accepted.
+  /// This route answers with the release's original camelCase `release.json`
+  /// (`releaseTag`, `bundleSha256`, `bundleBytes`...), unlike the snake_case
+  /// `/v1/catalog/current`; a snake_case body is still accepted. Returns null
+  /// when the body is neither, or lacks a release tag, checksum or size, so
+  /// incomplete metadata can never drive a download.
   Future<CatalogManifest?> fetchManifestByVersion(String version) async {
     try {
       final response = await _client.get(
         '/v1/catalog/releases/${Uri.encodeComponent(version)}',
         requiresAuth: false,
       );
-      if (response.data == null || response.data is! Map<String, dynamic>) {
+      final data = response.data;
+      if (data is! Map<String, dynamic>) return null;
+      final CatalogManifest manifest;
+      if (data['releaseTag'] != null) {
+        manifest = CatalogManifest.fromReleaseDetails(data);
+      } else if (data['release_version'] != null) {
+        manifest = CatalogManifest.fromReleaseRpc(data);
+      } else {
         return null;
       }
-      return CatalogManifest.fromAnyReleaseShape(
-        response.data as Map<String, dynamic>,
-      );
+      return manifest.isStructurallyValid ? manifest : null;
     } on ApiException catch (e) {
       if (e.statusCode == 404) return null;
       rethrow;
@@ -80,7 +88,7 @@ class HttpCatalogReleaseSource implements CatalogReleaseSource {
     final path =
         manifest.bundleUrl ??
         (manifest.releaseVersion != null && manifest.releaseVersion!.isNotEmpty
-            ? '/v1/catalog/releases/${manifest.releaseVersion}/bundle'
+            ? '/v1/catalog/releases/${Uri.encodeComponent(manifest.releaseVersion!)}/bundle'
             : null);
 
     if (path == null) {

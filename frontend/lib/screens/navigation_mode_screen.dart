@@ -8,6 +8,7 @@ import '../providers/app_state_provider.dart';
 import '../main.dart';
 import '../utils/responsive.dart';
 import '../l10n/l10n.dart';
+import '../utils/app_size.dart';
 import '../utils/app_spacing.dart';
 
 enum NavigationMode { regular, companion }
@@ -432,24 +433,27 @@ class NavigationOptionCard extends StatelessWidget {
                                 color: isSelected ? Colors.white : iconBgColor,
                                 borderRadius: BorderRadius.circular(6),
                               ),
+                              // Readable at every language: a long label
+                              // (Tamil) wraps to a second line instead of
+                              // being scaled down to an unreadable size.
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Icon(
                                     chips[i].icon,
                                     color: iconColor,
-                                    size: 9,
+                                    size: AppSize.iconSm,
                                   ),
                                   const SizedBox(width: AppSpacing.xs),
                                   Flexible(
-                                    child: FitOneLine(
-                                      child: Text(
-                                        chips[i].label,
-                                        style: GoogleFonts.inter(
-                                          fontSize: 10, // Compact chip size
-                                          fontWeight: FontWeight.w600,
-                                          color: iconColor,
-                                        ),
+                                    child: Text(
+                                      chips[i].label,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.inter(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                        color: iconColor,
                                       ),
                                     ),
                                   ),

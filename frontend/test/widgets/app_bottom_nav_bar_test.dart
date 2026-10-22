@@ -43,9 +43,9 @@ void main() {
   testWidgets('is not inflated by the status-bar padding', (tester) async {
     final h = await barHeight(tester);
     const gestureInset = 63 / 2.625;
-    // The label-fit cap keeps the text scale within 0.75..1.15.
+    // The label-fit cap keeps the text scale within 11/12..1.15.
     expect(h, lessThanOrEqualTo(64 * 1.15 + gestureInset + 1));
-    expect(h, greaterThanOrEqualTo(64 * 0.75 + gestureInset - 1));
+    expect(h, greaterThanOrEqualTo(64 * kMinNavLabelScale + gestureInset - 1));
   });
 
   testWidgets('height does not depend on the status-bar height', (
@@ -76,5 +76,39 @@ void main() {
     }
     await tester.tap(find.text('Discover'));
     expect(tapped, 2);
+  });
+
+  testWidgets('long labels on a narrow phone wrap instead of shrinking '
+      'below 11sp', (tester) async {
+    tester.view.physicalSize = const Size(720, 1600);
+    tester.view.devicePixelRatio = 2.0; // 360dp wide
+    addTearDown(tester.view.reset);
+    const tamil = [
+      'முகப்பு',
+      'தேடல்',
+      'கண்டறியுங்கள்',
+      'சேமித்தவை',
+      'சுயவிவரம்',
+    ];
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light,
+        home: Scaffold(
+          body: const SizedBox.expand(),
+          bottomNavigationBar: AppBottomNavBar(
+            selectedIndex: 0,
+            onSelected: (_) {},
+            labels: tamil,
+          ),
+        ),
+      ),
+    );
+    for (final l in tamil) {
+      final text = find.text(l);
+      expect(text, findsOneWidget);
+      final scaler = MediaQuery.textScalerOf(tester.element(text));
+      expect(scaler.scale(12), greaterThanOrEqualTo(11 - 0.01));
+    }
+    expect(tester.takeException(), isNull);
   });
 }

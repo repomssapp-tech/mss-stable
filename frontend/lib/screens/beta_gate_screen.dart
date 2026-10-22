@@ -4,7 +4,9 @@ import '../l10n/l10n.dart';
 import 'login_screen.dart';
 import 'regular_mode/language_selection_screen.dart';
 import '../services/account/session_cache_service.dart';
+import '../utils/app_size.dart';
 import '../utils/app_spacing.dart';
+import '../widgets/common/app_toast.dart';
 import '../utils/constants.dart';
 import '../services/beta_gate/beta_gate_service.dart';
 
@@ -43,7 +45,7 @@ class _BetaGateScreenState extends State<BetaGateScreen> {
   Future<void> _handleVerify() async {
     final input = _passwordController.text.trim();
     if (input.isEmpty) {
-      _showErrorSnackBar(context.l10n.betaGateEnterPassword);
+      AppToast.showWarning(context, context.l10n.betaGateEnterPassword);
       _passwordFocusNode.requestFocus();
       return;
     }
@@ -60,13 +62,13 @@ class _BetaGateScreenState extends State<BetaGateScreen> {
       if (success) {
         await _routeToNextScreen();
       } else {
-        _showErrorSnackBar(context.l10n.betaGateInvalidPassword);
+        _showError(context.l10n.betaGateInvalidPassword);
         _passwordController.clear();
         _passwordFocusNode.requestFocus();
       }
     } catch (_) {
       if (!mounted) return;
-      _showErrorSnackBar(context.l10n.betaGateVerifyFailed);
+      _showError(context.l10n.betaGateVerifyFailed);
     } finally {
       if (mounted) {
         setState(() {
@@ -93,44 +95,10 @@ class _BetaGateScreenState extends State<BetaGateScreen> {
     }
   }
 
-  void _showErrorSnackBar(String message) {
+  /// Errors use the app's shared toast, like every other screen.
+  void _showError(String message) {
     if (!mounted) return;
-    final messenger = ScaffoldMessenger.maybeOf(context);
-    if (messenger == null) return;
-
-    messenger.hideCurrentSnackBar();
-    messenger.showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            const Icon(
-              Icons.error_outline_rounded,
-              color: Colors.white,
-              size: 20,
-            ),
-            const SizedBox(width: AppSpacing.sm),
-            Expanded(
-              child: Text(
-                message,
-                style: GoogleFonts.inter(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
-        ),
-        backgroundColor: const Color(0xFFDC2626), // Red 600
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        margin: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.lg,
-          vertical: AppSpacing.md,
-        ),
-        duration: const Duration(seconds: 4),
-      ),
-    );
+    AppToast.showError(context, message);
   }
 
   @override
@@ -375,9 +343,12 @@ class _BetaGateCard extends StatelessWidget {
           const SizedBox(height: AppSpacing.lg),
 
           // Verify & Enter Button
-          SizedBox(
-            width: double.infinity,
-            height: 48,
+          ConstrainedBox(
+            // The design system's control height; grows with the text scale.
+            constraints: const BoxConstraints(
+              minWidth: double.infinity,
+              minHeight: AppSize.controlHeight,
+            ),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppConstants.primaryColor,

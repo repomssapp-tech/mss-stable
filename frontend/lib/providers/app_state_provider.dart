@@ -884,6 +884,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
   void addToRecentlyViewed(String id) => _library.addToRecentlyViewed(id);
 
+  void removeFromRecentlyViewed(String id) =>
+      _library.removeFromRecentlyViewed(id);
+
   Future<void> saveEligibilityResults(List<String> schemeIds) async {
     // Kept on the device. The REST profile API has no field for saved
     // eligibility results yet (see lib/services/backend/pending_endpoints.dart).

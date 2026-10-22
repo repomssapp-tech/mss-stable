@@ -1653,6 +1653,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get calcBtnCalculateTax => 'कर की गणना करें';
 
   @override
+  String get calcErrValidBaseAmount => 'कृपया एक मान्य आधार राशि दर्ज करें';
+
+  @override
   String get calcEmiTitle => 'बिजनेस लोन ईएमआई कैलकुलेटर';
 
   @override
@@ -1693,6 +1696,51 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get calcDocChecklistSub =>
       'भारत में व्यवसाय के पंजीकरण और संचालन के लिए आवश्यक दस्तावेज़।';
+
+  @override
+  String get discoverUtilitiesTitle => 'व्यावसायिक उपयोगिताएं और उपकरण';
+
+  @override
+  String get utilUdyamTitle => 'उद्यम वर्गीकरण';
+
+  @override
+  String get utilUdyamDesc => 'एमएसएमई श्रेणी जांचें';
+
+  @override
+  String get utilSubsidyTitle => 'सब्सिडी अनुमान';
+
+  @override
+  String get utilSubsidyDesc => 'मशीनरी सब्सिडी';
+
+  @override
+  String get utilGstTitle => 'जीएसटी कैलकुलेटर';
+
+  @override
+  String get utilGstDesc => 'जीएसटी बिल की गणना करें';
+
+  @override
+  String get utilEmiTitle => 'ईएमआई कैलकुलेटर';
+
+  @override
+  String get utilEmiDesc => 'ऋण की ईएमआई निकालें';
+
+  @override
+  String get utilDpiitTitle => 'डीपीआईआईटी पात्रता';
+
+  @override
+  String get utilDpiitDesc => 'स्टार्टअप मानदंड जांचें';
+
+  @override
+  String get utilValuationTitle => 'मूल्यांकन अनुमान';
+
+  @override
+  String get utilValuationDesc => 'सीड मूल्यांकन सीमाएं';
+
+  @override
+  String get utilDocChecklistTitle => 'दस्तावेज़ जांच-सूची';
+
+  @override
+  String get utilDocChecklistDesc => 'व्यवसाय शुरू करने के दस्तावेज़';
 
   @override
   String get notifToastSelectedRead =>
@@ -3571,6 +3619,35 @@ class AppLocalizationsHi extends AppLocalizations {
       'फ़ीडबैक सबमिट करने में विफल. कृपया अपना कनेक्शन जांचें.';
 
   @override
+  String get helpTicketErrCategory => 'कृपया समस्या की श्रेणी चुनें।';
+
+  @override
+  String get helpTicketErrEmailMissing =>
+      'कृपया संपर्क के लिए अपना ईमेल पता दर्ज करें।';
+
+  @override
+  String get helpTicketErrEmailInvalid =>
+      'कृपया सही ईमेल पता दर्ज करें (जैसे name@example.com)।';
+
+  @override
+  String get helpTicketErrDescriptionMissing =>
+      'कृपया अपनी समस्या या सुझाव लिखें।';
+
+  @override
+  String helpTicketErrDescriptionShort(int count) {
+    return 'कृपया थोड़ा और विवरण लिखें (कम से कम $count अक्षर)।';
+  }
+
+  @override
+  String helpTicketErrWait(int seconds) {
+    return 'दोबारा भेजने से पहले कृपया $seconds सेकंड प्रतीक्षा करें।';
+  }
+
+  @override
+  String get helpTicketErrTooMany =>
+      'बहुत अधिक अनुरोध भेजे गए हैं। कृपया कुछ देर बाद फिर से प्रयास करें।';
+
+  @override
   String get helpSubmitFeedback => 'प्रतिक्रिया सबमिट करें';
 
   @override
@@ -3648,7 +3725,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get emiTenureMonths => 'कार्यकाल (महीने)';
 
   @override
-  String get emiTenureSuffixMo => 'एमओ';
+  String get emiTenureSuffixMo => 'माह';
 
   @override
   String get emiTenureHelper => 'अवधि महीनों में दर्ज करें';
@@ -3738,6 +3815,18 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get valuationSector => 'व्यवसाय का क्षेत्र';
+
+  @override
+  String get valuationSectorSaasTech => 'SaaS / टेक';
+
+  @override
+  String get valuationSectorEcommerce => 'ई-कॉमर्स';
+
+  @override
+  String get valuationSectorFintech => 'फिनटेक';
+
+  @override
+  String get valuationSectorAgritech => 'एग्रीटेक (कृषि तकनीक)';
 
   @override
   String get valuationRange => 'मूल्यांकन सीमा';
@@ -4190,7 +4279,16 @@ class AppLocalizationsHi extends AppLocalizations {
   String get profileHintStateExample => 'जैसे तमिलनाडु';
 
   @override
-  String get profileErrValidState => 'कृपया एक वैध स्थिति दर्ज करें';
+  String get profileErrValidState => 'कृपया अपना राज्य चुनें';
+
+  @override
+  String get profileSelectState => 'अपना राज्य चुनें';
+
+  @override
+  String get profileSearchStateHint => 'राज्य या केंद्र शासित प्रदेश खोजें';
+
+  @override
+  String get profileNoStateMatch => 'कोई मेल खाता राज्य नहीं';
 
   @override
   String get profileErrSelectOptionToContinue =>
@@ -4471,6 +4569,15 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get savedRemoveFromSavedTooltip => 'सहेजे गए से हटाएँ';
+
+  @override
+  String get savedRemoveFromRecentTooltip => 'हाल ही में देखी गई सूची से हटाएँ';
+
+  @override
+  String get savedInactiveBadge => 'निष्क्रिय';
+
+  @override
+  String get savedInactiveHint => 'यह योजना नवीनतम सूची में अब सक्रिय नहीं है।';
 
   @override
   String get savedKeepListUpdated => 'अपनी सूची अद्यतन रखें!';

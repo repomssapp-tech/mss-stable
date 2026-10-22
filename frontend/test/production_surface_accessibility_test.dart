@@ -6,6 +6,7 @@ import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/screens/navigation_mode_screen.dart' as app_navigation;
 import 'package:frontend/screens/regular_mode/about_you_profile_screen.dart';
+import 'package:frontend/screens/regular_mode/basic_profile/state_picker_field.dart';
 import 'package:frontend/screens/regular_mode/basic_profile_screen.dart';
 import 'package:frontend/screens/regular_mode/language_selection_screen.dart';
 import 'package:frontend/screens/regular_mode/location_profile_screen.dart';
@@ -170,8 +171,10 @@ void main() {
           await tester.pump();
           expect(find.text('Where Are You Located?'), findsOneWidget);
           expect(find.text('Use Current Location'), findsOneWidget);
-          // Address, city/town, district, state, pincode.
-          expect(find.byType(TextFormField), findsNWidgets(5));
+          // Address, city/town, district and pincode are typed; the state
+          // is picked from a list.
+          expect(find.byType(TextFormField), findsNWidgets(4));
+          expect(find.byType(StatePickerField), findsOneWidget);
           continueButton = find.widgetWithText(ElevatedButton, 'Continue');
           await tester.ensureVisible(continueButton);
           _expectTappableSemantics(tester, continueButton, 'Continue');

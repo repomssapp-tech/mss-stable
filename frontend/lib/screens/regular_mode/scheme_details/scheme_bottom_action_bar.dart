@@ -35,10 +35,10 @@ class SchemeBottomActionBar extends StatelessWidget {
     final double labelSize = isTamil ? 11.5 : 14.0;
     return Container(
       padding: EdgeInsets.only(
-        left: 16,
-        right: 16,
-        top: 16,
-        bottom: MediaQuery.of(context).padding.bottom + 16,
+        left: AppSpacing.lg,
+        right: AppSpacing.lg,
+        top: AppSpacing.lg,
+        bottom: MediaQuery.of(context).padding.bottom + AppSpacing.lg,
       ),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -63,7 +63,10 @@ class SchemeBottomActionBar extends StatelessWidget {
                 onPressed: onBookmarkToggle,
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(color: Color(0xFF2563EB), width: 1.5),
-                  padding: const EdgeInsets.only(left: AppSpacing.sm, right: AppSpacing.sm),
+                  padding: const EdgeInsets.only(
+                    left: AppSpacing.sm,
+                    right: AppSpacing.sm,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),

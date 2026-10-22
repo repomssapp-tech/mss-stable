@@ -73,48 +73,42 @@ class CatalogManifest {
     );
   }
 
-  /// Builds from REST `/v1/catalog/releases/:tag`, which returns the original
-  /// immutable release.json with camelCase keys (`releaseTag`, `bundleSha256`,
-  /// `bundleBytes`, `recordCounts`, `schemaVersion` as a semantic string).
-  /// `bundleAsset` there is a source asset path, not a download URL, so
-  /// [bundleUrl] stays null and the download falls back to the tag route.
-  factory CatalogManifest.fromReleaseJson(Map<String, dynamic> row) {
-    final releaseTag = row['releaseTag']?.toString() ?? '';
-    final sha256 = row['bundleSha256']?.toString() ?? '';
-    final rawCounts = row['recordCounts'];
+  /// Builds from `GET /v1/catalog/releases/:tag`, which returns the original
+  /// immutable `release.json` with camelCase keys (`releaseTag`,
+  /// `bundleSha256`, `bundleBytes`, `recordCounts`, `schemaVersion` as a
+  /// semantic string such as "1.0.0", `releasedAt`) -- not the snake_case
+  /// shape of `/v1/catalog/current` that [CatalogManifest.fromReleaseRpc]
+  /// reads. Its `bundleAsset` is a source path, not a download URL, so
+  /// [bundleUrl] stays null and the download uses the release-tag route.
+  factory CatalogManifest.fromReleaseDetails(Map<String, dynamic> json) {
+    final releaseVersion = json['releaseTag']?.toString().trim() ?? '';
+    final sha256 = json['bundleSha256']?.toString().toLowerCase() ?? '';
+    final rawCounts = json['recordCounts'];
     final recordCounts = rawCounts is Map ? rawCounts : const {};
-    final schemaVersion = _schemaMajor(row['schemaVersion']);
+    final schemaMajor = _schemaMajor(json['schemaVersion']);
     return CatalogManifest(
       id: sha256.isNotEmpty
           ? sha256.substring(0, 36.clamp(0, sha256.length)).padRight(36, '0')
           : '',
-      version: schemaVersion,
-      schemaVersion: schemaVersion,
+      version: schemaMajor,
+      schemaVersion: schemaMajor,
       sha256: sha256,
-      byteSize: (row['bundleBytes'] as num?)?.toInt() ?? 0,
-      schemeCount:
-          (recordCounts['scheme_catalog.json'] as num?)?.toInt() ?? 0,
+      byteSize: (json['bundleBytes'] as num?)?.toInt() ?? 0,
+      schemeCount: (recordCounts['scheme_catalog.json'] as num?)?.toInt() ?? 0,
       documentCount: 0,
       serviceCount: 0,
       publishedAt:
-          DateTime.tryParse(row['releasedAt']?.toString() ?? '')?.toUtc() ??
+          DateTime.tryParse(json['releasedAt']?.toString() ?? '')?.toUtc() ??
           DateTime.fromMillisecondsSinceEpoch(0, isUtc: true),
-      releaseVersion: releaseTag.isEmpty ? null : releaseTag,
+      releaseVersion: releaseVersion.isEmpty ? null : releaseVersion,
     );
   }
 
-  /// Accepts either representation: camelCase release.json (detected by
-  /// `releaseTag`) or the snake_case current-manifest row.
-  factory CatalogManifest.fromAnyReleaseShape(Map<String, dynamic> row) =>
-      row.containsKey('releaseTag')
-      ? CatalogManifest.fromReleaseJson(row)
-      : CatalogManifest.fromReleaseRpc(row);
-
-  /// Major component of a schema version given as an int or as a semantic
-  /// string like "1.0.0"; 0 when absent or unparseable.
+  /// Major version of a `schemaVersion` given as a number (`1`) or a semantic
+  /// string (`"1.0.0"`); 0 when it is missing or unreadable.
   static int _schemaMajor(Object? raw) {
     if (raw is num) return raw.toInt();
-    final major = raw?.toString().split('.').first.trim() ?? '';
+    final major = raw?.toString().trim().split('.').first ?? '';
     return int.tryParse(major) ?? 0;
   }
 

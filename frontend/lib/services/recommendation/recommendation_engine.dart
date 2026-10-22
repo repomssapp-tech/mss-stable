@@ -1,7 +1,7 @@
 import '../../models/user_profile.dart';
 import '../../models/scheme_model.dart';
 import '../search/hybrid_scheme_search.dart';
-import 'indian_states.dart';
+import '../../models/scheme_filter.dart';
 import 'profile_canonicalizer.dart';
 
 class RecommendationResult {
@@ -158,19 +158,13 @@ class RecommendationEngine {
       missingDocuments: missingDocuments,
     );
 
-    // 1. State / Residency -- HARD when the scheme is scoped to a different
-    //    state than the profile. Both sides are compared by English state
-    //    name, so "தமிழ்நாடு" and "Tamil Nadu" are the same state.
-    final schemeState = scheme.state.toLowerCase().trim();
-    final stateIsNational =
-        schemeState.isEmpty ||
-        schemeState == 'all india' ||
-        schemeState == 'pan-india' ||
-        schemeState.contains('pan-india') ||
-        schemeState.contains('all india');
-    if (!stateIsNational &&
-        IndianStates.canonical(scheme.state).toLowerCase() !=
-            p.state.toLowerCase().trim()) {
+    // 1. State / Residency -- HARD when the scheme is not available in the
+    //    profile's state. Coverage is the catalog's structured
+    //    appliesNationally / states (see schemeAppliesInState), and states
+    //    are compared by code, so "தமிழ்நாடு", "Tamil Nadu" and "IN-TN" are
+    //    the same state.
+    final stateIsNational = schemeAppliesNationally(scheme);
+    if (!stateIsNational && !schemeAppliesInState(scheme, p.state)) {
       missingRequirements.add(
         'Residency: This scheme is for residents of ${scheme.state}.',
       );

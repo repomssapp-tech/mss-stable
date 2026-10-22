@@ -83,6 +83,15 @@ String formatSchemeCount(BuildContext context, int? cnt, AppProvider provider) {
   return context.l10n.schemeCountFormat(cnt);
 }
 
+/// Height of a Discover horizontal card row (categories, ministries, states).
+/// The icon and padding are fixed; the text allowance grows with the user's
+/// font size so larger text reflows instead of overflowing (issue #144).
+double discoverRowHeight(BuildContext context, AppProvider provider) {
+  const chrome = 56.0;
+  final textAllowance = provider.selectedLanguage == 'ta' ? 82.0 : 70.0;
+  return chrome + MediaQuery.textScalerOf(context).scale(textAllowance);
+}
+
 class CategoriesSectionHeader extends StatelessWidget {
   const CategoriesSectionHeader({
     super.key,
@@ -166,7 +175,7 @@ class CategoryHorizontalList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: provider.selectedLanguage == 'ta' ? 138 : 126,
+      height: discoverRowHeight(context, provider),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         physics: const ClampingScrollPhysics(),
@@ -266,7 +275,7 @@ class MinistryHorizontalList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: provider.selectedLanguage == 'ta' ? 138 : 126,
+      height: discoverRowHeight(context, provider),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         physics: const ClampingScrollPhysics(),
@@ -387,7 +396,7 @@ class StateHorizontalList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: provider.selectedLanguage == 'ta' ? 138 : 126,
+      height: discoverRowHeight(context, provider),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         physics: const ClampingScrollPhysics(),
