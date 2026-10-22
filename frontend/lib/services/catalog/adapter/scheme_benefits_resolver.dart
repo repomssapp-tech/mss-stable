@@ -54,7 +54,8 @@ class SchemeBenefitsResolver {
     required String langCode,
   }) {
     final content = entity.content;
-    final benefitsObj = (content['benefits'] as Map<String, dynamic>?) ?? {};
+    final benefitsObj =
+        (SchemeAdapterTextUtils.mapOrNull(content['benefits'])) ?? {};
 
     // ── 5. Benefits & Funding Breakdown ────────────────────────────────
     double? maxFunding;
@@ -70,8 +71,10 @@ class SchemeBenefitsResolver {
         content['benefits'] ??
         content['benefitsText'];
     if (benefitsRaw is Map<String, dynamic>) {
-      final benefitsEn = (benefitsRaw['en'] as String? ?? '').trim();
-      benefitsTa = (benefitsRaw['ta'] as String? ?? '').trim();
+      final benefitsEn =
+          (SchemeAdapterTextUtils.textOrNull(benefitsRaw['en']) ?? '').trim();
+      benefitsTa = (SchemeAdapterTextUtils.textOrNull(benefitsRaw['ta']) ?? '')
+          .trim();
       benefitsText = benefitsEn.isNotEmpty ? benefitsEn : benefitsTa;
     } else if (benefitsRaw is String) {
       benefitsText = benefitsRaw;
@@ -93,11 +96,18 @@ class SchemeBenefitsResolver {
       }
     }
 
-    final capSubsidy = benefitsObj['capitalSubsidy'] as Map<String, dynamic>?;
-    final intSubvention =
-        benefitsObj['interestSubvention'] as Map<String, dynamic>?;
-    final marginMoney = benefitsObj['marginMoney'] as Map<String, dynamic>?;
-    final loanGuarantee = benefitsObj['guarantee'] as Map<String, dynamic>?;
+    final capSubsidy = SchemeAdapterTextUtils.mapOrNull(
+      benefitsObj['capitalSubsidy'],
+    );
+    final intSubvention = SchemeAdapterTextUtils.mapOrNull(
+      benefitsObj['interestSubvention'],
+    );
+    final marginMoney = SchemeAdapterTextUtils.mapOrNull(
+      benefitsObj['marginMoney'],
+    );
+    final loanGuarantee = SchemeAdapterTextUtils.mapOrNull(
+      benefitsObj['guarantee'],
+    );
 
     if (capSubsidy != null) {
       if (capSubsidy['maxAmountInr'] != null) {
@@ -167,7 +177,7 @@ class SchemeBenefitsResolver {
         .toList();
 
     for (final fin in financeProducts) {
-      final amountObj = fin.content['amount'] as Map<String, dynamic>?;
+      final amountObj = SchemeAdapterTextUtils.mapOrNull(fin.content['amount']);
       if (amountObj != null) {
         if (amountObj['maxInr'] != null) {
           maxFunding ??= (amountObj['maxInr'] as num).toDouble();
@@ -179,7 +189,9 @@ class SchemeBenefitsResolver {
           subsidyAmountText = amountObj['maxText'] as String;
         }
       }
-      final intRateObj = fin.content['interestRate'] as Map<String, dynamic>?;
+      final intRateObj = SchemeAdapterTextUtils.mapOrNull(
+        fin.content['interestRate'],
+      );
       if (intRateObj != null && intRateObj['percent'] != null) {
         interestSubventionRate ??= (intRateObj['percent'] as num).toDouble();
       }
@@ -190,7 +202,11 @@ class SchemeBenefitsResolver {
         .map((t) => '${t.getLocalizedName(langCode)} (${t.code})')
         .toList();
     final applicableTaxesList = taxProvisions
-        .map((t) => (t.content['taxType'] as String?) ?? 'Income Tax')
+        .map(
+          (t) =>
+              (SchemeAdapterTextUtils.textOrNull(t.content['taxType'])) ??
+              'Income Tax',
+        )
         .toSet()
         .toList();
 

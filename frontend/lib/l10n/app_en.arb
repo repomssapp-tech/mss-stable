@@ -1535,6 +1535,8 @@
   "schemeAppStatusAnnounced": "Announced",
   "schemeAppStatusHistorical": "Historical or superseded",
   "schemeAppStatusUnavailable": "Temporarily unavailable",
+  "schemeAppStatusUnknown": "Not confirmed",
+  "officialInfoButton": "Official information",
   "schemeDeadline": "Deadline",
   "schemeFees": "Fees",
   "schemePrerequisite": "Prerequisite",

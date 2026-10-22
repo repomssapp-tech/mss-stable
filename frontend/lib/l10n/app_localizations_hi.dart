@@ -5001,6 +5001,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get schemeAppStatusUnavailable => 'अस्थायी रूप से अनुपलब्ध';
 
   @override
+  String get schemeAppStatusUnknown => 'अपुष्ट';
+
+  @override
+  String get officialInfoButton => 'आधिकारिक जानकारी';
+
+  @override
   String get schemeDeadline => 'अंतिम तिथि';
 
   @override

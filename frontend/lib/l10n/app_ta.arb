@@ -1527,6 +1527,8 @@
   "schemeAppStatusAnnounced": "அறிவிக்கப்பட்டது",
   "schemeAppStatusHistorical": "பழையது அல்லது மாற்றப்பட்டது",
   "schemeAppStatusUnavailable": "தற்காலிகமாக கிடைக்கவில்லை",
+  "schemeAppStatusUnknown": "உறுதிசெய்யப்படவில்லை",
+  "officialInfoButton": "அதிகாரப்பூர்வ தகவல்",
   "schemeDeadline": "கடைசி தேதி",
   "schemeFees": "கட்டணம்",
   "schemePrerequisite": "முன்நிபந்தனை",

@@ -4,6 +4,42 @@ import '../content_language_resolver.dart';
 class SchemeAdapterTextUtils {
   SchemeAdapterTextUtils._();
 
+  /// [v] as a string map, or an empty map when it is anything else (a plain
+  /// string, a list, null). Catalog fields change shape between records
+  /// (`"x"` vs `{"en": "x"}`), so a hard `as Map<String, dynamic>?` throws on
+  /// the first record that differs.
+  static Map<String, dynamic> asMap(dynamic v) =>
+      v is Map ? v.cast<String, dynamic>() : const <String, dynamic>{};
+
+  /// [v] trimmed when it is a [String], else ''. Never throws and never
+  /// stringifies a map or list.
+  static String str(dynamic v) => v is String ? v.trim() : '';
+
+  /// [v] as a string map, or null when it is anything else. Drop-in for
+  /// `v as Map<String, dynamic>?`, which throws on a string or list.
+  static Map<String, dynamic>? mapOrNull(dynamic v) =>
+      v is Map ? v.cast<String, dynamic>() : null;
+
+  /// Drop-in for `v as String?` that does not throw: a string is returned
+  /// as is, a localized map or list is resolved to its text (null when it
+  /// has none), and anything else is null.
+  static String? textOrNull(dynamic v) {
+    if (v is String) return v;
+    if (v is Map || v is List) {
+      final t = getLocalizedText(v);
+      return t.isEmpty ? null : t;
+    }
+    return null;
+  }
+
+  /// The first non-empty entry of [candidates], or ''.
+  static String firstText(Iterable<String> candidates) {
+    for (final c in candidates) {
+      if (c.isNotEmpty) return c;
+    }
+    return '';
+  }
+
   /// Converts [val] to a list if it is a [List] or single non-empty [String].
   static List<dynamic>? asList(dynamic val) {
     if (val is List) return val;
@@ -17,20 +53,18 @@ class SchemeAdapterTextUtils {
     String defaultStr = '',
   ]) {
     if (rawObj is Map<String, dynamic>) {
-      final en = (rawObj['en'] as String? ?? '').trim();
-      final ta = (rawObj['ta'] as String? ?? '').trim();
-      final name =
-          (rawObj['name'] as String? ??
-                  rawObj['title'] as String? ??
-                  rawObj['description'] as String? ??
-                  '')
-              .trim();
-      final nameTa =
-          (rawObj['name_ta'] as String? ??
-                  rawObj['title_ta'] as String? ??
-                  rawObj['description_ta'] as String? ??
-                  '')
-              .trim();
+      final en = str(rawObj['en']);
+      final ta = str(rawObj['ta']);
+      final name = firstText([
+        str(rawObj['name']),
+        str(rawObj['title']),
+        str(rawObj['description']),
+      ]);
+      final nameTa = firstText([
+        str(rawObj['name_ta']),
+        str(rawObj['title_ta']),
+        str(rawObj['description_ta']),
+      ]);
       return (
         en.isNotEmpty ? en : (name.isNotEmpty ? name : defaultStr),
         ta.isNotEmpty ? ta : nameTa,

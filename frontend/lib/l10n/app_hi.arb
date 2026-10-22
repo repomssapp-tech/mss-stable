@@ -1536,6 +1536,8 @@
   "schemeAppStatusAnnounced": "घोषित",
   "schemeAppStatusHistorical": "पुरानी या बदली गई",
   "schemeAppStatusUnavailable": "अस्थायी रूप से अनुपलब्ध",
+  "schemeAppStatusUnknown": "अपुष्ट",
+  "officialInfoButton": "आधिकारिक जानकारी",
   "schemeDeadline": "अंतिम तिथि",
   "schemeFees": "शुल्क",
   "schemePrerequisite": "पूर्व शर्त",
