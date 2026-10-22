@@ -11,6 +11,17 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [1.4.4+12] - 2026-10-23
+
+### Added
+- Admin broadcasts show as a phone notification with vibration, also while the app is open.
+- Tapping a notification opens a details screen with the full message, the time it arrived, and delete.
+- A light haptic tick on every tap, with a Haptic feedback switch in Settings (on by default).
+
+### Changed
+- The notifications panel is one list grouped Today / Yesterday / Earlier; long press to select.
+- The bottom navigation bar is a floating frosted-glass blue pill.
+
 ## [1.4.3+11] - 2026-10-21
 
 ### Changed
