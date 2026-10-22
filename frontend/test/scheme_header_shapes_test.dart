@@ -7,9 +7,10 @@ import 'package:frontend/services/catalog/mss_scheme_adapter.dart';
 import 'package:frontend/services/catalog/scheme_repository.dart';
 
 /// Issue 152, task 1: a localized map reaching code that cast it to
-/// `String?` made the whole catalog conversion throw (`_Map<String, dynamic>
-/// is not a subtype of String?`). The header resolver must resolve scalar and
-/// localized-map values alike, for every record, in every language.
+/// `String?` made the whole catalog conversion throw with
+/// `_Map<String, dynamic> is not a subtype of String?`. The header resolver
+/// must resolve scalar and localized-map values alike, for every record, in
+/// every language.
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 

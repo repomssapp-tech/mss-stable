@@ -7,6 +7,7 @@ import '../../../providers/app_state_provider.dart';
 import '../../../utils/app_spacing.dart';
 import '../../notifications_screen.dart';
 import '../../profile_screen.dart';
+import '../../../widgets/common/name_initial_avatar.dart';
 
 /// Top bar for Saarthi companion mode containing notifications bell with
 /// unread indicator and profile photo avatar.
@@ -72,11 +73,9 @@ class SaarthiTopBar extends StatelessWidget {
                   child: () {
                     final photo = provider.effectiveProfilePhoto;
                     if (photo.isEmpty) {
-                      return Image.asset(
-                        'assets/images/supporting assets/user_avatar.webp',
-                        width: 36,
-                        height: 36,
-                        fit: BoxFit.cover,
+                      return NameInitialAvatar(
+                        name: provider.profile.name,
+                        size: 36,
                       );
                     }
                     if (photo.startsWith('http://') ||
@@ -103,11 +102,9 @@ class SaarthiTopBar extends StatelessWidget {
                         fit: BoxFit.cover,
                       );
                     }
-                    return Image.asset(
-                      'assets/images/supporting assets/user_avatar.webp',
-                      width: 36,
-                      height: 36,
-                      fit: BoxFit.cover,
+                    return NameInitialAvatar(
+                      name: provider.profile.name,
+                      size: 36,
                     );
                   }(),
                 ),

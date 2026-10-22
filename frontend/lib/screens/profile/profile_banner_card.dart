@@ -8,6 +8,7 @@ import '../../utils/app_spacing.dart';
 import '../../utils/responsive.dart';
 import 'avatar_cache_manager.dart';
 import 'profile_photo_handler.dart';
+import '../../widgets/common/name_initial_avatar.dart';
 
 /// Blue gradient header banner card with avatar, completion badge, and contact details.
 class ProfileBannerCard extends StatelessWidget {
@@ -124,11 +125,9 @@ class ProfileBannerCard extends StatelessWidget {
                                           ),
                                     );
                                   }
-                                  return Image.asset(
-                                    'assets/images/supporting assets/user_avatar.webp',
-                                    width: 76,
-                                    height: 76,
-                                    fit: BoxFit.cover,
+                                  return NameInitialAvatar(
+                                    name: provider.profile.name,
+                                    size: 76,
                                   );
                                 }(),
                               ),

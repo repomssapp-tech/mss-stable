@@ -18,11 +18,15 @@ class StatePickerField extends StatelessWidget {
     required this.controller,
     required this.errorText,
     required this.onChanged,
+    this.onStateChanged,
   });
 
   final TextEditingController controller;
   final String? errorText;
   final VoidCallback onChanged;
+
+  /// Called before [onChanged] when the user picks a different state.
+  final VoidCallback? onStateChanged;
 
   Future<void> _pick(BuildContext context) async {
     final picked = await showModalBottomSheet<String>(
@@ -33,7 +37,11 @@ class StatePickerField extends StatelessWidget {
           _StatePickerSheet(selected: IndianStates.canonical(controller.text)),
     );
     if (picked == null) return;
+    final changed =
+        IndianStates.canonical(controller.text) !=
+        IndianStates.canonical(picked);
     controller.text = picked;
+    if (changed) onStateChanged?.call();
     onChanged();
   }
 

@@ -171,9 +171,9 @@ void main() {
           await tester.pump();
           expect(find.text('Where Are You Located?'), findsOneWidget);
           expect(find.text('Use Current Location'), findsOneWidget);
-          // Address, city/town, district and pincode are typed; the state
-          // is picked from a list.
-          expect(find.byType(TextFormField), findsNWidgets(4));
+          // Address, city/town and pincode are typed; the state and the
+          // district are picked from lists.
+          expect(find.byType(TextFormField), findsNWidgets(3));
           expect(find.byType(StatePickerField), findsOneWidget);
           continueButton = find.widgetWithText(ElevatedButton, 'Continue');
           await tester.ensureVisible(continueButton);

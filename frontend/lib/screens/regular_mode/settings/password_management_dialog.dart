@@ -248,9 +248,26 @@ class _PasswordManagementDialogState extends State<PasswordManagementDialog> {
                     TextField(
                       controller: _newPasswordController,
                       obscureText: _obscureNew,
+                      // Show the server's 15-character rule while typing,
+                      // not only after submit (issue #145).
+                      onChanged: (_) => setState(() {}),
                       decoration: InputDecoration(
                         labelText: context.l10n.newPasswordLabel,
                         hintText: context.l10n.pwMinHint,
+                        helperText: [
+                          context.l10n.pwLengthProgress(
+                            _newPasswordController.text.characters.length,
+                          ),
+                          context.l10n.pwLongTip,
+                        ].join('\n'),
+                        helperMaxLines: 3,
+                        helperStyle: TextStyle(
+                          color:
+                              _newPasswordController.text.characters.length >=
+                                  15
+                              ? AppColors.success
+                              : null,
+                        ),
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscureNew
