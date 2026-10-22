@@ -51,12 +51,15 @@ class SchemeResourcesResolver {
     required String langCode,
   }) {
     final content = entity.content;
-    final resources = (content['resources'] as Map<String, dynamic>?) ?? {};
+    final resources =
+        (SchemeAdapterTextUtils.mapOrNull(content['resources'])) ?? {};
     final appProc =
-        (content['applicationProcess'] as Map<String, dynamic>?) ?? {};
+        (SchemeAdapterTextUtils.mapOrNull(content['applicationProcess'])) ?? {};
     final appTimeline =
-        (content['applicationTimeline'] as Map<String, dynamic>?) ?? {};
-    final contactsObj = (content['contacts'] as Map<String, dynamic>?) ?? {};
+        (SchemeAdapterTextUtils.mapOrNull(content['applicationTimeline'])) ??
+        {};
+    final contactsObj =
+        (SchemeAdapterTextUtils.mapOrNull(content['contacts'])) ?? {};
 
     // ── 7. Required Documents ──────────────────────────────────────────
     final docList = <SchemeDocument>[];
@@ -105,7 +108,9 @@ class SchemeResourcesResolver {
               name: finalDocName,
               nameTa: dNameTa,
               mandatory:
-                  (docItem['mandatoryText'] as String?) ??
+                  (SchemeAdapterTextUtils.textOrNull(
+                    docItem['mandatoryText'],
+                  )) ??
                   (docItem['mandatory'] == 'required' ||
                           docItem['mandatory'] == true
                       ? 'Yes'
@@ -131,13 +136,25 @@ class SchemeResourcesResolver {
                 docItem['estimatedCostText'] ?? docItem['estimatedCostInr'],
               ),
               remarksHi: SchemeAdapterTextUtils.extractHi(docItem['remarks']),
-              sourceUrl: (docItem['sourceUrl'] as String?) ?? '',
+              sourceUrl:
+                  (SchemeAdapterTextUtils.textOrNull(docItem['sourceUrl'])) ??
+                  '',
               validityMonths: docItem['validityMonths']?.toString() ?? '',
               downloadTemplateUrl:
-                  (docItem['downloadTemplateUrl'] as String?) ?? '',
-              sampleCopyUrl: (docItem['sampleCopyUrl'] as String?) ?? '',
+                  (SchemeAdapterTextUtils.textOrNull(
+                    docItem['downloadTemplateUrl'],
+                  )) ??
+                  '',
+              sampleCopyUrl:
+                  (SchemeAdapterTextUtils.textOrNull(
+                    docItem['sampleCopyUrl'],
+                  )) ??
+                  '',
               verificationPortalUrl:
-                  (docItem['verificationPortalUrl'] as String?) ?? '',
+                  (SchemeAdapterTextUtils.textOrNull(
+                    docItem['verificationPortalUrl'],
+                  )) ??
+                  '',
             ),
           );
         }
@@ -183,12 +200,17 @@ class SchemeResourcesResolver {
 
     if (stepsList.isEmpty) {
       final modeText =
-          (appProc['modeText'] as String?)?.trim() ??
-          (appProc['mode'] as String?)?.trim() ??
+          (SchemeAdapterTextUtils.textOrNull(appProc['modeText']))?.trim() ??
+          (SchemeAdapterTextUtils.textOrNull(appProc['mode']))?.trim() ??
           '';
-      final onlineUrl = (appProc['onlineUrl'] as String?)?.trim() ?? '';
+      final onlineUrl =
+          (SchemeAdapterTextUtils.textOrNull(appProc['onlineUrl']))?.trim() ??
+          '';
       final offlineDetails =
-          (appProc['offlineDetails'] as String?)?.trim() ?? '';
+          (SchemeAdapterTextUtils.textOrNull(
+            appProc['offlineDetails'],
+          ))?.trim() ??
+          '';
 
       if (modeText.isNotEmpty) {
         stepsList.add('Application Mode: $modeText');
@@ -264,9 +286,13 @@ class SchemeResourcesResolver {
               purposeTa: sPurpTa,
               department: sDeptEn,
               departmentTa: sDeptTa,
-              website: (sItem['website'] as String?) ?? '',
-              contact: (sItem['contact'] as String?) ?? '',
-              status: (sItem['status'] as String?) ?? 'ACTIVE',
+              website:
+                  (SchemeAdapterTextUtils.textOrNull(sItem['website'])) ?? '',
+              contact:
+                  (SchemeAdapterTextUtils.textOrNull(sItem['contact'])) ?? '',
+              status:
+                  (SchemeAdapterTextUtils.textOrNull(sItem['status'])) ??
+                  'ACTIVE',
               notes: sNotesEn,
               notesTa: sNotesTa,
               nameHi: SchemeAdapterTextUtils.extractHi(
@@ -297,8 +323,10 @@ class SchemeResourcesResolver {
               'Single-window application submission, document verification, and subsidy processing.',
           department: issuingBody,
           website:
-              (appProc['onlineUrl'] as String?) ??
-              (resources['officialWebsiteUrl'] as String?) ??
+              (SchemeAdapterTextUtils.textOrNull(appProc['onlineUrl'])) ??
+              (SchemeAdapterTextUtils.textOrNull(
+                resources['officialWebsiteUrl'],
+              )) ??
               '',
           status: 'ACTIVE',
         ),
@@ -306,19 +334,19 @@ class SchemeResourcesResolver {
     }
 
     final applicationFee =
-        (appProc['applicationFeeText'] as String?) ??
+        (SchemeAdapterTextUtils.textOrNull(appProc['applicationFeeText'])) ??
         (appProc['applicationFeeInr'] != null
             ? '₹${appProc['applicationFeeInr']}'
             : 'Nil');
     final processingDurationDays =
         appTimeline['processingDurationDays']?.toString() ?? '30';
     final intakeTimelineText =
-        (appTimeline['text'] as String?) ??
+        (SchemeAdapterTextUtils.textOrNull(appTimeline['text'])) ??
         'Rolling intake throughout financial year';
 
     final applicationMode =
-        (appProc['modeText'] as String?) ??
-        (appProc['mode'] as String?) ??
+        (SchemeAdapterTextUtils.textOrNull(appProc['modeText'])) ??
+        (SchemeAdapterTextUtils.textOrNull(appProc['mode'])) ??
         'Online / Offline';
 
     // ── 10. Official Links & Helplines ───────────────────────────────
@@ -339,7 +367,8 @@ class SchemeResourcesResolver {
             faqList.add({
               'question': q,
               'answer': a,
-              'category': (f['category'] as String?) ?? '',
+              'category':
+                  (SchemeAdapterTextUtils.textOrNull(f['category'])) ?? '',
             });
           }
         }
@@ -348,19 +377,25 @@ class SchemeResourcesResolver {
 
     final sourcesList = SchemeAdapterTextUtils.asList(content['sources']);
     String? officialWebsiteRaw =
-        (resources['officialWebsiteUrl'] as String?) ??
-        (resources['applicationPortalUrl'] as String?) ??
-        (resources['schemePortalUrl'] as String?) ??
-        (resources['portalUrl'] as String?) ??
-        (appProc['onlineUrl'] as String?);
+        (SchemeAdapterTextUtils.textOrNull(resources['officialWebsiteUrl'])) ??
+        (SchemeAdapterTextUtils.textOrNull(
+          resources['applicationPortalUrl'],
+        )) ??
+        (SchemeAdapterTextUtils.textOrNull(resources['schemePortalUrl'])) ??
+        (SchemeAdapterTextUtils.textOrNull(resources['portalUrl'])) ??
+        (SchemeAdapterTextUtils.textOrNull(appProc['onlineUrl']));
 
-    String? guidelinesUrlRaw = (resources['guidelinesPdfUrl'] as String?);
+    String? guidelinesUrlRaw = (SchemeAdapterTextUtils.textOrNull(
+      resources['guidelinesPdfUrl'],
+    ));
 
     if (sourcesList != null) {
       for (final s in sourcesList) {
         if (s is Map<String, dynamic>) {
-          final type = (s['sourceType'] as String? ?? '').toLowerCase();
-          final url = s['url'] as String?;
+          final type =
+              (SchemeAdapterTextUtils.textOrNull(s['sourceType']) ?? '')
+                  .toLowerCase();
+          final url = SchemeAdapterTextUtils.textOrNull(s['url']);
           if (url != null && url.isNotEmpty) {
             if (officialWebsiteRaw == null || officialWebsiteRaw.isEmpty) {
               if (type.contains('website') ||
@@ -391,15 +426,19 @@ class SchemeResourcesResolver {
         ? officialWebsiteRaw.trim()
         : '';
     final applicationUrl =
-        (appProc['onlineUrl'] as String?) ??
-        (resources['applicationPortalUrl'] as String?) ??
+        (SchemeAdapterTextUtils.textOrNull(appProc['onlineUrl'])) ??
+        (SchemeAdapterTextUtils.textOrNull(
+          resources['applicationPortalUrl'],
+        )) ??
         officialWebsite;
     final guidelinesUrl = guidelinesUrlRaw ?? '';
-    final logoUrl = (resources['logoUrl'] as String?) ?? '';
+    final logoUrl =
+        (SchemeAdapterTextUtils.textOrNull(resources['logoUrl'])) ?? '';
 
     // catalog.scheme.scheme_url, mirrored into record_json.content.schemeUrl.
     // Authoritative "Apply Now" destination -- used directly, no fallback.
-    final schemeUrl = (content['schemeUrl'] as String?)?.trim() ?? '';
+    final schemeUrl =
+        (SchemeAdapterTextUtils.textOrNull(content['schemeUrl']))?.trim() ?? '';
 
     final helplineContactsMap = <String, String>{};
     if (contactsObj['helplines'] is List) {

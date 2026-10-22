@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../l10n/l10n.dart';
 import '../../../services/recommendation/indian_states.dart';
 import 'state_picker_field.dart';
+import 'district_picker_field.dart';
 import '../../../utils/app_spacing.dart';
 
 class Step2LocationForm extends StatelessWidget {
@@ -188,22 +189,6 @@ class Step2LocationForm extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.lg),
 
-        // District Field
-        _buildLabel('${l10n.district} *'),
-        const SizedBox(height: AppSpacing.tight),
-        _buildTextField(
-          controller: districtController,
-          hintText: l10n.hintCityExample,
-          icon: Icons.domain_outlined,
-          errorText:
-              hasSubmitted &&
-                  !looksLikePlaceName(districtController.text, min: 2)
-              ? l10n.profileErrValidCity
-              : null,
-          onChanged: (_) => onChanged(),
-        ),
-        const SizedBox(height: AppSpacing.lg),
-
         // State Field: picked from the fixed list of states and union
         // territories, never typed (a typo would break state-based scheme
         // matching).
@@ -213,6 +198,24 @@ class Step2LocationForm extends StatelessWidget {
           controller: stateController,
           errorText: hasSubmitted && !isKnownState(stateController.text)
               ? l10n.profileErrValidState
+              : null,
+          // A district belongs to one state: a new state clears it.
+          onStateChanged: districtController.clear,
+          onChanged: onChanged,
+        ),
+        const SizedBox(height: AppSpacing.lg),
+
+        // District Field: picked from the chosen state's official (LGD)
+        // districts, so it sits below State (issue #145 item 2.1).
+        _buildLabel('${l10n.district} *'),
+        const SizedBox(height: AppSpacing.tight),
+        DistrictPickerField(
+          controller: districtController,
+          state: stateController.text,
+          errorText:
+              hasSubmitted &&
+                  !looksLikePlaceName(districtController.text, min: 2)
+              ? l10n.profileErrValidDistrict
               : null,
           onChanged: onChanged,
         ),

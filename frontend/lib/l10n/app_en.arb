@@ -1317,6 +1317,11 @@
   "profileSelectState": "Select your state",
   "profileSearchStateHint": "Search state or union territory",
   "profileNoStateMatch": "No matching state",
+  "profileSelectDistrict": "Select your district",
+  "profileSelectStateFirst": "Select your state first",
+  "profileSearchDistrictHint": "Search district",
+  "profileNoDistrictMatch": "No matching district",
+  "profileErrValidDistrict": "Please select your district",
   "profileErrSelectOptionToContinue": "Please select an option to continue.",
   "profileErrSelectEducation": "Please select your education level",
   "profileErrSelectCommunity": "Please select your community category",
@@ -1540,6 +1545,8 @@
   "schemeAppStatusAnnounced": "Announced",
   "schemeAppStatusHistorical": "Historical or superseded",
   "schemeAppStatusUnavailable": "Temporarily unavailable",
+  "schemeAppStatusUnknown": "Not confirmed",
+  "officialInfoButton": "Official information",
   "schemeDeadline": "Deadline",
   "schemeFees": "Fees",
   "schemePrerequisite": "Prerequisite",
@@ -1600,6 +1607,15 @@
   "pwRemoveNeedsCurrent": "Enter your current password to remove it.",
   "pwRemoveFailed": "Could not remove the password.",
   "pwMinHint": "At least 15 characters",
+  "pwLengthProgress": "{count} of 15 characters minimum",
+  "@pwLengthProgress": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pwLongTip": "Long is strong: a few words you remember, like “mango tree near the temple”, work well.",
   "sessionRevoked": "Session revoked.",
   "sessionRevokeFailed": "Unable to revoke the session.",
   "logoutAllFailed": "Unable to log out all devices.",

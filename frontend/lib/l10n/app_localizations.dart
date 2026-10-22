@@ -7954,6 +7954,36 @@ abstract class AppLocalizations {
   /// **'No matching state'**
   String get profileNoStateMatch;
 
+  /// No description provided for @profileSelectDistrict.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your district'**
+  String get profileSelectDistrict;
+
+  /// No description provided for @profileSelectStateFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your state first'**
+  String get profileSelectStateFirst;
+
+  /// No description provided for @profileSearchDistrictHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search district'**
+  String get profileSearchDistrictHint;
+
+  /// No description provided for @profileNoDistrictMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching district'**
+  String get profileNoDistrictMatch;
+
+  /// No description provided for @profileErrValidDistrict.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select your district'**
+  String get profileErrValidDistrict;
+
   /// No description provided for @profileErrSelectOptionToContinue.
   ///
   /// In en, this message translates to:
@@ -9226,6 +9256,18 @@ abstract class AppLocalizations {
   /// **'Temporarily unavailable'**
   String get schemeAppStatusUnavailable;
 
+  /// No description provided for @schemeAppStatusUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Not confirmed'**
+  String get schemeAppStatusUnknown;
+
+  /// No description provided for @officialInfoButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Official information'**
+  String get officialInfoButton;
+
   /// No description provided for @schemeDeadline.
   ///
   /// In en, this message translates to:
@@ -9573,6 +9615,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'At least 15 characters'**
   String get pwMinHint;
+
+  /// No description provided for @pwLengthProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} of 15 characters minimum'**
+  String pwLengthProgress(int count);
+
+  /// No description provided for @pwLongTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Long is strong: a few words you remember, like “mango tree near the temple”, work well.'**
+  String get pwLongTip;
 
   /// No description provided for @sessionRevoked.
   ///

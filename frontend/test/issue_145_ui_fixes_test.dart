@@ -161,8 +161,9 @@ void main() {
         ),
       );
 
-      // Address, city, district and pincode stay text fields; state does not.
-      expect(find.byType(TextFormField), findsNWidgets(4));
+      // Address, city and pincode stay text fields; state and district are
+      // picked from lists.
+      expect(find.byType(TextFormField), findsNWidgets(3));
       expect(find.text('Please select your state'), findsOneWidget);
 
       await tester.tap(find.text('Select your state'));
