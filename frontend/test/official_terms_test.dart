@@ -6,8 +6,9 @@ import 'package:flutter_test/flutter_test.dart';
 /// Keeps the in-app wording (ARB + translation dictionaries) on the terms the
 /// scheme catalog itself uses, so a scheme's own translated text and the app's
 /// labels around it read the same. The preferred forms were read off the catalog:
-/// Tamil writes women as "மகளிர்" (and MSME in the short Tamil-letter form
-/// "எம்எஸ்எம்இ", by product decision); Hindi says
+/// Tamil writes women as "மகளிர்" (and MSME as spaced Tamil letters,
+/// "எம் எஸ் எம் ஈ", as in the terminology dictionary
+/// backend/catalog/source/translation_terminology_dictionary.json); Hindi says
 /// "दिव्यांग", "अवसंरचना" and "महिला".
 void main() {
   Map<String, dynamic> readJson(String path) =>
@@ -22,10 +23,10 @@ void main() {
   String hiTag(String key) => (hiDict['tagMap'] as Map)[key] as String;
 
   group('Tamil', () {
-    test('MSME is written short, in Tamil letters (எம்எஸ்எம்இ)', () {
-      expect(ta['catBusinessMsme'], contains('எம்எஸ்எம்இ'));
-      expect(ta['udyamModuleDescription'], contains('எம்எஸ்எம்இ'));
-      expect(taTag('msme'), 'எம்எஸ்எம்இ');
+    test('MSME is written as spaced Tamil letters (எம் எஸ் எம் ஈ)', () {
+      expect(ta['catBusinessMsme'], contains('எம் எஸ் எம் ஈ'));
+      expect(ta['udyamModuleDescription'], contains('எம் எஸ் எம் ஈ'));
+      expect(taTag('msme'), 'எம் எஸ் எம் ஈ');
     });
 
     test('no UI string spells the word MSME in Latin letters', () {

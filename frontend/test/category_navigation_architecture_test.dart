@@ -147,7 +147,7 @@ void main() {
     test(
       '9. All Category Titles translate cleanly to Tamil via CentralizedTranslator',
       () {
-        expect(translator.translateTag('MSME'), equals('எம்எஸ்எம்இ'));
+        expect(translator.translateTag('MSME'), equals('எம் எஸ் எம் ஈ'));
         expect(translator.translateTag('Startup'), equals('ஸ்டார்ட்அப்'));
         expect(
           translator.translateTag('Women Entrepreneurs'),

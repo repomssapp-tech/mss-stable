@@ -50,7 +50,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get udyamModuleDescription =>
-      'அதிகாரப்பூர்வ எம்எஸ்எம்இ பதிவு வழிகாட்டி மற்றும் நேரடி போர்டல் இணைப்பு';
+      'அதிகாரப்பூர்வ எம் எஸ் எம் ஈ பதிவு வழிகாட்டி மற்றும் நேரடி போர்டல் இணைப்பு';
 
   @override
   String get findFunding => 'நிதி கண்டறிக';
@@ -59,7 +59,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get startABusiness => 'தொழில் தொடங்க';
 
   @override
-  String get exploreMsmeSupport => 'எம்எஸ்எம்இ ஆதரவை ஆராய்க';
+  String get exploreMsmeSupport => 'எம் எஸ் எம் ஈ ஆதரவை ஆராய்க';
 
   @override
   String get schemes => 'திட்டங்கள்';
@@ -132,7 +132,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get quickPillStartup => 'ஸ்டார்ட்அப் இந்தியா தேடுக';
 
   @override
-  String get quickPillLoans => 'எம்எஸ்எம்இ கடன்கள் தேடுக';
+  String get quickPillLoans => 'எம் எஸ் எம் ஈ கடன்கள் தேடுக';
 
   @override
   String get quickPillWomen => 'மகளிர் திட்டங்கள் தேடுக';
@@ -1243,7 +1243,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get companionIntroSuffix =>
-      ', எம்எஸ்எம்இ வெற்றிக்கான\nஉங்கள் AI துணை.';
+      ', எம் எஸ் எம் ஈ வெற்றிக்கான\nஉங்கள் AI துணை.';
 
   @override
   String get companionEmptyStateHint =>
@@ -1611,7 +1611,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get calcUdyamClassifierTitle =>
-      'உத்யம் (Udyam) எம்எஸ்எம்இ வகைப்படுத்தி';
+      'உத்யம் (Udyam) எம் எஸ் எம் ஈ வகைப்படுத்தி';
 
   @override
   String get calcUdyamClassifierSub =>
@@ -1723,7 +1723,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get utilUdyamTitle => 'உத்யம் (Udyam) வகைப்படுத்தி';
 
   @override
-  String get utilUdyamDesc => 'எம்எஸ்எம்இ நிலையைச் சரிபார்க்கவும்';
+  String get utilUdyamDesc => 'எம் எஸ் எம் ஈ நிலையைச் சரிபார்க்கவும்';
 
   @override
   String get utilSubsidyTitle => 'மானியம் மதிப்பீட்டாளர்';
@@ -1973,7 +1973,7 @@ class AppLocalizationsTa extends AppLocalizations {
       'பதிவு செய்யப்பட்ட அல்லது பதிவு செய்யப்படாத தொழிலை நடத்துகிறேன்.';
 
   @override
-  String get msmeOwner => 'எம்எஸ்எம்இ உரிமையாளர்';
+  String get msmeOwner => 'எம் எஸ் எம் ஈ உரிமையாளர்';
 
   @override
   String get msmeOwnerSubtitle =>
@@ -2223,7 +2223,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get sarvamPromptExplainMsmeLoans =>
-      'எம்எஸ்எம்இ கடன் பற்றி சொல்லுங்கள்';
+      'எம் எஸ் எம் ஈ கடன் பற்றி சொல்லுங்கள்';
 
   @override
   String get sarvamAskAboutSchemes =>
@@ -2323,7 +2323,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get searchCategoriesHint => 'பிரிவுகளைத் தேடுங்கள்...';
 
   @override
-  String get catBusinessMsme => 'தொழில் & எம்எஸ்எம்இ';
+  String get catBusinessMsme => 'தொழில் & எம் எஸ் எம் ஈ';
 
   @override
   String get catStartupIncubation => 'ஸ்டார்ட்அப் & இன்குபேஷன்';
@@ -2506,7 +2506,8 @@ class AppLocalizationsTa extends AppLocalizations {
       'SME IPO பட்டியல் தேவைகள் (BSE SME & NSE Emerge)';
 
   @override
-  String get msmeFeatureTaxGst1 => 'எம்எஸ்எம்இ கார்ப்பரேட் வருமான வரி சலுகைகள்';
+  String get msmeFeatureTaxGst1 =>
+      'எம் எஸ் எம் ஈ கார்ப்பரேட் வருமான வரி சலுகைகள்';
 
   @override
   String get msmeFeatureTaxGst2 =>
@@ -2530,7 +2531,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFeatureTaxGst7 =>
-      'எம்எஸ்எம்இ சமாதான் போர்டல் மீட்பு வழிகாட்டுதல்கள்';
+      'எம் எஸ் எம் ஈ சமாதான் போர்டல் மீட்பு வழிகாட்டுதல்கள்';
 
   @override
   String get msmeFeatureExport1 =>
@@ -2565,7 +2566,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFeatureTreds2 =>
-      'எம்எஸ்எம்இ விற்பனையாளர்களுக்கான இணைவு வழிகாட்டுதல்கள்';
+      'எம் எஸ் எம் ஈ விற்பனையாளர்களுக்கான இணைவு வழிகாட்டுதல்கள்';
 
   @override
   String get msmeFeatureTreds3 => 'RXIL, M1xchange & Invoicemart பதிவு படிகள்';
@@ -2611,7 +2612,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFeatureGovt1 =>
-      'எம்எஸ்எம்இ அமைச்சகத்தின் (மத்திய அரசு) கொள்கைகள் & முயற்சிகள்';
+      'எம் எஸ் எம் ஈ அமைச்சகத்தின் (மத்திய அரசு) கொள்கைகள் & முயற்சிகள்';
 
   @override
   String get msmeFeatureGovt2 =>
@@ -2901,7 +2902,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get assessWomenQ3BizCreditOpt2 =>
-      'எம்எஸ்எம்இ கடன் (₹1 இலட்சம் - ₹10 இலட்சம்)';
+      'எம் எஸ் எம் ஈ கடன் (₹1 இலட்சம் - ₹10 இலட்சம்)';
 
   @override
   String get assessWomenQ3BizCreditOpt3 =>
@@ -2949,7 +2950,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get assessBizQ1 => 'உங்கள் தொழில் முறைப்படி பதிவு செய்யப்பட்டுள்ளதா?';
 
   @override
-  String get assessBizQ1Opt1 => 'ஆம், எம்எஸ்எம்இ உத்யம் மூலம்';
+  String get assessBizQ1Opt1 => 'ஆம், எம் எஸ் எம் ஈ உத்யம் மூலம்';
 
   @override
   String get assessBizQ1Opt2 => 'ஆம், DPIIT ஸ்டார்ட்அப்பாக';
@@ -3337,7 +3338,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get assessStateQ3Opt1 => 'வேளாண்மை / விவசாயி';
 
   @override
-  String get assessStateQ3Opt2 => 'எம்எஸ்எம்இ / ஸ்டார்ட்அப் உரிமையாளர்';
+  String get assessStateQ3Opt2 => 'எம் எஸ் எம் ஈ / ஸ்டார்ட்அப் உரிமையாளர்';
 
   @override
   String get assessStateQ3Opt3 => 'நெசவு / பாரம்பரிய கைவினைஞர்கள்';
@@ -4633,7 +4634,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get searchHintFallback =>
-      'PMEGP, Startup India, எம்எஸ்எம்இ கடன்கள் தேடுங்கள்...';
+      'PMEGP, Startup India, எம் எஸ் எம் ஈ கடன்கள் தேடுங்கள்...';
 
   @override
   String searchBestMatchesForQuery(Object query) {
@@ -5317,7 +5318,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get udyamMedium => 'நடுத்தர நிறுவனம்';
 
   @override
-  String get udyamLarge => 'பெரிய நிறுவனம் (எம்எஸ்எம்இ வரம்புக்கு அப்பால்)';
+  String get udyamLarge => 'பெரிய நிறுவனம் (எம் எஸ் எம் ஈ வரம்புக்கு அப்பால்)';
 
   @override
   String get udyamInvalid => 'தவறான உள்ளீடு';
