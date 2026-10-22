@@ -40,36 +40,33 @@ class SearchSkeletonBar extends StatelessWidget {
   }
 }
 
-/// Self-contained shimmering scheme-card placeholder shown while search
-/// results are loading.
-///
-/// Extracted from `search_screen.dart` (frontend refactor C5, safe slice) —
-/// owns its own `AnimationController`, zero coupling to `SearchScreenState`.
-/// Renamed from `_ShimmerSkeletonCard` for the same per-file-privacy reason
-/// as [SearchSkeletonBar].
-class ShimmerSkeletonCard extends StatefulWidget {
-  const ShimmerSkeletonCard({super.key});
+/// Sweeps one soft highlight across [child] (the whole skeleton list at once,
+/// so every card shimmers in step instead of blinking on its own). Stays
+/// still when the platform asks for reduced motion.
+class ShimmerSweep extends StatefulWidget {
+  const ShimmerSweep({super.key, required this.child});
+
+  final Widget child;
 
   @override
-  State<ShimmerSkeletonCard> createState() => ShimmerSkeletonCardState();
+  State<ShimmerSweep> createState() => _ShimmerSweepState();
 }
 
-class ShimmerSkeletonCardState extends State<ShimmerSkeletonCard>
+class _ShimmerSweepState extends State<ShimmerSweep>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1400),
+  );
 
   @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 900),
-    )..repeat(reverse: true);
-    _animation = Tween<double>(
-      begin: 0.35,
-      end: 0.85,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (MediaQuery.disableAnimationsOf(context)) {
+      _controller.stop();
+    } else if (!_controller.isAnimating) {
+      _controller.repeat();
+    }
   }
 
   @override
@@ -80,76 +77,85 @@ class ShimmerSkeletonCardState extends State<ShimmerSkeletonCard>
 
   @override
   Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _animation,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: AppSpacing.lg),
-        padding: const EdgeInsets.all(AppSpacing.lg),
-        height: 140,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Shimmer Logo Box
-            Container(
-              width: 56,
-              height: 56,
-              decoration: BoxDecoration(
-                color: const Color(0xFFE2E8F0),
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            const SizedBox(width: AppSpacing.lg),
+    return AnimatedBuilder(
+      animation: _controller,
+      child: widget.child,
+      builder: (context, child) {
+        final t = _controller.value;
+        return ShaderMask(
+          blendMode: BlendMode.srcATop,
+          shaderCallback: (bounds) => LinearGradient(
+            begin: Alignment(-2.0 + 4.0 * t, -0.3),
+            end: Alignment(-1.0 + 4.0 * t, 0.3),
+            colors: const [
+              Color(0x00FFFFFF),
+              Color(0xB3FFFFFF),
+              Color(0x00FFFFFF),
+            ],
+          ).createShader(bounds),
+          child: child,
+        );
+      },
+    );
+  }
+}
 
-            // Shimmer Content Lines
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 160,
-                    height: 16,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE2E8F0),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  Container(
-                    width: 100,
-                    height: 14,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE2E8F0),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-                  Container(
-                    width: double.infinity,
-                    height: 12,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE2E8F0),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.tight),
-                  Container(
-                    width: 180,
-                    height: 12,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE2E8F0),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+/// Scheme-card placeholder shown while search results load. Static on its
+/// own; wrap the list in [ShimmerSweep] to animate it. Bars scale with the
+/// card width so narrow phones and large text do not overflow.
+class ShimmerSkeletonCard extends StatelessWidget {
+  const ShimmerSkeletonCard({super.key});
+
+  static Widget _bar(double height, {double widthFactor = 1}) =>
+      FractionallySizedBox(
+        alignment: Alignment.centerLeft,
+        widthFactor: widthFactor,
+        child: Container(
+          height: height,
+          decoration: BoxDecoration(
+            color: const Color(0xFFE2E8F0),
+            borderRadius: BorderRadius.circular(4),
+          ),
         ),
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: AppSpacing.lg),
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 56,
+            height: 56,
+            decoration: BoxDecoration(
+              color: const Color(0xFFE2E8F0),
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+          const SizedBox(width: AppSpacing.lg),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _bar(16, widthFactor: 0.7),
+                const SizedBox(height: AppSpacing.sm),
+                _bar(14, widthFactor: 0.45),
+                const SizedBox(height: AppSpacing.md),
+                _bar(12),
+                const SizedBox(height: AppSpacing.tight),
+                _bar(12, widthFactor: 0.8),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

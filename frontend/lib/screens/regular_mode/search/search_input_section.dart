@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'listening_pulse.dart';
 import '../../../utils/spell_check.dart';
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
@@ -89,7 +90,9 @@ class SearchInputField extends StatelessWidget {
           color: const Color(0xFF1E293B),
         ),
         decoration: InputDecoration(
-          hintText: context.l10n.searchPlaceholder,
+          hintText: isDictating
+              ? context.l10n.voiceStatusListening
+              : context.l10n.searchPlaceholder,
           hintStyle: GoogleFonts.inter(
             color: const Color(0xFF94A3B8),
             fontSize: 12.5,
@@ -124,13 +127,19 @@ class SearchInputField extends StatelessWidget {
                 tooltip: isDictating
                     ? context.l10n.stopVoiceSearchTooltip
                     : context.l10n.voiceSearchTooltip,
-                icon: Icon(
-                  isDictating ? Icons.mic : Icons.mic_none,
-                  color: isDictating
-                      ? const Color(0xFFDC2626)
-                      : const Color(0xFF2563EB),
-                  size: 20,
-                ),
+                icon: isDictating
+                    ? const ListeningPulse(
+                        child: Icon(
+                          Icons.mic,
+                          color: Color(0xFFDC2626),
+                          size: 20,
+                        ),
+                      )
+                    : const Icon(
+                        Icons.mic_none,
+                        color: Color(0xFF2563EB),
+                        size: 20,
+                      ),
                 onPressed: onToggleDictation,
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
