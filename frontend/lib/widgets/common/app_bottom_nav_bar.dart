@@ -9,12 +9,16 @@ import '../../utils/app_spacing.dart';
 /// Side margin of the floating bar.
 const double kNavBarSideMargin = AppSpacing.lg;
 
+/// Space between the pill's edge and the first/last tab.
+const double kNavBarInnerPad = AppSpacing.xs;
+
 /// Gap between the floating bar and the system gesture area.
 const double kNavBarFloatGap = AppSpacing.sm;
 
 /// The app's five-tab bottom bar: a floating frosted-glass pill. The tab
 /// content shows through it blurred (the shell Scaffold uses `extendBody`),
-/// tinted with the brand blue, with white icons and labels.
+/// behind a light, near-white tint; the active tab uses the brand primary
+/// colour and the others a muted grey.
 ///
 /// Labels sit under five equal slots, so the bar follows the system font size
 /// only up to a point; its height tracks the (capped) scale so larger fonts get
@@ -46,12 +50,12 @@ class AppBottomNavBar extends StatelessWidget {
       backgroundColor: Colors.transparent,
       surfaceTintColor: Colors.transparent,
       elevation: 0,
-      indicatorColor: AppColors.textOnPrimary.withValues(alpha: 0.22),
+      indicatorColor: AppColors.primary.withValues(alpha: 0.12),
       labelTextStyle: WidgetStateProperty.resolveWith(
         (states) => label.copyWith(
           color: states.contains(WidgetState.selected)
-              ? AppColors.textOnPrimary
-              : AppColors.textOnPrimary.withValues(alpha: 0.78),
+              ? AppColors.primary
+              : AppColors.textSecondary,
           fontWeight: states.contains(WidgetState.selected)
               ? FontWeight.w700
               : FontWeight.w500,
@@ -60,8 +64,8 @@ class AppBottomNavBar extends StatelessWidget {
       iconTheme: WidgetStateProperty.resolveWith(
         (states) => IconThemeData(
           color: states.contains(WidgetState.selected)
-              ? AppColors.textOnPrimary
-              : AppColors.textOnPrimary.withValues(alpha: 0.78),
+              ? AppColors.primary
+              : AppColors.textSecondary,
         ),
       ),
     );
@@ -81,7 +85,7 @@ class AppBottomNavBar extends StatelessWidget {
           borderRadius: AppRadius.pillAll,
           boxShadow: [
             BoxShadow(
-              color: AppColors.primaryDeep.withValues(alpha: 0.28),
+              color: AppColors.textPrimary.withValues(alpha: 0.12),
               blurRadius: 24,
               offset: const Offset(0, 8),
             ),
@@ -94,80 +98,89 @@ class AppBottomNavBar extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 borderRadius: AppRadius.pillAll,
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    AppColors.primary.withValues(alpha: 0.72),
-                    AppColors.primaryDeep.withValues(alpha: 0.82),
-                  ],
-                ),
+                color: AppColors.surface.withValues(alpha: 0.78),
                 border: Border.all(
-                  color: AppColors.textOnPrimary.withValues(alpha: 0.28),
+                  color: AppColors.textOnPrimary.withValues(alpha: 0.7),
                 ),
               ),
-              child: MediaQuery.removePadding(
-                context: context,
-                removeBottom: true,
-                child: Builder(
-                  builder: (slotContext) {
-                    final fit = _navLabelFit(slotContext, labels);
-                    return MediaQuery(
-                      data: MediaQuery.of(slotContext).copyWith(
-                        textScaler: MediaQuery.textScalerOf(slotContext).clamp(
-                          minScaleFactor: kMinNavLabelScale,
-                          maxScaleFactor: fit.scale,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: kNavBarInnerPad,
+                ),
+                child: MediaQuery.removePadding(
+                  context: context,
+                  removeBottom: true,
+                  child: Builder(
+                    builder: (slotContext) {
+                      final fit = _navLabelFit(slotContext, labels);
+                      return MediaQuery(
+                        data: MediaQuery.of(slotContext).copyWith(
+                          textScaler: MediaQuery.textScalerOf(slotContext)
+                              .clamp(
+                                minScaleFactor: kMinNavLabelScale,
+                                maxScaleFactor: fit.scale,
+                              ),
                         ),
-                      ),
-                      child: NavigationBarTheme(
-                        data: _glassTheme(slotContext),
-                        child: Builder(
-                          builder: (navContext) => NavigationBar(
-                            // One more label line when a label has to wrap.
-                            height:
-                                MediaQuery.textScalerOf(navContext).scale(
-                                  NavigationBarTheme.of(navContext).height ??
-                                      64,
-                                ) +
-                                (fit.wraps ? fit.lineHeight : 0),
-                            selectedIndex: selectedIndex,
-                            onDestinationSelected: onSelected,
-                            destinations: [
-                              NavigationDestination(
-                                icon: const Icon(Icons.home_outlined),
-                                selectedIcon: const Icon(Icons.home_rounded),
-                                label: labels[0],
-                              ),
-                              NavigationDestination(
-                                // Same glyph selected/unselected: the pill
-                                // indicator carries the selected state.
-                                icon: const Icon(Icons.search_rounded),
-                                selectedIcon: const Icon(Icons.search_rounded),
-                                label: labels[1],
-                              ),
-                              NavigationDestination(
-                                icon: const Icon(Icons.explore_outlined),
-                                selectedIcon: const Icon(Icons.explore_rounded),
-                                label: labels[2],
-                              ),
-                              NavigationDestination(
-                                icon: const Icon(Icons.bookmark_border_rounded),
-                                selectedIcon: const Icon(
-                                  Icons.bookmark_rounded,
+                        child: NavigationBarTheme(
+                          data: _glassTheme(slotContext),
+                          child: Builder(
+                            builder: (navContext) => NavigationBar(
+                              // One more label line when a label has to wrap.
+                              height:
+                                  MediaQuery.textScalerOf(navContext).scale(
+                                    NavigationBarTheme.of(navContext).height ??
+                                        64,
+                                  ) +
+                                  (fit.wraps ? fit.lineHeight : 0),
+                              selectedIndex: selectedIndex,
+                              onDestinationSelected: onSelected,
+                              destinations: [
+                                NavigationDestination(
+                                  icon: const Icon(Icons.home_outlined),
+                                  selectedIcon: const Icon(Icons.home_rounded),
+                                  label: labels[0],
                                 ),
-                                label: labels[3],
-                              ),
-                              NavigationDestination(
-                                icon: const Icon(Icons.person_outline_rounded),
-                                selectedIcon: const Icon(Icons.person_rounded),
-                                label: labels[4],
-                              ),
-                            ],
+                                NavigationDestination(
+                                  // Same glyph selected/unselected: the pill
+                                  // indicator carries the selected state.
+                                  icon: const Icon(Icons.search_rounded),
+                                  selectedIcon: const Icon(
+                                    Icons.search_rounded,
+                                  ),
+                                  label: labels[1],
+                                ),
+                                NavigationDestination(
+                                  icon: const Icon(Icons.explore_outlined),
+                                  selectedIcon: const Icon(
+                                    Icons.explore_rounded,
+                                  ),
+                                  label: labels[2],
+                                ),
+                                NavigationDestination(
+                                  icon: const Icon(
+                                    Icons.bookmark_border_rounded,
+                                  ),
+                                  selectedIcon: const Icon(
+                                    Icons.bookmark_rounded,
+                                  ),
+                                  label: labels[3],
+                                ),
+                                NavigationDestination(
+                                  icon: const Icon(
+                                    Icons.person_outline_rounded,
+                                  ),
+                                  selectedIcon: const Icon(
+                                    Icons.person_rounded,
+                                  ),
+                                  label: labels[4],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -209,7 +222,8 @@ const double kMinNavLabelScale = 11 / 12;
   }
   if (widest == 0) return (scale: 1.15, wraps: false, lineHeight: lineHeight);
   final slot =
-      (MediaQuery.sizeOf(context).width - kNavBarSideMargin * 2) /
+      (MediaQuery.sizeOf(context).width -
+          (kNavBarSideMargin + kNavBarInnerPad) * 2) /
       labels.length;
   final usable = slot - AppSpacing.sm * 2;
   final fit = usable / widest;
