@@ -223,7 +223,7 @@ void main() {
 
       expect(find.byKey(const Key('doc-checklist-sheet')), findsOneWidget);
       expect(find.text('அமைப்பு ஆவணப் பட்டியல்'), findsOneWidget);
-      expect(find.text('மின்னணு கையொப்பச் சான்றிதழ் (டிஎஸ்சி)'), findsOneWidget);
+      expect(find.text('மின்னணு கையொப்பச் சான்றிதழ் (DSC)'), findsOneWidget);
       expect(find.text('0 / 6'), findsOneWidget);
     });
   });
