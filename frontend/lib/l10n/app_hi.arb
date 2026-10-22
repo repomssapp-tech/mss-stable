@@ -1664,5 +1664,14 @@
   "liveVoiceLatest": "नवीनतम जवाब",
   "liveVoiceScreenReaderShort": "स्क्रीन रीडर मोड: हर जवाब के बाद फिर से शुरू करें।",
   "liveVoiceFinalTimeout": "प्रतिलेख पूरा नहीं हुआ। सुने गए शब्द सुधारें या फिर से कोशिश करें।",
-  "liveVoiceSpeechUnavailable": "ऑडियो नहीं चल सका। उत्तर नीचे है। दोबारा सुनने के लिए उत्तर फिर सुनें दबाएँ और मीडिया की आवाज़ जाँचें।"
+  "liveVoiceSpeechUnavailable": "ऑडियो नहीं चल सका। उत्तर नीचे है। दोबारा सुनने के लिए उत्तर फिर सुनें दबाएँ और मीडिया की आवाज़ जाँचें।",
+  "notifDetailTitle": "सूचना",
+  "notifDeleteThis": "यह सूचना हटाएं",
+  "notifDeletedToast": "सूचना हटा दी गई",
+  "notifReceivedOn": "प्राप्त {date}",
+  "notifToday": "आज",
+  "notifYesterday": "कल",
+  "notifEarlier": "पहले",
+  "settingsHapticsTitle": "हैप्टिक फ़ीडबैक",
+  "settingsHapticsSubtitle": "टैप करने पर और सूचना आने पर हल्का कंपन"
 }

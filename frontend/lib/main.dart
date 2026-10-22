@@ -26,6 +26,9 @@ import 'utils/constants.dart';
 import 'utils/app_theme.dart';
 import 'utils/app_spacing.dart';
 import 'widgets/common/app_bottom_nav_bar.dart';
+import 'widgets/common/haptic_touch_layer.dart';
+import 'services/haptics/haptics_service.dart';
+import 'services/notifications/local_notification_service.dart';
 
 /// App-wide scroll behavior: Android-style clamping (no iOS rubber-band).
 /// The bounce read as "sticky and elastic" and let content be dragged well
@@ -97,6 +100,11 @@ void main() async {
   unawaited(ChatLogService.syncPendingOfflineQueue());
 
   final pushGateway = await initializeFirebase() ? FirebasePushGateway() : null;
+
+  // Haptics on/off (Settings) and the phone-notification channel. A tap on a
+  // notification that launched the app is opened once the shell is up.
+  await HapticsService.instance.load();
+  await LocalNotificationService.instance.init();
 
   runApp(
     ChangeNotifierProvider(
@@ -201,7 +209,7 @@ class MSSApp extends StatelessWidget {
           data: mediaQueryData.copyWith(
             textScaler: TextScaler.linear(boundedScale),
           ),
-          child: child!,
+          child: HapticTouchLayer(child: child!),
         );
       },
       // 2.3 (design system): the whole ThemeData moved to AppTheme.light.
@@ -326,6 +334,8 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
         },
         child: Scaffold(
           backgroundColor: Colors.transparent,
+          // The frosted nav bar floats over the tab content.
+          extendBody: true,
           body: IndexedStack(index: currentTabIndex, children: tabs),
           bottomNavigationBar: navigationMode == 'companion'
               ? null

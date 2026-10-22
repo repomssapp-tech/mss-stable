@@ -202,7 +202,7 @@ void main() {
       _app(
         AppProvider(),
         Scaffold(
-          body: NewSchemeNotificationCard(
+          body: NotificationTile(
             item: const {'id': 'n1', 'title': 'A scheme', 'read': false},
             isSelectionMode: true,
             isSelected: selected,

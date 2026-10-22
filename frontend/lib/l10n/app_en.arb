@@ -1672,5 +1672,15 @@
   "liveVoiceLatest": "Latest reply",
   "liveVoiceScreenReaderShort": "Screen reader mode: resume after each reply.",
   "liveVoiceFinalTimeout": "The transcript did not finish. Correct the words we heard, or resume to try again.",
-  "liveVoiceSpeechUnavailable": "I couldn’t play the audio. Your reply is below. Tap Hear reply again to retry, and check your media volume."
+  "liveVoiceSpeechUnavailable": "I couldn’t play the audio. Your reply is below. Tap Hear reply again to retry, and check your media volume.",
+  "notifDetailTitle": "Notification",
+  "notifDeleteThis": "Delete this notification",
+  "notifDeletedToast": "Notification deleted",
+  "notifReceivedOn": "Received {date}",
+  "notifToday": "Today",
+  "notifYesterday": "Yesterday",
+  "notifEarlier": "Earlier",
+  "settingsHapticsTitle": "Haptic feedback",
+  "settingsHapticsSubtitle": "Vibrate lightly on taps and when a notification arrives",
+  "@notifReceivedOn": {"placeholders": {"date": {"type": "String"}}}
 }

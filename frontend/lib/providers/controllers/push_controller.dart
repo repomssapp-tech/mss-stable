@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import '../../screens/notifications/push_message_presenter.dart';
+import '../../services/notifications/local_notification_service.dart';
 import '../../services/notifications/push_models.dart';
 import '../../services/notifications/push_notification_service.dart';
 
@@ -20,6 +21,10 @@ class PushController {
         unawaited(_presenter.showForeground(m, owner));
     _service.onOpenedMessage = (m, owner) =>
         unawaited(_presenter.open(m, owner));
+    final local = LocalNotificationService.instance;
+    local.onOpen = (id) => unawaited(_presenter.openById(id));
+    final launchId = local.takeLaunchPayload();
+    if (launchId != null) unawaited(_presenter.openById(launchId));
   }
 
   final PushNotificationService _service;

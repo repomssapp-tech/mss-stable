@@ -6,17 +6,17 @@ import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/utils/constants.dart';
 import 'package:frontend/l10n/l10n.dart';
 import 'package:frontend/widgets/common/app_toast.dart';
-import 'regular_mode/basic_profile_screen.dart';
 import '../utils/app_spacing.dart';
+import '../utils/app_text.dart';
 import 'notifications/notification_helpers.dart';
 import 'notifications/notification_category_bar.dart';
-import 'notifications/notification_section.dart';
+import 'notifications/notification_detail_screen.dart';
 import 'notifications/notification_cards.dart';
 import 'notifications/notification_empty_state.dart';
 
 export 'notifications/notification_helpers.dart';
 export 'notifications/notification_category_bar.dart';
-export 'notifications/notification_section.dart';
+export 'notifications/notification_detail_screen.dart';
 export 'notifications/notification_cards.dart';
 export 'notifications/notification_empty_state.dart';
 
@@ -49,23 +49,57 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     });
   }
 
-  void _handleCardTap(String id, AppProvider provider) {
+  void _handleCardTap(Map<String, dynamic> item) {
+    final id = item['id']?.toString() ?? '';
     if (_isSelectionMode) {
       _toggleSelection(id);
-    } else {
-      provider.markNotificationRead(id);
+      return;
     }
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => NotificationDetailScreen(item: item),
+      ),
+    );
   }
 
-  void _handleProfileTap(String id, AppProvider provider) {
-    if (_isSelectionMode) {
-      _toggleSelection(id);
-    } else {
-      provider.markNotificationRead(id);
-      Navigator.of(
-        context,
-      ).push(MaterialPageRoute(builder: (_) => const BasicProfileScreen()));
+  void _startSelection(Map<String, dynamic> item) {
+    if (_isSelectionMode) return;
+    setState(() {
+      _isSelectionMode = true;
+      _selectedIds
+        ..clear()
+        ..add(item['id']?.toString() ?? '');
+    });
+  }
+
+  /// Splits [items] (newest first) into Today / Yesterday / Earlier groups,
+  /// leaving out empty ones. Items without a date go to Earlier.
+  List<(String, List<Map<String, dynamic>>)> _groupByDay(
+    BuildContext context,
+    List<Map<String, dynamic>> items,
+  ) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final yesterday = today.subtract(const Duration(days: 1));
+    final buckets = <List<Map<String, dynamic>>>[[], [], []];
+    for (final item in items) {
+      final at = DateTime.tryParse(
+        item['created_at']?.toString() ?? '',
+      )?.toLocal();
+      if (at != null && !at.isBefore(today)) {
+        buckets[0].add(item);
+      } else if (at != null && !at.isBefore(yesterday)) {
+        buckets[1].add(item);
+      } else {
+        buckets[2].add(item);
+      }
     }
+    final l10n = context.l10n;
+    final labels = [l10n.notifToday, l10n.notifYesterday, l10n.notifEarlier];
+    return [
+      for (var i = 0; i < 3; i++)
+        if (buckets[i].isNotEmpty) (labels[i], buckets[i]),
+    ];
   }
 
   @override
@@ -73,22 +107,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     final provider = Provider.of<AppProvider>(context);
     final list = provider.notifications;
 
-    // Filtered lists for each section
-    final newSchemes = list
-        .where((n) => n['category'] == 'new_schemes')
-        .toList();
-    final reminders = list.where((n) => n['category'] == 'reminders').toList();
-    final updates = list.where((n) => n['category'] == 'updates').toList();
-    final profileAlerts = list
-        .where((n) => n['category'] == 'profile')
-        .toList();
-
-    final showEmpty =
-        (_activeFilter == 'new_schemes' && newSchemes.isEmpty) ||
-        (_activeFilter == 'reminders' && reminders.isEmpty) ||
-        (_activeFilter == 'updates' && updates.isEmpty) ||
-        (_activeFilter == 'profile' && profileAlerts.isEmpty) ||
-        list.isEmpty;
+    final visible = _activeFilter == 'All'
+        ? list
+        : list.where((n) => n['category'] == _activeFilter).toList();
 
     return Scaffold(
       backgroundColor: AppConstants.backgroundColor,
@@ -115,7 +136,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             fontSize: 18.0,
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.surface,
         elevation: 0,
         scrolledUnderElevation: 0,
         iconTheme: const IconThemeData(color: AppConstants.primaryText),
@@ -124,7 +145,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 IconButton(
                   icon: const Icon(
                     Icons.done_all,
-                    color: Color(0xFF2563EB),
+                    color: AppColors.primary,
                     size: 22,
                   ),
                   tooltip: context.l10n.notifTooltipMarkRead,
@@ -167,11 +188,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               ]
             : [
                 PopupMenuButton<String>(
-                  color: Colors.white,
+                  color: AppColors.surface,
                   elevation: 8,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
-                    side: const BorderSide(color: Color(0xFFE2E8F0)),
+                    side: const BorderSide(color: AppColors.border),
                   ),
                   icon: const Icon(
                     Icons.more_vert,
@@ -205,7 +226,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         children: [
                           const Icon(
                             Icons.done_all,
-                            color: Color(0xFF64748B),
+                            color: AppColors.textSecondary,
                             size: 20,
                           ),
                           const SizedBox(width: AppSpacing.sm),
@@ -248,7 +269,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         children: [
                           const Icon(
                             Icons.checklist_rtl_rounded,
-                            color: Color(0xFF64748B),
+                            color: AppColors.textSecondary,
                             size: 20,
                           ),
                           const SizedBox(width: AppSpacing.sm),
@@ -278,138 +299,45 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             },
           ),
           Expanded(
-            child: SingleChildScrollView(
-              physics: const ClampingScrollPhysics(),
-              child: Column(
-                children: [
-                  // 1. New Scheme Alerts Section
-                  if ((_activeFilter == 'All' ||
-                          _activeFilter == 'new_schemes') &&
-                      newSchemes.isNotEmpty)
-                    NotificationSection(
-                      title: context.l10n.notifNewSchemeAlertsTitle,
-                      subtitle: context.l10n.notifNewSchemeAlertsSubtitle,
-                      headerIcon: Icons.notifications_active_outlined,
-                      headerIconBg: const Color(0xFFE8F5E9),
-                      headerIconColor: const Color(0xFF16A34A),
-                      cards: newSchemes
-                          .map(
-                            (item) => NewSchemeNotificationCard(
+            child: visible.isEmpty
+                ? const SingleChildScrollView(child: NotificationEmptyState())
+                : ListView(
+                    padding: const EdgeInsets.fromLTRB(
+                      AppSpacing.lg,
+                      AppSpacing.sm,
+                      AppSpacing.lg,
+                      AppSpacing.xxl,
+                    ),
+                    children: [
+                      for (final group in _groupByDay(context, visible)) ...[
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: AppSpacing.md,
+                            bottom: AppSpacing.sm,
+                          ),
+                          child: Text(
+                            group.$1,
+                            style: context.text.label.copyWith(
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                        ),
+                        for (final item in group.$2)
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              bottom: AppSpacing.sm,
+                            ),
+                            child: NotificationTile(
                               item: item,
                               isSelectionMode: _isSelectionMode,
                               isSelected: _selectedIds.contains(item['id']),
-                              onTap: () => _handleCardTap(
-                                item['id'] as String,
-                                provider,
-                              ),
+                              onTap: () => _handleCardTap(item),
+                              onLongPress: () => _startSelection(item),
                             ),
-                          )
-                          .toList(),
-                      onViewAll: () {
-                        setState(() {
-                          _activeFilter = 'new_schemes';
-                        });
-                      },
-                    ),
-
-                  // 2. Deadline Reminders Section
-                  if ((_activeFilter == 'All' ||
-                          _activeFilter == 'reminders') &&
-                      reminders.isNotEmpty)
-                    NotificationSection(
-                      title: context.l10n.notifDeadlineRemindersTitle,
-                      subtitle: context.l10n.notifDeadlineRemindersSubtitle,
-                      headerIcon: Icons.calendar_today_outlined,
-                      headerIconBg: const Color(0xFFFFEBEE),
-                      headerIconColor: const Color(0xFFD32F2F),
-                      cards: reminders
-                          .map(
-                            (item) => DeadlineNotificationCard(
-                              item: item,
-                              isSelectionMode: _isSelectionMode,
-                              isSelected: _selectedIds.contains(item['id']),
-                              onTap: () => _handleCardTap(
-                                item['id'] as String,
-                                provider,
-                              ),
-                            ),
-                          )
-                          .toList(),
-                      onViewAll: () {
-                        setState(() {
-                          _activeFilter = 'reminders';
-                        });
-                      },
-                    ),
-
-                  // 3. Government Updates Section
-                  if ((_activeFilter == 'All' || _activeFilter == 'updates') &&
-                      updates.isNotEmpty)
-                    NotificationSection(
-                      title: context.l10n.notifGovtUpdatesTitle,
-                      subtitle: context.l10n.notifGovtUpdatesSubtitle,
-                      headerIcon: Icons.campaign_outlined,
-                      headerIconBg: const Color(0xFFEFF6FF),
-                      headerIconColor: const Color(0xFF2563EB),
-                      cards: updates
-                          .map(
-                            (item) => GovtUpdateNotificationCard(
-                              item: item,
-                              isSelectionMode: _isSelectionMode,
-                              isSelected: _selectedIds.contains(item['id']),
-                              onTap: () => _handleCardTap(
-                                item['id'] as String,
-                                provider,
-                              ),
-                            ),
-                          )
-                          .toList(),
-                      onViewAll: () {
-                        setState(() {
-                          _activeFilter = 'updates';
-                        });
-                      },
-                    ),
-
-                  // 4. Profile Completion Reminders Section
-                  if ((_activeFilter == 'All' || _activeFilter == 'profile') &&
-                      profileAlerts.isNotEmpty)
-                    NotificationSection(
-                      title: context.l10n.notifProfileRemindersTitle,
-                      subtitle: context.l10n.notifProfileRemindersSubtitle,
-                      headerIcon: Icons.person_outline,
-                      headerIconBg: const Color(0xFFF3E5F5),
-                      headerIconColor: const Color(0xFF7B1FA2),
-                      cards: profileAlerts
-                          .map(
-                            (item) => ProfileReminderNotificationCard(
-                              item: item,
-                              profileCompletion:
-                                  provider.profileCompletionPercentage,
-                              isSelectionMode: _isSelectionMode,
-                              isSelected: _selectedIds.contains(item['id']),
-                              onTap: () =>
-                                  _toggleSelection(item['id'] as String),
-                              onOpenProfile: () => _handleProfileTap(
-                                item['id'] as String,
-                                provider,
-                              ),
-                            ),
-                          )
-                          .toList(),
-                      onViewAll: () {
-                        setState(() {
-                          _activeFilter = 'profile';
-                        });
-                      },
-                    ),
-
-                  // Empty State if no notifications match filter
-                  if (showEmpty) const NotificationEmptyState(),
-                  const SizedBox(height: AppSpacing.xxl),
-                ],
-              ),
-            ),
+                          ),
+                      ],
+                    ],
+                  ),
           ),
         ],
       ),

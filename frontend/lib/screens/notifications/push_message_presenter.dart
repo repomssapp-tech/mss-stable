@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/notification_item_dto.dart';
 import '../../services/account/app_session.dart';
+import '../../services/haptics/haptics_service.dart';
+import '../../services/notifications/local_notification_service.dart';
 import '../../services/notifications/notifications_api_service.dart';
 import '../../services/notifications/push_models.dart';
 import '../notifications_screen.dart';
@@ -33,8 +35,8 @@ class AppRouteObserver extends NavigatorObserver {
   }
 }
 
-/// Shows an incoming push to the user: a banner while the app is open, or the
-/// inbox when a notification is tapped.
+/// Shows an incoming push to the user: a phone notification with haptics while
+/// the app is open, or the notification's details when one is tapped.
 ///
 /// The push itself holds only an inbox id. The text shown always comes from the
 /// authenticated inbox, and only after checking that the account that received
@@ -56,72 +58,105 @@ class PushMessagePresenter {
 
   bool _stillOwner(String ownerId) => AppSession.instance.userId == ownerId;
 
-  /// A push arrived while the app is open: refresh the inbox and show a banner.
+  /// Inbox ids already presented, so the same broadcast reaching the app over
+  /// both FCM and the live stream buzzes and shows only once.
+  final Set<String> _presented = {};
+
+  /// A push arrived while the app is open: refresh the inbox, buzz, and show
+  /// it in the phone's notification shade (a banner if that is unavailable).
   Future<void> showForeground(PushMessage message, String ownerId) async {
     try {
+      if (!_presented.add(message.notificationId)) return;
       await _refreshInbox();
       final item = await _findInInbox(message.notificationId);
       if (item == null || !_stillOwner(ownerId)) return;
-      final messenger = appMessengerKey.currentState;
-      final context = appNavigatorKey.currentContext;
-      if (messenger == null || context == null || !context.mounted) return;
-      final l10n = AppLocalizations.of(context)!;
-      messenger
-        ..hideCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(
-            behavior: SnackBarBehavior.floating,
-            duration: const Duration(seconds: 6),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  item.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontWeight: FontWeight.w600),
-                ),
-                Text(
-                  item.message,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-            action: SnackBarAction(
-              label: l10n.viewDetails,
-              onPressed: () => unawaited(_openInbox(ownerId)),
-            ),
-          ),
-        );
+      unawaited(HapticsService.instance.notification());
+      final shown = await LocalNotificationService.instance.show(
+        notificationId: item.id,
+        title: item.title,
+        body: item.message,
+      );
+      if (!shown) _showBanner(item, ownerId);
     } catch (e) {
       debugPrint('[Push] foreground presentation failed: $e');
     }
   }
 
-  /// The user opened a notification: refresh and show the inbox.
-  Future<void> open(PushMessage message, String ownerId) async {
+  void _showBanner(NotificationItemDto item, String ownerId) {
+    final messenger = appMessengerKey.currentState;
+    final context = appNavigatorKey.currentContext;
+    if (messenger == null || context == null || !context.mounted) return;
+    final l10n = AppLocalizations.of(context)!;
+    messenger
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 6),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                item.title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
+              Text(item.message, maxLines: 2, overflow: TextOverflow.ellipsis),
+            ],
+          ),
+          action: SnackBarAction(
+            label: l10n.viewDetails,
+            onPressed: () => unawaited(_openItem(item.id, ownerId)),
+          ),
+        ),
+      );
+  }
+
+  /// The user opened a notification from FCM: show its details.
+  Future<void> open(PushMessage message, String ownerId) =>
+      _openItem(message.notificationId, ownerId);
+
+  /// The user tapped a notification this app put in the shade.
+  Future<void> openById(String notificationId) async {
+    final owner = AppSession.instance.userId;
+    if (owner == null) return;
+    await _openItem(notificationId.toLowerCase(), owner);
+  }
+
+  /// Refreshes the inbox, then opens the inbox with [id]'s details on top. If
+  /// the item is gone (deleted, or a different account), only the inbox opens.
+  Future<void> _openItem(String id, String ownerId) async {
+    NotificationItemDto? item;
     try {
       await _refreshInbox();
+      item = await _findInInbox(id);
     } catch (e) {
       debugPrint('[Push] inbox refresh on open failed: $e');
     }
-    await _openInbox(ownerId);
-  }
-
-  Future<void> _openInbox(String ownerId) async {
     final deadline = DateTime.now().add(_shellWait);
     while (!observer.shellReached || appNavigatorKey.currentState == null) {
       if (DateTime.now().isAfter(deadline)) return;
       await Future<void>.delayed(_shellPoll);
     }
     if (!_stillOwner(ownerId)) return;
+    final navigator = appNavigatorKey.currentState!;
     unawaited(
-      appNavigatorKey.currentState!.push(
+      navigator.push(
         MaterialPageRoute<void>(builder: (_) => const NotificationsScreen()),
       ),
     );
+    if (item != null) {
+      final map = item.toUiMap();
+      unawaited(
+        navigator.push(
+          MaterialPageRoute<void>(
+            builder: (_) => NotificationDetailScreen(item: map),
+          ),
+        ),
+      );
+    }
   }
 
   /// The inbox item for [id], read with the signed-in account's credentials.
