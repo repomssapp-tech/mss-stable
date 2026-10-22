@@ -138,7 +138,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get quickPillWomen => 'மகளிர் திட்டங்கள் தேடுக';
 
   @override
-  String get quickPillAscend => 'ASCEND பயிலரங்குகள் தேடுக';
+  String get quickPillAscend => 'அசென்ட் பயிலரங்குகள் தேடுக';
 
   @override
   String get carouselTitleApplicationsClosingSoon =>
@@ -2409,7 +2409,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeDelayedPaymentCalcDesc =>
-      'MSMED சட்டம் பிரிவு 15/16-ன் கீழ், 45 நாட்களுக்கு மேல் தாமதமாகும் செலுத்துகைகளுக்கு வாங்குபவர்கள் RBI வங்கி வீதத்தை விட 3 மடங்கு கூட்டு வட்டியை செலுத்த வேண்டும்.';
+      'எம்எஸ்எம்இடி சட்டம் பிரிவு 15/16-ன் கீழ், 45 நாட்களுக்கு மேல் தாமதமாகும் செலுத்துகைகளுக்கு வாங்குபவர்கள் ரிசர்வ் வங்கி வீதத்தை விட 3 மடங்கு கூட்டு வட்டியை செலுத்த வேண்டும்.';
 
   @override
   String get msmeInvoiceAmountRupees => 'இன்வாய்ஸ் தொகை (₹)';
@@ -2501,7 +2501,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFeatureFinance7 =>
-      'SME IPO பட்டியல் தேவைகள் (BSE SME & NSE Emerge)';
+      'எஸ்எம்இ ஐபிஓ பட்டியல் தேவைகள் (பிஎஸ்இ எஸ்எம்இ & என்எஸ்இ எமர்ஜ்)';
 
   @override
   String get msmeFeatureTaxGst1 => 'எம்எஸ்எம்இ கார்ப்பரேட் வருமான வரி சலுகைகள்';
@@ -2524,7 +2524,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFeatureTaxGst6 =>
-      'ஏற்றுமதி வரி திருப்பிச் செலுத்துதல் & LUT விதிகள்';
+      'ஏற்றுமதி வரி திருப்பிச் செலுத்துதல் & எல்யுடி விதிகள்';
 
   @override
   String get msmeFeatureTaxGst7 =>
@@ -2532,7 +2532,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFeatureExport1 =>
-      'கடமை திருப்பிச் செலுத்தும் திட்டங்கள் (RoDTEP, RoSCTL) & திரும்பப்பெறல்கள்';
+      'கடமை திருப்பிச் செலுத்தும் திட்டங்கள் (ஆர்ஓடிடிஇபி, ஆர்ஓஎஸ்சிடிஎல்) & திரும்பப்பெறல்கள்';
 
   @override
   String get msmeFeatureExport2 =>
@@ -2542,11 +2542,11 @@ class AppLocalizationsTa extends AppLocalizations {
   String get msmeFeatureExport3 => 'அந்நிய செலாவணி கடன்களுக்கான வட்டி சலுகை';
 
   @override
-  String get msmeFeatureExport4 => 'ECGC கடன் அபாய காப்பீட்டு திட்டங்கள்';
+  String get msmeFeatureExport4 => 'இசிஜிசி கடன் அபாய காப்பீட்டு திட்டங்கள்';
 
   @override
   String get msmeFeatureExport5 =>
-      'வெளிநாட்டு கண்காட்சி பங்கேற்புக்கான MDA & MAI திட்டங்கள்';
+      'வெளிநாட்டு கண்காட்சி பங்கேற்புக்கான எம்டிஏ & எம்ஏஐ திட்டங்கள்';
 
   @override
   String get msmeFeatureExport6 =>
@@ -2565,7 +2565,8 @@ class AppLocalizationsTa extends AppLocalizations {
       'எம்எஸ்எம்இ விற்பனையாளர்களுக்கான இணைவு வழிகாட்டுதல்கள்';
 
   @override
-  String get msmeFeatureTreds3 => 'RXIL, M1xchange & Invoicemart பதிவு படிகள்';
+  String get msmeFeatureTreds3 =>
+      'ஆர்எக்ஸ்ஐஎல், எம்1எக்ஸ்சேஞ்ச் & இன்வாய்ஸ்மார்ட் பதிவு படிகள்';
 
   @override
   String get msmeFeatureTreds4 =>
@@ -2580,7 +2581,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFeatureTreds7 =>
-      'திரும்பப்பெறும் vs. திரும்பப்பெறாத கடன் வசூல் (factoring) வரையறைகள்';
+      'திரும்பப்பெறும் மற்றும் திரும்பப்பெறாத கடன் வசூல் (ஃபேக்டரிங்) வரையறைகள்';
 
   @override
   String get msmeFeatureCsr1 =>
@@ -2600,7 +2601,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFeatureCsr5 =>
-      'CSR செயல்படுத்தும் நிறுவனங்கள் & NGO-க்களின் பட்டியல்';
+      'சிஎஸ்ஆர் செயல்படுத்தும் நிறுவனங்கள் & அரசு சாரா நிறுவனங்களின் (என்ஜிஓ) பட்டியல்';
 
   @override
   String get msmeFeatureCsr6 =>
@@ -2648,7 +2649,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFeatureInstitutions5 =>
-      'TIIC, StartupTN, FaMeTN, SIPCOT பிராந்திய சேவை விவரங்கள்';
+      'டிஐஐசி, ஸ்டார்ட்அப்டிஎன், ஃபேமெடிஎன், சிப்காட் பிராந்திய சேவை விவரங்கள்';
 
   @override
   String get msmeFeatureInstitutions6 =>
@@ -2666,11 +2667,11 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFeatureUdyam4 =>
-      'அரசு டெண்டர்களில் முன்வைப்புத் தொகை (EMD) விலக்கு';
+      'அரசு டெண்டர்களில் முன்வைப்புத் தொகை (இஎம்டி) விலக்கு';
 
   @override
   String get msmeFeatureUdyam5 =>
-      '15% CLCSS தொழில்நுட்பம் & மூலதன மானியங்களுக்கு தகுதி';
+      '15% சிஎல்சிஎஸ்எஸ் தொழில்நுட்பம் & மூலதன மானியங்களுக்கு தகுதி';
 
   @override
   String get msmeFeatureUdyam6 =>
@@ -3794,7 +3795,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get dpiitCriteriaRegistered =>
-      'Pvt Ltd / LLP / கூட்டாண்மையாக பதிவு செய்யப்பட்டுள்ளது';
+      'தனியார் நிறுவனம் / எல்எல்பி / கூட்டாண்மையாக பதிவு செய்யப்பட்டுள்ளது';
 
   @override
   String get dpiitCriteriaRegisteredSub =>
@@ -3856,7 +3857,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get valuationSector => 'தொழில் துறை';
 
   @override
-  String get valuationSectorSaasTech => 'SaaS / தொழில்நுட்பம்';
+  String get valuationSectorSaasTech => 'சாஸ் / தொழில்நுட்பம்';
 
   @override
   String get valuationSectorEcommerce => 'இ-காமர்ஸ்';
@@ -3940,19 +3941,19 @@ class AppLocalizationsTa extends AppLocalizations {
   String get docEntityLlp => 'LLP';
 
   @override
-  String get docItemDsc => 'மின்னணு கையொப்பச் சான்றிதழ் (DSC)';
+  String get docItemDsc => 'மின்னணு கையொப்பச் சான்றிதழ் (டிஎஸ்சி)';
 
   @override
-  String get docItemDin => 'இயக்குநர் அடையாள எண் (DIN)';
+  String get docItemDin => 'இயக்குநர் அடையாள எண் (டிஐஎன்)';
 
   @override
-  String get docItemMoaAoa => 'MOA & AOA வரைவு';
+  String get docItemMoaAoa => 'எம்ஓஏ & ஏஓஏ வரைவு';
 
   @override
-  String get docItemCoi => 'நிறுவன பதிவுச் சான்றிதழ் (COI)';
+  String get docItemCoi => 'நிறுவன பதிவுச் சான்றிதழ் (சிஓஐ)';
 
   @override
-  String get docItemCompanyPanTan => 'நிறுவன PAN & TAN அட்டைகள்';
+  String get docItemCompanyPanTan => 'நிறுவன பான் & டேன் அட்டைகள்';
 
   @override
   String get docItemCorporateBankAccount => 'பெருநிறுவன வங்கிக் கணக்கு';
@@ -4040,22 +4041,22 @@ class AppLocalizationsTa extends AppLocalizations {
   }
 
   @override
-  String get msmeUdyamFlowTitle => 'Udyam பதிவு வழிமுறை';
+  String get msmeUdyamFlowTitle => 'உத்யம் பதிவு வழிமுறை';
 
   @override
   String get msmeUdyamGoToPortal =>
-      'அதிகாரப்பூர்வ Udyam போர்ட்டலுக்குச் செல்லவும்';
+      'அதிகாரப்பூர்வ உத்யம் போர்ட்டலுக்குச் செல்லவும்';
 
   @override
-  String get msmeUdyamStep1Title => '1. Aadhaar & PAN சரிபார்ப்பு';
+  String get msmeUdyamStep1Title => '1. ஆதார் & பான் சரிபார்ப்பு';
 
   @override
   String get msmeUdyamStep1Desc =>
-      'தொழில்முனைவோரின் Aadhaar எண் மற்றும் Aadhaar-படி பெயரை உள்ளிடவும். OTP மூலம் சரிபார்க்கவும். அடுத்து, தானியங்கி GSTIN சரிபார்ப்புக்காக நிறுவன வகை மற்றும் PAN விவரங்களை உள்ளிடவும்.';
+      'தொழில்முனைவோரின் ஆதார் எண் மற்றும் ஆதாரில் உள்ள பெயரை உள்ளிடவும். ஒருமுறை கடவுச்சொல் (ஓடிபி) மூலம் சரிபார்க்கவும். அடுத்து, தானியங்கி ஜிஎஸ்டிஐஎன் சரிபார்ப்புக்காக நிறுவன வகை மற்றும் பான் விவரங்களை உள்ளிடவும்.';
 
   @override
   String get msmeUdyamStep1Action =>
-      'Aadhaar OTP அங்கீகாரம் மற்றும் PAN விவரங்கள் உள்ளீடு.';
+      'ஆதார் ஓடிபி அங்கீகாரம் மற்றும் பான் விவரங்கள் உள்ளீடு.';
 
   @override
   String get msmeUdyamStep2Title => '2. நிறுவனம் மற்றும் இருப்பிட விவரங்கள்';
@@ -4651,7 +4652,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get eduSchool => 'பள்ளி (10 / 12ம்)';
 
   @override
-  String get eduDiploma => 'டிப்ளமோ / ITI';
+  String get eduDiploma => 'டிப்ளமோ / ஐடிஐ';
 
   @override
   String get eduUndergraduate => 'இளங்கலை (பட்டப்படிப்பு)';
@@ -4666,7 +4667,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get commGeneralOc => 'பொதுப் பிரிவு (OC)';
 
   @override
-  String get commObcBcMbc => 'OBC / BC / MBC';
+  String get commObcBcMbc => 'ஓபிசி / பிசி / எம்பிசி';
 
   @override
   String get commScCategory => 'பட்டியலினம் (SC)';

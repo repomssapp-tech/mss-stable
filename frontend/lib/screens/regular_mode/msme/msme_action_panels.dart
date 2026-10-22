@@ -8,7 +8,6 @@ import '../../../l10n/l10n.dart';
 import '../../../providers/app_state_provider.dart';
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
-import '../../../utils/responsive.dart';
 import '../search_results_screen.dart';
 
 class SchemesInteractivePanel extends StatelessWidget {
@@ -69,6 +68,7 @@ class SchemesInteractivePanel extends StatelessWidget {
                     },
                     child: Text(
                       context.l10n.msmeSearchSchemes,
+                      textAlign: TextAlign.center,
                       style: GoogleFonts.inter(
                         fontSize: 13,
                         fontWeight: FontWeight.bold,
@@ -95,6 +95,7 @@ class SchemesInteractivePanel extends StatelessWidget {
                     },
                     child: Text(
                       context.l10n.completeProfileTitle,
+                      textAlign: TextAlign.center,
                       style: GoogleFonts.inter(
                         fontSize: 13,
                         fontWeight: FontWeight.bold,
@@ -178,15 +179,18 @@ class FinanceInteractivePanel extends StatelessWidget {
                     const Icon(Icons.currency_rupee, size: 16),
                     const SizedBox(width: AppSpacing.sm),
                     Flexible(
-                      child: FitOneLine(
-                        child: Text(
-                          CentralizedTranslator.instance.localize(
-                            'Search MSME Loans & Funding',
-                          ),
-                          style: GoogleFonts.inter(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      // Wraps and centres instead of shrinking: a one-line
+                      // fit squeezed long Tamil labels to an unreadable size.
+                      child: Text(
+                        CentralizedTranslator.instance.localize(
+                          'Search MSME Loans & Funding',
+                        ),
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.inter(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
@@ -270,15 +274,18 @@ class CsrInteractivePanel extends StatelessWidget {
                     const Icon(Icons.hub, size: 16),
                     const SizedBox(width: AppSpacing.sm),
                     Flexible(
-                      child: FitOneLine(
-                        child: Text(
-                          CentralizedTranslator.instance.localize(
-                            'Search Cluster / Tech Schemes',
-                          ),
-                          style: GoogleFonts.inter(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      // Wraps and centres instead of shrinking: a one-line
+                      // fit squeezed long Tamil labels to an unreadable size.
+                      child: Text(
+                        CentralizedTranslator.instance.localize(
+                          'Search Cluster / Tech Schemes',
+                        ),
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.inter(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),

@@ -17,11 +17,11 @@ import 'package:frontend/screens/regular_mode/msme_module_details_screen.dart';
 
 // Exact ARB values (en / ta) for the migrated Udyam panel strings.
 const _flowTitleEn = 'Udyam Registration Flow';
-const _flowTitleTa = 'Udyam பதிவு வழிமுறை';
+const _flowTitleTa = 'உத்யம் பதிவு வழிமுறை';
 const _portalBtnEn = 'Go to Official Udyam Portal';
-const _portalBtnTa = 'அதிகாரப்பூர்வ Udyam போர்ட்டலுக்குச் செல்லவும்';
+const _portalBtnTa = 'அதிகாரப்பூர்வ உத்யம் போர்ட்டலுக்குச் செல்லவும்';
 const _step1TitleEn = '1. Aadhaar & PAN Validation';
-const _step1TitleTa = '1. Aadhaar & PAN சரிபார்ப்பு';
+const _step1TitleTa = '1. ஆதார் & பான் சரிபார்ப்பு';
 
 Widget _host(Locale locale, Widget screen) {
   return ChangeNotifierProvider<AppProvider>(
