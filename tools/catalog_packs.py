@@ -193,3 +193,12 @@ def pack_files(directory: Path) -> list[Path]:
 
 def total_bytes(directory: Path) -> int:
     return sum(p.stat().st_size for p in pack_files(directory))
+
+
+def total_uncompressed_bytes(directory: Path) -> int:
+    """Bytes the runtime catalog expands to: the core and every pack, decompressed.
+
+    `release.json` publishes this as `uncompressedBytes` so a client can bound its
+    decompression output before inflating (the API verifies length + SHA-256 first,
+    then decompresses with a limit)."""
+    return sum(len(gzip.decompress(p.read_bytes())) for p in pack_files(directory))

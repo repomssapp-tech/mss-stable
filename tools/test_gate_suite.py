@@ -69,7 +69,9 @@ def repack(directory: Path, mutate, **release_patch) -> None:
     rel = json.loads(rel_path.read_text(encoding="utf-8"))
     rel["bundleSha256"] = core["sha256"]
     rel["bundleBytes"] = core["bytes"] + sum(p["bytes"] for p in packs)
-    rel["packs"] = [{k: p[k] for k in ("id", "file", "jurisdiction", "tenantId", "required", "bytes", "sha256")}
+    if "uncompressedBytes" in rel:
+        rel["uncompressedBytes"] = catalog_packs.total_uncompressed_bytes(directory)
+    rel["packs"] =[{k: p[k] for k in ("id", "file", "jurisdiction", "tenantId", "required", "bytes", "sha256")}
                     for p in packs]
     rel.update(release_patch)
     rel_path.write_text(json.dumps(rel, indent=2), encoding="utf-8")
