@@ -3807,6 +3807,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get valuationSector => 'Business Sector';
 
   @override
+  String get valuationSectorSaasTech => 'SaaS / Tech';
+
+  @override
+  String get valuationSectorEcommerce => 'E-commerce';
+
+  @override
+  String get valuationSectorFintech => 'Fintech';
+
+  @override
+  String get valuationSectorAgritech => 'AgriTech';
+
+  @override
   String get valuationRange => 'Valuation Range';
 
   @override
@@ -4542,6 +4554,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get savedRemoveFromSavedTooltip => 'Remove from saved';
+
+  @override
+  String get savedRemoveFromRecentTooltip => 'Remove from recently viewed';
 
   @override
   String get savedInactiveBadge => 'Inactive';

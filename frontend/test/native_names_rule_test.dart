@@ -113,14 +113,13 @@ void main() {
   }
 
   test('nothing is invented where the catalog has no stored name', () {
-    // Tamil Nadu records carry no Hindi at all.
-    final tn = bundle.schemes.firstWhere(
-      (s) => (s.raw['provenance'] as Map)['jurisdiction'] == 'tamil_nadu',
+    // Maharashtra records carry no Tamil at all.
+    final mh = bundle.schemes.firstWhere(
+      (s) => (s.raw['provenance'] as Map)['jurisdiction'] == 'maharashtra',
     );
-    final scheme = MssSchemeAdapter.toScheme(tn, bundle, langCode: 'hi');
-    expect(scheme.nativeName('department', 'hi'), isNull);
-    expect(scheme.nativeName('shortName', 'hi'), isNull);
-    expect(LocalizedScheme.fromScheme(scheme, 'hi').name, scheme.name);
+    final scheme = MssSchemeAdapter.toScheme(mh, bundle, langCode: 'ta');
+    expect(scheme.nativeName('department', 'ta'), isNull);
+    expect(scheme.nativeName('shortName', 'ta'), isNull);
   });
 
   test('Marathi names are preserved and reachable, not offered in the UI', () {
@@ -177,6 +176,6 @@ void main() {
       expect(e.offeredLanguages, isNot(contains('mr')), reason: e.id);
     }
     final tn = bundle.schemes.firstWhere((s) => s.id.startsWith('TN2026'));
-    expect(tn.availableLanguages, ['en', 'ta']);
+    expect(tn.availableLanguages, ['en', 'hi', 'ta']);
   });
 }

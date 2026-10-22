@@ -179,8 +179,7 @@ class _LookupEntry {
     required this.fullForms,
     required this.acronym,
     required this.shortName,
-    required this.nameTokens,
-    required this.meaningfulNameCount,
+    required this.formTokens,
   });
 
   final MssEntity entry;
@@ -194,11 +193,11 @@ class _LookupEntry {
   /// Curated `identity.shortName`, normalised and space-stripped ('' if none).
   final String shortName;
 
-  /// Union of meaningful tokens across the English name and all aliases.
-  final Set<String> nameTokens;
-
-  /// Meaningful-token count of the English name alone (tier-3 denominator).
-  final int meaningfulNameCount;
+  /// Meaningful tokens of each name (en/hi/ta) and alias, one set per form.
+  /// Tier 3 measures coverage against a single form, so a generic query whose
+  /// words happen to be spread over a descriptive alias in another language
+  /// is not mistaken for a lookup of that scheme.
+  final List<Set<String>> formTokens;
 }
 
 /// Offline port of `Plan/catalog/hybrid_search.py` -- the same ranking
@@ -913,19 +912,16 @@ class HybridSchemeSearch {
     }..removeWhere((a) => a.isEmpty);
     final fullForms = <String>{nameEn, nameTa, nameHi, ...aliases}
       ..removeWhere((a) => a.isEmpty);
-    final nameTokens = <String>{
-      ..._meaningfulTokens(nameEn),
-      ..._meaningfulTokens(nameHi),
-      ..._meaningfulTokens(nameTa),
-      for (final a in aliases) ..._meaningfulTokens(a),
-    };
+    final formTokens = [
+      for (final form in <String>{nameEn, nameHi, nameTa, ...aliases})
+        _meaningfulTokens(form).toSet(),
+    ]..removeWhere((t) => t.isEmpty);
     return _LookupEntry(
       entry: e,
       fullForms: fullForms,
       acronym: acronym,
       shortName: shortName,
-      nameTokens: nameTokens,
-      meaningfulNameCount: _meaningfulTokens(nameEn).length,
+      formTokens: formTokens,
     );
   }
 
@@ -962,9 +958,11 @@ class HybridSchemeSearch {
     if (qMeaning.length >= 2) {
       final t3 = [
         for (final l in table)
-          if (l.meaningfulNameCount > 0 &&
-              qMeaning.every(l.nameTokens.contains) &&
-              qMeaning.length / l.meaningfulNameCount >= 0.6)
+          if (l.formTokens.any(
+            (form) =>
+                qMeaning.every(form.contains) &&
+                qMeaning.length / form.length >= 0.6,
+          ))
             l.entry,
       ];
       if (t3.isNotEmpty) return _sortedById(t3);

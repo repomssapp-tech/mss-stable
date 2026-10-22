@@ -122,11 +122,19 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
     );
   }
 
+  void _remove(AppProvider provider, Scheme scheme, bool recentTab) {
+    if (recentTab) {
+      provider.removeFromRecentlyViewed(scheme.id);
+    } else {
+      provider.toggleBookmark(scheme.id);
+    }
+  }
+
   Widget _buildSchemeCard(
     BuildContext context,
     Scheme scheme,
     AppProvider provider, {
-    required bool showBookmarkMenu,
+    required bool recentTab,
   }) {
     final locScheme = scheme.toLocalized(provider.selectedLanguage);
     IconData iconData = Icons.rocket_launch_rounded;
@@ -219,7 +227,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                     ],
                   ),
                 ),
-                if (showBookmarkMenu) ...[
+                ...[
                   const SizedBox(width: AppSpacing.sm),
                   Row(
                     mainAxisSize: MainAxisSize.min,
@@ -233,10 +241,11 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                                 color: AppColors.danger,
                                 size: 20,
                               ),
-                              tooltip: context.l10n.savedRemoveFromSavedTooltip,
-                              onPressed: () {
-                                provider.toggleBookmark(scheme.id);
-                              },
+                              tooltip: recentTab
+                                  ? context.l10n.savedRemoveFromRecentTooltip
+                                  : context.l10n.savedRemoveFromSavedTooltip,
+                              onPressed: () =>
+                                  _remove(provider, scheme, recentTab),
                             )
                           : PopupMenuButton<String>(
                               constraints: const BoxConstraints(),
@@ -248,13 +257,19 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                               ),
                               onSelected: (value) {
                                 if (value == 'remove') {
-                                  provider.toggleBookmark(scheme.id);
+                                  _remove(provider, scheme, recentTab);
                                 }
                               },
                               itemBuilder: (context) => [
                                 PopupMenuItem(
                                   value: 'remove',
-                                  child: Text(context.l10n.removeSaved),
+                                  child: Text(
+                                    recentTab
+                                        ? context
+                                              .l10n
+                                              .savedRemoveFromRecentTooltip
+                                        : context.l10n.removeSaved,
+                                  ),
                                 ),
                               ],
                             ),
@@ -630,7 +645,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                           context,
                           displaySchemes[index],
                           provider,
-                          showBookmarkMenu: _activeTab == 0,
+                          recentTab: _activeTab == 1,
                         );
                       },
                     ),

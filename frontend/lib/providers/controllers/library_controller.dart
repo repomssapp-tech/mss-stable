@@ -162,6 +162,15 @@ class LibraryController extends ChangeNotifier implements LibrarySyncHost {
     );
   }
 
+  /// Drops [id] from the recently viewed list (Saved > Recently Viewed > Manage).
+  void removeFromRecentlyViewed(String id) {
+    if (!_recentlyViewedIds.remove(id)) return;
+    notifyListeners();
+    unawaited(
+      SessionCacheService.instance.saveRecentlyViewed(_recentlyViewedIds),
+    );
+  }
+
   /// Replaces the saved eligibility set and stamps the save time. Persists to
   /// the cache; the caller (`AppProvider`) is responsible for the optional
   /// server mirror.

@@ -137,25 +137,22 @@ void main() {
       },
     );
 
-    test(
-      'a Tamil Nadu scheme has no Hindi field (falls back to English)',
-      () async {
-        await LanguagePackManager.instance.loadPack('hi');
-        final tn = bundle.schemes.firstWhere(
-          (s) => (s.raw['provenance'] as Map)['jurisdiction'] == 'tamil_nadu',
-        );
-        expect(
-          LanguagePackManager.instance.getField(
-            lang: 'hi',
-            entityType: 'scheme',
-            entityId: tn.id,
-            fieldName: 'name',
-          ),
-          isNull,
-        );
-        expect(tn.getLocalizedName('hi'), tn.getLocalizedName('en'));
-      },
-    );
+    test('a Tamil Nadu scheme has its Hindi name in the pack', () async {
+      await LanguagePackManager.instance.loadPack('hi');
+      final tn = bundle.schemes.firstWhere(
+        (s) => (s.raw['provenance'] as Map)['jurisdiction'] == 'tamil_nadu',
+      );
+      expect(
+        LanguagePackManager.instance.getField(
+          lang: 'hi',
+          entityType: 'scheme',
+          entityId: tn.id,
+          fieldName: 'name',
+        ),
+        tn.getLocalizedName('hi'),
+      );
+      expect(tn.getLocalizedName('hi'), isNot(tn.getLocalizedName('en')));
+    });
 
     test('the manifest is the language kill switch', () async {
       LanguagePackManager.instance.setReleaseManifest(bundle.manifest);

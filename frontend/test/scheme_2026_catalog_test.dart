@@ -47,7 +47,7 @@ void main() {
             .addAll((s.raw['localization'] as Map).keys.cast<String>());
       }
       expect(langs['central'], {'en', 'hi', 'ta'});
-      expect(langs['tamil_nadu'], {'en', 'ta'});
+      expect(langs['tamil_nadu'], {'en', 'hi', 'ta'});
       // Marathi is preserved in the data but not offered in the UI.
       expect(langs['maharashtra'], {'en', 'hi', 'mr'});
     });
@@ -84,8 +84,11 @@ void main() {
     test(
       'schemes without a counterpart in a language fall back to English',
       () {
-        final tn = schemes.firstWhere((s) => jurisdictionOf(s) == 'tamil_nadu');
-        expect(tn.getLocalizedName('hi'), tn.getLocalizedName('en'));
+        // Maharashtra records carry no Tamil.
+        final mh = schemes.firstWhere(
+          (s) => jurisdictionOf(s) == 'maharashtra',
+        );
+        expect(mh.getLocalizedName('ta'), mh.getLocalizedName('en'));
       },
     );
 
