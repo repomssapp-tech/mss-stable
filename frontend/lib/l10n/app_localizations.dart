@@ -7003,7 +7003,7 @@ abstract class AppLocalizations {
   /// No description provided for @dpiitCriteriaRegisteredSub.
   ///
   /// In en, this message translates to:
-  /// **'Must be registered in India'**
+  /// **'Must be registered in India. Sole proprietorships do not qualify.'**
   String get dpiitCriteriaRegisteredSub;
 
   /// No description provided for @dpiitCriteriaAge.

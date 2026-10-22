@@ -3801,7 +3801,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get dpiitCriteriaRegisteredSub =>
-      'இந்தியாவில் பதிவு செய்யப்பட்டிருக்க வேண்டும்';
+      'இந்தியாவில் பதிவு செய்யப்பட்டிருக்க வேண்டும். தனி உரிமையாளர் நிறுவனங்கள் தகுதி பெறாது.';
 
   @override
   String get dpiitCriteriaAge =>

@@ -3763,7 +3763,8 @@ class AppLocalizationsHi extends AppLocalizations {
       'प्राइवेट लिमिटेड/एलएलपी/पार्टनरशिप के रूप में पंजीकृत';
 
   @override
-  String get dpiitCriteriaRegisteredSub => 'भारत में पंजीकृत होना चाहिए';
+  String get dpiitCriteriaRegisteredSub =>
+      'भारत में पंजीकृत होना चाहिए। एकल स्वामित्व (प्रोप्राइटरशिप) पात्र नहीं हैं।';
 
   @override
   String get dpiitCriteriaAge => 'निगमन की आयु 10 वर्ष से कम है';

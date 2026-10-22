@@ -3755,7 +3755,8 @@ class AppLocalizationsEn extends AppLocalizations {
       'Registered as Pvt Ltd / LLP / Partnership';
 
   @override
-  String get dpiitCriteriaRegisteredSub => 'Must be registered in India';
+  String get dpiitCriteriaRegisteredSub =>
+      'Must be registered in India. Sole proprietorships do not qualify.';
 
   @override
   String get dpiitCriteriaAge => 'Incorporation age is under 10 years';

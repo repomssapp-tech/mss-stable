@@ -1157,7 +1157,7 @@
   "dpiitTitle": "DPIIT Recognition Checklist",
   "dpiitSubtitle": "Evaluate if your business qualifies as a startup under DPIIT rules.",
   "dpiitCriteriaRegistered": "Registered as Pvt Ltd / LLP / Partnership",
-  "dpiitCriteriaRegisteredSub": "Must be registered in India",
+  "dpiitCriteriaRegisteredSub": "Must be registered in India. Sole proprietorships do not qualify.",
   "dpiitCriteriaAge": "Incorporation age is under 10 years",
   "dpiitCriteriaAgeSub": "From incorporation date",
   "dpiitCriteriaNotSplit": "Not formed by splitting up or rebuilding an existing business",

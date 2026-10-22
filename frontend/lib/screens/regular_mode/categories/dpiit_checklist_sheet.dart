@@ -7,10 +7,12 @@ import 'dpiit_eligibility.dart';
 
 /// DPIIT startup-recognition eligibility checklist bottom sheet.
 ///
-/// Extracted verbatim from `_CategoriesScreenState._openDpiitChecklist`
-/// (frontend refactor C2, slice 5). Self-contained: reads only `context.l10n`,
-/// `AppSpacing`. No behaviour change — the four criteria checkboxes and the
-/// AND-gate result logic are unchanged.
+/// Shows one checkbox per [DpiitCriterion] (five criteria). "Check Eligibility"
+/// passes only when every criterion is met (AND-gate); otherwise the unmet
+/// criteria are listed. Changing any answer clears the verdict so a stale
+/// result never sits beside new answers, and the result icon matches the
+/// verdict. Self-contained: reads only `context.l10n` and `AppSpacing`.
+/// (Originally extracted from `_CategoriesScreenState._openDpiitChecklist`.)
 void showDpiitChecklistSheet(BuildContext context) {
   final l10n = context.l10n;
   final met = <DpiitCriterion>{};
