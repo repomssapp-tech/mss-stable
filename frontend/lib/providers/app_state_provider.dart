@@ -282,10 +282,14 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         return photo;
       }
     }
-    // The Google account picture is not used: for many accounts it is
-    // Google's generated letter avatar (an old "J"), so the app shows the
-    // profile name's initial instead (issue #145).
-    return '';
+    // No custom photo: show the Google account picture, unless it is Google's
+    // generated placeholder (an old "J" letter avatar, issue #145) -- then the
+    // profile name's initial is shown instead.
+    final google = extractGooglePhoto(AppSession.instance.currentUser);
+    final fromProfile = photo.startsWith('https://') ? photo : '';
+    final candidate = google.startsWith('https://') ? google : fromProfile;
+    if (candidate.isEmpty || candidate.contains('/default-user')) return '';
+    return candidate;
   }
 
   /// Returns true if the user has uploaded/picked a custom profile photo.

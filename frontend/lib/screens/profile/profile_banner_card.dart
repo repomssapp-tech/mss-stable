@@ -91,18 +91,17 @@ class ProfileBannerCard extends StatelessWidget {
                                       width: 76,
                                       height: 76,
                                       fit: BoxFit.cover,
-                                      placeholder: (context, url) => Image.asset(
-                                        'assets/images/supporting assets/user_avatar.webp',
-                                        width: 76,
-                                        height: 76,
-                                        fit: BoxFit.cover,
-                                      ),
+                                      // Loading or failed: the name initial, never a
+                                      // blank or a broken image.
+                                      placeholder: (context, url) =>
+                                          NameInitialAvatar(
+                                            name: provider.profile.name,
+                                            size: 76,
+                                          ),
                                       errorWidget: (context, url, error) =>
-                                          Image.asset(
-                                            'assets/images/supporting assets/user_avatar.webp',
-                                            width: 76,
-                                            height: 76,
-                                            fit: BoxFit.cover,
+                                          NameInitialAvatar(
+                                            name: provider.profile.name,
+                                            size: 76,
                                           ),
                                     );
                                   }
