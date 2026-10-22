@@ -9,6 +9,7 @@ import '../../models/user_profile.dart';
 import '../../services/chat/chat_log_service.dart';
 import '../../services/chat/sarvam_chat_service.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/app_text.dart';
 
 class SarvamChatScreen extends StatefulWidget {
   const SarvamChatScreen({
@@ -409,11 +410,10 @@ class _MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isUser = message.role == 'user';
-    final baseStyle = GoogleFonts.inter(
-      fontSize: 14,
-      height: 1.45,
-      color: isUser ? Colors.white : const Color(0xFF1E293B),
-    );
+    final baseStyle = chatBubbleTextStyle(
+      message.content,
+      Localizations.localeOf(context),
+    ).copyWith(color: isUser ? Colors.white : const Color(0xFF1E293B));
     return Align(
       alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
@@ -447,6 +447,31 @@ class _MessageBubble extends StatelessWidget {
 /// `*italic*` / `_italic_`, `` `code` ``, `#`/`##`/`###` headings,
 /// `-`/`*`/`•` bullets and `1.` ordered items. Anything else renders as
 /// plain text. Inlined here to avoid a markdown package dependency.
+final RegExp _tamilScript = RegExp('[\u0B80-\u0BFF]');
+final RegExp _devanagariScript = RegExp('[\u0900-\u097F]');
+
+/// Body style for a chat message: the app's body font with the bundled Noto
+/// Sans Tamil / Devanagari fallback, and the taller Indic line height when the
+/// message itself is in Tamil or Hindi (a reply can be in another language
+/// than the app). A bare Inter style made Indic text fall back to an OS font
+/// whose ascenders and descenders were clipped by the Latin line height.
+/// [style] in bold. The body font is variable, so the `wght` axis has to
+/// move with the weight.
+TextStyle _bold(TextStyle style) => style.copyWith(
+  fontWeight: FontWeight.bold,
+  fontVariations: const [FontVariation('wght', 700)],
+);
+
+@visibleForTesting
+TextStyle chatBubbleTextStyle(String content, Locale locale) {
+  final styles = _tamilScript.hasMatch(content)
+      ? AppTextStyles.ta
+      : _devanagariScript.hasMatch(content)
+      ? AppTextStyles.hi
+      : AppTextStyles.forLocale(locale);
+  return styles.body;
+}
+
 class _MarkdownBody extends StatelessWidget {
   const _MarkdownBody({required this.text, required this.baseStyle});
 
@@ -485,10 +510,9 @@ class _MarkdownBody extends StatelessWidget {
             child: SelectableText.rich(
               _inline(
                 heading.group(2)!,
-                baseStyle.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: (baseStyle.fontSize ?? 14) + bump,
-                ),
+                _bold(
+                  baseStyle,
+                ).copyWith(fontSize: (baseStyle.fontSize ?? 14) + bump),
               ),
             ),
           ),
@@ -541,12 +565,7 @@ class _MarkdownBody extends StatelessWidget {
         );
       }
       if (m.group(2) != null) {
-        spans.add(
-          TextSpan(
-            text: m.group(2),
-            style: style.copyWith(fontWeight: FontWeight.bold),
-          ),
-        );
+        spans.add(TextSpan(text: m.group(2), style: _bold(style)));
       } else if (m.group(4) != null) {
         spans.add(
           TextSpan(

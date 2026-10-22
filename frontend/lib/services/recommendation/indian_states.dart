@@ -138,6 +138,29 @@ class IndianStates {
   /// English name for an ISO code from [code]; null when unknown.
   static String? nameForCode(String isoCode) => _names[isoCode];
 
+  /// English names of every state and union territory, A-Z: the values a
+  /// structured state picker offers.
+  static List<String> get names =>
+      _isoCodes.keys.toList(growable: false)..sort();
+
+  static final RegExp _devanagari = RegExp(r'[ऀ-ॿ]');
+  static final RegExp _tamil = RegExp(r'[஀-௿]');
+
+  /// [englishName] as written in [lang] (`hi`, `ta`); the English name for
+  /// English or when no spelling in that script is known.
+  static String displayName(String englishName, String lang) {
+    final script = switch (lang) {
+      'hi' => _devanagari,
+      'ta' => _tamil,
+      _ => null,
+    };
+    if (script == null) return englishName;
+    for (final alias in _aliases[englishName] ?? const <String>[]) {
+      if (script.hasMatch(alias)) return alias;
+    }
+    return englishName;
+  }
+
   static Map<String, String>? _lookup;
 
   static Map<String, String> get _table => _lookup ??= {

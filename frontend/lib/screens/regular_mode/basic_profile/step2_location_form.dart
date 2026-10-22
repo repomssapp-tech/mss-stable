@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
+import '../../../services/recommendation/indian_states.dart';
+import 'state_picker_field.dart';
 import '../../../utils/app_spacing.dart';
 
 class Step2LocationForm extends StatelessWidget {
@@ -28,6 +30,10 @@ class Step2LocationForm extends StatelessWidget {
     final t = value.trim();
     return t.length >= min && _placeNameLetters.hasMatch(t);
   }
+
+  /// Whether [value] names one of India's states or union territories, in any
+  /// supported language or as a code.
+  static bool isKnownState(String value) => IndianStates.code(value) != null;
 
   /// The server needs exactly six digits.
   static bool isValidPincode(String value) =>
@@ -198,18 +204,17 @@ class Step2LocationForm extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.lg),
 
-        // State Field
+        // State Field: picked from the fixed list of states and union
+        // territories, never typed (a typo would break state-based scheme
+        // matching).
         _buildLabel('${l10n.state} *'),
         const SizedBox(height: AppSpacing.tight),
-        _buildTextField(
+        StatePickerField(
           controller: stateController,
-          hintText: l10n.profileHintStateExample,
-          icon: Icons.map_outlined,
-          errorText:
-              hasSubmitted && !looksLikePlaceName(stateController.text, min: 3)
+          errorText: hasSubmitted && !isKnownState(stateController.text)
               ? l10n.profileErrValidState
               : null,
-          onChanged: (_) => onChanged(),
+          onChanged: onChanged,
         ),
         const SizedBox(height: AppSpacing.lg),
 

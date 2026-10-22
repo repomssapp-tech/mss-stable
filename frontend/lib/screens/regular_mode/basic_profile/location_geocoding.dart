@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 
 import '../../../l10n/l10n.dart';
+import '../../../services/recommendation/indian_states.dart';
 import '../../../utils/permission_helper.dart';
 import '../../../widgets/common/app_toast.dart';
 
@@ -107,7 +108,10 @@ Future<void> fetchAndGeocodeLocation({
         place.subAdministrativeArea,
         place.locality,
       ]);
-      stateController.text = place.administrativeArea ?? '';
+      // The State field is a picker over English catalog names.
+      stateController.text = IndianStates.canonical(
+        place.administrativeArea ?? '',
+      );
       final postal = (place.postalCode ?? '').replaceAll(RegExp(r'\D'), '');
       if (postal.length == 6) pincodeController.text = postal;
     }

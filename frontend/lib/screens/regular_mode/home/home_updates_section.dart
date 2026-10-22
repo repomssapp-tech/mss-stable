@@ -38,7 +38,10 @@ class HomeLatestUpdatesCard extends StatelessWidget {
     final updates = appProvider.notifications;
     final latestUpdate = updates.isNotEmpty ? updates.first : null;
 
-    final String tagText;
+    // With no notifications the card says so. It used to show a made-up
+    // "New scheme" update ("Fisheries ... Launched", "2 days ago") that the
+    // Notifications screen it opens could never list.
+    final String? tagText;
     if (latestUpdate != null) {
       final category = latestUpdate['category'] as String?;
       if (category == 'new_schemes') {
@@ -51,7 +54,7 @@ class HomeLatestUpdatesCard extends StatelessWidget {
         tagText = context.l10n.tagAlert;
       }
     } else {
-      tagText = context.l10n.tagNewScheme;
+      tagText = null;
     }
 
     final String titleText = latestUpdate != null
@@ -59,9 +62,9 @@ class HomeLatestUpdatesCard extends StatelessWidget {
             context,
             latestUpdate['title'] as String? ?? '',
           )
-        : context.l10n.fallbackLatestUpdateTitle;
+        : context.l10n.notifEmptyBody;
 
-    final String timeText;
+    final String? timeText;
     if (latestUpdate != null) {
       final count = latestUpdate['timeAgoCount'];
       final unit = latestUpdate['timeAgoUnit'];
@@ -75,7 +78,7 @@ class HomeLatestUpdatesCard extends StatelessWidget {
         timeText = context.l10n.timeAgoJustNow;
       }
     } else {
-      timeText = context.l10n.time2DaysAgo;
+      timeText = null;
     }
 
     return Column(
@@ -131,26 +134,28 @@ class HomeLatestUpdatesCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: AppSpacing.sm,
-                          vertical: AppSpacing.hairline,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: const Color(0xFFBFDBFE)),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Text(
-                          tagText,
-                          style: GoogleFonts.inter(
-                            color: const Color(0xFF2563EB),
-                            fontSize: 9,
-                            fontWeight: FontWeight.bold,
+                      if (tagText != null) ...[
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.sm,
+                            vertical: AppSpacing.hairline,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: const Color(0xFFBFDBFE)),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            tagText,
+                            style: GoogleFonts.inter(
+                              color: const Color(0xFF2563EB),
+                              fontSize: 9,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: AppSpacing.tight),
+                        const SizedBox(height: AppSpacing.tight),
+                      ],
                       Text(
                         titleText,
                         style: GoogleFonts.inter(
@@ -162,14 +167,16 @@ class HomeLatestUpdatesCard extends StatelessWidget {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: AppSpacing.tight),
-                      Text(
-                        timeText,
-                        style: GoogleFonts.inter(
-                          fontSize: 10.5,
-                          color: const Color(0xFF94A3B8),
+                      if (timeText != null) ...[
+                        const SizedBox(height: AppSpacing.tight),
+                        Text(
+                          timeText,
+                          style: GoogleFonts.inter(
+                            fontSize: 10.5,
+                            color: const Color(0xFF94A3B8),
+                          ),
                         ),
-                      ),
+                      ],
                     ],
                   ),
                 ),

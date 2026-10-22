@@ -33,7 +33,7 @@ class NewSchemeNotificationCard extends StatelessWidget {
         ? Icons.school
         : Icons.store_mall_directory_outlined;
 
-    return Card(
+    final card = Card(
       elevation: 0,
       margin: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
@@ -170,6 +170,11 @@ class NewSchemeNotificationCard extends StatelessWidget {
         ),
       ),
     );
+    return NotificationSelectionSemantics(
+      selectionMode: isSelectionMode,
+      selected: isSelected,
+      child: card,
+    );
   }
 }
 
@@ -201,7 +206,7 @@ class DeadlineNotificationCard extends StatelessWidget {
         ? const Color(0xFFD32F2F)
         : const Color(0xFF7B1FA2);
 
-    return Card(
+    final card = Card(
       elevation: 0,
       margin: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
@@ -338,6 +343,11 @@ class DeadlineNotificationCard extends StatelessWidget {
         ),
       ),
     );
+    return NotificationSelectionSemantics(
+      selectionMode: isSelectionMode,
+      selected: isSelected,
+      child: card,
+    );
   }
 }
 
@@ -362,7 +372,7 @@ class GovtUpdateNotificationCard extends StatelessWidget {
         ? Icons.gavel_outlined
         : Icons.account_balance_outlined;
 
-    return Card(
+    final card = Card(
       elevation: 0,
       margin: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
@@ -478,6 +488,11 @@ class GovtUpdateNotificationCard extends StatelessWidget {
         ),
       ),
     );
+    return NotificationSelectionSemantics(
+      selectionMode: isSelectionMode,
+      selected: isSelected,
+      child: card,
+    );
   }
 }
 
@@ -503,7 +518,7 @@ class ProfileReminderNotificationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final isRead = item['read'] as bool? ?? false;
 
-    return Card(
+    final card = Card(
       elevation: 0,
       margin: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
@@ -662,6 +677,11 @@ class ProfileReminderNotificationCard extends StatelessWidget {
         ),
       ),
     );
+    return NotificationSelectionSemantics(
+      selectionMode: isSelectionMode,
+      selected: isSelected,
+      child: card,
+    );
   }
 }
 
@@ -671,4 +691,26 @@ class ProfileReminderNotificationCard extends StatelessWidget {
 double _timeColumnMaxWidth(BuildContext context) {
   final media = MediaQuery.of(context);
   return media.size.width * 0.26 * media.textScaler.scale(1).clamp(1.0, 1.3);
+}
+
+/// Makes a notification card's selection state reach screen readers: in
+/// selection mode the card is announced as checked or not checked, instead
+/// of only showing a tick icon.
+class NotificationSelectionSemantics extends StatelessWidget {
+  const NotificationSelectionSemantics({
+    super.key,
+    required this.selectionMode,
+    required this.selected,
+    required this.child,
+  });
+
+  final bool selectionMode;
+  final bool selected;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!selectionMode) return child;
+    return Semantics(container: true, checked: selected, child: child);
+  }
 }

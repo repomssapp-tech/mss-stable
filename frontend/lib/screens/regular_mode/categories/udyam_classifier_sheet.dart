@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
-import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/msme_classification.dart';
 
@@ -32,10 +31,10 @@ void showUdyamClassifierSheet(BuildContext context) {
         builder: (context, setModalState) {
           return Padding(
             padding: EdgeInsets.only(
-              left: 20,
-              right: 20,
-              top: 14,
-              bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+              left: AppSpacing.xl,
+              right: AppSpacing.xl,
+              top: AppSpacing.md,
+              bottom: MediaQuery.of(context).viewInsets.bottom + AppSpacing.xxl,
             ),
             child: SingleChildScrollView(
               physics: const ClampingScrollPhysics(),
@@ -74,9 +73,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              CentralizedTranslator.instance.localize(
-                                'Udyam MSME Classifier',
-                              ),
+                              context.l10n.calcUdyamClassifierTitle,
                               style: GoogleFonts.poppins(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -84,9 +81,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                               ),
                             ),
                             Text(
-                              CentralizedTranslator.instance.localize(
-                                'Classify your business under official government guidelines.',
-                              ),
+                              context.l10n.calcUdyamClassifierSub,
                               style: GoogleFonts.inter(
                                 fontSize: 10,
                                 color: const Color(0xFF64748B),
@@ -108,9 +103,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                   ),
                   const SizedBox(height: AppSpacing.xl),
                   Text(
-                    CentralizedTranslator.instance.localize(
-                      'Investment in Plant & Machinery',
-                    ),
+                    context.l10n.calcInvestmentLabel,
                     style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
@@ -133,9 +126,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                       ),
                       prefixText: '₹ ',
                       suffixText: context.l10n.croreSuffix,
-                      helperText: CentralizedTranslator.instance.localize(
-                        'Enter original purchase value of machinery in Crores',
-                      ),
+                      helperText: context.l10n.calcInvestmentHelper,
                       helperStyle: GoogleFonts.inter(
                         fontSize: 9,
                         color: const Color(0xFF64748B),
@@ -169,7 +160,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   Text(
-                    CentralizedTranslator.instance.localize('Annual Turnover'),
+                    context.l10n.calcTurnoverLabel,
                     style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
@@ -192,9 +183,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                       ),
                       prefixText: '₹ ',
                       suffixText: context.l10n.croreSuffix,
-                      helperText: CentralizedTranslator.instance.localize(
-                        'Enter total revenue/sales of last financial year in Crores',
-                      ),
+                      helperText: context.l10n.calcTurnoverHelper,
                       helperStyle: GoogleFonts.inter(
                         fontSize: 9,
                         color: const Color(0xFF64748B),
@@ -260,9 +249,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      CentralizedTranslator.instance.localize(
-                                        'Classification Result',
-                                      ),
+                                      context.l10n.calcClassificationResult,
                                       style: GoogleFonts.inter(
                                         fontSize: 9.5,
                                         fontWeight: FontWeight.bold,
@@ -367,9 +354,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                         ),
                       ),
                       child: Text(
-                        CentralizedTranslator.instance.localize(
-                          'Calculate Classification',
-                        ),
+                        context.l10n.calcBtnCalculate,
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.5,

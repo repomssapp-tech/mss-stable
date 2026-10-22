@@ -1648,6 +1648,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get calcBtnCalculateTax => 'Calculate Tax';
 
   @override
+  String get calcErrValidBaseAmount => 'Please enter a valid base amount';
+
+  @override
   String get calcEmiTitle => 'Business Loan EMI Calculator';
 
   @override
@@ -1688,6 +1691,51 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get calcDocChecklistSub =>
       'Essential documents for registering and operating a business in India.';
+
+  @override
+  String get discoverUtilitiesTitle => 'Business Utilities & Tools';
+
+  @override
+  String get utilUdyamTitle => 'Udyam Classifier';
+
+  @override
+  String get utilUdyamDesc => 'Check MSME tier';
+
+  @override
+  String get utilSubsidyTitle => 'Subsidy Estimator';
+
+  @override
+  String get utilSubsidyDesc => 'Machinery subsidies';
+
+  @override
+  String get utilGstTitle => 'GST Calculator';
+
+  @override
+  String get utilGstDesc => 'Compute GST invoice';
+
+  @override
+  String get utilEmiTitle => 'EMI Calculator';
+
+  @override
+  String get utilEmiDesc => 'Calculate loan EMIs';
+
+  @override
+  String get utilDpiitTitle => 'DPIIT Eligibility';
+
+  @override
+  String get utilDpiitDesc => 'Check startup criteria';
+
+  @override
+  String get utilValuationTitle => 'Valuation Estimator';
+
+  @override
+  String get utilValuationDesc => 'Seed valuation ranges';
+
+  @override
+  String get utilDocChecklistTitle => 'Doc Checklist';
+
+  @override
+  String get utilDocChecklistDesc => 'Business setup docs';
 
   @override
   String get notifToastSelectedRead => 'Selected notifications marked as read';
@@ -4207,7 +4255,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileHintStateExample => 'e.g. Tamil Nadu';
 
   @override
-  String get profileErrValidState => 'Please enter a valid state';
+  String get profileErrValidState => 'Please select your state';
+
+  @override
+  String get profileSelectState => 'Select your state';
+
+  @override
+  String get profileSearchStateHint => 'Search state or union territory';
+
+  @override
+  String get profileNoStateMatch => 'No matching state';
 
   @override
   String get profileErrSelectOptionToContinue =>
@@ -4485,6 +4542,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get savedRemoveFromSavedTooltip => 'Remove from saved';
+
+  @override
+  String get savedInactiveBadge => 'Inactive';
+
+  @override
+  String get savedInactiveHint =>
+      'This scheme is no longer active in the latest catalog.';
 
   @override
   String get savedKeepListUpdated => 'Keep your list updated!';

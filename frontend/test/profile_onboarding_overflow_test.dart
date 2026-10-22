@@ -113,10 +113,10 @@ void main() {
       );
       Color? bg() => button().style?.backgroundColor?.resolve(<WidgetState>{});
 
-      // Step 2 fields, in tree order: address, city/town, district, state,
-      // pincode.
+      // Step 2 text fields, in tree order: address, city/town, district,
+      // pincode. The state is picked from a list.
       final fields = find.byType(TextFormField);
-      expect(fields, findsNWidgets(5));
+      expect(fields, findsNWidgets(4));
 
       // Nothing filled in -> greyed.
       expect(bg(), Colors.grey.shade300);
@@ -129,16 +129,21 @@ void main() {
       // State still blank -> still greyed.
       expect(bg(), Colors.grey.shade300);
 
-      await tester.enterText(fields.at(3), 'Tamil Nadu');
-      await tester.pump();
+      await tester.ensureVisible(find.text('Select your state'));
+      await tester.tap(find.text('Select your state'));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextField).last, 'tamil');
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Tamil Nadu'));
+      await tester.pumpAndSettle();
 
       // Pincode still blank (or short) -> still greyed.
       expect(bg(), Colors.grey.shade300);
-      await tester.enterText(fields.at(4), '6000');
+      await tester.enterText(fields.at(3), '6000');
       await tester.pump();
       expect(bg(), Colors.grey.shade300);
 
-      await tester.enterText(fields.at(4), '600040');
+      await tester.enterText(fields.at(3), '600040');
       await tester.pump();
 
       // All five valid -> enabled.

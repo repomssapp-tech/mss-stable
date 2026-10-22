@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../utils/app_colors.dart';
 import '../../l10n/l10n.dart';
 import '../../providers/app_state_provider.dart';
 import '../../utils/language_names.dart';
@@ -106,13 +107,14 @@ class ProfileLogoutCard extends StatelessWidget {
     CustomConfirmDialog.show(
       context,
       icon: Icons.logout_rounded,
-      iconColor: const Color(0xFFEF4444),
+      iconColor: AppColors.danger,
       iconBgColor: const Color(0xFFFEE2E2),
       title: context.l10n.confirmLogoutTitle,
       message: context.l10n.confirmLogoutMsg,
       confirmLabel: context.l10n.logoutButton,
-      confirmColor: const Color(0xFFEF4444),
+      confirmColor: AppColors.danger,
       onConfirm: () => provider.logout(context),
+      isDestructive: true,
     );
   }
 
@@ -122,11 +124,11 @@ class ProfileLogoutCard extends StatelessWidget {
       tiles: [
         ProfileTile(
           icon: Icons.logout_outlined,
-          iconColor: const Color(0xFFDC2626),
+          iconColor: AppColors.danger,
           iconBgColor: const Color(0xFFFEE2E2),
           title: context.l10n.logoutButton,
           subtitle: context.l10n.subLogout,
-          textColor: const Color(0xFFDC2626),
+          textColor: AppColors.danger,
           showDivider: false,
           onTap: () => _handleLogout(context),
         ),

@@ -35,10 +35,10 @@ void showEmiCalculatorSheet(BuildContext context) {
         builder: (context, setModalState) {
           return Padding(
             padding: EdgeInsets.only(
-              left: 20,
-              right: 20,
-              top: 14,
-              bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+              left: AppSpacing.xl,
+              right: AppSpacing.xl,
+              top: AppSpacing.md,
+              bottom: MediaQuery.of(context).viewInsets.bottom + AppSpacing.xxl,
             ),
             child: SingleChildScrollView(
               physics: const ClampingScrollPhysics(),

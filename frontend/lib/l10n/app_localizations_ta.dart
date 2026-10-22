@@ -1668,6 +1668,9 @@ class AppLocalizationsTa extends AppLocalizations {
   String get calcBtnCalculateTax => 'வரியைக் கணக்கிடுக';
 
   @override
+  String get calcErrValidBaseAmount => 'சரியான அடிப்படைத் தொகையை உள்ளிடவும்';
+
+  @override
   String get calcEmiTitle => 'தொழில் கடன் EMI கால்குலேட்டர்';
 
   @override
@@ -1710,6 +1713,51 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get calcDocChecklistSub =>
       'இந்தியாவில் ஒரு தொழிலைப் பதிவு செய்து இயக்குவதற்கான அத்தியாவசிய ஆவணங்கள்.';
+
+  @override
+  String get discoverUtilitiesTitle => 'தொழில்முறை பயன்பாடுகள் & கருவிகள்';
+
+  @override
+  String get utilUdyamTitle => 'உத்யம் வகைப்படுத்தி';
+
+  @override
+  String get utilUdyamDesc => 'எம்எஸ்எம்இ நிலையைச் சரிபார்க்கவும்';
+
+  @override
+  String get utilSubsidyTitle => 'மானியம் மதிப்பீட்டாளர்';
+
+  @override
+  String get utilSubsidyDesc => 'இயந்திர மானியங்கள்';
+
+  @override
+  String get utilGstTitle => 'GST கால்குலேட்டர்';
+
+  @override
+  String get utilGstDesc => 'GST இன்வாய்ஸைக் கணக்கிடுக';
+
+  @override
+  String get utilEmiTitle => 'EMI கால்குலேட்டர்';
+
+  @override
+  String get utilEmiDesc => 'கடன் EMIகளைக் கணக்கிடுக';
+
+  @override
+  String get utilDpiitTitle => 'DPIIT தகுதிநிலை';
+
+  @override
+  String get utilDpiitDesc => 'ஸ்டார்ட்அப் தகுதிகளைச் சரிபார்க்கவும்';
+
+  @override
+  String get utilValuationTitle => 'மதிப்பீடு மதிப்பீட்டாளர்';
+
+  @override
+  String get utilValuationDesc => 'விதை நிலை மதிப்பீட்டு வரம்புகள்';
+
+  @override
+  String get utilDocChecklistTitle => 'ஆவணங்கள் சரிபார்ப்பு';
+
+  @override
+  String get utilDocChecklistDesc => 'தொழில் தொடக்க ஆவணங்கள்';
 
   @override
   String get notifToastSelectedRead =>
@@ -4267,7 +4315,17 @@ class AppLocalizationsTa extends AppLocalizations {
   String get profileHintStateExample => 'எ.கா. தமிழ்நாடு';
 
   @override
-  String get profileErrValidState => 'சரியான மாநிலத்தை உள்ளிடவும்';
+  String get profileErrValidState => 'உங்கள் மாநிலத்தைத் தேர்ந்தெடுக்கவும்';
+
+  @override
+  String get profileSelectState => 'உங்கள் மாநிலத்தைத் தேர்ந்தெடுக்கவும்';
+
+  @override
+  String get profileSearchStateHint =>
+      'மாநிலம் அல்லது யூனியன் பிரதேசத்தைத் தேடுக';
+
+  @override
+  String get profileNoStateMatch => 'பொருந்தும் மாநிலம் இல்லை';
 
   @override
   String get profileErrSelectOptionToContinue =>
@@ -4557,6 +4615,13 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get savedRemoveFromSavedTooltip => 'சேமித்தவற்றிலிருந்து அகற்று';
+
+  @override
+  String get savedInactiveBadge => 'செயலில் இல்லை';
+
+  @override
+  String get savedInactiveHint =>
+      'இந்தத் திட்டம் சமீபத்திய பட்டியலில் இனி செயலில் இல்லை.';
 
   @override
   String get savedKeepListUpdated =>
