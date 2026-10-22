@@ -165,4 +165,55 @@ void main() {
       },
     );
   });
+
+  group(
+    'SavedSchemesScreen - Recently viewed order and manage mode (#149)',
+    () {
+      test(
+        'recently viewed lists the newest view first, not catalog order',
+        () {
+          final provider = AppProvider();
+          provider.setAllSchemesForTesting([
+            viewedOnlyScheme,
+            secondSavedScheme,
+          ]);
+          provider.addToRecentlyViewed(viewedOnlyScheme.id);
+          provider.addToRecentlyViewed(secondSavedScheme.id);
+
+          expect(provider.recentlyViewedSchemes.map((s) => s.id), [
+            secondSavedScheme.id,
+            viewedOnlyScheme.id,
+          ]);
+        },
+      );
+
+      testWidgets('manage mode does not carry over to the other tab', (
+        tester,
+      ) async {
+        final provider = AppProvider();
+        provider.setAllSchemesForTesting([viewedOnlyScheme]);
+        provider.addToRecentlyViewed(viewedOnlyScheme.id);
+
+        await tester.pumpWidget(buildTestWidget(provider));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Recently viewed'));
+        await tester.pumpAndSettle();
+
+        await tester.scrollUntilVisible(
+          find.text('Manage'),
+          200,
+          scrollable: find.byType(Scrollable).first,
+        );
+        await tester.tap(find.text('Manage'));
+        await tester.pumpAndSettle();
+        expect(find.byIcon(Icons.delete_outline_rounded), findsWidgets);
+
+        await tester.tap(find.textContaining('All Saved'));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Recently viewed'));
+        await tester.pumpAndSettle();
+        expect(find.byType(PopupMenuButton<String>), findsOneWidget);
+      });
+    },
+  );
 }

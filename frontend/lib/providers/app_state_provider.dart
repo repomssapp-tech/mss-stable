@@ -336,11 +336,19 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   }
 
   // Recently viewed schemes list
+  /// Most recently viewed first (the stored id order), not catalog order.
   List<Scheme> get recentlyViewedSchemes {
-    final ids = _library.recentlyViewedIds;
-    return _catalog.allSchemes
-        .where((s) => ids.contains(s.id) || ids.contains(s.schemeCode))
-        .toList();
+    final all = _catalog.allSchemes;
+    final out = <Scheme>[];
+    for (final id in _library.recentlyViewedIds) {
+      for (final s in all) {
+        if ((s.id == id || s.schemeCode == id) && !out.contains(s)) {
+          out.add(s);
+          break;
+        }
+      }
+    }
+    return out;
   }
 
   // Catalog load / sync — delegate to SchemeCatalogController, passing the

@@ -40,7 +40,10 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
         children: [
           Expanded(
             child: GestureDetector(
-              onTap: () => setState(() => _activeTab = 0),
+              onTap: () => setState(() {
+                _activeTab = 0;
+                _isManageMode = false;
+              }),
               child: Container(
                 padding: EdgeInsets.symmetric(
                   vertical: isTa ? AppSpacing.md : AppSpacing.sm,
@@ -80,7 +83,10 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
           const SizedBox(width: AppSpacing.tight),
           Expanded(
             child: GestureDetector(
-              onTap: () => setState(() => _activeTab = 1),
+              onTap: () => setState(() {
+                _activeTab = 1;
+                _isManageMode = false;
+              }),
               child: Container(
                 padding: EdgeInsets.symmetric(
                   vertical: isTa ? AppSpacing.md : AppSpacing.sm,

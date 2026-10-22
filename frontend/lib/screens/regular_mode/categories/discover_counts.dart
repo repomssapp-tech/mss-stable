@@ -172,7 +172,6 @@ class DiscoverCounts {
     'Ministry of Skill Development',
     'Ministry of Social Justice',
     'Ministry of Housing',
-    'Ministry of Health',
   ];
 
   static const List<String> stateLabels = [
@@ -446,11 +445,6 @@ class DiscoverCounts {
     'Ministry of Skill Development': ['skill development'],
     'Ministry of Social Justice': ['social justice'],
     'Ministry of Housing': ['housing and urban', 'housing & urban'],
-    'Ministry of Health': [
-      'health and family welfare',
-      'health & family welfare',
-      'ministry of health',
-    ],
   };
 
   static String _composite(Scheme s) =>

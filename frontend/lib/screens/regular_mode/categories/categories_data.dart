@@ -251,7 +251,6 @@ const List<String> allMinistriesList = [
   'Ministry of Skill Development',
   'Ministry of Social Justice',
   'Ministry of Housing',
-  'Ministry of Health',
 ];
 
 const List<String> allStatesList = [

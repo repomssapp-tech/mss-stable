@@ -114,4 +114,8 @@ void main() {
       );
     });
   });
+
+  test('label is the single display form: name (build)', () {
+    expect(AppVersion.parse('1.4.3+11').label, '1.4.3 (11)');
+  });
 }

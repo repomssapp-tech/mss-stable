@@ -152,7 +152,10 @@ void main() {
     );
     await t.pumpAndSettle();
     expect(find.text(hi.profileVerified), findsOneWidget);
+    // No address line at all (either field fills it) -> incomplete, even
+    // though the flag says completed.
     profile.house = '';
+    profile.area = '';
     profile.profileCompleted = true;
     await t.pumpWidget(
       wrap(ProfileBannerCard(provider: provider), provider: provider),

@@ -3886,6 +3886,12 @@ abstract class AppLocalizations {
   /// **'Complete Profile'**
   String get completeProfile;
 
+  /// No description provided for @profileSettingUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Setting up your profile…'**
+  String get profileSettingUp;
+
   /// No description provided for @incomeNoIncome.
   ///
   /// In en, this message translates to:
@@ -6997,7 +7003,7 @@ abstract class AppLocalizations {
   /// No description provided for @dpiitCriteriaRegisteredSub.
   ///
   /// In en, this message translates to:
-  /// **'Must be registered in India'**
+  /// **'Must be registered in India. Sole proprietorships do not qualify.'**
   String get dpiitCriteriaRegisteredSub;
 
   /// No description provided for @dpiitCriteriaAge.
@@ -7011,6 +7017,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'From incorporation date'**
   String get dpiitCriteriaAgeSub;
+
+  /// No description provided for @dpiitCriteriaNotSplit.
+  ///
+  /// In en, this message translates to:
+  /// **'Not formed by splitting up or rebuilding an existing business'**
+  String get dpiitCriteriaNotSplit;
+
+  /// No description provided for @dpiitCriteriaNotSplitSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Must be a genuinely new entity'**
+  String get dpiitCriteriaNotSplitSub;
 
   /// No description provided for @dpiitCriteriaTurnover.
   ///
@@ -7039,14 +7057,20 @@ abstract class AppLocalizations {
   /// No description provided for @dpiitResultEligible.
   ///
   /// In en, this message translates to:
-  /// **'Highly Eligible for DPIIT Startup India Recognition!'**
+  /// **'You appear to meet all DPIIT criteria. Apply for recognition on the Startup India portal.'**
   String get dpiitResultEligible;
 
   /// No description provided for @dpiitResultNotEligible.
   ///
   /// In en, this message translates to:
-  /// **'Not Eligible. Startups must satisfy all 4 criteria to qualify.'**
+  /// **'Not eligible yet. A startup must satisfy all 5 criteria.'**
   String get dpiitResultNotEligible;
+
+  /// No description provided for @dpiitResultUnmet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not met: {criteria}'**
+  String dpiitResultUnmet(String criteria);
 
   /// No description provided for @dpiitCheckEligibility.
   ///
