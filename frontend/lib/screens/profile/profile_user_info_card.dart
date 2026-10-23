@@ -65,49 +65,49 @@ class ProfileUserInfoCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF0F172A),
                   ),
-                  maxLines: 2,
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
               const SizedBox(width: AppSpacing.sm),
-              Flexible(
-                child: TextButton.icon(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => const BasicProfileScreen(),
-                      ),
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.edit_outlined,
-                    color: Color(0xFF2563EB),
-                    size: 13,
-                  ),
-                  label: Text(
-                    context.l10n.editProfile,
-                    style: GoogleFonts.inter(
-                      fontSize: isTa ? 9.5 : 10.5,
-                      color: const Color(0xFF2563EB),
-                      fontWeight: FontWeight.bold,
+              // Natural width, pushed to the right edge by the Expanded title
+              // (a Flexible here took half the row and wrapped the title).
+              TextButton.icon(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const BasicProfileScreen(),
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  );
+                },
+                icon: const Icon(
+                  Icons.edit_outlined,
+                  color: Color(0xFF2563EB),
+                  size: 13,
+                ),
+                label: Text(
+                  context.l10n.editProfile,
+                  style: GoogleFonts.inter(
+                    fontSize: isTa ? 9.5 : 10.5,
+                    color: const Color(0xFF2563EB),
+                    fontWeight: FontWeight.bold,
                   ),
-                  style: TextButton.styleFrom(
-                    backgroundColor: const Color(0xFFEFF6FF),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.sm,
-                      vertical: AppSpacing.tight,
-                    ),
-                    minimumSize: Size.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      side: const BorderSide(
-                        color: Color(0xFFBFDBFE),
-                        width: 0.8,
-                      ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                style: TextButton.styleFrom(
+                  backgroundColor: const Color(0xFFEFF6FF),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.sm,
+                    vertical: AppSpacing.tight,
+                  ),
+                  minimumSize: Size.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    side: const BorderSide(
+                      color: Color(0xFFBFDBFE),
+                      width: 0.8,
                     ),
                   ),
                 ),
