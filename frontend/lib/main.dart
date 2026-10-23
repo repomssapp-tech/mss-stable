@@ -394,8 +394,15 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
           body: IndexedStack(
             index: currentTabIndex,
             children: [
+              // Hidden tabs stay alive but their animations pause: Home's two
+              // auto-advancing carousels kept animating behind every tab.
               for (var i = 0; i < tabs.length; i++)
-                _visitedTabs.contains(i) ? tabs[i] : const SizedBox.shrink(),
+                TickerMode(
+                  enabled: i == currentTabIndex,
+                  child: _visitedTabs.contains(i)
+                      ? tabs[i]
+                      : const SizedBox.shrink(),
+                ),
             ],
           ),
           bottomNavigationBar: navigationMode == 'companion'

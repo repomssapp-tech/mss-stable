@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../l10n/l10n.dart';
+import '../../models/scheme_model.dart';
 import '../../providers/app_state_provider.dart';
 import '../../services/catalog/scheme_repository.dart';
 import '../../utils/app_spacing.dart';
@@ -40,6 +41,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
   Map<String, int> _dynamicCategoryCounts = {};
 
+  /// The scheme list the counts above were computed from. The repository
+  /// hands back the same list until the catalog (or its language) changes.
+  List<Scheme>? _countedSchemes;
+
   @override
   void initState() {
     super.initState();
@@ -58,6 +63,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       // fields (one row per scheme) via [DiscoverCounts] — no /v1/search, no keyword
       // sweep of overview prose, no hardcoded totals, connectivity-independent.
       final schemes = await SchemeRepository.instance.getAllSchemes();
+      // didChangeDependencies runs on every AppProvider change (each tab
+      // switch, bookmark, sync) even while this tab is hidden; only a new
+      // catalog changes the counts.
+      if (identical(schemes, _countedSchemes)) return;
+      _countedSchemes = schemes;
       final counts = DiscoverCounts.compute(schemes);
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
