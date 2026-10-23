@@ -68,6 +68,12 @@ class TokenStorage {
   static const String _kUserPicture = 'mss_auth_user_picture';
   static const String _kPkceVerifier = 'mss_pkce_code_verifier';
 
+  /// Set by [clear], removed by [saveTokens]. While it is set no stored secret
+  /// is returned, whatever the Keystore still holds: on some devices a deleted
+  /// Keystore entry came back after the app was killed, so the user was signed
+  /// in again as the previous account.
+  static const String _kSignedOut = 'mss_auth_signed_out';
+
   SharedPreferences? _prefs;
   final SecretStore _secrets;
 
@@ -102,6 +108,7 @@ class TokenStorage {
     int? expiresIn,
   }) async {
     final prefs = await _getPrefs();
+    await prefs.remove(_kSignedOut);
     await _secrets.write(_kAccessToken, accessToken);
     await _secrets.write(_kRefreshToken, refreshToken);
     await prefs.setString(_kTokenType, tokenType);
@@ -115,9 +122,10 @@ class TokenStorage {
   /// Reads a token from the secret store, moving a legacy plain-text copy
   /// (app <= 1.3.0) into it on first read so existing sessions survive.
   Future<String?> _readSecret(String key) async {
+    final prefs = await _getPrefs();
+    if (prefs.getBool(_kSignedOut) == true) return null;
     final value = await _secrets.read(key);
     if (value != null) return value;
-    final prefs = await _getPrefs();
     if (_secrets is PrefsSecretStore) return null;
     final legacy = prefs.getString(key);
     if (legacy == null) return null;
@@ -237,6 +245,11 @@ class TokenStorage {
       prefs = await _getPrefs();
     } catch (e) {
       debugPrint('[TokenStorage] Preferences unavailable while clearing: $e');
+    }
+    try {
+      await prefs?.setBool(_kSignedOut, true);
+    } catch (e) {
+      debugPrint('[TokenStorage] Could not set the signed-out flag: $e');
     }
     for (final key in [
       _kAccessToken,

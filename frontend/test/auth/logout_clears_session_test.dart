@@ -31,6 +31,12 @@ class _FlakySecrets implements SecretStore {
   }
 }
 
+/// A store whose delete silently does nothing.
+class _IgnoresDeletes extends _FlakySecrets {
+  @override
+  Future<void> delete(String key) async {}
+}
+
 Future<TokenStorage> _storage(_FlakySecrets secrets) async {
   SharedPreferences.setMockInitialValues({});
   final prefs = await SharedPreferences.getInstance();
@@ -58,6 +64,23 @@ void main() {
     // next start, and the refresh token (a different key) is gone too.
     expect(await storage.hasSession(), isFalse);
     expect(await storage.getRefreshToken(), isNull);
+  });
+
+  test('a secret store that ignores deletes still leaves no session', () async {
+    final secrets = _IgnoresDeletes();
+    final storage = await _storage(secrets);
+    await storage.clear();
+    expect(secrets.values, isNotEmpty, reason: 'the store kept the tokens');
+    expect(await storage.hasSession(), isFalse);
+    expect(await storage.getRefreshToken(), isNull);
+    expect(await storage.getUser(), isNull);
+    // A fresh TokenStorage on the same preferences (the app after a restart).
+    final prefs = await SharedPreferences.getInstance();
+    final restarted = TokenStorage(prefs, secrets);
+    expect(await restarted.hasSession(), isFalse);
+    // Signing in again works.
+    await restarted.saveTokens(accessToken: 'a2', refreshToken: 'r2');
+    expect(await restarted.getAccessToken(), 'a2');
   });
 
   test('a refresh that finishes after sign-out saves nothing', () async {
