@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../../models/scheme_model.dart';
@@ -8,6 +7,7 @@ import '../../../utils/app_spacing.dart';
 import '../voice_edge_painter.dart';
 import 'voice_overlay_models.dart';
 import 'voice_transcript_widgets.dart';
+import '../../../utils/app_text.dart';
 
 class RegularVoiceTopBar extends StatelessWidget {
   const RegularVoiceTopBar({
@@ -49,7 +49,7 @@ class RegularVoiceTopBar extends StatelessWidget {
             children: [
               Text(
                 l10n.askAi,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   color: Colors.white,
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
@@ -64,7 +64,7 @@ class RegularVoiceTopBar extends StatelessWidget {
                   key: const Key('voice-live-status'),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     color: const Color(0xFFA8B0C2),
                     fontSize: 10.5,
                     fontWeight: FontWeight.w500,
@@ -194,7 +194,7 @@ class RegularVoiceWelcome extends StatelessWidget {
           l10n.howCanIHelp,
           key: const Key('voice-transcript'),
           textAlign: TextAlign.center,
-          style: GoogleFonts.inter(
+          style: AppGoogleFonts.inter(
             color: Colors.white,
             fontSize: 26,
             height: 1.2,
@@ -206,7 +206,7 @@ class RegularVoiceWelcome extends StatelessWidget {
         Text(
           l10n.voiceTellMeSituationFindSchemes,
           textAlign: TextAlign.center,
-          style: GoogleFonts.inter(
+          style: AppGoogleFonts.inter(
             color: const Color(0xFF9CA6BA),
             fontSize: 13,
             height: 1.45,
@@ -257,7 +257,7 @@ class RegularVoiceTurn extends StatelessWidget {
         children: [
           Text(
             label,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               color: isUser ? const Color(0xFF7F8AA1) : const Color(0xFF8B9BFF),
               fontSize: 10,
               fontWeight: FontWeight.w700,
@@ -268,7 +268,7 @@ class RegularVoiceTurn extends StatelessWidget {
           Text(
             turn.text,
             textAlign: isUser ? TextAlign.right : TextAlign.left,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               color: isUser ? const Color(0xFFC5CBD8) : const Color(0xFFF4F6FA),
               fontSize: isUser ? 15 : 17,
               fontWeight: isUser ? FontWeight.w500 : FontWeight.w400,
@@ -353,7 +353,7 @@ class RegularVoiceNotice extends StatelessWidget {
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: GoogleFonts.inter(
+          style: AppGoogleFonts.inter(
             color: const Color(0xFFD4D9E5),
             fontSize: 12,
             height: 1.4,
@@ -392,7 +392,7 @@ class RegularVoiceControls extends StatelessWidget {
               ? l10n.voiceStatusListening
               : l10n.companionTapToSpeak,
           textAlign: TextAlign.center,
-          style: GoogleFonts.inter(
+          style: AppGoogleFonts.inter(
             color: const Color(0xFFA8B0C2),
             fontSize: 11,
             fontWeight: FontWeight.w600,
@@ -439,7 +439,7 @@ class RegularVoiceControls extends StatelessWidget {
             l10n.voiceCloudDisclosure,
             key: const Key('voice-cloud-disclosure'),
             textAlign: TextAlign.center,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               color: const Color(0xFF707A91),
               fontSize: 9,
             ),

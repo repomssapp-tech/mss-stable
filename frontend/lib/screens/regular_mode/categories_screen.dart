@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../l10n/l10n.dart';
@@ -12,6 +11,7 @@ import 'categories/categories_section_lists.dart';
 import 'categories/categories_view_all_sheets.dart';
 import 'categories/discover_counts.dart';
 import 'search_results_screen.dart';
+import '../../utils/app_text.dart';
 
 // Re-exports for backwards compatibility across tests and consumers
 export 'categories/categories_business_utilities_section.dart';
@@ -203,7 +203,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   children: [
                     Text(
                       context.l10n.discoverTitle,
-                      style: GoogleFonts.poppins(
+                      style: AppGoogleFonts.poppins(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFF0F172A),
@@ -212,7 +212,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     const SizedBox(height: AppSpacing.hairline),
                     Text(
                       context.l10n.exploreTopCuratedCollections,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 12,
                         color: const Color(0xFF64748B),
                       ),

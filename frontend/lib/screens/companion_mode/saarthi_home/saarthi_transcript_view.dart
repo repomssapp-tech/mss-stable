@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../models/scheme_model.dart';
@@ -11,6 +10,7 @@ import '../../../utils/responsive.dart';
 import '../saarthi_message.dart';
 import 'saarthi_compact_scheme_card.dart';
 import 'saarthi_home_models.dart';
+import '../../../utils/app_text.dart';
 
 /// Animated waveform bar indicating live assistant speech.
 class SaarthiWaveformBar extends StatelessWidget {
@@ -68,7 +68,7 @@ class SaarthiUserMessage extends StatelessWidget {
         children: [
           Text(
             context.l10n.companionYouTimestampLabel(timeStr),
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               fontSize: 9.5,
               fontWeight: FontWeight.w600,
               color: const Color(0xFF64748B),
@@ -98,7 +98,7 @@ class SaarthiUserMessage extends StatelessWidget {
             ),
             child: Text(
               message.text,
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 13,
                 height: 1.4,
                 fontWeight: FontWeight.w500,
@@ -158,7 +158,7 @@ class SaarthiAiMessage extends StatelessWidget {
                   children: [
                     Text(
                       context.l10n.companionAiTimestampLabel(timeStr),
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 9.5,
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF64748B),
@@ -185,7 +185,7 @@ class SaarthiAiMessage extends StatelessWidget {
                         children: [
                           Text(
                             message.text,
-                            style: GoogleFonts.inter(
+                            style: AppGoogleFonts.inter(
                               fontSize: 13,
                               height: 1.42,
                               fontWeight: FontWeight.w500,
@@ -227,7 +227,7 @@ class SaarthiAiMessage extends StatelessWidget {
                                   child: FitOneLine(
                                     child: Text(
                                       context.l10n.companionSpeakingBadge,
-                                      style: GoogleFonts.inter(
+                                      style: AppGoogleFonts.inter(
                                         fontSize: 10.5,
                                         color: const Color(0xFF059669),
                                         fontWeight: FontWeight.w700,
@@ -266,7 +266,7 @@ class SaarthiAiMessage extends StatelessWidget {
                         child: Text(
                           context.l10n.recommendedForYou,
                           softWrap: true,
-                          style: GoogleFonts.poppins(
+                          style: AppGoogleFonts.poppins(
                             fontSize: 13,
                             fontWeight: FontWeight.w700,
                             color: const Color(0xFF0F172A),
@@ -278,7 +278,7 @@ class SaarthiAiMessage extends StatelessWidget {
                   const SizedBox(height: AppSpacing.xs),
                   Text(
                     context.l10n.companionRankedResultsCaption,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 9.5,
                       height: 1.35,
                       color: const Color(0xFF64748B),
@@ -340,7 +340,7 @@ class SaarthiTranscriptView extends StatelessWidget {
                         Text(
                           voiceStatusText,
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.poppins(
+                          style: AppGoogleFonts.poppins(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                             color: const Color(0xFF0F172A),
@@ -350,7 +350,7 @@ class SaarthiTranscriptView extends StatelessWidget {
                         Text(
                           context.l10n.companionEmptyStateHint,
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.inter(
+                          style: AppGoogleFonts.inter(
                             fontSize: 11.5,
                             height: 1.45,
                             color: const Color(0xFF64748B),

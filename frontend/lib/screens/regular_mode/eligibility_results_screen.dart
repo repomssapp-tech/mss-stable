@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../widgets/scheme/scheme_card.dart';
 import '../../widgets/common/standard_page_header.dart';
 import '../../providers/app_state_provider.dart';
@@ -11,6 +10,7 @@ import 'scheme_details_screen.dart';
 import 'search_results_screen.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/share_text.dart';
+import '../../utils/app_text.dart';
 
 class EligibilityResultsScreen extends StatefulWidget {
   const EligibilityResultsScreen({super.key});
@@ -96,7 +96,7 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                     // Great News Header
                     Text(
                       context.l10n.eligResGreatNews,
-                      style: GoogleFonts.poppins(
+                      style: AppGoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFF137C47),
@@ -106,7 +106,7 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                     RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
-                        style: GoogleFonts.poppins(
+                        style: AppGoogleFonts.poppins(
                           fontSize: 25,
                           fontWeight: FontWeight.w700,
                           color: const Color(0xFF0F172A),
@@ -126,7 +126,7 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                     const SizedBox(height: AppSpacing.tight),
                     Text(
                       context.l10n.eligResBasedOnInfo,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 13,
                         color: const Color(0xFF64748B),
                       ),
@@ -145,7 +145,7 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                             child: Text(
                               context.l10n.eligResRecommendedSchemes,
                               softWrap: true,
-                              style: GoogleFonts.poppins(
+                              style: AppGoogleFonts.poppins(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFF0F172A),
@@ -181,7 +181,7 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                                     child: FitOneLine(
                                       child: Text(
                                         context.l10n.viewAll,
-                                        style: GoogleFonts.inter(
+                                        style: AppGoogleFonts.inter(
                                           fontSize: 13,
                                           fontWeight: FontWeight.w600,
                                           color: const Color(0xFF137C47),
@@ -223,7 +223,7 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                             const SizedBox(height: AppSpacing.md),
                             Text(
                               context.l10n.eligResNoMatches,
-                              style: GoogleFonts.inter(
+                              style: AppGoogleFonts.inter(
                                 color: const Color(0xFF64748B),
                                 fontSize: 13,
                                 height: 1.4,
@@ -252,7 +252,7 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                               ),
                               label: Text(
                                 context.l10n.eligResExploreAll,
-                                style: GoogleFonts.inter(
+                                style: AppGoogleFonts.inter(
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -312,7 +312,7 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                             Expanded(
                               child: Text(
                                 context.l10n.eligResSortedInfo,
-                                style: GoogleFonts.inter(
+                                style: AppGoogleFonts.inter(
                                   fontSize: 12,
                                   color: const Color(0xFF137C47),
                                   fontWeight: FontWeight.w500,
@@ -420,7 +420,7 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                               : (isAlreadySaved
                                     ? context.l10n.eligResSavedToProfile
                                     : context.l10n.eligResSaveResults),
-                          style: GoogleFonts.poppins(
+                          style: AppGoogleFonts.poppins(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
@@ -441,7 +441,7 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                           child: Text(
                             context.l10n.eligResSecurePrivate,
                             softWrap: true,
-                            style: GoogleFonts.inter(
+                            style: AppGoogleFonts.inter(
                               fontSize: 11,
                               color: const Color(0xFF64748B),
                             ),

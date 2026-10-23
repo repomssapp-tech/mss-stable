@@ -67,7 +67,9 @@ class NotificationTranslator {
   NotificationTranslator({TextTranslationBackend? backend})
     : _backend = backend ?? MlKitTranslationBackend();
 
-  static final NotificationTranslator instance = NotificationTranslator();
+  /// The app-wide translator. Tests replace it with one that has a fake
+  /// backend (platform channels never answer inside a widget test).
+  static NotificationTranslator instance = NotificationTranslator();
 
   final TextTranslationBackend _backend;
   final Map<String, String> _cache = {};

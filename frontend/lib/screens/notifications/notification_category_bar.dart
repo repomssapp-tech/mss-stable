@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../utils/app_spacing.dart';
 import 'notification_helpers.dart';
+import '../../utils/app_text.dart';
 
 class NotificationCategoryBar extends StatelessWidget {
   final String activeFilter;
@@ -63,7 +63,7 @@ class NotificationCategoryBar extends StatelessWidget {
                   const SizedBox(width: AppSpacing.tight),
                   Text(
                     NotificationHelpers.categoryLabel(context, catKey),
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       color: isSelected
                           ? activeTextColor
                           : const Color(0xFF1E293B),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 
 /// Fixed bottom action bar with "Save Scheme" bookmark button and "Apply Now" CTA.
 ///
@@ -89,7 +89,7 @@ class SchemeBottomActionBar extends StatelessWidget {
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           color: const Color(0xFF2563EB),
                           fontWeight: FontWeight.bold,
                           fontSize: labelSize,
@@ -130,7 +130,7 @@ class SchemeBottomActionBar extends StatelessWidget {
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: labelSize,

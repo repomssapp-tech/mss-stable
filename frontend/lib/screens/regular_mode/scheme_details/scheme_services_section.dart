@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../l10n/l10n.dart';
 import '../../../models/scheme_model.dart';
+import '../../../utils/app_text.dart';
 
 /// Content section for scheme required services (e.g. GST registration, Udyam certificate).
 class SchemeServicesContent extends StatelessWidget {
@@ -14,7 +14,7 @@ class SchemeServicesContent extends StatelessWidget {
     if (services.isEmpty) {
       return Text(
         context.l10n.noServicesRequiredMsg,
-        style: GoogleFonts.inter(
+        style: AppGoogleFonts.inter(
           color: const Color(0xFF64748B),
           fontSize: 11.0,
         ),
@@ -36,7 +36,7 @@ class SchemeServicesContent extends StatelessWidget {
           ),
           title: Text(
             service.name,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               color: const Color(0xFF0F172A),
               fontSize: 11.0,
               fontWeight: FontWeight.w700,
@@ -47,7 +47,7 @@ class SchemeServicesContent extends StatelessWidget {
               service.category,
               service.description,
             ].where((value) => value.isNotEmpty).join(' • '),
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               color: const Color(0xFF64748B),
               fontSize: 10.0,
               height: 1.35,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 
 /// Reusable accordion section widget with colored leading icon and ExpansionTile.
 ///
@@ -62,7 +62,7 @@ class SchemeExpandableSection extends StatelessWidget {
             ),
             title: Text(
               title,
-              style: GoogleFonts.poppins(
+              style: AppGoogleFonts.poppins(
                 fontSize: 13.0,
                 fontWeight: FontWeight.bold,
                 color: const Color(0xFF0F172A),

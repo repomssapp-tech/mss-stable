@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../l10n/l10n.dart';
@@ -8,6 +7,7 @@ import '../../../utils/app_spacing.dart';
 import '../../regular_mode/categories/categories_data.dart';
 import '../../regular_mode/categories/discover_counts.dart';
 import 'assisted_selection_card.dart';
+import '../../../utils/app_text.dart';
 
 class Step1StateSelector extends StatelessWidget {
   final String selectedState;
@@ -135,7 +135,7 @@ class Step1StateSelector extends StatelessWidget {
                     children: [
                       Text(
                         sheetContext.l10n.allStatesAndUts,
-                        style: GoogleFonts.poppins(
+                        style: AppGoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF0F172A),

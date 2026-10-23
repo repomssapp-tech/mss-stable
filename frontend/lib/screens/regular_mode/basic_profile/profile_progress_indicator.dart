@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 
 /// Static 4-segment stepper + "Step X of 4" fraction text shown at the top
 /// of the [BasicProfileScreen] card, above the scrollable step form.
@@ -61,7 +61,7 @@ class ProfileProgressIndicator extends StatelessWidget {
     };
     return Text(
       text,
-      style: GoogleFonts.inter(
+      style: AppGoogleFonts.inter(
         fontSize: 13,
         fontWeight: FontWeight.w600,
         color: kPrimaryBlue,

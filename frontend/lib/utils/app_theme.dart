@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
 import 'app_radius.dart';
 import 'app_size.dart';
@@ -251,23 +250,23 @@ class AppTheme {
       ),
       headerBackgroundColor: AppConstants.primaryColor,
       headerForegroundColor: Colors.white,
-      headerHeadlineStyle: GoogleFonts.poppins(
+      headerHeadlineStyle: AppGoogleFonts.poppins(
         fontSize: 22,
         fontWeight: FontWeight.bold,
         color: Colors.white,
       ),
-      headerHelpStyle: GoogleFonts.inter(
+      headerHelpStyle: AppGoogleFonts.inter(
         fontSize: 13,
         fontWeight: FontWeight.w600,
         color: Colors.white.withValues(alpha: 0.9),
         letterSpacing: 0.5,
       ),
-      weekdayStyle: GoogleFonts.inter(
+      weekdayStyle: AppGoogleFonts.inter(
         fontSize: 13,
         fontWeight: FontWeight.w600,
         color: AppConstants.secondaryText,
       ),
-      dayStyle: GoogleFonts.inter(
+      dayStyle: AppGoogleFonts.inter(
         fontSize: 14,
         fontWeight: FontWeight.w500,
         color: AppConstants.primaryText,
@@ -315,7 +314,7 @@ class AppTheme {
         color: AppConstants.primaryColor,
         width: 1.5,
       ),
-      yearStyle: GoogleFonts.inter(
+      yearStyle: AppGoogleFonts.inter(
         fontSize: 14,
         fontWeight: FontWeight.w500,
         color: AppConstants.primaryText,
@@ -341,7 +340,7 @@ class AppTheme {
       dividerColor: AppConstants.cardBorderColor,
       cancelButtonStyle: TextButton.styleFrom(
         foregroundColor: AppConstants.secondaryText,
-        textStyle: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600),
+        textStyle: AppGoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600),
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.lg,
           vertical: AppSpacing.sm,
@@ -350,7 +349,7 @@ class AppTheme {
       ),
       confirmButtonStyle: TextButton.styleFrom(
         foregroundColor: AppConstants.primaryColor,
-        textStyle: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700),
+        textStyle: AppGoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w700),
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.xl,
           vertical: AppSpacing.sm,
@@ -379,11 +378,11 @@ class AppTheme {
             width: 1.8,
           ),
         ),
-        labelStyle: GoogleFonts.inter(
+        labelStyle: AppGoogleFonts.inter(
           fontSize: 14,
           color: AppConstants.secondaryText,
         ),
-        hintStyle: GoogleFonts.inter(
+        hintStyle: AppGoogleFonts.inter(
           fontSize: 14,
           color: AppConstants.secondaryText.withValues(alpha: 0.7),
         ),

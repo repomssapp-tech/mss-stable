@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../../models/localized_scheme.dart';
@@ -9,6 +8,7 @@ import '../../../services/search/private_ai_knowledge_base.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/responsive.dart';
 import 'voice_overlay_models.dart';
+import '../../../utils/app_text.dart';
 
 class VoiceTranscriptBubble extends StatelessWidget {
   const VoiceTranscriptBubble({
@@ -68,7 +68,7 @@ class VoiceTranscriptBubble extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   color: isUser ? const Color(0xFF93C5FD) : accentColor,
                   fontSize: 9.5,
                   fontWeight: FontWeight.w800,
@@ -79,7 +79,7 @@ class VoiceTranscriptBubble extends StatelessWidget {
                 turn.text,
                 maxLines: isCompanion ? null : (isUser ? 3 : 5),
                 overflow: isCompanion ? null : TextOverflow.ellipsis,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   color: Colors.white,
                   fontSize: 13.5,
                   height: 1.42,
@@ -90,7 +90,7 @@ class VoiceTranscriptBubble extends StatelessWidget {
                 const SizedBox(height: 9), // spacing-ok
                 Text(
                   l10n.voiceRecommendedForYou,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     color: const Color(0xFF86EFAC),
                     fontSize: 10,
                     fontWeight: FontWeight.w800,
@@ -228,7 +228,7 @@ class VoiceAssistantReplyCard extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     isCompanion ? 'Saarthi' : l10n.askAi,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       color: Colors.white,
                       fontSize: 11.5,
                       fontWeight: FontWeight.w700,
@@ -241,7 +241,7 @@ class VoiceAssistantReplyCard extends StatelessWidget {
           const SizedBox(height: AppSpacing.sm),
           Text(
             reply.displayText,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               color: const Color(0xFFE2E8F0),
               fontSize: 11,
               height: 1.45,

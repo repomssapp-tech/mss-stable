@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/responsive.dart';
+import '../../utils/app_text.dart';
 
 /// Info Column Helper for the Profile Grid.
 class ProfileInfoCol extends StatelessWidget {
@@ -27,7 +27,7 @@ class ProfileInfoCol extends StatelessWidget {
         children: [
           Text(
             label,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               fontSize: isTamil ? 10.0 : 10.5,
               color: const Color(0xFF94A3B8),
               fontWeight: FontWeight.w500,
@@ -39,7 +39,7 @@ class ProfileInfoCol extends StatelessWidget {
           const SizedBox(height: AppSpacing.xs),
           Text(
             value,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               fontSize: isTamil ? 11.0 : 11.5,
               color: const Color(0xFF0F172A),
               fontWeight: FontWeight.bold,
@@ -151,7 +151,7 @@ class ProfileTile extends StatelessWidget {
           ),
           title: Text(
             title,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               fontSize: 13,
               fontWeight: FontWeight.bold,
               color: textColor ?? const Color(0xFF0F172A),
@@ -160,7 +160,7 @@ class ProfileTile extends StatelessWidget {
           subtitle: subtitle != null && subtitle!.isNotEmpty
               ? Text(
                   subtitle!,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 11,
                     color: const Color(0xFF64748B),
                   ),
@@ -180,7 +180,7 @@ class ProfileTile extends StatelessWidget {
                       child: FitOneLine(
                         child: Text(
                           trailingText!,
-                          style: GoogleFonts.inter(
+                          style: AppGoogleFonts.inter(
                             fontSize: 12,
                             color: const Color(0xFF2563EB),
                             fontWeight: FontWeight.w600,

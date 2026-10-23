@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../utils/app_text.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
@@ -70,7 +69,7 @@ class Step1BasicDetailsForm extends StatelessWidget {
         Text(
           l10n.basicDetailsSubtitle,
           textAlign: TextAlign.center,
-          style: GoogleFonts.inter(fontSize: 13.5, color: kSlate500),
+          style: AppGoogleFonts.inter(fontSize: 13.5, color: kSlate500),
         ),
         const SizedBox(height: AppSpacing.xl),
 
@@ -135,7 +134,7 @@ class Step1BasicDetailsForm extends StatelessWidget {
             Text.rich(
               TextSpan(
                 text: l10n.labelGender,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                   color: kSlate900,
@@ -178,7 +177,7 @@ class Step1BasicDetailsForm extends StatelessWidget {
                   Expanded(
                     child: Text(
                       l10n.profileErrSelectGender,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
                         color: const Color(0xFFDC2626),
@@ -236,7 +235,7 @@ class Step1BasicDetailsForm extends StatelessWidget {
       children: [
         Text(
           l10n.profileConsentSectionTitle,
-          style: GoogleFonts.inter(
+          style: AppGoogleFonts.inter(
             fontSize: 14,
             fontWeight: FontWeight.bold,
             color: kSlate900,
@@ -247,7 +246,7 @@ class Step1BasicDetailsForm extends StatelessWidget {
         // notice and a way to read the document are shown, no checkbox.
         Text(
           l10n.profileConsentCheckboxLabel,
-          style: GoogleFonts.inter(
+          style: AppGoogleFonts.inter(
             fontSize: 13,
             color: kSlate800,
             height: 1.45,
@@ -263,7 +262,7 @@ class Step1BasicDetailsForm extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
               child: Text(
                 l10n.profileConsentReadMore,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                   color: kPrimaryBlue,
@@ -305,7 +304,7 @@ class Step1BasicDetailsForm extends StatelessWidget {
               child: Text(
                 gender,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   fontSize: 12,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                   color: isSelected ? kPrimaryBlue : kSlate800,
@@ -338,7 +337,7 @@ class Step1BasicDetailsForm extends StatelessWidget {
           Expanded(
             child: Text(
               context.l10n.profileInfoNote,
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 12,
                 color: kSlate800,
                 height: 1.4,

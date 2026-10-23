@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
-import 'package:google_fonts/google_fonts.dart';
 import '../l10n/l10n.dart';
 import 'app_spacing.dart';
+import 'app_text.dart';
 
 /// Explicitly shows the styled Location Services Off dialog when location services (GPS) are turned off.
 Future<void> showLocationServiceOffDialog(BuildContext context) async {
@@ -56,7 +56,7 @@ Future<void> showLocationServiceOffDialog(BuildContext context) async {
               // Title
               Text(
                 context.l10n.permLocationOffTitle,
-                style: GoogleFonts.poppins(
+                style: AppGoogleFonts.poppins(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: const Color(0xFF0F172A),
@@ -69,7 +69,7 @@ Future<void> showLocationServiceOffDialog(BuildContext context) async {
               // Description
               Text(
                 context.l10n.permLocationOffBody,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   fontSize: 13.5,
                   color: const Color(0xFF64748B),
                   height: 1.45,
@@ -99,7 +99,7 @@ Future<void> showLocationServiceOffDialog(BuildContext context) async {
                         Expanded(
                           child: Text(
                             context.l10n.permLocationBenefitDetect,
-                            style: GoogleFonts.inter(
+                            style: AppGoogleFonts.inter(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
                               color: const Color(0xFF1E293B),
@@ -120,7 +120,7 @@ Future<void> showLocationServiceOffDialog(BuildContext context) async {
                         Expanded(
                           child: Text(
                             context.l10n.permLocationBenefitTailored,
-                            style: GoogleFonts.inter(
+                            style: AppGoogleFonts.inter(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
                               color: const Color(0xFF1E293B),
@@ -152,7 +152,7 @@ Future<void> showLocationServiceOffDialog(BuildContext context) async {
                   icon: const Icon(Icons.settings_suggest_rounded, size: 20),
                   label: Text(
                     context.l10n.permLocationTurnOn,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
@@ -172,7 +172,7 @@ Future<void> showLocationServiceOffDialog(BuildContext context) async {
                   onPressed: () => Navigator.pop(context),
                   child: Text(
                     context.l10n.dialogCancel,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 13.5,
                       fontWeight: FontWeight.w600,
                       color: const Color(0xFF64748B),

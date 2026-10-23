@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../l10n/l10n.dart';
 import 'login_screen.dart';
 import 'regular_mode/language_selection_screen.dart';
@@ -9,6 +8,7 @@ import '../utils/app_spacing.dart';
 import '../widgets/common/app_toast.dart';
 import '../utils/constants.dart';
 import '../services/beta_gate/beta_gate_service.dart';
+import '../utils/app_text.dart';
 
 /// Screen displayed immediately following the splash screen when [isBetaModeEnabled]
 /// is true and the device has not yet entered the valid beta password.
@@ -163,7 +163,7 @@ class _BetaGateScreenState extends State<BetaGateScreen> {
                             Text(
                               context.l10n.betaGateAuthorizedTestersOnly,
                               textAlign: TextAlign.center,
-                              style: GoogleFonts.inter(
+                              style: AppGoogleFonts.inter(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w500,
                                 color: const Color(0xFF94A3B8), // Slate 400
@@ -262,7 +262,7 @@ class _BetaGateCard extends StatelessWidget {
           // Title
           Text(
             context.l10n.betaGateAccess,
-            style: GoogleFonts.poppins(
+            style: AppGoogleFonts.poppins(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: const Color(0xFF0F172A), // Slate 900
@@ -274,7 +274,7 @@ class _BetaGateCard extends StatelessWidget {
           Text(
             context.l10n.betaGateEnterPasswordToContinue,
             textAlign: TextAlign.center,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               fontSize: 12,
               color: const Color(0xFF64748B), // Slate 500
               height: 1.4,
@@ -291,14 +291,14 @@ class _BetaGateCard extends StatelessWidget {
             keyboardType: TextInputType.text,
             textInputAction: TextInputAction.done,
             onSubmitted: (_) => onSubmitted?.call(),
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               fontSize: 14,
               fontWeight: FontWeight.w500,
               color: const Color(0xFF0F172A),
             ),
             decoration: InputDecoration(
               hintText: context.l10n.betaGatePasswordHint,
-              hintStyle: GoogleFonts.inter(
+              hintStyle: AppGoogleFonts.inter(
                 fontSize: 13,
                 color: const Color(0xFF94A3B8), // Slate 400
               ),
@@ -373,7 +373,7 @@ class _BetaGateCard extends StatelessWidget {
                       children: [
                         Text(
                           context.l10n.betaGateVerifyAndEnter,
-                          style: GoogleFonts.inter(
+                          style: AppGoogleFonts.inter(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),

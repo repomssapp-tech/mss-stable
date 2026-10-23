@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/app_state_provider.dart';
 import '../../../l10n/l10n.dart';
@@ -11,6 +10,7 @@ import 'gst_calculator_sheet.dart';
 import 'subsidy_estimator_sheet.dart';
 import 'udyam_classifier_sheet.dart';
 import 'valuation_estimator_sheet.dart';
+import '../../../utils/app_text.dart';
 
 class CategoriesBusinessUtilitiesSection extends StatelessWidget {
   const CategoriesBusinessUtilitiesSection({super.key});
@@ -32,7 +32,7 @@ class CategoriesBusinessUtilitiesSection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
           child: Text(
             context.l10n.discoverUtilitiesTitle,
-            style: GoogleFonts.poppins(
+            style: AppGoogleFonts.poppins(
               fontSize: isTa ? 14.0 : 15.0,
               fontWeight: FontWeight.bold,
               color: const Color(0xFF0F172A),
@@ -145,7 +145,7 @@ class CategoryUtilityCard extends StatelessWidget {
                 title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.poppins(
+                style: AppGoogleFonts.poppins(
                   fontSize: 10.5,
                   fontWeight: FontWeight.bold,
                   color: const Color(0xFF0F172A),
@@ -155,7 +155,7 @@ class CategoryUtilityCard extends StatelessWidget {
                 desc,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   fontSize: 8.5,
                   color: const Color(0xFF64748B),
                 ),

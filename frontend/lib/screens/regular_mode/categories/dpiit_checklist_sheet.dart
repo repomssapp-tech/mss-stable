@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
 import 'dpiit_eligibility.dart';
+import '../../../utils/app_text.dart';
 
 /// DPIIT startup-recognition eligibility checklist bottom sheet.
 ///
@@ -95,7 +95,7 @@ void showDpiitChecklistSheet(BuildContext context) {
                           children: [
                             Text(
                               l10n.dpiitTitle,
-                              style: GoogleFonts.poppins(
+                              style: AppGoogleFonts.poppins(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFF0F172A),
@@ -103,7 +103,7 @@ void showDpiitChecklistSheet(BuildContext context) {
                             ),
                             Text(
                               l10n.dpiitSubtitle,
-                              style: GoogleFonts.inter(
+                              style: AppGoogleFonts.inter(
                                 fontSize: 10,
                                 color: const Color(0xFF64748B),
                               ),
@@ -213,7 +213,7 @@ void showDpiitChecklistSheet(BuildContext context) {
                                 Expanded(
                                   child: Text(
                                     message,
-                                    style: GoogleFonts.inter(
+                                    style: AppGoogleFonts.inter(
                                       fontSize: 11,
                                       fontWeight: FontWeight.bold,
                                       color: resultColor,
@@ -248,7 +248,7 @@ void showDpiitChecklistSheet(BuildContext context) {
                       ),
                       child: Text(
                         l10n.dpiitCheckEligibility,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.5,
                         ),

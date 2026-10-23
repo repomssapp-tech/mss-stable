@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'companion_mode/saarthi_welcome_screen.dart';
 import 'regular_mode/language_selection_screen.dart';
@@ -10,6 +9,7 @@ import '../utils/responsive.dart';
 import '../l10n/l10n.dart';
 import '../utils/app_size.dart';
 import '../utils/app_spacing.dart';
+import '../utils/app_text.dart';
 
 enum NavigationMode { regular, companion }
 
@@ -114,7 +114,7 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                                       RichText(
                                         textAlign: TextAlign.center,
                                         text: TextSpan(
-                                          style: GoogleFonts.poppins(
+                                          style: AppGoogleFonts.poppins(
                                             fontSize: 22,
                                             fontWeight: FontWeight.bold,
                                             color: kSlate800,
@@ -140,7 +140,7 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                                       Text(
                                         context.l10n.navSelectStyleSubtitle,
                                         textAlign: TextAlign.center,
-                                        style: GoogleFonts.inter(
+                                        style: AppGoogleFonts.inter(
                                           fontSize: 13.5,
                                           color: kSlate500,
                                         ),
@@ -400,7 +400,7 @@ class NavigationOptionCard extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: GoogleFonts.poppins(
+                        style: AppGoogleFonts.poppins(
                           fontSize: 15.5, // Tighter font sizing
                           fontWeight: FontWeight.bold,
                           color: _NavigationModeScreenState.kSlate800,
@@ -409,7 +409,7 @@ class NavigationOptionCard extends StatelessWidget {
                       const SizedBox(height: AppSpacing.hairline),
                       Text(
                         subtitle,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 12.5, // Tighter font sizing
                           color: _NavigationModeScreenState.kSlate500,
                         ),
@@ -450,7 +450,7 @@ class NavigationOptionCard extends StatelessWidget {
                                       chips[i].label,
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
-                                      style: GoogleFonts.inter(
+                                      style: AppGoogleFonts.inter(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w600,
                                         color: iconColor,
@@ -539,7 +539,7 @@ class InfoCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 13, // Slightly more compact
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF1E3A8A),
@@ -548,7 +548,7 @@ class InfoCard extends StatelessWidget {
                 const SizedBox(height: 1),
                 Text(
                   description,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 11, // Slightly more compact
                     color: const Color(0xFF1D4ED8),
                   ),
@@ -605,7 +605,7 @@ class PrimaryButton extends StatelessWidget {
               child: FitOneLine(
                 child: Text(
                   context.l10n.navContinueButton,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 16.5,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,

@@ -1,12 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import '../../utils/app_colors.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../providers/app_state_provider.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/app_text.dart';
 
 Future<void> changeProfilePicture(
   BuildContext context,
@@ -30,7 +30,7 @@ Future<void> changeProfilePicture(
               padding: const EdgeInsets.symmetric(vertical: AppSpacing.xl),
               child: Text(
                 context.l10n.profilePhotoTitle,
-                style: GoogleFonts.poppins(
+                style: AppGoogleFonts.poppins(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: const Color(0xFF0F172A),
@@ -44,7 +44,7 @@ Future<void> changeProfilePicture(
               ),
               title: Text(
                 context.l10n.chooseFromGallery,
-                style: GoogleFonts.inter(fontWeight: FontWeight.w600),
+                style: AppGoogleFonts.inter(fontWeight: FontWeight.w600),
               ),
               onTap: () async {
                 Navigator.pop(context);
@@ -65,7 +65,7 @@ Future<void> changeProfilePicture(
               ),
               title: Text(
                 context.l10n.takePhoto,
-                style: GoogleFonts.inter(fontWeight: FontWeight.w600),
+                style: AppGoogleFonts.inter(fontWeight: FontWeight.w600),
               ),
               onTap: () async {
                 Navigator.pop(context);
@@ -87,7 +87,7 @@ Future<void> changeProfilePicture(
                 ),
                 title: Text(
                   context.l10n.removePhoto,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     color: AppColors.danger,
                     fontWeight: FontWeight.w600,
                   ),

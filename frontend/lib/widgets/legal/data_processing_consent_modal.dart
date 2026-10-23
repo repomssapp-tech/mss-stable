@@ -1,8 +1,8 @@
 import '../../services/catalog/centralized_translator.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/app_text.dart';
 
 class DataProcessingConsentModal extends StatelessWidget {
   const DataProcessingConsentModal({super.key});
@@ -75,7 +75,7 @@ class DataProcessingConsentModal extends StatelessWidget {
                         CentralizedTranslator.instance.localize(
                           'Consent to Processing of Personal Data',
                         ),
-                        style: GoogleFonts.poppins(
+                        style: AppGoogleFonts.poppins(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF0F172A),
@@ -85,7 +85,7 @@ class DataProcessingConsentModal extends StatelessWidget {
                         CentralizedTranslator.instance.localize(
                           'Your consent helps MSS personalize your experience.',
                         ),
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 12,
                           color: const Color(0xFF64748B),
                         ),
@@ -115,7 +115,7 @@ class DataProcessingConsentModal extends StatelessWidget {
                     CentralizedTranslator.instance.localize(
                       'By completing your profile, you voluntarily consent to MSS collecting and processing information from your Google Sign-In and the personal information you provide, including:',
                     ),
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 13,
                       color: const Color(0xFF334155),
                       height: 1.5,
@@ -154,7 +154,7 @@ class DataProcessingConsentModal extends StatelessWidget {
                     CentralizedTranslator.instance.localize(
                       'WHY WE USE YOUR INFORMATION',
                     ),
-                    style: GoogleFonts.poppins(
+                    style: AppGoogleFonts.poppins(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF0F172A),
@@ -166,7 +166,7 @@ class DataProcessingConsentModal extends StatelessWidget {
                     CentralizedTranslator.instance.localize(
                       'Your information may be used for:',
                     ),
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 13,
                       color: const Color(0xFF334155),
                       height: 1.4,
@@ -197,7 +197,7 @@ class DataProcessingConsentModal extends StatelessWidget {
                     CentralizedTranslator.instance.localize(
                       'PLEASE UNDERSTAND',
                     ),
-                    style: GoogleFonts.poppins(
+                    style: AppGoogleFonts.poppins(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF0F172A),
@@ -264,7 +264,7 @@ class DataProcessingConsentModal extends StatelessWidget {
                       onPressed: () => Navigator.of(context).pop(),
                       child: Text(
                         context.l10n.close,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
                         ),
@@ -303,7 +303,7 @@ class _BulletItem extends StatelessWidget {
           Expanded(
             child: Text(
               CentralizedTranslator.instance.localize(text),
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 12.5,
                 color: const Color(0xFF475569),
                 height: 1.45,
@@ -330,7 +330,7 @@ class _NumberedItem extends StatelessWidget {
         children: [
           Text(
             '$number. ',
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               fontSize: 13,
               fontWeight: FontWeight.w600,
               color: const Color(0xFF334155),
@@ -339,7 +339,7 @@ class _NumberedItem extends StatelessWidget {
           Expanded(
             child: Text(
               CentralizedTranslator.instance.localize(text),
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 12.5,
                 color: const Color(0xFF475569),
                 height: 1.45,

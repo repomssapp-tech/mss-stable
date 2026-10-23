@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../widgets/onboarding/home_tour_targets.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../l10n/l10n.dart';
@@ -16,6 +15,7 @@ import 'home/home_profile_completion_card.dart';
 import 'home/home_recommended_section.dart';
 import 'home/home_updates_section.dart';
 import 'sarvam_chat_screen.dart';
+import '../../utils/app_text.dart';
 
 export 'home/home_featured_section.dart';
 export 'home/home_header_section.dart';
@@ -247,7 +247,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(width: AppSpacing.sm),
                 Text(
                   context.l10n.askAi,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     color: Colors.white,
                     fontSize: 13,
                     fontWeight: FontWeight.w700,

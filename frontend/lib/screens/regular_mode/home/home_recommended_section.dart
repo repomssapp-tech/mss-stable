@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../widgets/common/auto_translated_text.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../l10n/l10n.dart';
@@ -89,7 +88,7 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
       children: [
         Text(
           context.l10n.recommendedForYou,
-          style: GoogleFonts.poppins(
+          style: AppGoogleFonts.poppins(
             fontSize: 16.5,
             fontWeight: FontWeight.bold,
             color: const Color(0xFF0F172A),
@@ -221,7 +220,7 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
                                       context.l10n.matchPercentageFormat(
                                         matchPercentage,
                                       ),
-                                      style: GoogleFonts.inter(
+                                      style: AppGoogleFonts.inter(
                                         color: const Color(0xFF15803D),
                                         fontSize: 9.5,
                                         fontWeight: FontWeight.bold,
@@ -264,7 +263,7 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
                                     AutoTranslatedText(
                                       shortForm,
                                       language: appProvider.selectedLanguage,
-                                      style: GoogleFonts.poppins(
+                                      style: AppGoogleFonts.poppins(
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold,
                                         color: const Color(0xFF0F172A),
@@ -276,7 +275,7 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
                                       const SizedBox(height: 1),
                                       Text(
                                         "($fullName)",
-                                        style: GoogleFonts.inter(
+                                        style: AppGoogleFonts.inter(
                                           fontSize: 10.5,
                                           fontWeight: FontWeight.w500,
                                           color: const Color(0xFF64748B),
@@ -337,7 +336,7 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
                                     ),
                                     child: Text(
                                       tag,
-                                      style: GoogleFonts.inter(
+                                      style: AppGoogleFonts.inter(
                                         fontSize: 10,
                                         color: const Color(0xFF475569),
                                         fontWeight: FontWeight.w500,
@@ -367,7 +366,7 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
       children: [
         Text(
           context.l10n.recommendedForYou,
-          style: GoogleFonts.poppins(
+          style: AppGoogleFonts.poppins(
             fontSize: 16.5,
             fontWeight: FontWeight.bold,
             color: const Color(0xFF0F172A),
@@ -387,7 +386,7 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
             children: [
               Text(
                 context.l10n.homeRecommendationsEmptyMessage,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   fontSize: 13,
                   color: const Color(0xFF475569),
                 ),
@@ -412,7 +411,7 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
                   ),
                   child: Text(
                     context.l10n.completeProfile,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                     ),

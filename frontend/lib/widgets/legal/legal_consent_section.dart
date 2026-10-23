@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../../utils/app_text.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/app_spacing.dart';
 
@@ -25,7 +24,7 @@ class LegalConsentSection extends StatelessWidget {
           Text.rich(
             TextSpan(
               text: context.l10n.legalConsentPrefix,
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 11.5,
                 color: const Color(0xFF334155),
                 height: 1.4,

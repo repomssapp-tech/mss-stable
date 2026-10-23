@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../l10n/l10n.dart';
@@ -9,6 +8,7 @@ import '../../../providers/app_state_provider.dart';
 import '../../../services/voice/cloud_voice_protocol.dart';
 import '../../../utils/app_spacing.dart';
 import '../../regular_mode/scheme_details_screen.dart';
+import '../../../utils/app_text.dart';
 
 /// Builds a themed icon for companion mode scheme cards based on the scheme name.
 Widget buildSaarthiSchemeIcon(String schemeName) {
@@ -143,7 +143,7 @@ class SaarthiCompactSchemeCard extends StatelessWidget {
                         locScheme.name,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 12.5,
                           height: 1.28,
                           fontWeight: FontWeight.w700,
@@ -165,7 +165,7 @@ class SaarthiCompactSchemeCard extends StatelessWidget {
                         confidence == null
                             ? context.l10n.companionReviewMatch
                             : context.l10n.companionMatchPercent(confidence),
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 9.5,
                           fontWeight: FontWeight.w800,
                           color: confidenceColor,
@@ -180,7 +180,7 @@ class SaarthiCompactSchemeCard extends StatelessWidget {
                     summary,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 10.5,
                       height: 1.4,
                       color: const Color(0xFF475569),
@@ -210,7 +210,7 @@ class SaarthiCompactSchemeCard extends StatelessWidget {
                                           '${sourceConfidence[0].toUpperCase()}${sourceConfidence.substring(1)}',
                                         )
                             : context.l10n.companionVerifyWithDepartment,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 9.5,
                           fontWeight: FontWeight.w600,
                           color: verified
@@ -221,7 +221,7 @@ class SaarthiCompactSchemeCard extends StatelessWidget {
                     ),
                     Text(
                       context.l10n.companionViewEligibility,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 9.5,
                         fontWeight: FontWeight.w700,
                         color: const Color(0xFF2563EB),

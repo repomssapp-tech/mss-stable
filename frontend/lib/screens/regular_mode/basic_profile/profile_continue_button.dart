@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/responsive.dart';
+import '../../../utils/app_text.dart';
 
 /// Sticky CTA button at the bottom of [BasicProfileScreen]'s card. Disabled
 /// (grey) whenever the current step's validity gate isn't satisfied yet;
@@ -65,7 +65,7 @@ class ProfileContinueButton extends StatelessWidget {
                       currentStep == 4
                           ? l10n.completeProfile
                           : l10n.navContinueButton,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,

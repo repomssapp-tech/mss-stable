@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../providers/app_state_provider.dart';
 import '../../models/scheme_model.dart';
 import '../../models/localized_scheme.dart';
@@ -11,6 +10,8 @@ import '../../utils/app_colors.dart';
 import '../../utils/app_size.dart';
 import '../../utils/app_spacing.dart';
 import '../../widgets/scheme/inactive_scheme_badge.dart';
+import '../../utils/app_text.dart';
+import '../../widgets/common/auto_translated_text.dart';
 
 class SavedSchemesScreen extends StatefulWidget {
   const SavedSchemesScreen({super.key});
@@ -69,7 +70,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: isTa ? 10.5 : 11.5,
                       fontWeight: FontWeight.bold,
                       color: _activeTab == 0
@@ -112,7 +113,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: isTa ? 10.5 : 11.5,
                       fontWeight: FontWeight.bold,
                       color: _activeTab == 1
@@ -201,12 +202,11 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      AutoTranslatedText(
                         locScheme.name,
-                        style: GoogleFonts.inter(
-                          fontSize: provider.selectedLanguage == 'ta'
-                              ? 12.5
-                              : 13.5,
+                        language: provider.selectedLanguage,
+                        style: AppGoogleFonts.inter(
+                          fontSize: 13.5, // type-ok: same size in every language
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF0F172A),
                           height: provider.selectedLanguage == 'ta'
@@ -219,7 +219,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                       const SizedBox(height: AppSpacing.xs),
                       Text(
                         locScheme.category,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 10.5,
                           color: const Color(0xFF2563EB),
                           fontWeight: FontWeight.w600,
@@ -288,7 +288,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
             const SizedBox(height: AppSpacing.md),
             Text(
               locScheme.overview,
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 11.0,
                 color: const Color(0xFF475569),
                 height: 1.4,
@@ -313,7 +313,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                       ),
                       Text(
                         locScheme.governmentLevel,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 9.5,
                           color: const Color(0xFF64748B),
                           fontWeight: FontWeight.w500,
@@ -336,7 +336,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                         locScheme.schemeType.isNotEmpty
                             ? locScheme.schemeType
                             : locScheme.category,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 9.5,
                           color: const Color(0xFF64748B),
                           fontWeight: FontWeight.w500,
@@ -374,7 +374,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                         child: FitOneLine(
                           child: Text(
                             context.l10n.viewDetails,
-                            style: GoogleFonts.inter(
+                            style: AppGoogleFonts.inter(
                               fontSize: 10.0,
                               color: const Color(0xFF2563EB),
                               fontWeight: FontWeight.bold,
@@ -431,7 +431,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
               children: [
                 Text(
                   context.l10n.savedKeepListUpdated,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 11.5,
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF1E3A8A),
@@ -440,7 +440,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                 const SizedBox(height: AppSpacing.hairline),
                 Text(
                   context.l10n.savedRemoveNoLongerInterested,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 10.0,
                     color: const Color(0xFF1E3A8A),
                   ),
@@ -483,7 +483,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
               _isManageMode
                   ? context.l10n.doneManaging
                   : context.l10n.manageSaved,
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 10.5,
                 color: _isManageMode
                     ? const Color(0xFF16A34A)
@@ -529,7 +529,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                   const SizedBox(height: AppSpacing.lg),
                   Text(
                     title,
-                    style: GoogleFonts.poppins(
+                    style: AppGoogleFonts.poppins(
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF0F172A),
@@ -539,7 +539,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                   Text(
                     description,
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 13,
                       color: const Color(0xFF64748B),
                       height: 1.4,
@@ -563,7 +563,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                     ),
                     child: Text(
                       context.l10n.navDiscover,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 13.5,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -608,7 +608,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                   children: [
                     Text(
                       context.l10n.savedTitle,
-                      style: GoogleFonts.poppins(
+                      style: AppGoogleFonts.poppins(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFF0F172A),
@@ -621,7 +621,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                               bookmarks.length,
                             )
                           : context.l10n.noSavedSchemesDesc,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 12,
                         color: const Color(0xFF64748B),
                         height: 1.3,

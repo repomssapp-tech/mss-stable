@@ -1,11 +1,11 @@
 import '../../../services/account/app_session.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../l10n/l10n.dart';
 import '../../../services/account/support_ticket_service.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../widgets/common/app_toast.dart';
 import 'help_support_data.dart';
+import '../../../utils/app_text.dart';
 
 void showFeedbackBottomSheet(BuildContext context) {
   final l10n = context.l10n;
@@ -65,7 +65,7 @@ void showFeedbackBottomSheet(BuildContext context) {
                       Expanded(
                         child: Text(
                           l10n.helpShareFeedbackTitle,
-                          style: GoogleFonts.poppins(
+                          style: AppGoogleFonts.poppins(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: const Color(0xFF0F172A),
@@ -85,7 +85,7 @@ void showFeedbackBottomSheet(BuildContext context) {
                   const SizedBox(height: AppSpacing.lg),
                   Text(
                     l10n.helpFeedbackBody,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 13,
                       color: const Color(0xFF64748B),
                     ),
@@ -96,7 +96,7 @@ void showFeedbackBottomSheet(BuildContext context) {
                       children: [
                         Text(
                           l10n.helpRateExperience,
-                          style: GoogleFonts.inter(
+                          style: AppGoogleFonts.inter(
                             fontWeight: FontWeight.w600,
                             fontSize: 14,
                             color: const Color(0xFF0F172A),
@@ -131,7 +131,7 @@ void showFeedbackBottomSheet(BuildContext context) {
                   TextFormField(
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       color: const Color(0xFF0F172A),
                       fontSize: 14,
                     ),
@@ -154,7 +154,7 @@ void showFeedbackBottomSheet(BuildContext context) {
                   TextFormField(
                     controller: feedbackTextController,
                     maxLines: 3,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       color: const Color(0xFF0F172A),
                       fontSize: 14,
                     ),
@@ -264,7 +264,7 @@ void showFeedbackBottomSheet(BuildContext context) {
                             )
                           : Text(
                               l10n.helpSubmitFeedback,
-                              style: GoogleFonts.inter(
+                              style: AppGoogleFonts.inter(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),

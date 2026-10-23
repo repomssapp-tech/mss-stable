@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/l10n.dart';
 import '../../services/app_info_service.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/app_version.dart';
+import '../../utils/app_text.dart';
 
 void showAboutAppDialog(BuildContext context) {
   showDialog(
@@ -72,7 +72,7 @@ void showAboutAppDialog(BuildContext context) {
                           final v = snapshot.data;
                           return Text(
                             v == null ? '' : 'v${v.label}',
-                            style: GoogleFonts.inter(
+                            style: AppGoogleFonts.inter(
                               fontSize: 11,
                               fontWeight: FontWeight.bold,
                               color: const Color(0xFF2563EB),
@@ -86,7 +86,7 @@ void showAboutAppDialog(BuildContext context) {
                 const SizedBox(height: AppSpacing.md),
                 Text(
                   'MSS',
-                  style: GoogleFonts.poppins(
+                  style: AppGoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF0F172A),
@@ -95,7 +95,7 @@ void showAboutAppDialog(BuildContext context) {
                 const SizedBox(height: AppSpacing.xs),
                 Text(
                   context.l10n.aboutAppSubtitle,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                     color: const Color(0xFF64748B),
@@ -107,7 +107,7 @@ void showAboutAppDialog(BuildContext context) {
                 ),
                 Text(
                   context.l10n.aboutAppDescriptionLong,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 12,
                     color: const Color(0xFF334155),
                     height: 1.5,
@@ -135,7 +135,7 @@ void showAboutAppDialog(BuildContext context) {
                           Expanded(
                             child: Text(
                               context.l10n.aboutDevelopedWith,
-                              style: GoogleFonts.inter(
+                              style: AppGoogleFonts.inter(
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFF0F172A),
@@ -178,7 +178,7 @@ void showAboutAppDialog(BuildContext context) {
                       const SizedBox(height: AppSpacing.sm),
                       Text(
                         '• Rajalakshmi Institute of Technology (RIT)\n• Swadeshi Shodh Sansthan (SSS TN Chapter)',
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 11,
                           color: const Color(0xFF475569),
                           height: 1.4,
@@ -211,7 +211,7 @@ void showAboutAppDialog(BuildContext context) {
                           context.l10n.aboutSupportLine(
                             'mssschemessearch@gmail.com',
                           ),
-                          style: GoogleFonts.inter(
+                          style: AppGoogleFonts.inter(
                             fontSize: 11,
                             color: const Color(0xFF475569),
                           ),
@@ -235,7 +235,7 @@ void showAboutAppDialog(BuildContext context) {
                     onPressed: () => Navigator.pop(context),
                     child: Text(
                       context.l10n.close,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 13,
                         fontWeight: FontWeight.bold,
                       ),

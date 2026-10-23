@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
 import 'help_support_data.dart';
 import 'help_faq_bottom_sheets.dart';
 import 'help_report_issue_bottom_sheet.dart';
 import 'help_feedback_bottom_sheet.dart';
+import '../../../utils/app_text.dart';
 
 class HelpGroupCard extends StatelessWidget {
   final List<Widget> children;
@@ -103,7 +103,7 @@ class HelpHeaderSection extends StatelessWidget {
                       ? l10n.helpHeaderContact
                       : l10n.helpHeaderSupport,
                   softWrap: true,
-                  style: GoogleFonts.poppins(
+                  style: AppGoogleFonts.poppins(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF0F172A),
@@ -115,7 +115,7 @@ class HelpHeaderSection extends StatelessWidget {
           const SizedBox(height: AppSpacing.sm),
           Text(
             l10n.helpHeaderSubtitle,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               fontSize: 14,
               color: const Color(0xFF64748B),
               fontWeight: FontWeight.w400,
@@ -153,7 +153,7 @@ class HelpFaqSection extends StatelessWidget {
                   children: [
                     Text(
                       l10n.helpFaqsGroupTitle,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFF0F172A),
@@ -162,7 +162,7 @@ class HelpFaqSection extends StatelessWidget {
                     const SizedBox(height: AppSpacing.hairline),
                     Text(
                       l10n.helpFaqsGroupSubtitle,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 12.5,
                         color: const Color(0xFF64748B),
                       ),
@@ -189,7 +189,7 @@ class HelpFaqSection extends StatelessWidget {
                 ),
                 title: Text(
                   faq['question']!,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 13.5,
                     fontWeight: FontWeight.w600,
                     color: const Color(0xFF0F172A),
@@ -217,7 +217,7 @@ class HelpFaqSection extends StatelessWidget {
           ),
           title: Text(
             l10n.helpViewAllFaqs,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               fontSize: 13.5,
               fontWeight: FontWeight.bold,
               color: const Color(0xFF2563EB),
@@ -260,7 +260,7 @@ class HelpContactSection extends StatelessWidget {
                   children: [
                     Text(
                       l10n.helpContactGroupTitle,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFF0F172A),
@@ -269,7 +269,7 @@ class HelpContactSection extends StatelessWidget {
                     const SizedBox(height: AppSpacing.hairline),
                     Text(
                       l10n.helpContactGroupSubtitle,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 12.5,
                         color: const Color(0xFF64748B),
                       ),
@@ -308,7 +308,7 @@ class HelpContactSection extends StatelessWidget {
                 const SizedBox(height: AppSpacing.md),
                 Text(
                   l10n.helpEmailUs,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontWeight: FontWeight.bold,
                     fontSize: 13.5,
                     color: const Color(0xFF0F172A),
@@ -323,7 +323,7 @@ class HelpContactSection extends StatelessWidget {
                   ),
                   child: Text(
                     kSupportEmail,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       color: const Color(0xFF2563EB),
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
@@ -333,7 +333,7 @@ class HelpContactSection extends StatelessWidget {
                 const SizedBox(height: AppSpacing.sm),
                 Text(
                   l10n.helpReplyWindow,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 10,
                     color: const Color(0xFF64748B),
                   ),
@@ -368,7 +368,7 @@ class HelpFeedbackSection extends StatelessWidget {
           ),
           title: Text(
             l10n.helpReportIssueTitle,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               fontSize: 14.5,
               fontWeight: FontWeight.bold,
               color: const Color(0xFF0F172A),
@@ -376,7 +376,7 @@ class HelpFeedbackSection extends StatelessWidget {
           ),
           subtitle: Text(
             l10n.helpReportIssueSubtitle,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               fontSize: 11.5,
               color: const Color(0xFF64748B),
             ),
@@ -401,7 +401,7 @@ class HelpFeedbackSection extends StatelessWidget {
           ),
           title: Text(
             l10n.helpFeedbackTileTitle,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               fontSize: 14.5,
               fontWeight: FontWeight.bold,
               color: const Color(0xFF0F172A),
@@ -409,7 +409,7 @@ class HelpFeedbackSection extends StatelessWidget {
           ),
           subtitle: Text(
             l10n.helpFeedbackTileSubtitle,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               fontSize: 11.5,
               color: const Color(0xFF64748B),
             ),
@@ -470,7 +470,7 @@ class HelpStillNeedHelpBanner extends StatelessWidget {
                     children: [
                       Text(
                         l10n.helpStillNeedHelp,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 14.5,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF15803D),
@@ -479,7 +479,7 @@ class HelpStillNeedHelpBanner extends StatelessWidget {
                       const SizedBox(height: AppSpacing.xs),
                       Text(
                         l10n.helpStillNeedHelpBody,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 11.5,
                           color: const Color(0xFF64748B),
                         ),

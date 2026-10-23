@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../models/localized_scheme.dart';
@@ -7,6 +6,8 @@ import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/emblem_helper.dart';
+import '../../../utils/app_text.dart';
+import '../../../widgets/common/auto_translated_text.dart';
 
 /// Hero header section displaying scheme emblem, level badge, title,
 /// sponsoring body, and match relevance banner.
@@ -188,7 +189,7 @@ class SchemeHeroSection extends StatelessWidget {
                                   ? scheme.governmentLevel
                                   : 'Central',
                             ),
-                            style: GoogleFonts.inter(
+                            style: AppGoogleFonts.inter(
                               color: const Color(0xFF2563EB),
                               fontSize: 8.5,
                               fontWeight: FontWeight.bold,
@@ -196,9 +197,12 @@ class SchemeHeroSection extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: AppSpacing.xs),
-                        Text(
+                        AutoTranslatedText(
                           shortForm,
-                          style: GoogleFonts.poppins(
+                          language: Localizations.localeOf(
+                            context,
+                          ).languageCode,
+                          style: AppGoogleFonts.poppins(
                             fontSize: 13.5,
                             fontWeight: FontWeight.bold,
                             color: const Color(0xFF0F172A),
@@ -211,7 +215,7 @@ class SchemeHeroSection extends StatelessWidget {
                           const SizedBox(height: AppSpacing.hairline),
                           Text(
                             "($fullName)",
-                            style: GoogleFonts.inter(
+                            style: AppGoogleFonts.inter(
                               fontSize: 10.0,
                               fontWeight: FontWeight.w500,
                               color: const Color(0xFF64748B),
@@ -224,7 +228,7 @@ class SchemeHeroSection extends StatelessWidget {
                         const SizedBox(height: AppSpacing.hairline),
                         Text(
                           scheme.sponsoringBody,
-                          style: GoogleFonts.inter(
+                          style: AppGoogleFonts.inter(
                             fontSize: 10.5,
                             color: const Color(0xFF64748B),
                           ),
@@ -298,7 +302,7 @@ class SchemeHeroSection extends StatelessWidget {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 text: TextSpan(
-                                  style: GoogleFonts.inter(fontSize: 10),
+                                  style: AppGoogleFonts.inter(fontSize: 10),
                                   children: [
                                     if (notApplicable)
                                       TextSpan(
@@ -357,7 +361,7 @@ class SchemeHeroSection extends StatelessWidget {
       ),
       child: Text(
         CentralizedTranslator.instance.localizeTag(label),
-        style: GoogleFonts.inter(
+        style: AppGoogleFonts.inter(
           color: text,
           fontSize: 9.0,
           fontWeight: FontWeight.bold,

@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../../models/scheme_model.dart';
@@ -9,6 +8,7 @@ import '../../../utils/responsive.dart';
 import '../voice_edge_painter.dart';
 import 'voice_overlay_models.dart';
 import 'voice_transcript_widgets.dart';
+import '../../../utils/app_text.dart';
 
 class CompanionVoiceHeader extends StatelessWidget {
   const CompanionVoiceHeader({
@@ -60,7 +60,7 @@ class CompanionVoiceHeader extends StatelessWidget {
             children: [
               Text(
                 isCompanion ? l10n.voiceHeaderTalkToSaarthi : l10n.askAi,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   color: Colors.white,
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
@@ -88,7 +88,7 @@ class CompanionVoiceHeader extends StatelessWidget {
                           key: const Key('voice-live-status'),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.inter(
+                          style: AppGoogleFonts.inter(
                             color: statusColor,
                             fontSize: 10.5,
                             fontWeight: FontWeight.w600,
@@ -203,7 +203,7 @@ class CompanionVoiceListeningArea extends StatelessWidget {
             maxLines: 4,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               color: transcript.isEmpty
                   ? const Color(0xFF94A3B8)
                   : Colors.white,
@@ -296,7 +296,7 @@ class CompanionVoiceListeningArea extends StatelessWidget {
                 ? l10n.voiceTapWhenFinished
                 : l10n.companionTapToSpeak,
             textAlign: TextAlign.center,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               color: statusColor,
               fontSize: 11,
               fontWeight: FontWeight.w700,
@@ -317,7 +317,7 @@ class CompanionVoiceListeningArea extends StatelessWidget {
                   const SizedBox(width: AppSpacing.tight),
                   Text(
                     l10n.voiceDeviceNoiseControl,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       color: const Color(0xFF6EE7B7),
                       fontSize: 9.5,
                       fontWeight: FontWeight.w600,
@@ -337,7 +337,7 @@ class CompanionVoiceListeningArea extends StatelessWidget {
                     controller: typedController,
                     textInputAction: TextInputAction.send,
                     onSubmitted: (_) => onSendTypedInput?.call(),
-                    style: GoogleFonts.inter(color: Colors.white, fontSize: 12),
+                    style: AppGoogleFonts.inter(color: Colors.white, fontSize: 12),
                     decoration: InputDecoration(
                       isDense: true,
                       hintText: isCompanion
@@ -413,7 +413,7 @@ class CompanionVoiceTranscriptSection extends StatelessWidget {
                 const SizedBox(width: AppSpacing.sm),
                 Text(
                   l10n.voiceConversation,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     color: const Color(0xFFCBD5E1),
                     fontSize: 11,
                     fontWeight: FontWeight.w700,

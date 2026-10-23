@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../providers/app_state_provider.dart';
 import '../../services/catalog/language_pack_manager.dart';
 import '../../widgets/common/floating_logo.dart';
@@ -9,6 +8,7 @@ import '../login_screen.dart';
 import '../../utils/responsive.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/app_text.dart';
 
 class LanguageOption {
   final String code;
@@ -185,7 +185,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                                   Text(
                                     context.l10n.chooseYourLanguage,
                                     textAlign: TextAlign.center,
-                                    style: GoogleFonts.poppins(
+                                    style: AppGoogleFonts.poppins(
                                       fontSize: 24,
                                       fontWeight: FontWeight.bold,
                                       color: const Color(0xFF1E293B),
@@ -195,7 +195,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                                   Text(
                                     context.l10n.languageSubtitle,
                                     textAlign: TextAlign.center,
-                                    style: GoogleFonts.inter(
+                                    style: AppGoogleFonts.inter(
                                       fontSize: 13,
                                       color: const Color(0xFF64748B),
                                       height: 1.4,
@@ -259,7 +259,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                                         children: [
                                           Text(
                                             context.l10n.yourLanguageExperience,
-                                            style: GoogleFonts.inter(
+                                            style: AppGoogleFonts.inter(
                                               fontSize: 13,
                                               fontWeight: FontWeight.bold,
                                               color: const Color(0xFF1E3A8A),
@@ -270,7 +270,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                                           ),
                                           Text(
                                             context.l10n.changeAnytime,
-                                            style: GoogleFonts.inter(
+                                            style: AppGoogleFonts.inter(
                                               fontSize: 11,
                                               color: const Color(0xFF1D4ED8),
                                             ),
@@ -330,7 +330,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                                         child: FitOneLine(
                                           child: Text(
                                             context.l10n.navContinueButton,
-                                            style: GoogleFonts.inter(
+                                            style: AppGoogleFonts.inter(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white,
@@ -438,7 +438,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                 children: [
                   Text(
                     option.nativeTitle,
-                    style: GoogleFonts.poppins(
+                    style: AppGoogleFonts.poppins(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
                       color: const Color(0xFF0F172A), // Slate 900
@@ -447,7 +447,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                   const SizedBox(height: AppSpacing.hairline),
                   Text(
                     option.englishTitle,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 11,
                       color: const Color(0xFF64748B), // Slate 500
                     ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
@@ -7,6 +6,7 @@ import '../../../utils/constants.dart';
 import '../../../utils/responsive.dart';
 import '../saarthi_message.dart';
 import 'saarthi_home_models.dart';
+import '../../../utils/app_text.dart';
 
 /// Character header banner and compact active status header for Saarthi companion mode.
 class SaarthiCharacterHeader extends StatelessWidget {
@@ -107,7 +107,7 @@ class SaarthiCharacterHeader extends StatelessWidget {
                   children: [
                     Text(
                       'MSS Saarthi',
-                      style: GoogleFonts.poppins(
+                      style: AppGoogleFonts.poppins(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                         color: kDarkSlate,
@@ -119,7 +119,7 @@ class SaarthiCharacterHeader extends StatelessWidget {
                       child: Text(
                         statusLabel,
                         key: ValueKey(voiceState),
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           color: statusColor,
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
@@ -166,7 +166,7 @@ class SaarthiCharacterHeader extends StatelessWidget {
                               : cloudRetrying
                               ? context.l10n.companionConnectingShort
                               : context.l10n.companionVoiceOffline,
-                          style: GoogleFonts.inter(
+                          style: AppGoogleFonts.inter(
                             fontSize: 9.5,
                             fontWeight: FontWeight.w700,
                             color: cloudConnectionError == null
@@ -234,7 +234,7 @@ class SaarthiCharacterHeader extends StatelessWidget {
               child: RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                  style: GoogleFonts.poppins(
+                  style: AppGoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: kDarkSlate,
@@ -256,7 +256,7 @@ class SaarthiCharacterHeader extends StatelessWidget {
               child: RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 12.5,
                     fontWeight: FontWeight.w500,
                     color: kDarkSlate,

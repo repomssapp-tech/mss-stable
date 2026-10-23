@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../../l10n/l10n.dart';
@@ -7,6 +6,7 @@ import '../../../services/search/official_grounded_search.dart';
 import '../../../services/search/scheme_understanding_engine.dart';
 import '../../../utils/app_spacing.dart';
 import 'voice_overlay_models.dart';
+import '../../../utils/app_text.dart';
 
 String factLabel(BuildContext context, EligibilityFactKey key) {
   final l10n = context.l10n;
@@ -83,7 +83,7 @@ class VoiceLanguageSelector extends StatelessWidget {
           ),
           child: Text(
             languageBadgeLabel,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               color: const Color(0xFF172554),
               fontSize: 11,
               fontWeight: FontWeight.w700,
@@ -128,7 +128,7 @@ class VoiceLanguageSelector extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: GoogleFonts.inter(
+          style: AppGoogleFonts.inter(
             color: selected ? Colors.white : const Color(0xFF94A3B8),
             fontSize: 10,
             fontWeight: FontWeight.w700,
@@ -163,7 +163,7 @@ class VoiceFactChips extends StatelessWidget {
       children: [
         Text(
           l10n.voiceWhatIUnderstood,
-          style: GoogleFonts.inter(
+          style: AppGoogleFonts.inter(
             color: const Color(0xFFCBD5E1),
             fontSize: 10.5,
             fontWeight: FontWeight.w700,
@@ -255,7 +255,7 @@ class VoiceQuestionCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   questionText,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     color: Colors.white,
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
@@ -342,7 +342,7 @@ class RegularVoiceQuestionCard extends StatelessWidget {
         children: [
           Text(
             questionText,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               color: Colors.white,
               fontSize: 15,
               height: 1.4,
@@ -378,7 +378,7 @@ class RegularVoiceQuestionCard extends StatelessWidget {
             const SizedBox(height: 10), // spacing-ok
             Text(
               l10n.voiceSpeechOutputUnavailable,
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 color: const Color(0xFFFFC46B),
                 fontSize: 10.5,
               ),
@@ -460,7 +460,7 @@ class VoiceOnlineGroundingPill extends StatelessWidget {
                 Expanded(
                   child: Text(
                     title,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       color: const Color(0xFFE2E8F0),
                       fontSize: 10,
                       fontWeight: FontWeight.w700,
@@ -488,7 +488,7 @@ class VoiceOnlineGroundingPill extends StatelessWidget {
                   firstSource.title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     color: const Color(0xFF93C5FD),
                     fontSize: 9.5,
                     fontWeight: FontWeight.w600,
@@ -503,7 +503,7 @@ class VoiceOnlineGroundingPill extends StatelessWidget {
                 key: const Key('voice-grounding-privacy-note'),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   color: const Color(0xFF64748B),
                   fontSize: 8,
                 ),
@@ -540,7 +540,7 @@ class VoiceOnlineGroundingPill extends StatelessWidget {
               Expanded(
                 child: Text(
                   title,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     color: const Color(0xFFE2E8F0),
                     fontSize: 10.5,
                     fontWeight: FontWeight.w700,
@@ -583,7 +583,7 @@ class VoiceOnlineGroundingPill extends StatelessWidget {
                                 source.title,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.inter(
+                                style: AppGoogleFonts.inter(
                                   color: const Color(0xFF93C5FD),
                                   fontSize: 10.5,
                                   fontWeight: FontWeight.w600,
@@ -602,7 +602,7 @@ class VoiceOnlineGroundingPill extends StatelessWidget {
                           source.snippet,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.inter(
+                          style: AppGoogleFonts.inter(
                             color: const Color(0xFFCBD5E1),
                             fontSize: 9.5,
                             height: 1.35,
@@ -611,7 +611,7 @@ class VoiceOnlineGroundingPill extends StatelessWidget {
                         const SizedBox(height: AppSpacing.hairline),
                         Text(
                           source.host,
-                          style: GoogleFonts.inter(
+                          style: AppGoogleFonts.inter(
                             color: const Color(0xFF4ADE80),
                             fontSize: 8.5,
                           ),
@@ -628,7 +628,7 @@ class VoiceOnlineGroundingPill extends StatelessWidget {
             Text(
               l10n.voiceGroundingPrivacyNote,
               key: const Key('voice-grounding-privacy-note'),
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 color: const Color(0xFF94A3B8),
                 fontSize: 8.5,
                 height: 1.3,

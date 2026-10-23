@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'regular_mode/language_selection_screen.dart';
 import 'login_screen.dart';
 import 'navigation_mode_screen.dart';
@@ -17,6 +16,7 @@ import '../utils/app_spacing.dart';
 import '../services/beta_gate/beta_config.dart';
 import '../services/beta_gate/beta_gate_service.dart';
 import 'beta_gate_screen.dart';
+import '../utils/app_text.dart';
 
 enum StartupDestination { home, navigationMode, language, login }
 
@@ -239,7 +239,7 @@ class _SplashScreenState extends State<SplashScreen>
               const SizedBox(height: AppSpacing.lg),
               Text(
                 context.l10n.splashNoInternetTitle,
-                style: GoogleFonts.poppins(
+                style: AppGoogleFonts.poppins(
                   fontSize: 17,
                   fontWeight: FontWeight.w700,
                   color: const Color(0xFF0F172A),
@@ -249,7 +249,7 @@ class _SplashScreenState extends State<SplashScreen>
               Text(
                 context.l10n.splashNoInternetBody,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   fontSize: 13,
                   height: 1.4,
                   color: const Color(0xFF64748B),
@@ -345,7 +345,7 @@ class _SplashScreenState extends State<SplashScreen>
                                     const SizedBox(height: AppSpacing.lg),
                                     Text(
                                       'MSS',
-                                      style: GoogleFonts.poppins(
+                                      style: AppGoogleFonts.poppins(
                                         fontSize: 32,
                                         fontWeight: FontWeight.bold,
                                         color: AppConstants.primaryColor,
@@ -384,7 +384,7 @@ class _SplashScreenState extends State<SplashScreen>
                               const SizedBox(height: AppSpacing.md),
                               Text(
                                 context.l10n.loading,
-                                style: GoogleFonts.inter(
+                                style: AppGoogleFonts.inter(
                                   fontSize: 12.5,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.white,
@@ -394,7 +394,7 @@ class _SplashScreenState extends State<SplashScreen>
                               const SizedBox(height: AppSpacing.xs),
                               Text(
                                 context.l10n.splashPreparingSubtitle,
-                                style: GoogleFonts.inter(
+                                style: AppGoogleFonts.inter(
                                   fontSize: 10.5,
                                   color: Colors.white70,
                                   height: 1.4,
@@ -431,7 +431,7 @@ class _SplashScreenState extends State<SplashScreen>
                                       ),
                                       child: Text(
                                         context.l10n.splashDevelopedBy,
-                                        style: GoogleFonts.inter(
+                                        style: AppGoogleFonts.inter(
                                           fontSize: 10,
                                           fontWeight: FontWeight.w500,
                                           color: const Color(0xCCFFFFFF),

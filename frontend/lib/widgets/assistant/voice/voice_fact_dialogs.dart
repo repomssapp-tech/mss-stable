@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../../l10n/l10n.dart';
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../services/search/scheme_understanding_models.dart';
 import 'voice_interactive_widgets.dart';
+import '../../../utils/app_text.dart';
 
 /// Shows the "edit a single eligibility fact" dialog and returns the edited
 /// value, or `null` if the user cancelled. Callers are responsible for the
@@ -26,7 +26,7 @@ Future<String?> showVoiceEditFactDialog({
       ),
       title: Text(
         l10n.voiceEditFact(factLabel(context, fact.key)),
-        style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+        style: AppGoogleFonts.poppins(fontWeight: FontWeight.bold),
       ),
       content: TextField(
         key: const Key('voice-fact-editor'),
@@ -77,7 +77,7 @@ Future<bool?> showVoiceProfileReviewDialog({
       ),
       title: Text(
         l10n.voiceReviewProfileUpdates,
-        style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+        style: AppGoogleFonts.poppins(fontWeight: FontWeight.bold),
       ),
       content: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 360),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_colors.dart';
@@ -81,7 +80,7 @@ void showGstCalculatorSheet(BuildContext context) {
                           children: [
                             Text(
                               context.l10n.calcGstTitle,
-                              style: GoogleFonts.poppins(
+                              style: AppGoogleFonts.poppins(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFF0F172A),
@@ -89,7 +88,7 @@ void showGstCalculatorSheet(BuildContext context) {
                             ),
                             Text(
                               context.l10n.calcGstSub,
-                              style: GoogleFonts.inter(
+                              style: AppGoogleFonts.inter(
                                 fontSize: 10,
                                 color: const Color(0xFF64748B),
                               ),
@@ -111,7 +110,7 @@ void showGstCalculatorSheet(BuildContext context) {
                   const SizedBox(height: AppSpacing.xl),
                   Text(
                     context.l10n.calcBaseAmountLabel,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF334155),
@@ -127,17 +126,17 @@ void showGstCalculatorSheet(BuildContext context) {
                       filled: true,
                       fillColor: const Color(0xFFF8FAFC),
                       hintText: '50000',
-                      hintStyle: GoogleFonts.inter(
+                      hintStyle: AppGoogleFonts.inter(
                         fontSize: 12,
                         color: const Color(0xFF94A3B8),
                       ),
                       prefixText: '₹ ',
                       helperText: context.l10n.calcBaseAmountHelper,
-                      helperStyle: GoogleFonts.inter(
+                      helperStyle: AppGoogleFonts.inter(
                         fontSize: 9,
                         color: const Color(0xFF64748B),
                       ),
-                      prefixStyle: GoogleFonts.inter(
+                      prefixStyle: AppGoogleFonts.inter(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF0F172A),
@@ -162,7 +161,7 @@ void showGstCalculatorSheet(BuildContext context) {
                   const SizedBox(height: AppSpacing.lg),
                   Text(
                     context.l10n.calcGstRateLabel,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF334155),
@@ -183,7 +182,7 @@ void showGstCalculatorSheet(BuildContext context) {
                             label: Center(
                               child: Text(
                                 '${rate.toStringAsFixed(0)}%',
-                                style: GoogleFonts.inter(
+                                style: AppGoogleFonts.inter(
                                   fontSize: 11.5,
                                   fontWeight: isSelected
                                       ? FontWeight.bold
@@ -286,7 +285,7 @@ void showGstCalculatorSheet(BuildContext context) {
                       ),
                       child: Text(
                         context.l10n.calcErrValidBaseAmount,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 11,
                           color: const Color(0xFFB91C1C),
                           fontWeight: FontWeight.w600,
@@ -313,7 +312,7 @@ void showGstCalculatorSheet(BuildContext context) {
                                 child: Text(
                                   context.l10n.calcBasePrice,
                                   softWrap: true,
-                                  style: GoogleFonts.inter(
+                                  style: AppGoogleFonts.inter(
                                     fontSize: 11.5,
                                     color: const Color(0xFF475569),
                                   ),
@@ -325,7 +324,7 @@ void showGstCalculatorSheet(BuildContext context) {
                                   alignment: Alignment.centerRight,
                                   child: Text(
                                     '₹ ${baseVal.toStringAsFixed(2)}',
-                                    style: GoogleFonts.poppins(
+                                    style: AppGoogleFonts.poppins(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
                                       color: const Color(0xFF0F172A),
@@ -370,7 +369,7 @@ void showGstCalculatorSheet(BuildContext context) {
                                 child: Text(
                                   context.l10n.calcTotalInvoice,
                                   softWrap: true,
-                                  style: GoogleFonts.inter(
+                                  style: AppGoogleFonts.inter(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                     color: const Color(0xFF1E293B),
@@ -383,7 +382,7 @@ void showGstCalculatorSheet(BuildContext context) {
                                   alignment: Alignment.centerRight,
                                   child: Text(
                                     '₹ ${totalVal.toStringAsFixed(2)}',
-                                    style: GoogleFonts.poppins(
+                                    style: AppGoogleFonts.poppins(
                                       fontSize: 13.5,
                                       fontWeight: FontWeight.bold,
                                       color: const Color(0xFF2563EB),
@@ -432,7 +431,7 @@ void showGstCalculatorSheet(BuildContext context) {
                       ),
                       child: Text(
                         context.l10n.calcBtnCalculateTax,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.5,
                         ),
@@ -457,7 +456,7 @@ Widget _taxRow(String label, double amount) => Row(
       child: Text(
         label,
         softWrap: true,
-        style: GoogleFonts.inter(fontSize: 11, color: AppColors.textSecondary),
+        style: AppGoogleFonts.inter(fontSize: 11, color: AppColors.textSecondary),
       ),
     ),
     const SizedBox(width: AppSpacing.sm),
@@ -466,7 +465,7 @@ Widget _taxRow(String label, double amount) => Row(
         alignment: Alignment.centerRight,
         child: Text(
           '₹ ${amount.toStringAsFixed(2)}',
-          style: GoogleFonts.poppins(
+          style: AppGoogleFonts.poppins(
             fontSize: 12,
             fontWeight: FontWeight.w600,
             color: AppColors.textPrimary,

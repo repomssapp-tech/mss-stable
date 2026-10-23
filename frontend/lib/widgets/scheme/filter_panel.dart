@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../providers/app_state_provider.dart';
 import '../../services/catalog/centralized_translator.dart';
 import '../../services/recommendation/profile_canonicalizer.dart';
@@ -9,6 +8,7 @@ import '../../models/scheme_filter.dart';
 import '../../utils/constants.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/app_text.dart';
 
 /// Lean scheme filter sheet -- three catalog-real facet groups, static
 /// counts, a fixed grid so chips never reflow. Replaces the old 18-field
@@ -190,7 +190,7 @@ class _FilterPanelState extends State<FilterPanel> {
               children: [
                 Text(
                   context.l10n.filterTitle,
-                  style: GoogleFonts.poppins(
+                  style: AppGoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF0F172A),
@@ -201,7 +201,7 @@ class _FilterPanelState extends State<FilterPanel> {
                     onTap: _clear,
                     child: Text(
                       context.l10n.filterClearAll,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFF2563EB),
@@ -242,7 +242,7 @@ class _FilterPanelState extends State<FilterPanel> {
                                 profileState,
                               ),
                             ),
-                            style: GoogleFonts.inter(
+                            style: AppGoogleFonts.inter(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
                               color: const Color(0xFF2563EB),
@@ -333,7 +333,7 @@ class _FilterPanelState extends State<FilterPanel> {
                   ),
                   child: Text(
                     context.l10n.filterShowSchemes(showCount),
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
@@ -447,7 +447,7 @@ class _FilterPanelState extends State<FilterPanel> {
         children: [
           Text(
             title,
-            style: GoogleFonts.poppins(
+            style: AppGoogleFonts.poppins(
               fontSize: 13,
               fontWeight: FontWeight.bold,
               color: const Color(0xFF475569),
@@ -481,7 +481,7 @@ class _FilterPanelState extends State<FilterPanel> {
                 spec.label,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
                   color: selected ? Colors.white : const Color(0xFF334155),
@@ -491,7 +491,7 @@ class _FilterPanelState extends State<FilterPanel> {
             const SizedBox(width: AppSpacing.xs),
             Text(
               '${spec.count}',
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
                 color: selected

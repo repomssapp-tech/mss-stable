@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../l10n/l10n.dart';
@@ -10,6 +9,7 @@ import '../../../utils/app_spacing.dart';
 import '../../../widgets/assistant/smart_assessment_bottom_sheet.dart';
 import '../../notifications_screen.dart';
 import '../search_results_screen.dart';
+import '../../../utils/app_text.dart';
 
 class HomePromoCarouselSection extends StatefulWidget {
   const HomePromoCarouselSection({super.key});
@@ -186,7 +186,7 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
           ),
           Text(
             '${(progress * 100).toInt()}%',
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               fontSize: 9.5,
               fontWeight: FontWeight.bold,
               color: const Color(0xFF1E3A8A),
@@ -274,7 +274,7 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
                       ),
                       child: Text(
                         CentralizedTranslator.instance.localizeTag(badgeText),
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 9.5,
                           fontWeight: FontWeight.bold,
                           color: badgeTextColor,
@@ -284,7 +284,7 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
                     const SizedBox(height: AppSpacing.tight),
                     Text(
                       transTitle,
-                      style: GoogleFonts.poppins(
+                      style: AppGoogleFonts.poppins(
                         fontSize: _scaledFontSize(13.5),
                         fontWeight: _scaledFontWeight(FontWeight.bold),
                         color: const Color(0xFF0F172A),
@@ -297,7 +297,7 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
                       const SizedBox(height: AppSpacing.xs),
                       Text(
                         transSubtitle,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: _scaledFontSize(10.0),
                           color: const Color(0xFF475569),
                           fontWeight: _scaledFontWeight(FontWeight.w600),

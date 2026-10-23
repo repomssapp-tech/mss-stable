@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/l10n.dart';
 import '../../providers/app_state_provider.dart';
 import '../../utils/app_spacing.dart';
@@ -9,6 +8,7 @@ import '../../utils/responsive.dart';
 import 'avatar_cache_manager.dart';
 import 'profile_photo_handler.dart';
 import '../../widgets/common/name_initial_avatar.dart';
+import '../../utils/app_text.dart';
 
 /// Blue gradient header banner card with avatar, completion badge, and contact details.
 class ProfileBannerCard extends StatelessWidget {
@@ -176,7 +176,7 @@ class ProfileBannerCard extends StatelessWidget {
                           children: [
                             Text(
                               profile.name.isNotEmpty ? profile.name : '-',
-                              style: GoogleFonts.poppins(
+                              style: AppGoogleFonts.poppins(
                                 fontSize: provider.selectedLanguage == 'ta'
                                     ? 15.0
                                     : 16.5,
@@ -222,7 +222,7 @@ class ProfileBannerCard extends StatelessWidget {
                                       isComplete
                                           ? context.l10n.profileVerified
                                           : context.l10n.profileIncomplete,
-                                      style: GoogleFonts.inter(
+                                      style: AppGoogleFonts.inter(
                                         fontSize: 8.5,
                                         color: isComplete
                                             ? const Color(0xFF4ADE80)
@@ -252,7 +252,7 @@ class ProfileBannerCard extends StatelessWidget {
                                   profile.mobile.isNotEmpty
                                       ? '+91 ${profile.mobile}'
                                       : '-',
-                                  style: GoogleFonts.inter(
+                                  style: AppGoogleFonts.inter(
                                     fontSize: 11.5,
                                     color: Colors.white.withAlpha(230),
                                     fontWeight: FontWeight.w500,
@@ -274,7 +274,7 @@ class ProfileBannerCard extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 profile.email.isNotEmpty ? profile.email : '-',
-                                style: GoogleFonts.inter(
+                                style: AppGoogleFonts.inter(
                                   fontSize: 11.5,
                                   color: Colors.white.withAlpha(230),
                                   fontWeight: FontWeight.w500,

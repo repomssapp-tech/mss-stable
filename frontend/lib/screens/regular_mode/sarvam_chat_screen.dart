@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../l10n/l10n.dart';
 import '../../models/user_profile.dart';
@@ -184,14 +183,14 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
               children: [
                 Text(
                   'Saarthi',
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 Text(
                   context.l10n.poweredBySarvamAi,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 11,
                     color: const Color(0xFF64748B),
                     fontWeight: FontWeight.w500,
@@ -262,7 +261,7 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
       child: Text(
         context.l10n.aiDisclaimerNotice,
         textAlign: TextAlign.center,
-        style: GoogleFonts.inter(fontSize: 11, color: const Color(0xFF64748B)),
+        style: AppGoogleFonts.inter(fontSize: 11, color: const Color(0xFF64748B)),
       ),
     );
   }
@@ -291,7 +290,7 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 24,
                 height: 1.2,
                 color: const Color(0xFF0F172A),
@@ -302,7 +301,7 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
             Text(
               context.l10n.sarvamAskAboutSchemes,
               textAlign: TextAlign.center,
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 14,
                 height: 1.45,
                 color: const Color(0xFF64748B),
@@ -320,7 +319,7 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
                       side: const BorderSide(color: Color(0xFFE2E8F0)),
                       backgroundColor: Colors.white,
                       label: Text(prompt),
-                      labelStyle: GoogleFonts.inter(
+                      labelStyle: AppGoogleFonts.inter(
                         color: const Color(0xFF334155),
                         fontSize: 12.5,
                         fontWeight: FontWeight.w500,
@@ -362,7 +361,7 @@ class _SarvamChatScreenState extends State<SarvamChatScreen> {
               decoration: InputDecoration(
                 counterText: '',
                 hintText: context.l10n.sarvamInputHint,
-                hintStyle: GoogleFonts.inter(color: const Color(0xFF94A3B8)),
+                hintStyle: AppGoogleFonts.inter(color: const Color(0xFF94A3B8)),
                 filled: true,
                 fillColor: const Color(0xFFF8FAFC),
                 contentPadding: const EdgeInsets.symmetric(
@@ -649,7 +648,7 @@ class _ErrorBubble extends StatelessWidget {
             Flexible(
               child: Text(
                 message,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   color: const Color(0xFF9A3412),
                   fontSize: 13,
                 ),

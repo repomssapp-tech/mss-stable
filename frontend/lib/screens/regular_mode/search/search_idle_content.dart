@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../../l10n/l10n.dart';
 import '../../../providers/app_state_provider.dart';
@@ -8,6 +7,7 @@ import '../../../utils/app_spacing.dart';
 import '../search_results_screen.dart';
 import 'search_models.dart';
 import 'shimmer_skeleton_card.dart';
+import '../../../utils/app_text.dart';
 
 /// Highlight summary card for the "For Me" feature shown in idle search view.
 class SearchHighlightSummaryCard extends StatelessWidget {
@@ -76,7 +76,7 @@ class SearchHighlightSummaryCard extends StatelessWidget {
                       Flexible(
                         child: Text(
                           context.l10n.forMe,
-                          style: GoogleFonts.poppins(
+                          style: AppGoogleFonts.poppins(
                             fontSize: scaledFontSize(14.5),
                             fontWeight: FontWeight.bold,
                             color: const Color(0xFF0F172A),
@@ -97,7 +97,7 @@ class SearchHighlightSummaryCard extends StatelessWidget {
                         ),
                         child: Text(
                           context.l10n.activeBadge,
-                          style: GoogleFonts.inter(
+                          style: AppGoogleFonts.inter(
                             color: const Color(0xFF047857),
                             fontSize: scaledFontSize(8.5),
                             fontWeight: FontWeight.bold,
@@ -113,7 +113,7 @@ class SearchHighlightSummaryCard extends StatelessWidget {
                         : context.l10n.schemesMatchProfile(
                             matchingProfileCount,
                           ),
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: scaledFontSize(10.5),
                       color: const Color(0xFF64748B),
                       height: 1.3,
@@ -283,7 +283,7 @@ class SearchCategoryCard extends StatelessWidget {
                 category["title"] as String,
                 provider.selectedLanguage,
               ),
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: scaledFontSize(12.5),
                 fontWeight: scaledFontWeight(FontWeight.bold),
                 color: const Color(0xFF0F172A),
@@ -296,7 +296,7 @@ class SearchCategoryCard extends StatelessWidget {
                   )
                 : Text(
                     category["count"] as String,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: scaledFontSize(10),
                       color: const Color(0xFF64748B),
                     ),
@@ -348,7 +348,7 @@ class SearchIdleContent extends StatelessWidget {
         const SizedBox(height: AppSpacing.xxl),
         Text(
           context.l10n.browseCategories,
-          style: GoogleFonts.poppins(
+          style: AppGoogleFonts.poppins(
             fontSize: scaledFontSize(16),
             fontWeight: scaledFontWeight(FontWeight.bold),
             color: const Color(0xFF0F172A),

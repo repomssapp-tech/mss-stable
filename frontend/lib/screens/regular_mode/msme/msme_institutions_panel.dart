@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 
 class InstitutionsInteractivePanel extends StatefulWidget {
   final Color iconColor;
@@ -107,7 +107,7 @@ class _InstitutionsInteractivePanelState
               child: Text(
                 label,
                 softWrap: true,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   fontSize: 11,
                   fontWeight: FontWeight.bold,
                   color: const Color(0xFF475569),
@@ -119,7 +119,7 @@ class _InstitutionsInteractivePanelState
         const SizedBox(height: AppSpacing.xs),
         Text(
           value,
-          style: GoogleFonts.inter(
+          style: AppGoogleFonts.inter(
             fontSize: 11,
             color: const Color(0xFF1E293B),
             height: 1.4,
@@ -160,7 +160,7 @@ class _InstitutionsInteractivePanelState
           children: [
             Text(
               context.l10n.msmeSearchSupportInstitutions,
-              style: GoogleFonts.poppins(
+              style: AppGoogleFonts.poppins(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
                 color: const Color(0xFF0F172A),
@@ -177,7 +177,7 @@ class _InstitutionsInteractivePanelState
                 },
                 decoration: InputDecoration(
                   hintText: context.l10n.msmeSearchInstitutionsHint,
-                  hintStyle: GoogleFonts.inter(
+                  hintStyle: AppGoogleFonts.inter(
                     fontSize: 12,
                     color: const Color(0xFF94A3B8),
                   ),
@@ -220,7 +220,7 @@ class _InstitutionsInteractivePanelState
                           child: ExpansionTile(
                             title: Text(
                               inst['name'],
-                              style: GoogleFonts.poppins(
+                              style: AppGoogleFonts.poppins(
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,
                                 color: widget.iconColor,
@@ -230,7 +230,7 @@ class _InstitutionsInteractivePanelState
                               CentralizedTranslator.instance.localize(
                                 inst['fullName'],
                               ),
-                              style: GoogleFonts.inter(
+                              style: AppGoogleFonts.inter(
                                 fontSize: 11,
                                 color: const Color(0xFF64748B),
                                 fontWeight: FontWeight.w500,

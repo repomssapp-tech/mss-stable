@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/responsive.dart';
+import '../../../utils/app_text.dart';
 
 /// Seed-stage startup valuation estimator bottom sheet (ARR-multiple ranges).
 ///
@@ -86,7 +86,7 @@ void showValuationEstimatorSheet(BuildContext context) {
                           children: [
                             Text(
                               l10n.valuationTitle,
-                              style: GoogleFonts.poppins(
+                              style: AppGoogleFonts.poppins(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFF0F172A),
@@ -94,7 +94,7 @@ void showValuationEstimatorSheet(BuildContext context) {
                             ),
                             Text(
                               l10n.valuationSubtitle,
-                              style: GoogleFonts.inter(
+                              style: AppGoogleFonts.inter(
                                 fontSize: 10,
                                 color: const Color(0xFF64748B),
                               ),
@@ -116,7 +116,7 @@ void showValuationEstimatorSheet(BuildContext context) {
                   const SizedBox(height: AppSpacing.xl),
                   Text(
                     l10n.valuationMrrLabel,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF334155),
@@ -130,17 +130,17 @@ void showValuationEstimatorSheet(BuildContext context) {
                       filled: true,
                       fillColor: const Color(0xFFF8FAFC),
                       hintText: '200000',
-                      hintStyle: GoogleFonts.inter(
+                      hintStyle: AppGoogleFonts.inter(
                         fontSize: 12,
                         color: const Color(0xFF94A3B8),
                       ),
                       prefixText: '₹ ',
                       helperText: l10n.valuationMrrHelper,
-                      helperStyle: GoogleFonts.inter(
+                      helperStyle: AppGoogleFonts.inter(
                         fontSize: 9,
                         color: const Color(0xFF64748B),
                       ),
-                      prefixStyle: GoogleFonts.inter(
+                      prefixStyle: AppGoogleFonts.inter(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF0F172A),
@@ -171,7 +171,7 @@ void showValuationEstimatorSheet(BuildContext context) {
                           children: [
                             Text(
                               l10n.valuationMomGrowth,
-                              style: GoogleFonts.inter(
+                              style: AppGoogleFonts.inter(
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFF334155),
@@ -188,13 +188,13 @@ void showValuationEstimatorSheet(BuildContext context) {
                                 filled: true,
                                 fillColor: const Color(0xFFF8FAFC),
                                 hintText: '15',
-                                hintStyle: GoogleFonts.inter(
+                                hintStyle: AppGoogleFonts.inter(
                                   fontSize: 12,
                                   color: const Color(0xFF94A3B8),
                                 ),
                                 suffixText: '%',
                                 helperText: l10n.valuationMomHelper,
-                                helperStyle: GoogleFonts.inter(
+                                helperStyle: AppGoogleFonts.inter(
                                   fontSize: 9,
                                   color: const Color(0xFF64748B),
                                 ),
@@ -227,7 +227,7 @@ void showValuationEstimatorSheet(BuildContext context) {
                           children: [
                             Text(
                               l10n.valuationSector,
-                              style: GoogleFonts.inter(
+                              style: AppGoogleFonts.inter(
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFF334155),
@@ -289,7 +289,7 @@ void showValuationEstimatorSheet(BuildContext context) {
                       ),
                       child: Text(
                         error,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 11,
                           color: const Color(0xFFB91C1C),
                           fontWeight: FontWeight.w600,
@@ -316,7 +316,7 @@ void showValuationEstimatorSheet(BuildContext context) {
                                 child: Text(
                                   l10n.valuationRange,
                                   softWrap: true,
-                                  style: GoogleFonts.inter(
+                                  style: AppGoogleFonts.inter(
                                     fontSize: 11.5,
                                     fontWeight: FontWeight.bold,
                                     color: const Color(0xFF1E293B),
@@ -329,7 +329,7 @@ void showValuationEstimatorSheet(BuildContext context) {
                                   alignment: Alignment.centerRight,
                                   child: Text(
                                     '${formatVal(lowEstimate)} - ${formatVal(highEstimate)}',
-                                    style: GoogleFonts.poppins(
+                                    style: AppGoogleFonts.poppins(
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold,
                                       color: const Color(0xFF2563EB),
@@ -352,7 +352,7 @@ void showValuationEstimatorSheet(BuildContext context) {
                                 child: Text(
                                   l10n.valuationCalculatedArr,
                                   softWrap: true,
-                                  style: GoogleFonts.inter(
+                                  style: AppGoogleFonts.inter(
                                     fontSize: 11,
                                     color: const Color(0xFF475569),
                                   ),
@@ -366,7 +366,7 @@ void showValuationEstimatorSheet(BuildContext context) {
                                     l10n.valuationLakhFmt(
                                       (arrVal / 100000).toStringAsFixed(1),
                                     ),
-                                    style: GoogleFonts.poppins(
+                                    style: AppGoogleFonts.poppins(
                                       fontSize: 11.5,
                                       fontWeight: FontWeight.w600,
                                       color: const Color(0xFF0F172A),
@@ -384,7 +384,7 @@ void showValuationEstimatorSheet(BuildContext context) {
                                 child: Text(
                                   l10n.valuationAppliedMultiple,
                                   softWrap: true,
-                                  style: GoogleFonts.inter(
+                                  style: AppGoogleFonts.inter(
                                     fontSize: 11,
                                     color: const Color(0xFF475569),
                                   ),
@@ -396,7 +396,7 @@ void showValuationEstimatorSheet(BuildContext context) {
                                   alignment: Alignment.centerRight,
                                   child: Text(
                                     '${appliedMultiple.toStringAsFixed(1)}x',
-                                    style: GoogleFonts.poppins(
+                                    style: AppGoogleFonts.poppins(
                                       fontSize: 11.5,
                                       fontWeight: FontWeight.w600,
                                       color: const Color(0xFF0F172A),
@@ -459,7 +459,7 @@ void showValuationEstimatorSheet(BuildContext context) {
                       ),
                       child: Text(
                         l10n.valuationEstimate,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.5,
                         ),

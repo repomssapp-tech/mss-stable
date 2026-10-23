@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/app_text.dart';
 
 const List<Map<String, dynamic>> kNotificationCategories = [
   {'key': 'All', 'label': 'All', 'icon': Icons.notifications_none},
@@ -34,7 +34,7 @@ class NotificationHelpers {
       ),
       child: Text(
         text,
-        style: GoogleFonts.inter(
+        style: AppGoogleFonts.inter(
           fontSize: 9,
           color: textCol,
           fontWeight: FontWeight.bold,

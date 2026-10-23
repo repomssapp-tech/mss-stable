@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/l10n.dart';
 import '../../models/user_profile.dart';
 import '../../providers/app_state_provider.dart';
 import '../../utils/app_spacing.dart';
 import 'profile_value_formatters.dart';
 import 'profile_widgets.dart';
+import '../../utils/app_text.dart';
 
 /// Card displaying eligibility and professional details (education, employment, income, etc.)
 class ProfileEligibilityDetailsCard extends StatelessWidget {
@@ -62,7 +62,7 @@ class ProfileEligibilityDetailsCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   context.l10n.eligibilityProfessionalDetails,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF0F172A),
@@ -176,7 +176,7 @@ class ProfileEligibilityDetailsCard extends StatelessWidget {
             const SizedBox(height: AppSpacing.xs),
             Text(
               context.l10n.businessInformation,
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
                 color: const Color(0xFF2563EB),
