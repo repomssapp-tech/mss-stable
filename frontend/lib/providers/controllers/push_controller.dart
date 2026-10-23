@@ -12,10 +12,12 @@ class PushController {
   PushController({
     required PushMessagingGateway gateway,
     required Future<void> Function() refreshInbox,
+    String Function()? languageCode,
   }) : _service = PushNotificationService(gateway: gateway),
        _presenter = PushMessagePresenter(
          observer: appRouteObserver,
          refreshInbox: refreshInbox,
+         languageCode: languageCode,
        ) {
     _service.onForegroundMessage = (m, owner) =>
         unawaited(_presenter.showForeground(m, owner));

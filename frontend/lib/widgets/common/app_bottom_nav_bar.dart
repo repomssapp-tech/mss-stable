@@ -12,7 +12,7 @@ import '../../utils/app_text.dart';
 import 'app_tappable.dart';
 
 /// Side margin of the floating bar.
-const double kNavBarSideMargin = AppSpacing.lg;
+const double kNavBarSideMargin = AppSpacing.md;
 
 /// Space between the pill's edge and the first/last tab.
 const double kNavBarInnerPad = AppSpacing.xs;
@@ -57,7 +57,12 @@ class AppBottomNavBar extends StatefulWidget {
     required this.selectedIndex,
     required this.onSelected,
     required this.labels,
+    this.itemKeys = const {},
   }) : assert(labels.length == 5, 'home, search, discover, saved, profile');
+
+  /// Optional keys for individual tabs (by index), so something else can find
+  /// the real tab's position, e.g. the first-time tour.
+  final Map<int, GlobalKey> itemKeys;
 
   final int selectedIndex;
   final ValueChanged<int> onSelected;
@@ -108,7 +113,14 @@ class _AppBottomNavBarState extends State<AppBottomNavBar>
 
   void _settleOn(int index, {double velocity = 0}) {
     if (MediaQuery.maybeDisableAnimationsOf(context) ?? false) {
-      _pos.value = index.toDouble();
+      // "Remove animations" / animation scale 0 (also a common developer
+      // setting): no spring or stretch, but still a short slide so the droplet
+      // never just jumps between tabs.
+      _pos.animateTo(
+        index.toDouble(),
+        duration: const Duration(milliseconds: 180),
+        curve: Curves.easeOutCubic,
+      );
       return;
     }
     _pos.animateWith(
@@ -143,56 +155,53 @@ class _AppBottomNavBarState extends State<AppBottomNavBar>
     final height =
         scaler.scale(kNavBarBaseHeight) + (fit.wraps ? fit.lineHeight : 0);
 
-    return ColoredBox(
-      // Same colour as the tab screens, so no lighter or bluer band shows
-      // around the floating pill.
-      color: AppColors.background,
-      child: Padding(
-        padding: EdgeInsets.only(
-          left: kNavBarSideMargin,
-          right: kNavBarSideMargin,
-          bottom: bottomInset + kNavBarFloatGap,
-        ),
-        child: MediaQuery(
-          data: MediaQuery.of(context).copyWith(textScaler: scaler),
-          child: ConstrainedBox(
-            constraints: BoxConstraints.tightFor(height: height),
-            child: _GlassPill(
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  final slotWidth =
-                      (constraints.maxWidth - kNavBarInnerPad * 2) / 5;
-                  return GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onHorizontalDragStart: (d) {
-                      _dragging = true;
-                      _pos.stop();
-                      _pos.value = _slotAt(d.localPosition.dx, slotWidth);
-                    },
-                    onHorizontalDragUpdate: (d) {
-                      _pos.value = _slotAt(d.localPosition.dx, slotWidth);
-                      _select(_pos.value.round());
-                    },
-                    onHorizontalDragEnd: (d) {
-                      _dragging = false;
-                      final index = _pos.value.round();
-                      _select(index);
-                      _settleOn(
-                        index,
-                        velocity: d.velocity.pixelsPerSecond.dx / slotWidth,
-                      );
-                    },
-                    onHorizontalDragCancel: () {
-                      _dragging = false;
-                      _settleOn(widget.selectedIndex);
-                    },
-                    child: AnimatedBuilder(
-                      animation: _pos,
-                      builder: (context, _) => _buildSlots(slotWidth, height),
-                    ),
-                  );
-                },
-              ),
+    // No backdrop colour: the bar floats over the page, which scrolls (blurred)
+    // behind the glass pill.
+    return Padding(
+      padding: EdgeInsets.only(
+        left: kNavBarSideMargin,
+        right: kNavBarSideMargin,
+        bottom: bottomInset + kNavBarFloatGap,
+      ),
+      child: MediaQuery(
+        data: MediaQuery.of(context).copyWith(textScaler: scaler),
+        child: ConstrainedBox(
+          constraints: BoxConstraints.tightFor(height: height),
+          child: _GlassPill(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final slotWidth =
+                    (constraints.maxWidth - kNavBarInnerPad * 2) / 5;
+                return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onHorizontalDragStart: (d) {
+                    _dragging = true;
+                    _pos.stop();
+                    _pos.value = _slotAt(d.localPosition.dx, slotWidth);
+                  },
+                  onHorizontalDragUpdate: (d) {
+                    _pos.value = _slotAt(d.localPosition.dx, slotWidth);
+                    _select(_pos.value.round());
+                  },
+                  onHorizontalDragEnd: (d) {
+                    _dragging = false;
+                    final index = _pos.value.round();
+                    _select(index);
+                    _settleOn(
+                      index,
+                      velocity: d.velocity.pixelsPerSecond.dx / slotWidth,
+                    );
+                  },
+                  onHorizontalDragCancel: () {
+                    _dragging = false;
+                    _settleOn(widget.selectedIndex);
+                  },
+                  child: AnimatedBuilder(
+                    animation: _pos,
+                    builder: (context, _) => _buildSlots(slotWidth, height),
+                  ),
+                );
+              },
             ),
           ),
         ),
@@ -206,7 +215,10 @@ class _AppBottomNavBarState extends State<AppBottomNavBar>
     // 0 over a tab, 1 halfway between two: the droplet stretches sideways
     // and flattens a little while it travels, then rounds up again.
     final travel = math.sin(math.pi * (pos - pos.floorToDouble()));
-    final dropWidth = (slotWidth - AppSpacing.xs) * (1 + 0.32 * travel);
+    // Wider than its slot, so the whole label (any language, up to the width
+    // the bar's label scaling allows) sits inside the glow with room to spare.
+    final dropBase = slotWidth + AppSpacing.md;
+    final dropWidth = dropBase * (1 + 0.32 * travel);
     final dropHeight = (height - AppSpacing.sm * 2) * (1 - 0.1 * travel);
     final centerX = kNavBarInnerPad + slotWidth * (pos + 0.5);
 
@@ -214,7 +226,10 @@ class _AppBottomNavBarState extends State<AppBottomNavBar>
       clipBehavior: Clip.none,
       children: [
         Positioned(
-          left: centerX - dropWidth / 2,
+          left: (centerX - dropWidth / 2).clamp(
+            2.0,
+            slotWidth * 5 + kNavBarInnerPad * 2 - dropWidth - 2,
+          ),
           top: (height - dropHeight) / 2,
           width: dropWidth,
           height: dropHeight,
@@ -227,6 +242,7 @@ class _AppBottomNavBarState extends State<AppBottomNavBar>
               for (var i = 0; i < 5; i++)
                 Expanded(
                   child: AppNavBarItem(
+                    key: widget.itemKeys[i],
                     label: widget.labels[i],
                     icon: _icons[i].$1,
                     selectedIcon: _icons[i].$2,
@@ -329,8 +345,8 @@ class _GlassPill extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  AppColors.surface.withValues(alpha: 0.92),
-                  AppColors.primarySoft.withValues(alpha: 0.72),
+                  AppColors.surface.withValues(alpha: 0.95),
+                  AppColors.primarySoft.withValues(alpha: 0.88),
                 ],
               ),
               border: Border.all(color: AppColors.surface, width: 1.2),
@@ -399,7 +415,8 @@ class _Droplet extends StatelessWidget {
       (MediaQuery.sizeOf(context).width -
           (kNavBarSideMargin + kNavBarInnerPad) * 2) /
       labels.length;
-  final usable = slot - AppSpacing.sm * 2;
+  // The droplet is wider than the slot, so a label may use nearly all of it.
+  final usable = slot - AppSpacing.xs * 2;
   final fit = usable / widest;
   return (
     scale: fit.clamp(kMinNavLabelScale, 1.15),

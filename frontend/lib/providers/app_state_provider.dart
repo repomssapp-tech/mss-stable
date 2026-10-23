@@ -28,6 +28,7 @@ import 'app_state_seed_data.dart';
 import 'controllers/language_reconciler.dart';
 import 'controllers/library_controller.dart';
 import 'controllers/navigation_mode_reconciler.dart';
+import 'controllers/notification_translation_controller.dart';
 import 'controllers/notifications_controller.dart';
 import 'controllers/profile_cloud_sync.dart' as profile_cloud_sync;
 import 'controllers/push_controller.dart';
@@ -71,6 +72,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _library.addListener(notifyListeners);
     _searchFilter.addListener(notifyListeners);
     _notifications.addListener(notifyListeners);
+    _notificationTranslation.addListener(notifyListeners);
     _promos.addListener(notifyListeners);
     _catalog.addListener(notifyListeners);
     DeepLinkService.instance.initialize(this);
@@ -80,6 +82,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       _push = PushController(
         gateway: pushGateway,
         refreshInbox: () => _notifications.refresh(force: true),
+        languageCode: () => _selectedLanguage,
       );
       unawaited(_push!.start());
     }
@@ -113,6 +116,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   /// read/delete mutations, forwarded through this provider's own
   /// `notifyListeners` (frontend refactor C1.4).
   final NotificationsController _notifications = NotificationsController();
+  final NotificationTranslationController _notificationTranslation =
+      NotificationTranslationController();
 
   /// Push notifications (FCM registration + display); null where the platform
   /// has no messaging SDK.
@@ -166,7 +171,12 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   String _navigationMode = 'regular'; // 'regular', 'companion'
   UserProfile _profile = UserProfile();
 
-  List<Map<String, dynamic>> get notifications => _notifications.notifications;
+  /// The inbox in the user's language (Google ML Kit on-device translation);
+  /// a notification shows its original text until its translation is ready.
+  List<Map<String, dynamic>> get notifications => _notificationTranslation.view(
+    _notifications.notifications,
+    _selectedLanguage,
+  );
 
   List<Map<String, dynamic>> get carouselItems {
     final filteredPromos = _promos.promoAlerts.where((promo) {
@@ -1007,6 +1017,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _searchFilter.dispose();
     _notifications.removeListener(notifyListeners);
     _notifications.dispose();
+    _notificationTranslation.dispose();
     _promos.removeListener(notifyListeners);
     _promos.dispose();
     _catalog.removeListener(notifyListeners);

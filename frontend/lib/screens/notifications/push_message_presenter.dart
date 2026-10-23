@@ -7,6 +7,7 @@ import '../../models/notification_item_dto.dart';
 import '../../services/account/app_session.dart';
 import '../../services/haptics/haptics_service.dart';
 import '../../services/notifications/local_notification_service.dart';
+import '../../services/notifications/notification_translator.dart';
 import '../../services/notifications/notifications_api_service.dart';
 import '../../services/notifications/push_models.dart';
 import '../notifications_screen.dart';
@@ -45,9 +46,15 @@ class PushMessagePresenter {
   PushMessagePresenter({
     required this.observer,
     required Future<void> Function() refreshInbox,
+    String Function()? languageCode,
     NotificationsApiService? api,
   }) : _refreshInbox = refreshInbox,
+       _languageCode = languageCode,
        _api = api ?? NotificationsApiService();
+
+  /// The user's chosen app language ('en', 'hi', 'ta'); a pushed message is
+  /// translated to it before it is shown. Null leaves messages as sent.
+  final String Function()? _languageCode;
 
   final AppRouteObserver observer;
   final Future<void> Function() _refreshInbox;
@@ -71,14 +78,35 @@ class PushMessagePresenter {
       final item = await _findInInbox(message.notificationId);
       if (item == null || !_stillOwner(ownerId)) return;
       unawaited(HapticsService.instance.notification());
+      final text = await _inUserLanguage(item);
       final shown = await LocalNotificationService.instance.show(
         notificationId: item.id,
-        title: item.title,
-        body: item.message,
+        title: text.title,
+        body: text.body,
       );
       if (!shown) _showBanner(item, ownerId);
     } catch (e) {
       debugPrint('[Push] foreground presentation failed: $e');
+    }
+  }
+
+  /// The notification's text in the user's language. Waits briefly for the
+  /// translation, so the heads-up is not held back; on any miss the original
+  /// text is shown.
+  Future<({String title, String body})> _inUserLanguage(
+    NotificationItemDto item,
+  ) async {
+    final language = _languageCode?.call();
+    if (language == null) return (title: item.title, body: item.message);
+    final translator = NotificationTranslator.instance;
+    try {
+      final both = await Future.wait([
+        translator.translate(item.title, language),
+        translator.translate(item.message, language),
+      ]).timeout(const Duration(seconds: 6));
+      return (title: both[0], body: both[1]);
+    } catch (_) {
+      return (title: item.title, body: item.message);
     }
   }
 

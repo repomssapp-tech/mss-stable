@@ -111,6 +111,7 @@
   "loginChecklistPrivacy": "Read the Privacy Policy",
   "loginChecklistAgree": "Agree to continue",
   "loginOpeningGoogle": "Opening Google…",
+  "loginCompletingSignIn": "Signing you in…",
   "betaGatePasswordLabel": "Beta password",
   "showPassword": "Show password",
   "hidePassword": "Hide password",
@@ -1700,5 +1701,18 @@
   "homeTip8": "Buyers paying late? MSME Samadhaan lets micro and small enterprises file a delayed-payment case online.",
   "homeTip9": "DPIIT-recognised startups can apply to the Startup India Seed Fund Scheme.",
   "homeTip10": "Apply only through the official scheme link. Never pay an agent for a free government service.",
-  "@homeFeaturedAddedOn": {"placeholders": {"date": {"type": "String"}}}
+  "@homeFeaturedAddedOn": {"placeholders": {"date": {"type": "String"}}},
+  "homeTourFindTitle": "Find a Scheme",
+  "homeTourFindBody": "Search by scheme name, keyword, or benefit to find relevant government schemes and support.",
+  "homeTourAskTitle": "Ask Saarthi",
+  "homeTourAskBody": "Get quick answers to your questions about government schemes, eligibility, required documents, and application procedures.",
+  "homeTourDiscoverTitle": "Discover",
+  "homeTourDiscoverBody": "Explore schemes and support categories to find opportunities for financial assistance, business growth, registration, training, and more.",
+  "homeTourProfileTitle": "Edit Your Profile",
+  "homeTourProfileBody": "Update your personal and business details to help us provide more relevant scheme recommendations.",
+  "homeTourProgress": "{current} of {total}",
+  "@homeTourProgress": {"placeholders": {"current": {"type": "int"}, "total": {"type": "int"}}},
+  "homeTourSkip": "Skip",
+  "homeTourNext": "Next",
+  "homeTourFinish": "Finish"
 }

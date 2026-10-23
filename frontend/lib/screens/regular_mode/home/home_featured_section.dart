@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../models/localized_scheme.dart';
+import '../../../widgets/common/auto_translated_text.dart';
 import '../../../models/scheme_filter.dart';
 import '../../../models/scheme_model.dart';
 import '../../../providers/app_state_provider.dart';
@@ -234,8 +235,9 @@ class _FeaturedCard extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: AppSpacing.sm),
-                          Text(
+                          AutoTranslatedText(
                             local.name,
+                            language: language,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: context.text.cardTitle.copyWith(

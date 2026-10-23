@@ -375,6 +375,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginOpeningGoogle => 'Opening Google…';
 
   @override
+  String get loginCompletingSignIn => 'Signing you in…';
+
+  @override
   String get betaGatePasswordLabel => 'Beta password';
 
   @override
@@ -5494,4 +5497,46 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get homeTip10 =>
       'Apply only through the official scheme link. Never pay an agent for a free government service.';
+
+  @override
+  String get homeTourFindTitle => 'Find a Scheme';
+
+  @override
+  String get homeTourFindBody =>
+      'Search by scheme name, keyword, or benefit to find relevant government schemes and support.';
+
+  @override
+  String get homeTourAskTitle => 'Ask Saarthi';
+
+  @override
+  String get homeTourAskBody =>
+      'Get quick answers to your questions about government schemes, eligibility, required documents, and application procedures.';
+
+  @override
+  String get homeTourDiscoverTitle => 'Discover';
+
+  @override
+  String get homeTourDiscoverBody =>
+      'Explore schemes and support categories to find opportunities for financial assistance, business growth, registration, training, and more.';
+
+  @override
+  String get homeTourProfileTitle => 'Edit Your Profile';
+
+  @override
+  String get homeTourProfileBody =>
+      'Update your personal and business details to help us provide more relevant scheme recommendations.';
+
+  @override
+  String homeTourProgress(int current, int total) {
+    return '$current of $total';
+  }
+
+  @override
+  String get homeTourSkip => 'Skip';
+
+  @override
+  String get homeTourNext => 'Next';
+
+  @override
+  String get homeTourFinish => 'Finish';
 }

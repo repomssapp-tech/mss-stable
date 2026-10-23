@@ -135,73 +135,102 @@ class CustomConfirmDialog extends StatelessWidget {
           const SizedBox(height: AppSpacing.xxl),
 
           // Action Buttons Row
-          Row(
-            children: [
-              // Cancel Button
-              Expanded(
-                child: TextButton(
-                  style: TextButton.styleFrom( // style-ok: dialog-local shape/hit-area, not a theme-wide button variant
-                    minimumSize: const Size(0, AppSize.tapTarget),
-                    // Two buttons share a narrow dialog: the default 24 dp
-                    // side padding left Tamil labels too little room.
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.sm,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: AppRadius.mdAll,
-                      side: const BorderSide(color: AppColors.border),
-                    ),
+          // Two buttons side by side when both labels fit on one line in their
+          // half; otherwise stacked (confirm first), so a label is never broken
+          // across lines (Hindi "लॉग आउट" has a space, Tamil words are long).
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final sideWidth = (constraints.maxWidth - AppSpacing.md) / 2;
+              final inner = sideWidth - AppSpacing.sm * 2;
+              final scaler = MediaQuery.textScalerOf(context);
+              double width(String text, FontWeight weight) {
+                final painter = TextPainter(
+                  text: TextSpan(
+                    text: text,
+                    style: context.text.body.copyWith(fontWeight: weight),
                   ),
-                  onPressed: () => Navigator.pop(context),
-                  child: Text(
-                    resolvedCancelLabel,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: context.text.body.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textMuted,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: AppSpacing.md),
+                  textDirection: Directionality.of(context),
+                  textScaler: scaler,
+                  maxLines: 1,
+                )..layout();
+                return painter.width;
+              }
 
-              // Confirm Button
-              Expanded(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom( // style-ok: confirmColor is caller-supplied per call (danger/primary/success), not a static theme variant
-                    // B3: a destructive confirm always uses the vetted
-                    // AppColors.danger (4.83:1 with white), never the
-                    // caller's raw colour -- no call-site changes needed.
-                    backgroundColor: isDestructive
-                        ? AppColors.danger
-                        : confirmColor,
-                    foregroundColor: AppColors.textOnPrimary,
-                    minimumSize: const Size(0, AppSize.tapTarget),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.sm,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: AppRadius.mdAll,
-                    ),
-                    elevation: 0,
+              final sideBySide =
+                  width(resolvedCancelLabel, FontWeight.w600) <= inner &&
+                  width(resolvedConfirmLabel, FontWeight.bold) <= inner;
+              final cancelButton = TextButton(
+                style: TextButton.styleFrom( // style-ok: dialog-local shape/hit-area, not a theme-wide button variant
+                  minimumSize: const Size(0, AppSize.tapTarget),
+                  // Two buttons share a narrow dialog: the default 24 dp
+                  // side padding left Tamil labels too little room.
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.sm,
                   ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                    onConfirm();
-                  },
-                  child: Text(
-                    resolvedConfirmLabel,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: context.text.body.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textOnPrimary,
-                    ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: AppRadius.mdAll,
+                    side: const BorderSide(color: AppColors.border),
                   ),
                 ),
-              ),
-            ],
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  resolvedCancelLabel,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.text.body.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textMuted,
+                  ),
+                ),
+              );
+              final confirmButton = ElevatedButton(
+                style: ElevatedButton.styleFrom( // style-ok: confirmColor is caller-supplied per call (danger/primary/success), not a static theme variant
+                  // B3: a destructive confirm always uses the vetted
+                  // AppColors.danger (4.83:1 with white), never the
+                  // caller's raw colour -- no call-site changes needed.
+                  backgroundColor: isDestructive
+                      ? AppColors.danger
+                      : confirmColor,
+                  foregroundColor: AppColors.textOnPrimary,
+                  minimumSize: const Size(0, AppSize.tapTarget),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.sm,
+                  ),
+                  shape: RoundedRectangleBorder(borderRadius: AppRadius.mdAll),
+                  elevation: 0,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                  onConfirm();
+                },
+                child: Text(
+                  resolvedConfirmLabel,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.text.body.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textOnPrimary,
+                  ),
+                ),
+              );
+              if (sideBySide) {
+                return Row(
+                  children: [
+                    Expanded(child: cancelButton),
+                    const SizedBox(width: AppSpacing.md),
+                    Expanded(child: confirmButton),
+                  ],
+                );
+              }
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  confirmButton,
+                  const SizedBox(height: AppSpacing.md),
+                  cancelButton,
+                ],
+              );
+            },
           ),
         ],
       ),
