@@ -52,3 +52,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-10-23 | nyxri0f8 | #162 | frontend/notifications (Android) | The launcher logo has a transparent background, so it disappeared in the notification panel. Notifications shown by the app now use the MSS logo on a white rounded square as the large icon (`res/drawable-nodpi/ic_notification_large.png`). The small status-bar icon is tinted brand blue (`AppColors.primary`): for FCM pushes through `default_notification_color`, and for local notifications through `color`. |
 | 2026-10-23 | nyxri0f8 | #164 | frontend/home, frontend/saved, frontend/navigation | These are the home screen, Saved and nav bar changes from device feedback on 1.4.5. |
 | 2026-10-23 | Roger-Chris | #165 | unspecified | Login loading overlay, on-device notification translation, floating nav bar fixes |
+| 2026-10-23 | Roger-Chris | #166 | unspecified | QA pass: Tamil bold titles, Hindi login text, translated scheme titles, label fixes |
