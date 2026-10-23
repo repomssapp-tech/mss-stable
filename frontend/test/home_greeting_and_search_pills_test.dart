@@ -20,7 +20,9 @@ void main() {
         final l10nEn = await AppLocalizations.delegate.load(const Locale('en'));
         final greetingEn = AppConstants.getTimeGreeting(l10nEn);
         final hour = DateTime.now().hour;
-        if (hour >= 5 && hour < 12) {
+        if (hour < 5) {
+          expect(greetingEn, equals('Hello,'));
+        } else if (hour < 12) {
           expect(greetingEn, equals('Good Morning,'));
         } else if (hour >= 12 && hour < 17) {
           expect(greetingEn, equals('Good Afternoon,'));
@@ -30,7 +32,9 @@ void main() {
 
         final l10nTa = await AppLocalizations.delegate.load(const Locale('ta'));
         final greetingTa = AppConstants.getTimeGreeting(l10nTa);
-        if (hour >= 5 && hour < 12) {
+        if (hour < 5) {
+          expect(greetingTa, equals('வணக்கம்,'));
+        } else if (hour < 12) {
           expect(greetingTa, equals('காலை வணக்கம்,'));
         } else if (hour >= 12 && hour < 17) {
           expect(greetingTa, equals('மதிய வணக்கம்,'));
