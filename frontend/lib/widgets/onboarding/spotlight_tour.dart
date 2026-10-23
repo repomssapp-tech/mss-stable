@@ -261,11 +261,17 @@ class _TourCard extends StatelessWidget {
       child: ConstrainedBox(
         constraints: BoxConstraints(maxHeight: maxHeight),
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppSpacing.lg),
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.lg,
+            AppSpacing.sm,
+            AppSpacing.lg,
+            AppSpacing.md,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              // Progress chip at the start, Skip at the far end.
               Row(
                 children: [
                   Flexible(
@@ -303,7 +309,7 @@ class _TourCard extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: AppSpacing.md,
-                        vertical: AppSpacing.sm,
+                        vertical: AppSpacing.xs,
                       ),
                       child: Text(
                         labels.skip,
@@ -316,9 +322,10 @@ class _TourCard extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: AppSpacing.md),
+              const SizedBox(height: AppSpacing.xs),
+              // Icon beside the title; the description below it then gets the
+              // card's whole width.
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   DecoratedBox(
                     decoration: const BoxDecoration(
@@ -326,37 +333,34 @@ class _TourCard extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(AppSpacing.md),
+                      padding: const EdgeInsets.all(AppSpacing.sm),
                       child: Icon(step.icon, color: AppColors.primary),
                     ),
                   ),
                   const SizedBox(width: AppSpacing.md),
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Semantics(
-                          header: true,
-                          child: Text(
-                            step.title,
-                            style: context.text.titleSmall.copyWith(
-                              color: AppColors.textPrimary,
-                            ),
-                          ),
+                    child: Semantics(
+                      header: true,
+                      child: Text(
+                        step.title,
+                        textAlign: TextAlign.justify,
+                        style: context.text.titleSmall.copyWith(
+                          color: AppColors.textPrimary,
                         ),
-                        const SizedBox(height: AppSpacing.xs),
-                        Text(
-                          step.body,
-                          style: context.text.bodySmall.copyWith(
-                            color: AppColors.textSecondary,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: AppSpacing.lg),
+              const SizedBox(height: AppSpacing.sm),
+              Text(
+                step.body,
+                textAlign: TextAlign.justify,
+                style: context.text.bodySmall.copyWith(
+                  color: AppColors.textSecondary,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.md),
               Wrap(
                 alignment: WrapAlignment.spaceBetween,
                 crossAxisAlignment: WrapCrossAlignment.center,
