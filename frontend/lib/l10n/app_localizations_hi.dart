@@ -4955,12 +4955,12 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String catalogFreshnessLabel(Object version) {
-    return 'स्थानीय कैटलॉग v$version';
+    return 'स्थानीय कैटलॉग $version';
   }
 
   @override
   String catalogFreshnessLabelUpdated(Object date, Object version) {
-    return 'स्थानीय कैटलॉग v$version • $date को अपडेट किया गया';
+    return 'स्थानीय कैटलॉग $version • $date को अपडेट किया गया';
   }
 
   @override

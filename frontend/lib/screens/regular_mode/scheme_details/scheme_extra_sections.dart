@@ -231,9 +231,13 @@ class _StatusCard extends StatelessWidget {
         if (status != null) _Line(value: l10n.schemeApplicationStatus(status)),
         if (note.isNotEmpty) _Line(value: note),
         if (deadline.isNotEmpty)
-          _Line(label: l10n.schemeDeadline, value: deadline),
+          _Line(
+            label: l10n.schemeDeadline,
+            value: _localDate(context, deadline),
+          ),
         if (procedure != null) _Line(value: procedure),
-        if (asOf.isNotEmpty) _Line(value: l10n.schemeStatusAsOf(asOf)),
+        if (asOf.isNotEmpty)
+          _Line(value: l10n.schemeStatusAsOf(_localDate(context, asOf))),
       ],
     );
   }
@@ -527,4 +531,18 @@ class _RelatedCard extends StatelessWidget {
       ],
     );
   }
+}
+
+/// `2026-10-14` as `14 Oct 2026` with the app language's month name; any other
+/// text is returned unchanged.
+String _localDate(BuildContext context, String raw) {
+  final m = RegExp(r'^(\d{4})-(\d{2})-(\d{2})$').firstMatch(raw.trim());
+  if (m == null) return raw;
+  final months = context.l10n.monthAbbrList
+      .split(',')
+      .map((e) => e.trim())
+      .toList();
+  final index = int.parse(m.group(2)!) - 1;
+  if (index < 0 || index >= months.length) return raw;
+  return '${int.parse(m.group(3)!)} ${months[index]} ${m.group(1)}';
 }

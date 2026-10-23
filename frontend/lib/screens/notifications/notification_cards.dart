@@ -86,7 +86,7 @@ class NotificationTile extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        maxLines: 2,
+                        maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         style: context.text.cardTitle.copyWith(
                           color: AppColors.textPrimary,

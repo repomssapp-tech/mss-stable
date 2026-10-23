@@ -4939,12 +4939,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String catalogFreshnessLabel(Object version) {
-    return 'Local catalog v$version';
+    return 'Local catalog $version';
   }
 
   @override
   String catalogFreshnessLabelUpdated(Object date, Object version) {
-    return 'Local catalog v$version • updated $date';
+    return 'Local catalog $version • updated $date';
   }
 
   @override

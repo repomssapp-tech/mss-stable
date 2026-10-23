@@ -43,7 +43,7 @@ class CategoriesBusinessUtilitiesSection extends StatelessWidget {
         SizedBox(
           // Icon and padding are fixed; the two text lines grow with the
           // user's font size (issue #144).
-          height: 50 + MediaQuery.textScalerOf(context).scale(48),
+          height: 56 + MediaQuery.textScalerOf(context).scale(76),
           child: ListView(
             scrollDirection: Axis.horizontal,
             physics: const ClampingScrollPhysics(),
@@ -143,7 +143,7 @@ class CategoryUtilityCard extends StatelessWidget {
               const SizedBox(height: AppSpacing.tight),
               Text(
                 title,
-                maxLines: 1,
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: AppGoogleFonts.poppins(
                   fontSize: 10.5,
@@ -153,7 +153,7 @@ class CategoryUtilityCard extends StatelessWidget {
               ),
               Text(
                 desc,
-                maxLines: 1,
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: AppGoogleFonts.inter(
                   fontSize: 8.5,

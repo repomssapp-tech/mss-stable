@@ -348,7 +348,7 @@ class MinistryHorizontalList extends StatelessWidget {
                     const Spacer(),
                     Text(
                       localizedTitle,
-                      maxLines: 2,
+                      maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                       style: AppGoogleFonts.poppins(
                         fontSize: provider.selectedLanguage == 'ta'

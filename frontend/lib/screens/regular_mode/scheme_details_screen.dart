@@ -23,6 +23,7 @@ import 'scheme_details/scheme_process_section.dart';
 import 'scheme_details/scheme_services_section.dart';
 import 'scheme_details/sticky_tab_bar_delegate.dart';
 import '../../utils/app_text.dart';
+import '../../widgets/common/auto_translated_text.dart';
 
 // Re-exports for clean modular access and backwards compatibility
 export 'scheme_details/scheme_benefits_section.dart';
@@ -420,8 +421,11 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                         // Overview Paragraph
                         Container(
                           key: _overviewKey,
-                          child: Text(
+                          child: AutoTranslatedText(
                             scheme.overview,
+                            language: Localizations.localeOf(
+                              context,
+                            ).languageCode,
                             style: AppGoogleFonts.inter(
                               color: const Color(0xFF64748B),
                               fontSize: 12.0,

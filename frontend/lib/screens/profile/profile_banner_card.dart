@@ -279,7 +279,10 @@ class ProfileBannerCard extends StatelessWidget {
                                   color: Colors.white.withAlpha(230),
                                   fontWeight: FontWeight.w500,
                                 ),
-                                maxLines: 1,
+                                // An address has no spaces; it breaks between
+                                // characters on a second line rather than being
+                                // cut off.
+                                maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),

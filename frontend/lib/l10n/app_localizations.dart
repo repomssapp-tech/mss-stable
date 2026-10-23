@@ -9121,13 +9121,13 @@ abstract class AppLocalizations {
   /// No description provided for @catalogFreshnessLabel.
   ///
   /// In en, this message translates to:
-  /// **'Local catalog v{version}'**
+  /// **'Local catalog {version}'**
   String catalogFreshnessLabel(Object version);
 
   /// No description provided for @catalogFreshnessLabelUpdated.
   ///
   /// In en, this message translates to:
-  /// **'Local catalog v{version} • updated {date}'**
+  /// **'Local catalog {version} • updated {date}'**
   String catalogFreshnessLabelUpdated(Object date, Object version);
 
   /// No description provided for @aboutAppDescriptionLong.

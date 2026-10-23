@@ -3,6 +3,7 @@ import '../../../l10n/l10n.dart';
 import '../../../models/localized_scheme.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/app_text.dart';
+import '../../../utils/app_colors.dart';
 
 /// Card presenting key scheme metadata pills (government level, state, sector, target).
 class SchemeHighlightsCard extends StatelessWidget {
@@ -83,7 +84,9 @@ class SchemeHighlightsCard extends StatelessWidget {
                     const SizedBox(width: AppSpacing.xs),
                     Flexible(
                       child: Text(
-                        match,
+                        match.isEmpty
+                            ? match
+                            : '${match[0].toUpperCase()}${match.substring(1)}',
                         style: AppGoogleFonts.inter(
                           color: const Color(0xFF2563EB),
                           fontSize: 10.5,
@@ -132,7 +135,16 @@ class SchemeOfficialSourceCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.verified_outlined, color: Color(0xFF047857)),
+          // A green tick only for a verified scheme; "not independently
+          // verified" gets a neutral info icon, not a contradicting tick.
+          Icon(
+            _isVerified(scheme.verificationStatus)
+                ? Icons.verified_outlined
+                : Icons.info_outline_rounded,
+            color: _isVerified(scheme.verificationStatus)
+                ? const Color(0xFF047857)
+                : AppColors.textSecondary,
+          ),
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Column(
@@ -205,3 +217,5 @@ String _verificationText(BuildContext context, String raw) {
   }
   return code;
 }
+
+bool _isVerified(String raw) => raw.trim().toUpperCase() == 'VERIFIED';

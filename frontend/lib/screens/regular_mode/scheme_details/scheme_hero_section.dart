@@ -186,7 +186,7 @@ class SchemeHeroSection extends StatelessWidget {
                           child: Text(
                             context.l10n.levelSchemeFormat(
                               scheme.governmentLevel.isNotEmpty
-                                  ? scheme.governmentLevel
+                                  ? '${scheme.governmentLevel[0].toUpperCase()}${scheme.governmentLevel.substring(1)}'
                                   : 'Central',
                             ),
                             style: AppGoogleFonts.inter(
@@ -208,7 +208,7 @@ class SchemeHeroSection extends StatelessWidget {
                             color: const Color(0xFF0F172A),
                             height: 1.3,
                           ),
-                          maxLines: 2,
+                          maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                         ),
                         if (fullName.isNotEmpty) ...[
