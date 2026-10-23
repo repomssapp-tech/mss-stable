@@ -210,7 +210,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Positioned(
             right: AppSpacing.lg,
-            bottom: AppSpacing.lg,
+            // Above the floating nav bar: the shell's body padding includes
+            // the bar's height.
+            bottom: AppSpacing.lg + MediaQuery.paddingOf(context).bottom,
             child: _buildChatButton(provider),
           ),
         ],

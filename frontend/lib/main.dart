@@ -256,9 +256,29 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
   final GlobalKey<SearchScreenState> searchTabKey =
       GlobalKey<SearchScreenState>();
 
-  /// Tabs shown at least once. A tab is built on its first visit and then kept
-  /// alive by the IndexedStack, so a cold start builds one tab, not five.
+  /// Tabs built so far. The first screen is built at once, the others one at a
+  /// time shortly after start (or on first visit if that comes sooner); the
+  /// IndexedStack then keeps them alive, so a cold start builds one tab, not
+  /// five.
   final Set<int> _visitedTabs = {0};
+
+  @override
+  void initState() {
+    super.initState();
+    // The other tabs are built one at a time once the first screen is up, so
+    // the first switch to a tab does not build it in the same frames as the
+    // nav bar's droplet animation (it showed as a stutter or a jump).
+    unawaited(_warmUpTabs());
+  }
+
+  Future<void> _warmUpTabs() async {
+    await Future<void>.delayed(const Duration(milliseconds: 1200));
+    for (var i = 1; i < 5; i++) {
+      if (!mounted) return;
+      setState(() => _visitedTabs.add(i));
+      await Future<void>.delayed(const Duration(milliseconds: 400));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -339,8 +359,10 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
         },
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          // No extendBody: the floating bar sits below the tab content, so
-          // it never covers the last list rows or breaks nested Scaffolds.
+          // The floating bar sits over the tab content (blurred through the
+          // glass). The body's bottom padding grows by the bar's height, so
+          // scrollables and SafeAreas keep their last rows clear of it.
+          extendBody: true,
           body: IndexedStack(
             index: currentTabIndex,
             children: [
