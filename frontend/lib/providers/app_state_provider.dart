@@ -24,6 +24,11 @@ import '../services/catalog/centralized_translator.dart';
 import '../services/catalog/language_pack_manager.dart';
 import '../screens/splash_screen.dart';
 import '../widgets/common/app_toast.dart';
+import '../widgets/common/account_deletion_dialogs.dart';
+import '../l10n/l10n.dart';
+import '../screens/notifications/push_message_presenter.dart'
+    show appNavigatorKey;
+import '../services/account/account_pending_deletion.dart';
 import 'app_state_seed_data.dart';
 import 'controllers/language_reconciler.dart';
 import 'controllers/library_controller.dart';
@@ -599,10 +604,37 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         password: password,
       );
       return await checkSessionAndFetchProfile();
+    } on AccountPendingDeletion catch (pending) {
+      return offerAccountRestore(pending);
     } catch (e) {
       debugPrint('[AppProvider] Error signing in with password: $e');
       rethrow;
     }
+  }
+
+  /// A sign-in reached an account deleted within the last 30 days. Asks the
+  /// user whether to reactivate it and, only on their yes, restores it and
+  /// loads the session. Returns true when the user ends up signed in.
+  Future<bool> offerAccountRestore(AccountPendingDeletion pending) async {
+    final context = appNavigatorKey.currentContext;
+    if (context == null || !context.mounted) return false;
+    if (!await confirmAccountRestore(context, pending)) return false;
+    try {
+      await RestAuthService.instance.restoreAccount(pending.restoreToken);
+    } catch (e) {
+      debugPrint('[AppProvider] Account restore failed: $e');
+      final ctx = appNavigatorKey.currentContext;
+      if (ctx != null && ctx.mounted) {
+        AppToast.showWarning(ctx, ctx.l10n.accountRestoreFailed);
+      }
+      return false;
+    }
+    final signedIn = await checkSessionAndFetchProfile();
+    final ctx = appNavigatorKey.currentContext;
+    if (signedIn && ctx != null && ctx.mounted) {
+      AppToast.showSuccess(ctx, ctx.l10n.accountRestoredToast);
+    }
+    return signedIn;
   }
 
   /// Issue #123: the server marks a profile complete only once onboarding is
@@ -777,8 +809,12 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     // state after an offline failure: that would falsely claim success.
     if (_isLoggedIn && AppSession.instance.isSignedIn) {
       try {
-        await AccountApiService.instance.deleteAccount();
+        final purgeAfter = await AccountApiService.instance.deleteAccount();
         debugPrint('[AppProvider] Account deleted on the server.');
+        // Tell the user their data is kept for 30 days and how to reactivate.
+        if (context.mounted) {
+          await showAccountDeletedDialog(context, purgeAfter);
+        }
       } catch (e) {
         debugPrint('[AppProvider] Error deleting account: $e');
         _isLoggingOut = false;

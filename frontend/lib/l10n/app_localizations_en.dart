@@ -615,10 +615,44 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleteAccountMsg =>
-      'This action is irreversible. All your saved profiles, bookmarks, and questionnaire answers will be permanently deleted.';
+      'Your account will be deleted and you will be signed out. Your data is kept for 30 days, so you can sign in again within 30 days to reactivate it. After that, all your saved profiles, bookmarks and answers are permanently deleted.';
 
   @override
   String get deleteButton => 'Delete';
+
+  @override
+  String get accountDeletedTitle => 'Account deleted';
+
+  @override
+  String accountDeletedMsg(String date) {
+    return 'Your account has been deleted and you have been signed out. Your data will not be deleted for 30 days (until $date). To reactivate your account, just sign in again before then.';
+  }
+
+  @override
+  String get accountDeletedNowMsg =>
+      'Your account has been permanently deleted.';
+
+  @override
+  String get accountRestoreTitle => 'Reactivate your account?';
+
+  @override
+  String accountRestoreMsg(String date) {
+    return 'You deleted this account. Your data is kept until $date. Reactivate it to continue with your saved profile and schemes.';
+  }
+
+  @override
+  String get accountRestoreConfirm => 'Reactivate';
+
+  @override
+  String get accountRestoreCancel => 'Not now';
+
+  @override
+  String get accountRestoredToast =>
+      'Welcome back! Your account is active again.';
+
+  @override
+  String get accountRestoreFailed =>
+      'Could not reactivate your account. Please sign in again.';
 
   @override
   String get supportGroupHeader => 'Support';

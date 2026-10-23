@@ -3,6 +3,7 @@ import 'package:app_links/app_links.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../providers/app_state_provider.dart';
+import 'account_pending_deletion.dart';
 import 'auth_service.dart';
 import 'rest_auth_service.dart';
 import 'sign_in_progress.dart';
@@ -69,6 +70,11 @@ class DeepLinkService {
           debugPrint(
             '[DeepLinkService] Code exchange succeeded, profile loaded.',
           );
+        } on AccountPendingDeletion catch (pending) {
+          // The account was deleted within 30 days: ask before reactivating.
+          await AuthService.clearOAuthPending();
+          SignInProgress.instance.finish();
+          await provider.offerAccountRestore(pending);
         } catch (e) {
           debugPrint('[DeepLinkService] Code exchange failed: $e');
         } finally {

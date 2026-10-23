@@ -14,15 +14,23 @@ class AccountApiService {
 
   ApiClient get _client => _apiClient ?? ApiClient.instance;
 
-  /// Permanently deletes the signed-in account (`DELETE /v1/me`, 204).
+  /// Deletes the signed-in account (`DELETE /v1/me`).
+  ///
+  /// The server freezes the account, signs it out everywhere and keeps its data
+  /// for 30 days; signing in again during that time offers to reactivate it.
+  /// Returns when the data will be permanently removed (`purge_after`), or null
+  /// from an older server that deletes at once (204, no body).
   ///
   /// The server requires that the session was authenticated within the last
   /// 5 minutes (a token refresh does not count) and answers
   /// `403 REAUTHENTICATION_REQUIRED` otherwise. It throws on every failure, so
   /// callers never clear local data unless the server confirmed the deletion.
   /// No body and no query are sent.
-  Future<void> deleteAccount() async {
-    await _client.delete('/v1/me');
+  Future<DateTime?> deleteAccount() async {
+    final response = await _client.delete('/v1/me');
+    final data = response.data;
+    if (data is! Map) return null;
+    return DateTime.tryParse(data['purge_after']?.toString() ?? '')?.toLocal();
   }
 
   /// What to tell the user when [deleteAccount] failed with [error]. Nothing was

@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 
 import '../network/api_client.dart';
 import '../network/api_exception.dart';
+import 'account_pending_deletion.dart';
 import 'pkce_helper.dart';
 import 'token_storage.dart';
 
@@ -121,35 +122,11 @@ class RestAuthService {
     }
 
     try {
-      final response = await _apiClient.post(
-        '/auth/exchange',
-        body: {'code': code.trim(), 'code_verifier': verifier},
-        requiresAuth: false,
-      );
-
-      final data = response.data as Map<String, dynamic>;
-      final accessToken = data['access_token']?.toString() ?? '';
-      final refreshToken = data['refresh_token']?.toString() ?? '';
-      final expiresIn = (data['expires_in'] as num?)?.toInt();
-      final tokenType = data['token_type']?.toString() ?? 'Bearer';
-
-      await _tokenStorage.saveTokens(
-        accessToken: accessToken,
-        refreshToken: refreshToken,
-        tokenType: tokenType,
-        expiresIn: expiresIn,
-      );
-
-      final userData = data['user'] as Map<String, dynamic>? ?? {};
-      final user = AuthUser.fromJson(userData);
-      await _tokenStorage.saveUser(
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        pictureUrl: user.pictureUrl,
-      );
-
-      return user;
+      final response = await _signInRequest('/auth/exchange', {
+        'code': code.trim(),
+        'code_verifier': verifier,
+      });
+      return await _storeSession(response.data as Map<String, dynamic>);
     } finally {
       await _tokenStorage.deletePkceVerifier();
     }
@@ -160,13 +137,42 @@ class RestAuthService {
     required String email,
     required String password,
   }) async {
+    final response = await _signInRequest('/auth/password/login', {
+      'email': email.trim().toLowerCase(),
+      'password': password,
+    });
+    return _storeSession(response.data as Map<String, dynamic>);
+  }
+
+  /// Reactivates an account deleted within the last 30 days and signs in
+  /// (POST /v1/auth/restore). Call only after the user agreed; the token comes
+  /// from [AccountPendingDeletion.restoreToken].
+  Future<AuthUser> restoreAccount(String restoreToken) async {
     final response = await _apiClient.post(
-      '/auth/password/login',
-      body: {'email': email.trim().toLowerCase(), 'password': password},
+      '/auth/restore',
+      body: {'restore_token': restoreToken},
       requiresAuth: false,
     );
+    return _storeSession(response.data as Map<String, dynamic>);
+  }
 
-    final data = response.data as Map<String, dynamic>;
+  /// A sign-in POST that turns `403 ACCOUNT_PENDING_DELETION` into
+  /// [AccountPendingDeletion], so callers can offer to reactivate.
+  Future<ApiResponse<dynamic>> _signInRequest(
+    String path,
+    Map<String, dynamic> body,
+  ) async {
+    try {
+      return await _apiClient.post(path, body: body, requiresAuth: false);
+    } catch (e) {
+      final pending = AccountPendingDeletion.fromError(e);
+      if (pending != null) throw pending;
+      rethrow;
+    }
+  }
+
+  /// Saves the tokens and identity of a successful sign-in response.
+  Future<AuthUser> _storeSession(Map<String, dynamic> data) async {
     final accessToken = data['access_token']?.toString() ?? '';
     final refreshToken = data['refresh_token']?.toString() ?? '';
     final expiresIn = (data['expires_in'] as num?)?.toInt();

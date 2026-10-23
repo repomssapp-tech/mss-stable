@@ -22,6 +22,9 @@ class CustomConfirmDialog extends StatelessWidget {
   final VoidCallback onConfirm;
   final bool isDestructive;
 
+  /// False shows only the confirm button, for a message the user acknowledges.
+  final bool showCancel;
+
   const CustomConfirmDialog({
     super.key,
     required this.icon,
@@ -34,9 +37,11 @@ class CustomConfirmDialog extends StatelessWidget {
     required this.confirmColor,
     required this.onConfirm,
     this.isDestructive = false,
+    this.showCancel = true,
   });
 
-  static void show(
+  /// Completes when the dialog closes, whichever way it was dismissed.
+  static Future<void> show(
     BuildContext context, {
     required IconData icon,
     required Color iconColor,
@@ -48,8 +53,9 @@ class CustomConfirmDialog extends StatelessWidget {
     required Color confirmColor,
     required VoidCallback onConfirm,
     bool isDestructive = false,
+    bool showCancel = true,
   }) {
-    showDialog(
+    return showDialog<void>(
       context: context,
       barrierDismissible: true,
       builder: (context) => Dialog(
@@ -66,6 +72,7 @@ class CustomConfirmDialog extends StatelessWidget {
           confirmColor: confirmColor,
           onConfirm: onConfirm,
           isDestructive: isDestructive,
+          showCancel: showCancel,
         ),
       ),
     );
@@ -213,6 +220,9 @@ class CustomConfirmDialog extends StatelessWidget {
                   ),
                 ),
               );
+              if (!showCancel) {
+                return SizedBox(width: double.infinity, child: confirmButton);
+              }
               if (sideBySide) {
                 return Row(
                   children: [

@@ -4,6 +4,10 @@ class ApiException implements Exception {
   final String errorCode;
   final String message;
   final List<dynamic>? details;
+
+  /// Object-valued `details` from the error body, such as the restore token of
+  /// `ACCOUNT_PENDING_DELETION`. Null when the body has none or a list.
+  final Map<String, dynamic>? fields;
   final int? retryAfterSeconds;
   final String? requestId;
 
@@ -12,6 +16,7 @@ class ApiException implements Exception {
     required this.errorCode,
     required this.message,
     this.details,
+    this.fields,
     this.retryAfterSeconds,
     this.requestId,
   });
