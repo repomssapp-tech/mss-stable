@@ -54,3 +54,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-10-23 | Roger-Chris | #165 | unspecified | Login loading overlay, on-device notification translation, floating nav bar fixes |
 | 2026-10-23 | Roger-Chris | #166 | unspecified | QA pass: Tamil bold titles, Hindi login text, translated scheme titles, label fixes |
 | 2026-10-23 | Roger-Chris | #167 | unspecified | fix: logout persistence and account deletion progress flow |
+| 2026-10-23 | nyxri0f8 | #169 | frontend/auth | When the Google code exchange fails, the app now shows Unable to complete Google sign in. Please try again. instead of silently returning to the login screen (requested in the backend bug report for the 23 Oct `/v1/auth/exchange` 500). |
