@@ -111,6 +111,7 @@
   "loginChecklistPrivacy": "Read the Privacy Policy",
   "loginChecklistAgree": "Agree to continue",
   "loginOpeningGoogle": "Opening Google…",
+  "loginCompletingSignIn": "Signing you in…",
   "betaGatePasswordLabel": "Beta password",
   "showPassword": "Show password",
   "hidePassword": "Hide password",

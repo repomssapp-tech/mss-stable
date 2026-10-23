@@ -379,6 +379,9 @@ class AppLocalizationsTa extends AppLocalizations {
   String get loginOpeningGoogle => 'Google-ஐத் திறக்கிறது…';
 
   @override
+  String get loginCompletingSignIn => 'உள்நுழைகிறது…';
+
+  @override
   String get betaGatePasswordLabel => 'பீட்டா கடவுச்சொல்';
 
   @override

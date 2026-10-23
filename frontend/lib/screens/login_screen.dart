@@ -1,4 +1,5 @@
 import '../services/account/onboarding_api_service.dart' show LegalConsentStore;
+import '../services/account/sign_in_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_state_provider.dart';
@@ -26,6 +27,27 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _navigationScheduled = false;
   bool _hasViewedTerms = false;
   bool _hasViewedPrivacy = false;
+
+  /// True while a sign-in is opening, open in the browser, or finishing: the
+  /// button then only shows its loading state and ignores taps.
+  bool get _busy =>
+      _isLoading || SignInProgress.instance.phase.value != SignInPhase.idle;
+
+  @override
+  void initState() {
+    super.initState();
+    SignInProgress.instance.phase.addListener(_onSignInPhase);
+  }
+
+  @override
+  void dispose() {
+    SignInProgress.instance.phase.removeListener(_onSignInPhase);
+    super.dispose();
+  }
+
+  void _onSignInPhase() {
+    if (mounted) setState(() {});
+  }
 
   Future<void> _openTermsModal() async {
     bool? accepted;
@@ -203,6 +225,64 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
+
+          // 3. Finishing the sign-in: the user is back from the browser. A
+          // modal barrier plus a small card, so nothing underneath can be
+          // tapped (a second sign-in) while the account is being set up.
+          // Positioned in both states: a plain child would make the Stack
+          // size to it instead of filling the screen.
+          Positioned.fill(
+            child: ValueListenableBuilder<SignInPhase>(
+              valueListenable: SignInProgress.instance.phase,
+              builder: (context, phase, _) {
+                if (phase != SignInPhase.completing) {
+                  return const SizedBox.shrink();
+                }
+                return Semantics(
+                  liveRegion: true,
+                  label: context.l10n.loginCompletingSignIn,
+                  child: Stack(
+                    children: [
+                      ModalBarrier(
+                        dismissible: false,
+                        color: AppColors.textPrimary.withValues(alpha: 0.35),
+                      ),
+                      Center(
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: AppColors.surface,
+                            borderRadius: AppRadius.lgAll,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: AppSpacing.xl,
+                              vertical: AppSpacing.lg,
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const SizedBox.square(
+                                  dimension: 22,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2.5,
+                                  ),
+                                ),
+                                const SizedBox(width: AppSpacing.md),
+                                Text(
+                                  context.l10n.loginCompletingSignIn,
+                                  style: context.text.body,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -221,6 +301,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (!launched && mounted) {
         throw StateError('Unable to open Google authentication.');
       }
+      SignInProgress.instance.browserOpened();
     } catch (e, stack) {
       debugPrint('[LoginScreen] Sign-in error: $e\n$stack');
       if (mounted) {
@@ -282,7 +363,7 @@ class _LoginScreenState extends State<LoginScreen> {
         // While it is disabled, a tap on it says why instead of doing
         // nothing, and screen readers hear the same reason as a hint.
         GestureDetector( // tap-ok: only explains taps on the disabled button
-          onTap: isLoginEnabled || _isLoading
+          onTap: isLoginEnabled || _busy
               ? null
               : () => AppToast.showWarning(
                   context,
@@ -295,14 +376,12 @@ class _LoginScreenState extends State<LoginScreen> {
               child: OutlinedButton(
                 style: OutlinedButton.styleFrom( // style-ok: CTA height + explicit loading foreground colour
                   minimumSize: const Size.fromHeight(52),
-                  foregroundColor: _isLoading ? AppColors.primary : null,
+                  foregroundColor: _busy ? AppColors.primary : null,
                 ),
                 // Swallow taps while loading (so a stray tap can't double-fire
                 // sign-in) without visually disabling the button.
-                onPressed: _isLoading
-                    ? () {}
-                    : (isLoginEnabled ? _signIn : null),
-                child: _isLoading
+                onPressed: _busy ? () {} : (isLoginEnabled ? _signIn : null),
+                child: _busy
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

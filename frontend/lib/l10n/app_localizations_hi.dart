@@ -375,6 +375,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get loginOpeningGoogle => 'Google खुल रहा है...';
 
   @override
+  String get loginCompletingSignIn => 'साइन इन हो रहा है…';
+
+  @override
   String get betaGatePasswordLabel => 'बीटा पासवर्ड';
 
   @override

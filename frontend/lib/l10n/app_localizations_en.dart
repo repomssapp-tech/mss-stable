@@ -375,6 +375,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginOpeningGoogle => 'Opening Google…';
 
   @override
+  String get loginCompletingSignIn => 'Signing you in…';
+
+  @override
   String get betaGatePasswordLabel => 'Beta password';
 
   @override

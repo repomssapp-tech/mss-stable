@@ -6,7 +6,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
+import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/screens/notifications_screen.dart';
+import 'package:frontend/services/account/sign_in_progress.dart';
 import 'package:frontend/screens/regular_mode/home/home_updates_section.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_theme.dart';
@@ -94,6 +96,79 @@ void main() {
       await tester.tap(find.text(l.viewAll));
       await tester.pumpAndSettle();
       expect(find.byType(NotificationsScreen), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+  }
+
+  for (final reduced in [false, true]) {
+    testWidgets('nav bar droplet slides between tabs (system animations '
+        '${reduced ? 'off' : 'on'})', (tester) async {
+      final idx = ValueNotifier<int>(0);
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.light,
+          builder: (context, child) => MediaQuery(
+            data: MediaQuery.of(context).copyWith(disableAnimations: reduced),
+            child: child!,
+          ),
+          home: Scaffold(
+            bottomNavigationBar: ValueListenableBuilder<int>(
+              valueListenable: idx,
+              builder: (_, i, __) => AppBottomNavBar(
+                selectedIndex: i,
+                onSelected: (v) => idx.value = v,
+                labels: const ['a', 'b', 'c', 'd', 'e'],
+              ),
+            ),
+          ),
+        ),
+      );
+      double dropletX() => tester
+          .getTopLeft(
+            find
+                .ancestor(
+                  of: find.descendant(
+                    of: find.byType(AppBottomNavBar),
+                    matching: find.byType(IgnorePointer),
+                  ),
+                  matching: find.byType(Positioned),
+                )
+                .first,
+          )
+          .dx;
+      final start = dropletX();
+      idx.value = 3;
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 60));
+      final mid = dropletX();
+      await tester.pumpAndSettle();
+      final end = dropletX();
+      expect(mid, greaterThan(start));
+      expect(mid, lessThan(end));
+    });
+  }
+
+  for (final code in ['en', 'hi', 'ta']) {
+    testWidgets('login shows a loading overlay while the sign-in finishes '
+        '($code)', (tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.625;
+      addTearDown(tester.view.reset);
+      addTearDown(SignInProgress.instance.resetForTest);
+      await tester.pumpWidget(_app(const LoginScreen(), locale: Locale(code)));
+      await tester.pump(const Duration(milliseconds: 300));
+      final l = await AppLocalizations.delegate.load(Locale(code));
+      expect(find.text(l.loginCompletingSignIn), findsNothing);
+
+      SignInProgress.instance.completing();
+      await tester.pump();
+      expect(find.text(l.loginCompletingSignIn), findsOneWidget);
+      // The Google button underneath is in its loading state, not tappable.
+      expect(find.text(l.loginOpeningGoogle), findsOneWidget);
+
+      SignInProgress.instance.finish();
+      await tester.pump();
+      expect(find.text(l.loginCompletingSignIn), findsNothing);
       expect(tester.takeException(), isNull);
     });
   }

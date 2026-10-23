@@ -766,6 +766,12 @@ abstract class AppLocalizations {
   /// **'Opening Google…'**
   String get loginOpeningGoogle;
 
+  /// No description provided for @loginCompletingSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Signing you in…'**
+  String get loginCompletingSignIn;
+
   /// No description provided for @betaGatePasswordLabel.
   ///
   /// In en, this message translates to:

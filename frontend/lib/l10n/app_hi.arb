@@ -111,6 +111,7 @@
   "loginChecklistPrivacy": "गोपनीयता नीति पढ़ें",
   "loginChecklistAgree": "जारी रखने के लिए सहमत हूँ",
   "loginOpeningGoogle": "Google खुल रहा है...",
+  "loginCompletingSignIn": "साइन इन हो रहा है…",
   "betaGatePasswordLabel": "बीटा पासवर्ड",
   "showPassword": "पासवर्ड दिखाए",
   "hidePassword": "पासवर्ड छिपाएं",

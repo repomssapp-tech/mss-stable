@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import '../../providers/app_state_provider.dart';
 import 'auth_service.dart';
 import 'rest_auth_service.dart';
+import 'sign_in_progress.dart';
 
 /// Captures deep links and exchanges incoming authorization codes for REST sessions.
 class DeepLinkService {
@@ -51,10 +52,13 @@ class DeepLinkService {
       if (error != null && error.isNotEmpty) {
         debugPrint('[DeepLinkService] OAuth provider returned error: $error');
         await AuthService.clearOAuthPending();
+        SignInProgress.instance.finish();
         return;
       }
 
       if (code != null && code.isNotEmpty) {
+        // The login screen shows a loading overlay until this finishes.
+        SignInProgress.instance.completing();
         debugPrint(
           '[DeepLinkService] Exchanging auth code with REST backend...',
         );
@@ -67,6 +71,8 @@ class DeepLinkService {
           );
         } catch (e) {
           debugPrint('[DeepLinkService] Code exchange failed: $e');
+        } finally {
+          SignInProgress.instance.finish();
         }
       }
     }
