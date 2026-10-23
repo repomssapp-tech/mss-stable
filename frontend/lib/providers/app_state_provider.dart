@@ -23,7 +23,6 @@ import '../services/account/session_cache_service.dart';
 import '../services/catalog/centralized_translator.dart';
 import '../services/catalog/language_pack_manager.dart';
 import '../screens/splash_screen.dart';
-import '../widgets/common/app_toast.dart';
 import 'app_state_seed_data.dart';
 import 'controllers/language_reconciler.dart';
 import 'controllers/library_controller.dart';
@@ -768,34 +767,37 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     );
   }
 
-  Future<void> deleteAccount(BuildContext context) async {
-    debugPrint('[AppProvider] deleteAccount initiated...');
+  /// Step 1 of deleting the account: the server deletes it and then confirms
+  /// that it no longer knows it. Nothing on this phone is touched, so a refusal
+  /// (offline, session too old, rate limit) leaves the account exactly as it
+  /// was and the user can try again.
+  Future<AccountDeletionOutcome> requestAccountDeletion({
+    VoidCallback? onVerifying,
+  }) async {
+    debugPrint('[AppProvider] requestAccountDeletion...');
+    if (!(_isLoggedIn && AppSession.instance.isSignedIn)) {
+      return AccountDeletionOutcome.reauthRequired;
+    }
+    _isLoggingOut = true;
+    notifyListeners();
+    try {
+      return await AccountApiService.instance.deleteAndVerify(
+        onVerifying: onVerifying,
+      );
+    } finally {
+      _isLoggingOut = false;
+      notifyListeners();
+    }
+  }
+
+  /// Step 2, after the server confirmed the deletion: forget the account on
+  /// this phone.
+  Future<void> completeAccountDeletion() async {
+    debugPrint('[AppProvider] completeAccountDeletion...');
     _isLoggingOut = true;
     notifyListeners();
 
-    // Account deletion must be confirmed by the server. Do not clear local
-    // state after an offline failure: that would falsely claim success.
-    if (_isLoggedIn && AppSession.instance.isSignedIn) {
-      try {
-        await AccountApiService.instance.deleteAccount();
-        debugPrint('[AppProvider] Account deleted on the server.');
-      } catch (e) {
-        debugPrint('[AppProvider] Error deleting account: $e');
-        _isLoggingOut = false;
-        notifyListeners();
-        if (context.mounted) {
-          AppToast.showWarning(
-            context,
-            CentralizedTranslator.instance.localize(
-              AccountApiService.deletionRefusalMessage(e),
-            ),
-          );
-        }
-        return;
-      }
-    }
-
-    // 2. Perform local state cleanup and await async operations
+    // Local state cleanup (the account is already gone on the server).
     _isLoggedIn = false;
     _mobileNumber = '';
     _selectedLanguage = 'en';
@@ -814,16 +816,12 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     } catch (e) {
       debugPrint('[AppProvider] Error during AuthService.signOut(): $e');
     }
+    // Whatever the call above did, no token may stay on this phone.
+    await TokenStorage.instance.clearTokens();
 
     _isLoggingOut = false;
     notifyListeners();
-
-    // 3. Navigate after all cleanup is fully complete
-    if (!context.mounted) return;
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => const SplashScreen()),
-      (route) => false,
-    );
+    // The deleting screen then shows its result and moves to the login screen.
   }
 
   void updateTabIndex(int index, {bool addToHistory = true}) {

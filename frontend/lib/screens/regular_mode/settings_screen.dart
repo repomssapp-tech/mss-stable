@@ -20,6 +20,7 @@ import '../../utils/app_version.dart';
 import '../../services/app_info_service.dart';
 import '../../services/haptics/haptics_service.dart';
 import 'settings/active_sessions_dialog.dart';
+import 'settings/delete_account_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -39,7 +40,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
       message: context.l10n.deleteAccountMsg,
       confirmLabel: context.l10n.deleteButton,
       confirmColor: AppConstants.errorColor,
-      onConfirm: () => provider.deleteAccount(context),
+      onConfirm: () => Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          fullscreenDialog: true,
+          builder: (_) => const DeleteAccountScreen(),
+        ),
+      ),
       isDestructive: true,
     );
   }

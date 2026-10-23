@@ -5564,4 +5564,54 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get verificationStatusNotIndependentlyVerified =>
       'स्वतंत्र रूप से सत्यापित नहीं';
+
+  @override
+  String get deleteAccountScreenTitle => 'आपका खाता हटाया जा रहा है';
+
+  @override
+  String get deleteAccountStepRemoving => 'खाता हटाया जा रहा है';
+
+  @override
+  String get deleteAccountStepVerifying => 'जाँच की जा रही है कि खाता हट गया';
+
+  @override
+  String get deleteAccountStepClearing => 'इस फ़ोन से डेटा साफ़ किया जा रहा है';
+
+  @override
+  String get deleteAccountDone => 'आपका खाता हटा दिया गया';
+
+  @override
+  String get deleteAccountFailedTitle => 'आपका खाता नहीं हटा';
+
+  @override
+  String get deleteAccountRetry => 'फिर कोशिश करें';
+
+  @override
+  String get deleteAccountBack => 'सेटिंग्स पर लौटें';
+
+  @override
+  String get deleteAccountSignOutAgain => 'साइन आउट करके फिर साइन इन करें';
+
+  @override
+  String get deleteAccountKeepOpen => 'कृपया ऐप खुला रखें।';
+
+  @override
+  String get deleteAccountErrReauth =>
+      'सुरक्षा के लिए, फिर से साइन इन करें और 5 मिनट के भीतर अपना खाता हटाएँ। कुछ भी नहीं बदला गया।';
+
+  @override
+  String get deleteAccountErrRateLimited =>
+      'बहुत अधिक प्रयास हुए। एक मिनट रुककर फिर कोशिश करें। कुछ भी नहीं बदला गया।';
+
+  @override
+  String get deleteAccountErrUnavailable =>
+      'खाता हटाना अभी अस्थायी रूप से उपलब्ध नहीं है। बाद में फिर कोशिश करें। कुछ भी नहीं बदला गया।';
+
+  @override
+  String get deleteAccountErrOffline =>
+      'खाता हटाने के लिए इंटरनेट कनेक्शन चाहिए। कुछ भी नहीं बदला गया।';
+
+  @override
+  String get deleteAccountErrNotVerified =>
+      'सर्वर पर आपका खाता अब भी दिख रहा है। फिर कोशिश करें; बार-बार हो तो सहायता से संपर्क करें।';
 }

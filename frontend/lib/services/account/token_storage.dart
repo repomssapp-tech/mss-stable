@@ -71,6 +71,14 @@ class TokenStorage {
   SharedPreferences? _prefs;
   final SecretStore _secrets;
 
+  /// Bumped by every [clear]. A token refresh remembers the value it started
+  /// under; if it changed by the time the answer arrives, the user signed out
+  /// meanwhile and the new tokens are dropped instead of saved. Without this,
+  /// a refresh in flight at logout wrote a fresh session back, and the app was
+  /// still signed in after a restart.
+  int get signOutEpoch => _signOutEpoch;
+  int _signOutEpoch = 0;
+
   final StreamController<void> _changes = StreamController<void>.broadcast(
     sync: true,
   );
@@ -217,24 +225,52 @@ class TokenStorage {
   }
 
   /// Clears all token credentials and cached server user identity.
+  ///
+  /// Every entry is removed on its own: one that fails to delete (a Keystore
+  /// error, say) no longer stops the others from being removed, and the token
+  /// itself is blanked if it cannot be deleted, so the next start finds no
+  /// session either way.
   Future<void> clear() async {
+    _signOutEpoch++;
+    SharedPreferences? prefs;
     try {
-      final prefs = await _getPrefs();
-      await _secrets.delete(_kAccessToken);
-      await _secrets.delete(_kRefreshToken);
-      await _secrets.delete(_kUserEmail);
-      await _secrets.delete(_kPkceVerifier);
-      // Legacy plain-text copies from app <= 1.3.0.
-      await prefs.remove(_kAccessToken);
-      await prefs.remove(_kRefreshToken);
-      await prefs.remove(_kTokenType);
-      await prefs.remove(_kExpiresAt);
-      await prefs.remove(_kUserId);
-      await prefs.remove(_kUserEmail);
-      await prefs.remove(_kUserName);
-      await prefs.remove(_kUserPicture);
+      prefs = await _getPrefs();
     } catch (e) {
-      debugPrint('[TokenStorage] Error clearing tokens: $e');
+      debugPrint('[TokenStorage] Preferences unavailable while clearing: $e');
+    }
+    for (final key in [
+      _kAccessToken,
+      _kRefreshToken,
+      _kUserEmail,
+      _kPkceVerifier,
+    ]) {
+      try {
+        await _secrets.delete(key);
+      } catch (e) {
+        debugPrint('[TokenStorage] Could not delete $key, blanking it: $e');
+        try {
+          await _secrets.write(key, '');
+        } catch (_) {}
+      }
+    }
+    if (prefs != null) {
+      // Plain-text copies from app <= 1.3.0, and the cached user identity.
+      for (final key in [
+        _kAccessToken,
+        _kRefreshToken,
+        _kTokenType,
+        _kExpiresAt,
+        _kUserId,
+        _kUserEmail,
+        _kUserName,
+        _kUserPicture,
+      ]) {
+        try {
+          await prefs.remove(key);
+        } catch (e) {
+          debugPrint('[TokenStorage] Could not remove $key: $e');
+        }
+      }
     }
     _notify();
   }
