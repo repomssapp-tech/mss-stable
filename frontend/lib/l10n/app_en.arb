@@ -1750,5 +1750,12 @@
   "deleteAccountErrRateLimited": "Too many attempts. Wait a minute and try again. Nothing was changed.",
   "deleteAccountErrUnavailable": "Account deletion is temporarily unavailable. Try again later. Nothing was changed.",
   "deleteAccountErrOffline": "Account deletion needs an internet connection. Nothing was changed.",
-  "deleteAccountErrNotVerified": "The server still shows your account. Try again; if it keeps happening, contact support."
+  "deleteAccountErrNotVerified": "The server still shows your account. Try again; if it keeps happening, contact support.",
+  "updateAvailableTitle": "Update available",
+  "updateAvailableMessage": "MSS version {version} is ready. Download it to get the latest fixes and schemes.",
+  "updateActionUpdate": "Update",
+  "updateActionLater": "Later",
+  "updateOpenFailed": "Couldn't open the download page. Try again later.",
+  "settingsCheckUpdates": "Check for updates",
+  "settingsInstalledVersion": "Installed: {version}"
 }

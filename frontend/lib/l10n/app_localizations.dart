@@ -10354,6 +10354,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The server still shows your account. Try again; if it keeps happening, contact support.'**
   String get deleteAccountErrNotVerified;
+
+  /// No description provided for @updateAvailableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update available'**
+  String get updateAvailableTitle;
+
+  /// No description provided for @updateAvailableMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'MSS version {version} is ready. Download it to get the latest fixes and schemes.'**
+  String updateAvailableMessage(Object version);
+
+  /// No description provided for @updateActionUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get updateActionUpdate;
+
+  /// No description provided for @updateActionLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get updateActionLater;
+
+  /// No description provided for @updateOpenFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t open the download page. Try again later.'**
+  String get updateOpenFailed;
+
+  /// No description provided for @settingsCheckUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Check for updates'**
+  String get settingsCheckUpdates;
+
+  /// No description provided for @settingsInstalledVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Installed: {version}'**
+  String settingsInstalledVersion(Object version);
 }
 
 class _AppLocalizationsDelegate

@@ -5630,4 +5630,30 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get deleteAccountErrNotVerified =>
       'The server still shows your account. Try again; if it keeps happening, contact support.';
+
+  @override
+  String get updateAvailableTitle => 'Update available';
+
+  @override
+  String updateAvailableMessage(Object version) {
+    return 'MSS version $version is ready. Download it to get the latest fixes and schemes.';
+  }
+
+  @override
+  String get updateActionUpdate => 'Update';
+
+  @override
+  String get updateActionLater => 'Later';
+
+  @override
+  String get updateOpenFailed =>
+      'Couldn\'t open the download page. Try again later.';
+
+  @override
+  String get settingsCheckUpdates => 'Check for updates';
+
+  @override
+  String settingsInstalledVersion(Object version) {
+    return 'Installed: $version';
+  }
 }

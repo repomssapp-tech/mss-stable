@@ -5647,4 +5647,30 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get deleteAccountErrNotVerified =>
       'सर्वर पर आपका खाता अब भी दिख रहा है। फिर कोशिश करें; बार-बार हो तो सहायता से संपर्क करें।';
+
+  @override
+  String get updateAvailableTitle => 'अपडेट उपलब्ध है';
+
+  @override
+  String updateAvailableMessage(Object version) {
+    return 'MSS का संस्करण $version तैयार है। नए सुधार और योजनाएँ पाने के लिए इसे डाउनलोड करें।';
+  }
+
+  @override
+  String get updateActionUpdate => 'अपडेट करें';
+
+  @override
+  String get updateActionLater => 'बाद में';
+
+  @override
+  String get updateOpenFailed =>
+      'डाउनलोड पेज नहीं खुल सका। बाद में फिर कोशिश करें।';
+
+  @override
+  String get settingsCheckUpdates => 'अपडेट जाँचें';
+
+  @override
+  String settingsInstalledVersion(Object version) {
+    return 'इंस्टॉल किया गया: $version';
+  }
 }
