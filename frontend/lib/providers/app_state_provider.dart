@@ -73,7 +73,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
          catalogSyncService: catalogSyncService,
        ) {
     WidgetsBinding.instance.addObserver(this);
-    _tabs.addListener(notifyListeners);
+    // _tabs is deliberately not forwarded: a tab tap would rebuild every
+    // screen that listens to AppProvider (all five tabs stay mounted). The
+    // shell listens to [tabChanges] instead.
     _library.addListener(notifyListeners);
     _searchFilter.addListener(notifyListeners);
     _notifications.addListener(notifyListeners);
@@ -279,6 +281,10 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   String get selectedLanguage => _selectedLanguage;
   String get navigationMode => _navigationMode;
   int get currentTabIndex => _tabs.currentTabIndex;
+
+  /// Notifies on [updateTabIndex] / [popTabIndex]. Those do not notify
+  /// AppProvider listeners.
+  Listenable get tabChanges => _tabs;
   UserProfile get profile => _profile;
 
   /// Returns the effective profile photo URL or local file path.

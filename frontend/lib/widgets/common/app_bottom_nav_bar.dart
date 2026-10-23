@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
@@ -335,25 +334,27 @@ class _GlassPill extends StatelessWidget {
           ),
         ],
       ),
+      // No BackdropFilter: the tint let only 5-12% of the blurred content
+      // through, yet the blur re-rendered and blurred everything behind the
+      // bar on every frame of every screen (the largest raster cost in the
+      // app). The tint is now opaque, matching its look over the light
+      // background.
       child: ClipRRect(
         borderRadius: AppRadius.pillAll,
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              borderRadius: AppRadius.pillAll,
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  AppColors.surface.withValues(alpha: 0.95),
-                  AppColors.primarySoft.withValues(alpha: 0.88),
-                ],
-              ),
-              border: Border.all(color: AppColors.surface, width: 1.2),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: AppRadius.pillAll,
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                AppColors.surface,
+                Color.lerp(AppColors.surface, AppColors.primarySoft, 0.88)!,
+              ],
             ),
-            child: child,
+            border: Border.all(color: AppColors.surface, width: 1.2),
           ),
+          child: child,
         ),
       ),
     );

@@ -8,15 +8,16 @@ import '../../services/account/session_cache_service.dart';
 /// plus the SharedPreferences persistence for the index.
 ///
 /// Extracted from `AppProvider` (frontend refactor C1.4) and used behind the
-/// `AppProvider` facade: `AppProvider` forwards this controller's
-/// `notifyListeners`, so every existing consumer keeps calling
-/// `context.select((AppProvider p) => p.currentTabIndex)` unchanged.
+/// `AppProvider` facade. `AppProvider` does NOT forward this controller's
+/// notifications: all five tabs stay mounted and listen to `AppProvider`, so a
+/// forwarded tab tap rebuilt every one of them. Follow tab switches through
+/// `AppProvider.tabChanges` (the shell does).
 ///
-/// `updateTabIndex` / `popTabIndex` notify (as they did on `AppProvider`). The
+/// `updateTabIndex` / `popTabIndex` notify this controller's listeners. The
 /// reset/hydrate helpers are deliberately silent: their call sites
 /// (`_loadState`, `logout`, `deleteAccount`, the auth `signedOut` branch) each
-/// already emit an `AppProvider` notification immediately afterwards, so the
-/// observable notify topology is identical to the pre-split code.
+/// emit an `AppProvider` notification immediately afterwards, which the shell
+/// also selects `currentTabIndex` from.
 class TabNavigationController extends ChangeNotifier {
   // Bottom Navigation: 0 Home · 1 Search · 2 Categories · 3 Saved Schemes · 4 Profile
   int _currentTabIndex = 0;
