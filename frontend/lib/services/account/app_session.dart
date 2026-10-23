@@ -51,11 +51,12 @@ class AppSession {
 
   Future<void> _reload({bool announce = true}) async {
     final storage = _storage ?? TokenStorage.instance;
-    final wasSignedIn = isSignedIn;
+    var hasTokens = false;
+    AuthUser? user;
     try {
-      _hasTokens = await storage.hasSession();
-      final stored = _hasTokens ? await storage.getUser() : null;
-      _user = stored == null
+      hasTokens = await storage.hasSession();
+      final stored = hasTokens ? await storage.getUser() : null;
+      user = stored == null
           ? null
           : AuthUser(
               id: stored.id,
@@ -65,9 +66,14 @@ class AppSession {
             );
     } catch (e) {
       debugPrint('[AppSession] reload failed: $e');
-      _hasTokens = false;
-      _user = null;
+      hasTokens = false;
+      user = null;
     }
+    // Compare and assign with no await in between: two reloads that overlap
+    // used to both see "was signed out" and announce the same sign-in twice.
+    final wasSignedIn = isSignedIn;
+    _hasTokens = hasTokens;
+    _user = user;
     if (!announce) return;
     if (isSignedIn && !wasSignedIn) {
       _events.add(AuthChange.signedIn);

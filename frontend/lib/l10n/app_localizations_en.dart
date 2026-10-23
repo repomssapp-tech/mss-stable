@@ -5546,4 +5546,54 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get verificationStatusNotIndependentlyVerified =>
       'Not independently verified';
+
+  @override
+  String get deleteAccountScreenTitle => 'Deleting your account';
+
+  @override
+  String get deleteAccountStepRemoving => 'Removing your account';
+
+  @override
+  String get deleteAccountStepVerifying => 'Checking that it is gone';
+
+  @override
+  String get deleteAccountStepClearing => 'Clearing this phone';
+
+  @override
+  String get deleteAccountDone => 'Your account was deleted';
+
+  @override
+  String get deleteAccountFailedTitle => 'Your account was not deleted';
+
+  @override
+  String get deleteAccountRetry => 'Try again';
+
+  @override
+  String get deleteAccountBack => 'Back to settings';
+
+  @override
+  String get deleteAccountSignOutAgain => 'Sign out and sign in again';
+
+  @override
+  String get deleteAccountKeepOpen => 'Please keep the app open.';
+
+  @override
+  String get deleteAccountErrReauth =>
+      'For your security, sign in again and then delete your account within 5 minutes. Nothing was changed.';
+
+  @override
+  String get deleteAccountErrRateLimited =>
+      'Too many attempts. Wait a minute and try again. Nothing was changed.';
+
+  @override
+  String get deleteAccountErrUnavailable =>
+      'Account deletion is temporarily unavailable. Try again later. Nothing was changed.';
+
+  @override
+  String get deleteAccountErrOffline =>
+      'Account deletion needs an internet connection. Nothing was changed.';
+
+  @override
+  String get deleteAccountErrNotVerified =>
+      'The server still shows your account. Try again; if it keeps happening, contact support.';
 }

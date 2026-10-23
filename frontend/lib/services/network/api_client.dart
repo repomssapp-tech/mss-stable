@@ -305,6 +305,9 @@ class ApiClient {
 
   /// Calls POST /v1/auth/refresh and updates TokenStorage atomically.
   Future<String?> _executeTokenRefresh() async {
+    // The user signing out while this request is in flight must win: the
+    // rotated tokens are then thrown away, not written back.
+    final epoch = _tokenStorage.signOutEpoch;
     try {
       final refreshToken = await _tokenStorage.getRefreshToken();
       if (refreshToken == null || refreshToken.isEmpty) {
@@ -329,6 +332,10 @@ class ApiClient {
         final expiresIn = (data['expires_in'] as num?)?.toInt();
         final tokenType = data['token_type']?.toString() ?? 'Bearer';
 
+        if (_tokenStorage.signOutEpoch != epoch) {
+          debugPrint('[ApiClient] Signed out during refresh; dropping tokens.');
+          return null;
+        }
         if (newAccess != null && newRefresh != null) {
           await _tokenStorage.saveTokens(
             accessToken: newAccess,

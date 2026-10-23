@@ -5641,4 +5641,56 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get verificationStatusNotIndependentlyVerified =>
       'சுயாதீனமாகச் சரிபார்க்கப்படவில்லை';
+
+  @override
+  String get deleteAccountScreenTitle => 'உங்கள் கணக்கு நீக்கப்படுகிறது';
+
+  @override
+  String get deleteAccountStepRemoving => 'கணக்கு நீக்கப்படுகிறது';
+
+  @override
+  String get deleteAccountStepVerifying =>
+      'நீக்கப்பட்டதா எனச் சரிபார்க்கப்படுகிறது';
+
+  @override
+  String get deleteAccountStepClearing =>
+      'இந்தத் தொலைபேசியில் தரவு அழிக்கப்படுகிறது';
+
+  @override
+  String get deleteAccountDone => 'உங்கள் கணக்கு நீக்கப்பட்டது';
+
+  @override
+  String get deleteAccountFailedTitle => 'உங்கள் கணக்கு நீக்கப்படவில்லை';
+
+  @override
+  String get deleteAccountRetry => 'மீண்டும் முயலவும்';
+
+  @override
+  String get deleteAccountBack => 'அமைப்புகளுக்குத் திரும்பு';
+
+  @override
+  String get deleteAccountSignOutAgain => 'வெளியேறி மீண்டும் உள்நுழையவும்';
+
+  @override
+  String get deleteAccountKeepOpen => 'செயலியைத் திறந்தே வைத்திருக்கவும்.';
+
+  @override
+  String get deleteAccountErrReauth =>
+      'பாதுகாப்புக்காக, மீண்டும் உள்நுழைந்து 5 நிமிடங்களுக்குள் உங்கள் கணக்கை நீக்கவும். எதுவும் மாற்றப்படவில்லை.';
+
+  @override
+  String get deleteAccountErrRateLimited =>
+      'அதிக முயற்சிகள். ஒரு நிமிடம் காத்திருந்து மீண்டும் முயலவும். எதுவும் மாற்றப்படவில்லை.';
+
+  @override
+  String get deleteAccountErrUnavailable =>
+      'கணக்கு நீக்கம் தற்போது கிடைக்கவில்லை. பிறகு மீண்டும் முயலவும். எதுவும் மாற்றப்படவில்லை.';
+
+  @override
+  String get deleteAccountErrOffline =>
+      'கணக்கை நீக்க இணைய இணைப்பு தேவை. எதுவும் மாற்றப்படவில்லை.';
+
+  @override
+  String get deleteAccountErrNotVerified =>
+      'சேவையகத்தில் உங்கள் கணக்கு இன்னும் தெரிகிறது. மீண்டும் முயலவும்; தொடர்ந்தால் ஆதரவைத் தொடர்பு கொள்ளவும்.';
 }

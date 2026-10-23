@@ -1696,5 +1696,20 @@
   "homeTourNext": "அடுத்து",
   "homeTourFinish": "முடி",
   "verificationStatusVerified": "சரிபார்க்கப்பட்டது",
-  "verificationStatusNotIndependentlyVerified": "சுயாதீனமாகச் சரிபார்க்கப்படவில்லை"
+  "verificationStatusNotIndependentlyVerified": "சுயாதீனமாகச் சரிபார்க்கப்படவில்லை",
+  "deleteAccountScreenTitle": "உங்கள் கணக்கு நீக்கப்படுகிறது",
+  "deleteAccountStepRemoving": "கணக்கு நீக்கப்படுகிறது",
+  "deleteAccountStepVerifying": "நீக்கப்பட்டதா எனச் சரிபார்க்கப்படுகிறது",
+  "deleteAccountStepClearing": "இந்தத் தொலைபேசியில் தரவு அழிக்கப்படுகிறது",
+  "deleteAccountDone": "உங்கள் கணக்கு நீக்கப்பட்டது",
+  "deleteAccountFailedTitle": "உங்கள் கணக்கு நீக்கப்படவில்லை",
+  "deleteAccountRetry": "மீண்டும் முயலவும்",
+  "deleteAccountBack": "அமைப்புகளுக்குத் திரும்பு",
+  "deleteAccountSignOutAgain": "வெளியேறி மீண்டும் உள்நுழையவும்",
+  "deleteAccountKeepOpen": "செயலியைத் திறந்தே வைத்திருக்கவும்.",
+  "deleteAccountErrReauth": "பாதுகாப்புக்காக, மீண்டும் உள்நுழைந்து 5 நிமிடங்களுக்குள் உங்கள் கணக்கை நீக்கவும். எதுவும் மாற்றப்படவில்லை.",
+  "deleteAccountErrRateLimited": "அதிக முயற்சிகள். ஒரு நிமிடம் காத்திருந்து மீண்டும் முயலவும். எதுவும் மாற்றப்படவில்லை.",
+  "deleteAccountErrUnavailable": "கணக்கு நீக்கம் தற்போது கிடைக்கவில்லை. பிறகு மீண்டும் முயலவும். எதுவும் மாற்றப்படவில்லை.",
+  "deleteAccountErrOffline": "கணக்கை நீக்க இணைய இணைப்பு தேவை. எதுவும் மாற்றப்படவில்லை.",
+  "deleteAccountErrNotVerified": "சேவையகத்தில் உங்கள் கணக்கு இன்னும் தெரிகிறது. மீண்டும் முயலவும்; தொடர்ந்தால் ஆதரவைத் தொடர்பு கொள்ளவும்."
 }
