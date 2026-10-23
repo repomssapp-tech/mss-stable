@@ -248,31 +248,45 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: AppColors.textPrimary.withValues(alpha: 0.35),
                       ),
                       Center(
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: AppColors.surface,
-                            borderRadius: AppRadius.lgAll,
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            minWidth: 160,
+                            maxWidth: 340,
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: AppSpacing.xl,
-                              vertical: AppSpacing.lg,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: AppColors.surface,
+                              borderRadius: AppRadius.lgAll,
+                              boxShadow: AppShadows.card,
                             ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const SizedBox.square(
-                                  dimension: 22,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2.5,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: AppSpacing.lg,
+                                vertical: AppSpacing.xl,
+                              ),
+                              // Spinner over the text, both centred: the
+                              // message never shares a row with the spinner,
+                              // so it stays on one line (or wraps between
+                              // words, centred) in every language.
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const SizedBox.square(
+                                    dimension: 28,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 3,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(width: AppSpacing.md),
-                                Text(
-                                  context.l10n.loginCompletingSignIn,
-                                  style: context.text.body,
-                                ),
-                              ],
+                                  const SizedBox(height: AppSpacing.md),
+                                  Text(
+                                    context.l10n.loginCompletingSignIn,
+                                    textAlign: TextAlign.center,
+                                    style: context.text.body.copyWith(
+                                      color: AppColors.textPrimary,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),

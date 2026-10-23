@@ -2,6 +2,7 @@
 // widths (no overflow, active tab in the brand primary colour), and the Home
 // "View all" button opening the full inbox.
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/l10n/app_localizations.dart';
@@ -13,6 +14,7 @@ import 'package:frontend/screens/regular_mode/home/home_updates_section.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_theme.dart';
 import 'package:frontend/widgets/common/app_bottom_nav_bar.dart';
+import 'package:frontend/widgets/common/custom_confirm_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -43,6 +45,19 @@ Widget _bar(BuildContext context) {
       labels: [l.navHome, l.navSearch, l.navDiscover, l.navSaved, l.navProfile],
     ),
   );
+}
+
+/// How many lines the one Text found by [finder] is laid out on: its height
+/// over the height of the same text on a single line.
+int _lineCount(WidgetTester tester, Finder finder) {
+  final paragraph = tester.renderObject<RenderParagraph>(finder);
+  final single = TextPainter(
+    text: paragraph.text,
+    textDirection: paragraph.textDirection,
+    textScaler: paragraph.textScaler,
+    maxLines: 1,
+  )..layout();
+  return (paragraph.size.height / single.height).round();
 }
 
 void main() {
@@ -163,6 +178,15 @@ void main() {
       SignInProgress.instance.completing();
       await tester.pump();
       expect(find.text(l.loginCompletingSignIn), findsOneWidget);
+      // The message is on one line, and centred under the spinner.
+      expect(_lineCount(tester, find.text(l.loginCompletingSignIn)), 1);
+      expect(
+        tester.getCenter(find.text(l.loginCompletingSignIn)).dx,
+        closeTo(
+          tester.getCenter(find.byType(CircularProgressIndicator).last).dx,
+          1,
+        ),
+      );
       // The Google button underneath is in its loading state, not tappable.
       expect(find.text(l.loginOpeningGoogle), findsOneWidget);
 
@@ -171,5 +195,55 @@ void main() {
       expect(find.text(l.loginCompletingSignIn), findsNothing);
       expect(tester.takeException(), isNull);
     });
+  }
+
+  for (final code in ['en', 'hi', 'ta']) {
+    for (final width in [320.0, 360.0]) {
+      for (final scale in [1.0, 1.3]) {
+        testWidgets('Log out dialog: labels stay on one line ($code, '
+            '${width}dp, x$scale)', (tester) async {
+          tester.view.physicalSize = Size(width * 2, 1600);
+          tester.view.devicePixelRatio = 2.0;
+          tester.platformDispatcher.textScaleFactorTestValue = scale;
+          addTearDown(tester.view.reset);
+          addTearDown(tester.platformDispatcher.clearAllTestValues);
+          late AppLocalizations l;
+          await tester.pumpWidget(
+            _app(
+              Builder(
+                builder: (context) {
+                  l = AppLocalizations.of(context)!;
+                  return Scaffold(
+                    body: Center(
+                      child: ElevatedButton(
+                        onPressed: () => CustomConfirmDialog.show(
+                          context,
+                          icon: Icons.logout_rounded,
+                          iconColor: AppColors.danger,
+                          iconBgColor: AppColors.dangerSoft,
+                          title: l.confirmLogoutTitle,
+                          message: l.confirmLogoutMsg,
+                          confirmLabel: l.logoutButton,
+                          confirmColor: AppColors.danger,
+                          onConfirm: () {},
+                          isDestructive: true,
+                        ),
+                        child: const Text('open'),
+                      ),
+                    ),
+                  );
+                },
+              ),
+              locale: Locale(code),
+            ),
+          );
+          await tester.tap(find.text('open'));
+          await tester.pumpAndSettle();
+          expect(_lineCount(tester, find.text(l.logoutButton).last), 1);
+          expect(_lineCount(tester, find.text(l.dialogCancel)), 1);
+          expect(tester.takeException(), isNull);
+        });
+      }
+    }
   }
 }

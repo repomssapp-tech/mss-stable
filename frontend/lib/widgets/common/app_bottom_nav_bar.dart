@@ -12,7 +12,7 @@ import '../../utils/app_text.dart';
 import 'app_tappable.dart';
 
 /// Side margin of the floating bar.
-const double kNavBarSideMargin = AppSpacing.lg;
+const double kNavBarSideMargin = AppSpacing.md;
 
 /// Space between the pill's edge and the first/last tab.
 const double kNavBarInnerPad = AppSpacing.xs;
@@ -409,7 +409,8 @@ class _Droplet extends StatelessWidget {
       (MediaQuery.sizeOf(context).width -
           (kNavBarSideMargin + kNavBarInnerPad) * 2) /
       labels.length;
-  final usable = slot - AppSpacing.sm * 2;
+  // The droplet is wider than the slot, so a label may use nearly all of it.
+  final usable = slot - AppSpacing.xs * 2;
   final fit = usable / widest;
   return (
     scale: fit.clamp(kMinNavLabelScale, 1.15),
