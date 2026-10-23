@@ -244,6 +244,49 @@ def inject_entity_content(ent: dict, entity_type: str, eid: str, content_map: di
             search[key] = current
 
 
+def build_release_metadata(
+    *,
+    release_tag: str,
+    schema_version: str,
+    released_at: str,
+    out_dir: Path,
+    core: dict,
+    packs: list[dict],
+    entity_count: int,
+    search_index_count: int,
+    record_counts: dict,
+    per_file_sha256: dict,
+) -> dict:
+    """The release.json payload for a built core + packs in [out_dir].
+
+    Size fields describe the files on disk: `bundleBytes` is the download size
+    (core + packs) and `uncompressedBytes` what that expands to once decompressed,
+    which GET /v1/catalog/releases/:tag publishes so clients can bound inflation.
+    `bundleSha256` is the core's hash; the core manifest vouches for each pack.
+    """
+    return {
+        "releaseId": str(uuid.uuid4()),
+        "releaseTag": release_tag,
+        "schemaVersion": schema_version,
+        "releasedAt": released_at,
+        "bundleFormat": BUNDLE_FORMAT,
+        "bundleAsset": f"assets/catalog/{core['file']}",
+        "bundleBytes": core["bytes"] + sum(p["bytes"] for p in packs),
+        "bundleSha256": core["sha256"],
+        "uncompressedBytes": catalog_packs.total_uncompressed_bytes(out_dir),
+        "packs": [
+            {k: p[k] for k in ("id", "file", "jurisdiction", "tenantId", "required", "bytes", "sha256")}
+            for p in packs
+        ],
+        "entityCount": entity_count,
+        "searchIndexCount": search_index_count,
+        "activeLanguages": list(ACTIVE_LANGUAGES),
+        "recordCounts": record_counts,
+        "perFileSha256": per_file_sha256,
+        "languagePacks": {},  # language text lives inside each entity's `localization`
+    }
+
+
 def build_release(
     source_dir: Path,
     out_dir: Path,
@@ -460,32 +503,23 @@ def build_release(
         stale.unlink()
     packs = catalog_packs.split(bundle, out_dir, jurisdiction_languages)
     core = catalog_packs.write_core(bundle, out_dir, packs)
-    pack_bytes = sum(p["bytes"] for p in packs)
 
     search_index_count = sum(p["recordCounts"]["search_index.json"] for p in packs) + len(
         bundle.get("search_index.json", {}).get("data", [])
     )
 
-    release = {
-        "releaseId": str(uuid.uuid4()),
-        "releaseTag": release_tag,
-        "schemaVersion": schema_version,
-        "releasedAt": released_at,
-        "bundleFormat": BUNDLE_FORMAT,
-        "bundleAsset": f"assets/catalog/{core['file']}",
-        "bundleBytes": core["bytes"] + pack_bytes,
-        "bundleSha256": core["sha256"],
-        "packs": [
-            {k: p[k] for k in ("id", "file", "jurisdiction", "tenantId", "required", "bytes", "sha256")}
-            for p in packs
-        ],
-        "entityCount": entity_count,
-        "searchIndexCount": search_index_count,
-        "activeLanguages": list(ACTIVE_LANGUAGES),
-        "recordCounts": record_counts,
-        "perFileSha256": per_file_sha256,
-        "languagePacks": {},  # language text lives inside each entity's `localization`
-    }
+    release = build_release_metadata(
+        release_tag=release_tag,
+        schema_version=schema_version,
+        released_at=released_at,
+        out_dir=out_dir,
+        core=core,
+        packs=packs,
+        entity_count=entity_count,
+        search_index_count=search_index_count,
+        record_counts=record_counts,
+        per_file_sha256=per_file_sha256,
+    )
 
     release_path = out_dir / "release.json"
     save_json(release_path, release)
