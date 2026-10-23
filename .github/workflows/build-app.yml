@@ -55,17 +55,53 @@ defaults:
     working-directory: frontend
 
 jobs:
+  # analyze + test, the APK and the web bundle run as three parallel jobs
+  # (they used to run one after another: ~10 min of tests, then ~13 min of
+  # APK). The final "promotable" job needs all three, so a release is still
+  # only promotable when analyze and test pass.
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ vars.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Resolve dependencies
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Test
+        run: flutter test
+
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     environment: ${{ github.event.inputs.dry_run == 'false' && 'production' || '' }}
+    outputs:
+      version: ${{ steps.version.outputs.name }}
+      signed: ${{ steps.signing.outputs.signed }}
     steps:
       - uses: actions/checkout@v4
 
+      # Caches ~/.gradle (dependencies, wrapper, and the build cache that
+      # org.gradle.caching=true fills), keyed on the Gradle files, so the APK
+      # build no longer downloads every Android dependency on each run.
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17" # matches android/app/build.gradle.kts JavaVersion.VERSION_17
+          cache: gradle
+          cache-dependency-path: |
+            frontend/android/*.gradle*
+            frontend/android/app/*.gradle*
+            frontend/android/gradle/wrapper/gradle-wrapper.properties
 
       - uses: subosito/flutter-action@v2
         with:
@@ -112,12 +148,6 @@ jobs:
             '{API_BASE_URL: $url}' > dart_defines.json
           echo "present=true" >> "$GITHUB_OUTPUT"
 
-      - name: Analyze
-        run: flutter analyze
-
-      - name: Test
-        run: flutter test
-
       - name: Configure release signing
         id: signing
         env:
@@ -154,10 +184,6 @@ jobs:
         if: ${{ steps.dart_defines.outputs.present == 'true' && steps.signing.outputs.signed != 'true' }}
         run: flutter build apk --debug --dart-define-from-file=dart_defines.json
 
-      - name: Build web bundle
-        if: ${{ steps.dart_defines.outputs.present == 'true' }}
-        run: flutter build web --release --dart-define-from-file=dart_defines.json
-
       - name: Remove build secrets
         if: ${{ always() }}
         run: rm -f android/key.properties android/app/upload-keystore.jks dart_defines.json
@@ -180,8 +206,37 @@ jobs:
           if-no-files-found: error
           retention-days: 90
 
+
+  web:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ vars.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Resolve dependencies
+        run: flutter pub get
+
+      - name: Materialise dart_defines.json
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+        run: |
+          set -euo pipefail
+          jq -n --arg url "${API_BASE_URL:-https://mssapi.msmeschemes.org}"             '{API_BASE_URL: $url}' > dart_defines.json
+
+      - name: Build web bundle
+        run: flutter build web --release --dart-define-from-file=dart_defines.json
+
+      - name: Remove build config
+        if: ${{ always() }}
+        run: rm -f dart_defines.json
+
       - name: Upload web bundle
-        if: ${{ steps.dart_defines.outputs.present == 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: app-web-${{ github.sha }}
@@ -189,12 +244,14 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+  promotable:
+    needs: [verify, build, web]
+    runs-on: ubuntu-latest
+    steps:
       - name: Promotable?
         run: |
-          if [ "${{ steps.dart_defines.outputs.present }}" != "true" ]; then
-            echo "Not promotable: no build configuration was materialised (analyze + test only)."
-          elif [ "${{ github.event.inputs.dry_run }}" = "false" ] && [ "${{ steps.signing.outputs.signed }}" = "true" ]; then
-            echo "Signed release build — artifact app-apk-${{ steps.version.outputs.name }}-${{ github.sha }} is promotable."
+          if [ "${{ github.event.inputs.dry_run }}" = "false" ] && [ "${{ needs.build.outputs.signed }}" = "true" ]; then
+            echo "Signed release build — artifact app-apk-${{ needs.build.outputs.version }}-${{ github.sha }} is promotable."
           else
-            echo "Not promotable: dry_run=${{ github.event.inputs.dry_run }}, signed=${{ steps.signing.outputs.signed }}."
+            echo "Not promotable: dry_run=${{ github.event.inputs.dry_run }}, signed=${{ needs.build.outputs.signed }}."
           fi
