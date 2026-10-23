@@ -11,6 +11,23 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [1.4.6+14] - 2026-10-23
+
+### Added
+- Home Featured shows the schemes you match best and the newest schemes for your state, full width, changing every 4 seconds.
+- Tip of the Day has 10 tips and shows the next one each time you open the app.
+- Recommended For You cards show the scheme summary and a faint state or national emblem.
+- The bottom bar is liquid glass: the active tab's icon and label sit in a glass droplet. Slide a finger along the bar to move between tabs.
+
+### Changed
+- The language and notification buttons on Home are solid blue, so they stand out from the background picture. The search bar sits a little lower.
+- The "What would you like to do today?" cards have centred icons and evenly aligned labels.
+- Notifications the app shows use the MSS logo on a white background, with a blue status-bar icon.
+
+### Fixed
+- Saved and Recently viewed cards no longer run to the screen edges.
+- The strip behind the bottom bar matches the page colour.
+
 ## [1.4.5+13] - 2026-10-23
 
 ### Fixed

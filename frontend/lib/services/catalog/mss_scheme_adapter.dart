@@ -119,6 +119,7 @@ class MssSchemeAdapter {
           (SchemeAdapterTextUtils.textOrNull(metadata['sourceNotes'])) ?? '',
       lastUpdated:
           (SchemeAdapterTextUtils.textOrNull(metadata['updatedAt'])) ?? '',
+      addedOn: (SchemeAdapterTextUtils.textOrNull(metadata['createdAt'])) ?? '',
       searchKeywords: searchKeywords,
       status: header.statusStr,
       isActive: header.isActive,

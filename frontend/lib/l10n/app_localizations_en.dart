@@ -5447,4 +5447,51 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get settingsHapticsSubtitle =>
       'Vibrate lightly on taps and when a notification arrives';
+
+  @override
+  String get homeFeaturedBestForYou => 'Best for you';
+
+  @override
+  String get homeFeaturedNewlyAdded => 'Newly added';
+
+  @override
+  String homeFeaturedAddedOn(String date) {
+    return 'Added $date';
+  }
+
+  @override
+  String get homeTip2 =>
+      'Udyam registration is free. Most MSME schemes ask for your Udyam number.';
+
+  @override
+  String get homeTip3 =>
+      'Keep your Aadhaar, PAN and bank details ready before you start an application.';
+
+  @override
+  String get homeTip4 =>
+      'Under CGTMSE, micro and small enterprises can get loans without collateral.';
+
+  @override
+  String get homeTip5 =>
+      'Complete your profile to get better scheme matches in MSS.';
+
+  @override
+  String get homeTip6 =>
+      'Check a scheme\'s last date before applying. Some schemes stay open only for a few weeks.';
+
+  @override
+  String get homeTip7 =>
+      'Tap the bookmark on a scheme to keep it in Saved for later.';
+
+  @override
+  String get homeTip8 =>
+      'Buyers paying late? MSME Samadhaan lets micro and small enterprises file a delayed-payment case online.';
+
+  @override
+  String get homeTip9 =>
+      'DPIIT-recognised startups can apply to the Startup India Seed Fund Scheme.';
+
+  @override
+  String get homeTip10 =>
+      'Apply only through the official scheme link. Never pay an agent for a free government service.';
 }

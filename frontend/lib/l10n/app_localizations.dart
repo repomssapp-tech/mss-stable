@@ -10048,6 +10048,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Vibrate lightly on taps and when a notification arrives'**
   String get settingsHapticsSubtitle;
+
+  /// No description provided for @homeFeaturedBestForYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Best for you'**
+  String get homeFeaturedBestForYou;
+
+  /// No description provided for @homeFeaturedNewlyAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Newly added'**
+  String get homeFeaturedNewlyAdded;
+
+  /// No description provided for @homeFeaturedAddedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Added {date}'**
+  String homeFeaturedAddedOn(String date);
+
+  /// No description provided for @homeTip2.
+  ///
+  /// In en, this message translates to:
+  /// **'Udyam registration is free. Most MSME schemes ask for your Udyam number.'**
+  String get homeTip2;
+
+  /// No description provided for @homeTip3.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your Aadhaar, PAN and bank details ready before you start an application.'**
+  String get homeTip3;
+
+  /// No description provided for @homeTip4.
+  ///
+  /// In en, this message translates to:
+  /// **'Under CGTMSE, micro and small enterprises can get loans without collateral.'**
+  String get homeTip4;
+
+  /// No description provided for @homeTip5.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete your profile to get better scheme matches in MSS.'**
+  String get homeTip5;
+
+  /// No description provided for @homeTip6.
+  ///
+  /// In en, this message translates to:
+  /// **'Check a scheme\'s last date before applying. Some schemes stay open only for a few weeks.'**
+  String get homeTip6;
+
+  /// No description provided for @homeTip7.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the bookmark on a scheme to keep it in Saved for later.'**
+  String get homeTip7;
+
+  /// No description provided for @homeTip8.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyers paying late? MSME Samadhaan lets micro and small enterprises file a delayed-payment case online.'**
+  String get homeTip8;
+
+  /// No description provided for @homeTip9.
+  ///
+  /// In en, this message translates to:
+  /// **'DPIIT-recognised startups can apply to the Startup India Seed Fund Scheme.'**
+  String get homeTip9;
+
+  /// No description provided for @homeTip10.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply only through the official scheme link. Never pay an agent for a free government service.'**
+  String get homeTip10;
 }
 
 class _AppLocalizationsDelegate

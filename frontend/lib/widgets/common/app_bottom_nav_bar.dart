@@ -1,10 +1,15 @@
+import 'dart:math' as math;
 import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
 
+import '../../services/haptics/haptics_service.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_radius.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/app_text.dart';
+import 'app_tappable.dart';
 
 /// Side margin of the floating bar.
 const double kNavBarSideMargin = AppSpacing.lg;
@@ -15,21 +20,38 @@ const double kNavBarInnerPad = AppSpacing.xs;
 /// Gap between the floating bar and the system gesture area.
 const double kNavBarFloatGap = AppSpacing.sm;
 
-/// The app's five-tab bottom bar: a floating frosted-glass pill. The tab
-/// content shows through it blurred (the shell Scaffold uses `extendBody`),
-/// behind a light, near-white tint; the active tab uses the brand primary
-/// colour and the others a muted grey.
+/// Base bar height before text scaling.
+const double kNavBarBaseHeight = 64;
+
+/// Smallest bottom-nav label scale: 11sp for the 12sp label style, the
+/// smallest Material label size. Below it a label is unreadable, so a label
+/// too long for its slot wraps onto a second line instead of shrinking
+/// further (it used to go down to 0.75x, about 8sp).
+const double kMinNavLabelScale = 11 / 12;
+
+const List<(IconData, IconData)> _icons = [
+  (Icons.home_outlined, Icons.home_rounded),
+  (Icons.search_rounded, Icons.search_rounded),
+  (Icons.explore_outlined, Icons.explore_rounded),
+  (Icons.bookmark_border_rounded, Icons.bookmark_rounded),
+  (Icons.person_outline_rounded, Icons.person_rounded),
+];
+
+/// The app's five-tab bottom bar: a floating liquid-glass pill.
+///
+/// The active tab sits in a glass "droplet" that covers both its icon and its
+/// label, both in the brand primary colour. Tapping a tab slides the droplet
+/// there on a spring; dragging a finger along the bar carries the droplet
+/// under the finger (it stretches between tabs like a drop of water and
+/// rounds up again over each one), switching tabs as it passes them, and
+/// settles on the nearest tab when the finger lifts.
 ///
 /// Labels sit under five equal slots, so the bar follows the system font size
 /// only up to a point; its height tracks the (capped) scale so larger fonts get
-/// a taller bar, not labels broken mid-word.
-///
-/// The text-scale override below is built from the context INSIDE the
-/// Scaffold's bottom slot. Building it from a context above the Scaffold would
-/// copy the status-bar padding back into the bar, and [NavigationBar]'s
-/// SafeArea would add it on top: ~50dp of empty white above the icons. The
-/// bar sits above the gesture inset itself, so its own SafeArea gets none.
-class AppBottomNavBar extends StatelessWidget {
+/// a taller bar, not labels broken mid-word. The bar is built from the context
+/// INSIDE the Scaffold's bottom slot (never above it), so the status-bar
+/// padding can never inflate it.
+class AppBottomNavBar extends StatefulWidget {
   const AppBottomNavBar({
     super.key,
     required this.selectedIndex,
@@ -43,145 +65,133 @@ class AppBottomNavBar extends StatelessWidget {
   /// Home, Search, Discover, Saved, Profile -- already localised.
   final List<String> labels;
 
-  static NavigationBarThemeData _glassTheme(BuildContext context) {
-    final base = NavigationBarTheme.of(context);
-    final label = base.labelTextStyle?.resolve(const {}) ?? const TextStyle();
-    return base.copyWith(
-      backgroundColor: Colors.transparent,
-      surfaceTintColor: Colors.transparent,
-      elevation: 0,
-      indicatorColor: AppColors.primary.withValues(alpha: 0.12),
-      labelTextStyle: WidgetStateProperty.resolveWith(
-        (states) => label.copyWith(
-          color: states.contains(WidgetState.selected)
-              ? AppColors.primary
-              : AppColors.textSecondary,
-          fontWeight: states.contains(WidgetState.selected)
-              ? FontWeight.w700
-              : FontWeight.w500,
-        ),
-      ),
-      iconTheme: WidgetStateProperty.resolveWith(
-        (states) => IconThemeData(
-          color: states.contains(WidgetState.selected)
-              ? AppColors.primary
-              : AppColors.textSecondary,
-        ),
-      ),
+  @override
+  State<AppBottomNavBar> createState() => _AppBottomNavBarState();
+}
+
+class _AppBottomNavBarState extends State<AppBottomNavBar>
+    with SingleTickerProviderStateMixin {
+  // Droplet position in slot units: 0 = first tab ... 4 = last tab.
+  late final AnimationController _pos = AnimationController.unbounded(
+    vsync: this,
+    value: widget.selectedIndex.toDouble(),
+  );
+  static const SpringDescription _spring = SpringDescription(
+    mass: 1,
+    stiffness: 420,
+    damping: 26,
+  );
+
+  bool _dragging = false;
+  int _reported = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _reported = widget.selectedIndex;
+  }
+
+  @override
+  void didUpdateWidget(AppBottomNavBar old) {
+    super.didUpdateWidget(old);
+    if (!_dragging && widget.selectedIndex != old.selectedIndex) {
+      _reported = widget.selectedIndex;
+      _settleOn(widget.selectedIndex);
+    }
+  }
+
+  @override
+  void dispose() {
+    _pos.dispose();
+    super.dispose();
+  }
+
+  void _settleOn(int index, {double velocity = 0}) {
+    if (MediaQuery.maybeDisableAnimationsOf(context) ?? false) {
+      _pos.value = index.toDouble();
+      return;
+    }
+    _pos.animateWith(
+      SpringSimulation(_spring, _pos.value, index.toDouble(), velocity),
     );
   }
+
+  /// Reports [index] once when the droplet reaches a new tab during a drag.
+  void _select(int index) {
+    if (index == _reported) return;
+    _reported = index;
+    HapticsService.instance.tap();
+    widget.onSelected(index);
+  }
+
+  void _onTap(int index) {
+    _reported = index;
+    _settleOn(index);
+    widget.onSelected(index);
+  }
+
+  double _slotAt(double dx, double slotWidth) =>
+      ((dx - kNavBarInnerPad) / slotWidth - 0.5).clamp(0.0, 4.0);
 
   @override
   Widget build(BuildContext context) {
     final bottomInset = MediaQuery.paddingOf(context).bottom;
-    return Padding(
-      padding: EdgeInsets.only(
-        left: kNavBarSideMargin,
-        right: kNavBarSideMargin,
-        bottom: bottomInset + kNavBarFloatGap,
-      ),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: AppRadius.pillAll,
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.textPrimary.withValues(alpha: 0.12),
-              blurRadius: 24,
-              offset: const Offset(0, 8),
-            ),
-          ],
+    final fit = _navLabelFit(context, widget.labels);
+    final scaler = MediaQuery.textScalerOf(
+      context,
+    ).clamp(minScaleFactor: kMinNavLabelScale, maxScaleFactor: fit.scale);
+    final height =
+        scaler.scale(kNavBarBaseHeight) + (fit.wraps ? fit.lineHeight : 0);
+
+    return ColoredBox(
+      // Same colour as the tab screens, so no lighter or bluer band shows
+      // around the floating pill.
+      color: AppColors.background,
+      child: Padding(
+        padding: EdgeInsets.only(
+          left: kNavBarSideMargin,
+          right: kNavBarSideMargin,
+          bottom: bottomInset + kNavBarFloatGap,
         ),
-        child: ClipRRect(
-          borderRadius: AppRadius.pillAll,
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                borderRadius: AppRadius.pillAll,
-                color: AppColors.surface.withValues(alpha: 0.78),
-                border: Border.all(
-                  color: AppColors.textOnPrimary.withValues(alpha: 0.7),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: kNavBarInnerPad,
-                ),
-                child: MediaQuery.removePadding(
-                  context: context,
-                  removeBottom: true,
-                  child: Builder(
-                    builder: (slotContext) {
-                      final fit = _navLabelFit(slotContext, labels);
-                      return MediaQuery(
-                        data: MediaQuery.of(slotContext).copyWith(
-                          textScaler: MediaQuery.textScalerOf(slotContext)
-                              .clamp(
-                                minScaleFactor: kMinNavLabelScale,
-                                maxScaleFactor: fit.scale,
-                              ),
-                        ),
-                        child: NavigationBarTheme(
-                          data: _glassTheme(slotContext),
-                          child: Builder(
-                            builder: (navContext) => NavigationBar(
-                              // One more label line when a label has to wrap.
-                              height:
-                                  MediaQuery.textScalerOf(navContext).scale(
-                                    NavigationBarTheme.of(navContext).height ??
-                                        64,
-                                  ) +
-                                  (fit.wraps ? fit.lineHeight : 0),
-                              selectedIndex: selectedIndex,
-                              onDestinationSelected: onSelected,
-                              destinations: [
-                                NavigationDestination(
-                                  icon: const Icon(Icons.home_outlined),
-                                  selectedIcon: const Icon(Icons.home_rounded),
-                                  label: labels[0],
-                                ),
-                                NavigationDestination(
-                                  // Same glyph selected/unselected: the pill
-                                  // indicator carries the selected state.
-                                  icon: const Icon(Icons.search_rounded),
-                                  selectedIcon: const Icon(
-                                    Icons.search_rounded,
-                                  ),
-                                  label: labels[1],
-                                ),
-                                NavigationDestination(
-                                  icon: const Icon(Icons.explore_outlined),
-                                  selectedIcon: const Icon(
-                                    Icons.explore_rounded,
-                                  ),
-                                  label: labels[2],
-                                ),
-                                NavigationDestination(
-                                  icon: const Icon(
-                                    Icons.bookmark_border_rounded,
-                                  ),
-                                  selectedIcon: const Icon(
-                                    Icons.bookmark_rounded,
-                                  ),
-                                  label: labels[3],
-                                ),
-                                NavigationDestination(
-                                  icon: const Icon(
-                                    Icons.person_outline_rounded,
-                                  ),
-                                  selectedIcon: const Icon(
-                                    Icons.person_rounded,
-                                  ),
-                                  label: labels[4],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+        child: MediaQuery(
+          data: MediaQuery.of(context).copyWith(textScaler: scaler),
+          child: ConstrainedBox(
+            constraints: BoxConstraints.tightFor(height: height),
+            child: _GlassPill(
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final slotWidth =
+                      (constraints.maxWidth - kNavBarInnerPad * 2) / 5;
+                  return GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onHorizontalDragStart: (d) {
+                      _dragging = true;
+                      _pos.stop();
+                      _pos.value = _slotAt(d.localPosition.dx, slotWidth);
+                    },
+                    onHorizontalDragUpdate: (d) {
+                      _pos.value = _slotAt(d.localPosition.dx, slotWidth);
+                      _select(_pos.value.round());
+                    },
+                    onHorizontalDragEnd: (d) {
+                      _dragging = false;
+                      final index = _pos.value.round();
+                      _select(index);
+                      _settleOn(
+                        index,
+                        velocity: d.velocity.pixelsPerSecond.dx / slotWidth,
                       );
                     },
-                  ),
-                ),
+                    onHorizontalDragCancel: () {
+                      _dragging = false;
+                      _settleOn(widget.selectedIndex);
+                    },
+                    child: AnimatedBuilder(
+                      animation: _pos,
+                      builder: (context, _) => _buildSlots(slotWidth, height),
+                    ),
+                  );
+                },
               ),
             ),
           ),
@@ -189,13 +199,180 @@ class AppBottomNavBar extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildSlots(double slotWidth, double height) {
+    final pos = _pos.value.clamp(-0.3, 4.3);
+    final active = pos.round().clamp(0, 4);
+    // 0 over a tab, 1 halfway between two: the droplet stretches sideways
+    // and flattens a little while it travels, then rounds up again.
+    final travel = math.sin(math.pi * (pos - pos.floorToDouble()));
+    final dropWidth = (slotWidth - AppSpacing.xs) * (1 + 0.32 * travel);
+    final dropHeight = (height - AppSpacing.sm * 2) * (1 - 0.1 * travel);
+    final centerX = kNavBarInnerPad + slotWidth * (pos + 0.5);
+
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Positioned(
+          left: centerX - dropWidth / 2,
+          top: (height - dropHeight) / 2,
+          width: dropWidth,
+          height: dropHeight,
+          child: const IgnorePointer(child: _Droplet()),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kNavBarInnerPad),
+          child: Row(
+            children: [
+              for (var i = 0; i < 5; i++)
+                Expanded(
+                  child: AppNavBarItem(
+                    label: widget.labels[i],
+                    icon: _icons[i].$1,
+                    selectedIcon: _icons[i].$2,
+                    selected: i == active,
+                    onTap: () => _onTap(i),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
 }
 
-/// Smallest bottom-nav label scale: 11sp for the 12sp label style, the
-/// smallest Material label size. Below it a label is unreadable, so a label
-/// too long for its slot wraps onto a second line instead of shrinking
-/// further (it used to go down to 0.75x, about 8sp).
-const double kMinNavLabelScale = 11 / 12;
+/// One tab of [AppBottomNavBar]: icon over label, announced as a selectable
+/// tab.
+class AppNavBarItem extends StatelessWidget {
+  const AppNavBarItem({
+    super.key,
+    required this.label,
+    required this.icon,
+    required this.selectedIcon,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final IconData icon;
+  final IconData selectedIcon;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = selected ? AppColors.primary : AppColors.textSecondary;
+    return AppTappable(
+      onTap: onTap,
+      semanticLabel: label,
+      selected: selected,
+      borderRadius: AppRadius.pillAll,
+      // The droplet behind it already shows the tab; the slot fills the bar.
+      child: ExcludeSemantics(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(selected ? selectedIcon : icon, color: color, size: 24),
+            const SizedBox(height: AppSpacing.xs),
+            Text(
+              label,
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              style: context.text.label.copyWith(
+                color: color,
+                fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                height: 1.15,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// The bar's glass body: blurred backdrop, a bright top-lit tint, a hairline
+/// white rim and a soft drop shadow.
+class _GlassPill extends StatelessWidget {
+  const _GlassPill({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: AppRadius.pillAll,
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primaryDeep.withValues(alpha: 0.10),
+            blurRadius: 28,
+            offset: const Offset(0, 10),
+          ),
+          BoxShadow(
+            color: AppColors.textPrimary.withValues(alpha: 0.06),
+            blurRadius: 6,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: AppRadius.pillAll,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: AppRadius.pillAll,
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  AppColors.surface.withValues(alpha: 0.92),
+                  AppColors.primarySoft.withValues(alpha: 0.72),
+                ],
+              ),
+              border: Border.all(color: AppColors.surface, width: 1.2),
+            ),
+            child: child,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The glass droplet behind the active tab: a primary-tinted lens with a
+/// bright highlight along its top edge.
+class _Droplet extends StatelessWidget {
+  const _Droplet();
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: AppRadius.pillAll,
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            AppColors.surface.withValues(alpha: 0.85),
+            AppColors.primary.withValues(alpha: 0.16),
+          ],
+        ),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.22)),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withValues(alpha: 0.18),
+            blurRadius: 14,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 /// Largest text scale (at most 1.15) at which every bottom-nav label still
 /// fits on one line in its slot, measured from the actual labels (any
@@ -205,10 +382,7 @@ const double kMinNavLabelScale = 11 / 12;
   BuildContext context,
   List<String> labels,
 ) {
-  final style =
-      NavigationBarTheme.of(context).labelTextStyle?.resolve(const {}) ??
-      Theme.of(context).textTheme.labelMedium ??
-      const TextStyle();
+  final style = context.text.label.copyWith(fontWeight: FontWeight.w700);
   final lineHeight =
       (style.fontSize ?? 12) * (style.height ?? 1.4) * kMinNavLabelScale;
   var widest = 0.0;

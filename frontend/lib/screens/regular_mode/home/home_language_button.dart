@@ -109,14 +109,14 @@ class _HomeLanguageButtonState extends State<HomeLanguageButton> {
           height: 40,
           alignment: Alignment.center,
           decoration: const BoxDecoration(
-            color: AppColors.surface,
+            color: AppColors.primary,
             shape: BoxShape.circle,
           ),
           child: const ExcludeSemantics(
             child: Icon(
               Icons.translate_rounded,
               size: AppSize.iconLg,
-              color: AppColors.textPrimary,
+              color: AppColors.textOnPrimary,
             ),
           ),
         ),

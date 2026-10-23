@@ -401,7 +401,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
 
   Widget _buildManageListBanner() {
     return Container(
-      margin: const EdgeInsets.all(AppSpacing.lg),
+      margin: const EdgeInsets.only(top: AppSpacing.sm),
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.lg,
@@ -646,6 +646,14 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                     )
                   : ListView.builder(
                       physics: const ClampingScrollPhysics(),
+                      // Same 16dp inset as the title and the tab bar, in both
+                      // tabs (the cards used to run edge to edge).
+                      padding: const EdgeInsets.fromLTRB(
+                        AppSpacing.lg,
+                        AppSpacing.md,
+                        AppSpacing.lg,
+                        AppSpacing.lg,
+                      ),
                       itemCount: displaySchemes.length + 1,
                       itemBuilder: (context, index) {
                         if (index == displaySchemes.length) {

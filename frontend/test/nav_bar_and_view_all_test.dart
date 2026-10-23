@@ -62,10 +62,10 @@ void main() {
           );
           await tester.pumpAndSettle();
           expect(tester.takeException(), isNull);
-          final bar = tester.getRect(find.byType(NavigationBar));
+          final bar = tester.getRect(find.byType(AppBottomNavBar));
           expect(bar.left, greaterThanOrEqualTo(0));
           expect(bar.right, lessThanOrEqualTo(width));
-          expect(find.byType(NavigationDestination), findsNWidgets(5));
+          expect(find.byType(AppNavBarItem), findsNWidgets(5));
         });
       }
     }

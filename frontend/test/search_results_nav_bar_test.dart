@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:frontend/widgets/common/app_bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -57,7 +58,7 @@ void main() {
     tester,
   ) async {
     await openResults(tester);
-    expect(find.byType(NavigationBar), findsOneWidget);
+    expect(find.byType(AppBottomNavBar), findsOneWidget);
   });
 
   testWidgets('choosing a tab returns to the shell on that tab', (
@@ -68,7 +69,7 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 600));
     expect(provider.currentTabIndex, 3);
-    expect(find.byType(NavigationBar), findsNothing);
+    expect(find.byType(AppBottomNavBar), findsNothing);
     expect(find.text('open results'), findsOneWidget);
   });
 }

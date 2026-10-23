@@ -119,4 +119,35 @@ void main() {
     }
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('sliding a finger along the bar switches tabs on the way', (
+    tester,
+  ) async {
+    final picked = <int>[];
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light,
+        home: Scaffold(
+          body: const SizedBox.expand(),
+          bottomNavigationBar: AppBottomNavBar(
+            selectedIndex: 0,
+            onSelected: picked.add,
+            labels: labels,
+          ),
+        ),
+      ),
+    );
+    final home = tester.getCenter(find.text('Home'));
+    final profile = tester.getCenter(find.text('Profile'));
+    final gesture = await tester.startGesture(home);
+    for (var i = 1; i <= 10; i++) {
+      await gesture.moveTo(Offset.lerp(home, profile, i / 10)!);
+      await tester.pump(const Duration(milliseconds: 16));
+    }
+    await gesture.up();
+    await tester.pumpAndSettle();
+    // Each tab passed under the finger is selected in order, ending on Profile.
+    expect(picked, [1, 2, 3, 4]);
+    expect(tester.takeException(), isNull);
+  });
 }

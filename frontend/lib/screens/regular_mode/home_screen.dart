@@ -7,15 +7,16 @@ import '../../providers/app_state_provider.dart';
 import '../../utils/app_spacing.dart';
 import '../login_screen.dart';
 import '../notifications_screen.dart';
+import 'home/home_featured_section.dart';
 import 'home/home_header_section.dart';
 import 'home/home_journey_section.dart';
 import 'home/home_msme_support_section.dart';
 import 'home/home_profile_completion_card.dart';
-import 'home/home_promo_carousel_section.dart';
 import 'home/home_recommended_section.dart';
 import 'home/home_updates_section.dart';
 import 'sarvam_chat_screen.dart';
 
+export 'home/home_featured_section.dart';
 export 'home/home_header_section.dart';
 export 'home/home_journey_section.dart';
 export 'home/home_msme_support_section.dart';
@@ -177,8 +178,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     const SizedBox(height: AppSpacing.xl),
 
-                    // Carousel Cards (Alerts, New Scheme, AI Recommendation)
-                    const HomePromoCarouselSection(),
+                    // Featured: best matches and newest schemes for the user,
+                    // falling back to the promo cards.
+                    const HomeFeaturedSection(),
 
                     const SizedBox(height: AppSpacing.xxl),
 

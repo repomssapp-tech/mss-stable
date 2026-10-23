@@ -20,9 +20,8 @@ class HomePromoCarouselSection extends StatefulWidget {
 }
 
 class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
-  final PageController _carouselPageController = PageController(
-    viewportFraction: 0.88,
-  );
+  // Full width: one card fills the content area (no peeking neighbours).
+  final PageController _carouselPageController = PageController();
   int _activeCarouselIndex = 0;
   Timer? _carouselTimer;
 
@@ -230,10 +229,7 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
         onTap: onTap,
         borderRadius: BorderRadius.circular(16),
         child: Container(
-          margin: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.tight,
-            vertical: AppSpacing.xs,
-          ),
+          margin: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.lg,
             vertical: AppSpacing.lg,
@@ -401,7 +397,7 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
 
               return Center(
                 child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.88,
+                  width: double.infinity,
                   child: _buildCarouselCard(
                     bgGradient: LinearGradient(colors: gradientColors),
                     borderColor: _parseHexColor(
