@@ -1714,5 +1714,7 @@
   "@homeTourProgress": {"placeholders": {"current": {"type": "int"}, "total": {"type": "int"}}},
   "homeTourSkip": "Skip",
   "homeTourNext": "Next",
-  "homeTourFinish": "Finish"
+  "homeTourFinish": "Finish",
+  "verificationStatusVerified": "Verified",
+  "verificationStatusNotIndependentlyVerified": "Not independently verified"
 }

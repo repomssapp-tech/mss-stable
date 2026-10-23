@@ -5539,4 +5539,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeTourFinish => 'Finish';
+
+  @override
+  String get verificationStatusVerified => 'Verified';
+
+  @override
+  String get verificationStatusNotIndependentlyVerified =>
+      'Not independently verified';
 }

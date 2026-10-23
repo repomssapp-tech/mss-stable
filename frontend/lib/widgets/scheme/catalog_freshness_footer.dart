@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/l10n.dart';
 import '../../services/catalog/mss_catalog_bundle.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/app_text.dart';
 
 /// 2.7 (audit_fix.md): a subtle indicator of catalog data currency, so a
 /// user can tell "no match" apart from "this device's local catalog is
@@ -32,7 +32,7 @@ class CatalogFreshnessFooter extends StatelessWidget {
             : null;
         final l10n = context.l10n;
         final label = dateText != null
-            ? l10n.catalogFreshnessLabelUpdated(bundle.releaseTag, dateText)
+            ? l10n.catalogFreshnessLabelUpdated(dateText, bundle.releaseTag)
             : l10n.catalogFreshnessLabel(bundle.releaseTag);
 
         return Padding(
@@ -40,7 +40,7 @@ class CatalogFreshnessFooter extends StatelessWidget {
           child: Center(
             child: Text(
               label,
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 11,
                 color: const Color(0xFF94A3B8),
               ),

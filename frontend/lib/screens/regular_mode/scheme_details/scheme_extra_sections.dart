@@ -114,9 +114,11 @@ class _Line extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // The label column is wide enough for a whole word in every language
+          // (the Tamil word for "phone" used to break mid-word in a narrow one).
           if (label != null)
-            Flexible(
-              flex: 2,
+            ConstrainedBox(
+              constraints: const BoxConstraints(minWidth: 96, maxWidth: 140),
               child: Text(
                 label!,
                 style: text.label.copyWith(color: AppColors.textSecondary),

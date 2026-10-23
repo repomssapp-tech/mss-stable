@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../l10n/l10n.dart';
 import '../../../models/localized_scheme.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 
 /// Card presenting key scheme metadata pills (government level, state, sector, target).
 class SchemeHighlightsCard extends StatelessWidget {
@@ -47,7 +47,7 @@ class SchemeHighlightsCard extends StatelessWidget {
                 child: Text(
                   context.l10n.schemeAtAGlance,
                   softWrap: true,
-                  style: GoogleFonts.poppins(
+                  style: AppGoogleFonts.poppins(
                     fontSize: 13.0,
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF0F172A),
@@ -84,7 +84,7 @@ class SchemeHighlightsCard extends StatelessWidget {
                     Flexible(
                       child: Text(
                         match,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           color: const Color(0xFF2563EB),
                           fontSize: 10.5,
                           fontWeight: FontWeight.w600,
@@ -141,10 +141,10 @@ class SchemeOfficialSourceCard extends StatelessWidget {
                 Text(
                   scheme.verificationStatus.isEmpty
                       ? context.l10n.officialInformation
-                      : scheme.verificationStatus,
+                      : _verificationText(context, scheme.verificationStatus),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     color: const Color(0xFF0F172A),
                     fontWeight: FontWeight.w700,
                     fontSize: 11.0,
@@ -155,7 +155,7 @@ class SchemeOfficialSourceCard extends StatelessWidget {
                     context.l10n.lastUpdatedFormat(
                       _formatUpdated(context, scheme.lastUpdated),
                     ),
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       color: const Color(0xFF64748B),
                       fontSize: 9.5,
                     ),
@@ -185,4 +185,23 @@ String _formatUpdated(BuildContext context, String raw) {
   if (months.length != 12) return raw;
   final local = d.toLocal();
   return '${local.day} ${months[local.month - 1]} ${local.year}';
+}
+
+/// A readable form of a catalog verification status. The catalog stores codes
+/// such as `NOT_INDEPENDENTLY_VERIFIED`; those are shown in the user's language
+/// (or, for a code with no translation, as plain lower-case words).
+String _verificationText(BuildContext context, String raw) {
+  final l10n = context.l10n;
+  final code = raw.trim();
+  switch (code.toUpperCase()) {
+    case 'VERIFIED':
+      return l10n.verificationStatusVerified;
+    case 'NOT_INDEPENDENTLY_VERIFIED':
+      return l10n.verificationStatusNotIndependentlyVerified;
+  }
+  if (RegExp(r'^[A-Z0-9_ ]+$').hasMatch(code) && code.contains('_')) {
+    final words = code.toLowerCase().replaceAll('_', ' ');
+    return words[0].toUpperCase() + words.substring(1);
+  }
+  return code;
 }

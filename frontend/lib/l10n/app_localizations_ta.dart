@@ -5634,4 +5634,11 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get homeTourFinish => 'முடி';
+
+  @override
+  String get verificationStatusVerified => 'சரிபார்க்கப்பட்டது';
+
+  @override
+  String get verificationStatusNotIndependentlyVerified =>
+      'சுயாதீனமாகச் சரிபார்க்கப்படவில்லை';
 }

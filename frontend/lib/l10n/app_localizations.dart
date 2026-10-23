@@ -10198,6 +10198,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Finish'**
   String get homeTourFinish;
+
+  /// No description provided for @verificationStatusVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified'**
+  String get verificationStatusVerified;
+
+  /// No description provided for @verificationStatusNotIndependentlyVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'Not independently verified'**
+  String get verificationStatusNotIndependentlyVerified;
 }
 
 class _AppLocalizationsDelegate
