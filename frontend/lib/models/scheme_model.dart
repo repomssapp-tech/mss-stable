@@ -219,6 +219,11 @@ class Scheme {
   final String verificationStatus;
   final String verificationNotes;
   final String lastUpdated;
+
+  /// When the scheme was added to the catalog (`metadata.createdAt`,
+  /// ISO date). Drives the "newly released" slides on Home; empty when the
+  /// record does not say.
+  final String addedOn;
   final String searchKeywords;
   final String status;
   final bool isActive;
@@ -331,6 +336,7 @@ class Scheme {
     this.verificationStatus = '',
     this.verificationNotes = '',
     this.lastUpdated = '',
+    this.addedOn = '',
     this.searchKeywords = '',
     this.status = 'ACTIVE',
     this.isActive = true,
@@ -481,6 +487,7 @@ class Scheme {
       verificationStatus: verificationStatus,
       verificationNotes: verificationNotes,
       lastUpdated: lastUpdated,
+      addedOn: addedOn,
       searchKeywords: searchKeywords,
       status: status ?? this.status,
       isActive: isActive,
@@ -602,6 +609,7 @@ class Scheme {
       verificationStatus: verificationStatus,
       verificationNotes: verificationNotes,
       lastUpdated: lastUpdated,
+      addedOn: addedOn,
       searchKeywords: searchKeywords,
       status: status,
       isActive: isActive,

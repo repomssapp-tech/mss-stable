@@ -5465,4 +5465,51 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get settingsHapticsSubtitle =>
       'टैप करने पर और सूचना आने पर हल्का कंपन';
+
+  @override
+  String get homeFeaturedBestForYou => 'आपके लिए सबसे अच्छी';
+
+  @override
+  String get homeFeaturedNewlyAdded => 'नई जोड़ी गई';
+
+  @override
+  String homeFeaturedAddedOn(String date) {
+    return 'जोड़ी गई $date';
+  }
+
+  @override
+  String get homeTip2 =>
+      'उद्यम पंजीकरण मुफ़्त है। ज़्यादातर MSME योजनाएँ आपका उद्यम नंबर माँगती हैं।';
+
+  @override
+  String get homeTip3 =>
+      'आवेदन शुरू करने से पहले अपना आधार, PAN और बैंक विवरण तैयार रखें।';
+
+  @override
+  String get homeTip4 =>
+      'CGTMSE के तहत सूक्ष्म और लघु उद्यम बिना गारंटी (कोलैटरल) के ऋण पा सकते हैं।';
+
+  @override
+  String get homeTip5 =>
+      'MSS में बेहतर योजना मिलान के लिए अपनी प्रोफ़ाइल पूरी करें।';
+
+  @override
+  String get homeTip6 =>
+      'आवेदन से पहले योजना की अंतिम तिथि देखें। कुछ योजनाएँ कुछ ही हफ़्तों के लिए खुली रहती हैं।';
+
+  @override
+  String get homeTip7 =>
+      'किसी योजना को बाद के लिए सहेजी गई में रखने के लिए बुकमार्क पर टैप करें।';
+
+  @override
+  String get homeTip8 =>
+      'खरीदार देर से भुगतान कर रहे हैं? MSME समाधान पर सूक्ष्म और लघु उद्यम विलंबित भुगतान का मामला ऑनलाइन दर्ज कर सकते हैं।';
+
+  @override
+  String get homeTip9 =>
+      'DPIIT से मान्यता प्राप्त स्टार्टअप स्टार्टअप इंडिया सीड फंड योजना के लिए आवेदन कर सकते हैं।';
+
+  @override
+  String get homeTip10 =>
+      'केवल योजना के आधिकारिक लिंक से आवेदन करें। मुफ़्त सरकारी सेवा के लिए किसी एजेंट को कभी पैसे न दें।';
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../l10n/l10n.dart';
 import '../../../providers/app_state_provider.dart';
 import '../../../utils/app_spacing.dart';
@@ -214,8 +216,62 @@ class HomeLatestUpdatesCard extends StatelessWidget {
   }
 }
 
-class HomeTipOfTheDayCard extends StatelessWidget {
+/// The tips shown on Home, one per app launch, in order (index 0 is the
+/// original single tip).
+List<String> homeTips(AppLocalizations l10n) => [
+  l10n.tipOfTheDayContent,
+  l10n.homeTip2,
+  l10n.homeTip3,
+  l10n.homeTip4,
+  l10n.homeTip5,
+  l10n.homeTip6,
+  l10n.homeTip7,
+  l10n.homeTip8,
+  l10n.homeTip9,
+  l10n.homeTip10,
+];
+
+/// Which tip this app launch shows: read once per launch from local storage
+/// and advanced for the next one, so every time the app is opened the user
+/// sees the next tip.
+class HomeTipRotation {
+  HomeTipRotation._();
+
+  static const String prefKey = 'home_tip_index';
+  static Future<int>? _thisLaunch;
+
+  static Future<int> index(int count) => _thisLaunch ??= () async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final current = (prefs.getInt(prefKey) ?? 0) % count;
+      await prefs.setInt(prefKey, (current + 1) % count);
+      return current;
+    } catch (_) {
+      return 0;
+    }
+  }();
+
+  @visibleForTesting
+  static void resetForTesting() => _thisLaunch = null;
+}
+
+class HomeTipOfTheDayCard extends StatefulWidget {
   const HomeTipOfTheDayCard({super.key});
+
+  @override
+  State<HomeTipOfTheDayCard> createState() => _HomeTipOfTheDayCardState();
+}
+
+class _HomeTipOfTheDayCardState extends State<HomeTipOfTheDayCard> {
+  int _tip = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    HomeTipRotation.index(10).then((i) {
+      if (mounted && i != _tip) setState(() => _tip = i);
+    });
+  }
 
   double _scaledFontSize(BuildContext context, double baseSize) {
     final provider = Provider.of<AppProvider>(context, listen: false);
@@ -288,22 +344,22 @@ class HomeTipOfTheDayCard extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSpacing.tight),
                 Text(
-                  context.l10n.tipOfTheDayContent,
+                  homeTips(context.l10n)[_tip],
                   style: GoogleFonts.inter(
                     fontSize: _scaledFontSize(context, 10.0),
                     color: const Color(0xFF475569),
                     fontWeight: FontWeight.w600,
                     height: _scaledLineHeight(context, 1.3),
                   ),
-                  maxLines: 3,
+                  maxLines: 4,
                   overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
           ),
           const SizedBox(width: AppSpacing.sm),
-          // Reserved right spacer to prevent text from overlapping the built-in image graphic
-          const SizedBox(width: 60),
+          // Keeps the text clear of the bulb-and-note art on the banner's right.
+          const SizedBox(width: 104),
         ],
       ),
     );

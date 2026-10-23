@@ -7,7 +7,10 @@ import '../../../models/localized_scheme.dart';
 import '../../../models/scheme_model.dart';
 import '../../../providers/app_state_provider.dart';
 import '../../../services/catalog/centralized_translator.dart';
+import '../../../utils/app_colors.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
+import '../../../utils/emblem_helper.dart';
 import '../../../utils/responsive.dart';
 import '../basic_profile_screen.dart';
 import '../scheme_details_screen.dart';
@@ -164,136 +167,185 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
                       ),
                     ],
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  clipBehavior: Clip.antiAlias,
+                  child: Stack(
                     children: [
-                      // Match & Bookmark Row
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // Only shown when this item carries a real
-                          // RecommendationResult score -- never fabricated.
-                          if (matchPercentage != null)
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: AppSpacing.sm,
-                                vertical: AppSpacing.xs,
-                              ),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFDCFCE7),
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: FitOneLine(
-                                child: Text(
-                                  context.l10n.matchPercentageFormat(
-                                    matchPercentage,
-                                  ),
-                                  style: GoogleFonts.inter(
-                                    color: const Color(0xFF15803D),
-                                    fontSize: 9.5,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                      // Faint emblem of who runs the scheme: the state's
+                      // emblem, or the national emblem for central schemes.
+                      if (schemeObj != null)
+                        Positioned(
+                          right: -AppSpacing.md,
+                          bottom: -AppSpacing.md,
+                          child: ExcludeSemantics(
+                            child: Opacity(
+                              opacity: 0.08,
+                              child: Image.asset(
+                                EmblemHelper.getEmblemAsset(
+                                  governmentLevel: schemeObj.governmentLevel,
+                                  state: schemeObj.state,
+                                  schemeCode: schemeObj.schemeCode,
+                                  sponsoringBody: schemeObj.sponsoringBody,
+                                  name: schemeObj.name,
                                 ),
+                                width: 120,
+                                height: 120,
+                                cacheWidth: 240,
+                                errorBuilder: (_, _, _) =>
+                                    const SizedBox.shrink(),
                               ),
-                            )
-                          else
-                            const SizedBox.shrink(),
-                          const SizedBox(width: AppSpacing.tight),
-                          GestureDetector(
-                            onTap: () {
-                              // H7: bookmark by `id`, the single canonical
-                              // key everywhere -- `schemeCode` always
-                              // differs from `id` in the real catalog.
-                              final schemeId = item['id'] as String;
-                              appProvider.toggleBookmark(schemeId);
-                            },
-                            child: Icon(
-                              isBookmarked
-                                  ? Icons.bookmark
-                                  : Icons.bookmark_border,
-                              color: isBookmarked
-                                  ? const Color(0xFF2563EB)
-                                  : const Color(0xFF94A3B8),
-                              size: 20,
                             ),
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: AppSpacing.sm),
-                      // Title Row
-                      Row(
+                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  shortForm,
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: const Color(0xFF0F172A),
+                          // Match & Bookmark Row
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              // Only shown when this item carries a real
+                              // RecommendationResult score -- never fabricated.
+                              if (matchPercentage != null)
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: AppSpacing.sm,
+                                    vertical: AppSpacing.xs,
                                   ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                if (fullName.isNotEmpty) ...[
-                                  const SizedBox(height: 1),
-                                  Text(
-                                    "($fullName)",
-                                    style: GoogleFonts.inter(
-                                      fontSize: 10.5,
-                                      fontWeight: FontWeight.w500,
-                                      color: const Color(0xFF64748B),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFDCFCE7),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: FitOneLine(
+                                    child: Text(
+                                      context.l10n.matchPercentageFormat(
+                                        matchPercentage,
+                                      ),
+                                      style: GoogleFonts.inter(
+                                        color: const Color(0xFF15803D),
+                                        fontSize: 9.5,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                ],
-                              ],
+                                )
+                              else
+                                const SizedBox.shrink(),
+                              const SizedBox(width: AppSpacing.tight),
+                              GestureDetector(
+                                onTap: () {
+                                  // H7: bookmark by `id`, the single canonical
+                                  // key everywhere -- `schemeCode` always
+                                  // differs from `id` in the real catalog.
+                                  final schemeId = item['id'] as String;
+                                  appProvider.toggleBookmark(schemeId);
+                                },
+                                child: Icon(
+                                  isBookmarked
+                                      ? Icons.bookmark
+                                      : Icons.bookmark_border,
+                                  color: isBookmarked
+                                      ? const Color(0xFF2563EB)
+                                      : const Color(0xFF94A3B8),
+                                  size: 20,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: AppSpacing.sm),
+                          // Title Row
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      shortForm,
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: const Color(0xFF0F172A),
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    if (fullName.isNotEmpty) ...[
+                                      const SizedBox(height: 1),
+                                      Text(
+                                        "($fullName)",
+                                        style: GoogleFonts.inter(
+                                          fontSize: 10.5,
+                                          fontWeight: FontWeight.w500,
+                                          color: const Color(0xFF64748B),
+                                        ),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          // The scheme's summary fills the middle of the card,
+                          // which used to be empty space.
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                top: AppSpacing.sm,
+                                right: AppSpacing.lg,
+                              ),
+                              child: Text(
+                                item['subtitle'] as String? ?? '',
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                style: context.text.bodySmall.copyWith(
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
                             ),
                           ),
-                        ],
-                      ),
-                      const Spacer(),
-                      // Chips Row
-                      Builder(
-                        builder: (context) {
-                          final rawChipsList = List<String>.from(
-                            item['chips'] as List<String>,
-                          )..sort((a, b) => a.length.compareTo(b.length));
-                          final chipsList = rawChipsList
-                              .map(
-                                (t) => CentralizedTranslator.instance
-                                    .localizeTag(t),
-                              )
-                              .toList();
-                          return Wrap(
-                            spacing: AppSpacing.xs,
-                            runSpacing: AppSpacing.xs,
-                            children: chipsList.map((tag) {
-                              return Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: AppSpacing.tight,
-                                  vertical: AppSpacing.hairline,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFF1F5F9),
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                child: Text(
-                                  tag,
-                                  style: GoogleFonts.inter(
-                                    fontSize: 10,
-                                    color: const Color(0xFF475569),
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
+                          const SizedBox(height: AppSpacing.sm),
+                          // Chips Row
+                          Builder(
+                            builder: (context) {
+                              final rawChipsList = List<String>.from(
+                                item['chips'] as List<String>,
+                              )..sort((a, b) => a.length.compareTo(b.length));
+                              final chipsList = rawChipsList
+                                  .map(
+                                    (t) => CentralizedTranslator.instance
+                                        .localizeTag(t),
+                                  )
+                                  .toList();
+                              return Wrap(
+                                spacing: AppSpacing.xs,
+                                runSpacing: AppSpacing.xs,
+                                children: chipsList.map((tag) {
+                                  return Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: AppSpacing.tight,
+                                      vertical: AppSpacing.hairline,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFF1F5F9),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Text(
+                                      tag,
+                                      style: GoogleFonts.inter(
+                                        fontSize: 10,
+                                        color: const Color(0xFF475569),
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
                               );
-                            }).toList(),
-                          );
-                        },
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ),

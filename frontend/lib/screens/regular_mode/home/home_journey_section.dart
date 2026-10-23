@@ -3,7 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../services/catalog/scheme_repository.dart';
+import '../../../utils/app_colors.dart';
+import '../../../utils/app_radius.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 import '../msme_module_details_screen.dart';
 import '../search_results_screen.dart';
 
@@ -134,41 +137,54 @@ class HomeJourneySection extends StatelessWidget {
         );
       },
       child: Container(
-        width: 88,
-        height: 112,
+        width: 96,
+        height: 116,
         margin: const EdgeInsets.only(right: AppSpacing.md),
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.sm,
-          vertical: AppSpacing.sm,
+          vertical: AppSpacing.md,
         ),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFFE2E8F0)),
+          color: AppColors.surface,
+          borderRadius: AppRadius.lgAll,
+          border: Border.all(color: AppColors.border),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.015),
-              blurRadius: 6,
+              color: AppColors.textPrimary.withValues(alpha: 0.04),
+              blurRadius: 8,
               offset: const Offset(0, 2),
             ),
           ],
         ),
+        // Icon and a fixed two-line label block, centred together, so every
+        // card lines up whether its label takes one line or two.
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: const Color(0xFF2563EB), size: 24),
-            const SizedBox(height: AppSpacing.tight),
-            Expanded(
+            Container(
+              width: 40,
+              height: 40,
+              decoration: const BoxDecoration(
+                color: AppColors.primarySoft,
+                shape: BoxShape.circle,
+              ),
+              alignment: Alignment.center,
+              child: Icon(icon, color: AppColors.primary, size: 22),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            ConstrainedBox(
+              // Room for two lines, so one- and two-line labels line up.
+              constraints: const BoxConstraints(minHeight: 30),
               child: Center(
                 child: Text(
                   formattedTitle,
                   textAlign: TextAlign.center,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.inter(
-                    fontSize: 9.5,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF0F172A),
-                    height: 1.2,
+                  style: context.text.label.copyWith(
+                    fontSize: 11,
+                    color: AppColors.textPrimary,
+                    height: 1.25,
                   ),
                 ),
               ),

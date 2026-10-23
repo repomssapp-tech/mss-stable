@@ -37,7 +37,7 @@ class HomeHeaderSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _buildGreetingAndNotifications(context),
-        const SizedBox(height: AppSpacing.md),
+        const SizedBox(height: AppSpacing.xxl),
         _buildSearchAndFilter(context),
         const SizedBox(height: AppSpacing.sm),
         QuickPills(
@@ -116,22 +116,26 @@ class HomeHeaderSection extends StatelessWidget {
           ),
         ),
         const SizedBox(width: AppSpacing.sm),
+        // Solid brand-blue buttons: the background art has white round icons
+        // (chart, rupee, people) right here, and white buttons blended in.
         Row(
           children: [
-            HomeLanguageButton(provider: provider),
-            const SizedBox(width: AppSpacing.xs),
-            AppIconButton(
-              icon: Icons.notifications_none_rounded,
-              semanticLabel: context.l10n.notificationsTooltip,
-              badgeSemantics: unread > 0
-                  ? context.l10n.notificationsUnreadCount(unread)
-                  : null,
-              badgeCount: unread > 0 ? unread : null,
-              size: AppSize.iconLg,
-              color: AppColors.textPrimary,
-              backgroundColor: AppColors.surface,
-              backgroundSize: 40,
-              onPressed: onNotificationTap,
+            HomeHeaderAction(child: HomeLanguageButton(provider: provider)),
+            const SizedBox(width: AppSpacing.sm),
+            HomeHeaderAction(
+              child: AppIconButton(
+                icon: Icons.notifications_none_rounded,
+                semanticLabel: context.l10n.notificationsTooltip,
+                badgeSemantics: unread > 0
+                    ? context.l10n.notificationsUnreadCount(unread)
+                    : null,
+                badgeCount: unread > 0 ? unread : null,
+                size: AppSize.iconLg,
+                color: AppColors.textOnPrimary,
+                backgroundColor: AppColors.primary,
+                backgroundSize: 40,
+                onPressed: onNotificationTap,
+              ),
             ),
           ],
         ),
@@ -218,6 +222,31 @@ class HomeHeaderSection extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// A raised header button: a soft brand-coloured glow so it reads as a
+/// control, not as part of the background illustration.
+class HomeHeaderAction extends StatelessWidget {
+  const HomeHeaderAction({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withValues(alpha: 0.35),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: child,
     );
   }
 }

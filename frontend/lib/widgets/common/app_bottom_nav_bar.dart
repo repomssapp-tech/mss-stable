@@ -9,6 +9,7 @@ import '../../utils/app_colors.dart';
 import '../../utils/app_radius.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/app_text.dart';
+import 'app_tappable.dart';
 
 /// Side margin of the floating bar.
 const double kNavBarSideMargin = AppSpacing.lg;
@@ -154,8 +155,8 @@ class _AppBottomNavBarState extends State<AppBottomNavBar>
         ),
         child: MediaQuery(
           data: MediaQuery.of(context).copyWith(textScaler: scaler),
-          child: SizedBox(
-            height: height,
+          child: ConstrainedBox(
+            constraints: BoxConstraints.tightFor(height: height),
             child: _GlassPill(
               child: LayoutBuilder(
                 builder: (context, constraints) {
@@ -262,16 +263,13 @@ class AppNavBarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = selected ? AppColors.primary : AppColors.textSecondary;
-    return Semantics(
-      container: true,
-      button: true,
-      selected: selected,
-      label: label,
-      excludeSemantics: true,
+    return AppTappable(
       onTap: onTap,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
+      semanticLabel: label,
+      selected: selected,
+      borderRadius: AppRadius.pillAll,
+      // The droplet behind it already shows the tab; the slot fills the bar.
+      child: ExcludeSemantics(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

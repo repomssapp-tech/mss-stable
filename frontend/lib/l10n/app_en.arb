@@ -1687,5 +1687,18 @@
   "notifEarlier": "Earlier",
   "settingsHapticsTitle": "Haptic feedback",
   "settingsHapticsSubtitle": "Vibrate lightly on taps and when a notification arrives",
-  "@notifReceivedOn": {"placeholders": {"date": {"type": "String"}}}
+  "@notifReceivedOn": {"placeholders": {"date": {"type": "String"}}},
+  "homeFeaturedBestForYou": "Best for you",
+  "homeFeaturedNewlyAdded": "Newly added",
+  "homeFeaturedAddedOn": "Added {date}",
+  "homeTip2": "Udyam registration is free. Most MSME schemes ask for your Udyam number.",
+  "homeTip3": "Keep your Aadhaar, PAN and bank details ready before you start an application.",
+  "homeTip4": "Under CGTMSE, micro and small enterprises can get loans without collateral.",
+  "homeTip5": "Complete your profile to get better scheme matches in MSS.",
+  "homeTip6": "Check a scheme's last date before applying. Some schemes stay open only for a few weeks.",
+  "homeTip7": "Tap the bookmark on a scheme to keep it in Saved for later.",
+  "homeTip8": "Buyers paying late? MSME Samadhaan lets micro and small enterprises file a delayed-payment case online.",
+  "homeTip9": "DPIIT-recognised startups can apply to the Startup India Seed Fund Scheme.",
+  "homeTip10": "Apply only through the official scheme link. Never pay an agent for a free government service.",
+  "@homeFeaturedAddedOn": {"placeholders": {"date": {"type": "String"}}}
 }
