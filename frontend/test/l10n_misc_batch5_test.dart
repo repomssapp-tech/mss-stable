@@ -35,7 +35,8 @@ Widget _host(Locale locale, Widget screen) {
 
 String _expectedGreeting(AppLocalizations l10n) {
   final hour = DateTime.now().hour;
-  if (hour >= 5 && hour < 12) return l10n.goodMorning;
+  if (hour < 5) return l10n.greetingLateNight;
+  if (hour < 12) return l10n.goodMorning;
   if (hour >= 12 && hour < 17) return l10n.goodAfternoon;
   return l10n.goodEvening;
 }
