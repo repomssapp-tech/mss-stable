@@ -129,7 +129,7 @@ void main() {
           home: Scaffold(
             bottomNavigationBar: ValueListenableBuilder<int>(
               valueListenable: idx,
-              builder: (_, i, __) => AppBottomNavBar(
+              builder: (_, i, _) => AppBottomNavBar(
                 selectedIndex: i,
                 onSelected: (v) => idx.value = v,
                 labels: const ['a', 'b', 'c', 'd', 'e'],

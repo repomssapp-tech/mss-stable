@@ -17,7 +17,10 @@ Unreleased items under a new heading, commit, and tag the commit.
 - After Google account selection, the login screen shows a small "Signing you in…" overlay while sign-in finishes, so a second sign-in cannot be started by mistake.
 - Notifications (the inbox, the Home update card and the phone notification) and English-only scheme names on Home are translated to your language with Google's on-device translator. The first use downloads a language model (about 30 MB per language); the app is larger because of the translator.
 
+- A four-step first-time tour on the home screen (search, Saarthi, Discover, Profile) with a spotlight on the real widgets, in English, Hindi and Tamil. It is shown once per account; Finish and Skip are both remembered.
+
 ### Fixed
+- Confirm dialogs (such as Log out) keep their button labels on one line, stacking the buttons when needed; the bottom bar's labels have more room so Tamil "Profile" does not break mid-word.
 - The bottom bar's droplet animation now plays when system animations are off (a short slide instead of a jump), and tabs are prepared after start so the first switch does not stutter.
 - The nav bar droplet is wider, so the whole label fits in every language.
 - The nav bar floats over the page with no backdrop; the Ask AI button sits above it.
