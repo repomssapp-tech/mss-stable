@@ -90,18 +90,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Caches ~/.gradle (dependencies, wrapper, and the build cache that
-      # org.gradle.caching=true fills), keyed on the Gradle files, so the APK
-      # build no longer downloads every Android dependency on each run.
+      # The runner image is nearly full once Flutter, the Android SDK and
+      # ~/.gradle are in place: saving the Gradle cache failed with "tar:
+      # Wrote only 8192 of 10240 bytes", so every build re-downloaded every
+      # Android dependency. Drop toolchains this job never uses (~10 GB).
+      - name: Free disk space
+        working-directory: .
+        run: |
+          df -h / | tail -1
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/.ghcup             /usr/local/share/boost "$AGENT_TOOLSDIRECTORY/CodeQL"
+          df -h / | tail -1
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17" # matches android/app/build.gradle.kts JavaVersion.VERSION_17
-          cache: gradle
-          cache-dependency-path: |
-            frontend/android/*.gradle*
-            frontend/android/app/*.gradle*
-            frontend/android/gradle/wrapper/gradle-wrapper.properties
+
+      # Caches ~/.gradle (dependencies, wrapper, and the build cache that
+      # org.gradle.caching=true fills) for the gradlew run flutter starts.
+      # Written from main only; other branches read main's cache.
+      - uses: gradle/actions/setup-gradle@v4
 
       - uses: subosito/flutter-action@v2
         with:

@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import '../../utils/app_colors.dart';
+
 /// Shows MSS notifications in the phone's notification shade.
 ///
 /// Admin broadcasts (`POST /admin/notifications`) reach the phone as an FCM push
@@ -21,6 +23,10 @@ class LocalNotificationService {
   static const String _channelDescription =
       'Scheme announcements and updates from MSS';
   static const String _icon = '@drawable/ic_stat_mss';
+
+  /// The MSS logo on a white rounded square (res/drawable-nodpi). The launcher
+  /// logo is transparent, so it vanished against dark notification panels.
+  static const String _largeIcon = 'ic_notification_large';
 
   final FlutterLocalNotificationsPlugin _plugin =
       FlutterLocalNotificationsPlugin();
@@ -118,6 +124,8 @@ class LocalNotificationService {
             importance: Importance.high,
             priority: Priority.high,
             icon: _icon,
+            largeIcon: const DrawableResourceAndroidBitmap(_largeIcon),
+            color: AppColors.primary, // = @color/mss_notification
             styleInformation: BigTextStyleInformation(body),
             category: AndroidNotificationCategory.message,
           ),
