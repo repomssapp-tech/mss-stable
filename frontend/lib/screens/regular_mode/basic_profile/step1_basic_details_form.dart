@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_text.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -266,7 +267,7 @@ class Step1BasicDetailsForm extends StatelessWidget {
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                   color: kPrimaryBlue,
-                  decoration: TextDecoration.underline,
+                  decoration: context.linkDecoration,
                   decorationColor: kPrimaryBlue.withValues(alpha: 0.5),
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_text.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../utils/responsive.dart';
 
@@ -58,7 +59,7 @@ class AssessmentSheetFooter extends StatelessWidget {
                 style: GoogleFonts.inter(
                   fontSize: isTamil ? 11.0 : 12.0,
                   fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.underline,
+                  decoration: context.linkDecoration,
                 ),
               ),
             ),

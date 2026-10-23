@@ -66,7 +66,7 @@ class DidYouMeanSuggestion extends StatelessWidget {
                 context.l10n.searchDidYouMean(suggestion),
                 style: context.text.button.copyWith(
                   color: AppColors.primaryStrong,
-                  decoration: TextDecoration.underline,
+                  decoration: context.linkDecoration,
                 ),
               ),
             ),

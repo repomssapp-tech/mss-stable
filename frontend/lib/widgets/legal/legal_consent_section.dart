@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import '../../utils/app_text.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/app_spacing.dart';
@@ -32,20 +33,20 @@ class LegalConsentSection extends StatelessWidget {
               children: [
                 TextSpan(
                   text: context.l10n.legalTermsOfUseLink,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF0D53FC),
-                    decoration: TextDecoration.underline,
+                    color: const Color(0xFF0D53FC),
+                    decoration: context.linkDecoration,
                   ),
                   recognizer: TapGestureRecognizer()..onTap = onOpenTerms,
                 ),
                 TextSpan(text: context.l10n.legalConsentMid),
                 TextSpan(
                   text: context.l10n.privacyPolicy,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF0D53FC),
-                    decoration: TextDecoration.underline,
+                    color: const Color(0xFF0D53FC),
+                    decoration: context.linkDecoration,
                   ),
                   recognizer: TapGestureRecognizer()..onTap = onOpenPrivacy,
                 ),

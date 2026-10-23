@@ -78,4 +78,13 @@ class AppTextStyles {
 extension AppTextContext on BuildContext {
   AppTextStyles get text =>
       AppTextStyles.forLocale(Localizations.localeOf(this));
+
+  /// The decoration for a link inside running text. An underline cuts through
+  /// the below-the-line marks of Devanagari and Tamil (nukta, u/ū signs,
+  /// conjuncts), which reads as broken text, so Hindi and Tamil links are
+  /// shown by colour and weight alone.
+  TextDecoration get linkDecoration =>
+      Localizations.localeOf(this).languageCode == 'en'
+      ? TextDecoration.underline
+      : TextDecoration.none;
 }

@@ -511,7 +511,7 @@ class _CheckRow extends StatelessWidget {
     final link = base.copyWith(
       color: AppColors.primary,
       fontWeight: FontWeight.w600,
-      decoration: TextDecoration.underline,
+      decoration: context.linkDecoration,
     );
     // The document name is the link. Where a language inflects the name inside
     // the sentence, the whole row is the link instead.
