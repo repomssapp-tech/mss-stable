@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../services/catalog/scheme_repository.dart';
@@ -20,7 +19,7 @@ class HomeJourneySection extends StatelessWidget {
       children: [
         Text(
           context.l10n.whatWouldYouLikeToDoToday,
-          style: GoogleFonts.poppins(
+          style: AppGoogleFonts.poppins(
             fontSize: 16.5,
             fontWeight: FontWeight.bold,
             color: const Color(0xFF0F172A),

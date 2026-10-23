@@ -2,12 +2,14 @@
 // widths (no overflow, active tab in the brand primary colour), and the Home
 // "View all" button opening the full inbox.
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/login_screen.dart';
+import 'package:frontend/screens/regular_mode/basic_profile/custom_input_field.dart';
 import 'package:frontend/screens/notifications_screen.dart';
 import 'package:frontend/services/account/sign_in_progress.dart';
 import 'package:frontend/screens/regular_mode/home/home_updates_section.dart';
@@ -246,4 +248,35 @@ void main() {
       }
     }
   }
+
+  testWidgets('a long email in the profile form wraps to two lines and takes '
+      'no spaces', (tester) async {
+    tester.view.physicalSize = const Size(640, 1200);
+    tester.view.devicePixelRatio = 2.0;
+    addTearDown(tester.view.reset);
+    final controller = TextEditingController(
+      text: 'a.very.long.address.for.testing.the.profile.form@example.org',
+    );
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light,
+        home: Scaffold(
+          body: CustomInputField(
+            label: 'Email',
+            controller: controller,
+            leadingIcon: Icons.mail_outline,
+            trailingIcon: Icons.edit_outlined,
+            keyboardType: TextInputType.emailAddress,
+            maxLines: 2,
+            inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
+          ),
+        ),
+      ),
+    );
+    final editable = tester.widget<EditableText>(find.byType(EditableText));
+    expect(editable.maxLines, 2);
+    await tester.enterText(find.byType(TextFormField), 'a b\nc@example.org');
+    expect(controller.text, 'abc@example.org');
+    expect(tester.takeException(), isNull);
+  });
 }

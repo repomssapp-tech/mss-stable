@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../widgets/common/app_toast.dart';
+import '../../../utils/app_text.dart';
 
 /// Business-setup document checklist helper per entity type.
 List<String> _docChecklist(AppLocalizations l10n, String entityType) {
@@ -152,7 +152,7 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
                     children: [
                       Text(
                         l10n.docChecklistTitle,
-                        style: GoogleFonts.poppins(
+                        style: AppGoogleFonts.poppins(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF0F172A),
@@ -160,7 +160,7 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
                       ),
                       Text(
                         l10n.docChecklistSubtitle,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 10,
                           color: const Color(0xFF64748B),
                         ),
@@ -194,7 +194,7 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
             const SizedBox(height: AppSpacing.xl),
             Text(
               l10n.docEntityType,
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 11,
                 fontWeight: FontWeight.bold,
                 color: const Color(0xFF334155),
@@ -240,7 +240,7 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
                 Expanded(
                   child: Text(
                     l10n.docRequiredDocuments,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF334155),
@@ -261,7 +261,7 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
                   ),
                   child: Text(
                     '$checkedCount / ${checklist.length}',
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 10.5,
                       fontWeight: FontWeight.w700,
                       color:
@@ -337,7 +337,7 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
                             Expanded(
                               child: Text(
                                 item,
-                                style: GoogleFonts.inter(
+                                style: AppGoogleFonts.inter(
                                   fontSize: 11.5,
                                   fontWeight: FontWeight.w600,
                                   decoration: isChecked
@@ -374,7 +374,7 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
                 ),
                 child: Text(
                   l10n.docCloseChecklist,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontWeight: FontWeight.bold,
                     fontSize: 12.5,
                   ),

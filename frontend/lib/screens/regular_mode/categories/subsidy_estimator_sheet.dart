@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/responsive.dart';
+import '../../../utils/app_text.dart';
 
 /// Machinery / project-cost subsidy estimator bottom sheet.
 ///
@@ -77,7 +77,7 @@ void showSubsidyEstimatorSheet(BuildContext context) {
                           children: [
                             Text(
                               l10n.subsidyTitle,
-                              style: GoogleFonts.poppins(
+                              style: AppGoogleFonts.poppins(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFF0F172A),
@@ -85,7 +85,7 @@ void showSubsidyEstimatorSheet(BuildContext context) {
                             ),
                             Text(
                               l10n.subsidySubtitle,
-                              style: GoogleFonts.inter(
+                              style: AppGoogleFonts.inter(
                                 fontSize: 10,
                                 color: const Color(0xFF64748B),
                               ),
@@ -107,7 +107,7 @@ void showSubsidyEstimatorSheet(BuildContext context) {
                   const SizedBox(height: AppSpacing.xl),
                   Text(
                     l10n.subsidyProjectCost,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF334155),
@@ -123,23 +123,23 @@ void showSubsidyEstimatorSheet(BuildContext context) {
                       filled: true,
                       fillColor: const Color(0xFFF8FAFC),
                       hintText: '25',
-                      hintStyle: GoogleFonts.inter(
+                      hintStyle: AppGoogleFonts.inter(
                         fontSize: 12,
                         color: const Color(0xFF94A3B8),
                       ),
                       prefixText: '₹ ',
                       suffixText: l10n.subsidyProjectCostSuffix,
                       helperText: l10n.subsidyProjectCostHelper,
-                      helperStyle: GoogleFonts.inter(
+                      helperStyle: AppGoogleFonts.inter(
                         fontSize: 9,
                         color: const Color(0xFF64748B),
                       ),
-                      suffixStyle: GoogleFonts.inter(
+                      suffixStyle: AppGoogleFonts.inter(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF64748B),
                       ),
-                      prefixStyle: GoogleFonts.inter(
+                      prefixStyle: AppGoogleFonts.inter(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF0F172A),
@@ -164,7 +164,7 @@ void showSubsidyEstimatorSheet(BuildContext context) {
                   const SizedBox(height: AppSpacing.lg),
                   Text(
                     l10n.subsidyPercentLabel,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF334155),
@@ -180,17 +180,17 @@ void showSubsidyEstimatorSheet(BuildContext context) {
                       filled: true,
                       fillColor: const Color(0xFFF8FAFC),
                       hintText: '15',
-                      hintStyle: GoogleFonts.inter(
+                      hintStyle: AppGoogleFonts.inter(
                         fontSize: 12,
                         color: const Color(0xFF94A3B8),
                       ),
                       suffixText: '%',
                       helperText: l10n.subsidyPercentHelper,
-                      helperStyle: GoogleFonts.inter(
+                      helperStyle: AppGoogleFonts.inter(
                         fontSize: 9,
                         color: const Color(0xFF64748B),
                       ),
-                      suffixStyle: GoogleFonts.inter(
+                      suffixStyle: AppGoogleFonts.inter(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF64748B),
@@ -224,7 +224,7 @@ void showSubsidyEstimatorSheet(BuildContext context) {
                       ),
                       child: Text(
                         error,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 11,
                           color: const Color(0xFFB91C1C),
                           fontWeight: FontWeight.w600,
@@ -251,7 +251,7 @@ void showSubsidyEstimatorSheet(BuildContext context) {
                                 child: Text(
                                   l10n.subsidyOriginalCost,
                                   softWrap: true,
-                                  style: GoogleFonts.inter(
+                                  style: AppGoogleFonts.inter(
                                     fontSize: 11,
                                     color: const Color(0xFF475569),
                                   ),
@@ -265,7 +265,7 @@ void showSubsidyEstimatorSheet(BuildContext context) {
                                     l10n.subsidyLakhFmt(
                                       costVal.toStringAsFixed(2),
                                     ),
-                                    style: GoogleFonts.poppins(
+                                    style: AppGoogleFonts.poppins(
                                       fontSize: 11.5,
                                       fontWeight: FontWeight.w600,
                                       color: const Color(0xFF0F172A),
@@ -285,7 +285,7 @@ void showSubsidyEstimatorSheet(BuildContext context) {
                                     subsidyPercentVal.toStringAsFixed(1),
                                   ),
                                   softWrap: true,
-                                  style: GoogleFonts.inter(
+                                  style: AppGoogleFonts.inter(
                                     fontSize: 11,
                                     color: const Color(0xFF475569),
                                   ),
@@ -299,7 +299,7 @@ void showSubsidyEstimatorSheet(BuildContext context) {
                                     l10n.subsidyLakhFmt(
                                       subsidyAmountVal.toStringAsFixed(2),
                                     ),
-                                    style: GoogleFonts.poppins(
+                                    style: AppGoogleFonts.poppins(
                                       fontSize: 11.5,
                                       fontWeight: FontWeight.bold,
                                       color: const Color(0xFF0D9488),
@@ -322,7 +322,7 @@ void showSubsidyEstimatorSheet(BuildContext context) {
                                 child: Text(
                                   l10n.subsidyNetCost,
                                   softWrap: true,
-                                  style: GoogleFonts.inter(
+                                  style: AppGoogleFonts.inter(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                     color: const Color(0xFF1E293B),
@@ -337,7 +337,7 @@ void showSubsidyEstimatorSheet(BuildContext context) {
                                     l10n.subsidyLakhFmt(
                                       netCostVal.toStringAsFixed(2),
                                     ),
-                                    style: GoogleFonts.poppins(
+                                    style: AppGoogleFonts.poppins(
                                       fontSize: 13.5,
                                       fontWeight: FontWeight.bold,
                                       color: const Color(0xFF2563EB),
@@ -391,7 +391,7 @@ void showSubsidyEstimatorSheet(BuildContext context) {
                       ),
                       child: Text(
                         l10n.subsidyCalculate,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.5,
                         ),

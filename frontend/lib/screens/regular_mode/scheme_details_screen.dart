@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show RenderAbstractViewport;
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../l10n/l10n.dart';
@@ -23,6 +22,8 @@ import 'scheme_details/scheme_highlights_card.dart';
 import 'scheme_details/scheme_process_section.dart';
 import 'scheme_details/scheme_services_section.dart';
 import 'scheme_details/sticky_tab_bar_delegate.dart';
+import '../../utils/app_text.dart';
+import '../../widgets/common/auto_translated_text.dart';
 
 // Re-exports for clean modular access and backwards compatibility
 export 'scheme_details/scheme_benefits_section.dart';
@@ -309,7 +310,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                   ),
                   title: Text(
                     context.l10n.schemeDetailsTitle,
-                    style: GoogleFonts.poppins(
+                    style: AppGoogleFonts.poppins(
                       color: const Color(0xFF0F172A),
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
@@ -385,7 +386,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                                 ),
                                 child: Text(
                                   _getTabs(context)[index],
-                                  style: GoogleFonts.inter(
+                                  style: AppGoogleFonts.inter(
                                     color: isSelected
                                         ? const Color(0xFF2563EB)
                                         : const Color(0xFF64748B),
@@ -420,9 +421,12 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                         // Overview Paragraph
                         Container(
                           key: _overviewKey,
-                          child: Text(
+                          child: AutoTranslatedText(
                             scheme.overview,
-                            style: GoogleFonts.inter(
+                            language: Localizations.localeOf(
+                              context,
+                            ).languageCode,
+                            style: AppGoogleFonts.inter(
                               color: const Color(0xFF64748B),
                               fontSize: 12.0,
                               height: 1.5,

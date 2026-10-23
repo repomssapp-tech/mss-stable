@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,6 +7,7 @@ import '../../../l10n/l10n.dart';
 import '../../../providers/app_state_provider.dart';
 import '../../../utils/app_spacing.dart';
 import '../../notifications_screen.dart';
+import '../../../utils/app_text.dart';
 
 class HomeUpdatesSection extends StatelessWidget {
   final AppProvider? provider;
@@ -89,10 +89,9 @@ class HomeLatestUpdatesCard extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              flex: 3,
               child: Text(
                 context.l10n.latestUpdates,
-                style: GoogleFonts.poppins(
+                style: AppGoogleFonts.poppins(
                   fontSize: 16.5,
                   fontWeight: FontWeight.bold,
                   color: const Color(0xFF0F172A),
@@ -100,8 +99,9 @@ class HomeLatestUpdatesCard extends StatelessWidget {
               ),
             ),
             // Opens the full inbox, every category.
+            // An equal share of the row, at most its natural width: long Tamil
+            // and Hindi labels wrap between words, never inside one.
             Flexible(
-              flex: 2,
               child: TextButton(
                 onPressed: () => Navigator.of(context).push(
                   MaterialPageRoute(
@@ -168,7 +168,7 @@ class HomeLatestUpdatesCard extends StatelessWidget {
                           ),
                           child: Text(
                             tagText,
-                            style: GoogleFonts.inter(
+                            style: AppGoogleFonts.inter(
                               color: const Color(0xFF2563EB),
                               fontSize: 9,
                               fontWeight: FontWeight.bold,
@@ -179,7 +179,7 @@ class HomeLatestUpdatesCard extends StatelessWidget {
                       ],
                       Text(
                         titleText,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 12.0,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF1E293B),
@@ -192,7 +192,7 @@ class HomeLatestUpdatesCard extends StatelessWidget {
                         const SizedBox(height: AppSpacing.tight),
                         Text(
                           timeText,
-                          style: GoogleFonts.inter(
+                          style: AppGoogleFonts.inter(
                             fontSize: 10.5,
                             color: const Color(0xFF94A3B8),
                           ),
@@ -331,7 +331,7 @@ class _HomeTipOfTheDayCardState extends State<HomeTipOfTheDayCard> {
                     Expanded(
                       child: Text(
                         context.l10n.tipOfTheDay,
-                        style: GoogleFonts.poppins(
+                        style: AppGoogleFonts.poppins(
                           fontSize: 13.0,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF0F172A),
@@ -345,7 +345,7 @@ class _HomeTipOfTheDayCardState extends State<HomeTipOfTheDayCard> {
                 const SizedBox(height: AppSpacing.tight),
                 Text(
                   homeTips(context.l10n)[_tip],
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: _scaledFontSize(context, 10.0),
                     color: const Color(0xFF475569),
                     fontWeight: FontWeight.w600,

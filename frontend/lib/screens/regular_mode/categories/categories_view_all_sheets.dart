@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../l10n/l10n.dart';
 import '../../../providers/app_state_provider.dart';
 import '../../../utils/app_spacing.dart';
@@ -8,6 +7,7 @@ import 'categories_data.dart';
 import 'categories_section_lists.dart';
 import 'discover_counts.dart';
 import 'state_map_painter.dart';
+import '../../../utils/app_text.dart';
 
 void showAllCategoriesBottomSheet({
   required BuildContext context,
@@ -61,7 +61,7 @@ void showAllCategoriesBottomSheet({
                         child: Text(
                           context.l10n.allCategories,
                           softWrap: true,
-                          style: GoogleFonts.poppins(
+                          style: AppGoogleFonts.poppins(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: const Color(0xFF0F172A),
@@ -94,7 +94,7 @@ void showAllCategoriesBottomSheet({
                           modalSearchQuery = val;
                         });
                       },
-                      style: GoogleFonts.inter(fontSize: 14),
+                      style: AppGoogleFonts.inter(fontSize: 14),
                       decoration: InputDecoration(
                         hintText: context.l10n.searchCategoriesHint,
                         prefixIcon: const Icon(
@@ -223,7 +223,7 @@ class CategoryGridCard extends StatelessWidget {
                     textAlign: TextAlign.center,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 10.5,
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF0F172A),
@@ -233,7 +233,7 @@ class CategoryGridCard extends StatelessWidget {
                 const SizedBox(height: AppSpacing.hairline),
                 Text(
                   countStr,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 9.0,
                     fontWeight: FontWeight.w600,
                     color: cnt == 0
@@ -293,7 +293,7 @@ void showAllMinistriesBottomSheet({
                     child: Text(
                       context.l10n.allMinistries,
                       softWrap: true,
-                      style: GoogleFonts.poppins(
+                      style: AppGoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFF0F172A),
@@ -346,14 +346,14 @@ void showAllMinistriesBottomSheet({
                       ),
                       title: Text(
                         localizedTitle,
-                        style: GoogleFonts.poppins(
+                        style: AppGoogleFonts.poppins(
                           fontWeight: FontWeight.bold,
                           fontSize: 13.5,
                         ),
                       ),
                       subtitle: Text(
                         countStr,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 11,
                           color: cnt == 0
                               ? const Color(0xFFD97706)
@@ -421,7 +421,7 @@ void showAllStatesBottomSheet({
                     child: Text(
                       context.l10n.allStatesAndUts,
                       softWrap: true,
-                      style: GoogleFonts.poppins(
+                      style: AppGoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFF0F172A),
@@ -473,14 +473,14 @@ void showAllStatesBottomSheet({
                       ),
                       title: Text(
                         localizedTitle,
-                        style: GoogleFonts.poppins(
+                        style: AppGoogleFonts.poppins(
                           fontWeight: FontWeight.bold,
                           fontSize: 13.5,
                         ),
                       ),
                       subtitle: Text(
                         countStr,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 11,
                           color: cnt == 0
                               ? const Color(0xFFD97706)

@@ -1,12 +1,12 @@
 import '../../services/catalog/centralized_translator.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/l10n.dart';
 import '../../providers/app_state_provider.dart';
 import '../../utils/app_spacing.dart';
 import '../regular_mode/basic_profile_screen.dart';
 import 'profile_value_formatters.dart';
 import 'profile_widgets.dart';
+import '../../utils/app_text.dart';
 
 /// Card displaying basic user identity information with Edit Profile action.
 class ProfileUserInfoCard extends StatelessWidget {
@@ -60,7 +60,7 @@ class ProfileUserInfoCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   context.l10n.userInformation,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF0F172A),
@@ -87,7 +87,7 @@ class ProfileUserInfoCard extends StatelessWidget {
                 ),
                 label: Text(
                   context.l10n.editProfile,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: isTa ? 9.5 : 10.5,
                     color: const Color(0xFF2563EB),
                     fontWeight: FontWeight.bold,

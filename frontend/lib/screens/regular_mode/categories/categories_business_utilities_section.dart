@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/app_state_provider.dart';
 import '../../../l10n/l10n.dart';
@@ -11,6 +10,7 @@ import 'gst_calculator_sheet.dart';
 import 'subsidy_estimator_sheet.dart';
 import 'udyam_classifier_sheet.dart';
 import 'valuation_estimator_sheet.dart';
+import '../../../utils/app_text.dart';
 
 class CategoriesBusinessUtilitiesSection extends StatelessWidget {
   const CategoriesBusinessUtilitiesSection({super.key});
@@ -32,7 +32,7 @@ class CategoriesBusinessUtilitiesSection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
           child: Text(
             context.l10n.discoverUtilitiesTitle,
-            style: GoogleFonts.poppins(
+            style: AppGoogleFonts.poppins(
               fontSize: isTa ? 14.0 : 15.0,
               fontWeight: FontWeight.bold,
               color: const Color(0xFF0F172A),
@@ -43,7 +43,7 @@ class CategoriesBusinessUtilitiesSection extends StatelessWidget {
         SizedBox(
           // Icon and padding are fixed; the two text lines grow with the
           // user's font size (issue #144).
-          height: 50 + MediaQuery.textScalerOf(context).scale(48),
+          height: 56 + MediaQuery.textScalerOf(context).scale(76),
           child: ListView(
             scrollDirection: Axis.horizontal,
             physics: const ClampingScrollPhysics(),
@@ -143,9 +143,9 @@ class CategoryUtilityCard extends StatelessWidget {
               const SizedBox(height: AppSpacing.tight),
               Text(
                 title,
-                maxLines: 1,
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.poppins(
+                style: AppGoogleFonts.poppins(
                   fontSize: 10.5,
                   fontWeight: FontWeight.bold,
                   color: const Color(0xFF0F172A),
@@ -153,9 +153,9 @@ class CategoryUtilityCard extends StatelessWidget {
               ),
               Text(
                 desc,
-                maxLines: 1,
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   fontSize: 8.5,
                   color: const Color(0xFF64748B),
                 ),

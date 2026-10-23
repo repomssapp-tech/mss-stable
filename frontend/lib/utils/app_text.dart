@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 /// Font family constants (spec_design_system.md §1.2). Inter/Poppins are
 /// bundled local assets (2.2); Noto Sans Tamil is the fallback for Tamil
@@ -78,4 +79,105 @@ class AppTextStyles {
 extension AppTextContext on BuildContext {
   AppTextStyles get text =>
       AppTextStyles.forLocale(Localizations.localeOf(this));
+
+  /// The decoration for a link inside running text. An underline cuts through
+  /// the below-the-line marks of Devanagari and Tamil (nukta, u/ū signs,
+  /// conjuncts), which reads as broken text, so Hindi and Tamil links are
+  /// shown by colour and weight alone.
+  TextDecoration get linkDecoration =>
+      Localizations.localeOf(this).languageCode == 'en'
+      ? TextDecoration.underline
+      : TextDecoration.none;
+}
+
+/// `GoogleFonts.poppins/inter` with the bundled Tamil and Devanagari fonts as
+/// fallback. A plain GoogleFonts style names no fallback, so Tamil and Hindi
+/// letters in it come from the phone's default font in regular weight while
+/// Latin letters in the same line turn bold ("MSME" bold, the Tamil words
+/// not). With the fallback, a bold title is bold from the first letter to the
+/// last in every language.
+abstract final class AppGoogleFonts {
+  static TextStyle poppins({
+    TextStyle? textStyle,
+    Color? color,
+    Color? backgroundColor,
+    double? fontSize,
+    FontWeight? fontWeight,
+    FontStyle? fontStyle,
+    double? letterSpacing,
+    double? wordSpacing,
+    TextBaseline? textBaseline,
+    double? height,
+    Locale? locale,
+    Paint? foreground,
+    Paint? background,
+    List<Shadow>? shadows,
+    List<FontFeature>? fontFeatures,
+    TextDecoration? decoration,
+    Color? decorationColor,
+    TextDecorationStyle? decorationStyle,
+    double? decorationThickness,
+  }) => GoogleFonts.poppins(
+      textStyle: textStyle,
+      color: color,
+      backgroundColor: backgroundColor,
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+      fontStyle: fontStyle,
+      letterSpacing: letterSpacing,
+      wordSpacing: wordSpacing,
+      textBaseline: textBaseline,
+      height: height,
+      locale: locale,
+      foreground: foreground,
+      background: background,
+      shadows: shadows,
+      fontFeatures: fontFeatures,
+      decoration: decoration,
+      decorationColor: decorationColor,
+      decorationStyle: decorationStyle,
+      decorationThickness: decorationThickness,
+  ).copyWith(fontFamilyFallback: AppFonts.fallback);
+
+  static TextStyle inter({
+    TextStyle? textStyle,
+    Color? color,
+    Color? backgroundColor,
+    double? fontSize,
+    FontWeight? fontWeight,
+    FontStyle? fontStyle,
+    double? letterSpacing,
+    double? wordSpacing,
+    TextBaseline? textBaseline,
+    double? height,
+    Locale? locale,
+    Paint? foreground,
+    Paint? background,
+    List<Shadow>? shadows,
+    List<FontFeature>? fontFeatures,
+    TextDecoration? decoration,
+    Color? decorationColor,
+    TextDecorationStyle? decorationStyle,
+    double? decorationThickness,
+  }) => GoogleFonts.inter(
+      textStyle: textStyle,
+      color: color,
+      backgroundColor: backgroundColor,
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+      fontStyle: fontStyle,
+      letterSpacing: letterSpacing,
+      wordSpacing: wordSpacing,
+      textBaseline: textBaseline,
+      height: height,
+      locale: locale,
+      foreground: foreground,
+      background: background,
+      shadows: shadows,
+      fontFeatures: fontFeatures,
+      decoration: decoration,
+      decorationColor: decorationColor,
+      decorationStyle: decorationStyle,
+      decorationThickness: decorationThickness,
+  ).copyWith(fontFamilyFallback: AppFonts.fallback);
 }

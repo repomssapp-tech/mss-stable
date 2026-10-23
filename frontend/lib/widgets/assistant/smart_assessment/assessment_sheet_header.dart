@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../screens/regular_mode/categories/categories_data.dart';
 import '../../../screens/regular_mode/categories/state_map_painter.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 
 class AssessmentSheetHeader extends StatelessWidget {
   final String cardTitleLocalized;
@@ -89,7 +89,7 @@ class AssessmentSheetHeader extends StatelessWidget {
                     child: Text(
                       cardTitleLocalized,
                       softWrap: true,
-                      style: GoogleFonts.poppins(
+                      style: AppGoogleFonts.poppins(
                         fontSize: isTamil ? 13.0 : 14.0,
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFF0F172A),
@@ -125,7 +125,7 @@ class AssessmentSheetHeader extends StatelessWidget {
             const SizedBox(width: AppSpacing.sm),
             Text(
               stepLabel,
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: isTamil ? 9.5 : 10.5,
                 fontWeight: FontWeight.w600,
                 color: const Color(0xFF64748B),

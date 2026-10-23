@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 
 class AssistedSelectionCard extends StatelessWidget {
   final String title;
@@ -87,7 +87,7 @@ class AssistedSelectionCard extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 15,
                           fontWeight: isSelected
                               ? FontWeight.bold
@@ -101,7 +101,7 @@ class AssistedSelectionCard extends StatelessWidget {
                         const SizedBox(height: AppSpacing.hairline),
                         Text(
                           subtitle!,
-                          style: GoogleFonts.inter(
+                          style: AppGoogleFonts.inter(
                             fontSize: 12,
                             color: const Color(0xFF64748B),
                             height: 1.3,

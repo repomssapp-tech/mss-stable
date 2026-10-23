@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 
 class MsmeHeaderSection extends StatelessWidget {
   final String moduleId;
@@ -72,7 +72,7 @@ class MsmeHeaderSection extends StatelessWidget {
                       header: true,
                       child: Text(
                         CentralizedTranslator.instance.localize(title),
-                        style: GoogleFonts.poppins(
+                        style: AppGoogleFonts.poppins(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF0F172A),
@@ -82,7 +82,7 @@ class MsmeHeaderSection extends StatelessWidget {
                     const SizedBox(height: AppSpacing.xs),
                     Text(
                       CentralizedTranslator.instance.localize(description),
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 13,
                         color: const Color(0xFF64748B),
                         fontWeight: FontWeight.w500,
@@ -165,7 +165,7 @@ class MsmeHeaderSection extends StatelessWidget {
                 child: Text(
                   context.l10n.msmeWhatTheUserGets,
                   softWrap: true,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                     color: iconColor,
@@ -178,7 +178,7 @@ class MsmeHeaderSection extends StatelessWidget {
           const SizedBox(height: AppSpacing.sm),
           Text(
             CentralizedTranslator.instance.localize(valueText),
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               fontSize: 13.5,
               color: const Color(0xFF1E293B),
               height: 1.45,

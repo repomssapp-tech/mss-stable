@@ -50,7 +50,7 @@ void main() async {
 
   // 2.2 (design system): Inter, Poppins and Noto Sans Tamil are now bundled
   // as local assets (pubspec.yaml `fonts:`) under the same family names
-  // google_fonts' own helpers request, so GoogleFonts.inter()/.poppins()
+  // google_fonts' own helpers request, so AppGoogleFonts.inter()/.poppins()
   // resolve locally and never need the network. Disabling runtime fetching
   // outright removes the offline-first bug where a cold start with no
   // connectivity fell back to Roboto everywhere. google_fonts itself is

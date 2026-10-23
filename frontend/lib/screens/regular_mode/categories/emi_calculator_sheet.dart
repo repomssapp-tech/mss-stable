@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/responsive.dart';
+import '../../../utils/app_text.dart';
 
 /// Loan EMI calculator bottom sheet (EMI + principal + interest + total).
 ///
@@ -78,7 +78,7 @@ void showEmiCalculatorSheet(BuildContext context) {
                           children: [
                             Text(
                               l10n.emiCalcTitle,
-                              style: GoogleFonts.poppins(
+                              style: AppGoogleFonts.poppins(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFF0F172A),
@@ -86,7 +86,7 @@ void showEmiCalculatorSheet(BuildContext context) {
                             ),
                             Text(
                               l10n.emiCalcSubtitle,
-                              style: GoogleFonts.inter(
+                              style: AppGoogleFonts.inter(
                                 fontSize: 10,
                                 color: const Color(0xFF64748B),
                               ),
@@ -108,7 +108,7 @@ void showEmiCalculatorSheet(BuildContext context) {
                   const SizedBox(height: AppSpacing.xl),
                   Text(
                     l10n.emiLoanAmount,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF334155),
@@ -124,17 +124,17 @@ void showEmiCalculatorSheet(BuildContext context) {
                       filled: true,
                       fillColor: const Color(0xFFF8FAFC),
                       hintText: '500000',
-                      hintStyle: GoogleFonts.inter(
+                      hintStyle: AppGoogleFonts.inter(
                         fontSize: 12,
                         color: const Color(0xFF94A3B8),
                       ),
                       prefixText: '₹ ',
                       helperText: l10n.emiLoanAmountHelper,
-                      helperStyle: GoogleFonts.inter(
+                      helperStyle: AppGoogleFonts.inter(
                         fontSize: 9,
                         color: const Color(0xFF64748B),
                       ),
-                      prefixStyle: GoogleFonts.inter(
+                      prefixStyle: AppGoogleFonts.inter(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF0F172A),
@@ -165,7 +165,7 @@ void showEmiCalculatorSheet(BuildContext context) {
                           children: [
                             Text(
                               l10n.emiInterestRate,
-                              style: GoogleFonts.inter(
+                              style: AppGoogleFonts.inter(
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFF334155),
@@ -182,13 +182,13 @@ void showEmiCalculatorSheet(BuildContext context) {
                                 filled: true,
                                 fillColor: const Color(0xFFF8FAFC),
                                 hintText: '9.5',
-                                hintStyle: GoogleFonts.inter(
+                                hintStyle: AppGoogleFonts.inter(
                                   fontSize: 12,
                                   color: const Color(0xFF94A3B8),
                                 ),
                                 suffixText: '%',
                                 helperText: l10n.emiInterestRateHelper,
-                                helperStyle: GoogleFonts.inter(
+                                helperStyle: AppGoogleFonts.inter(
                                   fontSize: 9,
                                   color: const Color(0xFF64748B),
                                 ),
@@ -221,7 +221,7 @@ void showEmiCalculatorSheet(BuildContext context) {
                           children: [
                             Text(
                               l10n.emiTenureMonths,
-                              style: GoogleFonts.inter(
+                              style: AppGoogleFonts.inter(
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFF334155),
@@ -235,13 +235,13 @@ void showEmiCalculatorSheet(BuildContext context) {
                                 filled: true,
                                 fillColor: const Color(0xFFF8FAFC),
                                 hintText: '60',
-                                hintStyle: GoogleFonts.inter(
+                                hintStyle: AppGoogleFonts.inter(
                                   fontSize: 12,
                                   color: const Color(0xFF94A3B8),
                                 ),
                                 suffixText: l10n.emiTenureSuffixMo,
                                 helperText: l10n.emiTenureHelper,
-                                helperStyle: GoogleFonts.inter(
+                                helperStyle: AppGoogleFonts.inter(
                                   fontSize: 9,
                                   color: const Color(0xFF64748B),
                                 ),
@@ -281,7 +281,7 @@ void showEmiCalculatorSheet(BuildContext context) {
                       ),
                       child: Text(
                         error,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 11,
                           color: const Color(0xFFB91C1C),
                           fontWeight: FontWeight.w600,
@@ -308,7 +308,7 @@ void showEmiCalculatorSheet(BuildContext context) {
                                 child: Text(
                                   l10n.emiMonthlyEmi,
                                   softWrap: true,
-                                  style: GoogleFonts.inter(
+                                  style: AppGoogleFonts.inter(
                                     fontSize: 11.5,
                                     fontWeight: FontWeight.bold,
                                     color: const Color(0xFF1E293B),
@@ -321,7 +321,7 @@ void showEmiCalculatorSheet(BuildContext context) {
                                   alignment: Alignment.centerRight,
                                   child: Text(
                                     '₹ ${emiVal.toStringAsFixed(2)}',
-                                    style: GoogleFonts.poppins(
+                                    style: AppGoogleFonts.poppins(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: const Color(0xFF2563EB),
@@ -344,7 +344,7 @@ void showEmiCalculatorSheet(BuildContext context) {
                                 child: Text(
                                   l10n.emiPrincipal,
                                   softWrap: true,
-                                  style: GoogleFonts.inter(
+                                  style: AppGoogleFonts.inter(
                                     fontSize: 11,
                                     color: const Color(0xFF475569),
                                   ),
@@ -356,7 +356,7 @@ void showEmiCalculatorSheet(BuildContext context) {
                                   alignment: Alignment.centerRight,
                                   child: Text(
                                     '₹ ${principalVal.toStringAsFixed(2)}',
-                                    style: GoogleFonts.poppins(
+                                    style: AppGoogleFonts.poppins(
                                       fontSize: 11.5,
                                       fontWeight: FontWeight.w600,
                                       color: const Color(0xFF0F172A),
@@ -374,7 +374,7 @@ void showEmiCalculatorSheet(BuildContext context) {
                                 child: Text(
                                   l10n.emiTotalInterest,
                                   softWrap: true,
-                                  style: GoogleFonts.inter(
+                                  style: AppGoogleFonts.inter(
                                     fontSize: 11,
                                     color: const Color(0xFF475569),
                                   ),
@@ -386,7 +386,7 @@ void showEmiCalculatorSheet(BuildContext context) {
                                   alignment: Alignment.centerRight,
                                   child: Text(
                                     '₹ ${interestVal.toStringAsFixed(2)}',
-                                    style: GoogleFonts.poppins(
+                                    style: AppGoogleFonts.poppins(
                                       fontSize: 11.5,
                                       fontWeight: FontWeight.w600,
                                       color: const Color(0xFF0F172A),
@@ -409,7 +409,7 @@ void showEmiCalculatorSheet(BuildContext context) {
                                 child: Text(
                                   l10n.emiTotalAmount,
                                   softWrap: true,
-                                  style: GoogleFonts.inter(
+                                  style: AppGoogleFonts.inter(
                                     fontSize: 11,
                                     color: const Color(0xFF475569),
                                   ),
@@ -421,7 +421,7 @@ void showEmiCalculatorSheet(BuildContext context) {
                                   alignment: Alignment.centerRight,
                                   child: Text(
                                     '₹ ${totalVal.toStringAsFixed(2)}',
-                                    style: GoogleFonts.poppins(
+                                    style: AppGoogleFonts.poppins(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
                                       color: const Color(0xFF0F172A),
@@ -488,7 +488,7 @@ void showEmiCalculatorSheet(BuildContext context) {
                       ),
                       child: Text(
                         l10n.emiCalculate,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.5,
                         ),

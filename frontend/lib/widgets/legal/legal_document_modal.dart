@@ -1,6 +1,5 @@
 import '../../services/catalog/centralized_translator.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_spacing.dart';
@@ -358,7 +357,7 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
                     children: [
                       Text(
                         CentralizedTranslator.instance.localize(widget.title),
-                        style: GoogleFonts.poppins(
+                        style: AppGoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF0F172A),
@@ -368,7 +367,7 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
                         CentralizedTranslator.instance.localize(
                           widget.subtitle,
                         ),
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 12,
                           color: const Color(0xFF64748B),
                         ),
@@ -411,7 +410,7 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
                           CentralizedTranslator.instance.localize(
                             'Effective Date: ${widget.effectiveDate}',
                           ),
-                          style: GoogleFonts.inter(
+                          style: AppGoogleFonts.inter(
                             fontSize: 13,
                             fontWeight: FontWeight.w700,
                             color: const Color(0xFF0F172A),
@@ -422,7 +421,7 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
                           CentralizedTranslator.instance.localize(
                             widget.acknowledgmentText,
                           ),
-                          style: GoogleFonts.inter(
+                          style: AppGoogleFonts.inter(
                             fontSize: 12.5,
                             color: const Color(0xFF475569),
                             height: 1.4,
@@ -438,7 +437,7 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
                   if (widget.introText.isNotEmpty) ...[
                     Text(
                       CentralizedTranslator.instance.localize(widget.introText),
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 13,
                         color: const Color(0xFF334155),
                         height: 1.5,
@@ -480,7 +479,7 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
                                   CentralizedTranslator.instance.localize(
                                     section.title,
                                   ),
-                                  style: GoogleFonts.poppins(
+                                  style: AppGoogleFonts.poppins(
                                     fontSize: 14.5,
                                     fontWeight: FontWeight.bold,
                                     color: const Color(0xFF0F172A),
@@ -491,7 +490,7 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
                                   CentralizedTranslator.instance.localize(
                                     section.body,
                                   ),
-                                  style: GoogleFonts.inter(
+                                  style: AppGoogleFonts.inter(
                                     fontSize: 13,
                                     color: const Color(0xFF475569),
                                     height: 1.45,
@@ -555,7 +554,7 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
                           : _explainScrollRequirement,
                       child: Text(
                         context.l10n.legalAccept,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
                         ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../../models/localized_scheme.dart';
@@ -10,6 +9,7 @@ import '../../../services/search/scheme_understanding_engine.dart';
 import '../../../services/voice/assistant_session_controller.dart';
 import '../../../utils/app_spacing.dart';
 import 'voice_transcript_widgets.dart';
+import '../../../utils/app_text.dart';
 
 class VoiceRecommendationCard extends StatelessWidget {
   const VoiceRecommendationCard({
@@ -65,7 +65,7 @@ class VoiceRecommendationCard extends StatelessWidget {
                       scheme.toLocalized(presentInTamil ? 'ta' : 'en').name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         color: Colors.white,
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
@@ -139,7 +139,7 @@ class VoiceRecommendationCard extends StatelessWidget {
             text,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               color: const Color(0xFFF1F5F9),
               fontSize: 10.5,
               height: 1.35,
@@ -173,7 +173,7 @@ class VoiceLegacyResultsSection extends StatelessWidget {
       children: [
         Text(
           l10n.voiceBestMatchingSchemes,
-          style: GoogleFonts.inter(
+          style: AppGoogleFonts.inter(
             color: Colors.white,
             fontSize: 11.5,
             fontWeight: FontWeight.w700,
@@ -259,7 +259,7 @@ class VoiceConversationalResultsSection extends StatelessWidget {
             Expanded(
               child: Text(
                 l10n.voiceSchemesSuitedToSituation,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   color: Colors.white,
                   fontSize: 11.5,
                   fontWeight: FontWeight.w700,
@@ -269,7 +269,7 @@ class VoiceConversationalResultsSection extends StatelessWidget {
             Text(
               l10n.voiceFoundCount(allRecommendations.length),
               key: const Key('voice-result-count'),
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 color: const Color(0xFF93C5FD),
                 fontSize: 10.5,
                 fontWeight: FontWeight.w700,
@@ -369,7 +369,7 @@ class RegularVoiceRecommendationCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       localized.name,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         color: Colors.white,
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
@@ -391,7 +391,7 @@ class RegularVoiceRecommendationCard extends StatelessWidget {
                   l10n.voiceWhyThisFits(recommendation.reasons.join(' • ')),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     color: const Color(0xFFB7C0D2),
                     fontSize: 10.5,
                     height: 1.4,
@@ -403,7 +403,7 @@ class RegularVoiceRecommendationCard extends StatelessWidget {
                 recommendation.isTrusted
                     ? l10n.voiceSourceVerified
                     : l10n.voiceConfirmEligibility,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   color: recommendation.isTrusted
                       ? const Color(0xFF70D6B2)
                       : const Color(0xFFFFC46B),
@@ -457,7 +457,7 @@ class RegularVoiceRecommendationsSection extends StatelessWidget {
             Expanded(
               child: Text(
                 l10n.voiceForYou,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   color: Colors.white,
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
@@ -467,7 +467,7 @@ class RegularVoiceRecommendationsSection extends StatelessWidget {
             Text(
               l10n.voiceFoundCount(all.length),
               key: const Key('voice-result-count'),
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 color: const Color(0xFF929DB2),
                 fontSize: 11,
               ),
@@ -532,7 +532,7 @@ class RegularVoiceLegacyResultsSection extends StatelessWidget {
       children: [
         Text(
           l10n.voiceForYou,
-          style: GoogleFonts.inter(
+          style: AppGoogleFonts.inter(
             color: Colors.white,
             fontSize: 16,
             fontWeight: FontWeight.w700,

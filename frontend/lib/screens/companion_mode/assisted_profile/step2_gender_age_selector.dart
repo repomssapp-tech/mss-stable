@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 
 class Step2GenderAgeSelector extends StatelessWidget {
   final String selectedGender;
@@ -96,7 +96,7 @@ class Step2GenderAgeSelector extends StatelessWidget {
             children: [
               Text(
                 l10n.ageSelectLabel,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFF64748B),
@@ -120,7 +120,7 @@ class Step2GenderAgeSelector extends StatelessWidget {
                     children: [
                       Text(
                         '$selectedAge',
-                        style: GoogleFonts.poppins(
+                        style: AppGoogleFonts.poppins(
                           fontSize: 48,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF2563EB),
@@ -129,7 +129,7 @@ class Step2GenderAgeSelector extends StatelessWidget {
                       ),
                       Text(
                         l10n.ageYearsLabel,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: const Color(0xFF64748B),
@@ -162,7 +162,7 @@ class Step2GenderAgeSelector extends StatelessWidget {
                       backgroundColor: selectedAge == preset
                           ? const Color(0xFFEFF6FF)
                           : const Color(0xFFF8FAFC),
-                      labelStyle: GoogleFonts.inter(
+                      labelStyle: AppGoogleFonts.inter(
                         fontSize: 13,
                         fontWeight: selectedAge == preset
                             ? FontWeight.bold
@@ -253,7 +253,7 @@ class Step2GenderAgeSelector extends StatelessWidget {
               // and Hindi labels on one line.
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 14,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
                 color: isSelected

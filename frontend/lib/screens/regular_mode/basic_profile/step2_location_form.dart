@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../services/recommendation/indian_states.dart';
 import 'state_picker_field.dart';
 import 'district_picker_field.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 
 class Step2LocationForm extends StatelessWidget {
   final TextEditingController addressController;
@@ -64,7 +64,7 @@ class Step2LocationForm extends StatelessWidget {
         Text(
           l10n.whereLocated,
           textAlign: TextAlign.center,
-          style: GoogleFonts.poppins(
+          style: AppGoogleFonts.poppins(
             fontSize: 16,
             fontWeight: FontWeight.bold,
             color: kSlate900,
@@ -117,7 +117,7 @@ class Step2LocationForm extends StatelessWidget {
                 Expanded(
                   child: Text(
                     l10n.useCurrentLocation,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                       color: kSlate900,
@@ -145,7 +145,7 @@ class Step2LocationForm extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
               child: Text(
                 l10n.or,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                   color: kSlate500,
@@ -249,7 +249,7 @@ class Step2LocationForm extends StatelessWidget {
     return Text.rich(
       TextSpan(
         text: baseText,
-        style: GoogleFonts.inter(
+        style: AppGoogleFonts.inter(
           fontSize: 13,
           fontWeight: FontWeight.bold,
           color: kSlate800,
@@ -283,20 +283,20 @@ class Step2LocationForm extends StatelessWidget {
       keyboardType: keyboardType,
       inputFormatters: inputFormatters,
       onChanged: onChanged,
-      style: GoogleFonts.inter(
+      style: AppGoogleFonts.inter(
         fontSize: 14,
         fontWeight: FontWeight.w500,
         color: kSlate900,
       ),
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: GoogleFonts.inter(
+        hintStyle: AppGoogleFonts.inter(
           fontSize: 13,
           color: const Color(0xFF94A3B8),
         ),
         prefixIcon: Icon(icon, color: kSlate500, size: 20),
         errorText: errorText,
-        errorStyle: GoogleFonts.inter(
+        errorStyle: AppGoogleFonts.inter(
           fontSize: 11,
           fontWeight: FontWeight.w500,
           color: const Color(0xFFDC2626),

@@ -4,7 +4,6 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../models/scheme_model.dart';
@@ -43,6 +42,7 @@ import 'voice/voice_recommendation_cards.dart';
 import 'voice/voice_transcript_widgets.dart';
 import 'voice/recorded_voice_dialog.dart';
 import '../../services/voice/recorded_transcription_service.dart';
+import '../../utils/app_text.dart';
 
 typedef _VoiceAssistantPhase = VoiceAssistantPhase;
 typedef _OnlineGroundingPhase = OnlineGroundingPhase;
@@ -1466,7 +1466,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                                   child: Text(
                                     _l10n.voiceNoiseControlSecure,
                                     textAlign: TextAlign.center,
-                                    style: GoogleFonts.inter(
+                                    style: AppGoogleFonts.inter(
                                       color: const Color(0xFFCBD5E1),
                                       fontSize: 9.5,
                                     ),
@@ -1480,7 +1480,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                             Text(
                               _message!,
                               textAlign: TextAlign.center,
-                              style: GoogleFonts.inter(
+                              style: AppGoogleFonts.inter(
                                 color: const Color(0xFFFCA5A5),
                                 fontSize: 11.5,
                               ),
@@ -1584,7 +1584,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                               _l10n.voiceNoConfidentMatch,
                               key: const Key('voice-no-results'),
                               textAlign: TextAlign.center,
-                              style: GoogleFonts.inter(
+                              style: AppGoogleFonts.inter(
                                 color: const Color(0xFFFBBF24),
                                 fontSize: 11,
                               ),
@@ -1787,7 +1787,7 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
                                 _l10n.voiceNeedOneMoreDetail,
                                 key: const Key('voice-no-results'),
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.inter(
+                                style: AppGoogleFonts.inter(
                                   color: const Color(0xFFA8B0C2),
                                   fontSize: 13,
                                   height: 1.4,

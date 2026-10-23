@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../../utils/app_text.dart';
 import '../../../utils/responsive.dart';
 
 class AssessmentSheetFooter extends StatelessWidget {
@@ -35,7 +35,7 @@ class AssessmentSheetFooter extends StatelessWidget {
               label: FitOneLine(
                 child: Text(
                   backLabel,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: isTamil ? 11.0 : 12.0,
                     fontWeight: FontWeight.bold,
                   ),
@@ -55,10 +55,10 @@ class AssessmentSheetFooter extends StatelessWidget {
             child: FitOneLine(
               child: Text(
                 skipLabel,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   fontSize: isTamil ? 11.0 : 12.0,
                   fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.underline,
+                  decoration: context.linkDecoration,
                 ),
               ),
             ),

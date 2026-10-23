@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../services/catalog/centralized_translator.dart';
@@ -10,6 +9,7 @@ import '../../../utils/app_spacing.dart';
 import '../../../utils/responsive.dart';
 import '../saarthi_message.dart';
 import 'saarthi_home_models.dart';
+import '../../../utils/app_text.dart';
 
 /// Labeled accessible button control used inside [SaarthiAccessibleVoiceControls].
 class SaarthiLabeledControl extends StatelessWidget {
@@ -52,7 +52,7 @@ class SaarthiLabeledControl extends StatelessWidget {
                 FitOneLine(
                   child: Text(
                     label,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
                       color: color,
@@ -98,7 +98,7 @@ class SaarthiStartVoiceButton extends StatelessWidget {
           icon: const Icon(Icons.mic_rounded, size: 27),
           label: Text(
             context.l10n.companionTapToSpeak,
-            style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w700),
+            style: AppGoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w700),
           ),
         ),
       ),
@@ -167,7 +167,7 @@ class SaarthiVoiceStatusBanner extends StatelessWidget {
               child: Text(
                 statusText,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
                   color: color,
@@ -257,7 +257,7 @@ class SaarthiAccessibleVoiceControls extends StatelessWidget {
                   FitOneLine(
                     child: Text(
                       primaryLabel,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
                         color: primaryColor,
@@ -362,7 +362,7 @@ class SaarthiBottomPanel extends StatelessWidget {
                   children: [
                     Text(
                       context.l10n.companionAskAnything,
-                      style: GoogleFonts.poppins(
+                      style: AppGoogleFonts.poppins(
                         fontSize: 13.5,
                         fontWeight: FontWeight.bold,
                         color: kDarkSlate,
@@ -371,7 +371,7 @@ class SaarthiBottomPanel extends StatelessWidget {
                     const SizedBox(height: AppSpacing.hairline),
                     Text(
                       context.l10n.companionTapToSpeakHint,
-                      style: GoogleFonts.inter(fontSize: 10, color: kSlate500),
+                      style: AppGoogleFonts.inter(fontSize: 10, color: kSlate500),
                     ),
                   ],
                 ),
@@ -414,7 +414,7 @@ class SaarthiBottomPanel extends StatelessWidget {
             Text(
               cloudConnectionError!,
               textAlign: TextAlign.center,
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 10.5,
                 color: const Color(0xFFB91C1C),
               ),
@@ -452,7 +452,7 @@ class SaarthiBottomPanel extends StatelessWidget {
                     usingCloudVoice
                         ? context.l10n.companionSecureLiveSession
                         : context.l10n.companionLiveConnectionRequired,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 9.5,
                       color: const Color(0xFF94A3B8),
                     ),

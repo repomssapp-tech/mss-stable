@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 
 class Step4EligibilityForm extends StatelessWidget {
   final String selectedEducation;
@@ -161,7 +161,7 @@ class Step4EligibilityForm extends StatelessWidget {
         Text(
           l10n.checkEligibility,
           textAlign: TextAlign.center,
-          style: GoogleFonts.poppins(
+          style: AppGoogleFonts.poppins(
             fontSize: 16,
             fontWeight: FontWeight.bold,
             color: kSlate900,
@@ -171,7 +171,7 @@ class Step4EligibilityForm extends StatelessWidget {
         Text(
           l10n.eligibilitySubtitle,
           textAlign: TextAlign.center,
-          style: GoogleFonts.inter(fontSize: 13, color: kSlate500, height: 1.3),
+          style: AppGoogleFonts.inter(fontSize: 13, color: kSlate500, height: 1.3),
         ),
         const SizedBox(height: AppSpacing.lg),
 
@@ -269,7 +269,7 @@ class Step4EligibilityForm extends StatelessWidget {
     return Text.rich(
       TextSpan(
         text: baseText,
-        style: GoogleFonts.inter(
+        style: AppGoogleFonts.inter(
           fontSize: 13,
           fontWeight: FontWeight.bold,
           color: kSlate800,
@@ -305,7 +305,7 @@ class Step4EligibilityForm extends StatelessWidget {
           Expanded(
             child: Text(
               context.l10n.profilePrivacyNoteDpdpa,
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 10.5,
                 color: kSlate800,
                 height: 1.35,
@@ -341,7 +341,7 @@ class Step4EligibilityForm extends StatelessWidget {
             Expanded(
               child: Text(
                 message,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                   color: const Color(0xFFDC2626),
@@ -397,7 +397,7 @@ class Step4EligibilityForm extends StatelessWidget {
                 label,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   fontSize: 12.5,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                   color: isSelected ? kPrimaryBlue : kSlate800,
@@ -455,7 +455,7 @@ class Step4EligibilityForm extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   fontSize: 12.5,
                   fontWeight: FontWeight.w500,
                   color: kSlate800,

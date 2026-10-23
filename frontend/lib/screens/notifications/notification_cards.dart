@@ -86,7 +86,7 @@ class NotificationTile extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        maxLines: 2,
+                        maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         style: context.text.cardTitle.copyWith(
                           color: AppColors.textPrimary,
@@ -107,16 +107,16 @@ class NotificationTile extends StatelessWidget {
                         ),
                       ],
                       const SizedBox(height: AppSpacing.sm),
-                      Row(
+                      // Wrap, not Row: a long Tamil or Hindi category label and
+                      // time-ago text go on two lines instead of the label
+                      // being cut off with an ellipsis.
+                      Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
-                          Flexible(
-                            child: Text(
-                              style.label,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: context.text.label.copyWith(
-                                color: style.color,
-                              ),
+                          Text(
+                            style.label,
+                            style: context.text.label.copyWith(
+                              color: style.color,
                             ),
                           ),
                           Text(

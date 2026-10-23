@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../l10n/l10n.dart';
 import '../../../providers/app_state_provider.dart';
 import '../../../utils/app_spacing.dart';
@@ -7,6 +6,7 @@ import '../../../utils/responsive.dart';
 import 'categories_data.dart';
 import 'discover_counts.dart';
 import 'state_map_painter.dart';
+import '../../../utils/app_text.dart';
 
 void showComingSoonInfo(BuildContext context, String name, String type) {
   showDialog(
@@ -32,7 +32,7 @@ void showComingSoonInfo(BuildContext context, String name, String type) {
           Expanded(
             child: Text(
               context.l10n.updatingSoon,
-              style: GoogleFonts.poppins(
+              style: AppGoogleFonts.poppins(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
                 color: const Color(0xFF0F172A),
@@ -43,7 +43,7 @@ void showComingSoonInfo(BuildContext context, String name, String type) {
       ),
       content: Text(
         context.l10n.comingSoonSchemesBody(name),
-        style: GoogleFonts.inter(
+        style: AppGoogleFonts.inter(
           fontSize: 13.5,
           color: const Color(0xFF475569),
           height: 1.4,
@@ -64,7 +64,7 @@ void showComingSoonInfo(BuildContext context, String name, String type) {
           ),
           child: Text(
             context.l10n.gotIt,
-            style: GoogleFonts.poppins(
+            style: AppGoogleFonts.poppins(
               fontWeight: FontWeight.w600,
               color: Colors.white,
             ),
@@ -117,7 +117,7 @@ class CategoriesSectionHeader extends StatelessWidget {
           FlexText(
             child: Text(
               title,
-              style: GoogleFonts.poppins(
+              style: AppGoogleFonts.poppins(
                 fontSize: isTa ? 15.0 : 16.5,
                 fontWeight: FontWeight.bold,
                 color: const Color(0xFF0F172A),
@@ -138,7 +138,7 @@ class CategoriesSectionHeader extends StatelessWidget {
                   children: [
                     Text(
                       context.l10n.viewAll,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 12.5,
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF2563EB),
@@ -229,7 +229,7 @@ class CategoryHorizontalList extends StatelessWidget {
                       localizedTitle,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.poppins(
+                      style: AppGoogleFonts.poppins(
                         fontSize: provider.selectedLanguage == 'ta'
                             ? 10.0
                             : 10.5,
@@ -241,7 +241,7 @@ class CategoryHorizontalList extends StatelessWidget {
                     const SizedBox(height: AppSpacing.hairline),
                     Text(
                       countStr,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 9.5,
                         fontWeight: FontWeight.w600,
                         color: cnt == 0
@@ -348,9 +348,9 @@ class MinistryHorizontalList extends StatelessWidget {
                     const Spacer(),
                     Text(
                       localizedTitle,
-                      maxLines: 2,
+                      maxLines: 3,
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.poppins(
+                      style: AppGoogleFonts.poppins(
                         fontSize: provider.selectedLanguage == 'ta'
                             ? 10.0
                             : 10.5,
@@ -362,7 +362,7 @@ class MinistryHorizontalList extends StatelessWidget {
                     const SizedBox(height: AppSpacing.hairline),
                     Text(
                       countStr,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 9.5,
                         fontWeight: FontWeight.w600,
                         color: cnt == 0
@@ -449,7 +449,7 @@ class StateHorizontalList extends StatelessWidget {
                       localizedTitle,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.poppins(
+                      style: AppGoogleFonts.poppins(
                         fontSize: provider.selectedLanguage == 'ta'
                             ? 10.0
                             : 10.5,
@@ -460,7 +460,7 @@ class StateHorizontalList extends StatelessWidget {
                     const SizedBox(height: AppSpacing.hairline),
                     Text(
                       countStr,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 9.5,
                         fontWeight: FontWeight.w600,
                         color: cnt == 0

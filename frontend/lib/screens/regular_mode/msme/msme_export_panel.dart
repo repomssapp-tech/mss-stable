@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 
 class ExportInteractivePanel extends StatefulWidget {
   final Color iconColor;
@@ -71,7 +71,7 @@ class _ExportInteractivePanelState extends State<ExportInteractivePanel> {
               CentralizedTranslator.instance.localize(
                 'Export Readiness Assessment',
               ),
-              style: GoogleFonts.poppins(
+              style: AppGoogleFonts.poppins(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
                 color: const Color(0xFF0F172A),
@@ -82,7 +82,7 @@ class _ExportInteractivePanelState extends State<ExportInteractivePanel> {
               CentralizedTranslator.instance.localize(
                 'Complete this checklist to identify missing links for international trade registration.',
               ),
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 11.5,
                 color: const Color(0xFF64748B),
               ),
@@ -106,7 +106,7 @@ class _ExportInteractivePanelState extends State<ExportInteractivePanel> {
                 const SizedBox(width: AppSpacing.md),
                 Text(
                   '${(progress * 100).toInt()}%',
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                     color: widget.iconColor,
@@ -132,7 +132,7 @@ class _ExportInteractivePanelState extends State<ExportInteractivePanel> {
                     dense: true,
                     title: Text(
                       qText,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF1E293B),
@@ -171,7 +171,7 @@ class _ExportInteractivePanelState extends State<ExportInteractivePanel> {
                             Expanded(
                               child: Text(
                                 tipText,
-                                style: GoogleFonts.inter(
+                                style: AppGoogleFonts.inter(
                                   fontSize: 10.5,
                                   color: const Color(0xFFB45309),
                                   fontWeight: FontWeight.w500,

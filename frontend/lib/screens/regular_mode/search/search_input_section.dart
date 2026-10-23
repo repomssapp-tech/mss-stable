@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'listening_pulse.dart';
 import '../../../utils/spell_check.dart';
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 
 /// Top header bar for the search screen matching the Discover header style.
 class SearchHeaderBar extends StatelessWidget {
@@ -16,7 +16,7 @@ class SearchHeaderBar extends StatelessWidget {
       children: [
         Text(
           context.l10n.searchTitle,
-          style: GoogleFonts.poppins(
+          style: AppGoogleFonts.poppins(
             fontSize: 24,
             fontWeight: FontWeight.bold,
             color: const Color(0xFF0F172A),
@@ -25,7 +25,7 @@ class SearchHeaderBar extends StatelessWidget {
         const SizedBox(height: AppSpacing.hairline),
         Text(
           context.l10n.searchDiscoverSubtitle,
-          style: GoogleFonts.inter(
+          style: AppGoogleFonts.inter(
             fontSize: 12,
             color: const Color(0xFF64748B),
           ),
@@ -85,7 +85,7 @@ class SearchInputField extends StatelessWidget {
         // app's language, where the device has that dictionary.
         spellCheckConfiguration: platformSpellCheck(),
         onSubmitted: onSubmitted,
-        style: GoogleFonts.inter(
+        style: AppGoogleFonts.inter(
           fontSize: scaledFontSize(13),
           color: const Color(0xFF1E293B),
         ),
@@ -93,7 +93,7 @@ class SearchInputField extends StatelessWidget {
           hintText: isDictating
               ? context.l10n.voiceStatusListening
               : context.l10n.searchPlaceholder,
-          hintStyle: GoogleFonts.inter(
+          hintStyle: AppGoogleFonts.inter(
             color: const Color(0xFF94A3B8),
             fontSize: 12.5,
           ),
@@ -205,7 +205,7 @@ class SearchQuickPills extends StatelessWidget {
                   const SizedBox(width: AppSpacing.tight),
                   Text(
                     text,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 11.5,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xFF334155),
@@ -240,19 +240,18 @@ class SearchTryBanner extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          const Icon(Icons.search, color: Color(0xFF64748B), size: 12),
+          const Icon(Icons.search, color: Color(0xFF64748B), size: 14),
           const SizedBox(width: AppSpacing.xs),
+          // Wraps to a second line instead of shrinking to a tiny size.
           Expanded(
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "${context.l10n.trySearchPrefix} $hintText",
-                style: GoogleFonts.inter(
-                  color: const Color(0xFF64748B),
-                  fontSize: scaledFontSize(11),
-                  fontWeight: FontWeight.w500,
-                ),
+            child: Text(
+              "${context.l10n.trySearchPrefix} $hintText",
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: AppGoogleFonts.inter(
+                color: const Color(0xFF64748B),
+                fontSize: scaledFontSize(12),
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../utils/app_colors.dart';
 import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/utils/constants.dart';
 import 'package:frontend/l10n/l10n.dart';
@@ -130,7 +129,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           _isSelectionMode
               ? context.l10n.notifSelectedCount(_selectedIds.length)
               : context.l10n.notificationsGroupHeader,
-          style: GoogleFonts.poppins(
+          style: AppGoogleFonts.poppins(
             color: AppConstants.primaryText,
             fontWeight: FontWeight.bold,
             fontSize: 18.0,
@@ -234,7 +233,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             child: Text(
                               context.l10n.notifMarkAllAsRead,
                               softWrap: true,
-                              style: GoogleFonts.inter(fontSize: 13.5),
+                              style: AppGoogleFonts.inter(fontSize: 13.5),
                             ),
                           ),
                         ],
@@ -254,7 +253,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             child: Text(
                               context.l10n.notifDeleteAll,
                               softWrap: true,
-                              style: GoogleFonts.inter(
+                              style: AppGoogleFonts.inter(
                                 fontSize: 13.5,
                                 color: AppColors.danger,
                               ),
@@ -277,7 +276,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             child: Text(
                               context.l10n.select,
                               softWrap: true,
-                              style: GoogleFonts.inter(fontSize: 13.5),
+                              style: AppGoogleFonts.inter(fontSize: 13.5),
                             ),
                           ),
                         ],

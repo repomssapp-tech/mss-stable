@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/app_text.dart';
 
 class NotificationEmptyState extends StatelessWidget {
   const NotificationEmptyState({super.key});
@@ -22,7 +22,7 @@ class NotificationEmptyState extends StatelessWidget {
             const SizedBox(height: AppSpacing.lg),
             Text(
               context.l10n.notifNoMatchingAlerts,
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 color: const Color(0xFF64748B),
                 fontSize: 15,
               ),

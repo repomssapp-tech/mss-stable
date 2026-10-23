@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import '../../utils/app_colors.dart';
 import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../providers/app_state_provider.dart';
 import '../../utils/constants.dart';
 import '../../l10n/l10n.dart';
@@ -83,7 +82,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Expanded(
                       child: Text(
                         context.l10n.navigationModeSetting,
-                        style: GoogleFonts.poppins(
+                        style: AppGoogleFonts.poppins(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF0F172A),
@@ -103,7 +102,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 const SizedBox(height: AppSpacing.lg),
                 Text(
                   context.l10n.settingsNavModeDialogBody,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 11.5,
                     color: const Color(0xFF64748B),
                   ),
@@ -188,7 +187,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 children: [
                   Text(
                     title,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontWeight: FontWeight.bold,
                       fontSize: 13,
                       color: isSelected
@@ -199,7 +198,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   const SizedBox(height: AppSpacing.hairline),
                   Text(
                     subtitle,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 10.5,
                       color: const Color(0xFF64748B),
                     ),
@@ -236,7 +235,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         title: Text(
           context.l10n.profileSettingsTitle,
-          style: GoogleFonts.inter(
+          style: AppGoogleFonts.inter(
             fontSize: 16,
             fontWeight: FontWeight.bold,
             color: const Color(0xFF0F172A),
@@ -279,7 +278,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 provider.profile.name.isNotEmpty
                                     ? provider.profile.name[0].toUpperCase()
                                     : 'U',
-                                style: GoogleFonts.poppins(
+                                style: AppGoogleFonts.poppins(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color: const Color(0xFF2563EB),
@@ -314,7 +313,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             provider.profile.name.isNotEmpty
                                 ? provider.profile.name[0].toUpperCase()
                                 : 'U',
-                            style: GoogleFonts.poppins(
+                            style: AppGoogleFonts.poppins(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: const Color(0xFF2563EB),
@@ -332,7 +331,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               : context.l10n.commonUserFallback,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.poppins(
+                          style: AppGoogleFonts.poppins(
                             fontSize: provider.selectedLanguage == 'ta'
                                 ? 14.5
                                 : 16.0,
@@ -350,7 +349,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               : (provider.mobileNumber.isNotEmpty
                                     ? provider.mobileNumber
                                     : '+91'),
-                          style: GoogleFonts.inter(
+                          style: AppGoogleFonts.inter(
                             fontSize: 11.5,
                             color: const Color(0xFF64748B),
                           ),
@@ -369,7 +368,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             context.l10n.profileCompletionFormat(
                               provider.profileCompletionPercentage,
                             ),
-                            style: GoogleFonts.poppins(
+                            style: AppGoogleFonts.poppins(
                               fontSize: 9.5,
                               fontWeight: FontWeight.bold,
                               color: const Color(0xFF2563EB),
@@ -388,8 +387,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
             _buildGroupContainer([
               _buildSettingRow(
                 icon: Icons.person_outline,
-                title: context.l10n.completeProfileTitle,
-                value: context.l10n.profileCompletionFormat(
+                // A finished profile is edited, not completed. The progress goes
+                // under the title (not beside it), so the title keeps the whole
+                // row width and never wraps.
+                title: provider.profileCompletionPercentage >= 100
+                    ? context.l10n.editProfile
+                    : context.l10n.completeProfileTitle,
+                subtitle: context.l10n.profileCompletionFormat(
                   provider.profileCompletionPercentage,
                 ),
                 onTap: () {
@@ -493,7 +497,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             _buildGroupContainer([
               _buildSettingRow(
                 icon: Icons.help_outline,
-                title: context.l10n.helpFaqSetting,
+                title: context.l10n.helpHeaderSupport,
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -532,7 +536,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               icon: const Icon(Icons.logout, size: 18),
               label: Text(
                 context.l10n.logoutButton,
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   fontSize: 13.5,
                   fontWeight: FontWeight.bold,
                 ),
@@ -563,10 +567,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   final v = snapshot.data;
                   return Text(
                     v == null ? '' : context.l10n.settingsAppVersion(v.label),
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
-                      color: const Color(0xFF94A3B8),
+                      color: AppColors.textSecondary,
                     ),
                   );
                 },
@@ -585,7 +589,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       padding: const EdgeInsets.only(top: AppSpacing.xl, bottom: AppSpacing.sm),
       child: Text(
         title,
-        style: GoogleFonts.inter(
+        style: AppGoogleFonts.inter(
           fontSize: 14.5,
           fontWeight: FontWeight.bold,
           color: const Color(0xFF0F172A),
@@ -639,7 +643,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           title: Text(
             title,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               fontSize: 13,
               fontWeight: FontWeight.bold,
               color: titleColor ?? const Color(0xFF0F172A),
@@ -668,7 +672,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           alignment: Alignment.centerRight,
                           child: Text(
                             value,
-                            style: GoogleFonts.inter(
+                            style: AppGoogleFonts.inter(
                               fontSize: 12.5,
                               fontWeight: FontWeight.w600,
                               color: const Color(0xFF64748B),

@@ -217,9 +217,10 @@ class _AppBottomNavBarState extends State<AppBottomNavBar>
     final travel = math.sin(math.pi * (pos - pos.floorToDouble()));
     // Wider than its slot, so the whole label (any language, up to the width
     // the bar's label scaling allows) sits inside the glow with room to spare.
-    final dropBase = slotWidth + AppSpacing.md;
+    // 10% smaller than before (see _Droplet for its 10% lighter colour).
+    final dropBase = (slotWidth + AppSpacing.md) * 0.9;
     final dropWidth = dropBase * (1 + 0.32 * travel);
-    final dropHeight = (height - AppSpacing.sm * 2) * (1 - 0.1 * travel);
+    final dropHeight = (height - AppSpacing.sm * 2) * 0.9 * (1 - 0.1 * travel);
     final centerX = kNavBarInnerPad + slotWidth * (pos + 0.5);
 
     return Stack(
@@ -373,14 +374,14 @@ class _Droplet extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            AppColors.surface.withValues(alpha: 0.85),
-            AppColors.primary.withValues(alpha: 0.16),
+            AppColors.surface.withValues(alpha: 0.765),
+            AppColors.primary.withValues(alpha: 0.144),
           ],
         ),
-        border: Border.all(color: AppColors.primary.withValues(alpha: 0.22)),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.198)),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.18),
+            color: AppColors.primary.withValues(alpha: 0.162),
             blurRadius: 14,
             offset: const Offset(0, 4),
           ),

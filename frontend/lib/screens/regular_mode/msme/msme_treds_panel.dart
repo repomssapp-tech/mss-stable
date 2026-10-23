@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 
 class TredsInteractivePanel extends StatefulWidget {
   final Color iconColor;
@@ -68,7 +68,7 @@ class _TredsInteractivePanelState extends State<TredsInteractivePanel> {
               CentralizedTranslator.instance.localize(
                 'TReDS Invoice Discounting Flow',
               ),
-              style: GoogleFonts.poppins(
+              style: AppGoogleFonts.poppins(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
                 color: const Color(0xFF0F172A),
@@ -101,7 +101,7 @@ class _TredsInteractivePanelState extends State<TredsInteractivePanel> {
                         ),
                         child: Text(
                           context.l10n.msmeStepNumber(idx + 1),
-                          style: GoogleFonts.inter(
+                          style: AppGoogleFonts.inter(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
                             color: isSelected
@@ -132,7 +132,7 @@ class _TredsInteractivePanelState extends State<TredsInteractivePanel> {
                     CentralizedTranslator.instance.localize(
                       _tredsSteps[_tredsStepIndex]['title']!,
                     ),
-                    style: GoogleFonts.poppins(
+                    style: AppGoogleFonts.poppins(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                       color: widget.iconColor,
@@ -143,7 +143,7 @@ class _TredsInteractivePanelState extends State<TredsInteractivePanel> {
                     CentralizedTranslator.instance.localize(
                       _tredsSteps[_tredsStepIndex]['desc']!,
                     ),
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 12,
                       color: const Color(0xFF334155),
                       height: 1.45,
@@ -164,7 +164,7 @@ class _TredsInteractivePanelState extends State<TredsInteractivePanel> {
                           CentralizedTranslator.instance.localize(
                             _tredsSteps[_tredsStepIndex]['action']!,
                           ),
-                          style: GoogleFonts.inter(
+                          style: AppGoogleFonts.inter(
                             fontSize: 10.5,
                             fontStyle: FontStyle.italic,
                             color: const Color(0xFF64748B),

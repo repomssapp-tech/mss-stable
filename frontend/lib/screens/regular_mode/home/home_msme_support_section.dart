@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
 import '../msme_module_details_screen.dart';
+import '../../../utils/app_text.dart';
 
 class HomeMsmeSupportSection extends StatelessWidget {
   const HomeMsmeSupportSection({super.key});
@@ -15,7 +15,7 @@ class HomeMsmeSupportSection extends StatelessWidget {
       children: [
         Text(
           context.l10n.exploreMsmeSupport,
-          style: GoogleFonts.poppins(
+          style: AppGoogleFonts.poppins(
             fontSize: 16.5,
             fontWeight: FontWeight.bold,
             color: const Color(0xFF0F172A),
@@ -173,7 +173,7 @@ class HomeMsmeSupportSection extends StatelessWidget {
                   textAlign: TextAlign.center,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.poppins(
+                  style: AppGoogleFonts.poppins(
                     fontSize: 11.5,
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF0F172A),
@@ -185,7 +185,7 @@ class HomeMsmeSupportSection extends StatelessWidget {
                   textAlign: TextAlign.center,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 9.5,
                     color: const Color(0xFF64748B),
                     height: 1.3,

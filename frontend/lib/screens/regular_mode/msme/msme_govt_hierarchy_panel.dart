@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 
 class GovtInteractivePanel extends StatefulWidget {
   final Color iconColor;
@@ -33,7 +33,7 @@ class _GovtInteractivePanelState extends State<GovtInteractivePanel> {
               CentralizedTranslator.instance.localize(
                 'Government Authorities Tree',
               ),
-              style: GoogleFonts.poppins(
+              style: AppGoogleFonts.poppins(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
                 color: const Color(0xFF0F172A),
@@ -86,7 +86,7 @@ class _GovtInteractivePanelState extends State<GovtInteractivePanel> {
           ),
           child: Text(
             title,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               fontSize: 12,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
               color: isSelected ? widget.iconColor : const Color(0xFF64748B),
@@ -138,7 +138,7 @@ class _GovtInteractivePanelState extends State<GovtInteractivePanel> {
         children: [
           Text(
             name,
-            style: GoogleFonts.poppins(
+            style: AppGoogleFonts.poppins(
               fontSize: 13,
               fontWeight: FontWeight.bold,
               color: const Color(0xFF1E293B),
@@ -147,7 +147,7 @@ class _GovtInteractivePanelState extends State<GovtInteractivePanel> {
           const SizedBox(height: AppSpacing.sm),
           Text(
             roles,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               fontSize: 11.5,
               color: const Color(0xFF475569),
               height: 1.5,
@@ -169,7 +169,7 @@ class _GovtInteractivePanelState extends State<GovtInteractivePanel> {
               Expanded(
                 child: Text(
                   details,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 10.5,
                     color: const Color(0xFF64748B),
                     fontWeight: FontWeight.w500,

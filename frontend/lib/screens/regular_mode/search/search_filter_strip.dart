@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 
 /// Reusable dropdown chip with popup menu for search sorting or filtering.
 class SearchDropdownChip extends StatelessWidget {
@@ -47,7 +47,7 @@ class SearchDropdownChip extends StatelessWidget {
                   children: [
                     Text(
                       show(opt),
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 12.5,
                         fontWeight: opt == currentValue
                             ? FontWeight.bold
@@ -89,7 +89,7 @@ class SearchDropdownChip extends StatelessWidget {
                 (currentValue.isEmpty || currentValue == 'All')
                     ? label
                     : '$label: ${show(currentValue)}',
-                style: GoogleFonts.inter(
+                style: AppGoogleFonts.inter(
                   fontSize: 11.5,
                   fontWeight: FontWeight.w500,
                   color: isActive
@@ -166,7 +166,7 @@ class SearchFilterStrip extends StatelessWidget {
             facetCount > 0
                 ? '${context.l10n.filterButton} · $facetCount'
                 : context.l10n.filterButton,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               fontSize: 11.5,
               fontWeight: FontWeight.bold,
               color: const Color(0xFF2563EB),
@@ -195,7 +195,7 @@ class SearchFilterStrip extends StatelessWidget {
           ),
           label: Text(
             context.l10n.forMe,
-            style: GoogleFonts.inter(
+            style: AppGoogleFonts.inter(
               fontSize: 11.5,
               fontWeight: FontWeight.bold,
               color: isForMeActive ? Colors.white : const Color(0xFF2563EB),

@@ -9121,13 +9121,13 @@ abstract class AppLocalizations {
   /// No description provided for @catalogFreshnessLabel.
   ///
   /// In en, this message translates to:
-  /// **'Local catalog v{version}'**
+  /// **'Local catalog {version}'**
   String catalogFreshnessLabel(Object version);
 
   /// No description provided for @catalogFreshnessLabelUpdated.
   ///
   /// In en, this message translates to:
-  /// **'Local catalog v{version} • updated {date}'**
+  /// **'Local catalog {version} • updated {date}'**
   String catalogFreshnessLabelUpdated(Object date, Object version);
 
   /// No description provided for @aboutAppDescriptionLong.
@@ -10198,6 +10198,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Finish'**
   String get homeTourFinish;
+
+  /// No description provided for @verificationStatusVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified'**
+  String get verificationStatusVerified;
+
+  /// No description provided for @verificationStatusNotIndependentlyVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'Not independently verified'**
+  String get verificationStatusNotIndependentlyVerified;
 }
 
 class _AppLocalizationsDelegate

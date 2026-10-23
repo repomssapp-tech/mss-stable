@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../providers/app_state_provider.dart';
 import '../../../utils/app_spacing.dart';
 import '../basic_profile_screen.dart';
+import '../../../utils/app_text.dart';
 
 class HomeProfileCompletionCard extends StatelessWidget {
   final AppProvider provider;
@@ -78,7 +78,7 @@ class HomeProfileCompletionCard extends StatelessWidget {
                   ),
                   Text(
                     "$completion%",
-                    style: GoogleFonts.poppins(
+                    style: AppGoogleFonts.poppins(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF0F172A),
@@ -104,7 +104,7 @@ class HomeProfileCompletionCard extends StatelessWidget {
                   children: [
                     Text(
                       context.l10n.completeYourProfile,
-                      style: GoogleFonts.poppins(
+                      style: AppGoogleFonts.poppins(
                         fontSize: 14.0,
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFF0F172A),
@@ -113,7 +113,7 @@ class HomeProfileCompletionCard extends StatelessWidget {
                     const SizedBox(height: AppSpacing.xs),
                     Text(
                       context.l10n.unlockPersonalizedSchemeRecommendations,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 10.5,
                         color: const Color(0xFF334155),
                         fontWeight: FontWeight.w600,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 
 class AssistedStepFooter extends StatelessWidget {
   final bool isLastStep;
@@ -55,7 +55,7 @@ class AssistedStepFooter extends StatelessWidget {
                   const SizedBox(width: AppSpacing.md),
                   Text(
                     context.l10n.actionSaving,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
@@ -67,7 +67,7 @@ class AssistedStepFooter extends StatelessWidget {
                 children: [
                   Text(
                     label,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),

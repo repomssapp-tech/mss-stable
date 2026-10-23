@@ -1694,5 +1694,7 @@
   "homeTourProgress": "{total}-இல் {current}",
   "homeTourSkip": "தவிர்",
   "homeTourNext": "அடுத்து",
-  "homeTourFinish": "முடி"
+  "homeTourFinish": "முடி",
+  "verificationStatusVerified": "சரிபார்க்கப்பட்டது",
+  "verificationStatusNotIndependentlyVerified": "சுயாதீனமாகச் சரிபார்க்கப்படவில்லை"
 }

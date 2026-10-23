@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../l10n/l10n.dart';
 import '../providers/app_state_provider.dart';
@@ -10,6 +9,7 @@ import 'profile/profile_banner_card.dart';
 import 'profile/profile_eligibility_details_card.dart';
 import 'profile/profile_navigation_sections.dart';
 import 'profile/profile_user_info_card.dart';
+import '../utils/app_text.dart';
 
 // Re-exports for clean modular access and backwards compatibility
 export 'profile/avatar_cache_manager.dart';
@@ -36,7 +36,7 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           context.l10n.profileTitle,
-          style: GoogleFonts.poppins(
+          style: AppGoogleFonts.poppins(
             color: const Color(0xFF0F172A),
             fontWeight: FontWeight.bold,
             fontSize: 18.0,

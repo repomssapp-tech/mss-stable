@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/responsive.dart';
+import '../../../utils/app_text.dart';
 
 /// Content section for the step-by-step scheme application process timeline.
 class SchemeProcessContent extends StatelessWidget {
@@ -32,7 +32,7 @@ class SchemeProcessContent extends StatelessWidget {
                   child: FitOneLine(
                     child: Text(
                       "${index + 1}",
-                      style: GoogleFonts.poppins(
+                      style: AppGoogleFonts.poppins(
                         color: const Color(0xFF2563EB),
                         fontSize: 10.5,
                         fontWeight: FontWeight.bold,
@@ -55,7 +55,7 @@ class SchemeProcessContent extends StatelessWidget {
                 children: [
                   Text(
                     steps[index],
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       color: const Color(0xFF0F172A),
                       fontWeight: FontWeight.bold,
                       fontSize: 11.5,
@@ -64,7 +64,7 @@ class SchemeProcessContent extends StatelessWidget {
                   const SizedBox(height: AppSpacing.hairline),
                   Text(
                     context.l10n.processStepSubtitle,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       color: const Color(0xFF64748B),
                       fontSize: 9.0,
                     ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
 import 'role_model.dart';
+import '../../../utils/app_text.dart';
 
 class Step3AboutYouForm extends StatelessWidget {
   final List<RoleModel>? roles;
@@ -111,7 +111,7 @@ class Step3AboutYouForm extends StatelessWidget {
         Text(
           l10n.tellUsAboutYou,
           textAlign: TextAlign.center,
-          style: GoogleFonts.poppins(
+          style: AppGoogleFonts.poppins(
             fontSize: 16,
             fontWeight: FontWeight.bold,
             color: kSlate900,
@@ -121,7 +121,7 @@ class Step3AboutYouForm extends StatelessWidget {
         Text(
           l10n.aboutYouSubtitle,
           textAlign: TextAlign.center,
-          style: GoogleFonts.inter(fontSize: 13, color: kSlate500),
+          style: AppGoogleFonts.inter(fontSize: 13, color: kSlate500),
         ),
         const SizedBox(height: AppSpacing.sm),
 
@@ -167,7 +167,7 @@ class Step3AboutYouForm extends StatelessWidget {
                 Expanded(
                   child: Text(
                     l10n.profileErrSelectOptionToContinue,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xFFDC2626),
@@ -267,7 +267,7 @@ class Step3AboutYouForm extends StatelessWidget {
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                           color: kSlate900,

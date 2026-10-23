@@ -43,8 +43,8 @@ class NotificationTranslationController extends ChangeNotifier {
     for (final item in items) {
       final title = item['title']?.toString() ?? '';
       final body = item['body']?.toString() ?? '';
-      final newTitle = _lookup(title, language);
-      final newBody = _lookup(body, language);
+      final newTitle = _brand(_lookup(title, language));
+      final newBody = _brand(_lookup(body, language));
       if (newTitle == title && newBody == body) {
         out.add(item);
       } else {
@@ -62,6 +62,11 @@ class NotificationTranslationController extends ChangeNotifier {
     _viewVersion = _version;
     return _view = out;
   }
+
+  /// The app is "MSS"; admin broadcasts sometimes write "Mss", and the
+  /// translator keeps whatever casing it is given.
+  static final RegExp _mss = RegExp(r'\bMss\b');
+  static String _brand(String text) => text.replaceAll(_mss, 'MSS');
 
   String _lookup(String text, String language) {
     if (text.trim().isEmpty) return text;

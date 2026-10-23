@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -9,6 +8,7 @@ import '../../../providers/app_state_provider.dart';
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
 import '../search_results_screen.dart';
+import '../../../utils/app_text.dart';
 
 class SchemesInteractivePanel extends StatelessWidget {
   final Color iconColor;
@@ -31,7 +31,7 @@ class SchemesInteractivePanel extends StatelessWidget {
           children: [
             Text(
               context.l10n.msmeInteractiveToolsActions,
-              style: GoogleFonts.poppins(
+              style: AppGoogleFonts.poppins(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
                 color: const Color(0xFF0F172A),
@@ -40,7 +40,7 @@ class SchemesInteractivePanel extends StatelessWidget {
             const SizedBox(height: AppSpacing.md),
             Text(
               context.l10n.msmeInteractiveToolsDesc,
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 12.5,
                 color: const Color(0xFF64748B),
                 height: 1.4,
@@ -69,7 +69,7 @@ class SchemesInteractivePanel extends StatelessWidget {
                     child: Text(
                       context.l10n.msmeSearchSchemes,
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 13,
                         fontWeight: FontWeight.bold,
                       ),
@@ -96,7 +96,7 @@ class SchemesInteractivePanel extends StatelessWidget {
                     child: Text(
                       context.l10n.completeProfileTitle,
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 13,
                         fontWeight: FontWeight.bold,
                       ),
@@ -132,7 +132,7 @@ class FinanceInteractivePanel extends StatelessWidget {
           children: [
             Text(
               CentralizedTranslator.instance.localize('Find Funding Options'),
-              style: GoogleFonts.poppins(
+              style: AppGoogleFonts.poppins(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
                 color: const Color(0xFF0F172A),
@@ -143,7 +143,7 @@ class FinanceInteractivePanel extends StatelessWidget {
               CentralizedTranslator.instance.localize(
                 'Instantly search our database for credit support, collateral-free business loans, and SIDBI programs.',
               ),
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 12.5,
                 color: const Color(0xFF64748B),
                 height: 1.4,
@@ -188,7 +188,7 @@ class FinanceInteractivePanel extends StatelessWidget {
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
                         ),
@@ -227,7 +227,7 @@ class CsrInteractivePanel extends StatelessWidget {
               CentralizedTranslator.instance.localize(
                 'Explore CSR & Technology Clusters',
               ),
-              style: GoogleFonts.poppins(
+              style: AppGoogleFonts.poppins(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
                 color: const Color(0xFF0F172A),
@@ -238,7 +238,7 @@ class CsrInteractivePanel extends StatelessWidget {
               CentralizedTranslator.instance.localize(
                 'Search for schemes offering cluster development, technology upgrades, and incubator grants.',
               ),
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 12.5,
                 color: const Color(0xFF64748B),
                 height: 1.4,
@@ -283,7 +283,7 @@ class CsrInteractivePanel extends StatelessWidget {
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
                         ),
@@ -357,7 +357,7 @@ class _UdyamInteractivePanelState extends State<UdyamInteractivePanel> {
           children: [
             Text(
               l10n.msmeUdyamFlowTitle,
-              style: GoogleFonts.poppins(
+              style: AppGoogleFonts.poppins(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
                 color: const Color(0xFF0F172A),
@@ -392,7 +392,7 @@ class _UdyamInteractivePanelState extends State<UdyamInteractivePanel> {
                         ),
                         child: Text(
                           l10n.msmeStepNumber(idx + 1),
-                          style: GoogleFonts.inter(
+                          style: AppGoogleFonts.inter(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
                             color: isSelected
@@ -423,7 +423,7 @@ class _UdyamInteractivePanelState extends State<UdyamInteractivePanel> {
                 children: [
                   Text(
                     steps[_udyamStepIndex]['title']!,
-                    style: GoogleFonts.poppins(
+                    style: AppGoogleFonts.poppins(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                       color: widget.iconColor,
@@ -432,7 +432,7 @@ class _UdyamInteractivePanelState extends State<UdyamInteractivePanel> {
                   const SizedBox(height: AppSpacing.tight),
                   Text(
                     steps[_udyamStepIndex]['desc']!,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 12,
                       color: const Color(0xFF334155),
                       height: 1.45,
@@ -451,7 +451,7 @@ class _UdyamInteractivePanelState extends State<UdyamInteractivePanel> {
                       Expanded(
                         child: Text(
                           steps[_udyamStepIndex]['action']!,
-                          style: GoogleFonts.inter(
+                          style: AppGoogleFonts.inter(
                             fontSize: 10.5,
                             fontStyle: FontStyle.italic,
                             color: const Color(0xFF64748B),
@@ -483,7 +483,7 @@ class _UdyamInteractivePanelState extends State<UdyamInteractivePanel> {
                 child: Text(
                   l10n.msmeUdyamGoToPortal,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
                   ),

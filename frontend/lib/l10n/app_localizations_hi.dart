@@ -228,7 +228,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get searchTitle => 'खोज';
 
   @override
-  String get trySearchPrefix => 'कोशिश करना:';
+  String get trySearchPrefix => 'आज़माएँ:';
 
   @override
   String get quickFiltersHeader => 'त्वरित फ़िल्टर';
@@ -610,10 +610,10 @@ class AppLocalizationsHi extends AppLocalizations {
       'एमएसएस का उपयोग करके, आप हमारी सेवा की शर्तों से सहमत हैं। सभी योजना की जानकारी आधिकारिक सरकारी पोर्टलों से एकत्रित की गई है।';
 
   @override
-  String get deleteAccountSetting => 'खाता हटा दो';
+  String get deleteAccountSetting => 'खाता हटाएँ';
 
   @override
-  String get deleteAccountTitle => 'खाता हटा दो';
+  String get deleteAccountTitle => 'खाता हटाएँ';
 
   @override
   String get deleteAccountMsg =>
@@ -660,7 +660,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get editProfile => 'प्रोफ़ाइल संपादित करें';
 
   @override
-  String get userInformation => 'यूजर जानकारी';
+  String get userInformation => 'उपयोगकर्ता जानकारी';
 
   @override
   String get eligibilityProfessionalDetails => 'पात्रता एवं व्यावसायिक विवरण';
@@ -678,7 +678,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get labelGender => 'लिंग';
 
   @override
-  String get labelLocation => 'जगह';
+  String get labelLocation => 'स्थान';
 
   @override
   String get labelEducationLevel => 'शिक्षा का स्तर';
@@ -988,10 +988,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get validationSelectDob => 'कृपया अपनी जन्मतिथि चुनें';
 
   @override
-  String get notifTooltipMarkRead => 'पढ़ा गया के रूप में चयनित चिह्नित करें';
+  String get notifTooltipMarkRead => 'चयनित को पढ़ा हुआ चिह्नित करें';
 
   @override
-  String get notifTooltipDeleteSelected => 'चयनित को हटाओ';
+  String get notifTooltipDeleteSelected => 'चयनित को हटाएँ';
 
   @override
   String get notifNewSchemeAlertsTitle => 'नई योजना अलर्ट';
@@ -1048,7 +1048,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'वह नेविगेशन शैली चुनें जो आपके लिए सबसे उपयुक्त हो।';
 
   @override
-  String get navContinueButton => 'जारी रखना';
+  String get navContinueButton => 'जारी रखें';
 
   @override
   String get navChipFastSimple => 'तेज़ और सरल';
@@ -1207,7 +1207,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get companionConnectionNeedsAttention =>
-      'कनेक्शन पर ध्यान देने की जरूरत है';
+      'कनेक्शन पर ध्यान देने की ज़रूरत है';
 
   @override
   String get companionConnectingShort => 'कनेक्ट';
@@ -1586,7 +1586,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get voiceFactLabelSector => 'सेक्टर';
 
   @override
-  String get voiceFactLabelFundingNeed => 'फंडिंग की जरूरत';
+  String get voiceFactLabelFundingNeed => 'फंडिंग की ज़रूरत';
 
   @override
   String get voiceFactLabelLandholding => 'जमीन की जोत';
@@ -1831,7 +1831,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get basicDetailsSubtitle => 'आइए आपके बुनियादी विवरण से शुरू करें।';
 
   @override
-  String get emailAddress => 'मेल पता';
+  String get emailAddress => 'ईमेल पता';
 
   @override
   String get phoneNumber => 'फ़ोन नंबर';
@@ -2122,7 +2122,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get search => 'खोज';
 
   @override
-  String get close => 'बंद करना';
+  String get close => 'बंद करें';
 
   @override
   String get nameLabel => 'नाम';
@@ -3660,7 +3660,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get helpHeaderContact => 'हमसे संपर्क करें';
 
   @override
-  String get helpHeaderSupport => 'सहायता एवं सहायता';
+  String get helpHeaderSupport => 'सहायता एवं समर्थन';
 
   @override
   String get helpHeaderSubtitle => 'हम आपकी मदद के लिए यहां हैं';
@@ -3672,7 +3672,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get helpFaqsGroupSubtitle => 'सामान्य प्रश्नों के उत्तर खोजें';
 
   @override
-  String get helpViewAllFaqs => 'सभी FAQ देखें';
+  String get helpViewAllFaqs => 'सभी प्रश्न देखें';
 
   @override
   String get helpContactGroupTitle => 'समर्थन से संपर्क करें';
@@ -3702,7 +3702,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'हमें बेहतर बनाने में मदद करने के लिए अपने सुझाव साझा करें।';
 
   @override
-  String get helpStillNeedHelp => 'अभी भी मदद की जरूरत है?';
+  String get helpStillNeedHelp => 'अभी भी मदद चाहिए?';
 
   @override
   String get helpStillNeedHelpBody =>
@@ -4171,7 +4171,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get saarthiStatusConnectionAttention =>
-      'कनेक्शन पर ध्यान देने की जरूरत है';
+      'कनेक्शन पर ध्यान देने की ज़रूरत है';
 
   @override
   String saarthiVoiceControlLabel(Object label) {
@@ -4955,12 +4955,12 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String catalogFreshnessLabel(Object version) {
-    return 'स्थानीय कैटलॉग v$version';
+    return 'स्थानीय कैटलॉग $version';
   }
 
   @override
   String catalogFreshnessLabelUpdated(Object date, Object version) {
-    return 'स्थानीय कैटलॉग v$version • $date को अपडेट किया गया';
+    return 'स्थानीय कैटलॉग $version • $date को अपडेट किया गया';
   }
 
   @override
@@ -5557,4 +5557,11 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get homeTourFinish => 'पूरा करें';
+
+  @override
+  String get verificationStatusVerified => 'सत्यापित';
+
+  @override
+  String get verificationStatusNotIndependentlyVerified =>
+      'स्वतंत्र रूप से सत्यापित नहीं';
 }

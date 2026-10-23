@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/msme_classification.dart';
+import '../../../utils/app_text.dart';
 
 /// Udyam MSME Classifier bottom sheet.
 ///
@@ -74,7 +74,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                           children: [
                             Text(
                               context.l10n.calcUdyamClassifierTitle,
-                              style: GoogleFonts.poppins(
+                              style: AppGoogleFonts.poppins(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFF0F172A),
@@ -82,7 +82,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                             ),
                             Text(
                               context.l10n.calcUdyamClassifierSub,
-                              style: GoogleFonts.inter(
+                              style: AppGoogleFonts.inter(
                                 fontSize: 10,
                                 color: const Color(0xFF64748B),
                               ),
@@ -104,7 +104,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                   const SizedBox(height: AppSpacing.xl),
                   Text(
                     context.l10n.calcInvestmentLabel,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF334155),
@@ -120,23 +120,23 @@ void showUdyamClassifierSheet(BuildContext context) {
                       filled: true,
                       fillColor: const Color(0xFFF8FAFC),
                       hintText: '0.5',
-                      hintStyle: GoogleFonts.inter(
+                      hintStyle: AppGoogleFonts.inter(
                         fontSize: 12,
                         color: const Color(0xFF94A3B8),
                       ),
                       prefixText: '₹ ',
                       suffixText: context.l10n.croreSuffix,
                       helperText: context.l10n.calcInvestmentHelper,
-                      helperStyle: GoogleFonts.inter(
+                      helperStyle: AppGoogleFonts.inter(
                         fontSize: 9,
                         color: const Color(0xFF64748B),
                       ),
-                      suffixStyle: GoogleFonts.inter(
+                      suffixStyle: AppGoogleFonts.inter(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF64748B),
                       ),
-                      prefixStyle: GoogleFonts.inter(
+                      prefixStyle: AppGoogleFonts.inter(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF0F172A),
@@ -161,7 +161,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                   const SizedBox(height: AppSpacing.lg),
                   Text(
                     context.l10n.calcTurnoverLabel,
-                    style: GoogleFonts.inter(
+                    style: AppGoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF334155),
@@ -177,23 +177,23 @@ void showUdyamClassifierSheet(BuildContext context) {
                       filled: true,
                       fillColor: const Color(0xFFF8FAFC),
                       hintText: '3.0',
-                      hintStyle: GoogleFonts.inter(
+                      hintStyle: AppGoogleFonts.inter(
                         fontSize: 12,
                         color: const Color(0xFF94A3B8),
                       ),
                       prefixText: '₹ ',
                       suffixText: context.l10n.croreSuffix,
                       helperText: context.l10n.calcTurnoverHelper,
-                      helperStyle: GoogleFonts.inter(
+                      helperStyle: AppGoogleFonts.inter(
                         fontSize: 9,
                         color: const Color(0xFF64748B),
                       ),
-                      suffixStyle: GoogleFonts.inter(
+                      suffixStyle: AppGoogleFonts.inter(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF64748B),
                       ),
-                      prefixStyle: GoogleFonts.inter(
+                      prefixStyle: AppGoogleFonts.inter(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF0F172A),
@@ -250,7 +250,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                                   children: [
                                     Text(
                                       context.l10n.calcClassificationResult,
-                                      style: GoogleFonts.inter(
+                                      style: AppGoogleFonts.inter(
                                         fontSize: 9.5,
                                         fontWeight: FontWeight.bold,
                                         color: const Color(0xFF64748B),
@@ -260,7 +260,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                                     const SizedBox(height: AppSpacing.xs),
                                     Text(
                                       result,
-                                      style: GoogleFonts.poppins(
+                                      style: AppGoogleFonts.poppins(
                                         fontSize: 13,
                                         fontWeight: FontWeight.bold,
                                         color: resultColor,
@@ -270,7 +270,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                                       const SizedBox(height: AppSpacing.xs),
                                       Text(
                                         subResult,
-                                        style: GoogleFonts.inter(
+                                        style: AppGoogleFonts.inter(
                                           fontSize: 10,
                                           color: const Color(0xFF475569),
                                         ),
@@ -355,7 +355,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                       ),
                       child: Text(
                         context.l10n.calcBtnCalculate,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.5,
                         ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
 import 'help_support_data.dart';
+import '../../../utils/app_text.dart';
 
 void showFAQBottomSheet(BuildContext context, String question, String answer) {
   final l10n = context.l10n;
@@ -40,7 +40,7 @@ void showFAQBottomSheet(BuildContext context, String question, String answer) {
                 Expanded(
                   child: Text(
                     l10n.helpFaqAnswerTitle,
-                    style: GoogleFonts.poppins(
+                    style: AppGoogleFonts.poppins(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF0F172A),
@@ -60,7 +60,7 @@ void showFAQBottomSheet(BuildContext context, String question, String answer) {
             const SizedBox(height: AppSpacing.lg),
             Text(
               question,
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
                 color: const Color(0xFF0F172A),
@@ -69,7 +69,7 @@ void showFAQBottomSheet(BuildContext context, String question, String answer) {
             const SizedBox(height: AppSpacing.md),
             Text(
               answer,
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 14.5,
                 color: const Color(0xFF64748B),
                 height: 1.5,
@@ -131,7 +131,7 @@ void showAllFAQsBottomSheet(BuildContext context) {
                     Expanded(
                       child: Text(
                         l10n.helpAllFaqsTitle,
-                        style: GoogleFonts.poppins(
+                        style: AppGoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF0F172A),
@@ -170,7 +170,7 @@ void showAllFAQsBottomSheet(BuildContext context) {
                       child: ExpansionTile(
                         title: Text(
                           faq['question']!,
-                          style: GoogleFonts.inter(
+                          style: AppGoogleFonts.inter(
                             color: const Color(0xFF0F172A),
                             fontWeight: FontWeight.bold,
                             fontSize: 13.5,
@@ -188,7 +188,7 @@ void showAllFAQsBottomSheet(BuildContext context) {
                         children: [
                           Text(
                             faq['answer']!,
-                            style: GoogleFonts.inter(
+                            style: AppGoogleFonts.inter(
                               color: const Color(0xFF64748B),
                               fontSize: 13,
                               height: 1.4,

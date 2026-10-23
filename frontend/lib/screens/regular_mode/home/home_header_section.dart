@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../providers/app_state_provider.dart';
@@ -83,7 +82,7 @@ class HomeHeaderSection extends StatelessWidget {
                   ),
                   const SizedBox(width: AppSpacing.xs),
                   ExcludeSemantics(
-                    child: Text("👋", style: GoogleFonts.inter(fontSize: 14)),
+                    child: Text("👋", style: AppGoogleFonts.inter(fontSize: 14)),
                   ),
                 ],
               ),

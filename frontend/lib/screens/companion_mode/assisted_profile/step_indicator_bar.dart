@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_text.dart';
 
 class StepIndicatorBar extends StatelessWidget {
   final int currentStep;
@@ -64,7 +64,7 @@ class StepIndicatorBar extends StatelessWidget {
             const SizedBox(width: AppSpacing.md),
             Text(
               context.l10n.simpleProfileStepIndicator(currentStep, totalSteps),
-              style: GoogleFonts.inter(
+              style: AppGoogleFonts.inter(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
                 color: const Color(0xFF64748B),
@@ -75,7 +75,7 @@ class StepIndicatorBar extends StatelessWidget {
         const SizedBox(height: AppSpacing.md),
         Text(
           title,
-          style: GoogleFonts.poppins(
+          style: AppGoogleFonts.poppins(
             fontSize: 22,
             fontWeight: FontWeight.bold,
             color: const Color(0xFF0F172A),
@@ -85,7 +85,7 @@ class StepIndicatorBar extends StatelessWidget {
         const SizedBox(height: AppSpacing.xs),
         Text(
           subtitle,
-          style: GoogleFonts.inter(
+          style: AppGoogleFonts.inter(
             fontSize: 13.5,
             color: const Color(0xFF64748B),
             height: 1.35,

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../l10n/l10n.dart';
 import '../../../models/localized_scheme.dart';
 import '../../../models/scheme_model.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/responsive.dart';
+import '../../../utils/app_text.dart';
 
 /// Content section for scheme required documents with mandatory badges and portal links.
 class SchemeDocumentsContent extends StatelessWidget {
@@ -29,7 +29,7 @@ class SchemeDocumentsContent extends StatelessWidget {
     if (documents.isEmpty) {
       return Text(
         context.l10n.noDocumentsPublished,
-        style: GoogleFonts.inter(
+        style: AppGoogleFonts.inter(
           color: const Color(0xFF64748B),
           fontSize: 11.5,
           height: 1.4,
@@ -68,7 +68,7 @@ class SchemeDocumentsContent extends StatelessWidget {
                   Expanded(
                     child: Text(
                       document.name,
-                      style: GoogleFonts.inter(
+                      style: AppGoogleFonts.inter(
                         fontSize: 11.5,
                         color: const Color(0xFF0F172A),
                         fontWeight: FontWeight.w700,
@@ -93,7 +93,7 @@ class SchemeDocumentsContent extends StatelessWidget {
                             : document.mandatory.toLowerCase() == 'conditional'
                             ? context.l10n.badgeConditional
                             : document.mandatory,
-                        style: GoogleFonts.inter(
+                        style: AppGoogleFonts.inter(
                           color: document.isMandatory
                               ? const Color(0xFFB91C1C)
                               : const Color(0xFF475569),
@@ -108,7 +108,7 @@ class SchemeDocumentsContent extends StatelessWidget {
                 const SizedBox(height: AppSpacing.tight),
                 Text(
                   document.description,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     color: const Color(0xFF64748B),
                     fontSize: 10.5,
                     height: 1.35,
@@ -119,7 +119,7 @@ class SchemeDocumentsContent extends StatelessWidget {
                 const SizedBox(height: AppSpacing.tight),
                 Text(
                   context.l10n.issuedByFormat(document.issuingAuthority),
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     color: const Color(0xFF475569),
                     fontSize: 9.0,
                     fontWeight: FontWeight.w600,
@@ -130,7 +130,7 @@ class SchemeDocumentsContent extends StatelessWidget {
                   document.estimatedCost.toLowerCase() != 'not specified')
                 Text(
                   context.l10n.estimatedCostFormat(document.estimatedCost),
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     color: const Color(0xFF475569),
                     fontSize: 9.0,
                   ),
@@ -174,7 +174,7 @@ class SchemeDocumentsContent extends StatelessWidget {
                                   child: FitOneLine(
                                     child: Text(
                                       context.l10n.getDocumentOnline,
-                                      style: GoogleFonts.inter(
+                                      style: AppGoogleFonts.inter(
                                         color: const Color(0xFF2563EB),
                                         fontSize: 10.5,
                                         fontWeight: FontWeight.bold,

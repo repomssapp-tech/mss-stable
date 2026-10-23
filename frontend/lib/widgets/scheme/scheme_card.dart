@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../l10n/l10n.dart';
 import '../../models/scheme_model.dart';
@@ -14,6 +13,7 @@ import '../../utils/app_spacing.dart';
 import '../../utils/app_text.dart';
 import '../../utils/chip_list.dart';
 import '../../utils/share_text.dart';
+import '../common/auto_translated_text.dart';
 
 class SchemeCard extends StatefulWidget {
   final Scheme scheme;
@@ -370,10 +370,11 @@ class _SchemeCardState extends State<SchemeCard> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
-                              child: Text(
+                              child: AutoTranslatedText(
                                 locScheme.name,
-                                style: GoogleFonts.poppins(
-                                  fontSize: isTa ? 13.0 : 14.0,
+                                language: lang,
+                                style: AppGoogleFonts.poppins(
+                                  fontSize: 14.0,
                                   fontWeight: FontWeight.bold,
                                   color: const Color(0xFF0F172A),
                                   height: isTa ? 1.35 : 1.25,
@@ -397,7 +398,7 @@ class _SchemeCardState extends State<SchemeCard> {
                                   context.l10n.matchPercentageFormat(
                                     widget.result.percentage,
                                   ),
-                                  style: GoogleFonts.inter(
+                                  style: AppGoogleFonts.inter(
                                     color: const Color(0xFF2E7D32),
                                     fontSize: 8.5,
                                     fontWeight: FontWeight.bold,
@@ -411,7 +412,7 @@ class _SchemeCardState extends State<SchemeCard> {
                           const SizedBox(height: AppSpacing.xs),
                           Text(
                             subtitleText,
-                            style: GoogleFonts.inter(
+                            style: AppGoogleFonts.inter(
                               fontSize: isTa ? 10.5 : 11.0,
                               color: const Color(0xFF64748B),
                               fontWeight: FontWeight.w500,
@@ -449,7 +450,7 @@ class _SchemeCardState extends State<SchemeCard> {
                                 ),
                                 child: Text(
                                   shown,
-                                  style: GoogleFonts.inter(
+                                  style: AppGoogleFonts.inter(
                                     fontSize: isTa ? 9.0 : 9.5,
                                     fontWeight: FontWeight.bold,
                                     color: colors['text'],

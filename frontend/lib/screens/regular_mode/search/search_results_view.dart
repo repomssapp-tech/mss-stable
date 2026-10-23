@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../services/recommendation/recommendation_engine.dart';
 import '../../../l10n/l10n.dart';
 import '../../../models/scheme_model.dart';
@@ -66,7 +65,7 @@ class DidYouMeanSuggestion extends StatelessWidget {
                 context.l10n.searchDidYouMean(suggestion),
                 style: context.text.button.copyWith(
                   color: AppColors.primaryStrong,
-                  decoration: TextDecoration.underline,
+                  decoration: context.linkDecoration,
                 ),
               ),
             ),
@@ -164,7 +163,7 @@ class SearchResultsList extends StatelessWidget {
                 const SizedBox(height: AppSpacing.md),
                 Text(
                   title,
-                  style: GoogleFonts.poppins(
+                  style: AppGoogleFonts.poppins(
                     fontSize: scaledFontSize(15),
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF334155),
@@ -174,7 +173,7 @@ class SearchResultsList extends StatelessWidget {
                 const SizedBox(height: AppSpacing.tight),
                 Text(
                   subtitle,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: scaledFontSize(12),
                     color: const Color(0xFF64748B),
                   ),
@@ -244,7 +243,7 @@ class SearchResultsList extends StatelessWidget {
               children: [
                 Text(
                   titleText,
-                  style: GoogleFonts.poppins(
+                  style: AppGoogleFonts.poppins(
                     fontSize: 15.5,
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF0F172A),
@@ -252,7 +251,7 @@ class SearchResultsList extends StatelessWidget {
                 ),
                 Text(
                   subtitleText,
-                  style: GoogleFonts.inter(
+                  style: AppGoogleFonts.inter(
                     fontSize: 11.5,
                     color: const Color(0xFF64748B),
                   ),

@@ -76,7 +76,7 @@ class ProfileNavigationCard2 extends StatelessWidget {
           icon: Icons.chat_bubble_outline,
           iconColor: const Color(0xFFDB2777),
           iconBgColor: const Color(0xFFFCE7F3),
-          title: context.l10n.helpFaqSetting,
+          title: context.l10n.helpHeaderSupport,
           subtitle: context.l10n.subHelpSupport,
           onTap: () {
             Navigator.of(context).push(
