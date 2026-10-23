@@ -5435,4 +5435,34 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get liveVoiceSpeechUnavailable =>
       'ऑडियो नहीं चल सका। उत्तर नीचे है। दोबारा सुनने के लिए उत्तर फिर सुनें दबाएँ और मीडिया की आवाज़ जाँचें।';
+
+  @override
+  String get notifDetailTitle => 'सूचना';
+
+  @override
+  String get notifDeleteThis => 'यह सूचना हटाएं';
+
+  @override
+  String get notifDeletedToast => 'सूचना हटा दी गई';
+
+  @override
+  String notifReceivedOn(String date) {
+    return 'प्राप्त $date';
+  }
+
+  @override
+  String get notifToday => 'आज';
+
+  @override
+  String get notifYesterday => 'कल';
+
+  @override
+  String get notifEarlier => 'पहले';
+
+  @override
+  String get settingsHapticsTitle => 'हैप्टिक फ़ीडबैक';
+
+  @override
+  String get settingsHapticsSubtitle =>
+      'टैप करने पर और सूचना आने पर हल्का कंपन';
 }

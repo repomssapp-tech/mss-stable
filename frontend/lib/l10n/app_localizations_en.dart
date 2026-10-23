@@ -5417,4 +5417,34 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get liveVoiceSpeechUnavailable =>
       'I couldn’t play the audio. Your reply is below. Tap Hear reply again to retry, and check your media volume.';
+
+  @override
+  String get notifDetailTitle => 'Notification';
+
+  @override
+  String get notifDeleteThis => 'Delete this notification';
+
+  @override
+  String get notifDeletedToast => 'Notification deleted';
+
+  @override
+  String notifReceivedOn(String date) {
+    return 'Received $date';
+  }
+
+  @override
+  String get notifToday => 'Today';
+
+  @override
+  String get notifYesterday => 'Yesterday';
+
+  @override
+  String get notifEarlier => 'Earlier';
+
+  @override
+  String get settingsHapticsTitle => 'Haptic feedback';
+
+  @override
+  String get settingsHapticsSubtitle =>
+      'Vibrate lightly on taps and when a notification arrives';
 }

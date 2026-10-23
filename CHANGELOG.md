@@ -11,6 +11,30 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [1.4.5+13] - 2026-10-23
+
+### Fixed
+- The bottom navigation bar is a floating, light frosted-glass pill again, with the active tab in the brand blue. It sits below the page content instead of over it, and its labels fit in English, Hindi and Tamil at large font sizes.
+- Google account profile pictures show on the profile again (a generated placeholder avatar still falls back to the name initial, and a loading or failed picture shows the initial too).
+- Home "Latest Updates" has a working View All button that opens the full notification list.
+
+### Changed
+- Faster cold start: startup tasks run together, and a tab is built the first time you open it.
+
+## [1.4.4+12] - 2026-10-23
+
+### Added
+- Admin broadcasts show as a phone notification with vibration, also while the app is open.
+- Tapping a notification opens a details screen with the full message, the time it arrived, and delete.
+- A light haptic tick on every tap, with a Haptic feedback switch in Settings (on by default).
+
+### Fixed
+- Hindi is offered in the language picker again. Catalogs published from the admin panel carry no language list, and the app read that as "Hindi off".
+
+### Changed
+- The notifications panel is one list grouped Today / Yesterday / Earlier; long press to select.
+- The bottom navigation bar is a floating frosted-glass blue pill.
+
 ## [1.4.3+11] - 2026-10-21
 
 ### Changed

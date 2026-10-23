@@ -15,9 +15,11 @@ import '../../utils/responsive.dart';
 import '../../widgets/common/app_toast.dart';
 import '../../widgets/scheme/catalog_freshness_footer.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/app_text.dart';
 import '../../utils/language_names.dart';
 import '../../utils/app_version.dart';
 import '../../services/app_info_service.dart';
+import '../../services/haptics/haptics_service.dart';
 import 'settings/active_sessions_dialog.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -424,7 +426,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ? context.l10n.navigationModeCompanion
                     : context.l10n.navigationModeRegular,
                 onTap: () => _showNavigationModePopup(context, provider),
-                isLast: true,
+              ),
+              ValueListenableBuilder<bool>(
+                valueListenable: HapticsService.instance.enabled,
+                builder: (context, on, _) => _buildSettingRow(
+                  icon: Icons.vibration_rounded,
+                  title: context.l10n.settingsHapticsTitle,
+                  subtitle: context.l10n.settingsHapticsSubtitle,
+                  widget: Switch(
+                    value: on,
+                    onChanged: HapticsService.instance.setEnabled,
+                  ),
+                  onTap: () => HapticsService.instance.setEnabled(!on),
+                  isLast: true,
+                ),
               ),
             ]),
 
@@ -603,6 +618,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildSettingRow({
     required IconData icon,
     required String title,
+    String? subtitle,
     String? value,
     Widget? widget,
     VoidCallback? onTap,
@@ -629,6 +645,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
               color: titleColor ?? const Color(0xFF0F172A),
             ),
           ),
+          subtitle: subtitle == null
+              ? null
+              : Text(
+                  subtitle,
+                  style: context.text.bodySmall.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
           trailing:
               widget ??
               ConstrainedBox(

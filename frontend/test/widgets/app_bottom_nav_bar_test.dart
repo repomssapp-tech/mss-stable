@@ -1,5 +1,5 @@
 // The bottom bar must be 64dp (scaled a little for large fonts) plus the system
-// gesture inset -- never also the status-bar height. A MediaQuery rebuilt from
+// gesture inset and the small float gap below the pill -- never also the status-bar height. A MediaQuery rebuilt from
 // a context ABOVE the Scaffold puts the status-bar padding back, and the bar's
 // SafeArea then adds it on top (it showed as ~50dp of empty white above the icons).
 import 'package:flutter/material.dart';
@@ -44,8 +44,16 @@ void main() {
     final h = await barHeight(tester);
     const gestureInset = 63 / 2.625;
     // The label-fit cap keeps the text scale within 11/12..1.15.
-    expect(h, lessThanOrEqualTo(64 * 1.15 + gestureInset + 1));
-    expect(h, greaterThanOrEqualTo(64 * kMinNavLabelScale + gestureInset - 1));
+    expect(
+      h,
+      lessThanOrEqualTo(64 * 1.15 + gestureInset + kNavBarFloatGap + 1),
+    );
+    expect(
+      h,
+      greaterThanOrEqualTo(
+        64 * kMinNavLabelScale + gestureInset + kNavBarFloatGap - 1,
+      ),
+    );
   });
 
   testWidgets('height does not depend on the status-bar height', (

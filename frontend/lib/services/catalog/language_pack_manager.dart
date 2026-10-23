@@ -129,18 +129,25 @@ class LanguagePackManager {
     }
   }
 
+  /// Languages the app's own UI ships in. Used when a manifest carries no
+  /// `languages` list at all: catalogs published from the admin panel
+  /// (`schemes-3`, 2026-10-22) leave it out, and treating that as "everything
+  /// off" hid Hindi from the language picker although the catalog has Hindi.
+  static const Set<String> _appLanguages = {'en', 'ta', 'hi'};
+
   /// Checks if the given language is listed as active in the current manifest
-  /// (`languages: [{code, isActive}]`).
+  /// (`languages: [{code, isActive}]`). A manifest with no `languages` list
+  /// has no kill switch: the app's own languages count as active, and
+  /// [hasValidPack] still requires real content.
   bool isLanguageActiveInRelease(String lang) {
     if (isLanguageActiveOverride != null) {
       return isLanguageActiveOverride!(lang);
     }
     final languages = _releaseManifest?['languages'];
-    if (languages is List) {
-      for (final item in languages) {
-        if (item is Map && item['code'] == lang) {
-          return item['isActive'] == true;
-        }
+    if (languages is! List) return _appLanguages.contains(lang);
+    for (final item in languages) {
+      if (item is Map && item['code'] == lang) {
+        return item['isActive'] == true;
       }
     }
     return false;

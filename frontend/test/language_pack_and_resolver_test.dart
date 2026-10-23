@@ -188,6 +188,17 @@ void main() {
         isFalse,
       );
     });
+
+    test('a manifest without a languages list keeps the app languages on', () {
+      // Admin-published catalogs (schemes-3) carry no `languages` list.
+      LanguagePackManager.instance.setReleaseManifest({
+        'catalogRelease': 'schemes-3',
+      });
+      final m = LanguagePackManager.instance;
+      expect(m.isLanguageActiveInRelease('hi'), isTrue);
+      expect(m.isLanguageActiveInRelease('ta'), isTrue);
+      expect(m.isLanguageActiveInRelease('mr'), isFalse);
+    });
   });
 
   group('Phase P4: MssEntity Content Resolver Fallback', () {

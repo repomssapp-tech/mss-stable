@@ -44,7 +44,10 @@ void main() {
           await tester.pumpWidget(buildTestWidget(provider));
           await tester.pumpAndSettle();
 
-          expect(find.byType(Switch), findsNothing);
+          // The only switch left is the (real) haptics toggle.
+          expect(find.byType(Switch), findsOneWidget);
+          expect(find.text('Haptic feedback'), findsOneWidget);
+          expect(find.textContaining('Notification'), findsNothing);
         },
       );
 

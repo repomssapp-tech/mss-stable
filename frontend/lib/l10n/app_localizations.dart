@@ -9994,6 +9994,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'I couldn’t play the audio. Your reply is below. Tap Hear reply again to retry, and check your media volume.'**
   String get liveVoiceSpeechUnavailable;
+
+  /// No description provided for @notifDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification'**
+  String get notifDetailTitle;
+
+  /// No description provided for @notifDeleteThis.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this notification'**
+  String get notifDeleteThis;
+
+  /// No description provided for @notifDeletedToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification deleted'**
+  String get notifDeletedToast;
+
+  /// No description provided for @notifReceivedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Received {date}'**
+  String notifReceivedOn(String date);
+
+  /// No description provided for @notifToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get notifToday;
+
+  /// No description provided for @notifYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get notifYesterday;
+
+  /// No description provided for @notifEarlier.
+  ///
+  /// In en, this message translates to:
+  /// **'Earlier'**
+  String get notifEarlier;
+
+  /// No description provided for @settingsHapticsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Haptic feedback'**
+  String get settingsHapticsTitle;
+
+  /// No description provided for @settingsHapticsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Vibrate lightly on taps and when a notification arrives'**
+  String get settingsHapticsSubtitle;
 }
 
 class _AppLocalizationsDelegate

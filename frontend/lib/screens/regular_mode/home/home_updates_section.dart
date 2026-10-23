@@ -84,13 +84,32 @@ class HomeLatestUpdatesCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          context.l10n.latestUpdates,
-          style: GoogleFonts.poppins(
-            fontSize: 16.5,
-            fontWeight: FontWeight.bold,
-            color: const Color(0xFF0F172A),
-          ),
+        Row(
+          children: [
+            Expanded(
+              flex: 3,
+              child: Text(
+                context.l10n.latestUpdates,
+                style: GoogleFonts.poppins(
+                  fontSize: 16.5,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF0F172A),
+                ),
+              ),
+            ),
+            // Opens the full inbox, every category.
+            Flexible(
+              flex: 2,
+              child: TextButton(
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const NotificationsScreen(),
+                  ),
+                ),
+                child: Text(context.l10n.viewAll, textAlign: TextAlign.end),
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: AppSpacing.md),
         GestureDetector(

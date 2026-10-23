@@ -5512,4 +5512,34 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get liveVoiceSpeechUnavailable =>
       'ஒலியை இயக்க முடியவில்லை. பதில் கீழே உள்ளது. மீண்டும் கேட்கும் பொத்தானை அழுத்தவும்; ஊடக ஒலி அளவையும் சரிபார்க்கவும்.';
+
+  @override
+  String get notifDetailTitle => 'அறிவிப்பு';
+
+  @override
+  String get notifDeleteThis => 'இந்த அறிவிப்பை நீக்கு';
+
+  @override
+  String get notifDeletedToast => 'அறிவிப்பு நீக்கப்பட்டது';
+
+  @override
+  String notifReceivedOn(String date) {
+    return 'பெறப்பட்டது $date';
+  }
+
+  @override
+  String get notifToday => 'இன்று';
+
+  @override
+  String get notifYesterday => 'நேற்று';
+
+  @override
+  String get notifEarlier => 'முன்னர்';
+
+  @override
+  String get settingsHapticsTitle => 'தொடு அதிர்வு';
+
+  @override
+  String get settingsHapticsSubtitle =>
+      'தொடும்போதும் அறிவிப்பு வரும்போதும் லேசாக அதிரும்';
 }

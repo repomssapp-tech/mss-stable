@@ -118,7 +118,10 @@ class ProfileScreen extends StatelessWidget {
             ProfileNavigationCard1(provider: provider),
             const ProfileNavigationCard2(),
             ProfileLogoutCard(provider: provider),
-            const SizedBox(height: AppSpacing.xxxl),
+            // Room to scroll the last card clear of the floating nav bar.
+            SizedBox(
+              height: AppSpacing.xxxl + MediaQuery.paddingOf(context).bottom,
+            ),
           ],
         ),
       ),
