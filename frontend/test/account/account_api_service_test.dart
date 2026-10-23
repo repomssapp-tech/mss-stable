@@ -58,6 +58,26 @@ void main() {
       },
     );
 
+    test('returns when the frozen account will be purged', () async {
+      final service = serviceFor(
+        (_) async => _json({
+          'deleted_at': '2026-10-23T09:00:00.000Z',
+          'purge_after': '2026-11-22T09:00:00.000Z',
+          'grace_days': 30,
+        }),
+      );
+
+      final purgeAfter = await service.deleteAccount();
+
+      expect(purgeAfter, DateTime.utc(2026, 11, 22, 9).toLocal());
+    });
+
+    test('an older server that deletes at once (204) returns null', () async {
+      final service = serviceFor((_) async => http.Response('', 204));
+
+      expect(await service.deleteAccount(), isNull);
+    });
+
     test('a refusal throws, so local data is never cleared', () async {
       final service = serviceFor(
         (_) async => _json({'error': 'REAUTHENTICATION_REQUIRED'}, 403),

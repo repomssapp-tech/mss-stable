@@ -213,6 +213,8 @@ void main() {
     testWidgets('walks through the steps, then opens the login screen', (
       tester,
     ) async {
+      AccountApiService.instance.lastPurgeAfter = DateTime(2026, 11, 22);
+      addTearDown(() => AccountApiService.instance.lastPurgeAfter = null);
       final provider = _FakeProvider([AccountDeletionOutcome.deleted]);
       await tester.pumpWidget(_app(provider));
       await tester.tap(find.text('open'));
@@ -234,6 +236,12 @@ void main() {
       expect(find.byIcon(Icons.check_rounded), findsOneWidget);
 
       await tester.pump(const Duration(milliseconds: 1600));
+      await tester.pumpAndSettle();
+      // The data is kept for 30 days; the user acknowledges before leaving.
+      expect(find.text(l.accountDeletedTitle), findsOneWidget);
+      expect(find.textContaining('until Nov 22, 2026'), findsOneWidget);
+      expect(find.byType(LoginScreen), findsNothing);
+      await tester.tap(find.text(l.ok));
       await tester.pumpAndSettle();
       expect(find.byType(LoginScreen), findsOneWidget);
       expect(find.byType(DeleteAccountScreen), findsNothing);
@@ -278,6 +286,8 @@ void main() {
       expect(provider.requests, 2);
       expect(provider.completed, 1);
       await tester.pump(const Duration(milliseconds: 1600));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(l.ok));
       await tester.pumpAndSettle();
       expect(find.byType(LoginScreen), findsOneWidget);
     });

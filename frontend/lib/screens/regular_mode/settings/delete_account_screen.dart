@@ -9,7 +9,7 @@ import '../../../utils/app_colors.dart';
 import '../../../utils/app_radius.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/app_text.dart';
-import '../../../widgets/common/app_toast.dart';
+import '../../../widgets/common/account_deletion_dialogs.dart';
 import '../../login_screen.dart';
 
 /// Where the deletion has got to.
@@ -77,16 +77,20 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen>
     await provider.completeAccountDeletion();
     if (!mounted) return;
     setState(() => _phase = _Phase.done);
+    // Rest the badge: it must not keep pulsing behind the message below.
+    _pulse.stop();
     await Future<void>.delayed(_doneHold);
     if (!mounted) return;
-    final done = context.l10n.deleteAccountDone;
-    final navigator = Navigator.of(context);
-    navigator.pushAndRemoveUntil(
+    // Tell the user their data is kept for 30 days and how to reactivate.
+    await showAccountDeletedDialog(
+      context,
+      AccountApiService.instance.lastPurgeAfter,
+    );
+    if (!mounted) return;
+    Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute<void>(builder: (_) => const LoginScreen()),
       (route) => false,
     );
-    final next = navigator.context;
-    if (next.mounted) AppToast.showSuccess(next, done);
   }
 
   String _failureMessage(AppLocalizations l10n) => switch (_failure) {

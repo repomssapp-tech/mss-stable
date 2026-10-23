@@ -1201,7 +1201,7 @@ abstract class AppLocalizations {
   /// No description provided for @deleteAccountMsg.
   ///
   /// In en, this message translates to:
-  /// **'This action is irreversible. All your saved profiles, bookmarks, and questionnaire answers will be permanently deleted.'**
+  /// **'Your account will be deleted and you will be signed out. Your data is kept for 30 days, so you can sign in again within 30 days to reactivate it. After that, all your saved profiles, bookmarks and answers are permanently deleted.'**
   String get deleteAccountMsg;
 
   /// No description provided for @deleteButton.
@@ -1209,6 +1209,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get deleteButton;
+
+  /// No description provided for @accountDeletedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account deleted'**
+  String get accountDeletedTitle;
+
+  /// No description provided for @accountDeletedMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has been deleted and you have been signed out. Your data will not be deleted for 30 days (until {date}). To reactivate your account, just sign in again before then.'**
+  String accountDeletedMsg(String date);
+
+  /// No description provided for @accountDeletedNowMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has been permanently deleted.'**
+  String get accountDeletedNowMsg;
+
+  /// No description provided for @accountRestoreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reactivate your account?'**
+  String get accountRestoreTitle;
+
+  /// No description provided for @accountRestoreMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'You deleted this account. Your data is kept until {date}. Reactivate it to continue with your saved profile and schemes.'**
+  String accountRestoreMsg(String date);
+
+  /// No description provided for @accountRestoreConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Reactivate'**
+  String get accountRestoreConfirm;
+
+  /// No description provided for @accountRestoreCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get accountRestoreCancel;
+
+  /// No description provided for @accountRestoredToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back! Your account is active again.'**
+  String get accountRestoredToast;
+
+  /// No description provided for @accountRestoreFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reactivate your account. Please sign in again.'**
+  String get accountRestoreFailed;
 
   /// No description provided for @supportGroupHeader.
   ///

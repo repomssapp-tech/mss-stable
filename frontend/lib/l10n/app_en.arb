@@ -188,8 +188,27 @@
   "termsConditionsContent": "By using MSS, you agree to our terms of service. All scheme information is aggregated from official government portals.",
   "deleteAccountSetting": "Delete Account",
   "deleteAccountTitle": "Delete Account",
-  "deleteAccountMsg": "This action is irreversible. All your saved profiles, bookmarks, and questionnaire answers will be permanently deleted.",
+  "deleteAccountMsg": "Your account will be deleted and you will be signed out. Your data is kept for 30 days, so you can sign in again within 30 days to reactivate it. After that, all your saved profiles, bookmarks and answers are permanently deleted.",
   "deleteButton": "Delete",
+  "accountDeletedTitle": "Account deleted",
+  "accountDeletedMsg": "Your account has been deleted and you have been signed out. Your data will not be deleted for 30 days (until {date}). To reactivate your account, just sign in again before then.",
+  "@accountDeletedMsg": {
+    "placeholders": {
+      "date": {"type": "String", "example": "22 Nov 2026"}
+    }
+  },
+  "accountDeletedNowMsg": "Your account has been permanently deleted.",
+  "accountRestoreTitle": "Reactivate your account?",
+  "accountRestoreMsg": "You deleted this account. Your data is kept until {date}. Reactivate it to continue with your saved profile and schemes.",
+  "@accountRestoreMsg": {
+    "placeholders": {
+      "date": {"type": "String", "example": "22 Nov 2026"}
+    }
+  },
+  "accountRestoreConfirm": "Reactivate",
+  "accountRestoreCancel": "Not now",
+  "accountRestoredToast": "Welcome back! Your account is active again.",
+  "accountRestoreFailed": "Could not reactivate your account. Please sign in again.",
   "supportGroupHeader": "Support",
   "helpFaqSetting": "Help & FAQ",
   "contactUsSetting": "Contact Us",

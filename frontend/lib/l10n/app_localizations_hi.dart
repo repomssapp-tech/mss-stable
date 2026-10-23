@@ -617,10 +617,43 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get deleteAccountMsg =>
-      'यह क्रिया अपरिवर्तनीय है. आपके सभी सहेजे गए प्रोफ़ाइल, बुकमार्क और प्रश्नावली उत्तर स्थायी रूप से हटा दिए जाएंगे।';
+      'आपका खाता हटा दिया जाएगा और आप साइन आउट हो जाएँगे। आपका डेटा 30 दिनों तक रखा जाएगा, इसलिए 30 दिनों के भीतर दोबारा साइन इन करके आप खाता फिर से चालू कर सकते हैं। उसके बाद आपकी सभी सहेजी गई प्रोफ़ाइल, बुकमार्क और उत्तर स्थायी रूप से हटा दिए जाएँगे।';
 
   @override
   String get deleteButton => 'मिटाना';
+
+  @override
+  String get accountDeletedTitle => 'खाता हटा दिया गया';
+
+  @override
+  String accountDeletedMsg(String date) {
+    return 'आपका खाता हटा दिया गया है और आप साइन आउट हो गए हैं। आपका डेटा 30 दिनों तक ($date तक) नहीं हटाया जाएगा। खाता फिर से चालू करने के लिए उससे पहले दोबारा साइन इन करें।';
+  }
+
+  @override
+  String get accountDeletedNowMsg => 'आपका खाता स्थायी रूप से हटा दिया गया है।';
+
+  @override
+  String get accountRestoreTitle => 'अपना खाता फिर से चालू करें?';
+
+  @override
+  String accountRestoreMsg(String date) {
+    return 'आपने यह खाता हटा दिया था। आपका डेटा $date तक रखा गया है। अपनी सहेजी गई प्रोफ़ाइल और योजनाओं के साथ जारी रखने के लिए खाता फिर से चालू करें।';
+  }
+
+  @override
+  String get accountRestoreConfirm => 'चालू करें';
+
+  @override
+  String get accountRestoreCancel => 'अभी नहीं';
+
+  @override
+  String get accountRestoredToast =>
+      'फिर से स्वागत है! आपका खाता फिर से चालू है।';
+
+  @override
+  String get accountRestoreFailed =>
+      'खाता फिर से चालू नहीं हो सका। कृपया दोबारा साइन इन करें।';
 
   @override
   String get supportGroupHeader => 'सहायता';

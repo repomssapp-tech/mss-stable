@@ -449,6 +449,7 @@ class ApiClient {
     String errorCode = 'UNKNOWN_ERROR';
     String message = 'HTTP ${response.statusCode}';
     List<dynamic>? details;
+    Map<String, dynamic>? fields;
     int? retryAfter;
 
     final retryHeader = response.headers['retry-after'];
@@ -465,6 +466,9 @@ class ApiClient {
         if (body['error'] != null) errorCode = body['error'].toString();
         if (body['message'] != null) message = body['message'].toString();
         if (body['details'] is List) details = body['details'] as List<dynamic>;
+        if (body['details'] is Map<String, dynamic>) {
+          fields = body['details'] as Map<String, dynamic>;
+        }
       }
     } catch (_) {
       message = response.body.isNotEmpty ? response.body : message;
@@ -475,6 +479,7 @@ class ApiClient {
       errorCode: errorCode,
       message: message,
       details: details,
+      fields: fields,
       retryAfterSeconds: retryAfter,
       requestId: requestId,
     );

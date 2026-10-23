@@ -623,10 +623,43 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get deleteAccountMsg =>
-      'இந்த நடவடிக்கையை மாற்ற முடியாது. உங்கள் சேமிக்கப்பட்ட சுயவிவரங்கள், புத்தகக்குறிகள் மற்றும் பதில்கள் நிரந்தரமாக நீக்கப்படும்.';
+      'உங்கள் கணக்கு நீக்கப்பட்டு, நீங்கள் வெளியேற்றப்படுவீர்கள். உங்கள் தரவு 30 நாட்கள் வைத்திருக்கப்படும்; அதற்குள் மீண்டும் உள்நுழைந்தால் கணக்கை மீண்டும் செயல்படுத்தலாம். அதன் பிறகு உங்கள் சேமித்த சுயவிவரங்கள், புத்தகக்குறிகள் மற்றும் பதில்கள் நிரந்தரமாக நீக்கப்படும்.';
 
   @override
   String get deleteButton => 'நீக்குக';
+
+  @override
+  String get accountDeletedTitle => 'கணக்கு நீக்கப்பட்டது';
+
+  @override
+  String accountDeletedMsg(String date) {
+    return 'உங்கள் கணக்கு நீக்கப்பட்டு, நீங்கள் வெளியேற்றப்பட்டீர்கள். உங்கள் தரவு 30 நாட்களுக்கு ($date வரை) நீக்கப்படாது. கணக்கை மீண்டும் செயல்படுத்த, அதற்கு முன் மீண்டும் உள்நுழையுங்கள்.';
+  }
+
+  @override
+  String get accountDeletedNowMsg => 'உங்கள் கணக்கு நிரந்தரமாக நீக்கப்பட்டது.';
+
+  @override
+  String get accountRestoreTitle => 'உங்கள் கணக்கை மீண்டும் செயல்படுத்தவா?';
+
+  @override
+  String accountRestoreMsg(String date) {
+    return 'இந்தக் கணக்கை நீங்கள் நீக்கியுள்ளீர்கள். உங்கள் தரவு $date வரை வைத்திருக்கப்படும். சேமித்த சுயவிவரம் மற்றும் திட்டங்களுடன் தொடர, கணக்கை மீண்டும் செயல்படுத்துங்கள்.';
+  }
+
+  @override
+  String get accountRestoreConfirm => 'செயல்படுத்து';
+
+  @override
+  String get accountRestoreCancel => 'இப்போது வேண்டாம்';
+
+  @override
+  String get accountRestoredToast =>
+      'மீண்டும் வருக! உங்கள் கணக்கு மீண்டும் செயல்பாட்டில் உள்ளது.';
+
+  @override
+  String get accountRestoreFailed =>
+      'கணக்கை மீண்டும் செயல்படுத்த முடியவில்லை. மீண்டும் உள்நுழையுங்கள்.';
 
   @override
   String get supportGroupHeader => 'ஆதரவு & உதவி';
