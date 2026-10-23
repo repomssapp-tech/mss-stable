@@ -988,10 +988,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get validationSelectDob => 'कृपया अपनी जन्मतिथि चुनें';
 
   @override
-  String get notifTooltipMarkRead => 'पढ़ा गया के रूप में चयनित चिह्नित करें';
+  String get notifTooltipMarkRead => 'चयनित को पढ़ा हुआ चिह्नित करें';
 
   @override
-  String get notifTooltipDeleteSelected => 'चयनित को हटाओ';
+  String get notifTooltipDeleteSelected => 'चयनित को हटाएँ';
 
   @override
   String get notifNewSchemeAlertsTitle => 'नई योजना अलर्ट';
