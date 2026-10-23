@@ -33,7 +33,7 @@ abstract final class AppColors {
 
   // Disabled (exempt from contrast, but stay legible)
   static const disabledBg = Color(0xFFE2E8F0);
-  static const disabledFg = Color(0xFF8091A7);
+  static const disabledFg = Color(0xFF64748B);
 
   // Brand / interactive
   static const primary = Color(0xFF2563EB); // 5.2 on white; white on it 5.2

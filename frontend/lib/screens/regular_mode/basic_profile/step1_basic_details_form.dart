@@ -95,6 +95,10 @@ class Step1BasicDetailsForm extends StatelessWidget {
           leadingIcon: Icons.mail_outline,
           trailingIcon: Icons.edit_outlined,
           keyboardType: TextInputType.emailAddress,
+          maxLines: 2,
+          // An address has no spaces or line breaks; with two lines allowed
+          // the Enter key must not add one.
+          inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
           errorText:
               hasSubmitted &&
                   (emailController.text.trim().isEmpty ||

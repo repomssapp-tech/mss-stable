@@ -6,6 +6,7 @@ import 'help_faq_bottom_sheets.dart';
 import 'help_report_issue_bottom_sheet.dart';
 import 'help_feedback_bottom_sheet.dart';
 import '../../../utils/app_text.dart';
+import '../../../utils/app_colors.dart';
 
 class HelpGroupCard extends StatelessWidget {
   final List<Widget> children;
@@ -333,9 +334,8 @@ class HelpContactSection extends StatelessWidget {
                 const SizedBox(height: AppSpacing.sm),
                 Text(
                   l10n.helpReplyWindow,
-                  style: AppGoogleFonts.inter(
-                    fontSize: 10,
-                    color: const Color(0xFF64748B),
+                  style: context.text.bodySmall.copyWith(
+                    color: AppColors.textSecondary,
                   ),
                 ),
               ],

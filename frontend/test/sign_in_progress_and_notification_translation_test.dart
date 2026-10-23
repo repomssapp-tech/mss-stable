@@ -130,4 +130,15 @@ void main() {
       expect(AutoTranslatedText.isEnglishOnly(''), isFalse);
     });
   });
+
+  test('"Mss" in a broadcast is shown as "MSS", translated or not', () async {
+    final c = NotificationTranslationController(
+      translator: NotificationTranslator(backend: _FakeBackend((t, l) => null)),
+    );
+    final out = c.view([
+      {'id': '1', 'title': 'Mss app update', 'body': 'Update the Mss app now'},
+    ], 'en');
+    expect(out[0]['title'], 'MSS app update');
+    expect(out[0]['body'], 'Update the MSS app now');
+  });
 }

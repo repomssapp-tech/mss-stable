@@ -660,7 +660,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get editProfile => 'प्रोफ़ाइल संपादित करें';
 
   @override
-  String get userInformation => 'यूजर जानकारी';
+  String get userInformation => 'उपयोगकर्ता जानकारी';
 
   @override
   String get eligibilityProfessionalDetails => 'पात्रता एवं व्यावसायिक विवरण';
@@ -678,7 +678,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get labelGender => 'लिंग';
 
   @override
-  String get labelLocation => 'जगह';
+  String get labelLocation => 'स्थान';
 
   @override
   String get labelEducationLevel => 'शिक्षा का स्तर';

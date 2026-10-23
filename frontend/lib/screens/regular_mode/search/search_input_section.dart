@@ -240,19 +240,18 @@ class SearchTryBanner extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          const Icon(Icons.search, color: Color(0xFF64748B), size: 12),
+          const Icon(Icons.search, color: Color(0xFF64748B), size: 14),
           const SizedBox(width: AppSpacing.xs),
+          // Wraps to a second line instead of shrinking to a tiny size.
           Expanded(
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "${context.l10n.trySearchPrefix} $hintText",
-                style: AppGoogleFonts.inter(
-                  color: const Color(0xFF64748B),
-                  fontSize: scaledFontSize(11),
-                  fontWeight: FontWeight.w500,
-                ),
+            child: Text(
+              "${context.l10n.trySearchPrefix} $hintText",
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: AppGoogleFonts.inter(
+                color: const Color(0xFF64748B),
+                fontSize: scaledFontSize(12),
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),

@@ -3,6 +3,7 @@ import '../../l10n/l10n.dart';
 import '../../services/catalog/mss_catalog_bundle.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/app_text.dart';
+import '../../utils/app_colors.dart';
 
 /// 2.7 (audit_fix.md): a subtle indicator of catalog data currency, so a
 /// user can tell "no match" apart from "this device's local catalog is
@@ -42,7 +43,7 @@ class CatalogFreshnessFooter extends StatelessWidget {
               label,
               style: AppGoogleFonts.inter(
                 fontSize: 11,
-                color: const Color(0xFF94A3B8),
+                color: AppColors.textSecondary,
               ),
             ),
           ),

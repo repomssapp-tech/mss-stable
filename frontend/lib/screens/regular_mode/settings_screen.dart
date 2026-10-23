@@ -387,8 +387,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
             _buildGroupContainer([
               _buildSettingRow(
                 icon: Icons.person_outline,
-                title: context.l10n.completeProfileTitle,
-                value: context.l10n.profileCompletionFormat(
+                // A finished profile is edited, not completed. The progress goes
+                // under the title (not beside it), so the title keeps the whole
+                // row width and never wraps.
+                title: provider.profileCompletionPercentage >= 100
+                    ? context.l10n.editProfile
+                    : context.l10n.completeProfileTitle,
+                subtitle: context.l10n.profileCompletionFormat(
                   provider.profileCompletionPercentage,
                 ),
                 onTap: () {
@@ -492,7 +497,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             _buildGroupContainer([
               _buildSettingRow(
                 icon: Icons.help_outline,
-                title: context.l10n.helpFaqSetting,
+                title: context.l10n.helpHeaderSupport,
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -565,7 +570,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     style: AppGoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
-                      color: const Color(0xFF94A3B8),
+                      color: AppColors.textSecondary,
                     ),
                   );
                 },

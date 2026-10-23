@@ -27,6 +27,11 @@ class CustomInputField extends StatelessWidget {
   final String? errorText;
   final void Function(String)? onChanged;
 
+  /// Lines the text may use. 1 (the default) keeps one line; a field whose value
+  /// has no spaces, such as an email address, uses 2 so a long value wraps
+  /// instead of being clipped at the edge.
+  final int maxLines;
+
   const CustomInputField({
     super.key,
     required this.label,
@@ -41,6 +46,7 @@ class CustomInputField extends StatelessWidget {
     this.inputFormatters,
     this.errorText,
     this.onChanged,
+    this.maxLines = 1,
   });
 
   @override
@@ -51,6 +57,8 @@ class CustomInputField extends StatelessWidget {
     final field = TextFormField(
       controller: controller,
       readOnly: readOnly,
+      maxLines: maxLines,
+      minLines: 1,
       keyboardType: keyboardType,
       inputFormatters: inputFormatters,
       onChanged: onChanged,
