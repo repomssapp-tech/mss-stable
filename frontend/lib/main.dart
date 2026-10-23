@@ -26,6 +26,8 @@ import 'utils/constants.dart';
 import 'utils/app_theme.dart';
 import 'utils/app_spacing.dart';
 import 'widgets/common/app_bottom_nav_bar.dart';
+import 'widgets/onboarding/home_tour.dart';
+import 'widgets/onboarding/home_tour_targets.dart';
 import 'widgets/common/haptic_touch_layer.dart';
 import 'services/haptics/haptics_service.dart';
 import 'services/notifications/local_notification_service.dart';
@@ -269,6 +271,32 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
     // the first switch to a tab does not build it in the same frames as the
     // nav bar's droplet animation (it showed as a stutter or a jump).
     unawaited(_warmUpTabs());
+    unawaited(_showHomeTourWhenReady());
+  }
+
+  @override
+  void dispose() {
+    HomeTour.dismiss();
+    super.dispose();
+  }
+
+  /// The first-time tour of the home screen: shown once per account, after the
+  /// home screen and the bottom bar are on screen (retried a few times while
+  /// their widgets are still being laid out).
+  Future<void> _showHomeTourWhenReady() async {
+    for (var attempt = 0; attempt < 8; attempt++) {
+      await Future<void>.delayed(
+        Duration(milliseconds: attempt == 0 ? 1800 : 1000),
+      );
+      if (!mounted) return;
+      final provider = Provider.of<AppProvider>(context, listen: false);
+      if (provider.currentTabIndex != 0 ||
+          provider.navigationMode == 'companion') {
+        continue;
+      }
+      final result = await HomeTour.maybeStart(context);
+      if (result != HomeTourStart.notReady) return;
+    }
   }
 
   Future<void> _warmUpTabs() async {
@@ -373,6 +401,10 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
           bottomNavigationBar: navigationMode == 'companion'
               ? null
               : AppBottomNavBar(
+                  itemKeys: {
+                    2: HomeTourTargets.discover,
+                    4: HomeTourTargets.profile,
+                  },
                   selectedIndex: currentTabIndex,
                   onSelected: (i) {
                     if (currentTabIndex == i && i == 1) {

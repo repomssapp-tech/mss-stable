@@ -57,7 +57,12 @@ class AppBottomNavBar extends StatefulWidget {
     required this.selectedIndex,
     required this.onSelected,
     required this.labels,
+    this.itemKeys = const {},
   }) : assert(labels.length == 5, 'home, search, discover, saved, profile');
+
+  /// Optional keys for individual tabs (by index), so something else can find
+  /// the real tab's position, e.g. the first-time tour.
+  final Map<int, GlobalKey> itemKeys;
 
   final int selectedIndex;
   final ValueChanged<int> onSelected;
@@ -237,6 +242,7 @@ class _AppBottomNavBarState extends State<AppBottomNavBar>
               for (var i = 0; i < 5; i++)
                 Expanded(
                   child: AppNavBarItem(
+                    key: widget.itemKeys[i],
                     label: widget.labels[i],
                     icon: _icons[i].$1,
                     selectedIcon: _icons[i].$2,

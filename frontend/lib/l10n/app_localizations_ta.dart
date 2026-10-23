@@ -5592,4 +5592,46 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get homeTip10 =>
       'அதிகாரப்பூர்வ திட்ட இணைப்பின் மூலம் மட்டுமே விண்ணப்பிக்கவும். இலவச அரசு சேவைக்கு ஒருபோதும் முகவருக்குப் பணம் செலுத்த வேண்டாம்.';
+
+  @override
+  String get homeTourFindTitle => 'திட்டத்தைக் கண்டறியுங்கள்';
+
+  @override
+  String get homeTourFindBody =>
+      'திட்டத்தின் பெயர், முக்கிய சொல் அல்லது பலன் மூலம் தேடி, உங்களுக்குப் பொருத்தமான அரசு திட்டங்களையும் உதவிகளையும் கண்டறியுங்கள்.';
+
+  @override
+  String get homeTourAskTitle => 'சாரதியிடம் கேளுங்கள்';
+
+  @override
+  String get homeTourAskBody =>
+      'அரசு திட்டங்கள், தகுதி, தேவையான ஆவணங்கள், விண்ணப்ப நடைமுறைகள் பற்றிய உங்கள் கேள்விகளுக்கு விரைவான பதில்களைப் பெறுங்கள்.';
+
+  @override
+  String get homeTourDiscoverTitle => 'கண்டறிக';
+
+  @override
+  String get homeTourDiscoverBody =>
+      'நிதி உதவி, தொழில் வளர்ச்சி, பதிவு, பயிற்சி மற்றும் பலவற்றுக்கான வாய்ப்புகளைக் கண்டறிய திட்டங்களையும் உதவி வகைகளையும் ஆராயுங்கள்.';
+
+  @override
+  String get homeTourProfileTitle => 'சுயவிவரத்தைத் திருத்துங்கள்';
+
+  @override
+  String get homeTourProfileBody =>
+      'உங்களுக்குப் பொருத்தமான திட்டப் பரிந்துரைகளை வழங்க, உங்கள் தனிப்பட்ட மற்றும் தொழில் விவரங்களைப் புதுப்பியுங்கள்.';
+
+  @override
+  String homeTourProgress(int current, int total) {
+    return '$total-இல் $current';
+  }
+
+  @override
+  String get homeTourSkip => 'தவிர்';
+
+  @override
+  String get homeTourNext => 'அடுத்து';
+
+  @override
+  String get homeTourFinish => 'முடி';
 }

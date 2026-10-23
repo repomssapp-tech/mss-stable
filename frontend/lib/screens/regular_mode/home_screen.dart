@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../widgets/onboarding/home_tour_targets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -225,6 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
       button: true,
       label: context.l10n.openSaarthiAiChat,
       child: Material(
+        key: HomeTourTargets.askSaarthi,
         color: const Color(0xFF2563EB),
         elevation: 5,
         shadowColor: const Color(0x552563EB),

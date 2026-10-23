@@ -13,6 +13,7 @@ import '../../../utils/constants.dart';
 import '../../../widgets/common/app_icon_button.dart';
 import '../../../widgets/common/app_tappable.dart';
 import '../../../widgets/common/quick_pills.dart';
+import '../../../widgets/onboarding/home_tour_targets.dart';
 import 'home_language_button.dart';
 
 class HomeHeaderSection extends StatelessWidget {
@@ -145,6 +146,7 @@ class HomeHeaderSection extends StatelessWidget {
 
   Widget _buildSearchAndFilter(BuildContext context) {
     return Container(
+      key: HomeTourTargets.search,
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.xs,

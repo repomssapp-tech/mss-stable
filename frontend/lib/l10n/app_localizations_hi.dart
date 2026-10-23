@@ -5515,4 +5515,46 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get homeTip10 =>
       'केवल योजना के आधिकारिक लिंक से आवेदन करें। मुफ़्त सरकारी सेवा के लिए किसी एजेंट को कभी पैसे न दें।';
+
+  @override
+  String get homeTourFindTitle => 'योजना खोजें';
+
+  @override
+  String get homeTourFindBody =>
+      'योजना के नाम, कीवर्ड या लाभ से खोजें और अपने लिए सही सरकारी योजनाएँ और सहायता पाएँ।';
+
+  @override
+  String get homeTourAskTitle => 'सारथी से पूछें';
+
+  @override
+  String get homeTourAskBody =>
+      'सरकारी योजनाओं, पात्रता, ज़रूरी दस्तावेज़ों और आवेदन प्रक्रिया के बारे में अपने सवालों के त्वरित जवाब पाएँ।';
+
+  @override
+  String get homeTourDiscoverTitle => 'एक्सप्लोर';
+
+  @override
+  String get homeTourDiscoverBody =>
+      'वित्तीय सहायता, व्यवसाय वृद्धि, पंजीकरण, प्रशिक्षण और अन्य अवसर खोजने के लिए योजनाओं और सहायता श्रेणियों को देखें।';
+
+  @override
+  String get homeTourProfileTitle => 'अपनी प्रोफ़ाइल संपादित करें';
+
+  @override
+  String get homeTourProfileBody =>
+      'अधिक उपयुक्त योजना सुझाव पाने के लिए अपनी व्यक्तिगत और व्यावसायिक जानकारी अपडेट करें।';
+
+  @override
+  String homeTourProgress(int current, int total) {
+    return '$total में से $current';
+  }
+
+  @override
+  String get homeTourSkip => 'छोड़ें';
+
+  @override
+  String get homeTourNext => 'आगे';
+
+  @override
+  String get homeTourFinish => 'पूरा करें';
 }

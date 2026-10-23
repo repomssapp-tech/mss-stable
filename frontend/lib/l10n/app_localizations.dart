@@ -10126,6 +10126,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Apply only through the official scheme link. Never pay an agent for a free government service.'**
   String get homeTip10;
+
+  /// No description provided for @homeTourFindTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Find a Scheme'**
+  String get homeTourFindTitle;
+
+  /// No description provided for @homeTourFindBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by scheme name, keyword, or benefit to find relevant government schemes and support.'**
+  String get homeTourFindBody;
+
+  /// No description provided for @homeTourAskTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask Saarthi'**
+  String get homeTourAskTitle;
+
+  /// No description provided for @homeTourAskBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Get quick answers to your questions about government schemes, eligibility, required documents, and application procedures.'**
+  String get homeTourAskBody;
+
+  /// No description provided for @homeTourDiscoverTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover'**
+  String get homeTourDiscoverTitle;
+
+  /// No description provided for @homeTourDiscoverBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore schemes and support categories to find opportunities for financial assistance, business growth, registration, training, and more.'**
+  String get homeTourDiscoverBody;
+
+  /// No description provided for @homeTourProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Your Profile'**
+  String get homeTourProfileTitle;
+
+  /// No description provided for @homeTourProfileBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Update your personal and business details to help us provide more relevant scheme recommendations.'**
+  String get homeTourProfileBody;
+
+  /// No description provided for @homeTourProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{current} of {total}'**
+  String homeTourProgress(int current, int total);
+
+  /// No description provided for @homeTourSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get homeTourSkip;
+
+  /// No description provided for @homeTourNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get homeTourNext;
+
+  /// No description provided for @homeTourFinish.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish'**
+  String get homeTourFinish;
 }
 
 class _AppLocalizationsDelegate
