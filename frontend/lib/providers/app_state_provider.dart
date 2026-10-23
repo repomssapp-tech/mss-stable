@@ -612,6 +612,15 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     }
   }
 
+  /// Tells the user the Google sign-in could not be completed (the code
+  /// exchange failed), so they are not left on the login screen without a word.
+  void reportSignInFailed() {
+    final ctx = appNavigatorKey.currentContext;
+    if (ctx != null && ctx.mounted) {
+      AppToast.showWarning(ctx, ctx.l10n.loginGoogleSignInFailed);
+    }
+  }
+
   /// A sign-in reached an account deleted within the last 30 days. Asks the
   /// user whether to reactivate it and, only on their yes, restores it and
   /// loads the session. Returns true when the user ends up signed in.

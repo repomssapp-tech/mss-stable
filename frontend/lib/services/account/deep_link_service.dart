@@ -77,6 +77,9 @@ class DeepLinkService {
           await provider.offerAccountRestore(pending);
         } catch (e) {
           debugPrint('[DeepLinkService] Code exchange failed: $e');
+          // Say so instead of silently showing the login screen again.
+          await AuthService.clearOAuthPending();
+          provider.reportSignInFailed();
         } finally {
           SignInProgress.instance.finish();
         }
