@@ -53,3 +53,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-10-23 | nyxri0f8 | #164 | frontend/home, frontend/saved, frontend/navigation | These are the home screen, Saved and nav bar changes from device feedback on 1.4.5. |
 | 2026-10-23 | Roger-Chris | #165 | unspecified | Login loading overlay, on-device notification translation, floating nav bar fixes |
 | 2026-10-23 | Roger-Chris | #166 | unspecified | QA pass: Tamil bold titles, Hindi login text, translated scheme titles, label fixes |
+| 2026-10-23 | Roger-Chris | #167 | unspecified | fix: logout persistence and account deletion progress flow |
