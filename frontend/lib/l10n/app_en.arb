@@ -1735,5 +1735,20 @@
   "homeTourNext": "Next",
   "homeTourFinish": "Finish",
   "verificationStatusVerified": "Verified",
-  "verificationStatusNotIndependentlyVerified": "Not independently verified"
+  "verificationStatusNotIndependentlyVerified": "Not independently verified",
+  "deleteAccountScreenTitle": "Deleting your account",
+  "deleteAccountStepRemoving": "Removing your account",
+  "deleteAccountStepVerifying": "Checking that it is gone",
+  "deleteAccountStepClearing": "Clearing this phone",
+  "deleteAccountDone": "Your account was deleted",
+  "deleteAccountFailedTitle": "Your account was not deleted",
+  "deleteAccountRetry": "Try again",
+  "deleteAccountBack": "Back to settings",
+  "deleteAccountSignOutAgain": "Sign out and sign in again",
+  "deleteAccountKeepOpen": "Please keep the app open.",
+  "deleteAccountErrReauth": "For your security, sign in again and then delete your account within 5 minutes. Nothing was changed.",
+  "deleteAccountErrRateLimited": "Too many attempts. Wait a minute and try again. Nothing was changed.",
+  "deleteAccountErrUnavailable": "Account deletion is temporarily unavailable. Try again later. Nothing was changed.",
+  "deleteAccountErrOffline": "Account deletion needs an internet connection. Nothing was changed.",
+  "deleteAccountErrNotVerified": "The server still shows your account. Try again; if it keeps happening, contact support."
 }

@@ -10264,6 +10264,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not independently verified'**
   String get verificationStatusNotIndependentlyVerified;
+
+  /// No description provided for @deleteAccountScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleting your account'**
+  String get deleteAccountScreenTitle;
+
+  /// No description provided for @deleteAccountStepRemoving.
+  ///
+  /// In en, this message translates to:
+  /// **'Removing your account'**
+  String get deleteAccountStepRemoving;
+
+  /// No description provided for @deleteAccountStepVerifying.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking that it is gone'**
+  String get deleteAccountStepVerifying;
+
+  /// No description provided for @deleteAccountStepClearing.
+  ///
+  /// In en, this message translates to:
+  /// **'Clearing this phone'**
+  String get deleteAccountStepClearing;
+
+  /// No description provided for @deleteAccountDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account was deleted'**
+  String get deleteAccountDone;
+
+  /// No description provided for @deleteAccountFailedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account was not deleted'**
+  String get deleteAccountFailedTitle;
+
+  /// No description provided for @deleteAccountRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get deleteAccountRetry;
+
+  /// No description provided for @deleteAccountBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to settings'**
+  String get deleteAccountBack;
+
+  /// No description provided for @deleteAccountSignOutAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out and sign in again'**
+  String get deleteAccountSignOutAgain;
+
+  /// No description provided for @deleteAccountKeepOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Please keep the app open.'**
+  String get deleteAccountKeepOpen;
+
+  /// No description provided for @deleteAccountErrReauth.
+  ///
+  /// In en, this message translates to:
+  /// **'For your security, sign in again and then delete your account within 5 minutes. Nothing was changed.'**
+  String get deleteAccountErrReauth;
+
+  /// No description provided for @deleteAccountErrRateLimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Wait a minute and try again. Nothing was changed.'**
+  String get deleteAccountErrRateLimited;
+
+  /// No description provided for @deleteAccountErrUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Account deletion is temporarily unavailable. Try again later. Nothing was changed.'**
+  String get deleteAccountErrUnavailable;
+
+  /// No description provided for @deleteAccountErrOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Account deletion needs an internet connection. Nothing was changed.'**
+  String get deleteAccountErrOffline;
+
+  /// No description provided for @deleteAccountErrNotVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'The server still shows your account. Try again; if it keeps happening, contact support.'**
+  String get deleteAccountErrNotVerified;
 }
 
 class _AppLocalizationsDelegate

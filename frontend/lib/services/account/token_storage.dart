@@ -68,8 +68,22 @@ class TokenStorage {
   static const String _kUserPicture = 'mss_auth_user_picture';
   static const String _kPkceVerifier = 'mss_pkce_code_verifier';
 
+  /// Set by [clear], removed by [saveTokens]. While it is set no stored secret
+  /// is returned, whatever the Keystore still holds: on some devices a deleted
+  /// Keystore entry came back after the app was killed, so the user was signed
+  /// in again as the previous account.
+  static const String _kSignedOut = 'mss_auth_signed_out';
+
   SharedPreferences? _prefs;
   final SecretStore _secrets;
+
+  /// Bumped by every [clear]. A token refresh remembers the value it started
+  /// under; if it changed by the time the answer arrives, the user signed out
+  /// meanwhile and the new tokens are dropped instead of saved. Without this,
+  /// a refresh in flight at logout wrote a fresh session back, and the app was
+  /// still signed in after a restart.
+  int get signOutEpoch => _signOutEpoch;
+  int _signOutEpoch = 0;
 
   final StreamController<void> _changes = StreamController<void>.broadcast(
     sync: true,
@@ -93,9 +107,17 @@ class TokenStorage {
     String tokenType = 'Bearer',
     int? expiresIn,
   }) async {
+    final epoch = _signOutEpoch;
     final prefs = await _getPrefs();
+    // A sign-out that happened while this save was starting wins.
+    if (_signOutEpoch != epoch) return;
+    await prefs.remove(_kSignedOut);
     await _secrets.write(_kAccessToken, accessToken);
     await _secrets.write(_kRefreshToken, refreshToken);
+    if (_signOutEpoch != epoch) {
+      await prefs.setBool(_kSignedOut, true);
+      return;
+    }
     await prefs.setString(_kTokenType, tokenType);
     if (expiresIn != null) {
       final expiresAt = DateTime.now().add(Duration(seconds: expiresIn));
@@ -107,9 +129,10 @@ class TokenStorage {
   /// Reads a token from the secret store, moving a legacy plain-text copy
   /// (app <= 1.3.0) into it on first read so existing sessions survive.
   Future<String?> _readSecret(String key) async {
+    final prefs = await _getPrefs();
+    if (prefs.getBool(_kSignedOut) == true) return null;
     final value = await _secrets.read(key);
     if (value != null) return value;
-    final prefs = await _getPrefs();
     if (_secrets is PrefsSecretStore) return null;
     final legacy = prefs.getString(key);
     if (legacy == null) return null;
@@ -150,6 +173,8 @@ class TokenStorage {
     String? pictureUrl,
   }) async {
     final prefs = await _getPrefs();
+    // A late profile response after sign-out must not write an identity back.
+    if (prefs.getBool(_kSignedOut) == true) return;
     await prefs.setString(_kUserId, id);
     // The email is personal data: encrypted like the tokens (SEC-02).
     await _secrets.write(_kUserEmail, email);
@@ -217,24 +242,57 @@ class TokenStorage {
   }
 
   /// Clears all token credentials and cached server user identity.
+  ///
+  /// Every entry is removed on its own: one that fails to delete (a Keystore
+  /// error, say) no longer stops the others from being removed, and the token
+  /// itself is blanked if it cannot be deleted, so the next start finds no
+  /// session either way.
   Future<void> clear() async {
+    _signOutEpoch++;
+    SharedPreferences? prefs;
     try {
-      final prefs = await _getPrefs();
-      await _secrets.delete(_kAccessToken);
-      await _secrets.delete(_kRefreshToken);
-      await _secrets.delete(_kUserEmail);
-      await _secrets.delete(_kPkceVerifier);
-      // Legacy plain-text copies from app <= 1.3.0.
-      await prefs.remove(_kAccessToken);
-      await prefs.remove(_kRefreshToken);
-      await prefs.remove(_kTokenType);
-      await prefs.remove(_kExpiresAt);
-      await prefs.remove(_kUserId);
-      await prefs.remove(_kUserEmail);
-      await prefs.remove(_kUserName);
-      await prefs.remove(_kUserPicture);
+      prefs = await _getPrefs();
     } catch (e) {
-      debugPrint('[TokenStorage] Error clearing tokens: $e');
+      debugPrint('[TokenStorage] Preferences unavailable while clearing: $e');
+    }
+    try {
+      await prefs?.setBool(_kSignedOut, true);
+    } catch (e) {
+      debugPrint('[TokenStorage] Could not set the signed-out flag: $e');
+    }
+    for (final key in [
+      _kAccessToken,
+      _kRefreshToken,
+      _kUserEmail,
+      _kPkceVerifier,
+    ]) {
+      try {
+        await _secrets.delete(key);
+      } catch (e) {
+        debugPrint('[TokenStorage] Could not delete $key, blanking it: $e');
+        try {
+          await _secrets.write(key, '');
+        } catch (_) {}
+      }
+    }
+    if (prefs != null) {
+      // Plain-text copies from app <= 1.3.0, and the cached user identity.
+      for (final key in [
+        _kAccessToken,
+        _kRefreshToken,
+        _kTokenType,
+        _kExpiresAt,
+        _kUserId,
+        _kUserEmail,
+        _kUserName,
+        _kUserPicture,
+      ]) {
+        try {
+          await prefs.remove(key);
+        } catch (e) {
+          debugPrint('[TokenStorage] Could not remove $key: $e');
+        }
+      }
     }
     _notify();
   }

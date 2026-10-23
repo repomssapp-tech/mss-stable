@@ -221,23 +221,14 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('deleteAccount() with no server session skips the RPC and still '
-      'resets local state', (tester) async {
+  testWidgets('completeAccountDeletion() resets local state', (tester) async {
     final sync = _RecordingSyncService();
     final provider = AppProvider(catalogSyncService: sync);
 
-    late BuildContext hostContext;
     await tester.pumpWidget(
       ChangeNotifierProvider<AppProvider>.value(
         value: provider,
-        child: MaterialApp(
-          home: Builder(
-            builder: (c) {
-              hostContext = c;
-              return const Scaffold();
-            },
-          ),
-        ),
+        child: const MaterialApp(home: Scaffold()),
       ),
     );
 
@@ -247,15 +238,15 @@ void main() {
       await provider.changeNavigationMode('companion');
       provider.toggleBookmark('x');
       provider.updateTabIndex(2);
-      // _isLoggedIn is true but there is no server account to delete, so
-      // cleanup proceeds without a delete request.
+      // _isLoggedIn is true. The server has already confirmed the deletion
+      // (requestAccountDeletion's job); this is the clean-up of this phone.
       provider.setLoggedInForTesting(true);
     });
 
     expect(provider.isLoggedIn, isTrue);
     expect(provider.bookmarkedIds, isNotEmpty);
 
-    await tester.runAsync(() => provider.deleteAccount(hostContext));
+    await tester.runAsync(() => provider.completeAccountDeletion());
     await tester.pump();
 
     _expectSignedOutDefaults(provider);

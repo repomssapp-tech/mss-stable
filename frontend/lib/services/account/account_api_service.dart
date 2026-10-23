@@ -3,12 +3,32 @@ import 'package:flutter/foundation.dart';
 import '../network/api_client.dart';
 import '../network/api_exception.dart';
 
+/// How an account deletion ended. Only [deleted] means the account is gone.
+enum AccountDeletionOutcome {
+  /// The server deleted the account and no longer recognises it.
+  deleted,
+
+  /// The session is too old for deletion (the server asks for a fresh sign-in
+  /// within the last 5 minutes), or nobody is signed in.
+  reauthRequired,
+  rateLimited,
+  unavailable,
+
+  /// No connection, or the request did not reach the server.
+  offline,
+
+  /// The delete call succeeded but the server still knows the account.
+  notVerified,
+}
+
 /// Account-level calls that sit outside the profile API.
 class AccountApiService {
   AccountApiService({ApiClient? apiClient}) : _apiClient = apiClient;
 
   static AccountApiService? _instance;
   static AccountApiService get instance => _instance ??= AccountApiService();
+  @visibleForTesting
+  static set testInstance(AccountApiService? service) => _instance = service;
 
   final ApiClient? _apiClient;
 
@@ -31,6 +51,67 @@ class AccountApiService {
     final data = response.data;
     if (data is! Map) return null;
     return DateTime.tryParse(data['purge_after']?.toString() ?? '')?.toLocal();
+  }
+
+  /// When the last [deleteAndVerify] said the frozen account will be purged;
+  /// null before any deletion or from an older server that deletes at once.
+  DateTime? lastPurgeAfter;
+
+  /// Deletes the account, then asks the server whether it is really gone.
+  ///
+  /// The check is `GET /v1/me` with the old session: once the account is
+  /// deleted the server answers 401 or 404 (it no longer knows the account or
+  /// its sessions); a 200 means the account is still there. An answer that
+  /// cannot be read (a dropped connection right after the delete) is retried a
+  /// few times and, if it stays unreadable, counts as deleted, because the
+  /// server itself confirmed the delete.
+  Future<AccountDeletionOutcome> deleteAndVerify({
+    VoidCallback? onVerifying,
+    int verifyAttempts = 3,
+    Duration verifyDelay = const Duration(seconds: 1),
+  }) async {
+    lastPurgeAfter = null;
+    try {
+      lastPurgeAfter = await deleteAccount();
+    } on ApiException catch (e) {
+      switch (e.errorCode) {
+        case 'REAUTHENTICATION_REQUIRED':
+          return AccountDeletionOutcome.reauthRequired;
+        case 'ACCOUNT_DELETION_RATE_LIMITED':
+          return AccountDeletionOutcome.rateLimited;
+        case 'ACCOUNT_DELETION_UNAVAILABLE':
+          return AccountDeletionOutcome.unavailable;
+      }
+      if (e.isRateLimited) return AccountDeletionOutcome.rateLimited;
+      if (e.isServiceUnavailable) return AccountDeletionOutcome.unavailable;
+      if (e.isUnauthorized) return AccountDeletionOutcome.reauthRequired;
+      return AccountDeletionOutcome.offline;
+    } catch (_) {
+      return AccountDeletionOutcome.offline;
+    }
+
+    onVerifying?.call();
+    for (var attempt = 0; attempt < verifyAttempts; attempt++) {
+      if (attempt > 0) await Future<void>.delayed(verifyDelay);
+      final gone = await _accountIsGone();
+      if (gone == true) return AccountDeletionOutcome.deleted;
+      if (gone == false) return AccountDeletionOutcome.notVerified;
+    }
+    return AccountDeletionOutcome.deleted;
+  }
+
+  /// true: the server no longer knows the account; false: it still does;
+  /// null: could not tell.
+  Future<bool?> _accountIsGone() async {
+    try {
+      await _client.get('/v1/me');
+      return false;
+    } on ApiException catch (e) {
+      if (e.isUnauthorized || e.isNotFound || e.isForbidden) return true;
+      return null;
+    } catch (_) {
+      return null;
+    }
   }
 
   /// What to tell the user when [deleteAccount] failed with [error]. Nothing was
