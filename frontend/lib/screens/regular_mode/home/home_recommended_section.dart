@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../widgets/common/auto_translated_text.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -260,8 +261,9 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(
+                                    AutoTranslatedText(
                                       shortForm,
+                                      language: appProvider.selectedLanguage,
                                       style: GoogleFonts.poppins(
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold,
@@ -296,8 +298,9 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
                                 top: AppSpacing.sm,
                                 right: AppSpacing.lg,
                               ),
-                              child: Text(
+                              child: AutoTranslatedText(
                                 item['subtitle'] as String? ?? '',
+                                language: appProvider.selectedLanguage,
                                 maxLines: 3,
                                 overflow: TextOverflow.ellipsis,
                                 style: context.text.bodySmall.copyWith(
