@@ -107,10 +107,17 @@ class TokenStorage {
     String tokenType = 'Bearer',
     int? expiresIn,
   }) async {
+    final epoch = _signOutEpoch;
     final prefs = await _getPrefs();
+    // A sign-out that happened while this save was starting wins.
+    if (_signOutEpoch != epoch) return;
     await prefs.remove(_kSignedOut);
     await _secrets.write(_kAccessToken, accessToken);
     await _secrets.write(_kRefreshToken, refreshToken);
+    if (_signOutEpoch != epoch) {
+      await prefs.setBool(_kSignedOut, true);
+      return;
+    }
     await prefs.setString(_kTokenType, tokenType);
     if (expiresIn != null) {
       final expiresAt = DateTime.now().add(Duration(seconds: expiresIn));
@@ -166,6 +173,8 @@ class TokenStorage {
     String? pictureUrl,
   }) async {
     final prefs = await _getPrefs();
+    // A late profile response after sign-out must not write an identity back.
+    if (prefs.getBool(_kSignedOut) == true) return;
     await prefs.setString(_kUserId, id);
     // The email is personal data: encrypted like the tokens (SEC-02).
     await _secrets.write(_kUserEmail, email);
