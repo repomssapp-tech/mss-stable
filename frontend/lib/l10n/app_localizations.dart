@@ -10754,7 +10754,7 @@ abstract class AppLocalizations {
   /// No description provided for @sv2PoweredBy.
   ///
   /// In en, this message translates to:
-  /// **'Powered by MSS AI'**
+  /// **'Powered by Sarvam AI'**
   String get sv2PoweredBy;
 
   /// No description provided for @sv2ModeType.

@@ -5853,7 +5853,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sv2Name => 'Saarthi';
 
   @override
-  String get sv2PoweredBy => 'Powered by MSS AI';
+  String get sv2PoweredBy => 'Powered by Sarvam AI';
 
   @override
   String get sv2ModeType => 'Type';

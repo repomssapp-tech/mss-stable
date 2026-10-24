@@ -5949,7 +5949,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get sv2Name => 'சாரதி';
 
   @override
-  String get sv2PoweredBy => 'MSS AI மூலம் இயங்குகிறது';
+  String get sv2PoweredBy => 'Sarvam AI மூலம் இயங்குகிறது';
 
   @override
   String get sv2ModeType => 'தட்டச்சு';

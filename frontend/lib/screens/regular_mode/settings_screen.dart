@@ -231,6 +231,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
+    // The Profile tab already shows the user's card and Edit Profile, so
+    // repeating them here showed two different profile pages back to back.
+    // Companion mode has no tab bar, so there Settings is the profile view.
+    final showProfile = provider.navigationMode == 'companion';
 
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFA),
@@ -258,163 +262,167 @@ class _SettingsScreenState extends State<SettingsScreen> {
           padding: const EdgeInsets.all(AppSpacing.xl),
           children: [
             // Adaptive Profile Header Card
-            Container(
-              padding: const EdgeInsets.all(AppSpacing.lg),
-              margin: const EdgeInsets.only(bottom: AppSpacing.xl),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: const Color(0xFFE2E8F0)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.02),
-                    blurRadius: 8,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CircleAvatar(
-                    radius: 26,
-                    backgroundColor: const Color(0xFFEFF6FF),
-                    child: provider.effectiveProfilePhoto.isNotEmpty
-                        ? ClipOval(
-                            child: () {
-                              final photo = provider.effectiveProfilePhoto;
-                              Widget buildFallbackText() => Text(
-                                provider.profile.name.isNotEmpty
-                                    ? provider.profile.name[0].toUpperCase()
-                                    : 'U',
-                                style: AppGoogleFonts.poppins(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: const Color(0xFF2563EB),
-                                ),
-                              );
-
-                              if (photo.startsWith('http://') ||
-                                  photo.startsWith('https://')) {
-                                return Image.network(
-                                  photo,
-                                  width: 52,
-                                  height: 52,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      buildFallbackText(),
-                                );
-                              }
-                              if (File(photo).existsSync()) {
-                                return Image.file(
-                                  File(photo),
-                                  width: 52,
-                                  height: 52,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      buildFallbackText(),
-                                );
-                              }
-                              return buildFallbackText();
-                            }(),
-                          )
-                        : Text(
-                            provider.profile.name.isNotEmpty
-                                ? provider.profile.name[0].toUpperCase()
-                                : 'U',
-                            style: AppGoogleFonts.poppins(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: const Color(0xFF2563EB),
-                            ),
-                          ),
-                  ),
-                  const SizedBox(width: AppSpacing.lg),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          provider.profile.name.isNotEmpty
-                              ? provider.profile.name
-                              : context.l10n.commonUserFallback,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppGoogleFonts.poppins(
-                            fontSize: provider.selectedLanguage == 'ta'
-                                ? 14.5
-                                : 16.0,
-                            fontWeight: FontWeight.bold,
-                            color: const Color(0xFF0F172A),
-                            height: provider.selectedLanguage == 'ta'
-                                ? 1.35
-                                : 1.2,
-                          ),
-                        ),
-                        const SizedBox(height: AppSpacing.hairline),
-                        Text(
-                          provider.profile.mobile.isNotEmpty
-                              ? provider.profile.mobile
-                              : (provider.mobileNumber.isNotEmpty
-                                    ? provider.mobileNumber
-                                    : '+91'),
-                          style: AppGoogleFonts.inter(
-                            fontSize: 11.5,
-                            color: const Color(0xFF64748B),
-                          ),
-                        ),
-                        const SizedBox(height: AppSpacing.tight),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppSpacing.sm,
-                            vertical: AppSpacing.xs,
-                          ),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFEFF6FF),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            context.l10n.profileCompletionFormat(
-                              provider.profileCompletionPercentage,
-                            ),
-                            style: AppGoogleFonts.poppins(
-                              fontSize: 9.5,
-                              fontWeight: FontWeight.bold,
-                              color: const Color(0xFF2563EB),
-                            ),
-                          ),
-                        ),
-                      ],
+            if (showProfile)
+              Container(
+                padding: const EdgeInsets.all(AppSpacing.lg),
+                margin: const EdgeInsets.only(bottom: AppSpacing.xl),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: const Color(0xFFE2E8F0)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.02),
+                      blurRadius: 8,
+                      offset: const Offset(0, 3),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      radius: 26,
+                      backgroundColor: const Color(0xFFEFF6FF),
+                      child: provider.effectiveProfilePhoto.isNotEmpty
+                          ? ClipOval(
+                              child: () {
+                                final photo = provider.effectiveProfilePhoto;
+                                Widget buildFallbackText() => Text(
+                                  provider.profile.name.isNotEmpty
+                                      ? provider.profile.name[0].toUpperCase()
+                                      : 'U',
+                                  style: AppGoogleFonts.poppins(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xFF2563EB),
+                                  ),
+                                );
+
+                                if (photo.startsWith('http://') ||
+                                    photo.startsWith('https://')) {
+                                  return Image.network(
+                                    photo,
+                                    width: 52,
+                                    height: 52,
+                                    fit: BoxFit.cover,
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            buildFallbackText(),
+                                  );
+                                }
+                                if (File(photo).existsSync()) {
+                                  return Image.file(
+                                    File(photo),
+                                    width: 52,
+                                    height: 52,
+                                    fit: BoxFit.cover,
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            buildFallbackText(),
+                                  );
+                                }
+                                return buildFallbackText();
+                              }(),
+                            )
+                          : Text(
+                              provider.profile.name.isNotEmpty
+                                  ? provider.profile.name[0].toUpperCase()
+                                  : 'U',
+                              style: AppGoogleFonts.poppins(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: const Color(0xFF2563EB),
+                              ),
+                            ),
+                    ),
+                    const SizedBox(width: AppSpacing.lg),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            provider.profile.name.isNotEmpty
+                                ? provider.profile.name
+                                : context.l10n.commonUserFallback,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppGoogleFonts.poppins(
+                              fontSize: provider.selectedLanguage == 'ta'
+                                  ? 14.5
+                                  : 16.0,
+                              fontWeight: FontWeight.bold,
+                              color: const Color(0xFF0F172A),
+                              height: provider.selectedLanguage == 'ta'
+                                  ? 1.35
+                                  : 1.2,
+                            ),
+                          ),
+                          const SizedBox(height: AppSpacing.hairline),
+                          Text(
+                            provider.profile.mobile.isNotEmpty
+                                ? provider.profile.mobile
+                                : (provider.mobileNumber.isNotEmpty
+                                      ? provider.mobileNumber
+                                      : '+91'),
+                            style: AppGoogleFonts.inter(
+                              fontSize: 11.5,
+                              color: const Color(0xFF64748B),
+                            ),
+                          ),
+                          const SizedBox(height: AppSpacing.tight),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: AppSpacing.sm,
+                              vertical: AppSpacing.xs,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFEFF6FF),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              context.l10n.profileCompletionFormat(
+                                provider.profileCompletionPercentage,
+                              ),
+                              style: AppGoogleFonts.poppins(
+                                fontSize: 9.5,
+                                fontWeight: FontWeight.bold,
+                                color: const Color(0xFF2563EB),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
 
             // GROUP 0: Profile
-            _buildGroupHeader(context.l10n.profileGroupHeader),
-            _buildGroupContainer([
-              _buildSettingRow(
-                icon: Icons.person_outline,
-                // A finished profile is edited, not completed. The progress goes
-                // under the title (not beside it), so the title keeps the whole
-                // row width and never wraps.
-                title: provider.profileCompletionPercentage >= 100
-                    ? context.l10n.editProfile
-                    : context.l10n.completeProfileTitle,
-                subtitle: context.l10n.profileCompletionFormat(
-                  provider.profileCompletionPercentage,
+            if (showProfile) _buildGroupHeader(context.l10n.profileGroupHeader),
+            if (showProfile)
+              _buildGroupContainer([
+                _buildSettingRow(
+                  icon: Icons.person_outline,
+                  // A finished profile is edited, not completed. The progress goes
+                  // under the title (not beside it), so the title keeps the whole
+                  // row width and never wraps.
+                  title: provider.profileCompletionPercentage >= 100
+                      ? context.l10n.editProfile
+                      : context.l10n.completeProfileTitle,
+                  subtitle: context.l10n.profileCompletionFormat(
+                    provider.profileCompletionPercentage,
+                  ),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const BasicProfileScreen(),
+                      ),
+                    );
+                  },
+                  isLast: true,
                 ),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const BasicProfileScreen(),
-                    ),
-                  );
-                },
-                isLast: true,
-              ),
-            ]),
+              ]),
 
             // GROUP 1: Preferences
             _buildGroupHeader(context.l10n.preferencesGroupHeader),

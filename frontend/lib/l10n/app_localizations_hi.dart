@@ -5870,7 +5870,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sv2Name => 'सारथी';
 
   @override
-  String get sv2PoweredBy => 'MSS AI द्वारा संचालित';
+  String get sv2PoweredBy => 'सर्वम एआई द्वारा संचालित';
 
   @override
   String get sv2ModeType => 'टाइप';

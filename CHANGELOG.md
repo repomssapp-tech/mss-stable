@@ -11,6 +11,13 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+### Changed
+- The bottom bar is now white, with each icon in a soft circle. The active tab is a round frosted purple bubble that stretches like a drop as it moves between tabs.
+- Saarthi now says "Powered by Sarvam AI".
+
+### Fixed
+- Settings no longer repeats your profile card, so the Profile tab is the one place your profile is shown (in companion mode, which has no Profile tab, Settings still shows it).
+
 ## [2.2.0+18] - 2026-10-24
 
 ### Added

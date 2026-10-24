@@ -90,7 +90,7 @@ void main() {
     }
   }
 
-  testWidgets('the active tab is a white icon on the raised tile', (
+  testWidgets('the active tab is a white icon on the frosted bubble', (
     tester,
   ) async {
     await tester.pumpWidget(_app(Builder(builder: _bar)));
@@ -102,7 +102,7 @@ void main() {
           w.color == AppColors.textOnPrimary,
     );
     expect(white, findsOneWidget);
-    // The idle tabs are light blue.
+    // The idle tabs are dark outline icons.
     final idle = tester.widget<Icon>(
       find.descendant(
         of: find.byType(AppNavBarItem).at(1),
