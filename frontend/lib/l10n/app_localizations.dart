@@ -10402,6 +10402,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'What\'s new in this version'**
   String get updateWhatsNew;
+
+  /// No description provided for @integrityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'MSS can\'t run on this phone right now'**
+  String get integrityTitle;
+
+  /// No description provided for @integritySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'To keep your scheme details and account safe, fix the problem below. MSS opens by itself once it\'s fixed.'**
+  String get integritySubtitle;
+
+  /// No description provided for @integrityDevTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Developer options are on'**
+  String get integrityDevTitle;
+
+  /// No description provided for @integrityDevBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off Developer options (and USB debugging) in your phone\'s Settings.'**
+  String get integrityDevBody;
+
+  /// No description provided for @integrityVpnTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A VPN is connected'**
+  String get integrityVpnTitle;
+
+  /// No description provided for @integrityVpnBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off your VPN to use MSS. Only Tailscale and AdGuard are allowed.'**
+  String get integrityVpnBody;
+
+  /// No description provided for @integrityWifiTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re on public Wi-Fi'**
+  String get integrityWifiTitle;
+
+  /// No description provided for @integrityWifiBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This Wi-Fi has no password or needs a sign-in page. Switch to mobile data or a password-protected Wi-Fi.'**
+  String get integrityWifiBody;
+
+  /// No description provided for @integrityOpenDeveloper.
+  ///
+  /// In en, this message translates to:
+  /// **'Open developer settings'**
+  String get integrityOpenDeveloper;
+
+  /// No description provided for @integrityOpenVpn.
+  ///
+  /// In en, this message translates to:
+  /// **'Open VPN settings'**
+  String get integrityOpenVpn;
+
+  /// No description provided for @integrityOpenWifi.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Wi-Fi settings'**
+  String get integrityOpenWifi;
+
+  /// No description provided for @integrityCheckAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Check again'**
+  String get integrityCheckAgain;
 }
 
 class _AppLocalizationsDelegate

@@ -1758,5 +1758,17 @@
   "updateOpenFailed": "Couldn't open the download page. Try again later.",
   "settingsCheckUpdates": "Check for updates",
   "settingsInstalledVersion": "Installed: {version}",
-  "updateWhatsNew": "What's new in this version"
+  "updateWhatsNew": "What's new in this version",
+  "integrityTitle": "MSS can't run on this phone right now",
+  "integritySubtitle": "To keep your scheme details and account safe, fix the problem below. MSS opens by itself once it's fixed.",
+  "integrityDevTitle": "Developer options are on",
+  "integrityDevBody": "Turn off Developer options (and USB debugging) in your phone's Settings.",
+  "integrityVpnTitle": "A VPN is connected",
+  "integrityVpnBody": "Turn off your VPN to use MSS. Only Tailscale and AdGuard are allowed.",
+  "integrityWifiTitle": "You're on public Wi-Fi",
+  "integrityWifiBody": "This Wi-Fi has no password or needs a sign-in page. Switch to mobile data or a password-protected Wi-Fi.",
+  "integrityOpenDeveloper": "Open developer settings",
+  "integrityOpenVpn": "Open VPN settings",
+  "integrityOpenWifi": "Open Wi-Fi settings",
+  "integrityCheckAgain": "Check again"
 }

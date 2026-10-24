@@ -5659,4 +5659,44 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get updateWhatsNew => 'What\'s new in this version';
+
+  @override
+  String get integrityTitle => 'MSS can\'t run on this phone right now';
+
+  @override
+  String get integritySubtitle =>
+      'To keep your scheme details and account safe, fix the problem below. MSS opens by itself once it\'s fixed.';
+
+  @override
+  String get integrityDevTitle => 'Developer options are on';
+
+  @override
+  String get integrityDevBody =>
+      'Turn off Developer options (and USB debugging) in your phone\'s Settings.';
+
+  @override
+  String get integrityVpnTitle => 'A VPN is connected';
+
+  @override
+  String get integrityVpnBody =>
+      'Turn off your VPN to use MSS. Only Tailscale and AdGuard are allowed.';
+
+  @override
+  String get integrityWifiTitle => 'You\'re on public Wi-Fi';
+
+  @override
+  String get integrityWifiBody =>
+      'This Wi-Fi has no password or needs a sign-in page. Switch to mobile data or a password-protected Wi-Fi.';
+
+  @override
+  String get integrityOpenDeveloper => 'Open developer settings';
+
+  @override
+  String get integrityOpenVpn => 'Open VPN settings';
+
+  @override
+  String get integrityOpenWifi => 'Open Wi-Fi settings';
+
+  @override
+  String get integrityCheckAgain => 'Check again';
 }

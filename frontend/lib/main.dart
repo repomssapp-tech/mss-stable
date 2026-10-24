@@ -29,6 +29,7 @@ import 'widgets/common/app_bottom_nav_bar.dart';
 import 'widgets/common/app_update_prompt.dart';
 import 'widgets/onboarding/home_tour.dart';
 import 'widgets/onboarding/home_tour_targets.dart';
+import 'widgets/common/device_integrity_gate.dart';
 import 'widgets/common/haptic_touch_layer.dart';
 import 'services/haptics/haptics_service.dart';
 import 'services/notifications/local_notification_service.dart';
@@ -212,7 +213,7 @@ class MSSApp extends StatelessWidget {
           data: mediaQueryData.copyWith(
             textScaler: TextScaler.linear(boundedScale),
           ),
-          child: HapticTouchLayer(child: child!),
+          child: DeviceIntegrityGate(child: HapticTouchLayer(child: child!)),
         );
       },
       // 2.3 (design system): the whole ThemeData moved to AppTheme.light.

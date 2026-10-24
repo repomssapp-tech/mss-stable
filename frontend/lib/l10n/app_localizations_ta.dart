@@ -5755,4 +5755,44 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get updateWhatsNew => 'இந்தப் பதிப்பில் புதியவை';
+
+  @override
+  String get integrityTitle => 'இப்போது இந்தத் தொலைபேசியில் MSS இயங்காது';
+
+  @override
+  String get integritySubtitle =>
+      'உங்கள் திட்ட விவரங்களும் கணக்கும் பாதுகாப்பாக இருக்க, கீழே உள்ள சிக்கலைச் சரிசெய்யுங்கள். சரியானதும் MSS தானாகத் திறக்கும்.';
+
+  @override
+  String get integrityDevTitle => 'டெவலப்பர் விருப்பங்கள் இயக்கத்தில் உள்ளன';
+
+  @override
+  String get integrityDevBody =>
+      'தொலைபேசியின் அமைப்புகளில் டெவலப்பர் விருப்பங்களையும் (USB பிழைத்திருத்தத்தையும்) அணைக்கவும்.';
+
+  @override
+  String get integrityVpnTitle => 'VPN இணைக்கப்பட்டுள்ளது';
+
+  @override
+  String get integrityVpnBody =>
+      'MSS-ஐப் பயன்படுத்த உங்கள் VPN-ஐ அணைக்கவும். Tailscale மற்றும் AdGuard மட்டுமே அனுமதிக்கப்படும்.';
+
+  @override
+  String get integrityWifiTitle => 'நீங்கள் பொது Wi-Fi-இல் உள்ளீர்கள்';
+
+  @override
+  String get integrityWifiBody =>
+      'இந்த Wi-Fi-க்குக் கடவுச்சொல் இல்லை அல்லது உள்நுழைவுப் பக்கம் தேவை. மொபைல் டேட்டா அல்லது கடவுச்சொல் உள்ள Wi-Fi-க்கு மாறவும்.';
+
+  @override
+  String get integrityOpenDeveloper => 'டெவலப்பர் அமைப்புகளைத் திற';
+
+  @override
+  String get integrityOpenVpn => 'VPN அமைப்புகளைத் திற';
+
+  @override
+  String get integrityOpenWifi => 'Wi-Fi அமைப்புகளைத் திற';
+
+  @override
+  String get integrityCheckAgain => 'மீண்டும் சரிபார்';
 }

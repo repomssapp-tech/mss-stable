@@ -1728,5 +1728,17 @@
   "updateOpenFailed": "பதிவிறக்கப் பக்கத்தைத் திறக்க முடியவில்லை. பிறகு மீண்டும் முயலவும்.",
   "settingsCheckUpdates": "புதுப்பிப்புகளைச் சரிபார்",
   "settingsInstalledVersion": "நிறுவப்பட்டது: {version}",
-  "updateWhatsNew": "இந்தப் பதிப்பில் புதியவை"
+  "updateWhatsNew": "இந்தப் பதிப்பில் புதியவை",
+  "integrityTitle": "இப்போது இந்தத் தொலைபேசியில் MSS இயங்காது",
+  "integritySubtitle": "உங்கள் திட்ட விவரங்களும் கணக்கும் பாதுகாப்பாக இருக்க, கீழே உள்ள சிக்கலைச் சரிசெய்யுங்கள். சரியானதும் MSS தானாகத் திறக்கும்.",
+  "integrityDevTitle": "டெவலப்பர் விருப்பங்கள் இயக்கத்தில் உள்ளன",
+  "integrityDevBody": "தொலைபேசியின் அமைப்புகளில் டெவலப்பர் விருப்பங்களையும் (USB பிழைத்திருத்தத்தையும்) அணைக்கவும்.",
+  "integrityVpnTitle": "VPN இணைக்கப்பட்டுள்ளது",
+  "integrityVpnBody": "MSS-ஐப் பயன்படுத்த உங்கள் VPN-ஐ அணைக்கவும். Tailscale மற்றும் AdGuard மட்டுமே அனுமதிக்கப்படும்.",
+  "integrityWifiTitle": "நீங்கள் பொது Wi-Fi-இல் உள்ளீர்கள்",
+  "integrityWifiBody": "இந்த Wi-Fi-க்குக் கடவுச்சொல் இல்லை அல்லது உள்நுழைவுப் பக்கம் தேவை. மொபைல் டேட்டா அல்லது கடவுச்சொல் உள்ள Wi-Fi-க்கு மாறவும்.",
+  "integrityOpenDeveloper": "டெவலப்பர் அமைப்புகளைத் திற",
+  "integrityOpenVpn": "VPN அமைப்புகளைத் திற",
+  "integrityOpenWifi": "Wi-Fi அமைப்புகளைத் திற",
+  "integrityCheckAgain": "மீண்டும் சரிபார்"
 }

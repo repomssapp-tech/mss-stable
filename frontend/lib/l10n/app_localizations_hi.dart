@@ -5676,4 +5676,44 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get updateWhatsNew => 'इस संस्करण में नया क्या है';
+
+  @override
+  String get integrityTitle => 'MSS अभी इस फ़ोन पर नहीं चल सकता';
+
+  @override
+  String get integritySubtitle =>
+      'आपकी योजना की जानकारी और खाता सुरक्षित रखने के लिए नीचे दी गई समस्या ठीक करें। ठीक होते ही MSS अपने आप खुल जाएगा।';
+
+  @override
+  String get integrityDevTitle => 'डेवलपर विकल्प चालू हैं';
+
+  @override
+  String get integrityDevBody =>
+      'अपने फ़ोन की सेटिंग में डेवलपर विकल्प (और USB डीबगिंग) बंद करें।';
+
+  @override
+  String get integrityVpnTitle => 'VPN जुड़ा हुआ है';
+
+  @override
+  String get integrityVpnBody =>
+      'MSS इस्तेमाल करने के लिए अपना VPN बंद करें। केवल Tailscale और AdGuard की अनुमति है।';
+
+  @override
+  String get integrityWifiTitle => 'आप सार्वजनिक Wi-Fi पर हैं';
+
+  @override
+  String get integrityWifiBody =>
+      'इस Wi-Fi में पासवर्ड नहीं है या साइन-इन पेज चाहिए। मोबाइल डेटा या पासवर्ड वाले Wi-Fi पर जाएँ।';
+
+  @override
+  String get integrityOpenDeveloper => 'डेवलपर सेटिंग खोलें';
+
+  @override
+  String get integrityOpenVpn => 'VPN सेटिंग खोलें';
+
+  @override
+  String get integrityOpenWifi => 'Wi-Fi सेटिंग खोलें';
+
+  @override
+  String get integrityCheckAgain => 'फिर से जाँचें';
 }

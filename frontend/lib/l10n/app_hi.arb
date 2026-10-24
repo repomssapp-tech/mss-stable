@@ -1737,5 +1737,17 @@
   "updateOpenFailed": "डाउनलोड पेज नहीं खुल सका। बाद में फिर कोशिश करें।",
   "settingsCheckUpdates": "अपडेट जाँचें",
   "settingsInstalledVersion": "इंस्टॉल किया गया: {version}",
-  "updateWhatsNew": "इस संस्करण में नया क्या है"
+  "updateWhatsNew": "इस संस्करण में नया क्या है",
+  "integrityTitle": "MSS अभी इस फ़ोन पर नहीं चल सकता",
+  "integritySubtitle": "आपकी योजना की जानकारी और खाता सुरक्षित रखने के लिए नीचे दी गई समस्या ठीक करें। ठीक होते ही MSS अपने आप खुल जाएगा।",
+  "integrityDevTitle": "डेवलपर विकल्प चालू हैं",
+  "integrityDevBody": "अपने फ़ोन की सेटिंग में डेवलपर विकल्प (और USB डीबगिंग) बंद करें।",
+  "integrityVpnTitle": "VPN जुड़ा हुआ है",
+  "integrityVpnBody": "MSS इस्तेमाल करने के लिए अपना VPN बंद करें। केवल Tailscale और AdGuard की अनुमति है।",
+  "integrityWifiTitle": "आप सार्वजनिक Wi-Fi पर हैं",
+  "integrityWifiBody": "इस Wi-Fi में पासवर्ड नहीं है या साइन-इन पेज चाहिए। मोबाइल डेटा या पासवर्ड वाले Wi-Fi पर जाएँ।",
+  "integrityOpenDeveloper": "डेवलपर सेटिंग खोलें",
+  "integrityOpenVpn": "VPN सेटिंग खोलें",
+  "integrityOpenWifi": "Wi-Fi सेटिंग खोलें",
+  "integrityCheckAgain": "फिर से जाँचें"
 }
