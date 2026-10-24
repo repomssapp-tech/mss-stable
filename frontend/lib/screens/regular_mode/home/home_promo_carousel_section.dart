@@ -36,6 +36,8 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
     _carouselTimer?.cancel();
     if (itemCount <= 1) return;
     _carouselTimer = Timer.periodic(const Duration(seconds: 4), (timer) {
+      // Hidden tabs keep their state in the IndexedStack; don't animate one.
+      if (!mounted || !TickerMode.valuesOf(context).enabled) return;
       if (_carouselPageController.hasClients) {
         final nextPage = (_activeCarouselIndex + 1) % itemCount;
         _carouselPageController.animateToPage(

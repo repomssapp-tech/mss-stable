@@ -62,6 +62,24 @@ class CentralizedTranslator {
   List<String> _sortedPhrases = const [];
   List<String> _sortedTerms = const [];
 
+  // Compiled once per dictionary load: (lower-cased key, pattern, replacement).
+  // translate() used to build ~750 RegExps for every string it translated,
+  // which made each Tamil scheme take tens of milliseconds to localize.
+  List<(String, RegExp, String)> _phraseRules = const [];
+  List<(String, RegExp, String)> _termRules = const [];
+
+  static List<(String, RegExp, String)> _rules(
+    List<String> keys,
+    Map<String, String> map,
+  ) => [
+    for (final k in keys)
+      (
+        k.toLowerCase(),
+        RegExp(r'\b' + RegExp.escape(k) + r'\b', caseSensitive: false),
+        map[k]!,
+      ),
+  ];
+
   void _populate(Map<String, dynamic> json) {
     if (json['tagMap'] is Map) {
       _tagMap = (json['tagMap'] as Map<String, dynamic>).map(
@@ -82,6 +100,8 @@ class CentralizedTranslator {
       ..sort((a, b) => b.length.compareTo(a.length));
     _sortedTerms = _termMap.keys.toList()
       ..sort((a, b) => b.length.compareTo(a.length));
+    _phraseRules = _rules(_sortedPhrases, _phraseMap);
+    _termRules = _rules(_sortedTerms, _termMap);
     _loaded = true;
     LocalizedSchemeCache.invalidate();
   }
@@ -289,27 +309,17 @@ class CentralizedTranslator {
       (m) => 'படி ${m.group(1) ?? ''}:',
     );
 
-    // 3. Phrase replacements (sorted by length descending)
-    for (final enPhrase in _sortedPhrases) {
-      final taPhrase = _phraseMap[enPhrase]!;
-      final reg = RegExp(
-        r'\b' + RegExp.escape(enPhrase) + r'\b',
-        caseSensitive: false,
-      );
-      if (reg.hasMatch(translated)) {
-        translated = translated.replaceAll(reg, taPhrase);
-      }
-    }
-
-    // 4. Term replacements (sorted by length descending)
-    for (final enTerm in _sortedTerms) {
-      final taTerm = _termMap[enTerm]!;
-      final reg = RegExp(
-        r'\b' + RegExp.escape(enTerm) + r'\b',
-        caseSensitive: false,
-      );
-      if (reg.hasMatch(translated)) {
-        translated = translated.replaceAll(reg, taTerm);
+    // 3. Phrase replacements, then 4. term replacements (each sorted by
+    // length, longest first). A rule whose key does not occur in the text
+    // (case-insensitively) cannot match, so its pattern is not run.
+    for (final rules in [_phraseRules, _termRules]) {
+      var lowerText = translated.toLowerCase();
+      for (final (key, reg, replacement) in rules) {
+        if (!lowerText.contains(key)) continue;
+        if (reg.hasMatch(translated)) {
+          translated = translated.replaceAll(reg, replacement);
+          lowerText = translated.toLowerCase();
+        }
       }
     }
 
@@ -449,5 +459,7 @@ class CentralizedTranslator {
     instance._termMap = const {};
     instance._sortedPhrases = const [];
     instance._sortedTerms = const [];
+    instance._phraseRules = const [];
+    instance._termRules = const [];
   }
 }
