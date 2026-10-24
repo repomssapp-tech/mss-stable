@@ -161,7 +161,9 @@ class LocalChatHistory extends ChangeNotifier {
             ),
           )
         : chat;
-    chats.insert(0, trimmed);
+    chats
+      ..add(trimmed)
+      ..sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
     _chats = chats.take(maxChats).toList();
     notifyListeners();
     await _persist();

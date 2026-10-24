@@ -420,8 +420,13 @@ class _SaarthiTypeScreenState extends State<SaarthiTypeScreen> {
   Widget _composer(BuildContext context) => Column(
     mainAxisSize: MainAxisSize.min,
     children: [
-      Padding(
-        padding: const EdgeInsets.only(bottom: 8),
+      Container(
+        margin: const EdgeInsets.only(bottom: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: .9),
+          borderRadius: BorderRadius.circular(10),
+        ),
         child: Text(
           context.l10n.aiDisclaimerNotice,
           textAlign: TextAlign.center,
