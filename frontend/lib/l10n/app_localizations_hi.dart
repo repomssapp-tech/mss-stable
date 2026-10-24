@@ -5816,4 +5816,53 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get onbP4Footer => 'आपकी भाषा। आपकी आवाज़। आपकी योजनाएँ।';
+
+  @override
+  String get permTitle => 'MSS को आपकी पूरी मदद करने दें';
+
+  @override
+  String get permSubtitle =>
+      'MSS इनके बिना भी चलता है, पर कुछ सुविधाओं के लिए ये ज़रूरी हैं। आप इन्हें बाद में फ़ोन की सेटिंग में बदल सकते हैं।';
+
+  @override
+  String get permNotificationsTitle => 'सूचनाएँ';
+
+  @override
+  String get permNotificationsBody =>
+      'नई योजनाओं, अंतिम तिथियों और ऐप अपडेट की जानकारी पाएँ।';
+
+  @override
+  String get permMicrophoneTitle => 'माइक्रोफ़ोन';
+
+  @override
+  String get permMicrophoneBody => 'सारथी से बात करें और आवाज़ से खोजें।';
+
+  @override
+  String get permInstallTitle => 'अपडेट इंस्टॉल करना';
+
+  @override
+  String get permInstallBody =>
+      'अपडेट पर टैप करने पर MSS को अपना नया संस्करण इंस्टॉल करने दें।';
+
+  @override
+  String get permFilesTitle => 'फ़ोटो और दस्तावेज़';
+
+  @override
+  String get permFilesBody =>
+      'आधार या प्रोजेक्ट रिपोर्ट जैसे दस्तावेज़ जोड़ें या सहेजें।';
+
+  @override
+  String get permAllow => 'अनुमति दें';
+
+  @override
+  String get permAllowed => 'अनुमति है';
+
+  @override
+  String get permAllowAll => 'सभी की अनुमति दें';
+
+  @override
+  String get permContinue => 'जारी रखें';
+
+  @override
+  String get permNotNow => 'अभी नहीं';
 }

@@ -10654,6 +10654,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your Language. Your Voice. Your Schemes.'**
   String get onbP4Footer;
+
+  /// No description provided for @permTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow MSS to help you fully'**
+  String get permTitle;
+
+  /// No description provided for @permSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'MSS works without these, but some features need them. You can change them later in your phone\'s Settings.'**
+  String get permSubtitle;
+
+  /// No description provided for @permNotificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get permNotificationsTitle;
+
+  /// No description provided for @permNotificationsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Hear about new schemes, deadlines and app updates.'**
+  String get permNotificationsBody;
+
+  /// No description provided for @permMicrophoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone'**
+  String get permMicrophoneTitle;
+
+  /// No description provided for @permMicrophoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Talk to Saarthi and search by voice.'**
+  String get permMicrophoneBody;
+
+  /// No description provided for @permInstallTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Install updates'**
+  String get permInstallTitle;
+
+  /// No description provided for @permInstallBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Let MSS install its own new versions when you tap Update.'**
+  String get permInstallBody;
+
+  /// No description provided for @permFilesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos and documents'**
+  String get permFilesTitle;
+
+  /// No description provided for @permFilesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach or save documents such as your Aadhaar or project report.'**
+  String get permFilesBody;
+
+  /// No description provided for @permAllow.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow'**
+  String get permAllow;
+
+  /// No description provided for @permAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Allowed'**
+  String get permAllowed;
+
+  /// No description provided for @permAllowAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow all'**
+  String get permAllowAll;
+
+  /// No description provided for @permContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get permContinue;
+
+  /// No description provided for @permNotNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get permNotNow;
 }
 
 class _AppLocalizationsDelegate

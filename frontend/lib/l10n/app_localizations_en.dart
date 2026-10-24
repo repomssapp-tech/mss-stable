@@ -5799,4 +5799,53 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onbP4Footer => 'Your Language. Your Voice. Your Schemes.';
+
+  @override
+  String get permTitle => 'Allow MSS to help you fully';
+
+  @override
+  String get permSubtitle =>
+      'MSS works without these, but some features need them. You can change them later in your phone\'s Settings.';
+
+  @override
+  String get permNotificationsTitle => 'Notifications';
+
+  @override
+  String get permNotificationsBody =>
+      'Hear about new schemes, deadlines and app updates.';
+
+  @override
+  String get permMicrophoneTitle => 'Microphone';
+
+  @override
+  String get permMicrophoneBody => 'Talk to Saarthi and search by voice.';
+
+  @override
+  String get permInstallTitle => 'Install updates';
+
+  @override
+  String get permInstallBody =>
+      'Let MSS install its own new versions when you tap Update.';
+
+  @override
+  String get permFilesTitle => 'Photos and documents';
+
+  @override
+  String get permFilesBody =>
+      'Attach or save documents such as your Aadhaar or project report.';
+
+  @override
+  String get permAllow => 'Allow';
+
+  @override
+  String get permAllowed => 'Allowed';
+
+  @override
+  String get permAllowAll => 'Allow all';
+
+  @override
+  String get permContinue => 'Continue';
+
+  @override
+  String get permNotNow => 'Not now';
 }

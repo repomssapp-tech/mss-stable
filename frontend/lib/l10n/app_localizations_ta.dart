@@ -5895,4 +5895,53 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get onbP4Footer => 'உங்கள் மொழி. உங்கள் குரல். உங்கள் திட்டங்கள்.';
+
+  @override
+  String get permTitle => 'MSS முழுமையாக உதவ அனுமதியுங்கள்';
+
+  @override
+  String get permSubtitle =>
+      'இவை இல்லாமலும் MSS இயங்கும், ஆனால் சில வசதிகளுக்கு இவை தேவை. பின்னர் உங்கள் தொலைபேசியின் அமைப்புகளில் மாற்றலாம்.';
+
+  @override
+  String get permNotificationsTitle => 'அறிவிப்புகள்';
+
+  @override
+  String get permNotificationsBody =>
+      'புதிய திட்டங்கள், கடைசி தேதிகள் மற்றும் ஆப் புதுப்பிப்புகளை அறியுங்கள்.';
+
+  @override
+  String get permMicrophoneTitle => 'மைக்ரோஃபோன்';
+
+  @override
+  String get permMicrophoneBody => 'சாரதியுடன் பேசவும் குரல் மூலம் தேடவும்.';
+
+  @override
+  String get permInstallTitle => 'புதுப்பிப்புகளை நிறுவுதல்';
+
+  @override
+  String get permInstallBody =>
+      'நீங்கள் புதுப்பி என்பதைத் தட்டும்போது MSS தன் புதிய பதிப்புகளை நிறுவ அனுமதிக்கவும்.';
+
+  @override
+  String get permFilesTitle => 'படங்களும் ஆவணங்களும்';
+
+  @override
+  String get permFilesBody =>
+      'ஆதார் அல்லது திட்ட அறிக்கை போன்ற ஆவணங்களை இணைக்கவோ சேமிக்கவோ.';
+
+  @override
+  String get permAllow => 'அனுமதி';
+
+  @override
+  String get permAllowed => 'அனுமதிக்கப்பட்டது';
+
+  @override
+  String get permAllowAll => 'அனைத்தையும் அனுமதி';
+
+  @override
+  String get permContinue => 'தொடர்க';
+
+  @override
+  String get permNotNow => 'இப்போது வேண்டாம்';
 }

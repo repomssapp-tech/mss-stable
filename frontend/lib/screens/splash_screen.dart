@@ -18,6 +18,7 @@ import '../services/beta_gate/beta_gate_service.dart';
 import 'beta_gate_screen.dart';
 import '../design_v2/onboarding/onboarding_screen.dart';
 import '../services/onboarding/onboarding_store.dart';
+import 'permissions/app_permissions_screen.dart';
 import '../utils/app_text.dart';
 
 enum StartupDestination { home, navigationMode, language, login }
@@ -164,16 +165,15 @@ class _SplashScreenState extends State<SplashScreen>
       switch (destination) {
         case StartupDestination.home:
           provider.updateTabIndex(0);
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const MainTabsContainer()),
-          );
+          await replaceWithPermissionsFirst(context, const MainTabsContainer());
           return;
         case StartupDestination.navigationMode:
           // A valid OAuth session must survive first-run onboarding. Previously
           // this path signed new users out because their profile was incomplete,
           // creating an endless "Continue with Google" loop.
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const NavigationModeScreen()),
+          await replaceWithPermissionsFirst(
+            context,
+            const NavigationModeScreen(),
           );
           return;
         case StartupDestination.language:

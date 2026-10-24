@@ -1803,5 +1803,20 @@
   "onbP4Footer": "Your Language. Your Voice. Your Schemes.",
   "@onbStep": {"placeholders": {"step": {"type": "String"}, "total": {"type": "String"}}},
   "@onbP1Badge": {"placeholders": {"count": {"type": "int"}}},
-  "@onbP3Found": {"placeholders": {"count": {"type": "int"}}}
+  "@onbP3Found": {"placeholders": {"count": {"type": "int"}}},
+  "permTitle": "Allow MSS to help you fully",
+  "permSubtitle": "MSS works without these, but some features need them. You can change them later in your phone's Settings.",
+  "permNotificationsTitle": "Notifications",
+  "permNotificationsBody": "Hear about new schemes, deadlines and app updates.",
+  "permMicrophoneTitle": "Microphone",
+  "permMicrophoneBody": "Talk to Saarthi and search by voice.",
+  "permInstallTitle": "Install updates",
+  "permInstallBody": "Let MSS install its own new versions when you tap Update.",
+  "permFilesTitle": "Photos and documents",
+  "permFilesBody": "Attach or save documents such as your Aadhaar or project report.",
+  "permAllow": "Allow",
+  "permAllowed": "Allowed",
+  "permAllowAll": "Allow all",
+  "permContinue": "Continue",
+  "permNotNow": "Not now"
 }
