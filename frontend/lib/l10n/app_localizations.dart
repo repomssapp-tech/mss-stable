@@ -10474,6 +10474,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Check again'**
   String get integrityCheckAgain;
+
+  /// No description provided for @onbSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onbSkip;
+
+  /// No description provided for @onbStep.
+  ///
+  /// In en, this message translates to:
+  /// **'{step} / {total}'**
+  String onbStep(String step, String total);
+
+  /// No description provided for @onbNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onbNext;
+
+  /// No description provided for @onbGetStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Started'**
+  String get onbGetStarted;
+
+  /// No description provided for @onbP1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Government Schemes, Made [Simple]'**
+  String get onbP1Title;
+
+  /// No description provided for @onbP1Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover government schemes for entrepreneurs, MSMEs, women and students — all in one place.'**
+  String get onbP1Body;
+
+  /// No description provided for @onbP1Badge.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}+ Verified Schemes'**
+  String onbP1Badge(int count);
+
+  /// No description provided for @onbChipMsme.
+  ///
+  /// In en, this message translates to:
+  /// **'MSME'**
+  String get onbChipMsme;
+
+  /// No description provided for @onbChipStartup.
+  ///
+  /// In en, this message translates to:
+  /// **'Startup'**
+  String get onbChipStartup;
+
+  /// No description provided for @onbChipLoans.
+  ///
+  /// In en, this message translates to:
+  /// **'Loans'**
+  String get onbChipLoans;
+
+  /// No description provided for @onbChipSubsidy.
+  ///
+  /// In en, this message translates to:
+  /// **'Subsidy'**
+  String get onbChipSubsidy;
+
+  /// No description provided for @onbP2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Too Many Schemes.\n[One Simple Solution.]'**
+  String get onbP2Title;
+
+  /// No description provided for @onbP2Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Government schemes can be difficult to find, understand and compare. MSS brings them together in one simple experience.'**
+  String get onbP2Body;
+
+  /// No description provided for @onbP2Badge.
+  ///
+  /// In en, this message translates to:
+  /// **'Find. Understand. Discover.'**
+  String get onbP2Badge;
+
+  /// No description provided for @onbChipEligibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Eligibility'**
+  String get onbChipEligibility;
+
+  /// No description provided for @onbChipIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get onbChipIncome;
+
+  /// No description provided for @onbChipDocuments.
+  ///
+  /// In en, this message translates to:
+  /// **'Documents'**
+  String get onbChipDocuments;
+
+  /// No description provided for @onbChipSubsidies.
+  ///
+  /// In en, this message translates to:
+  /// **'Subsidies'**
+  String get onbChipSubsidies;
+
+  /// No description provided for @onbP3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Know What You [Qualify] For'**
+  String get onbP3Title;
+
+  /// No description provided for @onbP3Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell MSS about yourself and discover schemes that match your eligibility — with clear reasons why.'**
+  String get onbP3Body;
+
+  /// No description provided for @onbP3Matches.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Matches'**
+  String get onbP3Matches;
+
+  /// No description provided for @onbP3Found.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Schemes Found'**
+  String onbP3Found(int count);
+
+  /// No description provided for @onbP3MayBeEligible.
+  ///
+  /// In en, this message translates to:
+  /// **'You may be eligible'**
+  String get onbP3MayBeEligible;
+
+  /// No description provided for @onbP3Age.
+  ///
+  /// In en, this message translates to:
+  /// **'Age'**
+  String get onbP3Age;
+
+  /// No description provided for @onbP3Occupation.
+  ///
+  /// In en, this message translates to:
+  /// **'Occupation'**
+  String get onbP3Occupation;
+
+  /// No description provided for @onbP3Footer.
+  ///
+  /// In en, this message translates to:
+  /// **'No guessing. Just clear answers.'**
+  String get onbP3Footer;
+
+  /// No description provided for @onbP4Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Just Ask [Saarthi]'**
+  String get onbP4Title;
+
+  /// No description provided for @onbP4Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Get step-by-step guidance through voice — in your language, your way.'**
+  String get onbP4Body;
+
+  /// No description provided for @onbP4SaarthiLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'SAARTHI'**
+  String get onbP4SaarthiLabel;
+
+  /// No description provided for @onbP4Footer.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Language. Your Voice. Your Schemes.'**
+  String get onbP4Footer;
 }
 
 class _AppLocalizationsDelegate

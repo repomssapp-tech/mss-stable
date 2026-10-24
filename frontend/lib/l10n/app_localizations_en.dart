@@ -5699,4 +5699,104 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get integrityCheckAgain => 'Check again';
+
+  @override
+  String get onbSkip => 'Skip';
+
+  @override
+  String onbStep(String step, String total) {
+    return '$step / $total';
+  }
+
+  @override
+  String get onbNext => 'Next';
+
+  @override
+  String get onbGetStarted => 'Get Started';
+
+  @override
+  String get onbP1Title => 'Government Schemes, Made [Simple]';
+
+  @override
+  String get onbP1Body =>
+      'Discover government schemes for entrepreneurs, MSMEs, women and students — all in one place.';
+
+  @override
+  String onbP1Badge(int count) {
+    return '$count+ Verified Schemes';
+  }
+
+  @override
+  String get onbChipMsme => 'MSME';
+
+  @override
+  String get onbChipStartup => 'Startup';
+
+  @override
+  String get onbChipLoans => 'Loans';
+
+  @override
+  String get onbChipSubsidy => 'Subsidy';
+
+  @override
+  String get onbP2Title => 'Too Many Schemes.\n[One Simple Solution.]';
+
+  @override
+  String get onbP2Body =>
+      'Government schemes can be difficult to find, understand and compare. MSS brings them together in one simple experience.';
+
+  @override
+  String get onbP2Badge => 'Find. Understand. Discover.';
+
+  @override
+  String get onbChipEligibility => 'Eligibility';
+
+  @override
+  String get onbChipIncome => 'Income';
+
+  @override
+  String get onbChipDocuments => 'Documents';
+
+  @override
+  String get onbChipSubsidies => 'Subsidies';
+
+  @override
+  String get onbP3Title => 'Know What You [Qualify] For';
+
+  @override
+  String get onbP3Body =>
+      'Tell MSS about yourself and discover schemes that match your eligibility — with clear reasons why.';
+
+  @override
+  String get onbP3Matches => 'Your Matches';
+
+  @override
+  String onbP3Found(int count) {
+    return '$count Schemes Found';
+  }
+
+  @override
+  String get onbP3MayBeEligible => 'You may be eligible';
+
+  @override
+  String get onbP3Age => 'Age';
+
+  @override
+  String get onbP3Occupation => 'Occupation';
+
+  @override
+  String get onbP3Footer => 'No guessing. Just clear answers.';
+
+  @override
+  String get onbP4Title => 'Just Ask [Saarthi]';
+
+  @override
+  String get onbP4Body =>
+      'Get step-by-step guidance through voice — in your language, your way.';
+
+  @override
+  String get onbP4SaarthiLabel => 'SAARTHI';
+
+  @override
+  String get onbP4Footer => 'Your Language. Your Voice. Your Schemes.';
 }

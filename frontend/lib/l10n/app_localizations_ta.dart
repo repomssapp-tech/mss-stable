@@ -5795,4 +5795,104 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get integrityCheckAgain => 'மீண்டும் சரிபார்';
+
+  @override
+  String get onbSkip => 'தவிர்';
+
+  @override
+  String onbStep(String step, String total) {
+    return '$step / $total';
+  }
+
+  @override
+  String get onbNext => 'அடுத்து';
+
+  @override
+  String get onbGetStarted => 'தொடங்குங்கள்';
+
+  @override
+  String get onbP1Title => 'அரசுத் திட்டங்கள், இப்போது [எளிதாக]';
+
+  @override
+  String get onbP1Body =>
+      'தொழில்முனைவோர், எம் எஸ் எம் ஈ, பெண்கள் மற்றும் மாணவர்களுக்கான அரசுத் திட்டங்களை ஒரே இடத்தில் கண்டறியுங்கள்.';
+
+  @override
+  String onbP1Badge(int count) {
+    return '$count+ சரிபார்க்கப்பட்ட திட்டங்கள்';
+  }
+
+  @override
+  String get onbChipMsme => 'எம் எஸ் எம் ஈ';
+
+  @override
+  String get onbChipStartup => 'ஸ்டார்ட்அப்';
+
+  @override
+  String get onbChipLoans => 'கடன்கள்';
+
+  @override
+  String get onbChipSubsidy => 'மானியம்';
+
+  @override
+  String get onbP2Title => 'பல திட்டங்கள்.\n[ஒரே எளிய தீர்வு.]';
+
+  @override
+  String get onbP2Body =>
+      'அரசுத் திட்டங்களைக் கண்டறிவதும் புரிந்துகொள்வதும் ஒப்பிடுவதும் கடினம். MSS அவற்றை ஒரே எளிய அனுபவத்தில் தருகிறது.';
+
+  @override
+  String get onbP2Badge => 'கண்டறி. புரிந்துகொள். அறிந்துகொள்.';
+
+  @override
+  String get onbChipEligibility => 'தகுதி';
+
+  @override
+  String get onbChipIncome => 'வருமானம்';
+
+  @override
+  String get onbChipDocuments => 'ஆவணங்கள்';
+
+  @override
+  String get onbChipSubsidies => 'மானியங்கள்';
+
+  @override
+  String get onbP3Title => 'உங்களுக்கு [தகுதியானவை] எவை என அறியுங்கள்';
+
+  @override
+  String get onbP3Body =>
+      'உங்களைப் பற்றி MSS-இடம் சொல்லுங்கள்; உங்கள் தகுதிக்குப் பொருந்தும் திட்டங்களைத் தெளிவான காரணங்களுடன் கண்டறியுங்கள்.';
+
+  @override
+  String get onbP3Matches => 'உங்கள் பொருத்தங்கள்';
+
+  @override
+  String onbP3Found(int count) {
+    return '$count திட்டங்கள் கிடைத்தன';
+  }
+
+  @override
+  String get onbP3MayBeEligible => 'நீங்கள் தகுதியானவராக இருக்கலாம்';
+
+  @override
+  String get onbP3Age => 'வயது';
+
+  @override
+  String get onbP3Occupation => 'தொழில்';
+
+  @override
+  String get onbP3Footer => 'ஊகம் வேண்டாம். தெளிவான பதில்கள் மட்டும்.';
+
+  @override
+  String get onbP4Title => '[சாரதியிடம்] கேளுங்கள்';
+
+  @override
+  String get onbP4Body =>
+      'உங்கள் மொழியில், உங்கள் விருப்பப்படி, குரல் மூலம் படிப்படியான வழிகாட்டுதல் பெறுங்கள்.';
+
+  @override
+  String get onbP4SaarthiLabel => 'சாரதி';
+
+  @override
+  String get onbP4Footer => 'உங்கள் மொழி. உங்கள் குரல். உங்கள் திட்டங்கள்.';
 }

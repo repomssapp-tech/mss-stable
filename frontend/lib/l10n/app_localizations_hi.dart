@@ -5716,4 +5716,104 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get integrityCheckAgain => 'फिर से जाँचें';
+
+  @override
+  String get onbSkip => 'छोड़ें';
+
+  @override
+  String onbStep(String step, String total) {
+    return '$step / $total';
+  }
+
+  @override
+  String get onbNext => 'आगे';
+
+  @override
+  String get onbGetStarted => 'शुरू करें';
+
+  @override
+  String get onbP1Title => 'सरकारी योजनाएँ, अब [आसान]';
+
+  @override
+  String get onbP1Body =>
+      'उद्यमियों, MSME, महिलाओं और छात्रों के लिए सरकारी योजनाएँ खोजें — सब एक ही जगह।';
+
+  @override
+  String onbP1Badge(int count) {
+    return '$count+ सत्यापित योजनाएँ';
+  }
+
+  @override
+  String get onbChipMsme => 'MSME';
+
+  @override
+  String get onbChipStartup => 'स्टार्टअप';
+
+  @override
+  String get onbChipLoans => 'ऋण';
+
+  @override
+  String get onbChipSubsidy => 'सब्सिडी';
+
+  @override
+  String get onbP2Title => 'बहुत सारी योजनाएँ।\n[एक आसान समाधान।]';
+
+  @override
+  String get onbP2Body =>
+      'सरकारी योजनाओं को खोजना, समझना और तुलना करना मुश्किल है। MSS उन्हें एक आसान अनुभव में एक साथ लाता है।';
+
+  @override
+  String get onbP2Badge => 'खोजें। समझें। जानें।';
+
+  @override
+  String get onbChipEligibility => 'पात्रता';
+
+  @override
+  String get onbChipIncome => 'आय';
+
+  @override
+  String get onbChipDocuments => 'दस्तावेज़';
+
+  @override
+  String get onbChipSubsidies => 'सब्सिडी';
+
+  @override
+  String get onbP3Title => 'जानें आप किसके [पात्र] हैं';
+
+  @override
+  String get onbP3Body =>
+      'MSS को अपने बारे में बताएँ और अपनी पात्रता से मेल खाती योजनाएँ खोजें — साफ़ कारणों के साथ।';
+
+  @override
+  String get onbP3Matches => 'आपके मिलान';
+
+  @override
+  String onbP3Found(int count) {
+    return '$count योजनाएँ मिलीं';
+  }
+
+  @override
+  String get onbP3MayBeEligible => 'आप पात्र हो सकते हैं';
+
+  @override
+  String get onbP3Age => 'आयु';
+
+  @override
+  String get onbP3Occupation => 'व्यवसाय';
+
+  @override
+  String get onbP3Footer => 'कोई अंदाज़ा नहीं। बस साफ़ जवाब।';
+
+  @override
+  String get onbP4Title => 'बस [सारथी] से पूछें';
+
+  @override
+  String get onbP4Body =>
+      'अपनी भाषा में, अपने तरीके से, आवाज़ से कदम-दर-कदम मार्गदर्शन पाएँ।';
+
+  @override
+  String get onbP4SaarthiLabel => 'सारथी';
+
+  @override
+  String get onbP4Footer => 'आपकी भाषा। आपकी आवाज़। आपकी योजनाएँ।';
 }
