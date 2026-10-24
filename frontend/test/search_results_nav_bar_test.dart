@@ -65,7 +65,7 @@ void main() {
     tester,
   ) async {
     final provider = await openResults(tester);
-    await tester.tap(find.text('Saved'));
+    await tester.tap(find.byType(AppNavBarItem).at(3));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 600));
     expect(provider.currentTabIndex, 3);

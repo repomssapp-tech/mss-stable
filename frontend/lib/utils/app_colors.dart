@@ -75,6 +75,13 @@ abstract final class AppColors {
   static const accent = Color(0xFFFF9933);
 
   /// Gradient helper, moved from `AppConstants.blueGradient`.
+  // Bottom bar (v2 design): violet pill, glass tile on the active tab.
+  static const navViolet = Color(0xFF4314FF);
+  static const navVioletDeep = Color(0xFF3300E6);
+  static const navTile = Color(0xFF5A48FF);
+  static const navGlow = Color(0xFFC9F4FF);
+  static const navIconIdle = Color(0xFF39A6FF);
+
   static const scaffoldGradient = LinearGradient(
     colors: [Color(0xFFF8FAFC), Color(0xFFE0F2FE), Color(0xFFEFF6FF)],
     begin: Alignment.topLeft,

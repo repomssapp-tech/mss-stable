@@ -1,5 +1,5 @@
 // The floating frosted nav bar in every supported language and several phone
-// widths (no overflow, active tab in the brand primary colour), and the Home
+// widths (no overflow, active tab on a raised glass tile), and the Home
 // "View all" button opening the full inbox.
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -90,12 +90,26 @@ void main() {
     }
   }
 
-  testWidgets('nav bar active icon uses the primary colour', (tester) async {
+  testWidgets('the active tab is a white icon on the raised tile', (
+    tester,
+  ) async {
     await tester.pumpWidget(_app(Builder(builder: _bar)));
     await tester.pumpAndSettle();
-    final icon = tester.widget<Icon>(find.byIcon(Icons.home_rounded));
-    final ctx = tester.element(find.byIcon(Icons.home_rounded));
-    expect(icon.color ?? IconTheme.of(ctx).color, AppColors.primary);
+    final white = find.byWidgetPredicate(
+      (w) =>
+          w is Icon &&
+          w.icon == Icons.home_rounded &&
+          w.color == AppColors.textOnPrimary,
+    );
+    expect(white, findsOneWidget);
+    // The idle tabs are light blue.
+    final idle = tester.widget<Icon>(
+      find.descendant(
+        of: find.byType(AppNavBarItem).at(1),
+        matching: find.byType(Icon),
+      ),
+    );
+    expect(idle.color, AppColors.navIconIdle);
   });
 
   for (final code in ['en', 'hi', 'ta']) {

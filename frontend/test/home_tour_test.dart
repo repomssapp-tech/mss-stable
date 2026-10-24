@@ -159,11 +159,12 @@ void main() {
     await next();
     expect(find.text('3 of 4'), findsOneWidget);
     expect(_lit(tester), tester.getRect(find.byKey(HomeTourTargets.discover)));
-    // The Discover target is the bottom bar's third item, label included.
+    // The Discover target is the bottom bar's third tab (announced as
+    // "Discover"; only the active tab shows its label as text).
     expect(
       find.descendant(
         of: find.byKey(HomeTourTargets.discover),
-        matching: find.text('Discover'),
+        matching: find.bySemanticsLabel('Discover'),
       ),
       findsOneWidget,
     );
