@@ -1,14 +1,24 @@
 import '../../utils/app_version.dart';
 
-/// One app build published as a GitHub release of `Roger-Chris/MSS_App`.
+/// One app build published as a GitHub release of the public releases
+/// repository ([AppUpdateService.releasesRepo]).
 ///
-/// CI tags app builds `app-vX.Y.Z+N` (N is the Android `versionCode`); the
-/// same repository also publishes `catalog-*` releases, which are not app
-/// builds and are ignored here.
+/// CI tags app builds `app-vX.Y.Z+N` (N is the Android `versionCode`); any
+/// other tag (`catalog-*`) is not an app build and is ignored here.
 class AppRelease {
-  const AppRelease({required this.version, required this.pageUrl, this.apkUrl});
+  const AppRelease({
+    required this.version,
+    required this.pageUrl,
+    this.apkUrl,
+    this.notes = const [],
+  });
 
   final AppVersion version;
+
+  /// What changed in this build, one line per item, taken from the release
+  /// description (CI copies the CHANGELOG entry there). Headings such as
+  /// "### Fixed" are kept as their own lines; Markdown markup is removed.
+  final List<String> notes;
 
   /// The release's page on GitHub.
   final Uri pageUrl;
@@ -43,7 +53,35 @@ class AppRelease {
       version: version,
       pageUrl: pageUrl,
       apkUrl: _apkUrl(json['assets']),
+      notes: notesFrom(json['body']),
     );
+  }
+
+  /// Most lines shown; a long changelog is cut, the release page has it all.
+  static const int maxNoteLines = 24;
+
+  /// The release description as plain lines: headings without "#", list
+  /// items without "-"/"*", links reduced to their text, empty lines and
+  /// HTML comments dropped, the signing/build footer left out.
+  static List<String> notesFrom(Object? body) {
+    if (body is! String) return const [];
+    final lines = <String>[];
+    for (final raw in body.split(RegExp(r'\r?\n'))) {
+      var line = raw.trim();
+      if (line.isEmpty || line.startsWith('<!--')) continue;
+      if (line.startsWith('Signed with ') || line.startsWith('Built by ')) {
+        continue;
+      }
+      line = line
+          .replaceFirst(RegExp(r'^#+\s*'), '')
+          .replaceFirst(RegExp(r'^[-*]\s+'), '• ')
+          .replaceAllMapped(RegExp(r'\[([^\]]+)\]\([^)]*\)'), (m) => m[1]!)
+          .replaceAll(RegExp(r'[*_`]'), '');
+      if (line.trim().isEmpty) continue;
+      lines.add(line);
+      if (lines.length == maxNoteLines) break;
+    }
+    return lines;
   }
 
   /// The newest app build in a GitHub releases list (`GET /releases`), by

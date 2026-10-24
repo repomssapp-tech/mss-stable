@@ -1757,5 +1757,6 @@
   "updateActionLater": "Later",
   "updateOpenFailed": "Couldn't open the download page. Try again later.",
   "settingsCheckUpdates": "Check for updates",
-  "settingsInstalledVersion": "Installed: {version}"
+  "settingsInstalledVersion": "Installed: {version}",
+  "updateWhatsNew": "What's new in this version"
 }

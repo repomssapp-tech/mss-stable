@@ -22,6 +22,7 @@ final _release = AppRelease(
     'https://github.com/Roger-Chris/MSS_App/releases/tag/app-v1.4.9%2B17',
   ),
   apkUrl: _apk,
+  notes: const ['Fixed', '• Hindi shows in the language picker again.'],
 );
 
 AppUpdateService _service({void Function()? onRequest}) => AppUpdateService(
@@ -97,6 +98,12 @@ void main() {
 
         expect(find.text(l10n.updateAvailableTitle), findsOneWidget);
         expect(find.text(l10n.updateAvailableMessage('1.4.9')), findsOneWidget);
+        // What changed, from the release notes.
+        expect(find.text(l10n.updateWhatsNew), findsOneWidget);
+        expect(
+          find.text('• Hindi shows in the language picker again.'),
+          findsOneWidget,
+        );
         expect(find.text(l10n.updateActionUpdate), findsOneWidget);
         expect(find.text(l10n.updateActionLater), findsOneWidget);
         expect(tester.takeException(), isNull);

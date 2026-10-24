@@ -348,4 +348,57 @@ void main() {
       expect((await s.check(onStart: true))!.version.build, 18);
     });
   });
+
+  group('release notes and version name', () {
+    test('notes come from the release body as plain lines', () {
+      const body =
+          'MSS app 2.1 (build 17). Installs as an update.\n'
+          '\n'
+          '### Fixed\n'
+          '- Hindi is offered in the **language picker** again.\n'
+          '- See [the guide](https://example.com) for `details`.\n'
+          '<!-- internal -->\n'
+          'Signed with the MSS release key (SHA-256 cc58f15a).\n'
+          'Built by GitHub Actions run 1 from abc.\n';
+      expect(AppRelease.notesFrom(body), [
+        'MSS app 2.1 (build 17). Installs as an update.',
+        'Fixed',
+        '• Hindi is offered in the language picker again.',
+        '• See the guide for details.',
+      ]);
+    });
+
+    test('notes are empty without a body and capped when long', () {
+      expect(AppRelease.notesFrom(null), isEmpty);
+      final long = List.generate(60, (i) => '- item $i').join('\n');
+      expect(AppRelease.notesFrom(long), hasLength(AppRelease.maxNoteLines));
+    });
+
+    test('a release carries its notes', () {
+      final r = AppRelease.fromJson({
+        'tag_name': 'app-v2.1.0+17',
+        'html_url':
+            'https://github.com/nyxri0f8/MSS_App-releases/releases/tag/x',
+        'draft': false,
+        'prerelease': false,
+        'body': '### Added\r\n- Update notice with release notes',
+        'assets': const [],
+      })!;
+      expect(r.notes, ['Added', '• Update notice with release notes']);
+    });
+
+    test('2.1.0 is shown as 2.1, other versions in full', () {
+      expect(const AppVersion(2, 1, 0, 17).displayName, '2.1');
+      expect(const AppVersion(2, 1, 3, 18).displayName, '2.1.3');
+    });
+
+    test('the check reads the public releases repository', () {
+      expect(
+        AppUpdateService.releasesApi.toString(),
+        'https://api.github.com/repos/${AppUpdateService.releasesRepo}'
+        '/releases?per_page=10',
+      );
+      expect(AppUpdateService.releasesRepo, isNot('Roger-Chris/MSS_App'));
+    });
+  });
 }

@@ -5673,4 +5673,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String settingsInstalledVersion(Object version) {
     return 'इंस्टॉल किया गया: $version';
   }
+
+  @override
+  String get updateWhatsNew => 'इस संस्करण में नया क्या है';
 }

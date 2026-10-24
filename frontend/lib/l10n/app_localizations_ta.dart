@@ -5752,4 +5752,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String settingsInstalledVersion(Object version) {
     return 'நிறுவப்பட்டது: $version';
   }
+
+  @override
+  String get updateWhatsNew => 'இந்தப் பதிப்பில் புதியவை';
 }

@@ -205,6 +205,52 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+      # Every signed main build becomes an update: a release in the PUBLIC
+      # releases-only repo (this repo is private, so its own releases 404 for
+      # users). The app's update check reads that repo's releases and shows
+      # the version and these notes (the CHANGELOG entry). Needs the
+      # RELEASES_REPO_TOKEN secret: a fine-grained token with Contents
+      # read/write on that one repo. Without it the step says so and skips.
+      - name: Publish the update to the public releases repo
+        if: ${{ github.event.inputs.dry_run == 'false' && steps.signing.outputs.signed == 'true' && github.ref == 'refs/heads/main' }}
+        env:
+          GH_TOKEN: ${{ secrets.RELEASES_REPO_TOKEN }}
+          RELEASES_REPO: nyxri0f8/MSS_App-releases
+          VERSION: ${{ steps.version.outputs.name }}
+        run: |
+          set -euo pipefail
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "RELEASES_REPO_TOKEN is not set: not publishing the update."
+            exit 0
+          fi
+          name="${VERSION%%+*}"
+          build="${VERSION##*+}"
+          short="${name%.0}"
+          apk="build/app/outputs/flutter-apk/mss-app-${name}-build${build}.apk"
+          cp build/app/outputs/flutter-apk/app-release.apk "$apk"
+          # The CHANGELOG entry for this version, between its heading and the next.
+          awk -v head="## [${VERSION}]" '
+            index($0, head) == 1 { f = 1; next }
+            /^## \[/ { f = 0 }
+            f
+          ' ../CHANGELOG.md > notes_body.md
+          if [ ! -s notes_body.md ]; then
+            echo "::error::CHANGELOG.md has no entry for ${VERSION}."
+            exit 1
+          fi
+          {
+            echo "MSS app v${short} (build ${build}). Installs as an update and keeps your data."
+            echo
+            cat notes_body.md
+            echo
+            echo "Built by GitHub Actions run ${GITHUB_RUN_ID} from ${GITHUB_SHA::7}."
+          } > notes.md
+          gh release create "app-v${VERSION}" "$apk" \
+            --repo "$RELEASES_REPO" \
+            --title "MSS app v${short}" \
+            --notes-file notes.md
+          rm -f notes.md notes_body.md
+
       - name: Upload Dart debug symbols
         if: ${{ steps.dart_defines.outputs.present == 'true' && steps.signing.outputs.signed == 'true' }}
         uses: actions/upload-artifact@v4

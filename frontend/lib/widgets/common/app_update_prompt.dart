@@ -9,9 +9,11 @@ import '../../services/onboarding/home_tour_store.dart';
 import '../../services/updates/app_release.dart';
 import '../../services/updates/app_update_service.dart';
 import '../../utils/app_colors.dart';
+import '../../utils/app_radius.dart';
+import '../../utils/app_spacing.dart';
+import '../../utils/app_text.dart';
 import '../onboarding/home_tour.dart';
 import 'app_toast.dart';
-import 'custom_confirm_dialog.dart';
 
 /// Opens [uri] outside the app; false when nothing could open it.
 typedef UrlOpener = Future<bool> Function(Uri uri);
@@ -25,35 +27,149 @@ Future<bool> openExternalUrl(Uri uri) async {
   }
 }
 
-/// The "Update available" dialog for [release]: "Update" opens its download
-/// (Android's installer takes over once the APK is downloaded; a sideloaded app
-/// cannot install itself silently), "Later" or closing the dialog stops
-/// offering this build until a newer one is published.
+/// The "Update available" dialog for [release]: the version name, what is
+/// new or fixed in it (from the release notes), and "Update" / "Later".
+/// "Update" opens its download (Android's installer takes over once the APK
+/// is downloaded; a sideloaded app cannot install itself silently); "Later"
+/// or closing the dialog stops offering this build until a newer one is
+/// published.
 Future<void> showAppUpdateNotice(
   BuildContext context, {
   required AppRelease release,
   required AppUpdateService service,
   UrlOpener open = openExternalUrl,
 }) async {
-  var update = false;
-  await CustomConfirmDialog.show(
-    context,
-    icon: Icons.system_update_rounded,
-    iconColor: AppColors.primary,
-    iconBgColor: AppColors.primarySoft,
-    title: context.l10n.updateAvailableTitle,
-    message: context.l10n.updateAvailableMessage(release.version.name),
-    cancelLabel: context.l10n.updateActionLater,
-    confirmLabel: context.l10n.updateActionUpdate,
-    confirmColor: AppColors.primary,
-    onConfirm: () => update = true,
-  );
+  final update =
+      await showDialog<bool>(
+        context: context,
+        builder: (_) => AppUpdateDialog(release: release),
+      ) ??
+      false;
   if (!update) {
     await service.dismiss(release);
     return;
   }
   if (!context.mounted) return;
   await openUpdateLink(context, release.updateUrl, open: open);
+}
+
+/// The notice's body. Pops `true` for "Update", `false` for "Later".
+class AppUpdateDialog extends StatelessWidget {
+  const AppUpdateDialog({super.key, required this.release});
+
+  final AppRelease release;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return Dialog(
+      backgroundColor: AppColors.surface,
+      surfaceTintColor: AppColors.surface,
+      shape: RoundedRectangleBorder(borderRadius: AppRadius.xlAll),
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.xl),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Center(
+              child: Container(
+                padding: const EdgeInsets.all(AppSpacing.md),
+                decoration: const BoxDecoration(
+                  color: AppColors.primarySoft,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.system_update_rounded,
+                  color: AppColors.primary,
+                  size: 28,
+                ),
+              ),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            Text(
+              l10n.updateAvailableTitle,
+              textAlign: TextAlign.center,
+              style: context.text.titleLarge.copyWith(
+                color: AppColors.textPrimary,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.xs),
+            Text(
+              l10n.updateAvailableMessage(release.version.displayName),
+              textAlign: TextAlign.center,
+              style: context.text.body.copyWith(color: AppColors.textSecondary),
+            ),
+            if (release.notes.isNotEmpty) ...[
+              const SizedBox(height: AppSpacing.lg),
+              Text(
+                l10n.updateWhatsNew,
+                style: context.text.label.copyWith(
+                  color: AppColors.textPrimary,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.sizeOf(context).height * 0.35,
+                ),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: AppColors.surfaceMuted,
+                    borderRadius: AppRadius.mdAll,
+                  ),
+                  child: Scrollbar(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.all(AppSpacing.md),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          for (final line in release.notes)
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: AppSpacing.xs,
+                              ),
+                              child: Text(
+                                line,
+                                style: line.startsWith('• ')
+                                    ? context.text.bodySmall.copyWith(
+                                        color: AppColors.textBody,
+                                      )
+                                    : context.text.label.copyWith(
+                                        color: AppColors.primary,
+                                      ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+            const SizedBox(height: AppSpacing.xl),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: Text(l10n.updateActionLater),
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(
+                  child: FilledButton(
+                    onPressed: () => Navigator.of(context).pop(true),
+                    child: Text(l10n.updateActionUpdate),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 /// Opens [uri]; shows a short error when no app could open it.

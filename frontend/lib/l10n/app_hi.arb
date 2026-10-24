@@ -1736,5 +1736,6 @@
   "updateActionLater": "बाद में",
   "updateOpenFailed": "डाउनलोड पेज नहीं खुल सका। बाद में फिर कोशिश करें।",
   "settingsCheckUpdates": "अपडेट जाँचें",
-  "settingsInstalledVersion": "इंस्टॉल किया गया: {version}"
+  "settingsInstalledVersion": "इंस्टॉल किया गया: {version}",
+  "updateWhatsNew": "इस संस्करण में नया क्या है"
 }

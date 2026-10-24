@@ -4,6 +4,7 @@ import '../../../models/scheme_filter.dart';
 import '../../../providers/app_state_provider.dart';
 import '../../../l10n/l10n.dart';
 import '../../../services/catalog/centralized_translator.dart';
+import '../../../utils/multi_keyword_matcher.dart';
 
 /// Localized display label for a fixed app-taxonomy category / section name.
 ///
@@ -457,12 +458,39 @@ class DiscoverCounts {
   /// limited to some states, or one whose coverage is unknown, is not.
   static bool nationallyApplicable(Scheme s) => schemeAppliesNationally(s);
 
-  static bool matchesCategory(Scheme s, String label) {
-    final keywords = _categoryKeywords[label];
-    if (keywords == null || keywords.isEmpty) return false;
-    final hay = _composite(s);
-    return keywords.any(hay.contains);
-  }
+  /// The keywords a category label matches on (lower case).
+  @visibleForTesting
+  static List<String> categoryKeywordsFor(String label) =>
+      _categoryKeywords[label] ?? const <String>[];
+
+  // Matching every label's keywords one `contains` at a time (~30 labels x
+  // every scheme x every keyword over overview/benefits text) took ~330 ms
+  // per [compute] on a desktop, on the UI thread. Instead all keywords are
+  // found in one pass per scheme, and each scheme's categories are kept.
+  static final List<String> _keywords = {
+    for (final words in _categoryKeywords.values) ...words,
+  }.toList();
+
+  static final List<List<String>> _labelsOfKeyword = [
+    for (final word in _keywords)
+      [
+        for (final e in _categoryKeywords.entries)
+          if (e.value.contains(word)) e.key,
+      ],
+  ];
+
+  static final MultiKeywordMatcher _matcher = MultiKeywordMatcher(_keywords);
+
+  /// Per scheme object (its fields are final, so the answer cannot change).
+  static final Expando<Set<String>> _categoriesCache = Expando();
+
+  static Set<String> _categoriesOf(Scheme s) => _categoriesCache[s] ??= {
+    for (final i in _matcher.matchesIn(_composite(s))) ..._labelsOfKeyword[i],
+  };
+
+  /// Same answer as `keywords.any(composite.contains)` for [label]'s keywords.
+  static bool matchesCategory(Scheme s, String label) =>
+      _categoriesOf(s).contains(label);
 
   static bool matchesMinistry(Scheme s, String label) {
     final aliases = _ministryAliases[label] ?? <String>[label.toLowerCase()];

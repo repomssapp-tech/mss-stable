@@ -273,10 +273,21 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
     // nav bar's droplet animation (it showed as a stutter or a jump).
     unawaited(_warmUpTabs());
     unawaited(_showHomeTourWhenReady());
+    // Tab switches are not broadcast to every AppProvider listener (that
+    // rebuilt all five tab screens per tap); only this shell follows them.
+    _tabChanges = Provider.of<AppProvider>(context, listen: false).tabChanges
+      ..addListener(_onTabChanged);
+  }
+
+  late final Listenable _tabChanges;
+
+  void _onTabChanged() {
+    if (mounted) setState(() {});
   }
 
   @override
   void dispose() {
+    _tabChanges.removeListener(_onTabChanged);
     HomeTour.dismiss();
     super.dispose();
   }
@@ -309,6 +320,46 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
     }
   }
 
+  List<Widget>? _tabs;
+  String? _tabsMode;
+
+  // Screens matching the tabs.
+  List<Widget> _buildTabs(AppProvider provider, String navigationMode) => [
+    navigationMode == 'companion'
+        ? const SaarthiHomeScreen()
+        : HomeScreen(
+            onVoiceQuery: (query) {
+              provider.updateTabIndex(1);
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                searchTabKey.currentState?.submitVoiceQuery(query);
+              });
+            },
+            onFilterPressed: () {
+              provider.updateTabIndex(1);
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                searchTabKey.currentState?.openFilterBottomSheet();
+              });
+            },
+            onSearchBarTap: () {
+              provider.updateTabIndex(1);
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                searchTabKey.currentState?.focusFreshSearch();
+              });
+            },
+          ),
+    SearchScreen(key: searchTabKey),
+    CategoriesScreen(
+      onCategorySelected: (category) {
+        provider.updateTabIndex(1);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          searchTabKey.currentState?.submitVoiceQuery(category);
+        });
+      },
+    ),
+    const SavedSchemesScreen(),
+    const ProfileScreen(),
+  ];
+
   // Offers a newer app build from GitHub releases (never blocks the shell).
   @override
   Widget build(BuildContext context) =>
@@ -323,48 +374,21 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
     final navigationMode = context.select<AppProvider, String>(
       (p) => p.navigationMode,
     );
-    final currentTabIndex = context.select<AppProvider, int>(
-      (p) => p.currentTabIndex,
-    );
+    // Also selected: a reset (sign-out, startup restore) changes the index
+    // silently and is followed by an AppProvider notification.
+    context.select<AppProvider, int>((p) => p.currentTabIndex);
+    final currentTabIndex = provider.currentTabIndex;
     _visitedTabs.add(currentTabIndex);
     final l10n = AppLocalizations.of(context)!;
 
-    // List of screens matching tabs
-    final List<Widget> tabs = [
-      navigationMode == 'companion'
-          ? const SaarthiHomeScreen()
-          : HomeScreen(
-              onVoiceQuery: (query) {
-                provider.updateTabIndex(1);
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  searchTabKey.currentState?.submitVoiceQuery(query);
-                });
-              },
-              onFilterPressed: () {
-                provider.updateTabIndex(1);
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  searchTabKey.currentState?.openFilterBottomSheet();
-                });
-              },
-              onSearchBarTap: () {
-                provider.updateTabIndex(1);
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  searchTabKey.currentState?.focusFreshSearch();
-                });
-              },
-            ),
-      SearchScreen(key: searchTabKey),
-      CategoriesScreen(
-        onCategorySelected: (category) {
-          provider.updateTabIndex(1);
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            searchTabKey.currentState?.submitVoiceQuery(category);
-          });
-        },
-      ),
-      const SavedSchemesScreen(),
-      const ProfileScreen(),
-    ];
+    // The same tab widgets are reused on every rebuild (a tab switch rebuilds
+    // this shell): new instances made Home, Search and Discover rebuild in
+    // full on every tab tap, hidden or not.
+    if (_tabs == null || _tabsMode != navigationMode) {
+      _tabsMode = navigationMode;
+      _tabs = _buildTabs(provider, navigationMode);
+    }
+    final tabs = _tabs!;
 
     return Container(
       decoration: const BoxDecoration(gradient: AppConstants.blueGradient),
@@ -399,8 +423,15 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
           body: IndexedStack(
             index: currentTabIndex,
             children: [
+              // Hidden tabs stay alive but their animations pause: Home's two
+              // auto-advancing carousels kept animating behind every tab.
               for (var i = 0; i < tabs.length; i++)
-                _visitedTabs.contains(i) ? tabs[i] : const SizedBox.shrink(),
+                TickerMode(
+                  enabled: i == currentTabIndex,
+                  child: _visitedTabs.contains(i)
+                      ? tabs[i]
+                      : const SizedBox.shrink(),
+                ),
             ],
           ),
           bottomNavigationBar: navigationMode == 'companion'

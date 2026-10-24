@@ -10396,6 +10396,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Installed: {version}'**
   String settingsInstalledVersion(Object version);
+
+  /// No description provided for @updateWhatsNew.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s new in this version'**
+  String get updateWhatsNew;
 }
 
 class _AppLocalizationsDelegate

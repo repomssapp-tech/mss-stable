@@ -8,7 +8,7 @@ import '../../utils/app_version.dart';
 import '../app_info_service.dart';
 import 'app_release.dart';
 
-/// Whether a newer app build has been published on GitHub releases.
+/// Whether a newer app build has been published in the public releases repo.
 ///
 /// The app is sideloaded (no store update path), so the only way users hear of
 /// a new build is this check. It asks the public GitHub releases API with no
@@ -30,15 +30,19 @@ class AppUpdateService {
 
   static final AppUpdateService instance = AppUpdateService();
 
+  /// The public, releases-only repository CI publishes every signed build to.
+  /// The source repository is private, so its own releases 404 for users.
+  static const String releasesRepo = 'nyxri0f8/MSS_App-releases';
+
   /// The newest few releases. The list (not `/releases/latest`) is read so a
-  /// `catalog-*` release marked "latest" cannot hide an app build.
+  /// non-app release marked "latest" cannot hide an app build.
   static final Uri releasesApi = Uri.parse(
-    'https://api.github.com/repos/Roger-Chris/MSS_App/releases?per_page=10',
+    'https://api.github.com/repos/$releasesRepo/releases?per_page=10',
   );
 
   /// The permanent "latest release" page, opened from Settings.
   static final Uri latestReleasePage = Uri.parse(
-    'https://github.com/Roger-Chris/MSS_App/releases/latest',
+    'https://github.com/$releasesRepo/releases/latest',
   );
 
   /// Checks on returning to the foreground are at most this often. The

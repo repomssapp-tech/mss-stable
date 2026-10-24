@@ -5656,4 +5656,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String settingsInstalledVersion(Object version) {
     return 'Installed: $version';
   }
+
+  @override
+  String get updateWhatsNew => 'What\'s new in this version';
 }

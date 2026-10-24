@@ -1727,5 +1727,6 @@
   "updateActionLater": "பிறகு",
   "updateOpenFailed": "பதிவிறக்கப் பக்கத்தைத் திறக்க முடியவில்லை. பிறகு மீண்டும் முயலவும்.",
   "settingsCheckUpdates": "புதுப்பிப்புகளைச் சரிபார்",
-  "settingsInstalledVersion": "நிறுவப்பட்டது: {version}"
+  "settingsInstalledVersion": "நிறுவப்பட்டது: {version}",
+  "updateWhatsNew": "இந்தப் பதிப்பில் புதியவை"
 }
