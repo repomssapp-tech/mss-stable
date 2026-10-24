@@ -154,7 +154,7 @@ class NativeSaarthiConversationController
               _lastAudio = _replyAudio;
               _lastRate = _rate;
               _lastLanguage = language;
-              if (screenReader || !readAloud) {
+              if (screenReader || !readAloud || !handsFree) {
                 await pause();
                 return;
               }

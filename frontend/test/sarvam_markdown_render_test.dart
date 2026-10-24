@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/models/user_profile.dart';
-import 'package:frontend/screens/regular_mode/sarvam_chat_screen.dart';
+import 'package:frontend/design_v2/saarthi/saarthi_type_screen.dart';
 import 'package:frontend/services/chat/sarvam_chat_service.dart';
 
 void main() {
@@ -17,7 +17,7 @@ void main() {
       MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        home: SarvamChatScreen(
+        home: SaarthiTypeScreen(
           client: client,
           profile: UserProfile(name: 'Anto'),
           language: 'en',

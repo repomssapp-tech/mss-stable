@@ -21,6 +21,7 @@ import '../../services/app_info_service.dart';
 import '../../services/haptics/haptics_service.dart';
 import '../../services/updates/app_update_service.dart';
 import '../../widgets/common/app_update_prompt.dart';
+import '../../design_v2/saarthi/saarthi_voice_settings_screen.dart';
 import 'settings/active_sessions_dialog.dart';
 import 'settings/delete_account_screen.dart';
 
@@ -438,6 +439,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ? context.l10n.navigationModeCompanion
                     : context.l10n.navigationModeRegular,
                 onTap: () => _showNavigationModePopup(context, provider),
+              ),
+              _buildSettingRow(
+                icon: Icons.record_voice_over_outlined,
+                title: context.l10n.settingsSaarthiVoice,
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const SaarthiVoiceSettingsScreen(),
+                  ),
+                ),
               ),
               ValueListenableBuilder<bool>(
                 valueListenable: HapticsService.instance.enabled,

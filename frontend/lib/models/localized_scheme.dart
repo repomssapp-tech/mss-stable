@@ -323,9 +323,7 @@ class LocalizedScheme {
             .toList(),
         taxExemptionsSummary: scheme.taxExemptionsSummary.map(text).toList(),
         applicableTaxesList: scheme.applicableTaxesList.map(meta).toList(),
-        knowledgeGuidanceList: scheme.knowledgeGuidanceList
-            .map(text)
-            .toList(),
+        knowledgeGuidanceList: scheme.knowledgeGuidanceList.map(text).toList(),
         helplineContactsMap: scheme.helplineContactsMap,
         eligibilityCriteria: _storedEligibility(scheme, 'hi'),
         requiredDocuments: [
@@ -649,8 +647,39 @@ class LocalizedScheme {
   }
 }
 
-extension SchemeLocalizationExtension on Scheme {
-  LocalizedScheme toLocalized(String languageCode) {
-    return LocalizedScheme.fromScheme(this, languageCode);
+/// Remembers each scheme's localized copy per language.
+///
+/// Building a [LocalizedScheme] runs dozens of dictionary and language-pack
+/// lookups (about 55 ms per scheme in a debug build). Cards called it again on
+/// every rebuild -- Home, Saved, search results -- which was the main cause of
+/// the app hanging. The copy only changes when the translation data does, so
+/// it is cached per scheme object and dropped whenever the dictionary or a
+/// language pack is (re)loaded ([invalidate]). A reloaded catalog builds new
+/// Scheme objects, which start with an empty cache.
+abstract final class LocalizedSchemeCache {
+  static final Expando<Map<String, LocalizedScheme>> _cache = Expando(
+    'localized',
+  );
+  static int _generation = 0;
+  static final Expando<int> _builtAt = Expando('localizedGeneration');
+
+  /// Forget every cached copy (translations changed).
+  static void invalidate() => _generation++;
+
+  static LocalizedScheme of(Scheme scheme, String languageCode) {
+    if (_builtAt[scheme] != _generation) {
+      _cache[scheme] = {};
+      _builtAt[scheme] = _generation;
+    }
+    final byLanguage = _cache[scheme]!;
+    return byLanguage[languageCode] ??= LocalizedScheme.fromScheme(
+      scheme,
+      languageCode,
+    );
   }
+}
+
+extension SchemeLocalizationExtension on Scheme {
+  LocalizedScheme toLocalized(String languageCode) =>
+      LocalizedSchemeCache.of(this, languageCode);
 }

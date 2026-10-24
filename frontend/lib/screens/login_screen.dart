@@ -375,8 +375,7 @@ class _LoginScreenState extends State<LoginScreen> {
         // Google Sign-In Button (strictly gated behind mandatory consent).
         // While it is disabled, a tap on it says why instead of doing
         // nothing, and screen readers hear the same reason as a hint.
-        GestureDetector(
-          // tap-ok: only explains taps on the disabled button
+        GestureDetector( // tap-ok: only explains taps on the disabled button
           onTap: isLoginEnabled || _busy
               ? null
               : () => AppToast.showWarning(
@@ -388,8 +387,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: SizedBox(
               width: double.infinity,
               child: OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  // style-ok: CTA height + explicit loading foreground colour
+                style: OutlinedButton.styleFrom( // style-ok: CTA height + explicit loading foreground colour
                   minimumSize: const Size.fromHeight(52),
                   foregroundColor: _busy ? AppColors.primary : null,
                 ),

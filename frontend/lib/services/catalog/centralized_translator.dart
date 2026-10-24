@@ -1,3 +1,4 @@
+import '../../models/localized_scheme.dart';
 import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
@@ -82,6 +83,7 @@ class CentralizedTranslator {
     _sortedTerms = _termMap.keys.toList()
       ..sort((a, b) => b.length.compareTo(a.length));
     _loaded = true;
+    LocalizedSchemeCache.invalidate();
   }
 
   bool _hiLoaded = false;
@@ -95,6 +97,7 @@ class CentralizedTranslator {
     _hiTagMap = read(json['tagMap']);
     _hiPhraseMap = read(json['phraseMap']);
     _hiLoaded = true;
+    LocalizedSchemeCache.invalidate();
   }
 
   void _ensureHiInitializedSync() {

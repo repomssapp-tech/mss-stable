@@ -5848,4 +5848,221 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get permNotNow => 'Not now';
+
+  @override
+  String get sv2Name => 'Saarthi';
+
+  @override
+  String get sv2PoweredBy => 'Powered by MSS AI';
+
+  @override
+  String get sv2ModeType => 'Type';
+
+  @override
+  String get sv2ModeVoice => 'Voice';
+
+  @override
+  String sv2TypeGreeting(String name) {
+    return 'Hi, $name.\n[How can I help you?]';
+  }
+
+  @override
+  String get sv2TypeIntro =>
+      'Ask about any scheme, loan or subsidy — or start with one of these.';
+
+  @override
+  String get sv2ChipPmegp => 'Search PMEGP';
+
+  @override
+  String get sv2ChipWomen => 'Schemes for women';
+
+  @override
+  String get sv2TypeHint => 'Type here…';
+
+  @override
+  String get sv2You => 'You';
+
+  @override
+  String get sv2YouVoice => 'You · voice';
+
+  @override
+  String get sv2FollowEligible => 'Am I eligible?';
+
+  @override
+  String get sv2FollowDocuments => 'Documents needed';
+
+  @override
+  String get sv2BestMatch => 'BEST MATCH';
+
+  @override
+  String get sv2GoodMatch => 'GOOD MATCH';
+
+  @override
+  String get sv2ViewScheme => 'View scheme';
+
+  @override
+  String get sv2VoiceIntro => 'I\'m [Saarthi], your scheme companion.';
+
+  @override
+  String get sv2AskSaarthi => 'ASK SAARTHI';
+
+  @override
+  String get sv2StartTalking => 'Start talking to Saarthi';
+
+  @override
+  String sv2Listening(String language) {
+    return 'Listening · $language';
+  }
+
+  @override
+  String get sv2Connecting => 'Connecting…';
+
+  @override
+  String get sv2Transcribing => 'Getting your words…';
+
+  @override
+  String get sv2YourSpeech => 'YOUR SPEECH';
+
+  @override
+  String get sv2TapWhenDone => 'Tap the mic when you\'re done';
+
+  @override
+  String get sv2ConfirmTitle => 'Did I hear you right?';
+
+  @override
+  String get sv2Transcribed => 'TRANSCRIBED';
+
+  @override
+  String get sv2ConfirmHelp =>
+      'Tap the tick to send, the cross to discard, or the mic to say it again.';
+
+  @override
+  String get sv2EditTitle => 'Correct your request';
+
+  @override
+  String get sv2Speak => 'Speak';
+
+  @override
+  String get sv2TapToSpeak => 'Tap to speak';
+
+  @override
+  String get sv2Send => 'Send this';
+
+  @override
+  String get sv2Discard => 'Discard';
+
+  @override
+  String get sv2Room => 'Conversation room';
+
+  @override
+  String sv2RoomHello(String name) {
+    return 'Namaste $name! What would you like help with today?';
+  }
+
+  @override
+  String get sv2Thinking => 'Saarthi is thinking…';
+
+  @override
+  String get sv2Speaking => 'Saarthi is speaking…';
+
+  @override
+  String get sv2HearAgain => 'Hear the reply again';
+
+  @override
+  String get sv2EndConversation => 'End conversation';
+
+  @override
+  String get sv2DocumentsNeeded => 'Documents needed';
+
+  @override
+  String sv2DocumentsReady(int ready, int total) {
+    return '$ready of $total ready';
+  }
+
+  @override
+  String get sv2HistoryTitle => 'Chat history';
+
+  @override
+  String get sv2HistoryOpen => 'Chat history';
+
+  @override
+  String get sv2HistorySearch => 'Search conversations';
+
+  @override
+  String get sv2HistoryEmpty =>
+      'Your conversations with Saarthi will be saved here, on this phone.';
+
+  @override
+  String get sv2HistoryNoMatch => 'No conversation matches your search.';
+
+  @override
+  String sv2HistorySchemes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count schemes',
+      one: '1 scheme',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sv2HistoryMessages(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count messages',
+      one: '1 message',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sv2HistoryDelete => 'Delete this conversation';
+
+  @override
+  String get sv2HistoryDeleted => 'Conversation deleted';
+
+  @override
+  String get sv2HistoryClearAll => 'Delete all conversations';
+
+  @override
+  String get sv2HistoryClearConfirm =>
+      'Delete every saved conversation from this phone?';
+
+  @override
+  String get sv2HistoryContinue => 'Continue this conversation';
+
+  @override
+  String get sv2VoiceSettings => 'Voice settings';
+
+  @override
+  String get sv2VoiceSettingsOpen => 'Voice settings';
+
+  @override
+  String get sv2VoiceLanguage => 'Language';
+
+  @override
+  String get sv2Autoplay => 'Auto-play replies';
+
+  @override
+  String get sv2AutoplayBody => 'Saarthi reads every answer aloud';
+
+  @override
+  String get sv2HandsFree => 'Hands-free mode';
+
+  @override
+  String get sv2HandsFreeBody => 'Keep listening after each reply';
+
+  @override
+  String get sv2ConfirmSend => 'Confirm before sending';
+
+  @override
+  String get sv2ConfirmSendBody => 'Check what Saarthi heard before it is sent';
+
+  @override
+  String get sv2VoiceNote => 'Saarthi\'s voice is chosen for each language.';
+
+  @override
+  String get settingsSaarthiVoice => 'Saarthi voice settings';
 }

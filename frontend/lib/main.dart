@@ -15,7 +15,7 @@ import 'screens/regular_mode/categories_screen.dart';
 import 'screens/regular_mode/search_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/regular_mode/saved_schemes_screen.dart';
-import 'screens/companion_mode/saarthi_home_screen.dart';
+import 'design_v2/saarthi/saarthi_voice_screen.dart';
 import 'screens/notifications/push_message_presenter.dart';
 import 'services/account/app_session.dart';
 import 'services/notifications/firebase_push_gateway.dart';
@@ -327,7 +327,7 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
   // Screens matching the tabs.
   List<Widget> _buildTabs(AppProvider provider, String navigationMode) => [
     navigationMode == 'companion'
-        ? const SaarthiHomeScreen()
+        ? const SaarthiVoiceScreen()
         : HomeScreen(
             onVoiceQuery: (query) {
               provider.updateTabIndex(1);

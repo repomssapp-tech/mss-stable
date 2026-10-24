@@ -5865,4 +5865,220 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get permNotNow => 'अभी नहीं';
+
+  @override
+  String get sv2Name => 'सारथी';
+
+  @override
+  String get sv2PoweredBy => 'MSS AI द्वारा संचालित';
+
+  @override
+  String get sv2ModeType => 'टाइप';
+
+  @override
+  String get sv2ModeVoice => 'आवाज़';
+
+  @override
+  String sv2TypeGreeting(String name) {
+    return 'नमस्ते, $name।\n[मैं आपकी क्या मदद करूँ?]';
+  }
+
+  @override
+  String get sv2TypeIntro =>
+      'किसी भी योजना, ऋण या सब्सिडी के बारे में पूछें — या इनमें से किसी से शुरू करें।';
+
+  @override
+  String get sv2ChipPmegp => 'PMEGP खोजें';
+
+  @override
+  String get sv2ChipWomen => 'महिलाओं के लिए योजनाएँ';
+
+  @override
+  String get sv2TypeHint => 'यहाँ लिखें…';
+
+  @override
+  String get sv2You => 'आप';
+
+  @override
+  String get sv2YouVoice => 'आप · आवाज़';
+
+  @override
+  String get sv2FollowEligible => 'क्या मैं पात्र हूँ?';
+
+  @override
+  String get sv2FollowDocuments => 'ज़रूरी दस्तावेज़';
+
+  @override
+  String get sv2BestMatch => 'सबसे अच्छा मिलान';
+
+  @override
+  String get sv2GoodMatch => 'अच्छा मिलान';
+
+  @override
+  String get sv2ViewScheme => 'योजना देखें';
+
+  @override
+  String get sv2VoiceIntro => 'मैं [सारथी] हूँ, आपका योजना साथी।';
+
+  @override
+  String get sv2AskSaarthi => 'सारथी से पूछें';
+
+  @override
+  String get sv2StartTalking => 'सारथी से बात शुरू करें';
+
+  @override
+  String sv2Listening(String language) {
+    return 'सुन रहा है · $language';
+  }
+
+  @override
+  String get sv2Connecting => 'जुड़ रहा है…';
+
+  @override
+  String get sv2Transcribing => 'आपके शब्द ले रहा है…';
+
+  @override
+  String get sv2YourSpeech => 'आपकी बात';
+
+  @override
+  String get sv2TapWhenDone => 'बोल चुकने पर माइक पर टैप करें';
+
+  @override
+  String get sv2ConfirmTitle => 'क्या मैंने सही सुना?';
+
+  @override
+  String get sv2Transcribed => 'लिखा गया';
+
+  @override
+  String get sv2ConfirmHelp =>
+      'भेजने के लिए टिक, हटाने के लिए क्रॉस, या दोबारा कहने के लिए माइक पर टैप करें।';
+
+  @override
+  String get sv2EditTitle => 'अपना अनुरोध ठीक करें';
+
+  @override
+  String get sv2Speak => 'बोलें';
+
+  @override
+  String get sv2TapToSpeak => 'बोलने के लिए टैप करें';
+
+  @override
+  String get sv2Send => 'यह भेजें';
+
+  @override
+  String get sv2Discard => 'हटाएँ';
+
+  @override
+  String get sv2Room => 'बातचीत कक्ष';
+
+  @override
+  String sv2RoomHello(String name) {
+    return 'नमस्ते $name! आज आपको किस चीज़ में मदद चाहिए?';
+  }
+
+  @override
+  String get sv2Thinking => 'सारथी सोच रहा है…';
+
+  @override
+  String get sv2Speaking => 'सारथी बोल रहा है…';
+
+  @override
+  String get sv2HearAgain => 'जवाब फिर से सुनें';
+
+  @override
+  String get sv2EndConversation => 'बातचीत खत्म करें';
+
+  @override
+  String get sv2DocumentsNeeded => 'ज़रूरी दस्तावेज़';
+
+  @override
+  String sv2DocumentsReady(int ready, int total) {
+    return '$total में से $ready तैयार';
+  }
+
+  @override
+  String get sv2HistoryTitle => 'बातचीत का इतिहास';
+
+  @override
+  String get sv2HistoryOpen => 'बातचीत का इतिहास';
+
+  @override
+  String get sv2HistorySearch => 'बातचीत खोजें';
+
+  @override
+  String get sv2HistoryEmpty =>
+      'सारथी से आपकी बातचीत इसी फ़ोन पर यहाँ सहेजी जाएगी।';
+
+  @override
+  String get sv2HistoryNoMatch => 'आपकी खोज से कोई बातचीत नहीं मिली।';
+
+  @override
+  String sv2HistorySchemes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count योजनाएँ',
+      one: '1 योजना',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sv2HistoryMessages(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count संदेश',
+      one: '1 संदेश',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sv2HistoryDelete => 'यह बातचीत हटाएँ';
+
+  @override
+  String get sv2HistoryDeleted => 'बातचीत हटा दी गई';
+
+  @override
+  String get sv2HistoryClearAll => 'सारी बातचीत हटाएँ';
+
+  @override
+  String get sv2HistoryClearConfirm => 'इस फ़ोन से सहेजी गई सारी बातचीत हटाएँ?';
+
+  @override
+  String get sv2HistoryContinue => 'यह बातचीत जारी रखें';
+
+  @override
+  String get sv2VoiceSettings => 'आवाज़ सेटिंग';
+
+  @override
+  String get sv2VoiceSettingsOpen => 'आवाज़ सेटिंग';
+
+  @override
+  String get sv2VoiceLanguage => 'भाषा';
+
+  @override
+  String get sv2Autoplay => 'जवाब अपने आप चलाएँ';
+
+  @override
+  String get sv2AutoplayBody => 'सारथी हर जवाब पढ़कर सुनाता है';
+
+  @override
+  String get sv2HandsFree => 'हैंड्स-फ़्री मोड';
+
+  @override
+  String get sv2HandsFreeBody => 'हर जवाब के बाद सुनता रहता है';
+
+  @override
+  String get sv2ConfirmSend => 'भेजने से पहले पुष्टि करें';
+
+  @override
+  String get sv2ConfirmSendBody => 'भेजने से पहले देखें कि सारथी ने क्या सुना';
+
+  @override
+  String get sv2VoiceNote => 'हर भाषा के लिए सारथी की आवाज़ चुनी गई है।';
+
+  @override
+  String get settingsSaarthiVoice => 'सारथी आवाज़ सेटिंग';
 }

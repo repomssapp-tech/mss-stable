@@ -10744,6 +10744,384 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not now'**
   String get permNotNow;
+
+  /// No description provided for @sv2Name.
+  ///
+  /// In en, this message translates to:
+  /// **'Saarthi'**
+  String get sv2Name;
+
+  /// No description provided for @sv2PoweredBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Powered by MSS AI'**
+  String get sv2PoweredBy;
+
+  /// No description provided for @sv2ModeType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get sv2ModeType;
+
+  /// No description provided for @sv2ModeVoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice'**
+  String get sv2ModeVoice;
+
+  /// No description provided for @sv2TypeGreeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Hi, {name}.\n[How can I help you?]'**
+  String sv2TypeGreeting(String name);
+
+  /// No description provided for @sv2TypeIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask about any scheme, loan or subsidy — or start with one of these.'**
+  String get sv2TypeIntro;
+
+  /// No description provided for @sv2ChipPmegp.
+  ///
+  /// In en, this message translates to:
+  /// **'Search PMEGP'**
+  String get sv2ChipPmegp;
+
+  /// No description provided for @sv2ChipWomen.
+  ///
+  /// In en, this message translates to:
+  /// **'Schemes for women'**
+  String get sv2ChipWomen;
+
+  /// No description provided for @sv2TypeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type here…'**
+  String get sv2TypeHint;
+
+  /// No description provided for @sv2You.
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get sv2You;
+
+  /// No description provided for @sv2YouVoice.
+  ///
+  /// In en, this message translates to:
+  /// **'You · voice'**
+  String get sv2YouVoice;
+
+  /// No description provided for @sv2FollowEligible.
+  ///
+  /// In en, this message translates to:
+  /// **'Am I eligible?'**
+  String get sv2FollowEligible;
+
+  /// No description provided for @sv2FollowDocuments.
+  ///
+  /// In en, this message translates to:
+  /// **'Documents needed'**
+  String get sv2FollowDocuments;
+
+  /// No description provided for @sv2BestMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'BEST MATCH'**
+  String get sv2BestMatch;
+
+  /// No description provided for @sv2GoodMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'GOOD MATCH'**
+  String get sv2GoodMatch;
+
+  /// No description provided for @sv2ViewScheme.
+  ///
+  /// In en, this message translates to:
+  /// **'View scheme'**
+  String get sv2ViewScheme;
+
+  /// No description provided for @sv2VoiceIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m [Saarthi], your scheme companion.'**
+  String get sv2VoiceIntro;
+
+  /// No description provided for @sv2AskSaarthi.
+  ///
+  /// In en, this message translates to:
+  /// **'ASK SAARTHI'**
+  String get sv2AskSaarthi;
+
+  /// No description provided for @sv2StartTalking.
+  ///
+  /// In en, this message translates to:
+  /// **'Start talking to Saarthi'**
+  String get sv2StartTalking;
+
+  /// No description provided for @sv2Listening.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening · {language}'**
+  String sv2Listening(String language);
+
+  /// No description provided for @sv2Connecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting…'**
+  String get sv2Connecting;
+
+  /// No description provided for @sv2Transcribing.
+  ///
+  /// In en, this message translates to:
+  /// **'Getting your words…'**
+  String get sv2Transcribing;
+
+  /// No description provided for @sv2YourSpeech.
+  ///
+  /// In en, this message translates to:
+  /// **'YOUR SPEECH'**
+  String get sv2YourSpeech;
+
+  /// No description provided for @sv2TapWhenDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the mic when you\'re done'**
+  String get sv2TapWhenDone;
+
+  /// No description provided for @sv2ConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Did I hear you right?'**
+  String get sv2ConfirmTitle;
+
+  /// No description provided for @sv2Transcribed.
+  ///
+  /// In en, this message translates to:
+  /// **'TRANSCRIBED'**
+  String get sv2Transcribed;
+
+  /// No description provided for @sv2ConfirmHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the tick to send, the cross to discard, or the mic to say it again.'**
+  String get sv2ConfirmHelp;
+
+  /// No description provided for @sv2EditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct your request'**
+  String get sv2EditTitle;
+
+  /// No description provided for @sv2Speak.
+  ///
+  /// In en, this message translates to:
+  /// **'Speak'**
+  String get sv2Speak;
+
+  /// No description provided for @sv2TapToSpeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to speak'**
+  String get sv2TapToSpeak;
+
+  /// No description provided for @sv2Send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send this'**
+  String get sv2Send;
+
+  /// No description provided for @sv2Discard.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get sv2Discard;
+
+  /// No description provided for @sv2Room.
+  ///
+  /// In en, this message translates to:
+  /// **'Conversation room'**
+  String get sv2Room;
+
+  /// No description provided for @sv2RoomHello.
+  ///
+  /// In en, this message translates to:
+  /// **'Namaste {name}! What would you like help with today?'**
+  String sv2RoomHello(String name);
+
+  /// No description provided for @sv2Thinking.
+  ///
+  /// In en, this message translates to:
+  /// **'Saarthi is thinking…'**
+  String get sv2Thinking;
+
+  /// No description provided for @sv2Speaking.
+  ///
+  /// In en, this message translates to:
+  /// **'Saarthi is speaking…'**
+  String get sv2Speaking;
+
+  /// No description provided for @sv2HearAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Hear the reply again'**
+  String get sv2HearAgain;
+
+  /// No description provided for @sv2EndConversation.
+  ///
+  /// In en, this message translates to:
+  /// **'End conversation'**
+  String get sv2EndConversation;
+
+  /// No description provided for @sv2DocumentsNeeded.
+  ///
+  /// In en, this message translates to:
+  /// **'Documents needed'**
+  String get sv2DocumentsNeeded;
+
+  /// No description provided for @sv2DocumentsReady.
+  ///
+  /// In en, this message translates to:
+  /// **'{ready} of {total} ready'**
+  String sv2DocumentsReady(int ready, int total);
+
+  /// No description provided for @sv2HistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat history'**
+  String get sv2HistoryTitle;
+
+  /// No description provided for @sv2HistoryOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat history'**
+  String get sv2HistoryOpen;
+
+  /// No description provided for @sv2HistorySearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search conversations'**
+  String get sv2HistorySearch;
+
+  /// No description provided for @sv2HistoryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Your conversations with Saarthi will be saved here, on this phone.'**
+  String get sv2HistoryEmpty;
+
+  /// No description provided for @sv2HistoryNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'No conversation matches your search.'**
+  String get sv2HistoryNoMatch;
+
+  /// No description provided for @sv2HistorySchemes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 scheme} other{{count} schemes}}'**
+  String sv2HistorySchemes(int count);
+
+  /// No description provided for @sv2HistoryMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 message} other{{count} messages}}'**
+  String sv2HistoryMessages(int count);
+
+  /// No description provided for @sv2HistoryDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this conversation'**
+  String get sv2HistoryDelete;
+
+  /// No description provided for @sv2HistoryDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Conversation deleted'**
+  String get sv2HistoryDeleted;
+
+  /// No description provided for @sv2HistoryClearAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete all conversations'**
+  String get sv2HistoryClearAll;
+
+  /// No description provided for @sv2HistoryClearConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete every saved conversation from this phone?'**
+  String get sv2HistoryClearConfirm;
+
+  /// No description provided for @sv2HistoryContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue this conversation'**
+  String get sv2HistoryContinue;
+
+  /// No description provided for @sv2VoiceSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice settings'**
+  String get sv2VoiceSettings;
+
+  /// No description provided for @sv2VoiceSettingsOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice settings'**
+  String get sv2VoiceSettingsOpen;
+
+  /// No description provided for @sv2VoiceLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get sv2VoiceLanguage;
+
+  /// No description provided for @sv2Autoplay.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-play replies'**
+  String get sv2Autoplay;
+
+  /// No description provided for @sv2AutoplayBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Saarthi reads every answer aloud'**
+  String get sv2AutoplayBody;
+
+  /// No description provided for @sv2HandsFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Hands-free mode'**
+  String get sv2HandsFree;
+
+  /// No description provided for @sv2HandsFreeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep listening after each reply'**
+  String get sv2HandsFreeBody;
+
+  /// No description provided for @sv2ConfirmSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm before sending'**
+  String get sv2ConfirmSend;
+
+  /// No description provided for @sv2ConfirmSendBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Check what Saarthi heard before it is sent'**
+  String get sv2ConfirmSendBody;
+
+  /// No description provided for @sv2VoiceNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Saarthi\'s voice is chosen for each language.'**
+  String get sv2VoiceNote;
+
+  /// No description provided for @settingsSaarthiVoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Saarthi voice settings'**
+  String get settingsSaarthiVoice;
 }
 
 class _AppLocalizationsDelegate

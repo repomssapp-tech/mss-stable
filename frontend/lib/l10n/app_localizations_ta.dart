@@ -5944,4 +5944,225 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get permNotNow => 'இப்போது வேண்டாம்';
+
+  @override
+  String get sv2Name => 'சாரதி';
+
+  @override
+  String get sv2PoweredBy => 'MSS AI மூலம் இயங்குகிறது';
+
+  @override
+  String get sv2ModeType => 'தட்டச்சு';
+
+  @override
+  String get sv2ModeVoice => 'குரல்';
+
+  @override
+  String sv2TypeGreeting(String name) {
+    return 'வணக்கம், $name.\n[நான் எப்படி உதவலாம்?]';
+  }
+
+  @override
+  String get sv2TypeIntro =>
+      'எந்தத் திட்டம், கடன் அல்லது மானியம் பற்றியும் கேளுங்கள் — அல்லது இவற்றில் ஒன்றில் தொடங்குங்கள்.';
+
+  @override
+  String get sv2ChipPmegp => 'PMEGP தேடு';
+
+  @override
+  String get sv2ChipWomen => 'பெண்களுக்கான திட்டங்கள்';
+
+  @override
+  String get sv2TypeHint => 'இங்கே தட்டச்சு செய்யுங்கள்…';
+
+  @override
+  String get sv2You => 'நீங்கள்';
+
+  @override
+  String get sv2YouVoice => 'நீங்கள் · குரல்';
+
+  @override
+  String get sv2FollowEligible => 'நான் தகுதியானவனா?';
+
+  @override
+  String get sv2FollowDocuments => 'தேவையான ஆவணங்கள்';
+
+  @override
+  String get sv2BestMatch => 'சிறந்த பொருத்தம்';
+
+  @override
+  String get sv2GoodMatch => 'நல்ல பொருத்தம்';
+
+  @override
+  String get sv2ViewScheme => 'திட்டத்தைப் பார்';
+
+  @override
+  String get sv2VoiceIntro => 'நான் [சாரதி], உங்கள் திட்டத் துணை.';
+
+  @override
+  String get sv2AskSaarthi => 'சாரதியிடம் கேளுங்கள்';
+
+  @override
+  String get sv2StartTalking => 'சாரதியுடன் பேசத் தொடங்குங்கள்';
+
+  @override
+  String sv2Listening(String language) {
+    return 'கேட்கிறது · $language';
+  }
+
+  @override
+  String get sv2Connecting => 'இணைக்கிறது…';
+
+  @override
+  String get sv2Transcribing => 'உங்கள் சொற்களைப் பெறுகிறது…';
+
+  @override
+  String get sv2YourSpeech => 'உங்கள் பேச்சு';
+
+  @override
+  String get sv2TapWhenDone => 'பேசி முடித்ததும் மைக்கைத் தட்டுங்கள்';
+
+  @override
+  String get sv2ConfirmTitle => 'நான் சரியாகக் கேட்டேனா?';
+
+  @override
+  String get sv2Transcribed => 'எழுத்தாக்கப்பட்டது';
+
+  @override
+  String get sv2ConfirmHelp =>
+      'அனுப்ப டிக்கையும், நீக்க குறுக்குக் குறியையும், மீண்டும் சொல்ல மைக்கையும் தட்டுங்கள்.';
+
+  @override
+  String get sv2EditTitle => 'உங்கள் கோரிக்கையைத் திருத்துங்கள்';
+
+  @override
+  String get sv2Speak => 'பேசு';
+
+  @override
+  String get sv2TapToSpeak => 'பேசத் தட்டுங்கள்';
+
+  @override
+  String get sv2Send => 'இதை அனுப்பு';
+
+  @override
+  String get sv2Discard => 'நீக்கு';
+
+  @override
+  String get sv2Room => 'உரையாடல் அறை';
+
+  @override
+  String sv2RoomHello(String name) {
+    return 'வணக்கம் $name! இன்று உங்களுக்கு என்ன உதவி வேண்டும்?';
+  }
+
+  @override
+  String get sv2Thinking => 'சாரதி யோசிக்கிறது…';
+
+  @override
+  String get sv2Speaking => 'சாரதி பேசுகிறது…';
+
+  @override
+  String get sv2HearAgain => 'பதிலை மீண்டும் கேளுங்கள்';
+
+  @override
+  String get sv2EndConversation => 'உரையாடலை முடி';
+
+  @override
+  String get sv2DocumentsNeeded => 'தேவையான ஆவணங்கள்';
+
+  @override
+  String sv2DocumentsReady(int ready, int total) {
+    return '$total-இல் $ready தயார்';
+  }
+
+  @override
+  String get sv2HistoryTitle => 'உரையாடல் வரலாறு';
+
+  @override
+  String get sv2HistoryOpen => 'உரையாடல் வரலாறு';
+
+  @override
+  String get sv2HistorySearch => 'உரையாடல்களைத் தேடு';
+
+  @override
+  String get sv2HistoryEmpty =>
+      'சாரதியுடனான உங்கள் உரையாடல்கள் இந்தத் தொலைபேசியில் இங்கே சேமிக்கப்படும்.';
+
+  @override
+  String get sv2HistoryNoMatch =>
+      'உங்கள் தேடலுக்குப் பொருந்தும் உரையாடல் இல்லை.';
+
+  @override
+  String sv2HistorySchemes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count திட்டங்கள்',
+      one: '1 திட்டம்',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sv2HistoryMessages(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count செய்திகள்',
+      one: '1 செய்தி',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sv2HistoryDelete => 'இந்த உரையாடலை நீக்கு';
+
+  @override
+  String get sv2HistoryDeleted => 'உரையாடல் நீக்கப்பட்டது';
+
+  @override
+  String get sv2HistoryClearAll => 'அனைத்து உரையாடல்களையும் நீக்கு';
+
+  @override
+  String get sv2HistoryClearConfirm =>
+      'சேமித்த அனைத்து உரையாடல்களையும் இந்தத் தொலைபேசியிலிருந்து நீக்கவா?';
+
+  @override
+  String get sv2HistoryContinue => 'இந்த உரையாடலைத் தொடரு';
+
+  @override
+  String get sv2VoiceSettings => 'குரல் அமைப்புகள்';
+
+  @override
+  String get sv2VoiceSettingsOpen => 'குரல் அமைப்புகள்';
+
+  @override
+  String get sv2VoiceLanguage => 'மொழி';
+
+  @override
+  String get sv2Autoplay => 'பதில்களைத் தானாக ஒலிக்கச் செய்';
+
+  @override
+  String get sv2AutoplayBody => 'ஒவ்வொரு பதிலையும் சாரதி சத்தமாகப் படிக்கும்';
+
+  @override
+  String get sv2HandsFree => 'கைகளின்றி பயன்முறை';
+
+  @override
+  String get sv2HandsFreeBody =>
+      'ஒவ்வொரு பதிலுக்குப் பிறகும் தொடர்ந்து கேட்கும்';
+
+  @override
+  String get sv2ConfirmSend => 'அனுப்பும் முன் உறுதிசெய்';
+
+  @override
+  String get sv2ConfirmSendBody =>
+      'அனுப்பும் முன் சாரதி கேட்டதைச் சரிபாருங்கள்';
+
+  @override
+  String get sv2VoiceNote =>
+      'ஒவ்வொரு மொழிக்கும் சாரதியின் குரல் தேர்ந்தெடுக்கப்பட்டுள்ளது.';
+
+  @override
+  String get settingsSaarthiVoice => 'சாரதி குரல் அமைப்புகள்';
 }
