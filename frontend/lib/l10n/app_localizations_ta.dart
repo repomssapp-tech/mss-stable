@@ -5726,4 +5726,33 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get deleteAccountErrNotVerified =>
       'சேவையகத்தில் உங்கள் கணக்கு இன்னும் தெரிகிறது. மீண்டும் முயலவும்; தொடர்ந்தால் ஆதரவைத் தொடர்பு கொள்ளவும்.';
+
+  @override
+  String get updateAvailableTitle => 'புதுப்பிப்பு கிடைக்கிறது';
+
+  @override
+  String updateAvailableMessage(Object version) {
+    return 'MSS பதிப்பு $version தயாராக உள்ளது. சமீபத்திய திருத்தங்களையும் திட்டங்களையும் பெற இதைப் பதிவிறக்கவும்.';
+  }
+
+  @override
+  String get updateActionUpdate => 'புதுப்பி';
+
+  @override
+  String get updateActionLater => 'பிறகு';
+
+  @override
+  String get updateOpenFailed =>
+      'பதிவிறக்கப் பக்கத்தைத் திறக்க முடியவில்லை. பிறகு மீண்டும் முயலவும்.';
+
+  @override
+  String get settingsCheckUpdates => 'புதுப்பிப்புகளைச் சரிபார்';
+
+  @override
+  String settingsInstalledVersion(Object version) {
+    return 'நிறுவப்பட்டது: $version';
+  }
+
+  @override
+  String get updateWhatsNew => 'இந்தப் பதிப்பில் புதியவை';
 }

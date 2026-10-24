@@ -26,6 +26,7 @@ import 'utils/constants.dart';
 import 'utils/app_theme.dart';
 import 'utils/app_spacing.dart';
 import 'widgets/common/app_bottom_nav_bar.dart';
+import 'widgets/common/app_update_prompt.dart';
 import 'widgets/onboarding/home_tour.dart';
 import 'widgets/onboarding/home_tour_targets.dart';
 import 'widgets/common/haptic_touch_layer.dart';
@@ -359,8 +360,12 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
     const ProfileScreen(),
   ];
 
+  // Offers a newer app build from GitHub releases (never blocks the shell).
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) =>
+      AppUpdateWatcher(child: _buildShell(context));
+
+  Widget _buildShell(BuildContext context) {
     // Listen only to the fields this shell renders. Listening to the whole
     // AppProvider meant every notifyListeners() (profile sync, bookmarks,
     // search state, ...) rebuilt all five tabs in the IndexedStack. Callbacks

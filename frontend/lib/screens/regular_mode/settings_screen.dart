@@ -19,6 +19,8 @@ import '../../utils/language_names.dart';
 import '../../utils/app_version.dart';
 import '../../services/app_info_service.dart';
 import '../../services/haptics/haptics_service.dart';
+import '../../services/updates/app_update_service.dart';
+import '../../widgets/common/app_update_prompt.dart';
 import 'settings/active_sessions_dialog.dart';
 import 'settings/delete_account_screen.dart';
 
@@ -524,7 +526,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   );
                 },
-                isLast: true,
+              ),
+              // The app is sideloaded: new builds are only on GitHub releases.
+              FutureBuilder<AppVersion?>(
+                future: AppInfoService.installedVersion(),
+                builder: (context, snapshot) {
+                  final v = snapshot.data;
+                  return _buildSettingRow(
+                    icon: Icons.system_update_outlined,
+                    title: context.l10n.settingsCheckUpdates,
+                    subtitle: v == null
+                        ? null
+                        : context.l10n.settingsInstalledVersion(v.label),
+                    onTap: () => openUpdateLink(
+                      context,
+                      AppUpdateService.latestReleasePage,
+                    ),
+                    isLast: true,
+                  );
+                },
               ),
             ]),
             const SizedBox(height: AppSpacing.xxxl),

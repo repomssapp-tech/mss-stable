@@ -1729,5 +1729,13 @@
   "deleteAccountErrRateLimited": "बहुत अधिक प्रयास हुए। एक मिनट रुककर फिर कोशिश करें। कुछ भी नहीं बदला गया।",
   "deleteAccountErrUnavailable": "खाता हटाना अभी अस्थायी रूप से उपलब्ध नहीं है। बाद में फिर कोशिश करें। कुछ भी नहीं बदला गया।",
   "deleteAccountErrOffline": "खाता हटाने के लिए इंटरनेट कनेक्शन चाहिए। कुछ भी नहीं बदला गया।",
-  "deleteAccountErrNotVerified": "सर्वर पर आपका खाता अब भी दिख रहा है। फिर कोशिश करें; बार-बार हो तो सहायता से संपर्क करें।"
+  "deleteAccountErrNotVerified": "सर्वर पर आपका खाता अब भी दिख रहा है। फिर कोशिश करें; बार-बार हो तो सहायता से संपर्क करें।",
+  "updateAvailableTitle": "अपडेट उपलब्ध है",
+  "updateAvailableMessage": "MSS का संस्करण {version} तैयार है। नए सुधार और योजनाएँ पाने के लिए इसे डाउनलोड करें।",
+  "updateActionUpdate": "अपडेट करें",
+  "updateActionLater": "बाद में",
+  "updateOpenFailed": "डाउनलोड पेज नहीं खुल सका। बाद में फिर कोशिश करें।",
+  "settingsCheckUpdates": "अपडेट जाँचें",
+  "settingsInstalledVersion": "इंस्टॉल किया गया: {version}",
+  "updateWhatsNew": "इस संस्करण में नया क्या है"
 }

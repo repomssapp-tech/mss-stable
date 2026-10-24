@@ -50,6 +50,9 @@ class AppVersion implements Comparable<AppVersion> {
   /// The version name users see: `1.2.3`.
   String get name => '$major.$minor.$patch';
 
+  /// The name shown to users: "2.1" for 2.1.0, "2.1.3" otherwise.
+  String get displayName => patch == 0 ? '$major.$minor' : name;
+
   /// The one display form used everywhere in the app: `1.2.3 (4)`.
   String get label => '$name ($build)';
 

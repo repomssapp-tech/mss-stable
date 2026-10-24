@@ -11,6 +11,21 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [2.1.0+17] - 2026-10-24
+
+### Added
+- The app tells you when a new version is out: an "Update available" notice with the version and what changed, in English, Hindi and Tamil. Update downloads it; Later hides that version until a newer one comes.
+- Settings has "Check for updates", showing your version and the latest release.
+- Delete Account now has a 30-day grace period: sign in again within 30 days to reactivate your account.
+
+### Fixed
+- Logging out keeps you signed out, even if the app is closed straight after.
+- A failed Google sign-in now says "Sign-in failed" instead of hanging.
+- Switching tabs is smoother: tabs no longer rebuild on every tap, and Discover no longer freezes while it recounts.
+- Scheme details and cards read correctly in Hindi, Tamil and English, and Tamil and Hindi titles keep their bold weight.
+- Hindi and Tamil links are no longer underlined through the letters.
+- The email field wraps, hints and footers are easier to read, and the bottom bar's droplet is a little smaller and lighter.
+
 ## [1.4.7+15] - 2026-10-23
 
 ### Added
