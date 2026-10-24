@@ -478,7 +478,18 @@ class _SaarthiTypeScreenState extends State<SaarthiTypeScreen> {
           ],
         ),
         title: const SaarthiTitle(size: 17),
-        actions: [ModeToggle(voiceActive: false, onSwitch: _switchToVoice)],
+        actions: [
+          // Bounded share of the header so the toggle scales down on
+          // narrow phones instead of squeezing the title.
+          Flexible(
+            flex: 2,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerRight,
+              child: ModeToggle(voiceActive: false, onSwitch: _switchToVoice),
+            ),
+          ),
+        ],
       ),
       body: SafeArea(
         top: false,
