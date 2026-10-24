@@ -164,7 +164,7 @@ class RoundIconButton extends StatelessWidget {
   );
 }
 
-/// "Saarthi / Powered by MSS AI" title block.
+/// "Saarthi / Powered by Sarvam AI" title block.
 class SaarthiTitle extends StatelessWidget {
   const SaarthiTitle({
     super.key,

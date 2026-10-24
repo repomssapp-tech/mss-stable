@@ -1,4 +1,4 @@
-// The bottom bar must be 64dp (scaled a little for large fonts) plus the system
+// The bottom bar must be 64dp plus the system
 // gesture inset and the small float gap below the pill -- never also the status-bar height. A MediaQuery rebuilt from
 // a context ABOVE the Scaffold puts the status-bar padding back, and the bar's
 // SafeArea then adds it on top (it showed as ~50dp of empty white above the icons).
@@ -43,23 +43,16 @@ void main() {
   testWidgets('is not inflated by the status-bar padding', (tester) async {
     final h = await barHeight(tester);
     const gestureInset = 63 / 2.625;
-    // The label-fit cap keeps the text scale within 11/12..1.15.
-    expect(
-      h,
-      lessThanOrEqualTo(
-        64 * 1.15 + kNavBarLift + gestureInset + kNavBarFloatGap + 1,
-      ),
-    );
-    expect(
-      h,
-      greaterThanOrEqualTo(
-        64 * kMinNavLabelScale +
-            kNavBarLift +
-            gestureInset +
-            kNavBarFloatGap -
-            1,
-      ),
-    );
+    expect(h, closeTo(kNavBarHeight + gestureInset + kNavBarFloatGap, 1));
+  });
+
+  testWidgets('keeps its height with large text (icons only)', (tester) async {
+    tester.platformDispatcher.textScaleFactorTestValue = 2;
+    addTearDown(tester.platformDispatcher.clearAllTestValues);
+    final big = await barHeight(tester);
+    tester.platformDispatcher.clearAllTestValues();
+    final normal = await barHeight(tester);
+    expect(big, normal);
   });
 
   testWidgets('height does not depend on the status-bar height', (
@@ -85,21 +78,18 @@ void main() {
         ),
       ),
     );
-    // Every tab is announced with its label; only the active one shows it.
+    // Every tab is announced with its label; the bar itself shows icons only.
     for (final l in labels) {
       expect(find.bySemanticsLabel(l), findsOneWidget);
+      expect(find.text(l), findsNothing);
     }
-    expect(find.text('Home'), findsOneWidget);
-    expect(find.text('Discover'), findsNothing);
     await tester.tap(find.byType(AppNavBarItem).at(2));
     expect(tapped, 2);
   });
 
-  testWidgets('a long Tamil label on a narrow phone stays at 11sp or more', (
-    tester,
-  ) async {
-    tester.view.physicalSize = const Size(720, 1600);
-    tester.view.devicePixelRatio = 2.0; // 360dp wide
+  testWidgets('fits a narrow phone with Tamil labels', (tester) async {
+    tester.view.physicalSize = const Size(640, 1600);
+    tester.view.devicePixelRatio = 2.0; // 320dp wide
     addTearDown(tester.view.reset);
     const tamil = [
       'முகப்பு',
@@ -114,18 +104,17 @@ void main() {
         home: Scaffold(
           body: const SizedBox.expand(),
           bottomNavigationBar: AppBottomNavBar(
-            selectedIndex: 0,
+            selectedIndex: 4,
             onSelected: (_) {},
             labels: tamil,
           ),
         ),
       ),
     );
-    // The active label is never below 11sp.
-    final text = find.text(tamil.first);
-    expect(text, findsOneWidget);
-    final scaler = MediaQuery.textScalerOf(tester.element(text));
-    expect(scaler.scale(12), greaterThanOrEqualTo(11 - 0.01));
+    await tester.pumpAndSettle();
+    expect(find.bySemanticsLabel(tamil[2]), findsOneWidget);
+    final bar = tester.getRect(find.byType(AppBottomNavBar));
+    expect(bar.right, lessThanOrEqualTo(320));
     expect(tester.takeException(), isNull);
   });
 

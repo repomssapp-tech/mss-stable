@@ -22,8 +22,8 @@ import 'package:frontend/design_v2/saarthi/saarthi_type_screen.dart';
 import 'package:frontend/services/chat/sarvam_chat_service.dart';
 
 // The v2 Type screen's chrome strings (sv2PoweredBy, sv2TypeIntro).
-const _poweredByEn = "Powered by MSS AI";
-const _poweredByTa = "MSS AI மூலம் இயங்குகிறது";
+const _poweredByEn = "Powered by Sarvam AI";
+const _poweredByTa = "Sarvam AI மூலம் இயங்குகிறது";
 const _askAboutEn =
     "Ask about any scheme, loan or subsidy — or start with one of these.";
 const _askAboutTa =
