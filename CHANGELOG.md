@@ -11,6 +11,8 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [2.2.1+19] - 2026-10-25
+
 ### Changed
 - The bottom bar is now white, with each icon in a soft circle. The active tab is a round frosted purple bubble that stretches like a drop as it moves between tabs.
 - Saarthi now says "Powered by Sarvam AI".
