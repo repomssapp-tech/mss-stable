@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 
+import '../../models/localized_scheme.dart';
+
 import 'mss_catalog_bundle.dart';
 
 /// LanguagePackManager
@@ -101,6 +103,7 @@ class LanguagePackManager {
     }
     if (found == 0) return false;
     _loadedLanguages.add(lang);
+    LocalizedSchemeCache.invalidate();
     return true;
   }
 
@@ -182,6 +185,7 @@ class LanguagePackManager {
   /// Clears in-memory index (used primarily for unit testing).
   @visibleForTesting
   void resetForTesting() {
+    LocalizedSchemeCache.invalidate();
     _indexedContent.clear();
     _loadedLanguages.clear();
     _releaseManifest = null;

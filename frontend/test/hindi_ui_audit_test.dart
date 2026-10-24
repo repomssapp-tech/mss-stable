@@ -29,7 +29,7 @@ import 'package:frontend/widgets/legal/legal_document_modal.dart';
 import 'package:frontend/widgets/scheme/filter_panel.dart';
 import 'package:frontend/screens/navigation_mode_screen.dart';
 import 'package:frontend/screens/companion_mode/saarthi_welcome_screen.dart';
-import 'package:frontend/screens/companion_mode/saarthi_home_screen.dart';
+import 'package:frontend/design_v2/saarthi/saarthi_voice_screen.dart';
 import 'package:frontend/screens/notifications_screen.dart';
 import 'package:frontend/screens/profile_screen.dart';
 import 'package:frontend/screens/regular_mode/about_you_profile_screen.dart';
@@ -262,7 +262,7 @@ void main() {
     'PrivacyPolicy': () => const PrivacyPolicyScreen(),
     'Terms': () => const TermsConditionsScreen(),
     'Companion welcome': () => const SaarthiWelcomeScreen(),
-    'Companion home': () => const SaarthiHomeScreen(),
+    'Companion home': () => const SaarthiVoiceScreen(),
     for (var step = 1; step <= 4; step++)
       'BasicProfile step $step': () => BasicProfileScreen(initialStep: step),
     for (final m in const [

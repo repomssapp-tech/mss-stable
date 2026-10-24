@@ -5755,4 +5755,414 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get updateWhatsNew => 'இந்தப் பதிப்பில் புதியவை';
+
+  @override
+  String get integrityTitle => 'இப்போது இந்தத் தொலைபேசியில் MSS இயங்காது';
+
+  @override
+  String get integritySubtitle =>
+      'உங்கள் திட்ட விவரங்களும் கணக்கும் பாதுகாப்பாக இருக்க, கீழே உள்ள சிக்கலைச் சரிசெய்யுங்கள். சரியானதும் MSS தானாகத் திறக்கும்.';
+
+  @override
+  String get integrityDevTitle => 'டெவலப்பர் விருப்பங்கள் இயக்கத்தில் உள்ளன';
+
+  @override
+  String get integrityDevBody =>
+      'தொலைபேசியின் அமைப்புகளில் டெவலப்பர் விருப்பங்களையும் (USB பிழைத்திருத்தத்தையும்) அணைக்கவும்.';
+
+  @override
+  String get integrityVpnTitle => 'VPN இணைக்கப்பட்டுள்ளது';
+
+  @override
+  String get integrityVpnBody =>
+      'MSS-ஐப் பயன்படுத்த உங்கள் VPN-ஐ அணைக்கவும். Tailscale மற்றும் AdGuard மட்டுமே அனுமதிக்கப்படும்.';
+
+  @override
+  String get integrityWifiTitle => 'நீங்கள் பொது Wi-Fi-இல் உள்ளீர்கள்';
+
+  @override
+  String get integrityWifiBody =>
+      'இந்த Wi-Fi-க்குக் கடவுச்சொல் இல்லை அல்லது உள்நுழைவுப் பக்கம் தேவை. மொபைல் டேட்டா அல்லது கடவுச்சொல் உள்ள Wi-Fi-க்கு மாறவும்.';
+
+  @override
+  String get integrityOpenDeveloper => 'டெவலப்பர் அமைப்புகளைத் திற';
+
+  @override
+  String get integrityOpenVpn => 'VPN அமைப்புகளைத் திற';
+
+  @override
+  String get integrityOpenWifi => 'Wi-Fi அமைப்புகளைத் திற';
+
+  @override
+  String get integrityCheckAgain => 'மீண்டும் சரிபார்';
+
+  @override
+  String get onbSkip => 'தவிர்';
+
+  @override
+  String onbStep(String step, String total) {
+    return '$step / $total';
+  }
+
+  @override
+  String get onbNext => 'அடுத்து';
+
+  @override
+  String get onbGetStarted => 'தொடங்குங்கள்';
+
+  @override
+  String get onbP1Title => 'அரசுத் திட்டங்கள், இப்போது [எளிதாக]';
+
+  @override
+  String get onbP1Body =>
+      'தொழில்முனைவோர், எம் எஸ் எம் ஈ, பெண்கள் மற்றும் மாணவர்களுக்கான அரசுத் திட்டங்களை ஒரே இடத்தில் கண்டறியுங்கள்.';
+
+  @override
+  String onbP1Badge(int count) {
+    return '$count+ சரிபார்க்கப்பட்ட திட்டங்கள்';
+  }
+
+  @override
+  String get onbChipMsme => 'எம் எஸ் எம் ஈ';
+
+  @override
+  String get onbChipStartup => 'ஸ்டார்ட்அப்';
+
+  @override
+  String get onbChipLoans => 'கடன்கள்';
+
+  @override
+  String get onbChipSubsidy => 'மானியம்';
+
+  @override
+  String get onbP2Title => 'பல திட்டங்கள்.\n[ஒரே எளிய தீர்வு.]';
+
+  @override
+  String get onbP2Body =>
+      'அரசுத் திட்டங்களைக் கண்டறிவதும் புரிந்துகொள்வதும் ஒப்பிடுவதும் கடினம். MSS அவற்றை ஒரே எளிய அனுபவத்தில் தருகிறது.';
+
+  @override
+  String get onbP2Badge => 'கண்டறி. புரிந்துகொள். அறிந்துகொள்.';
+
+  @override
+  String get onbChipEligibility => 'தகுதி';
+
+  @override
+  String get onbChipIncome => 'வருமானம்';
+
+  @override
+  String get onbChipDocuments => 'ஆவணங்கள்';
+
+  @override
+  String get onbChipSubsidies => 'மானியங்கள்';
+
+  @override
+  String get onbP3Title => 'உங்களுக்கு [தகுதியானவை] எவை என அறியுங்கள்';
+
+  @override
+  String get onbP3Body =>
+      'உங்களைப் பற்றி MSS-இடம் சொல்லுங்கள்; உங்கள் தகுதிக்குப் பொருந்தும் திட்டங்களைத் தெளிவான காரணங்களுடன் கண்டறியுங்கள்.';
+
+  @override
+  String get onbP3Matches => 'உங்கள் பொருத்தங்கள்';
+
+  @override
+  String onbP3Found(int count) {
+    return '$count திட்டங்கள் கிடைத்தன';
+  }
+
+  @override
+  String get onbP3MayBeEligible => 'நீங்கள் தகுதியானவராக இருக்கலாம்';
+
+  @override
+  String get onbP3Age => 'வயது';
+
+  @override
+  String get onbP3Occupation => 'தொழில்';
+
+  @override
+  String get onbP3Footer => 'ஊகம் வேண்டாம். தெளிவான பதில்கள் மட்டும்.';
+
+  @override
+  String get onbP4Title => '[சாரதியிடம்] கேளுங்கள்';
+
+  @override
+  String get onbP4Body =>
+      'உங்கள் மொழியில், உங்கள் விருப்பப்படி, குரல் மூலம் படிப்படியான வழிகாட்டுதல் பெறுங்கள்.';
+
+  @override
+  String get onbP4SaarthiLabel => 'சாரதி';
+
+  @override
+  String get onbP4Footer => 'உங்கள் மொழி. உங்கள் குரல். உங்கள் திட்டங்கள்.';
+
+  @override
+  String get permTitle => 'MSS முழுமையாக உதவ அனுமதியுங்கள்';
+
+  @override
+  String get permSubtitle =>
+      'இவை இல்லாமலும் MSS இயங்கும், ஆனால் சில வசதிகளுக்கு இவை தேவை. பின்னர் உங்கள் தொலைபேசியின் அமைப்புகளில் மாற்றலாம்.';
+
+  @override
+  String get permNotificationsTitle => 'அறிவிப்புகள்';
+
+  @override
+  String get permNotificationsBody =>
+      'புதிய திட்டங்கள், கடைசி தேதிகள் மற்றும் ஆப் புதுப்பிப்புகளை அறியுங்கள்.';
+
+  @override
+  String get permMicrophoneTitle => 'மைக்ரோஃபோன்';
+
+  @override
+  String get permMicrophoneBody => 'சாரதியுடன் பேசவும் குரல் மூலம் தேடவும்.';
+
+  @override
+  String get permInstallTitle => 'புதுப்பிப்புகளை நிறுவுதல்';
+
+  @override
+  String get permInstallBody =>
+      'நீங்கள் புதுப்பி என்பதைத் தட்டும்போது MSS தன் புதிய பதிப்புகளை நிறுவ அனுமதிக்கவும்.';
+
+  @override
+  String get permFilesTitle => 'படங்களும் ஆவணங்களும்';
+
+  @override
+  String get permFilesBody =>
+      'ஆதார் அல்லது திட்ட அறிக்கை போன்ற ஆவணங்களை இணைக்கவோ சேமிக்கவோ.';
+
+  @override
+  String get permAllow => 'அனுமதி';
+
+  @override
+  String get permAllowed => 'அனுமதிக்கப்பட்டது';
+
+  @override
+  String get permAllowAll => 'அனைத்தையும் அனுமதி';
+
+  @override
+  String get permContinue => 'தொடர்க';
+
+  @override
+  String get permNotNow => 'இப்போது வேண்டாம்';
+
+  @override
+  String get sv2Name => 'சாரதி';
+
+  @override
+  String get sv2PoweredBy => 'MSS AI மூலம் இயங்குகிறது';
+
+  @override
+  String get sv2ModeType => 'தட்டச்சு';
+
+  @override
+  String get sv2ModeVoice => 'குரல்';
+
+  @override
+  String sv2TypeGreeting(String name) {
+    return 'வணக்கம், $name.\n[நான் எப்படி உதவலாம்?]';
+  }
+
+  @override
+  String get sv2TypeIntro =>
+      'எந்தத் திட்டம், கடன் அல்லது மானியம் பற்றியும் கேளுங்கள் — அல்லது இவற்றில் ஒன்றில் தொடங்குங்கள்.';
+
+  @override
+  String get sv2ChipPmegp => 'PMEGP தேடு';
+
+  @override
+  String get sv2ChipWomen => 'பெண்களுக்கான திட்டங்கள்';
+
+  @override
+  String get sv2TypeHint => 'இங்கே தட்டச்சு செய்யுங்கள்…';
+
+  @override
+  String get sv2You => 'நீங்கள்';
+
+  @override
+  String get sv2YouVoice => 'நீங்கள் · குரல்';
+
+  @override
+  String get sv2FollowEligible => 'நான் தகுதியானவனா?';
+
+  @override
+  String get sv2FollowDocuments => 'தேவையான ஆவணங்கள்';
+
+  @override
+  String get sv2BestMatch => 'சிறந்த பொருத்தம்';
+
+  @override
+  String get sv2GoodMatch => 'நல்ல பொருத்தம்';
+
+  @override
+  String get sv2ViewScheme => 'திட்டத்தைப் பார்';
+
+  @override
+  String get sv2VoiceIntro => 'நான் [சாரதி], உங்கள் திட்டத் துணை.';
+
+  @override
+  String get sv2AskSaarthi => 'சாரதியிடம் கேளுங்கள்';
+
+  @override
+  String get sv2StartTalking => 'சாரதியுடன் பேசத் தொடங்குங்கள்';
+
+  @override
+  String sv2Listening(String language) {
+    return 'கேட்கிறது · $language';
+  }
+
+  @override
+  String get sv2Connecting => 'இணைக்கிறது…';
+
+  @override
+  String get sv2Transcribing => 'உங்கள் சொற்களைப் பெறுகிறது…';
+
+  @override
+  String get sv2YourSpeech => 'உங்கள் பேச்சு';
+
+  @override
+  String get sv2TapWhenDone => 'பேசி முடித்ததும் மைக்கைத் தட்டுங்கள்';
+
+  @override
+  String get sv2ConfirmTitle => 'நான் சரியாகக் கேட்டேனா?';
+
+  @override
+  String get sv2Transcribed => 'எழுத்தாக்கப்பட்டது';
+
+  @override
+  String get sv2ConfirmHelp =>
+      'அனுப்ப டிக்கையும், நீக்க குறுக்குக் குறியையும், மீண்டும் சொல்ல மைக்கையும் தட்டுங்கள்.';
+
+  @override
+  String get sv2EditTitle => 'உங்கள் கோரிக்கையைத் திருத்துங்கள்';
+
+  @override
+  String get sv2Speak => 'பேசு';
+
+  @override
+  String get sv2TapToSpeak => 'பேசத் தட்டுங்கள்';
+
+  @override
+  String get sv2Send => 'இதை அனுப்பு';
+
+  @override
+  String get sv2Discard => 'நீக்கு';
+
+  @override
+  String get sv2Room => 'உரையாடல் அறை';
+
+  @override
+  String sv2RoomHello(String name) {
+    return 'வணக்கம் $name! இன்று உங்களுக்கு என்ன உதவி வேண்டும்?';
+  }
+
+  @override
+  String get sv2Thinking => 'சாரதி யோசிக்கிறது…';
+
+  @override
+  String get sv2Speaking => 'சாரதி பேசுகிறது…';
+
+  @override
+  String get sv2HearAgain => 'பதிலை மீண்டும் கேளுங்கள்';
+
+  @override
+  String get sv2EndConversation => 'உரையாடலை முடி';
+
+  @override
+  String get sv2DocumentsNeeded => 'தேவையான ஆவணங்கள்';
+
+  @override
+  String sv2DocumentsReady(int ready, int total) {
+    return '$total-இல் $ready தயார்';
+  }
+
+  @override
+  String get sv2HistoryTitle => 'உரையாடல் வரலாறு';
+
+  @override
+  String get sv2HistoryOpen => 'உரையாடல் வரலாறு';
+
+  @override
+  String get sv2HistorySearch => 'உரையாடல்களைத் தேடு';
+
+  @override
+  String get sv2HistoryEmpty =>
+      'சாரதியுடனான உங்கள் உரையாடல்கள் இந்தத் தொலைபேசியில் இங்கே சேமிக்கப்படும்.';
+
+  @override
+  String get sv2HistoryNoMatch =>
+      'உங்கள் தேடலுக்குப் பொருந்தும் உரையாடல் இல்லை.';
+
+  @override
+  String sv2HistorySchemes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count திட்டங்கள்',
+      one: '1 திட்டம்',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sv2HistoryMessages(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count செய்திகள்',
+      one: '1 செய்தி',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sv2HistoryDelete => 'இந்த உரையாடலை நீக்கு';
+
+  @override
+  String get sv2HistoryDeleted => 'உரையாடல் நீக்கப்பட்டது';
+
+  @override
+  String get sv2HistoryClearAll => 'அனைத்து உரையாடல்களையும் நீக்கு';
+
+  @override
+  String get sv2HistoryClearConfirm =>
+      'சேமித்த அனைத்து உரையாடல்களையும் இந்தத் தொலைபேசியிலிருந்து நீக்கவா?';
+
+  @override
+  String get sv2HistoryContinue => 'இந்த உரையாடலைத் தொடரு';
+
+  @override
+  String get sv2VoiceSettings => 'குரல் அமைப்புகள்';
+
+  @override
+  String get sv2VoiceSettingsOpen => 'குரல் அமைப்புகள்';
+
+  @override
+  String get sv2VoiceLanguage => 'மொழி';
+
+  @override
+  String get sv2Autoplay => 'பதில்களைத் தானாக ஒலிக்கச் செய்';
+
+  @override
+  String get sv2AutoplayBody => 'ஒவ்வொரு பதிலையும் சாரதி சத்தமாகப் படிக்கும்';
+
+  @override
+  String get sv2HandsFree => 'கைகளின்றி பயன்முறை';
+
+  @override
+  String get sv2HandsFreeBody =>
+      'ஒவ்வொரு பதிலுக்குப் பிறகும் தொடர்ந்து கேட்கும்';
+
+  @override
+  String get sv2ConfirmSend => 'அனுப்பும் முன் உறுதிசெய்';
+
+  @override
+  String get sv2ConfirmSendBody =>
+      'அனுப்பும் முன் சாரதி கேட்டதைச் சரிபாருங்கள்';
+
+  @override
+  String get sv2VoiceNote =>
+      'ஒவ்வொரு மொழிக்கும் சாரதியின் குரல் தேர்ந்தெடுக்கப்பட்டுள்ளது.';
+
+  @override
+  String get settingsSaarthiVoice => 'சாரதி குரல் அமைப்புகள்';
 }

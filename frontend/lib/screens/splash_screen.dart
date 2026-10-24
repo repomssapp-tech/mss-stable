@@ -16,6 +16,9 @@ import '../utils/app_spacing.dart';
 import '../services/beta_gate/beta_config.dart';
 import '../services/beta_gate/beta_gate_service.dart';
 import 'beta_gate_screen.dart';
+import '../design_v2/onboarding/onboarding_screen.dart';
+import '../services/onboarding/onboarding_store.dart';
+import 'permissions/app_permissions_screen.dart';
 import '../utils/app_text.dart';
 
 enum StartupDestination { home, navigationMode, language, login }
@@ -162,23 +165,20 @@ class _SplashScreenState extends State<SplashScreen>
       switch (destination) {
         case StartupDestination.home:
           provider.updateTabIndex(0);
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const MainTabsContainer()),
-          );
+          await replaceWithPermissionsFirst(context, const MainTabsContainer());
           return;
         case StartupDestination.navigationMode:
           // A valid OAuth session must survive first-run onboarding. Previously
           // this path signed new users out because their profile was incomplete,
           // creating an endless "Continue with Google" loop.
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const NavigationModeScreen()),
+          await replaceWithPermissionsFirst(
+            context,
+            const NavigationModeScreen(),
           );
           return;
         case StartupDestination.language:
           if (!mounted) return;
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const LanguageSelectionScreen()),
-          );
+          await _replaceAfterOnboarding(const LanguageSelectionScreen());
           return;
         case StartupDestination.login:
           // Without a saved session/profile, sign-in is the only next step.
@@ -198,9 +198,7 @@ class _SplashScreenState extends State<SplashScreen>
           }
 
           if (!mounted) return;
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const LoginScreen()),
-          );
+          await _replaceAfterOnboarding(const LoginScreen());
           return;
       }
     } catch (e, st) {
@@ -210,6 +208,35 @@ class _SplashScreenState extends State<SplashScreen>
         MaterialPageRoute(builder: (_) => const LanguageSelectionScreen()),
       );
     }
+  }
+
+  /// First launch only: the onboarding pages, then [next] (language or
+  /// sign-in). Later launches go straight to [next].
+  Future<void> _replaceAfterOnboarding(Widget next) async {
+    const store = OnboardingStore();
+    final seen = await store.isSeen();
+    if (!mounted) return;
+    if (seen) {
+      Navigator.of(
+        context,
+      ).pushReplacement(MaterialPageRoute(builder: (_) => next));
+      return;
+    }
+    final provider = Provider.of<AppProvider>(context, listen: false);
+    final count = provider.allSchemes.length;
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (onboardingContext) => OnboardingScreen(
+          schemeCount: count >= 100 ? (count ~/ 10) * 10 : 400,
+          onDone: () {
+            store.markSeen();
+            Navigator.of(
+              onboardingContext,
+            ).pushReplacement(MaterialPageRoute(builder: (_) => next));
+          },
+        ),
+      ),
+    );
   }
 
   void _showNoNetworkDialog() {

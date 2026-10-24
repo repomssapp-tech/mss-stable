@@ -6,7 +6,7 @@ enum SaarthiVoiceState { idle, listening, processing, speaking, ended }
 
 /// One turn in the Saarthi conversation transcript.
 ///
-/// Extracted verbatim from `saarthi_home_screen.dart` (frontend refactor C5,
+/// Originally extracted from the v1 `saarthi_home_screen.dart` (frontend refactor C5,
 /// safe slice) — a plain data class + its 3 `@visibleForTesting` pure
 /// helpers below, all with zero coupling to `_SaarthiHomeScreenState`.
 class SaarthiMessage {
@@ -56,7 +56,7 @@ class SaarthiMessage {
 
 // Note: these 4 helpers are NOT test-only despite their original
 // @visibleForTesting annotation in the pre-split file -- _SaarthiHomeScreenState
-// calls all of them in production (saarthi_home_screen.dart), and
+// calls all of them in production (design_v2 SaarthiVoiceScreen), and
 // saarthi_transcript_test.dart exercises them directly. The annotation was
 // dropped on the move: it now under-restricts (any importer can call them),
 // but it cannot over-restrict a real production caller in a sibling file.

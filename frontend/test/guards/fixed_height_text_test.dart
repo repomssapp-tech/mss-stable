@@ -17,6 +17,7 @@ void main() {
     final actual = <String, int>{};
     for (final file in dartFilesUnder('lib')) {
       final path = relPath(file);
+      if (isDesignCanvas(path)) continue;
       final src = file.readAsStringSync();
       final lines = src.split('\n');
       var count = 0;

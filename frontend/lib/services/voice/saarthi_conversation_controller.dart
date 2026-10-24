@@ -52,6 +52,10 @@ class SaarthiConversationController extends ChangeNotifier {
   bool active = false;
   bool editing = false;
   bool reviewBeforeSend = false;
+
+  /// Keep listening after each spoken reply. Off: wait (paused) for the user
+  /// to tap to speak again.
+  bool handsFree = true;
   int _generation = 0;
   bool _disposed = false;
   bool _finishing = false;
@@ -282,7 +286,7 @@ class SaarthiConversationController extends ChangeNotifier {
       }
       // A screen reader owns reading the reply. Resume is explicit so its
       // speech cannot be misinterpreted as the user's next request.
-      if (screenReader || !readAloud) {
+      if (screenReader || !readAloud || !handsFree) {
         _update(ConversationPhase.paused);
         return;
       }
@@ -298,6 +302,13 @@ class SaarthiConversationController extends ChangeNotifier {
     _update(ConversationPhase.paused);
     await _stopInput();
     await agent.interrupt();
+  }
+
+  /// The user corrected the reviewed transcript before sending it.
+  void updateDraft(String text) {
+    if (_disposed) return;
+    draft = text;
+    notifyListeners();
   }
 
   Future<void> correct({bool blank = false}) async {
@@ -324,6 +335,7 @@ class SaarthiConversationController extends ChangeNotifier {
     bool? longPauses,
     bool? aloud,
     bool? review,
+    bool? continueListening,
   }) async {
     await pause();
     if (languageCode != null) {
@@ -341,6 +353,7 @@ class SaarthiConversationController extends ChangeNotifier {
       agent.speakReplies = aloud;
     }
     if (review != null) reviewBeforeSend = review;
+    if (continueListening != null) handsFree = continueListening;
     notifyListeners();
   }
 

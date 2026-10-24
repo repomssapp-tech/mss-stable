@@ -104,3 +104,11 @@ void expectNoRatchetRegression({
         '${regressions.join('\n')}',
   );
 }
+
+/// The v2 illustrated design screens (onboarding, the new Saarthi UI) are
+/// hand-laid-out on the designer's 360pt canvas and scaled by screen width,
+/// like the splash and the painters: their positions, sizes, radii and
+/// brand colours are the artwork, not spacing/colour tokens. The layout,
+/// colour, radius, type-scale, tap-target and fixed-height guards skip them;
+/// the i18n guard does not.
+bool isDesignCanvas(String path) => path.startsWith('lib/design_v2/');

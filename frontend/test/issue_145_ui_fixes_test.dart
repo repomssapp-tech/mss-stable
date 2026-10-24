@@ -9,7 +9,7 @@ import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/screens/notifications/notification_cards.dart';
 import 'package:frontend/screens/regular_mode/basic_profile/step2_location_form.dart';
 import 'package:frontend/screens/regular_mode/home/home_updates_section.dart';
-import 'package:frontend/screens/regular_mode/sarvam_chat_screen.dart';
+import 'package:frontend/widgets/chat/chat_markdown_body.dart';
 import 'package:frontend/screens/regular_mode/search_screen.dart';
 import 'package:frontend/services/recommendation/indian_states.dart';
 import 'package:frontend/utils/app_text.dart';

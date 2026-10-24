@@ -36,7 +36,7 @@ void main() {
     final actual = <String, int>{};
     for (final file in dartFilesUnder('lib')) {
       final path = relPath(file);
-      if (_isAllowed(path)) continue;
+      if (_isAllowed(path) || isDesignCanvas(path)) continue;
       final src = file.readAsStringSync();
       var count = 0;
       for (final line in src.split('\n')) {

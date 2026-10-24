@@ -5659,4 +5659,410 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get updateWhatsNew => 'What\'s new in this version';
+
+  @override
+  String get integrityTitle => 'MSS can\'t run on this phone right now';
+
+  @override
+  String get integritySubtitle =>
+      'To keep your scheme details and account safe, fix the problem below. MSS opens by itself once it\'s fixed.';
+
+  @override
+  String get integrityDevTitle => 'Developer options are on';
+
+  @override
+  String get integrityDevBody =>
+      'Turn off Developer options (and USB debugging) in your phone\'s Settings.';
+
+  @override
+  String get integrityVpnTitle => 'A VPN is connected';
+
+  @override
+  String get integrityVpnBody =>
+      'Turn off your VPN to use MSS. Only Tailscale and AdGuard are allowed.';
+
+  @override
+  String get integrityWifiTitle => 'You\'re on public Wi-Fi';
+
+  @override
+  String get integrityWifiBody =>
+      'This Wi-Fi has no password or needs a sign-in page. Switch to mobile data or a password-protected Wi-Fi.';
+
+  @override
+  String get integrityOpenDeveloper => 'Open developer settings';
+
+  @override
+  String get integrityOpenVpn => 'Open VPN settings';
+
+  @override
+  String get integrityOpenWifi => 'Open Wi-Fi settings';
+
+  @override
+  String get integrityCheckAgain => 'Check again';
+
+  @override
+  String get onbSkip => 'Skip';
+
+  @override
+  String onbStep(String step, String total) {
+    return '$step / $total';
+  }
+
+  @override
+  String get onbNext => 'Next';
+
+  @override
+  String get onbGetStarted => 'Get Started';
+
+  @override
+  String get onbP1Title => 'Government Schemes, Made [Simple]';
+
+  @override
+  String get onbP1Body =>
+      'Discover government schemes for entrepreneurs, MSMEs, women and students — all in one place.';
+
+  @override
+  String onbP1Badge(int count) {
+    return '$count+ Verified Schemes';
+  }
+
+  @override
+  String get onbChipMsme => 'MSME';
+
+  @override
+  String get onbChipStartup => 'Startup';
+
+  @override
+  String get onbChipLoans => 'Loans';
+
+  @override
+  String get onbChipSubsidy => 'Subsidy';
+
+  @override
+  String get onbP2Title => 'Too Many Schemes.\n[One Simple Solution.]';
+
+  @override
+  String get onbP2Body =>
+      'Government schemes can be difficult to find, understand and compare. MSS brings them together in one simple experience.';
+
+  @override
+  String get onbP2Badge => 'Find. Understand. Discover.';
+
+  @override
+  String get onbChipEligibility => 'Eligibility';
+
+  @override
+  String get onbChipIncome => 'Income';
+
+  @override
+  String get onbChipDocuments => 'Documents';
+
+  @override
+  String get onbChipSubsidies => 'Subsidies';
+
+  @override
+  String get onbP3Title => 'Know What You [Qualify] For';
+
+  @override
+  String get onbP3Body =>
+      'Tell MSS about yourself and discover schemes that match your eligibility — with clear reasons why.';
+
+  @override
+  String get onbP3Matches => 'Your Matches';
+
+  @override
+  String onbP3Found(int count) {
+    return '$count Schemes Found';
+  }
+
+  @override
+  String get onbP3MayBeEligible => 'You may be eligible';
+
+  @override
+  String get onbP3Age => 'Age';
+
+  @override
+  String get onbP3Occupation => 'Occupation';
+
+  @override
+  String get onbP3Footer => 'No guessing. Just clear answers.';
+
+  @override
+  String get onbP4Title => 'Just Ask [Saarthi]';
+
+  @override
+  String get onbP4Body =>
+      'Get step-by-step guidance through voice — in your language, your way.';
+
+  @override
+  String get onbP4SaarthiLabel => 'SAARTHI';
+
+  @override
+  String get onbP4Footer => 'Your Language. Your Voice. Your Schemes.';
+
+  @override
+  String get permTitle => 'Allow MSS to help you fully';
+
+  @override
+  String get permSubtitle =>
+      'MSS works without these, but some features need them. You can change them later in your phone\'s Settings.';
+
+  @override
+  String get permNotificationsTitle => 'Notifications';
+
+  @override
+  String get permNotificationsBody =>
+      'Hear about new schemes, deadlines and app updates.';
+
+  @override
+  String get permMicrophoneTitle => 'Microphone';
+
+  @override
+  String get permMicrophoneBody => 'Talk to Saarthi and search by voice.';
+
+  @override
+  String get permInstallTitle => 'Install updates';
+
+  @override
+  String get permInstallBody =>
+      'Let MSS install its own new versions when you tap Update.';
+
+  @override
+  String get permFilesTitle => 'Photos and documents';
+
+  @override
+  String get permFilesBody =>
+      'Attach or save documents such as your Aadhaar or project report.';
+
+  @override
+  String get permAllow => 'Allow';
+
+  @override
+  String get permAllowed => 'Allowed';
+
+  @override
+  String get permAllowAll => 'Allow all';
+
+  @override
+  String get permContinue => 'Continue';
+
+  @override
+  String get permNotNow => 'Not now';
+
+  @override
+  String get sv2Name => 'Saarthi';
+
+  @override
+  String get sv2PoweredBy => 'Powered by MSS AI';
+
+  @override
+  String get sv2ModeType => 'Type';
+
+  @override
+  String get sv2ModeVoice => 'Voice';
+
+  @override
+  String sv2TypeGreeting(String name) {
+    return 'Hi, $name.\n[How can I help you?]';
+  }
+
+  @override
+  String get sv2TypeIntro =>
+      'Ask about any scheme, loan or subsidy — or start with one of these.';
+
+  @override
+  String get sv2ChipPmegp => 'Search PMEGP';
+
+  @override
+  String get sv2ChipWomen => 'Schemes for women';
+
+  @override
+  String get sv2TypeHint => 'Type here…';
+
+  @override
+  String get sv2You => 'You';
+
+  @override
+  String get sv2YouVoice => 'You · voice';
+
+  @override
+  String get sv2FollowEligible => 'Am I eligible?';
+
+  @override
+  String get sv2FollowDocuments => 'Documents needed';
+
+  @override
+  String get sv2BestMatch => 'BEST MATCH';
+
+  @override
+  String get sv2GoodMatch => 'GOOD MATCH';
+
+  @override
+  String get sv2ViewScheme => 'View scheme';
+
+  @override
+  String get sv2VoiceIntro => 'I\'m [Saarthi], your scheme companion.';
+
+  @override
+  String get sv2AskSaarthi => 'ASK SAARTHI';
+
+  @override
+  String get sv2StartTalking => 'Start talking to Saarthi';
+
+  @override
+  String sv2Listening(String language) {
+    return 'Listening · $language';
+  }
+
+  @override
+  String get sv2Connecting => 'Connecting…';
+
+  @override
+  String get sv2Transcribing => 'Getting your words…';
+
+  @override
+  String get sv2YourSpeech => 'YOUR SPEECH';
+
+  @override
+  String get sv2TapWhenDone => 'Tap the mic when you\'re done';
+
+  @override
+  String get sv2ConfirmTitle => 'Did I hear you right?';
+
+  @override
+  String get sv2Transcribed => 'TRANSCRIBED';
+
+  @override
+  String get sv2ConfirmHelp =>
+      'Tap the tick to send, the cross to discard, or the mic to say it again.';
+
+  @override
+  String get sv2EditTitle => 'Correct your request';
+
+  @override
+  String get sv2Speak => 'Speak';
+
+  @override
+  String get sv2TapToSpeak => 'Tap to speak';
+
+  @override
+  String get sv2Send => 'Send this';
+
+  @override
+  String get sv2Discard => 'Discard';
+
+  @override
+  String get sv2Room => 'Conversation room';
+
+  @override
+  String sv2RoomHello(String name) {
+    return 'Namaste $name! What would you like help with today?';
+  }
+
+  @override
+  String get sv2Thinking => 'Saarthi is thinking…';
+
+  @override
+  String get sv2Speaking => 'Saarthi is speaking…';
+
+  @override
+  String get sv2HearAgain => 'Hear the reply again';
+
+  @override
+  String get sv2EndConversation => 'End conversation';
+
+  @override
+  String get sv2DocumentsNeeded => 'Documents needed';
+
+  @override
+  String sv2DocumentsReady(int ready, int total) {
+    return '$ready of $total ready';
+  }
+
+  @override
+  String get sv2HistoryTitle => 'Chat history';
+
+  @override
+  String get sv2HistoryOpen => 'Chat history';
+
+  @override
+  String get sv2HistorySearch => 'Search conversations';
+
+  @override
+  String get sv2HistoryEmpty =>
+      'Your conversations with Saarthi will be saved here, on this phone.';
+
+  @override
+  String get sv2HistoryNoMatch => 'No conversation matches your search.';
+
+  @override
+  String sv2HistorySchemes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count schemes',
+      one: '1 scheme',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sv2HistoryMessages(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count messages',
+      one: '1 message',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sv2HistoryDelete => 'Delete this conversation';
+
+  @override
+  String get sv2HistoryDeleted => 'Conversation deleted';
+
+  @override
+  String get sv2HistoryClearAll => 'Delete all conversations';
+
+  @override
+  String get sv2HistoryClearConfirm =>
+      'Delete every saved conversation from this phone?';
+
+  @override
+  String get sv2HistoryContinue => 'Continue this conversation';
+
+  @override
+  String get sv2VoiceSettings => 'Voice settings';
+
+  @override
+  String get sv2VoiceSettingsOpen => 'Voice settings';
+
+  @override
+  String get sv2VoiceLanguage => 'Language';
+
+  @override
+  String get sv2Autoplay => 'Auto-play replies';
+
+  @override
+  String get sv2AutoplayBody => 'Saarthi reads every answer aloud';
+
+  @override
+  String get sv2HandsFree => 'Hands-free mode';
+
+  @override
+  String get sv2HandsFreeBody => 'Keep listening after each reply';
+
+  @override
+  String get sv2ConfirmSend => 'Confirm before sending';
+
+  @override
+  String get sv2ConfirmSendBody => 'Check what Saarthi heard before it is sent';
+
+  @override
+  String get sv2VoiceNote => 'Saarthi\'s voice is chosen for each language.';
+
+  @override
+  String get settingsSaarthiVoice => 'Saarthi voice settings';
 }

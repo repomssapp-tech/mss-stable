@@ -86,7 +86,12 @@ class _HomeFeaturedSectionState extends State<HomeFeaturedSection> {
     _timer?.cancel();
     if (_count <= 1) return;
     _timer = Timer.periodic(HomeFeaturedSection.interval, (_) {
-      if (!_pages.hasClients) return;
+      // Hidden tabs keep their state in the IndexedStack; don't animate one.
+      if (!mounted ||
+          !_pages.hasClients ||
+          !TickerMode.valuesOf(context).enabled) {
+        return;
+      }
       _pages.animateToPage(
         (_index + 1) % _count,
         duration: const Duration(milliseconds: 450),

@@ -12,6 +12,7 @@ class MainActivity : FlutterActivity() {
     private var automaticSpeechBridge: AutomaticSpeechBridge? = null
     private var speechOutputBridge: SpeechOutputBridge? = null
     private var pcmPlaybackBridge: PcmPlaybackBridge? = null
+    private var deviceIntegrityBridge: DeviceIntegrityBridge? = null
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -41,6 +42,7 @@ class MainActivity : FlutterActivity() {
             messenger = flutterEngine.dartExecutor.binaryMessenger,
         )
         pcmPlaybackBridge = PcmPlaybackBridge(this, flutterEngine.dartExecutor.binaryMessenger)
+        deviceIntegrityBridge = DeviceIntegrityBridge(this, flutterEngine.dartExecutor.binaryMessenger)
     }
 
     override fun cleanUpFlutterEngine(flutterEngine: FlutterEngine) {
@@ -52,6 +54,8 @@ class MainActivity : FlutterActivity() {
         speechOutputBridge = null
         pcmPlaybackBridge?.dispose()
         pcmPlaybackBridge = null
+        deviceIntegrityBridge?.dispose()
+        deviceIntegrityBridge = null
         super.cleanUpFlutterEngine(flutterEngine)
     }
 }

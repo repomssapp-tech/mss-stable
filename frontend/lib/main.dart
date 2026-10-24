@@ -15,7 +15,7 @@ import 'screens/regular_mode/categories_screen.dart';
 import 'screens/regular_mode/search_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/regular_mode/saved_schemes_screen.dart';
-import 'screens/companion_mode/saarthi_home_screen.dart';
+import 'design_v2/saarthi/saarthi_voice_screen.dart';
 import 'screens/notifications/push_message_presenter.dart';
 import 'services/account/app_session.dart';
 import 'services/notifications/firebase_push_gateway.dart';
@@ -29,6 +29,7 @@ import 'widgets/common/app_bottom_nav_bar.dart';
 import 'widgets/common/app_update_prompt.dart';
 import 'widgets/onboarding/home_tour.dart';
 import 'widgets/onboarding/home_tour_targets.dart';
+import 'widgets/common/device_integrity_gate.dart';
 import 'widgets/common/haptic_touch_layer.dart';
 import 'services/haptics/haptics_service.dart';
 import 'services/notifications/local_notification_service.dart';
@@ -212,7 +213,7 @@ class MSSApp extends StatelessWidget {
           data: mediaQueryData.copyWith(
             textScaler: TextScaler.linear(boundedScale),
           ),
-          child: HapticTouchLayer(child: child!),
+          child: DeviceIntegrityGate(child: HapticTouchLayer(child: child!)),
         );
       },
       // 2.3 (design system): the whole ThemeData moved to AppTheme.light.
@@ -326,7 +327,7 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
   // Screens matching the tabs.
   List<Widget> _buildTabs(AppProvider provider, String navigationMode) => [
     navigationMode == 'companion'
-        ? const SaarthiHomeScreen()
+        ? const SaarthiVoiceScreen()
         : HomeScreen(
             onVoiceQuery: (query) {
               provider.updateTabIndex(1);

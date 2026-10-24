@@ -48,7 +48,9 @@ void main() {
 
     for (final file in dartFilesUnder('lib')) {
       final path = relPath(file);
-      if (path == 'lib/utils/app_spacing.dart') continue;
+      if (path == 'lib/utils/app_spacing.dart' || isDesignCanvas(path)) {
+        continue;
+      }
 
       final src = file.readAsStringSync();
       final lines = src.split('\n');

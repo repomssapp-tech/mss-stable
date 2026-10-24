@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/models/user_profile.dart';
-import 'package:frontend/screens/regular_mode/sarvam_chat_screen.dart';
+import 'package:frontend/design_v2/saarthi/saarthi_kit.dart';
+import 'package:frontend/design_v2/saarthi/saarthi_type_screen.dart';
 import 'package:frontend/services/chat/sarvam_chat_service.dart';
 
 void main() {
@@ -23,7 +24,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 90));
       expect(_replyText(tester), startsWith('MUDRA'));
       expect(_replyText(tester).length, lessThan(reply.length));
-    await tester.pump(const Duration(seconds: 2));
+      await tester.pump(const Duration(seconds: 2));
       await tester.pumpAndSettle();
       expect(_replyText(tester), reply);
       await _send(tester, 'What documents?');
@@ -74,8 +75,8 @@ void main() {
       expect(_replyText(tester), reply);
       expect(
         tester
-            .widget<IconButton>(find.byKey(const Key('sarvam-chat-send')))
-            .onPressed,
+            .widget<RoundIconButton>(find.byKey(const Key('sarvam-chat-send')))
+            .onTap,
         isNotNull,
       );
     },
@@ -89,7 +90,7 @@ void main() {
       MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        home: SarvamChatScreen(
+        home: SaarthiTypeScreen(
           client: client,
           profile: UserProfile(name: 'Anto'),
           language: 'en',
@@ -97,7 +98,7 @@ void main() {
       ),
     );
 
-    expect(find.textContaining('How can I help?'), findsOneWidget);
+    expect(find.textContaining('How can I help you?'), findsOneWidget);
     await tester.enterText(
       find.byKey(const Key('sarvam-chat-input')),
       '  Find a business loan  ',
@@ -126,7 +127,7 @@ void main() {
       MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        home: SarvamChatScreen(
+        home: SaarthiTypeScreen(
           client: client,
           profile: UserProfile(),
           language: 'en',
@@ -154,7 +155,7 @@ void main() {
       MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        home: SarvamChatScreen(
+        home: SaarthiTypeScreen(
           client: client,
           profile: UserProfile(name: 'Anto'),
           language: 'en',
@@ -192,7 +193,7 @@ Future<void> _openChat(
         data: MediaQuery.of(context).copyWith(disableAnimations: reduceMotion),
         child: child!,
       ),
-      home: SarvamChatScreen(
+      home: SaarthiTypeScreen(
         client: client,
         profile: UserProfile(),
         language: 'en',

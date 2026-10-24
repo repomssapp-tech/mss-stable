@@ -10402,6 +10402,726 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'What\'s new in this version'**
   String get updateWhatsNew;
+
+  /// No description provided for @integrityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'MSS can\'t run on this phone right now'**
+  String get integrityTitle;
+
+  /// No description provided for @integritySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'To keep your scheme details and account safe, fix the problem below. MSS opens by itself once it\'s fixed.'**
+  String get integritySubtitle;
+
+  /// No description provided for @integrityDevTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Developer options are on'**
+  String get integrityDevTitle;
+
+  /// No description provided for @integrityDevBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off Developer options (and USB debugging) in your phone\'s Settings.'**
+  String get integrityDevBody;
+
+  /// No description provided for @integrityVpnTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A VPN is connected'**
+  String get integrityVpnTitle;
+
+  /// No description provided for @integrityVpnBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off your VPN to use MSS. Only Tailscale and AdGuard are allowed.'**
+  String get integrityVpnBody;
+
+  /// No description provided for @integrityWifiTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re on public Wi-Fi'**
+  String get integrityWifiTitle;
+
+  /// No description provided for @integrityWifiBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This Wi-Fi has no password or needs a sign-in page. Switch to mobile data or a password-protected Wi-Fi.'**
+  String get integrityWifiBody;
+
+  /// No description provided for @integrityOpenDeveloper.
+  ///
+  /// In en, this message translates to:
+  /// **'Open developer settings'**
+  String get integrityOpenDeveloper;
+
+  /// No description provided for @integrityOpenVpn.
+  ///
+  /// In en, this message translates to:
+  /// **'Open VPN settings'**
+  String get integrityOpenVpn;
+
+  /// No description provided for @integrityOpenWifi.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Wi-Fi settings'**
+  String get integrityOpenWifi;
+
+  /// No description provided for @integrityCheckAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Check again'**
+  String get integrityCheckAgain;
+
+  /// No description provided for @onbSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onbSkip;
+
+  /// No description provided for @onbStep.
+  ///
+  /// In en, this message translates to:
+  /// **'{step} / {total}'**
+  String onbStep(String step, String total);
+
+  /// No description provided for @onbNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onbNext;
+
+  /// No description provided for @onbGetStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Started'**
+  String get onbGetStarted;
+
+  /// No description provided for @onbP1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Government Schemes, Made [Simple]'**
+  String get onbP1Title;
+
+  /// No description provided for @onbP1Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover government schemes for entrepreneurs, MSMEs, women and students — all in one place.'**
+  String get onbP1Body;
+
+  /// No description provided for @onbP1Badge.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}+ Verified Schemes'**
+  String onbP1Badge(int count);
+
+  /// No description provided for @onbChipMsme.
+  ///
+  /// In en, this message translates to:
+  /// **'MSME'**
+  String get onbChipMsme;
+
+  /// No description provided for @onbChipStartup.
+  ///
+  /// In en, this message translates to:
+  /// **'Startup'**
+  String get onbChipStartup;
+
+  /// No description provided for @onbChipLoans.
+  ///
+  /// In en, this message translates to:
+  /// **'Loans'**
+  String get onbChipLoans;
+
+  /// No description provided for @onbChipSubsidy.
+  ///
+  /// In en, this message translates to:
+  /// **'Subsidy'**
+  String get onbChipSubsidy;
+
+  /// No description provided for @onbP2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Too Many Schemes.\n[One Simple Solution.]'**
+  String get onbP2Title;
+
+  /// No description provided for @onbP2Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Government schemes can be difficult to find, understand and compare. MSS brings them together in one simple experience.'**
+  String get onbP2Body;
+
+  /// No description provided for @onbP2Badge.
+  ///
+  /// In en, this message translates to:
+  /// **'Find. Understand. Discover.'**
+  String get onbP2Badge;
+
+  /// No description provided for @onbChipEligibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Eligibility'**
+  String get onbChipEligibility;
+
+  /// No description provided for @onbChipIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get onbChipIncome;
+
+  /// No description provided for @onbChipDocuments.
+  ///
+  /// In en, this message translates to:
+  /// **'Documents'**
+  String get onbChipDocuments;
+
+  /// No description provided for @onbChipSubsidies.
+  ///
+  /// In en, this message translates to:
+  /// **'Subsidies'**
+  String get onbChipSubsidies;
+
+  /// No description provided for @onbP3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Know What You [Qualify] For'**
+  String get onbP3Title;
+
+  /// No description provided for @onbP3Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell MSS about yourself and discover schemes that match your eligibility — with clear reasons why.'**
+  String get onbP3Body;
+
+  /// No description provided for @onbP3Matches.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Matches'**
+  String get onbP3Matches;
+
+  /// No description provided for @onbP3Found.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Schemes Found'**
+  String onbP3Found(int count);
+
+  /// No description provided for @onbP3MayBeEligible.
+  ///
+  /// In en, this message translates to:
+  /// **'You may be eligible'**
+  String get onbP3MayBeEligible;
+
+  /// No description provided for @onbP3Age.
+  ///
+  /// In en, this message translates to:
+  /// **'Age'**
+  String get onbP3Age;
+
+  /// No description provided for @onbP3Occupation.
+  ///
+  /// In en, this message translates to:
+  /// **'Occupation'**
+  String get onbP3Occupation;
+
+  /// No description provided for @onbP3Footer.
+  ///
+  /// In en, this message translates to:
+  /// **'No guessing. Just clear answers.'**
+  String get onbP3Footer;
+
+  /// No description provided for @onbP4Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Just Ask [Saarthi]'**
+  String get onbP4Title;
+
+  /// No description provided for @onbP4Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Get step-by-step guidance through voice — in your language, your way.'**
+  String get onbP4Body;
+
+  /// No description provided for @onbP4SaarthiLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'SAARTHI'**
+  String get onbP4SaarthiLabel;
+
+  /// No description provided for @onbP4Footer.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Language. Your Voice. Your Schemes.'**
+  String get onbP4Footer;
+
+  /// No description provided for @permTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow MSS to help you fully'**
+  String get permTitle;
+
+  /// No description provided for @permSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'MSS works without these, but some features need them. You can change them later in your phone\'s Settings.'**
+  String get permSubtitle;
+
+  /// No description provided for @permNotificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get permNotificationsTitle;
+
+  /// No description provided for @permNotificationsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Hear about new schemes, deadlines and app updates.'**
+  String get permNotificationsBody;
+
+  /// No description provided for @permMicrophoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone'**
+  String get permMicrophoneTitle;
+
+  /// No description provided for @permMicrophoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Talk to Saarthi and search by voice.'**
+  String get permMicrophoneBody;
+
+  /// No description provided for @permInstallTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Install updates'**
+  String get permInstallTitle;
+
+  /// No description provided for @permInstallBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Let MSS install its own new versions when you tap Update.'**
+  String get permInstallBody;
+
+  /// No description provided for @permFilesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos and documents'**
+  String get permFilesTitle;
+
+  /// No description provided for @permFilesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach or save documents such as your Aadhaar or project report.'**
+  String get permFilesBody;
+
+  /// No description provided for @permAllow.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow'**
+  String get permAllow;
+
+  /// No description provided for @permAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Allowed'**
+  String get permAllowed;
+
+  /// No description provided for @permAllowAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow all'**
+  String get permAllowAll;
+
+  /// No description provided for @permContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get permContinue;
+
+  /// No description provided for @permNotNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get permNotNow;
+
+  /// No description provided for @sv2Name.
+  ///
+  /// In en, this message translates to:
+  /// **'Saarthi'**
+  String get sv2Name;
+
+  /// No description provided for @sv2PoweredBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Powered by MSS AI'**
+  String get sv2PoweredBy;
+
+  /// No description provided for @sv2ModeType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get sv2ModeType;
+
+  /// No description provided for @sv2ModeVoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice'**
+  String get sv2ModeVoice;
+
+  /// No description provided for @sv2TypeGreeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Hi, {name}.\n[How can I help you?]'**
+  String sv2TypeGreeting(String name);
+
+  /// No description provided for @sv2TypeIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask about any scheme, loan or subsidy — or start with one of these.'**
+  String get sv2TypeIntro;
+
+  /// No description provided for @sv2ChipPmegp.
+  ///
+  /// In en, this message translates to:
+  /// **'Search PMEGP'**
+  String get sv2ChipPmegp;
+
+  /// No description provided for @sv2ChipWomen.
+  ///
+  /// In en, this message translates to:
+  /// **'Schemes for women'**
+  String get sv2ChipWomen;
+
+  /// No description provided for @sv2TypeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type here…'**
+  String get sv2TypeHint;
+
+  /// No description provided for @sv2You.
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get sv2You;
+
+  /// No description provided for @sv2YouVoice.
+  ///
+  /// In en, this message translates to:
+  /// **'You · voice'**
+  String get sv2YouVoice;
+
+  /// No description provided for @sv2FollowEligible.
+  ///
+  /// In en, this message translates to:
+  /// **'Am I eligible?'**
+  String get sv2FollowEligible;
+
+  /// No description provided for @sv2FollowDocuments.
+  ///
+  /// In en, this message translates to:
+  /// **'Documents needed'**
+  String get sv2FollowDocuments;
+
+  /// No description provided for @sv2BestMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'BEST MATCH'**
+  String get sv2BestMatch;
+
+  /// No description provided for @sv2GoodMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'GOOD MATCH'**
+  String get sv2GoodMatch;
+
+  /// No description provided for @sv2ViewScheme.
+  ///
+  /// In en, this message translates to:
+  /// **'View scheme'**
+  String get sv2ViewScheme;
+
+  /// No description provided for @sv2VoiceIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m [Saarthi], your scheme companion.'**
+  String get sv2VoiceIntro;
+
+  /// No description provided for @sv2AskSaarthi.
+  ///
+  /// In en, this message translates to:
+  /// **'ASK SAARTHI'**
+  String get sv2AskSaarthi;
+
+  /// No description provided for @sv2StartTalking.
+  ///
+  /// In en, this message translates to:
+  /// **'Start talking to Saarthi'**
+  String get sv2StartTalking;
+
+  /// No description provided for @sv2Listening.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening · {language}'**
+  String sv2Listening(String language);
+
+  /// No description provided for @sv2Connecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting…'**
+  String get sv2Connecting;
+
+  /// No description provided for @sv2Transcribing.
+  ///
+  /// In en, this message translates to:
+  /// **'Getting your words…'**
+  String get sv2Transcribing;
+
+  /// No description provided for @sv2YourSpeech.
+  ///
+  /// In en, this message translates to:
+  /// **'YOUR SPEECH'**
+  String get sv2YourSpeech;
+
+  /// No description provided for @sv2TapWhenDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the mic when you\'re done'**
+  String get sv2TapWhenDone;
+
+  /// No description provided for @sv2ConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Did I hear you right?'**
+  String get sv2ConfirmTitle;
+
+  /// No description provided for @sv2Transcribed.
+  ///
+  /// In en, this message translates to:
+  /// **'TRANSCRIBED'**
+  String get sv2Transcribed;
+
+  /// No description provided for @sv2ConfirmHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the tick to send, the cross to discard, or the mic to say it again.'**
+  String get sv2ConfirmHelp;
+
+  /// No description provided for @sv2EditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct your request'**
+  String get sv2EditTitle;
+
+  /// No description provided for @sv2Speak.
+  ///
+  /// In en, this message translates to:
+  /// **'Speak'**
+  String get sv2Speak;
+
+  /// No description provided for @sv2TapToSpeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to speak'**
+  String get sv2TapToSpeak;
+
+  /// No description provided for @sv2Send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send this'**
+  String get sv2Send;
+
+  /// No description provided for @sv2Discard.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get sv2Discard;
+
+  /// No description provided for @sv2Room.
+  ///
+  /// In en, this message translates to:
+  /// **'Conversation room'**
+  String get sv2Room;
+
+  /// No description provided for @sv2RoomHello.
+  ///
+  /// In en, this message translates to:
+  /// **'Namaste {name}! What would you like help with today?'**
+  String sv2RoomHello(String name);
+
+  /// No description provided for @sv2Thinking.
+  ///
+  /// In en, this message translates to:
+  /// **'Saarthi is thinking…'**
+  String get sv2Thinking;
+
+  /// No description provided for @sv2Speaking.
+  ///
+  /// In en, this message translates to:
+  /// **'Saarthi is speaking…'**
+  String get sv2Speaking;
+
+  /// No description provided for @sv2HearAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Hear the reply again'**
+  String get sv2HearAgain;
+
+  /// No description provided for @sv2EndConversation.
+  ///
+  /// In en, this message translates to:
+  /// **'End conversation'**
+  String get sv2EndConversation;
+
+  /// No description provided for @sv2DocumentsNeeded.
+  ///
+  /// In en, this message translates to:
+  /// **'Documents needed'**
+  String get sv2DocumentsNeeded;
+
+  /// No description provided for @sv2DocumentsReady.
+  ///
+  /// In en, this message translates to:
+  /// **'{ready} of {total} ready'**
+  String sv2DocumentsReady(int ready, int total);
+
+  /// No description provided for @sv2HistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat history'**
+  String get sv2HistoryTitle;
+
+  /// No description provided for @sv2HistoryOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat history'**
+  String get sv2HistoryOpen;
+
+  /// No description provided for @sv2HistorySearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search conversations'**
+  String get sv2HistorySearch;
+
+  /// No description provided for @sv2HistoryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Your conversations with Saarthi will be saved here, on this phone.'**
+  String get sv2HistoryEmpty;
+
+  /// No description provided for @sv2HistoryNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'No conversation matches your search.'**
+  String get sv2HistoryNoMatch;
+
+  /// No description provided for @sv2HistorySchemes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 scheme} other{{count} schemes}}'**
+  String sv2HistorySchemes(int count);
+
+  /// No description provided for @sv2HistoryMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 message} other{{count} messages}}'**
+  String sv2HistoryMessages(int count);
+
+  /// No description provided for @sv2HistoryDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this conversation'**
+  String get sv2HistoryDelete;
+
+  /// No description provided for @sv2HistoryDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Conversation deleted'**
+  String get sv2HistoryDeleted;
+
+  /// No description provided for @sv2HistoryClearAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete all conversations'**
+  String get sv2HistoryClearAll;
+
+  /// No description provided for @sv2HistoryClearConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete every saved conversation from this phone?'**
+  String get sv2HistoryClearConfirm;
+
+  /// No description provided for @sv2HistoryContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue this conversation'**
+  String get sv2HistoryContinue;
+
+  /// No description provided for @sv2VoiceSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice settings'**
+  String get sv2VoiceSettings;
+
+  /// No description provided for @sv2VoiceSettingsOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice settings'**
+  String get sv2VoiceSettingsOpen;
+
+  /// No description provided for @sv2VoiceLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get sv2VoiceLanguage;
+
+  /// No description provided for @sv2Autoplay.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-play replies'**
+  String get sv2Autoplay;
+
+  /// No description provided for @sv2AutoplayBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Saarthi reads every answer aloud'**
+  String get sv2AutoplayBody;
+
+  /// No description provided for @sv2HandsFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Hands-free mode'**
+  String get sv2HandsFree;
+
+  /// No description provided for @sv2HandsFreeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep listening after each reply'**
+  String get sv2HandsFreeBody;
+
+  /// No description provided for @sv2ConfirmSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm before sending'**
+  String get sv2ConfirmSend;
+
+  /// No description provided for @sv2ConfirmSendBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Check what Saarthi heard before it is sent'**
+  String get sv2ConfirmSendBody;
+
+  /// No description provided for @sv2VoiceNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Saarthi\'s voice is chosen for each language.'**
+  String get sv2VoiceNote;
+
+  /// No description provided for @settingsSaarthiVoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Saarthi voice settings'**
+  String get settingsSaarthiVoice;
 }
 
 class _AppLocalizationsDelegate

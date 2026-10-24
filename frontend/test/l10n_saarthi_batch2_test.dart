@@ -18,15 +18,16 @@ import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/models/user_profile.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/companion_mode/saarthi_welcome_screen.dart';
-import 'package:frontend/screens/regular_mode/sarvam_chat_screen.dart';
+import 'package:frontend/design_v2/saarthi/saarthi_type_screen.dart';
 import 'package:frontend/services/chat/sarvam_chat_service.dart';
 
-// Exact values copied from the old hardcoded `isTamil ? '…' : '…'` literals.
-const _poweredByEn = 'Powered by Sarvam AI';
-const _poweredByTa = 'Sarvam AI மூலம்';
-const _askAboutEn = 'Ask about schemes, eligibility, or how to apply.';
+// The v2 Type screen's chrome strings (sv2PoweredBy, sv2TypeIntro).
+const _poweredByEn = "Powered by MSS AI";
+const _poweredByTa = "MSS AI மூலம் இயங்குகிறது";
+const _askAboutEn =
+    "Ask about any scheme, loan or subsidy — or start with one of these.";
 const _askAboutTa =
-    'திட்டங்கள், தகுதி மற்றும் விண்ணப்ப வழிமுறைகள் பற்றி கேளுங்கள்.';
+    "எந்தத் திட்டம், கடன் அல்லது மானியம் பற்றியும் கேளுங்கள் — அல்லது இவற்றில் ஒன்றில் தொடங்குங்கள்.";
 
 class _NoopSarvamChatClient implements SarvamChatClient {
   @override
@@ -43,7 +44,7 @@ Widget _sarvamHost(Locale locale) {
     locale: locale,
     localizationsDelegates: AppLocalizations.localizationsDelegates,
     supportedLocales: AppLocalizations.supportedLocales,
-    home: SarvamChatScreen(
+    home: SaarthiTypeScreen(
       client: _NoopSarvamChatClient(),
       profile: UserProfile(name: 'Anto'),
       language: locale.languageCode,
@@ -72,7 +73,7 @@ void main() {
     SharedPreferences.setMockInitialValues({});
   });
 
-  group('SarvamChatScreen renders ARB strings for the active locale', () {
+  group('SaarthiTypeScreen renders ARB strings for the active locale', () {
     testWidgets('Tamil locale shows the Tamil chrome strings', (tester) async {
       await tester.pumpWidget(_sarvamHost(const Locale('ta')));
       await tester.pump();
@@ -91,7 +92,7 @@ void main() {
       expect(find.text(_poweredByEn), findsOneWidget);
       expect(find.text(_poweredByTa), findsNothing);
       expect(find.text(_askAboutEn), findsOneWidget);
-      expect(find.textContaining('How can I help?'), findsOneWidget);
+      expect(find.textContaining('How can I help you?'), findsOneWidget);
     });
   });
 

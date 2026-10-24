@@ -46,12 +46,18 @@ void main() {
     // The label-fit cap keeps the text scale within 11/12..1.15.
     expect(
       h,
-      lessThanOrEqualTo(64 * 1.15 + gestureInset + kNavBarFloatGap + 1),
+      lessThanOrEqualTo(
+        64 * 1.15 + kNavBarLift + gestureInset + kNavBarFloatGap + 1,
+      ),
     );
     expect(
       h,
       greaterThanOrEqualTo(
-        64 * kMinNavLabelScale + gestureInset + kNavBarFloatGap - 1,
+        64 * kMinNavLabelScale +
+            kNavBarLift +
+            gestureInset +
+            kNavBarFloatGap -
+            1,
       ),
     );
   });
@@ -64,7 +70,7 @@ void main() {
     expect(tall, none);
   });
 
-  testWidgets('shows all five labels and reports taps', (tester) async {
+  testWidgets('announces all five tabs and reports taps', (tester) async {
     var tapped = -1;
     await tester.pumpWidget(
       MaterialApp(
@@ -79,15 +85,19 @@ void main() {
         ),
       ),
     );
+    // Every tab is announced with its label; only the active one shows it.
     for (final l in labels) {
-      expect(find.text(l), findsOneWidget);
+      expect(find.bySemanticsLabel(l), findsOneWidget);
     }
-    await tester.tap(find.text('Discover'));
+    expect(find.text('Home'), findsOneWidget);
+    expect(find.text('Discover'), findsNothing);
+    await tester.tap(find.byType(AppNavBarItem).at(2));
     expect(tapped, 2);
   });
 
-  testWidgets('long labels on a narrow phone wrap instead of shrinking '
-      'below 11sp', (tester) async {
+  testWidgets('a long Tamil label on a narrow phone stays at 11sp or more', (
+    tester,
+  ) async {
     tester.view.physicalSize = const Size(720, 1600);
     tester.view.devicePixelRatio = 2.0; // 360dp wide
     addTearDown(tester.view.reset);
@@ -111,12 +121,11 @@ void main() {
         ),
       ),
     );
-    for (final l in tamil) {
-      final text = find.text(l);
-      expect(text, findsOneWidget);
-      final scaler = MediaQuery.textScalerOf(tester.element(text));
-      expect(scaler.scale(12), greaterThanOrEqualTo(11 - 0.01));
-    }
+    // The active label is never below 11sp.
+    final text = find.text(tamil.first);
+    expect(text, findsOneWidget);
+    final scaler = MediaQuery.textScalerOf(tester.element(text));
+    expect(scaler.scale(12), greaterThanOrEqualTo(11 - 0.01));
     expect(tester.takeException(), isNull);
   });
 
@@ -137,8 +146,8 @@ void main() {
         ),
       ),
     );
-    final home = tester.getCenter(find.text('Home'));
-    final profile = tester.getCenter(find.text('Profile'));
+    final home = tester.getCenter(find.byType(AppNavBarItem).at(0));
+    final profile = tester.getCenter(find.byType(AppNavBarItem).at(4));
     final gesture = await tester.startGesture(home);
     for (var i = 1; i <= 10; i++) {
       await gesture.moveTo(Offset.lerp(home, profile, i / 10)!);

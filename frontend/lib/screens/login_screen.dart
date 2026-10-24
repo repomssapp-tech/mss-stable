@@ -8,6 +8,7 @@ import '../widgets/common/app_toast.dart';
 import '../widgets/legal/legal_consent_section.dart';
 import '../widgets/legal/legal_document_modal.dart';
 import 'navigation_mode_screen.dart';
+import 'permissions/app_permissions_screen.dart';
 import 'regular_mode/legal_screens.dart';
 import '../utils/app_spacing.dart';
 import '../utils/app_colors.dart';
@@ -100,9 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
       _navigationScheduled = true;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const NavigationModeScreen()),
-        );
+        replaceWithPermissionsFirst(context, const NavigationModeScreen());
       });
     }
 

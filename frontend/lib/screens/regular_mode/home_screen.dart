@@ -14,7 +14,8 @@ import 'home/home_msme_support_section.dart';
 import 'home/home_profile_completion_card.dart';
 import 'home/home_recommended_section.dart';
 import 'home/home_updates_section.dart';
-import 'sarvam_chat_screen.dart';
+import '../../design_v2/saarthi/saarthi_type_screen.dart';
+import '../../design_v2/saarthi/saarthi_voice_screen.dart';
 import '../../utils/app_text.dart';
 
 export 'home/home_featured_section.dart';
@@ -73,9 +74,13 @@ class _HomeScreenState extends State<HomeScreen> {
     final provider = Provider.of<AppProvider>(context, listen: false);
     await Navigator.of(context).push<void>(
       MaterialPageRoute(
-        builder: (_) => SarvamChatScreen(
+        builder: (typeContext) => SaarthiTypeScreen(
           profile: provider.profile,
           language: provider.selectedLanguage,
+          // The Voice segment opens Saarthi's voice screen in its place.
+          onSwitchToVoice: () => Navigator.of(typeContext).pushReplacement(
+            MaterialPageRoute<void>(builder: (_) => const SaarthiVoiceScreen()),
+          ),
         ),
       ),
     );

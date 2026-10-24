@@ -5676,4 +5676,409 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get updateWhatsNew => 'इस संस्करण में नया क्या है';
+
+  @override
+  String get integrityTitle => 'MSS अभी इस फ़ोन पर नहीं चल सकता';
+
+  @override
+  String get integritySubtitle =>
+      'आपकी योजना की जानकारी और खाता सुरक्षित रखने के लिए नीचे दी गई समस्या ठीक करें। ठीक होते ही MSS अपने आप खुल जाएगा।';
+
+  @override
+  String get integrityDevTitle => 'डेवलपर विकल्प चालू हैं';
+
+  @override
+  String get integrityDevBody =>
+      'अपने फ़ोन की सेटिंग में डेवलपर विकल्प (और USB डीबगिंग) बंद करें।';
+
+  @override
+  String get integrityVpnTitle => 'VPN जुड़ा हुआ है';
+
+  @override
+  String get integrityVpnBody =>
+      'MSS इस्तेमाल करने के लिए अपना VPN बंद करें। केवल Tailscale और AdGuard की अनुमति है।';
+
+  @override
+  String get integrityWifiTitle => 'आप सार्वजनिक Wi-Fi पर हैं';
+
+  @override
+  String get integrityWifiBody =>
+      'इस Wi-Fi में पासवर्ड नहीं है या साइन-इन पेज चाहिए। मोबाइल डेटा या पासवर्ड वाले Wi-Fi पर जाएँ।';
+
+  @override
+  String get integrityOpenDeveloper => 'डेवलपर सेटिंग खोलें';
+
+  @override
+  String get integrityOpenVpn => 'VPN सेटिंग खोलें';
+
+  @override
+  String get integrityOpenWifi => 'Wi-Fi सेटिंग खोलें';
+
+  @override
+  String get integrityCheckAgain => 'फिर से जाँचें';
+
+  @override
+  String get onbSkip => 'छोड़ें';
+
+  @override
+  String onbStep(String step, String total) {
+    return '$step / $total';
+  }
+
+  @override
+  String get onbNext => 'आगे';
+
+  @override
+  String get onbGetStarted => 'शुरू करें';
+
+  @override
+  String get onbP1Title => 'सरकारी योजनाएँ, अब [आसान]';
+
+  @override
+  String get onbP1Body =>
+      'उद्यमियों, MSME, महिलाओं और छात्रों के लिए सरकारी योजनाएँ खोजें — सब एक ही जगह।';
+
+  @override
+  String onbP1Badge(int count) {
+    return '$count+ सत्यापित योजनाएँ';
+  }
+
+  @override
+  String get onbChipMsme => 'MSME';
+
+  @override
+  String get onbChipStartup => 'स्टार्टअप';
+
+  @override
+  String get onbChipLoans => 'ऋण';
+
+  @override
+  String get onbChipSubsidy => 'सब्सिडी';
+
+  @override
+  String get onbP2Title => 'बहुत सारी योजनाएँ।\n[एक आसान समाधान।]';
+
+  @override
+  String get onbP2Body =>
+      'सरकारी योजनाओं को खोजना, समझना और तुलना करना मुश्किल है। MSS उन्हें एक आसान अनुभव में एक साथ लाता है।';
+
+  @override
+  String get onbP2Badge => 'खोजें। समझें। जानें।';
+
+  @override
+  String get onbChipEligibility => 'पात्रता';
+
+  @override
+  String get onbChipIncome => 'आय';
+
+  @override
+  String get onbChipDocuments => 'दस्तावेज़';
+
+  @override
+  String get onbChipSubsidies => 'सब्सिडी';
+
+  @override
+  String get onbP3Title => 'जानें आप किसके [पात्र] हैं';
+
+  @override
+  String get onbP3Body =>
+      'MSS को अपने बारे में बताएँ और अपनी पात्रता से मेल खाती योजनाएँ खोजें — साफ़ कारणों के साथ।';
+
+  @override
+  String get onbP3Matches => 'आपके मिलान';
+
+  @override
+  String onbP3Found(int count) {
+    return '$count योजनाएँ मिलीं';
+  }
+
+  @override
+  String get onbP3MayBeEligible => 'आप पात्र हो सकते हैं';
+
+  @override
+  String get onbP3Age => 'आयु';
+
+  @override
+  String get onbP3Occupation => 'व्यवसाय';
+
+  @override
+  String get onbP3Footer => 'कोई अंदाज़ा नहीं। बस साफ़ जवाब।';
+
+  @override
+  String get onbP4Title => 'बस [सारथी] से पूछें';
+
+  @override
+  String get onbP4Body =>
+      'अपनी भाषा में, अपने तरीके से, आवाज़ से कदम-दर-कदम मार्गदर्शन पाएँ।';
+
+  @override
+  String get onbP4SaarthiLabel => 'सारथी';
+
+  @override
+  String get onbP4Footer => 'आपकी भाषा। आपकी आवाज़। आपकी योजनाएँ।';
+
+  @override
+  String get permTitle => 'MSS को आपकी पूरी मदद करने दें';
+
+  @override
+  String get permSubtitle =>
+      'MSS इनके बिना भी चलता है, पर कुछ सुविधाओं के लिए ये ज़रूरी हैं। आप इन्हें बाद में फ़ोन की सेटिंग में बदल सकते हैं।';
+
+  @override
+  String get permNotificationsTitle => 'सूचनाएँ';
+
+  @override
+  String get permNotificationsBody =>
+      'नई योजनाओं, अंतिम तिथियों और ऐप अपडेट की जानकारी पाएँ।';
+
+  @override
+  String get permMicrophoneTitle => 'माइक्रोफ़ोन';
+
+  @override
+  String get permMicrophoneBody => 'सारथी से बात करें और आवाज़ से खोजें।';
+
+  @override
+  String get permInstallTitle => 'अपडेट इंस्टॉल करना';
+
+  @override
+  String get permInstallBody =>
+      'अपडेट पर टैप करने पर MSS को अपना नया संस्करण इंस्टॉल करने दें।';
+
+  @override
+  String get permFilesTitle => 'फ़ोटो और दस्तावेज़';
+
+  @override
+  String get permFilesBody =>
+      'आधार या प्रोजेक्ट रिपोर्ट जैसे दस्तावेज़ जोड़ें या सहेजें।';
+
+  @override
+  String get permAllow => 'अनुमति दें';
+
+  @override
+  String get permAllowed => 'अनुमति है';
+
+  @override
+  String get permAllowAll => 'सभी की अनुमति दें';
+
+  @override
+  String get permContinue => 'जारी रखें';
+
+  @override
+  String get permNotNow => 'अभी नहीं';
+
+  @override
+  String get sv2Name => 'सारथी';
+
+  @override
+  String get sv2PoweredBy => 'MSS AI द्वारा संचालित';
+
+  @override
+  String get sv2ModeType => 'टाइप';
+
+  @override
+  String get sv2ModeVoice => 'आवाज़';
+
+  @override
+  String sv2TypeGreeting(String name) {
+    return 'नमस्ते, $name।\n[मैं आपकी क्या मदद करूँ?]';
+  }
+
+  @override
+  String get sv2TypeIntro =>
+      'किसी भी योजना, ऋण या सब्सिडी के बारे में पूछें — या इनमें से किसी से शुरू करें।';
+
+  @override
+  String get sv2ChipPmegp => 'PMEGP खोजें';
+
+  @override
+  String get sv2ChipWomen => 'महिलाओं के लिए योजनाएँ';
+
+  @override
+  String get sv2TypeHint => 'यहाँ लिखें…';
+
+  @override
+  String get sv2You => 'आप';
+
+  @override
+  String get sv2YouVoice => 'आप · आवाज़';
+
+  @override
+  String get sv2FollowEligible => 'क्या मैं पात्र हूँ?';
+
+  @override
+  String get sv2FollowDocuments => 'ज़रूरी दस्तावेज़';
+
+  @override
+  String get sv2BestMatch => 'सबसे अच्छा मिलान';
+
+  @override
+  String get sv2GoodMatch => 'अच्छा मिलान';
+
+  @override
+  String get sv2ViewScheme => 'योजना देखें';
+
+  @override
+  String get sv2VoiceIntro => 'मैं [सारथी] हूँ, आपका योजना साथी।';
+
+  @override
+  String get sv2AskSaarthi => 'सारथी से पूछें';
+
+  @override
+  String get sv2StartTalking => 'सारथी से बात शुरू करें';
+
+  @override
+  String sv2Listening(String language) {
+    return 'सुन रहा है · $language';
+  }
+
+  @override
+  String get sv2Connecting => 'जुड़ रहा है…';
+
+  @override
+  String get sv2Transcribing => 'आपके शब्द ले रहा है…';
+
+  @override
+  String get sv2YourSpeech => 'आपकी बात';
+
+  @override
+  String get sv2TapWhenDone => 'बोल चुकने पर माइक पर टैप करें';
+
+  @override
+  String get sv2ConfirmTitle => 'क्या मैंने सही सुना?';
+
+  @override
+  String get sv2Transcribed => 'लिखा गया';
+
+  @override
+  String get sv2ConfirmHelp =>
+      'भेजने के लिए टिक, हटाने के लिए क्रॉस, या दोबारा कहने के लिए माइक पर टैप करें।';
+
+  @override
+  String get sv2EditTitle => 'अपना अनुरोध ठीक करें';
+
+  @override
+  String get sv2Speak => 'बोलें';
+
+  @override
+  String get sv2TapToSpeak => 'बोलने के लिए टैप करें';
+
+  @override
+  String get sv2Send => 'यह भेजें';
+
+  @override
+  String get sv2Discard => 'हटाएँ';
+
+  @override
+  String get sv2Room => 'बातचीत कक्ष';
+
+  @override
+  String sv2RoomHello(String name) {
+    return 'नमस्ते $name! आज आपको किस चीज़ में मदद चाहिए?';
+  }
+
+  @override
+  String get sv2Thinking => 'सारथी सोच रहा है…';
+
+  @override
+  String get sv2Speaking => 'सारथी बोल रहा है…';
+
+  @override
+  String get sv2HearAgain => 'जवाब फिर से सुनें';
+
+  @override
+  String get sv2EndConversation => 'बातचीत खत्म करें';
+
+  @override
+  String get sv2DocumentsNeeded => 'ज़रूरी दस्तावेज़';
+
+  @override
+  String sv2DocumentsReady(int ready, int total) {
+    return '$total में से $ready तैयार';
+  }
+
+  @override
+  String get sv2HistoryTitle => 'बातचीत का इतिहास';
+
+  @override
+  String get sv2HistoryOpen => 'बातचीत का इतिहास';
+
+  @override
+  String get sv2HistorySearch => 'बातचीत खोजें';
+
+  @override
+  String get sv2HistoryEmpty =>
+      'सारथी से आपकी बातचीत इसी फ़ोन पर यहाँ सहेजी जाएगी।';
+
+  @override
+  String get sv2HistoryNoMatch => 'आपकी खोज से कोई बातचीत नहीं मिली।';
+
+  @override
+  String sv2HistorySchemes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count योजनाएँ',
+      one: '1 योजना',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sv2HistoryMessages(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count संदेश',
+      one: '1 संदेश',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sv2HistoryDelete => 'यह बातचीत हटाएँ';
+
+  @override
+  String get sv2HistoryDeleted => 'बातचीत हटा दी गई';
+
+  @override
+  String get sv2HistoryClearAll => 'सारी बातचीत हटाएँ';
+
+  @override
+  String get sv2HistoryClearConfirm => 'इस फ़ोन से सहेजी गई सारी बातचीत हटाएँ?';
+
+  @override
+  String get sv2HistoryContinue => 'यह बातचीत जारी रखें';
+
+  @override
+  String get sv2VoiceSettings => 'आवाज़ सेटिंग';
+
+  @override
+  String get sv2VoiceSettingsOpen => 'आवाज़ सेटिंग';
+
+  @override
+  String get sv2VoiceLanguage => 'भाषा';
+
+  @override
+  String get sv2Autoplay => 'जवाब अपने आप चलाएँ';
+
+  @override
+  String get sv2AutoplayBody => 'सारथी हर जवाब पढ़कर सुनाता है';
+
+  @override
+  String get sv2HandsFree => 'हैंड्स-फ़्री मोड';
+
+  @override
+  String get sv2HandsFreeBody => 'हर जवाब के बाद सुनता रहता है';
+
+  @override
+  String get sv2ConfirmSend => 'भेजने से पहले पुष्टि करें';
+
+  @override
+  String get sv2ConfirmSendBody => 'भेजने से पहले देखें कि सारथी ने क्या सुना';
+
+  @override
+  String get sv2VoiceNote => 'हर भाषा के लिए सारथी की आवाज़ चुनी गई है।';
+
+  @override
+  String get settingsSaarthiVoice => 'सारथी आवाज़ सेटिंग';
 }

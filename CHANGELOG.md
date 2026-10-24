@@ -11,6 +11,24 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [2.2.0+18] - 2026-10-24
+
+### Added
+- A new four-page welcome tour after the splash on first launch (Meet MSS, One Simple Solution, Know What You Qualify For, Just Ask Saarthi), in English, Hindi and Tamil.
+- After sign-in, a one-time screen asks for notifications, microphone, installing updates and photos/documents, explaining why each helps. Nothing is required: Not now and Continue always go on.
+- Saarthi is redesigned. Type mode (Ask AI on Home) shows replies as they arrive, with scheme cards for the schemes Saarthi names, follow-up suggestions and Retry. Voice mode (AI tab) shows listening, a "Did I hear you right?" check and a conversation view with scheme cards and a documents checklist.
+- Chat history: your Saarthi conversations are saved on your phone (the newest 100), searchable and grouped by Today, Yesterday and Earlier. Typed chats can be continued; spoken ones open as transcripts.
+- Voice settings: language, auto-play replies, hands-free and confirm-before-sending, from Settings or the conversation screen.
+- For your safety, the app does not open while Developer options or USB debugging is on, while a VPN is on (Tailscale and AdGuard are allowed), or on open or sign-in-page public Wi-Fi. It opens again by itself once fixed.
+
+### Changed
+- The bottom bar is a violet bar; the active tab rises out of it as a glass tile. Slide a finger along the bar to move between tabs.
+
+### Fixed
+- Home, Saved and search scroll more smoothly: scheme cards are translated once instead of on every redraw, and Tamil and Hindi schemes load about 4x faster the first time.
+- Home carousels stop turning while you are on another tab.
+- Saarthi history is in time order, the AI disclaimer is easier to read, and the Type/Voice switch fits on narrow phones.
+
 ## [2.1.0+17] - 2026-10-24
 
 ### Added

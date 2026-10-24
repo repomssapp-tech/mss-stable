@@ -39,7 +39,7 @@ void main() {
     final actual = <String, int>{};
     for (final file in dartFilesUnder('lib')) {
       final path = relPath(file);
-      if (_allowedFiles.contains(path)) continue;
+      if (_allowedFiles.contains(path) || isDesignCanvas(path)) continue;
       if (!path.startsWith('lib/screens/') &&
           !path.startsWith('lib/widgets/')) {
         continue;
