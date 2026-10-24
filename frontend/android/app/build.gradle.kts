@@ -23,7 +23,8 @@ plugins {
 
 android {
     namespace = "com.inschemes.app"
-    compileSdk = 36
+    // permission_handler_android 14 needs compileSdk 37 (its CHANGELOG).
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
