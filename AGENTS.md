@@ -53,6 +53,16 @@ npm run openapi:lint
 npm run verify:links
 ```
 
+### Catalogue Translation (`tools/translation/`)
+```bash
+# Coverage, gaps and stale text for a language; see docs/translation/PIPELINE.md
+python tools/translation/cli.py audit --lang hi
+
+# Pipeline guarantees
+python -m pytest tools/test_translation_pipeline.py
+```
+Never write translations into the catalogue packs by hand or with a one-off script. Use this pipeline, which gates each release against the previous one.
+
 ### Saarthi Voice Agent (`saarthi-agent/`)
 ```bash
 # Lint and format checks
