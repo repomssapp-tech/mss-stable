@@ -312,6 +312,12 @@ class LocalizedScheme {
           if (storedDocNames[i].isNotEmpty)
             scheme.requiredDocuments[i]: storedDocNames[i],
     };
+    // A name the document record itself stores counts too: records with no
+    // list-level names keep them per document.
+    for (final d in scheme.documents) {
+      final own = d.translated('name', lang);
+      if (own.isNotEmpty) docNames.putIfAbsent(d.name, () => own);
+    }
     String orStored(String stored, String translated) =>
         stored.isNotEmpty ? stored : translated;
     // Document text with nothing stored: never a word-by-word mix (BUG-07).

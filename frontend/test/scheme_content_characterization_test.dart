@@ -279,6 +279,23 @@ void main() {
       expect(names, greaterThan(600));
     });
 
+    test('a name stored on the document record reaches the required list', () {
+      var names = 0;
+      for (final e in bundle.schemes) {
+        final s = MssSchemeAdapter.toScheme(e, bundle, langCode: 'ta');
+        final shown = LocalizedScheme.fromScheme(s, 'ta').requiredDocuments;
+        for (final d in s.documents) {
+          final own = d.translated('name', 'ta');
+          if (own.isEmpty || s.extras.storedDocumentNames('ta').isNotEmpty) {
+            continue;
+          }
+          expect(shown, contains(own), reason: e.id);
+          names++;
+        }
+      }
+      expect(names, 49);
+    });
+
     test('document names carry none of the corrected mistranslations', () {
       // pitch as music, promotion as a job promotion, quotation as a citation,
       // promoter as advertiser, a command instead of a label, and a scheme

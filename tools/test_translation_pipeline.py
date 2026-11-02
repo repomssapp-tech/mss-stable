@@ -393,6 +393,22 @@ def test_named_units_can_be_requeued_to_supersede_existing_text():
         assert ledger.latest[target.key]["state"] == "queued"
 
 
+def test_new_text_changes_only_its_own_fields_of_the_localization_block():
+    with Env() as env:
+        ledger = Ledger("ta", env.dir / "ledger")
+        entity, unit = next(
+            (e, u) for e, u in stages.planned(env.bundle, env.config, "ta")
+            if u.field.endswith("].name") and read_target(e, u, "ta") is None and (e.get("localization") or {}).get("ta")
+        )
+        before = copy.deepcopy(entity["localization"]["ta"])
+        ledger.append([{"unit": unit.key, "state": "queued", "checksum": unit.source_checksum}])
+        ledger.append([{"unit": unit.key, "state": "checked", "checksum": unit.source_checksum, "text": "தமிழ் பெயர்", "engine": "claude"}])
+        ledger.append([{"unit": unit.key, "state": "approved", "checksum": unit.source_checksum, "text": "தமிழ் பெயர்", "engine": "claude"}])
+        assert release.apply_events(env.bundle, "ta", ledger)["outcome"] == {"written": 1}
+        assert entity["localization"]["ta"] == before
+        assert read_target(entity, unit, "ta") == "தமிழ் பெயர்"
+
+
 def _name_unit(env):
     return next(u for _, u in stages.planned(env.bundle, env.config, "gu") if u.field == "name")
 

@@ -68,16 +68,16 @@ PROJECTED_KEYS = {
 
 
 def _update_scheme_metadata(
-    scheme: dict, lang: str, units: list[Unit], engines: set[str], superseded: set[str], filled: bool
+    scheme: dict, lang: str, units: list[Unit], engines: set[str], superseded: set[str], filled: set[str]
 ) -> None:
     current = scheme.setdefault("localization", {}).get(lang) or {}
     projected = project_localization(scheme, lang, units)
-    # Existing text stays. Gaps are filled only when this release added new text, and a
-    # correction replaces only the fields a reviewer superseded, nothing else in the block.
-    block = {**projected, **current} if filled else dict(current)
-    for field_name in superseded:
+    # Only the fields this release wrote change: new text fills a gap, a correction
+    # replaces the field a reviewer superseded, and nothing else in the block moves.
+    block = dict(current)
+    for field_name in superseded | filled:
         for key in PROJECTED_KEYS.get(field_name, ("contacts",) if field_name.startswith("contacts.") else (field_name,)):
-            if key in projected:
+            if key in projected and (field_name in superseded or key not in current):
                 block[key] = projected[key]
     scheme["localization"][lang] = block
     alt = next((u for u in units if u.field == "alt_names"), None)
@@ -138,7 +138,7 @@ def apply_events(bundle: dict, lang: str, ledger: Ledger) -> dict:
     for _, unit in pairs:
         units_of[unit.entity_id].append(unit)
     written, replaced_paths = [], set()
-    engines, superseded, filled = collections.defaultdict(set), collections.defaultdict(set), set()
+    engines, superseded, filled = collections.defaultdict(set), collections.defaultdict(set), collections.defaultdict(set)
     for event in ledger.in_state("approved"):
         entry = by_key.get(event["unit"])
         if entry is None:
@@ -160,7 +160,7 @@ def apply_events(bundle: dict, lang: str, ledger: Ledger) -> dict:
         written.append(event)
         engines[unit.entity_id].add(event.get("engine", "unknown"))
         if not event.get("replaces"):
-            filled.add(unit.entity_id)
+            filled[unit.entity_id].add(unit.field)
         else:
             superseded[unit.entity_id].add(unit.field)
             replaced_paths.update(_path_text(unit.entity_id, p) for p in paths)
@@ -168,7 +168,7 @@ def apply_events(bundle: dict, lang: str, ledger: Ledger) -> dict:
     for scheme in bundle[SCHEME_SECTION]["data"]:
         sid = scheme["identity"]["id"]
         if sid in engines:
-            _update_scheme_metadata(scheme, lang, units_of[sid], engines[sid], superseded[sid], sid in filled)
+            _update_scheme_metadata(scheme, lang, units_of[sid], engines[sid], superseded[sid], filled[sid])
     if written:
         _update_manifest(bundle, lang)
     return {"outcome": dict(outcome), "written": written, "replaced_paths": replaced_paths}
