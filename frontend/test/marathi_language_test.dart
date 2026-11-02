@@ -9,6 +9,7 @@ import 'package:frontend/services/recommendation/indian_states.dart';
 import 'package:frontend/services/recommendation/profile_canonicalizer.dart';
 import 'package:frontend/services/search/indic_search_support.dart';
 import 'package:frontend/services/search/indic_stemmer.dart';
+import 'package:frontend/widgets/assistant/smart_assessment/assessment_question_flows.dart';
 
 Map<String, dynamic> _scheme(String id, Map<String, dynamic> localization) => {
   'identity': {'id': id},
@@ -57,6 +58,23 @@ void main() {
       expect(IndianStates.displayName('Maharashtra', 'mr'), 'महाराष्ट्र');
       expect(IndianStates.displayName('Tamil Nadu', 'hi'), 'तमिलनाडु');
     });
+  });
+
+  group('state questions', () {
+    for (final (code, name) in const [
+      ('mr', 'महाराष्ट्र'),
+      ('hi', 'महाराष्ट्र'),
+      ('ta', 'மகாராஷ்டிரா'),
+    ]) {
+      test('$code carries the state name in $code', () {
+        final flow = getStateFlow(
+          'Maharashtra',
+          lookupAppLocalizations(const Locale('en')),
+          lookupAppLocalizations(Locale(code)),
+        );
+        expect(flow['state_q1']!.questionTextTa, contains(name));
+      });
+    }
   });
 
   group('search', () {
@@ -137,35 +155,62 @@ void main() {
       expect((rows[1]['localization'] as Map).containsKey('mr'), isFalse);
     });
 
-    test('English document names gain the shipped languages', () {
+    Map<String, dynamic> shippedDocuments() => _bundle([
+      {
+        'identity': {'id': 'A'},
+        'localization': {
+          'ta': {
+            'documents': ['ஆதார் அட்டை'],
+          },
+          'hi': {
+            'documents': ['आधार'],
+          },
+        },
+        'content': {
+          'requiredDocuments': [
+            {
+              'mandatory': 'required',
+              'name': {'en': 'Aadhaar card'},
+            },
+          ],
+        },
+      },
+    ]);
+
+    test('an unchanged document list gains the shipped translations', () {
       final bundle = _bundle([
         {
           'identity': {'id': 'A'},
+          'localization': {'en': {}, 'ta': {}},
           'content': {
             'requiredDocuments': [
-              {'name': 'Aadhaar card'},
+              {'mandatory': 'unknown', 'name': 'Aadhaar card'},
+            ],
+          },
+        },
+      ]);
+      expect(fillDocumentsFromPack(bundle, shippedDocuments()), 1);
+      final row = ((bundle['scheme_catalog.json'] as Map)['data'] as List).first;
+      expect(row['localization']['ta']['documents'], ['ஆதார் அட்டை']);
+      expect((row['localization'] as Map).containsKey('hi'), isFalse);
+      expect(row['content']['requiredDocuments'][0]['mandatory'], 'required');
+    });
+
+    test('a document list edited on the server stays as it is', () {
+      final bundle = _bundle([
+        {
+          'identity': {'id': 'A'},
+          'localization': {'ta': {}},
+          'content': {
+            'requiredDocuments': [
               {'name': 'Edited on server'},
             ],
           },
         },
       ]);
-      final pack = _bundle([
-        {
-          'identity': {'id': 'A'},
-          'content': {
-            'requiredDocuments': [
-              {
-                'name': {'en': 'Aadhaar card', 'ta': 'ஆதார் அட்டை'},
-              },
-            ],
-          },
-        },
-      ]);
-      expect(fillDocumentNamesFromPack(bundle, pack), 1);
+      expect(fillDocumentsFromPack(bundle, shippedDocuments()), 0);
       final row = ((bundle['scheme_catalog.json'] as Map)['data'] as List).first;
-      final documents = row['content']['requiredDocuments'] as List;
-      expect(documents[0]['name']['ta'], 'ஆதார் அட்டை');
-      expect(documents[1]['name'], 'Edited on server');
+      expect(row['content']['requiredDocuments'][0]['name'], 'Edited on server');
     });
 
     test('a language outside the request is not copied', () {

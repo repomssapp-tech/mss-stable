@@ -316,7 +316,7 @@ class MssCatalogBundle {
         if (bytes == null) continue;
         final pack = await compute(_decompressAndParseJson, bytes);
         fillLanguagesFromPack(bundleJson, pack, absent);
-        fillDocumentNamesFromPack(bundleJson, pack);
+        fillDocumentsFromPack(bundleJson, pack);
       }
     } catch (e) {
       debugPrint('[MssCatalogBundle] Language fill skipped: $e');

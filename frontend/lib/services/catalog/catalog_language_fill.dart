@@ -8,9 +8,8 @@
 /// never touched, so Hindi stays off Tamil Nadu schemes and a server edit is
 /// never overwritten.
 ///
-/// A release also holds each required document's name as English text alone.
-/// Where that English matches a shipped document, the shipped name in every
-/// language is used instead.
+/// A release also holds each required document as an English name alone, see
+/// [fillDocumentsFromPack].
 library;
 
 const String _schemeSection = 'scheme_catalog.json';
@@ -80,16 +79,18 @@ int fillLanguagesFromPack(
   return filled;
 }
 
-/// Replaces plain-English document names in [bundle] with the shipped
-/// multi-language name whose English is identical. Returns how many changed.
-int fillDocumentNamesFromPack(
+/// Gives a scheme whose documents are unchanged from the shipped list the
+/// shipped documents: their translated names, details and required marking.
+/// Any other scheme keeps the server's list, since that list has been edited.
+/// Returns how many schemes changed.
+int fillDocumentsFromPack(
   Map<String, dynamic> bundle,
   Map<String, dynamic> pack,
 ) {
-  List? documentsOf(Map<String, dynamic> scheme) {
-    final content = scheme['content'];
-    final documents = content is Map ? content['requiredDocuments'] : null;
-    return documents is List ? documents : null;
+  String? englishName(Object? document) {
+    final name = document is Map ? document['name'] : null;
+    final english = name is Map ? name['en'] : name;
+    return english is String ? english : null;
   }
 
   final rows = {
@@ -99,23 +100,30 @@ int fillDocumentNamesFromPack(
   var filled = 0;
   for (final shipped in _schemeRows(pack)) {
     final row = rows[_schemeId(shipped)];
-    final target = row == null ? null : documentsOf(row);
-    final source = documentsOf(shipped);
-    if (target == null || source == null) continue;
-    final names = <String, Map>{
-      for (final document in source)
-        if (document is Map &&
-            document['name'] is Map &&
-            (document['name'] as Map)['en'] is String)
-          (document['name'] as Map)['en'] as String: document['name'] as Map,
-    };
-    for (final document in target) {
-      if (document is! Map || document['name'] is! String) continue;
-      final name = names[document['name']];
-      if (name == null) continue;
-      document['name'] = name;
-      filled++;
+    final content = row?['content'];
+    final target = content is Map ? content['requiredDocuments'] : null;
+    final shippedContent = shipped['content'];
+    final source = shippedContent is Map
+        ? shippedContent['requiredDocuments']
+        : null;
+    if (target is! List || source is! List || target.isEmpty) continue;
+    if (target.length != source.length) continue;
+    var same = true;
+    for (var i = 0; i < target.length; i++) {
+      if (englishName(target[i]) != englishName(source[i])) same = false;
     }
+    if (!same) continue;
+    content['requiredDocuments'] = source;
+    final localization = row!['localization'];
+    final shippedLocalization = shipped['localization'];
+    if (localization is Map && shippedLocalization is Map) {
+      localization.forEach((lang, block) {
+        final from = shippedLocalization[lang];
+        final documents = from is Map ? from['documents'] : null;
+        if (block is Map && documents != null) block['documents'] = documents;
+      });
+    }
+    filled++;
   }
   return filled;
 }

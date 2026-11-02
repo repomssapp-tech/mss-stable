@@ -1,5 +1,5 @@
 import '../../../l10n/app_localizations.dart';
-import '../../../services/catalog/centralized_translator.dart';
+import '../../../services/recommendation/indian_states.dart';
 import '../question_node.dart';
 
 class AssessmentFlowResult {
@@ -853,11 +853,8 @@ Map<String, QuestionNode> getStateFlow(
   AppLocalizations en,
   AppLocalizations ta,
 ) {
-  // The Tamil sentences must carry the Tamil state name, not the English tag.
-  final taState = CentralizedTranslator.instance.localizeTagFor(
-    'ta',
-    stateName,
-  );
+  // The translated sentences carry the state name in that same language.
+  final taState = IndianStates.displayName(stateName, ta.localeName);
   return {
     'state_q1': QuestionNode(
       id: 'state_q1',
