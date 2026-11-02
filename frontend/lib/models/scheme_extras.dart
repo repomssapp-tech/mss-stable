@@ -331,9 +331,6 @@ class SchemeExtras {
       .whereType<String>()
       .toList(growable: false);
 
-  List<String> notes(String lang) =>
-      ContentLanguageResolver.list(_loc(lang, 'notes'), lang);
-
   /// Documents grouped by audience when the source keys them (e.g. individual
   /// vs self-help group). Empty when documents are a plain list.
   List<({String audience, List<String> items})> documentsByAudience() {
