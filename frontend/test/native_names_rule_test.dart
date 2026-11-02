@@ -122,7 +122,7 @@ void main() {
     expect(scheme.nativeName('shortName', 'ta'), isNull);
   });
 
-  test('Marathi names are preserved and reachable, not offered in the UI', () {
+  test('Marathi names are stored and offered for Maharashtra only', () {
     final mh = bundle.schemes.firstWhere(
       (s) =>
           (s.raw['provenance'] as Map)['jurisdiction'] == 'maharashtra' &&
@@ -133,8 +133,8 @@ void main() {
       scheme.nativeName('department', 'mr'),
       stored(mh, 'mr', 'authority'),
     );
-    expect(bundle.isLanguageActive('mr'), isFalse);
-    expect(bundle.offeredLanguagesFor('maharashtra'), isNot(contains('mr')));
+    expect(bundle.isLanguageActive('mr'), isTrue);
+    expect(bundle.offeredLanguagesFor('maharashtra'), contains('mr'));
   });
 
   for (final lang in ['hi', 'ta']) {
@@ -173,7 +173,11 @@ void main() {
         isTrue,
         reason: e.id,
       );
-      expect(e.offeredLanguages, isNot(contains('mr')), reason: e.id);
+      expect(
+        e.offeredLanguages.contains('mr'),
+        (e.raw['provenance'] as Map)['jurisdiction'] == 'maharashtra',
+        reason: e.id,
+      );
     }
     final tn = bundle.schemes.firstWhere((s) => s.id.startsWith('TN2026'));
     expect(tn.availableLanguages, ['en', 'hi', 'ta']);

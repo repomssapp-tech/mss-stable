@@ -34,7 +34,7 @@ class _NoSync extends SchemeCatalogSyncService {
   }
 }
 
-/// The shipped catalog keeps Marathi off, so turning it on is simulated here.
+/// A manifest that offers Marathi, as the shipped catalog does.
 const _marathiOn = <String, dynamic>{
   'languages': [
     {'code': 'en', 'isActive': true},
@@ -143,13 +143,12 @@ void main() {
       expect(shown.applicationProcess, s.applicationProcess);
     });
 
-    test('metadata with no dictionary stays English, never Tamil or Hindi', () {
+    test('metadata comes from the Marathi dictionary, never Tamil or Hindi', () {
       final e = bundle.schemes.firstWhere(inMaharashtra);
       final s = MssSchemeAdapter.toScheme(e, bundle, langCode: 'mr');
       final shown = LocalizedScheme.fromScheme(s, 'mr');
-      expect(shown.governmentLevel, s.governmentLevel);
-      expect(shown.category, s.category);
-      expect(shown.glanceChips, s.glanceChips);
+      expect(shown.governmentLevel, 'राज्य');
+      expect(shown.category, stored(e, 'mr', 'category'));
     });
   });
 
@@ -216,9 +215,11 @@ void main() {
   });
 
   group('the language list comes from the catalogue manifest', () {
-    test('the shipped catalog keeps Marathi off', () async {
-      expect(await pack.offeredLanguages(), ['en', 'ta', 'hi']);
-      expect(bundle.isLanguageActive('mr'), isFalse);
+    test('the shipped catalog offers Marathi for Maharashtra', () async {
+      expect(await pack.offeredLanguages(), ['en', 'ta', 'hi', 'mr']);
+      expect(bundle.isLanguageActive('mr'), isTrue);
+      expect(bundle.offeredLanguagesFor('central'), isNot(contains('mr')));
+      expect(bundle.offeredLanguagesFor('tamil_nadu'), isNot(contains('mr')));
     });
 
     test('a release that turns Marathi on offers it', () async {
@@ -251,7 +252,7 @@ void main() {
 
     test('a manifest with no list falls back to the UI languages', () async {
       pack.setReleaseManifest({'catalogRelease': 'schemes-3'});
-      expect(await pack.offeredLanguages(), ['en', 'ta', 'hi']);
+      expect(await pack.offeredLanguages(), ['en', 'ta', 'hi', 'mr']);
     });
   });
 
@@ -271,17 +272,17 @@ void main() {
   });
 
   group('switching language', () {
-    test('Marathi is refused while the catalogue keeps it off', () async {
+    test('Marathi can be selected', () async {
       final sync = _NoSync();
       final provider = AppProvider(catalogSyncService: sync);
       while (sync.calls == 0) {
         await Future<void>.delayed(const Duration(milliseconds: 25));
       }
       await provider.changeLanguage('mr');
-      expect(provider.selectedLanguage, 'en');
+      expect(provider.selectedLanguage, 'mr');
     });
 
-    testWidgets('Marathi content renders with English UI strings', (
+    testWidgets('Marathi content renders with Marathi UI strings', (
       tester,
     ) async {
       pack.setReleaseManifest(_marathiOn);
@@ -332,11 +333,10 @@ void main() {
       await tester.pump();
 
       expect(find.text(stored(e, 'mr', 'name')!), findsOneWidget);
-      // No Marathi ARB ships, so the interface resolves to English.
-      expect(Localizations.localeOf(inside).languageCode, 'en');
+      expect(Localizations.localeOf(inside).languageCode, 'mr');
       expect(
         inside.l10n.chooseYourLanguage,
-        lookupAppLocalizations(const Locale('en')).chooseYourLanguage,
+        lookupAppLocalizations(const Locale('mr')).chooseYourLanguage,
       );
       expect(tester.takeException(), isNull);
     });
@@ -360,12 +360,12 @@ void main() {
       expect(find.text('Marathi'), findsOneWidget);
       expect(find.text('मराठी'), findsWidgets);
 
-      // Previewing it must not lose the interface strings.
+      // Previewing it shows the interface in that language.
       await tester.tap(find.text('Marathi'));
       await tester.pumpAndSettle();
       expect(
         find.text(
-          lookupAppLocalizations(const Locale('en')).chooseYourLanguage,
+          lookupAppLocalizations(const Locale('mr')).chooseYourLanguage,
         ),
         findsOneWidget,
       );

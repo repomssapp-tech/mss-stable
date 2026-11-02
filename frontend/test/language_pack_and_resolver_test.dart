@@ -164,10 +164,9 @@ void main() {
         LanguagePackManager.instance.isLanguageActiveInRelease('ta'),
         isTrue,
       );
-      // Marathi is in the data but not switched on.
       expect(
         LanguagePackManager.instance.isLanguageActiveInRelease('mr'),
-        isFalse,
+        isTrue,
       );
       expect(
         await LanguagePackManager.instance.isLanguageSupported('hi'),
@@ -175,7 +174,7 @@ void main() {
       );
       expect(
         await LanguagePackManager.instance.isLanguageSupported('mr'),
-        isFalse,
+        isTrue,
       );
 
       LanguagePackManager.instance.setReleaseManifest({
@@ -197,7 +196,8 @@ void main() {
       final m = LanguagePackManager.instance;
       expect(m.isLanguageActiveInRelease('hi'), isTrue);
       expect(m.isLanguageActiveInRelease('ta'), isTrue);
-      expect(m.isLanguageActiveInRelease('mr'), isFalse);
+      expect(m.isLanguageActiveInRelease('mr'), isTrue);
+      expect(m.isLanguageActiveInRelease('gu'), isFalse);
     });
   });
 

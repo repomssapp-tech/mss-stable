@@ -33,7 +33,7 @@ class SchemeBottomActionBar extends StatelessWidget {
     // shrink it to nothing.
     final String code = Localizations.localeOf(context).languageCode;
     final bool isTamil = code == 'ta';
-    final bool isIndic = isTamil || code == 'hi';
+    final bool isIndic = code != 'en';
     final double labelSize = isTamil ? 11.5 : 14.0;
     // Devanagari and Tamil lines need more leading than Latin, or the second
     // line of a wrapped label is clipped by the button.

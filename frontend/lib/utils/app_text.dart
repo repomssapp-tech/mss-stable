@@ -28,7 +28,7 @@ class AppTextStyles {
 
   static AppTextStyles forLocale(Locale l) => switch (l.languageCode) {
     'ta' => ta,
-    'hi' => hi,
+    'hi' || 'mr' => hi,
     _ => en,
   };
 

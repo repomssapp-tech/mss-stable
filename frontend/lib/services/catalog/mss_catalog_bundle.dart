@@ -7,7 +7,9 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../models/mss_entity.dart';
+import 'catalog_language_fill.dart';
 import 'catalog_packs.dart';
 import 'scheme_catalog_store.dart';
 
@@ -256,6 +258,7 @@ class MssCatalogBundle {
           queryExpansions: await expansionsFuture,
           overrideChecksumForTest: overrideChecksumForTest,
           requireEmbeddedManifest: true,
+          shippedPackReader: _assetPackReader,
         );
       } catch (e) {
         // Never let a corrupted/unreadable installed release block startup
@@ -291,6 +294,35 @@ class MssCatalogBundle {
     );
   }
 
+  static const List<String> _shippedPackFiles = [
+    'catalog_central.json.gz',
+    'catalog_maharashtra.json.gz',
+    'catalog_tamil_nadu.json.gz',
+  ];
+
+  /// Gives a server release the languages only the shipped packs have, see
+  /// `catalog_language_fill.dart`. A failure leaves the release as published.
+  static Future<void> _fillAbsentLanguages(
+    Map<String, dynamic> bundleJson,
+    CatalogPackReader reader,
+  ) async {
+    try {
+      final absent = languagesAbsentFrom(bundleJson, [
+        for (final locale in AppLocalizations.supportedLocales)
+          locale.languageCode,
+      ]);
+      for (final file in _shippedPackFiles) {
+        final bytes = await reader(file);
+        if (bytes == null) continue;
+        final pack = await compute(_decompressAndParseJson, bytes);
+        fillLanguagesFromPack(bundleJson, pack, absent);
+        fillDocumentNamesFromPack(bundleJson, pack);
+      }
+    } catch (e) {
+      debugPrint('[MssCatalogBundle] Language fill skipped: $e');
+    }
+  }
+
   /// Reads a pack shipped beside the core file; null when it was dropped.
   static Future<Uint8List?> _assetPackReader(String file) async {
     final path = '$catalogAssetDir/$file';
@@ -315,6 +347,7 @@ class MssCatalogBundle {
     bool registerAsSingleton = true,
     bool requireEmbeddedManifest = false,
     CatalogPackReader? packReader,
+    CatalogPackReader? shippedPackReader,
   }) async {
     final releaseJson = releaseJsonStr == null
         ? const <String, dynamic>{}
@@ -352,6 +385,9 @@ class MssCatalogBundle {
       if (rows is! List || rows.isEmpty) {
         throw StateError('Installed release has no schemes.');
       }
+    }
+    if (shippedPackReader != null) {
+      await _fillAbsentLanguages(bundleJson, shippedPackReader);
     }
     var loadedPackIds = const <String>[];
     if (packReader != null) {

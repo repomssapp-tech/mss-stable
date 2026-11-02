@@ -21,8 +21,8 @@ class SaarthiResponseHelpers {
     if (RegExp(r'[஀-௿]').hasMatch(state.statement)) {
       return question.tamil;
     }
-    // English only when both the UI and the conversation are English; Hindi and
-    // Tamil users get the translated question for the language they picked.
+    // English only when both the UI and the conversation are English; everyone
+    // else gets the translated question for the language they picked.
     final uiLanguage = Localizations.localeOf(context).languageCode;
     if (!state.isTamil && uiLanguage == 'en') return question.english;
     final l10n = context.l10n;

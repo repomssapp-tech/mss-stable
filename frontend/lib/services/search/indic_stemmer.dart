@@ -233,9 +233,27 @@ String _dropFinalPulli(List<int> runes) {
 }
 
 /// Stem of [word] by its script; other words are returned unchanged.
+// Marathi attaches postpositions to the word ("महिलांसाठी", "जिल्ह्यामध्ये").
+// Only forms long and distinct enough not to be the end of a Hindi word.
+const List<String> _marathiPostpositions = [
+  'ांमध्ये', 'ामध्ये', 'मध्ये', 'ांसाठी', 'ासाठी', 'साठी', //
+  'ांची', 'ांचा', 'ांचे', 'ांना', 'ाची', 'ाचा', 'ाचे', 'ातून',
+];
+
+String _withoutMarathiPostposition(String word) {
+  for (final ending in _marathiPostpositions) {
+    if (word.length >= ending.length + 3 && word.endsWith(ending)) {
+      return word.substring(0, word.length - ending.length);
+    }
+  }
+  return word;
+}
+
 String indicStem(String word) {
   for (final c in word.runes) {
-    if (c >= 0x0900 && c <= 0x097F) return hindiStem(word);
+    if (c >= 0x0900 && c <= 0x097F) {
+      return hindiStem(_withoutMarathiPostposition(word));
+    }
     if (c >= 0x0B80 && c <= 0x0BFF) return tamilStem(word);
   }
   return word;

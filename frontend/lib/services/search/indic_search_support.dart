@@ -1,4 +1,4 @@
-/// Hindi (Devanagari) and Tamil search support for the offline catalog search:
+/// Hindi and Marathi (Devanagari) and Tamil search support for the offline catalog search:
 /// indexing a scheme's own Hindi/Tamil text and matching inflected words.
 /// Kept apart from `hybrid_scheme_search.dart` so that file does not grow.
 library;
@@ -27,7 +27,7 @@ List<String> indicTextTokens(
 ) {
   if (localization is! Map) return const [];
   final out = <String>{};
-  for (final lang in const ['hi', 'ta']) {
+  for (final lang in const ['hi', 'ta', 'mr']) {
     final block = localization[lang];
     if (block is! Map) continue;
     for (final key in _kTextFields) {
