@@ -304,11 +304,8 @@ class LocalizedScheme {
         kept('benefits') ?? packed('benefits_text') ?? prose(scheme.benefits);
 
     // The language's names of the required documents, stored alongside the
-    // English list and keyed by the English name. The rewriting path keeps its
-    // own document-name translation.
-    final storedDocNames = rewrites
-        ? const <String>[]
-        : scheme.extras.storedDocumentNames(lang);
+    // English list and keyed by the English name.
+    final storedDocNames = scheme.extras.storedDocumentNames(lang);
     final docNames = <String, String>{
       if (storedDocNames.length == scheme.requiredDocuments.length)
         for (var i = 0; i < storedDocNames.length; i++)
@@ -317,6 +314,9 @@ class LocalizedScheme {
     };
     String orStored(String stored, String translated) =>
         stored.isNotEmpty ? stored : translated;
+    // Document text with nothing stored: never a word-by-word mix (BUG-07).
+    String docText(String v) =>
+        rewrites ? _wholeOrOriginal(translator.translate(v), v) : text(v);
 
     return LocalizedScheme._(
       rawScheme: scheme,
@@ -365,9 +365,7 @@ class LocalizedScheme {
       marginMoneyDetails: text(scheme.marginMoneyDetails),
       loanGuaranteeDetails: text(scheme.loanGuaranteeDetails),
       supportTypes: scheme.supportTypes.map(tag).toList(),
-      rawBenefitsDisplayText: rewrites
-          ? translator.translate(scheme.rawBenefitsDisplayText)
-          : benefits,
+      rawBenefitsDisplayText: benefits,
       eligibilityAgeRange: text(scheme.eligibilityAgeRange),
       turnoverLimits: text(scheme.turnoverLimits),
       investmentLimits: text(scheme.investmentLimits),
@@ -390,7 +388,7 @@ class LocalizedScheme {
         fallback: (l) => l.map(prose).toList(),
       ),
       requiredDocuments: [
-        for (final d in scheme.requiredDocuments) docNames[d] ?? text(d),
+        for (final d in scheme.requiredDocuments) docNames[d] ?? docText(d),
       ],
       applicationProcess: _storedSteps(
         scheme,
@@ -404,25 +402,27 @@ class LocalizedScheme {
             (d) => d.copyWith(
               name: orStored(
                 d.translated('name', lang),
-                docNames[d.name] ?? text(d.name),
+                docNames[d.name] ?? docText(d.name),
               ),
               description: orStored(
                 d.translated('description', lang),
-                text(d.description),
+                docText(d.description),
               ),
               issuingAuthority: orStored(
                 d.translated('issuingAuthority', lang),
-                text(d.issuingAuthority),
+                docText(d.issuingAuthority),
               ),
               estimatedCost: orStored(
                 d.translated('estimatedCost', lang),
-                text(d.estimatedCost),
+                docText(d.estimatedCost),
               ),
               // Canonical flag ("Yes"/"Required"): `isMandatory` reads it and
-              // the details screen shows the localized badge itself. Only the
-              // rewriting path has always translated it.
-              mandatory: rewrites ? tag(d.mandatory) : d.mandatory,
-              remarks: orStored(d.translated('remarks', lang), text(d.remarks)),
+              // the details screen shows the localized badge itself.
+              mandatory: d.mandatory,
+              remarks: orStored(
+                d.translated('remarks', lang),
+                docText(d.remarks),
+              ),
             ),
           )
           .toList(),

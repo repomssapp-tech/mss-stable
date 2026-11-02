@@ -240,10 +240,7 @@ void main() {
       expect(shown.overview, translator.translate(handBuilt.overview));
       expect(shown.objectives, translator.translate(handBuilt.objectives));
       expect(shown.benefits, translator.translate(handBuilt.benefits));
-      expect(
-        shown.rawBenefitsDisplayText,
-        translator.translate(handBuilt.rawBenefitsDisplayText),
-      );
+      expect(shown.rawBenefitsDisplayText, shown.benefits);
       expect(shown.category, translator.translateTag('Loan'));
       expect(shown.verificationStatus, translator.translate('Loan'));
       expect(shown.eligibilityCriteria, [translator.translate('Loan')]);
@@ -253,11 +250,56 @@ void main() {
         shown.documents.single.name,
         translator.translate('Aadhaar Card Proof'),
       );
-      expect(shown.documents.single.mandatory, translator.translateTag('Yes'));
+      // The canonical flag stays readable by `isMandatory` (it was translated,
+      // which lost the Required badge on all 194 mandatory documents).
+      expect(shown.documents.single.mandatory, 'Yes');
+      expect(shown.documents.single.isMandatory, isTrue);
       expect(
         shown.requiredServices.single.name,
         translator.translate('A novel service'),
       );
+    });
+
+    test('stored Tamil document names are used, in line with the English', () {
+      var names = 0;
+      for (final e in bundle.schemes) {
+        final s = MssSchemeAdapter.toScheme(e, bundle, langCode: 'ta');
+        final stored = s.extras.storedDocumentNames('ta');
+        if (stored.isEmpty || stored.length != s.requiredDocuments.length) {
+          continue;
+        }
+        final shown = LocalizedScheme.fromScheme(s, 'ta').requiredDocuments;
+        for (var i = 0; i < shown.length; i++) {
+          if (stored[i].isNotEmpty) {
+            expect(shown[i], stored[i], reason: e.id);
+            names++;
+          }
+        }
+      }
+      expect(names, greaterThan(600));
+    });
+
+    test('no document text is a word-by-word Tamil and English mix', () {
+      final mixed = RegExp(r'[\u0B80-\u0BFF].*\b[a-z]{3,}\b.*\b[a-z]{3,}\b');
+      final offenders = <String>[];
+      for (final e in bundle.schemes) {
+        final s = MssSchemeAdapter.toScheme(e, bundle, langCode: 'ta');
+        final shown = LocalizedScheme.fromScheme(s, 'ta');
+        final stored = s.extras.storedDocumentNames('ta').toSet();
+        for (final d in shown.documents) {
+          for (final t in [
+            d.name,
+            d.description,
+            d.issuingAuthority,
+            d.remarks,
+          ]) {
+            if (mixed.hasMatch(t) && !stored.contains(t)) {
+              offenders.add('${e.id}: $t');
+            }
+          }
+        }
+      }
+      expect(offenders, isEmpty);
     });
 
     test('a mixed beneficiary falls back to the whole original', () {

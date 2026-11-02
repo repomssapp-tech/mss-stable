@@ -75,7 +75,15 @@ class SchemeDocumentsContent extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (document.mandatory.isNotEmpty)
+                  // The source's own wording ("Post-sanction", "No") is English, and
+                  // "No" also covers documents the source says nothing about, so
+                  // other languages show only the two statuses they can state.
+                  if (document.mandatory.isNotEmpty &&
+                      (document.isMandatory ||
+                          document.mandatory.toLowerCase().contains(
+                            'conditional',
+                          ) ||
+                          Localizations.localeOf(context).languageCode == 'en'))
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: AppSpacing.sm,
@@ -90,7 +98,9 @@ class SchemeDocumentsContent extends StatelessWidget {
                       child: Text(
                         document.isMandatory
                             ? context.l10n.badgeRequired
-                            : document.mandatory.toLowerCase() == 'conditional'
+                            : document.mandatory.toLowerCase().contains(
+                                'conditional',
+                              )
                             ? context.l10n.badgeConditional
                             : document.mandatory,
                         style: AppGoogleFonts.inter(
