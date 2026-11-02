@@ -10889,30 +10889,6 @@ abstract class AppLocalizations {
   /// **'Tap the mic when you\'re done'**
   String get sv2TapWhenDone;
 
-  /// No description provided for @sv2ConfirmTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Did I hear you right?'**
-  String get sv2ConfirmTitle;
-
-  /// No description provided for @sv2Transcribed.
-  ///
-  /// In en, this message translates to:
-  /// **'TRANSCRIBED'**
-  String get sv2Transcribed;
-
-  /// No description provided for @sv2ConfirmHelp.
-  ///
-  /// In en, this message translates to:
-  /// **'Tap the tick to send, the cross to discard, or the mic to say it again.'**
-  String get sv2ConfirmHelp;
-
-  /// No description provided for @sv2EditTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Correct your request'**
-  String get sv2EditTitle;
-
   /// No description provided for @sv2Speak.
   ///
   /// In en, this message translates to:
@@ -10930,12 +10906,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Send this'**
   String get sv2Send;
-
-  /// No description provided for @sv2Discard.
-  ///
-  /// In en, this message translates to:
-  /// **'Discard'**
-  String get sv2Discard;
 
   /// No description provided for @sv2Room.
   ///
@@ -10984,6 +10954,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{ready} of {total} ready'**
   String sv2DocumentsReady(int ready, int total);
+
+  /// No description provided for @sv2OldSessions.
+  ///
+  /// In en, this message translates to:
+  /// **'Old sessions'**
+  String get sv2OldSessions;
+
+  /// No description provided for @sv2TypeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a message to Saarthi'**
+  String get sv2TypeMessage;
 
   /// No description provided for @sv2HistoryTitle.
   ///
@@ -11086,30 +11068,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Saarthi reads every answer aloud'**
   String get sv2AutoplayBody;
-
-  /// No description provided for @sv2HandsFree.
-  ///
-  /// In en, this message translates to:
-  /// **'Hands-free mode'**
-  String get sv2HandsFree;
-
-  /// No description provided for @sv2HandsFreeBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Keep listening after each reply'**
-  String get sv2HandsFreeBody;
-
-  /// No description provided for @sv2ConfirmSend.
-  ///
-  /// In en, this message translates to:
-  /// **'Confirm before sending'**
-  String get sv2ConfirmSend;
-
-  /// No description provided for @sv2ConfirmSendBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Check what Saarthi heard before it is sent'**
-  String get sv2ConfirmSendBody;
 
   /// No description provided for @sv2VoiceNote.
   ///

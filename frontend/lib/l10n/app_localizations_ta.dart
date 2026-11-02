@@ -6023,19 +6023,6 @@ class AppLocalizationsTa extends AppLocalizations {
   String get sv2TapWhenDone => 'பேசி முடித்ததும் மைக்கைத் தட்டுங்கள்';
 
   @override
-  String get sv2ConfirmTitle => 'நான் சரியாகக் கேட்டேனா?';
-
-  @override
-  String get sv2Transcribed => 'எழுத்தாக்கப்பட்டது';
-
-  @override
-  String get sv2ConfirmHelp =>
-      'அனுப்ப டிக்கையும், நீக்க குறுக்குக் குறியையும், மீண்டும் சொல்ல மைக்கையும் தட்டுங்கள்.';
-
-  @override
-  String get sv2EditTitle => 'உங்கள் கோரிக்கையைத் திருத்துங்கள்';
-
-  @override
   String get sv2Speak => 'பேசு';
 
   @override
@@ -6043,9 +6030,6 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get sv2Send => 'இதை அனுப்பு';
-
-  @override
-  String get sv2Discard => 'நீக்கு';
 
   @override
   String get sv2Room => 'உரையாடல் அறை';
@@ -6074,6 +6058,12 @@ class AppLocalizationsTa extends AppLocalizations {
   String sv2DocumentsReady(int ready, int total) {
     return '$total-இல் $ready தயார்';
   }
+
+  @override
+  String get sv2OldSessions => 'பழைய உரையாடல்கள்';
+
+  @override
+  String get sv2TypeMessage => 'சாரதிக்கு செய்தி எழுதுங்கள்';
 
   @override
   String get sv2HistoryTitle => 'உரையாடல் வரலாறு';
@@ -6144,20 +6134,6 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get sv2AutoplayBody => 'ஒவ்வொரு பதிலையும் சாரதி சத்தமாகப் படிக்கும்';
-
-  @override
-  String get sv2HandsFree => 'கைகளின்றி பயன்முறை';
-
-  @override
-  String get sv2HandsFreeBody =>
-      'ஒவ்வொரு பதிலுக்குப் பிறகும் தொடர்ந்து கேட்கும்';
-
-  @override
-  String get sv2ConfirmSend => 'அனுப்பும் முன் உறுதிசெய்';
-
-  @override
-  String get sv2ConfirmSendBody =>
-      'அனுப்பும் முன் சாரதி கேட்டதைச் சரிபாருங்கள்';
 
   @override
   String get sv2VoiceNote =>

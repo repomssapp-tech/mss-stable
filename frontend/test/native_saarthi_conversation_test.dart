@@ -254,6 +254,49 @@ void main() {
     },
   );
   test(
+    'every session skips the greeting; wordless speech is not sent',
+    () async {
+      final h = Harness();
+      try {
+        await h.controller.start();
+        expect(h.native.connections.first, ('ta', true));
+        h.native.event('listen');
+        await h.flush();
+        expect(h.mic.recording, true);
+        h.native.event('transcript.user', text: '. . .');
+        await h.flush();
+        expect(h.agent.conversationHistory, isEmpty);
+        expect(h.controller.phase, ConversationPhase.error);
+        expect(h.controller.error, 'NO_SPEECH');
+      } finally {
+        await h.dispose();
+      }
+    },
+  );
+  test(
+    'the input level follows the microphone and resets when it stops',
+    () async {
+      final h = Harness();
+      try {
+        await h.controller.start();
+        h.native.event('listen');
+        await h.flush();
+        expect(h.controller.inputLevel.value, 0);
+        h.mic.samples.add(Uint8List.fromList([0, 0, 0, 0]));
+        await h.flush();
+        expect(h.controller.inputLevel.value, 0, reason: 'silence is flat');
+        // 16-bit samples at about a quarter of full scale.
+        h.mic.samples.add(Uint8List.fromList([0, 32, 0, 32]));
+        await h.flush();
+        expect(h.controller.inputLevel.value, greaterThan(0.5));
+        await h.controller.pause();
+        expect(h.controller.inputLevel.value, 0);
+      } finally {
+        await h.dispose();
+      }
+    },
+  );
+  test(
     'screen reader owns reply reading and requires explicit Resume before capture',
     () async {
       final h = Harness(reader: true);

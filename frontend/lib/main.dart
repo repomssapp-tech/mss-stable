@@ -398,6 +398,10 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
         onPopInvokedWithResult: (didPop, result) {
           if (didPop) return;
 
+          // Saarthi's own Back handling runs too: it is ending a chat or
+          // returning to its Home, so the app must not exit.
+          if (SaarthiVoiceScreen.handlesBack) return;
+
           // 1. If searching, clear query first
           if (currentTabIndex == 1 &&
               searchTabKey.currentState != null &&

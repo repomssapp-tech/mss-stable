@@ -240,6 +240,16 @@ void main() {
       expect(h.microphone.recording, isTrue);
     },
   );
+  test('a final transcript with no words is never submitted', () async {
+    final h = _Harness();
+    addTearDown(h.dispose);
+    await h.conversation.start();
+    h.transport.emit('transcript.final', text: '. . .');
+    await pumpEventQueue();
+    expect(h.client.paths, isEmpty);
+    expect(h.conversation.phase, ConversationPhase.error);
+    expect(h.conversation.error, 'NO_SPEECH');
+  });
   test(
     'failed final preserves partial only for correction and never submits it',
     () async {

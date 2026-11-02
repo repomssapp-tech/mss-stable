@@ -1,21 +1,18 @@
-// Saarthi Voice mode (v2 design): C1 Home, then the conversation views
-// (C2 Listening, C3 Confirm, C4 Conversation room). Audio and turn-taking
-// stay in SaarthiConversationController; this screen draws its state, keeps
-// the transcript, applies the Voice settings, and saves the conversation on
-// this phone.
+// Saarthi (redesign): Home, Old sessions, and one conversation that can be
+// spoken or typed, with the optional review step. Audio and turn-taking stay
+// in SaarthiConversationController; this screen draws its state, keeps the
+// transcript, applies the Voice settings, and saves the conversation on this
+// phone. Any saved conversation can be reopened and continued.
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../l10n/l10n.dart';
+import '../../models/scheme_model.dart';
 import '../../providers/app_state_provider.dart';
-import '../../screens/companion_mode/saarthi_home/saarthi_response_helpers.dart';
 import '../../screens/companion_mode/saarthi_message.dart';
-import '../../screens/notifications_screen.dart';
-import '../../screens/regular_mode/categories_screen.dart';
-import '../../screens/regular_mode/search_results_screen.dart';
+import '../../screens/profile_screen.dart';
 import '../../screens/regular_mode/settings_screen.dart';
 import '../../services/chat/chat_log_service.dart';
 import '../../services/chat/local_chat_history.dart';
@@ -30,14 +27,11 @@ import '../../services/voice/voice_accessibility.dart';
 import '../../services/voice/voice_agent_controller.dart';
 import '../../services/voice/voice_microphone.dart';
 import '../../services/voice/voice_preferences.dart';
-import '../../utils/constants.dart';
-import '../highlight_text.dart';
 import '../mss_design.dart';
 import 'saarthi_history_screen.dart';
-import 'saarthi_kit.dart';
-import 'saarthi_type_screen.dart';
-import 'saarthi_voice_settings_screen.dart';
-import 'saarthi_voice_views.dart';
+import 'saarthi_voice_home.dart';
+import 'saarthi_voice_room.dart';
+import 'scheme_mentions.dart';
 
 class SaarthiVoiceScreen extends StatefulWidget {
   const SaarthiVoiceScreen({
@@ -56,6 +50,13 @@ class SaarthiVoiceScreen extends StatefulWidget {
   /// Defaults to [SaarthiVoiceSettings.instance].
   final SaarthiVoiceSettings? settings;
 
+  static _SaarthiVoiceScreenState? _shown;
+
+  /// True while Back should stay inside Saarthi (a chat is open, or another
+  /// tab is showing). The app shell's Back handler runs alongside this
+  /// screen's, so it checks this before exiting the app.
+  static bool get handlesBack => _shown?._blocksBack ?? false;
+
   @override
   State<SaarthiVoiceScreen> createState() => _SaarthiVoiceScreenState();
 }
@@ -64,6 +65,8 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
   final _messages = <SaarthiMessage>[];
   final _chatLog = ChatLogService();
   final _scroll = ScrollController();
+  final _typeInput = TextEditingController();
+  final _typeFocus = FocusNode();
   final Set<int> _readyDocs = {};
   late final LocalChatHistory _history;
   late final SaarthiVoiceSettings _settings;
@@ -75,14 +78,21 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
   String? _appLanguage;
   bool _active = false;
   bool _starting = false;
+  bool _typing = false;
+  ConversationPhase? _lastPhase;
+  SaarthiNavTab _tab = SaarthiNavTab.home;
+  String _chatMode = 'voice';
   String _chatId = '';
   DateTime _chatStart = DateTime.now();
 
   bool get _ownsConversation => widget.conversation == null;
 
+  bool get _blocksBack => _active || _tab != SaarthiNavTab.home;
+
   @override
   void initState() {
     super.initState();
+    SaarthiVoiceScreen._shown = this;
     _history = widget.history ?? LocalChatHistory.instance;
     _settings = widget.settings ?? SaarthiVoiceSettings.instance;
     _settings.addListener(_applySettings);
@@ -103,8 +113,6 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
     final c = _conversation;
     if (c == null) return;
     // Applied between turns: configure() pauses, so only when idle/paused.
-    c.reviewBeforeSend = _settings.confirmBeforeSend;
-    c.handsFree = _settings.handsFree;
     c.agent.speakReplies = _settings.autoplay && !c.screenReader;
     final language = _settings.languageChange;
     if (language != null && language != c.language) {
@@ -151,26 +159,150 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
     _events = _conversation!.agent.events.listen(_onAgentEvent);
   }
 
-  Future<void> _start() async {
+  /// A new chat, listening straight away or (with [typing]) waiting for text.
+  Future<void> _start({bool typing = false}) async {
     if (_starting || _active) return;
     _starting = true;
     try {
       await _initializeConversation();
       if (!mounted) return;
       _chatLog.startSession();
-      _chatId = 'v${DateTime.now().microsecondsSinceEpoch}';
+      _chatId = '${typing ? 't' : 'v'}${DateTime.now().microsecondsSinceEpoch}';
+      _chatMode = typing ? 'type' : 'voice';
       _chatStart = DateTime.now();
       _messages.clear();
       _readyDocs.clear();
-      setState(() => _active = true);
-      await _conversation!.start();
+      _conversation!.agent.restoreHistory(const []);
+      setState(() {
+        _active = true;
+        _typing = typing;
+      });
+      if (typing) {
+        _focusComposer();
+      } else {
+        await _conversation!.start();
+      }
     } finally {
       _starting = false;
     }
   }
 
+  /// Reopens a saved chat with its turns and context. New turns are added to
+  /// it, spoken or typed; the mic stays off until the user taps it.
+  Future<void> _resume(SavedChat chat) async {
+    if (_starting || _active) return;
+    _starting = true;
+    try {
+      await _initializeConversation();
+      if (!mounted) return;
+      final all = context.read<AppProvider>().allSchemes;
+      final byId = {for (final s in all) s.id: s};
+      _chatLog.startSession();
+      _chatId = chat.id;
+      _chatMode = chat.mode;
+      _chatStart = chat.createdAt;
+      _messages
+        ..clear()
+        ..addAll([
+          for (var i = 0; i < chat.messages.length; i++)
+            SaarthiMessage(
+              id: 'saved-$i',
+              role: chat.messages[i].role,
+              text: chat.messages[i].text,
+              timestamp: chat.messages[i].at,
+              schemeResults: <Scheme>[
+                for (final id in chat.messages[i].schemeIds) ?byId[id],
+              ],
+            ),
+        ]);
+      _readyDocs.clear();
+      _conversation!.agent.restoreHistory([
+        for (final m in chat.messages) {'role': m.role, 'content': m.text},
+      ]);
+      setState(() {
+        _active = true;
+        _typing = false;
+      });
+      _scrollToEnd();
+    } finally {
+      _starting = false;
+    }
+  }
+
+  void _focusComposer() => WidgetsBinding.instance.addPostFrameCallback((_) {
+    if (mounted) _typeFocus.requestFocus();
+  });
+
+  void _speak() {
+    setState(() => _typing = false);
+    unawaited(_conversation?.start());
+  }
+
+  void _showComposer() {
+    final c = _conversation;
+    // A reply being worked out is left to finish; speech stops for typing.
+    if (c?.phase == ConversationPhase.speaking) unawaited(c?.pause());
+    setState(() => _typing = true);
+    _focusComposer();
+  }
+
+  /// Typed questions get a silent reply and leave the mic off; the megaphone
+  /// reads the reply out on request.
+  Future<void> _sendTyped() async {
+    final c = _conversation;
+    final text = _typeInput.text.trim();
+    if (c == null || text.isEmpty) return;
+    if (c.phase == ConversationPhase.thinking) return;
+    _typeInput.clear();
+    c.agent.speakReplies = false;
+    try {
+      await c.send(text);
+    } finally {
+      _applySettings();
+    }
+  }
+
+  void _openTab(SaarthiNavTab tab) {
+    setState(() => _tab = tab);
+    if (_active) unawaited(_end());
+  }
+
+  void _openOver(Widget screen) {
+    final c = _conversation;
+    if (_active && c != null) {
+      const live = [ConversationPhase.listening, ConversationPhase.speaking];
+      if (live.contains(c.phase)) unawaited(c.pause());
+    }
+    Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => screen));
+  }
+
+  void _scrollToEnd() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scroll.hasClients) {
+        _scroll.animateTo(
+          _scroll.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 220),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
   void _onConversation() {
-    if (mounted && _active) setState(() {});
+    if (!mounted || !_active) return;
+    setState(() {});
+    // Status and error lines are added under the transcript; keep them in view.
+    final phase = _conversation?.phase;
+    if (phase != _lastPhase) {
+      _lastPhase = phase;
+      if (const [
+        ConversationPhase.thinking,
+        ConversationPhase.speaking,
+        ConversationPhase.error,
+      ].contains(phase)) {
+        _scrollToEnd();
+      }
+    }
   }
 
   void _onAgentEvent(VoiceAgentEvent event) {
@@ -190,23 +322,9 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
         event.data?['messageId'] as String? ??
         '${DateTime.now().microsecondsSinceEpoch}';
     final provider = context.read<AppProvider>();
-    final recent = _messages
-        .where((m) => m.role == 'user')
-        .map((m) => m.text)
-        .toList();
     final results = isUser
         ? null
-        : SaarthiResponseHelpers.rankCloudSchemeResults(
-            results: _pendingMetadata,
-            catalogMatches: matchCloudSchemeResultsToCatalog(
-              _pendingMetadata,
-              provider.allSchemes,
-            ),
-            recentUserTurns: recent
-                .skip(math.max(0, recent.length - 3))
-                .toList(),
-            limit: 2,
-          );
+        : schemesForReply(text, _pendingMetadata, provider.allSchemes);
     final message = SaarthiMessage(
       id: id,
       role: isUser ? 'user' : 'assistant',
@@ -233,21 +351,13 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
     );
     if (isUser) _pendingMetadata = const [];
     unawaited(_saveLocal());
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_scroll.hasClients) {
-        _scroll.animateTo(
-          _scroll.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 220),
-          curve: Curves.easeOut,
-        );
-      }
-    });
+    _scrollToEnd();
   }
 
   Future<void> _saveLocal() => _history.save(
     SavedChat(
       id: _chatId,
-      mode: 'voice',
+      mode: _chatMode,
       createdAt: _chatStart,
       updatedAt: DateTime.now(),
       messages: [
@@ -271,42 +381,19 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
   Future<void> _end() async {
     await _conversation?.end();
     _syncHistory();
-    if (mounted) setState(() => _active = false);
-  }
-
-  /// "Discard" on the confirm view: back to the room if the conversation
-  /// already has turns, otherwise back home.
-  Future<void> _discard() async {
-    if (_messages.isEmpty) {
-      await _end();
-    } else {
-      await _conversation?.pause();
+    if (mounted) {
+      setState(() {
+        _active = false;
+        _typing = false;
+      });
     }
-  }
-
-  void _openHistory() => Navigator.of(
-    context,
-  ).push(MaterialPageRoute<void>(builder: (_) => const SaarthiHistoryScreen()));
-
-  void _openSettings() => Navigator.of(context).push(
-    MaterialPageRoute<void>(builder: (_) => const SaarthiVoiceSettingsScreen()),
-  );
-
-  void _openType() {
-    final provider = context.read<AppProvider>();
-    if (_active) unawaited(_conversation?.pause());
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (_) => SaarthiTypeScreen(
-          profile: provider.profile,
-          language: provider.selectedLanguage,
-        ),
-      ),
-    );
   }
 
   @override
   void dispose() {
+    if (identical(SaarthiVoiceScreen._shown, this)) {
+      SaarthiVoiceScreen._shown = null;
+    }
     _lifecycle.dispose();
     _settings.removeListener(_applySettings);
     _syncHistory();
@@ -321,6 +408,8 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
       unawaited(_conversation?.pause());
     }
     _scroll.dispose();
+    _typeInput.dispose();
+    _typeFocus.dispose();
     super.dispose();
   }
 
@@ -343,48 +432,14 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
         : trimmed.split(' ').first;
 
     final c = _conversation;
+    final nav = SaarthiPillNav(
+      selected: _active ? SaarthiNavTab.sessions : _tab,
+      onHome: () => _openTab(SaarthiNavTab.home),
+      onSessions: () => _openTab(SaarthiNavTab.sessions),
+      onSettings: () => _openOver(const SettingsScreen()),
+    );
     final Widget body;
-    if (!_active || c == null) {
-      body = _VoiceHome(
-        userName: userName,
-        unread: provider.notifications.where((n) => n['read'] == false).length,
-        onStart: () => unawaited(_start()),
-        onType: _openType,
-        onHistory: _openHistory,
-        onSettings: () => Navigator.of(
-          context,
-        ).push(MaterialPageRoute<void>(builder: (_) => const SettingsScreen())),
-        onDiscover: () => Navigator.of(context).push(
-          MaterialPageRoute<void>(
-            builder: (ctx) => CategoriesScreen(
-              onCategorySelected: (category) => Navigator.of(ctx).push(
-                MaterialPageRoute<void>(
-                  builder: (_) =>
-                      SearchResultsScreen(title: category, type: 'category'),
-                ),
-              ),
-            ),
-          ),
-        ),
-        onNotifications: () => Navigator.of(context).push(
-          MaterialPageRoute<void>(builder: (_) => const NotificationsScreen()),
-        ),
-      );
-    } else if (c.editing) {
-      body = SaarthiConfirmView(
-        conversation: c,
-        onDiscard: () => unawaited(_discard()),
-      );
-    } else if (const [
-      ConversationPhase.connecting,
-      ConversationPhase.listening,
-      ConversationPhase.transcribing,
-    ].contains(c.phase)) {
-      body = SaarthiListeningView(
-        conversation: c,
-        onClose: () => unawaited(_messages.isEmpty ? _end() : c.pause()),
-      );
-    } else {
+    if (_active && c != null) {
       body = SaarthiRoomView(
         conversation: c,
         messages: _messages,
@@ -396,346 +451,47 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
           () =>
               _readyDocs.contains(i) ? _readyDocs.remove(i) : _readyDocs.add(i),
         ),
-        onEnd: () => unawaited(_end()),
-        onHistory: _openHistory,
-        onSettings: _openSettings,
+        typing: _typing,
+        typeController: _typeInput,
+        typeFocus: _typeFocus,
+        onSpeak: _speak,
+        onType: _showComposer,
+        onSendTyped: () => unawaited(_sendTyped()),
+        onHear: (reply) => unawaited(c.hear(reply)),
+        nav: nav,
+      );
+    } else if (_tab == SaarthiNavTab.sessions) {
+      body = SaarthiHistoryScreen(
+        history: _history,
+        onOpen: (chat) => unawaited(_resume(chat)),
+        bottomBar: nav,
+      );
+    } else {
+      body = SaarthiVoiceHome(
+        userName: userName,
+        onStart: () => unawaited(_start()),
+        onType: () => unawaited(_start(typing: true)),
+        onProfile: () => _openOver(const ProfileScreen()),
+        nav: nav,
       );
     }
 
     return PopScope(
-      canPop: !_active,
+      canPop: !_blocksBack,
       onPopInvokedWithResult: (didPop, _) {
-        if (!didPop && _active) unawaited(_end());
+        if (didPop) return;
+        // Deferred so the shell's handler, running in this same pass, still
+        // sees that Saarthi is handling Back.
+        scheduleMicrotask(() {
+          if (!mounted) return;
+          if (_active) {
+            unawaited(_end());
+          } else {
+            setState(() => _tab = SaarthiNavTab.home);
+          }
+        });
       },
       child: DesignTextScale(child: body),
-    );
-  }
-}
-
-// ─────────────── C1 · Home ───────────────
-class _VoiceHome extends StatelessWidget {
-  const _VoiceHome({
-    required this.userName,
-    required this.unread,
-    required this.onStart,
-    required this.onType,
-    required this.onHistory,
-    required this.onSettings,
-    required this.onDiscover,
-    required this.onNotifications,
-  });
-
-  final String userName;
-  final int unread;
-  final VoidCallback onStart;
-  final VoidCallback onType;
-  final VoidCallback onHistory;
-  final VoidCallback onSettings;
-  final VoidCallback onDiscover;
-  final VoidCallback onNotifications;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final greeting = AppConstants.getTimeGreeting(l10n);
-    return Scaffold(
-      key: const Key('sv2-home'),
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            ListView(
-              padding: const EdgeInsets.only(bottom: 110),
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
-                  child: Row(
-                    children: [
-                      ExcludeSemantics(
-                        child: Image.asset(
-                          MssAssets.logo,
-                          width: 40,
-                          height: 40,
-                          cacheWidth: 120,
-                        ),
-                      ),
-                      const Spacer(),
-                      // Shrinks on narrow phones with large text instead of
-                      // pushing the icons off screen.
-                      Flexible(
-                        flex: 6,
-                        child: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: ModeToggle(
-                            voiceActive: true,
-                            onSwitch: onType,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      RoundIconButton(
-                        key: const Key('sv2-home-history'),
-                        icon: Icons.history_rounded,
-                        tooltip: l10n.sv2HistoryOpen,
-                        bg: Colors.white,
-                        border: true,
-                        onTap: onHistory,
-                      ),
-                      const SizedBox(width: 8),
-                      Stack(
-                        children: [
-                          RoundIconButton(
-                            key: const Key('saarthi-notifications-btn'),
-                            icon: Icons.notifications_none_rounded,
-                            tooltip: unread > 0
-                                ? l10n.notificationsUnreadCount(unread)
-                                : l10n.notificationsTooltip,
-                            bg: Colors.white,
-                            border: true,
-                            onTap: onNotifications,
-                          ),
-                          if (unread > 0)
-                            Positioned(
-                              top: 9,
-                              right: 10,
-                              child: Container(
-                                width: 9,
-                                height: 9,
-                                decoration: BoxDecoration(
-                                  color: MssColors.saffron,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: Colors.white,
-                                    width: 2,
-                                  ),
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 28),
-                Center(
-                  child: Container(
-                    width: 236,
-                    height: 236,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: MssColors.green.withValues(alpha: .12),
-                          spreadRadius: 14,
-                        ),
-                        BoxShadow(
-                          color: MssColors.saffron.withValues(alpha: .25),
-                          spreadRadius: 6,
-                        ),
-                        const BoxShadow(
-                          color: Color(0x1F000050),
-                          blurRadius: 50,
-                          offset: Offset(0, 24),
-                        ),
-                      ],
-                    ),
-                    clipBehavior: Clip.antiAlias,
-                    child: Stack(
-                      clipBehavior: Clip.hardEdge,
-                      children: [
-                        Positioned(
-                          left: -34,
-                          top: 12,
-                          width: 300,
-                          child: ExcludeSemantics(
-                            child: Image.asset(
-                              MssAssets.saarthiNamaste,
-                              cacheWidth: 720,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 28),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: HighlightText(
-                    '$greeting [$userName!]',
-                    textAlign: TextAlign.center,
-                    highlight: pop(
-                      26,
-                      FontWeight.w800,
-                      MssColors.saffronDeep,
-                      1,
-                    ),
-                    style: pop(26, FontWeight.w800, kInk, 1, height: 1.2),
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: HighlightText(
-                    l10n.sv2VoiceIntro,
-                    textAlign: TextAlign.center,
-                    highlight: pop(14, FontWeight.w700, kInk, 1),
-                    style: pop(14, FontWeight.w500, kBody, 1, height: 1.5),
-                  ),
-                ),
-                const SizedBox(height: 26),
-                Center(
-                  child: Text(
-                    l10n.sv2AskSaarthi,
-                    style: pop(
-                      13,
-                      FontWeight.w700,
-                      kInk,
-                      1,
-                    ).copyWith(letterSpacing: .6),
-                  ),
-                ),
-                const SizedBox(height: 14),
-                Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: MssColors.saffron.withValues(alpha: .35),
-                          spreadRadius: 8,
-                        ),
-                        const BoxShadow(
-                          color: Color(0x59000080),
-                          blurRadius: 30,
-                          offset: Offset(0, 14),
-                        ),
-                      ],
-                    ),
-                    child: RoundIconButton(
-                      key: const Key('saarthi-start-speaking'),
-                      icon: Icons.mic_none_rounded,
-                      tooltip: l10n.sv2StartTalking,
-                      bg: kInk,
-                      fg: Colors.white,
-                      size: 76,
-                      iconSize: 32,
-                      onTap: onStart,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 14),
-                Center(
-                  child: Text(
-                    'தமிழ் · हिन्दी · English · मराठी', // i18n-ok: language names
-                    style: pop(11.5, FontWeight.w500, kMuted, 1),
-                  ),
-                ),
-              ],
-            ),
-            Positioned(
-              left: 32,
-              right: 32,
-              bottom: 20,
-              child: _PillNav(onDiscover: onDiscover, onSettings: onSettings),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _PillNav extends StatelessWidget {
-  const _PillNav({required this.onDiscover, required this.onSettings});
-
-  final VoidCallback onDiscover;
-  final VoidCallback onSettings;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    Widget item(IconData icon, String label, VoidCallback onTap) => Semantics(
-      button: true,
-      label: label,
-      excludeSemantics: true,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(999),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon, size: 20, color: kInk),
-              const SizedBox(height: 2),
-              Text(label, style: pop(11, FontWeight.w600, kInk, 1)),
-            ],
-          ),
-        ),
-      ),
-    );
-    return Container(
-      height: 62,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(999),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x24000050),
-            blurRadius: 30,
-            offset: Offset(0, 12),
-          ),
-        ],
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 6),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          // Long Tamil / Hindi labels shrink rather than overflow.
-          for (final w in <Widget>[
-            Semantics(
-              selected: true,
-              label: l10n.navHome,
-              excludeSemantics: true,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 14,
-                  vertical: 9,
-                ),
-                decoration: BoxDecoration(
-                  color: kInk,
-                  borderRadius: BorderRadius.circular(999),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.home_rounded,
-                      size: 17,
-                      color: Colors.white,
-                    ),
-                    const SizedBox(width: 6),
-                    Text(
-                      l10n.navHome,
-                      style: pop(12, FontWeight.w600, Colors.white, 1),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            item(Icons.explore_outlined, l10n.navDiscover, onDiscover),
-            item(
-              Icons.settings_outlined,
-              l10n.profileSettingsTitle,
-              onSettings,
-            ),
-          ])
-            Flexible(
-              child: FittedBox(fit: BoxFit.scaleDown, child: w),
-            ),
-        ],
-      ),
     );
   }
 }

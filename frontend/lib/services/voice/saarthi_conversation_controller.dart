@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import '../network/api_exception.dart';
 
@@ -66,6 +67,30 @@ class SaarthiConversationController extends ChangeNotifier {
   Timer? _partialUpdate;
   StreamSubscription<LiveSpeechEvent>? _events;
   StreamSubscription<Uint8List>? _audio;
+
+  /// How loud the microphone is right now, 0 to 1, for the listening waves.
+  final ValueNotifier<double> inputLevel = ValueNotifier<double>(0);
+
+  /// Measures a chunk of 16-bit microphone audio into [inputLevel].
+  @protected
+  void reportInput(Uint8List bytes) {
+    if (bytes.length < 2) return;
+    final samples = bytes.buffer.asByteData(
+      bytes.offsetInBytes,
+      bytes.lengthInBytes,
+    );
+    var sum = 0.0;
+    var count = 0;
+    for (var i = 0; i + 1 < bytes.length; i += 8) {
+      final sample = samples.getInt16(i, Endian.little) / 32768;
+      sum += sample * sample;
+      count++;
+    }
+    final rms = math.sqrt(sum / count);
+    // Square root, because speech is far quieter than full scale.
+    inputLevel.value = rms < 0.005 ? 0 : (math.sqrt(rms) * 2).clamp(0, 1);
+  }
+
   void _update(ConversationPhase value) {
     if (_disposed) return;
     phase = value;
@@ -126,6 +151,7 @@ class SaarthiConversationController extends ChangeNotifier {
         }
         _captured += bytes.length;
         if (_captured <= 960000) {
+          reportInput(bytes);
           transport.audio(bytes);
         } else {
           unawaited(finishTurn());
@@ -182,7 +208,9 @@ class SaarthiConversationController extends ChangeNotifier {
         unawaited(_waitForFinal());
       case 'transcript.final':
         final text = event.text.trim();
-        if (text.isEmpty) {
+        // Requests are sent without a review step, so a result with no words
+        // ("...") counts as not having heard anything.
+        if (!text.contains(RegExp(r'[\p{L}\p{N}]', unicode: true))) {
           unawaited(_fail('NO_SPEECH'));
           return;
         }
@@ -232,6 +260,7 @@ class SaarthiConversationController extends ChangeNotifier {
   }
 
   Future<bool> _stopInput() async {
+    inputLevel.value = 0;
     _turnLimit?.cancel();
     _finalLimit?.cancel();
     _partialUpdate?.cancel();
@@ -373,6 +402,31 @@ class SaarthiConversationController extends ChangeNotifier {
     }
   }
 
+  /// Speaks [reply] (any earlier reply, saved ones too) again.
+  Future<void> hear(String reply) async {
+    if (_disposed || reply.trim().isEmpty) return;
+    active = true;
+    await pause();
+    error = null;
+    final generation = _generation;
+    _update(ConversationPhase.thinking);
+    try {
+      await agent.connect();
+      await agent.setResponseLanguage(language);
+      await agent.replay(reply);
+    } catch (error) {
+      if (_current(generation)) await _fail(_failureCode(error));
+      return;
+    }
+    if (_current(generation)) {
+      if (agent.state.message != null) {
+        await _fail(agent.state.message!);
+      } else {
+        _update(ConversationPhase.paused);
+      }
+    }
+  }
+
   Future<void> _fail(String code) async {
     ++_generation;
     error = code;
@@ -398,6 +452,7 @@ class SaarthiConversationController extends ChangeNotifier {
     await _events?.cancel();
     await transport.dispose();
     await microphone.dispose();
+    inputLevel.dispose();
     super.dispose();
   }
 }

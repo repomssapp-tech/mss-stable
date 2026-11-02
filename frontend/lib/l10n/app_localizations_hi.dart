@@ -5944,19 +5944,6 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sv2TapWhenDone => 'बोल चुकने पर माइक पर टैप करें';
 
   @override
-  String get sv2ConfirmTitle => 'क्या मैंने सही सुना?';
-
-  @override
-  String get sv2Transcribed => 'लिखा गया';
-
-  @override
-  String get sv2ConfirmHelp =>
-      'भेजने के लिए टिक, हटाने के लिए क्रॉस, या दोबारा कहने के लिए माइक पर टैप करें।';
-
-  @override
-  String get sv2EditTitle => 'अपना अनुरोध ठीक करें';
-
-  @override
   String get sv2Speak => 'बोलें';
 
   @override
@@ -5964,9 +5951,6 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get sv2Send => 'यह भेजें';
-
-  @override
-  String get sv2Discard => 'हटाएँ';
 
   @override
   String get sv2Room => 'बातचीत कक्ष';
@@ -5995,6 +5979,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String sv2DocumentsReady(int ready, int total) {
     return '$total में से $ready तैयार';
   }
+
+  @override
+  String get sv2OldSessions => 'पुरानी बातचीत';
+
+  @override
+  String get sv2TypeMessage => 'सारथी को संदेश लिखें';
 
   @override
   String get sv2HistoryTitle => 'बातचीत का इतिहास';
@@ -6063,18 +6053,6 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get sv2AutoplayBody => 'सारथी हर जवाब पढ़कर सुनाता है';
-
-  @override
-  String get sv2HandsFree => 'हैंड्स-फ़्री मोड';
-
-  @override
-  String get sv2HandsFreeBody => 'हर जवाब के बाद सुनता रहता है';
-
-  @override
-  String get sv2ConfirmSend => 'भेजने से पहले पुष्टि करें';
-
-  @override
-  String get sv2ConfirmSendBody => 'भेजने से पहले देखें कि सारथी ने क्या सुना';
 
   @override
   String get sv2VoiceNote => 'हर भाषा के लिए सारथी की आवाज़ चुनी गई है।';

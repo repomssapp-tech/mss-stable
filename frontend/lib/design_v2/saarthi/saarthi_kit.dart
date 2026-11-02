@@ -8,13 +8,15 @@ import '../../models/localized_scheme.dart';
 import '../../models/scheme_model.dart';
 import '../../screens/regular_mode/scheme_details_screen.dart';
 import '../../widgets/chat/chat_markdown_body.dart';
+import '../../utils/app_colors.dart';
 import '../mss_design.dart';
 
-const kInk = MssColors.ashokaBlue;
-const kMuted = Color(0xFF5A5A8A);
-const kBody = Color(0xFF3A3A6A);
-const kHairline = Color(0x14000080);
-const kHint = Color(0xFF8A8AB0);
+const kInk = AppColors.textPrimary;
+const kBrand = AppColors.primary;
+const kMuted = AppColors.textMuted;
+const kBody = AppColors.textBody;
+const kHairline = AppColors.border;
+const kHint = AppColors.iconMuted;
 
 /// "9:41" in the user's locale.
 String sv2Time(BuildContext context, DateTime at) =>
@@ -34,11 +36,11 @@ class SaarthiAvatar extends StatelessWidget {
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: MssColors.saffronLight,
+        color: AppColors.primaryTint,
         boxShadow: ring
             ? [
                 BoxShadow(
-                  color: MssColors.saffron.withValues(alpha: .25),
+                  color: AppColors.primary.withValues(alpha: .18),
                   spreadRadius: 6,
                 ),
               ]
@@ -98,13 +100,13 @@ class ModeToggle extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: const Color(0x1A000080)),
+        border: Border.all(color: const Color(0x1A0F172A)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          seg(l10n.sv2ModeType, !voiceActive, kInk, Colors.white),
-          seg(l10n.sv2ModeVoice, voiceActive, MssColors.saffron, kInk),
+          seg(l10n.sv2ModeType, !voiceActive, kBrand, Colors.white),
+          seg(l10n.sv2ModeVoice, voiceActive, kBrand, Colors.white),
         ],
       ),
     );
@@ -117,7 +119,7 @@ class RoundIconButton extends StatelessWidget {
     required this.icon,
     required this.tooltip,
     this.onTap,
-    this.bg = MssColors.cream,
+    this.bg = AppColors.primarySoft,
     this.fg = kInk,
     this.size = 44,
     this.iconSize = 18,
@@ -147,7 +149,7 @@ class RoundIconButton extends StatelessWidget {
         color: bg,
         shape: CircleBorder(
           side: border
-              ? const BorderSide(color: Color(0x1A000080))
+              ? const BorderSide(color: Color(0x1A0F172A))
               : BorderSide.none,
         ),
         child: InkWell(
@@ -292,7 +294,7 @@ class UserBubble extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
             decoration: const BoxDecoration(
-              color: kInk,
+              color: kBrand,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(18),
                 topRight: Radius.circular(18),
@@ -320,6 +322,7 @@ class SaarthiBubble extends StatelessWidget {
     this.below = const [],
     this.avatarSize = 34,
     this.child,
+    this.trailing,
   });
 
   final String text;
@@ -329,6 +332,9 @@ class SaarthiBubble extends StatelessWidget {
 
   /// Replaces the Markdown text (e.g. a reply being revealed or a status).
   final Widget? child;
+
+  /// Sits to the right of the message (the "hear it again" button).
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -371,6 +377,7 @@ class SaarthiBubble extends StatelessWidget {
             ],
           ),
         ),
+        if (trailing != null) ...[const SizedBox(width: 8), trailing!],
       ],
     );
   }
@@ -393,10 +400,8 @@ class SchemeMatchCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final local = scheme.toLocalized(language);
-    final badgeFg = best ? MssColors.green : MssColors.eligibleAmber;
-    final badgeBg = best
-        ? MssColors.green.withValues(alpha: .1)
-        : MssColors.saffron.withValues(alpha: .16);
+    final badgeFg = best ? AppColors.success : AppColors.warningText;
+    final badgeBg = best ? AppColors.successSoft : AppColors.warningSoft;
     final summary = local.overview.isNotEmpty ? local.overview : local.benefits;
     return Semantics(
       button: true,
@@ -420,7 +425,7 @@ class SchemeMatchCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(18),
               boxShadow: const [
                 BoxShadow(
-                  color: Color(0x1A000050),
+                  color: Color(0x1A0F172A),
                   blurRadius: 24,
                   offset: Offset(0, 10),
                 ),
@@ -467,19 +472,14 @@ class SchemeMatchCard extends StatelessWidget {
                     Flexible(
                       child: Text(
                         l10n.sv2ViewScheme,
-                        style: pop(
-                          11.5,
-                          FontWeight.w700,
-                          MssColors.saffronDeep,
-                          1,
-                        ),
+                        style: pop(11.5, FontWeight.w700, AppColors.primary, 1),
                       ),
                     ),
                     const SizedBox(width: 4),
                     const Icon(
                       Icons.arrow_forward_rounded,
                       size: 14,
-                      color: MssColors.saffronDeep,
+                      color: AppColors.primary,
                     ),
                   ],
                 ),
@@ -558,7 +558,7 @@ class TypeBar extends StatelessWidget {
               border: Border.all(color: kHairline),
               boxShadow: const [
                 BoxShadow(
-                  color: Color(0x1A000050),
+                  color: Color(0x1A0F172A),
                   blurRadius: 24,
                   offset: Offset(0, 8),
                 ),
@@ -579,6 +579,10 @@ class TypeBar extends StatelessWidget {
               decoration: InputDecoration(
                 isCollapsed: true,
                 border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                disabledBorder: InputBorder.none,
+                filled: false,
                 counterText: '',
                 hintText: l10n.sv2TypeHint,
                 hintStyle: pop(14, FontWeight.w500, kHint, 1),
@@ -592,7 +596,7 @@ class TypeBar extends StatelessWidget {
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: Color(0x4D000080),
+                color: Color(0x4D2563EB),
                 blurRadius: 20,
                 offset: Offset(0, 8),
               ),
@@ -603,7 +607,7 @@ class TypeBar extends StatelessWidget {
             icon: Icons.arrow_upward_rounded,
             tooltip: l10n.send,
             onTap: enabled ? onSend : null,
-            bg: kInk,
+            bg: kBrand,
             fg: Colors.white,
             size: 52,
             iconSize: 22,
@@ -612,91 +616,6 @@ class TypeBar extends StatelessWidget {
       ],
     );
   }
-}
-
-/// Voice pill plus tick / cross pebble.
-class VoiceActionBar extends StatelessWidget {
-  const VoiceActionBar({
-    super.key,
-    required this.label,
-    required this.onMic,
-    required this.yesLabel,
-    required this.noLabel,
-    this.onYes,
-    this.onNo,
-  });
-
-  final String label;
-  final VoidCallback onMic;
-  final String yesLabel;
-  final String noLabel;
-  final VoidCallback? onYes;
-  final VoidCallback? onNo;
-
-  @override
-  Widget build(BuildContext context) => Row(
-    children: [
-      Expanded(
-        child: SizedBox(
-          height: 56,
-          child: ElevatedButton.icon(
-            onPressed: onMic,
-            icon: const Icon(Icons.mic_none_rounded, color: Colors.white),
-            label: Text(
-              label,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: pop(14, FontWeight.w600, Colors.white, 1),
-            ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: kInk,
-              shape: const StadiumBorder(),
-              elevation: 6,
-              shadowColor: const Color(0x4D000080),
-            ),
-          ),
-        ),
-      ),
-      const SizedBox(width: 10),
-      Container(
-        padding: const EdgeInsets.all(5),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(999),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x1F000050),
-              blurRadius: 22,
-              offset: Offset(0, 8),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            RoundIconButton(
-              icon: Icons.check_rounded,
-              tooltip: yesLabel,
-              onTap: onYes,
-              bg: onYes == null ? const Color(0xFFB9D9B5) : MssColors.green,
-              fg: Colors.white,
-              size: 48,
-              iconSize: 22,
-            ),
-            const SizedBox(width: 6),
-            RoundIconButton(
-              icon: Icons.close_rounded,
-              tooltip: noLabel,
-              onTap: onNo,
-              bg: MssColors.saffronLight,
-              fg: MssColors.saffronText,
-              size: 48,
-              iconSize: 20,
-            ),
-          ],
-        ),
-      ),
-    ],
-  );
 }
 
 /// "Documents needed" checklist for the top scheme; ticks are the user's.
@@ -736,7 +655,7 @@ class DocumentsCard extends StatelessWidget {
                 ),
                 Text(
                   l10n.sv2DocumentsReady(ready.length, documents.length),
-                  style: pop(11, FontWeight.w600, MssColors.green, 1),
+                  style: pop(11, FontWeight.w600, AppColors.success, 1),
                 ),
               ],
             ),
@@ -748,7 +667,7 @@ class DocumentsCard extends StatelessWidget {
                 controlAffinity: ListTileControlAffinity.leading,
                 value: ready.contains(i),
                 onChanged: (_) => onToggle(i),
-                activeColor: MssColors.green,
+                activeColor: AppColors.success,
                 shape: const CircleBorder(),
                 checkboxShape: const CircleBorder(),
                 title: Text(

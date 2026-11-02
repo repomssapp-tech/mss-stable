@@ -5927,19 +5927,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sv2TapWhenDone => 'Tap the mic when you\'re done';
 
   @override
-  String get sv2ConfirmTitle => 'Did I hear you right?';
-
-  @override
-  String get sv2Transcribed => 'TRANSCRIBED';
-
-  @override
-  String get sv2ConfirmHelp =>
-      'Tap the tick to send, the cross to discard, or the mic to say it again.';
-
-  @override
-  String get sv2EditTitle => 'Correct your request';
-
-  @override
   String get sv2Speak => 'Speak';
 
   @override
@@ -5947,9 +5934,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sv2Send => 'Send this';
-
-  @override
-  String get sv2Discard => 'Discard';
 
   @override
   String get sv2Room => 'Conversation room';
@@ -5978,6 +5962,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String sv2DocumentsReady(int ready, int total) {
     return '$ready of $total ready';
   }
+
+  @override
+  String get sv2OldSessions => 'Old sessions';
+
+  @override
+  String get sv2TypeMessage => 'Type a message to Saarthi';
 
   @override
   String get sv2HistoryTitle => 'Chat history';
@@ -6047,18 +6037,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sv2AutoplayBody => 'Saarthi reads every answer aloud';
-
-  @override
-  String get sv2HandsFree => 'Hands-free mode';
-
-  @override
-  String get sv2HandsFreeBody => 'Keep listening after each reply';
-
-  @override
-  String get sv2ConfirmSend => 'Confirm before sending';
-
-  @override
-  String get sv2ConfirmSendBody => 'Check what Saarthi heard before it is sent';
 
   @override
   String get sv2VoiceNote => 'Saarthi\'s voice is chosen for each language.';

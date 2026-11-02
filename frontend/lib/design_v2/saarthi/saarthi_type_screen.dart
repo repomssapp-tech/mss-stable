@@ -17,6 +17,7 @@ import '../../services/chat/chat_log_service.dart';
 import '../../services/chat/local_chat_history.dart';
 import '../../services/chat/sarvam_chat_service.dart';
 import '../highlight_text.dart';
+import '../../utils/app_colors.dart';
 import '../mss_design.dart';
 import 'saarthi_kit.dart';
 import 'scheme_mentions.dart';
@@ -293,7 +294,7 @@ class _SaarthiTypeScreenState extends State<SaarthiTypeScreen> {
           Positioned(
             left: -90,
             bottom: 120,
-            child: _glow(300, MssColors.saffron.withValues(alpha: .14)),
+            child: _glow(300, AppColors.primary.withValues(alpha: .08)),
           ),
           Positioned(
             right: -110,
@@ -304,7 +305,7 @@ class _SaarthiTypeScreenState extends State<SaarthiTypeScreen> {
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  _glow(320, MssColors.green.withValues(alpha: .10)),
+                  _glow(320, AppColors.primaryLight.withValues(alpha: .10)),
                   Positioned(
                     left: -113,
                     top: -9,
@@ -369,7 +370,7 @@ class _SaarthiTypeScreenState extends State<SaarthiTypeScreen> {
                           highlight: pop(
                             32,
                             FontWeight.w800,
-                            MssColors.saffronDeep,
+                            AppColors.primary,
                             1,
                           ),
                           style: pop(
@@ -392,9 +393,9 @@ class _SaarthiTypeScreenState extends State<SaarthiTypeScreen> {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        chip(l10n.sv2ChipPmegp, MssColors.saffron),
+                        chip(l10n.sv2ChipPmegp, AppColors.primary),
                         const SizedBox(height: 10),
-                        chip(l10n.sv2ChipWomen, MssColors.green),
+                        chip(l10n.sv2ChipWomen, AppColors.success),
                       ],
                     ),
                   ),
@@ -570,7 +571,7 @@ class _SaarthiTypeScreenState extends State<SaarthiTypeScreen> {
   Widget _followUp(String t) => ActionChip(
     onPressed: () => _send(t),
     backgroundColor: Colors.white,
-    side: const BorderSide(color: Color(0x24000080)),
+    side: const BorderSide(color: Color(0x240F172A)),
     shape: const StadiumBorder(),
     label: Text(t, style: pop(12, FontWeight.w600, kInk, 1)),
   );
@@ -579,7 +580,7 @@ class _SaarthiTypeScreenState extends State<SaarthiTypeScreen> {
     text: '',
     child: Row(
       children: [
-        const Icon(Icons.error_outline_rounded, color: MssColors.saffronText),
+        const Icon(Icons.error_outline_rounded, color: AppColors.danger),
         const SizedBox(width: 8),
         Expanded(
           child: Text(
