@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../models/localized_scheme.dart';
+import '../../utils/language_names.dart';
 
 import 'mss_catalog_bundle.dart';
 
@@ -132,11 +134,21 @@ class LanguagePackManager {
     }
   }
 
-  /// Languages the app's own UI ships in. Used when a manifest carries no
-  /// `languages` list at all: catalogs published from the admin panel
-  /// (`schemes-3`, 2026-10-22) leave it out, and treating that as "everything
-  /// off" hid Hindi from the language picker although the catalog has Hindi.
-  static const Set<String> _appLanguages = {'en', 'ta', 'hi'};
+  /// The app's base languages (see AGENTS.md, "Bilingual Localization"): always
+  /// offered, never behind the release kill switch.
+  static const List<String> baseLanguages = ['en', 'ta'];
+
+  /// Languages the app's own UI ships in (one per ARB file). Used when a
+  /// manifest carries no `languages` list at all: catalogs published from the
+  /// admin panel (`schemes-3`, 2026-10-22) leave it out, and treating that as
+  /// "everything off" hid Hindi from the language picker although the catalog
+  /// has Hindi.
+  static Iterable<String> get _uiLanguages =>
+      AppLocalizations.supportedLocales.map((l) => l.languageCode);
+
+  /// Whether interface strings exist for [lang]. A language without them can
+  /// still show scheme content; its interface falls back to English.
+  static bool hasUiStrings(String lang) => _uiLanguages.contains(lang);
 
   /// Checks if the given language is listed as active in the current manifest
   /// (`languages: [{code, isActive}]`). A manifest with no `languages` list
@@ -147,13 +159,50 @@ class LanguagePackManager {
       return isLanguageActiveOverride!(lang);
     }
     final languages = _releaseManifest?['languages'];
-    if (languages is! List) return _appLanguages.contains(lang);
+    if (languages is! List) return hasUiStrings(lang);
     for (final item in languages) {
       if (item is Map && item['code'] == lang) {
         return item['isActive'] == true;
       }
     }
     return false;
+  }
+
+  /// Languages a jurisdiction of this release offers
+  /// (`languageRegistry.jurisdictions.*.offeredLanguages`). Null when the
+  /// manifest has no registry to consult.
+  Set<String>? get _registryLanguages {
+    final registry = _releaseManifest?['languageRegistry'];
+    final jurisdictions = registry is Map ? registry['jurisdictions'] : null;
+    if (jurisdictions is! Map) return null;
+    return {
+      for (final entry in jurisdictions.values)
+        if (entry is Map && entry['offeredLanguages'] is List)
+          ...(entry['offeredLanguages'] as List).whereType<String>(),
+    };
+  }
+
+  /// The languages to offer the user, in display order: the [baseLanguages],
+  /// plus every language the manifest lists as active, a jurisdiction offers
+  /// and the catalog has content for. Adding a language to a release is what
+  /// makes it appear here; no app code names it.
+  Future<List<String>> offeredLanguages() async {
+    await ensureReleaseManifestLoaded();
+    final listed = _releaseManifest?['languages'];
+    final registry = _registryLanguages;
+    final candidates = listed is List
+        ? [
+            for (final item in listed)
+              if (item is Map && item['code'] is String) item['code'] as String,
+          ]
+        : _uiLanguages;
+    final offered = <String>{...baseLanguages};
+    for (final code in candidates) {
+      if (offered.contains(code)) continue;
+      if (registry != null && !registry.contains(code)) continue;
+      if (await isLanguageSupported(code)) offered.add(code);
+    }
+    return inDisplayOrder(offered);
   }
 
   /// Checks that the catalog actually has content for [lang].

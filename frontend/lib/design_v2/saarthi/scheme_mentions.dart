@@ -25,7 +25,11 @@ List<Scheme> schemesMentionedIn(
       ).firstMatch(reply);
       if (m != null && (at < 0 || m.start < at)) at = m.start;
     }
-    for (final full in [s.name, s.nameTa, s.fullSchemeName]) {
+    for (final full in [
+      s.name,
+      ...?s.nativeNames['name']?.values,
+      s.fullSchemeName,
+    ]) {
       final f = _withoutParentheses(full).toLowerCase();
       if (f.length < 12) continue;
       final i = lower.indexOf(f);

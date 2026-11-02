@@ -50,6 +50,12 @@ abstract final class AppColors {
   static const languageHindiFg = Color(
     0xFFC2410C,
   ); // Hindi card avatar text (Orange 700)
+  static const languageNeutralBg = Color(
+    0xFFF1F5F9,
+  ); // avatar bg of any other language (Slate 100)
+  static const languageNeutralFg = Color(
+    0xFF334155,
+  ); // avatar text of any other language (Slate 700)
   static const primaryTint = Color(
     0xFFDBEAFE,
   ); // icon-badge bg, selected border

@@ -1,4 +1,5 @@
 import '../../../models/mss_entity.dart';
+import '../centralized_translator.dart';
 import '../mss_catalog_bundle.dart';
 import '../../recommendation/indian_states.dart';
 import 'scheme_adapter_text_utils.dart';
@@ -9,7 +10,6 @@ class SchemeHeaderData {
   final String statusStr;
   final bool isActive;
   final String name;
-  final String nameTa;
   final String shortName;
   final String finalFullName;
   final String ministry;
@@ -26,21 +26,19 @@ class SchemeHeaderData {
   final String category;
   final String districtApplicable;
   final String overviewEn;
-  final String overviewTa;
   final String objectivesEn;
   final String targetBeneficiary;
   final Set<String> glanceChips;
 
   /// Names the catalog already stores in other languages, per field:
-  /// `{ministry|department|implementingAgency|sponsoringBody|issuingBody|
-  /// shortName: {lang: name}}`. Used before any runtime translation.
+  /// `{name|overview|ministry|department|implementingAgency|sponsoringBody|
+  /// issuingBody|shortName: {lang: name}}`. Used before any runtime translation.
   final Map<String, Map<String, String>> nativeNames;
 
   const SchemeHeaderData({
     required this.statusStr,
     required this.isActive,
     required this.name,
-    required this.nameTa,
     required this.shortName,
     required this.finalFullName,
     required this.ministry,
@@ -57,7 +55,6 @@ class SchemeHeaderData {
     required this.category,
     required this.districtApplicable,
     required this.overviewEn,
-    required this.overviewTa,
     required this.objectivesEn,
     required this.targetBeneficiary,
     required this.glanceChips,
@@ -100,11 +97,19 @@ class SchemeHeaderResolver {
     final statusStr = rawStatus.isEmpty ? 'ACTIVE' : rawStatus.toUpperCase();
     final isActive = statusStr != 'CLOSED';
 
+    // A language with a rewriting engine keeps the text resolved here, so its
+    // English fallback is not rewritten; any other language reads the language
+    // pack and falls back to English as it is.
+    const rewriting = CentralizedTranslator.rewritingLanguages;
     final nameEn = entity.getLocalizedName('en');
-    final nameTa = entity.getLocalizedName('ta');
-    final name = nameEn.isNotEmpty
-        ? nameEn
-        : (nameTa.isNotEmpty ? nameTa : entity.code);
+    final storedNames = {
+      for (final lang in rewriting) lang: entity.getLocalizedName(lang),
+    };
+    final name = SchemeAdapterTextUtils.firstText([
+      nameEn,
+      ...storedNames.values,
+      entity.code,
+    ]);
     final shortName = SchemeAdapterTextUtils.getLocalizedText(
       entity.identity['shortName'] ?? classification['shortName'],
       langCode,
@@ -197,6 +202,7 @@ class SchemeHeaderResolver {
         ? ministryNames
         : (department.isNotEmpty ? departmentNames : const <String, String>{});
     final nativeNames = <String, Map<String, String>>{
+      'name': storedNames,
       'ministry': ministryNames,
       'department': departmentNames,
       'implementingAgency': agencyNames,
@@ -250,13 +256,14 @@ class SchemeHeaderResolver {
 
     // ── 3. Overview & Objectives ───────────────────────────────────────
     String overviewEn = '';
-    String overviewTa = entity.getLocalizedAttribute('summary', 'ta');
-    if (overviewTa.isEmpty) {
-      overviewTa = entity.getLocalizedAttribute('overview', 'ta');
-    }
-    if (overviewTa.isEmpty) {
-      overviewTa = entity.getLocalizedAttribute('description', 'ta');
-    }
+    final storedOverview = {
+      for (final lang in rewriting)
+        lang: SchemeAdapterTextUtils.firstText([
+          entity.getLocalizedAttribute('summary', lang),
+          entity.getLocalizedAttribute('overview', lang),
+          entity.getLocalizedAttribute('description', lang),
+        ]),
+    };
 
     final summaryRaw =
         overviewObj['summary'] ??
@@ -265,10 +272,12 @@ class SchemeHeaderResolver {
         content['description'] ??
         content['overview'];
     if (summaryRaw is Map) {
-      final en = SchemeAdapterTextUtils.str(summaryRaw['en']);
-      final ta = SchemeAdapterTextUtils.str(summaryRaw['ta']);
-      overviewEn = en.isNotEmpty ? en : ta;
-      if (overviewTa.isEmpty && ta.isNotEmpty) overviewTa = ta;
+      overviewEn = SchemeAdapterTextUtils.str(summaryRaw['en']);
+      for (final lang in rewriting) {
+        final text = SchemeAdapterTextUtils.str(summaryRaw[lang]);
+        if (overviewEn.isEmpty) overviewEn = text;
+        if (storedOverview[lang]!.isEmpty) storedOverview[lang] = text;
+      }
     } else if (summaryRaw is String) {
       overviewEn = summaryRaw;
     }
@@ -300,10 +309,16 @@ class SchemeHeaderResolver {
         SchemeAdapterTextUtils.str(content['eligibilityText']),
         entity.getLocalizedAttribute('eligibilityText', 'en'),
       ]);
-      final elTextTa = entity.getLocalizedAttribute('eligibilityText', 'ta');
       if (elTextEn.isNotEmpty) {
         overviewEn = elTextEn;
-        if (overviewTa.isEmpty && elTextTa.isNotEmpty) overviewTa = elTextTa;
+        for (final lang in rewriting) {
+          if (storedOverview[lang]!.isEmpty) {
+            storedOverview[lang] = entity.getLocalizedAttribute(
+              'eligibilityText',
+              lang,
+            );
+          }
+        }
       } else {
         overviewEn =
             'Government scheme providing financial and institutional support for $targetBeneficiary.';
@@ -351,7 +366,6 @@ class SchemeHeaderResolver {
       statusStr: statusStr,
       isActive: isActive,
       name: name,
-      nameTa: nameTa,
       shortName: shortName,
       finalFullName: finalFullName,
       ministry: ministry,
@@ -368,11 +382,13 @@ class SchemeHeaderResolver {
       category: category,
       districtApplicable: districtApplicable,
       overviewEn: overviewEn,
-      overviewTa: overviewTa,
       objectivesEn: objectivesEn,
       targetBeneficiary: targetBeneficiary,
       glanceChips: glanceChips,
-      nativeNames: nativeNames,
+      nativeNames: {
+        ...nativeNames,
+        if (storedOverview.isNotEmpty) 'overview': storedOverview,
+      },
     );
   }
 
