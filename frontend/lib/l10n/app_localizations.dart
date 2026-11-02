@@ -9280,6 +9280,18 @@ abstract class AppLocalizations {
   /// **'As of {date}'**
   String schemeStatusAsOf(String date);
 
+  /// No description provided for @processUnconfirmedLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Some details could not be confirmed from official sources. Check the official page before applying.'**
+  String get processUnconfirmedLink;
+
+  /// No description provided for @processUnconfirmedNoLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Some details could not be confirmed from official sources. Confirm with the implementing office before applying.'**
+  String get processUnconfirmedNoLink;
+
   /// No description provided for @schemeApplicationStatus.
   ///
   /// In en, this message translates to:

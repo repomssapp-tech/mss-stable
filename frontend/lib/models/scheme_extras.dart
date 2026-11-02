@@ -323,6 +323,34 @@ class SchemeExtras {
     return out;
   }
 
+  // ── Reliability ───────────────────────────────────────────────────────
+  static final RegExp _unconfirmedNote = RegExp(
+    'unofficial|search summar|search result|aggregator|inferred'
+    '|not read from an official|not verified'
+    '|could not be (opened|fetched|confirmed)|from a research|research paper'
+    '|supplied by the user|confirm before|no official|verify on|not confirmed'
+    '|news report|non-official|secondary',
+    caseSensitive: false,
+  );
+
+  static final RegExp _wrongLinkNote = RegExp(
+    'scheme link points to|linked page in the catalogue|page the catalogue links',
+    caseSensitive: false,
+  );
+
+  /// The catalogue's research notes (English, never shown as they are).
+  List<String> get _researchNotes =>
+      ContentLanguageResolver.list(_loc('en', 'notes'));
+
+  /// The research notes say some steps, limits or documents did not come from
+  /// an official source, so the reader should check before applying.
+  bool get hasUnconfirmedDetails =>
+      _researchNotes.any(_unconfirmedNote.hasMatch);
+
+  /// The research notes say the scheme's stored link leads somewhere else, so
+  /// it must not be offered as the official page.
+  bool get hasWrongLink => _researchNotes.any(_wrongLinkNote.hasMatch);
+
   // ── Names, relations, notes ───────────────────────────────────────────
   List<String> altNames(String lang) =>
       ContentLanguageResolver.list(_loc(lang, 'altNames'), lang);
