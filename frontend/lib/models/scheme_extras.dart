@@ -178,30 +178,35 @@ class SchemeExtras {
     return v.isNotEmpty ? v : _str(_status['asOf']);
   }
 
-  /// Empty when the English note is the catalogue's generated metadata line
-  /// ("Catalogue status active; verification verified (high)."), which read
-  /// like debug text; the application status is shown separately.
+  /// Empty when the English note is the catalogue's own bookkeeping ("Catalogue
+  /// status active; verification verified (high).", "Staging record MSME2015-010
+  /// (renamed); web check...", "Verified active via live portal (HTTP 200...)"),
+  /// which reads like debug text; the application status is shown separately.
+  /// Notes that tell the user something about the scheme stay.
   String statusNote(String lang) {
     final en = ContentLanguageResolver.text(_loc('en', 'statusNote'), 'en');
-    if (_generatedStatusNote.hasMatch(en)) return '';
+    if (_internalStatusNote.hasMatch(en)) return '';
     return ContentLanguageResolver.text(_loc(lang, 'statusNote'), lang);
   }
 
-  static final RegExp _generatedStatusNote = RegExp(
-    r'^Catalogue status [\w ]+; verification [\w ]+ \(\w+\)\.?$',
+  static final RegExp _internalStatusNote = RegExp(
+    r'^(Catalogue status [\w ]+; verification [\w ]+ \(\w+\)'
+    r'|Staging record '
+    r'|Verified active '
+    r'|Verified against a live official page'
+    r'|Verified\s*[-–] '
+    r'|Historical/closed\s*[-–] source audit pending'
+    r'|Needs final official-page confirmation)',
   );
 
   /// `open`, `closed`, `unknown`, `historical_or_superseded`, `announced`,
   /// `temporarily unavailable`... as given by the source.
-  String get applicationStatus => _text(
-    _how['application_status'],
-    _proc['applicationStatus'],
-  );
+  String get applicationStatus =>
+      _text(_how['application_status'], _proc['applicationStatus']);
   String get procedureType =>
       _text(_how['procedure_type'], _proc['procedureType']);
   String get deadline => _text(_how['deadline'], _proc['deadline']);
-  String get prerequisite =>
-      _text(_how['prerequisite'], _proc['prerequisite']);
+  String get prerequisite => _text(_how['prerequisite'], _proc['prerequisite']);
   String get statusCheckedOn =>
       _text(_how['status_checked_on'], _proc['statusCheckedOn']);
 
