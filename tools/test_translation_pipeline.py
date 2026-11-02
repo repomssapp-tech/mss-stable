@@ -409,6 +409,26 @@ def test_new_text_changes_only_its_own_fields_of_the_localization_block():
         assert read_target(entity, unit, "ta") == "தமிழ் பெயர்"
 
 
+def test_written_text_is_what_a_read_returns_even_with_an_older_copy():
+    with Env() as env:
+        scheme = next(s for s in env.bundle["scheme_catalog.json"]["data"] if s["source"].get("how_to_apply", {}).get("notes"))
+        unit = next(u for u in scheme_units(scheme) if u.field == "notes")
+        scheme["source"]["how_to_apply"]["notes_ta"] = "பழைய உரை"
+        write_target(scheme, unit, "ta", "புதிய உரை")
+        assert read_target(scheme, unit, "ta") == "புதிய உரை"
+
+
+def test_a_stored_name_may_only_change_by_putting_english_back():
+    en = "Coir Board, Ministry of MSME"
+    old = "தென்னைநார் வாரியம், அமைச்சகம்"
+    assert stages.keeps_english(en, old, "Coir Board, அமைச்சகம்")
+    assert not stages.keeps_english(en, old, "புதிய வாரியம், அமைச்சகம்"), "a new translated word needs a source"
+    assert not stages.keeps_english(en, old, "Spices Board, அமைச்சகம்"), "the English must come from the source"
+    assert not stages.keeps_english(en, old, old), "nothing changed"
+    assert stages.keeps_english("KVIC and KVIBs", "KVIC மற்றும் கேவிஐசி", "KVIC மற்றும் KVIC"), "only Tamil removed"
+    assert not stages.keeps_english(en, None, "Coir Board")
+
+
 def _name_unit(env):
     return next(u for _, u in stages.planned(env.bundle, env.config, "gu") if u.field == "name")
 

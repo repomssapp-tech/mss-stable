@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import collections
 import json
+import re
 import random
 from pathlib import Path
 
@@ -22,6 +23,19 @@ def planned(bundle: dict, config: Config, lang: str) -> list[tuple[dict, Unit]]:
 def is_government_name(unit: Unit, config: Config) -> bool:
     """A scheme, authority or institution name: never machine translated."""
     return unit.field in config.government_name_fields.get(unit.section, ())
+
+
+def keeps_english(en, existing, text) -> bool:
+    """Whether [text] only puts English back into a stored name: every word it adds comes
+    from the English source, and it adds no translated word. Keeping the English name is
+    always allowed, so this needs no official source."""
+    if not all(isinstance(v, str) for v in (en, existing, text)):
+        return False
+    latin = lambda v: set(re.findall(r"[A-Za-z][A-Za-z&-]*", v))  # noqa: E731
+    other = lambda v: set(re.findall(r"[^\x00-\x7F]+", v))  # noqa: E731
+    added = latin(text) - latin(existing)
+    removed_translation = other(text) < other(existing)
+    return bool(added or removed_translation) and added <= latin(en) and other(text) <= other(existing)
 
 
 def _field_group(unit: Unit) -> str:
@@ -136,7 +150,7 @@ def export_batch(bundle, config, lang, ledger, out: Path, batch: str, *, tier=No
             skipped["pending_translation"] += 1
             continue
         state = event["state"] if event else None
-        if state in SETTLED and current:
+        if state in SETTLED and current and only_units is None:
             skipped["already_in_progress"] += 1
             continue
         if state == "failed" and current and not retry_failed:
@@ -189,7 +203,11 @@ def ingest(bundle, config, lang, ledger, candidates: Path, engine: str, revision
                 continue
             text = row.get("translation")
             official_source = row.get("official_source")
-            if is_government_name(unit, config) and (engine != "official" or not official_source):
+            if (
+                is_government_name(unit, config)
+                and (engine != "official" or not official_source)
+                and not keeps_english(unit.en, read_target(entity, unit, lang), text)
+            ):
                 counts["government_name_refused"] += 1
                 events.append({"unit": key, "state": "failed", "checksum": unit.source_checksum, "batch": event.get("batch"),
                                "checks": [{"severity": "block", "code": "government_name_needs_official_source", "detail": engine}]})
@@ -277,7 +295,11 @@ def decide(ledger: Ledger, bundle, config, lang, decisions: Path, reviewer: str)
                 continue
             entity, unit = by_key[row["unit"]]
             official_source = row.get("official_source") or current.get("official_source")
-            if is_government_name(unit, config) and not official_source:
+            if (
+                is_government_name(unit, config)
+                and not official_source
+                and not keeps_english(unit.en, read_target(entity, unit, lang), row.get("text", current.get("text")))
+            ):
                 counts["refused_government_name"] += 1
                 continue
             if official_source:

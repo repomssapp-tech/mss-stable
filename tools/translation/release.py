@@ -84,7 +84,8 @@ def _update_scheme_metadata(
     search = scheme.setdefault("search", {})
     aliases = search.setdefault("aliases", {})
     if alt is not None and read_target(scheme, alt, lang) is not None and not aliases.get(lang):
-        aliases[lang] = read_target(scheme, alt, lang)
+        if "alt_names" in superseded | filled:
+            aliases[lang] = read_target(scheme, alt, lang)
     search.setdefault("keywords", {}).setdefault(lang, [])
     languages = scheme.setdefault("content", {}).setdefault("languages", {})
     available = languages.setdefault("available", [])

@@ -235,4 +235,11 @@ def write_target(entity: dict, unit: Unit, lang: str, value) -> list[tuple]:
         filled = fill(path, lang)
         if _set_path(entity, filled, value, anchor):
             written.append(filled)
+    # An older copy read ahead of what was written would keep hiding the new text.
+    for path in unit.spec.reads:
+        filled = fill(path, lang)
+        if filled in written:
+            break
+        if has_text(get_path(entity, filled)) and _set_path(entity, filled, value, len(filled) - 1):
+            written.append(filled)
     return written

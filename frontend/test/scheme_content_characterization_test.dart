@@ -296,6 +296,28 @@ void main() {
       expect(names, 49);
     });
 
+    test('scheme text carries none of the corrected mistranslations', () {
+      // Andaman read as Andhra, infomediary as medical, handholding as a door
+      // handle and an amount, "application" as an app, garbled text.
+      const wrong = [
+        'ஆந்திரா மற்றும் நிகோபார்',
+        'தகவல் மருத்துவ',
+        'வசதி/கைப்பிடி',
+        'கையடக்கத் தொகை',
+        'வட்டி காட்டுங்கள்',
+        'பயன்பாடு இல்லை (_',
+      ];
+      for (final e in bundle.schemes) {
+        final block = (e.raw['localization'] as Map)['ta'];
+        if (block is! Map) continue;
+        for (final value in block.values) {
+          for (final w in wrong) {
+            expect(value.toString(), isNot(contains(w)), reason: e.id);
+          }
+        }
+      }
+    });
+
     test('document names carry none of the corrected mistranslations', () {
       // pitch as music, promotion as a job promotion, quotation as a citation,
       // promoter as advertiser, a command instead of a label, and a scheme
