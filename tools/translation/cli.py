@@ -51,6 +51,7 @@ def _parser() -> argparse.ArgumentParser:
         (("--include-pending",), {"action": "store_true", "help": "also translate English marked pending_translation"}),
         (("--retry-failed",), {"action": "store_true"}),
         (("--stale",), {"action": "store_true", "help": "also queue text whose English has changed"}),
+        (("--official-names",), {"action": "store_true", "help": "queue only government names, to fill in from an official source"}),
     )
     command(
         "ingest",
@@ -98,7 +99,7 @@ def main(argv=None) -> int:
     elif args.command == "export":
         result = stages.export_batch(
             bundle, config, args.lang, ledger, args.out, args.batch, tier=args.tier, jurisdiction=args.jurisdiction,
-            limit=args.limit, include_pending=args.include_pending, retry_failed=args.retry_failed, stale=args.stale,
+            limit=args.limit, include_pending=args.include_pending, retry_failed=args.retry_failed, stale=args.stale, official_names=args.official_names,
         )
     elif args.command == "ingest":
         result = stages.ingest(bundle, config, args.lang, ledger, args.file, args.engine, args.revision)

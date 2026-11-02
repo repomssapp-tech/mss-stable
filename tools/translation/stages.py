@@ -19,6 +19,11 @@ def planned(bundle: dict, config: Config, lang: str) -> list[tuple[dict, Unit]]:
     return [(e, u) for e, u in all_units(bundle) if language.covers(u.jurisdiction)]
 
 
+def is_government_name(unit: Unit, config: Config) -> bool:
+    """A scheme, authority or institution name: never machine translated."""
+    return unit.field in config.government_name_fields.get(unit.section, ())
+
+
 def _field_group(unit: Unit) -> str:
     return unit.field.split("[")[0].split(".")[0]
 
@@ -26,11 +31,14 @@ def _field_group(unit: Unit) -> str:
 def audit(bundle: dict, config: Config, lang: str, ledger: Ledger) -> dict:
     """Coverage, gaps and staleness for [lang]. Reads only."""
     rows = collections.defaultdict(collections.Counter)
+    names = collections.Counter()
     for entity, unit in planned(bundle, config, lang):
         row = rows[(unit.jurisdiction or "reference", unit.tier)]
         row["total"] += 1
         present = read_target(entity, unit, lang) is not None
         event = ledger.latest.get(unit.key)
+        if present and is_government_name(unit, config):
+            names["with_official_source" if (event or {}).get("official_source") else "no_official_source"] += 1
         if present:
             row["present"] += 1
             if event is None:
@@ -45,6 +53,7 @@ def audit(bundle: dict, config: Config, lang: str, ledger: Ledger) -> dict:
         "language": lang,
         "rows": {f"{j}/{t}": dict(c) for (j, t), c in sorted(rows.items())},
         "ledger": dict(collections.Counter(e["state"] for e in ledger.latest.values())),
+        "government_names": dict(names),
     }
 
 
@@ -101,12 +110,18 @@ def baseline(bundle: dict, config: Config, lang: str, ledger: Ledger) -> int:
 
 
 def export_batch(bundle, config, lang, ledger, out: Path, batch: str, *, tier=None, jurisdiction=None,
-                 limit=None, include_pending=False, retry_failed=False, stale=False) -> dict:
-    """Queue missing text and write it to [out] for an engine. Re-runs skip settled units."""
+                 limit=None, include_pending=False, retry_failed=False, stale=False, official_names=False) -> dict:
+    """Queue missing text and write it to [out] for an engine. Re-runs skip settled units.
+    Government names are never queued for an engine; [official_names] queues only them,
+    for someone to fill in from an official source."""
     lines, events = [], []
     skipped = collections.Counter()
     for entity, unit in planned(bundle, config, lang):
         if (tier and unit.tier != tier) or (jurisdiction and unit.jurisdiction != jurisdiction):
+            continue
+        if is_government_name(unit, config) != official_names:
+            if not official_names:
+                skipped["government_name"] += 1
             continue
         existing = read_target(entity, unit, lang)
         event = ledger.latest.get(unit.key)
@@ -170,6 +185,12 @@ def ingest(bundle, config, lang, ledger, candidates: Path, engine: str, revision
                                "checks": [{"severity": "block", "code": "stale_source", "detail": ""}]})
                 continue
             text = row.get("translation")
+            official_source = row.get("official_source")
+            if is_government_name(unit, config) and (engine != "official" or not official_source):
+                counts["government_name_refused"] += 1
+                events.append({"unit": key, "state": "failed", "checksum": unit.source_checksum, "batch": event.get("batch"),
+                               "checks": [{"severity": "block", "code": "government_name_needs_official_source", "detail": engine}]})
+                continue
             findings = checks.check(unit.en, text, language, config, _sibling_text(entity, unit, language))
             state = checks.verdict(findings)
             counts[state] += 1
@@ -177,6 +198,7 @@ def ingest(bundle, config, lang, ledger, candidates: Path, engine: str, revision
                 "unit": key, "state": state, "checksum": unit.source_checksum, "batch": event.get("batch"),
                 "text": text, "engine": engine, "revision": revision, "origin": "human" if engine == "human" else "machine",
                 "checks": [f.as_dict() for f in findings],
+                **({"official_source": official_source} if official_source else {}),
             })
     ledger.append(events)
     return dict(counts)
@@ -251,6 +273,12 @@ def decide(ledger: Ledger, bundle, config, lang, decisions: Path, reviewer: str)
                 counts["rejected"] += 1
                 continue
             entity, unit = by_key[row["unit"]]
+            official_source = row.get("official_source") or current.get("official_source")
+            if is_government_name(unit, config) and not official_source:
+                counts["refused_government_name"] += 1
+                continue
+            if official_source:
+                base["official_source"] = official_source
             text = row.get("text", current.get("text"))
             edited = "text" in row
             if reviewer.strip().lower() == str(current.get("engine", "")).lower() and not edited:

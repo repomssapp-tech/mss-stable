@@ -92,7 +92,9 @@ def _update_manifest(bundle: dict, lang: str) -> None:
         codes.sort(key=lambda entry: entry["code"])
     have = collections.Counter()
     for scheme in bundle[SCHEME_SECTION]["data"]:
-        if get_path(scheme, ("localization", lang, "name")):
+        # Any text counts: a scheme name stays English until an official one exists.
+        block = get_path(scheme, ("localization", lang))
+        if isinstance(block, dict) and any(has_text(v) for v in block.values()):
             have[(scheme.get("provenance") or {}).get("jurisdiction") or "central"] += 1
     jurisdictions = (manifest.get("languageRegistry") or {}).get("jurisdictions", {})
     for jurisdiction, entry in jurisdictions.items():

@@ -1,7 +1,7 @@
 {
   "version": 1,
   "source": "en",
-  "engines": ["indictrans2", "claude", "google_translate", "human"],
+  "engines": ["indictrans2", "claude", "google_translate", "human", "official"],
   "languages": {
     "hi": {
       "name": "Hindi",

@@ -28,6 +28,8 @@ Translation had four separate lanes (Supabase content, central procedure steps, 
 | A sampled batch stays `verified: false`; only a per-unit decision can set it | `approve_batch()`, `decide()` |
 | Web-found English marked `pending_translation` is held back unless asked | `export_batch()` |
 | Offering a language to users is a separate, explicit step | `apply` only adds to `available` |
+| Government names (scheme, authority, institution) are never machine translated | `export_batch()` skips them, `ingest()` and `decide()` refuse them without an `official_source` |
+| State names survive inside translated text, as English or an approved form | `checks.py`, blocking |
 
 ## Flow
 
@@ -75,6 +77,18 @@ Re-runs skip finished units, a crash loses at most the line being written, and h
 These prove the facts survived, not that the meaning is right. In the Gujarati pilot, "Accelerator Support" passed every check but came back with the physics sense of "accelerator". That is why the sample review gate stays.
 
 A reviewer can override a blocking finding with `decide` by recording `override_reason`. For example, "Rs 10 million" as "₹1 crore" is correct but fails the amount check.
+
+## Government names
+
+Scheme, authority and institution names (`government_name_fields` in `glossary.json`) use the official translation when one exists. Otherwise the English stays. No engine translates them.
+
+```bash
+python tools/translation/cli.py export --lang mr --batch mr-names --official-names --out work/mr-names.jsonl
+# Fill in each line with {unit, checksum, translation, official_source}, where official_source is the government page it came from.
+python tools/translation/cli.py ingest --lang mr --file work/mr-names.out.jsonl --engine official --revision <date>
+```
+
+`audit` counts stored names with and without an official source. Names already in the catalogue predate this rule: `apply` keeps them, so removing an unsourced name is a separate decision.
 
 ## Tiers and jurisdictions
 

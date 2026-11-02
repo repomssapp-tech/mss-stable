@@ -193,7 +193,10 @@ def test_pending_translation_english_is_held_back_unless_asked():
         target = env.bundle["scheme_catalog.json"]["data"]
         marked = next(s for s in target if s["provenance"]["jurisdiction"] == "maharashtra")
         marked["provenance"].setdefault("master", {})["pending_translation"] = True
-        held = [u for _, u in stages.planned(env.bundle, env.config, "gu") if u.pending]
+        held = [
+            u for _, u in stages.planned(env.bundle, env.config, "gu")
+            if u.pending and not stages.is_government_name(u, env.config)
+        ]
         assert held
         info = stages.export_batch(env.bundle, env.config, "gu", env.ledger, env.dir / "b.jsonl", "b")
         assert len(held) == info["skipped"]["pending_translation"]
@@ -379,6 +382,72 @@ def test_config_rejects_a_language_that_cannot_be_checked():
         except config_module.ConfigError:
             return
         raise AssertionError("a language with no crore words must be refused")
+
+
+def _name_unit(env):
+    return next(u for _, u in stages.planned(env.bundle, env.config, "gu") if u.field == "name")
+
+
+def test_government_names_are_never_sent_to_an_engine():
+    with Env() as env:
+        info = stages.export_batch(env.bundle, env.config, "gu", env.ledger, env.dir / "b.jsonl", "b")
+        fields = {json.loads(x)["field"] for x in (env.dir / "b.jsonl").read_text(encoding="utf-8").splitlines()}
+        assert info["skipped"]["government_name"] > 0
+        assert not fields & {"name", "short_name", "alt_names", "authority"}
+
+
+def _official_batch(env, translation, **extra):
+    stages.export_batch(env.bundle, env.config, "gu", env.ledger, env.dir / "n.jsonl", "n", official_names=True)
+    unit = _name_unit(env)
+    line = {"unit": unit.key, "checksum": unit.source_checksum, "translation": translation, **extra}
+    (env.dir / "n.out.jsonl").write_text(json.dumps(line, ensure_ascii=False) + "\n", encoding="utf-8")
+    return unit
+
+
+def test_a_machine_engine_cannot_supply_a_government_name():
+    with Env() as env:
+        unit = _official_batch(env, "ક ક ક", official_source="https://example.gov.in")
+        counts = stages.ingest(env.bundle, env.config, "gu", env.ledger, env.dir / "n.out.jsonl", "claude", "r1")
+        assert counts == {"government_name_refused": 1}
+        assert env.ledger.latest[unit.key]["state"] == "failed"
+
+
+def test_an_official_name_needs_its_source():
+    with Env() as env:
+        unit = _official_batch(env, "ક ક ક")
+        counts = stages.ingest(env.bundle, env.config, "gu", env.ledger, env.dir / "n.out.jsonl", "official", "r1")
+        assert counts == {"government_name_refused": 1}
+        assert env.ledger.latest[unit.key]["state"] == "failed"
+
+
+def test_an_official_name_with_a_source_is_accepted_and_traced():
+    with Env() as env:
+        unit = _official_batch(env, "કકક કકક કકક", official_source="https://example.gov.in/gu")
+        stages.ingest(env.bundle, env.config, "gu", env.ledger, env.dir / "n.out.jsonl", "official", "r1")
+        event = env.ledger.latest[unit.key]
+        assert event["state"] in ("checked", "needs_review")
+        assert event["official_source"] == "https://example.gov.in/gu"
+
+
+def test_a_reviewer_cannot_approve_a_government_name_without_a_source():
+    with Env() as env:
+        unit = _official_batch(env, "ક ક ક", official_source="https://example.gov.in")
+        stages.ingest(env.bundle, env.config, "gu", env.ledger, env.dir / "n.out.jsonl", "claude", "r1")
+        decision = {"unit": unit.key, "decision": "approve", "text": "ક ક ક", "override_reason": "looks fine"}
+        (env.dir / "d.jsonl").write_text(json.dumps(decision, ensure_ascii=False) + "\n", encoding="utf-8")
+        counts = stages.decide(env.ledger, env.bundle, env.config, "gu", env.dir / "d.jsonl", "owner")
+        assert counts == {"refused_government_name": 1}
+
+
+def test_a_state_name_must_survive_inside_translated_text():
+    config = config_module.load()
+    language = config.language("mr")
+    en = "Available to enterprises in Tamil Nadu only"
+    bad = checks.check(en, "फक्त एका दक्षिणेकडील राज्यातील उद्योगांसाठी उपलब्ध", language, config)
+    assert "government_name_changed" in {f.code for f in bad}
+    assert checks.verdict(bad) == "failed"
+    good = checks.check(en, "फक्त तमिळनाडू मधील उद्योगांसाठी उपलब्ध", language, config)
+    assert "government_name_changed" not in {f.code for f in good}
 
 
 if __name__ == "__main__":

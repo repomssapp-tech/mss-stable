@@ -144,6 +144,11 @@ def _check_text(en: str, text: str, lang: Language, config: Config, others: dict
             allowed = [term, *forms.get(lang.code, ())]
             if not any(form in text for form in allowed):
                 out.append(Finding(FLAG, "term_changed", term))
+    for name, forms in config.government_names.items():
+        if re.search(rf"\b{re.escape(name)}\b", en):
+            allowed = [name, *forms.get(lang.code, ())]
+            if not any(form in text for form in allowed):
+                out.append(Finding(BLOCK, "government_name_changed", name))
     return out
 
 

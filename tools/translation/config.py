@@ -43,6 +43,8 @@ class Config:
     engines: tuple[str, ...]
     languages: dict[str, Language]
     do_not_translate: dict[str, dict[str, list[str]]]
+    government_name_fields: dict[str, list[str]] = field(default_factory=dict)
+    government_names: dict[str, dict[str, list[str]]] = field(default_factory=dict)
 
     def language(self, code: str) -> Language:
         if code not in self.languages:
@@ -84,4 +86,6 @@ def load(config_dir: Path = CONFIG_DIR) -> Config:
         engines=tuple(raw["engines"]),
         languages=languages,
         do_not_translate=glossary.get("do_not_translate", {}),
+        government_name_fields=glossary.get("government_name_fields", {}),
+        government_names=glossary.get("government_names", {}),
     )
