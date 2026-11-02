@@ -384,6 +384,15 @@ def test_config_rejects_a_language_that_cannot_be_checked():
         raise AssertionError("a language with no crore words must be refused")
 
 
+def test_named_units_can_be_requeued_to_supersede_existing_text():
+    with Env() as env:
+        ledger = Ledger("ta", env.dir / "ledger")
+        target = next(u for e, u in stages.planned(env.bundle, env.config, "ta") if read_target(e, u, "ta") is not None and u.field == "documents")
+        info = stages.export_batch(env.bundle, env.config, "ta", ledger, env.dir / "s.jsonl", "s", only_units={target.key})
+        assert info["queued"] == 1
+        assert ledger.latest[target.key]["state"] == "queued"
+
+
 def _name_unit(env):
     return next(u for _, u in stages.planned(env.bundle, env.config, "gu") if u.field == "name")
 

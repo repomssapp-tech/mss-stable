@@ -110,14 +110,17 @@ def baseline(bundle: dict, config: Config, lang: str, ledger: Ledger) -> int:
 
 
 def export_batch(bundle, config, lang, ledger, out: Path, batch: str, *, tier=None, jurisdiction=None,
-                 limit=None, include_pending=False, retry_failed=False, stale=False, official_names=False) -> dict:
+                 limit=None, include_pending=False, retry_failed=False, stale=False, official_names=False, only_units=None) -> dict:
     """Queue missing text and write it to [out] for an engine. Re-runs skip settled units.
     Government names are never queued for an engine; [official_names] queues only them,
-    for someone to fill in from an official source."""
+    for someone to fill in from an official source. [only_units] queues exactly those
+    unit keys, existing text included, so a reviewer can supersede it."""
     lines, events = [], []
     skipped = collections.Counter()
     for entity, unit in planned(bundle, config, lang):
         if (tier and unit.tier != tier) or (jurisdiction and unit.jurisdiction != jurisdiction):
+            continue
+        if only_units is not None and unit.key not in only_units:
             continue
         if is_government_name(unit, config) != official_names:
             if not official_names:
@@ -126,7 +129,7 @@ def export_batch(bundle, config, lang, ledger, out: Path, batch: str, *, tier=No
         existing = read_target(entity, unit, lang)
         event = ledger.latest.get(unit.key)
         current = event is not None and event.get("checksum") == unit.source_checksum
-        if existing is not None and not (stale and event is not None and not current):
+        if existing is not None and only_units is None and not (stale and event is not None and not current):
             skipped["has_translation"] += 1
             continue
         if unit.pending and not include_pending:

@@ -279,6 +279,28 @@ void main() {
       expect(names, greaterThan(600));
     });
 
+    test('document names carry none of the corrected mistranslations', () {
+      // pitch as music, promotion as a job promotion, quotation as a citation,
+      // promoter as advertiser, a command instead of a label, and a scheme
+      // name translated (BIG as big).
+      const wrong = [
+        'சுருதி',
+        'பதவி உயர்வு',
+        'மேற்கோள்',
+        'விளம்பரதாரர்',
+        'ஏற்றுமதி செய்யுங்கள்',
+        'ஆன்லைன் பெரிய',
+      ];
+      for (final e in bundle.schemes) {
+        final s = MssSchemeAdapter.toScheme(e, bundle, langCode: 'ta');
+        for (final name in s.extras.storedDocumentNames('ta')) {
+          for (final w in wrong) {
+            expect(name, isNot(contains(w)), reason: e.id);
+          }
+        }
+      }
+    });
+
     test('no document text is a word-by-word Tamil and English mix', () {
       final mixed = RegExp(r'[\u0B80-\u0BFF].*\b[a-z]{3,}\b.*\b[a-z]{3,}\b');
       final offenders = <String>[];

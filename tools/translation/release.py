@@ -55,11 +55,31 @@ def project_localization(scheme: dict, lang: str, units: list[Unit]) -> dict:
     return {k: v for k, v in block.items() if v not in (None, "", [])}
 
 
-def _update_scheme_metadata(scheme: dict, lang: str, units: list[Unit], engines: set[str], superseded: bool) -> None:
+# Keys of `localization.<lang>` that each unit field feeds, where they differ from the field.
+PROJECTED_KEYS = {
+    "short_name": ("shortName",),
+    "description": ("summary", "description"),
+    "benefits": ("benefitsText",),
+    "eligibility": ("eligibilityText",),
+    "steps": ("applicationText",),
+    "status_note": ("statusNote",),
+    "alt_names": ("altNames",),
+}
+
+
+def _update_scheme_metadata(
+    scheme: dict, lang: str, units: list[Unit], engines: set[str], superseded: set[str], filled: bool
+) -> None:
     current = scheme.setdefault("localization", {}).get(lang) or {}
     projected = project_localization(scheme, lang, units)
-    # Existing blocks keep their text unless a reviewer replaced some of it.
-    scheme["localization"][lang] = {**current, **projected} if superseded else {**projected, **current}
+    # Existing text stays. Gaps are filled only when this release added new text, and a
+    # correction replaces only the fields a reviewer superseded, nothing else in the block.
+    block = {**projected, **current} if filled else dict(current)
+    for field_name in superseded:
+        for key in PROJECTED_KEYS.get(field_name, ("contacts",) if field_name.startswith("contacts.") else (field_name,)):
+            if key in projected:
+                block[key] = projected[key]
+    scheme["localization"][lang] = block
     alt = next((u for u in units if u.field == "alt_names"), None)
     search = scheme.setdefault("search", {})
     aliases = search.setdefault("aliases", {})
@@ -118,7 +138,7 @@ def apply_events(bundle: dict, lang: str, ledger: Ledger) -> dict:
     for _, unit in pairs:
         units_of[unit.entity_id].append(unit)
     written, replaced_paths = [], set()
-    engines, superseded = collections.defaultdict(set), set()
+    engines, superseded, filled = collections.defaultdict(set), collections.defaultdict(set), set()
     for event in ledger.in_state("approved"):
         entry = by_key.get(event["unit"])
         if entry is None:
@@ -139,14 +159,16 @@ def apply_events(bundle: dict, lang: str, ledger: Ledger) -> dict:
         outcome["written"] += 1
         written.append(event)
         engines[unit.entity_id].add(event.get("engine", "unknown"))
-        if event.get("replaces"):
-            superseded.add(unit.entity_id)
+        if not event.get("replaces"):
+            filled.add(unit.entity_id)
+        else:
+            superseded[unit.entity_id].add(unit.field)
             replaced_paths.update(_path_text(unit.entity_id, p) for p in paths)
             replaced_paths.add(_path_text(unit.entity_id, ("localization", lang)))
     for scheme in bundle[SCHEME_SECTION]["data"]:
         sid = scheme["identity"]["id"]
         if sid in engines:
-            _update_scheme_metadata(scheme, lang, units_of[sid], engines[sid], sid in superseded)
+            _update_scheme_metadata(scheme, lang, units_of[sid], engines[sid], superseded[sid], sid in filled)
     if written:
         _update_manifest(bundle, lang)
     return {"outcome": dict(outcome), "written": written, "replaced_paths": replaced_paths}
