@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "note": "do_not_translate terms must survive in the target, as written or in an approved form. Missing terms are flagged for review, not blocked. Add a language's forms when it is added.",
+  "do_not_translate": {
+    "PMEGP": {},
+    "MSME": {"ta": ["எம் எஸ் எம் ஈ"]},
+    "CGTMSE": {},
+    "ZED": {},
+    "KVIC": {},
+    "NSIC": {},
+    "SIDBI": {},
+    "MUDRA": {"hi": ["मुद्रा"], "mr": ["मुद्रा"], "ta": ["முத்ரா"]},
+    "REGP": {},
+    "Udyam": {"hi": ["उद्यम"], "mr": ["उद्यम"], "ta": ["உத்யம்", "உதயம்"]},
+    "GSTIN": {},
+    "DGFT": {},
+    "NABARD": {"hi": ["नाबार्ड"], "mr": ["नाबार्ड"], "ta": ["நபார்டு"]},
+    "RBI": {},
+    "CLCSS": {},
+    "SFURTI": {},
+    "ASPIRE": {}
+  }
+}
