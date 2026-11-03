@@ -102,10 +102,11 @@ class AppLocalizationsTa extends AppLocalizations {
   String get tipOfTheDay => 'இன்றைய உதவிக்குறிப்பு';
 
   @override
-  String get askAi => 'AI உதவி';
+  String get askAi => 'AI-யிடம் கேளுங்கள்';
 
   @override
-  String get searchPlaceholder => 'திட்டங்கள், நன்மைகள் தேடவும்...';
+  String get searchPlaceholder =>
+      'திட்டங்கள், நன்மைகளைத் தேடுங்கள் அல்லது எதையும் கேளுங்கள்...';
 
   @override
   String get filter => 'வடிகட்டி';
@@ -182,7 +183,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get taxBenefitsGstSupportCompliance =>
-      'வரி நன்மைகள், ஜி எஸ் டி ஆதரவு மற்றும் விதிகள்';
+      'வரி நன்மைகள், ஜி எஸ் டி ஆதரவு மற்றும் இணக்கம்';
 
   @override
   String get exportIncentivesFinanceMarketSupport =>
@@ -194,7 +195,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get csrProgramsIncubatorsClusterSupport =>
-      'பெருநிறுவன சமூகப் பொறுப்பு (CSR) திட்டங்கள், மையங்கள் மற்றும் குழு ஆதரவு';
+      'CSR திட்டங்கள், இன்குபேட்டர்கள் மற்றும் கிளஸ்டர் ஆதரவு';
 
   @override
   String get centralStateDistrictGovtStructure =>
@@ -202,7 +203,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get sidbiNsicDicKvicMoreOrganizations =>
-      'சிறு தொழில் வளர்ச்சி வங்கி (SIDBI), NSIC மற்றும் பிற அமைப்புகள்';
+      'SIDBI, NSIC, DIC, KVIC மற்றும் பிற அமைப்புகள்';
 
   @override
   String get tipOfTheDayContent =>
@@ -490,14 +491,14 @@ class AppLocalizationsTa extends AppLocalizations {
       'புதிய திட்ட அறிவிப்புகள் மற்றும் நினைவூட்டல்கள் இங்கே தோன்றும்.';
 
   @override
-  String get aboutTagline => 'அரசு திட்டங்கள் & வழிகாட்டி தளம்';
+  String get aboutTagline => 'அரசு திட்டக் கண்டறிதல் & தகுதி தளம்';
 
   @override
   String get aboutDescription =>
       'MSS என்பது இந்திய தொழில்முனைவோர், பெண்கள், விவசாயிகள் மற்றும் மாணவர்களுக்கான மத்திய மற்றும் மாநில அரசு திட்டங்களை எளிதாகக் கண்டறிந்து, தகுதிகளை சரிபார்த்து பயன்பெற உதவும் ஒரு அறிவார்ந்த டிஜிட்டல் தளமாகும்.';
 
   @override
-  String get aboutCreatedBy => 'உருவாக்கியவர்கள்:';
+  String get aboutCreatedBy => 'இவர்களுடன் இணைந்து உருவாக்கப்பட்டது:';
 
   @override
   String get sarvamPromptDocuments => 'எனக்கு என்ன ஆவணங்கள் தேவை?';
@@ -775,7 +776,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get aboutAppDescription =>
-      'MSS என்பது இந்திய தொழில்முனைவோர், பெண்கள், விவசாயிகள் மற்றும் மாணவர்களுக்கான மத்திய மற்றும் மாநில அரசு திட்டங்களை எளிதாகக் கண்டறிந்து பயன்பெற உதவும் ஒரு அறிவார்ந்த டிஜிட்டல் தளமாகும்.';
+      'MSS என்பது இந்தியா முழுவதும் உள்ள மத்திய மற்றும் மாநில அரசு திட்டங்களைக் கண்டறியவும், தகுதியைச் சரிபார்க்கவும், பயன்பெறவும் உதவும் ஒரு அறிவார்ந்த டிஜிட்டல் தளமாகும்.';
 
   @override
   String get profilePhotoTitle => 'சுயவிவரப் படம்';
@@ -1129,7 +1130,7 @@ class AppLocalizationsTa extends AppLocalizations {
   }
 
   @override
-  String get filterGroupCoverage => 'பரப்பளவு';
+  String get filterGroupCoverage => 'பொருந்தும் பகுதி';
 
   @override
   String get filterGroupOffers => 'என்ன வழங்குகிறது';
@@ -1324,7 +1325,7 @@ class AppLocalizationsTa extends AppLocalizations {
   }
 
   @override
-  String get companionAskAnything => 'Saarthi-டம் எதுவும் கேளுங்கள்...';
+  String get companionAskAnything => 'சாரதியிடம் எதுவும் கேளுங்கள்...';
 
   @override
   String get companionTapToSpeakHint =>
@@ -1340,7 +1341,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get companionLiveConnectionRequired => 'நேரடி குரல் இணைப்பு தேவை';
 
   @override
-  String get companionStartSpeakingSemantic => 'Saarthi-டம் பேசத் தொடங்குங்கள்';
+  String get companionStartSpeakingSemantic => 'சாரதியிடம் பேசத் தொடங்குங்கள்';
 
   @override
   String get companionTapToSpeak => 'பேச தட்டவும்';
@@ -1367,7 +1368,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get companionFindingBestMatch => 'சிறந்த பொருத்தத்தைத் தேடுகிறது';
 
   @override
-  String get companionSaarthiIsSpeaking => 'Saarthi பேசுகிறது';
+  String get companionSaarthiIsSpeaking => 'சாரதி பேசுகிறது';
 
   @override
   String get companionReadyShort => 'தயார்';
@@ -1376,14 +1377,14 @@ class AppLocalizationsTa extends AppLocalizations {
   String get welcomeMeetPrefix => 'அறிமுகம்';
 
   @override
-  String get welcomeIntroLine1 => 'நான் Saarthi, உங்கள் ஸ்மார்ட் உதவியாளர்.';
+  String get welcomeIntroLine1 => 'நான் சாரதி, உங்கள் ஸ்மார்ட் உதவியாளர்.';
 
   @override
   String get welcomeIntroLine2 =>
       'சரியான திட்டங்களை கண்டறியவும், அனைத்தையும் எளிமையாக விளக்கவும், ஒவ்வொரு படியிலும் வழிகாட்டவும் நான் உதவுவேன்.';
 
   @override
-  String get welcomeSectionHeader => 'Saarthi உங்களுக்கு உதவக்கூடியவை';
+  String get welcomeSectionHeader => 'சாரதி உங்களுக்கு உதவக்கூடியவை';
 
   @override
   String get welcomeFeatureTalkNaturally => 'இயல்பாக பேசுங்கள்';
@@ -1402,7 +1403,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get welcomeChooseLanguageSubtitle =>
-      'Saarthi உங்களுடன் சிறப்பாக பேச, உங்கள் விருப்ப மொழியைத் தேர்வு செய்யவும்.';
+      'சாரதி உங்களுடன் சிறப்பாக பேச, உங்கள் விருப்ப மொழியைத் தேர்வு செய்யவும்.';
 
   @override
   String get welcomeVoiceLabel => 'குரல்';
@@ -1425,7 +1426,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get welcomeLetsBegin => 'தொடங்குவோம்';
 
   @override
-  String get voiceLanguageAuto => 'தானியக்கம்';
+  String get voiceLanguageAuto => 'தானாக';
 
   @override
   String get voiceStatusSpeaking => 'பேசுகிறது...';
@@ -1458,7 +1459,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get voiceRecommendedBySaarthiReason =>
-      'சரிபார்க்கப்பட்ட பட்டியலிலிருந்து Saarthi பரிந்துரைத்தது';
+      'சரிபார்க்கப்பட்ட பட்டியலிலிருந்து சாரதி பரிந்துரைத்தது';
 
   @override
   String get voiceRecognitionUnavailable =>
@@ -1495,10 +1496,10 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get voiceNoConfidentMatch =>
-      'நம்பகமான பொருத்தம் கிடைக்கவில்லை. உங்கள் நிலையை வேறு வார்த்தைகளில் சொல்லுங்கள்.';
+      'இன்னும் நம்பகமான திட்டப் பொருத்தம் கிடைக்கவில்லை. உங்கள் நிலையைப் பற்றி இன்னும் கொஞ்சம் சொல்லுங்கள்.';
 
   @override
-  String get voiceHeaderTalkToSaarthi => 'Saarthi-டம் பேசுங்கள்';
+  String get voiceHeaderTalkToSaarthi => 'சாரதியிடம் பேசுங்கள்';
 
   @override
   String get voiceUnmute => 'ஒலியை இயக்கு';
@@ -1528,7 +1529,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get voiceStartListeningSemantic => 'கேட்கத் தொடங்கு';
 
   @override
-  String get voiceTypeToSaarthiHint => 'Saarthi-க்கு தட்டச்சு செய்யுங்கள்...';
+  String get voiceTypeToSaarthiHint => 'சாரதிக்கு தட்டச்சு செய்யுங்கள்...';
 
   @override
   String get voiceSendMessageTooltip => 'செய்தியை அனுப்பு';
@@ -1572,7 +1573,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get voiceGroundingUnavailable =>
-      'ஆஃப்லைன் · தனியார் சாதன அறிவைப் பயன்படுத்துகிறது';
+      'ஆஃப்லைன் · சாதனத்திலுள்ள தனிப்பட்ட தகவலைப் பயன்படுத்துகிறது';
 
   @override
   String get voiceGroundingNoSources =>
@@ -1762,7 +1763,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get utilUdyamDesc => 'எம் எஸ் எம் ஈ நிலையைச் சரிபார்க்கவும்';
 
   @override
-  String get utilSubsidyTitle => 'மானியம் மதிப்பீட்டாளர்';
+  String get utilSubsidyTitle => 'மானிய மதிப்பீட்டுக் கருவி';
 
   @override
   String get utilSubsidyDesc => 'இயந்திர மானியங்கள்';
@@ -1786,7 +1787,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get utilDpiitDesc => 'ஸ்டார்ட்அப் தகுதிகளைச் சரிபார்க்கவும்';
 
   @override
-  String get utilValuationTitle => 'மதிப்பீடு மதிப்பீட்டாளர்';
+  String get utilValuationTitle => 'மதிப்பு மதிப்பீட்டுக் கருவி';
 
   @override
   String get utilValuationDesc => 'விதை நிலை மதிப்பீட்டு வரம்புகள்';
@@ -1857,8 +1858,7 @@ class AppLocalizationsTa extends AppLocalizations {
       'அங்கீகாரத்திற்காக பாதுகாப்பான உலாவி திறக்கும்.';
 
   @override
-  String get privacyNote =>
-      'தொடர்வதன் மூலம், நீங்கள் எங்கள் விதிமுறைகளுக்கு ஒப்புக்கொள்கிறீர்கள்';
+  String get privacyNote => 'தொடர்வதன் மூலம், பின்வருவனவற்றை ஏற்கிறீர்கள்:';
 
   @override
   String get terms => 'சேவை விதிமுறைகள்';
@@ -2086,7 +2086,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get disabilityType => 'மாற்றுத்திறன் வகை';
 
   @override
-  String get hasExistingBusiness => 'எனக்கு நிலவும் தொழில் உள்ளது';
+  String get hasExistingBusiness => 'எனக்கு ஏற்கனவே ஒரு தொழில் உள்ளது';
 
   @override
   String get businessStage => 'தொழில் நிலை';
@@ -2228,13 +2228,13 @@ class AppLocalizationsTa extends AppLocalizations {
   String get diploma => 'டிப்ளமோ';
 
   @override
-  String get higherSecondary => 'மேல்நிலைப்பள்ளி';
+  String get higherSecondary => 'மேல்நிலைக் கல்வி';
 
   @override
-  String get secondary => 'நடுநிலைப்பள்ளி';
+  String get secondary => 'இடைநிலைக் கல்வி';
 
   @override
-  String get primary => 'தொடக்கப்பள்ளி';
+  String get primary => 'தொடக்கக் கல்வி';
 
   @override
   String get noFormal => 'முறையான கல்வியில்லை';
@@ -2273,14 +2273,14 @@ class AppLocalizationsTa extends AppLocalizations {
       'AI தவறாகக் கூறலாம். அதிகாரப்பூர்வ இணையதளத்தில் சரிபார்க்கவும்.';
 
   @override
-  String get sarvamInputHint => 'சார்த்தியிடம் கேளுங்கள்…';
+  String get sarvamInputHint => 'சாரதியிடம் கேளுங்கள்…';
 
   @override
   String get send => 'அனுப்பு';
 
   @override
   String get sarvamCouldNotReach =>
-      'சார்த்தியை அணுக முடியவில்லை. மீண்டும் முயலவும்.';
+      'சாரதியை அணுக முடியவில்லை. மீண்டும் முயலவும்.';
 
   @override
   String get welcomePreviewVoice => 'கேட்க';
@@ -2356,7 +2356,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get allMinistries => 'அனைத்து அமைச்சகங்களும்';
 
   @override
-  String get allStatesAndUts => 'அனைத்து மாநிலங்களும்';
+  String get allStatesAndUts => 'அனைத்து மாநிலங்கள் & யூனியன் பிரதேசங்கள்';
 
   @override
   String get searchCategoriesHint => 'பிரிவுகளைத் தேடுங்கள்...';
@@ -2380,7 +2380,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get catSkillDevelopment => 'திறன் மேம்பாடு';
 
   @override
-  String get catArtisanCraftsmen => 'கைவினைஞர்கள் & கலைஞர்கள்';
+  String get catArtisanCraftsmen => 'கைவினைஞர்கள் & கைத்தொழிலாளர்கள்';
 
   @override
   String get catDigitalIndiaTech => 'டிஜிட்டல் இந்தியா & தொழில்நுட்பம்';
@@ -2450,7 +2450,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeDelayedPaymentCalcDesc =>
-      'MSMED சட்டம் பிரிவு 15/16-ன் கீழ், 45 நாட்களுக்கு மேல் தாமதமாகும் செலுத்துகைகளுக்கு வாங்குபவர்கள் இந்திய ரிசர்வ் வங்கியின் வங்கி வீதத்தை விட 3 மடங்கு கூட்டு வட்டியை செலுத்த வேண்டும்.';
+      'MSMED சட்டம் பிரிவு 15/16-ன் கீழ், 45 நாட்களுக்கு மேல் தாமதமாகும் செலுத்துகைகளுக்கு வாங்குபவர்கள் இந்திய ரிசர்வ் வங்கியின் வங்கி வீதத்தின் 3 மடங்கு வட்டியை மாதாந்திரக் கூட்டு வட்டியாகச் செலுத்த வேண்டும்.';
 
   @override
   String get msmeInvoiceAmountRupees => 'இன்வாய்ஸ் தொகை (₹)';
@@ -2554,7 +2554,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFeatureTaxGst3 =>
-      'ஜி எஸ் டி கூட்டு திட்ட அளவுருக்கள் (1% வரி, எளிய தாக்கல்கள்)';
+      'ஜி எஸ் டி தொகுப்பு (Composition) திட்ட அளவுருக்கள் (1% வரி, எளிய தாக்கல்கள்)';
 
   @override
   String get msmeFeatureTaxGst4 =>
@@ -2574,7 +2574,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFeatureExport1 =>
-      'கடமை திருப்பிச் செலுத்தும் திட்டங்கள் (RoDTEP, RoSCTL) & திரும்பப்பெறல்கள்';
+      'சுங்க வரி திருப்பித் தரும் திட்டங்கள் (RoDTEP, RoSCTL) & டியூட்டி டிராபேக்';
 
   @override
   String get msmeFeatureExport2 =>
@@ -2623,7 +2623,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFeatureTreds7 =>
-      'திரும்பப்பெறும் மற்றும் திரும்பப்பெறாத கடன் வசூல் (Factoring) வரையறைகள்';
+      'உரிமைக்கோரல் உள்ள / இல்லாத (Recourse / Non-recourse) ஃபேக்டரிங் வரையறைகள்';
 
   @override
   String get msmeFeatureCsr1 =>
@@ -2823,7 +2823,8 @@ class AppLocalizationsTa extends AppLocalizations {
   String get assessEduQ4CasteOpt2 => 'பிற்படுத்தப்பட்டோர் (OBC/BC)';
 
   @override
-  String get assessEduQ4CasteOpt3 => 'பட்டியல் வகுப்பினர் (SC / ST)';
+  String get assessEduQ4CasteOpt3 =>
+      'பட்டியல் வகுப்பினர் / பழங்குடியினர் (SC / ST)';
 
   @override
   String get assessEduQ4CasteOpt4 =>
@@ -2854,7 +2855,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get assessWomenQ1Opt3 => 'மகளிர் தொழில்முனைவோர்';
 
   @override
-  String get assessWomenQ1Opt4 => 'தனித்து வாழும் பெண் / விதவை தாய்';
+  String get assessWomenQ1Opt4 => 'தனித்து வாழும் பெண் / ஆதரவற்ற விதவை';
 
   @override
   String get assessWomenQ2Maternal =>
@@ -2889,7 +2890,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get assessWomenQ2BizOpt1 => 'ஆம், முழுவதும் பெண்கள் உரிமையிலானது';
 
   @override
-  String get assessWomenQ2BizOpt2 => 'இல்லை, குறைந்த பங்கீடு';
+  String get assessWomenQ2BizOpt2 => 'இல்லை, குறைந்த / பகிரப்பட்ட பங்கு';
 
   @override
   String get assessWomenQ2Welfare =>
@@ -2949,7 +2950,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get assessWomenQ3WelfarePension =>
-      'தற்போது மாதந்தோறும் அரசு ஓய்வூதியம் பெறுகிறீர்களா?';
+      'தற்போது மாதாந்திர சமூகப் பாதுகாப்பு ஓய்வூதியம் பெறுகிறீர்களா?';
 
   @override
   String get assessWomenQ3WelfarePensionOpt1 =>
@@ -2968,7 +2969,8 @@ class AppLocalizationsTa extends AppLocalizations {
   String get assessWomenQ4CasteOpt2 => 'பிற்படுத்தப்பட்டோர் (OBC/BC)';
 
   @override
-  String get assessWomenQ4CasteOpt3 => 'பட்டியல் வகுப்பினர் (SC / ST)';
+  String get assessWomenQ4CasteOpt3 =>
+      'பட்டியல் வகுப்பினர் / பழங்குடியினர் (SC / ST)';
 
   @override
   String get assessWomenQ4CasteOpt4 => 'சிறுபான்மையினர் / EWS';
@@ -3089,7 +3091,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get assessBizQ4Demographics =>
-      'முதன்மையாளர் பெண் அல்லது SC/ST தொழில்முனைவோரா?';
+      'முதன்மை உரிமையாளர் பெண்ணா அல்லது SC/ST தொழில்முனைவோரா?';
 
   @override
   String get assessBizQ4DemographicsOpt1 => 'ஆம், மகளிர் தொழில்முனைவோர்';
@@ -3160,10 +3162,11 @@ class AppLocalizationsTa extends AppLocalizations {
   String get assessAgriQ3CasteOpt2 => 'பிற்படுத்தப்பட்டோர் (OBC/BC)';
 
   @override
-  String get assessAgriQ3CasteOpt3 => 'பட்டியல் வகுப்பினர் (SC / ST)';
+  String get assessAgriQ3CasteOpt3 =>
+      'பட்டியல் வகுப்பினர் / பழங்குடியினர் (SC / ST)';
 
   @override
-  String get assessAgriQ3CasteOpt4 => 'சிறப்பு விவசாயி பிரிவு';
+  String get assessAgriQ3CasteOpt4 => 'சிறு விவசாயி சிறப்புப் பிரிவு';
 
   @override
   String get assessAgriQ4Income => 'உங்கள் குடும்பத்தின் ஆண்டு வருமானம் என்ன?';
@@ -3187,7 +3190,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get assessSkillQ1Opt2 => 'பள்ளி / கல்லூரி இடைநின்றவர்';
 
   @override
-  String get assessSkillQ1Opt3 => 'பாரம்பரிய தொழிலாளி / பணியாளர்';
+  String get assessSkillQ1Opt3 => 'பாரம்பரிய கைவினைஞர் / தொழிலாளி';
 
   @override
   String get assessSkillQ1Opt4 => 'திறன் மேம்பாடு விரும்பும் பணியாளர்';
@@ -3199,7 +3202,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get assessSkillQ2Opt1 => 'தகவல் தொழில்நுட்பம் & எலக்ட்ரானிக்ஸ்';
 
   @override
-  String get assessSkillQ2Opt2 => 'ஆடை வடிவமைப்பு & கைவினை';
+  String get assessSkillQ2Opt2 => 'ஆடை, ஜவுளி & கைவினைப் பொருட்கள்';
 
   @override
   String get assessSkillQ2Opt3 => 'வாகனம் & மெக்கானிக்கல்';
@@ -3209,7 +3212,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get assessSkillQ3 =>
-      'அரசு அங்கீகாரம் பெற்ற இலவசப் பயிற்சி பெற விரும்புகிறீர்களா?';
+      'அரசு சான்றிதழ் பெற்ற PMKVY பயிற்சி பெற விரும்புகிறீர்களா?';
 
   @override
   String get assessSkillQ3Opt1 => 'ஆம், சான்றிதழ் பயிற்சி தேவை';
@@ -3254,10 +3257,10 @@ class AppLocalizationsTa extends AppLocalizations {
   String get assessTeQ2Opt2 => 'காப்புரிமை & R&D கட்டணத் திரும்பப்பெறுதல்';
 
   @override
-  String get assessTeQ2Opt3 => 'சர்வதேச வர்த்தகக் கண்காட்சி மானியம்';
+  String get assessTeQ2Opt3 => 'சந்தை அணுகல் & சர்வதேச கண்காட்சி மானியம்';
 
   @override
-  String get assessTeQ2Opt4 => 'மென்பொருள் & வன்பொருள் கட்டமைப்பு';
+  String get assessTeQ2Opt4 => 'மென்பொருள் & வன்பொருள் கட்டமைப்பு உதவி';
 
   @override
   String get assessTeQ3Turnover =>
@@ -3322,7 +3325,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get assessCatQ4Opt2 => 'பிற்படுத்தப்பட்டோர் (OBC/BC)';
 
   @override
-  String get assessCatQ4Opt3 => 'பட்டியல் வகுப்பினர் (SC / ST)';
+  String get assessCatQ4Opt3 => 'பட்டியல் வகுப்பினர் / பழங்குடியினர் (SC / ST)';
 
   @override
   String get assessCatQ4Opt4 =>
@@ -3398,7 +3401,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get assessStateQ4Opt3 => 'தொழில் மானியங்கள்';
 
   @override
-  String get assessStateQ4Opt4 => 'விவசாய உறைவிட உதவிகள்';
+  String get assessStateQ4Opt4 => 'விவசாய இடுபொருள் உதவி';
 
   @override
   String get assessStateQ5 => 'உங்கள் குடும்பத்தின் ஆண்டு வருமானம் என்ன?';
@@ -3425,7 +3428,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get assessMinQ1Opt3 => 'விவசாய நிதி உதவிகள் பெறுதல்';
 
   @override
-  String get assessMinQ1Opt4 => 'ஊரக மகளிர் சுயஉதவிக் குழு உதவிகள்';
+  String get assessMinQ1Opt4 => 'ஊரக உள்கட்டமைப்பு / சுய உதவிக் குழு உதவி';
 
   @override
   String get assessMinQ2 => 'விண்ணப்பதாரரின் தற்போதைய வயது என்ன?';
@@ -3440,7 +3443,8 @@ class AppLocalizationsTa extends AppLocalizations {
   String get assessMinQ2Opt3 => '60 வயது மற்றும் அதற்கு மேல்';
 
   @override
-  String get assessMinQ3 => 'இமைச்சகத்துடன் பதிவு செய்யப்பட்ட எண் உள்ளதா?';
+  String get assessMinQ3 =>
+      'இந்த அமைச்சகத்துடன் இணைக்கப்பட்ட பதிவு எண் ஏதேனும் உள்ளதா?';
 
   @override
   String get assessMinQ3Opt1 => 'ஆம், உத்யம் / PM-KISAN / மாணவர் சான்று எண்';
@@ -3458,7 +3462,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get assessMinQ4Opt2 => 'பிற்படுத்தப்பட்டோர் (OBC/BC)';
 
   @override
-  String get assessMinQ4Opt3 => 'பட்டியல் வகுப்பினர் (SC / ST)';
+  String get assessMinQ4Opt3 => 'பட்டியல் வகுப்பினர் / பழங்குடியினர் (SC / ST)';
 
   @override
   String get assessMinQ4Opt4 => 'சிறுபான்மையினர் / மாற்றுத்திறனாளி';
@@ -3501,14 +3505,14 @@ class AppLocalizationsTa extends AppLocalizations {
       'உள்நுழைய அல்லது இந்த ஆப்ஸை மீட்டெடுக்க இணையத்துடன் இணைக்கவும்.';
 
   @override
-  String get openSaarthiAiChat => 'சார்த்தி AI அரட்டை';
+  String get openSaarthiAiChat => 'சாரதி AI உரையாடலைத் திற';
 
   @override
   String get sortLabel => 'வரிசைப்படுத்து';
 
   @override
   String get searchDiscoverSubtitle =>
-      'அனைத்து அரசுத் திட்டங்களையும் எளிதாகத் தேடுங்கள்';
+      'தகுதியான அனைத்து அரசுத் திட்டங்களையும் தேடிக் கண்டறியுங்கள்';
 
   @override
   String get searchCompleteProfileTitle =>
@@ -3516,7 +3520,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get searchCompleteProfileSubtitle =>
-      'வயது, பாலினம் மற்றும் மாநிலம் சேர்த்தால் \"எனக்கானது\" உங்களுக்கு ஏற்ற திட்டங்களைக் காட்டும்.';
+      'பிறந்த தேதி, பாலினம் மற்றும் மாநிலத்தைச் சேர்த்தால் \"எனக்கானவை\" உங்களுக்கு ஏற்ற திட்டங்களைக் காட்டும்.';
 
   @override
   String get searchNoProfileMatchesTitle =>
@@ -3539,7 +3543,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String eligibleSchemesForYouCount(Object count) {
-    return 'உங்களுக்கான திட்டங்கள் ($count)';
+    return 'உங்களுக்குத் தகுதியான திட்டங்கள் ($count)';
   }
 
   @override
@@ -3631,7 +3635,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get faqMissingDocsA =>
-      'திட்ட விவரங்கள் பக்கத்தில், \"இல்லை\" எனக் குறிக்கப்பட்ட எந்த ஆவணத்திற்கும் \"ஆவணத்தைப் பெறுக\" இணைப்பு இருக்கும்; அது உங்களை நேரடியாக அதிகாரப்பூர்வ தளத்திற்கு (எ.கா., ஆதாருக்கு இந்திய தனித்துவ அடையாள ஆணையம் (யுஐடிஏஐ), PAN-க்கு NSDL) திருப்பிவிடும்.';
+      'திட்ட விவரங்கள் பக்கத்தில், இல்லை எனக் குறிக்கப்பட்ட எந்த ஆவணத்திற்கும் \"ஆவணத்தை ஆன்லைனில் பெறுக\" இணைப்பு இருக்கும்; அது உங்களை நேரடியாக அதிகாரப்பூர்வ தளத்திற்கு (எ.கா., ஆதாருக்கு UIDAI, PAN-க்கு NSDL) அழைத்துச் செல்லும்.';
 
   @override
   String get helpCatGeneralInquiry => 'பொது விசாரணை';
@@ -3786,7 +3790,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get emiCalcSubtitle =>
-      'உங்கள் தொழில் கடனுக்கான மாதாந்திரக் கட்டணங்களைக் கணக்கிடுங்கள்.';
+      'உங்கள் தொழில் கடனுக்கான மாதாந்திரத் தவணைகளைக் கணக்கிடுங்கள்.';
 
   @override
   String get emiLoanAmount => 'கடன் தொகை';
@@ -3844,8 +3848,7 @@ class AppLocalizationsTa extends AppLocalizations {
       'இந்தியாவில் பதிவு செய்யப்பட்டிருக்க வேண்டும். தனி உரிமையாளர் நிறுவனங்கள் தகுதி பெறாது.';
 
   @override
-  String get dpiitCriteriaAge =>
-      'நிறுவனத் தொடக்க வயது 10 ஆண்டுகளுக்கு உட்பட்டது';
+  String get dpiitCriteriaAge => 'நிறுவனம் தொடங்கி 10 ஆண்டுகள் ஆகவில்லை';
 
   @override
   String get dpiitCriteriaAgeSub => 'நிறுவனம் தொடங்கிய தேதியிலிருந்து';
@@ -3860,7 +3863,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get dpiitCriteriaTurnover =>
-      'ஆண்டு வருவாய் ₹100 Cr-ஐ ஒருபோதும் தாண்டவில்லை';
+      'ஆண்டு வருவாய் ₹100 கோடியை ஒருபோதும் தாண்டவில்லை';
 
   @override
   String get dpiitCriteriaTurnoverSub => 'எந்த நிதியாண்டிலும்';
@@ -3949,7 +3952,7 @@ class AppLocalizationsTa extends AppLocalizations {
   }
 
   @override
-  String get docChecklistTitle => 'அமைப்பு ஆவணப் பட்டியல்';
+  String get docChecklistTitle => 'தொழில் தொடக்க ஆவணப் பட்டியல்';
 
   @override
   String get docChecklistSubtitle =>
@@ -4438,7 +4441,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get settingsSwitchedToCompanion =>
-      'AI துணை (Saarthi) வழிசெலுத்தலுக்கு மாற்றப்பட்டது';
+      'AI துணை (சாரதி) வழிசெலுத்தலுக்கு மாற்றப்பட்டது';
 
   @override
   String get settingsSwitchedToRegular =>
@@ -4552,7 +4555,7 @@ class AppLocalizationsTa extends AppLocalizations {
   }
 
   @override
-  String get eligResEligibleSchemesTitle => 'பொருந்தும் திட்டங்கள்';
+  String get eligResEligibleSchemesTitle => 'தகுதியான திட்டங்கள்';
 
   @override
   String get eligResExploreAll => 'அனைத்து திட்டங்களையும் காண்க';
@@ -4656,7 +4659,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get notifSeed4Body => 'விண்ணப்பிக்க கடைசி தேதி நெருங்குகிறது';
 
   @override
-  String get notifSeed5Title => 'PM பயிற்சி திட்டம்';
+  String get notifSeed5Title => 'PM Internship Scheme';
 
   @override
   String get notifSeed5Body => 'விண்ணப்ப காலம் விரைவில் முடிவடையும்';
@@ -4778,7 +4781,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get profilePrivacyNoteDpdpa =>
-      'DPDPA 2023: சமூகப் பிரிவு தகவல் அரசு நலத்திட்டத் தகுதி சரிபார்ப்பிற்கு மட்டுமே பயன்படுத்தப்படும்; பகிரப்படாது.';
+      'DPDPA 2023: உங்களை நலத்திட்டங்களுடன் பொருத்த மட்டுமே பயன்படுத்தப்படும். ஒருபோதும் பகிரப்படாது.';
 
   @override
   String get profileConsentSectionTitle => 'தனியுரிமை & தரவு';
@@ -4811,7 +4814,7 @@ class AppLocalizationsTa extends AppLocalizations {
       'ஏற்க, ஆவணத்தின் இறுதி வரை ஸ்க்ரோல் செய்யவும்';
 
   @override
-  String get simpleProfileTitle => 'சுயவிவர அமைவு';
+  String get simpleProfileTitle => 'விரைவு சுயவிவர அமைவு';
 
   @override
   String get simpleProfileSubtitle =>
@@ -4843,7 +4846,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get simpleProfileStepSectorSubtitle =>
-      'உங்கள் முதன்மை வணிகம் அல்லது பணி ஆர்வத்தைத் தேர்ந்தெடுக்கவும்';
+      'உங்கள் முதன்மை வணிகம் அல்லது பணித் துறையைத் தேர்ந்தெடுக்கவும்';
 
   @override
   String get simpleProfileStepCommunityTitle => 'உங்கள் சமூகப் பிரிவு';
@@ -4900,7 +4903,8 @@ class AppLocalizationsTa extends AppLocalizations {
   String get workFarmer => 'விவசாயம் & வேளாண்மை';
 
   @override
-  String get workFarmerDesc => 'பயிர் சாகுபடி, பால்பண்ணை அல்லது விவசாயம்';
+  String get workFarmerDesc =>
+      'பயிர் சாகுபடி, பால்பண்ணை, கோழிப்பண்ணை அல்லது சார்ந்த விவசாயம்';
 
   @override
   String get workArtisan => 'கைவினைஞர் & கைத்தறி';
@@ -4965,7 +4969,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get regionNorthIndia => 'வட இந்தியா';
 
   @override
-  String get regionAllIndia => 'அனைத்து இந்தியா';
+  String get regionAllIndia => 'இந்தியா முழுவதும்';
 
   @override
   String get ageSelectLabel => 'உங்கள் வயது';
@@ -5046,10 +5050,10 @@ class AppLocalizationsTa extends AppLocalizations {
   String get permLocationTurnOn => 'இருப்பிடத்தை இயக்கு';
 
   @override
-  String get aboutAppSubtitle => 'அரசு திட்டங்கள் & வழிகாட்டி தளம்';
+  String get aboutAppSubtitle => 'அரசு திட்டக் கண்டறிதல் & தகுதி தளம்';
 
   @override
-  String get aboutDevelopedWith => 'உருவாக்கியவர்கள்:';
+  String get aboutDevelopedWith => 'இவர்களுடன் இணைந்து உருவாக்கப்பட்டது:';
 
   @override
   String get splashDevelopedBy => 'செயலியை உருவாக்கியவர்';
@@ -5066,12 +5070,12 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String catalogFreshnessLabelUpdated(Object date, Object version) {
-    return 'உள்ளூர் பட்டியல் பதிப்பு $version • $date';
+    return 'உள்ளூர் பட்டியல் பதிப்பு $version • $date அன்று புதுப்பிக்கப்பட்டது';
   }
 
   @override
   String get aboutAppDescriptionLong =>
-      'MSS என்பது இந்திய தொழில்முனைவோர், பெண்கள், விவசாயிகள் மற்றும் மாணவர்களுக்கான மத்திய மற்றும் மாநில அரசு திட்டங்களை எளிதாகக் கண்டறிந்து, தகுதிகளை சரிபார்த்து பயன்பெற உதவும் ஒரு அறிவார்ந்த டிஜிட்டல் தளமாகும்.';
+      'MSS என்பது விழிப்புணர்வு இடைவெளியைக் குறைத்து, இந்திய தொழில்முனைவோர், பெண்கள், விவசாயிகள் மற்றும் மாணவர்களுக்கான மத்திய மற்றும் மாநில அரசு திட்டங்களைக் கண்டறிதல், தகுதிப் பொருத்தம் மற்றும் விண்ணப்ப செயல்முறையை எளிதாக்கும் ஒரு அறிவார்ந்த டிஜிட்டல் தளமாகும்.';
 
   @override
   String get schemeSectionContacts => 'தொடர்பு விவரங்கள்';
@@ -5460,7 +5464,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get liveVoiceThinking => 'பதிலைத் தேடுகிறேன்…';
 
   @override
-  String get liveVoiceSpeaking => 'சாரதி பேசுகிறார்';
+  String get liveVoiceSpeaking => 'சாரதி பேசுகிறது';
 
   @override
   String get liveVoicePaused => 'உரையாடல் இடைநிறுத்தப்பட்டது';
@@ -5521,7 +5525,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get liveVoiceConversationHint =>
-      'பேசிவிட்டு இடைநிறுத்தவும். சாரதி பதிலளித்து மீண்டும் கேட்பார். தேவைப்படும்போது இடைநிறுத்தலாம்; கீழே உங்கள் கோரிக்கையைத் திருத்தலாம் அல்லது தட்டச்சு செய்யலாம்.';
+      'பேசிவிட்டு இடைநிறுத்தவும். சாரதி பதிலளித்து மீண்டும் கேட்கும். தேவைப்படும்போது இடைநிறுத்தலாம்; கீழே உங்கள் கோரிக்கையைத் திருத்தலாம் அல்லது தட்டச்சு செய்யலாம்.';
 
   @override
   String get liveVoiceScreenReaderHint =>
@@ -5628,7 +5632,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get homeTip9 =>
-      'DPIIT அங்கீகாரம் பெற்ற ஸ்டார்ட்அப்கள் ஸ்டார்ட்அப் இந்தியா விதை நிதித் திட்டத்திற்கு விண்ணப்பிக்கலாம்.';
+      'DPIIT அங்கீகாரம் பெற்ற ஸ்டார்ட்அப்கள் Startup India Seed Fund Scheme-க்கு விண்ணப்பிக்கலாம்.';
 
   @override
   String get homeTip10 =>
@@ -5936,7 +5940,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get permFilesBody =>
-      'ஆதார் அல்லது திட்ட அறிக்கை போன்ற ஆவணங்களை இணைக்கவோ சேமிக்கவோ.';
+      'ஆதார் அல்லது திட்ட அறிக்கை போன்ற ஆவணங்களை இணைக்கலாம் அல்லது சேமிக்கலாம்.';
 
   @override
   String get permAllow => 'அனுமதி';
@@ -5990,7 +5994,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get sv2YouVoice => 'நீங்கள் · குரல்';
 
   @override
-  String get sv2FollowEligible => 'நான் தகுதியானவனா?';
+  String get sv2FollowEligible => 'நான் தகுதியானவரா?';
 
   @override
   String get sv2FollowDocuments => 'தேவையான ஆவணங்கள்';

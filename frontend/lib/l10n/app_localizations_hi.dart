@@ -55,7 +55,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get findFunding => 'फंडिंग ढूंढें';
 
   @override
-  String get startABusiness => 'व्यवसाय प्रारंभ';
+  String get startABusiness => 'व्यवसाय शुरू करें';
 
   @override
   String get exploreMsmeSupport => 'एमएसएमई सहायता का अन्वेषण करें';
@@ -79,10 +79,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get csrSupport => 'सीएसआर समर्थन';
 
   @override
-  String get govtAuthorities => 'सरकार. प्राधिकारी';
+  String get govtAuthorities => 'सरकारी प्राधिकरण';
 
   @override
-  String get institutions => 'संस्थानों';
+  String get institutions => 'संस्थान';
 
   @override
   String get recommendedForYou => 'आप के लिए अनुशंसित';
@@ -98,7 +98,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get latestUpdates => 'नवीनतम अपडेट';
 
   @override
-  String get tipOfTheDay => 'दिन की सर्वश्रेष्ठ टिप';
+  String get tipOfTheDay => 'आज का सुझाव';
 
   @override
   String get askAi => 'एआई से पूछें';
@@ -187,7 +187,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get invoiceDiscountingWorkingCapital =>
-      'चालान छूट और कार्यशील पूंजी समाधान';
+      'बिल डिस्काउंटिंग और कार्यशील पूंजी समाधान';
 
   @override
   String get csrProgramsIncubatorsClusterSupport =>
@@ -290,19 +290,19 @@ class AppLocalizationsHi extends AppLocalizations {
   String get filterAll => 'सभी';
 
   @override
-  String get filterCentral => 'मध्य';
+  String get filterCentral => 'केंद्र';
 
   @override
   String get filterState => 'राज्य';
 
   @override
-  String get filterLoan => 'ऋृण';
+  String get filterLoan => 'ऋण';
 
   @override
   String get filterUdyam => 'Udyam';
 
   @override
-  String get filterStartup => 'चालू होना';
+  String get filterStartup => 'स्टार्टअप';
 
   @override
   String get filterSubsidy => 'सब्सिडी';
@@ -369,7 +369,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get loginChecklistPrivacy => 'गोपनीयता नीति पढ़ें';
 
   @override
-  String get loginChecklistAgree => 'जारी रखने के लिए सहमत हूँ';
+  String get loginChecklistAgree => 'जारी रखने के लिए सहमति दें';
 
   @override
   String get loginOpeningGoogle => 'Google खुल रहा है...';
@@ -381,7 +381,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get betaGatePasswordLabel => 'बीटा पासवर्ड';
 
   @override
-  String get showPassword => 'पासवर्ड दिखाए';
+  String get showPassword => 'पासवर्ड दिखाएं';
 
   @override
   String get hidePassword => 'पासवर्ड छिपाएं';
@@ -398,7 +398,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get quickPillPmegpQuery => 'PMEGP';
 
   @override
-  String get quickPillStartupQuery => 'चालू होना';
+  String get quickPillStartupQuery => 'स्टार्टअप';
 
   @override
   String get quickPillLoansQuery => 'ऋण';
@@ -407,7 +407,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get quickPillWomenQuery => 'महिला';
 
   @override
-  String get quickPillAscendQuery => 'चढ़ा';
+  String get quickPillAscendQuery => 'ASCEND';
 
   @override
   String get homeRecommendedEmptyTitle =>
@@ -418,7 +418,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'कुछ विवरण जोड़ें और हम ऐसी योजनाएं दिखाएंगे जिनके लिए आप पात्र हो सकते हैं।';
 
   @override
-  String get completeProfileCta => 'संपूर्ण प्रोफ़ाइल';
+  String get completeProfileCta => 'प्रोफ़ाइल पूरी करें';
 
   @override
   String get saveSchemeTooltip => 'योजना सहेजें';
@@ -472,7 +472,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get assistedChooseOne => 'जारी रखने के लिए एक विकल्प चुनें';
 
   @override
-  String get ageIncrease => 'उम्र बढ़ाओ';
+  String get ageIncrease => 'उम्र बढ़ाएं';
 
   @override
   String get ageDecrease => 'उम्र कम करें';
@@ -505,7 +505,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get homeRecommendationsNoMatches =>
-      'अभी तक कोई मिलान नहीं - खोजें या डिस्कवर का प्रयास करें';
+      'अभी तक कोई मिलान नहीं — खोज या एक्सप्लोर आज़माएं';
 
   @override
   String get noSavedSchemes => 'अभी तक कोई सहेजी गई योजना नहीं';
@@ -533,7 +533,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'आपके द्वारा खोली गई योजनाएं यहां दिखाई देती हैं';
 
   @override
-  String get manageSaved => 'प्रबंधित करना';
+  String get manageSaved => 'प्रबंधित करें';
 
   @override
   String get doneManaging => 'हो गया';
@@ -558,7 +558,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get profileGroupHeader => 'प्रोफ़ाइल';
 
   @override
-  String get completeProfileTitle => 'संपूर्ण प्रोफ़ाइल';
+  String get completeProfileTitle => 'प्रोफ़ाइल पूरी करें';
 
   @override
   String profileCompletionFormat(Object percent) {
@@ -584,7 +584,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get notificationsGroupHeader => 'सूचनाएं';
 
   @override
-  String get pushNotificationsSetting => 'सूचनाएं धक्का';
+  String get pushNotificationsSetting => 'पुश सूचनाएं';
 
   @override
   String get notificationsEnabled => 'सूचनाएं सक्षम की गईं';
@@ -620,7 +620,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'आपका खाता हटा दिया जाएगा और आप साइन आउट हो जाएँगे। आपका डेटा 30 दिनों तक रखा जाएगा, इसलिए 30 दिनों के भीतर दोबारा साइन इन करके आप खाता फिर से चालू कर सकते हैं। उसके बाद आपकी सभी सहेजी गई प्रोफ़ाइल, बुकमार्क और उत्तर स्थायी रूप से हटा दिए जाएँगे।';
 
   @override
-  String get deleteButton => 'मिटाना';
+  String get deleteButton => 'हटाएं';
 
   @override
   String get accountDeletedTitle => 'खाता हटा दिया गया';
@@ -678,7 +678,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get dialogDone => 'हो गया';
 
   @override
-  String get dialogCancel => 'रद्द करना';
+  String get dialogCancel => 'रद्द करें';
 
   @override
   String get profileTitle => 'प्रोफ़ाइल';
@@ -729,10 +729,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get labelDifferentlyAbled => 'दिव्यांग';
 
   @override
-  String get labelExServiceman => 'भूतपूर्व सैनिक/वयोवृद्ध';
+  String get labelExServiceman => 'भूतपूर्व सैनिक';
 
   @override
-  String get labelBusinessStage => 'बिजनेस स्टेज';
+  String get labelBusinessStage => 'व्यवसाय का चरण';
 
   @override
   String get labelIndustry => 'उद्योग';
@@ -772,13 +772,13 @@ class AppLocalizationsHi extends AppLocalizations {
       'एमएसएस पूरे भारत में केंद्र और राज्य सरकार की योजनाओं की खोज करने, पात्रता सत्यापित करने और उन तक पहुंचने के लिए एक बुद्धिमान डिजिटल मंच है।';
 
   @override
-  String get profilePhotoTitle => 'खाते की फोटो';
+  String get profilePhotoTitle => 'प्रोफ़ाइल फ़ोटो';
 
   @override
-  String get chooseFromGallery => 'गैलरी से चयन करो';
+  String get chooseFromGallery => 'गैलरी से चुनें';
 
   @override
-  String get takePhoto => 'फोटो लो';
+  String get takePhoto => 'फ़ोटो लें';
 
   @override
   String get removePhoto => 'फ़ोटो हटाएँ';
@@ -903,7 +903,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sourceButton => 'स्रोत';
 
   @override
-  String get applyNowButton => 'अभी अप्लाई करें';
+  String get applyNowButton => 'अभी आवेदन करें';
 
   @override
   String get saveSchemeButton => 'योजना सहेजें';
@@ -945,7 +945,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get benefitSubsidy => 'सब्सिडी';
 
   @override
-  String get benefitAmount => 'मात्रा';
+  String get benefitAmount => 'राशि';
 
   @override
   String get benefitMaximum => 'अधिकतम';
@@ -1009,7 +1009,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get filterSchemeStatus => 'योजना की स्थिति';
 
   @override
-  String get filterOnlineOffline => 'ऑनलाइन ऑफ़लाइन';
+  String get filterOnlineOffline => 'ऑनलाइन / ऑफ़लाइन';
 
   @override
   String get filterCentralStateScheme => 'केंद्रीय/राज्य योजना';
@@ -1047,7 +1047,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get notifGovtUpdatesSubtitle => 'महत्वपूर्ण घोषणाएँ और अपडेट';
 
   @override
-  String get notifProfileRemindersTitle => 'प्रोफ़ाइल समापन अनुस्मारक';
+  String get notifProfileRemindersTitle => 'प्रोफ़ाइल पूरी करने के अनुस्मारक';
 
   @override
   String get notifProfileRemindersSubtitle =>
@@ -1096,7 +1096,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get navChipAiAnytime => 'एआई किसी भी समय उपलब्ध है';
 
   @override
-  String get navChipVoiceFirst => 'आवाज-पहला अनुभव';
+  String get navChipVoiceFirst => 'आवाज़ आधारित अनुभव';
 
   @override
   String get navChipPersonalized => 'वैयक्तिकृत मार्गदर्शन';
@@ -1181,7 +1181,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sortRelevance => 'प्रासंगिकता';
 
   @override
-  String get sortBestMatch => 'मेरे लिए सबसे अच्छा मैच';
+  String get sortBestMatch => 'मेरे लिए सबसे उपयुक्त';
 
   @override
   String get sortSchemeNameAz => 'योजना का नाम (ए-जेड)';
@@ -1194,14 +1194,14 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get settingsCompanionSubtitle =>
-      'वॉयस-फर्स्ट एआई निर्देशित संवादी दृश्य';
+      'आवाज़ आधारित, AI द्वारा निर्देशित बातचीत';
 
   @override
   String get navSwitchAnytimeDesc =>
       'आप बाद में सेटिंग्स से अपना नेविगेशन मोड बदल सकते हैं।';
 
   @override
-  String get helpContactEmailLabel => 'संपर्क ई - मेल पता';
+  String get helpContactEmailLabel => 'संपर्क ईमेल पता';
 
   @override
   String get helpContactEmailHint => 'फ़ॉलो-अप के लिए अपना ईमेल दर्ज करें';
@@ -1220,33 +1220,33 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get companionVoiceUnavailableRetry =>
-      'ध्वनि सेवा उपलब्ध नहीं है. पुनः प्रयास करें टैप करें.';
+      'वॉइस सेवा उपलब्ध नहीं है। फिर से कोशिश करने के लिए टैप करें।';
 
   @override
   String get companionSignInRetryVoice =>
-      'कृपया दोबारा साइन इन करें, फिर आवाज देकर पुनः प्रयास करें।';
+      'कृपया दोबारा साइन इन करें, फिर वॉइस दोबारा आज़माएं।';
 
   @override
   String get companionCheckInternetRetryVoice =>
-      'अपना इंटरनेट जाँचें, फिर ध्वनि पुनः प्रयास करें।';
+      'अपना इंटरनेट जांचें, फिर वॉइस दोबारा आज़माएं।';
 
   @override
   String get companionVoiceConnectFailedRetry =>
-      'ध्वनि सेवा कनेक्ट नहीं हो सकी. पुनः प्रयास करें टैप करें.';
+      'वॉइस सेवा कनेक्ट नहीं हो सकी। फिर से कोशिश करने के लिए टैप करें।';
 
   @override
   String get companionGenericErrorRetry =>
-      'एक त्रुटि पाई गई। कृपया पुन: प्रयास करें।';
+      'कोई त्रुटि हुई। कृपया फिर से कोशिश करें।';
 
   @override
   String get companionConnectionNeedsAttention =>
       'कनेक्शन पर ध्यान देने की ज़रूरत है';
 
   @override
-  String get companionConnectingShort => 'कनेक्ट';
+  String get companionConnectingShort => 'कनेक्ट हो रहा है';
 
   @override
-  String get companionListeningToYou => 'तुम्हें सुनना';
+  String get companionListeningToYou => 'आपकी बात सुन रहा हूँ';
 
   @override
   String get companionCheckingYourDetails => 'आपके विवरण की जाँच की जा रही है';
@@ -1264,11 +1264,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get companionVoiceOffline => 'आवाज ऑफ़लाइन';
 
   @override
-  String get companionIntroPrefix => 'मैं हूँ';
+  String get companionIntroPrefix => 'मैं';
 
   @override
-  String get companionIntroSuffix =>
-      ', आपके एआई साथी के लिए\nएमएसएमई की सफलता.';
+  String get companionIntroSuffix => ', MSME सफलता के लिए\nआपका AI साथी हूँ।';
 
   @override
   String get companionEmptyStateHint =>
@@ -1278,14 +1277,14 @@ class AppLocalizationsHi extends AppLocalizations {
   String get companionScrollToLatest => 'नवीनतम';
 
   @override
-  String get companionSpeakingBadge => 'बोला जा रहा है';
+  String get companionSpeakingBadge => 'बोल रहा है';
 
   @override
   String get companionRankedResultsCaption =>
       'आपके द्वारा साझा किए गए विवरण के आधार पर रैंक किया गया। अंतिम पात्रता की पुष्टि विभाग द्वारा की जाती है।';
 
   @override
-  String get companionReviewMatch => 'मैच की समीक्षा करें';
+  String get companionReviewMatch => 'मिलान देखें';
 
   @override
   String get companionOfficialSourceChecked => 'आधिकारिक स्रोत की जाँच की गई';
@@ -1333,16 +1332,16 @@ class AppLocalizationsHi extends AppLocalizations {
   String get companionTapToSpeak => 'बोलने के लिए टैप करें';
 
   @override
-  String get companionStop => 'रुकना';
+  String get companionStop => 'रोकें';
 
   @override
-  String get companionInterrupt => 'रुकावट डालना';
+  String get companionInterrupt => 'बीच में रोकें';
 
   @override
-  String get companionSpeak => 'बोलना';
+  String get companionSpeak => 'बोलें';
 
   @override
-  String get companionEnd => 'अंत';
+  String get companionEnd => 'समाप्त करें';
 
   @override
   String get companionVoiceNotConnected => 'आवाज कनेक्ट नहीं है';
@@ -1351,7 +1350,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get companionConnectingSecurely => 'सुरक्षित रूप से कनेक्ट हो रहा है';
 
   @override
-  String get companionFindingBestMatch => 'सबसे अच्छा मैच ढूँढना';
+  String get companionFindingBestMatch => 'सबसे उपयुक्त योजना ढूँढ रहा हूँ';
 
   @override
   String get companionSaarthiIsSpeaking => 'सारथी बोल रहा है';
@@ -1360,7 +1359,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get companionReadyShort => 'तैयार';
 
   @override
-  String get welcomeMeetPrefix => 'मिलो';
+  String get welcomeMeetPrefix => 'मिलिए';
 
   @override
   String get welcomeIntroLine1 => 'मैं सारथी हूं, आपका स्मार्ट असिस्टेंट।';
@@ -1379,10 +1378,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get welcomeFeatureFindSchemes => 'सही योजनाएँ खोजें';
 
   @override
-  String get welcomeFeatureBusinessRoadmap => 'बिजनेस रोडमैप';
+  String get welcomeFeatureBusinessRoadmap => 'व्यवसाय की रूपरेखा';
 
   @override
-  String get welcomeFeatureApplicationSupport => 'अनुप्रयोग समर्थन';
+  String get welcomeFeatureApplicationSupport => 'आवेदन में सहायता';
 
   @override
   String get welcomeChooseLanguage => 'भाषा चुनें';
@@ -1395,7 +1394,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get welcomeVoiceLabel => 'आवाज़';
 
   @override
-  String get welcomeVoiceNatural => 'प्राकृतिक';
+  String get welcomeVoiceNatural => 'स्वाभाविक';
 
   @override
   String get welcomeVoiceClear => 'स्पष्ट';
@@ -1408,28 +1407,28 @@ class AppLocalizationsHi extends AppLocalizations {
       'आप इसे सेटिंग में कभी भी बदल सकते हैं.';
 
   @override
-  String get welcomeLetsBegin => 'चलो शुरू करें';
+  String get welcomeLetsBegin => 'चलिए शुरू करें';
 
   @override
   String get voiceLanguageAuto => 'ऑटो';
 
   @override
-  String get voiceStatusSpeaking => 'बोला जा रहा है...';
+  String get voiceStatusSpeaking => 'बोल रहा है...';
 
   @override
-  String get voiceStatusListening => 'सुनना...';
+  String get voiceStatusListening => 'सुन रहा है...';
 
   @override
-  String get voiceStatusProcessing => 'प्रसंस्करण...';
+  String get voiceStatusProcessing => 'प्रोसेस हो रहा है...';
 
   @override
-  String get voiceStatusUnderstanding => 'समझ...';
+  String get voiceStatusUnderstanding => 'समझ रहा है...';
 
   @override
   String get voiceStatusOneQuestion => 'एक प्रश्न';
 
   @override
-  String get voiceStatusMatchesFound => 'मिलान मिला';
+  String get voiceStatusMatchesFound => 'मिलान मिले';
 
   @override
   String get voiceStatusNeedsMoreDetail => 'अधिक विवरण की आवश्यकता है';
@@ -1459,7 +1458,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'मैं अभी खोज नहीं सका. कृपया पुन: प्रयास करें।';
 
   @override
-  String get voiceUseValue => 'मूल्य का प्रयोग करें';
+  String get voiceUseValue => 'यह मान इस्तेमाल करें';
 
   @override
   String get voiceReviewProfileUpdates => 'प्रोफ़ाइल अपडेट की समीक्षा करें';
@@ -1468,7 +1467,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get voiceKeepSessionOnly => 'केवल सत्र रखें';
 
   @override
-  String get voiceSaveConfirmed => 'सहेजें की पुष्टि की गई';
+  String get voiceSaveConfirmed => 'पुष्टि किए गए विवरण सहेजें';
 
   @override
   String get voiceProfileSavedMessage =>
@@ -1486,20 +1485,19 @@ class AppLocalizationsHi extends AppLocalizations {
   String get voiceHeaderTalkToSaarthi => 'सारथी से बात करें';
 
   @override
-  String get voiceUnmute => 'अनम्यूट';
+  String get voiceUnmute => 'आवाज़ चालू करें';
 
   @override
-  String get voiceMute => 'आवाज़ बंद करना';
+  String get voiceMute => 'आवाज़ बंद करें';
 
   @override
   String get voiceCancelAssistantTooltip => 'सहायक रद्द करें';
 
   @override
-  String get voiceTellMeNaturally =>
-      'मुझे स्वाभाविक रूप से अपनी स्थिति बताओ...';
+  String get voiceTellMeNaturally => 'अपनी स्थिति अपने शब्दों में बताइए...';
 
   @override
-  String get voiceSuggestionBusinessLoans => 'व्यवसायिक ऋण';
+  String get voiceSuggestionBusinessLoans => 'व्यावसायिक ऋण';
 
   @override
   String get voiceSuggestionCollegeScholarship => 'कॉलेज छात्रवृत्ति';
@@ -1508,13 +1506,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get voiceSuggestionFarmerSubsidy => 'किसान सब्सिडी';
 
   @override
-  String get voiceStopListeningSemantic => 'सुनना बंद करो';
+  String get voiceStopListeningSemantic => 'सुनना बंद करें';
 
   @override
   String get voiceStartListeningSemantic => 'सुनना शुरू करें';
 
   @override
-  String get voiceTypeToSaarthiHint => 'सारथी को टाइप करें...';
+  String get voiceTypeToSaarthiHint => 'सारथी को लिखें...';
 
   @override
   String get voiceSendMessageTooltip => 'मेसेज भेजें';
@@ -1532,7 +1530,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get voiceSpeechOutputUnavailable =>
-      'वाक् आउटपुट अनुपलब्ध है; उत्तर देने के लिए माइक्रोफ़ोन टैप करें.';
+      'आवाज़ में जवाब उपलब्ध नहीं है; उत्तर देने के लिए माइक्रोफ़ोन पर टैप करें।';
 
   @override
   String get voiceSchemesSuitedToSituation => 'आपकी स्थिति के अनुकूल योजनाएं';
@@ -1553,12 +1551,12 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String voiceGroundingFoundSources(Object count) {
-    return 'ऑनलाइन ग्राउंडेड · $count आधिकारिक स्रोत';
+    return 'ऑनलाइन जांचा गया · $count आधिकारिक स्रोत';
   }
 
   @override
   String get voiceGroundingUnavailable =>
-      'ऑफ़लाइन · निजी ऑन-डिवाइस ज्ञान का उपयोग करना';
+      'ऑफ़लाइन · डिवाइस पर मौजूद निजी जानकारी का उपयोग हो रहा है';
 
   @override
   String get voiceGroundingNoSources =>
@@ -1572,7 +1570,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get voiceCouldNotOpenSource => 'आधिकारिक स्रोत नहीं खुल सका.';
 
   @override
-  String get voiceMatchStrong => 'जोरदार मुकाबला';
+  String get voiceMatchStrong => 'मज़बूत मिलान';
 
   @override
   String get voiceMatchLikely => 'संभावित मिलान';
@@ -1584,7 +1582,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get voiceMatchNotSuitable => 'उपयुक्त नहीं';
 
   @override
-  String get voiceMatchNoConfident => 'कोई आश्वस्त मुकाबला नहीं';
+  String get voiceMatchNoConfident => 'कोई भरोसेमंद मिलान नहीं';
 
   @override
   String voiceWhyThisFits(Object reasons) {
@@ -1630,7 +1628,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get calcUdyamClassifierTitle => 'उद्यम एमएसएमई क्लासिफायर';
+  String get calcUdyamClassifierTitle => 'उद्यम एमएसएमई वर्गीकरण';
 
   @override
   String get calcUdyamClassifierSub =>
@@ -1661,7 +1659,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get calcGstSub =>
-      'सीजीएसटी + एसजीएसटी या आईजीएसटी और कुल चालान राशि की गणना करें।';
+      'सीजीएसटी + एसजीएसटी या आईजीएसटी और कुल बिल राशि की गणना करें।';
 
   @override
   String get calcGstWithinState => 'राज्य के भीतर (CGST + SGST)';
@@ -1683,7 +1681,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get calcBasePrice => 'आधार मूल्य';
 
   @override
-  String get calcTotalInvoice => 'कुल चालान';
+  String get calcTotalInvoice => 'कुल बिल';
 
   @override
   String get calcBtnCalculateTax => 'कर की गणना करें';
@@ -1692,7 +1690,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get calcErrValidBaseAmount => 'कृपया एक मान्य आधार राशि दर्ज करें';
 
   @override
-  String get calcEmiTitle => 'बिजनेस लोन ईएमआई कैलकुलेटर';
+  String get calcEmiTitle => 'व्यवसाय ऋण ईएमआई कैलकुलेटर';
 
   @override
   String get calcEmiSub => 'अपने व्यवसाय ऋण के लिए मासिक भुगतान की गणना करें।';
@@ -1707,7 +1705,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get calcInterestRateLabel => 'ब्याज दर (% प्रति वर्ष)';
 
   @override
-  String get calcTenureLabel => 'कार्यकाल (महीने)';
+  String get calcTenureLabel => 'अवधि (महीने)';
 
   @override
   String get calcBtnCalculateEmi => 'ईएमआई की गणना करें';
@@ -1720,11 +1718,11 @@ class AppLocalizationsHi extends AppLocalizations {
       'मूल्यांकन करें कि क्या आपका व्यवसाय डीपीआईआईटी नियमों के तहत स्टार्टअप के रूप में योग्य है।';
 
   @override
-  String get calcValuationTitle => 'बीज मूल्यांकन अनुमानक';
+  String get calcValuationTitle => 'सीड मूल्यांकन अनुमान';
 
   @override
   String get calcValuationSub =>
-      'एमआरआर और वृद्धि के आधार पर अनुमानित बीज चरण मूल्यांकन सीमाओं की गणना करें।';
+      'एमआरआर और वृद्धि के आधार पर सीड चरण के अनुमानित मूल्यांकन की सीमा निकालें।';
 
   @override
   String get calcDocChecklistTitle => 'व्यवसाय सेटअप दस्तावेज़ चेकलिस्ट';
@@ -1812,7 +1810,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get changeAnytime => 'इसे सेटिंग्स से कभी भी बदलें।';
 
   @override
-  String get welcome => 'स्वागत!';
+  String get welcome => 'स्वागत है!';
 
   @override
   String get loginSubtitle =>
@@ -1837,7 +1835,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'प्रमाणीकरण के लिए एक सुरक्षित ब्राउज़र विंडो खुलेगी।';
 
   @override
-  String get privacyNote => 'जारी रखकर, आप हमारी बात से सहमत हैं';
+  String get privacyNote => 'जारी रखकर, आप इनसे सहमत होते हैं:';
 
   @override
   String get terms => 'सेवा की शर्तें';
@@ -1870,7 +1868,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get phoneNumber => 'फ़ोन नंबर';
 
   @override
-  String get dateOfBirth => 'जन्म तिथि (डीओबी)';
+  String get dateOfBirth => 'जन्म तिथि';
 
   @override
   String get profileInfoNote =>
@@ -1908,7 +1906,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get useCurrentLocation => 'वर्तमान स्थान का उपयोग करें';
 
   @override
-  String get fetchingCoordinates => 'निर्देशांक लाये जा रहे हैं...';
+  String get fetchingCoordinates => 'स्थान का पता लगाया जा रहा है...';
 
   @override
   String get getLocationAuto =>
@@ -1918,13 +1916,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get or => 'या';
 
   @override
-  String get doorNoStreet => 'दरवाज़ा नंबर / फ़्लैट / मकान नंबर / गली';
+  String get doorNoStreet => 'मकान नं. / फ़्लैट / गली';
 
   @override
   String get areaLocality => 'क्षेत्र/इलाका';
 
   @override
-  String get cityDistrict => 'सिटी डिस्ट्रिक';
+  String get cityDistrict => 'शहर / ज़िला';
 
   @override
   String get state => 'राज्य';
@@ -1949,7 +1947,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get dataProcessingConsent =>
-      'मैं एमएसएस को मेरी प्रोफ़ाइल बनाने और व्यक्तिगत सरकारी योजना सिफारिशें प्रदान करने के लिए मेरी जानकारी एकत्र करने और संसाधित करने की सहमति देता हूं।';
+      'मैं एमएसएस को मेरी प्रोफ़ाइल बनाने और व्यक्तिगत सरकारी योजना सुझाव देने के लिए मेरी जानकारी एकत्र करने और संसाधित करने की सहमति देता/देती हूँ।';
 
   @override
   String get privacyAndData => 'गोपनीयता और डेटा';
@@ -1980,7 +1978,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'मेरे पास एक विचार है और मैं एक व्यवसाय शुरू करना चाहता हूं।';
 
   @override
-  String get existingBusiness => 'व्यापार';
+  String get existingBusiness => 'व्यवसाय';
 
   @override
   String get existingBusinessSubtitle =>
@@ -2004,14 +2002,14 @@ class AppLocalizationsHi extends AppLocalizations {
       'मैं एक कारीगर हूं या स्वयं सहायता समूह का हिस्सा हूं।';
 
   @override
-  String get overwriteDetails => 'विवरण अधिलेखित करें?';
+  String get overwriteDetails => 'विवरण बदलें?';
 
   @override
   String get overwriteMessage =>
-      'आपने पहले ही कुछ पते का विवरण दर्ज कर दिया है। क्या आप उन्हें अपने वर्तमान स्थान से अधिलेखित करना चाहते हैं?';
+      'आपने पते का कुछ विवरण पहले ही भर दिया है। क्या आप उसे अपने वर्तमान स्थान से बदलना चाहते हैं?';
 
   @override
-  String get overwrite => 'ओवरराइट';
+  String get overwrite => 'बदलें';
 
   @override
   String get profileSaved => 'प्रोफ़ाइल सफलतापूर्वक सहेजी गई!';
@@ -2021,14 +2019,14 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get usingDefaultLocation =>
-      'जीपीएस/अनुमति बाधाओं के कारण डिफ़ॉल्ट स्थान (चेन्नई) का उपयोग करना।';
+      'जीपीएस/अनुमति की बाधाओं के कारण डिफ़ॉल्ट स्थान (चेन्नई) का उपयोग हो रहा है।';
 
   @override
   String get locationFetched =>
       'स्थान प्राप्त किया गया और सफलतापूर्वक भर दिया गया!';
 
   @override
-  String get saveProfile => 'प्रोफ़ाइल बचा';
+  String get saveProfile => 'प्रोफ़ाइल सहेजें';
 
   @override
   String get updateProfile => 'प्रोफ़ाइल अपडेट करें';
@@ -2055,7 +2053,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get qualification => 'योग्यता';
 
   @override
-  String get veteran => 'भूतपूर्व सैनिक/वयोवृद्ध';
+  String get veteran => 'भूतपूर्व सैनिक';
 
   @override
   String get disability => 'दिव्यांगजन';
@@ -2067,10 +2065,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get hasExistingBusiness => 'मेरे पास एक मौजूदा व्यवसाय है';
 
   @override
-  String get businessStage => 'बिजनेस स्टेज';
+  String get businessStage => 'व्यवसाय का चरण';
 
   @override
-  String get businessIndustry => 'व्यापार उद्योग/क्षेत्र';
+  String get businessIndustry => 'व्यवसाय उद्योग / क्षेत्र';
 
   @override
   String get fundingRequired => 'धन की आवश्यकता';
@@ -2092,10 +2090,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get firstGenGraduate => 'पहली पीढ़ी के स्नातक';
 
   @override
-  String get skipForNow => 'अभी के लिए छोड़ दे';
+  String get skipForNow => 'अभी छोड़ें';
 
   @override
-  String get completeProfile => 'संपूर्ण प्रोफ़ाइल';
+  String get completeProfile => 'प्रोफ़ाइल पूरी करें';
 
   @override
   String get profileSettingUp => 'आपकी प्रोफ़ाइल तैयार की जा रही है…';
@@ -2125,7 +2123,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get loading => 'लोड हो रहा है...';
 
   @override
-  String get error => 'गलती';
+  String get error => 'त्रुटि';
 
   @override
   String get retry => 'पुन: प्रयास करें';
@@ -2134,13 +2132,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get ok => 'ठीक है';
 
   @override
-  String get skip => 'छोडना';
+  String get skip => 'छोड़ें';
 
   @override
-  String get save => 'बचाना';
+  String get save => 'सहेजें';
 
   @override
-  String get edit => 'संपादन करना';
+  String get edit => 'संपादित करें';
 
   @override
   String get back => 'पीछे';
@@ -2149,7 +2147,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get next => 'अगला';
 
   @override
-  String get select => 'चुनना';
+  String get select => 'चुनें';
 
   @override
   String get search => 'खोज';
@@ -2164,13 +2162,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get dobLabel => 'जन्मतिथि';
 
   @override
-  String get houseNo => 'मकान नंबर।';
+  String get houseNo => 'मकान नं.';
 
   @override
   String get street => 'गली';
 
   @override
-  String get villageTown => 'गांव शहर';
+  String get villageTown => 'गांव / कस्बा';
 
   @override
   String get useLocation => 'स्थान का उपयोग करें';
@@ -2185,7 +2183,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get businessOwner => 'व्यवसाय के मालिक';
 
   @override
-  String get homemaker => 'घरवाली';
+  String get homemaker => 'गृहिणी';
 
   @override
   String get retired => 'सेवानिवृत्त';
@@ -2194,7 +2192,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get selfEmployed => 'स्वनियोजित';
 
   @override
-  String get undergraduate => 'अवर';
+  String get undergraduate => 'स्नातक';
 
   @override
   String get graduate => 'स्नातक';
@@ -2218,10 +2216,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get noFormal => 'कोई औपचारिक शिक्षा नहीं';
 
   @override
-  String get ideaStage => 'आइडिया स्टेज';
+  String get ideaStage => 'विचार चरण';
 
   @override
-  String get earlyStage => 'प्राथमिक अवस्था';
+  String get earlyStage => 'प्रारंभिक चरण';
 
   @override
   String get growthStage => 'वृद्धि चरण';
@@ -2250,17 +2248,17 @@ class AppLocalizationsHi extends AppLocalizations {
       'एआई गलतियाँ कर सकता है। आधिकारिक योजना वेबसाइट पर विवरण देखें।';
 
   @override
-  String get sarvamInputHint => 'सारथी से पूछो...';
+  String get sarvamInputHint => 'सारथी से पूछें...';
 
   @override
-  String get send => 'भेजना';
+  String get send => 'भेजें';
 
   @override
   String get sarvamCouldNotReach =>
       'सारथी तक नहीं पहुंच सका. कृपया पुन: प्रयास करें।';
 
   @override
-  String get welcomePreviewVoice => 'पूर्व दर्शन';
+  String get welcomePreviewVoice => 'सुनकर देखें';
 
   @override
   String get welcomePreviewVoiceError =>
@@ -2277,11 +2275,11 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get voiceNeedOneMoreDetail =>
-      'एक भरोसेमंद साथी ढूंढने के लिए मुझे एक और विवरण की आवश्यकता है।';
+      'भरोसेमंद मिलान ढूँढने के लिए मुझे एक और विवरण चाहिए।';
 
   @override
   String get voiceTellMeSituationFindSchemes =>
-      'मुझे अपनी स्थिति बताओ. मैं प्रासंगिक सरकारी योजनाएं ढूंढूंगा।';
+      'मुझे अपनी स्थिति बताइए। मैं प्रासंगिक सरकारी योजनाएं ढूँढूँगा।';
 
   @override
   String get voiceSpeakerYou => 'आप';
@@ -2298,10 +2296,10 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get voiceSpeakNaturallyPause =>
-      'स्वाभाविक रूप से बोलें, फिर जब आपका काम पूरा हो जाए तो रुकें';
+      'स्वाभाविक रूप से बोलें, और बात पूरी होने पर रुकें';
 
   @override
-  String get voiceReadyForNextQuestion => 'आपके अगले प्रश्न के लिए तैयार हैं';
+  String get voiceReadyForNextQuestion => 'आपके अगले प्रश्न के लिए तैयार';
 
   @override
   String get voiceDeviceNoiseControl => 'डिवाइस शोर नियंत्रण';
@@ -2313,13 +2311,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get voiceRecommendedForYou => 'आप के लिए अनुशंसित';
 
   @override
-  String get updatingSoon => 'जल्द ही अपडेट हो रहा है';
+  String get updatingSoon => 'जल्द अपडेट होगा';
 
   @override
-  String get updatingSoonCount => 'जल्द ही अपडेट हो रहा है';
+  String get updatingSoonCount => 'जल्द अपडेट होगा';
 
   @override
-  String get gotIt => 'समझ गया';
+  String get gotIt => 'ठीक है';
 
   @override
   String comingSoonSchemesBody(Object name) {
@@ -2425,13 +2423,13 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get msmeDelayedPaymentCalcDesc =>
-      'एमएसएमईडी अधिनियम धारा 15/16 के तहत, खरीदारों को 45 दिनों से अधिक की देरी के लिए मासिक छूट के साथ चक्रवृद्धि ब्याज के रूप में आरबीआई बैंक दर का 3 गुना भुगतान करना होगा।';
+      'एमएसएमईडी अधिनियम की धारा 15/16 के तहत, 45 दिनों से अधिक की देरी पर खरीदार को आरबीआई बैंक दर के 3 गुना की दर से मासिक चक्रवृद्धि ब्याज देना होगा।';
 
   @override
-  String get msmeInvoiceAmountRupees => 'चालान राशि (₹)';
+  String get msmeInvoiceAmountRupees => 'बिल राशि (₹)';
 
   @override
-  String get msmeDaysDelayedPost45 => 'विलंबित दिन (पोस्ट 45 दिन)';
+  String get msmeDaysDelayedPost45 => 'देरी के दिन (45 दिन के बाद)';
 
   @override
   String get msmeInterestRate3xBankRate => 'ब्याज दर (3x बैंक दर):';
@@ -2463,23 +2461,23 @@ class AppLocalizationsHi extends AppLocalizations {
   String get msmeTopSchemesLabel => 'शीर्ष योजनाएँ';
 
   @override
-  String get msmeMainFeaturesInside => 'अंदर की मुख्य विशेषताएं';
+  String get msmeMainFeaturesInside => 'इसमें मुख्य सुविधाएं';
 
   @override
   String get msmeFeatureSchemes1 =>
-      'वैयक्तिकृत योजनाएँ व्यावसायिक प्रोफ़ाइल से मेल खाती हैं';
+      'व्यावसायिक प्रोफ़ाइल से मेल खाती वैयक्तिकृत योजनाएँ';
 
   @override
   String get msmeFeatureSchemes2 => 'केंद्र बनाम राज्य योजनाएं फ़िल्टर';
 
   @override
-  String get msmeFeatureSchemes3 => 'व्यापक पात्रता जांचकर्ता';
+  String get msmeFeatureSchemes3 => 'व्यापक पात्रता जांच';
 
   @override
   String get msmeFeatureSchemes4 => 'योजना श्रेणियों के आधार पर खोजें';
 
   @override
-  String get msmeFeatureSchemes5 => 'पूंजीगत सब्सिडी, अनुदान और ब्याज छूट';
+  String get msmeFeatureSchemes5 => 'पूंजीगत सब्सिडी, अनुदान और ब्याज सहायता';
 
   @override
   String get msmeFeatureSchemes6 => 'आवश्यक दस्तावेजों और चेकलिस्ट की सूची';
@@ -2492,7 +2490,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get msmeFeatureFinance1 =>
-      'संपार्श्विक-मुक्त व्यापार सावधि ऋण और कार्यशील पूंजी';
+      'बिना गारंटी व्यावसायिक सावधि ऋण और कार्यशील पूंजी';
 
   @override
   String get msmeFeatureFinance2 =>
@@ -2500,7 +2498,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get msmeFeatureFinance3 =>
-      'संपार्श्विक-मुक्त बैंक विकल्पों के लिए क्रेडिट गारंटी (सीजीटीएमएसई)।';
+      'बिना गारंटी बैंक ऋण विकल्पों के लिए क्रेडिट गारंटी (सीजीटीएमएसई)';
 
   @override
   String get msmeFeatureFinance4 => 'उपकरण एवं मशीनरी वित्तपोषण मॉडल';
@@ -2520,11 +2518,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get msmeFeatureTaxGst1 => 'एमएसएमई कॉर्पोरेट आयकर लाभ';
 
   @override
-  String get msmeFeatureTaxGst2 => 'जीएसटी पंजीकरण सीमा सीमा (₹40/₹20 लाख छूट)';
+  String get msmeFeatureTaxGst2 =>
+      'जीएसटी पंजीकरण की सीमा (₹40/₹20 लाख तक छूट)';
 
   @override
   String get msmeFeatureTaxGst3 =>
-      'जीएसटी संरचना योजना पैरामीटर (1% कर, आसान फाइलिंग)';
+      'जीएसटी कंपोज़िशन योजना के मानदंड (1% कर, आसान रिटर्न)';
 
   @override
   String get msmeFeatureTaxGst4 =>
@@ -2544,14 +2543,14 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get msmeFeatureExport1 =>
-      'शुल्क वापसी योजनाएं (RoDTEP, RoSCTL) और कमियां';
+      'शुल्क वापसी योजनाएं (RoDTEP, RoSCTL) और ड्रॉबैक';
 
   @override
   String get msmeFeatureExport2 =>
       'प्री-शिपमेंट और पोस्ट-शिपमेंट निर्यात ऋण वित्तपोषण';
 
   @override
-  String get msmeFeatureExport3 => 'विदेशी मुद्रा ऋण पर ब्याज छूट';
+  String get msmeFeatureExport3 => 'विदेशी मुद्रा ऋण पर ब्याज सहायता';
 
   @override
   String get msmeFeatureExport4 => 'ईसीजीसी क्रेडिट जोखिम बीमा कवरेज पॉलिसियाँ';
@@ -2569,7 +2568,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get msmeFeatureTreds1 =>
-      'इनवॉइस डिस्काउंटिंग मल्टी-पार्टी प्लेटफ़ॉर्म व्याख्याता';
+      'इनवॉइस डिस्काउंटिंग के बहु-पक्षीय प्लेटफ़ॉर्म की जानकारी';
 
   @override
   String get msmeFeatureTreds2 =>
@@ -2584,13 +2583,14 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get msmeFeatureTreds5 =>
-      'फाइनेंसर बोली प्रवाह (सर्वोत्तम दरों के लिए अज्ञात नीलामी)';
+      'फाइनेंसर बोली प्रक्रिया (सर्वोत्तम दरों के लिए गुमनाम नीलामी)';
 
   @override
   String get msmeFeatureTreds6 => 'भुगतान निपटान मार्ग (T+1 क्रेडिट चक्र)';
 
   @override
-  String get msmeFeatureTreds7 => 'सहारा बनाम गैर-आश्रय फैक्टरिंग परिभाषाएँ';
+  String get msmeFeatureTreds7 =>
+      'रिकोर्स और नॉन-रिकोर्स फैक्टरिंग की परिभाषाएँ';
 
   @override
   String get msmeFeatureCsr1 => 'कॉर्पोरेट सीएसआर समर्थित क्लस्टर विकास निधि';
@@ -2627,7 +2627,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get msmeFeatureGovt4 =>
-      'स्पष्ट पदानुक्रम: केंद्रीय -> राज्य -> ​​जिला स्तर';
+      'स्पष्ट पदानुक्रम: केंद्र -> राज्य -> जिला स्तर';
 
   @override
   String get msmeFeatureGovt5 =>
@@ -2655,7 +2655,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get msmeFeatureInstitutions5 =>
-      'TIIC, स्टार्टअपTN, FaMeTN, SIPCOT क्षेत्रीय सेवा विवरण';
+      'TIIC, StartupTN, FaMeTN, SIPCOT क्षेत्रीय सेवा विवरण';
 
   @override
   String get msmeFeatureInstitutions6 =>
@@ -2670,7 +2670,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get msmeFeatureUdyam3 =>
-      'स्वचालित सीजीटीएमएसई संपार्श्विक-मुक्त क्रेडिट और टीआरईडीएस पात्रता';
+      'सीजीटीएमएसई बिना गारंटी ऋण और टीआरईडीएस के लिए स्वतः पात्रता';
 
   @override
   String get msmeFeatureUdyam4 =>
@@ -2693,7 +2693,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get assessEduQ1Opt1 => 'स्कूली शिक्षा (12वीं तक)';
 
   @override
-  String get assessEduQ1Opt2 => 'अवर';
+  String get assessEduQ1Opt2 => 'स्नातक';
 
   @override
   String get assessEduQ1Opt3 => 'स्नातकोत्तर';
@@ -2759,7 +2759,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'क्या आप कम ब्याज वाले छात्र शिक्षा ऋण में रुचि रखते हैं?';
 
   @override
-  String get assessEduQ3CollegeOpt1 => 'हां, एजुकेशन लोन चाहिए';
+  String get assessEduQ3CollegeOpt1 => 'हाँ, शिक्षा ऋण चाहिए';
 
   @override
   String get assessEduQ3CollegeOpt2 =>
@@ -2812,7 +2812,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get assessWomenQ1Opt1 => 'गर्भवती या स्तनपान कराने वाली माँ';
 
   @override
-  String get assessWomenQ1Opt2 => 'बालिका (आवेदन करने वाले माता-पिता)';
+  String get assessWomenQ1Opt2 => 'बालिका (माता-पिता आवेदन कर रहे हैं)';
 
   @override
   String get assessWomenQ1Opt3 => 'महिला उद्यमी';
@@ -2840,10 +2840,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get assessWomenQ2GirlOpt1 => 'नवजात (0 - 1 वर्ष)';
 
   @override
-  String get assessWomenQ2GirlOpt2 => 'बच्चा (2 - 10 वर्ष)';
+  String get assessWomenQ2GirlOpt2 => 'बच्ची (2 - 10 वर्ष)';
 
   @override
-  String get assessWomenQ2GirlOpt3 => 'किशोर (11-18 वर्ष)';
+  String get assessWomenQ2GirlOpt3 => 'किशोरी (11 - 18 वर्ष)';
 
   @override
   String get assessWomenQ2Biz =>
@@ -2884,22 +2884,21 @@ class AppLocalizationsHi extends AppLocalizations {
   String get assessWomenQ3GirlSaveOpt1 => 'हां, बचत खाता खोलें';
 
   @override
-  String get assessWomenQ3GirlSaveOpt2 =>
-      'नहीं, शैक्षिक छात्रवृत्ति चाह रहा हूँ';
+  String get assessWomenQ3GirlSaveOpt2 => 'नहीं, शैक्षिक छात्रवृत्ति चाहिए';
 
   @override
   String get assessWomenQ3GirlEdu =>
       'क्या बालिका वर्तमान में स्कूल/कॉलेज में नामांकित है?';
 
   @override
-  String get assessWomenQ3GirlEduOpt1 => 'हाँ, स्कूल/कॉलेज जा रहा हूँ';
+  String get assessWomenQ3GirlEduOpt1 => 'हाँ, स्कूल/कॉलेज जाती है';
 
   @override
   String get assessWomenQ3GirlEduOpt2 => 'नहीं, पढ़ाई बंद कर दी';
 
   @override
   String get assessWomenQ3BizCredit =>
-      'आप अपने व्यवसाय के लिए किस पूंजी समर्थन आकार की तलाश कर रहे हैं?';
+      'आपको अपने व्यवसाय के लिए कितनी पूंजी सहायता चाहिए?';
 
   @override
   String get assessWomenQ3BizCreditOpt1 => 'माइक्रो-क्रेडिट (₹1 लाख से कम)';
@@ -2919,7 +2918,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get assessWomenQ3WelfarePensionOpt1 => 'हाँ, विधवा पेंशन मिल रही है';
 
   @override
-  String get assessWomenQ3WelfarePensionOpt2 => 'कोई पेंशन नहीं मिली';
+  String get assessWomenQ3WelfarePensionOpt2 => 'कोई पेंशन नहीं मिलती';
 
   @override
   String get assessWomenQ4Caste => 'आपकी जाति/सामाजिक श्रेणी क्या है?';
@@ -2959,7 +2958,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get assessBizQ1Opt3 =>
-      'नहीं, व्यक्तिगत व्यापारी/कारीगर के रूप में कार्य कर रहा हूँ';
+      'नहीं, व्यक्तिगत व्यापारी/कारीगर के रूप में काम';
 
   @override
   String get assessBizQ1Opt4 => 'नहीं, यह विचार के चरण में है';
@@ -3010,10 +3009,10 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get assessBizQ3MsmeNeed =>
-      'आपको किस प्राथमिक ऋण/ऋण सहायता की आवश्यकता है?';
+      'आपको मुख्य रूप से किस ऋण सहायता की आवश्यकता है?';
 
   @override
-  String get assessBizQ3MsmeNeedOpt1 => 'संपार्श्विक-मुक्त मुद्रा ऋण';
+  String get assessBizQ3MsmeNeedOpt1 => 'बिना गारंटी मुद्रा ऋण';
 
   @override
   String get assessBizQ3MsmeNeedOpt2 => 'कार्यशील पूंजी गारंटी (सीजीटीएमएसई)';
@@ -3026,7 +3025,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'क्या आप इक्विटी फंडिंग या कर छूट चाहते हैं?';
 
   @override
-  String get assessBizQ3StartupNeedOpt1 => 'सरकारी बीज अनुदान';
+  String get assessBizQ3StartupNeedOpt1 => 'सरकारी सीड फंडिंग';
 
   @override
   String get assessBizQ3StartupNeedOpt2 => 'धारा 80-आईएसी कर छूट';
@@ -3140,16 +3139,16 @@ class AppLocalizationsHi extends AppLocalizations {
   String get assessSkillQ1 => 'आपका वर्तमान रोजगार या कौशल स्तर क्या है?';
 
   @override
-  String get assessSkillQ1Opt1 => 'बेरोजगार युवा नौकरी की तलाश में हैं';
+  String get assessSkillQ1Opt1 => 'नौकरी की तलाश में बेरोज़गार युवा';
 
   @override
-  String get assessSkillQ1Opt2 => 'स्कूल/कॉलेज छोड़ना';
+  String get assessSkillQ1Opt2 => 'स्कूल/कॉलेज बीच में छोड़ा';
 
   @override
   String get assessSkillQ1Opt3 => 'पारंपरिक कारीगर/श्रमिक';
 
   @override
-  String get assessSkillQ1Opt4 => 'कौशल उन्नयन की तलाश में कार्यरत';
+  String get assessSkillQ1Opt4 => 'कार्यरत, कौशल बढ़ाना चाहते हैं';
 
   @override
   String get assessSkillQ2 => 'आपकी रुचि किस कौशल प्रशिक्षण क्षेत्र में है?';
@@ -3174,7 +3173,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get assessSkillQ3Opt1 => 'हाँ, प्रमाणित प्रशिक्षण की आवश्यकता है';
 
   @override
-  String get assessSkillQ3Opt2 => 'नहीं, स्व-रोज़गार वजीफा चाह रहा हूँ';
+  String get assessSkillQ3Opt2 => 'नहीं, स्वरोज़गार वजीफ़ा चाहिए';
 
   @override
   String get assessSkillQ4Income => 'आपकी वार्षिक पारिवारिक आय क्या है?';
@@ -3189,7 +3188,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get assessSkillQ4IncomeOpt3 => '₹8 लाख से अधिक';
 
   @override
-  String get assessTeQ1 => 'आपका प्राथमिक उद्यम फोकस क्या है?';
+  String get assessTeQ1 => 'आपके उद्यम का मुख्य फोकस क्या है?';
 
   @override
   String get assessTeQ1Opt1 => 'प्रौद्योगिकी/अनुसंधान एवं विकास नवाचार';
@@ -3212,7 +3211,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get assessTeQ2Opt2 =>
-      'पेटेंट एवं अनुसंधान एवं विकास फाइलिंग प्रतिपूर्ति';
+      'पेटेंट और अनुसंधान एवं विकास फ़ाइलिंग खर्च की प्रतिपूर्ति';
 
   @override
   String get assessTeQ2Opt3 => 'बाज़ार पहुंच एवं अंतर्राष्ट्रीय मेला अनुदान';
@@ -3233,7 +3232,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get assessTeQ3TurnoverOpt3 => '₹5 करोड़ से अधिक';
 
   @override
-  String get assessCatQ1 => 'आपकी वर्तमान रोजगार स्थिति क्या बताती है?';
+  String get assessCatQ1 => 'आपकी वर्तमान रोज़गार स्थिति क्या है?';
 
   @override
   String get assessCatQ1Opt1 => 'विद्यार्थी';
@@ -3301,7 +3300,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String assessStateQ1(Object stateName) {
-    return 'क्या आप $stateName के स्थायी निवासी/निवासी हैं?';
+    return 'क्या आप $stateName के स्थायी निवासी/अधिवासी हैं?';
   }
 
   @override
@@ -3345,17 +3344,16 @@ class AppLocalizationsHi extends AppLocalizations {
   String get assessStateQ3Opt4 => 'छात्र/उच्च अध्ययन';
 
   @override
-  String get assessStateQ4 =>
-      'आप किस प्रकार की राज्य सहायता को लक्षित कर रहे हैं?';
+  String get assessStateQ4 => 'आप किस प्रकार की राज्य सहायता चाहते हैं?';
 
   @override
   String get assessStateQ4Opt1 => 'मासिक नकद भत्ते';
 
   @override
-  String get assessStateQ4Opt2 => 'शिक्षा शुल्क माफ़';
+  String get assessStateQ4Opt2 => 'शिक्षा शुल्क में छूट';
 
   @override
-  String get assessStateQ4Opt3 => 'व्यापार सब्सिडी';
+  String get assessStateQ4Opt3 => 'व्यवसाय सब्सिडी';
 
   @override
   String get assessStateQ4Opt4 => 'कृषि इनपुट सहायता';
@@ -3380,13 +3378,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get assessMinQ1Opt1 => 'व्यवसाय सब्सिडी/ऋण के लिए आवेदन करना';
 
   @override
-  String get assessMinQ1Opt2 => 'शैक्षिक छात्रवृत्ति की मांग';
+  String get assessMinQ1Opt2 => 'शैक्षिक छात्रवृत्ति चाहिए';
 
   @override
-  String get assessMinQ1Opt3 => 'किसान कृषि सहायता की मांग कर रहे हैं';
+  String get assessMinQ1Opt3 => 'किसान कृषि सहायता चाहिए';
 
   @override
-  String get assessMinQ1Opt4 => 'ग्रामीण अवसंरचना/एसएचजी सहायता की तलाश';
+  String get assessMinQ1Opt4 => 'ग्रामीण अवसंरचना / एसएचजी सहायता चाहिए';
 
   @override
   String get assessMinQ2 => 'आवेदक की वर्तमान आयु क्या है?';
@@ -3453,7 +3451,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get splashPreparingSubtitle =>
-      'जब तक हम तैयारी कर रहे हैं कृपया प्रतीक्षा करें\nआपके लिए कुछ अद्भुत';
+      'कृपया प्रतीक्षा करें, हम आपके लिए\nकुछ खास तैयार कर रहे हैं';
 
   @override
   String get splashNoInternetTitle => 'कोई इंटरनेट कनेक्शन नहीं';
@@ -3478,7 +3476,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get searchCompleteProfileSubtitle =>
-      'अपनी जन्मतिथि, लिंग और राज्य जोड़ें ताकि \"मेरे लिए\" आपकी योजनाओं से मेल खा सके।';
+      'अपनी जन्मतिथि, लिंग और राज्य जोड़ें ताकि \"मेरे लिए\" आपके अनुकूल योजनाएं दिखा सके।';
 
   @override
   String get searchNoProfileMatchesTitle =>
@@ -3506,12 +3504,12 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String matchingSchemesCount(Object count) {
-    return 'मिलान योजनाएँ ($count)';
+    return 'मेल खाती योजनाएँ ($count)';
   }
 
   @override
   String get matchedStrictlyAgainstProfile =>
-      'आपके प्रोफ़ाइल डेटा से सख्ती से मेल खाता है';
+      'आपकी प्रोफ़ाइल जानकारी से सख्ती से मिलान किया गया';
 
   @override
   String schemesAvailableCount(Object count) {
@@ -3579,28 +3577,28 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get faqScoringA =>
-      'हम प्रत्येक योजना द्वारा निर्धारित मानदंडों के आधार पर आपकी प्रोफ़ाइल (निवास, आयु, लिंग, शिक्षा और समुदाय) का मूल्यांकन करते हैं। शर्तों के पूरा होने के प्रतिशत के आधार पर मैच स्कोर की गणना 100% से की जाती है।';
+      'हम प्रत्येक योजना द्वारा तय मानदंडों पर आपकी प्रोफ़ाइल (निवास, आयु, लिंग, शिक्षा और समुदाय) का मूल्यांकन करते हैं। कितनी शर्तें पूरी होती हैं, उसके आधार पर 100% में से मिलान स्कोर निकाला जाता है।';
 
   @override
   String get faqDataSharingQ =>
-      'क्या मेरा व्यक्तिगत डेटा सरकार के साथ साझा किया गया है?';
+      'क्या मेरा व्यक्तिगत डेटा सरकार के साथ साझा किया जाता है?';
 
   @override
   String get faqDataSharingA =>
-      'नहीं, एमएसएस एक अनुशंसा उपकरण है जो पूरी तरह से आपके डिवाइस पर चलता है। हम आपकी प्रोफ़ाइल विवरण बाहरी विभागों के साथ साझा नहीं करते हैं। आप सीधे आधिकारिक पोर्टल पर आवेदन करें।';
+      'नहीं। एमएसएस एक सुझाव देने वाला टूल है जो पूरी तरह आपके डिवाइस पर चलता है। हम आपकी प्रोफ़ाइल का विवरण बाहरी विभागों के साथ साझा नहीं करते। आप सीधे आधिकारिक पोर्टल पर आवेदन करते हैं।';
 
   @override
   String get faqMissingDocsQ => 'मैं गुम दस्तावेज़ कैसे प्राप्त कर सकता हूँ?';
 
   @override
   String get faqMissingDocsA =>
-      'योजना विवरण दृश्य में, \"गुम\" के रूप में चिह्नित किसी भी दस्तावेज़ में एक \"दस्तावेज़ प्राप्त करें\" लिंक होता है जो आपको सीधे आधिकारिक पोर्टल (जैसे, आधार के लिए यूआईडीएआई, पैन के लिए एनएसडीएल) पर रीडायरेक्ट करता है।';
+      'योजना विवरण में, जो दस्तावेज़ उपलब्ध नहीं के रूप में चिह्नित है उसके साथ \"दस्तावेज़ ऑनलाइन प्राप्त करें\" लिंक होता है, जो आपको सीधे आधिकारिक पोर्टल पर ले जाता है (जैसे आधार के लिए यूआईडीएआई, पैन के लिए एनएसडीएल)।';
 
   @override
   String get helpCatGeneralInquiry => 'सामान्य पूछताछ';
 
   @override
-  String get helpFaqAnswerTitle => 'अक्सर पूछे जाने वाले प्रश्न उत्तर';
+  String get helpFaqAnswerTitle => 'प्रश्न का उत्तर';
 
   @override
   String get helpAllFaqsTitle => 'सभी अक्सर पूछे जाने वाले प्रश्न';
@@ -3613,7 +3611,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'किसी समस्या का सामना करना पड़ रहा है? नीचे विवरण भरें और हमारी टीम शीघ्र ही आपसे संपर्क करेगी।\n\nआपकी रिपोर्ट सीधे mssschemessearch@gmail.com पर भेजी जाएगी। कृपया अपना ईमेल नीचे दर्ज करें ताकि हम उत्तर दे सकें।';
 
   @override
-  String get helpCatMatcherBug => 'पात्रता मिलानकर्ता बग';
+  String get helpCatMatcherBug => 'पात्रता मिलान में गड़बड़ी';
 
   @override
   String get helpCatWrongDetails => 'ग़लत योजना विवरण';
@@ -3699,7 +3697,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get helpHeaderSubtitle => 'हम आपकी मदद के लिए यहां हैं';
 
   @override
-  String get helpFaqsGroupTitle => 'पूछे जाने वाले प्रश्न';
+  String get helpFaqsGroupTitle => 'अक्सर पूछे जाने वाले प्रश्न';
 
   @override
   String get helpFaqsGroupSubtitle => 'सामान्य प्रश्नों के उत्तर खोजें';
@@ -3708,7 +3706,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get helpViewAllFaqs => 'सभी प्रश्न देखें';
 
   @override
-  String get helpContactGroupTitle => 'समर्थन से संपर्क करें';
+  String get helpContactGroupTitle => 'सहायता टीम से संपर्क करें';
 
   @override
   String get helpContactGroupSubtitle => 'हमारी सहायता टीम से संपर्क करें';
@@ -3717,8 +3715,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get helpEmailUs => 'हमें ईमेल करें';
 
   @override
-  String get helpSupportEmailCopied =>
-      'समर्थन ईमेल को क्लिपबोर्ड पर कॉपी किया गया!';
+  String get helpSupportEmailCopied => 'सहायता ईमेल क्लिपबोर्ड पर कॉपी हो गया!';
 
   @override
   String get helpReplyWindow => 'हम आम तौर पर 24 घंटे के भीतर जवाब देते हैं';
@@ -3742,7 +3739,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'हमारी सहायता टीम आपकी सहायता के लिए हमेशा तैयार है।';
 
   @override
-  String get emiCalcTitle => 'बिजनेस लोन ईएमआई कैलकुलेटर';
+  String get emiCalcTitle => 'व्यवसाय ऋण ईएमआई कैलकुलेटर';
 
   @override
   String get emiCalcSubtitle =>
@@ -3761,7 +3758,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get emiInterestRateHelper => 'वार्षिक दर दर्ज करें';
 
   @override
-  String get emiTenureMonths => 'कार्यकाल (महीने)';
+  String get emiTenureMonths => 'अवधि (महीने)';
 
   @override
   String get emiTenureSuffixMo => 'माह';
@@ -3803,7 +3800,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'भारत में पंजीकृत होना चाहिए। एकल स्वामित्व (प्रोप्राइटरशिप) पात्र नहीं हैं।';
 
   @override
-  String get dpiitCriteriaAge => 'निगमन की आयु 10 वर्ष से कम है';
+  String get dpiitCriteriaAge => 'निगमन को 10 वर्ष से कम हुए हैं';
 
   @override
   String get dpiitCriteriaAgeSub => 'निगमन दिनांक से';
@@ -3824,11 +3821,11 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get dpiitCriteriaInnovation =>
-      'नवप्रवर्तन/स्केलिंग की दिशा में कार्य करना';
+      'नवाचार/विस्तार की दिशा में काम कर रहा है';
 
   @override
   String get dpiitCriteriaInnovationSub =>
-      'नए उत्पादों/प्रक्रियाओं का विकास करना';
+      'नए उत्पाद/प्रक्रियाएं विकसित कर रहा है';
 
   @override
   String get dpiitResultEligible =>
@@ -3851,7 +3848,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get valuationSubtitle =>
-      'एमआरआर के आधार पर बॉलपार्क प्री-सीड/बीज मूल्यांकन रेंज प्राप्त करें।';
+      'एमआरआर के आधार पर प्री-सीड/सीड मूल्यांकन की अनुमानित सीमा पाएं।';
 
   @override
   String get valuationMrrLabel => 'मासिक आवर्ती राजस्व (एमआरआर)';
@@ -3887,13 +3884,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get valuationCalculatedArr => 'परिकलित एआरआर';
 
   @override
-  String get valuationAppliedMultiple => 'एप्लाइड एआरआर मल्टीपल';
+  String get valuationAppliedMultiple => 'लागू एआरआर गुणक';
 
   @override
   String get valuationInvalidMrr => 'कृपया वैध एमआरआर दर्ज करें';
 
   @override
-  String get valuationEstimate => 'अनुमानित मूल्यांकन';
+  String get valuationEstimate => 'मूल्यांकन का अनुमान लगाएं';
 
   @override
   String valuationCroreFmt(Object value) {
@@ -3906,7 +3903,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get docChecklistTitle => 'दस्तावेज़ चेकलिस्ट सेटअप करें';
+  String get docChecklistTitle => 'व्यवसाय शुरू करने की दस्तावेज़ चेकलिस्ट';
 
   @override
   String get docChecklistSubtitle =>
@@ -4009,11 +4006,11 @@ class AppLocalizationsHi extends AppLocalizations {
   String get subsidyProjectCost => 'परियोजना/मशीनरी लागत (लाख)';
 
   @override
-  String get subsidyProjectCostSuffix => 'लाखों';
+  String get subsidyProjectCostSuffix => 'लाख';
 
   @override
   String get subsidyProjectCostHelper =>
-      'मशीनरी या परियोजना लागत लाखों में दर्ज करें';
+      'मशीनरी या परियोजना लागत लाख में दर्ज करें';
 
   @override
   String get subsidyPercentLabel => 'अपेक्षित सब्सिडी प्रतिशत (%)';
@@ -4050,7 +4047,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get msmeUdyamFlowTitle => 'उद्यम पंजीकरण प्रवाह';
+  String get msmeUdyamFlowTitle => 'उद्यम पंजीकरण प्रक्रिया';
 
   @override
   String get msmeUdyamGoToPortal => 'आधिकारिक उद्यम पोर्टल पर जाएं';
@@ -4082,18 +4079,18 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get msmeUdyamStep3Desc =>
-      'प्रमुख गतिविधि (विनिर्माण / सेवा) का चयन करें, 2/4/5-अंकीय एनआईसी कोड खोजें और चुनें, कर्मचारियों की संख्या दर्ज करें, और प्लांट और मशीनरी में निवेश करें।';
+      'मुख्य गतिविधि (विनिर्माण / सेवा) चुनें, 2/4/5-अंकीय एनआईसी कोड खोजकर चुनें, फिर कर्मचारियों की संख्या और प्लांट व मशीनरी में निवेश दर्ज करें।';
 
   @override
   String get msmeUdyamStep3Action =>
       'एनआईसी वर्गीकरण कोड चुनें और निवेश/कारोबार दर्ज करें।';
 
   @override
-  String get msmeUdyamStep4Title => '4. फाइनल सबमिट और ई-सर्टिफिकेट';
+  String get msmeUdyamStep4Title => '4. अंतिम जमा और ई-प्रमाणपत्र';
 
   @override
   String get msmeUdyamStep4Desc =>
-      'सारांश की समीक्षा करें, अंतिम ओटीपी सबमिट करें। एक अद्वितीय 16-अंकीय उदयम पंजीकरण संख्या (यूआरएन) और क्यूआर कोड वाला ई-प्रमाणपत्र शून्य पंजीकरण शुल्क के साथ तुरंत जारी किया जाता है।';
+      'सारांश देखें और अंतिम ओटीपी सबमिट करें। एक अद्वितीय 16-अंकीय उद्यम पंजीकरण संख्या (यूआरएन) और क्यूआर कोड वाला ई-प्रमाणपत्र बिना किसी पंजीकरण शुल्क के तुरंत जारी होता है।';
 
   @override
   String get msmeUdyamStep4Action =>
@@ -4148,7 +4145,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get voiceTapToInterrupt => 'बीच में रोकने के लिए टैप करें';
 
   @override
-  String get voiceSemInterrupt => 'सहायक को बाधित करें';
+  String get voiceSemInterrupt => 'सहायक को बीच में रोकें';
 
   @override
   String get voiceSemMicHint =>
@@ -4177,11 +4174,11 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get saarthiGreetingFriend => 'वहाँ';
+  String get saarthiGreetingFriend => 'दोस्त';
 
   @override
   String get saarthiVoiceServiceUnavailable =>
-      'ध्वनि सेवा उपलब्ध नहीं है. पुनः प्रयास करें टैप करें.';
+      'वॉइस सेवा उपलब्ध नहीं है। फिर से कोशिश करने के लिए टैप करें।';
 
   @override
   String get saarthiVoiceFallbackOnDevice =>
@@ -4189,18 +4186,18 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get saarthiCloudErrorSignIn =>
-      'कृपया दोबारा साइन इन करें, फिर आवाज देकर पुनः प्रयास करें।';
+      'कृपया दोबारा साइन इन करें, फिर वॉइस दोबारा आज़माएं।';
 
   @override
   String get saarthiCloudErrorNetwork =>
-      'अपना इंटरनेट जाँचें, फिर ध्वनि पुनः प्रयास करें।';
+      'अपना इंटरनेट जांचें, फिर वॉइस दोबारा आज़माएं।';
 
   @override
   String get saarthiCloudErrorGeneric =>
-      'ध्वनि सेवा कनेक्ट नहीं हो सकी. पुनः प्रयास करें टैप करें.';
+      'वॉइस सेवा कनेक्ट नहीं हो सकी। फिर से कोशिश करने के लिए टैप करें।';
 
   @override
-  String get saarthiGenericError => 'एक त्रुटि पाई गई। कृपया पुन: प्रयास करें।';
+  String get saarthiGenericError => 'कोई त्रुटि हुई। कृपया फिर से कोशिश करें।';
 
   @override
   String get saarthiStatusConnectionAttention =>
@@ -4212,7 +4209,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get saarthiQAge => 'तुम्हारी उम्र क्या है?';
+  String get saarthiQAge => 'आपकी उम्र क्या है?';
 
   @override
   String get saarthiQState => 'आप किस राज्य में हैं?';
@@ -4230,10 +4227,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get saarthiQCommunity => 'आप किस समुदाय श्रेणी से संबंधित हैं?';
 
   @override
-  String get saarthiQOccupation => 'आप अभी जीविकोपार्जन के लिए क्या करते हैं?';
+  String get saarthiQOccupation => 'आप अभी जीविका के लिए क्या काम करते हैं?';
 
   @override
-  String get saarthiQEducation => 'कहा तक पढ़ी हो?';
+  String get saarthiQEducation => 'आपकी शिक्षा का स्तर क्या है?';
 
   @override
   String get saarthiQDisability =>
@@ -4243,14 +4240,14 @@ class AppLocalizationsHi extends AppLocalizations {
   String get saarthiQMaritalStatus => 'आपकी वैवाहिक स्थिति क्या है?';
 
   @override
-  String get saarthiQIsStudent => 'आप वर्तमान में एक छात्र हैं?';
+  String get saarthiQIsStudent => 'क्या आप अभी विद्यार्थी हैं?';
 
   @override
   String get saarthiQBusinessStage =>
       'क्या यह एक विचार है, एक नया व्यवसाय है, या एक मौजूदा व्यवसाय है?';
 
   @override
-  String get saarthiQBusinessSector => 'यह कौन सा बिजनेस सेक्टर है?';
+  String get saarthiQBusinessSector => 'यह किस व्यवसाय क्षेत्र का है?';
 
   @override
   String get saarthiQFundingNeed =>
@@ -4408,21 +4405,21 @@ class AppLocalizationsHi extends AppLocalizations {
       'जारी रखने के लिए बीटा टेस्टर पासवर्ड दर्ज करें।';
 
   @override
-  String get betaGatePasswordHint => 'पास वर्ड दर्ज करें';
+  String get betaGatePasswordHint => 'पासवर्ड दर्ज करें';
 
   @override
-  String get betaGateVerifyAndEnter => 'सत्यापित करें और दर्ज करें';
+  String get betaGateVerifyAndEnter => 'सत्यापित करें और प्रवेश करें';
 
   @override
   String get loginGoogleSignInFailed =>
       'Google साइन इन पूर्ण करने में असमर्थ. कृपया पुनः प्रयास करें.';
 
   @override
-  String get dialogConfirm => 'पुष्टि करना';
+  String get dialogConfirm => 'पुष्टि करें';
 
   @override
   String get monthAbbrList =>
-      'जनवरी, फरवरी, मार्च, अप्रैल, मई, जून, जुलाई, अगस्त, सितंबर, अक्टूबर, नवंबर, दिसंबर';
+      'जनवरी,फरवरी,मार्च,अप्रैल,मई,जून,जुलाई,अगस्त,सितंबर,अक्टूबर,नवंबर,दिसंबर';
 
   @override
   String get discoverEveryScheme => 'भारत में हर सरकारी योजना की खोज करें';
@@ -4446,7 +4443,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get eligResGreatNews => 'अच्छी खबर! 🎉';
 
   @override
-  String get eligResEligibleForPrefix => 'आप पात्र हैं';
+  String get eligResEligibleForPrefix => 'आप इनके लिए पात्र हैं:\n';
 
   @override
   String eligResGovernmentSchemesCount(Object count) {
@@ -4482,11 +4479,11 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String eligResShareItem(Object name, Object percent) {
-    return '•$name($percent% मिलान)';
+    return '• $name ($percent% मिलान)';
   }
 
   @override
-  String get eligResEligibleSchemesTitle => 'योग्य योजनाएँ';
+  String get eligResEligibleSchemesTitle => 'पात्र योजनाएँ';
 
   @override
   String get eligResExploreAll => 'सभी योजनाओं का अन्वेषण करें';
@@ -4517,7 +4514,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get notifBadgeNew => 'नया';
 
   @override
-  String get notifProfileCompletionLabel => 'प्रोफ़ाइल समापन';
+  String get notifProfileCompletionLabel => 'प्रोफ़ाइल पूर्णता';
 
   @override
   String get notifCancelSelectionTooltip => 'चयन रद्द करें';
@@ -4531,7 +4528,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get notifMarkAllAsRead => 'सभी को पढ़ा हुआ मार्क करें';
 
   @override
-  String get notifDeleteAll => 'सभी हटा दो';
+  String get notifDeleteAll => 'सभी हटाएं';
 
   @override
   String get notifNoMatchingAlerts => 'कोई मेल खाता अलर्ट नहीं';
@@ -4574,7 +4571,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get notifSeed2Body =>
-      'छात्रों को उच्च अध्ययन के लिए संपार्श्विक-मुक्त शिक्षा ऋण प्रदान करने की एक नई योजना।';
+      'छात्रों को उच्च शिक्षा के लिए बिना गारंटी शिक्षा ऋण देने वाली एक नई योजना।';
 
   @override
   String get notifSeed3Title => 'पीएम विश्वकर्मा योजना';
@@ -4593,7 +4590,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get notifSeed5Title => 'पीएम इंटर्नशिप योजना';
 
   @override
-  String get notifSeed5Body => 'एप्लिकेशन विंडो जल्द ही बंद हो जाएगी';
+  String get notifSeed5Body => 'आवेदन की अवधि जल्द ही समाप्त होगी';
 
   @override
   String get notifSeed6Title => 'आयुष्मान भारत योजना पर नया अपडेट';
@@ -4706,7 +4703,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get profilePrivacyNoteDpdpa =>
-      'DPDPA 2023: केवल आपको कल्याणकारी योजनाओं से जोड़ने के लिए उपयोग किया जाता है। कभी साझा नहीं किया.';
+      'DPDPA 2023: केवल आपको कल्याणकारी योजनाओं से मिलाने के लिए उपयोग किया जाता है। कभी साझा नहीं किया जाता।';
 
   @override
   String get profileConsentSectionTitle => 'गोपनीयता और डेटा';
@@ -4724,17 +4721,18 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get profileConsentRequiredToast =>
-      'कृपया डेटा प्रोसेसिंग जारी रखने के लिए सहमति दें।';
+      'जारी रखने के लिए कृपया डेटा प्रोसेसिंग के लिए सहमति दें।';
 
   @override
-  String get legalAccept => 'स्वीकार करना';
+  String get legalAccept => 'स्वीकार करें';
 
   @override
   String get legalScrollToEndNotice =>
       'स्वीकार करने से पहले आपको इस दस्तावेज़ को अंत तक स्क्रॉल करना होगा।';
 
   @override
-  String get legalScrollToEndHint => 'स्वीकार करने के लिए अंत तक स्क्रॉल करें';
+  String get legalScrollToEndHint =>
+      '‘स्वीकार करें’ चालू करने के लिए अंत तक स्क्रॉल करें';
 
   @override
   String get simpleProfileTitle => 'त्वरित प्रोफ़ाइल सेटअप';
@@ -4810,18 +4808,17 @@ class AppLocalizationsHi extends AppLocalizations {
   String get ageYearsLabel => 'साल';
 
   @override
-  String get workNewBusiness => 'बिजनेस शुरू करना चाहते हैं';
+  String get workNewBusiness => 'व्यवसाय शुरू करना चाहते हैं';
 
   @override
   String get workNewBusinessDesc =>
       'कोई विचार है या कोई नया उद्यम शुरू कर रहे हैं';
 
   @override
-  String get workExistingBusiness => 'दुकान या व्यवसाय चलाना';
+  String get workExistingBusiness => 'दुकान या व्यवसाय चलाते हैं';
 
   @override
-  String get workExistingBusinessDesc =>
-      'एक परिचालन व्यापार या उद्यम का मालिक होना';
+  String get workExistingBusinessDesc => 'चालू व्यापार या उद्यम के मालिक हैं';
 
   @override
   String get workFarmer => 'खेती-किसानी';
@@ -4834,7 +4831,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get workArtisanDesc =>
-      'बुनाई, मिट्टी के बर्तन, हस्तशिल्प, या व्यापार शिल्प';
+      'बुनाई, मिट्टी के बर्तन, हस्तशिल्प या अन्य शिल्प';
 
   @override
   String get workStudent => 'विद्यार्थी';
@@ -5332,7 +5329,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get voiceClipError =>
-      'अनुरोध पूरा नहीं हुआ। माइक्रोफ़ोन की अनुमति और इंटरनेट जाँचें। उसी रिकॉर्डिंग को फिर से बदलें, भाषा बदलें या अनुरोध टाइप करें।';
+      'आपका अनुरोध पूरा नहीं हो सका। माइक्रोफ़ोन की अनुमति या इंटरनेट जाँचें। आप उसी रिकॉर्डिंग को दोबारा आज़मा सकते हैं, उसकी भाषा बदल सकते हैं या अनुरोध टाइप कर सकते हैं।';
 
   @override
   String get voiceRecordTitle => 'अपना अनुरोध रिकॉर्ड करें';
@@ -5846,7 +5843,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get permMicrophoneBody => 'सारथी से बात करें और आवाज़ से खोजें।';
 
   @override
-  String get permInstallTitle => 'अपडेट इंस्टॉल करना';
+  String get permInstallTitle => 'अपडेट इंस्टॉल करें';
 
   @override
   String get permInstallBody =>
@@ -5943,7 +5940,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sv2Connecting => 'जुड़ रहा है…';
 
   @override
-  String get sv2Transcribing => 'आपके शब्द ले रहा है…';
+  String get sv2Transcribing => 'आपके शब्द लिखे जा रहे हैं…';
 
   @override
   String get sv2YourSpeech => 'आपकी बात';

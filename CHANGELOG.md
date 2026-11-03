@@ -11,6 +11,11 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+### Fixed
+- Hindi, Tamil and Marathi screen text was reviewed line by line against English and about 360 labels were corrected. Examples: Hindi showed "junior" for Undergraduate, "shortcomings" for the export Drawback scheme, "quantity" for Amount, "to start running" for Startup and a literal "push" for Push Notifications; Tamil used "obligation" for customs duty and "private sector" for private data; Marathi gave Undergraduate as "pre-degree" and built the terms-consent sentence wrongly. Many Hindi buttons used infinitives ("to save") instead of instructions ("Save").
+- Tamil now writes Saarthi as சாரதி everywhere, and Marathi uses आधार for Aadhaar and one word, तारणमुक्त, for collateral-free.
+- A few Hindi document and scheme terms were corrected, for example the community certificate is now the caste certificate (जाति प्रमाण पत्र).
+
 ## [2.3.1+21] - 2026-11-03
 
 ### Fixed
