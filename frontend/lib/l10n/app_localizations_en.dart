@@ -858,7 +858,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get valNone => 'None';
 
   @override
-  String get schemeDetailsTitle => 'Scheme Details';
+  String get schemeDetailsTitle => 'Scheme details';
 
   @override
   String get tabOverview => 'Overview';
@@ -882,19 +882,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get schemeAtAGlance => 'Scheme at a glance';
 
   @override
-  String get benefitsDetails => 'Benefits Details';
+  String get benefitsDetails => 'Benefits';
 
   @override
-  String get eligibilityCriteria => 'Eligibility Criteria';
+  String get eligibilityCriteria => 'Who can apply';
 
   @override
-  String get requiredDocuments => 'Required Documents';
+  String get requiredDocuments => 'Documents you need';
 
   @override
-  String get requiredServices => 'Required Services';
+  String get requiredServices => 'Services you need';
 
   @override
-  String get applicationProcessHeader => 'Application Process';
+  String get applicationProcessHeader => 'How to apply';
 
   @override
   String get officialInformation => 'Official scheme information';
@@ -908,13 +908,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sourceButton => 'Source';
 
   @override
-  String get applyNowButton => 'Apply Now';
+  String get applyNowButton => 'Apply now';
 
   @override
-  String get saveSchemeButton => 'Save Scheme';
+  String get saveSchemeButton => 'Save scheme';
 
   @override
-  String get savedSchemeButton => 'Saved Scheme';
+  String get savedSchemeButton => 'Saved';
 
   @override
   String get noVerifiedLink => 'No verified official link is available.';
@@ -931,7 +931,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'No separate service requirement is listed for this scheme.';
 
   @override
-  String get getDocumentOnline => 'Get Document Online';
+  String get getDocumentOnline => 'Get it online';
 
   @override
   String issuedByFormat(Object authority) {

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../../../utils/app_colors.dart';
+import '../../../utils/app_radius.dart';
+import '../../../utils/app_size.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/app_text.dart';
 
-/// Reusable accordion section widget with colored leading icon and ExpansionTile.
+/// Reusable accordion section: one quiet blue icon, the section title and a
+/// chevron, over an ExpansionTile.
 ///
 /// Extracted from `scheme_details_screen.dart` (frontend refactor C5, safe slice).
 class SchemeExpandableSection extends StatelessWidget {
   final String title;
   final IconData icon;
-  final Color iconColor;
-  final Color iconBg;
   final bool isExpanded;
   // ignore: deprecated_member_use
   final ExpansionTileController controller;
@@ -21,8 +23,6 @@ class SchemeExpandableSection extends StatelessWidget {
     super.key,
     required this.title,
     required this.icon,
-    required this.iconColor,
-    required this.iconBg,
     required this.isExpanded,
     required this.controller,
     required this.onToggle,
@@ -31,12 +31,14 @@ class SchemeExpandableSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final still = MediaQuery.disableAnimationsOf(context);
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+        color: AppColors.surface,
+        borderRadius: AppRadius.lgAll,
+        border: Border.all(color: AppColors.border, width: AppSize.borderWidth),
       ),
+      clipBehavior: Clip.antiAlias,
       // The ExpansionTile header is a ListTile; without a Material between it
       // and this coloured Container it asserts "background may be invisible"
       // once the section is mounted during loading. A transparency Material
@@ -49,28 +51,38 @@ class SchemeExpandableSection extends StatelessWidget {
             controller: controller,
             initiallyExpanded: isExpanded,
             onExpansionChanged: (_) => onToggle(),
+            expansionAnimationStyle: still
+                ? AnimationStyle.noAnimation
+                : const AnimationStyle(
+                    curve: Curves.easeInOut,
+                    duration: Duration(milliseconds: 300),
+                  ),
             tilePadding: const EdgeInsets.symmetric(
               horizontal: AppSpacing.lg,
-              vertical: AppSpacing.hairline,
+              vertical: AppSpacing.xs,
             ),
             leading: Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: iconBg),
+              width: AppSize.avatarSm,
+              height: AppSize.avatarSm,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColors.primarySoft,
+              ),
               alignment: Alignment.center,
-              child: Icon(icon, color: iconColor, size: 16),
+              child: Icon(icon, color: AppColors.primary, size: AppSize.icon),
             ),
             title: Text(
               title,
-              style: AppGoogleFonts.poppins(
-                fontSize: 13.0,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF0F172A),
+              style: context.text.cardTitle.copyWith(
+                color: AppColors.textPrimary,
               ),
             ),
             trailing: Icon(
-              isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-              color: const Color(0xFF2563EB),
+              isExpanded
+                  ? Icons.keyboard_arrow_up_rounded
+                  : Icons.keyboard_arrow_down_rounded,
+              color: AppColors.iconMuted,
+              size: AppSize.iconLg,
             ),
             children: [
               Padding(

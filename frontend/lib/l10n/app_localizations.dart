@@ -1669,7 +1669,7 @@ abstract class AppLocalizations {
   /// No description provided for @schemeDetailsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Scheme Details'**
+  /// **'Scheme details'**
   String get schemeDetailsTitle;
 
   /// No description provided for @tabOverview.
@@ -1717,31 +1717,31 @@ abstract class AppLocalizations {
   /// No description provided for @benefitsDetails.
   ///
   /// In en, this message translates to:
-  /// **'Benefits Details'**
+  /// **'Benefits'**
   String get benefitsDetails;
 
   /// No description provided for @eligibilityCriteria.
   ///
   /// In en, this message translates to:
-  /// **'Eligibility Criteria'**
+  /// **'Who can apply'**
   String get eligibilityCriteria;
 
   /// No description provided for @requiredDocuments.
   ///
   /// In en, this message translates to:
-  /// **'Required Documents'**
+  /// **'Documents you need'**
   String get requiredDocuments;
 
   /// No description provided for @requiredServices.
   ///
   /// In en, this message translates to:
-  /// **'Required Services'**
+  /// **'Services you need'**
   String get requiredServices;
 
   /// No description provided for @applicationProcessHeader.
   ///
   /// In en, this message translates to:
-  /// **'Application Process'**
+  /// **'How to apply'**
   String get applicationProcessHeader;
 
   /// No description provided for @officialInformation.
@@ -1765,19 +1765,19 @@ abstract class AppLocalizations {
   /// No description provided for @applyNowButton.
   ///
   /// In en, this message translates to:
-  /// **'Apply Now'**
+  /// **'Apply now'**
   String get applyNowButton;
 
   /// No description provided for @saveSchemeButton.
   ///
   /// In en, this message translates to:
-  /// **'Save Scheme'**
+  /// **'Save scheme'**
   String get saveSchemeButton;
 
   /// No description provided for @savedSchemeButton.
   ///
   /// In en, this message translates to:
-  /// **'Saved Scheme'**
+  /// **'Saved'**
   String get savedSchemeButton;
 
   /// No description provided for @noVerifiedLink.
@@ -1807,7 +1807,7 @@ abstract class AppLocalizations {
   /// No description provided for @getDocumentOnline.
   ///
   /// In en, this message translates to:
-  /// **'Get Document Online'**
+  /// **'Get it online'**
   String get getDocumentOnline;
 
   /// No description provided for @issuedByFormat.

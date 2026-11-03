@@ -889,10 +889,10 @@ class AppLocalizationsTa extends AppLocalizations {
   String get schemeAtAGlance => 'திட்டத்தின் சுருக்கம்';
 
   @override
-  String get benefitsDetails => 'நன்மைகள் பற்றிய விவரங்கள்';
+  String get benefitsDetails => 'நன்மைகள்';
 
   @override
-  String get eligibilityCriteria => 'தகுதி அளவுகோல்கள்';
+  String get eligibilityCriteria => 'யாருக்குத் தகுதி';
 
   @override
   String get requiredDocuments => 'தேவையான ஆவணங்கள்';
@@ -940,7 +940,7 @@ class AppLocalizationsTa extends AppLocalizations {
       'இந்த திட்டத்திற்கு தனியான சேவைத் தேவைகள் எதுவும் பட்டியலிடப்படவில்லை.';
 
   @override
-  String get getDocumentOnline => 'ஆவணத்தை ஆன்லைனில் பெறுக';
+  String get getDocumentOnline => 'ஆன்லைனில் பெறுக';
 
   @override
   String issuedByFormat(Object authority) {

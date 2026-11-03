@@ -128,7 +128,7 @@ void main() {
     final processSection = find.byWidgetPredicate(
       (widget) =>
           widget is SchemeExpandableSection &&
-          widget.title == 'Application Process',
+          widget.title == 'How to apply',
     );
     expect(processSection, findsOneWidget);
     expect(tester.getTopLeft(processSection).dy, greaterThan(600));

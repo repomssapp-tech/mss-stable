@@ -4,6 +4,9 @@ import '../../../l10n/l10n.dart';
 import '../../../models/localized_scheme.dart';
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_colors.dart';
+import '../../../utils/app_elevation.dart';
+import '../../../utils/app_radius.dart';
+import '../../../utils/app_size.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/emblem_helper.dart';
 import '../../../utils/app_text.dart';
@@ -26,6 +29,9 @@ class SchemeHeroSection extends StatelessWidget {
   /// True when the eligibility engine marked this scheme "not applicable".
   final bool notApplicable;
 
+  /// The emblem's size; it sits in a circle a little larger than this.
+  static const double emblemSize = 96;
+
   const SchemeHeroSection({
     super.key,
     required this.scheme,
@@ -34,11 +40,7 @@ class SchemeHeroSection extends StatelessWidget {
     this.notApplicable = false,
   });
 
-  Widget _buildSchemeLogo(
-    BuildContext context,
-    LocalizedScheme scheme, {
-    double size = 48,
-  }) {
+  Widget _buildSchemeLogo(BuildContext context, LocalizedScheme scheme) {
     final emblemAsset = EmblemHelper.getEmblemAsset(
       governmentLevel: scheme.governmentLevel,
       state: scheme.state,
@@ -49,25 +51,40 @@ class SchemeHeroSection extends StatelessWidget {
 
     // Emblem WebPs are ~900-1024px square; cap the decode to the physical
     // pixels shown (size dp x devicePixelRatio) instead of full resolution.
-    final int decodePx = (size * MediaQuery.devicePixelRatioOf(context))
+    final int decodePx = (emblemSize * MediaQuery.devicePixelRatioOf(context))
         .round();
 
     return Image.asset(
       emblemAsset,
       fit: BoxFit.contain,
-      width: size,
-      height: size,
+      width: emblemSize,
+      height: emblemSize,
       cacheWidth: decodePx,
+      excludeFromSemantics: true,
       errorBuilder: (context, error, stackTrace) {
         return Image.asset(
           'assets/images/States assets/Indian emblem.webp',
           fit: BoxFit.contain,
-          width: size,
-          height: size,
+          width: emblemSize,
+          height: emblemSize,
           cacheWidth: decodePx,
+          excludeFromSemantics: true,
         );
       },
     );
+  }
+
+  /// "Central scheme" / "State scheme" in the app language, or null when the
+  /// record does not say who runs it.
+  String? _levelLabel(BuildContext context) {
+    final level = scheme.governmentLevel.trim();
+    if (level.isEmpty) return null;
+    final name = switch (level.toLowerCase()) {
+      'central' => context.l10n.filterCentral,
+      'state' => context.l10n.filterState,
+      _ => CentralizedTranslator.instance.localizeTag(level),
+    };
+    return context.l10n.levelSchemeFormat(name);
   }
 
   @override
@@ -97,248 +114,153 @@ class SchemeHeroSection extends StatelessWidget {
       }
     }
 
+    final levelLabel = _levelLabel(context);
+    final language = Localizations.localeOf(context).languageCode;
+
     return Container(
       margin: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.sm,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
-          ),
-        ],
+        color: AppColors.surface,
+        borderRadius: AppRadius.lgAll,
+        border: Border.all(color: AppColors.border, width: AppSize.borderWidth),
       ),
+      clipBehavior: Clip.antiAlias,
       child: IntrinsicHeight(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Left Image (Emblem Container)
+            // The emblem of who runs the scheme, on a quiet panel.
             Expanded(
               flex: 2,
-              child: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Color(0xFFF1F5F9), Color(0xFFEFF6FF)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(14),
-                    bottomLeft: Radius.circular(14),
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.04),
-                        blurRadius: 6,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  padding: EdgeInsets.zero,
-                  // 80% of the circle, so the emblem's bottom text is not
-                  // cropped (test report UI-05).
-                  child: ClipOval(
-                    child: Center(
-                      child: _buildSchemeLogo(context, scheme, size: 96),
+              child: ColoredBox(
+                color: AppColors.surfaceMuted,
+                child: Center(
+                  child: Container(
+                    width: emblemSize + AppSpacing.xl,
+                    height: emblemSize + AppSpacing.xl,
+                    decoration: const BoxDecoration(
+                      color: AppColors.surface,
+                      shape: BoxShape.circle,
+                      boxShadow: AppShadows.card,
+                    ),
+                    // The circle is larger than the emblem, so the emblem's
+                    // bottom text is not cropped (test report UI-05).
+                    child: ClipOval(
+                      child: Center(child: _buildSchemeLogo(context, scheme)),
                     ),
                   ),
                 ),
               ),
             ),
 
-            // Right Content Block
             Expanded(
               flex: 3,
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.sm,
-                  vertical: AppSpacing.sm,
-                ),
+                padding: const EdgeInsets.all(AppSpacing.md),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppSpacing.tight,
-                            vertical: AppSpacing.hairline,
-                          ),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFEFF6FF),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            context.l10n.levelSchemeFormat(
-                              scheme.governmentLevel.isNotEmpty
-                                  ? '${scheme.governmentLevel[0].toUpperCase()}${scheme.governmentLevel.substring(1)}'
-                                  : 'Central',
-                            ),
-                            style: AppGoogleFonts.inter(
-                              color: const Color(0xFF2563EB),
-                              fontSize: 8.5,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: AppSpacing.xs),
-                        AutoTranslatedText(
-                          shortForm,
-                          language: Localizations.localeOf(
-                            context,
-                          ).languageCode,
-                          style: AppGoogleFonts.poppins(
-                            fontSize: 13.5,
-                            fontWeight: FontWeight.bold,
-                            color: const Color(0xFF0F172A),
-                            height: 1.3,
-                          ),
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        if (fullName.isNotEmpty) ...[
-                          const SizedBox(height: AppSpacing.hairline),
-                          Text(
-                            "($fullName)",
-                            style: AppGoogleFonts.inter(
-                              fontSize: 10.0,
-                              fontWeight: FontWeight.w500,
-                              color: const Color(0xFF64748B),
-                              height: 1.25,
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                        const SizedBox(height: AppSpacing.hairline),
-                        Text(
-                          scheme.sponsoringBody,
-                          style: AppGoogleFonts.inter(
-                            fontSize: 10.5,
-                            color: const Color(0xFF64748B),
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                    if (levelLabel != null) ...[
+                      _Tag(label: levelLabel, style: AppTagStyle.level),
+                      const SizedBox(height: AppSpacing.sm),
+                    ],
+                    AutoTranslatedText(
+                      shortForm,
+                      language: language,
+                      style: context.text.titleSmall.copyWith(
+                        color: AppColors.textPrimary,
+                      ),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: AppSpacing.tight),
+                    if (fullName.isNotEmpty) ...[
+                      const SizedBox(height: AppSpacing.hairline),
+                      Text(
+                        "($fullName)",
+                        style: context.text.bodySmall.copyWith(
+                          color: AppColors.textMuted,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                    if (scheme.sponsoringBody.isNotEmpty) ...[
+                      const SizedBox(height: AppSpacing.xs),
+                      Text(
+                        scheme.sponsoringBody,
+                        style: context.text.bodySmall.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
 
-                    // Sponsoring theme tags
-                    Wrap(
-                      spacing: AppSpacing.xs,
-                      runSpacing: AppSpacing.xs,
-                      children: [
-                        if (scheme.schemeType.isNotEmpty)
-                          _buildMiniTag(
-                            scheme.schemeType,
-                            const Color(0xFFEFF6FF),
-                            const Color(0xFF1D4ED8),
-                          ),
-                        if (scheme.sector.isNotEmpty)
-                          _buildMiniTag(
-                            scheme.sector,
-                            const Color(0xFFECFDF5),
-                            const Color(0xFF047857),
-                          ),
-                        if (scheme.schemeType.isEmpty &&
-                            scheme.sector.isEmpty) ...[
-                          _buildMiniTag(
-                            "Loan",
-                            const Color(0xFFEFF6FF),
-                            const Color(0xFF1D4ED8),
-                          ),
-                          _buildMiniTag(
-                            "Subsidy",
-                            const Color(0xFFECFDF5),
-                            const Color(0xFF047857),
-                          ),
+                    // Type and sector, only when the record has them.
+                    if (scheme.schemeType.isNotEmpty ||
+                        scheme.sector.isNotEmpty) ...[
+                      const SizedBox(height: AppSpacing.sm),
+                      Wrap(
+                        spacing: AppSpacing.xs,
+                        runSpacing: AppSpacing.xs,
+                        children: [
+                          if (scheme.schemeType.isNotEmpty)
+                            _Tag(
+                              label: CentralizedTranslator.instance.localizeTag(
+                                scheme.schemeType,
+                              ),
+                              style: AppTagStyle.neutral,
+                            ),
+                          if (scheme.sector.isNotEmpty)
+                            _Tag(
+                              label: CentralizedTranslator.instance.localizeTag(
+                                scheme.sector,
+                              ),
+                              style: AppTagStyle.neutral,
+                            ),
                         ],
-                      ],
-                    ),
-                    const SizedBox(height: AppSpacing.tight),
+                      ),
+                    ],
 
-                    // Match Banner (Single-row layout); only with a real score.
-                    if (notApplicable || matchPercentage != null)
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: AppSpacing.sm,
-                          vertical: AppSpacing.xs,
-                        ),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFEFF6FF),
-                          borderRadius: BorderRadius.circular(6),
-                          border: Border.all(
-                            color: const Color(
-                              0xFF2563EB,
-                            ).withValues(alpha: 0.15),
-                          ),
-                        ),
-                        child: Row(
+                    // Match line; only with a real score.
+                    if (notApplicable || matchPercentage != null) ...[
+                      const SizedBox(height: AppSpacing.sm),
+                      Text.rich(
+                        TextSpan(
                           children: [
-                            const Icon(
-                              Icons.auto_awesome,
-                              color: Color(0xFF2563EB),
-                              size: 12,
-                            ),
-                            const SizedBox(width: AppSpacing.xs),
-                            Expanded(
-                              child: RichText(
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                text: TextSpan(
-                                  style: AppGoogleFonts.inter(fontSize: 10),
-                                  children: [
-                                    if (notApplicable)
-                                      TextSpan(
-                                        text: context.l10n.schemeNotApplicable,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.warningText,
-                                        ),
-                                      )
-                                    else ...[
-                                      TextSpan(
-                                        text: context.l10n
-                                            .matchPercentageFormat(
-                                              matchPercentage!,
-                                            ),
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Color(0xFF2563EB),
-                                        ),
-                                      ),
-                                      if (matchPercentage! >= 80)
-                                        TextSpan(
-                                          text:
-                                              " • ${context.l10n.highlyRelevant}",
-                                          style: const TextStyle(
-                                            color: Color(0xFF64748B),
-                                          ),
-                                        ),
-                                    ],
-                                  ],
+                            if (notApplicable)
+                              TextSpan(
+                                text: context.l10n.schemeNotApplicable,
+                                style: const TextStyle(
+                                  color: AppColors.warningText,
+                                ),
+                              )
+                            else ...[
+                              TextSpan(
+                                text: context.l10n.matchPercentageFormat(
+                                  matchPercentage!,
+                                ),
+                                style: const TextStyle(
+                                  color: AppColors.primaryStrong,
                                 ),
                               ),
-                            ),
+                              if (matchPercentage! >= 80)
+                                TextSpan(
+                                  text: " · ${context.l10n.highlyRelevant}",
+                                  style: const TextStyle(
+                                    color: AppColors.textSecondary,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                            ],
                           ],
                         ),
+                        style: context.text.label,
                       ),
+                    ],
                   ],
                 ),
               ),
@@ -348,25 +270,26 @@ class SchemeHeroSection extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildMiniTag(String label, Color bg, Color text) {
+class _Tag extends StatelessWidget {
+  const _Tag({required this.label, required this.style});
+
+  final String label;
+  final ({Color text, Color background}) style;
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.tight,
+        horizontal: AppSpacing.sm,
         vertical: AppSpacing.hairline,
       ),
       decoration: BoxDecoration(
-        color: bg,
-        borderRadius: BorderRadius.circular(4),
+        color: style.background,
+        borderRadius: AppRadius.smAll,
       ),
-      child: Text(
-        CentralizedTranslator.instance.localizeTag(label),
-        style: AppGoogleFonts.inter(
-          color: text,
-          fontSize: 9.0,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+      child: Text(label, style: context.text.label.copyWith(color: style.text)),
     );
   }
 }

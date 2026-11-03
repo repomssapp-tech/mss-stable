@@ -296,7 +296,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get filterAll => 'सभी';
 
   @override
-  String get filterCentral => 'मध्य';
+  String get filterCentral => 'केंद्रीय';
 
   @override
   String get filterState => 'राज्य';
@@ -883,10 +883,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get schemeAtAGlance => 'योजना एक नजर में';
 
   @override
-  String get benefitsDetails => 'लाभ विवरण';
+  String get benefitsDetails => 'लाभ';
 
   @override
-  String get eligibilityCriteria => 'पात्रता मापदंड';
+  String get eligibilityCriteria => 'कौन आवेदन कर सकता है';
 
   @override
   String get requiredDocuments => 'आवश्यक दस्तावेज';
@@ -895,7 +895,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get requiredServices => 'आवश्यक सेवाएँ';
 
   @override
-  String get applicationProcessHeader => 'आवेदन प्रक्रिया';
+  String get applicationProcessHeader => 'आवेदन कैसे करें';
 
   @override
   String get officialInformation => 'आधिकारिक योजना की जानकारी';
@@ -909,13 +909,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sourceButton => 'स्रोत';
 
   @override
-  String get applyNowButton => 'अभी अप्लाई करें';
+  String get applyNowButton => 'अभी आवेदन करें';
 
   @override
   String get saveSchemeButton => 'योजना सहेजें';
 
   @override
-  String get savedSchemeButton => 'सहेजी गई योजना';
+  String get savedSchemeButton => 'सहेजी गई';
 
   @override
   String get noVerifiedLink => 'कोई सत्यापित आधिकारिक लिंक उपलब्ध नहीं है.';
@@ -932,7 +932,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'इस योजना के लिए कोई अलग सेवा आवश्यकता सूचीबद्ध नहीं है।';
 
   @override
-  String get getDocumentOnline => 'दस्तावेज़ ऑनलाइन प्राप्त करें';
+  String get getDocumentOnline => 'ऑनलाइन पाएं';
 
   @override
   String issuedByFormat(Object authority) {
