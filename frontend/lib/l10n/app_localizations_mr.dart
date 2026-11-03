@@ -22,7 +22,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get applicationsClosingSoon => 'अर्ज लवकरच बंद होत आहेत';
 
   @override
-  String get featured => 'वैशिष्ट्यीकृत';
+  String get featured => 'विशेष';
 
   @override
   String get forWomenEntrepreneurs => 'महिला उद्योजकांसाठी';
@@ -115,7 +115,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get navSearch => 'शोध';
 
   @override
-  String get navDiscover => 'शोधा';
+  String get navDiscover => 'एक्सप्लोर';
 
   @override
   String get navSaved => 'जतन केलेले';
@@ -148,7 +148,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get carouselTitlePmegpClosing => 'PMEGP (5 दिवसांत बंद)';
 
   @override
-  String get carouselBadgeAlert => 'सूचना';
+  String get carouselBadgeAlert => 'इशारा';
 
   @override
   String get carouselTitleNewScheme => 'नवीन योजना';
@@ -207,13 +207,13 @@ class AppLocalizationsMr extends AppLocalizations {
   String get tagNewScheme => 'नवीन योजना';
 
   @override
-  String get tagUpdate => 'अद्ययावत';
+  String get tagUpdate => 'अपडेट';
 
   @override
   String get tagReminder => 'स्मरणपत्र';
 
   @override
-  String get tagAlert => 'सूचना';
+  String get tagAlert => 'इशारा';
 
   @override
   String get fallbackLatestUpdateTitle =>
@@ -305,10 +305,10 @@ class AppLocalizationsMr extends AppLocalizations {
   String get filterSubsidy => 'अनुदान';
 
   @override
-  String get filterCollateralFree => 'विनाहमी';
+  String get filterCollateralFree => 'तारणमुक्त';
 
   @override
-  String get discoverTitle => 'शोधा';
+  String get discoverTitle => 'एक्सप्लोर';
 
   @override
   String get browseByCategories => 'श्रेणीनुसार पाहा';
@@ -499,7 +499,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get homeRecommendationsNoMatches =>
-      'अजून जुळणी नाही — शोध किंवा Discover वापरून पाहा';
+      'अजून जुळणी नाही — शोध किंवा एक्सप्लोर वापरून पाहा';
 
   @override
   String get noSavedSchemes => 'अजून कोणतीही योजना जतन केलेली नाही';
@@ -753,7 +753,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get subHelpSupport => 'मदत मिळवा आणि सहाय्याशी संपर्क करा';
 
   @override
-  String get aboutTitle => 'माहिती';
+  String get aboutTitle => 'अॅपविषयी';
 
   @override
   String get subAbout => 'MSS अॅपविषयी';
@@ -796,7 +796,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get empSalaried => 'पगारदार';
 
   @override
-  String get empSelfEmployed => 'स्वयंरोजगारित';
+  String get empSelfEmployed => 'स्वयंरोजगार';
 
   @override
   String get empUnemployed => 'बेरोजगार';
@@ -1048,7 +1048,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'चांगल्या शिफारसींसाठी तुमची प्रोफाइल पूर्ण करा';
 
   @override
-  String get navChooseYourPrefix => 'तुमचा';
+  String get navChooseYourPrefix => 'तुमचा ';
 
   @override
   String get navExperienceSuffix => 'अनुभव निवडा';
@@ -1171,7 +1171,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get filterBenExServicemen => 'माजी सैनिक';
 
   @override
-  String get sortRelevance => 'संबंधितता';
+  String get sortRelevance => 'सुसंगतता';
 
   @override
   String get sortBestMatch => 'माझ्यासाठी सर्वोत्तम जुळणी';
@@ -1626,7 +1626,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'अधिकृत शासकीय मार्गदर्शक तत्त्वांनुसार तुमच्या व्यवसायाचे वर्गीकरण करा.';
 
   @override
-  String get calcInvestmentLabel => 'यंत्रसामग्रीतील गुंतवणूक';
+  String get calcInvestmentLabel => 'प्लांट आणि यंत्रसामग्रीतील गुंतवणूक';
 
   @override
   String get calcInvestmentHelper =>
@@ -1824,7 +1824,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'प्रमाणीकरणासाठी सुरक्षित ब्राउझर विंडो उघडेल.';
 
   @override
-  String get privacyNote => 'पुढे जाऊन तुम्ही आमच्या';
+  String get privacyNote => 'पुढे जाऊन तुम्ही पुढील गोष्टींना सहमती देता:';
 
   @override
   String get terms => 'सेवा अटी';
@@ -1842,7 +1842,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get demoMode => 'डेमो मोड — सर्व सुविधा उपलब्ध';
 
   @override
-  String get verifiedPlatform => 'शासकीय माहितीवर आधारित पडताळलेला मंच';
+  String get verifiedPlatform => 'शासनाकडून पडताळलेला मंच';
 
   @override
   String get forIndia => 'प्रत्येक भारतीय उद्योजक आणि नागरिकासाठी';
@@ -2068,7 +2068,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get eligibilitySubtitle =>
-      'तुमच्यासाठी अचूक योजना आणि अनुदाने सुचवण्यास मदत होते.';
+      'तुमच्यासाठी 100% अचूक योजना आणि अनुदाने सुचवण्यास मदत होते.';
 
   @override
   String get firstGenGraduate => 'पहिल्या पिढीतील पदवीधर';
@@ -2173,10 +2173,10 @@ class AppLocalizationsMr extends AppLocalizations {
   String get retired => 'निवृत्त';
 
   @override
-  String get selfEmployed => 'स्वयंरोजगारित';
+  String get selfEmployed => 'स्वयंरोजगार';
 
   @override
-  String get undergraduate => 'पदवीपूर्व';
+  String get undergraduate => 'पदवी शिक्षण';
 
   @override
   String get graduate => 'पदवीधर';
@@ -2215,7 +2215,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get howCanIHelp => 'मी कशी मदत करू?';
 
   @override
-  String get poweredBySarvamAi => 'Sarvam AI द्वारे समर्थित';
+  String get poweredBySarvamAi => 'Sarvam AI वर चालणारे';
 
   @override
   String get sarvamPromptFindSchemes => 'माझ्यासाठी योजना शोधा';
@@ -2293,10 +2293,10 @@ class AppLocalizationsMr extends AppLocalizations {
   String get voiceRecommendedForYou => 'तुमच्यासाठी शिफारस';
 
   @override
-  String get updatingSoon => 'लवकरच अद्ययावत';
+  String get updatingSoon => 'लवकरच अपडेट होईल';
 
   @override
-  String get updatingSoonCount => 'लवकरच अद्ययावत';
+  String get updatingSoonCount => 'लवकरच अपडेट होईल';
 
   @override
   String get gotIt => 'समजले';
@@ -2443,7 +2443,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get msmeTopSchemesLabel => 'प्रमुख योजना';
 
   @override
-  String get msmeMainFeaturesInside => 'आत काय आहे';
+  String get msmeMainFeaturesInside => 'यातील मुख्य सुविधा';
 
   @override
   String get msmeFeatureSchemes1 =>
@@ -2459,7 +2459,8 @@ class AppLocalizationsMr extends AppLocalizations {
   String get msmeFeatureSchemes4 => 'योजनांच्या श्रेणीनुसार शोध';
 
   @override
-  String get msmeFeatureSchemes5 => 'भांडवली अनुदाने, अनुदान आणि व्याज सवलत';
+  String get msmeFeatureSchemes5 =>
+      'भांडवली अनुदाने, सहाय्य निधी आणि व्याज सवलत';
 
   @override
   String get msmeFeatureSchemes6 => 'आवश्यक कागदपत्रांच्या याद्या';
@@ -2473,7 +2474,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get msmeFeatureFinance1 =>
-      'विनाहमी व्यवसाय मुदत कर्जे आणि खेळते भांडवल';
+      'तारणमुक्त व्यवसाय मुदत कर्जे आणि खेळते भांडवल';
 
   @override
   String get msmeFeatureFinance2 =>
@@ -2481,7 +2482,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get msmeFeatureFinance3 =>
-      'विनाहमी बँक पर्यायांसाठी कर्ज हमी (CGTMSE)';
+      'तारणमुक्त बँक पर्यायांसाठी कर्ज हमी (CGTMSE)';
 
   @override
   String get msmeFeatureFinance4 => 'उपकरणे आणि यंत्रसामग्री वित्तपुरवठा';
@@ -2573,7 +2574,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get msmeFeatureTreds7 =>
-      'Recourse व Non-recourse फॅक्टरिंगच्या व्याख्या';
+      'रिकोर्स आणि नॉन-रिकोर्स फॅक्टरिंगच्या व्याख्या';
 
   @override
   String get msmeFeatureCsr1 => 'कॉर्पोरेट CSR आधारित क्लस्टर विकास निधी';
@@ -2650,11 +2651,10 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get msmeFeatureUdyam3 =>
-      'CGTMSE विनाहमी कर्ज आणि TReDS साठी आपोआप पात्रता';
+      'CGTMSE तारणमुक्त कर्ज आणि TReDS साठी आपोआप पात्रता';
 
   @override
-  String get msmeFeatureUdyam4 =>
-      'शासकीय निविदांमध्ये बयाणा रक्कमेतून (EMD) सूट';
+  String get msmeFeatureUdyam4 => 'शासकीय निविदांमध्ये बयाणा रकमेतून (EMD) सूट';
 
   @override
   String get msmeFeatureUdyam5 =>
@@ -2673,7 +2673,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessEduQ1Opt1 => 'शालेय (12वी पर्यंत)';
 
   @override
-  String get assessEduQ1Opt2 => 'पदवीपूर्व';
+  String get assessEduQ1Opt2 => 'पदवी शिक्षण';
 
   @override
   String get assessEduQ1Opt3 => 'पदव्युत्तर';
@@ -2799,13 +2799,13 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessWomenQ1Opt4 => 'एकल महिला / अडचणीतील विधवा';
 
   @override
-  String get assessWomenQ2Maternal => 'ही तुमची पहिली की दुसरी गरोदरपणा आहे?';
+  String get assessWomenQ2Maternal => 'हे तुमचे पहिले की दुसरे गरोदरपण आहे?';
 
   @override
-  String get assessWomenQ2MaternalOpt1 => 'पहिली गरोदरपणा';
+  String get assessWomenQ2MaternalOpt1 => 'पहिले गरोदरपण';
 
   @override
-  String get assessWomenQ2MaternalOpt2 => 'दुसरी गरोदरपणा';
+  String get assessWomenQ2MaternalOpt2 => 'दुसरे गरोदरपण';
 
   @override
   String get assessWomenQ2MaternalOpt3 => 'दोनपेक्षा जास्त';
@@ -2933,8 +2933,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessBizQ1Opt2 => 'होय, DPIIT स्टार्टअप म्हणून';
 
   @override
-  String get assessBizQ1Opt3 =>
-      'नाही, वैयक्तिक व्यापारी/कारागीर म्हणून काम करतो';
+  String get assessBizQ1Opt3 => 'नाही, वैयक्तिक व्यापारी/कारागीर म्हणून काम';
 
   @override
   String get assessBizQ1Opt4 => 'नाही, अजून कल्पना टप्प्यात आहे';
@@ -2989,7 +2988,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'तुम्हाला मुख्यतः कोणते कर्ज सहाय्य हवे आहे?';
 
   @override
-  String get assessBizQ3MsmeNeedOpt1 => 'विनाहमी Mudra कर्ज';
+  String get assessBizQ3MsmeNeedOpt1 => 'तारणमुक्त मुद्रा कर्ज';
 
   @override
   String get assessBizQ3MsmeNeedOpt2 => 'खेळते भांडवल हमी (CGTMSE)';
@@ -3012,7 +3011,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get assessBizQ3ArtisanNeed =>
-      'तुमच्या कलेला कोणत्या सहाय्याची गरज आहे?';
+      'तुमच्या कारागिरीसाठी कोणते सहाय्य हवे आहे?';
 
   @override
   String get assessBizQ3ArtisanNeedOpt1 => 'मोफत साधन संच व्हाउचर';
@@ -3219,7 +3218,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessCatQ1Opt2 => 'शेतकरी';
 
   @override
-  String get assessCatQ1Opt3 => 'व्यवसाय मालक / स्वयंरोजगारित';
+  String get assessCatQ1Opt3 => 'व्यवसाय मालक / स्वयंरोजगार';
 
   @override
   String get assessCatQ1Opt4 => 'बेरोजगार / कामगार';
@@ -3315,7 +3314,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessStateQ3Opt2 => 'MSME / स्टार्टअप मालक';
 
   @override
-  String get assessStateQ3Opt3 => 'विणकाम / पारंपरिक कला';
+  String get assessStateQ3Opt3 => 'विणकाम / पारंपरिक हस्तकला';
 
   @override
   String get assessStateQ3Opt4 => 'विद्यार्थी / उच्च शिक्षण';
@@ -3422,7 +3421,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessSkipToResults => 'थेट निकाल पाहा';
 
   @override
-  String get goodAfternoon => 'नमस्कार,';
+  String get goodAfternoon => 'शुभ दुपार,';
 
   @override
   String get goodEvening => 'शुभ संध्या,';
@@ -3517,7 +3516,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get faqEligibilityA =>
-      'प्रोफाइल टॅबमध्ये तुमचा तपशील (वय, लिंग, राज्य, उत्पन्न इ.) भरा, मग शोध टॅब पाहा. तिथे प्रत्येक योजना तुमच्या प्रोफाइलशी जुळते का ते दिसते. झटपट तपासणीसाठी Discover मधील मूल्यांकनही वापरू शकता.';
+      'प्रोफाइल टॅबमध्ये तुमचा तपशील (वय, लिंग, राज्य, उत्पन्न इ.) भरा, मग शोध टॅब पाहा. तिथे प्रत्येक योजना तुमच्या प्रोफाइलशी जुळते का ते दिसते. झटपट तपासणीसाठी एक्सप्लोर मधील मूल्यांकनही वापरू शकता.';
 
   @override
   String get faqApplyQ => 'योजनेसाठी अर्ज कसा करावा?';
@@ -3566,7 +3565,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get faqMissingDocsA =>
-      'योजनेच्या तपशिलात \"Missing\" असे चिन्हांकित कागदपत्रासाठी \"Get Document\" लिंक असते, जी तुम्हाला थेट अधिकृत पोर्टलवर नेते (उदा. Aadhaar साठी UIDAI, PAN साठी NSDL).';
+      'योजनेच्या तपशिलात उपलब्ध नसलेल्या कागदपत्रासोबत \"कागदपत्र ऑनलाइन मिळवा\" लिंक असते, जी तुम्हाला थेट अधिकृत पोर्टलवर नेते (उदा. आधारसाठी UIDAI, PAN साठी NSDL).';
 
   @override
   String get helpCatGeneralInquiry => 'सामान्य चौकशी';
@@ -3895,7 +3894,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get docEntitySoleProprietorship => 'एकल मालकी';
 
   @override
-  String get docItemProprietorPanAadhaar => 'मालकाचे PAN कार्ड आणि Aadhaar';
+  String get docItemProprietorPanAadhaar => 'मालकाचे PAN कार्ड आणि आधार';
 
   @override
   String get docItemUdyamRegistration =>
@@ -4024,15 +4023,14 @@ class AppLocalizationsMr extends AppLocalizations {
   String get msmeUdyamGoToPortal => 'अधिकृत Udyam पोर्टलवर जा';
 
   @override
-  String get msmeUdyamStep1Title => '1. Aadhaar आणि PAN पडताळणी';
+  String get msmeUdyamStep1Title => '1. आधार आणि PAN पडताळणी';
 
   @override
   String get msmeUdyamStep1Desc =>
-      'उद्योजकाचा Aadhaar क्रमांक आणि Aadhaar वरील नाव लिहा. OTP ने पडताळणी करा. नंतर GSTIN च्या स्वयंचलित पडताळणीसाठी संस्थेचा प्रकार आणि PAN तपशील लिहा.';
+      'उद्योजकाचा आधार क्रमांक आणि आधारवरील नाव लिहा. OTP ने पडताळणी करा. नंतर GSTIN च्या स्वयंचलित पडताळणीसाठी संस्थेचा प्रकार आणि PAN तपशील लिहा.';
 
   @override
-  String get msmeUdyamStep1Action =>
-      'Aadhaar OTP प्रमाणीकरण आणि PAN तपशील भरा.';
+  String get msmeUdyamStep1Action => 'आधार OTP प्रमाणीकरण आणि PAN तपशील भरा.';
 
   @override
   String get msmeUdyamStep2Title => '2. उद्योग आणि ठिकाणाचा तपशील';
@@ -4050,7 +4048,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get msmeUdyamStep3Desc =>
-      'मुख्य व्यवसाय (उत्पादन / सेवा) निवडा, 2/4/5 अंकी NIC कोड शोधून निवडा, कर्मचाऱ्यांची संख्या आणि यंत्रसामग्रीतील गुंतवणूक लिहा.';
+      'मुख्य व्यवसाय (उत्पादन / सेवा) निवडा, 2/4/5 अंकी NIC कोड शोधून निवडा, कर्मचाऱ्यांची संख्या आणि प्लांट व यंत्रसामग्रीतील गुंतवणूक लिहा.';
 
   @override
   String get msmeUdyamStep3Action =>
@@ -4206,7 +4204,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get saarthiQDisability =>
-      'तुम्हाला कोणता दिव्यांगत्व प्रवर्ग लागू होतो का?';
+      'तुम्हाला कोणताही दिव्यांगत्व प्रवर्ग लागू होतो का?';
 
   @override
   String get saarthiQMaritalStatus => 'तुमची वैवाहिक स्थिती काय आहे?';
@@ -4544,7 +4542,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get notifSeed2Body =>
-      'उच्च शिक्षणासाठी विद्यार्थ्यांना विनाहमी शैक्षणिक कर्ज देणारी नवीन योजना.';
+      'उच्च शिक्षणासाठी विद्यार्थ्यांना तारणमुक्त शैक्षणिक कर्ज देणारी नवीन योजना.';
 
   @override
   String get notifSeed3Title => 'PM Vishwakarma Yojana';
@@ -4629,7 +4627,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get eduDiploma => 'पदविका / ITI';
 
   @override
-  String get eduUndergraduate => 'पदवीपूर्व (पदवी)';
+  String get eduUndergraduate => 'पदवी';
 
   @override
   String get eduPostgraduate => 'पदव्युत्तर';
@@ -4703,7 +4701,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get legalScrollToEndHint =>
-      'स्वीकारा सुरू करण्यासाठी शेवटपर्यंत स्क्रोल करा';
+      '‘स्वीकारा’ बटण सुरू करण्यासाठी शेवटपर्यंत स्क्रोल करा';
 
   @override
   String get simpleProfileTitle => 'झटपट प्रोफाइल';
@@ -4785,7 +4783,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get workNewBusinessDesc => 'कल्पना आहे किंवा नवीन उद्योग सुरू करत आहे';
 
   @override
-  String get workExistingBusiness => 'दुकान किंवा व्यवसाय चालवतो';
+  String get workExistingBusiness => 'दुकान किंवा व्यवसाय चालवत आहे';
 
   @override
   String get workExistingBusinessDesc => 'सुरू असलेला व्यापार किंवा उद्योग आहे';
@@ -4801,7 +4799,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get workArtisan => 'कारागीर, हातमाग आणि हस्तकला';
 
   @override
-  String get workArtisanDesc => 'विणकाम, मातीकाम, हस्तकला किंवा पारंपरिक कला';
+  String get workArtisanDesc => 'विणकाम, मातीकाम, हस्तकला किंवा इतर कारागिरी';
 
   @override
   String get workStudent => 'विद्यार्थी';
@@ -4911,13 +4909,13 @@ class AppLocalizationsMr extends AppLocalizations {
   String get shareSchemeDetailsTooltip => 'योजनेचा तपशील शेअर करा';
 
   @override
-  String get legalConsentPrefix => 'मी वाचून सहमती देतो/देते:';
+  String get legalConsentPrefix => 'मी ';
 
   @override
-  String get legalConsentMid => ' आणि मान्य करतो/करते:';
+  String get legalConsentMid => ' आणि ';
 
   @override
-  String get legalConsentSuffix => '.';
+  String get legalConsentSuffix => ' वाचले आहे आणि त्यांना माझी सहमती आहे.';
 
   @override
   String get permLocationOffTitle => 'स्थान सेवा बंद आहे';
@@ -4944,7 +4942,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get aboutDevelopedWith => 'यांच्या सहकार्याने विकसित:';
 
   @override
-  String get splashDevelopedBy => 'अॅप विकसित केले:';
+  String get splashDevelopedBy => 'अॅप विकसक';
 
   @override
   String aboutSupportLine(Object email) {
@@ -5014,11 +5012,11 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get processUnconfirmedLink =>
-      'काही तपशील अधिकृत स्रोतांतून निश्चित करता आला नाही. अर्ज करण्यापूर्वी अधिकृत पान तपासा.';
+      'काही तपशील अधिकृत स्रोतांतून निश्चित करता आले नाहीत. अर्ज करण्यापूर्वी अधिकृत पान तपासा.';
 
   @override
   String get processUnconfirmedNoLink =>
-      'काही तपशील अधिकृत स्रोतांतून निश्चित करता आला नाही. अर्ज करण्यापूर्वी संबंधित कार्यालयाकडून खात्री करा.';
+      'काही तपशील अधिकृत स्रोतांतून निश्चित करता आले नाहीत. अर्ज करण्यापूर्वी संबंधित कार्यालयाकडून खात्री करा.';
 
   @override
   String schemeApplicationStatus(String status) {
@@ -5357,7 +5355,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get liveVoiceError => 'आवाजाकडे लक्ष देणे आवश्यक आहे';
 
   @override
-  String get liveVoiceEnd => 'समाप्त';
+  String get liveVoiceEnd => 'समाप्त करा';
 
   @override
   String get liveVoicePause => 'संवाद थांबवा';
@@ -5492,11 +5490,11 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get homeTip3 =>
-      'अर्ज सुरू करण्यापूर्वी तुमचा Aadhaar, PAN आणि बँक तपशील तयार ठेवा.';
+      'अर्ज सुरू करण्यापूर्वी तुमचा आधार, PAN आणि बँक तपशील तयार ठेवा.';
 
   @override
   String get homeTip4 =>
-      'CGTMSE अंतर्गत सूक्ष्म व लघु उद्योगांना विनाहमी कर्ज मिळू शकते.';
+      'CGTMSE अंतर्गत सूक्ष्म व लघु उद्योगांना तारणमुक्त कर्ज मिळू शकते.';
 
   @override
   String get homeTip5 =>
@@ -5537,7 +5535,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'शासकीय योजना, पात्रता, आवश्यक कागदपत्रे आणि अर्ज प्रक्रियेबद्दल तुमच्या प्रश्नांची झटपट उत्तरे मिळवा.';
 
   @override
-  String get homeTourDiscoverTitle => 'शोधा';
+  String get homeTourDiscoverTitle => 'एक्सप्लोर';
 
   @override
   String get homeTourDiscoverBody =>
@@ -5622,7 +5620,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'सर्व्हरवर तुमचे खाते अजून दिसत आहे. पुन्हा प्रयत्न करा; असेच होत राहिल्यास सहाय्याशी संपर्क करा.';
 
   @override
-  String get updateAvailableTitle => 'अद्यतन उपलब्ध';
+  String get updateAvailableTitle => 'अपडेट उपलब्ध';
 
   @override
   String updateAvailableMessage(Object version) {
@@ -5630,7 +5628,7 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get updateActionUpdate => 'अद्यतन करा';
+  String get updateActionUpdate => 'अपडेट करा';
 
   @override
   String get updateActionLater => 'नंतर';
@@ -5640,7 +5638,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'डाउनलोड पान उघडता आले नाही. नंतर प्रयत्न करा.';
 
   @override
-  String get settingsCheckUpdates => 'अद्यतने तपासा';
+  String get settingsCheckUpdates => 'अपडेट तपासा';
 
   @override
   String settingsInstalledVersion(Object version) {
@@ -5736,7 +5734,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'शासकीय योजना शोधणे, समजून घेणे आणि तुलना करणे अवघड असू शकते. MSS त्या एकाच सोप्या अनुभवात आणते.';
 
   @override
-  String get onbP2Badge => 'शोधा. समजून घ्या. मिळवा.';
+  String get onbP2Badge => 'शोधा. समजून घ्या. जाणून घ्या.';
 
   @override
   String get onbChipEligibility => 'पात्रता';
@@ -5802,7 +5800,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get permNotificationsBody =>
-      'नवीन योजना, अंतिम मुदत आणि अॅप अद्यतनांची माहिती मिळवा.';
+      'नवीन योजना, अंतिम मुदत आणि अॅप अपडेटची माहिती मिळवा.';
 
   @override
   String get permMicrophoneTitle => 'मायक्रोफोन';
@@ -5811,18 +5809,18 @@ class AppLocalizationsMr extends AppLocalizations {
   String get permMicrophoneBody => 'Saarthi शी बोला आणि आवाजाने शोधा.';
 
   @override
-  String get permInstallTitle => 'अद्यतने स्थापित करा';
+  String get permInstallTitle => 'अपडेट इंस्टॉल करा';
 
   @override
   String get permInstallBody =>
-      'तुम्ही अद्यतन करा वर टॅप केल्यावर MSS ला नवीन आवृत्ती स्थापित करू द्या.';
+      'तुम्ही अपडेट करा वर टॅप केल्यावर MSS ला नवीन आवृत्ती इंस्टॉल करू द्या.';
 
   @override
   String get permFilesTitle => 'फोटो आणि कागदपत्रे';
 
   @override
   String get permFilesBody =>
-      'तुमचा Aadhaar किंवा प्रकल्प अहवाल यांसारखी कागदपत्रे जोडा किंवा जतन करा.';
+      'तुमचा आधार किंवा प्रकल्प अहवाल यांसारखी कागदपत्रे जोडा किंवा जतन करा.';
 
   @override
   String get permAllow => 'परवानगी द्या';
@@ -5843,7 +5841,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get sv2Name => 'Saarthi';
 
   @override
-  String get sv2PoweredBy => 'Sarvam AI द्वारे समर्थित';
+  String get sv2PoweredBy => 'Sarvam AI वर चालणारे';
 
   @override
   String get sv2ModeType => 'लिहा';
