@@ -577,7 +577,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageSetting => 'Language';
 
   @override
-  String get navigationModeSetting => 'Navigation Mode';
+  String get navigationModeSetting => 'Navigation mode';
 
   @override
   String get navigationModeRegular => 'Regular';
@@ -598,24 +598,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notificationsDisabled => 'Notifications disabled';
 
   @override
-  String get securityPrivacyGroupHeader => 'Security & Privacy';
+  String get securityPrivacyGroupHeader => 'Security and privacy';
 
   @override
-  String get privacyPolicySetting => 'Privacy Policy';
+  String get privacyPolicySetting => 'Privacy policy';
 
   @override
   String get privacyPolicyContent =>
       'Your privacy is important to us. All personal data is encrypted and saved locally on this device.';
 
   @override
-  String get termsConditionsSetting => 'Terms & Conditions';
+  String get termsConditionsSetting => 'Terms and conditions';
 
   @override
   String get termsConditionsContent =>
       'By using MSS, you agree to our terms of service. All scheme information is aggregated from official government portals.';
 
   @override
-  String get deleteAccountSetting => 'Delete Account';
+  String get deleteAccountSetting => 'Delete account';
 
   @override
   String get deleteAccountTitle => 'Delete Account';
@@ -668,7 +668,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get helpFaqSetting => 'Help & FAQ';
 
   @override
-  String get contactUsSetting => 'Contact Us';
+  String get contactUsSetting => 'Contact us';
 
   @override
   String get logoutButton => 'Logout';
@@ -4367,8 +4367,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileErrSelectIncome => 'Please select your annual income range';
 
   @override
-  String get settingsNavModeDialogBody =>
-      'Choose your preferred layout mode for navigating schemes and services.';
+  String get settingsNavModeDialogBody => 'Choose how you move around the app';
 
   @override
   String get settingsSwitchedToCompanion =>
@@ -5150,7 +5149,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get passwordSetting => 'Password';
 
   @override
-  String get activeSessionsSetting => 'Active Sessions';
+  String get activeSessionsSetting => 'Signed-in devices';
 
   @override
   String get setPasswordTitle => 'Set Password';

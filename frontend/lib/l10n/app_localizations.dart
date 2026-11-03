@@ -1129,7 +1129,7 @@ abstract class AppLocalizations {
   /// No description provided for @navigationModeSetting.
   ///
   /// In en, this message translates to:
-  /// **'Navigation Mode'**
+  /// **'Navigation mode'**
   String get navigationModeSetting;
 
   /// No description provided for @navigationModeRegular.
@@ -1171,13 +1171,13 @@ abstract class AppLocalizations {
   /// No description provided for @securityPrivacyGroupHeader.
   ///
   /// In en, this message translates to:
-  /// **'Security & Privacy'**
+  /// **'Security and privacy'**
   String get securityPrivacyGroupHeader;
 
   /// No description provided for @privacyPolicySetting.
   ///
   /// In en, this message translates to:
-  /// **'Privacy Policy'**
+  /// **'Privacy policy'**
   String get privacyPolicySetting;
 
   /// No description provided for @privacyPolicyContent.
@@ -1189,7 +1189,7 @@ abstract class AppLocalizations {
   /// No description provided for @termsConditionsSetting.
   ///
   /// In en, this message translates to:
-  /// **'Terms & Conditions'**
+  /// **'Terms and conditions'**
   String get termsConditionsSetting;
 
   /// No description provided for @termsConditionsContent.
@@ -1201,7 +1201,7 @@ abstract class AppLocalizations {
   /// No description provided for @deleteAccountSetting.
   ///
   /// In en, this message translates to:
-  /// **'Delete Account'**
+  /// **'Delete account'**
   String get deleteAccountSetting;
 
   /// No description provided for @deleteAccountTitle.
@@ -1291,7 +1291,7 @@ abstract class AppLocalizations {
   /// No description provided for @contactUsSetting.
   ///
   /// In en, this message translates to:
-  /// **'Contact Us'**
+  /// **'Contact us'**
   String get contactUsSetting;
 
   /// No description provided for @logoutButton.
@@ -8083,7 +8083,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsNavModeDialogBody.
   ///
   /// In en, this message translates to:
-  /// **'Choose your preferred layout mode for navigating schemes and services.'**
+  /// **'Choose how you move around the app'**
   String get settingsNavModeDialogBody;
 
   /// No description provided for @settingsSwitchedToCompanion.
@@ -9505,7 +9505,7 @@ abstract class AppLocalizations {
   /// No description provided for @activeSessionsSetting.
   ///
   /// In en, this message translates to:
-  /// **'Active Sessions'**
+  /// **'Signed-in devices'**
   String get activeSessionsSetting;
 
   /// No description provided for @setPasswordTitle.
