@@ -523,7 +523,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get noSavedSchemesDesc =>
-      'திட்டங்களை சேமித்து வைத்தால் எப்போது வேண்டுமானாலும் ஆஃப்லைனில் பார்க்கலாம்.';
+      'உலாவும்போது ஒரு திட்டத்தைச் சேமித்தால், ஆஃப்லைனிலும் இங்கே இருக்கும்';
 
   @override
   String savedSubtitleCountFormat(int count) {
@@ -4728,7 +4728,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get savedRemoveNoLongerInterested =>
-      'இனி உங்களுக்கு விருப்பமில்லாத திட்டங்களை அகற்றவும்.';
+      'இனி உங்களுக்கு விருப்பமில்லாத திட்டங்களை அகற்றவும்';
 
   @override
   String get eduSchool => 'பள்ளி (10 / 12ம்)';

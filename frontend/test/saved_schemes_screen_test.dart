@@ -104,7 +104,7 @@ void main() {
       // This is the tab's dedicated empty-state body text (distinct from
       // the bookmark-tab wording "Bookmark schemes while browsing...").
       expect(find.text('Schemes you open appear here'), findsOneWidget);
-      expect(find.text('No Schemes Viewed Yet'), findsOneWidget);
+      expect(find.text('No schemes viewed yet'), findsOneWidget);
     });
   });
 
@@ -121,7 +121,7 @@ void main() {
       // empty-state body below it -- both legitimately use this copy.
       expect(
         find.text(
-          'Bookmark schemes while browsing to view them offline anytime.',
+          'Save a scheme while browsing and it stays here, even offline',
         ),
         findsAtLeastNWidgets(1),
       );
@@ -143,7 +143,7 @@ void main() {
         expect(find.text('1 scheme saved'), findsOneWidget);
         expect(
           find.text(
-            'Bookmark schemes while browsing to view them offline anytime.',
+            'Save a scheme while browsing and it stays here, even offline',
           ),
           findsNothing,
         );
@@ -208,7 +208,7 @@ void main() {
         await tester.pumpAndSettle();
         expect(find.byIcon(Icons.delete_outline_rounded), findsWidgets);
 
-        await tester.tap(find.textContaining('All Saved'));
+        await tester.tap(find.textContaining('All saved'));
         await tester.pumpAndSettle();
         await tester.tap(find.text('Recently viewed'));
         await tester.pumpAndSettle();

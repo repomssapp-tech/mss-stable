@@ -358,11 +358,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Personalized recommendation matches';
 
   @override
-  String get savedTitle => 'Saved Schemes';
+  String get savedTitle => 'Saved schemes';
 
   @override
   String allSavedTabFormat(Object count) {
-    return 'All Saved ($count)';
+    return 'All saved ($count)';
   }
 
   @override
@@ -513,11 +513,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'No matches yet — try Search or Discover';
 
   @override
-  String get noSavedSchemes => 'No Saved Schemes Yet';
+  String get noSavedSchemes => 'No saved schemes yet';
 
   @override
   String get noSavedSchemesDesc =>
-      'Bookmark schemes while browsing to view them offline anytime.';
+      'Save a scheme while browsing and it stays here, even offline';
 
   @override
   String savedSubtitleCountFormat(int count) {
@@ -531,7 +531,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get savedRecentlyViewedEmptyTitle => 'No Schemes Viewed Yet';
+  String get savedRecentlyViewedEmptyTitle => 'No schemes viewed yet';
 
   @override
   String get savedRecentlyViewedEmptyDesc => 'Schemes you open appear here';
@@ -3527,7 +3527,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clearFiltersAndExplore => 'Clear Filters & Explore Schemes';
 
   @override
-  String get removeSaved => 'Remove Saved';
+  String get removeSaved => 'Remove from saved';
 
   @override
   String get viewDetails => 'View Details';
@@ -4644,7 +4644,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get savedRemoveNoLongerInterested =>
-      'Remove schemes you\'re no longer interested in.';
+      'Remove schemes you\'re no longer interested in';
 
   @override
   String get eduSchool => 'School (10th / 12th)';

@@ -4,11 +4,14 @@ import '../../providers/app_state_provider.dart';
 import '../../models/scheme_model.dart';
 import '../../models/localized_scheme.dart';
 import '../../l10n/l10n.dart';
+import '../../services/catalog/centralized_translator.dart';
 import 'scheme_details_screen.dart';
-import '../../utils/responsive.dart';
 import '../../utils/app_colors.dart';
+import '../../utils/app_radius.dart';
 import '../../utils/app_size.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/feedback_helper.dart';
+import '../../widgets/common/app_tappable.dart';
 import '../../widgets/scheme/inactive_scheme_badge.dart';
 import '../../utils/app_text.dart';
 import '../../widgets/common/auto_translated_text.dart';
@@ -21,111 +24,69 @@ class SavedSchemesScreen extends StatefulWidget {
 }
 
 class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
-  int _activeTab = 0; // 0 = All Saved, 1 = Recently Added
+  int _activeTab = 0; // 0 = All Saved, 1 = Recently viewed
   bool _isManageMode = false;
 
+  void _selectTab(int index) {
+    if (_activeTab == index) return;
+    AppFeedback.selection();
+    setState(() {
+      _activeTab = index;
+      _isManageMode = false;
+    });
+  }
+
+  /// Two-segment switch between the saved list and recently viewed.
   Widget _buildTabBar(int savedCount) {
-    final provider = Provider.of<AppProvider>(context, listen: false);
-    final isTa = provider.selectedLanguage == 'ta';
+    Widget segment(int index, String label) {
+      final selected = _activeTab == index;
+      return Expanded(
+        child: AppTappable(
+          onTap: () => _selectTab(index),
+          selected: selected,
+          semanticLabel: label,
+          borderRadius: AppRadius.mdAll,
+          decoration: BoxDecoration(
+            color: selected ? AppColors.surface : Colors.transparent,
+            borderRadius: AppRadius.mdAll,
+            border: selected
+                ? Border.all(color: AppColors.border)
+                : Border.all(color: Colors.transparent),
+          ),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.sm,
+            vertical: AppSpacing.xs,
+          ),
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            style: context.text.button.copyWith(
+              color: selected ? AppColors.primary : AppColors.textSecondary,
+            ),
+          ),
+        ),
+      );
+    }
 
     return Container(
       margin: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.sm,
       ),
-      padding: const EdgeInsets.all(AppSpacing.tight),
+      padding: const EdgeInsets.all(AppSpacing.xs),
       decoration: BoxDecoration(
-        color: const Color(0xFFF1F5F9),
-        borderRadius: BorderRadius.circular(14),
+        color: AppColors.surfaceMuted,
+        borderRadius: AppRadius.lgAll,
       ),
-      child: Row(
-        children: [
-          Expanded(
-            child: GestureDetector(
-              onTap: () => setState(() {
-                _activeTab = 0;
-                _isManageMode = false;
-              }),
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: isTa ? AppSpacing.md : AppSpacing.sm,
-                  horizontal: AppSpacing.sm,
-                ),
-                decoration: BoxDecoration(
-                  color: _activeTab == 0 ? Colors.white : Colors.transparent,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: _activeTab == 0
-                      ? [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.04),
-                            blurRadius: 4,
-                            offset: const Offset(0, 2),
-                          ),
-                        ]
-                      : null,
-                ),
-                child: Center(
-                  child: Text(
-                    context.l10n.allSavedTabFormat(savedCount),
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppGoogleFonts.inter(
-                      fontSize: isTa ? 10.5 : 11.5,
-                      fontWeight: FontWeight.bold,
-                      color: _activeTab == 0
-                          ? const Color(0xFF2563EB)
-                          : const Color(0xFF64748B),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: AppSpacing.tight),
-          Expanded(
-            child: GestureDetector(
-              onTap: () => setState(() {
-                _activeTab = 1;
-                _isManageMode = false;
-              }),
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: isTa ? AppSpacing.md : AppSpacing.sm,
-                  horizontal: AppSpacing.sm,
-                ),
-                decoration: BoxDecoration(
-                  color: _activeTab == 1 ? Colors.white : Colors.transparent,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: _activeTab == 1
-                      ? [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.04),
-                            blurRadius: 4,
-                            offset: const Offset(0, 2),
-                          ),
-                        ]
-                      : null,
-                ),
-                child: Center(
-                  child: Text(
-                    context.l10n.recentlyViewedTab,
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppGoogleFonts.inter(
-                      fontSize: isTa ? 10.5 : 11.5,
-                      fontWeight: FontWeight.bold,
-                      color: _activeTab == 1
-                          ? const Color(0xFF2563EB)
-                          : const Color(0xFF64748B),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            segment(0, context.l10n.allSavedTabFormat(savedCount)),
+            const SizedBox(width: AppSpacing.xs),
+            segment(1, context.l10n.recentlyViewedTab),
+          ],
+        ),
       ),
     );
   }
@@ -138,6 +99,32 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
     }
   }
 
+  /// "Central" / "State" in the app language; any other level as the
+  /// catalog's own tag translation.
+  String _levelLabel(String level) {
+    switch (level.trim().toLowerCase()) {
+      case 'central':
+        return context.l10n.filterCentral;
+      case 'state':
+        return context.l10n.filterState;
+    }
+    return CentralizedTranslator.instance.localizeTag(level);
+  }
+
+  IconData _iconFor(Scheme scheme) {
+    final category = scheme.category.toLowerCase();
+    if (category.contains('guarantee') || category.contains('cgtmse')) {
+      return Icons.shield_outlined;
+    }
+    if (category.contains('loan') ||
+        category.contains('business') ||
+        category.contains('finance') ||
+        category.contains('msme')) {
+      return Icons.currency_rupee_rounded;
+    }
+    return Icons.description_outlined;
+  }
+
   Widget _buildSchemeCard(
     BuildContext context,
     Scheme scheme,
@@ -145,255 +132,140 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
     required bool recentTab,
   }) {
     final locScheme = scheme.toLocalized(provider.selectedLanguage);
-    IconData iconData = Icons.rocket_launch_rounded;
-    Color iconColor = const Color(0xFF2563EB);
-    Color iconBgColor = const Color(0xFFEFF6FF);
+    final meta = [
+      if (locScheme.governmentLevel.isNotEmpty)
+        _levelLabel(locScheme.governmentLevel),
+      if (locScheme.schemeType.isNotEmpty)
+        locScheme.schemeType
+      else if (locScheme.category.isNotEmpty)
+        locScheme.category,
+    ].join(' · ');
 
-    if (scheme.category.toLowerCase().contains('loan') ||
-        scheme.category.toLowerCase().contains('business') ||
-        scheme.category.toLowerCase().contains('finance') ||
-        scheme.category.toLowerCase().contains('msme')) {
-      iconData = Icons.currency_rupee_rounded;
-      iconColor = const Color(0xFF2563EB);
-      iconBgColor = const Color(0xFFEFF6FF);
-    } else if (scheme.category.toLowerCase().contains('guarantee') ||
-        scheme.category.toLowerCase().contains('cgtmse')) {
-      iconData = Icons.shield_outlined;
-      iconColor = const Color(0xFF16A34A);
-      iconBgColor = const Color(0xFFF0FDF4);
-    } else {
-      iconData = Icons.article_rounded;
-      iconColor = const Color(0xFF2563EB);
-      iconBgColor = const Color(0xFFEFF6FF);
-    }
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: AppSpacing.md),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE2E8F0), width: 1.2),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.lg),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.md),
+      child: Material(
+        color: AppColors.surface,
+        shape: const RoundedRectangleBorder(
+          borderRadius: AppRadius.lgAll,
+          side: BorderSide(color: AppColors.border, width: AppSize.borderWidth),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () {
+            AppFeedback.light();
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => SchemeDetailsScreen(scheme: scheme),
+              ),
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: AppSpacing.lg,
+              top: AppSpacing.md,
+              bottom: AppSpacing.lg,
+            ),
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: const EdgeInsets.all(AppSpacing.sm),
-                  decoration: BoxDecoration(
-                    color: iconBgColor,
-                    borderRadius: BorderRadius.circular(12),
+                  margin: const EdgeInsets.only(top: AppSpacing.xs),
+                  width: AppSize.avatarSm,
+                  height: AppSize.avatarSm,
+                  decoration: const BoxDecoration(
+                    color: AppColors.primarySoft,
+                    shape: BoxShape.circle,
                   ),
-                  child: Icon(iconData, color: iconColor, size: 22),
+                  alignment: Alignment.center,
+                  child: Icon(
+                    _iconFor(scheme),
+                    color: AppColors.primary,
+                    size: AppSize.icon,
+                  ),
                 ),
                 const SizedBox(width: AppSpacing.md),
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AutoTranslatedText(
-                        locScheme.name,
-                        language: provider.selectedLanguage,
-                        style: AppGoogleFonts.inter(
-                          fontSize: 13.5, // type-ok: same size in every language
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF0F172A),
-                          height: provider.selectedLanguage == 'ta'
-                              ? 1.35
-                              : 1.2,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: AppSpacing.xs),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AutoTranslatedText(
+                          locScheme.name,
+                          language: provider.selectedLanguage,
+                          style: context.text.cardTitle.copyWith(
+                            color: AppColors.textPrimary,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: AppSpacing.xs),
-                      Text(
-                        locScheme.category,
-                        style: AppGoogleFonts.inter(
-                          fontSize: 10.5,
-                          color: const Color(0xFF2563EB),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      // A saved scheme the catalog has since closed stays in
-                      // the list (the user saved it) but says so.
-                      if (!scheme.isActive) ...[
-                        const SizedBox(height: AppSpacing.xs),
-                        const InactiveSchemeBadge(),
-                      ],
-                    ],
-                  ),
-                ),
-                ...[
-                  const SizedBox(width: AppSpacing.sm),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _isManageMode
-                          ? IconButton(
-                              constraints: const BoxConstraints(),
-                              padding: EdgeInsets.zero,
-                              icon: const Icon(
-                                Icons.delete_outline_rounded,
-                                color: AppColors.danger,
-                                size: 20,
-                              ),
-                              tooltip: recentTab
-                                  ? context.l10n.savedRemoveFromRecentTooltip
-                                  : context.l10n.savedRemoveFromSavedTooltip,
-                              onPressed: () =>
-                                  _remove(provider, scheme, recentTab),
-                            )
-                          : PopupMenuButton<String>(
-                              constraints: const BoxConstraints(),
-                              padding: EdgeInsets.zero,
-                              icon: const Icon(
-                                Icons.more_vert_rounded,
-                                color: Color(0xFF64748B),
-                                size: 20,
-                              ),
-                              onSelected: (value) {
-                                if (value == 'remove') {
-                                  _remove(provider, scheme, recentTab);
-                                }
-                              },
-                              itemBuilder: (context) => [
-                                PopupMenuItem(
-                                  value: 'remove',
-                                  child: Text(
-                                    recentTab
-                                        ? context
-                                              .l10n
-                                              .savedRemoveFromRecentTooltip
-                                        : context.l10n.removeSaved,
-                                  ),
-                                ),
-                              ],
-                            ),
-                    ],
-                  ),
-                ],
-              ],
-            ),
-            const SizedBox(height: AppSpacing.md),
-            Text(
-              locScheme.overview,
-              style: AppGoogleFonts.inter(
-                fontSize: 11.0,
-                color: const Color(0xFF475569),
-                height: 1.4,
-              ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    spacing: AppSpacing.tight,
-                    runSpacing: AppSpacing.xs,
-                    children: [
-                      const Icon(
-                        Icons.bookmark_added_outlined,
-                        size: 12,
-                        color: Color(0xFF64748B),
-                      ),
-                      Text(
-                        locScheme.governmentLevel,
-                        style: AppGoogleFonts.inter(
-                          fontSize: 9.5,
-                          color: const Color(0xFF64748B),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Container(
-                        width: 3,
-                        height: 3,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFF94A3B8),
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      const Icon(
-                        Icons.local_offer_outlined,
-                        size: 12,
-                        color: Color(0xFF64748B),
-                      ),
-                      Text(
-                        locScheme.schemeType.isNotEmpty
-                            ? locScheme.schemeType
-                            : locScheme.category,
-                        style: AppGoogleFonts.inter(
-                          fontSize: 9.5,
-                          color: const Color(0xFF64748B),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.sm),
-                OutlinedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => SchemeDetailsScreen(scheme: scheme),
-                      ),
-                    );
-                  },
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(
-                      color: Color(0xFF2563EB),
-                      width: 1.0,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.md,
-                      vertical: AppSpacing.tight,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Flexible(
-                        child: FitOneLine(
-                          child: Text(
-                            context.l10n.viewDetails,
-                            style: AppGoogleFonts.inter(
-                              fontSize: 10.0,
-                              color: const Color(0xFF2563EB),
-                              fontWeight: FontWeight.bold,
+                        if (meta.isNotEmpty) ...[
+                          const SizedBox(height: AppSpacing.hairline),
+                          Text(
+                            meta,
+                            style: context.text.bodySmall.copyWith(
+                              color: AppColors.textMuted,
                             ),
                           ),
-                        ),
-                      ),
-                      const SizedBox(width: AppSpacing.xs),
-                      const Icon(
-                        Icons.arrow_forward_rounded,
-                        size: 11,
-                        color: Color(0xFF2563EB),
-                      ),
-                    ],
+                        ],
+                        // A saved scheme the catalog has since closed stays
+                        // in the list (the user saved it) but says so.
+                        if (!scheme.isActive) ...[
+                          const SizedBox(height: AppSpacing.xs),
+                          const InactiveSchemeBadge(),
+                        ],
+                        if (locScheme.overview.isNotEmpty) ...[
+                          const SizedBox(height: AppSpacing.sm),
+                          Text(
+                            locScheme.overview,
+                            style: context.text.bodySmall.copyWith(
+                              color: AppColors.textSecondary,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ],
+                    ),
                   ),
                 ),
+                _isManageMode
+                    ? IconButton(
+                        icon: const Icon(
+                          Icons.delete_outline_rounded,
+                          color: AppColors.dangerStrong,
+                          size: AppSize.icon,
+                        ),
+                        tooltip: recentTab
+                            ? context.l10n.savedRemoveFromRecentTooltip
+                            : context.l10n.savedRemoveFromSavedTooltip,
+                        onPressed: () => _remove(provider, scheme, recentTab),
+                      )
+                    : PopupMenuButton<String>(
+                        icon: const Icon(
+                          Icons.more_vert_rounded,
+                          color: AppColors.iconMuted,
+                          size: AppSize.icon,
+                        ),
+                        onSelected: (value) {
+                          if (value == 'remove') {
+                            _remove(provider, scheme, recentTab);
+                          }
+                        },
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            value: 'remove',
+                            child: Text(
+                              recentTab
+                                  ? context.l10n.savedRemoveFromRecentTooltip
+                                  : context.l10n.removeSaved,
+                            ),
+                          ),
+                        ],
+                      ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -402,94 +274,35 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
   Widget _buildManageListBanner() {
     return Container(
       margin: const EdgeInsets.only(top: AppSpacing.sm),
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.lg,
-        vertical: AppSpacing.lg,
-      ),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
-        color: const Color(0xFFEFF6FF),
-        borderRadius: BorderRadius.circular(16),
+        color: AppColors.surfaceMuted,
+        borderRadius: AppRadius.lgAll,
       ),
-      child: Row(
+      child: Wrap(
+        spacing: AppSpacing.md,
+        runSpacing: AppSpacing.md,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        alignment: WrapAlignment.spaceBetween,
         children: [
-          Container(
-            padding: const EdgeInsets.all(AppSpacing.sm),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.info_outline_rounded,
-              color: Color(0xFF2563EB),
-              size: 20,
+          Text(
+            context.l10n.savedRemoveNoLongerInterested,
+            style: context.text.bodySmall.copyWith(
+              color: AppColors.textSecondary,
             ),
           ),
-          const SizedBox(width: AppSpacing.md),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  context.l10n.savedKeepListUpdated,
-                  style: AppGoogleFonts.inter(
-                    fontSize: 11.5,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF1E3A8A),
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.hairline),
-                Text(
-                  context.l10n.savedRemoveNoLongerInterested,
-                  style: AppGoogleFonts.inter(
-                    fontSize: 10.0,
-                    color: const Color(0xFF1E3A8A),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: AppSpacing.sm),
-          ElevatedButton.icon(
-            onPressed: () {
-              setState(() {
-                _isManageMode = !_isManageMode;
-              });
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              elevation: 0,
-              // A full-height touch target: the 10.5 sp Tamil label alone
-              // left a sliver that was easy to miss.
-              minimumSize: const Size(0, AppSize.tapTarget),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-                side: const BorderSide(color: Color(0xFFBFDBFE)),
-              ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.sm,
-                vertical: AppSpacing.tight,
-              ),
-            ),
+          OutlinedButton.icon(
+            onPressed: () => setState(() => _isManageMode = !_isManageMode),
             icon: Icon(
               _isManageMode
-                  ? Icons.check_circle_outline_rounded
+                  ? Icons.check_rounded
                   : Icons.delete_outline_rounded,
-              color: _isManageMode
-                  ? const Color(0xFF16A34A)
-                  : const Color(0xFF2563EB),
-              size: 13,
+              size: AppSize.iconSm,
             ),
             label: Text(
               _isManageMode
                   ? context.l10n.doneManaging
                   : context.l10n.manageSaved,
-              style: AppGoogleFonts.inter(
-                fontSize: 10.5,
-                color: _isManageMode
-                    ? const Color(0xFF16A34A)
-                    : const Color(0xFF2563EB),
-                fontWeight: FontWeight.bold,
-              ),
             ),
           ),
         ],
@@ -514,61 +327,38 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    width: 80,
-                    height: 80,
+                    width: AppSize.avatarLg,
+                    height: AppSize.avatarLg,
                     decoration: const BoxDecoration(
-                      color: Color(0xFFF1F5F9),
+                      color: AppColors.surfaceMuted,
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
                       Icons.bookmark_border_rounded,
-                      color: Color(0xFF94A3B8),
-                      size: 40,
+                      color: AppColors.iconMuted,
+                      size: AppSize.iconLg,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   Text(
                     title,
-                    style: AppGoogleFonts.poppins(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF0F172A),
+                    textAlign: TextAlign.center,
+                    style: context.text.titleSmall.copyWith(
+                      color: AppColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.tight),
                   Text(
                     description,
                     textAlign: TextAlign.center,
-                    style: AppGoogleFonts.inter(
-                      fontSize: 13,
-                      color: const Color(0xFF64748B),
-                      height: 1.4,
+                    style: context.text.body.copyWith(
+                      color: AppColors.textSecondary,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.xl),
                   ElevatedButton(
-                    onPressed: () {
-                      provider.updateTabIndex(2);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF2563EB),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.xl,
-                        vertical: AppSpacing.md,
-                      ),
-                    ),
-                    child: Text(
-                      context.l10n.navDiscover,
-                      style: AppGoogleFonts.inter(
-                        fontSize: 13.5,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    onPressed: () => provider.updateTabIndex(2),
+                    child: Text(context.l10n.navDiscover),
                   ),
                 ],
               ),
@@ -590,7 +380,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
         : recentlyViewed;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -599,7 +389,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                 AppSpacing.lg,
                 AppSpacing.lg,
                 AppSpacing.lg,
-                AppSpacing.md,
+                AppSpacing.sm,
               ),
               child: SizedBox(
                 width: double.infinity,
@@ -608,23 +398,19 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                   children: [
                     Text(
                       context.l10n.savedTitle,
-                      style: AppGoogleFonts.poppins(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFF0F172A),
+                      style: context.text.headline.copyWith(
+                        color: AppColors.textPrimary,
                       ),
                     ),
-                    const SizedBox(height: AppSpacing.xs),
+                    const SizedBox(height: AppSpacing.hairline),
                     Text(
                       bookmarks.isNotEmpty
                           ? context.l10n.savedSubtitleCountFormat(
                               bookmarks.length,
                             )
                           : context.l10n.noSavedSchemesDesc,
-                      style: AppGoogleFonts.inter(
-                        fontSize: 12,
-                        color: const Color(0xFF64748B),
-                        height: 1.3,
+                      style: context.text.bodySmall.copyWith(
+                        color: AppColors.textMuted,
                       ),
                     ),
                   ],

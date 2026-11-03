@@ -739,13 +739,13 @@ abstract class AppLocalizations {
   /// No description provided for @savedTitle.
   ///
   /// In en, this message translates to:
-  /// **'Saved Schemes'**
+  /// **'Saved schemes'**
   String get savedTitle;
 
   /// No description provided for @allSavedTabFormat.
   ///
   /// In en, this message translates to:
-  /// **'All Saved ({count})'**
+  /// **'All saved ({count})'**
   String allSavedTabFormat(Object count);
 
   /// No description provided for @recentlyViewedTab.
@@ -1027,13 +1027,13 @@ abstract class AppLocalizations {
   /// No description provided for @noSavedSchemes.
   ///
   /// In en, this message translates to:
-  /// **'No Saved Schemes Yet'**
+  /// **'No saved schemes yet'**
   String get noSavedSchemes;
 
   /// No description provided for @noSavedSchemesDesc.
   ///
   /// In en, this message translates to:
-  /// **'Bookmark schemes while browsing to view them offline anytime.'**
+  /// **'Save a scheme while browsing and it stays here, even offline'**
   String get noSavedSchemesDesc;
 
   /// No description provided for @savedSubtitleCountFormat.
@@ -1045,7 +1045,7 @@ abstract class AppLocalizations {
   /// No description provided for @savedRecentlyViewedEmptyTitle.
   ///
   /// In en, this message translates to:
-  /// **'No Schemes Viewed Yet'**
+  /// **'No schemes viewed yet'**
   String get savedRecentlyViewedEmptyTitle;
 
   /// No description provided for @savedRecentlyViewedEmptyDesc.
@@ -6595,7 +6595,7 @@ abstract class AppLocalizations {
   /// No description provided for @removeSaved.
   ///
   /// In en, this message translates to:
-  /// **'Remove Saved'**
+  /// **'Remove from saved'**
   String get removeSaved;
 
   /// No description provided for @viewDetails.
@@ -8563,7 +8563,7 @@ abstract class AppLocalizations {
   /// No description provided for @savedRemoveNoLongerInterested.
   ///
   /// In en, this message translates to:
-  /// **'Remove schemes you\'re no longer interested in.'**
+  /// **'Remove schemes you\'re no longer interested in'**
   String get savedRemoveNoLongerInterested;
 
   /// No description provided for @eduSchool.

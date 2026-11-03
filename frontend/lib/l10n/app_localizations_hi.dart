@@ -518,7 +518,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get noSavedSchemesDesc =>
-      'योजनाओं को किसी भी समय ऑफ़लाइन देखने के लिए ब्राउज़ करते समय उन्हें बुकमार्क करें।';
+      'ब्राउज़ करते समय योजना सहेजें, वह यहाँ ऑफ़लाइन भी रहेगी';
 
   @override
   String savedSubtitleCountFormat(int count) {
@@ -4657,7 +4657,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get savedRemoveNoLongerInterested =>
-      'उन योजनाओं को हटा दें जिनमें अब आपकी रुचि नहीं है।';
+      'जिन योजनाओं में अब रुचि नहीं है, उन्हें हटा दें';
 
   @override
   String get eduSchool => 'स्कूल (10वीं/12वीं)';

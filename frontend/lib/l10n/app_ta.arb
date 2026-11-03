@@ -155,7 +155,7 @@
   "noStatesMatch": "உங்கள் தேடலுக்கு பொருந்தும் மாநிலங்கள் இல்லை",
   "homeRecommendationsNoMatches": "இன்னும் பொருத்தங்கள் இல்லை — தேடல் அல்லது கண்டறிதலைப் பயன்படுத்துங்கள்",
   "noSavedSchemes": "சேமித்த திட்டங்கள் எதுவும் இல்லை",
-  "noSavedSchemesDesc": "திட்டங்களை சேமித்து வைத்தால் எப்போது வேண்டுமானாலும் ஆஃப்லைனில் பார்க்கலாம்.",
+  "noSavedSchemesDesc": "உலாவும்போது ஒரு திட்டத்தைச் சேமித்தால், ஆஃப்லைனிலும் இங்கே இருக்கும்",
   "savedSubtitleCountFormat": "{count, plural, =1{1 திட்டம் சேமிக்கப்பட்டுள்ளது} other{{count} திட்டங்கள் சேமிக்கப்பட்டுள்ளன}}",
   "@savedSubtitleCountFormat": {
     "placeholders": {
@@ -1416,7 +1416,7 @@
   "savedInactiveBadge": "செயலில் இல்லை",
   "savedInactiveHint": "இந்தத் திட்டம் சமீபத்திய பட்டியலில் இனி செயலில் இல்லை.",
   "savedKeepListUpdated": "உங்கள் பட்டியலைப் புதுப்பித்து வைத்திருங்கள்!",
-  "savedRemoveNoLongerInterested": "இனி உங்களுக்கு விருப்பமில்லாத திட்டங்களை அகற்றவும்.",
+  "savedRemoveNoLongerInterested": "இனி உங்களுக்கு விருப்பமில்லாத திட்டங்களை அகற்றவும்",
   "eduSchool": "பள்ளி (10 / 12ம்)",
   "eduDiploma": "டிப்ளமோ / தொழிற்பயிற்சி நிலையம் (ITI)",
   "eduUndergraduate": "இளங்கலை (பட்டப்படிப்பு)",
