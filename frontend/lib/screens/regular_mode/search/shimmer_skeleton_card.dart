@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../utils/app_colors.dart';
+import '../../../utils/app_size.dart';
+
 import '../../../utils/app_spacing.dart';
 
 /// A small reusable static skeleton bar, for inline loading placeholders
@@ -33,7 +36,7 @@ class SearchSkeletonBar extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: const Color(0xFFE2E8F0),
+        color: AppColors.border,
         borderRadius: BorderRadius.circular(4),
       ),
     );
@@ -87,10 +90,10 @@ class _ShimmerSweepState extends State<ShimmerSweep>
           shaderCallback: (bounds) => LinearGradient(
             begin: Alignment(-2.0 + 4.0 * t, -0.3),
             end: Alignment(-1.0 + 4.0 * t, 0.3),
-            colors: const [
-              Color(0x00FFFFFF),
-              Color(0xB3FFFFFF),
-              Color(0x00FFFFFF),
+            colors: [
+              AppColors.surface.withValues(alpha: 0),
+              AppColors.surface.withValues(alpha: 0.7),
+              AppColors.surface.withValues(alpha: 0),
             ],
           ).createShader(bounds),
           child: child,
@@ -107,7 +110,7 @@ class ShimmerSkeletonCard extends StatelessWidget {
   const ShimmerSkeletonCard({super.key});
 
   static const _barDecoration = BoxDecoration(
-    color: Color(0xFFE2E8F0),
+    color: AppColors.border,
     borderRadius: BorderRadius.all(Radius.circular(4)),
   );
 
@@ -125,9 +128,9 @@ class ShimmerSkeletonCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: AppSpacing.lg),
       padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+        border: Border.all(color: AppColors.border, width: AppSize.borderWidth),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,7 +139,7 @@ class ShimmerSkeletonCard extends StatelessWidget {
             width: 56,
             height: 56,
             decoration: BoxDecoration(
-              color: const Color(0xFFE2E8F0),
+              color: AppColors.border,
               borderRadius: BorderRadius.circular(12),
             ),
           ),

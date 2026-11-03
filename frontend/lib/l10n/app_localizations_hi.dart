@@ -252,7 +252,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sortNameDesc => 'योजना का नाम (जेड-ए)';
 
   @override
-  String get browseCategories => 'श्रेणियाँ ब्राउज़ करें';
+  String get browseCategories => 'श्रेणियाँ देखें';
 
   @override
   String get forMe => 'मेरे लिए';
@@ -261,11 +261,11 @@ class AppLocalizationsHi extends AppLocalizations {
   String get activeBadge => 'सक्रिय';
 
   @override
-  String get calculatingMatches => 'मिलानों की गणना की जा रही है...';
+  String get calculatingMatches => 'मेल खोजे जा रहे हैं';
 
   @override
   String schemesMatchProfile(Object count) {
-    return '$count योजनाएं आपकी प्रोफ़ाइल से मेल खाती हैं।';
+    return '$count योजनाएं आपकी प्रोफ़ाइल से मेल खाती हैं';
   }
 
   @override
@@ -404,7 +404,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get quickPillPmegpQuery => 'PMEGP';
 
   @override
-  String get quickPillStartupQuery => 'चालू होना';
+  String get quickPillStartupQuery => 'स्टार्टअप';
 
   @override
   String get quickPillLoansQuery => 'ऋण';
@@ -413,7 +413,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get quickPillWomenQuery => 'महिला';
 
   @override
-  String get quickPillAscendQuery => 'चढ़ा';
+  String get quickPillAscendQuery => 'ASCEND';
 
   @override
   String get homeRecommendedEmptyTitle =>

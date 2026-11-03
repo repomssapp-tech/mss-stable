@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'listening_pulse.dart';
 import '../../../utils/spell_check.dart';
 import '../../../l10n/l10n.dart';
+import '../../../utils/app_colors.dart';
+import '../../../utils/app_elevation.dart';
+import '../../../utils/app_radius.dart';
+import '../../../utils/app_size.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/app_text.dart';
 
@@ -16,19 +20,12 @@ class SearchHeaderBar extends StatelessWidget {
       children: [
         Text(
           context.l10n.searchTitle,
-          style: AppGoogleFonts.poppins(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: const Color(0xFF0F172A),
-          ),
+          style: context.text.headline.copyWith(color: AppColors.textPrimary),
         ),
         const SizedBox(height: AppSpacing.hairline),
         Text(
           context.l10n.searchDiscoverSubtitle,
-          style: AppGoogleFonts.inter(
-            fontSize: 12,
-            color: const Color(0xFF64748B),
-          ),
+          style: context.text.bodySmall.copyWith(color: AppColors.textMuted),
         ),
       ],
     );
@@ -44,7 +41,6 @@ class SearchInputField extends StatelessWidget {
   final ValueChanged<String> onSubmitted;
   final VoidCallback onClear;
   final VoidCallback onSubmitTap;
-  final double Function(double) scaledFontSize;
 
   const SearchInputField({
     super.key,
@@ -55,7 +51,6 @@ class SearchInputField extends StatelessWidget {
     required this.onSubmitted,
     required this.onClear,
     required this.onSubmitTap,
-    required this.scaledFontSize,
   });
 
   @override
@@ -63,18 +58,12 @@ class SearchInputField extends StatelessWidget {
     final bool hasText = controller.text.isNotEmpty;
 
     return Container(
-      height: 48,
+      constraints: const BoxConstraints(minHeight: AppSize.controlHeight),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-        border: Border.all(color: const Color(0xFFE2E8F0)),
+        color: AppColors.surface,
+        borderRadius: AppRadius.pillAll,
+        boxShadow: AppShadows.card,
+        border: Border.all(color: AppColors.border, width: AppSize.borderWidth),
       ),
       child: TextField(
         controller: controller,
@@ -85,21 +74,19 @@ class SearchInputField extends StatelessWidget {
         // app's language, where the device has that dictionary.
         spellCheckConfiguration: platformSpellCheck(),
         onSubmitted: onSubmitted,
-        style: AppGoogleFonts.inter(
-          fontSize: scaledFontSize(13),
-          color: const Color(0xFF1E293B),
-        ),
+        style: context.text.body.copyWith(color: AppColors.textPrimary),
         decoration: InputDecoration(
           hintText: isDictating
               ? context.l10n.voiceStatusListening
-              : context.l10n.searchPlaceholder,
-          hintStyle: AppGoogleFonts.inter(
-            color: const Color(0xFF94A3B8),
-            fontSize: 12.5,
-          ),
+              : context.l10n.homeSearchHint,
+          hintStyle: context.text.body.copyWith(color: AppColors.textMuted),
           prefixIcon: IconButton(
             tooltip: context.l10n.search,
-            icon: const Icon(Icons.search, color: Color(0xFF2563EB), size: 20),
+            icon: const Icon(
+              Icons.search_rounded,
+              color: AppColors.primary,
+              size: AppSize.iconLg,
+            ),
             onPressed: () {
               if (controller.text.trim().isNotEmpty) {
                 focusNode.unfocus();
@@ -114,15 +101,12 @@ class SearchInputField extends StatelessWidget {
                 IconButton(
                   tooltip: context.l10n.clearSearchTooltip,
                   icon: const Icon(
-                    Icons.close,
-                    color: Color(0xFF94A3B8),
-                    size: 18,
+                    Icons.close_rounded,
+                    color: AppColors.iconMuted,
+                    size: AppSize.icon,
                   ),
                   onPressed: onClear,
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
                 ),
-              if (hasText) const SizedBox(width: AppSpacing.xs),
               IconButton(
                 tooltip: isDictating
                     ? context.l10n.stopVoiceSearchTooltip
@@ -130,132 +114,68 @@ class SearchInputField extends StatelessWidget {
                 icon: isDictating
                     ? const ListeningPulse(
                         child: Icon(
-                          Icons.mic,
-                          color: Color(0xFFDC2626),
-                          size: 20,
+                          Icons.mic_rounded,
+                          color: AppColors.danger,
+                          size: AppSize.icon,
                         ),
                       )
                     : const Icon(
-                        Icons.mic_none,
-                        color: Color(0xFF2563EB),
-                        size: 20,
+                        Icons.mic_none_rounded,
+                        color: AppColors.primary,
+                        size: AppSize.icon,
                       ),
                 onPressed: onToggleDictation,
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
               ),
-              const SizedBox(width: AppSpacing.md),
+              const SizedBox(width: AppSpacing.xs),
             ],
           ),
           border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+          contentPadding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
         ),
       ),
     );
   }
 }
 
-/// Horizontal list of quick suggested scheme search pills.
-class SearchQuickPills extends StatelessWidget {
-  final ValueChanged<String> onPillSelected;
-
-  const SearchQuickPills({super.key, required this.onPillSelected});
-
-  @override
-  Widget build(BuildContext context) {
-    final pills = [
-      context.l10n.quickPillPmegp,
-      context.l10n.quickPillStartup,
-      context.l10n.quickPillLoans,
-      context.l10n.quickPillWomen,
-      context.l10n.quickPillAscend,
-    ];
-
-    return SizedBox(
-      height: 38,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        physics: const ClampingScrollPhysics(),
-        itemCount: pills.length,
-        itemBuilder: (context, index) {
-          final text = pills[index];
-          return GestureDetector(
-            onTap: () {
-              final query = text
-                  .replaceAll("Search ", "")
-                  .replaceAll("தேடுக", "")
-                  .trim();
-              onPillSelected(query);
-            },
-            child: Container(
-              margin: const EdgeInsets.only(right: AppSpacing.sm),
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.md,
-                vertical: AppSpacing.sm,
-              ),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: const Color(0xFFE2E8F0)),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.search, size: 13, color: Color(0xFF64748B)),
-                  const SizedBox(width: AppSpacing.tight),
-                  Text(
-                    text,
-                    style: AppGoogleFonts.inter(
-                      fontSize: 11.5,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF334155),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-/// Banner shown when idle suggesting a search hint.
+/// A tappable "Try: ..." line under the search bar on the idle Search tab.
 class SearchTryBanner extends StatelessWidget {
   final String hintText;
   final VoidCallback onTap;
-  final double Function(double) scaledFontSize;
 
   const SearchTryBanner({
     super.key,
     required this.hintText,
     required this.onTap,
-    required this.scaledFontSize,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
-      child: Row(
-        children: [
-          const Icon(Icons.search, color: Color(0xFF64748B), size: 14),
-          const SizedBox(width: AppSpacing.xs),
-          // Wraps to a second line instead of shrinking to a tiny size.
-          Expanded(
-            child: Text(
-              "${context.l10n.trySearchPrefix} $hintText",
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: AppGoogleFonts.inter(
-                color: const Color(0xFF64748B),
-                fontSize: scaledFontSize(12),
-                fontWeight: FontWeight.w500,
+      borderRadius: AppRadius.smAll,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: AppSize.tapTarget),
+        child: Row(
+          children: [
+            const Icon(
+              Icons.search_rounded,
+              color: AppColors.iconMuted,
+              size: AppSize.iconSm,
+            ),
+            const SizedBox(width: AppSpacing.sm),
+            // Wraps to a second line instead of shrinking to a tiny size.
+            Expanded(
+              child: Text(
+                "${context.l10n.trySearchPrefix} $hintText",
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: context.text.bodySmall.copyWith(
+                  color: AppColors.textSecondary,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

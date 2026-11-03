@@ -559,13 +559,13 @@ abstract class AppLocalizations {
   /// No description provided for @browseCategories.
   ///
   /// In en, this message translates to:
-  /// **'Browse Categories'**
+  /// **'Browse categories'**
   String get browseCategories;
 
   /// No description provided for @forMe.
   ///
   /// In en, this message translates to:
-  /// **'For Me'**
+  /// **'For me'**
   String get forMe;
 
   /// No description provided for @activeBadge.
@@ -577,13 +577,13 @@ abstract class AppLocalizations {
   /// No description provided for @calculatingMatches.
   ///
   /// In en, this message translates to:
-  /// **'Calculating matches...'**
+  /// **'Finding matches'**
   String get calculatingMatches;
 
   /// No description provided for @schemesMatchProfile.
   ///
   /// In en, this message translates to:
-  /// **'{count} schemes match your profile.'**
+  /// **'{count} schemes match your profile'**
   String schemesMatchProfile(Object count);
 
   /// No description provided for @noSchemesFound.
@@ -6511,7 +6511,7 @@ abstract class AppLocalizations {
   /// No description provided for @searchDiscoverSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Find and explore all eligible government schemes'**
+  /// **'Find government schemes you can apply for'**
   String get searchDiscoverSubtitle;
 
   /// No description provided for @searchCompleteProfileTitle.

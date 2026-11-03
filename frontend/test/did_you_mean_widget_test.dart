@@ -89,7 +89,6 @@ void main() {
             onSubmitted: (_) {},
             onClear: () {},
             onSubmitTap: () {},
-            scaledFontSize: (s) => s,
           ),
         ),
       );
@@ -119,7 +118,6 @@ void main() {
             isForMe: false,
             forMeEmptyState: ForMeEmptyState.none,
             provider: context.read<AppProvider>(),
-            scaledFontSize: (s) => s,
             didYouMean: didYouMean,
             onDidYouMeanTap: onTap,
           ),

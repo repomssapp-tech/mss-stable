@@ -252,20 +252,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sortNameDesc => 'Scheme Name (Z-A)';
 
   @override
-  String get browseCategories => 'Browse Categories';
+  String get browseCategories => 'Browse categories';
 
   @override
-  String get forMe => 'For Me';
+  String get forMe => 'For me';
 
   @override
   String get activeBadge => 'Active';
 
   @override
-  String get calculatingMatches => 'Calculating matches...';
+  String get calculatingMatches => 'Finding matches';
 
   @override
   String schemesMatchProfile(Object count) {
-    return '$count schemes match your profile.';
+    return '$count schemes match your profile';
   }
 
   @override
@@ -3473,7 +3473,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchDiscoverSubtitle =>
-      'Find and explore all eligible government schemes';
+      'Find government schemes you can apply for';
 
   @override
   String get searchCompleteProfileTitle =>

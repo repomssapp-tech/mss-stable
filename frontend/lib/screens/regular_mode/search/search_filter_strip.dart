@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../../l10n/l10n.dart';
+import '../../../utils/app_colors.dart';
+import '../../../utils/app_radius.dart';
+import '../../../utils/app_size.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/app_text.dart';
 
-/// Reusable dropdown chip with popup menu for search sorting or filtering.
+/// Reusable dropdown chip with popup menu for search sorting or filtering,
+/// drawn like the outlined buttons beside it.
 class SearchDropdownChip extends StatelessWidget {
   final String label;
   final List<String> options;
@@ -27,86 +31,73 @@ class SearchDropdownChip extends StatelessWidget {
         currentValue.isNotEmpty &&
         currentValue != 'All' &&
         currentValue != 'Relevance';
+    final color = isActive ? AppColors.primary : AppColors.textSecondary;
 
-    return Container(
-      margin: const EdgeInsets.only(right: AppSpacing.sm),
-      child: PopupMenuButton<String>(
-        onSelected: onChanged,
-        color: Colors.white,
-        elevation: 8,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
-          side: const BorderSide(color: Color(0xFFE2E8F0)),
-        ),
-        itemBuilder: (context) => options
-            .map(
-              (opt) => PopupMenuItem(
-                value: opt,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      show(opt),
-                      style: AppGoogleFonts.inter(
-                        fontSize: 12.5,
-                        fontWeight: opt == currentValue
-                            ? FontWeight.bold
-                            : FontWeight.w500,
-                        color: opt == currentValue
-                            ? const Color(0xFF2563EB)
-                            : const Color(0xFF0F172A),
-                      ),
+    return PopupMenuButton<String>(
+      onSelected: onChanged,
+      color: AppColors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: AppRadius.mdAll,
+        side: BorderSide(color: AppColors.border),
+      ),
+      itemBuilder: (context) => [
+        for (final opt in options)
+          PopupMenuItem(
+            value: opt,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    show(opt),
+                    style: context.text.body.copyWith(
+                      fontWeight: opt == currentValue
+                          ? FontWeight.w600
+                          : FontWeight.w400,
+                      color: opt == currentValue
+                          ? AppColors.primary
+                          : AppColors.textPrimary,
                     ),
-                    if (opt == currentValue)
-                      const Icon(
-                        Icons.check,
-                        size: 14,
-                        color: Color(0xFF2563EB),
-                      ),
-                  ],
+                  ),
                 ),
-              ),
-            )
-            .toList(),
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.md,
-            vertical: AppSpacing.sm,
-          ),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: isActive
-                  ? const Color(0xFF2563EB)
-                  : const Color(0xFFE2E8F0),
+                if (opt == currentValue)
+                  const Icon(
+                    Icons.check_rounded,
+                    size: AppSize.iconSm,
+                    color: AppColors.primary,
+                  ),
+              ],
             ),
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
+      ],
+      child: Container(
+        constraints: const BoxConstraints(minHeight: AppSize.controlHeight),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: AppRadius.mdAll,
+          border: Border.all(
+            color: isActive ? AppColors.primary : AppColors.borderStrong,
+            width: AppSize.borderWidth,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              child: Text(
                 (currentValue.isEmpty || currentValue == 'All')
                     ? label
                     : '$label: ${show(currentValue)}',
-                style: AppGoogleFonts.inter(
-                  fontSize: 11.5,
-                  fontWeight: FontWeight.w500,
-                  color: isActive
-                      ? const Color(0xFF2563EB)
-                      : const Color(0xFF475569),
-                ),
+                style: context.text.button.copyWith(color: color),
               ),
-              const SizedBox(width: AppSpacing.xs),
-              Icon(
-                Icons.keyboard_arrow_down,
-                size: 14,
-                color: isActive
-                    ? const Color(0xFF2563EB)
-                    : const Color(0xFF64748B),
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(width: AppSpacing.xs),
+            Icon(
+              Icons.keyboard_arrow_down_rounded,
+              size: AppSize.icon,
+              color: color,
+            ),
+          ],
         ),
       ),
     );
@@ -146,6 +137,12 @@ class SearchFilterStrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final forMeIcon = Icon(
+      isForMeActive ? Icons.check_rounded : Icons.person_outline_rounded,
+      size: AppSize.iconSm,
+    );
+    final forMeLabel = Text(context.l10n.forMe);
+
     // Wraps instead of scrolling sideways, so a long label (Tamil "Sort")
     // moves to a second line rather than being cut off at the screen edge
     // (test report L10N-06 / BUG-14).
@@ -154,69 +151,31 @@ class SearchFilterStrip extends StatelessWidget {
       runSpacing: AppSpacing.sm,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        // Filter Button
         OutlinedButton.icon(
           onPressed: onOpenFilterPanel,
-          icon: const Icon(
-            Icons.filter_list,
-            size: 14,
-            color: Color(0xFF2563EB),
-          ),
+          icon: const Icon(Icons.filter_list_rounded, size: AppSize.iconSm),
           label: Text(
             facetCount > 0
                 ? '${context.l10n.filterButton} · $facetCount'
                 : context.l10n.filterButton,
-            style: AppGoogleFonts.inter(
-              fontSize: 11.5,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF2563EB),
-            ),
-          ),
-          style: OutlinedButton.styleFrom(
-            backgroundColor: Colors.white,
-            side: const BorderSide(color: Color(0xFFE2E8F0)),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.md,
-              vertical: AppSpacing.tight,
-            ),
           ),
         ),
 
-        // "For Me" -- opt-in profile-eligibility filter
+        // "For Me" -- opt-in profile-eligibility filter. While on, it shows a
+        // tick on the selected blue tint, like a chosen chip.
         OutlinedButton.icon(
           onPressed: onToggleForMe,
-          icon: Icon(
-            Icons.auto_awesome,
-            size: 14,
-            color: isForMeActive ? Colors.white : const Color(0xFF2563EB),
-          ),
-          label: Text(
-            context.l10n.forMe,
-            style: AppGoogleFonts.inter(
-              fontSize: 11.5,
-              fontWeight: FontWeight.bold,
-              color: isForMeActive ? Colors.white : const Color(0xFF2563EB),
-            ),
-          ),
-          style: OutlinedButton.styleFrom(
-            backgroundColor: isForMeActive
-                ? const Color(0xFF2563EB)
-                : Colors.white,
-            side: const BorderSide(color: Color(0xFFE2E8F0)),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.md,
-              vertical: AppSpacing.tight,
-            ),
-          ),
+          style: isForMeActive
+              ? const ButtonStyle(
+                  backgroundColor: WidgetStatePropertyAll(
+                    AppColors.primarySoft,
+                  ),
+                )
+              : null,
+          icon: forMeIcon,
+          label: forMeLabel,
         ),
 
-        // Sort
         SearchDropdownChip(
           label: context.l10n.sortLabel,
           options: const [

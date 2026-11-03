@@ -264,11 +264,11 @@ class AppLocalizationsTa extends AppLocalizations {
   String get activeBadge => 'செயலில்';
 
   @override
-  String get calculatingMatches => 'பொருத்தங்கள் கணக்கிடப்படுகின்றன...';
+  String get calculatingMatches => 'பொருத்தங்களைத் தேடுகிறது';
 
   @override
   String schemesMatchProfile(Object count) {
-    return '$count திட்டங்கள் உங்கள் சுயவிவரத்திற்கு பொருந்துகின்றன.';
+    return '$count திட்டங்கள் உங்கள் சுயவிவரத்திற்கு பொருந்துகின்றன';
   }
 
   @override

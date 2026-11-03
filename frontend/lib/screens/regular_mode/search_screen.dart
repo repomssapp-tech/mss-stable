@@ -9,11 +9,13 @@ import '../../services/catalog/centralized_translator.dart';
 import '../../services/catalog/scheme_repository.dart';
 import '../../services/voice/voice_recognition_controller.dart';
 import '../../utils/app_colors.dart';
+import '../../utils/app_size.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/share_text.dart';
 import '../../widgets/assistant/voice_assistant_overlay.dart';
 import '../../widgets/common/app_bottom_nav_bar.dart';
 import '../../widgets/common/app_toast.dart';
+import '../../widgets/common/quick_pills.dart';
 import '../../widgets/common/standard_page_header.dart';
 import '../../widgets/scheme/filter_panel.dart';
 import 'scheme_details_screen.dart';
@@ -107,15 +109,6 @@ class SearchScreenState extends State<SearchScreen> {
   // Search tab, and once the user types a query (a search leaves the browse).
   BrowseScope? _scope;
   AppProvider? _provider;
-
-  double _scaledFontSize(double baseSize) {
-    final provider = Provider.of<AppProvider>(context, listen: false);
-    return provider.selectedLanguage == 'ta' ? baseSize * 0.92 : baseSize;
-  }
-
-  FontWeight _scaledFontWeight(FontWeight baseWeight) {
-    return baseWeight;
-  }
 
   // Which empty state the "For Me" results view should render (see
   // ForMeEmptyState). Kept current even when there is nothing to filter so
@@ -692,72 +685,56 @@ class SearchScreenState extends State<SearchScreen> {
         "count": _isLoadingCounts
             ? "..."
             : "${_categoryCounts["MSME"] ?? 0} ${context.l10n.schemes}",
-        "icon": Icons.bar_chart,
-        "iconColor": const Color(0xFF6D28D9),
-        "iconBg": const Color(0xFFF5F3FF),
+        "icon": Icons.storefront_outlined,
       },
       {
         "title": "Startup",
         "count": _isLoadingCounts
             ? "..."
             : "${_categoryCounts["Startup"] ?? 0} ${context.l10n.schemes}",
-        "icon": Icons.rocket_launch,
-        "iconColor": const Color(0xFF1D4ED8),
-        "iconBg": const Color(0xFFEFF6FF),
+        "icon": Icons.lightbulb_outline_rounded,
       },
       {
         "title": "Women Entrepreneurs",
         "count": _isLoadingCounts
             ? "..."
             : "${_categoryCounts["Women Entrepreneurs"] ?? 0} ${context.l10n.schemes}",
-        "icon": Icons.person,
-        "iconColor": const Color(0xFFE11D48),
-        "iconBg": const Color(0xFFFFE4E6),
+        "icon": Icons.woman_outlined,
       },
       {
         "title": "Business Loans & Credit",
         "count": _isLoadingCounts
             ? "..."
             : "${_categoryCounts["Business Loans & Credit"] ?? 0} ${context.l10n.schemes}",
-        "icon": Icons.account_balance,
-        "iconColor": const Color(0xFF047857),
-        "iconBg": const Color(0xFFECFDF5),
+        "icon": Icons.account_balance_outlined,
       },
       {
         "title": "Export & Trade Promotion",
         "count": _isLoadingCounts
             ? "..."
             : "${_categoryCounts["Export & Trade Promotion"] ?? 0} ${context.l10n.schemes}",
-        "icon": Icons.import_export,
-        "iconColor": const Color(0xFF16A34A),
-        "iconBg": const Color(0xFFDCFCE7),
+        "icon": Icons.local_shipping_outlined,
       },
       {
         "title": "SHG & Artisan",
         "count": _isLoadingCounts
             ? "..."
             : "${_categoryCounts["SHG & Artisan"] ?? 0} ${context.l10n.schemes}",
-        "icon": Icons.groups,
-        "iconColor": const Color(0xFFD97706),
-        "iconBg": const Color(0xFFFEF3C7),
+        "icon": Icons.groups_outlined,
       },
       {
         "title": "Technology",
         "count": _isLoadingCounts
             ? "..."
             : "${_categoryCounts["Technology"] ?? 0} ${context.l10n.schemes}",
-        "icon": Icons.computer,
-        "iconColor": const Color(0xFF2563EB),
-        "iconBg": const Color(0xFFDBEAFE),
+        "icon": Icons.computer_outlined,
       },
       {
         "title": "Manufacturing",
         "count": _isLoadingCounts
             ? "..."
             : "${_categoryCounts["Manufacturing"] ?? 0} ${context.l10n.schemes}",
-        "icon": Icons.factory,
-        "iconColor": const Color(0xFFEA580C),
-        "iconBg": const Color(0xFFFFEDD5),
+        "icon": Icons.factory_outlined,
       },
     ];
   }
@@ -779,7 +756,6 @@ class SearchScreenState extends State<SearchScreen> {
             isForMe: _activeFilter == 'For Me',
             forMeEmptyState: _forMeEmptyState,
             provider: provider,
-            scaledFontSize: _scaledFontSize,
             didYouMean: _didYouMean,
             onDidYouMeanTap: _applyDidYouMean,
             notApplicableIds: _notApplicableIds,
@@ -805,8 +781,6 @@ class SearchScreenState extends State<SearchScreen> {
               _searchController.clear();
               _triggerSearch('For Me');
             },
-            scaledFontSize: _scaledFontSize,
-            scaledFontWeight: _scaledFontWeight,
           ),
         );
     }
@@ -821,7 +795,7 @@ class SearchScreenState extends State<SearchScreen> {
     );
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: AppColors.background,
       // A pushed browse / results page sits above the tab shell and hid its
       // bar; show it again so the user can switch tab from here.
       bottomNavigationBar:
@@ -852,7 +826,7 @@ class SearchScreenState extends State<SearchScreen> {
                   tooltip: context.l10n.shareResultsTooltip,
                   icon: const Icon(
                     Icons.share_outlined,
-                    size: 20,
+                    size: AppSize.icon,
                     color: AppColors.primary,
                   ),
                   onPressed: () => _shareResults(pageTitle),
@@ -908,7 +882,6 @@ class SearchScreenState extends State<SearchScreen> {
                         });
                       },
                       onSubmitTap: () => _triggerSearch(_searchController.text),
-                      scaledFontSize: _scaledFontSize,
                     ),
                     const SizedBox(height: AppSpacing.sm),
                     if (isSearching) ...[
@@ -943,12 +916,9 @@ class SearchScreenState extends State<SearchScreen> {
                           _searchFocusNode.unfocus();
                           _triggerSearch(hint);
                         },
-                        scaledFontSize: _scaledFontSize,
                       ),
                       const SizedBox(height: AppSpacing.sm),
-                      SearchQuickPills(
-                        onPillSelected: (query) => submitVoiceQuery(query),
-                      ),
+                      QuickPills(onSelected: submitVoiceQuery),
                     ],
                   ],
                 ),
@@ -957,8 +927,10 @@ class SearchScreenState extends State<SearchScreen> {
             const SizedBox(height: AppSpacing.tight),
             Expanded(
               child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                switchInCurve: Curves.easeIn,
+                duration: MediaQuery.disableAnimationsOf(context)
+                    ? Duration.zero
+                    : const Duration(milliseconds: 150),
+                switchInCurve: Curves.easeOut,
                 switchOutCurve: Curves.easeOut,
                 transitionBuilder: (Widget child, Animation<double> animation) {
                   return FadeTransition(opacity: animation, child: child);
