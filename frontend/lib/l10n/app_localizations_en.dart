@@ -3533,7 +3533,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get viewDetails => 'View Details';
 
   @override
-  String get eligibilityResultsTitle => 'Eligibility Results';
+  String get eligibilityResultsTitle => 'Eligibility results';
 
   @override
   String get eligibilityResultsCopiedToClipboard =>
@@ -4437,21 +4437,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get voiceAssistantLabel => 'Voice assistant';
 
   @override
-  String get eligResGreatNews => 'Great News! 🎉';
+  String get eligResGreatNews => 'Your results';
 
   @override
   String get eligResEligibleForPrefix => 'You are eligible for\n';
 
   @override
   String eligResGovernmentSchemesCount(Object count) {
-    return '$count Government Schemes';
+    return '$count government schemes';
   }
 
   @override
   String get eligResBasedOnInfo => 'based on the information you provided';
 
   @override
-  String get eligResRecommendedSchemes => 'Recommended Schemes';
+  String get eligResRecommendedSchemes => 'Recommended schemes';
 
   @override
   String get eligResNoMatches =>
@@ -4462,10 +4462,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'These schemes are sorted based on your profile match and eligibility criteria.';
 
   @override
-  String get eligResSavedToast => 'Results saved to your eligibility profile!';
+  String get eligResSavedToast => 'Results saved to your eligibility profile';
 
   @override
-  String get eligResSaveResults => 'Save Results';
+  String get eligResSaveResults => 'Save results';
 
   @override
   String get eligResSecurePrivate => 'Your information is secure and private';
@@ -4475,20 +4475,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String eligResShareItem(Object name, Object percent) {
-    return '• $name ($percent% Match)';
+    return '• $name ($percent% match)';
   }
 
   @override
-  String get eligResEligibleSchemesTitle => 'Eligible Schemes';
+  String get eligResEligibleSchemesTitle => 'Eligible schemes';
 
   @override
-  String get eligResExploreAll => 'Explore All Schemes';
+  String get eligResExploreAll => 'Explore all schemes';
 
   @override
   String get eligResSaving => 'Saving...';
 
   @override
-  String get eligResSavedToProfile => 'Saved to Profile';
+  String get eligResSavedToProfile => 'Saved to profile';
 
   @override
   String get eligResSaveFailed => 'Failed to save results. Please try again.';

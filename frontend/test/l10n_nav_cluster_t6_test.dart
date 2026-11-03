@@ -182,8 +182,8 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('Great News! \u{1F389}'), findsOneWidget);
-      expect(find.text('Save Results'), findsOneWidget);
+      expect(find.text('Your results'), findsOneWidget);
+      expect(find.text('Save results'), findsOneWidget);
     });
 
     testWidgets('Tamil locale: Great News header + Save Results CTA from ARB', (
@@ -198,8 +198,8 @@ void main() {
 
       expect(find.text(ta.eligResGreatNews), findsOneWidget);
       expect(find.text(ta.eligResSaveResults), findsOneWidget);
-      expect(find.text('Great News! \u{1F389}'), findsNothing);
-      expect(find.text('Save Results'), findsNothing);
+      expect(find.text('Your results'), findsNothing);
+      expect(find.text('Save results'), findsNothing);
     });
   });
 }

@@ -103,12 +103,12 @@ void main() {
       await tester.pumpWidget(buildTestWidget(provider));
       await tester.pumpAndSettle();
 
-      expect(find.text('Great News! 🎉'), findsOneWidget);
+      expect(find.text('Your results'), findsOneWidget);
       expect(
         find.byWidgetPredicate(
           (w) =>
               w is RichText &&
-              w.text.toPlainText().contains('0 Government Schemes'),
+              w.text.toPlainText().contains('0 government schemes'),
         ),
         findsOneWidget,
       );
@@ -118,7 +118,7 @@ void main() {
         ),
         findsOneWidget,
       );
-      expect(find.text('Explore All Schemes'), findsOneWidget);
+      expect(find.text('Explore all schemes'), findsOneWidget);
       expect(find.text('View All'), findsNothing);
     });
 
@@ -149,27 +149,27 @@ void main() {
         await tester.pumpAndSettle();
 
         // 1. Verify Header and Counts
-        expect(find.text('Great News! 🎉'), findsOneWidget);
+        expect(find.text('Your results'), findsOneWidget);
         expect(
           find.byWidgetPredicate(
             (w) =>
                 w is RichText &&
-                w.text.toPlainText().contains('1 Government Schemes'),
+                w.text.toPlainText().contains('1 government schemes'),
           ),
           findsOneWidget,
         );
-        expect(find.text('Recommended Schemes'), findsOneWidget);
+        expect(find.text('Recommended schemes'), findsOneWidget);
         expect(find.text('View All'), findsOneWidget);
 
         // 2. Tap "Save Results"
-        expect(find.text('Save Results'), findsOneWidget);
-        await tester.tap(find.text('Save Results'));
+        expect(find.text('Save results'), findsOneWidget);
+        await tester.tap(find.text('Save results'));
         await tester.pump(); // Start async save
 
         await tester.pumpAndSettle(); // Finish save
 
         // 3. Verify Button updates to "Saved to Profile", is disabled, and provider has persisted ID
-        expect(find.text('Saved to Profile'), findsOneWidget);
+        expect(find.text('Saved to profile'), findsOneWidget);
         final saveBtn = tester.widget<ElevatedButton>(
           find.byType(ElevatedButton),
         );

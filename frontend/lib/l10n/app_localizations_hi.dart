@@ -4449,7 +4449,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get voiceAssistantLabel => 'आवाज सहायक';
 
   @override
-  String get eligResGreatNews => 'अच्छी खबर! 🎉';
+  String get eligResGreatNews => 'आपके परिणाम';
 
   @override
   String get eligResEligibleForPrefix => 'आप पात्र हैं';
@@ -4475,7 +4475,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'इन योजनाओं को आपके प्रोफ़ाइल मिलान और पात्रता मानदंड के आधार पर क्रमबद्ध किया जाता है।';
 
   @override
-  String get eligResSavedToast => 'परिणाम आपकी पात्रता प्रोफ़ाइल में सहेजे गए!';
+  String get eligResSavedToast => 'परिणाम आपकी पात्रता प्रोफ़ाइल में सहेजे गए';
 
   @override
   String get eligResSaveResults => 'परिणाम सहेजें';

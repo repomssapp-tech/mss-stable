@@ -4,10 +4,13 @@ import '../../widgets/scheme/scheme_card.dart';
 import '../../widgets/common/standard_page_header.dart';
 import '../../providers/app_state_provider.dart';
 import '../../l10n/l10n.dart';
-import '../../utils/responsive.dart';
 import '../../widgets/common/app_toast.dart';
 import 'scheme_details_screen.dart';
 import 'search_results_screen.dart';
+import '../../utils/app_colors.dart';
+import '../../utils/app_elevation.dart';
+import '../../utils/app_radius.dart';
+import '../../utils/app_size.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/share_text.dart';
 import '../../utils/app_text.dart';
@@ -24,9 +27,27 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
   bool _isSaving = false;
   bool _hasSavedThisSession = false;
 
+  Future<void> _save(AppProvider provider, List<String> ids) async {
+    setState(() => _isSaving = true);
+    try {
+      await provider.saveEligibilityResults(ids);
+      if (!mounted) return;
+      setState(() {
+        _isSaving = false;
+        _hasSavedThisSession = true;
+      });
+      AppToast.showSuccess(context, context.l10n.eligResSavedToast);
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => _isSaving = false);
+      AppToast.showError(context, context.l10n.eligResSaveFailed);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
+    final l10n = context.l10n;
     final allMatches = provider.recommendedSchemes;
 
     // Eligible schemes are those with a match score > 0%
@@ -44,25 +65,25 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
             ));
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: AppColors.background,
       appBar: StandardPageHeader(
-        title: context.l10n.eligibilityResultsTitle,
+        title: l10n.eligibilityResultsTitle,
         elevation: 1,
         actions: [
           IconButton(
             icon: const Icon(
               Icons.share_outlined,
-              size: 20,
-              color: Color(0xFF2563EB),
+              size: AppSize.icon,
+              color: AppColors.primary,
             ),
-            tooltip: context.l10n.shareResultsTooltip,
+            tooltip: l10n.shareResultsTooltip,
             onPressed: () async {
               final text =
-                  '${context.l10n.eligResShareHeader}\n${eligibleMatches.map((e) => context.l10n.eligResShareItem(e.key.getName(provider.selectedLanguage), (e.value.score * 100).toInt())).take(5).join('\n')}';
+                  '${l10n.eligResShareHeader}\n${eligibleMatches.map((e) => l10n.eligResShareItem(e.key.getName(provider.selectedLanguage), (e.value.score * 100).toInt())).take(5).join('\n')}';
               await shareText(
                 context,
                 text,
-                copiedMessage: context.l10n.eligibilityResultsCopiedToClipboard,
+                copiedMessage: l10n.eligibilityResultsCopiedToClipboard,
               );
             },
           ),
@@ -77,78 +98,69 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
               child: SingleChildScrollView(
                 physics: const ClampingScrollPhysics(),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const SizedBox(height: AppSpacing.sm),
-                    // Image-based Success Illustration from assets
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.lg,
-                        vertical: AppSpacing.md,
+                    // The result itself: how many schemes fit, in the
+                    // page's one green.
+                    Container(
+                      margin: const EdgeInsets.all(AppSpacing.lg),
+                      padding: const EdgeInsets.all(AppSpacing.xl),
+                      decoration: BoxDecoration(
+                        color: AppTagStyle.benefit.background,
+                        borderRadius: AppRadius.lgAll,
                       ),
-                      child: Image.asset(
-                        'assets/images/Background/suggestion banner.webp',
-                        height: 180,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.sm),
-
-                    // Great News Header
-                    Text(
-                      context.l10n.eligResGreatNews,
-                      style: AppGoogleFonts.poppins(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFF137C47),
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.tight),
-                    RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                        style: AppGoogleFonts.poppins(
-                          fontSize: 25,
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xFF0F172A),
-                          height: 1.25,
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TextSpan(text: context.l10n.eligResEligibleForPrefix),
-                          TextSpan(
-                            text: context.l10n.eligResGovernmentSchemesCount(
-                              eligibleMatches.length,
+                          Text(
+                            l10n.eligResGreatNews,
+                            style: context.text.label.copyWith(
+                              color: AppTagStyle.benefit.text,
                             ),
-                            style: const TextStyle(color: Color(0xFF137C47)),
+                          ),
+                          const SizedBox(height: AppSpacing.xs),
+                          Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(text: l10n.eligResEligibleForPrefix),
+                                TextSpan(
+                                  text: l10n.eligResGovernmentSchemesCount(
+                                    eligibleMatches.length,
+                                  ),
+                                  style: TextStyle(
+                                    color: AppTagStyle.benefit.text,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            style: context.text.headline.copyWith(
+                              color: AppColors.textPrimary,
+                            ),
+                          ),
+                          const SizedBox(height: AppSpacing.xs),
+                          Text(
+                            l10n.eligResBasedOnInfo,
+                            style: context.text.bodySmall.copyWith(
+                              color: AppColors.textSecondary,
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: AppSpacing.tight),
-                    Text(
-                      context.l10n.eligResBasedOnInfo,
-                      style: AppGoogleFonts.inter(
-                        fontSize: 13,
-                        color: const Color(0xFF64748B),
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.xxxl),
 
-                    // Recommended Schemes Section Header
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.lg,
+                      padding: const EdgeInsets.only(
+                        left: AppSpacing.lg,
+                        right: AppSpacing.xs,
+                        top: AppSpacing.sm,
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Flexible(
+                          Expanded(
                             child: Text(
-                              context.l10n.eligResRecommendedSchemes,
-                              softWrap: true,
-                              style: AppGoogleFonts.poppins(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFF0F172A),
+                              l10n.eligResRecommendedSchemes,
+                              style: context.text.titleSmall.copyWith(
+                                color: AppColors.textPrimary,
                               ),
                             ),
                           ),
@@ -158,9 +170,7 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (_) => SearchResultsScreen(
-                                      title: context
-                                          .l10n
-                                          .eligResEligibleSchemesTitle,
+                                      title: l10n.eligResEligibleSchemesTitle,
                                       type: 'eligible',
                                       initialSchemes: eligibleMatches
                                           .map((e) => e.key)
@@ -169,64 +179,36 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                                   ),
                                 );
                               },
-                              style: TextButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                minimumSize: Size.zero,
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Flexible(
-                                    child: FitOneLine(
-                                      child: Text(
-                                        context.l10n.viewAll,
-                                        style: AppGoogleFonts.inter(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w600,
-                                          color: const Color(0xFF137C47),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(width: AppSpacing.hairline),
-                                  const Icon(
-                                    Icons.chevron_right,
-                                    size: 16,
-                                    color: Color(0xFF137C47),
-                                  ),
-                                ],
-                              ),
+                              child: Text(l10n.viewAll),
                             ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: AppSpacing.sm),
 
-                    // Recommended cards list
                     if (eligibleMatches.isEmpty)
                       Container(
-                        margin: const EdgeInsets.all(AppSpacing.xxl),
-                        padding: const EdgeInsets.all(AppSpacing.xxl),
+                        margin: const EdgeInsets.all(AppSpacing.lg),
+                        padding: const EdgeInsets.all(AppSpacing.xl),
                         decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: const Color(0xFFF1F5F9)),
+                          color: AppColors.surface,
+                          borderRadius: AppRadius.lgAll,
+                          border: Border.all(
+                            color: AppColors.border,
+                            width: AppSize.borderWidth,
+                          ),
                         ),
                         child: Column(
                           children: [
                             const Icon(
                               Icons.search_off_rounded,
-                              size: 44,
-                              color: Color(0xFF94A3B8),
+                              size: AppSize.tapTarget,
+                              color: AppColors.iconMuted,
                             ),
                             const SizedBox(height: AppSpacing.md),
                             Text(
-                              context.l10n.eligResNoMatches,
-                              style: AppGoogleFonts.inter(
-                                color: const Color(0xFF64748B),
-                                fontSize: 13,
-                                height: 1.4,
+                              l10n.eligResNoMatches,
+                              style: context.text.body.copyWith(
+                                color: AppColors.textSecondary,
                               ),
                               textAlign: TextAlign.center,
                             ),
@@ -238,32 +220,18 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                                   context,
                                 ).popUntil((route) => route.isFirst);
                               },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF2563EB),
-                                foregroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                elevation: 0,
-                              ),
                               icon: const Icon(
                                 Icons.explore_outlined,
-                                size: 18,
+                                size: AppSize.iconSm,
                               ),
-                              label: Text(
-                                context.l10n.eligResExploreAll,
-                                style: AppGoogleFonts.inter(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                              label: Text(l10n.eligResExploreAll),
                             ),
                           ],
                         ),
                       )
                     else
-                      ...eligibleMatches.map(
-                        (entry) => SchemeCard(
+                      for (final entry in eligibleMatches)
+                        SchemeCard(
                           scheme: entry.key,
                           result: entry.value,
                           isBookmarked: provider.bookmarkedIds.contains(
@@ -281,66 +249,36 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                             );
                           },
                         ),
-                      ),
 
-                    const SizedBox(height: AppSpacing.lg),
-
-                    // Info Alert Banner
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.lg,
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.all(AppSpacing.md),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFE6F4EA),
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: const Color(
-                              0xFFA3D9C9,
-                            ).withValues(alpha: 0.5),
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.verified_user_outlined,
-                              color: Color(0xFF137C47),
-                              size: 20,
-                            ),
-                            const SizedBox(width: AppSpacing.sm),
-                            Expanded(
-                              child: Text(
-                                context.l10n.eligResSortedInfo,
-                                style: AppGoogleFonts.inter(
-                                  fontSize: 12,
-                                  color: const Color(0xFF137C47),
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          ],
+                      padding: const EdgeInsets.all(AppSpacing.lg),
+                      child: Text(
+                        l10n.eligResSortedInfo,
+                        style: context.text.bodySmall.copyWith(
+                          color: AppColors.textMuted,
                         ),
                       ),
                     ),
-                    const SizedBox(height: AppSpacing.xxl),
                   ],
                 ),
               ),
             ),
 
-            // Bottom Bar Action Panel
+            // Bottom bar: the one primary action.
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.lg,
-                vertical: AppSpacing.md,
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.lg,
+                AppSpacing.md,
+                AppSpacing.lg,
+                AppSpacing.md,
               ),
-              decoration: BoxDecoration(
-                color: Colors.white,
+              decoration: const BoxDecoration(
+                color: AppColors.surface,
+                boxShadow: AppShadows.topBar,
                 border: Border(
                   top: BorderSide(
-                    color: Colors.grey.withValues(alpha: 0.1),
-                    width: 1,
+                    color: AppColors.border,
+                    width: AppSize.borderWidth,
                   ),
                 ),
               ),
@@ -348,83 +286,36 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                 top: false,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SizedBox(
-                      width: double.infinity,
-                      height: 52,
-                      child: ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: isAlreadySaved
-                              ? const Color(0xFF0F766E)
-                              : const Color(0xFF137C47),
-                          foregroundColor: Colors.white,
-                          disabledBackgroundColor: isAlreadySaved
-                              ? const Color(0xFF0F766E)
-                              : null,
-                          disabledForegroundColor: isAlreadySaved
-                              ? Colors.white
-                              : null,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          elevation: 0,
-                        ),
-                        onPressed:
-                            eligibleMatches.isEmpty ||
-                                _isSaving ||
-                                isAlreadySaved
-                            ? null
-                            : () async {
-                                setState(() => _isSaving = true);
-                                try {
-                                  final ids = eligibleMatches
-                                      .map((e) => e.key.id)
-                                      .toList();
-                                  await provider.saveEligibilityResults(ids);
-                                  if (!context.mounted) return;
-                                  setState(() {
-                                    _isSaving = false;
-                                    _hasSavedThisSession = true;
-                                  });
-                                  AppToast.showSuccess(
-                                    context,
-                                    context.l10n.eligResSavedToast,
-                                  );
-                                } catch (e) {
-                                  if (!context.mounted) return;
-                                  setState(() => _isSaving = false);
-                                  AppToast.showError(
-                                    context,
-                                    context.l10n.eligResSaveFailed,
-                                  );
-                                }
-                              },
-                        icon: _isSaving
-                            ? const SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Colors.white,
-                                ),
-                              )
-                            : Icon(
-                                isAlreadySaved
-                                    ? Icons.bookmark_added_rounded
-                                    : Icons.bookmark_outline,
-                                size: 20,
+                    ElevatedButton.icon(
+                      onPressed:
+                          eligibleMatches.isEmpty || _isSaving || isAlreadySaved
+                          ? null
+                          : () => _save(
+                              provider,
+                              eligibleMatches.map((e) => e.key.id).toList(),
+                            ),
+                      icon: _isSaving
+                          ? const SizedBox.square(
+                              dimension: AppSize.icon,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: AppColors.textOnPrimary,
                               ),
-                        label: Text(
-                          _isSaving
-                              ? context.l10n.eligResSaving
-                              : (isAlreadySaved
-                                    ? context.l10n.eligResSavedToProfile
-                                    : context.l10n.eligResSaveResults),
-                          style: AppGoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                            )
+                          : Icon(
+                              isAlreadySaved
+                                  ? Icons.bookmark_added_rounded
+                                  : Icons.bookmark_outline_rounded,
+                              size: AppSize.icon,
+                            ),
+                      label: Text(
+                        _isSaving
+                            ? l10n.eligResSaving
+                            : (isAlreadySaved
+                                  ? l10n.eligResSavedToProfile
+                                  : l10n.eligResSaveResults),
                       ),
                     ),
                     const SizedBox(height: AppSpacing.sm),
@@ -432,24 +323,21 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Icon(
-                          Icons.lock_outline,
-                          size: 14,
-                          color: Color(0xFF64748B),
+                          Icons.lock_outline_rounded,
+                          size: AppSize.iconSm,
+                          color: AppColors.iconMuted,
                         ),
                         const SizedBox(width: AppSpacing.xs),
                         Flexible(
                           child: Text(
-                            context.l10n.eligResSecurePrivate,
-                            softWrap: true,
-                            style: AppGoogleFonts.inter(
-                              fontSize: 11,
-                              color: const Color(0xFF64748B),
+                            l10n.eligResSecurePrivate,
+                            style: context.text.bodySmall.copyWith(
+                              color: AppColors.textMuted,
                             ),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: AppSpacing.xs),
                   ],
                 ),
               ),

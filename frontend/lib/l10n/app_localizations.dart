@@ -6607,7 +6607,7 @@ abstract class AppLocalizations {
   /// No description provided for @eligibilityResultsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Eligibility Results'**
+  /// **'Eligibility results'**
   String get eligibilityResultsTitle;
 
   /// No description provided for @eligibilityResultsCopiedToClipboard.
@@ -8209,7 +8209,7 @@ abstract class AppLocalizations {
   /// No description provided for @eligResGreatNews.
   ///
   /// In en, this message translates to:
-  /// **'Great News! 🎉'**
+  /// **'Your results'**
   String get eligResGreatNews;
 
   /// No description provided for @eligResEligibleForPrefix.
@@ -8221,7 +8221,7 @@ abstract class AppLocalizations {
   /// No description provided for @eligResGovernmentSchemesCount.
   ///
   /// In en, this message translates to:
-  /// **'{count} Government Schemes'**
+  /// **'{count} government schemes'**
   String eligResGovernmentSchemesCount(Object count);
 
   /// No description provided for @eligResBasedOnInfo.
@@ -8233,7 +8233,7 @@ abstract class AppLocalizations {
   /// No description provided for @eligResRecommendedSchemes.
   ///
   /// In en, this message translates to:
-  /// **'Recommended Schemes'**
+  /// **'Recommended schemes'**
   String get eligResRecommendedSchemes;
 
   /// No description provided for @eligResNoMatches.
@@ -8251,13 +8251,13 @@ abstract class AppLocalizations {
   /// No description provided for @eligResSavedToast.
   ///
   /// In en, this message translates to:
-  /// **'Results saved to your eligibility profile!'**
+  /// **'Results saved to your eligibility profile'**
   String get eligResSavedToast;
 
   /// No description provided for @eligResSaveResults.
   ///
   /// In en, this message translates to:
-  /// **'Save Results'**
+  /// **'Save results'**
   String get eligResSaveResults;
 
   /// No description provided for @eligResSecurePrivate.
@@ -8275,19 +8275,19 @@ abstract class AppLocalizations {
   /// No description provided for @eligResShareItem.
   ///
   /// In en, this message translates to:
-  /// **'• {name} ({percent}% Match)'**
+  /// **'• {name} ({percent}% match)'**
   String eligResShareItem(Object name, Object percent);
 
   /// No description provided for @eligResEligibleSchemesTitle.
   ///
   /// In en, this message translates to:
-  /// **'Eligible Schemes'**
+  /// **'Eligible schemes'**
   String get eligResEligibleSchemesTitle;
 
   /// No description provided for @eligResExploreAll.
   ///
   /// In en, this message translates to:
-  /// **'Explore All Schemes'**
+  /// **'Explore all schemes'**
   String get eligResExploreAll;
 
   /// No description provided for @eligResSaving.
@@ -8299,7 +8299,7 @@ abstract class AppLocalizations {
   /// No description provided for @eligResSavedToProfile.
   ///
   /// In en, this message translates to:
-  /// **'Saved to Profile'**
+  /// **'Saved to profile'**
   String get eligResSavedToProfile;
 
   /// No description provided for @eligResSaveFailed.

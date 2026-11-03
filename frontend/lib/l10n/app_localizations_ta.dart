@@ -4514,7 +4514,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get voiceAssistantLabel => 'குரல் உதவியாளர்';
 
   @override
-  String get eligResGreatNews => 'நல்ல செய்தி! 🎉';
+  String get eligResGreatNews => 'உங்கள் முடிவுகள்';
 
   @override
   String get eligResEligibleForPrefix => 'நீங்கள் பெறத் தகுதியானவர்\n';
@@ -4540,7 +4540,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get eligResSavedToast =>
-      'முடிவுகள் உங்கள் தகுதி சுயவிவரத்தில் சேமிக்கப்பட்டன!';
+      'முடிவுகள் உங்கள் தகுதி சுயவிவரத்தில் சேமிக்கப்பட்டன';
 
   @override
   String get eligResSaveResults => 'முடிவுகளைச் சேமி';
