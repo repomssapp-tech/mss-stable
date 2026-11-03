@@ -108,6 +108,8 @@ int fillDocumentsFromPack(
         : null;
     if (target is! List || source is! List || target.isEmpty) continue;
     if (target.length != source.length) continue;
+    // A release that carries structured documents needs nothing from the app.
+    if (target.any((d) => d is! Map || d['name'] is! String)) continue;
     var same = true;
     for (var i = 0; i < target.length; i++) {
       if (englishName(target[i]) != englishName(source[i])) same = false;
@@ -120,7 +122,7 @@ int fillDocumentsFromPack(
       localization.forEach((lang, block) {
         final from = shippedLocalization[lang];
         final documents = from is Map ? from['documents'] : null;
-        if (block is Map && documents != null) block['documents'] = documents;
+        if (block is Map && documents != null) block['documents'] ??= documents;
       });
     }
     filled++;

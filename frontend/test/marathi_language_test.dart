@@ -196,6 +196,31 @@ void main() {
       expect(row['content']['requiredDocuments'][0]['mandatory'], 'required');
     });
 
+    test('documents the server already translates are left alone', () {
+      final bundle = _bundle([
+        {
+          'identity': {'id': 'A'},
+          'localization': {
+            'ta': {
+              'documents': ['சர்வரில் திருத்தியது'],
+            },
+          },
+          'content': {
+            'requiredDocuments': [
+              {
+                'mandatory': 'optional',
+                'name': {'en': 'Aadhaar card', 'ta': 'சர்வரில் திருத்தியது'},
+              },
+            ],
+          },
+        },
+      ]);
+      expect(fillDocumentsFromPack(bundle, shippedDocuments()), 0);
+      final row = ((bundle['scheme_catalog.json'] as Map)['data'] as List).first;
+      expect(row['localization']['ta']['documents'], ['சர்வரில் திருத்தியது']);
+      expect(row['content']['requiredDocuments'][0]['mandatory'], 'optional');
+    });
+
     test('a document list edited on the server stays as it is', () {
       final bundle = _bundle([
         {
