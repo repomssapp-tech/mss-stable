@@ -11,6 +11,10 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+### Fixed
+- In Marathi, the Terms of Use, Privacy Policy, privacy notice and consent screens, the MSME guide panels, the search category tiles and other longer screen texts showed English. They are now in Marathi. Ministry, institution, scheme and Act names stay in English. The translation is AI-written and still needs review by a native speaker.
+- On small phones with large text, the Allow button on the permissions screen pushed its row off the screen in Marathi. Its label now wraps.
+
 ## [2.3.0+20] - 2026-11-03
 
 ### Added
