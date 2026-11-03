@@ -16,7 +16,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get unlockPersonalizedSchemeRecommendations =>
-      'தனிப்பயனாக்கப்பட்ட திட்ட பரிந்துரைகளை பெறுக.';
+      'உங்களுக்குப் பொருந்தும் திட்டங்களைப் பாருங்கள்';
 
   @override
   String get applicationsClosingSoon => 'விண்ணப்பங்கள் விரைவில் முடிகின்றன';
@@ -59,7 +59,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get startABusiness => 'தொழில் தொடங்க';
 
   @override
-  String get exploreMsmeSupport => 'எம் எஸ் எம் ஈ ஆதரவை ஆராய்க';
+  String get exploreMsmeSupport => 'எம்எஸ்எம்இ ஆதரவு';
 
   @override
   String get schemes => 'திட்டங்கள்';
@@ -106,6 +106,12 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get searchPlaceholder => 'திட்டங்கள், நன்மைகள் தேடவும்...';
+
+  @override
+  String get homeSearchHint => 'திட்டம் தேடுக';
+
+  @override
+  String get homeAskSaarthi => 'சாரதியிடம் கேளுங்கள்';
 
   @override
   String get filter => 'வடிகட்டி';

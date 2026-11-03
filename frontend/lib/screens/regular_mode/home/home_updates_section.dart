@@ -5,6 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../l10n/l10n.dart';
 import '../../../providers/app_state_provider.dart';
+import '../../../utils/app_colors.dart';
+import '../../../utils/app_radius.dart';
+import '../../../utils/app_size.dart';
 import '../../../utils/app_spacing.dart';
 import '../../notifications_screen.dart';
 import '../../../utils/app_text.dart';
@@ -86,128 +89,117 @@ class HomeLatestUpdatesCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
+        // When the heading and the button don't fit side by side (Tamil and
+        // Hindi on a narrow phone), the button moves to its own line, so
+        // neither ever breaks inside a word.
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: AppSpacing.sm,
           children: [
-            Expanded(
-              child: Text(
-                context.l10n.latestUpdates,
-                style: AppGoogleFonts.poppins(
-                  fontSize: 16.5,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xFF0F172A),
-                ),
+            Text(
+              context.l10n.latestUpdates,
+              style: context.text.titleSmall.copyWith(
+                color: AppColors.textPrimary,
               ),
             ),
             // Opens the full inbox, every category.
-            // An equal share of the row, at most its natural width: long Tamil
-            // and Hindi labels wrap between words, never inside one.
-            Flexible(
-              child: TextButton(
-                onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const NotificationsScreen(),
-                  ),
-                ),
-                child: Text(context.l10n.viewAll, textAlign: TextAlign.end),
+            TextButton(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const NotificationsScreen()),
               ),
+              child: Text(context.l10n.viewAll, textAlign: TextAlign.end),
             ),
           ],
         ),
         const SizedBox(height: AppSpacing.md),
-        GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const NotificationsScreen()),
-            );
-          },
-          child: Container(
-            padding: const EdgeInsets.all(AppSpacing.lg),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: const Color(0xFFE2E8F0)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.01),
-                  blurRadius: 6,
-                ),
-              ],
+        Material(
+          color: AppColors.surface,
+          shape: const RoundedRectangleBorder(
+            borderRadius: AppRadius.lgAll,
+            side: BorderSide(
+              color: AppColors.border,
+              width: AppSize.borderWidth,
             ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 38,
-                  height: 38,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFEFF6FF),
-                    shape: BoxShape.circle,
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const NotificationsScreen()),
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: AppSize.avatarSm,
+                    height: AppSize.avatarSm,
+                    decoration: const BoxDecoration(
+                      color: AppColors.primarySoft,
+                      shape: BoxShape.circle,
+                    ),
+                    alignment: Alignment.center,
+                    child: const Icon(
+                      Icons.campaign_outlined,
+                      color: AppColors.primary,
+                      size: AppSize.icon,
+                    ),
                   ),
-                  alignment: Alignment.center,
-                  child: const Icon(
-                    Icons.campaign_outlined,
-                    color: Color(0xFF2563EB),
-                    size: 22,
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.md),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (tagText != null) ...[
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppSpacing.sm,
-                            vertical: AppSpacing.hairline,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(color: const Color(0xFFBFDBFE)),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            tagText,
-                            style: AppGoogleFonts.inter(
-                              color: const Color(0xFF2563EB),
-                              fontSize: 9,
-                              fontWeight: FontWeight.bold,
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (tagText != null) ...[
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: AppSpacing.sm,
+                              vertical: AppSpacing.hairline,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppTagStyle.level.background,
+                              borderRadius: AppRadius.smAll,
+                            ),
+                            child: Text(
+                              tagText,
+                              style: context.text.label.copyWith(
+                                color: AppTagStyle.level.text,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: AppSpacing.tight),
-                      ],
-                      Text(
-                        titleText,
-                        style: AppGoogleFonts.inter(
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF1E293B),
-                          height: 1.3,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      if (timeText != null) ...[
-                        const SizedBox(height: AppSpacing.tight),
+                          const SizedBox(height: AppSpacing.tight),
+                        ],
                         Text(
-                          timeText,
-                          style: AppGoogleFonts.inter(
-                            fontSize: 10.5,
-                            color: const Color(0xFF94A3B8),
+                          titleText,
+                          style: context.text.cardTitle.copyWith(
+                            color: AppColors.textPrimary,
                           ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
+                        if (timeText != null) ...[
+                          const SizedBox(height: AppSpacing.xs),
+                          Text(
+                            timeText,
+                            style: context.text.bodySmall.copyWith(
+                              color: AppColors.textMuted,
+                            ),
+                          ),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
-                ),
-                const SizedBox(width: AppSpacing.sm),
-                const Icon(
-                  Icons.chevron_right,
-                  color: Color(0xFF94A3B8),
-                  size: 20,
-                ),
-              ],
+                  const SizedBox(width: AppSpacing.sm),
+                  const Icon(
+                    Icons.chevron_right_rounded,
+                    color: AppColors.iconMuted,
+                    size: AppSize.icon,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -273,44 +265,21 @@ class _HomeTipOfTheDayCardState extends State<HomeTipOfTheDayCard> {
     });
   }
 
-  double _scaledFontSize(BuildContext context, double baseSize) {
-    final provider = Provider.of<AppProvider>(context, listen: false);
-    return provider.selectedLanguage == 'ta' ? baseSize * 0.88 : baseSize;
-  }
-
-  double _scaledLineHeight(
-    BuildContext context, [
-    double defaultHeight = 1.28,
-  ]) {
-    final provider = Provider.of<AppProvider>(context, listen: false);
-    return provider.selectedLanguage == 'ta'
-        ? defaultHeight * 1.06
-        : defaultHeight;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.lg,
-        vertical: AppSpacing.lg,
-      ),
-      decoration: BoxDecoration(
-        image: const DecorationImage(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: const BoxDecoration(
+        image: DecorationImage(
           image: ResizeImage(
             AssetImage('assets/images/Background/tip banner.webp'),
             width: 1080,
           ),
           fit: BoxFit.cover,
+          // The art sits on the right; keep it in view on tall cards.
+          alignment: Alignment.centerRight,
         ),
-        borderRadius: BorderRadius.circular(18),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        borderRadius: AppRadius.lgAll,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -323,43 +292,34 @@ class _HomeTipOfTheDayCardState extends State<HomeTipOfTheDayCard> {
                 Row(
                   children: [
                     const Icon(
-                      Icons.lightbulb,
-                      color: Color(0xFFF59E0B),
-                      size: 18,
+                      Icons.lightbulb_outline_rounded,
+                      color: AppColors.textSecondary,
+                      size: AppSize.iconSm,
                     ),
                     const SizedBox(width: AppSpacing.tight),
                     Expanded(
                       child: Text(
                         context.l10n.tipOfTheDay,
-                        style: AppGoogleFonts.poppins(
-                          fontSize: 13.0,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF0F172A),
+                        style: context.text.cardTitle.copyWith(
+                          color: AppColors.textPrimary,
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: AppSpacing.tight),
+                // The whole tip, however long it runs in Tamil or Hindi.
                 Text(
                   homeTips(context.l10n)[_tip],
-                  style: AppGoogleFonts.inter(
-                    fontSize: _scaledFontSize(context, 10.0),
-                    color: const Color(0xFF475569),
-                    fontWeight: FontWeight.w600,
-                    height: _scaledLineHeight(context, 1.3),
+                  style: context.text.bodySmall.copyWith(
+                    color: AppColors.textBody,
                   ),
-                  maxLines: 4,
-                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
           ),
-          const SizedBox(width: AppSpacing.sm),
           // Keeps the text clear of the bulb-and-note art on the banner's right.
-          const SizedBox(width: 104),
+          const SizedBox(width: 112), // spacing-ok: banner art width
         ],
       ),
     );

@@ -115,7 +115,7 @@ abstract class AppLocalizations {
   /// No description provided for @unlockPersonalizedSchemeRecommendations.
   ///
   /// In en, this message translates to:
-  /// **'Unlock personalized scheme recommendations.'**
+  /// **'See the schemes that fit you'**
   String get unlockPersonalizedSchemeRecommendations;
 
   /// No description provided for @applicationsClosingSoon.
@@ -193,7 +193,7 @@ abstract class AppLocalizations {
   /// No description provided for @exploreMsmeSupport.
   ///
   /// In en, this message translates to:
-  /// **'Explore MSME Support'**
+  /// **'MSME support'**
   String get exploreMsmeSupport;
 
   /// No description provided for @schemes.
@@ -247,7 +247,7 @@ abstract class AppLocalizations {
   /// No description provided for @recommendedForYou.
   ///
   /// In en, this message translates to:
-  /// **'Recommended For You'**
+  /// **'Recommended for you'**
   String get recommendedForYou;
 
   /// No description provided for @homeRecommendationsEmptyMessage.
@@ -265,13 +265,13 @@ abstract class AppLocalizations {
   /// No description provided for @latestUpdates.
   ///
   /// In en, this message translates to:
-  /// **'Latest Updates'**
+  /// **'Latest updates'**
   String get latestUpdates;
 
   /// No description provided for @tipOfTheDay.
   ///
   /// In en, this message translates to:
-  /// **'Tip of the Day'**
+  /// **'Tip of the day'**
   String get tipOfTheDay;
 
   /// No description provided for @askAi.
@@ -285,6 +285,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search schemes, benefits or ask anything...'**
   String get searchPlaceholder;
+
+  /// No description provided for @homeSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search schemes'**
+  String get homeSearchHint;
+
+  /// No description provided for @homeAskSaarthi.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask Saarthi'**
+  String get homeAskSaarthi;
 
   /// No description provided for @filter.
   ///

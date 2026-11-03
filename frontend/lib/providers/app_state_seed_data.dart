@@ -19,8 +19,9 @@ final List<Map<String, dynamic>> kDefaultPromoAlerts = [
     'title': 'For Women Entrepreneurs',
     'subtitle': 'Explore special funding schemes',
     'badge_text': 'Featured',
-    'badge_text_color': '#7C3AED',
-    'badge_bg_color': '#F5F3FF',
+    // AppTagStyle.level: one blue for every Home badge.
+    'badge_text_color': '#1D4ED8',
+    'badge_bg_color': '#EFF6FF',
     'target_route': 'discover_results',
     // Opens the Women Entrepreneurship list, not Business & MSME (NEW-04).
     'browse_title': 'Women Entrepreneurship',

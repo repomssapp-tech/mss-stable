@@ -16,7 +16,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unlockPersonalizedSchemeRecommendations =>
-      'Unlock personalized scheme recommendations.';
+      'See the schemes that fit you';
 
   @override
   String get applicationsClosingSoon => 'Applications Closing Soon';
@@ -57,7 +57,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get startABusiness => 'Start a Business';
 
   @override
-  String get exploreMsmeSupport => 'Explore MSME Support';
+  String get exploreMsmeSupport => 'MSME support';
 
   @override
   String get schemes => 'Schemes';
@@ -84,7 +84,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get institutions => 'Institutions';
 
   @override
-  String get recommendedForYou => 'Recommended For You';
+  String get recommendedForYou => 'Recommended for you';
 
   @override
   String get homeRecommendationsEmptyMessage =>
@@ -94,16 +94,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get viewAll => 'View All';
 
   @override
-  String get latestUpdates => 'Latest Updates';
+  String get latestUpdates => 'Latest updates';
 
   @override
-  String get tipOfTheDay => 'Tip of the Day';
+  String get tipOfTheDay => 'Tip of the day';
 
   @override
   String get askAi => 'Ask AI';
 
   @override
   String get searchPlaceholder => 'Search schemes, benefits or ask anything...';
+
+  @override
+  String get homeSearchHint => 'Search schemes';
+
+  @override
+  String get homeAskSaarthi => 'Ask Saarthi';
 
   @override
   String get filter => 'Filter';

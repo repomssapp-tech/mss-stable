@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -57,13 +55,15 @@ List<FeaturedSlide> pickFeaturedSlides({
 }
 
 /// Home's Featured carousel: full-width cards of the schemes the user
-/// qualifies for best and the newest schemes for their state, advancing every
-/// [interval]. Without any (no profile yet, catalog still loading) it shows
-/// the promo cards instead.
+/// qualifies for best and the newest schemes for their state. It moves only
+/// when swiped, so slow readers and longer Tamil names are never cut off
+/// mid-read. Without any (no profile yet, catalog still loading) it shows the
+/// promo cards instead.
 class HomeFeaturedSection extends StatefulWidget {
   const HomeFeaturedSection({super.key});
 
-  static const Duration interval = Duration(seconds: 4);
+  /// Card height at the default text size; it grows with the text scale.
+  static const double cardHeight = 168;
 
   @override
   State<HomeFeaturedSection> createState() => _HomeFeaturedSectionState();
@@ -71,33 +71,12 @@ class HomeFeaturedSection extends StatefulWidget {
 
 class _HomeFeaturedSectionState extends State<HomeFeaturedSection> {
   final PageController _pages = PageController();
-  Timer? _timer;
   int _index = 0;
-  int _count = 0;
 
   @override
   void dispose() {
-    _timer?.cancel();
     _pages.dispose();
     super.dispose();
-  }
-
-  void _restartTimer() {
-    _timer?.cancel();
-    if (_count <= 1) return;
-    _timer = Timer.periodic(HomeFeaturedSection.interval, (_) {
-      // Hidden tabs keep their state in the IndexedStack; don't animate one.
-      if (!mounted ||
-          !_pages.hasClients ||
-          !TickerMode.valuesOf(context).enabled) {
-        return;
-      }
-      _pages.animateToPage(
-        (_index + 1) % _count,
-        duration: const Duration(milliseconds: 450),
-        curve: Curves.easeInOut,
-      );
-    });
   }
 
   @override
@@ -112,25 +91,20 @@ class _HomeFeaturedSectionState extends State<HomeFeaturedSection> {
       state: provider.profile.state,
     );
     if (slides.isEmpty) return const HomePromoCarouselSection();
+    if (_index >= slides.length) _index = 0;
 
-    if (slides.length != _count) {
-      _count = slides.length;
-      if (_index >= _count) _index = 0;
-      _restartTimer();
-    }
+    final textScale = MediaQuery.textScalerOf(context).scale(1);
+    final still = MediaQuery.disableAnimationsOf(context);
 
     return Column(
       children: [
         SizedBox(
-          height: 168, // spacing-ok: card height, not spacing
+          // spacing-ok: card height, not spacing
+          height: HomeFeaturedSection.cardHeight * textScale.clamp(1.0, 1.6),
           child: PageView.builder(
             controller: _pages,
             itemCount: slides.length,
-            onPageChanged: (i) {
-              setState(() => _index = i);
-              // A manual swipe restarts the 4 s wait.
-              _restartTimer();
-            },
+            onPageChanged: (i) => setState(() => _index = i),
             itemBuilder: (context, i) => _FeaturedCard(
               slide: slides[i],
               language: provider.selectedLanguage,
@@ -143,7 +117,10 @@ class _HomeFeaturedSectionState extends State<HomeFeaturedSection> {
           children: [
             for (var i = 0; i < slides.length; i++)
               AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
+                duration: still
+                    ? Duration.zero
+                    : const Duration(milliseconds: 150),
+                curve: Curves.easeOut,
                 width: i == _index ? AppSpacing.md : AppSpacing.tight,
                 height: AppSpacing.tight,
                 margin: const EdgeInsets.symmetric(
@@ -206,6 +183,8 @@ class _FeaturedCard extends StatelessWidget {
               image: DecorationImage(
                 image: ResizeImage(AssetImage(banner), width: 1080),
                 fit: BoxFit.cover,
+                // The art sits on the right; keep it in view on tall cards.
+                alignment: Alignment.centerRight,
               ),
             ),
             child: InkWell(
@@ -257,7 +236,6 @@ class _FeaturedCard extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: context.text.bodySmall.copyWith(
                                 color: AppColors.textSecondary,
-                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ],

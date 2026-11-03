@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../l10n/l10n.dart';
+import '../../../utils/app_colors.dart';
+import '../../../utils/app_radius.dart';
+import '../../../utils/app_size.dart';
 import '../../../utils/app_spacing.dart';
 import '../msme_module_details_screen.dart';
 import '../../../utils/app_text.dart';
@@ -8,188 +11,174 @@ import '../../../utils/app_text.dart';
 class HomeMsmeSupportSection extends StatelessWidget {
   const HomeMsmeSupportSection({super.key});
 
+  /// Each card's width; every card in the row shares the tallest one's height.
+  static const double cardWidth = 150;
+
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    // `iconColor` and `themeColor` colour each module's own detail screen;
+    // on Home every card shares the one blue icon.
+    final modules = <_MsmeModule>[
+      _MsmeModule(
+        'schemes',
+        l10n.schemes,
+        l10n.subsidiesGrantsGovtSchemes,
+        Icons.card_giftcard_rounded,
+        const Color(0xFF2E7D32),
+        Colors.green,
+      ),
+      _MsmeModule(
+        'finance',
+        l10n.finance,
+        l10n.loansCreditSupportFundingOptions,
+        Icons.savings_rounded,
+        const Color(0xFF1565C0),
+        Colors.blue,
+      ),
+      _MsmeModule(
+        'tax_gst',
+        l10n.taxGst,
+        l10n.taxBenefitsGstSupportCompliance,
+        Icons.percent_rounded,
+        const Color(0xFFEF6C00),
+        Colors.orange,
+      ),
+      _MsmeModule(
+        'export',
+        l10n.export,
+        l10n.exportIncentivesFinanceMarketSupport,
+        Icons.language_rounded,
+        const Color(0xFF6A1B9A),
+        Colors.purple,
+      ),
+      _MsmeModule(
+        'treds',
+        l10n.treds,
+        l10n.invoiceDiscountingWorkingCapital,
+        Icons.currency_exchange_rounded,
+        const Color(0xFFC62828),
+        Colors.red,
+      ),
+      _MsmeModule(
+        'csr',
+        l10n.csrSupport,
+        l10n.csrProgramsIncubatorsClusterSupport,
+        Icons.handshake_rounded,
+        const Color(0xFF00695C),
+        Colors.teal,
+      ),
+      _MsmeModule(
+        'govt',
+        l10n.govtAuthorities,
+        l10n.centralStateDistrictGovtStructure,
+        Icons.account_balance_rounded,
+        const Color(0xFF0277BD),
+        Colors.lightBlue,
+      ),
+      _MsmeModule(
+        'institutions',
+        l10n.institutions,
+        l10n.sidbiNsicDicKvicMoreOrganizations,
+        Icons.business_rounded,
+        const Color(0xFF4527A0),
+        Colors.deepPurple,
+      ),
+    ];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          context.l10n.exploreMsmeSupport,
-          style: AppGoogleFonts.poppins(
-            fontSize: 16.5,
-            fontWeight: FontWeight.bold,
-            color: const Color(0xFF0F172A),
-          ),
+          l10n.exploreMsmeSupport,
+          style: context.text.titleSmall.copyWith(color: AppColors.textPrimary),
         ),
-        const SizedBox(height: AppSpacing.lg),
-        SizedBox(
-          height: 178,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            physics: const ClampingScrollPhysics(),
-            padding: const EdgeInsets.symmetric(vertical: AppSpacing.hairline),
-            children: [
-              _buildMSMESupportCard(
-                context: context,
-                id: 'schemes',
-                title: context.l10n.schemes,
-                subtitle: context.l10n.subsidiesGrantsGovtSchemes,
-                icon: Icons.card_giftcard,
-                iconColor: const Color(0xFF2E7D32),
-                themeColor: Colors.green,
-              ),
-              _buildMSMESupportCard(
-                context: context,
-                id: 'finance',
-                title: context.l10n.finance,
-                subtitle: context.l10n.loansCreditSupportFundingOptions,
-                icon: Icons.savings,
-                iconColor: const Color(0xFF1565C0),
-                themeColor: Colors.blue,
-              ),
-              _buildMSMESupportCard(
-                context: context,
-                id: 'tax_gst',
-                title: context.l10n.taxGst,
-                subtitle: context.l10n.taxBenefitsGstSupportCompliance,
-                icon: Icons.percent,
-                iconColor: const Color(0xFFEF6C00),
-                themeColor: Colors.orange,
-              ),
-              _buildMSMESupportCard(
-                context: context,
-                id: 'export',
-                title: context.l10n.export,
-                subtitle: context.l10n.exportIncentivesFinanceMarketSupport,
-                icon: Icons.language,
-                iconColor: const Color(0xFF6A1B9A),
-                themeColor: Colors.purple,
-              ),
-              _buildMSMESupportCard(
-                context: context,
-                id: 'treds',
-                title: context.l10n.treds,
-                subtitle: context.l10n.invoiceDiscountingWorkingCapital,
-                icon: Icons.currency_exchange,
-                iconColor: const Color(0xFFC62828),
-                themeColor: Colors.red,
-              ),
-              _buildMSMESupportCard(
-                context: context,
-                id: 'csr',
-                title: context.l10n.csrSupport,
-                subtitle: context.l10n.csrProgramsIncubatorsClusterSupport,
-                icon: Icons.handshake,
-                iconColor: const Color(0xFF00695C),
-                themeColor: Colors.teal,
-              ),
-              _buildMSMESupportCard(
-                context: context,
-                id: 'govt',
-                title: context.l10n.govtAuthorities,
-                subtitle: context.l10n.centralStateDistrictGovtStructure,
-                icon: Icons.account_balance,
-                iconColor: const Color(0xFF0277BD),
-                themeColor: Colors.lightBlue,
-              ),
-              _buildMSMESupportCard(
-                context: context,
-                id: 'institutions',
-                title: context.l10n.institutions,
-                subtitle: context.l10n.sidbiNsicDicKvicMoreOrganizations,
-                icon: Icons.business,
-                iconColor: const Color(0xFF4527A0),
-                themeColor: Colors.deepPurple,
-              ),
-            ],
+        const SizedBox(height: AppSpacing.md),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: const ClampingScrollPhysics(),
+          child: IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                for (var i = 0; i < modules.length; i++)
+                  Padding(
+                    padding: EdgeInsets.only(
+                      right: i == modules.length - 1
+                          ? AppSpacing.none
+                          : AppSpacing.md,
+                    ),
+                    child: _buildMSMESupportCard(context, modules[i]),
+                  ),
+              ],
+            ),
           ),
         ),
       ],
     );
   }
 
-  Widget _buildMSMESupportCard({
-    required BuildContext context,
-    required String id,
-    required String title,
-    required String subtitle,
-    required IconData icon,
-    required Color iconColor,
-    required Color themeColor,
-  }) {
-    return Container(
-      width: 150,
-      margin: const EdgeInsets.only(right: AppSpacing.md),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFF1F5F9), width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
-            blurRadius: 8,
-            offset: const Offset(0, 3),
-          ),
-        ],
+  Widget _buildMSMESupportCard(BuildContext context, _MsmeModule module) {
+    return Material(
+      color: AppColors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: AppRadius.lgAll,
+        side: BorderSide(color: AppColors.border, width: AppSize.borderWidth),
       ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => MSMEModuleDetailsScreen(
-                  moduleId: id,
-                  title: title,
-                  description: subtitle,
-                  icon: icon,
-                  iconColor: iconColor,
-                  themeColor: themeColor,
-                ),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => MSMEModuleDetailsScreen(
+                moduleId: module.id,
+                title: module.title,
+                description: module.subtitle,
+                icon: module.icon,
+                iconColor: module.iconColor,
+                themeColor: module.themeColor,
               ),
-            );
-          },
-          borderRadius: BorderRadius.circular(16),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.sm,
-              vertical: AppSpacing.sm,
             ),
+          );
+        },
+        child: ConstrainedBox(
+          constraints: const BoxConstraints.tightFor(width: cardWidth),
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpacing.md),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  width: 46,
-                  height: 46,
-                  decoration: BoxDecoration(
-                    color: themeColor.withValues(alpha: 0.1),
+                  width: AppSize.avatarSm,
+                  height: AppSize.avatarSm,
+                  decoration: const BoxDecoration(
+                    color: AppColors.primarySoft,
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(icon, color: iconColor, size: 22),
+                  alignment: Alignment.center,
+                  child: Icon(
+                    module.icon,
+                    color: AppColors.primary,
+                    size: AppSize.iconLg,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 Text(
-                  title,
+                  module.title,
                   textAlign: TextAlign.center,
-                  maxLines: 1,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: AppGoogleFonts.poppins(
-                    fontSize: 11.5,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF0F172A),
+                  style: context.text.cardTitle.copyWith(
+                    color: AppColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 Text(
-                  subtitle,
+                  module.subtitle,
                   textAlign: TextAlign.center,
-                  maxLines: 2,
+                  maxLines: 3,
                   overflow: TextOverflow.ellipsis,
-                  style: AppGoogleFonts.inter(
-                    fontSize: 9.5,
-                    color: const Color(0xFF64748B),
-                    height: 1.3,
-                    fontWeight: FontWeight.w500,
+                  style: context.text.bodySmall.copyWith(
+                    color: AppColors.textSecondary,
                   ),
                 ),
               ],
@@ -199,4 +188,22 @@ class HomeMsmeSupportSection extends StatelessWidget {
       ),
     );
   }
+}
+
+class _MsmeModule {
+  const _MsmeModule(
+    this.id,
+    this.title,
+    this.subtitle,
+    this.icon,
+    this.iconColor,
+    this.themeColor,
+  );
+
+  final String id;
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final Color iconColor;
+  final Color themeColor;
 }

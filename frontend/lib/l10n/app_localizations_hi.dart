@@ -16,7 +16,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get unlockPersonalizedSchemeRecommendations =>
-      'वैयक्तिकृत योजना अनुशंसाएँ अनलॉक करें।';
+      'अपने लिए सही योजनाएं देखें';
 
   @override
   String get applicationsClosingSoon => 'आवेदन जल्द ही बंद हो रहे हैं';
@@ -58,7 +58,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get startABusiness => 'व्यवसाय प्रारंभ';
 
   @override
-  String get exploreMsmeSupport => 'एमएसएमई सहायता का अन्वेषण करें';
+  String get exploreMsmeSupport => 'एमएसएमई सहायता';
 
   @override
   String get schemes => 'योजनाएं';
@@ -85,7 +85,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get institutions => 'संस्थानों';
 
   @override
-  String get recommendedForYou => 'आप के लिए अनुशंसित';
+  String get recommendedForYou => 'आपके लिए सुझाई गई योजनाएं';
 
   @override
   String get homeRecommendationsEmptyMessage =>
@@ -98,13 +98,19 @@ class AppLocalizationsHi extends AppLocalizations {
   String get latestUpdates => 'नवीनतम अपडेट';
 
   @override
-  String get tipOfTheDay => 'दिन की सर्वश्रेष्ठ टिप';
+  String get tipOfTheDay => 'आज की सलाह';
 
   @override
   String get askAi => 'एआई से पूछें';
 
   @override
   String get searchPlaceholder => 'योजनाएं, लाभ खोजें या कुछ भी पूछें...';
+
+  @override
+  String get homeSearchHint => 'योजनाएं खोजें';
+
+  @override
+  String get homeAskSaarthi => 'सारथी से पूछें';
 
   @override
   String get filter => 'फ़िल्टर';
