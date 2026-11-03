@@ -320,16 +320,16 @@ class AppLocalizationsHi extends AppLocalizations {
   String get discoverTitle => 'एक्सप्लोर';
 
   @override
-  String get browseByCategories => 'श्रेणियों के अनुसार ब्राउज़ करें';
+  String get browseByCategories => 'श्रेणी के अनुसार';
 
   @override
   String get featuredCollections => 'विशेष संग्रह';
 
   @override
-  String get browseByMinistry => 'मंत्रालय द्वारा ब्राउज़ करें';
+  String get browseByMinistry => 'मंत्रालय के अनुसार';
 
   @override
-  String get browseByState => 'राज्य के अनुसार ब्राउज़ करें';
+  String get browseByState => 'राज्य के अनुसार';
 
   @override
   String get smartAssessment => 'स्मार्ट मूल्यांकन';
@@ -344,7 +344,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get exploreTopCuratedCollections =>
-      'शीर्ष क्यूरेटेड संग्रहों का अन्वेषण करें';
+      'श्रेणी, मंत्रालय और राज्य के अनुसार योजनाएं';
 
   @override
   String get schemesByGovernmentMinistries =>
@@ -2329,7 +2329,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String comingSoonSchemesBody(Object name) {
-    return '\"$name\" के अंतर्गत योजनाएं वर्तमान में सत्यापित की जा रही हैं और जल्द ही अपडेट की जाएंगी। बने रहें!';
+    return '\"$name\" की योजनाओं की जाँच हो रही है, ये जल्द जोड़ी जाएँगी';
   }
 
   @override

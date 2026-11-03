@@ -93,7 +93,7 @@ class AppLocalizationsTa extends AppLocalizations {
       'பரிந்துரைகளைக் காண உங்கள் சுயவிவரத்தை முழுமையாக்கவும்';
 
   @override
-  String get viewAll => 'அனைத்தையும் காண்க';
+  String get viewAll => 'அனைத்தும்';
 
   @override
   String get latestUpdates => 'சமீபத்திய புதுப்பிப்புகள்';
@@ -323,16 +323,16 @@ class AppLocalizationsTa extends AppLocalizations {
   String get discoverTitle => 'கண்டறிக';
 
   @override
-  String get browseByCategories => 'பிரிவுகள் வாரியாக உலாவுக';
+  String get browseByCategories => 'பிரிவு வாரியாக';
 
   @override
   String get featuredCollections => 'சிறப்புத் தொகுப்புகள்';
 
   @override
-  String get browseByMinistry => 'அமைச்சகங்கள் வாரியாக உலாவுக';
+  String get browseByMinistry => 'அமைச்சகம் வாரியாக';
 
   @override
-  String get browseByState => 'மாநிலங்கள் வாரியாக உலாவுக';
+  String get browseByState => 'மாநிலம் வாரியாக';
 
   @override
   String get smartAssessment => 'ஸ்மார்ட் மதிப்பீடு';
@@ -347,7 +347,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get exploreTopCuratedCollections =>
-      'சிறப்பு திட்ட தொகுப்புகளை ஆராயுங்கள்';
+      'பிரிவு, அமைச்சகம், மாநிலம் வாரியாகத் திட்டங்கள்';
 
   @override
   String get schemesByGovernmentMinistries =>
@@ -2352,7 +2352,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String comingSoonSchemesBody(Object name) {
-    return '$name பிரிவிற்கான திட்டங்கள் தற்போது சேர்க்கப்பட்டு வருகின்றன. விரைவில் புதுப்பிக்கப்படும்!';
+    return '$name பிரிவிற்கான திட்டங்கள் சேர்க்கப்பட்டு வருகின்றன, விரைவில் இங்கே இருக்கும்';
   }
 
   @override

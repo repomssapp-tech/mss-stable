@@ -43,9 +43,9 @@ const Map<String, String> _stage1EnglishValues = {
   'viewAll': 'View All',
   'doneManaging': 'Done',
   'manageSaved': 'Manage',
-  'browseByCategories': 'Browse by Categories',
-  'browseByMinistry': 'Browse by Ministry',
-  'browseByState': 'Browse by State',
+  'browseByCategories': 'By category',
+  'browseByMinistry': 'By ministry',
+  'browseByState': 'By state',
 };
 
 String _read(AppLocalizations l, String key) => switch (key) {

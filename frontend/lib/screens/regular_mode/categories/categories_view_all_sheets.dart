@@ -1,13 +1,181 @@
 import 'package:flutter/material.dart';
 import '../../../l10n/l10n.dart';
 import '../../../providers/app_state_provider.dart';
+import '../../../utils/app_colors.dart';
+import '../../../utils/app_radius.dart';
+import '../../../utils/app_size.dart';
 import '../../../utils/app_spacing.dart';
-import '../../../utils/responsive.dart';
 import 'categories_data.dart';
 import 'categories_section_lists.dart';
 import 'discover_counts.dart';
 import 'state_map_painter.dart';
 import '../../../utils/app_text.dart';
+
+/// Shared frame for the three "View all" sheets: drag handle, title, close
+/// button, an optional field under the title, and the list.
+class _ViewAllSheet extends StatelessWidget {
+  const _ViewAllSheet({
+    required this.title,
+    required this.heightFactor,
+    required this.list,
+    this.header,
+  });
+
+  final String title;
+  final double heightFactor;
+  final Widget? header;
+  final Widget list;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.sizeOf(context).height * heightFactor,
+      decoration: const BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Container(
+              margin: const EdgeInsets.only(top: AppSpacing.md),
+              width: AppSpacing.xxxl,
+              height: AppSpacing.xs,
+              decoration: const BoxDecoration(
+                color: AppColors.borderStrong,
+                borderRadius: AppRadius.pillAll,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              left: AppSpacing.lg,
+              right: AppSpacing.xs,
+              top: AppSpacing.sm,
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    title,
+                    style: context.text.titleMedium.copyWith(
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(
+                    Icons.close_rounded,
+                    color: AppColors.iconMuted,
+                    size: AppSize.iconLg,
+                  ),
+                  tooltip: context.l10n.close,
+                ),
+              ],
+            ),
+          ),
+          if (header != null)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.lg,
+                AppSpacing.sm,
+                AppSpacing.lg,
+                AppSpacing.sm,
+              ),
+              child: header,
+            ),
+          Expanded(child: list),
+        ],
+      ),
+    );
+  }
+}
+
+/// One row in a "View all" sheet: a leading mark, the name, its scheme count
+/// and a chevron.
+class _ViewAllRow extends StatelessWidget {
+  const _ViewAllRow({
+    required this.leading,
+    required this.title,
+    required this.count,
+    required this.isEmpty,
+    required this.onTap,
+  });
+
+  final Widget leading;
+  final String title;
+  final String count;
+  final bool isEmpty;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.md,
+        ),
+        child: Row(
+          children: [
+            leading,
+            const SizedBox(width: AppSpacing.md),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: context.text.cardTitle.copyWith(
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  Text(
+                    count,
+                    style: context.text.bodySmall.copyWith(
+                      color: isEmpty
+                          ? AppColors.warningText
+                          : AppColors.textMuted,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Icon(
+              Icons.chevron_right_rounded,
+              color: AppColors.iconMuted,
+              size: AppSize.icon,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// The round blue icon mark used on category and ministry rows.
+class _RowMark extends StatelessWidget {
+  const _RowMark(this.icon);
+
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: AppSize.avatarSm,
+      height: AppSize.avatarSm,
+      decoration: const BoxDecoration(
+        color: AppColors.primarySoft,
+        shape: BoxShape.circle,
+      ),
+      alignment: Alignment.center,
+      child: Icon(icon, color: AppColors.primary, size: AppSize.icon),
+    );
+  }
+}
 
 void showAllCategoriesBottomSheet({
   required BuildContext context,
@@ -29,225 +197,42 @@ void showAllCategoriesBottomSheet({
             );
           }).toList();
 
-          return Container(
-            height: MediaQuery.of(context).size.height * 0.85,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(24),
-                topRight: Radius.circular(24),
+          return _ViewAllSheet(
+            title: context.l10n.allCategories,
+            heightFactor: 0.85,
+            header: TextField(
+              onChanged: (val) => setModalState(() => modalSearchQuery = val),
+              style: context.text.body.copyWith(color: AppColors.textPrimary),
+              decoration: InputDecoration(
+                hintText: context.l10n.searchCategoriesHint,
+                prefixIcon: const Icon(
+                  Icons.search_rounded,
+                  color: AppColors.iconMuted,
+                ),
               ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Container(
-                    margin: const EdgeInsets.only(top: AppSpacing.md),
-                    width: 40,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE2E8F0),
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(AppSpacing.xl),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      FlexText(
-                        child: Text(
-                          context.l10n.allCategories,
-                          softWrap: true,
-                          style: AppGoogleFonts.poppins(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: const Color(0xFF0F172A),
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(Icons.close, color: Color(0xFF64748B)),
-                        tooltip: context.l10n.close,
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.xl,
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF8FAFC),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: const Color(0xFFE2E8F0)),
-                    ),
-                    child: TextField(
-                      onChanged: (val) {
-                        setModalState(() {
-                          modalSearchQuery = val;
-                        });
-                      },
-                      style: AppGoogleFonts.inter(fontSize: 14),
-                      decoration: InputDecoration(
-                        hintText: context.l10n.searchCategoriesHint,
-                        prefixIcon: const Icon(
-                          Icons.search,
-                          color: Color(0xFF64748B),
-                        ),
-                        border: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: AppSpacing.md,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.lg),
-                Expanded(
-                  child: GridView.builder(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.xl,
-                      vertical: AppSpacing.sm,
-                    ),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      crossAxisSpacing: AppSpacing.sm,
-                      mainAxisSpacing: AppSpacing.md,
-                      // Taller cells for larger text (issue #144).
-                      childAspectRatio:
-                          0.78 /
-                          MediaQuery.textScalerOf(
-                            context,
-                          ).scale(1).clamp(1.0, 2.0),
-                    ),
-                    itemCount: filtered.length,
-                    itemBuilder: (context, index) {
-                      final category = filtered[index];
-                      return CategoryGridCard(
-                        category: category,
-                        provider: provider,
-                        dynamicCategoryCounts: dynamicCategoryCounts,
-                        onTap: () {
-                          Navigator.pop(context); // Close sheet
-                          onCategorySelected(category.title);
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ],
+            list: ListView.builder(
+              itemCount: filtered.length,
+              itemBuilder: (context, index) {
+                final category = filtered[index];
+                final int? cnt = dynamicCategoryCounts[category.title];
+                return _ViewAllRow(
+                  leading: _RowMark(category.icon),
+                  title: localizedCategoryLabel(context, category.title),
+                  count: formatSchemeCount(context, cnt, provider),
+                  isEmpty: cnt == 0,
+                  onTap: () {
+                    Navigator.pop(context); // Close sheet
+                    onCategorySelected(category.title);
+                  },
+                );
+              },
             ),
           );
         },
       );
     },
   );
-}
-
-class CategoryGridCard extends StatelessWidget {
-  const CategoryGridCard({
-    super.key,
-    required this.category,
-    required this.provider,
-    required this.dynamicCategoryCounts,
-    required this.onTap,
-  });
-
-  final CategoryItem category;
-  final AppProvider provider;
-  final Map<String, int> dynamicCategoryCounts;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final int? cnt = dynamicCategoryCounts[category.title];
-    final String countStr = formatSchemeCount(context, cnt, provider);
-    final String localizedTitle = localizedCategoryLabel(
-      context,
-      category.title,
-    );
-
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-        border: Border.all(color: const Color(0xFFF1F5F9)),
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(16),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: AppSpacing.sm,
-              horizontal: AppSpacing.xs,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: category.backgroundColor,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    category.icon,
-                    color: category.iconColor,
-                    size: 22,
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.tight),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.hairline,
-                  ),
-                  child: Text(
-                    localizedTitle,
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppGoogleFonts.inter(
-                      fontSize: 10.5,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF0F172A),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.hairline),
-                Text(
-                  countStr,
-                  style: AppGoogleFonts.inter(
-                    fontSize: 9.0,
-                    fontWeight: FontWeight.w600,
-                    color: cnt == 0
-                        ? const Color(0xFFD97706)
-                        : const Color(0xFF2563EB),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 void showAllMinistriesBottomSheet({
@@ -261,117 +246,25 @@ void showAllMinistriesBottomSheet({
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
     builder: (context) {
-      return Container(
-        height: MediaQuery.of(context).size.height * 0.7,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Container(
-                margin: const EdgeInsets.only(top: AppSpacing.md),
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFE2E8F0),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(AppSpacing.xl),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FlexText(
-                    child: Text(
-                      context.l10n.allMinistries,
-                      softWrap: true,
-                      style: AppGoogleFonts.poppins(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFF0F172A),
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.close, color: Color(0xFF64748B)),
-                    tooltip: context.l10n.close,
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
-                itemCount: allMinistriesList.length,
-                itemBuilder: (context, index) {
-                  final title = allMinistriesList[index];
-                  final int? cnt = dynamicCategoryCounts[title];
-                  final String countStr = formatSchemeCount(
-                    context,
-                    cnt,
-                    provider,
-                  );
-                  final String localizedTitle = localizedProperName(
-                    title,
-                    provider,
-                  );
-
-                  return Material(
-                    type: MaterialType.transparency,
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: AppSpacing.xs,
-                      ),
-                      leading: Container(
-                        width: 38,
-                        height: 38,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFEFF6FF),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.account_balance_rounded,
-                          color: Color(0xFF2563EB),
-                          size: 18,
-                        ),
-                      ),
-                      title: Text(
-                        localizedTitle,
-                        style: AppGoogleFonts.poppins(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13.5,
-                        ),
-                      ),
-                      subtitle: Text(
-                        countStr,
-                        style: AppGoogleFonts.inter(
-                          fontSize: 11,
-                          color: cnt == 0
-                              ? const Color(0xFFD97706)
-                              : const Color(0xFF2563EB),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      trailing: const Icon(Icons.chevron_right, size: 16),
-                      onTap: () {
-                        Navigator.pop(context);
-                        onMinistrySelected(title);
-                      },
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
+      return _ViewAllSheet(
+        title: context.l10n.allMinistries,
+        heightFactor: 0.7,
+        list: ListView.builder(
+          itemCount: allMinistriesList.length,
+          itemBuilder: (context, index) {
+            final title = allMinistriesList[index];
+            final int? cnt = dynamicCategoryCounts[title];
+            return _ViewAllRow(
+              leading: const _RowMark(Icons.account_balance_outlined),
+              title: localizedProperName(title, provider),
+              count: formatSchemeCount(context, cnt, provider),
+              isEmpty: cnt == 0,
+              onTap: () {
+                Navigator.pop(context);
+                onMinistrySelected(title);
+              },
+            );
+          },
         ),
       );
     },
@@ -389,116 +282,37 @@ void showAllStatesBottomSheet({
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
     builder: (context) {
-      return Container(
-        height: MediaQuery.of(context).size.height * 0.7,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Container(
-                margin: const EdgeInsets.only(top: AppSpacing.md),
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFE2E8F0),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(AppSpacing.xl),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FlexText(
-                    child: Text(
-                      context.l10n.allStatesAndUts,
-                      softWrap: true,
-                      style: AppGoogleFonts.poppins(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFF0F172A),
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.close, color: Color(0xFF64748B)),
-                    tooltip: context.l10n.close,
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
-                itemCount: allStatesList.length,
-                itemBuilder: (context, index) {
-                  final title = allStatesList[index];
-                  final int? cnt = dynamicCategoryCounts[title];
-                  final String countStr = formatSchemeCount(
-                    context,
-                    cnt,
-                    provider,
-                  );
-                  final String localizedTitle = localizedProperName(
-                    title,
-                    provider,
-                  );
-
-                  return Material(
-                    type: MaterialType.transparency,
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: AppSpacing.xs,
-                      ),
-                      leading: Image.asset(
-                        getStateMapAsset(title),
-                        width: 36,
-                        height: 32,
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) {
-                          return CustomPaint(
-                            size: const Size(36, 32),
-                            painter: StateMapPainter(title),
-                          );
-                        },
-                      ),
-                      title: Text(
-                        localizedTitle,
-                        style: AppGoogleFonts.poppins(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13.5,
-                        ),
-                      ),
-                      subtitle: Text(
-                        countStr,
-                        style: AppGoogleFonts.inter(
-                          fontSize: 11,
-                          color: cnt == 0
-                              ? const Color(0xFFD97706)
-                              : const Color(0xFF2563EB),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      trailing: const Icon(Icons.chevron_right, size: 16),
-                      onTap: () {
-                        Navigator.pop(context);
-                        onStateSelected(title);
-                      },
-                    ),
+      return _ViewAllSheet(
+        title: context.l10n.allStatesAndUts,
+        heightFactor: 0.7,
+        list: ListView.builder(
+          itemCount: allStatesList.length,
+          itemBuilder: (context, index) {
+            final title = allStatesList[index];
+            final int? cnt = dynamicCategoryCounts[title];
+            return _ViewAllRow(
+              leading: Image.asset(
+                getStateMapAsset(title),
+                width: AppSize.avatarSm,
+                height: AppSize.avatarSm,
+                fit: BoxFit.contain,
+                excludeFromSemantics: true,
+                errorBuilder: (context, error, stackTrace) {
+                  return CustomPaint(
+                    size: const Size.square(AppSize.avatarSm),
+                    painter: StateMapPainter(title),
                   );
                 },
               ),
-            ),
-          ],
+              title: localizedProperName(title, provider),
+              count: formatSchemeCount(context, cnt, provider),
+              isEmpty: cnt == 0,
+              onTap: () {
+                Navigator.pop(context);
+                onStateSelected(title);
+              },
+            );
+          },
         ),
       );
     },

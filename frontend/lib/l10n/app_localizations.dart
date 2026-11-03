@@ -673,7 +673,7 @@ abstract class AppLocalizations {
   /// No description provided for @browseByCategories.
   ///
   /// In en, this message translates to:
-  /// **'Browse by Categories'**
+  /// **'By category'**
   String get browseByCategories;
 
   /// No description provided for @featuredCollections.
@@ -685,13 +685,13 @@ abstract class AppLocalizations {
   /// No description provided for @browseByMinistry.
   ///
   /// In en, this message translates to:
-  /// **'Browse by Ministry'**
+  /// **'By ministry'**
   String get browseByMinistry;
 
   /// No description provided for @browseByState.
   ///
   /// In en, this message translates to:
-  /// **'Browse by State'**
+  /// **'By state'**
   String get browseByState;
 
   /// No description provided for @smartAssessment.
@@ -715,7 +715,7 @@ abstract class AppLocalizations {
   /// No description provided for @exploreTopCuratedCollections.
   ///
   /// In en, this message translates to:
-  /// **'Explore top curated collections'**
+  /// **'Schemes grouped by category, ministry and state'**
   String get exploreTopCuratedCollections;
 
   /// No description provided for @schemesByGovernmentMinistries.
@@ -4369,13 +4369,13 @@ abstract class AppLocalizations {
   /// No description provided for @updatingSoon.
   ///
   /// In en, this message translates to:
-  /// **'Updating Soon'**
+  /// **'Updating soon'**
   String get updatingSoon;
 
   /// No description provided for @updatingSoonCount.
   ///
   /// In en, this message translates to:
-  /// **'Updating Soon'**
+  /// **'Updating soon'**
   String get updatingSoonCount;
 
   /// No description provided for @gotIt.
@@ -4387,25 +4387,25 @@ abstract class AppLocalizations {
   /// No description provided for @comingSoonSchemesBody.
   ///
   /// In en, this message translates to:
-  /// **'Schemes under \"{name}\" are currently being verified and will be updated soon. Stay tuned!'**
+  /// **'Schemes under \"{name}\" are being checked and will be added soon'**
   String comingSoonSchemesBody(Object name);
 
   /// No description provided for @allCategories.
   ///
   /// In en, this message translates to:
-  /// **'All Categories'**
+  /// **'All categories'**
   String get allCategories;
 
   /// No description provided for @allMinistries.
   ///
   /// In en, this message translates to:
-  /// **'All Ministries'**
+  /// **'All ministries'**
   String get allMinistries;
 
   /// No description provided for @allStatesAndUts.
   ///
   /// In en, this message translates to:
-  /// **'All States & UTs'**
+  /// **'All states and UTs'**
   String get allStatesAndUts;
 
   /// No description provided for @searchCategoriesHint.

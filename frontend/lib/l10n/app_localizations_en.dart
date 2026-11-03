@@ -320,16 +320,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get discoverTitle => 'Discover';
 
   @override
-  String get browseByCategories => 'Browse by Categories';
+  String get browseByCategories => 'By category';
 
   @override
   String get featuredCollections => 'Featured Collections';
 
   @override
-  String get browseByMinistry => 'Browse by Ministry';
+  String get browseByMinistry => 'By ministry';
 
   @override
-  String get browseByState => 'Browse by State';
+  String get browseByState => 'By state';
 
   @override
   String get smartAssessment => 'Smart Assessment';
@@ -343,7 +343,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get exploreTopCuratedCollections => 'Explore top curated collections';
+  String get exploreTopCuratedCollections =>
+      'Schemes grouped by category, ministry and state';
 
   @override
   String get schemesByGovernmentMinistries =>
@@ -2307,27 +2308,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get voiceRecommendedForYou => 'Recommended for you';
 
   @override
-  String get updatingSoon => 'Updating Soon';
+  String get updatingSoon => 'Updating soon';
 
   @override
-  String get updatingSoonCount => 'Updating Soon';
+  String get updatingSoonCount => 'Updating soon';
 
   @override
   String get gotIt => 'Got it';
 
   @override
   String comingSoonSchemesBody(Object name) {
-    return 'Schemes under \"$name\" are currently being verified and will be updated soon. Stay tuned!';
+    return 'Schemes under \"$name\" are being checked and will be added soon';
   }
 
   @override
-  String get allCategories => 'All Categories';
+  String get allCategories => 'All categories';
 
   @override
-  String get allMinistries => 'All Ministries';
+  String get allMinistries => 'All ministries';
 
   @override
-  String get allStatesAndUts => 'All States & UTs';
+  String get allStatesAndUts => 'All states and UTs';
 
   @override
   String get searchCategoriesHint => 'Search categories...';
