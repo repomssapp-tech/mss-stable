@@ -708,7 +708,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get userInformation => 'பயனர் விவரங்கள்';
 
   @override
-  String get eligibilityProfessionalDetails => 'தகுதி & தொழில்முறை விவரங்கள்';
+  String get eligibilityProfessionalDetails => 'தகுதி மற்றும் தொழில் விவரங்கள்';
 
   @override
   String get businessInformation => 'வணிகத் தகவல்கள்';

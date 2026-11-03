@@ -1345,25 +1345,25 @@ abstract class AppLocalizations {
   /// No description provided for @editProfile.
   ///
   /// In en, this message translates to:
-  /// **'Edit Profile'**
+  /// **'Edit profile'**
   String get editProfile;
 
   /// No description provided for @userInformation.
   ///
   /// In en, this message translates to:
-  /// **'User Information'**
+  /// **'Your details'**
   String get userInformation;
 
   /// No description provided for @eligibilityProfessionalDetails.
   ///
   /// In en, this message translates to:
-  /// **'Eligibility & Professional Details'**
+  /// **'Eligibility and work details'**
   String get eligibilityProfessionalDetails;
 
   /// No description provided for @businessInformation.
   ///
   /// In en, this message translates to:
-  /// **'Business Information'**
+  /// **'Business details'**
   String get businessInformation;
 
   /// No description provided for @labelFullName.

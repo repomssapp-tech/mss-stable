@@ -695,17 +695,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileIncomplete => 'Incomplete';
 
   @override
-  String get editProfile => 'Edit Profile';
+  String get editProfile => 'Edit profile';
 
   @override
-  String get userInformation => 'User Information';
+  String get userInformation => 'Your details';
 
   @override
-  String get eligibilityProfessionalDetails =>
-      'Eligibility & Professional Details';
+  String get eligibilityProfessionalDetails => 'Eligibility and work details';
 
   @override
-  String get businessInformation => 'Business Information';
+  String get businessInformation => 'Business details';
 
   @override
   String get labelFullName => 'Full Name';

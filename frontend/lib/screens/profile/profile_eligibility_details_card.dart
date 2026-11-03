@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import '../../utils/app_colors.dart';
+import '../../utils/app_radius.dart';
+import '../../utils/app_size.dart';
+import '../../utils/money_format.dart';
 import '../../l10n/l10n.dart';
 import '../../models/user_profile.dart';
 import '../../providers/app_state_provider.dart';
@@ -27,16 +31,9 @@ class ProfileEligibilityDetailsCard extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(3),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        color: AppColors.surface,
+        borderRadius: AppRadius.lgAll,
+        border: Border.all(color: AppColors.border, width: AppSize.borderWidth),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,31 +41,18 @@ class ProfileEligibilityDetailsCard extends StatelessWidget {
           // Title Header
           Row(
             children: [
-              Container(
-                width: 32,
-                height: 32,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFEFF6FF),
-                  shape: BoxShape.circle,
-                ),
-                alignment: Alignment.center,
-                child: const Icon(
-                  Icons.assignment_outlined,
-                  color: Color(0xFF2563EB),
-                  size: 18,
-                ),
+              const Icon(
+                Icons.assignment_outlined,
+                color: AppColors.primary,
+                size: AppSize.icon,
               ),
               const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: Text(
                   context.l10n.eligibilityProfessionalDetails,
-                  style: AppGoogleFonts.inter(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF0F172A),
+                  style: context.text.cardTitle.copyWith(
+                    color: AppColors.textPrimary,
                   ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
@@ -107,7 +91,7 @@ class ProfileEligibilityDetailsCard extends StatelessWidget {
           ),
           const Padding(
             padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
-            child: Divider(color: Color(0xFFF1F5F9), height: 1),
+            child: Divider(color: AppColors.border, height: 1),
           ),
 
           // Details Row 2: Community & Income
@@ -137,7 +121,7 @@ class ProfileEligibilityDetailsCard extends StatelessWidget {
           ),
           const Padding(
             padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
-            child: Divider(color: Color(0xFFF1F5F9), height: 1),
+            child: Divider(color: AppColors.border, height: 1),
           ),
 
           // Details Row 3: Special Statuses (Disability & Veteran)
@@ -171,15 +155,13 @@ class ProfileEligibilityDetailsCard extends StatelessWidget {
           if (profile.existingBusiness) ...[
             const Padding(
               padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
-              child: Divider(color: Color(0xFFF1F5F9), height: 1),
+              child: Divider(color: AppColors.border, height: 1),
             ),
             const SizedBox(height: AppSpacing.xs),
             Text(
               context.l10n.businessInformation,
-              style: AppGoogleFonts.inter(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF2563EB),
+              style: context.text.label.copyWith(
+                color: AppColors.textSecondary,
               ),
             ),
             const SizedBox(height: AppSpacing.md),
@@ -211,7 +193,7 @@ class ProfileEligibilityDetailsCard extends StatelessWidget {
             ),
             const Padding(
               padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
-              child: Divider(color: Color(0xFFF1F5F9), height: 1),
+              child: Divider(color: AppColors.border, height: 1),
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -219,7 +201,7 @@ class ProfileEligibilityDetailsCard extends StatelessWidget {
                 ProfileInfoCol(
                   label: context.l10n.labelFundingRequired,
                   value: profile.fundingRequired > 0
-                      ? '₹${profile.fundingRequired.toStringAsFixed(0)}'
+                      ? formatInr(profile.fundingRequired, decimals: 0)
                       : '-',
                   flex: 1,
                 ),

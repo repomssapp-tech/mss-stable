@@ -3,23 +3,67 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../l10n/l10n.dart';
 import '../../providers/app_state_provider.dart';
+import '../../utils/app_colors.dart';
+import '../../utils/app_radius.dart';
+import '../../utils/app_size.dart';
 import '../../utils/app_spacing.dart';
-import '../../utils/responsive.dart';
 import 'avatar_cache_manager.dart';
 import 'profile_photo_handler.dart';
 import '../../widgets/common/name_initial_avatar.dart';
 import '../../utils/app_text.dart';
 
-/// Blue gradient header banner card with avatar, completion badge, and contact details.
+/// The Profile header: the person's photo, name, profile status and contact
+/// details on the app's blue.
 class ProfileBannerCard extends StatelessWidget {
   final AppProvider provider;
 
   const ProfileBannerCard({super.key, required this.provider});
 
+  static const double _photoSize = AppSize.avatarLg;
+
+  Widget _photo() {
+    final photo = provider.effectiveProfilePhoto;
+    final initial = NameInitialAvatar(
+      name: provider.profile.name,
+      size: _photoSize,
+    );
+    if (photo.startsWith('http://') || photo.startsWith('https://')) {
+      return CachedNetworkImage(
+        imageUrl: photo,
+        cacheManager: avatarCacheManager,
+        width: _photoSize,
+        height: _photoSize,
+        fit: BoxFit.cover,
+        // Loading or failed: the name initial, never a blank or a broken
+        // image.
+        placeholder: (context, url) => initial,
+        errorWidget: (context, url, error) => initial,
+      );
+    }
+    if (photo.isNotEmpty) {
+      return Image.file(
+        File(photo),
+        width: _photoSize,
+        height: _photoSize,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) => Image.asset(
+          'assets/images/supporting assets/user_avatar.webp',
+          width: _photoSize,
+          height: _photoSize,
+          fit: BoxFit.cover,
+        ),
+      );
+    }
+    return initial;
+  }
+
   @override
   Widget build(BuildContext context) {
     final profile = provider.profile;
     final isComplete = provider.profileCompletionPercentage == 100;
+    final onBlue = context.text.bodySmall.copyWith(
+      color: AppColors.textOnPrimary,
+    );
 
     return Container(
       width: double.infinity,
@@ -27,275 +71,126 @@ class ProfileBannerCard extends StatelessWidget {
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.sm,
       ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        gradient: const LinearGradient(
-          colors: [Color(0xFF2563EB), Color(0xFF1976D2), Color(0xFF1E88E5)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF2563EB).withAlpha(15),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+      padding: const EdgeInsets.all(AppSpacing.xl),
+      decoration: const BoxDecoration(
+        color: AppColors.primary,
+        borderRadius: AppRadius.lgAll,
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Stack(
-          children: [
-            // Decorative watermark icon
-            Positioned(
-              right: -30,
-              bottom: -30,
-              child: Opacity(
-                opacity: 0.1,
-                child: const Icon(
-                  Icons.account_balance,
-                  size: 160,
-                  color: Colors.white,
+      child: Row(
+        children: [
+          // Photo; tapping it (or the camera badge) changes it.
+          Semantics(
+            button: true,
+            label: context.l10n.changeProfilePhoto,
+            excludeSemantics: true,
+            child: Material(
+              color: Colors.transparent,
+              shape: const CircleBorder(),
+              clipBehavior: Clip.antiAlias,
+              child: InkWell(
+                onTap: () => changeProfilePicture(context, provider),
+                child: Stack(
+                  alignment: Alignment.bottomRight,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: AppColors.textOnPrimary,
+                          width: AppSize.borderWidthSelected,
+                        ),
+                      ),
+                      child: ClipOval(child: _photo()),
+                    ),
+                    Container(
+                      width: AppSize.iconLg,
+                      height: AppSize.iconLg,
+                      decoration: const BoxDecoration(
+                        color: AppColors.surface,
+                        shape: BoxShape.circle,
+                      ),
+                      alignment: Alignment.center,
+                      child: const Icon(
+                        Icons.camera_alt_outlined,
+                        size: AppSize.iconSm,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(AppSpacing.xl),
-              child: Row(
-                children: [
-                  // Avatar Stack with Camera Overlay
-                  Stack(
-                    alignment: Alignment.bottomRight,
+          ),
+          const SizedBox(width: AppSpacing.lg),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  profile.name.isNotEmpty ? profile.name : '-',
+                  style: context.text.titleSmall.copyWith(
+                    color: AppColors.textOnPrimary,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: AppSpacing.xs),
+                // Profile status: a quiet white tag either way, with a tick
+                // or a note icon.
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.sm,
+                    vertical: AppSpacing.hairline,
+                  ),
+                  decoration: const BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: AppRadius.smAll,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Semantics(
-                        button: true,
-                        label: context.l10n.changeProfilePhoto,
-                        child: GestureDetector(
-                          onTap: () => changeProfilePicture(context, provider),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(color: Colors.white, width: 2),
-                            ),
-                            child: CircleAvatar(
-                              radius: 38,
-                              backgroundColor: Colors.white,
-                              child: ClipOval(
-                                child: () {
-                                  final photo = provider.effectiveProfilePhoto;
-                                  if (photo.startsWith('http://') ||
-                                      photo.startsWith('https://')) {
-                                    return CachedNetworkImage(
-                                      imageUrl: photo,
-                                      cacheManager: avatarCacheManager,
-                                      width: 76,
-                                      height: 76,
-                                      fit: BoxFit.cover,
-                                      // Loading or failed: the name initial, never a
-                                      // blank or a broken image.
-                                      placeholder: (context, url) =>
-                                          NameInitialAvatar(
-                                            name: provider.profile.name,
-                                            size: 76,
-                                          ),
-                                      errorWidget: (context, url, error) =>
-                                          NameInitialAvatar(
-                                            name: provider.profile.name,
-                                            size: 76,
-                                          ),
-                                    );
-                                  }
-                                  if (photo.isNotEmpty) {
-                                    return Image.file(
-                                      File(photo),
-                                      width: 76,
-                                      height: 76,
-                                      fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (
-                                            context,
-                                            error,
-                                            stackTrace,
-                                          ) => Image.asset(
-                                            'assets/images/supporting assets/user_avatar.webp',
-                                            width: 76,
-                                            height: 76,
-                                            fit: BoxFit.cover,
-                                          ),
-                                    );
-                                  }
-                                  return NameInitialAvatar(
-                                    name: provider.profile.name,
-                                    size: 76,
-                                  );
-                                }(),
-                              ),
-                            ),
-                          ),
-                        ),
+                      Icon(
+                        isComplete
+                            ? Icons.check_rounded
+                            : Icons.edit_note_rounded,
+                        color: isComplete
+                            ? AppColors.success
+                            : AppColors.warningText,
+                        size: AppSize.iconSm,
                       ),
-                      // Decorative badge: the avatar above carries the label.
-                      ExcludeSemantics(
-                        child: GestureDetector(
-                          onTap: () => changeProfilePicture(context, provider),
-                          child: Container(
-                            width: 24,
-                            height: 24,
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black12,
-                                  blurRadius: 4,
-                                  offset: Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            alignment: Alignment.center,
-                            child: const Icon(
-                              Icons.camera_alt_outlined,
-                              size: 13,
-                              color: Color(0xFF64748B),
-                            ),
+                      const SizedBox(width: AppSpacing.xs),
+                      Flexible(
+                        child: Text(
+                          isComplete
+                              ? context.l10n.profileVerified
+                              : context.l10n.profileIncomplete,
+                          style: context.text.label.copyWith(
+                            color: isComplete
+                                ? AppColors.success
+                                : AppColors.warningText,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(width: AppSpacing.lg),
-                  // User Name, Badges & Contacts
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          spacing: AppSpacing.tight,
-                          runSpacing: AppSpacing.xs,
-                          children: [
-                            Text(
-                              profile.name.isNotEmpty ? profile.name : '-',
-                              style: AppGoogleFonts.poppins(
-                                fontSize: provider.selectedLanguage == 'ta'
-                                    ? 15.0
-                                    : 16.5,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                height: provider.selectedLanguage == 'ta'
-                                    ? 1.35
-                                    : 1.2,
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: AppSpacing.tight,
-                                vertical: AppSpacing.xs,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withAlpha(25),
-                                border: Border.all(
-                                  color: isComplete
-                                      ? const Color(0xFF4ADE80)
-                                      : const Color(0xFFF59E0B),
-                                  width: 0.8,
-                                ),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    isComplete
-                                        ? Icons.check_circle
-                                        : Icons.warning_amber_rounded,
-                                    color: isComplete
-                                        ? const Color(0xFF4ADE80)
-                                        : const Color(0xFFF59E0B),
-                                    size: 10,
-                                  ),
-                                  const SizedBox(width: AppSpacing.xs),
-                                  Flexible(
-                                    child: Text(
-                                      isComplete
-                                          ? context.l10n.profileVerified
-                                          : context.l10n.profileIncomplete,
-                                      style: AppGoogleFonts.inter(
-                                        fontSize: 8.5,
-                                        color: isComplete
-                                            ? const Color(0xFF4ADE80)
-                                            : const Color(0xFFF59E0B),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: AppSpacing.sm),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.phone_outlined,
-                              color: Colors.white70,
-                              size: 12,
-                            ),
-                            const SizedBox(width: AppSpacing.tight),
-                            Flexible(
-                              child: FitOneLine(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  profile.mobile.isNotEmpty
-                                      ? '+91 ${profile.mobile}'
-                                      : '-',
-                                  style: AppGoogleFonts.inter(
-                                    fontSize: 11.5,
-                                    color: Colors.white.withAlpha(230),
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: AppSpacing.tight),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.mail_outline,
-                              color: Colors.white70,
-                              size: 12,
-                            ),
-                            const SizedBox(width: AppSpacing.tight),
-                            Expanded(
-                              child: Text(
-                                profile.email.isNotEmpty ? profile.email : '-',
-                                style: AppGoogleFonts.inter(
-                                  fontSize: 11.5,
-                                  color: Colors.white.withAlpha(230),
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                // An address has no spaces; it breaks between
-                                // characters on a second line rather than being
-                                // cut off.
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+                const SizedBox(height: AppSpacing.sm),
+                Text(
+                  profile.mobile.isNotEmpty ? '+91 ${profile.mobile}' : '-',
+                  style: onBlue,
+                ),
+                // An address has no spaces; it breaks between characters on
+                // a second line rather than being cut off.
+                Text(
+                  profile.email.isNotEmpty ? profile.email : '-',
+                  style: onBlue,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import '../../utils/app_colors.dart';
+import '../../utils/app_radius.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../providers/app_state_provider.dart';
@@ -14,12 +15,9 @@ Future<void> changeProfilePicture(
 ) async {
   showModalBottomSheet(
     context: context,
-    backgroundColor: Colors.white,
+    backgroundColor: AppColors.surface,
     shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(24),
-        topRight: Radius.circular(24),
-      ),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
     ),
     builder: (context) {
       return SafeArea(
@@ -30,21 +28,22 @@ Future<void> changeProfilePicture(
               padding: const EdgeInsets.symmetric(vertical: AppSpacing.xl),
               child: Text(
                 context.l10n.profilePhotoTitle,
-                style: AppGoogleFonts.poppins(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xFF0F172A),
+                style: context.text.titleMedium.copyWith(
+                  color: AppColors.textPrimary,
                 ),
               ),
             ),
             ListTile(
               leading: const Icon(
                 Icons.photo_library_outlined,
-                color: Color(0xFF2563EB),
+                color: AppColors.primary,
               ),
               title: Text(
                 context.l10n.chooseFromGallery,
-                style: AppGoogleFonts.inter(fontWeight: FontWeight.w600),
+                style: context.text.body.copyWith(
+                  color: AppColors.textPrimary,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               onTap: () async {
                 Navigator.pop(context);
@@ -61,11 +60,14 @@ Future<void> changeProfilePicture(
             ListTile(
               leading: const Icon(
                 Icons.camera_alt_outlined,
-                color: Color(0xFF2563EB),
+                color: AppColors.primary,
               ),
               title: Text(
                 context.l10n.takePhoto,
-                style: AppGoogleFonts.inter(fontWeight: FontWeight.w600),
+                style: context.text.body.copyWith(
+                  color: AppColors.textPrimary,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               onTap: () async {
                 Navigator.pop(context);
@@ -83,12 +85,12 @@ Future<void> changeProfilePicture(
               ListTile(
                 leading: const Icon(
                   Icons.delete_outline_rounded,
-                  color: AppColors.danger,
+                  color: AppColors.dangerStrong,
                 ),
                 title: Text(
                   context.l10n.removePhoto,
-                  style: AppGoogleFonts.inter(
-                    color: AppColors.danger,
+                  style: context.text.body.copyWith(
+                    color: AppColors.dangerStrong,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
