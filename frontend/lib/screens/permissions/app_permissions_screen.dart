@@ -333,7 +333,15 @@ class _PermissionRow extends StatelessWidget {
                     color: AppColors.success,
                   ),
                 )
-              : OutlinedButton(onPressed: onAllow, child: Text(allowLabel)),
+              // Capped so a long label (Marathi, large text) wraps instead
+              // of pushing the row past the screen edge.
+              : ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 120),
+                  child: OutlinedButton(
+                    onPressed: onAllow,
+                    child: Text(allowLabel, textAlign: TextAlign.center),
+                  ),
+                ),
         ],
       ),
     );
