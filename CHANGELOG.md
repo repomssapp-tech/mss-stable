@@ -11,6 +11,21 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [2.3.0+20] - 2026-11-03
+
+### Added
+- The app is now available in Marathi, for Maharashtra's 79 schemes. Other schemes stay in English when you use the app in Marathi. The translation is AI-written and still needs review by a native speaker.
+
+### Changed
+- Tamil scheme text and document names are corrected across the catalogue, and required documents are marked correctly in Tamil.
+- Documents show their translated names and the Required label again when the catalogue has been updated over the air.
+- Schemes with unconfirmed application steps now link to the official page below those steps.
+
+### Fixed
+- Questions about your state showed the Tamil state name in Hindi. They now use your language.
+- In voice conversations, scheme cards showed English for Hindi users. They now follow the app language.
+- A scheme's internal status notes no longer appear in its status section.
+
 ## [2.2.1+19] - 2026-10-25
 
 ### Changed
