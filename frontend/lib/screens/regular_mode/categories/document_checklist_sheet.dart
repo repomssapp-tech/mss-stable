@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 import 'package:flutter/services.dart';
 
 import '../../../l10n/app_localizations.dart';
@@ -126,7 +127,7 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
                 height: 4,
                 margin: const EdgeInsets.only(bottom: AppSpacing.lg),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFE2E8F0),
+                  color: AppColors.border,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -136,12 +137,12 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
                 Container(
                   padding: const EdgeInsets.all(AppSpacing.sm),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFEFF6FF),
+                    color: AppColors.primarySoft,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: const Icon(
                     Icons.rule_folder_outlined,
-                    color: Color(0xFF2563EB),
+                    color: AppColors.primary,
                     size: 18,
                   ),
                 ),
@@ -152,17 +153,14 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
                     children: [
                       Text(
                         l10n.docChecklistTitle,
-                        style: AppGoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF0F172A),
+                        style: context.text.cardTitle.copyWith(
+                          color: AppColors.textPrimary,
                         ),
                       ),
                       Text(
                         l10n.docChecklistSubtitle,
-                        style: AppGoogleFonts.inter(
-                          fontSize: 10,
-                          color: const Color(0xFF64748B),
+                        style: context.text.bodySmall.copyWith(
+                          color: AppColors.textMuted,
                         ),
                       ),
                     ],
@@ -175,7 +173,7 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
                   icon: const Icon(
                     Icons.copy_rounded,
                     size: 18,
-                    color: Color(0xFF64748B),
+                    color: AppColors.textMuted,
                   ),
                   tooltip: l10n.copyChecklistTooltip,
                 ),
@@ -185,7 +183,7 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
                   icon: const Icon(
                     Icons.close,
                     size: 18,
-                    color: Color(0xFF64748B),
+                    color: AppColors.textMuted,
                   ),
                   tooltip: l10n.close,
                 ),
@@ -194,11 +192,7 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
             const SizedBox(height: AppSpacing.xl),
             Text(
               l10n.docEntityType,
-              style: AppGoogleFonts.inter(
-                fontSize: 11,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF334155),
-              ),
+              style: context.text.label.copyWith(color: AppColors.textBody),
             ),
             const SizedBox(height: AppSpacing.tight),
             DropdownButtonFormField<String>(
@@ -207,10 +201,10 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
               isExpanded: true,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: const Color(0xFFF8FAFC),
+                fillColor: AppColors.background,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                  borderSide: const BorderSide(color: AppColors.border),
                 ),
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: AppSpacing.md,
@@ -220,10 +214,7 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
               items: entityEntries.entries.map((entry) {
                 return DropdownMenuItem<String>(
                   value: entry.key,
-                  child: Text(
-                    entry.value,
-                    style: const TextStyle(fontSize: 12),
-                  ),
+                  child: Text(entry.value, style: context.text.bodySmall),
                 );
               }).toList(),
               onChanged: (val) {
@@ -240,10 +231,8 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
                 Expanded(
                   child: Text(
                     l10n.docRequiredDocuments,
-                    style: AppGoogleFonts.inter(
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF334155),
+                    style: context.text.label.copyWith(
+                      color: AppColors.textBody,
                     ),
                   ),
                 ),
@@ -255,20 +244,18 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
                   decoration: BoxDecoration(
                     color:
                         checkedCount == checklist.length && checklist.isNotEmpty
-                        ? const Color(0xFFDCFCE7)
-                        : const Color(0xFFEFF6FF),
+                        ? AppColors.successSoft
+                        : AppColors.primarySoft,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(
                     '$checkedCount / ${checklist.length}',
-                    style: AppGoogleFonts.inter(
-                      fontSize: 10.5,
-                      fontWeight: FontWeight.w700,
+                    style: context.text.label.copyWith(
                       color:
                           checkedCount == checklist.length &&
                               checklist.isNotEmpty
-                          ? const Color(0xFF15803D)
-                          : const Color(0xFF2563EB),
+                          ? AppColors.success
+                          : AppColors.primary,
                     ),
                   ),
                 ),
@@ -281,11 +268,11 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
                 key: const Key('doc-progress-indicator'),
                 value: progress,
                 minHeight: 5,
-                backgroundColor: const Color(0xFFF1F5F9),
+                backgroundColor: AppColors.surfaceMuted,
                 valueColor: AlwaysStoppedAnimation<Color>(
                   checkedCount == checklist.length && checklist.isNotEmpty
-                      ? const Color(0xFF16A34A)
-                      : const Color(0xFF2563EB),
+                      ? AppColors.success
+                      : AppColors.primary,
                 ),
               ),
             ),
@@ -313,13 +300,13 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
                         ),
                         decoration: BoxDecoration(
                           color: isChecked
-                              ? const Color(0xFFF0FDF4)
-                              : const Color(0xFFF8FAFC),
+                              ? AppColors.successSoft
+                              : AppColors.background,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
                             color: isChecked
-                                ? const Color(0xFFBBF7D0)
-                                : const Color(0xFFEFF2F5),
+                                ? AppColors.success
+                                : AppColors.surfaceMuted,
                           ),
                         ),
                         child: Row(
@@ -329,23 +316,21 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
                                   ? Icons.check_circle
                                   : Icons.radio_button_unchecked,
                               color: isChecked
-                                  ? const Color(0xFF16A34A)
-                                  : const Color(0xFF94A3B8),
+                                  ? AppColors.success
+                                  : AppColors.iconMuted,
                               size: 18,
                             ),
                             const SizedBox(width: AppSpacing.sm),
                             Expanded(
                               child: Text(
                                 item,
-                                style: AppGoogleFonts.inter(
-                                  fontSize: 11.5,
-                                  fontWeight: FontWeight.w600,
+                                style: context.text.label.copyWith(
                                   decoration: isChecked
                                       ? TextDecoration.lineThrough
                                       : null,
                                   color: isChecked
-                                      ? const Color(0xFF64748B)
-                                      : const Color(0xFF1E293B),
+                                      ? AppColors.textMuted
+                                      : AppColors.textPrimary,
                                 ),
                               ),
                             ),
@@ -360,25 +345,10 @@ class _DocumentChecklistSheetState extends State<DocumentChecklistSheet> {
             const SizedBox(height: AppSpacing.xl),
             SizedBox(
               width: double.infinity,
-              height: 44,
               child: ElevatedButton(
                 key: const Key('doc-close-button'),
                 onPressed: () => Navigator.pop(context),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF2563EB),
-                  foregroundColor: Colors.white,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: Text(
-                  l10n.docCloseChecklist,
-                  style: AppGoogleFonts.inter(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12.5,
-                  ),
-                ),
+                child: Text(l10n.docCloseChecklist),
               ),
             ),
           ],
@@ -393,7 +363,7 @@ void showDocumentChecklistSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    backgroundColor: Colors.white,
+    backgroundColor: AppColors.surface,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
     ),
