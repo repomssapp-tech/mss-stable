@@ -64,3 +64,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-11-03 | Roger-Chris | #178 | frontend/l10n, frontend/catalog, frontend/search, tools/translation | Adds Marathi as a fourth app language for Maharashtra schemes through one shared content path, and carries the Tamil corrections from the catalogue audit. Scheme content no longer needs per-language code, and the translation pipeline is merged in. |
 | 2026-11-03 | Roger-Chris | #179 | unspecified | fix(language): translate the remaining Marathi screen text |
 | 2026-11-03 | Roger-Chris | #180 | unspecified | chore(release): 2.3.1+21 |
+| 2026-11-03 | Roger-Chris | #181 | unspecified | fix(language): correct Hindi, Tamil and Marathi screen text |
