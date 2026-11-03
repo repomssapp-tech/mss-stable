@@ -198,12 +198,12 @@ class _VoiceAssistantOverlayState extends State<VoiceAssistantOverlay>
   // (`_presentInTamil`), which is detected per-utterance and can differ from the
   // ambient `MaterialApp` locale — so strings resolve through an explicit
   // lookup rather than `context.l10n`.
-  // Voice input is English/Tamil only, so a Hindi-UI user speaking English
-  // still gets Hindi chrome rather than falling back to English.
+  // Voice input is English/Tamil only, so a Hindi- or Marathi-UI user speaking
+  // English still gets that chrome rather than falling back to English.
   AppLocalizations get _l10n {
     final appLanguage = Localizations.localeOf(context).languageCode;
     return lookupAppLocalizations(
-      Locale(_presentInTamil ? 'ta' : (appLanguage == 'hi' ? 'hi' : 'en')),
+      Locale(_presentInTamil ? 'ta' : (appLanguage == 'ta' ? 'en' : appLanguage)),
     );
   }
 

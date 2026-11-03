@@ -1,5 +1,6 @@
 import '../services/catalog/centralized_translator.dart';
 import '../services/catalog/language_pack_manager.dart';
+import '../utils/language_names.dart';
 import 'scheme_model.dart';
 
 /// LocalizedScheme
@@ -173,7 +174,6 @@ class LocalizedScheme {
     return englishWords >= 2 ? original : translated;
   }
 
-  static const Map<String, String> _stepWord = {'hi': 'चरण', 'ta': 'படி'};
   static final RegExp _stepPrefix = RegExp(r'^Step (\d+):\s*');
 
   /// Stored steps in [lang] when they line up one-to-one with the English
@@ -194,452 +194,275 @@ class LocalizedScheme {
     }
     return [
       for (var i = 0; i < stored.length; i++)
-        '${_stepWord[lang] ?? 'Step'} ${i + 1}: ${stored[i]}',
+        '${stepLabel(lang, i + 1)} ${stored[i]}',
     ];
   }
 
+  /// Every language runs through one pipeline, so a language the catalogue
+  /// adds needs no code here. For each field: the text the catalogue stores in
+  /// the language, then the translator (see [CentralizedTranslator]), then the
+  /// original English. A value is never invented.
   factory LocalizedScheme.fromScheme(Scheme scheme, String languageCode) {
-    if (languageCode == 'hi') {
-      final pack = LanguagePackManager.instance;
-      // Generic metadata (level, state, ministry, verification status...) uses
-      // exact dictionary matches; anything unmatched stays English.
-      String meta(String v) =>
-          CentralizedTranslator.instance.localizeTagFor('hi', v);
-      // Free text: an exact dictionary entry, otherwise the original English
-      // (never a word-by-word mix).
-      String text(String v) =>
-          CentralizedTranslator.instance.localizeFor('hi', v);
-      // Hindi names of the required documents that the catalogue stores
-      // alongside the English list, keyed by the English name.
-      final storedDocNames = scheme.extras.storedDocumentNames('hi');
-      final docNameHi = <String, String>{
-        if (storedDocNames.length == scheme.requiredDocuments.length)
-          for (var i = 0; i < storedDocNames.length; i++)
-            if (storedDocNames[i].isNotEmpty)
-              scheme.requiredDocuments[i]: storedDocNames[i],
-      };
-      final nameHi = pack.getField(
-        lang: 'hi',
-        entityType: 'scheme',
-        entityId: scheme.id,
-        fieldName: 'name',
-      );
-      final shortNameHi = pack.getField(
-        lang: 'hi',
-        entityType: 'scheme',
-        entityId: scheme.id,
-        fieldName: 'short_name',
-      );
-      final summaryHi = pack.getField(
-        lang: 'hi',
-        entityType: 'scheme',
-        entityId: scheme.id,
-        fieldName: 'summary',
-      );
-      final descHi = pack.getField(
-        lang: 'hi',
-        entityType: 'scheme',
-        entityId: scheme.id,
-        fieldName: 'description',
-      );
-      final objHi = pack.getField(
-        lang: 'hi',
-        entityType: 'scheme',
-        entityId: scheme.id,
-        fieldName: 'objective',
-      );
-      final benHi = pack.getField(
-        lang: 'hi',
-        entityType: 'scheme',
-        entityId: scheme.id,
-        fieldName: 'benefits_text',
-      );
-
-      final name = (nameHi != null && nameHi.isNotEmpty) ? nameHi : scheme.name;
-      final shortName = (shortNameHi != null && shortNameHi.isNotEmpty)
-          ? shortNameHi
-          : (scheme.nativeName('shortName', 'hi') ?? scheme.shortName);
-      final overview = (summaryHi != null && summaryHi.isNotEmpty)
-          ? summaryHi
-          : ((descHi != null && descHi.isNotEmpty) ? descHi : scheme.overview);
-      final objectives = (objHi != null && objHi.isNotEmpty)
-          ? objHi
-          : scheme.objectives;
-      final benefits = (benHi != null && benHi.isNotEmpty)
-          ? benHi
-          : scheme.benefits;
-
-      return LocalizedScheme._(
-        rawScheme: scheme,
-        languageCode: languageCode,
-        name: name,
-        shortName: shortName,
-        fullSchemeName: name,
-        ministry: scheme.nativeName('ministry', 'hi') ?? meta(scheme.ministry),
-        department:
-            scheme.nativeName('department', 'hi') ?? meta(scheme.department),
-        implementingAgency:
-            scheme.nativeName('implementingAgency', 'hi') ??
-            meta(scheme.implementingAgency),
-        governmentLevel: meta(scheme.governmentLevel),
-        sponsoringBody:
-            scheme.nativeName('sponsoringBody', 'hi') ??
-            meta(scheme.sponsoringBody),
-        issuingBody:
-            scheme.nativeName('issuingBody', 'hi') ?? meta(scheme.issuingBody),
-        state: meta(scheme.state),
-        sector: meta(scheme.sector),
-        targetBeneficiary: meta(scheme.targetBeneficiary),
-        schemeType: meta(scheme.schemeType),
-        category: meta(scheme.category),
-        overview: overview,
-        objectives: objectives,
-        benefits: benefits,
-        subsidyAmount: text(scheme.subsidyAmount),
-        verificationStatus: meta(scheme.verificationStatus),
-        verificationNotes: text(scheme.verificationNotes),
-        lastUpdated: scheme.lastUpdated,
-        glanceChips: scheme.glanceChips.map(meta).toList(),
-        benefitTypesList: scheme.benefitTypesList.map(meta).toList(),
-        capitalSubsidyDetails: text(scheme.capitalSubsidyDetails),
-        interestSubventionDetails: text(scheme.interestSubventionDetails),
-        marginMoneyDetails: text(scheme.marginMoneyDetails),
-        loanGuaranteeDetails: text(scheme.loanGuaranteeDetails),
-        supportTypes: scheme.supportTypes.map(meta).toList(),
-        rawBenefitsDisplayText: benefits,
-        eligibilityAgeRange: text(scheme.eligibilityAgeRange),
-        turnoverLimits: text(scheme.turnoverLimits),
-        investmentLimits: text(scheme.investmentLimits),
-        allowedBusinessTypes: scheme.allowedBusinessTypes.map(meta).toList(),
-        educationRequirements: text(scheme.educationRequirements),
-        mandatoryConditions: scheme.mandatoryConditions.map(text).toList(),
-        optionalConditions: scheme.optionalConditions.map(text).toList(),
-        specialCategories: scheme.specialCategories.map(meta).toList(),
-        applicationFee: text(scheme.applicationFee),
-        processingDurationDays: text(scheme.processingDurationDays),
-        intakeTimelineText: text(scheme.intakeTimelineText),
-        financeProductsSummary: scheme.financeProductsSummary
-            .map(text)
-            .toList(),
-        taxExemptionsSummary: scheme.taxExemptionsSummary.map(text).toList(),
-        applicableTaxesList: scheme.applicableTaxesList.map(meta).toList(),
-        knowledgeGuidanceList: scheme.knowledgeGuidanceList.map(text).toList(),
-        helplineContactsMap: scheme.helplineContactsMap,
-        eligibilityCriteria: _storedEligibility(scheme, 'hi'),
-        requiredDocuments: [
-          for (final d in scheme.requiredDocuments) docNameHi[d] ?? text(d),
-        ],
-        applicationProcess: _storedSteps(scheme, 'hi'),
-        documents: scheme.documents
-            .map(
-              // Hindi stored in the catalogue record first, then the
-              // dictionary, then the original English.
-              (d) => d.copyWith(
-                name: d.nameHi.isNotEmpty
-                    ? d.nameHi
-                    : (docNameHi[d.name] ?? text(d.name)),
-                description: d.descriptionHi.isNotEmpty
-                    ? d.descriptionHi
-                    : text(d.description),
-                issuingAuthority: d.issuingAuthorityHi.isNotEmpty
-                    ? d.issuingAuthorityHi
-                    : text(d.issuingAuthority),
-                estimatedCost: d.estimatedCostHi.isNotEmpty
-                    ? d.estimatedCostHi
-                    : text(d.estimatedCost),
-                // Canonical flag ("Yes"/"Required"): `isMandatory` reads it and
-                // the details screen shows the localized badge itself.
-                mandatory: d.mandatory,
-                remarks: d.remarksHi.isNotEmpty ? d.remarksHi : text(d.remarks),
-              ),
-            )
-            .toList(),
-        requiredServices: scheme.requiredServices
-            .map(
-              (s) => SchemeService(
-                name: s.nameHi.isNotEmpty ? s.nameHi : text(s.name),
-                nameTa: s.nameTa,
-                category: s.categoryHi.isNotEmpty
-                    ? s.categoryHi
-                    : meta(s.category),
-                categoryTa: s.categoryTa,
-                mandatory: s.mandatory,
-                description: s.descriptionHi.isNotEmpty
-                    ? s.descriptionHi
-                    : text(s.description),
-                descriptionTa: s.descriptionTa,
-                purpose: s.purposeHi.isNotEmpty ? s.purposeHi : text(s.purpose),
-                purposeTa: s.purposeTa,
-                department: s.departmentHi.isNotEmpty
-                    ? s.departmentHi
-                    : text(s.department),
-                departmentTa: s.departmentTa,
-                website: s.website,
-                contact: s.contact,
-                status: s.status,
-                notes: s.notesHi.isNotEmpty ? s.notesHi : text(s.notes),
-                notesTa: s.notesTa,
-                nameHi: s.nameHi,
-                categoryHi: s.categoryHi,
-                descriptionHi: s.descriptionHi,
-                purposeHi: s.purposeHi,
-                departmentHi: s.departmentHi,
-                notesHi: s.notesHi,
-              ),
-            )
-            .toList(),
-        faqs: scheme.faqs
-            .map(
-              (faq) => {
-                'question': text(faq['question'] ?? ''),
-                'answer': text(faq['answer'] ?? ''),
-              },
-            )
-            .toList(),
-      );
+    if (languageCode != 'en') {
+      return LocalizedScheme._translated(scheme, languageCode);
     }
-
-    if (languageCode != 'ta') {
-      return LocalizedScheme._(
-        rawScheme: scheme,
-        languageCode: languageCode,
-        name: scheme.name,
-        shortName: scheme.shortName,
-        fullSchemeName: scheme.fullSchemeName,
-        ministry: scheme.ministry,
-        department: scheme.department,
-        implementingAgency: scheme.implementingAgency,
-        governmentLevel: scheme.governmentLevel,
-        sponsoringBody: scheme.sponsoringBody,
-        issuingBody: scheme.issuingBody,
-        state: scheme.state,
-        sector: scheme.sector,
-        targetBeneficiary: scheme.targetBeneficiary,
-        schemeType: scheme.schemeType,
-        category: scheme.category,
-        overview: scheme.overview,
-        objectives: scheme.objectives,
-        benefits: scheme.benefits,
-        subsidyAmount: scheme.subsidyAmount,
-        verificationStatus: scheme.verificationStatus,
-        verificationNotes: scheme.verificationNotes,
-        lastUpdated: scheme.lastUpdated,
-        glanceChips: scheme.glanceChips,
-        benefitTypesList: scheme.benefitTypesList,
-        capitalSubsidyDetails: scheme.capitalSubsidyDetails,
-        interestSubventionDetails: scheme.interestSubventionDetails,
-        marginMoneyDetails: scheme.marginMoneyDetails,
-        loanGuaranteeDetails: scheme.loanGuaranteeDetails,
-        supportTypes: scheme.supportTypes,
-        rawBenefitsDisplayText: scheme.rawBenefitsDisplayText,
-        eligibilityAgeRange: scheme.eligibilityAgeRange,
-        turnoverLimits: scheme.turnoverLimits,
-        investmentLimits: scheme.investmentLimits,
-        allowedBusinessTypes: scheme.allowedBusinessTypes,
-        educationRequirements: scheme.educationRequirements,
-        mandatoryConditions: scheme.mandatoryConditions,
-        optionalConditions: scheme.optionalConditions,
-        specialCategories: scheme.specialCategories,
-        applicationFee: scheme.applicationFee,
-        processingDurationDays: scheme.processingDurationDays,
-        intakeTimelineText: scheme.intakeTimelineText,
-        financeProductsSummary: scheme.financeProductsSummary,
-        taxExemptionsSummary: scheme.taxExemptionsSummary,
-        applicableTaxesList: scheme.applicableTaxesList,
-        knowledgeGuidanceList: scheme.knowledgeGuidanceList,
-        helplineContactsMap: scheme.helplineContactsMap,
-        eligibilityCriteria: scheme.eligibilityCriteria,
-        requiredDocuments: scheme.requiredDocuments,
-        applicationProcess: scheme.applicationProcess,
-        documents: scheme.documents,
-        requiredServices: scheme.requiredServices,
-        faqs: scheme.faqs,
-      );
-    }
-
-    final translator = CentralizedTranslator.instance;
-
-    // Priority 1: Use catalog JSON Tamil values if non-empty;
-    // Priority 2: Use CentralizedTranslator on English fields;
-    // Priority 3: Fallback / Protected fields preserved.
-    final nameTa = scheme.nameTa.trim();
-    final name = nameTa.isNotEmpty ? nameTa : translator.translate(scheme.name);
-
-    final overviewTa = scheme.overviewTa.trim();
-    final overview = overviewTa.isNotEmpty
-        ? overviewTa
-        : translator.translate(scheme.overview);
-
-    final benefitsTa = scheme.benefitsTa.trim();
-    final benefits = benefitsTa.isNotEmpty
-        ? benefitsTa
-        : translator.translate(scheme.benefits);
 
     return LocalizedScheme._(
       rawScheme: scheme,
-      languageCode: 'ta',
+      languageCode: languageCode,
+      name: scheme.name,
+      shortName: scheme.shortName,
+      fullSchemeName: scheme.fullSchemeName,
+      ministry: scheme.ministry,
+      department: scheme.department,
+      implementingAgency: scheme.implementingAgency,
+      governmentLevel: scheme.governmentLevel,
+      sponsoringBody: scheme.sponsoringBody,
+      issuingBody: scheme.issuingBody,
+      state: scheme.state,
+      sector: scheme.sector,
+      targetBeneficiary: scheme.targetBeneficiary,
+      schemeType: scheme.schemeType,
+      category: scheme.category,
+      overview: scheme.overview,
+      objectives: scheme.objectives,
+      benefits: scheme.benefits,
+      subsidyAmount: scheme.subsidyAmount,
+      verificationStatus: scheme.verificationStatus,
+      verificationNotes: scheme.verificationNotes,
+      lastUpdated: scheme.lastUpdated,
+      glanceChips: scheme.glanceChips,
+      benefitTypesList: scheme.benefitTypesList,
+      capitalSubsidyDetails: scheme.capitalSubsidyDetails,
+      interestSubventionDetails: scheme.interestSubventionDetails,
+      marginMoneyDetails: scheme.marginMoneyDetails,
+      loanGuaranteeDetails: scheme.loanGuaranteeDetails,
+      supportTypes: scheme.supportTypes,
+      rawBenefitsDisplayText: scheme.rawBenefitsDisplayText,
+      eligibilityAgeRange: scheme.eligibilityAgeRange,
+      turnoverLimits: scheme.turnoverLimits,
+      investmentLimits: scheme.investmentLimits,
+      allowedBusinessTypes: scheme.allowedBusinessTypes,
+      educationRequirements: scheme.educationRequirements,
+      mandatoryConditions: scheme.mandatoryConditions,
+      optionalConditions: scheme.optionalConditions,
+      specialCategories: scheme.specialCategories,
+      applicationFee: scheme.applicationFee,
+      processingDurationDays: scheme.processingDurationDays,
+      intakeTimelineText: scheme.intakeTimelineText,
+      financeProductsSummary: scheme.financeProductsSummary,
+      taxExemptionsSummary: scheme.taxExemptionsSummary,
+      applicableTaxesList: scheme.applicableTaxesList,
+      knowledgeGuidanceList: scheme.knowledgeGuidanceList,
+      helplineContactsMap: scheme.helplineContactsMap,
+      eligibilityCriteria: scheme.eligibilityCriteria,
+      requiredDocuments: scheme.requiredDocuments,
+      applicationProcess: scheme.applicationProcess,
+      documents: scheme.documents,
+      requiredServices: scheme.requiredServices,
+      faqs: scheme.faqs,
+    );
+  }
+
+  factory LocalizedScheme._translated(Scheme scheme, String lang) {
+    final translator = CentralizedTranslator.instance;
+    final pack = LanguagePackManager.instance;
+    // A language with a rewriting engine turns English it has no stored text
+    // for into a translation; any other language looks up exact dictionary
+    // entries and otherwise keeps the English whole, never a word-by-word mix.
+    final rewrites = translator.rewritesEnglish(lang);
+
+    String? packed(String fieldName) {
+      final value = pack.getField(
+        lang: lang,
+        entityType: 'scheme',
+        entityId: scheme.id,
+        fieldName: fieldName,
+      );
+      return value == null || value.isEmpty ? null : value;
+    }
+
+    String? kept(String field) {
+      final value = scheme.nativeName(field, lang)?.trim();
+      return value == null || value.isEmpty ? null : value;
+    }
+
+    // Generic metadata (level, state, category...): exact tag or tag rewrite.
+    String tag(String v) => translator.localizeTagFor(lang, v);
+    // Short free text: exact phrase or full rewrite.
+    String text(String v) => translator.localizeFor(lang, v);
+    // Long prose is not looked up: only a rewriting engine touches it.
+    String prose(String v) => rewrites ? translator.translate(v) : v;
+    // Names of organisations: stored name, then translated.
+    String body(String field, String v) =>
+        scheme.nativeName(field, lang) ??
+        (rewrites ? translator.translate(v) : tag(v));
+
+    final storedName = kept('name') ?? packed('name');
+    final name = storedName ?? prose(scheme.name);
+    final benefits =
+        kept('benefits') ?? packed('benefits_text') ?? prose(scheme.benefits);
+
+    // The language's names of the required documents, stored alongside the
+    // English list and keyed by the English name.
+    final storedDocNames = scheme.extras.storedDocumentNames(lang);
+    final docNames = <String, String>{
+      if (storedDocNames.length == scheme.requiredDocuments.length)
+        for (var i = 0; i < storedDocNames.length; i++)
+          if (storedDocNames[i].isNotEmpty)
+            scheme.requiredDocuments[i]: storedDocNames[i],
+    };
+    // A name the document record itself stores counts too: records with no
+    // list-level names keep them per document.
+    for (final d in scheme.documents) {
+      final own = d.translated('name', lang);
+      if (own.isNotEmpty) docNames.putIfAbsent(d.name, () => own);
+    }
+    String orStored(String stored, String translated) =>
+        stored.isNotEmpty ? stored : translated;
+    // Document text with nothing stored: never a word-by-word mix (BUG-07).
+    String docText(String v) =>
+        rewrites ? _wholeOrOriginal(translator.translate(v), v) : text(v);
+
+    return LocalizedScheme._(
+      rawScheme: scheme,
+      languageCode: lang,
       name: name,
       shortName:
-          scheme.nativeName('shortName', 'ta') ??
-          translator.translateTag(scheme.shortName),
-      fullSchemeName: nameTa.isNotEmpty
-          ? nameTa
-          : translator.translate(scheme.fullSchemeName),
-      ministry:
-          scheme.nativeName('ministry', 'ta') ??
-          translator.translate(scheme.ministry),
-      department:
-          scheme.nativeName('department', 'ta') ??
-          translator.translate(scheme.department),
-      implementingAgency:
-          scheme.nativeName('implementingAgency', 'ta') ??
-          translator.translate(scheme.implementingAgency),
-      governmentLevel: translator.translateTag(scheme.governmentLevel),
-      sponsoringBody:
-          scheme.nativeName('sponsoringBody', 'ta') ??
-          translator.translate(scheme.sponsoringBody),
-      issuingBody:
-          scheme.nativeName('issuingBody', 'ta') ??
-          translator.translate(scheme.issuingBody),
-      state: translator.translateTag(scheme.state),
-      sector: translator.translateTag(scheme.sector),
-      targetBeneficiary: _wholeOrOriginal(
-        translator.translate(scheme.targetBeneficiary),
-        scheme.targetBeneficiary,
-      ),
-      schemeType: translator.translateTag(scheme.schemeType),
-      category: translator.translateTag(scheme.category),
-      overview: overview,
-      objectives: translator.translate(scheme.objectives),
+          packed('short_name') ??
+          scheme.nativeName('shortName', lang) ??
+          (rewrites ? tag(scheme.shortName) : scheme.shortName),
+      fullSchemeName:
+          storedName ??
+          (rewrites ? translator.translate(scheme.fullSchemeName) : name),
+      ministry: body('ministry', scheme.ministry),
+      department: body('department', scheme.department),
+      implementingAgency: body('implementingAgency', scheme.implementingAgency),
+      governmentLevel: tag(scheme.governmentLevel),
+      sponsoringBody: body('sponsoringBody', scheme.sponsoringBody),
+      issuingBody: body('issuingBody', scheme.issuingBody),
+      state: tag(scheme.state),
+      sector: tag(scheme.sector),
+      targetBeneficiary: rewrites
+          ? _wholeOrOriginal(
+              translator.translate(scheme.targetBeneficiary),
+              scheme.targetBeneficiary,
+            )
+          : tag(scheme.targetBeneficiary),
+      schemeType: tag(scheme.schemeType),
+      category: tag(scheme.category),
+      overview:
+          kept('overview') ??
+          packed('summary') ??
+          packed('description') ??
+          prose(scheme.overview),
+      objectives: packed('objective') ?? prose(scheme.objectives),
       benefits: benefits,
-      subsidyAmount: translator.translate(scheme.subsidyAmount),
-      verificationStatus: translator.translate(scheme.verificationStatus),
-      verificationNotes: translator.translate(scheme.verificationNotes),
+      subsidyAmount: text(scheme.subsidyAmount),
+      verificationStatus: rewrites
+          ? translator.translate(scheme.verificationStatus)
+          : tag(scheme.verificationStatus),
+      verificationNotes: text(scheme.verificationNotes),
       lastUpdated: scheme.lastUpdated,
-      glanceChips: scheme.glanceChips.map(translator.translateTag).toList(),
-      benefitTypesList: scheme.benefitTypesList
-          .map(translator.translateTag)
-          .toList(),
-      capitalSubsidyDetails: translator.translate(scheme.capitalSubsidyDetails),
-      interestSubventionDetails: translator.translate(
-        scheme.interestSubventionDetails,
-      ),
-      marginMoneyDetails: translator.translate(scheme.marginMoneyDetails),
-      loanGuaranteeDetails: translator.translate(scheme.loanGuaranteeDetails),
-      supportTypes: scheme.supportTypes.map(translator.translateTag).toList(),
-      rawBenefitsDisplayText: translator.translate(
-        scheme.rawBenefitsDisplayText,
-      ),
-      eligibilityAgeRange: translator.translate(scheme.eligibilityAgeRange),
-      turnoverLimits: translator.translate(scheme.turnoverLimits),
-      investmentLimits: translator.translate(scheme.investmentLimits),
-      allowedBusinessTypes: scheme.allowedBusinessTypes
-          .map(translator.translateTag)
-          .toList(),
-      educationRequirements: translator.translate(scheme.educationRequirements),
-      mandatoryConditions: scheme.mandatoryConditions
-          .map(translator.translate)
-          .toList(),
-      optionalConditions: scheme.optionalConditions
-          .map(translator.translate)
-          .toList(),
-      specialCategories: scheme.specialCategories
-          .map(translator.translateTag)
-          .toList(),
-      applicationFee: translator.translate(scheme.applicationFee),
-      processingDurationDays: translator.translate(
-        scheme.processingDurationDays,
-      ),
-      intakeTimelineText: translator.translate(scheme.intakeTimelineText),
-      financeProductsSummary: scheme.financeProductsSummary
-          .map(translator.translate)
-          .toList(),
-      taxExemptionsSummary: scheme.taxExemptionsSummary
-          .map(translator.translate)
-          .toList(),
-      applicableTaxesList: scheme.applicableTaxesList
-          .map(translator.translateTag)
-          .toList(),
-      knowledgeGuidanceList: scheme.knowledgeGuidanceList
-          .map(translator.translate)
-          .toList(),
+      glanceChips: scheme.glanceChips.map(tag).toList(),
+      benefitTypesList: scheme.benefitTypesList.map(tag).toList(),
+      capitalSubsidyDetails: text(scheme.capitalSubsidyDetails),
+      interestSubventionDetails: text(scheme.interestSubventionDetails),
+      marginMoneyDetails: text(scheme.marginMoneyDetails),
+      loanGuaranteeDetails: text(scheme.loanGuaranteeDetails),
+      supportTypes: scheme.supportTypes.map(tag).toList(),
+      rawBenefitsDisplayText: benefits,
+      eligibilityAgeRange: text(scheme.eligibilityAgeRange),
+      turnoverLimits: text(scheme.turnoverLimits),
+      investmentLimits: text(scheme.investmentLimits),
+      allowedBusinessTypes: scheme.allowedBusinessTypes.map(tag).toList(),
+      educationRequirements: text(scheme.educationRequirements),
+      mandatoryConditions: scheme.mandatoryConditions.map(text).toList(),
+      optionalConditions: scheme.optionalConditions.map(text).toList(),
+      specialCategories: scheme.specialCategories.map(tag).toList(),
+      applicationFee: text(scheme.applicationFee),
+      processingDurationDays: text(scheme.processingDurationDays),
+      intakeTimelineText: text(scheme.intakeTimelineText),
+      financeProductsSummary: scheme.financeProductsSummary.map(text).toList(),
+      taxExemptionsSummary: scheme.taxExemptionsSummary.map(text).toList(),
+      applicableTaxesList: scheme.applicableTaxesList.map(tag).toList(),
+      knowledgeGuidanceList: scheme.knowledgeGuidanceList.map(text).toList(),
       helplineContactsMap: scheme.helplineContactsMap,
       eligibilityCriteria: _storedEligibility(
         scheme,
-        'ta',
-        fallback: (l) => l.map(translator.translate).toList(),
+        lang,
+        fallback: (l) => l.map(prose).toList(),
       ),
-      requiredDocuments: scheme.requiredDocuments
-          .map(translator.translate)
-          .toList(),
+      requiredDocuments: [
+        for (final d in scheme.requiredDocuments) docNames[d] ?? docText(d),
+      ],
       applicationProcess: _storedSteps(
         scheme,
-        'ta',
-        fallback: (l) => l.map(translator.translate).toList(),
+        lang,
+        fallback: (l) => l.map(prose).toList(),
       ),
       documents: scheme.documents
           .map(
+            // Text stored in the catalogue record first, then the dictionary,
+            // then the original English.
             (d) => d.copyWith(
-              name: d.nameTa.isNotEmpty
-                  ? d.nameTa
-                  : translator.translate(d.name),
-              description: d.descriptionTa.isNotEmpty
-                  ? d.descriptionTa
-                  : translator.translate(d.description),
-              issuingAuthority: d.issuingAuthorityTa.isNotEmpty
-                  ? d.issuingAuthorityTa
-                  : translator.translate(d.issuingAuthority),
-              estimatedCost: d.estimatedCostTa.isNotEmpty
-                  ? d.estimatedCostTa
-                  : translator.translate(d.estimatedCost),
-              mandatory: d.mandatoryTa.isNotEmpty
-                  ? d.mandatoryTa
-                  : translator.translateTag(d.mandatory),
-              remarks: d.remarksTa.isNotEmpty
-                  ? d.remarksTa
-                  : translator.translate(d.remarks),
+              name: orStored(
+                d.translated('name', lang),
+                docNames[d.name] ?? docText(d.name),
+              ),
+              description: orStored(
+                d.translated('description', lang),
+                docText(d.description),
+              ),
+              issuingAuthority: orStored(
+                d.translated('issuingAuthority', lang),
+                docText(d.issuingAuthority),
+              ),
+              estimatedCost: orStored(
+                d.translated('estimatedCost', lang),
+                docText(d.estimatedCost),
+              ),
+              // Canonical flag ("Yes"/"Required"): `isMandatory` reads it and
+              // the details screen shows the localized badge itself.
+              mandatory: d.mandatory,
+              remarks: orStored(
+                d.translated('remarks', lang),
+                docText(d.remarks),
+              ),
             ),
           )
           .toList(),
       requiredServices: scheme.requiredServices
           .map(
             (s) => SchemeService(
-              name: s.nameTa.isNotEmpty
-                  ? s.nameTa
-                  : translator.translate(s.name),
-              nameTa: s.nameTa,
-              category: s.categoryTa.isNotEmpty
-                  ? s.categoryTa
-                  : translator.translateTag(s.category),
-              categoryTa: s.categoryTa,
+              name: orStored(s.translated('name', lang), text(s.name)),
+              category: orStored(
+                s.translated('category', lang),
+                tag(s.category),
+              ),
               mandatory: s.mandatory,
-              description: s.descriptionTa.isNotEmpty
-                  ? s.descriptionTa
-                  : translator.translate(s.description),
-              descriptionTa: s.descriptionTa,
-              purpose: s.purposeTa.isNotEmpty
-                  ? s.purposeTa
-                  : translator.translate(s.purpose),
-              purposeTa: s.purposeTa,
-              department: s.departmentTa.isNotEmpty
-                  ? s.departmentTa
-                  : translator.translate(s.department),
-              departmentTa: s.departmentTa,
+              description: orStored(
+                s.translated('description', lang),
+                text(s.description),
+              ),
+              purpose: orStored(s.translated('purpose', lang), text(s.purpose)),
+              department: orStored(
+                s.translated('department', lang),
+                text(s.department),
+              ),
               website: s.website,
               contact: s.contact,
               status: s.status,
-              notes: s.notesTa.isNotEmpty
-                  ? s.notesTa
-                  : translator.translate(s.notes),
-              notesTa: s.notesTa,
+              notes: orStored(s.translated('notes', lang), text(s.notes)),
+              translations: s.translations,
             ),
           )
           .toList(),
       faqs: scheme.faqs
           .map(
             (faq) => {
-              'question': translator.translate(faq['question'] ?? ''),
-              'answer': translator.translate(faq['answer'] ?? ''),
+              'question': text(faq['question'] ?? ''),
+              'answer': text(faq['answer'] ?? ''),
             },
           )
           .toList(),

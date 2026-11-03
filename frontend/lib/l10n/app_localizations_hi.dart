@@ -5048,6 +5048,14 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
+  String get processUnconfirmedLink =>
+      'कुछ विवरण आधिकारिक स्रोतों से पुष्ट नहीं हो सके। आवेदन करने से पहले आधिकारिक पृष्ठ देखें।';
+
+  @override
+  String get processUnconfirmedNoLink =>
+      'कुछ विवरण आधिकारिक स्रोतों से पुष्ट नहीं हो सके। आवेदन करने से पहले संबंधित कार्यालय से पुष्टि करें।';
+
+  @override
   String schemeApplicationStatus(String status) {
     return 'आवेदन: $status';
   }

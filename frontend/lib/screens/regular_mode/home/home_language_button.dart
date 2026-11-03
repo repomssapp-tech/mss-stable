@@ -6,13 +6,14 @@ import '../../../services/catalog/language_pack_manager.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_size.dart';
 import '../../../utils/app_text.dart';
+import '../../../utils/language_names.dart';
 
-/// Language switcher for the home header: English, Tamil and Hindi.
+/// Language switcher for the home header, listing what the catalogue offers.
 ///
 /// Switching goes through [AppProvider.changeLanguage], which loads the
-/// language pack and re-resolves scheme text. Schemes that have no Hindi (or
-/// Tamil) text for a field keep showing the English text for that field, so
-/// choosing Hindi here never leaves a blank card.
+/// language pack and re-resolves scheme text. Schemes that have no text in the
+/// chosen language for a field keep showing the English text for that field,
+/// so choosing a language here never leaves a blank card.
 class HomeLanguageButton extends StatefulWidget {
   final AppProvider provider;
 
@@ -23,39 +24,29 @@ class HomeLanguageButton extends StatefulWidget {
 }
 
 class _HomeLanguageButtonState extends State<HomeLanguageButton> {
-  // Same gate as the language picker: Hindi is offered only when the release
-  // manifest lists it as active and a valid pack exists (the D10 kill switch).
-  bool _hiSupported = false;
+  // Same gate as the language picker: a language is offered only when the
+  // release manifest has it on and a valid pack exists (the D10 kill switch).
+  List<String> _offered = LanguagePackManager.baseLanguages;
 
   @override
   void initState() {
     super.initState();
-    _checkHindiSupport();
+    _loadOffered();
   }
 
-  Future<void> _checkHindiSupport() async {
-    final supported = await LanguagePackManager.instance.isLanguageSupported(
-      'hi',
-    );
-    if (mounted && supported != _hiSupported) {
-      setState(() => _hiSupported = supported);
-    }
+  Future<void> _loadOffered() async {
+    final offered = await LanguagePackManager.instance.offeredLanguages();
+    if (mounted) setState(() => _offered = offered);
   }
 
   // Language names are shown in their own script regardless of the active
-  // locale, so people can always find their language.
-  static const _options = <({String code, String label})>[
-    (code: 'en', label: 'English'), // i18n-ok
-    (code: 'ta', label: 'தமிழ்'), // i18n-ok
-    (code: 'hi', label: 'हिन्दी'), // i18n-ok
+  // locale, so people can always find their language. A user already on a
+  // language keeps seeing it ticked even if the kill switch is flipped, so the
+  // menu never hides the language they are using.
+  List<({String code, String label})> _visibleOptions(String current) => [
+    for (final code in inDisplayOrder({..._offered, current}))
+      (code: code, label: languageEndonym(code)),
   ];
-
-  // A user already on Hindi keeps seeing it ticked even if the kill switch is
-  // flipped, so the menu never hides the language they are using.
-  List<({String code, String label})> _visibleOptions(String current) =>
-      _options
-          .where((o) => o.code != 'hi' || _hiSupported || current == 'hi')
-          .toList();
 
   @override
   Widget build(BuildContext context) {

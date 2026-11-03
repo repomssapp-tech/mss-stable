@@ -4,16 +4,17 @@ import 'dart:core';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart' show AssetManifest, rootBundle;
 
 /// CentralizedTranslator
 /// ─────────────────────
 /// Centralized translation engine converting English catalog text, categories,
 /// chips, badges, document names, service items, eligibility rules, and timeline steps
-/// into accurate, natural Tamil when Tamil mode is active.
+/// into the active language, by exact dictionary or, for [rewritingLanguages],
+/// by the word-level rewriting engine.
 ///
 /// Priority Pipeline:
-/// 1. Catalog JSON Tamil values (preferred if available).
+/// 1. Catalog JSON values in the language (preferred if available).
 /// 2. Centralized Flutter translation dictionary & sentence converter.
 /// 3. Protected fields (URLs, emails, phone numbers, IDs, codes, dates, currency values) preserved.
 ///
@@ -28,14 +29,29 @@ class CentralizedTranslator {
 
   static const String assetPath = 'assets/catalog/translation_dictionary.json';
 
-  /// Hindi counterpart of [assetPath]: exact (lower-cased) English phrase or
-  /// tag -> Hindi. Unlike the Tamil path there is no word-level rewriting, so
-  /// text with no exact entry stays English instead of turning into a mix.
-  static const String hiAssetPath =
-      'assets/catalog/translation_dictionary_hi.json';
+  /// The exact-match dictionary of [lang]: (lower-cased) English phrase or tag
+  /// -> translation. Every language other than the [rewritingLanguages] works
+  /// this way: text with no exact entry stays English instead of turning into a
+  /// mix, and a language with no dictionary file simply stays English. Adding
+  /// the file is all a new language needs.
+  static String dictionaryAssetPath(String lang) =>
+      'assets/catalog/translation_dictionary_$lang.json';
 
-  /// Language the UI is currently shown in (`en`, `ta`, `hi`). Kept in sync by
-  /// `main.dart`; [localize] and [localizeTag] follow it.
+  static final RegExp _dictionaryAsset = RegExp(
+    r'^assets/catalog/translation_dictionary_([a-z]{2,3})\.json$',
+  );
+
+  /// Languages with a word-level rewriting engine for English catalog text
+  /// ([assetPath] plus the [_sentencePatterns] below). Only Tamil has one, and
+  /// it is legacy: new languages should use stored text and exact dictionaries.
+  static const Set<String> rewritingLanguages = {'ta'};
+
+  /// Whether English text with no stored translation may be rewritten into
+  /// [lang] rather than shown as it is.
+  bool rewritesEnglish(String lang) => rewritingLanguages.contains(lang);
+
+  /// Language the UI is currently shown in. Kept in sync by `main.dart`;
+  /// [localize] and [localizeTag] follow it.
   String activeLanguage = 'en';
 
   static final RegExp _urlRegex = RegExp(
@@ -106,27 +122,38 @@ class CentralizedTranslator {
     LocalizedSchemeCache.invalidate();
   }
 
-  bool _hiLoaded = false;
-  Map<String, String> _hiTagMap = const {};
-  Map<String, String> _hiPhraseMap = const {};
+  /// Exact-match dictionaries by language, as (tagMap, phraseMap).
+  final Map<String, ({Map<String, String> tags, Map<String, String> phrases})>
+  _exactDictionaries = {};
 
-  void _populateHi(Map<String, dynamic> json) {
+  /// Languages whose dictionary was looked for synchronously, so a language
+  /// with no file is not probed again for every string.
+  final Set<String> _probedDictionaries = {};
+
+  void _populateExact(String lang, Map<String, dynamic> json) {
     Map<String, String> read(Object? raw) => raw is Map
         ? raw.map((k, v) => MapEntry(k.toString(), v.toString()))
         : const {};
-    _hiTagMap = read(json['tagMap']);
-    _hiPhraseMap = read(json['phraseMap']);
-    _hiLoaded = true;
+    _exactDictionaries[lang] = (
+      tags: read(json['tagMap']),
+      phrases: read(json['phraseMap']),
+    );
     LocalizedSchemeCache.invalidate();
   }
 
-  void _ensureHiInitializedSync() {
-    if (_hiLoaded) return;
-    for (final path in const [hiAssetPath, 'frontend/$hiAssetPath']) {
+  /// Direct file read for tests / VM, before the asset bundle is ready.
+  void _ensureExactInitializedSync(String lang) {
+    if (_exactDictionaries.containsKey(lang) ||
+        !_probedDictionaries.add(lang)) {
+      return;
+    }
+    final asset = dictionaryAssetPath(lang);
+    for (final path in [asset, 'frontend/$asset']) {
       try {
         final file = File(path);
         if (file.existsSync()) {
-          _populateHi(
+          _populateExact(
+            lang,
             jsonDecode(file.readAsStringSync()) as Map<String, dynamic>,
           );
           return;
@@ -135,20 +162,34 @@ class CentralizedTranslator {
     }
   }
 
-  Future<void> _ensureHiLoaded() async {
-    if (_hiLoaded) return;
+  /// Loads every `translation_dictionary_<lang>.json` the app ships.
+  Future<void> _loadExactDictionaries() async {
+    final Iterable<String> assets;
     try {
-      _populateHi(
-        jsonDecode(await rootBundle.loadString(hiAssetPath))
-            as Map<String, dynamic>,
-      );
+      assets = (await AssetManifest.loadFromAssetBundle(
+        rootBundle,
+      )).listAssets();
     } catch (_) {
-      _ensureHiInitializedSync();
+      return; // No asset bundle: the sync path reads the files on demand.
+    }
+    for (final asset in assets) {
+      final lang = _dictionaryAsset.firstMatch(asset)?.group(1);
+      if (lang == null || _exactDictionaries.containsKey(lang)) continue;
+      try {
+        _populateExact(
+          lang,
+          jsonDecode(await rootBundle.loadString(asset))
+              as Map<String, dynamic>,
+        );
+      } catch (_) {
+        _ensureExactInitializedSync(lang);
+      }
     }
   }
 
-  /// Text for the active UI language: Tamil via the full [translate] pipeline,
-  /// Hindi via exact dictionary lookup, anything else unchanged.
+  /// Text for the active UI language: the full [translate] pipeline for a
+  /// [rewritingLanguages] entry, exact dictionary lookup for any other language,
+  /// English unchanged.
   String localize(String? input) => localizeFor(activeLanguage, input);
 
   /// Tag/chip variant of [localize].
@@ -156,40 +197,30 @@ class CentralizedTranslator {
 
   /// Like [localize] for callers that already hold a language code.
   String localizeFor(String lang, String? input) {
-    switch (lang) {
-      case 'ta':
-        return translate(input);
-      case 'hi':
-        return _translateHi(input);
-      default:
-        return input ?? '';
-    }
+    if (lang == 'en') return input ?? '';
+    return rewritesEnglish(lang) ? translate(input) : _exact(lang, input);
   }
 
   /// Like [localizeTag] for callers that already hold a language code.
   String localizeTagFor(String lang, String? rawTag) {
-    switch (lang) {
-      case 'ta':
-        return translateTag(rawTag);
-      case 'hi':
-        return _translateHi(rawTag, tag: true);
-      default:
-        return rawTag ?? '';
-    }
+    if (lang == 'en') return rawTag ?? '';
+    return rewritesEnglish(lang)
+        ? translateTag(rawTag)
+        : _exact(lang, rawTag, tag: true);
   }
 
-  String _translateHi(String? input, {bool tag = false}) {
-    if (!_hiLoaded) _ensureHiInitializedSync();
+  String _exact(String lang, String? input, {bool tag = false}) {
+    _ensureExactInitializedSync(lang);
     if (input == null) return '';
     final trimmed = input.trim();
     if (trimmed.isEmpty) return input;
+    final dictionary = _exactDictionaries[lang];
+    if (dictionary == null) return input;
     final lower = trimmed.toLowerCase();
-    final first = tag ? _hiTagMap : _hiPhraseMap;
-    final second = tag ? _hiPhraseMap : _hiTagMap;
+    final first = tag ? dictionary.tags : dictionary.phrases;
+    final second = tag ? dictionary.phrases : dictionary.tags;
     // An exact dictionary entry wins even if the text contains a URL.
-    final exact = first[lower] ?? second[lower];
-    if (exact != null) return exact;
-    return input;
+    return first[lower] ?? second[lower] ?? input;
   }
 
   /// Synchronously ensures the dictionary is loaded.
@@ -213,7 +244,7 @@ class CentralizedTranslator {
   /// Asynchronously loads and caches the shared translation dictionary JSON.
   /// Idempotent and safe to call from multiple sites (e.g. app bootstrap).
   Future<void> ensureLoaded() async {
-    await _ensureHiLoaded();
+    await _loadExactDictionaries();
     if (_loaded) return;
     try {
       final jsonStr = await rootBundle.loadString(assetPath);

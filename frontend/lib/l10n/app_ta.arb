@@ -1540,6 +1540,8 @@
   "schemeContactHours": "நேரம்",
   "schemeStatusAsOf": "{date} நிலவரப்படி",
   "@schemeStatusAsOf": {"placeholders": {"date": {"type": "String"}}},
+  "processUnconfirmedLink": "சில விவரங்களை அதிகாரப்பூர்வ ஆதாரங்களில் உறுதிப்படுத்த முடியவில்லை. விண்ணப்பிக்கும் முன் அதிகாரப்பூர்வப் பக்கத்தைப் பார்க்கவும்.",
+  "processUnconfirmedNoLink": "சில விவரங்களை அதிகாரப்பூர்வ ஆதாரங்களில் உறுதிப்படுத்த முடியவில்லை. விண்ணப்பிக்கும் முன் செயல்படுத்தும் அலுவலகத்தில் உறுதி செய்யவும்.",
   "schemeApplicationStatus": "விண்ணப்பங்கள்: {status}",
   "@schemeApplicationStatus": {"placeholders": {"status": {"type": "String"}}},
   "schemeAppStatusOpen": "திறந்துள்ளன",

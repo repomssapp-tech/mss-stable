@@ -1,4 +1,5 @@
 import '../../../models/mss_entity.dart';
+import '../centralized_translator.dart';
 import '../mss_catalog_bundle.dart';
 import 'scheme_adapter_text_utils.dart';
 
@@ -11,7 +12,9 @@ class SchemeBenefitsData {
   final double? interestSubventionRate;
   final String subsidyAmountText;
   final String rawBenefitsDisplayText;
-  final String benefitsTa;
+
+  /// `{lang: text}` the record stores, for the languages that keep it here.
+  final Map<String, String> storedBenefits;
   final List<String> benefitTypesList;
   final String capitalSubsidyDetails;
   final String interestSubventionDetails;
@@ -29,7 +32,7 @@ class SchemeBenefitsData {
     required this.interestSubventionRate,
     required this.subsidyAmountText,
     required this.rawBenefitsDisplayText,
-    required this.benefitsTa,
+    required this.storedBenefits,
     required this.benefitTypesList,
     required this.capitalSubsidyDetails,
     required this.interestSubventionDetails,
@@ -64,26 +67,31 @@ class SchemeBenefitsResolver {
     double? interestSubventionRate;
     String subsidyAmountText = '';
     String benefitsText = '';
-    String benefitsTa = '';
+    // Kept for the languages with a rewriting engine, see SchemeHeaderResolver.
+    const rewriting = CentralizedTranslator.rewritingLanguages;
+    final storedBenefits = <String, String>{};
     final benefitsRaw =
         benefitsObj['summary'] ??
         benefitsObj['description'] ??
         content['benefits'] ??
         content['benefitsText'];
+    String inRaw(String lang) => benefitsRaw is Map<String, dynamic>
+        ? (SchemeAdapterTextUtils.textOrNull(benefitsRaw[lang]) ?? '').trim()
+        : '';
     if (benefitsRaw is Map<String, dynamic>) {
-      final benefitsEn =
-          (SchemeAdapterTextUtils.textOrNull(benefitsRaw['en']) ?? '').trim();
-      benefitsTa = (SchemeAdapterTextUtils.textOrNull(benefitsRaw['ta']) ?? '')
-          .trim();
-      benefitsText = benefitsEn.isNotEmpty ? benefitsEn : benefitsTa;
+      benefitsText = SchemeAdapterTextUtils.firstText([
+        inRaw('en'),
+        for (final lang in rewriting) inRaw(lang),
+      ]);
     } else if (benefitsRaw is String) {
       benefitsText = benefitsRaw;
     }
-    if (benefitsTa.isEmpty) {
-      benefitsTa = entity.getLocalizedAttribute('benefitsText', 'ta');
-    }
-    if (benefitsTa.isEmpty) {
-      benefitsTa = entity.getLocalizedAttribute('benefits', 'ta');
+    for (final lang in rewriting) {
+      storedBenefits[lang] = SchemeAdapterTextUtils.firstText([
+        inRaw(lang),
+        entity.getLocalizedAttribute('benefitsText', lang),
+        entity.getLocalizedAttribute('benefits', lang),
+      ]);
     }
 
     if (benefitsText.isEmpty) {
@@ -225,7 +233,7 @@ class SchemeBenefitsResolver {
       interestSubventionRate: interestSubventionRate,
       subsidyAmountText: subsidyAmountText,
       rawBenefitsDisplayText: rawBenefitsDisplayText,
-      benefitsTa: benefitsTa,
+      storedBenefits: storedBenefits,
       benefitTypesList: benefitTypesList,
       capitalSubsidyDetails: capitalSubsidyDetails,
       interestSubventionDetails: interestSubventionDetails,

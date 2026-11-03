@@ -547,6 +547,12 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                           },
                           child: SchemeProcessContent(
                             steps: scheme.applicationProcess,
+                            showUnconfirmedNotice:
+                                rawScheme.extras.hasUnconfirmedDetails,
+                            officialUrl: rawScheme.extras.hasWrongLink
+                                ? ''
+                                : _actionTarget(scheme).url,
+                            onOpenUrl: _openOfficialUrl,
                           ),
                         ),
                         const SizedBox(height: AppSpacing.md),

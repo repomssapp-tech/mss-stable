@@ -31,9 +31,9 @@ class QuestionNode {
 
   LocalizedQuestionNode toLocalized(String language) {
     // The "Ta" fields hold the non-English translation for whichever
-    // language the flow was built for (Tamil or Hindi), see
+    // language the flow was built for, see
     // SmartAssessmentBottomSheet._initializeFlow.
-    final useTranslated = language == 'ta' || language == 'hi';
+    final useTranslated = language != 'en';
     final translator = CentralizedTranslator.instance;
 
     final String qText = useTranslated

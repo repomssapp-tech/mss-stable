@@ -9,6 +9,7 @@ import '../../../utils/app_spacing.dart';
 import '../../../utils/responsive.dart';
 import 'voice_overlay_models.dart';
 import '../../../utils/app_text.dart';
+import 'voice_card_language.dart';
 
 class VoiceTranscriptBubble extends StatelessWidget {
   const VoiceTranscriptBubble({
@@ -131,7 +132,9 @@ class VoiceTurnSchemeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = match.scheme.toLocalized(presentInTamil ? 'ta' : 'en');
+    final scheme = match.scheme.toLocalized(
+      voiceCardLanguage(context, presentInTamil),
+    );
     return Padding(
       padding: const EdgeInsets.only(top: AppSpacing.tight),
       child: Material(

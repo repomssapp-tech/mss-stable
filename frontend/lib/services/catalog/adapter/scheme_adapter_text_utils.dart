@@ -47,43 +47,52 @@ class SchemeAdapterTextUtils {
     return null;
   }
 
-  /// Extracts English and Tamil strings from a multilingual object or string.
-  static (String en, String ta) extractMultilingualStr(
+  static final RegExp _languageKey = RegExp(r'^[a-z]{2,3}$');
+
+  /// Suffixed keys of an object that is not a language map (`name_ta`), tried
+  /// in this order after the plain language key.
+  static const List<String> _suffixedFields = ['name', 'title', 'description'];
+
+  /// Extracts the English string and every other language's string from a
+  /// multilingual object (`{"en": ..., "hi": ...}`, or `name_<lang>` keys) or a
+  /// plain string. The map holds non-empty values only.
+  static (String en, Map<String, String> translations) extractMultilingual(
     dynamic rawObj, [
     String defaultStr = '',
   ]) {
     if (rawObj is Map<String, dynamic>) {
       final en = str(rawObj['en']);
-      final ta = str(rawObj['ta']);
       final name = firstText([
         str(rawObj['name']),
         str(rawObj['title']),
         str(rawObj['description']),
       ]);
-      final nameTa = firstText([
-        str(rawObj['name_ta']),
-        str(rawObj['title_ta']),
-        str(rawObj['description_ta']),
-      ]);
+      final translations = <String, String>{};
+      rawObj.forEach((key, value) {
+        if (key == 'en' || !_languageKey.hasMatch(key)) return;
+        final text = str(value);
+        if (text.isNotEmpty) translations[key] = text;
+      });
+      for (final field in _suffixedFields) {
+        final prefix = '${field}_';
+        rawObj.forEach((key, value) {
+          if (!key.startsWith(prefix)) return;
+          final lang = key.substring(prefix.length);
+          final text = str(value);
+          if (_languageKey.hasMatch(lang) && text.isNotEmpty) {
+            translations.putIfAbsent(lang, () => text);
+          }
+        });
+      }
       return (
         en.isNotEmpty ? en : (name.isNotEmpty ? name : defaultStr),
-        ta.isNotEmpty ? ta : nameTa,
+        translations,
       );
     }
     if (rawObj is String && rawObj.trim().isNotEmpty) {
-      return (rawObj.trim(), '');
+      return (rawObj.trim(), const {});
     }
-    return (defaultStr, '');
-  }
-
-  /// The Hindi string of a multilingual object (`{"en": ..., "hi": ...}`), or
-  /// '' when [rawObj] is plain text or has no Hindi.
-  static String extractHi(dynamic rawObj) {
-    if (rawObj is Map) {
-      final hi = rawObj['hi'];
-      if (hi is String) return hi.trim();
-    }
-    return '';
+    return (defaultStr, const {});
   }
 
   /// Extracts localized text from a map, list, or string. Delegates to

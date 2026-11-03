@@ -10,6 +10,7 @@ import '../../../services/voice/assistant_session_controller.dart';
 import '../../../utils/app_spacing.dart';
 import 'voice_transcript_widgets.dart';
 import '../../../utils/app_text.dart';
+import 'voice_card_language.dart';
 
 class VoiceRecommendationCard extends StatelessWidget {
   const VoiceRecommendationCard({
@@ -62,7 +63,7 @@ class VoiceRecommendationCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      scheme.toLocalized(presentInTamil ? 'ta' : 'en').name,
+                      scheme.toLocalized(voiceCardLanguage(context, presentInTamil)).name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: AppGoogleFonts.inter(
@@ -194,7 +195,7 @@ class VoiceLegacyResultsSection extends StatelessWidget {
                     tileColor: Colors.white.withValues(alpha: 0.055),
                     title: Text(
                       match.scheme
-                          .toLocalized(presentInTamil ? 'ta' : 'en')
+                          .toLocalized(voiceCardLanguage(context, presentInTamil))
                           .name,
                       style: const TextStyle(
                         color: Colors.white,
@@ -345,7 +346,7 @@ class RegularVoiceRecommendationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localized = recommendation.scheme.toLocalized(
-      presentInTamil ? 'ta' : 'en',
+      voiceCardLanguage(context, presentInTamil),
     );
     return Padding(
       padding: const EdgeInsets.only(bottom: 9),

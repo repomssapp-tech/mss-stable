@@ -1558,6 +1558,8 @@
   "schemeContactHours": "Hours",
   "schemeStatusAsOf": "As of {date}",
   "@schemeStatusAsOf": {"placeholders": {"date": {"type": "String"}}},
+  "processUnconfirmedLink": "Some details could not be confirmed from official sources. Check the official page before applying.",
+  "processUnconfirmedNoLink": "Some details could not be confirmed from official sources. Confirm with the implementing office before applying.",
   "schemeApplicationStatus": "Applications: {status}",
   "@schemeApplicationStatus": {"placeholders": {"status": {"type": "String"}}},
   "schemeAppStatusOpen": "Open",

@@ -77,7 +77,9 @@ void main() {
           id: 'test_1',
           schemeCode: 'TN_001',
           name: 'Tamil Nadu MSME Loan Scheme',
-          nameTa: 'தமிழ்நாடு குறு சிறு தொழில்கள் கடன் திட்டம்',
+          nativeNames: {
+            'name': {'ta': 'தமிழ்நாடு குறு சிறு தொழில்கள் கடன் திட்டம்'},
+          },
           overview: 'Provides capital subsidy to small businesses.',
           category: 'Loan',
           governmentLevel: 'State',
@@ -85,7 +87,7 @@ void main() {
         );
 
         final localizedTa = rawScheme.toLocalized('ta');
-        // Priority 1: JSON nameTa used directly
+        // Priority 1: stored Tamil name used directly
         expect(
           localizedTa.name,
           equals('தமிழ்நாடு குறு சிறு தொழில்கள் கடன் திட்டம்'),
@@ -99,13 +101,12 @@ void main() {
     );
 
     test(
-      'LocalizedScheme falls back to CentralizedTranslator when nameTa is empty',
+      'LocalizedScheme falls back to CentralizedTranslator when there is no stored name',
       () {
         const rawScheme = Scheme(
           id: 'test_2',
           schemeCode: 'IN_002',
           name: 'Women Entrepreneurship Training Program',
-          nameTa: '',
           category: 'Training',
           governmentLevel: 'Central',
           eligibilityCriteria: ['Women entrepreneurs aged 18+'],
@@ -137,7 +138,9 @@ void main() {
           id: 'test_3',
           schemeCode: 'IN_003',
           name: 'Mudra Loan Scheme',
-          nameTa: 'முத்ரா கடன் திட்டம்',
+          nativeNames: {
+            'name': {'ta': 'முத்ரா கடன் திட்டம்'},
+          },
           category: 'Loan',
         );
 

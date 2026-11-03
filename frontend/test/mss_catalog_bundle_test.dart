@@ -134,9 +134,9 @@ void main() {
       final loaded = await MssCatalogBundle.load();
       expect(loaded.releaseTag, '1.37.0-alpha');
       expect(loaded.isLanguageActive('hi'), isTrue);
-      expect(loaded.isLanguageActive('mr'), isFalse);
+      expect(loaded.isLanguageActive('mr'), isTrue);
       expect(loaded.offeredLanguagesFor('tamil_nadu'), ['en', 'ta']);
-      expect(loaded.offeredLanguagesFor('maharashtra'), ['en', 'hi']);
+      expect(loaded.offeredLanguagesFor('maharashtra'), ['en', 'hi', 'mr']);
       expect(loaded.offeredLanguagesFor('central'), ['en', 'hi', 'ta']);
       expect(loaded.schemeIdMap['SCH000130'], 'CEN2026-085');
     });

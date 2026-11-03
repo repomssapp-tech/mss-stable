@@ -5121,6 +5121,14 @@ class AppLocalizationsTa extends AppLocalizations {
   }
 
   @override
+  String get processUnconfirmedLink =>
+      'சில விவரங்களை அதிகாரப்பூர்வ ஆதாரங்களில் உறுதிப்படுத்த முடியவில்லை. விண்ணப்பிக்கும் முன் அதிகாரப்பூர்வப் பக்கத்தைப் பார்க்கவும்.';
+
+  @override
+  String get processUnconfirmedNoLink =>
+      'சில விவரங்களை அதிகாரப்பூர்வ ஆதாரங்களில் உறுதிப்படுத்த முடியவில்லை. விண்ணப்பிக்கும் முன் செயல்படுத்தும் அலுவலகத்தில் உறுதி செய்யவும்.';
+
+  @override
   String schemeApplicationStatus(String status) {
     return 'விண்ணப்பங்கள்: $status';
   }
