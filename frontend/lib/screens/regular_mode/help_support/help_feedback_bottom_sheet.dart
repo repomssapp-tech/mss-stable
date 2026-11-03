@@ -1,5 +1,6 @@
 import '../../../services/account/app_session.dart';
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 import '../../../l10n/l10n.dart';
 import '../../../services/account/support_ticket_service.dart';
 import '../../../utils/app_spacing.dart';
@@ -52,12 +53,12 @@ void showFeedbackBottomSheet(BuildContext context) {
                       Container(
                         padding: const EdgeInsets.all(AppSpacing.sm),
                         decoration: const BoxDecoration(
-                          color: Color(0xFFEFF6FF),
+                          color: AppColors.primarySoft,
                           shape: BoxShape.circle,
                         ),
                         child: const Icon(
                           Icons.chat_bubble_outline_rounded,
-                          color: Color(0xFF2563EB),
+                          color: AppColors.primary,
                           size: 20,
                         ),
                       ),
@@ -65,17 +66,15 @@ void showFeedbackBottomSheet(BuildContext context) {
                       Expanded(
                         child: Text(
                           l10n.helpShareFeedbackTitle,
-                          style: AppGoogleFonts.poppins(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: const Color(0xFF0F172A),
+                          style: context.text.titleMedium.copyWith(
+                            color: AppColors.textPrimary,
                           ),
                         ),
                       ),
                       IconButton(
                         icon: const Icon(
                           Icons.close_rounded,
-                          color: Color(0xFF94A3B8),
+                          color: AppColors.iconMuted,
                         ),
                         tooltip: l10n.close,
                         onPressed: () => Navigator.pop(context),
@@ -85,9 +84,8 @@ void showFeedbackBottomSheet(BuildContext context) {
                   const SizedBox(height: AppSpacing.lg),
                   Text(
                     l10n.helpFeedbackBody,
-                    style: AppGoogleFonts.inter(
-                      fontSize: 13,
-                      color: const Color(0xFF64748B),
+                    style: context.text.body.copyWith(
+                      color: AppColors.textMuted,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.xl),
@@ -96,10 +94,8 @@ void showFeedbackBottomSheet(BuildContext context) {
                       children: [
                         Text(
                           l10n.helpRateExperience,
-                          style: AppGoogleFonts.inter(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            color: const Color(0xFF0F172A),
+                          style: context.text.button.copyWith(
+                            color: AppColors.textPrimary,
                           ),
                         ),
                         const SizedBox(height: AppSpacing.sm),
@@ -112,7 +108,7 @@ void showFeedbackBottomSheet(BuildContext context) {
                                 starRating <= rating
                                     ? Icons.star_rounded
                                     : Icons.star_outline_rounded,
-                                color: const Color(0xFFF59E0B),
+                                color: AppColors.warning,
                                 size: 36,
                               ),
                               tooltip: l10n.helpRateStars(starRating),
@@ -131,22 +127,21 @@ void showFeedbackBottomSheet(BuildContext context) {
                   TextFormField(
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
-                    style: AppGoogleFonts.inter(
-                      color: const Color(0xFF0F172A),
-                      fontSize: 14,
+                    style: context.text.body.copyWith(
+                      color: AppColors.textPrimary,
                     ),
                     decoration: InputDecoration(
                       labelText: context.l10n.helpContactEmailLabel,
                       hintText: l10n.helpFeedbackEmailHint,
-                      labelStyle: const TextStyle(color: Color(0xFF64748B)),
-                      hintStyle: const TextStyle(color: Color(0xFF94A3B8)),
+                      labelStyle: const TextStyle(color: AppColors.textMuted),
+                      hintStyle: const TextStyle(color: AppColors.iconMuted),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                        borderSide: const BorderSide(color: AppColors.border),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Color(0xFF2563EB)),
+                        borderSide: const BorderSide(color: AppColors.primary),
                       ),
                     ),
                   ),
@@ -154,37 +149,28 @@ void showFeedbackBottomSheet(BuildContext context) {
                   TextFormField(
                     controller: feedbackTextController,
                     maxLines: 3,
-                    style: AppGoogleFonts.inter(
-                      color: const Color(0xFF0F172A),
-                      fontSize: 14,
+                    style: context.text.body.copyWith(
+                      color: AppColors.textPrimary,
                     ),
                     decoration: InputDecoration(
                       labelText: context.l10n.helpSuggestionsLabel,
                       hintText: context.l10n.helpSuggestionsHint,
-                      labelStyle: const TextStyle(color: Color(0xFF64748B)),
-                      hintStyle: const TextStyle(color: Color(0xFF94A3B8)),
+                      labelStyle: const TextStyle(color: AppColors.textMuted),
+                      hintStyle: const TextStyle(color: AppColors.iconMuted),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                        borderSide: const BorderSide(color: AppColors.border),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Color(0xFF2563EB)),
+                        borderSide: const BorderSide(color: AppColors.primary),
                       ),
                     ),
                   ),
                   const SizedBox(height: AppSpacing.xxl),
                   SizedBox(
                     width: double.infinity,
-                    height: 48,
                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF2563EB),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        elevation: 0,
-                      ),
                       onPressed: submittingFeedback
                           ? null
                           : () async {
@@ -264,8 +250,7 @@ void showFeedbackBottomSheet(BuildContext context) {
                             )
                           : Text(
                               l10n.helpSubmitFeedback,
-                              style: AppGoogleFonts.inter(
-                                fontWeight: FontWeight.bold,
+                              style: context.text.label.copyWith(
                                 color: Colors.white,
                               ),
                             ),

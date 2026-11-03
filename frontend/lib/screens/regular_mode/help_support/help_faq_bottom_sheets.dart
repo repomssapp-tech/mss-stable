@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
 import 'help_support_data.dart';
@@ -27,12 +28,12 @@ void showFAQBottomSheet(BuildContext context, String question, String answer) {
                 Container(
                   padding: const EdgeInsets.all(AppSpacing.sm),
                   decoration: const BoxDecoration(
-                    color: Color(0xFFEFF6FF),
+                    color: AppColors.primarySoft,
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
                     Icons.help_outline_rounded,
-                    color: Color(0xFF2563EB),
+                    color: AppColors.primary,
                     size: 20,
                   ),
                 ),
@@ -40,17 +41,15 @@ void showFAQBottomSheet(BuildContext context, String question, String answer) {
                 Expanded(
                   child: Text(
                     l10n.helpFaqAnswerTitle,
-                    style: AppGoogleFonts.poppins(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF0F172A),
+                    style: context.text.titleMedium.copyWith(
+                      color: AppColors.textPrimary,
                     ),
                   ),
                 ),
                 IconButton(
                   icon: const Icon(
                     Icons.close_rounded,
-                    color: Color(0xFF94A3B8),
+                    color: AppColors.iconMuted,
                   ),
                   tooltip: l10n.close,
                   onPressed: () => Navigator.pop(context),
@@ -60,20 +59,14 @@ void showFAQBottomSheet(BuildContext context, String question, String answer) {
             const SizedBox(height: AppSpacing.lg),
             Text(
               question,
-              style: AppGoogleFonts.inter(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFF0F172A),
+              style: context.text.bodyLarge.copyWith(
+                color: AppColors.textPrimary,
               ),
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
               answer,
-              style: AppGoogleFonts.inter(
-                fontSize: 14.5,
-                color: const Color(0xFF64748B),
-                height: 1.5,
-              ),
+              style: context.text.body.copyWith(color: AppColors.textMuted),
             ),
             const SizedBox(height: AppSpacing.lg),
           ],
@@ -118,12 +111,12 @@ void showAllFAQsBottomSheet(BuildContext context) {
                     Container(
                       padding: const EdgeInsets.all(AppSpacing.sm),
                       decoration: const BoxDecoration(
-                        color: Color(0xFFEFF6FF),
+                        color: AppColors.primarySoft,
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
                         Icons.help_outline_rounded,
-                        color: Color(0xFF2563EB),
+                        color: AppColors.primary,
                         size: 20,
                       ),
                     ),
@@ -131,17 +124,15 @@ void showAllFAQsBottomSheet(BuildContext context) {
                     Expanded(
                       child: Text(
                         l10n.helpAllFaqsTitle,
-                        style: AppGoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF0F172A),
+                        style: context.text.titleMedium.copyWith(
+                          color: AppColors.textPrimary,
                         ),
                       ),
                     ),
                     IconButton(
                       icon: const Icon(
                         Icons.close_rounded,
-                        color: Color(0xFF94A3B8),
+                        color: AppColors.iconMuted,
                       ),
                       tooltip: l10n.close,
                       onPressed: () => Navigator.pop(context),
@@ -165,19 +156,17 @@ void showAllFAQsBottomSheet(BuildContext context) {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: const Color(0xFFE2E8F0)),
+                        border: Border.all(color: AppColors.border),
                       ),
                       child: ExpansionTile(
                         title: Text(
                           faq['question']!,
-                          style: AppGoogleFonts.inter(
-                            color: const Color(0xFF0F172A),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 13.5,
+                          style: context.text.button.copyWith(
+                            color: AppColors.textPrimary,
                           ),
                         ),
-                        iconColor: const Color(0xFF2563EB),
-                        collapsedIconColor: const Color(0xFF64748B),
+                        iconColor: AppColors.primary,
+                        collapsedIconColor: AppColors.textMuted,
                         shape: const Border(),
                         childrenPadding: const EdgeInsets.fromLTRB(
                           AppSpacing.lg,
@@ -188,10 +177,8 @@ void showAllFAQsBottomSheet(BuildContext context) {
                         children: [
                           Text(
                             faq['answer']!,
-                            style: AppGoogleFonts.inter(
-                              color: const Color(0xFF64748B),
-                              fontSize: 13,
-                              height: 1.4,
+                            style: context.text.body.copyWith(
+                              color: AppColors.textMuted,
                             ),
                           ),
                         ],
