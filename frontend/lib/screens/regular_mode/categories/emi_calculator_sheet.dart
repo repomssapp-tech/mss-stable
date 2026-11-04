@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import '../../../utils/app_colors.dart';
+import '../../../utils/money_format.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
@@ -297,7 +298,7 @@ void showEmiCalculatorSheet(BuildContext context) {
                               const SizedBox(width: AppSpacing.sm),
                               Flexible(
                                 child: Text(
-                                  '₹ ${emiVal.toStringAsFixed(2)}',
+                                  formatInr(emiVal),
                                   style: context.text.cardTitle.copyWith(
                                     color: AppColors.primary,
                                   ),
@@ -329,7 +330,7 @@ void showEmiCalculatorSheet(BuildContext context) {
                               const SizedBox(width: AppSpacing.sm),
                               Flexible(
                                 child: Text(
-                                  '₹ ${principalVal.toStringAsFixed(2)}',
+                                  formatInr(principalVal),
                                   style: context.text.cardTitle.copyWith(
                                     color: AppColors.textPrimary,
                                   ),
@@ -353,7 +354,7 @@ void showEmiCalculatorSheet(BuildContext context) {
                               const SizedBox(width: AppSpacing.sm),
                               Flexible(
                                 child: Text(
-                                  '₹ ${interestVal.toStringAsFixed(2)}',
+                                  formatInr(interestVal),
                                   style: context.text.cardTitle.copyWith(
                                     color: AppColors.textPrimary,
                                   ),
@@ -385,7 +386,7 @@ void showEmiCalculatorSheet(BuildContext context) {
                               const SizedBox(width: AppSpacing.sm),
                               Flexible(
                                 child: Text(
-                                  '₹ ${totalVal.toStringAsFixed(2)}',
+                                  formatInr(totalVal),
                                   style: context.text.cardTitle.copyWith(
                                     color: AppColors.textPrimary,
                                   ),

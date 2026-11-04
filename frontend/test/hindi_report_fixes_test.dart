@@ -235,7 +235,7 @@ void main() {
       await t.pumpAndSettle();
       if (rate == '0' || rate == '12') {
         expect(
-          find.text(rate == '0' ? '₹ 10000.00' : '₹ 10661.85'),
+          find.text(rate == '0' ? '₹ 10,000.00' : '₹ 10,661.85'),
           findsOneWidget,
         );
         expect(find.text('कुल राशि (मूलधन + ब्याज)'), findsOneWidget);

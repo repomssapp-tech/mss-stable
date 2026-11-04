@@ -318,26 +318,6 @@ class _EligibilityResultsScreenState extends State<EligibilityResultsScreen> {
                                   : l10n.eligResSaveResults),
                       ),
                     ),
-                    const SizedBox(height: AppSpacing.sm),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.lock_outline_rounded,
-                          size: AppSize.iconSm,
-                          color: AppColors.iconMuted,
-                        ),
-                        const SizedBox(width: AppSpacing.xs),
-                        Flexible(
-                          child: Text(
-                            l10n.eligResSecurePrivate,
-                            style: context.text.bodySmall.copyWith(
-                              color: AppColors.textMuted,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
