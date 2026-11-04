@@ -171,7 +171,7 @@ new schemes (79 Maharashtra, 50 central) have no previous record and carry only
 |---|---|---|
 | Central | en, hi, ta | en, hi, ta |
 | Tamil Nadu | en, ta | en, ta (Hindi falls back to English per field) |
-| Maharashtra | en, hi, mr | en, hi (Marathi preserved in the bundle, not offered) |
+| Maharashtra | en, hi, mr | en, hi, mr |
 
 Hindi and Tamil text is part of every entity (`localization.hi`, `localization.ta`)
 inside the one bundle. Which languages the release switches on, the content
@@ -179,8 +179,10 @@ languages found in the data, and the languages offered per jurisdiction are in
 `manifest.languages` and `manifest.languageRegistry`, derived from the data (a
 new state or language needs no code change; `OFFERED_LANGUAGES_BY_JURISDICTION`
 in `tools/build_catalog_release.py` states the language policy and defaults to
-the discovered languages that are switched on). Marathi stays in the data with
-`isActive: false`; it is not offered anywhere in the UI.
+the discovered languages that are switched on). Marathi is offered for
+Maharashtra schemes only. The admin upload does not accept Marathi, so a server
+release has none; the app copies it in from its shipped packs when it installs
+one (`catalog_language_fill.dart`).
 
 Content language is resolved by `ContentLanguageResolver`
 (selected → English → any other present language); the UI language comes from

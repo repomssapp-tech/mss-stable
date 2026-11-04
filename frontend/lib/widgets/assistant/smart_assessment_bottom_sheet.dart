@@ -72,7 +72,7 @@ class _SmartAssessmentBottomSheetState
       listen: false,
     ).selectedLanguage;
     final l10nTa = lookupAppLocalizations(
-      Locale(language == 'hi' ? 'hi' : 'ta'),
+      Locale(language == 'en' ? 'ta' : language),
     );
 
     final result = resolveQuestionFlow(

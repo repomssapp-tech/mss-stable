@@ -47,8 +47,8 @@ class ProfileValueFormatters {
       _fromOtherLanguage(value, current) ?? value;
 
   static String? _fromOtherLanguage(String value, AppLocalizations current) {
-    for (final code in const ['en', 'ta', 'hi']) {
-      final other = lookupAppLocalizations(Locale(code));
+    for (final locale in AppLocalizations.supportedLocales) {
+      final other = lookupAppLocalizations(locale);
       for (final label in _labelKeys) {
         if (label(other) == value) return label(current);
       }
@@ -111,9 +111,8 @@ class ProfileValueFormatters {
 
     if (lower == 'yes') return context.l10n.valYes;
     if (lower == 'no' || lower == 'none') return context.l10n.valNo;
-    if (lower == 'tamil' || lower == 'ta') return languageEndonym('ta');
-    if (lower == 'hindi' || lower == 'hi') return languageEndonym('hi');
-    if (lower == 'english' || lower == 'en') return languageEndonym('en');
+    final languageCode = languageCodeOf(lower);
+    if (languageCode != null) return languageEndonym(languageCode);
 
     return _fromOtherLanguage(val.trim(), context.l10n) ?? val;
   }

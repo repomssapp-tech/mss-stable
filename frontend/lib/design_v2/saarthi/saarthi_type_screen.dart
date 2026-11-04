@@ -150,7 +150,12 @@ class _SaarthiTypeScreenState extends State<SaarthiTypeScreen> {
           _Entry(
             SarvamChatMessage(role: 'assistant', content: response.reply),
             DateTime.now(),
-            schemesMentionedIn(response.reply, catalog),
+            schemesForReply(
+              response.reply,
+              catalog,
+              results: response.results,
+              schemeIds: response.schemeIds,
+            ),
           ),
         );
       });

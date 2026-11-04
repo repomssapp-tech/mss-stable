@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../l10n/l10n.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_size.dart';
 import '../../../utils/app_spacing.dart';
@@ -9,7 +10,20 @@ import '../../../utils/app_text.dart';
 class SchemeProcessContent extends StatelessWidget {
   final List<String> steps;
 
-  const SchemeProcessContent({super.key, required this.steps});
+  /// Some of these steps did not come from an official source.
+  final bool showUnconfirmedNotice;
+
+  /// Official page for the notice to link to; empty when there is none to trust.
+  final String officialUrl;
+  final ValueChanged<String>? onOpenUrl;
+
+  const SchemeProcessContent({
+    super.key,
+    required this.steps,
+    this.showUnconfirmedNotice = false,
+    this.officialUrl = '',
+    this.onOpenUrl,
+  });
 
   /// Diameter of each step number's circle.
   static const double markerSize = 28;
@@ -76,7 +90,59 @@ class SchemeProcessContent extends StatelessWidget {
               ],
             ),
           ),
+        if (showUnconfirmedNotice)
+          _UnconfirmedNotice(url: officialUrl, onOpenUrl: onOpenUrl),
       ],
+    );
+  }
+}
+
+/// Last line of the section: the source notes say some details are unconfirmed.
+class _UnconfirmedNotice extends StatelessWidget {
+  const _UnconfirmedNotice({required this.url, required this.onOpenUrl});
+
+  final String url;
+  final ValueChanged<String>? onOpenUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    final open = onOpenUrl;
+    if (url.isEmpty || open == null) {
+      return Text(
+        context.l10n.processUnconfirmedNoLink,
+        style: context.text.bodySmall.copyWith(color: AppColors.textSecondary),
+      );
+    }
+    return Semantics(
+      link: true,
+      button: false,
+      child: InkWell(
+        onTap: () => open(url),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                Icons.open_in_new,
+                size: AppSize.iconSm,
+                color: AppColors.primary,
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(
+                child: Text(
+                  context.l10n.processUnconfirmedLink,
+                  style: context.text.label.copyWith(
+                    color: AppColors.primary,
+                    decoration: context.linkDecoration,
+                    decorationColor: AppColors.primary,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

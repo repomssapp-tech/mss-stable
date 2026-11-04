@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'native_agent_transport.dart';
 import 'pcm_speech_output.dart';
 import 'saarthi_conversation_controller.dart';
+import 'cloud_voice_protocol.dart';
 
 /// A persistent Sarvam conversation, with local capture stopped for playback.
 /// Reviewed turns keep the existing editable transcript workflow.
@@ -134,7 +135,10 @@ class NativeSaarthiConversationController
             case 'transcript.agent':
               agent.acceptNativeTranscript(raw['text'] as String, user: false);
             case 'results':
-              agent.acceptNativeResults(raw['results']);
+              agent.acceptNativeResults(
+                raw['results'],
+                schemeIds: replySchemeIds(raw),
+              );
             case 'output.start':
               _limit?.cancel();
               await _stopMic();

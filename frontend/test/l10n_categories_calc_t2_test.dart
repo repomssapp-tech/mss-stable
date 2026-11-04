@@ -66,7 +66,7 @@ void main() {
 
     test('Document checklist', () {
       expect(en.docChecklistTitle, 'Setup Document Checklist');
-      expect(ta.docChecklistTitle, 'அமைப்பு ஆவணப் பட்டியல்');
+      expect(ta.docChecklistTitle, 'தொழில் தொடக்க ஆவணப் பட்டியல்');
       expect(en.docItemDsc, 'Digital Signature Certificate (DSC)');
       expect(ta.docItemDsc, 'மின்னணு கையொப்பச் சான்றிதழ் (DSC)');
       expect(en.docCloseChecklist, 'Close Checklist');

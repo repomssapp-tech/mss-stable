@@ -11,6 +11,34 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [2.3.2+22] - 2026-11-03
+
+### Fixed
+- Hindi, Tamil and Marathi screen text was reviewed line by line against English and about 360 labels were corrected. Examples: Hindi showed "junior" for Undergraduate, "shortcomings" for the export Drawback scheme, "quantity" for Amount, "to start running" for Startup and a literal "push" for Push Notifications; Tamil used "obligation" for customs duty and "private sector" for private data; Marathi gave Undergraduate as "pre-degree" and built the terms-consent sentence wrongly. Many Hindi buttons used infinitives ("to save") instead of instructions ("Save").
+- Tamil now writes Saarthi as சாரதி everywhere, and Marathi uses आधार for Aadhaar and one word, तारणमुक्त, for collateral-free.
+- A few Hindi document and scheme terms were corrected, for example the community certificate is now the caste certificate (जाति प्रमाण पत्र).
+
+## [2.3.1+21] - 2026-11-03
+
+### Fixed
+- In Marathi, the Terms of Use, Privacy Policy, privacy notice and consent screens, the MSME guide panels, the search category tiles and other longer screen texts showed English. They are now in Marathi. Ministry, institution, scheme and Act names stay in English. The translation is AI-written and still needs review by a native speaker.
+- On small phones with large text, the Allow button on the permissions screen pushed its row off the screen in Marathi. Its label now wraps.
+
+## [2.3.0+20] - 2026-11-03
+
+### Added
+- The app is now available in Marathi, for Maharashtra's 79 schemes. Other schemes stay in English when you use the app in Marathi. The translation is AI-written and still needs review by a native speaker.
+
+### Changed
+- Tamil scheme text and document names are corrected across the catalogue, and required documents are marked correctly in Tamil.
+- Documents show their translated names and the Required label again when the catalogue has been updated over the air.
+- Schemes with unconfirmed application steps now link to the official page below those steps.
+
+### Fixed
+- Questions about your state showed the Tamil state name in Hindi. They now use your language.
+- In voice conversations, scheme cards showed English for Hindi users. They now follow the app language.
+- A scheme's internal status notes no longer appear in its status section.
+
 ## [2.2.1+19] - 2026-10-25
 
 ### Changed

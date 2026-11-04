@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import '../../services/catalog/centralized_translator.dart';
 import '../account/app_session.dart';
 import '../network/api_client.dart';
 import '../voice/voice_language.dart';
+import '../voice/cloud_voice_protocol.dart';
 
 class SarvamChatMessage {
   const SarvamChatMessage({required this.role, required this.content});
@@ -13,10 +16,17 @@ class SarvamChatMessage {
 }
 
 class SarvamChatResponse {
-  const SarvamChatResponse({required this.reply, this.usage});
+  const SarvamChatResponse({
+    required this.reply,
+    this.usage,
+    this.schemeIds,
+    this.results = const [],
+  });
 
   final String reply;
   final Map<String, dynamic>? usage;
+  final List<String>? schemeIds;
+  final List<CloudSchemeResult> results;
 }
 
 class SarvamChatException implements Exception {
@@ -85,6 +95,13 @@ class RestSarvamChatClient implements SarvamChatClient {
       final rawUsage = data['usage'];
       return SarvamChatResponse(
         reply: reply,
+        schemeIds: replySchemeIds(data),
+        results: parseCloudSchemeResultsAttribute(
+          jsonEncode({
+            'schema': 'in-schemes-results-v1',
+            'results': data['results'] ?? [],
+          }),
+        ),
         usage: rawUsage is Map ? Map<String, dynamic>.from(rawUsage) : null,
       );
     } on SarvamChatException {

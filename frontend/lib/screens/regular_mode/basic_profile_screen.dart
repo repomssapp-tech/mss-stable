@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/app_state_provider.dart';
-import '../../l10n/app_localizations.dart';
 import '../../l10n/l10n.dart';
 import '../../services/recommendation/indian_states.dart';
 import '../profile/profile_value_formatters.dart';
@@ -112,7 +111,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       _ageController = TextEditingController();
     }
     // Saved labels may be in another language than the one now selected.
-    final labels = lookupAppLocalizations(Locale(provider.selectedLanguage));
+    final labels = l10nFor(provider.selectedLanguage);
     _selectedGender = profile.gender.isNotEmpty
         ? ProfileValueFormatters.inLanguageOf(profile.gender, labels)
         : '';

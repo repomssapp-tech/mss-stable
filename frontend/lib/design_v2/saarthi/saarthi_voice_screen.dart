@@ -75,6 +75,7 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
   AssistantSessionController? _session;
   StreamSubscription<VoiceAgentEvent>? _events;
   List<CloudSchemeResult> _pendingMetadata = const [];
+  List<String>? _pendingSchemeIds;
   String? _appLanguage;
   bool _active = false;
   bool _starting = false;
@@ -171,6 +172,8 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
       _chatMode = typing ? 'type' : 'voice';
       _chatStart = DateTime.now();
       _messages.clear();
+      _pendingMetadata = const [];
+      _pendingSchemeIds = null;
       _readyDocs.clear();
       _conversation!.agent.restoreHistory(const []);
       setState(() {
@@ -310,6 +313,9 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
     if (event.type == VoiceAgentEventType.schemeResults) {
       final raw = event.data?['results'];
       _pendingMetadata = raw is List<CloudSchemeResult> ? raw : const [];
+      _pendingSchemeIds = event.data == null
+          ? null
+          : replySchemeIds(event.data!);
       return;
     }
     final isUser = event.type == VoiceAgentEventType.inputTranscriptDone;
@@ -324,7 +330,12 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
     final provider = context.read<AppProvider>();
     final results = isUser
         ? null
-        : schemesForReply(text, _pendingMetadata, provider.allSchemes);
+        : schemesForReply(
+            text,
+            provider.allSchemes,
+            results: _pendingMetadata,
+            schemeIds: _pendingSchemeIds,
+          );
     final message = SaarthiMessage(
       id: id,
       role: isUser ? 'user' : 'assistant',
@@ -349,7 +360,8 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
       timestamp: message.timestamp,
       recommendations: results?.map((s) => s.name).toList(),
     );
-    if (isUser) _pendingMetadata = const [];
+    _pendingMetadata = const [];
+    _pendingSchemeIds = null;
     unawaited(_saveLocal());
     _scrollToEnd();
   }

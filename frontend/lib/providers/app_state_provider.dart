@@ -16,7 +16,6 @@ import '../services/chat/chat_log_service.dart';
 import '../services/network/connectivity_service.dart';
 import '../services/network/debouncer.dart';
 import '../services/network/request_manager.dart';
-import '../l10n/app_localizations.dart';
 import '../services/catalog/content_language_resolver.dart';
 import '../services/catalog/scheme_catalog_sync_service.dart';
 import '../services/account/session_cache_service.dart';
@@ -160,7 +159,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   bool _isLoggedIn = false;
   bool _isLoggingOut = false;
   String _mobileNumber = '';
-  String _selectedLanguageValue = 'en'; // 'en', 'ta', 'hi'
+  String _selectedLanguageValue = 'en';
   String get _selectedLanguage => _selectedLanguageValue;
   // Every language change also tells CentralizedTranslator which language the
   // static UI text (localize()/localizeTag()) should be shown in.
@@ -538,7 +537,13 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       _languageReconciler.markPending(_selectedLanguage);
       return _selectedLanguage;
     }
-    return _languageReconciler.reconcile(serverLang);
+    final resolved = _languageReconciler.reconcile(serverLang);
+    // A code the app has no interface for only counts while the release has it
+    // switched on; otherwise the server value must not change scheme content.
+    return LanguagePackManager.hasUiStrings(resolved) ||
+            LanguagePackManager.instance.isLanguageActiveInRelease(resolved)
+        ? resolved
+        : _selectedLanguage;
   }
 
   @visibleForTesting
@@ -551,11 +556,16 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
   // Setters & Actions
   Future<void> changeLanguage(String requested) async {
-    // Only interface languages the app ships ARB resources for can become the
-    // app locale; an unsupported code (e.g. `mr` from a server profile) would
-    // otherwise silently render English while the translator tracks `mr`.
+    // A language needs ARB resources or an offer from the catalogue release. One
+    // that only the catalogue offers shows its scheme content with an English
+    // interface (MaterialApp resolves its locale to English). Any other code
+    // (e.g. `mr` from a server profile, while the release keeps it off) is
+    // ignored.
     final lang = ContentLanguageResolver.normalizeCode(requested);
-    if (!AppLocalizations.supportedLocales.any((l) => l.languageCode == lang)) {
+    if (!LanguagePackManager.hasUiStrings(lang) &&
+        !(await LanguagePackManager.instance.offeredLanguages()).contains(
+          lang,
+        )) {
       debugPrint('[AppProvider] ignoring unsupported language "$requested"');
       return;
     }

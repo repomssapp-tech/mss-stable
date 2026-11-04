@@ -6,36 +6,70 @@ import '../../services/voice/cloud_voice_protocol.dart';
 
 /// The catalog schemes a Saarthi reply names, in the order it names them.
 ///
-/// The typed chat returns prose only, so its scheme cards come from the
-/// catalog: a scheme counts as mentioned when its acronym or short name
-/// (PMEGP, P.M.E.G.P, பிஎம்இஜிபி) appears as whole words, or its name (English,
-/// Hindi, Tamil or the full official name) appears, ignoring punctuation and
+/// A scheme counts as mentioned when its acronym or short name (PMEGP,
+/// P.M.E.G.P, பிஎம்இஜிபி) appears as whole words, or its name (English, Hindi,
+/// Tamil or the full official name) appears, ignoring punctuation and
 /// Hindi/Tamil word endings. Run once per reply, not per frame.
 List<Scheme> schemesMentionedIn(
   String reply,
   List<Scheme> catalog, {
   int limit = 2,
-}) => _rankNamed(reply, catalog, const {}, limit);
+}) => schemesForReply(reply, catalog, limit: limit);
 
-/// The cards for a spoken reply: only schemes the reply actually names, so
-/// what Saarthi says and what the screen shows never differ. [results] are the
-/// agent's search hits, and being one is extra evidence: the reply may say the
-/// hit's title in its own language, or just a word of its name that no other
-/// scheme has ("Mudra"), and a hit wins when two schemes share a name.
+/// The cards for a Saarthi reply.
+///
+/// [schemeIds] from the server are authoritative, including an empty
+/// selection. Older servers send none, so the cards fall back to the schemes
+/// the reply actually names, skipping sentences that say a scheme's details
+/// are unavailable. [results] are the agent's search hits, and being one is
+/// extra evidence: the reply may say the hit's title in its own language, or
+/// just a word of its name that no other scheme has ("Mudra"), and a hit wins
+/// when two schemes share a name. The hit list alone never supplies a card.
 List<Scheme> schemesForReply(
   String reply,
-  List<CloudSchemeResult> results,
   List<Scheme> catalog, {
+  List<CloudSchemeResult> results = const [],
+  List<String>? schemeIds,
   int limit = 2,
 }) {
+  if (reply.trim().isEmpty || limit <= 0) return const [];
+  final count = limit.clamp(0, 2);
+  if (schemeIds != null) {
+    final byId = <String, Scheme>{
+      for (final scheme in catalog) scheme.id: scheme,
+    };
+    for (final scheme in catalog) {
+      if (scheme.schemeCode.isNotEmpty) {
+        byId.putIfAbsent(scheme.schemeCode, () => scheme);
+      }
+    }
+    final seen = <String>{};
+    return [
+      for (final id in schemeIds)
+        if (byId[id] case final scheme?)
+          if (seen.add(scheme.id)) scheme,
+    ].take(count).toList();
+  }
   final titles = <String, List<String>>{};
   for (final r in results) {
     for (final s in matchCloudSchemeResultsToCatalog([r], catalog)) {
       titles.putIfAbsent(s.id, () => []).add(r.name);
     }
   }
-  return _rankNamed(reply, catalog, titles, limit);
+  final available = [
+    for (final sentence in reply.split(_sentenceEnd))
+      if (!_unavailable.hasMatch(sentence)) sentence,
+  ].join(' \n ');
+  return _rankNamed(available, catalog, titles, count);
 }
+
+final RegExp _sentenceEnd = RegExp(r'(?<=[!?।\n])|\.(?=\s|$)');
+
+/// A sentence saying Saarthi has no verified details, in en, ta or hi.
+final RegExp _unavailable = RegExp(
+  r"\b(no verified|not verified|unverified|cannot verify|can't verify|could not verify|no (verified )?(details|information)|do not have|don't have)\b|சரிபார்க்கப்பட்ட.{0,40}இல்லை|விவரங்கள்.{0,20}இல்லை|सत्यापित.{0,40}नहीं|जानकारी.{0,20}नहीं",
+  caseSensitive: false,
+);
 
 /// Finds every scheme's mentions as spans of reply words, then settles overlaps:
 /// the longest span wins, then a search hit, so "Mudra Yojana" inside a longer
@@ -63,12 +97,8 @@ List<Scheme> _rankNamed(
   for (final s in catalog) {
     final titles = hitTitles[s.id];
     final hit = titles != null;
-    void add(int start, int length) => spans.add((
-      scheme: s,
-      start: start,
-      length: length,
-      hit: hit,
-    ));
+    void add(int start, int length) =>
+        spans.add((scheme: s, start: start, length: length, hit: hit));
     void addPhrase(String text) {
       final needle = [for (final w in _words(text)) _stem(w)];
       final at = _indexOfWords(stems, needle);
@@ -82,7 +112,7 @@ List<Scheme> _rankNamed(
     }
     for (final full in _names(s)) {
       final f = _withoutParentheses(full);
-      if (f.runes.length >= 12) addPhrase(f);
+      if (f.runes.length >= 12 || f.contains(' ')) addPhrase(f);
     }
     if (!hit) continue;
     for (final title in titles) {
@@ -121,8 +151,7 @@ final RegExp _wordBreak = RegExp(r'[^\p{L}\p{M}\p{N}]+', unicode: true);
 
 /// Lowercase words, so punctuation and spacing never decide a match.
 List<String> _words(String text) => [
-  for (final w
-      in text.toLowerCase().replaceAll(_joiners, '').split(_wordBreak))
+  for (final w in text.toLowerCase().replaceAll(_joiners, '').split(_wordBreak))
     if (w.isNotEmpty) w,
 ];
 
@@ -138,8 +167,11 @@ String _stem(String word) {
 /// A scheme's names in every language the catalog or a loaded pack has.
 Iterable<String> _names(Scheme s) sync* {
   yield s.name;
-  yield s.nameTa;
   yield s.fullSchemeName;
+  for (final lang in _replyLanguages) {
+    final native = s.nativeName('name', lang);
+    if (native != null) yield native;
+  }
   for (final lang in _replyLanguages) {
     final name = LanguagePackManager.instance.getField(
       lang: lang,

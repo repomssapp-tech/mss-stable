@@ -7,6 +7,7 @@ import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
 import 'app_localizations_hi.dart';
+import 'app_localizations_mr.dart';
 import 'app_localizations_ta.dart';
 
 // ignore_for_file: type=lint
@@ -97,6 +98,7 @@ abstract class AppLocalizations {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
     Locale('hi'),
+    Locale('mr'),
     Locale('ta'),
   ];
 
@@ -9292,6 +9294,18 @@ abstract class AppLocalizations {
   /// **'As of {date}'**
   String schemeStatusAsOf(String date);
 
+  /// No description provided for @processUnconfirmedLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Some details could not be confirmed from official sources. Check the official page before applying.'**
+  String get processUnconfirmedLink;
+
+  /// No description provided for @processUnconfirmedNoLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Some details could not be confirmed from official sources. Confirm with the implementing office before applying.'**
+  String get processUnconfirmedNoLink;
+
   /// No description provided for @schemeApplicationStatus.
   ///
   /// In en, this message translates to:
@@ -11105,7 +11119,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'hi', 'ta'].contains(locale.languageCode);
+      <String>['en', 'hi', 'mr', 'ta'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -11118,6 +11132,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsEn();
     case 'hi':
       return AppLocalizationsHi();
+    case 'mr':
+      return AppLocalizationsMr();
     case 'ta':
       return AppLocalizationsTa();
   }

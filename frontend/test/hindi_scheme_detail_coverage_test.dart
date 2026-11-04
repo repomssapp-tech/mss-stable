@@ -31,8 +31,11 @@ List<String> _englishLeaks(Scheme s, LocalizedScheme l) {
   check('subsidyAmount', s.subsidyAmount, l.subsidyAmount);
   check('targetBeneficiary', s.targetBeneficiary, l.targetBeneficiary);
   check('capitalSubsidy', s.capitalSubsidyDetails, l.capitalSubsidyDetails);
-  check('interestSubvention', s.interestSubventionDetails,
-      l.interestSubventionDetails);
+  check(
+    'interestSubvention',
+    s.interestSubventionDetails,
+    l.interestSubventionDetails,
+  );
   check('ageRange', s.eligibilityAgeRange, l.eligibilityAgeRange);
   check('applicationFee', s.applicationFee, l.applicationFee);
   check('timeline', s.intakeTimelineText, l.intakeTimelineText);
@@ -49,9 +52,11 @@ List<String> _englishLeaks(Scheme s, LocalizedScheme l) {
     check('doc.estimatedCost', a.estimatedCost, b.estimatedCost);
     check('doc.remarks', a.remarks, b.remarks);
   }
-  for (var i = 0;
-      i < s.requiredServices.length && i < l.requiredServices.length;
-      i++) {
+  for (
+    var i = 0;
+    i < s.requiredServices.length && i < l.requiredServices.length;
+    i++
+  ) {
     final a = s.requiredServices[i];
     final b = l.requiredServices[i];
     check('svc.name', a.name, b.name);
@@ -80,15 +85,17 @@ void main() {
   test('Hindi detail text is read from the catalogue record itself', () {
     final pmegp = all.firstWhere((s) => s.id == 'CEN2026-085');
     expect(
-      pmegp.documents.where((d) => d.descriptionHi.isNotEmpty),
+      pmegp.documents.where(
+        (d) => d.translated('description', 'hi').isNotEmpty,
+      ),
       isNotEmpty,
       reason: 'requiredDocuments[].description carries {"en": ..., "hi": ...}',
     );
     final shown = pmegp.toLocalized('hi').documents;
     for (var i = 0; i < pmegp.documents.length; i++) {
       final d = pmegp.documents[i];
-      if (d.descriptionHi.isNotEmpty) {
-        expect(shown[i].description, d.descriptionHi);
+      if (d.translated('description', 'hi').isNotEmpty) {
+        expect(shown[i].description, d.translated('description', 'hi'));
       }
     }
   });
@@ -103,7 +110,8 @@ void main() {
     expect(
       total,
       lessThanOrEqualTo(735),
-      reason: 'New untranslated catalogue text in Hindi: $total items. Add the '
+      reason:
+          'New untranslated catalogue text in Hindi: $total items. Add the '
           'strings to assets/catalog/translation_dictionary_hi.json phraseMap.',
     );
   });

@@ -178,30 +178,35 @@ class SchemeExtras {
     return v.isNotEmpty ? v : _str(_status['asOf']);
   }
 
-  /// Empty when the English note is the catalogue's generated metadata line
-  /// ("Catalogue status active; verification verified (high)."), which read
-  /// like debug text; the application status is shown separately.
+  /// Empty when the English note is the catalogue's own bookkeeping ("Catalogue
+  /// status active; verification verified (high).", "Staging record MSME2015-010
+  /// (renamed); web check...", "Verified active via live portal (HTTP 200...)"),
+  /// which reads like debug text; the application status is shown separately.
+  /// Notes that tell the user something about the scheme stay.
   String statusNote(String lang) {
     final en = ContentLanguageResolver.text(_loc('en', 'statusNote'), 'en');
-    if (_generatedStatusNote.hasMatch(en)) return '';
+    if (_internalStatusNote.hasMatch(en)) return '';
     return ContentLanguageResolver.text(_loc(lang, 'statusNote'), lang);
   }
 
-  static final RegExp _generatedStatusNote = RegExp(
-    r'^Catalogue status [\w ]+; verification [\w ]+ \(\w+\)\.?$',
+  static final RegExp _internalStatusNote = RegExp(
+    r'^(Catalogue status [\w ]+; verification [\w ]+ \(\w+\)'
+    r'|Staging record '
+    r'|Verified active '
+    r'|Verified against a live official page'
+    r'|Verified\s*[-–] '
+    r'|Historical/closed\s*[-–] source audit pending'
+    r'|Needs final official-page confirmation)',
   );
 
   /// `open`, `closed`, `unknown`, `historical_or_superseded`, `announced`,
   /// `temporarily unavailable`... as given by the source.
-  String get applicationStatus => _text(
-    _how['application_status'],
-    _proc['applicationStatus'],
-  );
+  String get applicationStatus =>
+      _text(_how['application_status'], _proc['applicationStatus']);
   String get procedureType =>
       _text(_how['procedure_type'], _proc['procedureType']);
   String get deadline => _text(_how['deadline'], _proc['deadline']);
-  String get prerequisite =>
-      _text(_how['prerequisite'], _proc['prerequisite']);
+  String get prerequisite => _text(_how['prerequisite'], _proc['prerequisite']);
   String get statusCheckedOn =>
       _text(_how['status_checked_on'], _proc['statusCheckedOn']);
 
@@ -318,6 +323,34 @@ class SchemeExtras {
     return out;
   }
 
+  // ── Reliability ───────────────────────────────────────────────────────
+  static final RegExp _unconfirmedNote = RegExp(
+    'unofficial|search summar|search result|aggregator|inferred'
+    '|not read from an official|not verified'
+    '|could not be (opened|fetched|confirmed)|from a research|research paper'
+    '|supplied by the user|confirm before|no official|verify on|not confirmed'
+    '|news report|non-official|secondary',
+    caseSensitive: false,
+  );
+
+  static final RegExp _wrongLinkNote = RegExp(
+    'scheme link points to|linked page in the catalogue|page the catalogue links',
+    caseSensitive: false,
+  );
+
+  /// The catalogue's research notes (English, never shown as they are).
+  List<String> get _researchNotes =>
+      ContentLanguageResolver.list(_loc('en', 'notes'));
+
+  /// The research notes say some steps, limits or documents did not come from
+  /// an official source, so the reader should check before applying.
+  bool get hasUnconfirmedDetails =>
+      _researchNotes.any(_unconfirmedNote.hasMatch);
+
+  /// The research notes say the scheme's stored link leads somewhere else, so
+  /// it must not be offered as the official page.
+  bool get hasWrongLink => _researchNotes.any(_wrongLinkNote.hasMatch);
+
   // ── Names, relations, notes ───────────────────────────────────────────
   List<String> altNames(String lang) =>
       ContentLanguageResolver.list(_loc(lang, 'altNames'), lang);
@@ -325,9 +358,6 @@ class SchemeExtras {
   List<String> get relatedIds => ((_source['related_ids'] as List?) ?? const [])
       .whereType<String>()
       .toList(growable: false);
-
-  List<String> notes(String lang) =>
-      ContentLanguageResolver.list(_loc(lang, 'notes'), lang);
 
   /// Documents grouped by audience when the source keys them (e.g. individual
   /// vs self-help group). Empty when documents are a plain list.

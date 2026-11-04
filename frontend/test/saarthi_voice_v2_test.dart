@@ -621,16 +621,16 @@ void main() {
       expect(
         schemesForReply(
           'Try PMEGP first.',
-          const [hit],
           const [pmegp, other],
+          results: const [hit],
         ).map((s) => s.id),
         ['CEN-1'],
       );
       expect(
         schemesForReply(
           'I need your state.',
-          const [hit],
           const [pmegp, other],
+          results: const [hit],
         ),
         isEmpty,
       );
@@ -643,8 +643,8 @@ void main() {
       expect(
         schemesForReply(
           'திட்டம் மூன்று உதவும்',
-          const [said],
           const [pmegp, other],
+          results: const [said],
         ).map((s) => s.id),
         ['CEN-3'],
       );
@@ -672,8 +672,8 @@ void main() {
       const named = Scheme(
         id: 'CEN-4',
         name: "Prime Minister's Awas Programme",
-        nameTa: 'பிரதம மந்திரி வீட்டு திட்டம்',
         nativeNames: {
+          'name': {'ta': 'பிரதம மந்திரி வீட்டு திட்டம்'},
           'shortName': {'hi': 'प्रधानमंत्री आवास योजना'},
         },
       );
@@ -694,16 +694,21 @@ void main() {
       const hit = CloudSchemeResult(id: 'CEN-2', code: 'CEN-2', name: '');
       const reply = 'Mudra gives small loans.';
       expect(
-        schemesForReply(reply, const [hit], const [mudra, other]).map(
-          (s) => s.id,
-        ),
+        schemesForReply(
+          reply,
+          const [mudra, other],
+          results: const [hit],
+        ).map((s) => s.id),
         ['CEN-2'],
       );
-      expect(schemesForReply(reply, const [], const [mudra, other]), isEmpty);
+      expect(
+        schemesForReply(reply, const [mudra, other], results: const []),
+        isEmpty,
+      );
       // A word another scheme's name also has says nothing.
       const mudraTwo = Scheme(id: 'CEN-5', name: 'Mudra Support Plan');
       expect(
-        schemesForReply(reply, const [hit], const [mudra, mudraTwo]),
+        schemesForReply(reply, const [mudra, mudraTwo], results: const [hit]),
         isEmpty,
       );
     });
@@ -716,9 +721,11 @@ void main() {
       );
       const hit = CloudSchemeResult(id: 'TN-1', code: 'TN-1', name: '');
       expect(
-        schemesForReply('Try PMEGP.', const [hit], const [pmegp, twin]).map(
-          (s) => s.id,
-        ),
+        schemesForReply(
+          'Try PMEGP.',
+          const [pmegp, twin],
+          results: const [hit],
+        ).map((s) => s.id),
         ['TN-1'],
       );
     });

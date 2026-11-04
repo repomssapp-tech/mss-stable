@@ -16,7 +16,9 @@ import 'indian_states.dart';
 class ProfileCanonicalizer {
   const ProfileCanonicalizer._();
 
-  static const _languages = ['en', 'hi', 'ta'];
+  static final List<String> _languages = [
+    for (final locale in AppLocalizations.supportedLocales) locale.languageCode,
+  ];
 
   /// A copy of [p] with gender, state, community, education, employment,
   /// disability and religion in canonical English form.

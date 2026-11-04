@@ -3,23 +3,20 @@ import 'scheme_extras.dart';
 
 class SchemeDocument {
   final String name;
-  final String nameTa;
   final String mandatory;
-  final String mandatoryTa;
   final String issuingAuthority;
-  final String issuingAuthorityTa;
   final String description;
-  final String descriptionTa;
   final String estimatedCost;
-  final String estimatedCostTa;
   final String remarks;
-  final String remarksTa;
-  // Hindi text stored in the catalogue record (`{"en": ..., "hi": ...}`).
-  final String nameHi;
-  final String issuingAuthorityHi;
-  final String descriptionHi;
-  final String estimatedCostHi;
-  final String remarksHi;
+
+  /// Text the catalogue record stores in other languages, per field:
+  /// `{field: {lang: text}}` (the record's `{"en": ..., "hi": ...}` values).
+  final Map<String, Map<String, String>> translations;
+
+  /// The record's own [lang] text for [field], or '' when it has none.
+  String translated(String field, String lang) =>
+      translations[field]?[lang] ?? '';
+
   final String sourceUrl;
   final String validityMonths;
   final String downloadTemplateUrl;
@@ -28,22 +25,12 @@ class SchemeDocument {
 
   const SchemeDocument({
     required this.name,
-    this.nameTa = '',
     this.mandatory = '',
-    this.mandatoryTa = '',
     this.issuingAuthority = '',
-    this.issuingAuthorityTa = '',
     this.description = '',
-    this.descriptionTa = '',
     this.estimatedCost = '',
-    this.estimatedCostTa = '',
     this.remarks = '',
-    this.remarksTa = '',
-    this.nameHi = '',
-    this.issuingAuthorityHi = '',
-    this.descriptionHi = '',
-    this.estimatedCostHi = '',
-    this.remarksHi = '',
+    this.translations = const {},
     this.sourceUrl = '',
     this.validityMonths = '',
     this.downloadTemplateUrl = '',
@@ -56,22 +43,12 @@ class SchemeDocument {
 
   SchemeDocument copyWith({
     String? name,
-    String? nameTa,
     String? mandatory,
-    String? mandatoryTa,
     String? issuingAuthority,
-    String? issuingAuthorityTa,
     String? description,
-    String? descriptionTa,
     String? estimatedCost,
-    String? estimatedCostTa,
     String? remarks,
-    String? remarksTa,
-    String? nameHi,
-    String? issuingAuthorityHi,
-    String? descriptionHi,
-    String? estimatedCostHi,
-    String? remarksHi,
+    Map<String, Map<String, String>>? translations,
     String? sourceUrl,
     String? validityMonths,
     String? downloadTemplateUrl,
@@ -80,22 +57,12 @@ class SchemeDocument {
   }) {
     return SchemeDocument(
       name: name ?? this.name,
-      nameTa: nameTa ?? this.nameTa,
       mandatory: mandatory ?? this.mandatory,
-      mandatoryTa: mandatoryTa ?? this.mandatoryTa,
       issuingAuthority: issuingAuthority ?? this.issuingAuthority,
-      issuingAuthorityTa: issuingAuthorityTa ?? this.issuingAuthorityTa,
       description: description ?? this.description,
-      descriptionTa: descriptionTa ?? this.descriptionTa,
       estimatedCost: estimatedCost ?? this.estimatedCost,
-      estimatedCostTa: estimatedCostTa ?? this.estimatedCostTa,
       remarks: remarks ?? this.remarks,
-      remarksTa: remarksTa ?? this.remarksTa,
-      nameHi: nameHi ?? this.nameHi,
-      issuingAuthorityHi: issuingAuthorityHi ?? this.issuingAuthorityHi,
-      descriptionHi: descriptionHi ?? this.descriptionHi,
-      estimatedCostHi: estimatedCostHi ?? this.estimatedCostHi,
-      remarksHi: remarksHi ?? this.remarksHi,
+      translations: translations ?? this.translations,
       sourceUrl: sourceUrl ?? this.sourceUrl,
       validityMonths: validityMonths ?? this.validityMonths,
       downloadTemplateUrl: downloadTemplateUrl ?? this.downloadTemplateUrl,
@@ -108,52 +75,36 @@ class SchemeDocument {
 
 class SchemeService {
   final String name;
-  final String nameTa;
   final String category;
-  final String categoryTa;
   final bool mandatory;
   final String description;
-  final String descriptionTa;
   final String purpose;
-  final String purposeTa;
   final String department;
-  final String departmentTa;
   final String website;
   final String contact;
   final String status;
   final String notes;
-  final String notesTa;
-  // Hindi text stored in the catalogue record (`{"en": ..., "hi": ...}`).
-  final String nameHi;
-  final String categoryHi;
-  final String descriptionHi;
-  final String purposeHi;
-  final String departmentHi;
-  final String notesHi;
+
+  /// Text the catalogue record stores in other languages, per field:
+  /// `{field: {lang: text}}` (the record's `{"en": ..., "hi": ...}` values).
+  final Map<String, Map<String, String>> translations;
+
+  /// The record's own [lang] text for [field], or '' when it has none.
+  String translated(String field, String lang) =>
+      translations[field]?[lang] ?? '';
 
   const SchemeService({
     required this.name,
-    this.nameTa = '',
     this.category = '',
-    this.categoryTa = '',
     this.mandatory = false,
     this.description = '',
-    this.descriptionTa = '',
     this.purpose = '',
-    this.purposeTa = '',
     this.department = '',
-    this.departmentTa = '',
     this.website = '',
     this.contact = '',
     this.status = 'ACTIVE',
     this.notes = '',
-    this.notesTa = '',
-    this.nameHi = '',
-    this.categoryHi = '',
-    this.descriptionHi = '',
-    this.purposeHi = '',
-    this.departmentHi = '',
-    this.notesHi = '',
+    this.translations = const {},
   });
 }
 
@@ -163,7 +114,6 @@ class Scheme {
   final String id; // Stable catalog id, e.g. "CEN2026-085"
   final String schemeCode; // Catalog code (equal to [id] for 2026 records)
   final String name;
-  final String nameTa;
   final String shortName;
   final String fullSchemeName;
   final String ministry;
@@ -195,10 +145,8 @@ class Scheme {
   final String schemeType; // assistance_type
   final String category;
   final String overview; // maps to "overview" column
-  final String overviewTa;
   final String objectives;
   final String benefits; // benefits_description
-  final String benefitsTa;
   final double? subsidyPercentage;
   final double? maxFunding;
   final double? minFunding;
@@ -274,9 +222,11 @@ class Scheme {
   /// status note, links...). [SchemeExtras.empty] for non-2026 records.
   final SchemeExtras extras;
 
-  /// Names the catalog stores in other languages for this scheme's short
-  /// name and its ministry/department/agency, keyed by field then language.
-  /// Shown as is, ahead of any runtime translation.
+  /// Text the catalog stores in other languages for this scheme's short name
+  /// and its ministry/department/agency, keyed by field then language. Shown as
+  /// is, ahead of any runtime translation. A language with a rewriting engine
+  /// (see CentralizedTranslator) also keeps its `name`, `overview` and
+  /// `benefits` here.
   final Map<String, Map<String, String>> nativeNames;
 
   /// The catalog's stored [lang] name for [field], or null when it has none.
@@ -297,7 +247,6 @@ class Scheme {
     required this.id,
     this.schemeCode = '',
     required this.name,
-    this.nameTa = '',
     this.shortName = '',
     this.fullSchemeName = '',
     this.ministry = '',
@@ -317,10 +266,8 @@ class Scheme {
     this.schemeType = '',
     this.category = '',
     this.overview = '',
-    this.overviewTa = '',
     this.objectives = '',
     this.benefits = '',
-    this.benefitsTa = '',
     this.subsidyPercentage,
     this.maxFunding,
     this.minFunding,
@@ -389,9 +336,8 @@ class Scheme {
       );
       if (packVal != null && packVal.isNotEmpty) return packVal;
     }
-    if (langCode == 'ta' && nameTa.trim().isNotEmpty) {
-      return nameTa.trim();
-    }
+    final kept = nativeName('name', langCode)?.trim() ?? '';
+    if (kept.isNotEmpty) return kept;
     return name.isNotEmpty ? name : schemeCode;
   }
 
@@ -413,10 +359,8 @@ class Scheme {
           );
       if (packVal != null && packVal.isNotEmpty) return packVal;
     }
-    if (langCode == 'ta' && overviewTa.trim().isNotEmpty) {
-      return overviewTa.trim();
-    }
-    return overview;
+    final kept = nativeName('overview', langCode)?.trim() ?? '';
+    return kept.isNotEmpty ? kept : overview;
   }
 
   /// Get localized benefits description
@@ -430,10 +374,8 @@ class Scheme {
       );
       if (packVal != null && packVal.isNotEmpty) return packVal;
     }
-    if (langCode == 'ta' && benefitsTa.trim().isNotEmpty) {
-      return benefitsTa.trim();
-    }
-    return benefits;
+    final kept = nativeName('benefits', langCode)?.trim() ?? '';
+    return kept.isNotEmpty ? kept : benefits;
   }
 
   /// Returns a copy with specified fields updated.
@@ -448,7 +390,6 @@ class Scheme {
       id: id,
       schemeCode: schemeCode,
       name: name ?? this.name,
-      nameTa: nameTa,
       shortName: shortName,
       fullSchemeName: fullSchemeName,
       ministry: ministry,
@@ -468,10 +409,8 @@ class Scheme {
       schemeType: schemeType,
       category: category,
       overview: overview,
-      overviewTa: overviewTa,
       objectives: objectives,
       benefits: benefits,
-      benefitsTa: benefitsTa,
       subsidyPercentage: subsidyPercentage,
       maxFunding: maxFunding,
       minFunding: minFunding,
@@ -590,10 +529,8 @@ class Scheme {
       schemeType: schemeType,
       category: category,
       overview: overview,
-      overviewTa: overviewTa,
       objectives: objectives,
       benefits: benefits,
-      benefitsTa: benefitsTa,
       subsidyPercentage: subsidyPercentage,
       maxFunding: maxFunding,
       minFunding: minFunding,

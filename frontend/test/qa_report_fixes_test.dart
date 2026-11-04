@@ -42,5 +42,33 @@ void main() {
       expect(withNote(note).statusNote('en'), note);
       expect(withNote(note).statusNote('ta'), '$note (ta)');
     });
+
+    test('internal research notes are hidden in every language', () {
+      const notes = [
+        'Staging record MSME2015-010 (renamed); web check 2026-10-14 shows it operating (https://dcmsme.gov.in/x).',
+        "Verified active via live portal (HTTP 200: 'MSME')",
+        'Verified active on official government portal (Coir Board: https://coirboard.gov.in/)',
+        'Verified – current official source',
+        'Verified - current official source',
+        'Verified against a live official page for programme structure',
+        'Catalogue status active; verification unverified (low). Not confirmed active by verification.',
+        'Historical/closed – source audit pending',
+        'Needs final official-page confirmation',
+      ];
+      for (final note in notes) {
+        expect(withNote(note).statusNote('en'), isEmpty, reason: note);
+        expect(withNote(note).statusNote('ta'), isEmpty, reason: note);
+      }
+    });
+
+    test('a note that tells the user something stays', () {
+      const notes = [
+        'No new deposits accepted after 31 March 2025.',
+        'Applications for National Startup Awards 5.0 are closed.',
+      ];
+      for (final note in notes) {
+        expect(withNote(note).statusNote('en'), note);
+      }
+    });
   });
 }

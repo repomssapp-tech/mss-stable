@@ -5039,6 +5039,14 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get processUnconfirmedLink =>
+      'Some details could not be confirmed from official sources. Check the official page before applying.';
+
+  @override
+  String get processUnconfirmedNoLink =>
+      'Some details could not be confirmed from official sources. Confirm with the implementing office before applying.';
+
+  @override
   String schemeApplicationStatus(String status) {
     return 'Applications: $status';
   }

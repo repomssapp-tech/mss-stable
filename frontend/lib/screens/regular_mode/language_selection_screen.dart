@@ -10,6 +10,7 @@ import '../../utils/responsive.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/app_text.dart';
+import '../../utils/language_names.dart';
 
 class LanguageOption {
   final String code;
@@ -46,89 +47,81 @@ class LanguageSelectionScreen extends StatefulWidget {
 
 class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
   String _selectedLang = 'en';
-  bool _hiSupported = false;
-  // True once the user has tapped a language, so the async Hindi-support check
-  // below never overrides an explicit choice.
+  List<String> _offered = LanguagePackManager.baseLanguages;
+  // True once the user has tapped a language, so the async check of what the
+  // catalogue offers never overrides an explicit choice.
   bool _userPicked = false;
 
-  final List<LanguageOption> _languages = const [
-    LanguageOption(
-      code: 'en',
-      nativeTitle: 'English',
-      englishTitle: 'English',
-      circleText: 'EN',
-      circleBgColor: AppColors.primarySoft, // Blue 50
-      circleTextColor: AppColors.primaryStrong, // Blue 700
-    ),
-    LanguageOption(
-      code: 'ta',
-      nativeTitle: 'தமிழ்',
-      englishTitle: 'Tamil',
-      circleText: 'தமிழ்',
-      circleBgColor: AppColors.primarySoft, // Emerald 50
-      circleTextColor: AppColors.primaryStrong, // Emerald 700
-    ),
-    LanguageOption(
-      code: 'hi',
-      nativeTitle: 'हिन्दी',
-      englishTitle: 'Hindi',
-      circleText: 'हिन्दी',
-      circleBgColor: AppColors.languageHindiBg,
-      circleTextColor: AppColors.languageHindiFg,
-    ),
-  ];
+  // Circle colours by language; any other language gets the neutral pair.
+  static const _circleColors = <String, (Color, Color)>{
+    'en': (AppColors.primarySoft, AppColors.primaryStrong),
+    'ta': (AppColors.primarySoft, AppColors.primaryStrong),
+    'hi': (AppColors.languageHindiBg, AppColors.languageHindiFg),
+  };
+  static const _neutralCircle = (
+    AppColors.languageNeutralBg,
+    AppColors.languageNeutralFg,
+  );
 
-  List<LanguageOption> get _visibleLanguages => _languages.where((option) {
-    if (option.code == 'hi') {
-      return _hiSupported;
-    }
-    return true;
-  }).toList();
+  LanguageOption _optionFor(String code) {
+    final (background, foreground) = _circleColors[code] ?? _neutralCircle;
+    return LanguageOption(
+      code: code,
+      nativeTitle: languageEndonym(code),
+      englishTitle: languageEnglishName(code),
+      circleText: code == 'en' ? 'EN' : languageEndonym(code),
+      circleBgColor: background,
+      circleTextColor: foreground,
+    );
+  }
+
+  List<LanguageOption> get _visibleLanguages =>
+      _offered.map(_optionFor).toList();
+
+  /// The language the app is showing now. The ambient locale (driven by
+  /// MaterialApp.locale) says so, unless the choice has no interface strings
+  /// and the locale resolved to English.
+  String get _showingLanguage {
+    final saved = Provider.of<AppProvider>(
+      context,
+      listen: false,
+    ).selectedLanguage;
+    return saved.isEmpty || LanguagePackManager.hasUiStrings(saved)
+        ? Localizations.localeOf(context).languageCode
+        : saved;
+  }
 
   @override
   void initState() {
     super.initState();
-    _checkLanguageSupport();
+    _loadOffered();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       final provider = Provider.of<AppProvider>(context, listen: false);
-      // Seed from the ambient locale (driven by MaterialApp.locale) so the
-      // preview defaults to the language the app is currently showing, then
-      // fall back to the provider value / 'en'.
-      final ambient = Localizations.localeOf(context).languageCode;
+      // Seed so the preview defaults to the language the app is currently
+      // showing, then fall back to the provider value / 'en'.
       setState(() {
-        final candidate =
-            (ambient == 'ta' ||
-                ambient == 'en' ||
-                (ambient == 'hi' && _hiSupported))
-            ? ambient
-            : (provider.selectedLanguage.isEmpty
-                  ? 'en'
-                  : provider.selectedLanguage);
-        _selectedLang = (candidate == 'hi' && !_hiSupported) ? 'en' : candidate;
+        final showing = _showingLanguage;
+        final candidate = _offered.contains(showing)
+            ? showing
+            : provider.selectedLanguage;
+        _selectedLang = _offered.contains(candidate) ? candidate : 'en';
       });
     });
   }
 
-  Future<void> _checkLanguageSupport() async {
-    final supported = await LanguagePackManager.instance.isLanguageSupported(
-      'hi',
-    );
-    if (mounted && supported != _hiSupported) {
-      setState(() {
-        _hiSupported = supported;
-        if (!_hiSupported && _selectedLang == 'hi') {
-          _selectedLang = 'en';
-        }
-        // initState could not pick Hindi before support was known, so a
-        // Hindi-language user would see English pre-selected here.
-        if (_hiSupported &&
-            !_userPicked &&
-            Localizations.localeOf(context).languageCode == 'hi') {
-          _selectedLang = 'hi';
-        }
-      });
-    }
+  Future<void> _loadOffered() async {
+    final offered = await LanguagePackManager.instance.offeredLanguages();
+    if (!mounted) return;
+    setState(() {
+      _offered = offered;
+      if (!offered.contains(_selectedLang)) _selectedLang = 'en';
+      // The seed above could not pick a language before the offer was known,
+      // so its user would see English pre-selected here.
+      if (!_userPicked && offered.contains(_showingLanguage)) {
+        _selectedLang = _showingLanguage;
+      }
+    });
   }
 
   void _onLanguageSelected(String langCode) {
@@ -344,7 +337,9 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
     // currently tapped language before Continue commits it via the provider.
     return Localizations.override(
       context: context,
-      locale: Locale(_selectedLang),
+      locale: Locale(
+        LanguagePackManager.hasUiStrings(_selectedLang) ? _selectedLang : 'en',
+      ),
       child: scaffold,
     );
   }

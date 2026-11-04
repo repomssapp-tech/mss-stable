@@ -1,5 +1,6 @@
 import '../../../models/mss_entity.dart';
 import '../../../models/scheme_model.dart';
+import '../../../utils/language_names.dart';
 import 'scheme_adapter_text_utils.dart';
 
 /// Immutable container holding resolved documents, application process steps,
@@ -45,6 +46,19 @@ class SchemeResourcesData {
 class SchemeResourcesResolver {
   SchemeResourcesResolver._();
 
+  /// A reader for one record's multilingual fields: returns the English text
+  /// and files the other languages' text under the field name in [into].
+  static String Function(String, dynamic, [String]) _reader(
+    Map<String, Map<String, String>> into,
+  ) => (field, raw, [defaultStr = '']) {
+    final (en, translations) = SchemeAdapterTextUtils.extractMultilingual(
+      raw,
+      defaultStr,
+    );
+    if (translations.isNotEmpty) into[field] = translations;
+    return en;
+  };
+
   static SchemeResourcesData resolve(
     MssEntity entity, {
     required String issuingBody,
@@ -71,42 +85,36 @@ class SchemeResourcesResolver {
     if (rawDocs != null) {
       for (final docItem in rawDocs) {
         if (docItem is Map<String, dynamic>) {
-          final (
-            dNameEn,
-            dNameTa,
-          ) = SchemeAdapterTextUtils.extractMultilingualStr(
+          final translations = <String, Map<String, String>>{};
+          final read = _reader(translations);
+          final dNameEn = read(
+            'name',
             docItem['name'] ?? docItem['title'] ?? docItem,
           );
-          final (
-            dDescEn,
-            dDescTa,
-          ) = SchemeAdapterTextUtils.extractMultilingualStr(
+          final dDescEn = read(
+            'description',
             docItem['description'] ?? docItem['summary'],
           );
-          final (
-            dAuthEn,
-            dAuthTa,
-          ) = SchemeAdapterTextUtils.extractMultilingualStr(
+          final dAuthEn = read(
+            'issuingAuthority',
             docItem['issuingAuthorityText'] ?? docItem['issuingAuthority'],
           );
-          final (
-            dCostEn,
-            dCostTa,
-          ) = SchemeAdapterTextUtils.extractMultilingualStr(
+          final dCostEn = read(
+            'estimatedCost',
             docItem['estimatedCostText'] ?? docItem['estimatedCostInr'],
           );
-          final (dRemEn, dRemTa) =
-              SchemeAdapterTextUtils.extractMultilingualStr(docItem['remarks']);
+          final dRemEn = read('remarks', docItem['remarks']);
 
-          final finalDocName = dNameEn.isNotEmpty
-              ? dNameEn
-              : (dNameTa.isNotEmpty ? dNameTa : 'Required Document');
+          final finalDocName = SchemeAdapterTextUtils.firstText([
+            dNameEn,
+            ...?translations['name']?.values,
+            'Required Document',
+          ]);
 
           reqDocNames.add(finalDocName);
           docList.add(
             SchemeDocument(
               name: finalDocName,
-              nameTa: dNameTa,
               mandatory:
                   (SchemeAdapterTextUtils.textOrNull(
                     docItem['mandatoryText'],
@@ -116,26 +124,10 @@ class SchemeResourcesResolver {
                       ? 'Yes'
                       : 'No'),
               issuingAuthority: dAuthEn,
-              issuingAuthorityTa: dAuthTa,
               description: dDescEn,
-              descriptionTa: dDescTa,
               estimatedCost: dCostEn,
-              estimatedCostTa: dCostTa,
               remarks: dRemEn,
-              remarksTa: dRemTa,
-              nameHi: SchemeAdapterTextUtils.extractHi(
-                docItem['name'] ?? docItem['title'],
-              ),
-              descriptionHi: SchemeAdapterTextUtils.extractHi(
-                docItem['description'] ?? docItem['summary'],
-              ),
-              issuingAuthorityHi: SchemeAdapterTextUtils.extractHi(
-                docItem['issuingAuthorityText'] ?? docItem['issuingAuthority'],
-              ),
-              estimatedCostHi: SchemeAdapterTextUtils.extractHi(
-                docItem['estimatedCostText'] ?? docItem['estimatedCostInr'],
-              ),
-              remarksHi: SchemeAdapterTextUtils.extractHi(docItem['remarks']),
+              translations: translations,
               sourceUrl:
                   (SchemeAdapterTextUtils.textOrNull(docItem['sourceUrl'])) ??
                   '',
@@ -170,12 +162,10 @@ class SchemeResourcesResolver {
       for (int i = 0; i < rawSteps.length; i++) {
         final step = rawSteps[i];
         if (step is Map<String, dynamic>) {
-          final (titleEn, titleTa) =
-              SchemeAdapterTextUtils.extractMultilingualStr(step['title']);
-          final (
-            descEn,
-            descTa,
-          ) = SchemeAdapterTextUtils.extractMultilingualStr(
+          final (titleEn, titles) = SchemeAdapterTextUtils.extractMultilingual(
+            step['title'],
+          );
+          final (descEn, descs) = SchemeAdapterTextUtils.extractMultilingual(
             step['description'],
           );
           final stepNum = step['stepNumber'] ?? (i + 1);
@@ -183,12 +173,15 @@ class SchemeResourcesResolver {
           final stepEn = titleEn.isNotEmpty
               ? 'Step $stepNum: $titleEn${descEn.isNotEmpty ? " - $descEn" : ""}'
               : (descEn.isNotEmpty ? 'Step $stepNum: $descEn' : '');
-          final stepTa = titleTa.isNotEmpty
-              ? 'படி $stepNum: $titleTa${descTa.isNotEmpty ? " - $descTa" : ""}'
-              : (descTa.isNotEmpty ? 'படி $stepNum: $descTa' : '');
+          final title = titles[langCode] ?? '';
+          final desc = descs[langCode] ?? '';
+          final label = stepLabel(langCode, stepNum);
+          final stepLocal = title.isNotEmpty
+              ? '$label $title${desc.isNotEmpty ? " - $desc" : ""}'
+              : (desc.isNotEmpty ? '$label $desc' : '');
 
-          if (stepTa.isNotEmpty) {
-            stepsList.add(stepTa);
+          if (stepLocal.isNotEmpty) {
+            stepsList.add(stepLocal);
           } else if (stepEn.isNotEmpty) {
             stepsList.add(stepEn);
           }
@@ -236,56 +229,35 @@ class SchemeResourcesResolver {
     if (rawServices != null && rawServices.isNotEmpty) {
       for (final sItem in rawServices) {
         if (sItem is Map<String, dynamic>) {
-          final (
-            sNameEn,
-            sNameTa,
-          ) = SchemeAdapterTextUtils.extractMultilingualStr(
-            sItem['name'] ?? sItem['title'],
-          );
-          final (
-            sCatEn,
-            sCatTa,
-          ) = SchemeAdapterTextUtils.extractMultilingualStr(
+          final translations = <String, Map<String, String>>{};
+          final read = _reader(translations);
+          final sNameEn = read('name', sItem['name'] ?? sItem['title']);
+          final sCatEn = read(
+            'category',
             sItem['category'],
             'Government Service',
           );
-          final (
-            sDescEn,
-            sDescTa,
-          ) = SchemeAdapterTextUtils.extractMultilingualStr(
-            sItem['description'],
-          );
-          final (sPurpEn, sPurpTa) =
-              SchemeAdapterTextUtils.extractMultilingualStr(sItem['purpose']);
-          final (
-            sDeptEn,
-            sDeptTa,
-          ) = SchemeAdapterTextUtils.extractMultilingualStr(
-            sItem['department'],
-            issuingBody,
-          );
-          final (sNotesEn, sNotesTa) =
-              SchemeAdapterTextUtils.extractMultilingualStr(sItem['notes']);
+          final sDescEn = read('description', sItem['description']);
+          final sPurpEn = read('purpose', sItem['purpose']);
+          final sDeptEn = read('department', sItem['department'], issuingBody);
+          final sNotesEn = read('notes', sItem['notes']);
 
-          final finalServiceName = sNameEn.isNotEmpty
-              ? sNameEn
-              : (sNameTa.isNotEmpty ? sNameTa : 'Government Service');
+          final finalServiceName = SchemeAdapterTextUtils.firstText([
+            sNameEn,
+            ...?translations['name']?.values,
+            'Government Service',
+          ]);
 
           serviceList.add(
             SchemeService(
               name: finalServiceName,
-              nameTa: sNameTa,
               category: sCatEn,
-              categoryTa: sCatTa,
               mandatory:
                   sItem['mandatory'] == true ||
                   sItem['mandatory'] == 'required',
               description: sDescEn,
-              descriptionTa: sDescTa,
               purpose: sPurpEn,
-              purposeTa: sPurpTa,
               department: sDeptEn,
-              departmentTa: sDeptTa,
               website:
                   (SchemeAdapterTextUtils.textOrNull(sItem['website'])) ?? '',
               contact:
@@ -294,19 +266,7 @@ class SchemeResourcesResolver {
                   (SchemeAdapterTextUtils.textOrNull(sItem['status'])) ??
                   'ACTIVE',
               notes: sNotesEn,
-              notesTa: sNotesTa,
-              nameHi: SchemeAdapterTextUtils.extractHi(
-                sItem['name'] ?? sItem['title'],
-              ),
-              categoryHi: SchemeAdapterTextUtils.extractHi(sItem['category']),
-              descriptionHi: SchemeAdapterTextUtils.extractHi(
-                sItem['description'],
-              ),
-              purposeHi: SchemeAdapterTextUtils.extractHi(sItem['purpose']),
-              departmentHi: SchemeAdapterTextUtils.extractHi(
-                sItem['department'],
-              ),
-              notesHi: SchemeAdapterTextUtils.extractHi(sItem['notes']),
+              translations: translations,
             ),
           );
         }

@@ -86,14 +86,23 @@ class _DocumentRow extends StatelessWidget {
           document.estimatedCost.toLowerCase() != 'not specified')
         l10n.estimatedCostFormat(document.estimatedCost),
     ];
-    final badge = document.mandatory.isEmpty
+    // The source's own wording ("Post-sanction", "No") is English, and "No"
+    // also covers documents the source says nothing about, so other languages
+    // show only the two statuses they can state.
+    final conditional = document.mandatory.toLowerCase().contains(
+      'conditional',
+    );
+    final showBadge =
+        document.mandatory.isNotEmpty &&
+        (document.isMandatory ||
+            conditional ||
+            Localizations.localeOf(context).languageCode == 'en');
+    final badge = !showBadge
         ? null
         : document.isMandatory
         ? (l10n.badgeRequired, AppColors.dangerStrong, AppColors.dangerSoft)
         : (
-            document.mandatory.toLowerCase() == 'conditional'
-                ? l10n.badgeConditional
-                : document.mandatory,
+            conditional ? l10n.badgeConditional : document.mandatory,
             AppTagStyle.neutral.text,
             AppTagStyle.neutral.background,
           );

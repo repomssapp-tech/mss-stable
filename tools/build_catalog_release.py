@@ -48,7 +48,7 @@ EXTRA_FILES = ["search_index.json", "manifest.json"]
 
 # Languages the app may offer. Mirrors catalog.language.is_active; removing a
 # code here and re-publishing is the Hindi/Tamil kill switch (D10).
-ACTIVE_LANGUAGES = ["en", "ta", "hi"]
+ACTIVE_LANGUAGES = ["en", "ta", "hi", "mr"]
 
 # Bundle layout version read by the app (MssCatalogBundle). 2 = single file:
 # language packs, release identity and the scheme id map are embedded.
@@ -58,11 +58,11 @@ BUNDLE_FORMAT = 3
 # jurisdiction not listed here is offered every discovered language that is
 # also in ACTIVE_LANGUAGES, so a new state needs no code change. Languages
 # present in the data but not offered (e.g. Marathi) are preserved in the
-# bundle without being exposed.
+# bundle without being exposed. Marathi is offered for Maharashtra only.
 OFFERED_LANGUAGES_BY_JURISDICTION = {
     "central": ["en", "hi", "ta"],
     "tamil_nadu": ["en", "ta"],
-    "maharashtra": ["en", "hi"],
+    "maharashtra": ["en", "hi", "mr"],
 }
 
 
