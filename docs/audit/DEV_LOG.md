@@ -66,3 +66,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-11-03 | Roger-Chris | #180 | unspecified | chore(release): 2.3.1+21 |
 | 2026-11-03 | Roger-Chris | #181 | unspecified | fix(language): correct Hindi, Tamil and Marathi screen text |
 | 2026-11-04 | Anto-Merary | #183 | unspecified | Fix Saarthi suggestions to match spoken and typed replies |
+| 2026-11-04 | Roger-Chris | #184 | release | Bumps the app to 2.4.0+23 and adds the changelog entry for the redesign (#182) and Saarthi scheme-card matching (#183). The full test suite passed on the merged tree (1,757 passed, 3 skipped). |
