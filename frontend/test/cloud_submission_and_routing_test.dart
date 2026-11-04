@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('cloud-confirmed onboarding', () {
     for (final path in <String>[
-      'lib/screens/regular_mode/eligibility_profile_screen.dart',
+      'lib/screens/regular_mode/basic_profile_screen.dart',
       'lib/screens/companion_mode/saarthi_welcome_screen.dart',
     ]) {
       test('$path waits for cloud confirmation before routing', () {
@@ -21,7 +21,8 @@ void main() {
         // screen is migrated onto gen-l10n, an ARB key reference.
         expect(
           source.toLowerCase().contains('unable to save') ||
-              source.contains('welcomeSavePreferencesError'),
+              source.contains('welcomeSavePreferencesError') ||
+              source.contains('profileErrUnableToSave'),
           isTrue,
           reason: 'expected a visible save-failure message in $path',
         );

@@ -12,10 +12,7 @@ import 'package:frontend/utils/app_colors.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
-import 'package:frontend/screens/regular_mode/about_you_profile_screen.dart';
 import 'package:frontend/screens/regular_mode/basic_profile_screen.dart';
-import 'package:frontend/screens/regular_mode/eligibility_profile_screen.dart';
-import 'package:frontend/screens/regular_mode/location_profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -62,9 +59,9 @@ void main() {
 
   final steps = <String, Widget Function()>{
     'Step 1 - Basic details': () => const BasicProfileScreen(),
-    'Step 2 - Location': () => const LocationProfileScreen(),
-    'Step 3 - About you': () => const AboutYouProfileScreen(),
-    'Step 4 - Eligibility': () => const EligibilityProfileScreen(),
+    'Step 2 - Location': () => const BasicProfileScreen(initialStep: 2),
+    'Step 3 - About you': () => const BasicProfileScreen(initialStep: 3),
+    'Step 4 - Eligibility': () => const BasicProfileScreen(initialStep: 4),
   };
 
   steps.forEach((name, build) {
@@ -80,7 +77,7 @@ void main() {
   testWidgets(
     'Step 2 heading and step counter are both fully visible (no collision)',
     (tester) async {
-      await _pumpStep(tester, const LocationProfileScreen());
+      await _pumpStep(tester, const BasicProfileScreen(initialStep: 2));
       expect(find.text('Where are you located?'), findsOneWidget);
       expect(find.text('2/4 Complete'), findsOneWidget);
       expect(tester.takeException(), isNull);
@@ -107,7 +104,7 @@ void main() {
   testWidgets(
     'Step 2 Continue stays disabled until every address field is valid',
     (tester) async {
-      await _pumpStep(tester, const LocationProfileScreen());
+      await _pumpStep(tester, const BasicProfileScreen(initialStep: 2));
 
       ElevatedButton button() => tester.widget<ElevatedButton>(
         find.widgetWithText(ElevatedButton, 'Continue'),

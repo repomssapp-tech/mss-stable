@@ -12,13 +12,9 @@ const _allowedFiles = <String>{'lib/utils/app_colors.dart'};
 // §3.5 painter/illustration allowlist (brand colours, decorative gradients).
 const _allowedSubstrings = <String>[
   'state_map_painter.dart',
-  'voice_edge_painter.dart',
   'login_screen.dart', // _GoogleIconPainter brand colours
-  'regular_voice_backdrop.dart',
-  'companion_voice_header.dart',
   'saarthi_character_header.dart',
   'splash_screen.dart',
-  'anti_gravity_hero_section.dart',
   'categories_data.dart',
 ];
 

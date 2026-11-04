@@ -11,7 +11,6 @@ import 'package:frontend/screens/regular_mode/categories/udyam_classifier_sheet.
 import 'package:frontend/screens/regular_mode/scheme_details/scheme_documents_section.dart';
 import 'package:frontend/screens/regular_mode/search_screen.dart';
 import 'package:frontend/screens/regular_mode/settings/active_sessions_dialog.dart';
-import 'package:frontend/screens/regular_mode/settings/password_management_dialog.dart';
 import 'package:frontend/services/account/rest_auth_service.dart';
 import 'package:frontend/services/catalog/centralized_translator.dart';
 import 'package:frontend/services/catalog/scheme_repository.dart';
@@ -95,23 +94,6 @@ void main() {
     await tester.tap(find.text('open'));
     await tester.pumpAndSettle();
   }
-
-  testWidgets('HI-07 password length and mismatch validation are Hindi', (
-    t,
-  ) async {
-    await t.pumpWidget(wrap(const PasswordManagementDialog()));
-    await t.pumpAndSettle();
-    await t.tap(find.byType(ElevatedButton).first);
-    await t.pumpAndSettle();
-    expect(find.text(hi.pwLengthRule), findsOneWidget);
-    await t.pump(const Duration(seconds: 4));
-    await t.enterText(find.byType(TextField).first, 'test-password-12345');
-    await t.enterText(find.byType(TextField).last, 'different-password');
-    await t.tap(find.byType(ElevatedButton).first);
-    await t.pumpAndSettle();
-    expect(find.text(hi.pwMismatch), findsOneWidget);
-    await t.pump(const Duration(seconds: 4));
-  });
 
   testWidgets('HI-08 active device and status labels are Hindi', (t) async {
     await t.pumpWidget(wrap(const ActiveSessionsDialog()));

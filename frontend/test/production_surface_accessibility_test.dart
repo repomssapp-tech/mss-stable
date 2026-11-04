@@ -5,11 +5,9 @@ import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/screens/navigation_mode_screen.dart' as app_navigation;
-import 'package:frontend/screens/regular_mode/about_you_profile_screen.dart';
 import 'package:frontend/screens/regular_mode/basic_profile/state_picker_field.dart';
 import 'package:frontend/screens/regular_mode/basic_profile_screen.dart';
 import 'package:frontend/screens/regular_mode/language_selection_screen.dart';
-import 'package:frontend/screens/regular_mode/location_profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -161,10 +159,14 @@ void main() {
           await tester.tap(continueButton);
           await tester.pump();
           expect(find.text('Please enter your full name'), findsOneWidget);
-          expect(find.byType(LocationProfileScreen), findsNothing);
+          expect(find.text('Where are you located?'), findsNothing);
           expect(tester.takeException(), isNull);
 
-          await _pumpSurface(tester, provider, const LocationProfileScreen());
+          await _pumpSurface(
+            tester,
+            provider,
+            const BasicProfileScreen(initialStep: 2),
+          );
           await tester.pump();
           expect(find.text('Where are you located?'), findsOneWidget);
           expect(find.text('Use current location'), findsOneWidget);
@@ -181,10 +183,14 @@ void main() {
             find.text('Please enter your house/street address'),
             findsOneWidget,
           );
-          expect(find.byType(AboutYouProfileScreen), findsNothing);
+          expect(find.text('Tell us about you'), findsNothing);
           expect(tester.takeException(), isNull);
 
-          await _pumpSurface(tester, provider, const AboutYouProfileScreen());
+          await _pumpSurface(
+            tester,
+            provider,
+            const BasicProfileScreen(initialStep: 3),
+          );
           expect(find.text('Tell us about you'), findsOneWidget);
           expect(find.text('Student'), findsOneWidget);
           expect(find.text('Farmer'), findsOneWidget);
