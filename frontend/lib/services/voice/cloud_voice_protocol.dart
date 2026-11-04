@@ -12,6 +12,18 @@ const cloudProfileContextTopic = 'in-schemes.profile.v1';
 @visibleForTesting
 const cloudSchemeResultsAttribute = 'in.schemes.results.v1';
 
+/// Missing metadata permits legacy text matching; an explicit empty list does not.
+List<String>? replySchemeIds(Map data) {
+  if (!data.containsKey('scheme_ids')) return null;
+  final raw = data['scheme_ids'];
+  if (raw is! List || raw.any((id) => id is! String)) return const [];
+  return raw
+      .cast<String>()
+      .where((id) => id.trim().isNotEmpty)
+      .toSet()
+      .toList();
+}
+
 @immutable
 class CloudSchemeResult {
   const CloudSchemeResult({

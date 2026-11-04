@@ -124,12 +124,13 @@ class HttpVoiceAgentController extends ChangeNotifier
     );
   }
 
-  void acceptNativeResults(Object? results) {
+  void acceptNativeResults(Object? results, {List<String>? schemeIds}) {
     if (_disposed) return;
     _events.add(
       VoiceAgentEvent(
         VoiceAgentEventType.schemeResults,
         data: {
+          'scheme_ids': ?schemeIds,
           'results': parseCloudSchemeResultsAttribute(
             jsonEncode({
               'schema': 'in-schemes-results-v1',
@@ -222,7 +223,11 @@ class HttpVoiceAgentController extends ChangeNotifier
       _events.add(
         VoiceAgentEvent(
           VoiceAgentEventType.schemeResults,
-          data: {'results': results},
+          data: {
+            'results': results,
+            if (data.containsKey('scheme_ids'))
+              'scheme_ids': replySchemeIds(data),
+          },
         ),
       );
       _events.add(

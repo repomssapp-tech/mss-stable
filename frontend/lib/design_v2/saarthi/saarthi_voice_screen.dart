@@ -4,14 +4,12 @@
 // the transcript, applies the Voice settings, and saves the conversation on
 // this phone.
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../l10n/l10n.dart';
 import '../../providers/app_state_provider.dart';
-import '../../screens/companion_mode/saarthi_home/saarthi_response_helpers.dart';
 import '../../screens/companion_mode/saarthi_message.dart';
 import '../../screens/notifications_screen.dart';
 import '../../screens/regular_mode/categories_screen.dart';
@@ -38,6 +36,7 @@ import 'saarthi_kit.dart';
 import 'saarthi_type_screen.dart';
 import 'saarthi_voice_settings_screen.dart';
 import 'saarthi_voice_views.dart';
+import 'scheme_mentions.dart';
 
 class SaarthiVoiceScreen extends StatefulWidget {
   const SaarthiVoiceScreen({
@@ -72,6 +71,7 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
   AssistantSessionController? _session;
   StreamSubscription<VoiceAgentEvent>? _events;
   List<CloudSchemeResult> _pendingMetadata = const [];
+  List<String>? _pendingSchemeIds;
   String? _appLanguage;
   bool _active = false;
   bool _starting = false;
@@ -161,6 +161,8 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
       _chatId = 'v${DateTime.now().microsecondsSinceEpoch}';
       _chatStart = DateTime.now();
       _messages.clear();
+      _pendingMetadata = const [];
+      _pendingSchemeIds = null;
       _readyDocs.clear();
       setState(() => _active = true);
       await _conversation!.start();
@@ -178,6 +180,9 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
     if (event.type == VoiceAgentEventType.schemeResults) {
       final raw = event.data?['results'];
       _pendingMetadata = raw is List<CloudSchemeResult> ? raw : const [];
+      _pendingSchemeIds = event.data == null
+          ? null
+          : replySchemeIds(event.data!);
       return;
     }
     final isUser = event.type == VoiceAgentEventType.inputTranscriptDone;
@@ -190,22 +195,13 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
         event.data?['messageId'] as String? ??
         '${DateTime.now().microsecondsSinceEpoch}';
     final provider = context.read<AppProvider>();
-    final recent = _messages
-        .where((m) => m.role == 'user')
-        .map((m) => m.text)
-        .toList();
     final results = isUser
         ? null
-        : SaarthiResponseHelpers.rankCloudSchemeResults(
+        : schemesForReply(
+            text,
+            provider.allSchemes,
             results: _pendingMetadata,
-            catalogMatches: matchCloudSchemeResultsToCatalog(
-              _pendingMetadata,
-              provider.allSchemes,
-            ),
-            recentUserTurns: recent
-                .skip(math.max(0, recent.length - 3))
-                .toList(),
-            limit: 2,
+            schemeIds: _pendingSchemeIds,
           );
     final message = SaarthiMessage(
       id: id,
@@ -231,7 +227,8 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
       timestamp: message.timestamp,
       recommendations: results?.map((s) => s.name).toList(),
     );
-    if (isUser) _pendingMetadata = const [];
+    _pendingMetadata = const [];
+    _pendingSchemeIds = null;
     unawaited(_saveLocal());
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scroll.hasClients) {
