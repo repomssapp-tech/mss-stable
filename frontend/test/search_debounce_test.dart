@@ -48,7 +48,7 @@ void main() {
 
     // Results or filter strip controls should now be visible
     expect(find.widgetWithText(OutlinedButton, 'Filter'), findsOneWidget);
-    expect(find.widgetWithText(OutlinedButton, 'For Me'), findsOneWidget);
+    expect(find.widgetWithText(OutlinedButton, 'For me'), findsOneWidget);
     await tester.enterText(find.byType(TextField), '');
     await tester.pump(const Duration(milliseconds: 350));
     await tester.pumpAndSettle();

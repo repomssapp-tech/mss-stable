@@ -61,7 +61,7 @@ void main() {
       // The very same strip as the Search tab: Filter / For Me / Sort.
       expect(find.byType(SearchFilterStrip), findsOneWidget);
       expect(find.widgetWithText(OutlinedButton, 'Filter'), findsOneWidget);
-      expect(find.widgetWithText(OutlinedButton, 'For Me'), findsOneWidget);
+      expect(find.widgetWithText(OutlinedButton, 'For me'), findsOneWidget);
       expect(find.textContaining('Sort'), findsOneWidget);
       // A pushed page: its own title and a back button, not the tab header.
       expect(find.byType(StandardPageHeader), findsOneWidget);
@@ -125,7 +125,7 @@ void main() {
         await tester.pumpAndSettle();
         expect(find.byType(SearchFilterStrip), findsOneWidget);
         expect(find.widgetWithText(OutlinedButton, 'Filter'), findsNothing);
-        expect(find.widgetWithText(OutlinedButton, 'For Me'), findsNothing);
+        expect(find.widgetWithText(OutlinedButton, 'For me'), findsNothing);
         expect(find.textContaining('Sort'), findsNothing);
         expect(find.text('2 schemes available'), findsNothing);
         expect(find.byTooltip('Back'), findsNothing);

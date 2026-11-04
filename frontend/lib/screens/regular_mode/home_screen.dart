@@ -4,6 +4,9 @@ import 'package:provider/provider.dart';
 
 import '../../l10n/l10n.dart';
 import '../../providers/app_state_provider.dart';
+import '../../utils/app_colors.dart';
+import '../../utils/app_elevation.dart';
+import '../../utils/app_size.dart';
 import '../../utils/app_spacing.dart';
 import '../login_screen.dart';
 import '../notifications_screen.dart';
@@ -107,111 +110,90 @@ class _HomeScreenState extends State<HomeScreen> {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
+    final topInset = MediaQuery.paddingOf(context).top;
+
     return Scaffold(
-      backgroundColor: const Color(
-        0xFFF8FAFC,
-      ), // Slate 50 (Premium clean background)
+      backgroundColor: AppColors.background,
       body: Stack(
         children: [
-          // 1. Background image alignment (sky with building)
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
+          // The header art scrolls with the page, so it never shows through
+          // the sections below it.
+          SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
             child: Stack(
               children: [
-                Image.asset(
-                  'assets/images/Background/Home_screen_bg.webp',
-                  width: MediaQuery.of(context).size.width,
-                  height: 290,
-                  fit: BoxFit.cover,
-                  alignment: Alignment.topCenter,
-                  // Source is 2160x1260; only ever painted at screen width.
-                  cacheWidth:
-                      (MediaQuery.of(context).size.width *
-                              MediaQuery.of(context).devicePixelRatio)
-                          .round(),
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: _HeaderArt(height: _headerArtHeight + topInset),
                 ),
-                Container(
-                  height: 290,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.white.withValues(alpha: 0.05),
-                        Colors.white.withValues(alpha: 0.65),
-                        const Color(0xFFF8FAFC),
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: topInset,
+                    left: AppSpacing.lg,
+                    right: AppSpacing.lg,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: AppSpacing.xl),
+
+                      // Unified Header (Greeting, Notification bell, Search bar & Quick pills)
+                      HomeHeaderSection(
+                        provider: provider,
+                        onSearchBarTap: widget.onSearchBarTap,
+                        onFilterPressed: widget.onFilterPressed,
+                        onVoiceQuery: widget.onVoiceQuery,
+                        onNotificationTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const NotificationsScreen(),
+                            ),
+                          );
+                        },
+                      ),
+
+                      if (provider.profileCompletionPercentage < 100) ...[
+                        const SizedBox(height: AppSpacing.xl),
+                        // Profile Completion (Real & Compact)
+                        HomeProfileCompletionCard(provider: provider),
                       ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
+
+                      const SizedBox(height: AppSpacing.xl),
+
+                      // Featured: best matches and newest schemes for the user,
+                      // falling back to the promo cards.
+                      const HomeFeaturedSection(),
+
+                      const SizedBox(height: AppSpacing.xxl),
+
+                      // Choose Your Journey (Horizontal Action Cards)
+                      const HomeJourneySection(),
+
+                      const SizedBox(height: AppSpacing.xxl),
+
+                      // Explore MSME Support (Horizontal Cards)
+                      const HomeMsmeSupportSection(),
+
+                      const SizedBox(height: AppSpacing.xxl),
+
+                      // Recommended For You (Horizontal List)
+                      HomeRecommendedSection(provider: provider),
+
+                      const SizedBox(height: AppSpacing.xxl),
+
+                      // Latest Updates & Tip of the Day
+                      HomeUpdatesSection(provider: provider),
+
+                      // Clears the Ask Saarthi button above the nav bar.
+                      const SizedBox(
+                        height: AppSize.tapTarget + AppSpacing.xxxl * 2,
+                      ),
+                    ],
                   ),
                 ),
               ],
-            ),
-          ),
-
-          // 2. Scrollable content
-          SafeArea(
-            child: SingleChildScrollView(
-              physics: const ClampingScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: AppSpacing.xl),
-
-                    // Unified Header (Greeting, Notification bell, Search bar & Quick pills)
-                    HomeHeaderSection(
-                      provider: provider,
-                      onSearchBarTap: widget.onSearchBarTap,
-                      onFilterPressed: widget.onFilterPressed,
-                      onVoiceQuery: widget.onVoiceQuery,
-                      onNotificationTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => const NotificationsScreen(),
-                          ),
-                        );
-                      },
-                    ),
-
-                    if (provider.profileCompletionPercentage < 100) ...[
-                      const SizedBox(height: AppSpacing.xl),
-                      // Profile Completion (Real & Compact)
-                      HomeProfileCompletionCard(provider: provider),
-                    ],
-
-                    const SizedBox(height: AppSpacing.xl),
-
-                    // Featured: best matches and newest schemes for the user,
-                    // falling back to the promo cards.
-                    const HomeFeaturedSection(),
-
-                    const SizedBox(height: AppSpacing.xxl),
-
-                    // Choose Your Journey (Horizontal Action Cards)
-                    const HomeJourneySection(),
-
-                    const SizedBox(height: AppSpacing.xxl),
-
-                    // Explore MSME Support (Horizontal Cards)
-                    const HomeMsmeSupportSection(),
-
-                    const SizedBox(height: AppSpacing.xxl),
-
-                    // Recommended For You (Horizontal List)
-                    HomeRecommendedSection(provider: provider),
-
-                    const SizedBox(height: AppSpacing.xxl),
-
-                    // Latest Updates & Tip of the Day
-                    HomeUpdatesSection(provider: provider),
-
-                    const SizedBox(height: 110),
-                  ],
-                ),
-              ),
             ),
           ),
           Positioned(
@@ -230,37 +212,93 @@ class _HomeScreenState extends State<HomeScreen> {
     return Semantics(
       button: true,
       label: context.l10n.openSaarthiAiChat,
-      child: Material(
+      excludeSemantics: true,
+      child: DecoratedBox(
         key: HomeTourTargets.askSaarthi,
-        color: const Color(0xFF2563EB),
-        elevation: 5,
-        shadowColor: const Color(0x552563EB),
-        borderRadius: BorderRadius.circular(28),
-        child: InkWell(
-          onTap: _openChatbot,
-          borderRadius: BorderRadius.circular(28),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 13),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(
-                  Icons.auto_awesome_rounded,
-                  color: Colors.white,
-                  size: 19,
+        decoration: const ShapeDecoration(
+          shape: StadiumBorder(),
+          shadows: AppShadows.raised,
+        ),
+        child: Material(
+          color: AppColors.primary,
+          shape: const StadiumBorder(),
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: _openChatbot,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: AppSize.tapTarget),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.lg,
+                  vertical: AppSpacing.md,
                 ),
-                const SizedBox(width: AppSpacing.sm),
-                Text(
-                  context.l10n.askAi,
-                  style: AppGoogleFonts.inter(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                  ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.chat_bubble_outline_rounded,
+                      color: AppColors.textOnPrimary,
+                      size: AppSize.icon,
+                    ),
+                    const SizedBox(width: AppSpacing.sm),
+                    Text(
+                      context.l10n.homeAskSaarthi,
+                      style: context.text.button.copyWith(
+                        color: AppColors.textOnPrimary,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// How tall the header art is below the status bar.
+const double _headerArtHeight = 290;
+
+/// The sky-and-government-building art behind the header, fading into the
+/// page colour at its foot.
+class _HeaderArt extends StatelessWidget {
+  const _HeaderArt({required this.height});
+
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+    return ExcludeSemantics(
+      child: SizedBox(
+        height: height,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Image.asset(
+              'assets/images/Background/Home_screen_bg.webp',
+              fit: BoxFit.cover,
+              alignment: Alignment.topCenter,
+              // Source is 2160x1260; only ever painted at screen width.
+              cacheWidth: (width * MediaQuery.devicePixelRatioOf(context))
+                  .round(),
+            ),
+            DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    AppColors.background.withValues(alpha: 0.05),
+                    AppColors.background.withValues(alpha: 0.65),
+                    AppColors.background,
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

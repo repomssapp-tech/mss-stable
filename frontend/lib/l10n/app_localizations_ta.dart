@@ -16,7 +16,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get unlockPersonalizedSchemeRecommendations =>
-      'தனிப்பயனாக்கப்பட்ட திட்ட பரிந்துரைகளை பெறுக.';
+      'உங்களுக்குப் பொருந்தும் திட்டங்களைப் பாருங்கள்';
 
   @override
   String get applicationsClosingSoon => 'விண்ணப்பங்கள் விரைவில் முடிகின்றன';
@@ -59,7 +59,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get startABusiness => 'தொழில் தொடங்க';
 
   @override
-  String get exploreMsmeSupport => 'எம் எஸ் எம் ஈ ஆதரவை ஆராய்க';
+  String get exploreMsmeSupport => 'எம்எஸ்எம்இ ஆதரவு';
 
   @override
   String get schemes => 'திட்டங்கள்';
@@ -93,7 +93,7 @@ class AppLocalizationsTa extends AppLocalizations {
       'பரிந்துரைகளைக் காண உங்கள் சுயவிவரத்தை முழுமையாக்கவும்';
 
   @override
-  String get viewAll => 'அனைத்தையும் காண்க';
+  String get viewAll => 'அனைத்தும்';
 
   @override
   String get latestUpdates => 'சமீபத்திய புதுப்பிப்புகள்';
@@ -107,6 +107,12 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get searchPlaceholder =>
       'திட்டங்கள், நன்மைகளைத் தேடுங்கள் அல்லது எதையும் கேளுங்கள்...';
+
+  @override
+  String get homeSearchHint => 'திட்டம் தேடுக';
+
+  @override
+  String get homeAskSaarthi => 'சாரதியிடம் கேளுங்கள்';
 
   @override
   String get filter => 'வடிகட்டி';
@@ -259,11 +265,11 @@ class AppLocalizationsTa extends AppLocalizations {
   String get activeBadge => 'செயலில்';
 
   @override
-  String get calculatingMatches => 'பொருத்தங்கள் கணக்கிடப்படுகின்றன...';
+  String get calculatingMatches => 'பொருத்தங்களைத் தேடுகிறது';
 
   @override
   String schemesMatchProfile(Object count) {
-    return '$count திட்டங்கள் உங்கள் சுயவிவரத்திற்கு பொருந்துகின்றன.';
+    return '$count திட்டங்கள் உங்கள் சுயவிவரத்திற்கு பொருந்துகின்றன';
   }
 
   @override
@@ -318,16 +324,16 @@ class AppLocalizationsTa extends AppLocalizations {
   String get discoverTitle => 'கண்டறிக';
 
   @override
-  String get browseByCategories => 'பிரிவுகள் வாரியாக உலாவுக';
+  String get browseByCategories => 'பிரிவு வாரியாக';
 
   @override
   String get featuredCollections => 'சிறப்புத் தொகுப்புகள்';
 
   @override
-  String get browseByMinistry => 'அமைச்சகங்கள் வாரியாக உலாவுக';
+  String get browseByMinistry => 'அமைச்சகம் வாரியாக';
 
   @override
-  String get browseByState => 'மாநிலங்கள் வாரியாக உலாவுக';
+  String get browseByState => 'மாநிலம் வாரியாக';
 
   @override
   String get smartAssessment => 'ஸ்மார்ட் மதிப்பீடு';
@@ -342,7 +348,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get exploreTopCuratedCollections =>
-      'சிறப்பு திட்ட தொகுப்புகளை ஆராயுங்கள்';
+      'பிரிவு, அமைச்சகம், மாநிலம் வாரியாகத் திட்டங்கள்';
 
   @override
   String get schemesByGovernmentMinistries =>
@@ -518,7 +524,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get noSavedSchemesDesc =>
-      'திட்டங்களை சேமித்து வைத்தால் எப்போது வேண்டுமானாலும் ஆஃப்லைனில் பார்க்கலாம்.';
+      'உலாவும்போது ஒரு திட்டத்தைச் சேமித்தால், ஆஃப்லைனிலும் இங்கே இருக்கும்';
 
   @override
   String savedSubtitleCountFormat(int count) {
@@ -703,7 +709,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get userInformation => 'பயனர் விவரங்கள்';
 
   @override
-  String get eligibilityProfessionalDetails => 'தகுதி & தொழில்முறை விவரங்கள்';
+  String get eligibilityProfessionalDetails => 'தகுதி மற்றும் தொழில் விவரங்கள்';
 
   @override
   String get businessInformation => 'வணிகத் தகவல்கள்';
@@ -884,10 +890,10 @@ class AppLocalizationsTa extends AppLocalizations {
   String get schemeAtAGlance => 'திட்டத்தின் சுருக்கம்';
 
   @override
-  String get benefitsDetails => 'நன்மைகள் பற்றிய விவரங்கள்';
+  String get benefitsDetails => 'நன்மைகள்';
 
   @override
-  String get eligibilityCriteria => 'தகுதி அளவுகோல்கள்';
+  String get eligibilityCriteria => 'யாருக்குத் தகுதி';
 
   @override
   String get requiredDocuments => 'தேவையான ஆவணங்கள்';
@@ -935,7 +941,7 @@ class AppLocalizationsTa extends AppLocalizations {
       'இந்த திட்டத்திற்கு தனியான சேவைத் தேவைகள் எதுவும் பட்டியலிடப்படவில்லை.';
 
   @override
-  String get getDocumentOnline => 'ஆவணத்தை ஆன்லைனில் பெறுக';
+  String get getDocumentOnline => 'ஆன்லைனில் பெறுக';
 
   @override
   String issuedByFormat(Object authority) {
@@ -2346,7 +2352,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String comingSoonSchemesBody(Object name) {
-    return '$name பிரிவிற்கான திட்டங்கள் தற்போது சேர்க்கப்பட்டு வருகின்றன. விரைவில் புதுப்பிக்கப்படும்!';
+    return '$name பிரிவிற்கான திட்டங்கள் சேர்க்கப்பட்டு வருகின்றன, விரைவில் இங்கே இருக்கும்';
   }
 
   @override
@@ -4511,7 +4517,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get voiceAssistantLabel => 'குரல் உதவியாளர்';
 
   @override
-  String get eligResGreatNews => 'நல்ல செய்தி! 🎉';
+  String get eligResGreatNews => 'உங்கள் முடிவுகள்';
 
   @override
   String get eligResEligibleForPrefix => 'நீங்கள் பெறத் தகுதியானவர்\n';
@@ -4537,7 +4543,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get eligResSavedToast =>
-      'முடிவுகள் உங்கள் தகுதி சுயவிவரத்தில் சேமிக்கப்பட்டன!';
+      'முடிவுகள் உங்கள் தகுதி சுயவிவரத்தில் சேமிக்கப்பட்டன';
 
   @override
   String get eligResSaveResults => 'முடிவுகளைச் சேமி';
@@ -4725,7 +4731,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get savedRemoveNoLongerInterested =>
-      'இனி உங்களுக்கு விருப்பமில்லாத திட்டங்களை அகற்றவும்.';
+      'இனி உங்களுக்கு விருப்பமில்லாத திட்டங்களை அகற்றவும்';
 
   @override
   String get eduSchool => 'பள்ளி (10 / 12ம்)';
@@ -6035,19 +6041,6 @@ class AppLocalizationsTa extends AppLocalizations {
   String get sv2TapWhenDone => 'பேசி முடித்ததும் மைக்கைத் தட்டுங்கள்';
 
   @override
-  String get sv2ConfirmTitle => 'நான் சரியாகக் கேட்டேனா?';
-
-  @override
-  String get sv2Transcribed => 'எழுத்தாக்கப்பட்டது';
-
-  @override
-  String get sv2ConfirmHelp =>
-      'அனுப்ப டிக்கையும், நீக்க குறுக்குக் குறியையும், மீண்டும் சொல்ல மைக்கையும் தட்டுங்கள்.';
-
-  @override
-  String get sv2EditTitle => 'உங்கள் கோரிக்கையைத் திருத்துங்கள்';
-
-  @override
   String get sv2Speak => 'பேசு';
 
   @override
@@ -6055,9 +6048,6 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get sv2Send => 'இதை அனுப்பு';
-
-  @override
-  String get sv2Discard => 'நீக்கு';
 
   @override
   String get sv2Room => 'உரையாடல் அறை';
@@ -6086,6 +6076,12 @@ class AppLocalizationsTa extends AppLocalizations {
   String sv2DocumentsReady(int ready, int total) {
     return '$total-இல் $ready தயார்';
   }
+
+  @override
+  String get sv2OldSessions => 'பழைய உரையாடல்கள்';
+
+  @override
+  String get sv2TypeMessage => 'சாரதிக்கு செய்தி எழுதுங்கள்';
 
   @override
   String get sv2HistoryTitle => 'உரையாடல் வரலாறு';
@@ -6156,20 +6152,6 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get sv2AutoplayBody => 'ஒவ்வொரு பதிலையும் சாரதி சத்தமாகப் படிக்கும்';
-
-  @override
-  String get sv2HandsFree => 'கைகளின்றி பயன்முறை';
-
-  @override
-  String get sv2HandsFreeBody =>
-      'ஒவ்வொரு பதிலுக்குப் பிறகும் தொடர்ந்து கேட்கும்';
-
-  @override
-  String get sv2ConfirmSend => 'அனுப்பும் முன் உறுதிசெய்';
-
-  @override
-  String get sv2ConfirmSendBody =>
-      'அனுப்பும் முன் சாரதி கேட்டதைச் சரிபாருங்கள்';
 
   @override
   String get sv2VoiceNote =>

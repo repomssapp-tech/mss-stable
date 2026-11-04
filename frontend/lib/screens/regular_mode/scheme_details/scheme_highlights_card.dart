@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../l10n/l10n.dart';
 import '../../../models/localized_scheme.dart';
+import '../../../utils/app_radius.dart';
+import '../../../utils/app_size.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/app_text.dart';
 import '../../../utils/app_colors.dart';
@@ -21,83 +23,45 @@ class SchemeHighlightsCard extends StatelessWidget {
     ].where((value) => value.isNotEmpty).toSet().toList();
     matches.sort((a, b) => a.length.compareTo(b.length));
 
-    final maxPillWidth = MediaQuery.of(context).size.width - 56;
-
     return Container(
-      padding: const EdgeInsets.all(AppSpacing.md),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: const Color(0xFF2563EB).withValues(alpha: 0.15),
-          width: 1.2,
-        ),
+        color: AppColors.surface,
+        borderRadius: AppRadius.lgAll,
+        border: Border.all(color: AppColors.border, width: AppSize.borderWidth),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              const Icon(
-                Icons.track_changes,
-                color: Color(0xFF2563EB),
-                size: 16,
-              ),
-              const SizedBox(width: AppSpacing.tight),
-              Flexible(
-                child: Text(
-                  context.l10n.schemeAtAGlance,
-                  softWrap: true,
-                  style: AppGoogleFonts.poppins(
-                    fontSize: 13.0,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF0F172A),
-                  ),
-                ),
-              ),
-            ],
+          Text(
+            context.l10n.schemeAtAGlance,
+            style: context.text.cardTitle.copyWith(
+              color: AppColors.textPrimary,
+            ),
           ),
           const SizedBox(height: AppSpacing.md),
           Wrap(
             spacing: AppSpacing.sm,
             runSpacing: AppSpacing.sm,
-            children: matches.map((match) {
-              return Container(
-                constraints: BoxConstraints(maxWidth: maxPillWidth),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.sm,
-                  vertical: AppSpacing.xs,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFEFF6FF),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.check_circle,
-                      color: Color(0xFF2563EB),
-                      size: 11,
+            children: [
+              for (final match in matches)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.sm,
+                    vertical: AppSpacing.xs,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppTagStyle.level.background,
+                    borderRadius: AppRadius.smAll,
+                  ),
+                  child: Text(
+                    '${match[0].toUpperCase()}${match.substring(1)}',
+                    style: context.text.label.copyWith(
+                      color: AppTagStyle.level.text,
                     ),
-                    const SizedBox(width: AppSpacing.xs),
-                    Flexible(
-                      child: Text(
-                        match.isEmpty
-                            ? match
-                            : '${match[0].toUpperCase()}${match.substring(1)}',
-                        style: AppGoogleFonts.inter(
-                          color: const Color(0xFF2563EB),
-                          fontSize: 10.5,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              );
-            }).toList(),
+            ],
           ),
         ],
       ),
@@ -125,25 +89,27 @@ class SchemeOfficialSourceCard extends StatelessWidget {
       scheme.guidelinesUrl,
       scheme.officialWebsite,
     ].firstWhere(isSafeWebUrl, orElse: () => '');
+    final verified = _isVerified(scheme.verificationStatus);
 
     return Container(
-      padding: const EdgeInsets.all(AppSpacing.md),
+      padding: const EdgeInsets.only(
+        left: AppSpacing.lg,
+        top: AppSpacing.md,
+        bottom: AppSpacing.md,
+        right: AppSpacing.xs,
+      ),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8FAFC),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
+        color: AppColors.surfaceMuted,
+        borderRadius: AppRadius.lgAll,
       ),
       child: Row(
         children: [
           // A green tick only for a verified scheme; "not independently
           // verified" gets a neutral info icon, not a contradicting tick.
           Icon(
-            _isVerified(scheme.verificationStatus)
-                ? Icons.verified_outlined
-                : Icons.info_outline_rounded,
-            color: _isVerified(scheme.verificationStatus)
-                ? const Color(0xFF047857)
-                : AppColors.textSecondary,
+            verified ? Icons.verified_outlined : Icons.info_outline_rounded,
+            size: AppSize.icon,
+            color: verified ? AppColors.success : AppColors.textSecondary,
           ),
           const SizedBox(width: AppSpacing.sm),
           Expanded(
@@ -154,12 +120,8 @@ class SchemeOfficialSourceCard extends StatelessWidget {
                   scheme.verificationStatus.isEmpty
                       ? context.l10n.officialInformation
                       : _verificationText(context, scheme.verificationStatus),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppGoogleFonts.inter(
-                    color: const Color(0xFF0F172A),
-                    fontWeight: FontWeight.w700,
-                    fontSize: 11.0,
+                  style: context.text.label.copyWith(
+                    color: AppColors.textPrimary,
                   ),
                 ),
                 if (scheme.lastUpdated.isNotEmpty)
@@ -167,9 +129,8 @@ class SchemeOfficialSourceCard extends StatelessWidget {
                     context.l10n.lastUpdatedFormat(
                       _formatUpdated(context, scheme.lastUpdated),
                     ),
-                    style: AppGoogleFonts.inter(
-                      color: const Color(0xFF64748B),
-                      fontSize: 9.5,
+                    style: context.text.bodySmall.copyWith(
+                      color: AppColors.textMuted,
                     ),
                   ),
               ],
@@ -177,7 +138,7 @@ class SchemeOfficialSourceCard extends StatelessWidget {
           ),
           TextButton.icon(
             onPressed: sourceUrl.isEmpty ? null : () => onOpenUrl(sourceUrl),
-            icon: const Icon(Icons.open_in_new_rounded, size: 15),
+            icon: const Icon(Icons.open_in_new_rounded, size: AppSize.iconSm),
             label: Text(context.l10n.sourceButton),
           ),
         ],

@@ -16,9 +16,9 @@ import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/screens/regular_mode/language_selection_screen.dart';
 
 // Exact values copied from the old custom `_en` / `_ta` onboarding maps.
-const _welcomeEn = 'Welcome!';
+const _welcomeEn = 'Welcome';
 const _welcomeTa = 'வரவேற்கிறோம்!';
-const _chooseLangEn = 'Choose Your Language';
+const _chooseLangEn = 'Choose your language';
 const _chooseLangTa = 'உங்கள் மொழியை தேர்ந்தெடுக்கவும்';
 
 Widget _host(Locale locale, Widget screen) {

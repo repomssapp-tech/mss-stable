@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 import '../../../utils/app_text.dart';
-import '../../../utils/responsive.dart';
 
 class AssessmentSheetFooter extends StatelessWidget {
   final bool showBackButton;
@@ -32,18 +32,8 @@ class AssessmentSheetFooter extends StatelessWidget {
             child: TextButton.icon(
               onPressed: onBack,
               icon: const Icon(Icons.arrow_back, size: 16),
-              label: FitOneLine(
-                child: Text(
-                  backLabel,
-                  style: AppGoogleFonts.inter(
-                    fontSize: isTamil ? 11.0 : 12.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              style: TextButton.styleFrom(
-                foregroundColor: const Color(0xFF64748B),
-              ),
+              label: Text(backLabel, style: context.text.label),
+              style: TextButton.styleFrom(foregroundColor: AppColors.textMuted),
             ),
           )
         else
@@ -52,14 +42,10 @@ class AssessmentSheetFooter extends StatelessWidget {
           child: TextButton(
             onPressed: onSubmit,
             style: TextButton.styleFrom(foregroundColor: themeColor),
-            child: FitOneLine(
-              child: Text(
-                skipLabel,
-                style: AppGoogleFonts.inter(
-                  fontSize: isTamil ? 11.0 : 12.0,
-                  fontWeight: FontWeight.bold,
-                  decoration: context.linkDecoration,
-                ),
+            child: Text(
+              skipLabel,
+              style: context.text.label.copyWith(
+                decoration: context.linkDecoration,
               ),
             ),
           ),

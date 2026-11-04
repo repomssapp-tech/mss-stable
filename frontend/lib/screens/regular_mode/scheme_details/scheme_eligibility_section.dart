@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../l10n/l10n.dart';
 import '../../../models/localized_scheme.dart';
+import '../../../utils/app_colors.dart';
+import '../../../utils/app_size.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/app_text.dart';
 
@@ -15,8 +17,8 @@ class SchemeEligibilityContent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ...scheme.eligibilityCriteria.map((rule) {
-          return Padding(
+        for (final rule in scheme.eligibilityCriteria)
+          Padding(
             padding: const EdgeInsets.only(bottom: AppSpacing.sm),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -24,43 +26,34 @@ class SchemeEligibilityContent extends StatelessWidget {
                 const Padding(
                   padding: EdgeInsets.only(top: AppSpacing.hairline),
                   child: Icon(
-                    Icons.check_circle_outline,
-                    color: Color(0xFF2563EB),
-                    size: 14,
+                    Icons.check_rounded,
+                    color: AppColors.primary,
+                    size: AppSize.iconSm,
                   ),
                 ),
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Text(
                     rule,
-                    style: AppGoogleFonts.inter(
-                      color: const Color(0xFF64748B),
-                      fontSize: 11.5,
-                      height: 1.35,
+                    style: context.text.body.copyWith(
+                      color: AppColors.textBody,
                     ),
                   ),
                 ),
               ],
             ),
-          );
-        }),
+          ),
         if (scheme.verificationNotes.isNotEmpty) ...[
-          const Divider(height: AppSpacing.xl),
+          const Divider(height: AppSpacing.xl, color: AppColors.border),
           Text(
             context.l10n.verificationNote,
-            style: AppGoogleFonts.inter(
-              color: const Color(0xFF0F172A),
-              fontSize: 11.0,
-              fontWeight: FontWeight.w700,
-            ),
+            style: context.text.label.copyWith(color: AppColors.textPrimary),
           ),
           const SizedBox(height: AppSpacing.xs),
           Text(
             scheme.verificationNotes,
-            style: AppGoogleFonts.inter(
-              color: const Color(0xFF64748B),
-              fontSize: 10.5,
-              height: 1.35,
+            style: context.text.bodySmall.copyWith(
+              color: AppColors.textSecondary,
             ),
           ),
         ],

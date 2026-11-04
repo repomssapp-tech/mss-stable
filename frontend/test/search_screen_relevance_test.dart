@@ -41,7 +41,7 @@ void main() {
 
     // The chip is an OutlinedButton in the Discover filter strip (distinct
     // from the idle-screen "For Me" highlight card, a GestureDetector).
-    final chip = find.widgetWithText(OutlinedButton, 'For Me');
+    final chip = find.widgetWithText(OutlinedButton, 'For me');
     expect(chip, findsOneWidget);
     expect(find.widgetWithText(OutlinedButton, 'Filter'), findsOneWidget);
 
@@ -52,6 +52,6 @@ void main() {
     // Tapping it is a plain toggle (no crash, chip stays put).
     await tester.tap(chip);
     await tester.pump();
-    expect(find.widgetWithText(OutlinedButton, 'For Me'), findsOneWidget);
+    expect(find.widgetWithText(OutlinedButton, 'For me'), findsOneWidget);
   });
 }

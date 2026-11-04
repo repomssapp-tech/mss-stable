@@ -95,7 +95,7 @@ void main() {
       );
       expect(find.byType(TextField), findsOneWidget);
       expect(find.text('Verify & Enter'), findsOneWidget);
-      expect(find.text('Authorized Beta Testers Only'), findsOneWidget);
+      expect(find.text('For authorized beta testers only'), findsOneWidget);
       expect(find.byIcon(Icons.lock_rounded), findsWidgets);
     });
 

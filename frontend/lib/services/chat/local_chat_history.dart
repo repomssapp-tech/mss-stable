@@ -5,6 +5,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../account/app_session.dart';
+
 /// One message of a saved Saarthi conversation.
 @immutable
 class SavedChatMessage {
@@ -99,38 +101,65 @@ class SavedChat {
 }
 
 /// Saarthi conversations kept on this phone only (the app's private files),
-/// newest first. The cloud chat log is separate; this is what the History
-/// screen shows, and it works offline.
+/// newest first, one file per account so nobody signing in on a shared phone
+/// sees another person's chats. The cloud chat log is separate; this is what
+/// the History screen shows, and it works offline.
 class LocalChatHistory extends ChangeNotifier {
-  LocalChatHistory({Future<Directory> Function()? directory})
-    : _directory = directory ?? getApplicationDocumentsDirectory,
-      _memoryOnly = false;
+  LocalChatHistory({
+    Future<Directory> Function()? directory,
+    String? Function()? owner,
+  }) : _directory = directory ?? getApplicationDocumentsDirectory,
+       _owner = owner ?? (() => AppSession.instance.userId),
+       _memoryOnly = false;
 
   /// Kept in memory only (nothing written to disk); for widget tests.
   @visibleForTesting
   LocalChatHistory.inMemory()
     : _directory = getApplicationDocumentsDirectory,
+      _owner = (() => null),
       _memoryOnly = true,
       _chats = [];
 
   static final LocalChatHistory instance = LocalChatHistory();
 
+  /// The shared file used before history was kept per account.
   static const String fileName = 'saarthi_history_v1.json';
   static const int maxChats = 100;
   static const int maxMessagesPerChat = 200;
 
   final Future<Directory> Function() _directory;
+  final String? Function() _owner;
   final bool _memoryOnly;
   List<SavedChat>? _chats;
+  String? _loadedFor;
   Future<void> _writes = Future.value();
 
-  Future<File> _file() async => File('${(await _directory()).path}/$fileName');
+  String _fileNameFor(String? owner) => owner == null
+      ? 'saarthi_history_guest_v1.json'
+      : 'saarthi_history_${base64Url.encode(utf8.encode(owner))}_v1.json';
 
-  /// Every saved conversation, newest first.
+  Future<File> _file(String? owner) async =>
+      File('${(await _directory()).path}/${_fileNameFor(owner)}');
+
+  /// The first account to open history after the update takes over the old
+  /// shared file: on nearly every phone that is the person who wrote it.
+  Future<void> _adoptSharedFile(File own) async {
+    if (await own.exists()) return;
+    final shared = File('${(await _directory()).path}/$fileName');
+    if (await shared.exists()) await shared.rename(own.path);
+  }
+
+  /// Every saved conversation of the signed-in account, newest first.
   Future<List<SavedChat>> list() async {
-    if (_chats != null) return List.unmodifiable(_chats!);
+    final owner = _owner();
+    if (_chats != null && (_memoryOnly || _loadedFor == owner)) {
+      return List.unmodifiable(_chats!);
+    }
+    _chats = null;
+    _loadedFor = owner;
     try {
-      final file = await _file();
+      final file = await _file(owner);
+      if (owner != null) await _adoptSharedFile(file);
       if (await file.exists()) {
         final data = jsonDecode(await file.readAsString());
         _chats = [
@@ -177,6 +206,7 @@ class LocalChatHistory extends ChangeNotifier {
   }
 
   Future<void> clear() async {
+    await list();
     _chats = [];
     notifyListeners();
     await _persist();
@@ -185,12 +215,13 @@ class LocalChatHistory extends ChangeNotifier {
   // Writes are serialized so two quick saves never interleave on disk.
   Future<void> _persist() {
     if (_memoryOnly) return Future.value();
+    final owner = _loadedFor;
     final snapshot = jsonEncode({
       'chats': [for (final c in _chats ?? const <SavedChat>[]) c.toJson()],
     });
     _writes = _writes.then((_) async {
       try {
-        final file = await _file();
+        final file = await _file(owner);
         final tmp = File('${file.path}.tmp');
         await tmp.writeAsString(snapshot, flush: true);
         await tmp.rename(file.path);

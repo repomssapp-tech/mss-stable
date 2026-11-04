@@ -10,14 +10,28 @@ import '../../models/scheme_model.dart';
 import '../../providers/app_state_provider.dart';
 import '../../services/chat/local_chat_history.dart';
 import '../../widgets/common/app_toast.dart';
+import '../../utils/app_colors.dart';
 import '../mss_design.dart';
 import 'saarthi_kit.dart';
 import 'saarthi_type_screen.dart';
 
 class SaarthiHistoryScreen extends StatefulWidget {
-  const SaarthiHistoryScreen({super.key, this.history, this.now});
+  const SaarthiHistoryScreen({
+    super.key,
+    this.history,
+    this.now,
+    this.onOpen,
+    this.bottomBar,
+  });
 
   final LocalChatHistory? history;
+
+  /// Set when shown as the Old sessions tab: a tapped chat is handed over to
+  /// be continued, and the screen has no back button.
+  final ValueChanged<SavedChat>? onOpen;
+
+  /// The nav bar, when shown as a tab.
+  final Widget? bottomBar;
 
   /// Today, for grouping; injected in tests.
   final DateTime Function()? now;
@@ -33,9 +47,9 @@ class _SaarthiHistoryScreenState extends State<SaarthiHistoryScreen> {
   List<SavedChat>? _chats;
 
   static const _badgeColors = [
-    Color(0xFFFFE3C2),
-    Color(0xFFDDF0D6),
-    Color(0xFFE3E3F5),
+    AppColors.primaryTint,
+    AppColors.successSoft,
+    AppColors.surfaceMuted,
   ];
 
   @override
@@ -97,6 +111,11 @@ class _SaarthiHistoryScreenState extends State<SaarthiHistoryScreen> {
   }
 
   void _open(SavedChat chat) {
+    final onOpen = widget.onOpen;
+    if (onOpen != null) {
+      onOpen(chat);
+      return;
+    }
     final provider = context.read<AppProvider>();
     Navigator.of(context).push(
       MaterialPageRoute<void>(
@@ -163,7 +182,10 @@ class _SaarthiHistoryScreenState extends State<SaarthiHistoryScreen> {
         );
       }
       final schemes = c.schemeIds.length;
-      final subtitle = schemes > 0
+      final replies = c.messages.where((m) => !m.isUser);
+      final subtitle = replies.isNotEmpty
+          ? replies.last.text
+          : schemes > 0
           ? l10n.sv2HistorySchemes(schemes)
           : l10n.sv2HistoryMessages(c.messages.length);
       children.add(
@@ -177,19 +199,19 @@ class _SaarthiHistoryScreenState extends State<SaarthiHistoryScreen> {
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.only(right: 20),
               decoration: BoxDecoration(
-                color: MssColors.saffronLight,
+                color: AppColors.dangerSoft,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: const Icon(
                 Icons.delete_outline_rounded,
-                color: MssColors.saffronText,
+                color: AppColors.danger,
               ),
             ),
             child: Material(
               color: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
-                side: const BorderSide(color: Color(0x0F000080)),
+                side: const BorderSide(color: Color(0x0F0F172A)),
               ),
               child: InkWell(
                 borderRadius: BorderRadius.circular(16),
@@ -231,6 +253,8 @@ class _SaarthiHistoryScreenState extends State<SaarthiHistoryScreen> {
                             const SizedBox(height: 2),
                             Text(
                               subtitle,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: pop(11.5, FontWeight.w500, kMuted, 1),
                             ),
                           ],
@@ -248,67 +272,86 @@ class _SaarthiHistoryScreenState extends State<SaarthiHistoryScreen> {
       );
     }
 
-    return DesignTextScale(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: ListView(
-            padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+    final clearAll = (_chats ?? const []).isEmpty
+        ? null
+        : RoundIconButton(
+            icon: Icons.delete_sweep_outlined,
+            tooltip: l10n.sv2HistoryClearAll,
+            bg: Colors.white,
+            border: true,
+            onTap: _clearAll,
+          );
+    final list = ListView(
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+      children: [
+        if (widget.onOpen == null)
+          BackTitle(title: l10n.sv2HistoryTitle, trailing: clearAll)
+        else
+          Row(
             children: [
-              BackTitle(
-                title: l10n.sv2HistoryTitle,
-                trailing: (_chats ?? const []).isEmpty
-                    ? null
-                    : RoundIconButton(
-                        icon: Icons.delete_sweep_outlined,
-                        tooltip: l10n.sv2HistoryClearAll,
-                        bg: Colors.white,
-                        border: true,
-                        onTap: _clearAll,
-                      ),
-              ),
-              const SizedBox(height: 18),
-              Container(
-                height: 46,
-                padding: const EdgeInsets.symmetric(horizontal: 14),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: kHairline),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.search_rounded, size: 18, color: kMuted),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: TextField(
-                        key: const Key('sv2-history-search'),
-                        controller: _search,
-                        style: pop(13.5, FontWeight.w500, kInk, 1),
-                        decoration: InputDecoration(
-                          isCollapsed: true,
-                          border: InputBorder.none,
-                          hintText: l10n.sv2HistorySearch,
-                          hintStyle: pop(13.5, FontWeight.w500, kHint, 1),
-                        ),
-                      ),
-                    ),
-                  ],
+              Expanded(
+                child: Text(
+                  l10n.sv2OldSessions,
+                  style: pop(24, FontWeight.w800, kInk, 1, height: 1.2),
                 ),
               ),
-              const SizedBox(height: 8),
-              if (_chats != null && chats.isEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(top: 40),
-                  child: Text(
-                    (_chats!.isEmpty)
-                        ? l10n.sv2HistoryEmpty
-                        : l10n.sv2HistoryNoMatch,
-                    textAlign: TextAlign.center,
-                    style: pop(13, FontWeight.w500, kMuted, 1, height: 1.5),
+              ?clearAll,
+            ],
+          ),
+        const SizedBox(height: 18),
+        Container(
+          height: 46,
+          padding: const EdgeInsets.symmetric(horizontal: 14),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: kHairline),
+          ),
+          child: Row(
+            children: [
+              const Icon(Icons.search_rounded, size: 18, color: kMuted),
+              const SizedBox(width: 10),
+              Expanded(
+                child: TextField(
+                  key: const Key('sv2-history-search'),
+                  controller: _search,
+                  style: pop(13.5, FontWeight.w500, kInk, 1),
+                  decoration: InputDecoration(
+                    isCollapsed: true,
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    filled: false,
+                    hintText: l10n.sv2HistorySearch,
+                    hintStyle: pop(13.5, FontWeight.w500, kHint, 1),
                   ),
                 ),
-              ...children,
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 8),
+        if (_chats != null && chats.isEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: 40),
+            child: Text(
+              (_chats!.isEmpty) ? l10n.sv2HistoryEmpty : l10n.sv2HistoryNoMatch,
+              textAlign: TextAlign.center,
+              style: pop(13, FontWeight.w500, kMuted, 1, height: 1.5),
+            ),
+          ),
+        ...children,
+      ],
+    );
+    return DesignTextScale(
+      child: Scaffold(
+        backgroundColor: AppColors.background,
+        body: SafeArea(
+          child: Column(
+            children: [
+              Expanded(child: list),
+              ?widget.bottomBar,
             ],
           ),
         ),
@@ -330,7 +373,7 @@ class SaarthiTranscriptScreen extends StatelessWidget {
     final byId = {for (final s in provider.allSchemes) s.id: s};
     return DesignTextScale(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.background,
         body: SafeArea(
           child: ListView(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),

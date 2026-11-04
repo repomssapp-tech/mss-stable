@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -22,7 +23,7 @@ class SchemesInteractivePanel extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: const BorderSide(color: Color(0xFFE2E8F0)),
+        side: const BorderSide(color: AppColors.border),
       ),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
@@ -31,19 +32,15 @@ class SchemesInteractivePanel extends StatelessWidget {
           children: [
             Text(
               context.l10n.msmeInteractiveToolsActions,
-              style: AppGoogleFonts.poppins(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF0F172A),
+              style: context.text.titleSmall.copyWith(
+                color: AppColors.textPrimary,
               ),
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
               context.l10n.msmeInteractiveToolsDesc,
-              style: AppGoogleFonts.inter(
-                fontSize: 12.5,
-                color: const Color(0xFF64748B),
-                height: 1.4,
+              style: context.text.bodySmall.copyWith(
+                color: AppColors.textMuted,
               ),
             ),
             const SizedBox(height: AppSpacing.lg),
@@ -51,17 +48,6 @@ class SchemesInteractivePanel extends StatelessWidget {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: iconColor,
-                      foregroundColor: Colors.white,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: AppSpacing.md,
-                      ),
-                    ),
                     onPressed: () {
                       provider.updateTabIndex(1); // Navigate to search
                       Navigator.of(context).pop(); // Dismiss detail
@@ -69,26 +55,13 @@ class SchemesInteractivePanel extends StatelessWidget {
                     child: Text(
                       context.l10n.msmeSearchSchemes,
                       textAlign: TextAlign.center,
-                      style: AppGoogleFonts.inter(
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: context.text.button,
                     ),
                   ),
                 ),
                 const SizedBox(width: AppSpacing.md),
                 Expanded(
                   child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: iconColor,
-                      side: BorderSide(color: iconColor),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: AppSpacing.md,
-                      ),
-                    ),
                     onPressed: () {
                       provider.updateTabIndex(4); // Navigate to profile
                       Navigator.of(context).pop();
@@ -96,10 +69,7 @@ class SchemesInteractivePanel extends StatelessWidget {
                     child: Text(
                       context.l10n.completeProfileTitle,
                       textAlign: TextAlign.center,
-                      style: AppGoogleFonts.inter(
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: context.text.button,
                     ),
                   ),
                 ),
@@ -123,7 +93,7 @@ class FinanceInteractivePanel extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: const BorderSide(color: Color(0xFFE2E8F0)),
+        side: const BorderSide(color: AppColors.border),
       ),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
@@ -132,10 +102,8 @@ class FinanceInteractivePanel extends StatelessWidget {
           children: [
             Text(
               CentralizedTranslator.instance.localize('Find Funding Options'),
-              style: AppGoogleFonts.poppins(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF0F172A),
+              style: context.text.titleSmall.copyWith(
+                color: AppColors.textPrimary,
               ),
             ),
             const SizedBox(height: AppSpacing.sm),
@@ -143,25 +111,14 @@ class FinanceInteractivePanel extends StatelessWidget {
               CentralizedTranslator.instance.localize(
                 'Instantly search our database for credit support, collateral-free business loans, and SIDBI programs.',
               ),
-              style: AppGoogleFonts.inter(
-                fontSize: 12.5,
-                color: const Color(0xFF64748B),
-                height: 1.4,
+              style: context.text.bodySmall.copyWith(
+                color: AppColors.textMuted,
               ),
             ),
             const SizedBox(height: AppSpacing.lg),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: iconColor,
-                  foregroundColor: Colors.white,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-                ),
                 onPressed: () {
                   Navigator.of(context).pop();
                   Navigator.of(context).push(
@@ -188,10 +145,7 @@ class FinanceInteractivePanel extends StatelessWidget {
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: AppGoogleFonts.inter(
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: context.text.button,
                       ),
                     ),
                   ],
@@ -216,7 +170,7 @@ class CsrInteractivePanel extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: const BorderSide(color: Color(0xFFE2E8F0)),
+        side: const BorderSide(color: AppColors.border),
       ),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
@@ -227,10 +181,8 @@ class CsrInteractivePanel extends StatelessWidget {
               CentralizedTranslator.instance.localize(
                 'Explore CSR & Technology Clusters',
               ),
-              style: AppGoogleFonts.poppins(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF0F172A),
+              style: context.text.titleSmall.copyWith(
+                color: AppColors.textPrimary,
               ),
             ),
             const SizedBox(height: AppSpacing.sm),
@@ -238,25 +190,14 @@ class CsrInteractivePanel extends StatelessWidget {
               CentralizedTranslator.instance.localize(
                 'Search for schemes offering cluster development, technology upgrades, and incubator grants.',
               ),
-              style: AppGoogleFonts.inter(
-                fontSize: 12.5,
-                color: const Color(0xFF64748B),
-                height: 1.4,
+              style: context.text.bodySmall.copyWith(
+                color: AppColors.textMuted,
               ),
             ),
             const SizedBox(height: AppSpacing.lg),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: iconColor,
-                  foregroundColor: Colors.white,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-                ),
                 onPressed: () {
                   Navigator.of(context).pop();
                   Navigator.of(context).push(
@@ -283,10 +224,7 @@ class CsrInteractivePanel extends StatelessWidget {
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: AppGoogleFonts.inter(
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: context.text.button,
                       ),
                     ),
                   ],
@@ -348,7 +286,7 @@ class _UdyamInteractivePanelState extends State<UdyamInteractivePanel> {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: const BorderSide(color: Color(0xFFE2E8F0)),
+        side: const BorderSide(color: AppColors.border),
       ),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
@@ -357,10 +295,8 @@ class _UdyamInteractivePanelState extends State<UdyamInteractivePanel> {
           children: [
             Text(
               l10n.msmeUdyamFlowTitle,
-              style: AppGoogleFonts.poppins(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF0F172A),
+              style: context.text.titleSmall.copyWith(
+                color: AppColors.textPrimary,
               ),
             ),
             const SizedBox(height: AppSpacing.md),
@@ -369,14 +305,14 @@ class _UdyamInteractivePanelState extends State<UdyamInteractivePanel> {
             Container(
               height: 48,
               decoration: BoxDecoration(
-                color: const Color(0xFFF1F5F9),
+                color: AppColors.surfaceMuted,
                 borderRadius: BorderRadius.circular(24),
               ),
               child: Row(
                 children: List.generate(steps.length, (idx) {
                   final isSelected = idx == _udyamStepIndex;
                   return Expanded(
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () {
                         setState(() {
                           _udyamStepIndex = idx;
@@ -392,12 +328,10 @@ class _UdyamInteractivePanelState extends State<UdyamInteractivePanel> {
                         ),
                         child: Text(
                           l10n.msmeStepNumber(idx + 1),
-                          style: AppGoogleFonts.inter(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
+                          style: context.text.label.copyWith(
                             color: isSelected
                                 ? Colors.white
-                                : const Color(0xFF64748B),
+                                : AppColors.textMuted,
                           ),
                         ),
                       ),
@@ -423,20 +357,15 @@ class _UdyamInteractivePanelState extends State<UdyamInteractivePanel> {
                 children: [
                   Text(
                     steps[_udyamStepIndex]['title']!,
-                    style: AppGoogleFonts.poppins(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
+                    style: context.text.cardTitle.copyWith(
                       color: widget.iconColor,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.tight),
                   Text(
                     steps[_udyamStepIndex]['desc']!,
-                    style: AppGoogleFonts.inter(
-                      fontSize: 12,
-                      color: const Color(0xFF334155),
-                      height: 1.45,
-                      fontWeight: FontWeight.w500,
+                    style: context.text.bodySmall.copyWith(
+                      color: AppColors.textBody,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.sm),
@@ -444,18 +373,16 @@ class _UdyamInteractivePanelState extends State<UdyamInteractivePanel> {
                     children: [
                       const Icon(
                         Icons.play_circle_outline_rounded,
-                        color: Color(0xFF64748B),
+                        color: AppColors.textMuted,
                         size: 16,
                       ),
                       const SizedBox(width: AppSpacing.tight),
                       Expanded(
                         child: Text(
                           steps[_udyamStepIndex]['action']!,
-                          style: AppGoogleFonts.inter(
-                            fontSize: 10.5,
+                          style: context.text.label.copyWith(
                             fontStyle: FontStyle.italic,
-                            color: const Color(0xFF64748B),
-                            fontWeight: FontWeight.w600,
+                            color: AppColors.textMuted,
                           ),
                         ),
                       ),
@@ -471,22 +398,10 @@ class _UdyamInteractivePanelState extends State<UdyamInteractivePanel> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: widget.iconColor,
-                  foregroundColor: Colors.white,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
-                ),
                 child: Text(
                   l10n.msmeUdyamGoToPortal,
                   textAlign: TextAlign.center,
-                  style: AppGoogleFonts.inter(
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: context.text.button,
                 ),
                 onPressed: () async {
                   final Uri url = Uri.parse(

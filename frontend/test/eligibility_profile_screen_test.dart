@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:frontend/screens/regular_mode/basic_profile_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:frontend/screens/regular_mode/eligibility_profile_screen.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -28,7 +28,7 @@ void main() {
               GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: [Locale('en'), Locale('ta')],
-            home: Scaffold(body: EligibilityProfileScreen()),
+            home: Scaffold(body: BasicProfileScreen(initialStep: 4)),
           ),
         ),
       );

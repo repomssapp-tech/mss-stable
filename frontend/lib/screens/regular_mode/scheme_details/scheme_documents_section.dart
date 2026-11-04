@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import '../../../l10n/l10n.dart';
 import '../../../models/localized_scheme.dart';
 import '../../../models/scheme_model.dart';
+import '../../../utils/app_colors.dart';
+import '../../../utils/app_radius.dart';
+import '../../../utils/app_size.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/constants.dart';
-import '../../../utils/responsive.dart';
 import '../../../utils/app_text.dart';
 
 /// Content section for scheme required documents with mandatory badges and portal links.
@@ -18,6 +20,16 @@ class SchemeDocumentsContent extends StatelessWidget {
     required this.onOpenUrl,
   });
 
+  /// The official portal for a document, matched on its catalog name
+  /// (independent of the display language); empty when there is none.
+  String _portalFor(String catalogName) {
+    final name = catalogName.toLowerCase();
+    return AppConstants.documentLinks.entries.firstWhere((entry) {
+      final key = entry.key.toLowerCase();
+      return name.contains(key) || key.contains(name);
+    }, orElse: () => const MapEntry('', '')).value;
+  }
+
   @override
   Widget build(BuildContext context) {
     final documents = scheme.documents.isNotEmpty
@@ -29,189 +41,158 @@ class SchemeDocumentsContent extends StatelessWidget {
     if (documents.isEmpty) {
       return Text(
         context.l10n.noDocumentsPublished,
-        style: AppGoogleFonts.inter(
-          color: const Color(0xFF64748B),
-          fontSize: 11.5,
-          height: 1.4,
-        ),
+        style: context.text.body.copyWith(color: AppColors.textSecondary),
       );
     }
 
     return Column(
-      children: documents.asMap().entries.map((entry) {
-        final document = entry.value;
-        // Portal matching uses the catalog name, independent of display language.
-        final catalogName = scheme.rawScheme.documents.isNotEmpty
-            ? scheme.rawScheme.documents[entry.key].name
-            : scheme.rawScheme.requiredDocuments[entry.key];
-        return Container(
-          width: double.infinity,
-          margin: const EdgeInsets.only(bottom: AppSpacing.sm),
-          padding: const EdgeInsets.all(AppSpacing.md),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF8FAFC),
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: const Color(0xFFE2E8F0)),
+      children: [
+        for (final entry in documents.asMap().entries)
+          _DocumentRow(
+            document: entry.value,
+            portal: _portalFor(
+              scheme.rawScheme.documents.isNotEmpty
+                  ? scheme.rawScheme.documents[entry.key].name
+                  : scheme.rawScheme.requiredDocuments[entry.key],
+            ),
+            onOpenUrl: onOpenUrl,
+            last: entry.key == documents.length - 1,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Icon(
-                    Icons.assignment_outlined,
-                    color: Color(0xFF2563EB),
-                    size: 17,
-                  ),
-                  const SizedBox(width: AppSpacing.sm),
-                  Expanded(
-                    child: Text(
-                      document.name,
-                      style: AppGoogleFonts.inter(
-                        fontSize: 11.5,
-                        color: const Color(0xFF0F172A),
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  // The source's own wording ("Post-sanction", "No") is English, and
-                  // "No" also covers documents the source says nothing about, so
-                  // other languages show only the two statuses they can state.
-                  if (document.mandatory.isNotEmpty &&
-                      (document.isMandatory ||
-                          document.mandatory.toLowerCase().contains(
-                            'conditional',
-                          ) ||
-                          Localizations.localeOf(context).languageCode == 'en'))
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.sm,
-                        vertical: AppSpacing.xs,
-                      ),
-                      decoration: BoxDecoration(
-                        color: document.isMandatory
-                            ? const Color(0xFFFEE2E2)
-                            : const Color(0xFFE2E8F0),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        document.isMandatory
-                            ? context.l10n.badgeRequired
-                            : document.mandatory.toLowerCase().contains(
-                                'conditional',
-                              )
-                            ? context.l10n.badgeConditional
-                            : document.mandatory,
-                        style: AppGoogleFonts.inter(
-                          color: document.isMandatory
-                              ? const Color(0xFFB91C1C)
-                              : const Color(0xFF475569),
-                          fontSize: 9.0,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-              if (document.description.isNotEmpty) ...[
-                const SizedBox(height: AppSpacing.tight),
-                Text(
-                  document.description,
-                  style: AppGoogleFonts.inter(
-                    color: const Color(0xFF64748B),
-                    fontSize: 10.5,
-                    height: 1.35,
-                  ),
-                ),
-              ],
-              if (document.issuingAuthority.isNotEmpty) ...[
-                const SizedBox(height: AppSpacing.tight),
-                Text(
-                  context.l10n.issuedByFormat(document.issuingAuthority),
-                  style: AppGoogleFonts.inter(
-                    color: const Color(0xFF475569),
-                    fontSize: 9.0,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-              if (document.estimatedCost.isNotEmpty &&
-                  document.estimatedCost.toLowerCase() != 'not specified')
-                Text(
-                  context.l10n.estimatedCostFormat(document.estimatedCost),
-                  style: AppGoogleFonts.inter(
-                    color: const Color(0xFF475569),
-                    fontSize: 9.0,
-                  ),
-                ),
-              (() {
-                final docEntry = AppConstants.documentLinks.entries.firstWhere((
-                  entry,
-                ) {
-                  final key = entry.key.toLowerCase();
-                  final name = catalogName.toLowerCase();
-                  return name.contains(key) || key.contains(name);
-                }, orElse: () => const MapEntry('', ''));
+      ],
+    );
+  }
+}
 
-                final docLink = docEntry.value;
-                if (docLink.isNotEmpty) {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: AppSpacing.sm),
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Material(
-                        color: const Color(0xFFEFF6FF),
-                        borderRadius: BorderRadius.circular(8),
-                        child: InkWell(
-                          onTap: () => onOpenUrl(docLink),
-                          borderRadius: BorderRadius.circular(8),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: AppSpacing.sm,
-                              vertical: AppSpacing.tight,
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(
-                                  Icons.verified_outlined,
-                                  size: 13,
-                                  color: Color(0xFF2563EB),
-                                ),
-                                const SizedBox(width: AppSpacing.tight),
-                                Flexible(
-                                  child: FitOneLine(
-                                    child: Text(
-                                      context.l10n.getDocumentOnline,
-                                      style: AppGoogleFonts.inter(
-                                        color: const Color(0xFF2563EB),
-                                        fontSize: 10.5,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: AppSpacing.xs),
-                                const Icon(
-                                  Icons.open_in_new_rounded,
-                                  size: 12,
-                                  color: Color(0xFF2563EB),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                }
-                return const SizedBox.shrink();
-              })(),
-            ],
+class _DocumentRow extends StatelessWidget {
+  const _DocumentRow({
+    required this.document,
+    required this.portal,
+    required this.onOpenUrl,
+    required this.last,
+  });
+
+  final SchemeDocument document;
+  final String portal;
+  final ValueChanged<String> onOpenUrl;
+  final bool last;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final meta = <String>[
+      if (document.issuingAuthority.isNotEmpty)
+        l10n.issuedByFormat(document.issuingAuthority),
+      if (document.estimatedCost.isNotEmpty &&
+          document.estimatedCost.toLowerCase() != 'not specified')
+        l10n.estimatedCostFormat(document.estimatedCost),
+    ];
+    // The source's own wording ("Post-sanction", "No") is English, and "No"
+    // also covers documents the source says nothing about, so other languages
+    // show only the two statuses they can state.
+    final conditional = document.mandatory.toLowerCase().contains(
+      'conditional',
+    );
+    final showBadge =
+        document.mandatory.isNotEmpty &&
+        (document.isMandatory ||
+            conditional ||
+            Localizations.localeOf(context).languageCode == 'en');
+    final badge = !showBadge
+        ? null
+        : document.isMandatory
+        ? (l10n.badgeRequired, AppColors.dangerStrong, AppColors.dangerSoft)
+        : (
+            conditional ? l10n.badgeConditional : document.mandatory,
+            AppTagStyle.neutral.text,
+            AppTagStyle.neutral.background,
+          );
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+      decoration: BoxDecoration(
+        border: last
+            ? null
+            : const Border(
+                bottom: BorderSide(
+                  color: AppColors.border,
+                  width: AppSize.borderWidth,
+                ),
+              ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(top: AppSpacing.hairline),
+            child: Icon(
+              Icons.description_outlined,
+              color: AppColors.iconMuted,
+              size: AppSize.icon,
+            ),
           ),
-        );
-      }).toList(),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  document.name,
+                  style: context.text.cardTitle.copyWith(
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+                if (badge != null) ...[
+                  const SizedBox(height: AppSpacing.xs),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.sm,
+                      vertical: AppSpacing.hairline,
+                    ),
+                    decoration: BoxDecoration(
+                      color: badge.$3,
+                      borderRadius: AppRadius.smAll,
+                    ),
+                    child: Text(
+                      badge.$1,
+                      style: context.text.label.copyWith(color: badge.$2),
+                    ),
+                  ),
+                ],
+                if (document.description.isNotEmpty) ...[
+                  const SizedBox(height: AppSpacing.xs),
+                  Text(
+                    document.description,
+                    style: context.text.body.copyWith(
+                      color: AppColors.textBody,
+                    ),
+                  ),
+                ],
+                for (final line in meta) ...[
+                  const SizedBox(height: AppSpacing.xs),
+                  Text(
+                    line,
+                    style: context.text.bodySmall.copyWith(
+                      color: AppColors.textMuted,
+                    ),
+                  ),
+                ],
+                if (portal.isNotEmpty)
+                  Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: TextButton.icon(
+                      onPressed: () => onOpenUrl(portal),
+                      icon: const Icon(
+                        Icons.open_in_new_rounded,
+                        size: AppSize.iconSm,
+                      ),
+                      label: Text(l10n.getDocumentOnline),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

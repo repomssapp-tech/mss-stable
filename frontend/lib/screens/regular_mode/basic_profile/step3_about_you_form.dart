@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_radius.dart';
+import '../../../utils/app_colors.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
@@ -11,10 +13,10 @@ class Step3AboutYouForm extends StatelessWidget {
   final ValueChanged<String?> onRoleSelected;
   final bool hasSubmitted;
 
-  static const Color kPrimaryBlue = Color(0xFF2563EB);
-  static const Color kSlate900 = Color(0xFF0F172A);
-  static const Color kSlate500 = Color(0xFF64748B);
-  static const Color kBorderGrey = Color(0xFFE2E8F0);
+  static const Color kPrimaryBlue = AppColors.primary;
+  static const Color kSlate900 = AppColors.textPrimary;
+  static const Color kSlate500 = AppColors.textMuted;
+  static const Color kBorderGrey = AppColors.border;
 
   const Step3AboutYouForm({
     super.key,
@@ -54,7 +56,7 @@ class Step3AboutYouForm extends StatelessWidget {
         subtitle: l10n.studentSubtitle,
         imagePath: 'assets/images/roles/student.webp',
         icon: Icons.school_outlined,
-        color: const Color(0xFF3B82F6),
+        color: AppColors.primary,
       ),
       RoleModel(
         id: 'entrepreneur',
@@ -62,7 +64,7 @@ class Step3AboutYouForm extends StatelessWidget {
         subtitle: l10n.aspiringEntrepreneurSubtitle,
         imagePath: 'assets/images/roles/entrepreneur.webp',
         icon: Icons.lightbulb_outline,
-        color: const Color(0xFFF59E0B),
+        color: AppColors.primary,
       ),
       RoleModel(
         id: 'existing_business',
@@ -70,7 +72,7 @@ class Step3AboutYouForm extends StatelessWidget {
         subtitle: l10n.existingBusinessSubtitle,
         imagePath: 'assets/images/roles/business.webp',
         icon: Icons.business_center_outlined,
-        color: const Color(0xFF6366F1),
+        color: AppColors.primary,
       ),
       RoleModel(
         id: 'msme',
@@ -78,7 +80,7 @@ class Step3AboutYouForm extends StatelessWidget {
         subtitle: l10n.msmeOwnerSubtitle,
         imagePath: 'assets/images/roles/msme.webp',
         icon: Icons.storefront_outlined,
-        color: const Color(0xFF10B981),
+        color: AppColors.primary,
       ),
       RoleModel(
         id: 'farmer',
@@ -86,7 +88,7 @@ class Step3AboutYouForm extends StatelessWidget {
         subtitle: l10n.farmerSubtitle,
         imagePath: 'assets/images/roles/farmer.webp',
         icon: Icons.agriculture_outlined,
-        color: const Color(0xFF14B8A6),
+        color: AppColors.primary,
       ),
       RoleModel(
         id: 'artisan',
@@ -94,7 +96,7 @@ class Step3AboutYouForm extends StatelessWidget {
         subtitle: l10n.artisanShgSubtitle,
         imagePath: 'assets/images/roles/artisan.webp',
         icon: Icons.palette_outlined,
-        color: const Color(0xFFEC4899),
+        color: AppColors.primary,
       ),
     ];
   }
@@ -111,17 +113,13 @@ class Step3AboutYouForm extends StatelessWidget {
         Text(
           l10n.tellUsAboutYou,
           textAlign: TextAlign.center,
-          style: AppGoogleFonts.poppins(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: kSlate900,
-          ),
+          style: context.text.titleSmall.copyWith(color: kSlate900),
         ),
         const SizedBox(height: AppSpacing.xs),
         Text(
           l10n.aboutYouSubtitle,
           textAlign: TextAlign.center,
-          style: AppGoogleFonts.inter(fontSize: 13, color: kSlate500),
+          style: context.text.body.copyWith(color: kSlate500),
         ),
         const SizedBox(height: AppSpacing.sm),
 
@@ -141,7 +139,7 @@ class Step3AboutYouForm extends StatelessWidget {
           itemBuilder: (context, index) {
             final role = resolvedRoles[index];
             final isSelected = selectedRoleId == role.id;
-            return _buildRoleCard(role, isSelected);
+            return _buildRoleCard(context, role, isSelected);
           },
         ),
         if (hasSubmitted && selectedRoleId == null) ...[
@@ -152,25 +150,23 @@ class Step3AboutYouForm extends StatelessWidget {
               vertical: AppSpacing.sm,
             ),
             decoration: BoxDecoration(
-              color: const Color(0xFFFEF2F2),
+              color: AppColors.dangerSoft,
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: const Color(0xFFFECACA)),
+              border: Border.all(color: AppColors.dangerBorder),
             ),
             child: Row(
               children: [
                 const Icon(
                   Icons.error_outline_rounded,
-                  color: Color(0xFFDC2626),
+                  color: AppColors.danger,
                   size: 16,
                 ),
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Text(
                     l10n.profileErrSelectOptionToContinue,
-                    style: AppGoogleFonts.inter(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFFDC2626),
+                    style: context.text.bodySmall.copyWith(
+                      color: AppColors.danger,
                     ),
                   ),
                 ),
@@ -183,8 +179,9 @@ class Step3AboutYouForm extends StatelessWidget {
     );
   }
 
-  Widget _buildRoleCard(RoleModel role, bool isSelected) {
-    return GestureDetector(
+  Widget _buildRoleCard(BuildContext context, RoleModel role, bool isSelected) {
+    return InkWell(
+      borderRadius: AppRadius.mdAll,
       onTap: () {
         onRoleSelected(isSelected ? null : role.id);
       },
@@ -195,7 +192,7 @@ class Step3AboutYouForm extends StatelessWidget {
           vertical: AppSpacing.sm,
         ),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFFF5F9FF) : Colors.white,
+          color: isSelected ? AppColors.primarySoft : Colors.white,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: isSelected ? kPrimaryBlue : kBorderGrey,
@@ -267,12 +264,7 @@ class Step3AboutYouForm extends StatelessWidget {
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: AppGoogleFonts.inter(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: kSlate900,
-                          height: 1.15,
-                        ),
+                        style: context.text.label.copyWith(color: kSlate900),
                       ),
                     ),
                   ),

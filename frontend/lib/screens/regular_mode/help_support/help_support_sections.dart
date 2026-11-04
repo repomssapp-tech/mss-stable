@@ -7,6 +7,7 @@ import 'help_report_issue_bottom_sheet.dart';
 import 'help_feedback_bottom_sheet.dart';
 import '../../../utils/app_text.dart';
 import '../../../utils/app_colors.dart';
+import '../../../utils/app_size.dart';
 
 class HelpGroupCard extends StatelessWidget {
   final List<Widget> children;
@@ -22,7 +23,7 @@ class HelpGroupCard extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+        border: Border.all(color: AppColors.border, width: 1),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withAlpha(2),
@@ -86,16 +87,16 @@ class HelpHeaderSection extends StatelessWidget {
         children: [
           Row(
             children: [
-              GestureDetector(
-                onTap: () => Navigator.pop(context),
-                behavior: HitTestBehavior.opaque,
-                child: const Icon(
+              IconButton(
+                onPressed: () => Navigator.pop(context),
+                tooltip: l10n.back,
+                icon: const Icon(
                   Icons.arrow_back_rounded,
-                  color: Color(0xFF0F172A),
-                  size: 26,
+                  color: AppColors.textPrimary,
+                  size: AppSize.iconLg,
                 ),
               ),
-              const SizedBox(width: AppSpacing.lg),
+              const SizedBox(width: AppSpacing.sm),
               Flexible(
                 child: Text(
                   initialMode == 'faq'
@@ -104,10 +105,8 @@ class HelpHeaderSection extends StatelessWidget {
                       ? l10n.helpHeaderContact
                       : l10n.helpHeaderSupport,
                   softWrap: true,
-                  style: AppGoogleFonts.poppins(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF0F172A),
+                  style: context.text.titleMedium.copyWith(
+                    color: AppColors.textPrimary,
                   ),
                 ),
               ),
@@ -116,11 +115,7 @@ class HelpHeaderSection extends StatelessWidget {
           const SizedBox(height: AppSpacing.sm),
           Text(
             l10n.helpHeaderSubtitle,
-            style: AppGoogleFonts.inter(
-              fontSize: 14,
-              color: const Color(0xFF64748B),
-              fontWeight: FontWeight.w400,
-            ),
+            style: context.text.body.copyWith(color: AppColors.textMuted),
           ),
         ],
       ),
@@ -144,8 +139,8 @@ class HelpFaqSection extends StatelessWidget {
             children: [
               const HelpCircleIcon(
                 icon: Icons.help_outline_rounded,
-                bgColor: Color(0xFFEFF6FF),
-                iconColor: Color(0xFF2563EB),
+                bgColor: AppColors.primarySoft,
+                iconColor: AppColors.primary,
               ),
               const SizedBox(width: AppSpacing.lg),
               Expanded(
@@ -154,18 +149,15 @@ class HelpFaqSection extends StatelessWidget {
                   children: [
                     Text(
                       l10n.helpFaqsGroupTitle,
-                      style: AppGoogleFonts.inter(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFF0F172A),
+                      style: context.text.bodyLarge.copyWith(
+                        color: AppColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: AppSpacing.hairline),
                     Text(
                       l10n.helpFaqsGroupSubtitle,
-                      style: AppGoogleFonts.inter(
-                        fontSize: 12.5,
-                        color: const Color(0xFF64748B),
+                      style: context.text.bodySmall.copyWith(
+                        color: AppColors.textMuted,
                       ),
                     ),
                   ],
@@ -173,13 +165,13 @@ class HelpFaqSection extends StatelessWidget {
               ),
               const Icon(
                 Icons.chevron_right_rounded,
-                color: Color(0xFF94A3B8),
+                color: AppColors.iconMuted,
                 size: 18,
               ),
             ],
           ),
         ),
-        const Divider(color: Color(0xFFF1F5F9), height: 1),
+        const Divider(color: AppColors.surfaceMuted, height: 1),
         ...faqs.map((faq) {
           return Column(
             children: [
@@ -190,15 +182,13 @@ class HelpFaqSection extends StatelessWidget {
                 ),
                 title: Text(
                   faq['question']!,
-                  style: AppGoogleFonts.inter(
-                    fontSize: 13.5,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFF0F172A),
+                  style: context.text.button.copyWith(
+                    color: AppColors.textPrimary,
                   ),
                 ),
                 trailing: const Icon(
                   Icons.chevron_right_rounded,
-                  color: Color(0xFF94A3B8),
+                  color: AppColors.iconMuted,
                   size: 18,
                 ),
                 onTap: () => showFAQBottomSheet(
@@ -207,7 +197,7 @@ class HelpFaqSection extends StatelessWidget {
                   faq['answer']!,
                 ),
               ),
-              const Divider(color: Color(0xFFF1F5F9), height: 1),
+              const Divider(color: AppColors.surfaceMuted, height: 1),
             ],
           );
         }),
@@ -218,15 +208,11 @@ class HelpFaqSection extends StatelessWidget {
           ),
           title: Text(
             l10n.helpViewAllFaqs,
-            style: AppGoogleFonts.inter(
-              fontSize: 13.5,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF2563EB),
-            ),
+            style: context.text.button.copyWith(color: AppColors.primary),
           ),
           trailing: const Icon(
             Icons.chevron_right_rounded,
-            color: Color(0xFF2563EB),
+            color: AppColors.primary,
             size: 18,
           ),
           onTap: () => showAllFAQsBottomSheet(context),
@@ -251,8 +237,8 @@ class HelpContactSection extends StatelessWidget {
             children: [
               const HelpCircleIcon(
                 icon: Icons.headset_mic_outlined,
-                bgColor: Color(0xFFEFF6FF),
-                iconColor: Color(0xFF2563EB),
+                bgColor: AppColors.primarySoft,
+                iconColor: AppColors.primary,
               ),
               const SizedBox(width: AppSpacing.lg),
               Expanded(
@@ -261,18 +247,15 @@ class HelpContactSection extends StatelessWidget {
                   children: [
                     Text(
                       l10n.helpContactGroupTitle,
-                      style: AppGoogleFonts.inter(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFF0F172A),
+                      style: context.text.bodyLarge.copyWith(
+                        color: AppColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: AppSpacing.hairline),
                     Text(
                       l10n.helpContactGroupSubtitle,
-                      style: AppGoogleFonts.inter(
-                        fontSize: 12.5,
-                        color: const Color(0xFF64748B),
+                      style: context.text.bodySmall.copyWith(
+                        color: AppColors.textMuted,
                       ),
                     ),
                   ],
@@ -292,44 +275,36 @@ class HelpContactSection extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
-              color: const Color(0xFFF8FAFC),
+              color: AppColors.background,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFFE2E8F0)),
+              border: Border.all(color: AppColors.border),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const HelpCircleIcon(
                   icon: Icons.mail_outline_rounded,
-                  bgColor: Color(0xFFEFF6FF),
-                  iconColor: Color(0xFF2563EB),
+                  bgColor: AppColors.primarySoft,
+                  iconColor: AppColors.primary,
                   size: 36,
                   iconSize: 18,
                 ),
                 const SizedBox(height: AppSpacing.md),
                 Text(
                   l10n.helpEmailUs,
-                  style: AppGoogleFonts.inter(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 13.5,
-                    color: const Color(0xFF0F172A),
+                  style: context.text.button.copyWith(
+                    color: AppColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: AppSpacing.xs),
-                GestureDetector(
-                  onTap: () => copyHelpTextToClipboard(
+                // Tapping the address copies it.
+                TextButton(
+                  onPressed: () => copyHelpTextToClipboard(
                     context,
                     kSupportEmail,
                     l10n.helpSupportEmailCopied,
                   ),
-                  child: Text(
-                    kSupportEmail,
-                    style: AppGoogleFonts.inter(
-                      color: const Color(0xFF2563EB),
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  child: Text(kSupportEmail),
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 Text(
@@ -363,32 +338,25 @@ class HelpFeedbackSection extends StatelessWidget {
           ),
           leading: const HelpCircleIcon(
             icon: Icons.bug_report_outlined,
-            bgColor: Color(0xFFF0FDF4),
-            iconColor: Color(0xFF16A34A),
+            bgColor: AppColors.primarySoft,
+            iconColor: AppColors.primary,
           ),
           title: Text(
             l10n.helpReportIssueTitle,
-            style: AppGoogleFonts.inter(
-              fontSize: 14.5,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF0F172A),
-            ),
+            style: context.text.button.copyWith(color: AppColors.textPrimary),
           ),
           subtitle: Text(
             l10n.helpReportIssueSubtitle,
-            style: AppGoogleFonts.inter(
-              fontSize: 11.5,
-              color: const Color(0xFF64748B),
-            ),
+            style: context.text.bodySmall.copyWith(color: AppColors.textMuted),
           ),
           trailing: const Icon(
             Icons.chevron_right_rounded,
-            color: Color(0xFF94A3B8),
+            color: AppColors.iconMuted,
             size: 18,
           ),
           onTap: () => showReportIssueBottomSheet(context),
         ),
-        const Divider(color: Color(0xFFF1F5F9), height: 1),
+        const Divider(color: AppColors.surfaceMuted, height: 1),
         ListTile(
           contentPadding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.lg,
@@ -396,27 +364,20 @@ class HelpFeedbackSection extends StatelessWidget {
           ),
           leading: const HelpCircleIcon(
             icon: Icons.chat_bubble_outline_rounded,
-            bgColor: Color(0xFFFFF7ED),
-            iconColor: Color(0xFFEA580C),
+            bgColor: AppColors.primarySoft,
+            iconColor: AppColors.primary,
           ),
           title: Text(
             l10n.helpFeedbackTileTitle,
-            style: AppGoogleFonts.inter(
-              fontSize: 14.5,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF0F172A),
-            ),
+            style: context.text.button.copyWith(color: AppColors.textPrimary),
           ),
           subtitle: Text(
             l10n.helpFeedbackTileSubtitle,
-            style: AppGoogleFonts.inter(
-              fontSize: 11.5,
-              color: const Color(0xFF64748B),
-            ),
+            style: context.text.bodySmall.copyWith(color: AppColors.textMuted),
           ),
           trailing: const Icon(
             Icons.chevron_right_rounded,
-            color: Color(0xFF94A3B8),
+            color: AppColors.iconMuted,
             size: 18,
           ),
           onTap: () => showFeedbackBottomSheet(context),
@@ -439,9 +400,9 @@ class HelpStillNeedHelpBanner extends StatelessWidget {
         vertical: AppSpacing.sm,
       ),
       decoration: BoxDecoration(
-        color: const Color(0xFFF0FDF4),
+        color: AppColors.successSoft,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFDCFCE7), width: 1),
+        border: Border.all(color: AppColors.successSoft, width: 1),
       ),
       clipBehavior: Clip.antiAlias,
       child: Stack(
@@ -458,8 +419,8 @@ class HelpStillNeedHelpBanner extends StatelessWidget {
               children: [
                 const HelpCircleIcon(
                   icon: Icons.verified_user_outlined,
-                  bgColor: Colors.white,
-                  iconColor: Color(0xFF16A34A),
+                  bgColor: AppColors.surface,
+                  iconColor: AppColors.success,
                   size: 36,
                   iconSize: 18,
                 ),
@@ -470,18 +431,15 @@ class HelpStillNeedHelpBanner extends StatelessWidget {
                     children: [
                       Text(
                         l10n.helpStillNeedHelp,
-                        style: AppGoogleFonts.inter(
-                          fontSize: 14.5,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF15803D),
+                        style: context.text.button.copyWith(
+                          color: AppColors.success,
                         ),
                       ),
                       const SizedBox(height: AppSpacing.xs),
                       Text(
                         l10n.helpStillNeedHelpBody,
-                        style: AppGoogleFonts.inter(
-                          fontSize: 11.5,
-                          color: const Color(0xFF64748B),
+                        style: context.text.bodySmall.copyWith(
+                          color: AppColors.textMuted,
                         ),
                       ),
                     ],

@@ -261,7 +261,7 @@ class _OneSolutionPage extends StatelessWidget {
       degrees: deg,
       bg: bg,
       fg: fg,
-      fontSize: 11.5,
+      fontSize: 12,
       weight: FontWeight.w600,
       padding: chipPad,
       radius: 12,
@@ -851,12 +851,7 @@ class _SaarthiPage extends StatelessWidget {
               children: [
                 Text(
                   l10n.onbP4SaarthiLabel,
-                  style: pop(
-                    10,
-                    FontWeight.w700,
-                    const Color(0xFFFFB766),
-                    s,
-                  ).copyWith(letterSpacing: .6),
+                  style: pop(12, FontWeight.w700, const Color(0xFFFFB766), s),
                 ),
                 SizedBox(height: 2 * s),
                 Text(

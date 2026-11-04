@@ -1,5 +1,8 @@
 import '../../services/catalog/centralized_translator.dart';
 import 'package:flutter/material.dart';
+import '../../utils/app_colors.dart';
+import '../../utils/app_radius.dart';
+import '../../utils/app_size.dart';
 import '../../l10n/l10n.dart';
 import '../../providers/app_state_provider.dart';
 import '../../utils/app_spacing.dart';
@@ -17,7 +20,6 @@ class ProfileUserInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profile = provider.profile;
-    final isTa = provider.selectedLanguage == 'ta';
 
     return Container(
       margin: const EdgeInsets.symmetric(
@@ -26,53 +28,39 @@ class ProfileUserInfoCard extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(3),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        color: AppColors.surface,
+        borderRadius: AppRadius.lgAll,
+        border: Border.all(color: AppColors.border, width: AppSize.borderWidth),
       ),
       child: Column(
         children: [
-          // Title Header with Edit Profile Action
-          Row(
+          // Title, with "Edit profile" beside it or, when a long label does
+          // not fit (Tamil, large text), under it.
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: AppSpacing.sm,
             children: [
-              Container(
-                width: 32,
-                height: 32,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFEFF6FF),
-                  shape: BoxShape.circle,
-                ),
-                alignment: Alignment.center,
-                child: const Icon(
-                  Icons.person_outline,
-                  color: Color(0xFF2563EB),
-                  size: 18,
-                ),
-              ),
-              const SizedBox(width: AppSpacing.sm),
-              Expanded(
-                child: Text(
-                  context.l10n.userInformation,
-                  style: AppGoogleFonts.inter(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF0F172A),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.person_outline_rounded,
+                    color: AppColors.primary,
+                    size: AppSize.icon,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                  const SizedBox(width: AppSpacing.sm),
+                  Flexible(
+                    child: Text(
+                      context.l10n.userInformation,
+                      style: context.text.cardTitle.copyWith(
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: AppSpacing.sm),
-              // Natural width, pushed to the right edge by the Expanded title
-              // (a Flexible here took half the row and wrapped the title).
-              TextButton.icon(
+              TextButton(
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -80,36 +68,14 @@ class ProfileUserInfoCard extends StatelessWidget {
                     ),
                   );
                 },
-                icon: const Icon(
-                  Icons.edit_outlined,
-                  color: Color(0xFF2563EB),
-                  size: 13,
-                ),
-                label: Text(
-                  context.l10n.editProfile,
-                  style: AppGoogleFonts.inter(
-                    fontSize: isTa ? 9.5 : 10.5,
-                    color: const Color(0xFF2563EB),
-                    fontWeight: FontWeight.bold,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                style: TextButton.styleFrom(
-                  backgroundColor: const Color(0xFFEFF6FF),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.sm,
-                    vertical: AppSpacing.tight,
-                  ),
-                  minimumSize: Size.zero,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    side: const BorderSide(
-                      color: Color(0xFFBFDBFE),
-                      width: 0.8,
-                    ),
-                  ),
+                // The label may wrap; TextButton.icon's row cannot.
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.edit_outlined, size: AppSize.iconSm),
+                    const SizedBox(width: AppSpacing.sm),
+                    Flexible(child: Text(context.l10n.editProfile)),
+                  ],
                 ),
               ),
             ],
@@ -123,20 +89,18 @@ class ProfileUserInfoCard extends StatelessWidget {
                 label: context.l10n.labelFullName,
                 value: profile.name.isNotEmpty ? profile.name : '-',
                 flex: 5,
-                isTamil: isTa,
               ),
               const ProfileDividerCol(),
               ProfileInfoCol(
                 label: context.l10n.labelAge,
                 value: profile.dob != null ? '${profile.age}' : '-',
                 flex: 2,
-                isTamil: isTa,
               ),
             ],
           ),
           const Padding(
             padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
-            child: Divider(color: Color(0xFFF1F5F9), height: 1),
+            child: Divider(color: AppColors.border, height: 1),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,7 +114,6 @@ class ProfileUserInfoCard extends StatelessWidget {
                       )
                     : '-',
                 flex: 5,
-                isTamil: isTa,
               ),
               const ProfileDividerCol(),
               ProfileInfoCol(
@@ -159,7 +122,6 @@ class ProfileUserInfoCard extends StatelessWidget {
                     ? '${_displayDistrict(profile.district)}, ${CentralizedTranslator.instance.localizeTag(profile.state)}'
                     : '-',
                 flex: 5,
-                isTamil: isTa,
               ),
             ],
           ),

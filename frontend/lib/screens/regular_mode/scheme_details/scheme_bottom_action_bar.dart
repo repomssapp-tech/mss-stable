@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../../../l10n/l10n.dart';
+import '../../../utils/app_colors.dart';
+import '../../../utils/app_elevation.dart';
+import '../../../utils/app_size.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/app_text.dart';
 
-/// Fixed bottom action bar with "Save Scheme" bookmark button and "Apply Now" CTA.
+/// Fixed bottom action bar: a secondary "Save" button and the one primary
+/// action, "Apply now" (or "Official information" without a direct link).
 ///
 /// Extracted from `scheme_details_screen.dart` (frontend refactor C5, safe slice).
 class SchemeBottomActionBar extends StatelessWidget {
@@ -28,141 +32,103 @@ class SchemeBottomActionBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Tamil button labels are ~2x longer than English; size the text for the
-    // active language (with a readable floor) instead of letting a FittedBox
-    // shrink it to nothing.
-    final String code = Localizations.localeOf(context).languageCode;
-    final bool isTamil = code == 'ta';
-    final bool isIndic = code != 'en';
-    final double labelSize = isTamil ? 11.5 : 14.0;
-    // Devanagari and Tamil lines need more leading than Latin, or the second
-    // line of a wrapped label is clipped by the button.
-    final double labelHeight = isIndic ? 1.4 : 1.15;
+    // Labels keep the button text size in every language; a long Tamil label
+    // wraps to two lines and both buttons grow to match.
+    final labelStyle = context.text.button;
     return Container(
       padding: EdgeInsets.only(
         left: AppSpacing.lg,
         right: AppSpacing.lg,
-        top: AppSpacing.lg,
-        bottom: MediaQuery.of(context).padding.bottom + AppSpacing.lg,
+        top: AppSpacing.md,
+        bottom: MediaQuery.paddingOf(context).bottom + AppSpacing.md,
       ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 16,
-            offset: const Offset(0, -4),
-          ),
-        ],
-        border: const Border(
-          top: BorderSide(color: Color(0xFFE2E8F0), width: 1),
+      decoration: const BoxDecoration(
+        color: AppColors.surface,
+        boxShadow: AppShadows.topBar,
+        border: Border(
+          top: BorderSide(color: AppColors.border, width: AppSize.borderWidth),
         ),
       ),
-      // Both buttons grow to the taller label, so a two-line label is never
-      // clipped.
-      child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Save Scheme Button — Fix 2: FittedBox prevents overflow
-            Expanded(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(minHeight: 54),
-                child: OutlinedButton(
-                  onPressed: onBookmarkToggle,
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(
-                      color: Color(0xFF2563EB),
-                      width: 1.5,
-                    ),
-                    padding: const EdgeInsets.only(
-                      left: AppSpacing.sm,
-                      right: AppSpacing.sm,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                        color: const Color(0xFF2563EB),
-                        size: 20,
-                      ),
-                      const SizedBox(width: AppSpacing.xs),
-                      Flexible(
-                        child: Text(
-                          isBookmarked
-                              ? context.l10n.savedSchemeButton
-                              : context.l10n.saveSchemeButton,
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppGoogleFonts.inter(
-                            color: const Color(0xFF2563EB),
-                            fontWeight: FontWeight.bold,
-                            fontSize: labelSize,
-                            height: labelHeight,
-                          ),
-                        ),
-                      ),
-                    ],
+      // Side by side when both labels fit on a line or two; on a narrow
+      // phone in Tamil or Hindi the primary action goes on top, full width,
+      // so no label ever breaks inside a word.
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final code = Localizations.localeOf(context).languageCode;
+          final minHalf = code == 'ta' || code == 'hi' ? 200.0 : 130.0;
+          final save = OutlinedButton(
+            onPressed: onBookmarkToggle,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  isBookmarked
+                      ? Icons.bookmark_rounded
+                      : Icons.bookmark_border_rounded,
+                  size: AppSize.icon,
+                ),
+                const SizedBox(width: AppSpacing.xs),
+                Flexible(
+                  child: Text(
+                    isBookmarked
+                        ? context.l10n.savedSchemeButton
+                        : context.l10n.saveSchemeButton,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: labelStyle,
                   ),
                 ),
-              ),
+              ],
             ),
-            const SizedBox(width: AppSpacing.lg),
-
-            // Apply Now Button — Fix 2: FittedBox prevents overflow
-            Expanded(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(minHeight: 54),
-                child: ElevatedButton(
-                  onPressed: applyEnabled ? onApply : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF2563EB),
-                    disabledBackgroundColor: const Color(0xFFCBD5E1),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    elevation: 0,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          isDirectApply
-                              ? context.l10n.applyNowButton
-                              : context.l10n.officialInfoButton,
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppGoogleFonts.inter(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: labelSize,
-                            height: labelHeight,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: AppSpacing.xs),
-                      const Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                        size: 16,
-                      ),
-                    ],
+          );
+          final apply = ElevatedButton(
+            onPressed: applyEnabled ? onApply : null,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(
+                  child: Text(
+                    isDirectApply
+                        ? context.l10n.applyNowButton
+                        : context.l10n.officialInfoButton,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: labelStyle,
                   ),
                 ),
-              ),
+                const SizedBox(width: AppSpacing.xs),
+                const Icon(Icons.open_in_new_rounded, size: AppSize.iconSm),
+              ],
             ),
-          ],
-        ),
+          );
+          if ((constraints.maxWidth - AppSpacing.md) / 2 < minHalf) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                apply,
+                const SizedBox(height: AppSpacing.sm),
+                save,
+              ],
+            );
+          }
+          // Both buttons grow to the taller label, so a two-line label is
+          // never clipped.
+          return IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(child: save),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(child: apply),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

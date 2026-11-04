@@ -10,6 +10,7 @@ import '../../providers/app_state_provider.dart';
 import '../../services/voice/saarthi_voice_settings.dart';
 import '../../services/voice/voice_language.dart';
 import '../../services/voice/voice_preferences.dart';
+import '../../utils/app_colors.dart';
 import '../mss_design.dart';
 import 'saarthi_kit.dart';
 import 'saarthi_voice_views.dart';
@@ -72,7 +73,7 @@ class _SaarthiVoiceSettingsScreenState
     color: Colors.white,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(18),
-      side: const BorderSide(color: Color(0x0F000080)),
+      side: const BorderSide(color: Color(0x0F0F172A)),
     ),
     child: Padding(
       padding: pad,
@@ -98,18 +99,6 @@ class _SaarthiVoiceSettingsScreenState
         l10n.sv2AutoplayBody,
         _settings.autoplay,
         (v) => _settings.update(autoplay: v),
-      ),
-      (
-        l10n.sv2HandsFree,
-        l10n.sv2HandsFreeBody,
-        _settings.handsFree,
-        (v) => _settings.update(handsFree: v),
-      ),
-      (
-        l10n.sv2ConfirmSend,
-        l10n.sv2ConfirmSendBody,
-        _settings.confirmBeforeSend,
-        (v) => _settings.update(confirmBeforeSend: v),
       ),
     ];
     const order = ['ta', 'hi', 'en', 'mr'];
@@ -148,7 +137,7 @@ class _SaarthiVoiceSettingsScreenState
                           color: _language == code ? kInk : Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
-                            side: const BorderSide(color: Color(0x1F000080)),
+                            side: const BorderSide(color: Color(0x1F0F172A)),
                           ),
                           child: InkWell(
                             key: Key('sv2-voice-lang-$code'),
@@ -183,7 +172,7 @@ class _SaarthiVoiceSettingsScreenState
                       decoration: BoxDecoration(
                         border: i < toggles.length - 1
                             ? const Border(
-                                bottom: BorderSide(color: Color(0x12000080)),
+                                bottom: BorderSide(color: Color(0x120F172A)),
                               )
                             : null,
                       ),
@@ -192,7 +181,7 @@ class _SaarthiVoiceSettingsScreenState
                         value: toggles[i].$3,
                         onChanged: toggles[i].$4,
                         activeThumbColor: Colors.white,
-                        activeTrackColor: MssColors.green,
+                        activeTrackColor: AppColors.primary,
                         title: Text(
                           toggles[i].$1,
                           style: pop(13.5, FontWeight.w600, kInk, 1),

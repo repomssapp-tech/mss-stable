@@ -21,9 +21,7 @@ class ProfileNavigationCard1 extends StatelessWidget {
     return ProfileGroupCard(
       tiles: [
         ProfileTile(
-          icon: Icons.bookmark_border_outlined,
-          iconColor: const Color(0xFFEA580C),
-          iconBgColor: const Color(0xFFFFF3E0),
+          icon: Icons.bookmark_border_rounded,
           title: context.l10n.navSaved,
           subtitle: context.l10n.subSavedSchemes,
           onTap: () {
@@ -32,8 +30,6 @@ class ProfileNavigationCard1 extends StatelessWidget {
         ),
         ProfileTile(
           icon: Icons.language_outlined,
-          iconColor: const Color(0xFF7C3AED),
-          iconBgColor: const Color(0xFFF3E8FF),
           title: context.l10n.languageSetting,
           subtitle: context.l10n.subLanguage,
           trailingText: languageEndonym(provider.selectedLanguage),
@@ -62,8 +58,6 @@ class ProfileNavigationCard2 extends StatelessWidget {
       tiles: [
         ProfileTile(
           icon: Icons.settings_outlined,
-          iconColor: const Color(0xFF2563EB),
-          iconBgColor: const Color(0xFFEFF6FF),
           title: context.l10n.profileSettingsTitle,
           subtitle: context.l10n.subSettings,
           onTap: () {
@@ -73,9 +67,7 @@ class ProfileNavigationCard2 extends StatelessWidget {
           },
         ),
         ProfileTile(
-          icon: Icons.chat_bubble_outline,
-          iconColor: const Color(0xFFDB2777),
-          iconBgColor: const Color(0xFFFCE7F3),
+          icon: Icons.support_agent_outlined,
           title: context.l10n.helpHeaderSupport,
           subtitle: context.l10n.subHelpSupport,
           onTap: () {
@@ -85,9 +77,7 @@ class ProfileNavigationCard2 extends StatelessWidget {
           },
         ),
         ProfileTile(
-          icon: Icons.info_outline,
-          iconColor: const Color(0xFFCA8A04),
-          iconBgColor: const Color(0xFFFEF9C3),
+          icon: Icons.info_outline_rounded,
           title: context.l10n.aboutTitle,
           showDivider: false,
           onTap: () => showAboutAppDialog(context),
@@ -108,7 +98,7 @@ class ProfileLogoutCard extends StatelessWidget {
       context,
       icon: Icons.logout_rounded,
       iconColor: AppColors.danger,
-      iconBgColor: const Color(0xFFFEE2E2),
+      iconBgColor: AppColors.dangerSoft,
       title: context.l10n.confirmLogoutTitle,
       message: context.l10n.confirmLogoutMsg,
       confirmLabel: context.l10n.logoutButton,
@@ -124,11 +114,11 @@ class ProfileLogoutCard extends StatelessWidget {
       tiles: [
         ProfileTile(
           icon: Icons.logout_outlined,
-          iconColor: AppColors.danger,
-          iconBgColor: const Color(0xFFFEE2E2),
+          iconColor: AppColors.dangerStrong,
+          iconBgColor: AppColors.dangerSoft,
           title: context.l10n.logoutButton,
           subtitle: context.l10n.subLogout,
-          textColor: AppColors.danger,
+          textColor: AppColors.dangerStrong,
           showDivider: false,
           onTap: () => _handleLogout(context),
         ),

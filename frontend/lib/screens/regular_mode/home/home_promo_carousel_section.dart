@@ -1,18 +1,28 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../providers/app_state_provider.dart';
 import '../../../services/catalog/centralized_translator.dart';
+import '../../../utils/app_colors.dart';
+import '../../../utils/app_elevation.dart';
+import '../../../utils/app_radius.dart';
+import '../../../utils/app_size.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../widgets/assistant/smart_assessment_bottom_sheet.dart';
 import '../../notifications_screen.dart';
 import '../search_results_screen.dart';
 import '../../../utils/app_text.dart';
 
+/// The promotions cards shown in Featured's place when there is nothing to
+/// feature yet. Cards come from `/v1/promotions` (published by the admin
+/// panel), or the one evergreen fallback in `app_state_seed_data.dart`. They
+/// move only when swiped.
 class HomePromoCarouselSection extends StatefulWidget {
   const HomePromoCarouselSection({super.key});
+
+  /// Card height at the default text size; it grows with the text scale.
+  static const double cardHeight = 168;
 
   @override
   State<HomePromoCarouselSection> createState() =>
@@ -23,53 +33,11 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
   // Full width: one card fills the content area (no peeking neighbours).
   final PageController _carouselPageController = PageController();
   int _activeCarouselIndex = 0;
-  Timer? _carouselTimer;
 
   @override
   void dispose() {
-    _carouselTimer?.cancel();
     _carouselPageController.dispose();
     super.dispose();
-  }
-
-  void _startCarouselTimer(int itemCount) {
-    _carouselTimer?.cancel();
-    if (itemCount <= 1) return;
-    _carouselTimer = Timer.periodic(const Duration(seconds: 4), (timer) {
-      // Hidden tabs keep their state in the IndexedStack; don't animate one.
-      if (!mounted || !TickerMode.valuesOf(context).enabled) return;
-      if (_carouselPageController.hasClients) {
-        final nextPage = (_activeCarouselIndex + 1) % itemCount;
-        _carouselPageController.animateToPage(
-          nextPage,
-          duration: const Duration(milliseconds: 400),
-          curve: Curves.easeInOut,
-        );
-      }
-    });
-  }
-
-  void _initCarouselTimer(int itemCount) {
-    if (_carouselTimer != null) return;
-    _startCarouselTimer(itemCount);
-  }
-
-  double _scaledFontSize(double baseSize) {
-    final provider = Provider.of<AppProvider>(context, listen: false);
-    return provider.selectedLanguage == 'ta' ? baseSize * 0.88 : baseSize;
-  }
-
-  FontWeight _scaledFontWeight(FontWeight baseWeight) {
-    final provider = Provider.of<AppProvider>(context, listen: false);
-    if (provider.selectedLanguage == 'ta') {
-      if (baseWeight == FontWeight.bold || baseWeight == FontWeight.w700) {
-        return FontWeight.w600;
-      }
-      if (baseWeight == FontWeight.w600) {
-        return FontWeight.w500;
-      }
-    }
-    return baseWeight;
   }
 
   String _getCarouselBadgeText(String raw) {
@@ -80,6 +48,8 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
     return raw;
   }
 
+  // These translate server card text that matches exactly; the facts in it
+  // (deadlines, scheme names) come from the published card, never from here.
   String _getCarouselTitle(String raw) {
     if (raw == 'Applications Closing Soon') {
       return context.l10n.carouselTitleApplicationsClosingSoon;
@@ -116,13 +86,14 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
     return raw;
   }
 
-  Color _parseHexColor(String hexString) {
-    final buffer = StringBuffer();
-    if (hexString.length == 6 || hexString.length == 7) {
-      buffer.write('ff');
-    }
-    buffer.write(hexString.replaceFirst('#', ''));
-    return Color(int.parse(buffer.toString(), radix: 16));
+  /// A card's badge colour as published, or null when it is missing or not a
+  /// valid `#RRGGBB` / `#AARRGGBB` value.
+  Color? _parseHexColor(Object? hexString) {
+    if (hexString is! String) return null;
+    final hex = hexString.replaceFirst('#', '');
+    if (hex.length != 6 && hex.length != 8) return null;
+    final value = int.tryParse(hex.length == 6 ? 'ff$hex' : hex, radix: 16);
+    return value == null ? null : Color(value);
   }
 
   void _handleCarouselTap(BuildContext context, Map<String, dynamic> item) {
@@ -156,43 +127,36 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
 
   Widget _buildProgressGraphic(double progress) {
     return SizedBox(
-      width: 56,
-      height: 56,
+      width: AppSize.avatar,
+      height: AppSize.avatar,
       child: Stack(
         alignment: Alignment.center,
         children: [
           Container(
-            width: 46,
-            height: 46,
+            width: AppSize.avatar - AppSpacing.sm,
+            height: AppSize.avatar - AppSpacing.sm,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.surface,
               shape: BoxShape.circle,
-              border: Border.all(color: const Color(0xFFDBEAFE), width: 1.2),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.04),
-                  blurRadius: 3,
-                  offset: const Offset(0, 1.5),
-                ),
-              ],
+              border: Border.all(
+                color: AppColors.primaryTint,
+                width: AppSize.borderWidth,
+              ),
+              boxShadow: AppShadows.card,
             ),
             padding: const EdgeInsets.all(AppSpacing.xs),
             child: CircularProgressIndicator(
               value: progress,
               strokeWidth: 3,
-              backgroundColor: const Color(0xFFEFF6FF),
+              backgroundColor: AppColors.primarySoft,
               valueColor: const AlwaysStoppedAnimation<Color>(
-                Color(0xFF2563EB),
+                AppColors.primary,
               ),
             ),
           ),
           Text(
             '${(progress * 100).toInt()}%',
-            style: AppGoogleFonts.inter(
-              fontSize: 9.5,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF1E3A8A),
-            ),
+            style: context.text.label.copyWith(color: AppColors.primaryDeep),
           ),
         ],
       ),
@@ -200,14 +164,11 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
   }
 
   Widget _buildCarouselCard({
-    required Gradient bgGradient,
-    required Color borderColor,
     required String badgeText,
     required Color badgeTextColor,
     required Color badgeBgColor,
     required String title,
     String? subtitle,
-    required Color titleColor,
     required VoidCallback onTap,
     required Widget rightGraphic,
     String? bgImage,
@@ -225,119 +186,114 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
       displaySubtitle,
     );
 
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Container(
-          margin: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.lg,
-            vertical: AppSpacing.lg,
-          ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+      child: Material(
+        color: AppColors.surface,
+        borderRadius: AppRadius.lgAll,
+        clipBehavior: Clip.antiAlias,
+        child: Ink(
           decoration: BoxDecoration(
-            gradient: bgImage != null ? null : bgGradient,
+            borderRadius: AppRadius.lgAll,
+            border: bgImage != null
+                ? null
+                : Border.all(
+                    color: AppColors.border,
+                    width: AppSize.borderWidth,
+                  ),
             image: bgImage != null
                 ? DecorationImage(
                     image: ResizeImage(AssetImage(bgImage), width: 1080),
                     fit: BoxFit.cover,
+                    // The art sits on the right; keep it in view on tall cards.
+                    alignment: Alignment.centerRight,
                   )
                 : null,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: bgImage != null ? Colors.transparent : borderColor,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.03),
-                blurRadius: 10,
-                offset: const Offset(0, 3),
-              ),
-            ],
           ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.sm,
-                        vertical: AppSpacing.xs,
-                      ),
-                      decoration: BoxDecoration(
-                        color: badgeBgColor.withValues(
-                          alpha: bgImage != null ? 0.9 : 1.0,
+          child: InkWell(
+            onTap: onTap,
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (badgeText.isNotEmpty) ...[
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: AppSpacing.sm,
+                              vertical: AppSpacing.xs,
+                            ),
+                            decoration: BoxDecoration(
+                              color: badgeBgColor,
+                              borderRadius: AppRadius.smAll,
+                            ),
+                            child: Text(
+                              CentralizedTranslator.instance.localizeTag(
+                                badgeText,
+                              ),
+                              style: context.text.label.copyWith(
+                                color: badgeTextColor,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: AppSpacing.sm),
+                        ],
+                        Text(
+                          transTitle,
+                          style: context.text.cardTitle.copyWith(
+                            color: AppColors.textPrimary,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        CentralizedTranslator.instance.localizeTag(badgeText),
-                        style: AppGoogleFonts.inter(
-                          fontSize: 9.5,
-                          fontWeight: FontWeight.bold,
-                          color: badgeTextColor,
-                        ),
-                      ),
+                        if (transSubtitle.isNotEmpty) ...[
+                          const SizedBox(height: AppSpacing.xs),
+                          Text(
+                            transSubtitle,
+                            style: context.text.bodySmall.copyWith(
+                              color: AppColors.textSecondary,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ],
                     ),
-                    const SizedBox(height: AppSpacing.tight),
-                    Text(
-                      transTitle,
-                      style: AppGoogleFonts.poppins(
-                        fontSize: _scaledFontSize(13.5),
-                        fontWeight: _scaledFontWeight(FontWeight.bold),
-                        color: const Color(0xFF0F172A),
-                        height: 1.2,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    if (transSubtitle.isNotEmpty) ...[
-                      const SizedBox(height: AppSpacing.xs),
-                      Text(
-                        transSubtitle,
-                        style: AppGoogleFonts.inter(
-                          fontSize: _scaledFontSize(10.0),
-                          color: const Color(0xFF475569),
-                          fontWeight: _scaledFontWeight(FontWeight.w600),
-                          height: 1.25,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ],
-                ),
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  if (bgImage == null)
+                    rightGraphic
+                  else
+                    // Keeps the text clear of the banner art on the right.
+                    const SizedBox(width: 85), // spacing-ok: banner art width
+                ],
               ),
-              const SizedBox(width: AppSpacing.sm),
-              if (bgImage == null)
-                rightGraphic
-              else
-                // Reserve spacer on the right so text doesn't overlap the background image's built-in icon
-                const SizedBox(width: 85),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildDotIndicator(int count, int activeIndex, Color color) {
+  Widget _buildDotIndicator(int count, int activeIndex) {
+    final still = MediaQuery.disableAnimationsOf(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(count, (index) {
         final isActive = index == activeIndex;
         return AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          width: isActive ? 12 : 6,
-          height: 6,
+          duration: still ? Duration.zero : const Duration(milliseconds: 150),
+          curve: Curves.easeOut,
+          width: isActive ? AppSpacing.md : AppSpacing.tight,
+          height: AppSpacing.tight,
           margin: const EdgeInsets.symmetric(horizontal: AppSpacing.hairline),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(3),
-            color: isActive ? color : const Color(0xFFE2E8F0),
+            borderRadius: AppRadius.pillAll,
+            color: isActive ? AppColors.primary : AppColors.border,
           ),
         );
       }),
@@ -348,38 +304,28 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
     final items = provider.carouselItems;
-
-    // Initialize timer on build once items are fetched
-    if (items.isNotEmpty) {
-      _initCarouselTimer(items.length);
-    }
+    if (_activeCarouselIndex >= items.length) _activeCarouselIndex = 0;
+    final textScale = MediaQuery.textScalerOf(context).scale(1);
 
     return Column(
       children: [
         SizedBox(
-          height: 154,
+          // spacing-ok: card height, not spacing
+          height:
+              HomePromoCarouselSection.cardHeight * textScale.clamp(1.0, 1.6),
           child: PageView.builder(
             controller: _carouselPageController,
-            onPageChanged: (index) {
-              setState(() {
-                _activeCarouselIndex = index;
-              });
-              // Restart timer to avoid sliding immediately after manual swipe
-              _startCarouselTimer(items.length);
-            },
+            onPageChanged: (index) =>
+                setState(() => _activeCarouselIndex = index),
             physics: const ClampingScrollPhysics(),
             itemCount: items.length,
             itemBuilder: (context, index) {
               final item = items[index];
-              final gradientColors = [
-                _parseHexColor(item['bg_gradient_start'] ?? '#FFF7ED'),
-                _parseHexColor(item['bg_gradient_end'] ?? '#FFFFEDD5'),
-              ];
 
-              // Always ensure a rich design banner background image is used
+              // Every card gets one of the designed banners as its background.
               String? bgImage = item['bg_image'] as String?;
               if (bgImage == null || bgImage.isEmpty) {
-                final fallbackBanners = [
+                const fallbackBanners = [
                   'assets/images/Background/alert banner.webp',
                   'assets/images/Background/new scheme banner.webp',
                   'assets/images/Background/notification banner.webp',
@@ -388,8 +334,8 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
                 bgImage = fallbackBanners[index % fallbackBanners.length];
               }
 
-              // Since the 4 banner images have built-in illustrations on the right,
-              // only render rightGraphic if it's a draft session progress or no bgImage
+              // The banners carry their own art on the right, so a graphic is
+              // drawn only for a draft-progress card without one.
               Widget rightGraphic = const SizedBox();
               if (item['graphic_type'] == 'progress') {
                 final double progress =
@@ -397,41 +343,25 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
                 rightGraphic = _buildProgressGraphic(progress);
               }
 
-              return Center(
-                child: SizedBox(
-                  width: double.infinity,
-                  child: _buildCarouselCard(
-                    bgGradient: LinearGradient(colors: gradientColors),
-                    borderColor: _parseHexColor(
-                      item['badge_bg_color'] ?? '#E2E8F0',
-                    ),
-                    badgeText: _getCarouselBadgeText(item['badge_text'] ?? ''),
-                    badgeTextColor: _parseHexColor(
-                      item['badge_text_color'] ?? '#0F172A',
-                    ),
-                    badgeBgColor: _parseHexColor(
-                      item['badge_bg_color'] ?? '#F1F5F9',
-                    ),
-                    title: _getCarouselTitle(item['title'] ?? ''),
-                    subtitle: _getCarouselSubtitle(item['subtitle'] ?? ''),
-                    titleColor: const Color(0xFF1E293B),
-                    onTap: () {
-                      _handleCarouselTap(context, item);
-                    },
-                    rightGraphic: rightGraphic,
-                    bgImage: bgImage,
-                  ),
-                ),
+              return _buildCarouselCard(
+                badgeText: _getCarouselBadgeText(item['badge_text'] ?? ''),
+                badgeTextColor:
+                    _parseHexColor(item['badge_text_color']) ??
+                    AppTagStyle.level.text,
+                badgeBgColor:
+                    _parseHexColor(item['badge_bg_color']) ??
+                    AppTagStyle.level.background,
+                title: _getCarouselTitle(item['title'] ?? ''),
+                subtitle: _getCarouselSubtitle(item['subtitle'] ?? ''),
+                onTap: () => _handleCarouselTap(context, item),
+                rightGraphic: rightGraphic,
+                bgImage: bgImage,
               );
             },
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
-        _buildDotIndicator(
-          items.length,
-          _activeCarouselIndex,
-          const Color(0xFF2563EB),
-        ),
+        _buildDotIndicator(items.length, _activeCarouselIndex),
       ],
     );
   }

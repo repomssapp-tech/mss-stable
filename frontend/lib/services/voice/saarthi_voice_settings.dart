@@ -10,17 +10,9 @@ class SaarthiVoiceSettings extends ChangeNotifier {
   static final SaarthiVoiceSettings instance = SaarthiVoiceSettings._();
 
   static const String _autoplayKey = 'saarthi_v2_autoplay';
-  static const String _handsFreeKey = 'saarthi_v2_hands_free';
-  static const String _confirmKey = 'saarthi_v2_confirm_before_send';
 
   /// Saarthi reads every answer aloud.
   bool autoplay = true;
-
-  /// Keep listening after each reply (otherwise wait for "Tap to speak").
-  bool handsFree = false;
-
-  /// Show what Saarthi heard, with tick / cross, before it is sent.
-  bool confirmBeforeSend = true;
 
   bool _loaded = false;
 
@@ -39,8 +31,6 @@ class SaarthiVoiceSettings extends ChangeNotifier {
     try {
       final p = await SharedPreferences.getInstance();
       autoplay = p.getBool(_autoplayKey) ?? autoplay;
-      handsFree = p.getBool(_handsFreeKey) ?? handsFree;
-      confirmBeforeSend = p.getBool(_confirmKey) ?? confirmBeforeSend;
     } catch (e) {
       debugPrint('[SaarthiVoiceSettings] load failed: $e');
     }
@@ -48,20 +38,12 @@ class SaarthiVoiceSettings extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> update({
-    bool? autoplay,
-    bool? handsFree,
-    bool? confirmBeforeSend,
-  }) async {
+  Future<void> update({bool? autoplay}) async {
     if (autoplay != null) this.autoplay = autoplay;
-    if (handsFree != null) this.handsFree = handsFree;
-    if (confirmBeforeSend != null) this.confirmBeforeSend = confirmBeforeSend;
     notifyListeners();
     try {
       final p = await SharedPreferences.getInstance();
       await p.setBool(_autoplayKey, this.autoplay);
-      await p.setBool(_handsFreeKey, this.handsFree);
-      await p.setBool(_confirmKey, this.confirmBeforeSend);
     } catch (e) {
       debugPrint('[SaarthiVoiceSettings] save failed: $e');
     }
@@ -70,8 +52,6 @@ class SaarthiVoiceSettings extends ChangeNotifier {
   @visibleForTesting
   void resetForTesting() {
     autoplay = true;
-    handsFree = false;
-    confirmBeforeSend = true;
     languageChange = null;
     _loaded = false;
   }

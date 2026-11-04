@@ -69,48 +69,23 @@ class HomeHeaderSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Flexible(
-                    child: Text(
-                      AppConstants.getTimeGreeting(context.l10n),
-                      style: context.text.body.copyWith(
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.textMuted,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: AppSpacing.xs),
-                  ExcludeSemantics(
-                    child: Text("👋", style: AppGoogleFonts.inter(fontSize: 14)),
-                  ),
-                ],
+              Text(
+                AppConstants.getTimeGreeting(context.l10n),
+                style: context.text.body.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.textMuted,
+                ),
               ),
               const SizedBox(height: AppSpacing.hairline),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Flexible(
-                    child: Text(
-                      displayName,
-                      style:
-                          (provider.isGuest
-                                  ? context.text.titleMedium
-                                  : context.text.headline)
-                              .copyWith(color: AppColors.textPrimary),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  if (!provider.isGuest) ...[
-                    const SizedBox(width: AppSpacing.tight),
-                    const Icon(
-                      Icons.verified,
-                      color: Color(0xFF2563EB),
-                      size: 20,
-                    ),
-                  ],
-                ],
+              Text(
+                displayName,
+                style:
+                    (provider.isGuest
+                            ? context.text.titleMedium
+                            : context.text.headline)
+                        .copyWith(color: AppColors.textPrimary),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
@@ -151,7 +126,7 @@ class HomeHeaderSection extends StatelessWidget {
         vertical: AppSpacing.xs,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.surface,
         borderRadius: AppRadius.pillAll,
         border: Border.all(color: AppColors.border, width: AppSize.borderWidth),
         boxShadow: AppShadows.card,
@@ -161,16 +136,20 @@ class HomeHeaderSection extends StatelessWidget {
           Expanded(
             child: AppTappable(
               onTap: () => onSearchBarTap?.call(),
-              semanticLabel: context.l10n.searchPlaceholder,
+              semanticLabel: context.l10n.homeSearchHint,
               minSize: const Size(AppSize.tapTarget, AppSize.tapTarget),
               alignment: Alignment.centerLeft,
               child: Row(
                 children: [
-                  const Icon(Icons.search, color: Color(0xFF2563EB), size: 22),
+                  const Icon(
+                    Icons.search_rounded,
+                    color: AppColors.primary,
+                    size: AppSize.iconLg,
+                  ),
                   const SizedBox(width: AppSpacing.sm),
                   Expanded(
                     child: Text(
-                      context.l10n.searchPlaceholder,
+                      context.l10n.homeSearchHint,
                       style: context.text.body.copyWith(
                         color: AppColors.textMuted,
                       ),
@@ -206,15 +185,15 @@ class HomeHeaderSection extends StatelessWidget {
               child: Row(
                 children: [
                   const Icon(
-                    Icons.filter_list,
+                    Icons.filter_list_rounded,
                     size: AppSize.iconSm,
-                    color: Color(0xFF1E293B),
+                    color: AppColors.textPrimary,
                   ),
                   const SizedBox(width: AppSpacing.xs),
                   Text(
                     context.l10n.filter,
                     style: context.text.label.copyWith(
-                      color: const Color(0xFF1E293B),
+                      color: AppColors.textPrimary,
                     ),
                   ),
                 ],
@@ -227,8 +206,8 @@ class HomeHeaderSection extends StatelessWidget {
   }
 }
 
-/// A raised header button: a soft brand-coloured glow so it reads as a
-/// control, not as part of the background illustration.
+/// A raised header button: a neutral card shadow lifts it off the background
+/// illustration, so it reads as a control.
 class HomeHeaderAction extends StatelessWidget {
   const HomeHeaderAction({super.key, required this.child});
 
@@ -237,15 +216,9 @@ class HomeHeaderAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.35),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        boxShadow: AppShadows.card,
       ),
       child: child,
     );

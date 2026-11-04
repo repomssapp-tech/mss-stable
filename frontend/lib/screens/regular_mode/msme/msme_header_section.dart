@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../services/catalog/centralized_translator.dart';
@@ -46,7 +47,7 @@ class MsmeHeaderSection extends StatelessWidget {
       width: double.infinity,
       decoration: const BoxDecoration(
         color: Colors.white,
-        border: Border(bottom: BorderSide(color: Color(0xFFE2E8F0))),
+        border: Border(bottom: BorderSide(color: AppColors.border)),
       ),
       padding: const EdgeInsets.all(AppSpacing.xl),
       child: Column(
@@ -72,20 +73,16 @@ class MsmeHeaderSection extends StatelessWidget {
                       header: true,
                       child: Text(
                         CentralizedTranslator.instance.localize(title),
-                        style: AppGoogleFonts.poppins(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF0F172A),
+                        style: context.text.titleMedium.copyWith(
+                          color: AppColors.textPrimary,
                         ),
                       ),
                     ),
                     const SizedBox(height: AppSpacing.xs),
                     Text(
                       CentralizedTranslator.instance.localize(description),
-                      style: AppGoogleFonts.inter(
-                        fontSize: 13,
-                        color: const Color(0xFF64748B),
-                        fontWeight: FontWeight.w500,
+                      style: context.text.body.copyWith(
+                        color: AppColors.textMuted,
                       ),
                     ),
                   ],
@@ -165,12 +162,7 @@ class MsmeHeaderSection extends StatelessWidget {
                 child: Text(
                   context.l10n.msmeWhatTheUserGets,
                   softWrap: true,
-                  style: AppGoogleFonts.inter(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: iconColor,
-                    letterSpacing: 1.1,
-                  ),
+                  style: context.text.label.copyWith(color: iconColor),
                 ),
               ),
             ],
@@ -178,12 +170,7 @@ class MsmeHeaderSection extends StatelessWidget {
           const SizedBox(height: AppSpacing.sm),
           Text(
             CentralizedTranslator.instance.localize(valueText),
-            style: AppGoogleFonts.inter(
-              fontSize: 13.5,
-              color: const Color(0xFF1E293B),
-              height: 1.45,
-              fontWeight: FontWeight.w600,
-            ),
+            style: context.text.button.copyWith(color: AppColors.textPrimary),
           ),
         ],
       ),

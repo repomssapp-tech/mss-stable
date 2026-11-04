@@ -42,8 +42,7 @@ SchemeActionTarget resolveSchemeAction({
   required String applicationStatus,
 }) {
   final apply = applicationUrl.trim();
-  if (isSafeWebUrl(apply) &&
-      applicationStatus.toLowerCase().trim() == 'open') {
+  if (isSafeWebUrl(apply) && applicationStatus.toLowerCase().trim() == 'open') {
     return SchemeActionTarget(SchemeActionKind.apply, apply);
   }
   for (final candidate in [schemeUrl, officialWebsite, applicationUrl]) {

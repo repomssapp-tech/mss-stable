@@ -323,7 +323,7 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
               width: 36,
               height: 4,
               decoration: BoxDecoration(
-                color: const Color(0xFFCBD5E1),
+                color: AppColors.borderStrong,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -341,12 +341,12 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
                   width: 44,
                   height: 44,
                   decoration: BoxDecoration(
-                    color: const Color(0xFFDBEAFE),
+                    color: AppColors.primaryTint,
                     borderRadius: BorderRadius.circular(14),
                   ),
                   child: const Icon(
                     Icons.description_outlined,
-                    color: Color(0xFF2563EB),
+                    color: AppColors.primary,
                     size: 24,
                   ),
                 ),
@@ -357,26 +357,23 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
                     children: [
                       Text(
                         CentralizedTranslator.instance.localize(widget.title),
-                        style: AppGoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF0F172A),
+                        style: context.text.titleMedium.copyWith(
+                          color: AppColors.textPrimary,
                         ),
                       ),
                       Text(
                         CentralizedTranslator.instance.localize(
                           widget.subtitle,
                         ),
-                        style: AppGoogleFonts.inter(
-                          fontSize: 12,
-                          color: const Color(0xFF64748B),
+                        style: context.text.bodySmall.copyWith(
+                          color: AppColors.textMuted,
                         ),
                       ),
                     ],
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.close, color: Color(0xFF334155)),
+                  icon: const Icon(Icons.close, color: AppColors.textBody),
                   tooltip: context.l10n.close,
                   onPressed: () => Navigator.of(context).pop(),
                 ),
@@ -384,7 +381,7 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
             ),
           ),
 
-          const Divider(height: 1, color: Color(0xFFE2E8F0)),
+          const Divider(height: 1, color: AppColors.border),
 
           // Scrollable Content
           Expanded(
@@ -399,9 +396,9 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
                     width: double.infinity,
                     padding: const EdgeInsets.all(AppSpacing.md),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF1F5F9),
+                      color: AppColors.surfaceMuted,
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: const Color(0xFFE2E8F0)),
+                      border: Border.all(color: AppColors.border),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -410,10 +407,8 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
                           CentralizedTranslator.instance.localize(
                             'Effective Date: ${widget.effectiveDate}',
                           ),
-                          style: AppGoogleFonts.inter(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w700,
-                            color: const Color(0xFF0F172A),
+                          style: context.text.button.copyWith(
+                            color: AppColors.textPrimary,
                           ),
                         ),
                         const SizedBox(height: AppSpacing.xs),
@@ -421,10 +416,8 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
                           CentralizedTranslator.instance.localize(
                             widget.acknowledgmentText,
                           ),
-                          style: AppGoogleFonts.inter(
-                            fontSize: 12.5,
-                            color: const Color(0xFF475569),
-                            height: 1.4,
+                          style: context.text.bodySmall.copyWith(
+                            color: AppColors.textSecondary,
                           ),
                         ),
                       ],
@@ -437,10 +430,8 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
                   if (widget.introText.isNotEmpty) ...[
                     Text(
                       CentralizedTranslator.instance.localize(widget.introText),
-                      style: AppGoogleFonts.inter(
-                        fontSize: 13,
-                        color: const Color(0xFF334155),
-                        height: 1.5,
+                      style: context.text.body.copyWith(
+                        color: AppColors.textBody,
                       ),
                     ),
                     const SizedBox(height: AppSpacing.xl),
@@ -457,14 +448,14 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
                             width: 26,
                             height: 26,
                             decoration: const BoxDecoration(
-                              color: Color(0xFFDBEAFE),
+                              color: AppColors.primaryTint,
                               shape: BoxShape.circle,
                             ),
                             alignment: Alignment.center,
                             child: Text(
                               '${section.number}',
                               style: const TextStyle(
-                                color: Color(0xFF1D4ED8),
+                                color: AppColors.primaryStrong,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 13,
                               ),
@@ -479,10 +470,8 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
                                   CentralizedTranslator.instance.localize(
                                     section.title,
                                   ),
-                                  style: AppGoogleFonts.poppins(
-                                    fontSize: 14.5,
-                                    fontWeight: FontWeight.bold,
-                                    color: const Color(0xFF0F172A),
+                                  style: context.text.cardTitle.copyWith(
+                                    color: AppColors.textPrimary,
                                   ),
                                 ),
                                 const SizedBox(height: AppSpacing.xs),
@@ -490,10 +479,8 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
                                   CentralizedTranslator.instance.localize(
                                     section.body,
                                   ),
-                                  style: AppGoogleFonts.inter(
-                                    fontSize: 13,
-                                    color: const Color(0xFF475569),
-                                    height: 1.45,
+                                  style: context.text.body.copyWith(
+                                    color: AppColors.textSecondary,
                                   ),
                                 ),
                               ],
@@ -517,7 +504,7 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
             ),
             decoration: const BoxDecoration(
               color: Colors.white,
-              border: Border(top: BorderSide(color: Color(0xFFE2E8F0))),
+              border: Border(top: BorderSide(color: AppColors.border)),
             ),
             child: SafeArea(
               top: false,
@@ -539,25 +526,12 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
                     width: double.infinity,
                     height: 48,
                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: _reachedEnd
-                            ? const Color(0xFF0D53FC)
-                            : AppColors.disabledFg,
-                        foregroundColor: Colors.white,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
                       onPressed: _reachedEnd
                           ? () => Navigator.of(context).pop(true)
                           : _explainScrollRequirement,
                       child: Text(
                         context.l10n.legalAccept,
-                        style: AppGoogleFonts.inter(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: context.text.bodyLarge,
                       ),
                     ),
                   ),

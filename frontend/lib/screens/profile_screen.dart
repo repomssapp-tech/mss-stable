@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../l10n/l10n.dart';
 import '../providers/app_state_provider.dart';
+import '../utils/app_colors.dart';
+import '../utils/app_size.dart';
 import '../utils/app_spacing.dart';
-import '../utils/constants.dart';
 import 'notifications_screen.dart';
 import 'profile/profile_banner_card.dart';
 import 'profile/profile_eligibility_details_card.dart';
@@ -32,80 +33,36 @@ class ProfileScreen extends StatelessWidget {
     final unreadCount = provider.notifications.where((n) => !n['read']).length;
 
     return Scaffold(
-      backgroundColor: AppConstants.backgroundColor,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         title: Text(
           context.l10n.profileTitle,
-          style: AppGoogleFonts.poppins(
-            color: const Color(0xFF0F172A),
-            fontWeight: FontWeight.bold,
-            fontSize: 18.0,
+          style: context.text.titleMedium.copyWith(
+            color: AppColors.textPrimary,
           ),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         scrolledUnderElevation: 0,
         actions: [
-          // Notification Bell with Badge
-          Padding(
-            padding: const EdgeInsets.only(right: AppSpacing.lg),
-            child: Tooltip(
-              message: context.l10n.notificationsTooltip,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const NotificationsScreen(),
-                    ),
-                  );
-                },
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      width: 44,
-                      height: 44,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFEFF6FF),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.notifications_none_outlined,
-                        color: Color(0xFF2563EB),
-                        size: 24,
-                      ),
-                    ),
-                    if (unreadCount > 0)
-                      Positioned(
-                        right: 2,
-                        top: 2,
-                        child: Container(
-                          padding: const EdgeInsets.all(AppSpacing.hairline),
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFEF4444),
-                            shape: BoxShape.circle,
-                          ),
-                          constraints: const BoxConstraints(
-                            minWidth: 16,
-                            minHeight: 16,
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            '$unreadCount',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 8.5,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
+          // Notification bell; the badge carries the unread count.
+          IconButton(
+            tooltip: context.l10n.notificationsTooltip,
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const NotificationsScreen()),
+            ),
+            icon: Badge(
+              isLabelVisible: unreadCount > 0,
+              backgroundColor: AppColors.danger,
+              label: Text('$unreadCount'),
+              child: const Icon(
+                Icons.notifications_none_rounded,
+                color: AppColors.primary,
+                size: AppSize.iconLg,
               ),
             ),
           ),
+          const SizedBox(width: AppSpacing.sm),
         ],
       ),
       body: SingleChildScrollView(

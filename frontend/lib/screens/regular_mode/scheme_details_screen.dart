@@ -7,6 +7,8 @@ import '../../models/localized_scheme.dart';
 import '../../models/scheme_model.dart';
 import '../../providers/app_state_provider.dart';
 import '../../services/catalog/scheme_repository.dart';
+import '../../utils/app_colors.dart';
+import '../../utils/app_size.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/share_text.dart';
 import '../../widgets/common/app_toast.dart';
@@ -91,8 +93,8 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
   // ignore: deprecated_member_use
   final _processController = ExpansionTileController();
 
-  // Accordions closed by default
-  bool _benefitsExpanded = false;
+  // Benefits starts open: what a scheme gives is the first question.
+  bool _benefitsExpanded = true;
   bool _eligibilityExpanded = false;
   bool _documentsExpanded = false;
   bool _servicesExpanded = false;
@@ -286,7 +288,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
     );
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       body: Stack(
         children: [
           Positioned.fill(
@@ -296,24 +298,22 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                 // 1. Custom App Bar
                 SliverAppBar(
                   pinned: true,
-                  backgroundColor: Colors.white,
+                  backgroundColor: AppColors.surface,
                   elevation: 0,
                   scrolledUnderElevation: 0,
                   leading: IconButton(
                     tooltip: context.l10n.back,
                     icon: const Icon(
-                      Icons.arrow_back,
-                      color: Color(0xFF0F172A),
-                      size: 22,
+                      Icons.arrow_back_rounded,
+                      color: AppColors.textPrimary,
+                      size: AppSize.iconLg,
                     ),
                     onPressed: () => Navigator.of(context).maybePop(),
                   ),
                   title: Text(
                     context.l10n.schemeDetailsTitle,
-                    style: AppGoogleFonts.poppins(
-                      color: const Color(0xFF0F172A),
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
+                    style: context.text.titleMedium.copyWith(
+                      color: AppColors.textPrimary,
                     ),
                   ),
                   actions: [
@@ -321,8 +321,8 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                       tooltip: context.l10n.shareSchemeDetailsTooltip,
                       icon: const Icon(
                         Icons.share_outlined,
-                        color: Color(0xFF0F172A),
-                        size: 24,
+                        color: AppColors.textPrimary,
+                        size: AppSize.iconLg,
                       ),
                       onPressed: () => _copySchemeDetails(scheme),
                     ),
@@ -346,11 +346,11 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                   delegate: StickyTabBarDelegate(
                     child: Container(
                       decoration: const BoxDecoration(
-                        color: Colors.white,
+                        color: AppColors.surface,
                         border: Border(
                           bottom: BorderSide(
-                            color: Color(0xFFE2E8F0),
-                            width: 1,
+                            color: AppColors.border,
+                            width: AppSize.borderWidth,
                           ),
                         ),
                       ),
@@ -365,35 +365,36 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                             index,
                           ) {
                             final bool isSelected = _activeTabIndex == index;
-                            return GestureDetector(
+                            // The InkWell's own GestureDetector carries onTap.
+                            return InkWell(
                               onTap: () => _onTabTapped(index),
                               child: Container(
                                 margin: const EdgeInsets.only(
-                                  right: AppSpacing.xxl,
+                                  right: AppSpacing.lg,
                                 ),
                                 padding: const EdgeInsets.symmetric(
-                                  vertical: AppSpacing.md,
+                                  horizontal: AppSpacing.xs,
                                 ),
+                                alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   border: Border(
                                     bottom: BorderSide(
                                       color: isSelected
-                                          ? const Color(0xFF2563EB)
+                                          ? AppColors.primary
                                           : Colors.transparent,
-                                      width: 2,
+                                      width: AppSize.borderWidth * 2,
                                     ),
                                   ),
                                 ),
                                 child: Text(
                                   _getTabs(context)[index],
-                                  style: AppGoogleFonts.inter(
+                                  style: context.text.button.copyWith(
                                     color: isSelected
-                                        ? const Color(0xFF2563EB)
-                                        : const Color(0xFF64748B),
+                                        ? AppColors.primary
+                                        : AppColors.textSecondary,
                                     fontWeight: isSelected
                                         ? FontWeight.bold
                                         : FontWeight.w500,
-                                    fontSize: 13.0,
                                   ),
                                 ),
                               ),
@@ -411,7 +412,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                     left: AppSpacing.lg,
                     right: AppSpacing.lg,
                     top: AppSpacing.lg,
-                    bottom: 120,
+                    bottom: AppSpacing.xxxl,
                   ),
                   // Keep section anchors mounted so any tab can reveal its target.
                   sliver: SliverToBoxAdapter(
@@ -426,10 +427,8 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                             language: Localizations.localeOf(
                               context,
                             ).languageCode,
-                            style: AppGoogleFonts.inter(
-                              color: const Color(0xFF64748B),
-                              fontSize: 12.0,
-                              height: 1.5,
+                            style: context.text.bodyLarge.copyWith(
+                              color: AppColors.textBody,
                             ),
                           ),
                         ),
@@ -453,7 +452,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                             child: Center(
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
-                                color: Color(0xFF2563EB),
+                                color: AppColors.primary,
                               ),
                             ),
                           ),
@@ -463,9 +462,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                           key: _benefitsKey,
                           controller: _benefitsController,
                           title: context.l10n.benefitsDetails,
-                          icon: Icons.card_giftcard_outlined,
-                          iconColor: const Color(0xFF047857),
-                          iconBg: const Color(0xFFECFDF5),
+                          icon: Icons.redeem_outlined,
                           isExpanded: _benefitsExpanded,
                           onToggle: () {
                             setState(() {
@@ -480,9 +477,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                           key: _eligibilityKey,
                           controller: _eligibilityController,
                           title: context.l10n.eligibilityCriteria,
-                          icon: Icons.verified_user_outlined,
-                          iconColor: const Color(0xFF1D4ED8),
-                          iconBg: const Color(0xFFEFF6FF),
+                          icon: Icons.how_to_reg_outlined,
                           isExpanded: _eligibilityExpanded,
                           onToggle: () {
                             setState(() {
@@ -498,8 +493,6 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                           controller: _documentsController,
                           title: context.l10n.requiredDocuments,
                           icon: Icons.description_outlined,
-                          iconColor: const Color(0xFF6D28D9),
-                          iconBg: const Color(0xFFF5F3FF),
                           isExpanded: _documentsExpanded,
                           onToggle: () {
                             setState(() {
@@ -518,8 +511,6 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                           controller: _servicesController,
                           title: context.l10n.requiredServices,
                           icon: Icons.support_agent_outlined,
-                          iconColor: const Color(0xFF0F766E),
-                          iconBg: const Color(0xFFCCFBF1),
                           isExpanded: _servicesExpanded,
                           onToggle: () {
                             setState(() {
@@ -537,8 +528,6 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                           controller: _processController,
                           title: context.l10n.applicationProcessHeader,
                           icon: Icons.account_tree_outlined,
-                          iconColor: const Color(0xFFEA580C),
-                          iconBg: const Color(0xFFFFEDD5),
                           isExpanded: _processExpanded,
                           onToggle: () {
                             setState(() {

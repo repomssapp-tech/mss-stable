@@ -1,10 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
+import '../../../utils/money_format.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
-import '../../../utils/responsive.dart';
 import '../../../utils/app_text.dart';
 
 /// Loan EMI calculator bottom sheet (EMI + principal + interest + total).
@@ -26,7 +27,7 @@ void showEmiCalculatorSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    backgroundColor: Colors.white,
+    backgroundColor: AppColors.surface,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
     ),
@@ -52,7 +53,7 @@ void showEmiCalculatorSheet(BuildContext context) {
                       height: 4,
                       margin: const EdgeInsets.only(bottom: AppSpacing.lg),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFE2E8F0),
+                        color: AppColors.border,
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
@@ -62,12 +63,12 @@ void showEmiCalculatorSheet(BuildContext context) {
                       Container(
                         padding: const EdgeInsets.all(AppSpacing.sm),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFEFF6FF),
+                          color: AppColors.primarySoft,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: const Icon(
                           Icons.calculate_outlined,
-                          color: Color(0xFF2563EB),
+                          color: AppColors.primary,
                           size: 18,
                         ),
                       ),
@@ -78,17 +79,14 @@ void showEmiCalculatorSheet(BuildContext context) {
                           children: [
                             Text(
                               l10n.emiCalcTitle,
-                              style: AppGoogleFonts.poppins(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFF0F172A),
+                              style: context.text.cardTitle.copyWith(
+                                color: AppColors.textPrimary,
                               ),
                             ),
                             Text(
                               l10n.emiCalcSubtitle,
-                              style: AppGoogleFonts.inter(
-                                fontSize: 10,
-                                color: const Color(0xFF64748B),
+                              style: context.text.bodySmall.copyWith(
+                                color: AppColors.textMuted,
                               ),
                             ),
                           ],
@@ -99,7 +97,7 @@ void showEmiCalculatorSheet(BuildContext context) {
                         icon: const Icon(
                           Icons.close,
                           size: 18,
-                          color: Color(0xFF64748B),
+                          color: AppColors.textMuted,
                         ),
                         tooltip: context.l10n.close,
                       ),
@@ -108,10 +106,8 @@ void showEmiCalculatorSheet(BuildContext context) {
                   const SizedBox(height: AppSpacing.xl),
                   Text(
                     l10n.emiLoanAmount,
-                    style: AppGoogleFonts.inter(
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF334155),
+                    style: context.text.label.copyWith(
+                      color: AppColors.textBody,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.tight),
@@ -122,22 +118,18 @@ void showEmiCalculatorSheet(BuildContext context) {
                     ),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: const Color(0xFFF8FAFC),
+                      fillColor: AppColors.background,
                       hintText: '500000',
-                      hintStyle: AppGoogleFonts.inter(
-                        fontSize: 12,
-                        color: const Color(0xFF94A3B8),
+                      hintStyle: context.text.bodySmall.copyWith(
+                        color: AppColors.iconMuted,
                       ),
                       prefixText: '₹ ',
                       helperText: l10n.emiLoanAmountHelper,
-                      helperStyle: AppGoogleFonts.inter(
-                        fontSize: 9,
-                        color: const Color(0xFF64748B),
+                      helperStyle: context.text.bodySmall.copyWith(
+                        color: AppColors.textMuted,
                       ),
-                      prefixStyle: AppGoogleFonts.inter(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF0F172A),
+                      prefixStyle: context.text.label.copyWith(
+                        color: AppColors.textPrimary,
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: AppSpacing.lg,
@@ -145,12 +137,12 @@ void showEmiCalculatorSheet(BuildContext context) {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                        borderSide: const BorderSide(color: AppColors.border),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: const BorderSide(
-                          color: Color(0xFF2563EB),
+                          color: AppColors.primary,
                           width: 1.5,
                         ),
                       ),
@@ -165,10 +157,8 @@ void showEmiCalculatorSheet(BuildContext context) {
                           children: [
                             Text(
                               l10n.emiInterestRate,
-                              style: AppGoogleFonts.inter(
-                                fontSize: 11,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFF334155),
+                              style: context.text.label.copyWith(
+                                color: AppColors.textBody,
                               ),
                             ),
                             const SizedBox(height: AppSpacing.tight),
@@ -180,17 +170,15 @@ void showEmiCalculatorSheet(BuildContext context) {
                                   ),
                               decoration: InputDecoration(
                                 filled: true,
-                                fillColor: const Color(0xFFF8FAFC),
+                                fillColor: AppColors.background,
                                 hintText: '9.5',
-                                hintStyle: AppGoogleFonts.inter(
-                                  fontSize: 12,
-                                  color: const Color(0xFF94A3B8),
+                                hintStyle: context.text.bodySmall.copyWith(
+                                  color: AppColors.iconMuted,
                                 ),
                                 suffixText: '%',
                                 helperText: l10n.emiInterestRateHelper,
-                                helperStyle: AppGoogleFonts.inter(
-                                  fontSize: 9,
-                                  color: const Color(0xFF64748B),
+                                helperStyle: context.text.bodySmall.copyWith(
+                                  color: AppColors.textMuted,
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
                                   horizontal: AppSpacing.lg,
@@ -199,13 +187,13 @@ void showEmiCalculatorSheet(BuildContext context) {
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: const BorderSide(
-                                    color: Color(0xFFE2E8F0),
+                                    color: AppColors.border,
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: const BorderSide(
-                                    color: Color(0xFF2563EB),
+                                    color: AppColors.primary,
                                     width: 1.5,
                                   ),
                                 ),
@@ -221,10 +209,8 @@ void showEmiCalculatorSheet(BuildContext context) {
                           children: [
                             Text(
                               l10n.emiTenureMonths,
-                              style: AppGoogleFonts.inter(
-                                fontSize: 11,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFF334155),
+                              style: context.text.label.copyWith(
+                                color: AppColors.textBody,
                               ),
                             ),
                             const SizedBox(height: AppSpacing.tight),
@@ -233,17 +219,15 @@ void showEmiCalculatorSheet(BuildContext context) {
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 filled: true,
-                                fillColor: const Color(0xFFF8FAFC),
+                                fillColor: AppColors.background,
                                 hintText: '60',
-                                hintStyle: AppGoogleFonts.inter(
-                                  fontSize: 12,
-                                  color: const Color(0xFF94A3B8),
+                                hintStyle: context.text.bodySmall.copyWith(
+                                  color: AppColors.iconMuted,
                                 ),
                                 suffixText: l10n.emiTenureSuffixMo,
                                 helperText: l10n.emiTenureHelper,
-                                helperStyle: AppGoogleFonts.inter(
-                                  fontSize: 9,
-                                  color: const Color(0xFF64748B),
+                                helperStyle: context.text.bodySmall.copyWith(
+                                  color: AppColors.textMuted,
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
                                   horizontal: AppSpacing.lg,
@@ -252,13 +236,13 @@ void showEmiCalculatorSheet(BuildContext context) {
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: const BorderSide(
-                                    color: Color(0xFFE2E8F0),
+                                    color: AppColors.border,
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: const BorderSide(
-                                    color: Color(0xFF2563EB),
+                                    color: AppColors.primary,
                                     width: 1.5,
                                   ),
                                 ),
@@ -275,16 +259,14 @@ void showEmiCalculatorSheet(BuildContext context) {
                       width: double.infinity,
                       padding: const EdgeInsets.all(AppSpacing.md),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFEF2F2),
+                        color: AppColors.dangerSoft,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: const Color(0xFFFCA5A5)),
+                        border: Border.all(color: AppColors.dangerBorder),
                       ),
                       child: Text(
                         error,
-                        style: AppGoogleFonts.inter(
-                          fontSize: 11,
-                          color: const Color(0xFFB91C1C),
-                          fontWeight: FontWeight.w600,
+                        style: context.text.label.copyWith(
+                          color: AppColors.dangerStrong,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -295,9 +277,9 @@ void showEmiCalculatorSheet(BuildContext context) {
                       width: double.infinity,
                       padding: const EdgeInsets.all(AppSpacing.md),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFEFF6FF),
+                        color: AppColors.primarySoft,
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: const Color(0xFFDBEAFE)),
+                        border: Border.all(color: AppColors.primaryTint),
                       ),
                       child: Column(
                         children: [
@@ -308,24 +290,17 @@ void showEmiCalculatorSheet(BuildContext context) {
                                 child: Text(
                                   l10n.emiMonthlyEmi,
                                   softWrap: true,
-                                  style: AppGoogleFonts.inter(
-                                    fontSize: 11.5,
-                                    fontWeight: FontWeight.bold,
-                                    color: const Color(0xFF1E293B),
+                                  style: context.text.label.copyWith(
+                                    color: AppColors.textPrimary,
                                   ),
                                 ),
                               ),
                               const SizedBox(width: AppSpacing.sm),
                               Flexible(
-                                child: FitOneLine(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    '₹ ${emiVal.toStringAsFixed(2)}',
-                                    style: AppGoogleFonts.poppins(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: const Color(0xFF2563EB),
-                                    ),
+                                child: Text(
+                                  formatInr(emiVal),
+                                  style: context.text.cardTitle.copyWith(
+                                    color: AppColors.primary,
                                   ),
                                 ),
                               ),
@@ -335,7 +310,10 @@ void showEmiCalculatorSheet(BuildContext context) {
                             padding: EdgeInsets.symmetric(
                               vertical: AppSpacing.tight,
                             ),
-                            child: Divider(color: Color(0xFFDBEAFE), height: 1),
+                            child: Divider(
+                              color: AppColors.primaryTint,
+                              height: 1,
+                            ),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -344,23 +322,17 @@ void showEmiCalculatorSheet(BuildContext context) {
                                 child: Text(
                                   l10n.emiPrincipal,
                                   softWrap: true,
-                                  style: AppGoogleFonts.inter(
-                                    fontSize: 11,
-                                    color: const Color(0xFF475569),
+                                  style: context.text.bodySmall.copyWith(
+                                    color: AppColors.textSecondary,
                                   ),
                                 ),
                               ),
                               const SizedBox(width: AppSpacing.sm),
                               Flexible(
-                                child: FitOneLine(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    '₹ ${principalVal.toStringAsFixed(2)}',
-                                    style: AppGoogleFonts.poppins(
-                                      fontSize: 11.5,
-                                      fontWeight: FontWeight.w600,
-                                      color: const Color(0xFF0F172A),
-                                    ),
+                                child: Text(
+                                  formatInr(principalVal),
+                                  style: context.text.cardTitle.copyWith(
+                                    color: AppColors.textPrimary,
                                   ),
                                 ),
                               ),
@@ -374,23 +346,17 @@ void showEmiCalculatorSheet(BuildContext context) {
                                 child: Text(
                                   l10n.emiTotalInterest,
                                   softWrap: true,
-                                  style: AppGoogleFonts.inter(
-                                    fontSize: 11,
-                                    color: const Color(0xFF475569),
+                                  style: context.text.bodySmall.copyWith(
+                                    color: AppColors.textSecondary,
                                   ),
                                 ),
                               ),
                               const SizedBox(width: AppSpacing.sm),
                               Flexible(
-                                child: FitOneLine(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    '₹ ${interestVal.toStringAsFixed(2)}',
-                                    style: AppGoogleFonts.poppins(
-                                      fontSize: 11.5,
-                                      fontWeight: FontWeight.w600,
-                                      color: const Color(0xFF0F172A),
-                                    ),
+                                child: Text(
+                                  formatInr(interestVal),
+                                  style: context.text.cardTitle.copyWith(
+                                    color: AppColors.textPrimary,
                                   ),
                                 ),
                               ),
@@ -400,7 +366,10 @@ void showEmiCalculatorSheet(BuildContext context) {
                             padding: EdgeInsets.symmetric(
                               vertical: AppSpacing.tight,
                             ),
-                            child: Divider(color: Color(0xFFDBEAFE), height: 1),
+                            child: Divider(
+                              color: AppColors.primaryTint,
+                              height: 1,
+                            ),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -409,23 +378,17 @@ void showEmiCalculatorSheet(BuildContext context) {
                                 child: Text(
                                   l10n.emiTotalAmount,
                                   softWrap: true,
-                                  style: AppGoogleFonts.inter(
-                                    fontSize: 11,
-                                    color: const Color(0xFF475569),
+                                  style: context.text.bodySmall.copyWith(
+                                    color: AppColors.textSecondary,
                                   ),
                                 ),
                               ),
                               const SizedBox(width: AppSpacing.sm),
                               Flexible(
-                                child: FitOneLine(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    '₹ ${totalVal.toStringAsFixed(2)}',
-                                    style: AppGoogleFonts.poppins(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: const Color(0xFF0F172A),
-                                    ),
+                                child: Text(
+                                  formatInr(totalVal),
+                                  style: context.text.cardTitle.copyWith(
+                                    color: AppColors.textPrimary,
                                   ),
                                 ),
                               ),
@@ -438,7 +401,6 @@ void showEmiCalculatorSheet(BuildContext context) {
                   ],
                   SizedBox(
                     width: double.infinity,
-                    height: 44,
                     child: ElevatedButton(
                       onPressed: () {
                         final double p =
@@ -478,21 +440,7 @@ void showEmiCalculatorSheet(BuildContext context) {
                           totalVal = totalPayable;
                         });
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF2563EB),
-                        foregroundColor: Colors.white,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Text(
-                        l10n.emiCalculate,
-                        style: AppGoogleFonts.inter(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12.5,
-                        ),
-                      ),
+                      child: Text(l10n.emiCalculate),
                     ),
                   ),
                 ],

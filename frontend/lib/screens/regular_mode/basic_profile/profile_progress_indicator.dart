@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
@@ -9,8 +10,8 @@ import '../../../utils/app_text.dart';
 class ProfileProgressIndicator extends StatelessWidget {
   final int currentStep;
 
-  static const Color kPrimaryBlue = Color(0xFF2563EB);
-  static const Color kBorderGrey = Color(0xFFE2E8F0);
+  static const Color kPrimaryBlue = AppColors.primary;
+  static const Color kBorderGrey = AppColors.border;
 
   const ProfileProgressIndicator({super.key, required this.currentStep});
 
@@ -59,13 +60,6 @@ class ProfileProgressIndicator extends StatelessWidget {
       4 => l10n.step4Of4,
       _ => l10n.step1Of4,
     };
-    return Text(
-      text,
-      style: AppGoogleFonts.inter(
-        fontSize: 13,
-        fontWeight: FontWeight.w600,
-        color: kPrimaryBlue,
-      ),
-    );
+    return Text(text, style: context.text.button.copyWith(color: kPrimaryBlue));
   }
 }

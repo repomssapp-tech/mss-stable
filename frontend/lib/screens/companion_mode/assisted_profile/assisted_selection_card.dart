@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 
 import '../../../utils/app_spacing.dart';
 import '../../../utils/app_text.dart';
@@ -20,7 +21,7 @@ class AssistedSelectionCard extends StatelessWidget {
     this.leading,
     required this.isSelected,
     required this.onTap,
-    this.activeColor = const Color(0xFF2563EB),
+    this.activeColor = AppColors.primary,
   });
 
   @override
@@ -41,10 +42,10 @@ class AssistedSelectionCard extends StatelessWidget {
               vertical: AppSpacing.md,
             ),
             decoration: BoxDecoration(
-              color: isSelected ? const Color(0xFFEFF6FF) : Colors.white,
+              color: isSelected ? AppColors.primarySoft : Colors.white,
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: isSelected ? activeColor : const Color(0xFFE2E8F0),
+                color: isSelected ? activeColor : AppColors.border,
                 width: isSelected ? 2.0 : 1.0,
               ),
               boxShadow: [
@@ -69,12 +70,12 @@ class AssistedSelectionCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: isSelected
                           ? activeColor.withValues(alpha: 0.12)
-                          : const Color(0xFFF1F5F9),
+                          : AppColors.surfaceMuted,
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
                       icon,
-                      color: isSelected ? activeColor : const Color(0xFF475569),
+                      color: isSelected ? activeColor : AppColors.textSecondary,
                       size: 22,
                     ),
                   ),
@@ -87,24 +88,21 @@ class AssistedSelectionCard extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: AppGoogleFonts.inter(
-                          fontSize: 15,
+                        style: context.text.bodyLarge.copyWith(
                           fontWeight: isSelected
                               ? FontWeight.bold
                               : FontWeight.w600,
                           color: isSelected
-                              ? const Color(0xFF1E3A8A)
-                              : const Color(0xFF0F172A),
+                              ? AppColors.primaryDeep
+                              : AppColors.textPrimary,
                         ),
                       ),
                       if (subtitle != null && subtitle!.isNotEmpty) ...[
                         const SizedBox(height: AppSpacing.hairline),
                         Text(
                           subtitle!,
-                          style: AppGoogleFonts.inter(
-                            fontSize: 12,
-                            color: const Color(0xFF64748B),
-                            height: 1.3,
+                          style: context.text.bodySmall.copyWith(
+                            color: AppColors.textMuted,
                           ),
                         ),
                       ],
@@ -120,7 +118,7 @@ class AssistedSelectionCard extends StatelessWidget {
                     shape: BoxShape.circle,
                     color: isSelected ? activeColor : Colors.transparent,
                     border: Border.all(
-                      color: isSelected ? activeColor : const Color(0xFFCBD5E1),
+                      color: isSelected ? activeColor : AppColors.borderStrong,
                       width: 2.0,
                     ),
                   ),

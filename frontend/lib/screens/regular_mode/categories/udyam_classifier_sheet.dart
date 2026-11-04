@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
@@ -17,12 +18,12 @@ void showUdyamClassifierSheet(BuildContext context) {
   final turnoverController = TextEditingController();
   String result = '';
   String subResult = '';
-  Color resultColor = const Color(0xFF1E293B);
+  Color resultColor = AppColors.textPrimary;
 
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    backgroundColor: Colors.white,
+    backgroundColor: AppColors.surface,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
     ),
@@ -48,7 +49,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                       height: 4,
                       margin: const EdgeInsets.only(bottom: AppSpacing.lg),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFE2E8F0),
+                        color: AppColors.border,
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
@@ -58,12 +59,12 @@ void showUdyamClassifierSheet(BuildContext context) {
                       Container(
                         padding: const EdgeInsets.all(AppSpacing.sm),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFEFF6FF),
+                          color: AppColors.primarySoft,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: const Icon(
                           Icons.domain_verification,
-                          color: Color(0xFF2563EB),
+                          color: AppColors.primary,
                           size: 18,
                         ),
                       ),
@@ -74,17 +75,14 @@ void showUdyamClassifierSheet(BuildContext context) {
                           children: [
                             Text(
                               context.l10n.calcUdyamClassifierTitle,
-                              style: AppGoogleFonts.poppins(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFF0F172A),
+                              style: context.text.cardTitle.copyWith(
+                                color: AppColors.textPrimary,
                               ),
                             ),
                             Text(
                               context.l10n.calcUdyamClassifierSub,
-                              style: AppGoogleFonts.inter(
-                                fontSize: 10,
-                                color: const Color(0xFF64748B),
+                              style: context.text.bodySmall.copyWith(
+                                color: AppColors.textMuted,
                               ),
                             ),
                           ],
@@ -95,7 +93,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                         icon: const Icon(
                           Icons.close,
                           size: 18,
-                          color: Color(0xFF64748B),
+                          color: AppColors.textMuted,
                         ),
                         tooltip: context.l10n.close,
                       ),
@@ -104,10 +102,8 @@ void showUdyamClassifierSheet(BuildContext context) {
                   const SizedBox(height: AppSpacing.xl),
                   Text(
                     context.l10n.calcInvestmentLabel,
-                    style: AppGoogleFonts.inter(
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF334155),
+                    style: context.text.label.copyWith(
+                      color: AppColors.textBody,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.tight),
@@ -118,28 +114,22 @@ void showUdyamClassifierSheet(BuildContext context) {
                     ),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: const Color(0xFFF8FAFC),
+                      fillColor: AppColors.background,
                       hintText: '0.5',
-                      hintStyle: AppGoogleFonts.inter(
-                        fontSize: 12,
-                        color: const Color(0xFF94A3B8),
+                      hintStyle: context.text.bodySmall.copyWith(
+                        color: AppColors.iconMuted,
                       ),
                       prefixText: '₹ ',
                       suffixText: context.l10n.croreSuffix,
                       helperText: context.l10n.calcInvestmentHelper,
-                      helperStyle: AppGoogleFonts.inter(
-                        fontSize: 9,
-                        color: const Color(0xFF64748B),
+                      helperStyle: context.text.bodySmall.copyWith(
+                        color: AppColors.textMuted,
                       ),
-                      suffixStyle: AppGoogleFonts.inter(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF64748B),
+                      suffixStyle: context.text.label.copyWith(
+                        color: AppColors.textMuted,
                       ),
-                      prefixStyle: AppGoogleFonts.inter(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF0F172A),
+                      prefixStyle: context.text.label.copyWith(
+                        color: AppColors.textPrimary,
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: AppSpacing.lg,
@@ -147,12 +137,12 @@ void showUdyamClassifierSheet(BuildContext context) {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                        borderSide: const BorderSide(color: AppColors.border),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: const BorderSide(
-                          color: Color(0xFF2563EB),
+                          color: AppColors.primary,
                           width: 1.5,
                         ),
                       ),
@@ -161,10 +151,8 @@ void showUdyamClassifierSheet(BuildContext context) {
                   const SizedBox(height: AppSpacing.lg),
                   Text(
                     context.l10n.calcTurnoverLabel,
-                    style: AppGoogleFonts.inter(
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF334155),
+                    style: context.text.label.copyWith(
+                      color: AppColors.textBody,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.tight),
@@ -175,28 +163,22 @@ void showUdyamClassifierSheet(BuildContext context) {
                     ),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: const Color(0xFFF8FAFC),
+                      fillColor: AppColors.background,
                       hintText: '3.0',
-                      hintStyle: AppGoogleFonts.inter(
-                        fontSize: 12,
-                        color: const Color(0xFF94A3B8),
+                      hintStyle: context.text.bodySmall.copyWith(
+                        color: AppColors.iconMuted,
                       ),
                       prefixText: '₹ ',
                       suffixText: context.l10n.croreSuffix,
                       helperText: context.l10n.calcTurnoverHelper,
-                      helperStyle: AppGoogleFonts.inter(
-                        fontSize: 9,
-                        color: const Color(0xFF64748B),
+                      helperStyle: context.text.bodySmall.copyWith(
+                        color: AppColors.textMuted,
                       ),
-                      suffixStyle: AppGoogleFonts.inter(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF64748B),
+                      suffixStyle: context.text.label.copyWith(
+                        color: AppColors.textMuted,
                       ),
-                      prefixStyle: AppGoogleFonts.inter(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF0F172A),
+                      prefixStyle: context.text.label.copyWith(
+                        color: AppColors.textPrimary,
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: AppSpacing.lg,
@@ -204,12 +186,12 @@ void showUdyamClassifierSheet(BuildContext context) {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                        borderSide: const BorderSide(color: AppColors.border),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: const BorderSide(
-                          color: Color(0xFF2563EB),
+                          color: AppColors.primary,
                           width: 1.5,
                         ),
                       ),
@@ -250,19 +232,14 @@ void showUdyamClassifierSheet(BuildContext context) {
                                   children: [
                                     Text(
                                       context.l10n.calcClassificationResult,
-                                      style: AppGoogleFonts.inter(
-                                        fontSize: 9.5,
-                                        fontWeight: FontWeight.bold,
-                                        color: const Color(0xFF64748B),
-                                        letterSpacing: 0.5,
+                                      style: context.text.label.copyWith(
+                                        color: AppColors.textMuted,
                                       ),
                                     ),
                                     const SizedBox(height: AppSpacing.xs),
                                     Text(
                                       result,
-                                      style: AppGoogleFonts.poppins(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
+                                      style: context.text.cardTitle.copyWith(
                                         color: resultColor,
                                       ),
                                     ),
@@ -270,9 +247,8 @@ void showUdyamClassifierSheet(BuildContext context) {
                                       const SizedBox(height: AppSpacing.xs),
                                       Text(
                                         subResult,
-                                        style: AppGoogleFonts.inter(
-                                          fontSize: 10,
-                                          color: const Color(0xFF475569),
+                                        style: context.text.bodySmall.copyWith(
+                                          color: AppColors.textSecondary,
                                         ),
                                       ),
                                     ],
@@ -288,7 +264,6 @@ void showUdyamClassifierSheet(BuildContext context) {
                   ],
                   SizedBox(
                     width: double.infinity,
-                    height: 44,
                     child: ElevatedButton(
                       onPressed: () {
                         final double invest =
@@ -309,7 +284,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                           setModalState(() {
                             result = context.l10n.udyamInvalid;
                             subResult = context.l10n.udyamInvalidSub;
-                            resultColor = const Color(0xFFDC2626);
+                            resultColor = AppColors.danger;
                           });
                           return;
                         }
@@ -321,16 +296,17 @@ void showUdyamClassifierSheet(BuildContext context) {
                         )) {
                           case MsmeTier.micro:
                             category = context.l10n.udyamMicro;
-                            resultColor = const Color(0xFF0D9488); // Teal
+                            resultColor = AppColors.primary;
                           case MsmeTier.small:
                             category = context.l10n.udyamSmall;
-                            resultColor = const Color(0xFF2563EB); // Royal Blue
+                            resultColor = AppColors.primary;
                           case MsmeTier.medium:
                             category = context.l10n.udyamMedium;
-                            resultColor = const Color(0xFFD97706); // Amber
+                            resultColor = AppColors.primary;
                           case MsmeTier.large:
                             category = context.l10n.udyamLarge;
-                            resultColor = const Color(0xFFDC2626); // Red
+                            // Above the MSME limits: a caution, not an error.
+                            resultColor = AppColors.warningText;
                         }
 
                         setModalState(() {
@@ -345,21 +321,7 @@ void showUdyamClassifierSheet(BuildContext context) {
                           );
                         });
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF2563EB),
-                        foregroundColor: Colors.white,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Text(
-                        context.l10n.calcBtnCalculate,
-                        style: AppGoogleFonts.inter(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12.5,
-                        ),
-                      ),
+                      child: Text(context.l10n.calcBtnCalculate),
                     ),
                   ),
                 ],

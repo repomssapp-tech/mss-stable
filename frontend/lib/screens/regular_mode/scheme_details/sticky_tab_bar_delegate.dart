@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../utils/app_colors.dart';
+
 /// Custom [SliverPersistentHeaderDelegate] for the sticky scheme details tab bar.
 ///
 /// Extracted from `scheme_details_screen.dart` (frontend refactor C5, safe slice).
@@ -22,7 +24,7 @@ class StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return Container(color: Colors.white, height: kHeight, child: child);
+    return Container(color: AppColors.surface, height: kHeight, child: child);
   }
 
   @override

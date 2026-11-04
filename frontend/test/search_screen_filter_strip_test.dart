@@ -38,7 +38,7 @@ void main() {
     await tester.pump();
 
     expect(find.widgetWithText(OutlinedButton, 'Filter'), findsOneWidget);
-    expect(find.widgetWithText(OutlinedButton, 'For Me'), findsOneWidget);
+    expect(find.widgetWithText(OutlinedButton, 'For me'), findsOneWidget);
     expect(find.textContaining('Sort'), findsOneWidget);
 
     // The retired dropdown chips must be gone.

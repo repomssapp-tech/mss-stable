@@ -20,7 +20,7 @@ import 'package:frontend/screens/regular_mode/msme_module_details_screen.dart';
 const _businessMsmeEn = 'Business & MSME';
 const _businessMsmeTa = 'தொழில் & எம் எஸ் எம் ஈ'; // catBusinessMsme (ARB)
 const _viewAllEn = 'View All';
-const _viewAllTa = 'அனைத்தையும் காண்க'; // reused viewAll key
+const _viewAllTa = 'அனைத்தும்'; // reused viewAll key
 
 const _mainFeaturesEn = 'Main Features Inside';
 const _mainFeaturesTa = 'முதன்மை அம்சங்கள்'; // msmeMainFeaturesInside (ARB)

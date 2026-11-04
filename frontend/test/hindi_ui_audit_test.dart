@@ -32,16 +32,12 @@ import 'package:frontend/screens/companion_mode/saarthi_welcome_screen.dart';
 import 'package:frontend/design_v2/saarthi/saarthi_voice_screen.dart';
 import 'package:frontend/screens/notifications_screen.dart';
 import 'package:frontend/screens/profile_screen.dart';
-import 'package:frontend/screens/regular_mode/about_you_profile_screen.dart';
 import 'package:frontend/screens/regular_mode/basic_profile_screen.dart';
 import 'package:frontend/screens/regular_mode/categories_screen.dart';
-import 'package:frontend/screens/regular_mode/eligibility_profile_screen.dart';
-import 'package:frontend/screens/regular_mode/eligibility_results_screen.dart';
 import 'package:frontend/screens/regular_mode/help_support_screen.dart';
 import 'package:frontend/screens/regular_mode/home_screen.dart';
 import 'package:frontend/screens/regular_mode/language_selection_screen.dart';
 import 'package:frontend/screens/regular_mode/legal_screens.dart';
-import 'package:frontend/screens/regular_mode/location_profile_screen.dart';
 import 'package:frontend/screens/regular_mode/msme_module_details_screen.dart';
 import 'package:frontend/screens/regular_mode/saved_schemes_screen.dart';
 import 'package:frontend/screens/regular_mode/search_screen.dart';
@@ -252,10 +248,9 @@ void main() {
     'Settings': () => const SettingsScreen(),
     'Notifications': () => const NotificationsScreen(),
     'HelpSupport': () => const HelpSupportScreen(),
-    'AboutYou': () => const AboutYouProfileScreen(),
-    'EligibilityProfile': () => const EligibilityProfileScreen(),
-    'EligibilityResults': () => const EligibilityResultsScreen(),
-    'LocationProfile': () => const LocationProfileScreen(),
+    'AboutYou': () => const BasicProfileScreen(initialStep: 3),
+    'EligibilityProfile': () => const BasicProfileScreen(initialStep: 4),
+    'LocationProfile': () => const BasicProfileScreen(initialStep: 2),
     'LanguageSelection': () => const LanguageSelectionScreen(),
     'Login': () => const LoginScreen(),
     'NavigationMode': () => const NavigationModeScreen(),

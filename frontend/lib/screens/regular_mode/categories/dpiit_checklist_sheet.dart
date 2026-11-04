@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
@@ -43,7 +44,7 @@ void showDpiitChecklistSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    backgroundColor: Colors.white,
+    backgroundColor: AppColors.surface,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
     ),
@@ -69,7 +70,7 @@ void showDpiitChecklistSheet(BuildContext context) {
                       height: 4,
                       margin: const EdgeInsets.only(bottom: AppSpacing.lg),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFE2E8F0),
+                        color: AppColors.border,
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
@@ -79,12 +80,12 @@ void showDpiitChecklistSheet(BuildContext context) {
                       Container(
                         padding: const EdgeInsets.all(AppSpacing.sm),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFEFF6FF),
+                          color: AppColors.primarySoft,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: const Icon(
                           Icons.verified_outlined,
-                          color: Color(0xFF2563EB),
+                          color: AppColors.primary,
                           size: 18,
                         ),
                       ),
@@ -95,17 +96,14 @@ void showDpiitChecklistSheet(BuildContext context) {
                           children: [
                             Text(
                               l10n.dpiitTitle,
-                              style: AppGoogleFonts.poppins(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFF0F172A),
+                              style: context.text.cardTitle.copyWith(
+                                color: AppColors.textPrimary,
                               ),
                             ),
                             Text(
                               l10n.dpiitSubtitle,
-                              style: AppGoogleFonts.inter(
-                                fontSize: 10,
-                                color: const Color(0xFF64748B),
+                              style: context.text.bodySmall.copyWith(
+                                color: AppColors.textMuted,
                               ),
                             ),
                           ],
@@ -116,7 +114,7 @@ void showDpiitChecklistSheet(BuildContext context) {
                         icon: const Icon(
                           Icons.close,
                           size: 18,
-                          color: Color(0xFF64748B),
+                          color: AppColors.textMuted,
                         ),
                         tooltip: context.l10n.close,
                       ),
@@ -125,28 +123,29 @@ void showDpiitChecklistSheet(BuildContext context) {
                   const SizedBox(height: AppSpacing.xl),
                   Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0xFFE2E8F0)),
+                      border: Border.all(color: AppColors.border),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Column(
                       children: [
                         for (final entry in criteria.entries) ...[
                           if (entry.key != DpiitCriterion.entityType)
-                            const Divider(height: 1, color: Color(0xFFE2E8F0)),
+                            const Divider(height: 1, color: AppColors.border),
                           CheckboxListTile(
                             title: Text(
                               entry.value.$1,
-                              style: const TextStyle(
-                                fontSize: 11.5,
-                                fontWeight: FontWeight.w600,
+                              style: context.text.label.copyWith(
+                                color: AppColors.textPrimary,
                               ),
                             ),
                             subtitle: Text(
                               entry.value.$2,
-                              style: const TextStyle(fontSize: 9.5),
+                              style: context.text.bodySmall.copyWith(
+                                color: AppColors.textSecondary,
+                              ),
                             ),
                             value: met.contains(entry.key),
-                            activeColor: const Color(0xFF2563EB),
+                            activeColor: AppColors.primary,
                             onChanged: (val) => setModalState(() {
                               if (val ?? false) {
                                 met.add(entry.key);
@@ -181,8 +180,8 @@ void showDpiitChecklistSheet(BuildContext context) {
                       builder: (context) {
                         final ok = passed!;
                         final resultColor = ok
-                            ? const Color(0xFF0D9488)
-                            : const Color(0xFFDC2626);
+                            ? AppColors.success
+                            : AppColors.dangerStrong;
                         final missing = unmet
                             .map((c) => criteria[c]!.$1)
                             .join('; ');
@@ -213,9 +212,7 @@ void showDpiitChecklistSheet(BuildContext context) {
                                 Expanded(
                                   child: Text(
                                     message,
-                                    style: AppGoogleFonts.inter(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.bold,
+                                    style: context.text.label.copyWith(
                                       color: resultColor,
                                     ),
                                   ),
@@ -230,7 +227,6 @@ void showDpiitChecklistSheet(BuildContext context) {
                   ],
                   SizedBox(
                     width: double.infinity,
-                    height: 44,
                     child: ElevatedButton(
                       onPressed: () {
                         setModalState(() {
@@ -238,21 +234,7 @@ void showDpiitChecklistSheet(BuildContext context) {
                           passed = unmet.isEmpty;
                         });
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF2563EB),
-                        foregroundColor: Colors.white,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Text(
-                        l10n.dpiitCheckEligibility,
-                        style: AppGoogleFonts.inter(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12.5,
-                        ),
-                      ),
+                      child: Text(l10n.dpiitCheckEligibility),
                     ),
                   ),
                 ],

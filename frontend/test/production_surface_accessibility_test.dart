@@ -5,14 +5,9 @@ import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/screens/navigation_mode_screen.dart' as app_navigation;
-import 'package:frontend/screens/regular_mode/about_you_profile_screen.dart';
 import 'package:frontend/screens/regular_mode/basic_profile/state_picker_field.dart';
 import 'package:frontend/screens/regular_mode/basic_profile_screen.dart';
 import 'package:frontend/screens/regular_mode/language_selection_screen.dart';
-import 'package:frontend/screens/regular_mode/location_profile_screen.dart';
-import 'package:frontend/services/voice/speech_output_controller.dart';
-import 'package:frontend/services/voice/voice_recognition_controller.dart';
-import 'package:frontend/widgets/assistant/voice_assistant_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -117,7 +112,7 @@ void main() {
 
           await _pumpSurface(tester, provider, const LanguageSelectionScreen());
 
-          expect(find.text('Choose Your Language'), findsOneWidget);
+          expect(find.text('Choose your language'), findsOneWidget);
           expect(find.text('English'), findsNWidgets(2));
           expect(find.text('Tamil'), findsOneWidget);
           expect(find.byType(InkWell), findsAtLeastNWidgets(2));
@@ -150,7 +145,7 @@ void main() {
           _setViewport(tester, viewport.value);
 
           await _pumpSurface(tester, provider, const BasicProfileScreen());
-          expect(find.text('Complete Your Profile'), findsOneWidget);
+          expect(find.text('Complete your profile'), findsOneWidget);
           expect(find.textContaining('Full Name'), findsOneWidget);
           expect(find.textContaining('Email Address'), findsOneWidget);
           expect(find.textContaining('Gender'), findsOneWidget);
@@ -164,13 +159,17 @@ void main() {
           await tester.tap(continueButton);
           await tester.pump();
           expect(find.text('Please enter your full name'), findsOneWidget);
-          expect(find.byType(LocationProfileScreen), findsNothing);
+          expect(find.text('Where are you located?'), findsNothing);
           expect(tester.takeException(), isNull);
 
-          await _pumpSurface(tester, provider, const LocationProfileScreen());
+          await _pumpSurface(
+            tester,
+            provider,
+            const BasicProfileScreen(initialStep: 2),
+          );
           await tester.pump();
-          expect(find.text('Where Are You Located?'), findsOneWidget);
-          expect(find.text('Use Current Location'), findsOneWidget);
+          expect(find.text('Where are you located?'), findsOneWidget);
+          expect(find.text('Use current location'), findsOneWidget);
           // Address, city/town and pincode are typed; the state and the
           // district are picked from lists.
           expect(find.byType(TextFormField), findsNWidgets(3));
@@ -184,11 +183,15 @@ void main() {
             find.text('Please enter your house/street address'),
             findsOneWidget,
           );
-          expect(find.byType(AboutYouProfileScreen), findsNothing);
+          expect(find.text('Tell us about you'), findsNothing);
           expect(tester.takeException(), isNull);
 
-          await _pumpSurface(tester, provider, const AboutYouProfileScreen());
-          expect(find.text('Tell Us About You'), findsOneWidget);
+          await _pumpSurface(
+            tester,
+            provider,
+            const BasicProfileScreen(initialStep: 3),
+          );
+          expect(find.text('Tell us about you'), findsOneWidget);
           expect(find.text('Student'), findsOneWidget);
           expect(find.text('Farmer'), findsOneWidget);
           continueButton = find.widgetWithText(ElevatedButton, 'Continue');
@@ -197,54 +200,6 @@ void main() {
           await tester.pump();
           expect(provider.profile.profileCompleted, isFalse);
           expect(tester.takeException(), isNull);
-        });
-      },
-    );
-
-    testWidgets(
-      'voice overlay exposes responsive mic and close controls on ${viewport.key}',
-      (tester) async {
-        await _withSemantics(tester, () async {
-          _setViewport(tester, viewport.value);
-          final recognition = _AuditRecognitionController();
-          var closed = false;
-
-          await tester.pumpWidget(
-            MaterialApp(
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
-              supportedLocales: AppLocalizations.supportedLocales,
-              home: VoiceAssistantOverlay(
-                autoStart: false,
-                recognitionController: recognition,
-                speechOutputController: const _AuditSpeechOutputController(),
-                onClose: () => closed = true,
-                onSubmit: (_) {},
-              ),
-            ),
-          );
-          await tester.pump();
-
-          final mic = find.byKey(const Key('voice-primary-control'));
-          final close = find.byKey(const Key('voice-close-button'));
-          expect(mic, findsOneWidget);
-          expect(close, findsOneWidget);
-          _expectTappableSemantics(tester, mic, 'Start listening');
-          final closeSemantics = tester.getSemantics(close).getSemanticsData();
-          expect(closeSemantics.tooltip, 'Cancel assistant');
-          expect(closeSemantics.hasAction(SemanticsAction.tap), isTrue);
-          expect(tester.widget<IconButton>(mic).onPressed, isNotNull);
-          expect(tester.widget<IconButton>(close).onPressed, isNotNull);
-
-          await tester.tap(mic);
-          await tester.pump();
-          expect(recognition.listenCount, 1);
-          _expectTappableSemantics(tester, mic, 'Stop listening');
-          expect(tester.takeException(), isNull);
-
-          await tester.tap(close);
-          await tester.pump();
-          expect(closed, isTrue);
-          expect(recognition.cancelCount, 1);
         });
       },
     );
@@ -299,74 +254,4 @@ void _expectTappableSemantics(
   expect(semanticsFinder, findsOneWidget);
   final data = tester.getSemantics(semanticsFinder).getSemanticsData();
   expect(data.hasAction(SemanticsAction.tap), isTrue);
-}
-
-class _AuditRecognitionController implements VoiceRecognitionController {
-  VoiceStatusCallback? _onStatus;
-  bool _isListening = false;
-  int listenCount = 0;
-  int cancelCount = 0;
-
-  @override
-  bool get isListening => _isListening;
-
-  @override
-  Future<VoiceRecognitionCapabilities> initialize({
-    required VoiceStatusCallback onStatus,
-    required VoiceResultCallback onResult,
-    required VoiceSoundLevelCallback onSoundLevel,
-    required VoiceLanguageCallback onLanguage,
-    required VoiceErrorCallback onError,
-  }) async {
-    _onStatus = onStatus;
-    return const VoiceRecognitionCapabilities(
-      available: true,
-      automaticLanguageDetection: true,
-    );
-  }
-
-  @override
-  Future<void> listen({String? localeId}) async {
-    listenCount++;
-    _isListening = true;
-    _onStatus?.call('listening');
-  }
-
-  @override
-  Future<void> stop() async {
-    _isListening = false;
-    _onStatus?.call('done');
-  }
-
-  @override
-  Future<void> cancel() async {
-    cancelCount++;
-    _isListening = false;
-  }
-
-  @override
-  Future<void> dispose() async {
-    _isListening = false;
-  }
-}
-
-class _AuditSpeechOutputController implements SpeechOutputController {
-  const _AuditSpeechOutputController();
-
-  @override
-  Future<SpeechOutputCapabilities> initialize() async =>
-      const SpeechOutputCapabilities(
-        available: true,
-        english: true,
-        tamil: true,
-      );
-
-  @override
-  Future<bool> speak(String text, {required String languageTag}) async => false;
-
-  @override
-  Future<void> stop() async {}
-
-  @override
-  Future<void> dispose() async {}
 }

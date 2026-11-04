@@ -111,13 +111,13 @@ abstract class AppLocalizations {
   /// No description provided for @completeYourProfile.
   ///
   /// In en, this message translates to:
-  /// **'Complete Your Profile'**
+  /// **'Complete your profile'**
   String get completeYourProfile;
 
   /// No description provided for @unlockPersonalizedSchemeRecommendations.
   ///
   /// In en, this message translates to:
-  /// **'Unlock personalized scheme recommendations.'**
+  /// **'See the schemes that fit you'**
   String get unlockPersonalizedSchemeRecommendations;
 
   /// No description provided for @applicationsClosingSoon.
@@ -195,7 +195,7 @@ abstract class AppLocalizations {
   /// No description provided for @exploreMsmeSupport.
   ///
   /// In en, this message translates to:
-  /// **'Explore MSME Support'**
+  /// **'MSME support'**
   String get exploreMsmeSupport;
 
   /// No description provided for @schemes.
@@ -249,7 +249,7 @@ abstract class AppLocalizations {
   /// No description provided for @recommendedForYou.
   ///
   /// In en, this message translates to:
-  /// **'Recommended For You'**
+  /// **'Recommended for you'**
   String get recommendedForYou;
 
   /// No description provided for @homeRecommendationsEmptyMessage.
@@ -267,13 +267,13 @@ abstract class AppLocalizations {
   /// No description provided for @latestUpdates.
   ///
   /// In en, this message translates to:
-  /// **'Latest Updates'**
+  /// **'Latest updates'**
   String get latestUpdates;
 
   /// No description provided for @tipOfTheDay.
   ///
   /// In en, this message translates to:
-  /// **'Tip of the Day'**
+  /// **'Tip of the day'**
   String get tipOfTheDay;
 
   /// No description provided for @askAi.
@@ -287,6 +287,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search schemes, benefits or ask anything...'**
   String get searchPlaceholder;
+
+  /// No description provided for @homeSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search schemes'**
+  String get homeSearchHint;
+
+  /// No description provided for @homeAskSaarthi.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask Saarthi'**
+  String get homeAskSaarthi;
 
   /// No description provided for @filter.
   ///
@@ -549,13 +561,13 @@ abstract class AppLocalizations {
   /// No description provided for @browseCategories.
   ///
   /// In en, this message translates to:
-  /// **'Browse Categories'**
+  /// **'Browse categories'**
   String get browseCategories;
 
   /// No description provided for @forMe.
   ///
   /// In en, this message translates to:
-  /// **'For Me'**
+  /// **'For me'**
   String get forMe;
 
   /// No description provided for @activeBadge.
@@ -567,13 +579,13 @@ abstract class AppLocalizations {
   /// No description provided for @calculatingMatches.
   ///
   /// In en, this message translates to:
-  /// **'Calculating matches...'**
+  /// **'Finding matches'**
   String get calculatingMatches;
 
   /// No description provided for @schemesMatchProfile.
   ///
   /// In en, this message translates to:
-  /// **'{count} schemes match your profile.'**
+  /// **'{count} schemes match your profile'**
   String schemesMatchProfile(Object count);
 
   /// No description provided for @noSchemesFound.
@@ -663,7 +675,7 @@ abstract class AppLocalizations {
   /// No description provided for @browseByCategories.
   ///
   /// In en, this message translates to:
-  /// **'Browse by Categories'**
+  /// **'By category'**
   String get browseByCategories;
 
   /// No description provided for @featuredCollections.
@@ -675,13 +687,13 @@ abstract class AppLocalizations {
   /// No description provided for @browseByMinistry.
   ///
   /// In en, this message translates to:
-  /// **'Browse by Ministry'**
+  /// **'By ministry'**
   String get browseByMinistry;
 
   /// No description provided for @browseByState.
   ///
   /// In en, this message translates to:
-  /// **'Browse by State'**
+  /// **'By state'**
   String get browseByState;
 
   /// No description provided for @smartAssessment.
@@ -705,7 +717,7 @@ abstract class AppLocalizations {
   /// No description provided for @exploreTopCuratedCollections.
   ///
   /// In en, this message translates to:
-  /// **'Explore top curated collections'**
+  /// **'Schemes grouped by category, ministry and state'**
   String get exploreTopCuratedCollections;
 
   /// No description provided for @schemesByGovernmentMinistries.
@@ -729,13 +741,13 @@ abstract class AppLocalizations {
   /// No description provided for @savedTitle.
   ///
   /// In en, this message translates to:
-  /// **'Saved Schemes'**
+  /// **'Saved schemes'**
   String get savedTitle;
 
   /// No description provided for @allSavedTabFormat.
   ///
   /// In en, this message translates to:
-  /// **'All Saved ({count})'**
+  /// **'All saved ({count})'**
   String allSavedTabFormat(Object count);
 
   /// No description provided for @recentlyViewedTab.
@@ -1017,13 +1029,13 @@ abstract class AppLocalizations {
   /// No description provided for @noSavedSchemes.
   ///
   /// In en, this message translates to:
-  /// **'No Saved Schemes Yet'**
+  /// **'No saved schemes yet'**
   String get noSavedSchemes;
 
   /// No description provided for @noSavedSchemesDesc.
   ///
   /// In en, this message translates to:
-  /// **'Bookmark schemes while browsing to view them offline anytime.'**
+  /// **'Save a scheme while browsing and it stays here, even offline'**
   String get noSavedSchemesDesc;
 
   /// No description provided for @savedSubtitleCountFormat.
@@ -1035,7 +1047,7 @@ abstract class AppLocalizations {
   /// No description provided for @savedRecentlyViewedEmptyTitle.
   ///
   /// In en, this message translates to:
-  /// **'No Schemes Viewed Yet'**
+  /// **'No schemes viewed yet'**
   String get savedRecentlyViewedEmptyTitle;
 
   /// No description provided for @savedRecentlyViewedEmptyDesc.
@@ -1119,7 +1131,7 @@ abstract class AppLocalizations {
   /// No description provided for @navigationModeSetting.
   ///
   /// In en, this message translates to:
-  /// **'Navigation Mode'**
+  /// **'Navigation mode'**
   String get navigationModeSetting;
 
   /// No description provided for @navigationModeRegular.
@@ -1161,13 +1173,13 @@ abstract class AppLocalizations {
   /// No description provided for @securityPrivacyGroupHeader.
   ///
   /// In en, this message translates to:
-  /// **'Security & Privacy'**
+  /// **'Security and privacy'**
   String get securityPrivacyGroupHeader;
 
   /// No description provided for @privacyPolicySetting.
   ///
   /// In en, this message translates to:
-  /// **'Privacy Policy'**
+  /// **'Privacy policy'**
   String get privacyPolicySetting;
 
   /// No description provided for @privacyPolicyContent.
@@ -1179,7 +1191,7 @@ abstract class AppLocalizations {
   /// No description provided for @termsConditionsSetting.
   ///
   /// In en, this message translates to:
-  /// **'Terms & Conditions'**
+  /// **'Terms and conditions'**
   String get termsConditionsSetting;
 
   /// No description provided for @termsConditionsContent.
@@ -1191,7 +1203,7 @@ abstract class AppLocalizations {
   /// No description provided for @deleteAccountSetting.
   ///
   /// In en, this message translates to:
-  /// **'Delete Account'**
+  /// **'Delete account'**
   String get deleteAccountSetting;
 
   /// No description provided for @deleteAccountTitle.
@@ -1281,7 +1293,7 @@ abstract class AppLocalizations {
   /// No description provided for @contactUsSetting.
   ///
   /// In en, this message translates to:
-  /// **'Contact Us'**
+  /// **'Contact us'**
   String get contactUsSetting;
 
   /// No description provided for @logoutButton.
@@ -1335,25 +1347,25 @@ abstract class AppLocalizations {
   /// No description provided for @editProfile.
   ///
   /// In en, this message translates to:
-  /// **'Edit Profile'**
+  /// **'Edit profile'**
   String get editProfile;
 
   /// No description provided for @userInformation.
   ///
   /// In en, this message translates to:
-  /// **'User Information'**
+  /// **'Your details'**
   String get userInformation;
 
   /// No description provided for @eligibilityProfessionalDetails.
   ///
   /// In en, this message translates to:
-  /// **'Eligibility & Professional Details'**
+  /// **'Eligibility and work details'**
   String get eligibilityProfessionalDetails;
 
   /// No description provided for @businessInformation.
   ///
   /// In en, this message translates to:
-  /// **'Business Information'**
+  /// **'Business details'**
   String get businessInformation;
 
   /// No description provided for @labelFullName.
@@ -1659,7 +1671,7 @@ abstract class AppLocalizations {
   /// No description provided for @schemeDetailsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Scheme Details'**
+  /// **'Scheme details'**
   String get schemeDetailsTitle;
 
   /// No description provided for @tabOverview.
@@ -1707,31 +1719,31 @@ abstract class AppLocalizations {
   /// No description provided for @benefitsDetails.
   ///
   /// In en, this message translates to:
-  /// **'Benefits Details'**
+  /// **'Benefits'**
   String get benefitsDetails;
 
   /// No description provided for @eligibilityCriteria.
   ///
   /// In en, this message translates to:
-  /// **'Eligibility Criteria'**
+  /// **'Who can apply'**
   String get eligibilityCriteria;
 
   /// No description provided for @requiredDocuments.
   ///
   /// In en, this message translates to:
-  /// **'Required Documents'**
+  /// **'Documents you need'**
   String get requiredDocuments;
 
   /// No description provided for @requiredServices.
   ///
   /// In en, this message translates to:
-  /// **'Required Services'**
+  /// **'Services you need'**
   String get requiredServices;
 
   /// No description provided for @applicationProcessHeader.
   ///
   /// In en, this message translates to:
-  /// **'Application Process'**
+  /// **'How to apply'**
   String get applicationProcessHeader;
 
   /// No description provided for @officialInformation.
@@ -1755,19 +1767,19 @@ abstract class AppLocalizations {
   /// No description provided for @applyNowButton.
   ///
   /// In en, this message translates to:
-  /// **'Apply Now'**
+  /// **'Apply now'**
   String get applyNowButton;
 
   /// No description provided for @saveSchemeButton.
   ///
   /// In en, this message translates to:
-  /// **'Save Scheme'**
+  /// **'Save scheme'**
   String get saveSchemeButton;
 
   /// No description provided for @savedSchemeButton.
   ///
   /// In en, this message translates to:
-  /// **'Saved Scheme'**
+  /// **'Saved'**
   String get savedSchemeButton;
 
   /// No description provided for @noVerifiedLink.
@@ -1797,7 +1809,7 @@ abstract class AppLocalizations {
   /// No description provided for @getDocumentOnline.
   ///
   /// In en, this message translates to:
-  /// **'Get Document Online'**
+  /// **'Get it online'**
   String get getDocumentOnline;
 
   /// No description provided for @issuedByFormat.
@@ -3393,7 +3405,7 @@ abstract class AppLocalizations {
   /// No description provided for @chooseYourLanguage.
   ///
   /// In en, this message translates to:
-  /// **'Choose Your Language'**
+  /// **'Choose your language'**
   String get chooseYourLanguage;
 
   /// No description provided for @languageSubtitle.
@@ -3405,7 +3417,7 @@ abstract class AppLocalizations {
   /// No description provided for @yourLanguageExperience.
   ///
   /// In en, this message translates to:
-  /// **'Your Language, Your Experience'**
+  /// **'Your language, your experience'**
   String get yourLanguageExperience;
 
   /// No description provided for @changeAnytime.
@@ -3417,7 +3429,7 @@ abstract class AppLocalizations {
   /// No description provided for @welcome.
   ///
   /// In en, this message translates to:
-  /// **'Welcome!'**
+  /// **'Welcome'**
   String get welcome;
 
   /// No description provided for @loginSubtitle.
@@ -3579,7 +3591,7 @@ abstract class AppLocalizations {
   /// No description provided for @whereLocated.
   ///
   /// In en, this message translates to:
-  /// **'Where Are You Located?'**
+  /// **'Where are you located?'**
   String get whereLocated;
 
   /// No description provided for @locationSubtitle.
@@ -3591,7 +3603,7 @@ abstract class AppLocalizations {
   /// No description provided for @useCurrentLocation.
   ///
   /// In en, this message translates to:
-  /// **'Use Current Location'**
+  /// **'Use current location'**
   String get useCurrentLocation;
 
   /// No description provided for @fetchingCoordinates.
@@ -3699,7 +3711,7 @@ abstract class AppLocalizations {
   /// No description provided for @tellUsAboutYou.
   ///
   /// In en, this message translates to:
-  /// **'Tell Us About You'**
+  /// **'Tell us about you'**
   String get tellUsAboutYou;
 
   /// No description provided for @aboutYouSubtitle.
@@ -3933,7 +3945,7 @@ abstract class AppLocalizations {
   /// No description provided for @firstGenGraduate.
   ///
   /// In en, this message translates to:
-  /// **'First-Generation Graduate'**
+  /// **'First-generation graduate'**
   String get firstGenGraduate;
 
   /// No description provided for @skipForNow.
@@ -3993,7 +4005,7 @@ abstract class AppLocalizations {
   /// No description provided for @specialCategories.
   ///
   /// In en, this message translates to:
-  /// **'Special Status / Priority'**
+  /// **'Special status or priority'**
   String get specialCategories;
 
   /// No description provided for @loading.
@@ -4359,13 +4371,13 @@ abstract class AppLocalizations {
   /// No description provided for @updatingSoon.
   ///
   /// In en, this message translates to:
-  /// **'Updating Soon'**
+  /// **'Updating soon'**
   String get updatingSoon;
 
   /// No description provided for @updatingSoonCount.
   ///
   /// In en, this message translates to:
-  /// **'Updating Soon'**
+  /// **'Updating soon'**
   String get updatingSoonCount;
 
   /// No description provided for @gotIt.
@@ -4377,25 +4389,25 @@ abstract class AppLocalizations {
   /// No description provided for @comingSoonSchemesBody.
   ///
   /// In en, this message translates to:
-  /// **'Schemes under \"{name}\" are currently being verified and will be updated soon. Stay tuned!'**
+  /// **'Schemes under \"{name}\" are being checked and will be added soon'**
   String comingSoonSchemesBody(Object name);
 
   /// No description provided for @allCategories.
   ///
   /// In en, this message translates to:
-  /// **'All Categories'**
+  /// **'All categories'**
   String get allCategories;
 
   /// No description provided for @allMinistries.
   ///
   /// In en, this message translates to:
-  /// **'All Ministries'**
+  /// **'All ministries'**
   String get allMinistries;
 
   /// No description provided for @allStatesAndUts.
   ///
   /// In en, this message translates to:
-  /// **'All States & UTs'**
+  /// **'All states and UTs'**
   String get allStatesAndUts;
 
   /// No description provided for @searchCategoriesHint.
@@ -6501,7 +6513,7 @@ abstract class AppLocalizations {
   /// No description provided for @searchDiscoverSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Find and explore all eligible government schemes'**
+  /// **'Find government schemes you can apply for'**
   String get searchDiscoverSubtitle;
 
   /// No description provided for @searchCompleteProfileTitle.
@@ -6585,7 +6597,7 @@ abstract class AppLocalizations {
   /// No description provided for @removeSaved.
   ///
   /// In en, this message translates to:
-  /// **'Remove Saved'**
+  /// **'Remove from saved'**
   String get removeSaved;
 
   /// No description provided for @viewDetails.
@@ -6597,7 +6609,7 @@ abstract class AppLocalizations {
   /// No description provided for @eligibilityResultsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Eligibility Results'**
+  /// **'Eligibility results'**
   String get eligibilityResultsTitle;
 
   /// No description provided for @eligibilityResultsCopiedToClipboard.
@@ -8073,7 +8085,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsNavModeDialogBody.
   ///
   /// In en, this message translates to:
-  /// **'Choose your preferred layout mode for navigating schemes and services.'**
+  /// **'Choose how you move around the app'**
   String get settingsNavModeDialogBody;
 
   /// No description provided for @settingsSwitchedToCompanion.
@@ -8115,7 +8127,7 @@ abstract class AppLocalizations {
   /// No description provided for @betaGateAuthorizedTestersOnly.
   ///
   /// In en, this message translates to:
-  /// **'Authorized Beta Testers Only'**
+  /// **'For authorized beta testers only'**
   String get betaGateAuthorizedTestersOnly;
 
   /// No description provided for @betaGateAccess.
@@ -8199,7 +8211,7 @@ abstract class AppLocalizations {
   /// No description provided for @eligResGreatNews.
   ///
   /// In en, this message translates to:
-  /// **'Great News! 🎉'**
+  /// **'Your results'**
   String get eligResGreatNews;
 
   /// No description provided for @eligResEligibleForPrefix.
@@ -8211,7 +8223,7 @@ abstract class AppLocalizations {
   /// No description provided for @eligResGovernmentSchemesCount.
   ///
   /// In en, this message translates to:
-  /// **'{count} Government Schemes'**
+  /// **'{count} government schemes'**
   String eligResGovernmentSchemesCount(Object count);
 
   /// No description provided for @eligResBasedOnInfo.
@@ -8223,7 +8235,7 @@ abstract class AppLocalizations {
   /// No description provided for @eligResRecommendedSchemes.
   ///
   /// In en, this message translates to:
-  /// **'Recommended Schemes'**
+  /// **'Recommended schemes'**
   String get eligResRecommendedSchemes;
 
   /// No description provided for @eligResNoMatches.
@@ -8241,13 +8253,13 @@ abstract class AppLocalizations {
   /// No description provided for @eligResSavedToast.
   ///
   /// In en, this message translates to:
-  /// **'Results saved to your eligibility profile!'**
+  /// **'Results saved to your eligibility profile'**
   String get eligResSavedToast;
 
   /// No description provided for @eligResSaveResults.
   ///
   /// In en, this message translates to:
-  /// **'Save Results'**
+  /// **'Save results'**
   String get eligResSaveResults;
 
   /// No description provided for @eligResSecurePrivate.
@@ -8265,19 +8277,19 @@ abstract class AppLocalizations {
   /// No description provided for @eligResShareItem.
   ///
   /// In en, this message translates to:
-  /// **'• {name} ({percent}% Match)'**
+  /// **'• {name} ({percent}% match)'**
   String eligResShareItem(Object name, Object percent);
 
   /// No description provided for @eligResEligibleSchemesTitle.
   ///
   /// In en, this message translates to:
-  /// **'Eligible Schemes'**
+  /// **'Eligible schemes'**
   String get eligResEligibleSchemesTitle;
 
   /// No description provided for @eligResExploreAll.
   ///
   /// In en, this message translates to:
-  /// **'Explore All Schemes'**
+  /// **'Explore all schemes'**
   String get eligResExploreAll;
 
   /// No description provided for @eligResSaving.
@@ -8289,7 +8301,7 @@ abstract class AppLocalizations {
   /// No description provided for @eligResSavedToProfile.
   ///
   /// In en, this message translates to:
-  /// **'Saved to Profile'**
+  /// **'Saved to profile'**
   String get eligResSavedToProfile;
 
   /// No description provided for @eligResSaveFailed.
@@ -8553,7 +8565,7 @@ abstract class AppLocalizations {
   /// No description provided for @savedRemoveNoLongerInterested.
   ///
   /// In en, this message translates to:
-  /// **'Remove schemes you\'re no longer interested in.'**
+  /// **'Remove schemes you\'re no longer interested in'**
   String get savedRemoveNoLongerInterested;
 
   /// No description provided for @eduSchool.
@@ -9507,7 +9519,7 @@ abstract class AppLocalizations {
   /// No description provided for @activeSessionsSetting.
   ///
   /// In en, this message translates to:
-  /// **'Active Sessions'**
+  /// **'Signed-in devices'**
   String get activeSessionsSetting;
 
   /// No description provided for @setPasswordTitle.
@@ -10903,30 +10915,6 @@ abstract class AppLocalizations {
   /// **'Tap the mic when you\'re done'**
   String get sv2TapWhenDone;
 
-  /// No description provided for @sv2ConfirmTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Did I hear you right?'**
-  String get sv2ConfirmTitle;
-
-  /// No description provided for @sv2Transcribed.
-  ///
-  /// In en, this message translates to:
-  /// **'TRANSCRIBED'**
-  String get sv2Transcribed;
-
-  /// No description provided for @sv2ConfirmHelp.
-  ///
-  /// In en, this message translates to:
-  /// **'Tap the tick to send, the cross to discard, or the mic to say it again.'**
-  String get sv2ConfirmHelp;
-
-  /// No description provided for @sv2EditTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Correct your request'**
-  String get sv2EditTitle;
-
   /// No description provided for @sv2Speak.
   ///
   /// In en, this message translates to:
@@ -10944,12 +10932,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Send this'**
   String get sv2Send;
-
-  /// No description provided for @sv2Discard.
-  ///
-  /// In en, this message translates to:
-  /// **'Discard'**
-  String get sv2Discard;
 
   /// No description provided for @sv2Room.
   ///
@@ -10998,6 +10980,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{ready} of {total} ready'**
   String sv2DocumentsReady(int ready, int total);
+
+  /// No description provided for @sv2OldSessions.
+  ///
+  /// In en, this message translates to:
+  /// **'Old sessions'**
+  String get sv2OldSessions;
+
+  /// No description provided for @sv2TypeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a message to Saarthi'**
+  String get sv2TypeMessage;
 
   /// No description provided for @sv2HistoryTitle.
   ///
@@ -11100,30 +11094,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Saarthi reads every answer aloud'**
   String get sv2AutoplayBody;
-
-  /// No description provided for @sv2HandsFree.
-  ///
-  /// In en, this message translates to:
-  /// **'Hands-free mode'**
-  String get sv2HandsFree;
-
-  /// No description provided for @sv2HandsFreeBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Keep listening after each reply'**
-  String get sv2HandsFreeBody;
-
-  /// No description provided for @sv2ConfirmSend.
-  ///
-  /// In en, this message translates to:
-  /// **'Confirm before sending'**
-  String get sv2ConfirmSend;
-
-  /// No description provided for @sv2ConfirmSendBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Check what Saarthi heard before it is sent'**
-  String get sv2ConfirmSendBody;
 
   /// No description provided for @sv2VoiceNote.
   ///

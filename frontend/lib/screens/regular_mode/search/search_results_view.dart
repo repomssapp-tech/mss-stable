@@ -5,6 +5,7 @@ import '../../../models/scheme_model.dart';
 import '../../../providers/app_state_provider.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_radius.dart';
+import '../../../utils/app_size.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/app_text.dart';
 import '../../../widgets/scheme/scheme_card.dart';
@@ -55,7 +56,7 @@ class DidYouMeanSuggestion extends StatelessWidget {
         onTap: () => onTap(suggestion),
         borderRadius: BorderRadius.circular(AppRadius.sm),
         child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 48),
+          constraints: const BoxConstraints(minHeight: AppSize.tapTarget),
           child: Align(
             alignment: alignment,
             widthFactor: 1,
@@ -83,7 +84,6 @@ class SearchResultsList extends StatelessWidget {
   final bool isForMe;
   final ForMeEmptyState forMeEmptyState;
   final AppProvider provider;
-  final double Function(double) scaledFontSize;
 
   /// A corrected spelling of [queryText] to offer ("laon" -> "loan"), shown
   /// as a tappable "Did you mean ...?" line; null when there is none.
@@ -109,7 +109,6 @@ class SearchResultsList extends StatelessWidget {
     required this.isForMe,
     required this.forMeEmptyState,
     required this.provider,
-    required this.scaledFontSize,
     this.didYouMean,
     this.onDidYouMeanTap,
     this.notApplicableIds = const {},
@@ -152,30 +151,27 @@ class SearchResultsList extends StatelessWidget {
         key: const ValueKey('ResultsContent'),
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.lg,
-          vertical: 48,
+          vertical: AppSpacing.xxxl,
         ),
         children: [
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(icon, size: 48, color: Colors.grey[400]),
+                Icon(icon, size: AppSize.tapTarget, color: AppColors.iconMuted),
                 const SizedBox(height: AppSpacing.md),
                 Text(
                   title,
-                  style: AppGoogleFonts.poppins(
-                    fontSize: scaledFontSize(15),
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF334155),
+                  style: context.text.titleSmall.copyWith(
+                    color: AppColors.textPrimary,
                   ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: AppSpacing.tight),
                 Text(
                   subtitle,
-                  style: AppGoogleFonts.inter(
-                    fontSize: scaledFontSize(12),
-                    color: const Color(0xFF64748B),
+                  style: context.text.body.copyWith(
+                    color: AppColors.textSecondary,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -192,18 +188,9 @@ class SearchResultsList extends StatelessWidget {
                     onPressed: onClearFilters,
                     icon: const Icon(
                       Icons.refresh_rounded,
-                      size: AppSpacing.lg,
-                      color: AppColors.primary,
+                      size: AppSize.iconSm,
                     ),
-                    label: Text(
-                      context.l10n.clearFiltersAndExplore,
-                      style: context.text.label.copyWith(
-                        color: AppColors.primary,
-                      ),
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: AppColors.primaryBorder),
-                    ),
+                    label: Text(context.l10n.clearFiltersAndExplore),
                   ),
                 ],
               ],
@@ -243,17 +230,14 @@ class SearchResultsList extends StatelessWidget {
               children: [
                 Text(
                   titleText,
-                  style: AppGoogleFonts.poppins(
-                    fontSize: 15.5,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF0F172A),
+                  style: context.text.titleSmall.copyWith(
+                    color: AppColors.textPrimary,
                   ),
                 ),
                 Text(
                   subtitleText,
-                  style: AppGoogleFonts.inter(
-                    fontSize: 11.5,
-                    color: const Color(0xFF64748B),
+                  style: context.text.bodySmall.copyWith(
+                    color: AppColors.textMuted,
                   ),
                 ),
                 if (_hasSuggestion)

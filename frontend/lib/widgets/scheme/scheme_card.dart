@@ -8,6 +8,7 @@ import '../../providers/app_state_provider.dart';
 import '../../services/catalog/centralized_translator.dart';
 import '../../utils/emblem_helper.dart';
 import '../../utils/app_colors.dart';
+import '../../utils/app_size.dart';
 import '../../utils/app_radius.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/app_text.dart';
@@ -229,60 +230,11 @@ class _SchemeCardState extends State<SchemeCard> {
     );
   }
 
+  /// One meaning, one colour, the same on every screen (see [styleForTag]),
+  /// instead of a per-card palette with hash-picked hues.
   Map<String, Color> _getTagColors(String tag, String category) {
-    final cleanTag = tag.toLowerCase().trim();
-    final cleanCat = category.toLowerCase().trim();
-
-    if (cleanTag == cleanCat) {
-      if (cleanCat.contains('farmer') ||
-          cleanCat.contains('agri') ||
-          cleanCat.contains('rural')) {
-        return {'text': const Color(0xFF15803D), 'bg': const Color(0xFFDCFCE7)};
-      } else if (cleanCat.contains('student') ||
-          cleanCat.contains('edu') ||
-          cleanCat.contains('scholarship')) {
-        return {'text': const Color(0xFF6D28D9), 'bg': const Color(0xFFF5F3FF)};
-      } else if (cleanCat.contains('business') ||
-          cleanCat.contains('msme') ||
-          cleanCat.contains('employment')) {
-        return {'text': const Color(0xFF1E3A8A), 'bg': const Color(0xFFDBEAFE)};
-      } else if (cleanCat.contains('women') ||
-          cleanCat.contains('female') ||
-          cleanCat.contains('girl') ||
-          cleanCat.contains('child')) {
-        return {'text': const Color(0xFFBE185D), 'bg': const Color(0xFFFCE7F3)};
-      } else {
-        return {'text': const Color(0xFF0F766E), 'bg': const Color(0xFFCCFBF1)};
-      }
-    }
-
-    if (cleanTag.contains('central') ||
-        cleanTag.contains('national') ||
-        cleanTag.contains('india')) {
-      return {'text': const Color(0xFFC2410C), 'bg': const Color(0xFFFFEDD5)};
-    } else if (cleanTag.contains('state') ||
-        cleanTag.contains('tamil') ||
-        cleanTag.contains('tn')) {
-      return {'text': const Color(0xFF7C3AED), 'bg': const Color(0xFFF3E8FF)};
-    } else if (cleanTag.contains('loan') || cleanTag.contains('credit')) {
-      return {'text': const Color(0xFFB91C1C), 'bg': const Color(0xFFFEE2E2)};
-    } else if (cleanTag.contains('subsidy') || cleanTag.contains('grant')) {
-      return {'text': const Color(0xFF047857), 'bg': const Color(0xFFD1FAE5)};
-    } else if (cleanTag.contains('msme')) {
-      return {'text': const Color(0xFF15803D), 'bg': const Color(0xFFE8F5E9)};
-    }
-
-    final hash = cleanTag.hashCode;
-    final index = hash.abs() % 4;
-    if (index == 0) {
-      return {'text': const Color(0xFF0369A1), 'bg': const Color(0xFFE0F2FE)};
-    } else if (index == 1) {
-      return {'text': const Color(0xFF0F766E), 'bg': const Color(0xFFE6FFFA)};
-    } else if (index == 2) {
-      return {'text': const Color(0xFF6D28D9), 'bg': const Color(0xFFF5F3FF)};
-    } else {
-      return {'text': const Color(0xFFB45309), 'bg': const Color(0xFFFEF3C7)};
-    }
+    final style = styleForTag(tag);
+    return {'text': style.text, 'bg': style.background};
   }
 
   @override
@@ -293,7 +245,6 @@ class _SchemeCardState extends State<SchemeCard> {
     final lang = context.select<AppProvider, String>((p) => p.selectedLanguage);
     if (_lang != lang) _recomputeDerived(lang);
 
-    final isTa = lang == 'ta';
     final locScheme = _loc!;
     final tags = _tags!;
     final subtitleText = _subtitle!;
@@ -306,7 +257,7 @@ class _SchemeCardState extends State<SchemeCard> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: const Color(0xFFE2E8F0), width: 1.2),
+        border: Border.all(color: AppColors.border, width: 1.2),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.03),
@@ -333,16 +284,16 @@ class _SchemeCardState extends State<SchemeCard> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Left: Circular Logo Container (72x72)
+                  // Left: the emblem of who runs the scheme, in a circle.
                   Container(
-                    width: 72,
-                    height: 72,
+                    width: AppSize.avatar,
+                    height: AppSize.avatar,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.surface,
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: const Color(0xFFE2E8F0),
-                        width: 1.2,
+                        color: AppColors.border,
+                        width: AppSize.borderWidth,
                       ),
                     ),
                     padding: EdgeInsets.zero,
@@ -353,70 +304,56 @@ class _SchemeCardState extends State<SchemeCard> {
                         child: _buildSchemeLogo(
                           context,
                           widget.scheme,
-                          size: 58,
+                          size: AppSize.avatar * 0.8,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(width: AppSpacing.lg),
+                  const SizedBox(width: AppSpacing.md),
 
                   // Middle Content Block
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Match Badge Pill & Title block
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: AutoTranslatedText(
-                                locScheme.name,
-                                language: lang,
-                                style: AppGoogleFonts.poppins(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: const Color(0xFF0F172A),
-                                  height: isTa ? 1.35 : 1.25,
-                                ),
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
+                        // Title, then the match badge on its own line, so a
+                        // long name or a Tamil badge never squeezes the other.
+                        AutoTranslatedText(
+                          locScheme.name,
+                          language: lang,
+                          style: context.text.cardTitle.copyWith(
+                            color: AppColors.textPrimary,
+                          ),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        if (widget.showMatchPercentage) ...[
+                          const SizedBox(height: AppSpacing.xs),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: AppSpacing.sm,
+                              vertical: AppSpacing.hairline,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppTagStyle.level.background,
+                              borderRadius: AppRadius.smAll,
+                            ),
+                            child: Text(
+                              context.l10n.matchPercentageFormat(
+                                widget.result.percentage,
+                              ),
+                              style: context.text.label.copyWith(
+                                color: AppTagStyle.level.text,
                               ),
                             ),
-                            if (widget.showMatchPercentage) ...[
-                              const SizedBox(width: AppSpacing.tight),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: AppSpacing.tight,
-                                  vertical: AppSpacing.hairline,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFE8F5E8),
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                child: Text(
-                                  context.l10n.matchPercentageFormat(
-                                    widget.result.percentage,
-                                  ),
-                                  style: AppGoogleFonts.inter(
-                                    color: const Color(0xFF2E7D32),
-                                    fontSize: 8.5,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ],
-                        ),
+                          ),
+                        ],
                         if (subtitleText.isNotEmpty) ...[
                           const SizedBox(height: AppSpacing.xs),
                           Text(
                             subtitleText,
-                            style: AppGoogleFonts.inter(
-                              fontSize: isTa ? 10.5 : 11.0,
-                              color: const Color(0xFF64748B),
-                              fontWeight: FontWeight.w500,
-                              height: 1.3,
+                            style: context.text.bodySmall.copyWith(
+                              color: AppColors.textMuted,
                             ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -450,9 +387,7 @@ class _SchemeCardState extends State<SchemeCard> {
                                 ),
                                 child: Text(
                                   shown,
-                                  style: AppGoogleFonts.inter(
-                                    fontSize: isTa ? 9.0 : 9.5,
-                                    fontWeight: FontWeight.bold,
+                                  style: context.text.label.copyWith(
                                     color: colors['text'],
                                   ),
                                 ),
@@ -466,34 +401,26 @@ class _SchemeCardState extends State<SchemeCard> {
 
                   // Far Right Actions Column
                   if (widget.showActions) ...[
-                    const SizedBox(width: AppSpacing.sm),
+                    const SizedBox(width: AppSpacing.xs),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        GestureDetector(
-                          onTap: widget.onBookmarkToggle,
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                color: const Color(0xFFDBEAFE),
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Icon(
-                              widget.isBookmarked
-                                  ? Icons.bookmark
-                                  : Icons.bookmark_border,
-                              color: const Color(0xFF2563EB),
-                              size: 16,
-                            ),
+                        IconButton(
+                          onPressed: widget.onBookmarkToggle,
+                          tooltip: widget.isBookmarked
+                              ? context.l10n.removeSavedTooltip
+                              : context.l10n.saveSchemeTooltip,
+                          icon: Icon(
+                            widget.isBookmarked
+                                ? Icons.bookmark_rounded
+                                : Icons.bookmark_border_rounded,
+                            color: AppColors.primary,
+                            size: AppSize.icon,
                           ),
                         ),
-                        const SizedBox(height: AppSpacing.sm),
-                        GestureDetector(
-                          onTap: () async {
+                        IconButton(
+                          tooltip: context.l10n.shareSchemeDetailsTooltip,
+                          onPressed: () async {
                             final destination =
                                 widget.scheme.applicationUrl.isNotEmpty
                                 ? widget.scheme.applicationUrl
@@ -506,21 +433,10 @@ class _SchemeCardState extends State<SchemeCard> {
                               copiedMessage: context.l10n.schemeCopiedToast,
                             );
                           },
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                color: const Color(0xFFDBEAFE),
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: const Icon(
-                              Icons.share_outlined,
-                              color: Color(0xFF2563EB),
-                              size: 16,
-                            ),
+                          icon: const Icon(
+                            Icons.share_outlined,
+                            color: AppColors.iconMuted,
+                            size: AppSize.icon,
                           ),
                         ),
                       ],

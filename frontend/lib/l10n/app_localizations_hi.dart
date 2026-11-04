@@ -16,7 +16,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get unlockPersonalizedSchemeRecommendations =>
-      'वैयक्तिकृत योजना अनुशंसाएँ अनलॉक करें।';
+      'अपने लिए सही योजनाएं देखें';
 
   @override
   String get applicationsClosingSoon => 'आवेदन जल्द ही बंद हो रहे हैं';
@@ -58,7 +58,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get startABusiness => 'व्यवसाय शुरू करें';
 
   @override
-  String get exploreMsmeSupport => 'एमएसएमई सहायता का अन्वेषण करें';
+  String get exploreMsmeSupport => 'एमएसएमई सहायता';
 
   @override
   String get schemes => 'योजनाएं';
@@ -105,6 +105,12 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get searchPlaceholder => 'योजनाएं, लाभ खोजें या कुछ भी पूछें...';
+
+  @override
+  String get homeSearchHint => 'योजनाएं खोजें';
+
+  @override
+  String get homeAskSaarthi => 'सारथी से पूछें';
 
   @override
   String get filter => 'फ़िल्टर';
@@ -246,7 +252,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sortNameDesc => 'योजना का नाम (जेड-ए)';
 
   @override
-  String get browseCategories => 'श्रेणियाँ ब्राउज़ करें';
+  String get browseCategories => 'श्रेणियाँ देखें';
 
   @override
   String get forMe => 'मेरे लिए';
@@ -255,11 +261,11 @@ class AppLocalizationsHi extends AppLocalizations {
   String get activeBadge => 'सक्रिय';
 
   @override
-  String get calculatingMatches => 'मिलानों की गणना की जा रही है...';
+  String get calculatingMatches => 'मेल खोजे जा रहे हैं';
 
   @override
   String schemesMatchProfile(Object count) {
-    return '$count योजनाएं आपकी प्रोफ़ाइल से मेल खाती हैं।';
+    return '$count योजनाएं आपकी प्रोफ़ाइल से मेल खाती हैं';
   }
 
   @override
@@ -314,16 +320,16 @@ class AppLocalizationsHi extends AppLocalizations {
   String get discoverTitle => 'एक्सप्लोर';
 
   @override
-  String get browseByCategories => 'श्रेणियों के अनुसार ब्राउज़ करें';
+  String get browseByCategories => 'श्रेणी के अनुसार';
 
   @override
   String get featuredCollections => 'विशेष संग्रह';
 
   @override
-  String get browseByMinistry => 'मंत्रालय द्वारा ब्राउज़ करें';
+  String get browseByMinistry => 'मंत्रालय के अनुसार';
 
   @override
-  String get browseByState => 'राज्य के अनुसार ब्राउज़ करें';
+  String get browseByState => 'राज्य के अनुसार';
 
   @override
   String get smartAssessment => 'स्मार्ट मूल्यांकन';
@@ -338,7 +344,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get exploreTopCuratedCollections =>
-      'शीर्ष क्यूरेटेड संग्रहों का अन्वेषण करें';
+      'श्रेणी, मंत्रालय और राज्य के अनुसार योजनाएं';
 
   @override
   String get schemesByGovernmentMinistries =>
@@ -512,7 +518,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get noSavedSchemesDesc =>
-      'योजनाओं को किसी भी समय ऑफ़लाइन देखने के लिए ब्राउज़ करते समय उन्हें बुकमार्क करें।';
+      'ब्राउज़ करते समय योजना सहेजें, वह यहाँ ऑफ़लाइन भी रहेगी';
 
   @override
   String savedSubtitleCountFormat(int count) {
@@ -877,10 +883,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get schemeAtAGlance => 'योजना एक नजर में';
 
   @override
-  String get benefitsDetails => 'लाभ विवरण';
+  String get benefitsDetails => 'लाभ';
 
   @override
-  String get eligibilityCriteria => 'पात्रता मापदंड';
+  String get eligibilityCriteria => 'कौन आवेदन कर सकता है';
 
   @override
   String get requiredDocuments => 'आवश्यक दस्तावेज';
@@ -889,7 +895,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get requiredServices => 'आवश्यक सेवाएँ';
 
   @override
-  String get applicationProcessHeader => 'आवेदन प्रक्रिया';
+  String get applicationProcessHeader => 'आवेदन कैसे करें';
 
   @override
   String get officialInformation => 'आधिकारिक योजना की जानकारी';
@@ -909,7 +915,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get saveSchemeButton => 'योजना सहेजें';
 
   @override
-  String get savedSchemeButton => 'सहेजी गई योजना';
+  String get savedSchemeButton => 'सहेजी गई';
 
   @override
   String get noVerifiedLink => 'कोई सत्यापित आधिकारिक लिंक उपलब्ध नहीं है.';
@@ -926,7 +932,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'इस योजना के लिए कोई अलग सेवा आवश्यकता सूचीबद्ध नहीं है।';
 
   @override
-  String get getDocumentOnline => 'दस्तावेज़ ऑनलाइन प्राप्त करें';
+  String get getDocumentOnline => 'ऑनलाइन पाएं';
 
   @override
   String issuedByFormat(Object authority) {
@@ -2321,7 +2327,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String comingSoonSchemesBody(Object name) {
-    return '\"$name\" के अंतर्गत योजनाएं वर्तमान में सत्यापित की जा रही हैं और जल्द ही अपडेट की जाएंगी। बने रहें!';
+    return '\"$name\" की योजनाओं की जाँच हो रही है, ये जल्द जोड़ी जाएँगी';
   }
 
   @override
@@ -4440,7 +4446,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get voiceAssistantLabel => 'आवाज सहायक';
 
   @override
-  String get eligResGreatNews => 'अच्छी खबर! 🎉';
+  String get eligResGreatNews => 'आपके परिणाम';
 
   @override
   String get eligResEligibleForPrefix => 'आप इनके लिए पात्र हैं:\n';
@@ -4466,7 +4472,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'इन योजनाओं को आपके प्रोफ़ाइल मिलान और पात्रता मानदंड के आधार पर क्रमबद्ध किया जाता है।';
 
   @override
-  String get eligResSavedToast => 'परिणाम आपकी पात्रता प्रोफ़ाइल में सहेजे गए!';
+  String get eligResSavedToast => 'परिणाम आपकी पात्रता प्रोफ़ाइल में सहेजे गए';
 
   @override
   String get eligResSaveResults => 'परिणाम सहेजें';
@@ -4648,7 +4654,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get savedRemoveNoLongerInterested =>
-      'उन योजनाओं को हटा दें जिनमें अब आपकी रुचि नहीं है।';
+      'जिन योजनाओं में अब रुचि नहीं है, उन्हें हटा दें';
 
   @override
   String get eduSchool => 'स्कूल (10वीं/12वीं)';
@@ -5949,19 +5955,6 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sv2TapWhenDone => 'बोल चुकने पर माइक पर टैप करें';
 
   @override
-  String get sv2ConfirmTitle => 'क्या मैंने सही सुना?';
-
-  @override
-  String get sv2Transcribed => 'लिखा गया';
-
-  @override
-  String get sv2ConfirmHelp =>
-      'भेजने के लिए टिक, हटाने के लिए क्रॉस, या दोबारा कहने के लिए माइक पर टैप करें।';
-
-  @override
-  String get sv2EditTitle => 'अपना अनुरोध ठीक करें';
-
-  @override
   String get sv2Speak => 'बोलें';
 
   @override
@@ -5969,9 +5962,6 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get sv2Send => 'यह भेजें';
-
-  @override
-  String get sv2Discard => 'हटाएँ';
 
   @override
   String get sv2Room => 'बातचीत कक्ष';
@@ -6000,6 +5990,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String sv2DocumentsReady(int ready, int total) {
     return '$total में से $ready तैयार';
   }
+
+  @override
+  String get sv2OldSessions => 'पुरानी बातचीत';
+
+  @override
+  String get sv2TypeMessage => 'सारथी को संदेश लिखें';
 
   @override
   String get sv2HistoryTitle => 'बातचीत का इतिहास';
@@ -6068,18 +6064,6 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get sv2AutoplayBody => 'सारथी हर जवाब पढ़कर सुनाता है';
-
-  @override
-  String get sv2HandsFree => 'हैंड्स-फ़्री मोड';
-
-  @override
-  String get sv2HandsFreeBody => 'हर जवाब के बाद सुनता रहता है';
-
-  @override
-  String get sv2ConfirmSend => 'भेजने से पहले पुष्टि करें';
-
-  @override
-  String get sv2ConfirmSendBody => 'भेजने से पहले देखें कि सारथी ने क्या सुना';
 
   @override
   String get sv2VoiceNote => 'हर भाषा के लिए सारथी की आवाज़ चुनी गई है।';

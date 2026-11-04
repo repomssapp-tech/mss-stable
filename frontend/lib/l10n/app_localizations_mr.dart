@@ -106,6 +106,12 @@ class AppLocalizationsMr extends AppLocalizations {
   String get searchPlaceholder => 'योजना, लाभ शोधा किंवा काहीही विचारा...';
 
   @override
+  String get homeSearchHint => 'योजना शोधा';
+
+  @override
+  String get homeAskSaarthi => 'Saarthi ला विचारा';
+
+  @override
   String get filter => 'फिल्टर';
 
   @override
@@ -5915,19 +5921,6 @@ class AppLocalizationsMr extends AppLocalizations {
   String get sv2TapWhenDone => 'झाल्यावर मायक्रोफोनवर टॅप करा';
 
   @override
-  String get sv2ConfirmTitle => 'मी बरोबर ऐकले का?';
-
-  @override
-  String get sv2Transcribed => 'लिहिलेला मजकूर';
-
-  @override
-  String get sv2ConfirmHelp =>
-      'पाठवण्यासाठी टिकवर, रद्द करण्यासाठी क्रॉसवर किंवा पुन्हा बोलण्यासाठी मायक्रोफोनवर टॅप करा.';
-
-  @override
-  String get sv2EditTitle => 'तुमची विनंती दुरुस्त करा';
-
-  @override
   String get sv2Speak => 'बोला';
 
   @override
@@ -5935,9 +5928,6 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get sv2Send => 'हे पाठवा';
-
-  @override
-  String get sv2Discard => 'रद्द करा';
 
   @override
   String get sv2Room => 'संवाद कक्ष';
@@ -5966,6 +5956,12 @@ class AppLocalizationsMr extends AppLocalizations {
   String sv2DocumentsReady(int ready, int total) {
     return '$total पैकी $ready तयार';
   }
+
+  @override
+  String get sv2OldSessions => 'जुने संवाद';
+
+  @override
+  String get sv2TypeMessage => 'Saarthi ला संदेश लिहा';
 
   @override
   String get sv2HistoryTitle => 'चॅट इतिहास';
@@ -6035,19 +6031,6 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get sv2AutoplayBody => 'Saarthi प्रत्येक उत्तर मोठ्याने वाचतो';
-
-  @override
-  String get sv2HandsFree => 'हँड्स-फ्री मोड';
-
-  @override
-  String get sv2HandsFreeBody => 'प्रत्येक उत्तरानंतर ऐकणे सुरू ठेवा';
-
-  @override
-  String get sv2ConfirmSend => 'पाठवण्यापूर्वी खात्री करा';
-
-  @override
-  String get sv2ConfirmSendBody =>
-      'पाठवण्यापूर्वी Saarthi ने काय ऐकले ते तपासा';
 
   @override
   String get sv2VoiceNote => 'Saarthi चा आवाज प्रत्येक भाषेसाठी निवडलेला आहे.';

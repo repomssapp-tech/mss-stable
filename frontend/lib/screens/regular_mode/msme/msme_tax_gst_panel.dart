@@ -1,9 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
-import '../../../utils/responsive.dart';
 import '../../../utils/app_text.dart';
 
 class TaxGstInteractivePanel extends StatefulWidget {
@@ -61,7 +61,7 @@ class _TaxGstInteractivePanelState extends State<TaxGstInteractivePanel> {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: const BorderSide(color: Color(0xFFE2E8F0)),
+        side: const BorderSide(color: AppColors.border),
       ),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
@@ -75,10 +75,8 @@ class _TaxGstInteractivePanelState extends State<TaxGstInteractivePanel> {
                 Expanded(
                   child: Text(
                     context.l10n.msmeDelayedPaymentCalcTitle,
-                    style: AppGoogleFonts.poppins(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF0F172A),
+                    style: context.text.titleSmall.copyWith(
+                      color: AppColors.textPrimary,
                     ),
                   ),
                 ),
@@ -87,10 +85,8 @@ class _TaxGstInteractivePanelState extends State<TaxGstInteractivePanel> {
             const SizedBox(height: AppSpacing.sm),
             Text(
               context.l10n.msmeDelayedPaymentCalcDesc,
-              style: AppGoogleFonts.inter(
-                fontSize: 12,
-                color: const Color(0xFF64748B),
-                height: 1.4,
+              style: context.text.bodySmall.copyWith(
+                color: AppColors.textMuted,
               ),
             ),
             const SizedBox(height: AppSpacing.lg),
@@ -100,10 +96,8 @@ class _TaxGstInteractivePanelState extends State<TaxGstInteractivePanel> {
                 Expanded(
                   child: Text(
                     context.l10n.msmeInvoiceAmountRupees,
-                    style: AppGoogleFonts.inter(
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF475569),
+                    style: context.text.label.copyWith(
+                      color: AppColors.textSecondary,
                     ),
                   ),
                 ),
@@ -111,10 +105,8 @@ class _TaxGstInteractivePanelState extends State<TaxGstInteractivePanel> {
                 Expanded(
                   child: Text(
                     context.l10n.msmeDaysDelayedPost45,
-                    style: AppGoogleFonts.inter(
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF475569),
+                    style: context.text.label.copyWith(
+                      color: AppColors.textSecondary,
                     ),
                   ),
                 ),
@@ -168,7 +160,7 @@ class _TaxGstInteractivePanelState extends State<TaxGstInteractivePanel> {
             Container(
               padding: const EdgeInsets.all(AppSpacing.md),
               decoration: BoxDecoration(
-                color: const Color(0xFFF1F5F9),
+                color: AppColors.surfaceMuted,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Column(
@@ -180,26 +172,19 @@ class _TaxGstInteractivePanelState extends State<TaxGstInteractivePanel> {
                         child: Text(
                           context.l10n.msmeInterestRate3xBankRate,
                           softWrap: true,
-                          style: AppGoogleFonts.inter(
-                            fontSize: 12,
-                            color: const Color(0xFF475569),
-                            fontWeight: FontWeight.w500,
+                          style: context.text.bodySmall.copyWith(
+                            color: AppColors.textSecondary,
                           ),
                         ),
                       ),
                       const SizedBox(width: AppSpacing.sm),
                       Flexible(
-                        child: FitOneLine(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            context.l10n.msmeRatePerAnnum(
-                              (_annualRate * 100).toStringAsFixed(2),
-                            ),
-                            style: AppGoogleFonts.inter(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: const Color(0xFF0F172A),
-                            ),
+                        child: Text(
+                          context.l10n.msmeRatePerAnnum(
+                            (_annualRate * 100).toStringAsFixed(2),
+                          ),
+                          style: context.text.label.copyWith(
+                            color: AppColors.textPrimary,
                           ),
                         ),
                       ),
@@ -213,30 +198,23 @@ class _TaxGstInteractivePanelState extends State<TaxGstInteractivePanel> {
                         child: Text(
                           context.l10n.msmeCalculatedInterestLabel,
                           softWrap: true,
-                          style: AppGoogleFonts.inter(
-                            fontSize: 12,
-                            color: const Color(0xFF475569),
-                            fontWeight: FontWeight.w500,
+                          style: context.text.bodySmall.copyWith(
+                            color: AppColors.textSecondary,
                           ),
                         ),
                       ),
                       const SizedBox(width: AppSpacing.sm),
                       Flexible(
-                        child: FitOneLine(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            '₹${_calculatedInterest.toStringAsFixed(0)}',
-                            style: AppGoogleFonts.inter(
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                              color: const Color(0xFFDC2626),
-                            ),
+                        child: Text(
+                          '₹${_calculatedInterest.toStringAsFixed(0)}',
+                          style: context.text.button.copyWith(
+                            color: AppColors.danger,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const Divider(height: 12, color: Color(0xFFCBD5E1)),
+                  const Divider(height: 12, color: AppColors.borderStrong),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -244,24 +222,17 @@ class _TaxGstInteractivePanelState extends State<TaxGstInteractivePanel> {
                         child: Text(
                           context.l10n.msmeTotalClaimableAmountLabel,
                           softWrap: true,
-                          style: AppGoogleFonts.inter(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                            color: const Color(0xFF0F172A),
+                          style: context.text.button.copyWith(
+                            color: AppColors.textPrimary,
                           ),
                         ),
                       ),
                       const SizedBox(width: AppSpacing.sm),
                       Flexible(
-                        child: FitOneLine(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            '₹${_totalAmount.toStringAsFixed(0)}',
-                            style: AppGoogleFonts.inter(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: widget.iconColor,
-                            ),
+                        child: Text(
+                          '₹${_totalAmount.toStringAsFixed(0)}',
+                          style: context.text.button.copyWith(
+                            color: widget.iconColor,
                           ),
                         ),
                       ),

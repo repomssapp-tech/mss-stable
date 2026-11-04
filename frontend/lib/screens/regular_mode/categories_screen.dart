@@ -5,6 +5,7 @@ import '../../l10n/l10n.dart';
 import '../../models/scheme_model.dart';
 import '../../providers/app_state_provider.dart';
 import '../../services/catalog/scheme_repository.dart';
+import '../../utils/app_colors.dart';
 import '../../utils/app_spacing.dart';
 import '../../widgets/assistant/smart_assessment_bottom_sheet.dart';
 import 'categories/categories_business_utilities_section.dart';
@@ -194,11 +195,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     final provider = Provider.of<AppProvider>(context);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           children: [
-            // Premium Header (Discover, AI collections)
+            // Header
             Padding(
               padding: const EdgeInsets.fromLTRB(
                 AppSpacing.lg,
@@ -213,18 +214,15 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   children: [
                     Text(
                       context.l10n.discoverTitle,
-                      style: AppGoogleFonts.poppins(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFF0F172A),
+                      style: context.text.headline.copyWith(
+                        color: AppColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: AppSpacing.hairline),
                     Text(
                       context.l10n.exploreTopCuratedCollections,
-                      style: AppGoogleFonts.inter(
-                        fontSize: 12,
-                        color: const Color(0xFF64748B),
+                      style: context.text.bodySmall.copyWith(
+                        color: AppColors.textMuted,
                       ),
                     ),
                   ],

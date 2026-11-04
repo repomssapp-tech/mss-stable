@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
@@ -24,35 +25,35 @@ class Step3RoleStageSelector extends StatelessWidget {
         'title': l10n.workNewBusiness,
         'subtitle': l10n.workNewBusinessDesc,
         'icon': Icons.lightbulb_outline_rounded,
-        'color': const Color(0xFFF59E0B),
+        'color': AppColors.primary,
       },
       {
         'id': 'existing_business',
         'title': l10n.workExistingBusiness,
         'subtitle': l10n.workExistingBusinessDesc,
         'icon': Icons.storefront_outlined,
-        'color': const Color(0xFF2563EB),
+        'color': AppColors.primary,
       },
       {
         'id': 'farmer',
         'title': l10n.workFarmer,
         'subtitle': l10n.workFarmerDesc,
         'icon': Icons.agriculture_outlined,
-        'color': const Color(0xFF10B981),
+        'color': AppColors.primary,
       },
       {
         'id': 'artisan',
         'title': l10n.workArtisan,
         'subtitle': l10n.workArtisanDesc,
         'icon': Icons.palette_outlined,
-        'color': const Color(0xFFEC4899),
+        'color': AppColors.primary,
       },
       {
         'id': 'student',
         'title': l10n.workStudent,
         'subtitle': l10n.workStudentDesc,
         'icon': Icons.school_outlined,
-        'color': const Color(0xFF6366F1),
+        'color': AppColors.primary,
       },
     ];
 

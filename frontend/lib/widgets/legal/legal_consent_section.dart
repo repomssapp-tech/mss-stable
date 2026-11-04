@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import '../../utils/app_colors.dart';
 import '../../utils/app_text.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/app_spacing.dart';
@@ -24,17 +25,13 @@ class LegalConsentSection extends StatelessWidget {
           Text.rich(
             TextSpan(
               text: context.l10n.legalConsentPrefix,
-              style: AppGoogleFonts.inter(
-                fontSize: 11.5,
-                color: const Color(0xFF334155),
-                height: 1.4,
-              ),
+              style: context.text.bodySmall.copyWith(color: AppColors.textBody),
               children: [
                 TextSpan(
                   text: context.l10n.legalTermsOfUseLink,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    color: const Color(0xFF0D53FC),
+                    color: AppColors.primary,
                     decoration: context.linkDecoration,
                   ),
                   recognizer: TapGestureRecognizer()..onTap = onOpenTerms,
@@ -44,7 +41,7 @@ class LegalConsentSection extends StatelessWidget {
                   text: context.l10n.privacyPolicy,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    color: const Color(0xFF0D53FC),
+                    color: AppColors.primary,
                     decoration: context.linkDecoration,
                   ),
                   recognizer: TapGestureRecognizer()..onTap = onOpenPrivacy,

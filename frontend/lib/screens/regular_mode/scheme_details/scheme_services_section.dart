@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../l10n/l10n.dart';
 import '../../../models/scheme_model.dart';
+import '../../../utils/app_colors.dart';
+import '../../../utils/app_size.dart';
+import '../../../utils/app_spacing.dart';
 import '../../../utils/app_text.dart';
 
 /// Content section for scheme required services (e.g. GST registration, Udyam certificate).
@@ -14,50 +17,66 @@ class SchemeServicesContent extends StatelessWidget {
     if (services.isEmpty) {
       return Text(
         context.l10n.noServicesRequiredMsg,
-        style: AppGoogleFonts.inter(
-          color: const Color(0xFF64748B),
-          fontSize: 11.0,
-        ),
+        style: context.text.body.copyWith(color: AppColors.textSecondary),
       );
     }
 
     return Column(
-      children: services.map((service) {
-        return ListTile(
-          contentPadding: EdgeInsets.zero,
-          leading: const CircleAvatar(
-            radius: 18,
-            backgroundColor: Color(0xFFCCFBF1),
-            child: Icon(
-              Icons.support_agent_outlined,
-              color: Color(0xFF0F766E),
-              size: 18,
+      children: [
+        for (final service in services)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: AppSpacing.hairline),
+                  child: Icon(
+                    Icons.support_agent_outlined,
+                    color: AppColors.iconMuted,
+                    size: AppSize.icon,
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        service.name,
+                        style: context.text.cardTitle.copyWith(
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                      if (service.category.isNotEmpty ||
+                          service.description.isNotEmpty) ...[
+                        const SizedBox(height: AppSpacing.hairline),
+                        Text(
+                          [
+                            service.category,
+                            service.description,
+                          ].where((value) => value.isNotEmpty).join(' · '),
+                          style: context.text.bodySmall.copyWith(
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                if (service.mandatory) ...[
+                  const SizedBox(width: AppSpacing.sm),
+                  Text(
+                    context.l10n.badgeRequired,
+                    style: context.text.label.copyWith(
+                      color: AppColors.dangerStrong,
+                    ),
+                  ),
+                ],
+              ],
             ),
           ),
-          title: Text(
-            service.name,
-            style: AppGoogleFonts.inter(
-              color: const Color(0xFF0F172A),
-              fontSize: 11.0,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          subtitle: Text(
-            [
-              service.category,
-              service.description,
-            ].where((value) => value.isNotEmpty).join(' • '),
-            style: AppGoogleFonts.inter(
-              color: const Color(0xFF64748B),
-              fontSize: 10.0,
-              height: 1.35,
-            ),
-          ),
-          trailing: service.mandatory
-              ? const Icon(Icons.check_circle, color: Color(0xFF0F766E))
-              : null,
-        );
-      }).toList(),
+      ],
     );
   }
 }

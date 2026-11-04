@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/utils/app_colors.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/regular_mode/basic_profile_screen.dart';
-import 'package:frontend/screens/regular_mode/location_profile_screen.dart';
-import 'package:frontend/screens/regular_mode/about_you_profile_screen.dart';
-import 'package:frontend/screens/regular_mode/eligibility_profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -94,7 +92,7 @@ void main() {
     (WidgetTester tester) async {
       final provider = AppProvider();
       await tester.pumpWidget(
-        buildTestApp(const LocationProfileScreen(), provider),
+        buildTestApp(const BasicProfileScreen(initialStep: 2), provider),
       );
       await tester.pumpAndSettle();
 
@@ -122,7 +120,7 @@ void main() {
       expect(find.text('OR FILL MANUALLY'), findsNothing);
 
       // Verify "Use Current Location" is shown (no "My" and no subtitle)
-      expect(find.text('Use Current Location'), findsOneWidget);
+      expect(find.text('Use current location'), findsOneWidget);
       expect(find.text('Use My Current Location'), findsNothing);
       expect(
         find.text('Get your current location automatically'),
@@ -151,7 +149,7 @@ void main() {
     (WidgetTester tester) async {
       final provider = AppProvider();
       await tester.pumpWidget(
-        buildTestApp(const AboutYouProfileScreen(), provider),
+        buildTestApp(const BasicProfileScreen(initialStep: 3), provider),
       );
       await tester.pumpAndSettle();
 
@@ -171,7 +169,7 @@ void main() {
       );
       expect(
         continueBtn.style?.backgroundColor?.resolve({}),
-        Colors.grey.shade300,
+        AppColors.disabledBg,
       );
 
       // Verify small descriptions under select options are removed
@@ -211,7 +209,7 @@ void main() {
       );
       expect(
         deselectedContinueBtn.style?.backgroundColor?.resolve({}),
-        Colors.grey.shade300,
+        AppColors.disabledBg,
       );
     },
   );
@@ -221,7 +219,7 @@ void main() {
     (WidgetTester tester) async {
       final provider = AppProvider();
       await tester.pumpWidget(
-        buildTestApp(const EligibilityProfileScreen(), provider),
+        buildTestApp(const BasicProfileScreen(initialStep: 4), provider),
       );
       await tester.pumpAndSettle();
 
@@ -327,7 +325,7 @@ void main() {
       // 2. In EligibilityProfileScreen the saved qualification, community and
       // income are selected again.
       await tester.pumpWidget(
-        buildTestApp(const EligibilityProfileScreen(), provider),
+        buildTestApp(const BasicProfileScreen(initialStep: 4), provider),
       );
       await tester.pumpAndSettle();
 

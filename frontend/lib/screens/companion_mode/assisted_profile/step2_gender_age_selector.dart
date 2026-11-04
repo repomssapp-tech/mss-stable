@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
@@ -27,19 +28,19 @@ class Step2GenderAgeSelector extends StatelessWidget {
         'value': 'Female',
         'label': l10n.genderFemale,
         'icon': Icons.female_rounded,
-        'color': const Color(0xFFEC4899),
+        'color': AppColors.primary,
       },
       {
         'value': 'Male',
         'label': l10n.genderMale,
         'icon': Icons.male_rounded,
-        'color': const Color(0xFF2563EB),
+        'color': AppColors.primary,
       },
       {
         'value': 'Other',
         'label': l10n.genderOther,
         'icon': Icons.transgender_rounded,
-        'color': const Color(0xFF8B5CF6),
+        'color': AppColors.primary,
       },
     ];
 
@@ -58,6 +59,7 @@ class Step2GenderAgeSelector extends StatelessWidget {
                 if (i > 0) const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: _buildGenderTile(
+                    context,
                     label: genders[i]['label'] as String,
                     value: genders[i]['value'] as String,
                     icon: genders[i]['icon'] as IconData,
@@ -83,7 +85,7 @@ class Step2GenderAgeSelector extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: const Color(0xFFE2E8F0)),
+            border: Border.all(color: AppColors.border),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.03),
@@ -96,11 +98,7 @@ class Step2GenderAgeSelector extends StatelessWidget {
             children: [
               Text(
                 l10n.ageSelectLabel,
-                style: AppGoogleFonts.inter(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: const Color(0xFF64748B),
-                ),
+                style: context.text.button.copyWith(color: AppColors.textMuted),
               ),
               const SizedBox(height: AppSpacing.md),
               Row(
@@ -120,19 +118,14 @@ class Step2GenderAgeSelector extends StatelessWidget {
                     children: [
                       Text(
                         '$selectedAge',
-                        style: AppGoogleFonts.poppins(
-                          fontSize: 48,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF2563EB),
-                          height: 1.1,
+                        style: context.text.titleMedium.copyWith(
+                          color: AppColors.primary,
                         ),
                       ),
                       Text(
                         l10n.ageYearsLabel,
-                        style: AppGoogleFonts.inter(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFF64748B),
+                        style: context.text.body.copyWith(
+                          color: AppColors.textMuted,
                         ),
                       ),
                     ],
@@ -160,21 +153,20 @@ class Step2GenderAgeSelector extends StatelessWidget {
                     ActionChip(
                       label: Text('$preset'),
                       backgroundColor: selectedAge == preset
-                          ? const Color(0xFFEFF6FF)
-                          : const Color(0xFFF8FAFC),
-                      labelStyle: AppGoogleFonts.inter(
-                        fontSize: 13,
+                          ? AppColors.primarySoft
+                          : AppColors.background,
+                      labelStyle: context.text.body.copyWith(
                         fontWeight: selectedAge == preset
                             ? FontWeight.bold
                             : FontWeight.w500,
                         color: selectedAge == preset
-                            ? const Color(0xFF2563EB)
-                            : const Color(0xFF475569),
+                            ? AppColors.primary
+                            : AppColors.textSecondary,
                       ),
                       side: BorderSide(
                         color: selectedAge == preset
-                            ? const Color(0xFF2563EB)
-                            : const Color(0xFFCBD5E1),
+                            ? AppColors.primary
+                            : AppColors.borderStrong,
                         width: selectedAge == preset ? 1.5 : 1.0,
                       ),
                       shape: RoundedRectangleBorder(
@@ -191,7 +183,8 @@ class Step2GenderAgeSelector extends StatelessWidget {
     );
   }
 
-  Widget _buildGenderTile({
+  Widget _buildGenderTile(
+    BuildContext context, {
     required String label,
     required String value,
     required IconData icon,
@@ -208,18 +201,16 @@ class Step2GenderAgeSelector extends StatelessWidget {
           horizontal: AppSpacing.xs,
         ),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFFEFF6FF) : Colors.white,
+          color: isSelected ? AppColors.primarySoft : Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isSelected
-                ? const Color(0xFF2563EB)
-                : const Color(0xFFE2E8F0),
+            color: isSelected ? AppColors.primary : AppColors.border,
             width: isSelected ? 2.0 : 1.0,
           ),
           boxShadow: [
             BoxShadow(
               color: isSelected
-                  ? const Color(0xFF2563EB).withValues(alpha: 0.12)
+                  ? AppColors.primary.withValues(alpha: 0.12)
                   : Colors.black.withValues(alpha: 0.02),
               blurRadius: 8,
               offset: const Offset(0, 2),
@@ -236,12 +227,12 @@ class Step2GenderAgeSelector extends StatelessWidget {
               decoration: BoxDecoration(
                 color: isSelected
                     ? color.withValues(alpha: 0.15)
-                    : const Color(0xFFF1F5F9),
+                    : AppColors.surfaceMuted,
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 icon,
-                color: isSelected ? color : const Color(0xFF64748B),
+                color: isSelected ? color : AppColors.textMuted,
                 size: 24,
               ),
             ),
@@ -253,12 +244,11 @@ class Step2GenderAgeSelector extends StatelessWidget {
               // and Hindi labels on one line.
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: AppGoogleFonts.inter(
-                fontSize: 14,
+              style: context.text.body.copyWith(
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
                 color: isSelected
-                    ? const Color(0xFF1E3A8A)
-                    : const Color(0xFF0F172A),
+                    ? AppColors.primaryDeep
+                    : AppColors.textPrimary,
               ),
             ),
           ],
@@ -282,17 +272,15 @@ class Step2GenderAgeSelector extends StatelessWidget {
           height: 52,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: enabled ? const Color(0xFFEFF6FF) : const Color(0xFFF1F5F9),
+            color: enabled ? AppColors.primarySoft : AppColors.surfaceMuted,
             border: Border.all(
-              color: enabled
-                  ? const Color(0xFFBFDBFE)
-                  : const Color(0xFFE2E8F0),
+              color: enabled ? AppColors.primaryBorder : AppColors.border,
               width: 1.5,
             ),
           ),
           child: Icon(
             icon,
-            color: enabled ? const Color(0xFF2563EB) : const Color(0xFF94A3B8),
+            color: enabled ? AppColors.primary : AppColors.iconMuted,
             size: 26,
           ),
         ),

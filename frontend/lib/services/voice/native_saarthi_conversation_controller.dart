@@ -30,7 +30,6 @@ class NativeSaarthiConversationController
   int _generation = 0;
   bool _disposed = false;
   bool _nativeSession = false;
-  bool _greeted = false;
   Future<void> _work = Future.value();
   Timer? _limit;
   List<Uint8List> _replyAudio = [];
@@ -77,11 +76,11 @@ class NativeSaarthiConversationController
       await native.connect(
         language,
         agent.conversationHistory,
-        skipGreeting: _greeted,
+        skipGreeting: true,
       );
       if (!_current(version)) return;
-      // The first greeting is played before capture. Resumes discard the new
-      // vendor greeting and reopen capture after its completion event.
+      // The chat already greets the user, so every session discards the vendor
+      // greeting and opens capture straight after its completion event.
     } catch (failure) {
       if (_current(version)) {
         await _fail(
@@ -111,7 +110,6 @@ class NativeSaarthiConversationController
           if (raw is! Map) return;
           switch (raw['type']) {
             case 'listen':
-              _greeted = true;
               await _listen(version);
             case 'transcript.partial':
               draft = raw['text'] as String;
@@ -120,6 +118,11 @@ class NativeSaarthiConversationController
               _limit?.cancel();
               final text = raw['text'] as String;
               await _stopMic();
+              // Sent without review, so a result with no words is not a request.
+              if (!text.contains(RegExp(r'[\p{L}\p{N}]', unicode: true))) {
+                await _fail('NO_SPEECH');
+                return;
+              }
               if (!_current(version)) return;
               draft = text;
               lastRequest = text;
@@ -152,7 +155,6 @@ class NativeSaarthiConversationController
                 );
               }
             case 'output.end':
-              _greeted = true;
               if (readAloud) await output.finish();
               if (!_current(version)) return;
               _lastAudio = _replyAudio;
@@ -194,6 +196,7 @@ class NativeSaarthiConversationController
     native.input(true);
     _samples = stream.listen((bytes) {
       if (_current(version) && phase == ConversationPhase.listening) {
+        reportInput(bytes);
         native.audio(bytes);
       }
     }, onError: (Object _) => unawaited(_fail('MIC_UNAVAILABLE')));
@@ -203,6 +206,7 @@ class NativeSaarthiConversationController
   }
 
   Future<void> _stopMic() async {
+    inputLevel.value = 0;
     native.input(false);
     await microphone.stop();
     final samples = _samples;
@@ -277,7 +281,6 @@ class NativeSaarthiConversationController
   @override
   Future<void> end() async {
     await _closeNative();
-    _greeted = false;
     await super.end();
   }
 

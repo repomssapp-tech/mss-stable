@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_colors.dart';
+import '../../../utils/app_size.dart';
 import '../../../utils/app_spacing.dart';
-import '../../../utils/responsive.dart';
 import '../../../utils/app_text.dart';
 
-/// Content section for the step-by-step scheme application process timeline.
+/// Content section for the step-by-step scheme application process timeline:
+/// a numbered circle per step, joined by a line that runs the step's height.
 class SchemeProcessContent extends StatelessWidget {
   final List<String> steps;
 
@@ -24,77 +25,75 @@ class SchemeProcessContent extends StatelessWidget {
     this.onOpenUrl,
   });
 
+  /// Diameter of each step number's circle.
+  static const double markerSize = 28;
+
+  bool _isLast(int index) => index == steps.length - 1;
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ..._steps(context),
+        for (var index = 0; index < steps.length; index++)
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ConstrainedBox(
+                  constraints: const BoxConstraints.tightFor(width: markerSize),
+                  child: Column(
+                    children: [
+                      Container(
+                        constraints: const BoxConstraints.tightFor(
+                          width: markerSize,
+                          height: markerSize,
+                        ),
+                        decoration: const BoxDecoration(
+                          color: AppColors.primarySoft,
+                          shape: BoxShape.circle,
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          "${index + 1}",
+                          style: context.text.label.copyWith(
+                            color: AppColors.primaryStrong,
+                          ),
+                        ),
+                      ),
+                      if (!_isLast(index))
+                        const Expanded(
+                          child: VerticalDivider(
+                            width: AppSize.borderWidth * 2,
+                            thickness: AppSize.borderWidth * 2,
+                            color: AppColors.primaryTint,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      top: AppSpacing.xs,
+                      bottom: _isLast(index) ? AppSpacing.none : AppSpacing.lg,
+                    ),
+                    child: Text(
+                      steps[index],
+                      style: context.text.body.copyWith(
+                        color: AppColors.textBody,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         if (showUnconfirmedNotice)
           _UnconfirmedNotice(url: officialUrl, onOpenUrl: onOpenUrl),
       ],
     );
-  }
-
-  List<Widget> _steps(BuildContext context) {
-    return List.generate(steps.length, (index) {
-      final bool isLast = index == steps.length - 1;
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Column(
-            children: [
-              Container(
-                width: adaptiveSize(context, base: 24, min: 20, max: 24),
-                height: adaptiveSize(context, base: 24, min: 20, max: 24),
-                decoration: const BoxDecoration(
-                  color: Color(0xFFEFF6FF),
-                  shape: BoxShape.circle,
-                ),
-                alignment: Alignment.center,
-                child: FitOneLine(
-                  child: Text(
-                    "${index + 1}",
-                    style: AppGoogleFonts.poppins(
-                      color: const Color(0xFF2563EB),
-                      fontSize: 10.5,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              if (!isLast)
-                Container(width: 2, height: 40, color: const Color(0xFFDBEAFE)),
-            ],
-          ),
-          const SizedBox(width: AppSpacing.md),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  steps[index],
-                  style: AppGoogleFonts.inter(
-                    color: const Color(0xFF0F172A),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 11.5,
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.hairline),
-                Text(
-                  context.l10n.processStepSubtitle,
-                  style: AppGoogleFonts.inter(
-                    color: const Color(0xFF64748B),
-                    fontSize: 9.0,
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.lg),
-              ],
-            ),
-          ),
-        ],
-      );
-    });
   }
 }
 
@@ -124,7 +123,11 @@ class _UnconfirmedNotice extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(Icons.open_in_new, size: 16, color: AppColors.primary),
+              Icon(
+                Icons.open_in_new,
+                size: AppSize.iconSm,
+                color: AppColors.primary,
+              ),
               const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: Text(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
-import '../../../utils/responsive.dart';
 import '../../../utils/app_text.dart';
 
 /// Seed-stage startup valuation estimator bottom sheet (ARR-multiple ranges).
@@ -25,7 +25,7 @@ void showValuationEstimatorSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    backgroundColor: Colors.white,
+    backgroundColor: AppColors.surface,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
     ),
@@ -60,7 +60,7 @@ void showValuationEstimatorSheet(BuildContext context) {
                       height: 4,
                       margin: const EdgeInsets.only(bottom: AppSpacing.lg),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFE2E8F0),
+                        color: AppColors.border,
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
@@ -70,12 +70,12 @@ void showValuationEstimatorSheet(BuildContext context) {
                       Container(
                         padding: const EdgeInsets.all(AppSpacing.sm),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFEFF6FF),
+                          color: AppColors.primarySoft,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: const Icon(
                           Icons.trending_up_outlined,
-                          color: Color(0xFF2563EB),
+                          color: AppColors.primary,
                           size: 18,
                         ),
                       ),
@@ -86,17 +86,14 @@ void showValuationEstimatorSheet(BuildContext context) {
                           children: [
                             Text(
                               l10n.valuationTitle,
-                              style: AppGoogleFonts.poppins(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFF0F172A),
+                              style: context.text.cardTitle.copyWith(
+                                color: AppColors.textPrimary,
                               ),
                             ),
                             Text(
                               l10n.valuationSubtitle,
-                              style: AppGoogleFonts.inter(
-                                fontSize: 10,
-                                color: const Color(0xFF64748B),
+                              style: context.text.bodySmall.copyWith(
+                                color: AppColors.textMuted,
                               ),
                             ),
                           ],
@@ -107,7 +104,7 @@ void showValuationEstimatorSheet(BuildContext context) {
                         icon: const Icon(
                           Icons.close,
                           size: 18,
-                          color: Color(0xFF64748B),
+                          color: AppColors.textMuted,
                         ),
                         tooltip: context.l10n.close,
                       ),
@@ -116,10 +113,8 @@ void showValuationEstimatorSheet(BuildContext context) {
                   const SizedBox(height: AppSpacing.xl),
                   Text(
                     l10n.valuationMrrLabel,
-                    style: AppGoogleFonts.inter(
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF334155),
+                    style: context.text.label.copyWith(
+                      color: AppColors.textBody,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.tight),
@@ -128,22 +123,18 @@ void showValuationEstimatorSheet(BuildContext context) {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: const Color(0xFFF8FAFC),
+                      fillColor: AppColors.background,
                       hintText: '200000',
-                      hintStyle: AppGoogleFonts.inter(
-                        fontSize: 12,
-                        color: const Color(0xFF94A3B8),
+                      hintStyle: context.text.bodySmall.copyWith(
+                        color: AppColors.iconMuted,
                       ),
                       prefixText: '₹ ',
                       helperText: l10n.valuationMrrHelper,
-                      helperStyle: AppGoogleFonts.inter(
-                        fontSize: 9,
-                        color: const Color(0xFF64748B),
+                      helperStyle: context.text.bodySmall.copyWith(
+                        color: AppColors.textMuted,
                       ),
-                      prefixStyle: AppGoogleFonts.inter(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF0F172A),
+                      prefixStyle: context.text.label.copyWith(
+                        color: AppColors.textPrimary,
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: AppSpacing.lg,
@@ -151,12 +142,12 @@ void showValuationEstimatorSheet(BuildContext context) {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                        borderSide: const BorderSide(color: AppColors.border),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: const BorderSide(
-                          color: Color(0xFF2563EB),
+                          color: AppColors.primary,
                           width: 1.5,
                         ),
                       ),
@@ -171,10 +162,8 @@ void showValuationEstimatorSheet(BuildContext context) {
                           children: [
                             Text(
                               l10n.valuationMomGrowth,
-                              style: AppGoogleFonts.inter(
-                                fontSize: 11,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFF334155),
+                              style: context.text.label.copyWith(
+                                color: AppColors.textBody,
                               ),
                             ),
                             const SizedBox(height: AppSpacing.tight),
@@ -186,17 +175,15 @@ void showValuationEstimatorSheet(BuildContext context) {
                                   ),
                               decoration: InputDecoration(
                                 filled: true,
-                                fillColor: const Color(0xFFF8FAFC),
+                                fillColor: AppColors.background,
                                 hintText: '15',
-                                hintStyle: AppGoogleFonts.inter(
-                                  fontSize: 12,
-                                  color: const Color(0xFF94A3B8),
+                                hintStyle: context.text.bodySmall.copyWith(
+                                  color: AppColors.iconMuted,
                                 ),
                                 suffixText: '%',
                                 helperText: l10n.valuationMomHelper,
-                                helperStyle: AppGoogleFonts.inter(
-                                  fontSize: 9,
-                                  color: const Color(0xFF64748B),
+                                helperStyle: context.text.bodySmall.copyWith(
+                                  color: AppColors.textMuted,
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
                                   horizontal: AppSpacing.lg,
@@ -205,13 +192,13 @@ void showValuationEstimatorSheet(BuildContext context) {
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: const BorderSide(
-                                    color: Color(0xFFE2E8F0),
+                                    color: AppColors.border,
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: const BorderSide(
-                                    color: Color(0xFF2563EB),
+                                    color: AppColors.primary,
                                     width: 1.5,
                                   ),
                                 ),
@@ -227,10 +214,8 @@ void showValuationEstimatorSheet(BuildContext context) {
                           children: [
                             Text(
                               l10n.valuationSector,
-                              style: AppGoogleFonts.inter(
-                                fontSize: 11,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFF334155),
+                              style: context.text.label.copyWith(
+                                color: AppColors.textBody,
                               ),
                             ),
                             const SizedBox(height: AppSpacing.tight),
@@ -239,11 +224,11 @@ void showValuationEstimatorSheet(BuildContext context) {
                               initialValue: selectedSector,
                               decoration: InputDecoration(
                                 filled: true,
-                                fillColor: const Color(0xFFF8FAFC),
+                                fillColor: AppColors.background,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: const BorderSide(
-                                    color: Color(0xFFE2E8F0),
+                                    color: AppColors.border,
                                   ),
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
@@ -262,7 +247,7 @@ void showValuationEstimatorSheet(BuildContext context) {
                                       value: sector,
                                       child: Text(
                                         _sectorLabel(context, sector),
-                                        style: const TextStyle(fontSize: 12),
+                                        style: context.text.bodySmall,
                                       ),
                                     );
                                   }).toList(),
@@ -283,16 +268,14 @@ void showValuationEstimatorSheet(BuildContext context) {
                       width: double.infinity,
                       padding: const EdgeInsets.all(AppSpacing.md),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFEF2F2),
+                        color: AppColors.dangerSoft,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: const Color(0xFFFCA5A5)),
+                        border: Border.all(color: AppColors.dangerBorder),
                       ),
                       child: Text(
                         error,
-                        style: AppGoogleFonts.inter(
-                          fontSize: 11,
-                          color: const Color(0xFFB91C1C),
-                          fontWeight: FontWeight.w600,
+                        style: context.text.label.copyWith(
+                          color: AppColors.dangerStrong,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -303,9 +286,9 @@ void showValuationEstimatorSheet(BuildContext context) {
                       width: double.infinity,
                       padding: const EdgeInsets.all(AppSpacing.md),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFEFF6FF),
+                        color: AppColors.primarySoft,
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: const Color(0xFFDBEAFE)),
+                        border: Border.all(color: AppColors.primaryTint),
                       ),
                       child: Column(
                         children: [
@@ -316,24 +299,17 @@ void showValuationEstimatorSheet(BuildContext context) {
                                 child: Text(
                                   l10n.valuationRange,
                                   softWrap: true,
-                                  style: AppGoogleFonts.inter(
-                                    fontSize: 11.5,
-                                    fontWeight: FontWeight.bold,
-                                    color: const Color(0xFF1E293B),
+                                  style: context.text.label.copyWith(
+                                    color: AppColors.textPrimary,
                                   ),
                                 ),
                               ),
                               const SizedBox(width: AppSpacing.sm),
                               Flexible(
-                                child: FitOneLine(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    '${formatVal(lowEstimate)} - ${formatVal(highEstimate)}',
-                                    style: AppGoogleFonts.poppins(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold,
-                                      color: const Color(0xFF2563EB),
-                                    ),
+                                child: Text(
+                                  '${formatVal(lowEstimate)} - ${formatVal(highEstimate)}',
+                                  style: context.text.cardTitle.copyWith(
+                                    color: AppColors.primary,
                                   ),
                                 ),
                               ),
@@ -343,7 +319,10 @@ void showValuationEstimatorSheet(BuildContext context) {
                             padding: EdgeInsets.symmetric(
                               vertical: AppSpacing.tight,
                             ),
-                            child: Divider(color: Color(0xFFDBEAFE), height: 1),
+                            child: Divider(
+                              color: AppColors.primaryTint,
+                              height: 1,
+                            ),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -352,25 +331,19 @@ void showValuationEstimatorSheet(BuildContext context) {
                                 child: Text(
                                   l10n.valuationCalculatedArr,
                                   softWrap: true,
-                                  style: AppGoogleFonts.inter(
-                                    fontSize: 11,
-                                    color: const Color(0xFF475569),
+                                  style: context.text.bodySmall.copyWith(
+                                    color: AppColors.textSecondary,
                                   ),
                                 ),
                               ),
                               const SizedBox(width: AppSpacing.sm),
                               Flexible(
-                                child: FitOneLine(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    l10n.valuationLakhFmt(
-                                      (arrVal / 100000).toStringAsFixed(1),
-                                    ),
-                                    style: AppGoogleFonts.poppins(
-                                      fontSize: 11.5,
-                                      fontWeight: FontWeight.w600,
-                                      color: const Color(0xFF0F172A),
-                                    ),
+                                child: Text(
+                                  l10n.valuationLakhFmt(
+                                    (arrVal / 100000).toStringAsFixed(1),
+                                  ),
+                                  style: context.text.cardTitle.copyWith(
+                                    color: AppColors.textPrimary,
                                   ),
                                 ),
                               ),
@@ -384,23 +357,17 @@ void showValuationEstimatorSheet(BuildContext context) {
                                 child: Text(
                                   l10n.valuationAppliedMultiple,
                                   softWrap: true,
-                                  style: AppGoogleFonts.inter(
-                                    fontSize: 11,
-                                    color: const Color(0xFF475569),
+                                  style: context.text.bodySmall.copyWith(
+                                    color: AppColors.textSecondary,
                                   ),
                                 ),
                               ),
                               const SizedBox(width: AppSpacing.sm),
                               Flexible(
-                                child: FitOneLine(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    '${appliedMultiple.toStringAsFixed(1)}x',
-                                    style: AppGoogleFonts.poppins(
-                                      fontSize: 11.5,
-                                      fontWeight: FontWeight.w600,
-                                      color: const Color(0xFF0F172A),
-                                    ),
+                                child: Text(
+                                  '${appliedMultiple.toStringAsFixed(1)}x',
+                                  style: context.text.cardTitle.copyWith(
+                                    color: AppColors.textPrimary,
                                   ),
                                 ),
                               ),
@@ -413,7 +380,6 @@ void showValuationEstimatorSheet(BuildContext context) {
                   ],
                   SizedBox(
                     width: double.infinity,
-                    height: 44,
                     child: ElevatedButton(
                       onPressed: () {
                         final double mrr =
@@ -449,21 +415,7 @@ void showValuationEstimatorSheet(BuildContext context) {
                           highEstimate = arr * (baseMultiple + 3);
                         });
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF2563EB),
-                        foregroundColor: Colors.white,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Text(
-                        l10n.valuationEstimate,
-                        style: AppGoogleFonts.inter(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12.5,
-                        ),
-                      ),
+                      child: Text(l10n.valuationEstimate),
                     ),
                   ),
                 ],

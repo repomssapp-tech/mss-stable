@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../utils/app_colors.dart';
+import '../../utils/app_radius.dart';
+import '../../utils/app_size.dart';
 import 'package:provider/provider.dart';
 import '../../providers/app_state_provider.dart';
 import '../../services/catalog/centralized_translator.dart';
@@ -173,7 +176,7 @@ class _FilterPanelState extends State<FilterPanel> {
               width: 48,
               height: 4,
               decoration: BoxDecoration(
-                color: const Color(0xFFCBD5E1),
+                color: AppColors.borderStrong,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -190,28 +193,19 @@ class _FilterPanelState extends State<FilterPanel> {
               children: [
                 Text(
                   context.l10n.filterTitle,
-                  style: AppGoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF0F172A),
+                  style: context.text.titleMedium.copyWith(
+                    color: AppColors.textPrimary,
                   ),
                 ),
                 if (active > 0)
-                  GestureDetector(
-                    onTap: _clear,
-                    child: Text(
-                      context.l10n.filterClearAll,
-                      style: AppGoogleFonts.inter(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFF2563EB),
-                      ),
-                    ),
+                  TextButton(
+                    onPressed: _clear,
+                    child: Text(context.l10n.filterClearAll),
                   ),
               ],
             ),
           ),
-          const Divider(height: 1, color: Color(0xFFE2E8F0)),
+          const Divider(height: 1, color: AppColors.border),
           Expanded(
             child: SingleChildScrollView(
               physics: const ClampingScrollPhysics(),
@@ -225,15 +219,15 @@ class _FilterPanelState extends State<FilterPanel> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (profileState.isNotEmpty) ...[
-                    GestureDetector(
-                      onTap: _prefillFromProfile,
+                    TextButton(
+                      onPressed: _prefillFromProfile,
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const Icon(
                             Icons.person_pin_circle_outlined,
                             size: 16,
-                            color: Color(0xFF2563EB),
+                            color: AppColors.primary,
                           ),
                           const SizedBox(width: AppSpacing.xs),
                           Text(
@@ -242,10 +236,8 @@ class _FilterPanelState extends State<FilterPanel> {
                                 profileState,
                               ),
                             ),
-                            style: AppGoogleFonts.inter(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: const Color(0xFF2563EB),
+                            style: context.text.label.copyWith(
+                              color: AppColors.primary,
                             ),
                           ),
                         ],
@@ -321,22 +313,9 @@ class _FilterPanelState extends State<FilterPanel> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: _apply,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF2563EB),
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: AppSpacing.md,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                  ),
                   child: Text(
                     context.l10n.filterShowSchemes(showCount),
-                    style: AppGoogleFonts.inter(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: context.text.button,
                   ),
                 ),
               ),
@@ -447,10 +426,8 @@ class _FilterPanelState extends State<FilterPanel> {
         children: [
           Text(
             title,
-            style: AppGoogleFonts.poppins(
-              fontSize: 13,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF475569),
+            style: context.text.cardTitle.copyWith(
+              color: AppColors.textSecondary,
             ),
           ),
           const SizedBox(height: AppSpacing.sm),
@@ -462,16 +439,18 @@ class _FilterPanelState extends State<FilterPanel> {
 
   Widget _chip(_ChipSpec spec) {
     final selected = spec.selected;
-    return GestureDetector(
+    // A 40dp chip inside a full 48dp tap area.
+    return InkWell(
       onTap: spec.onTap,
+      borderRadius: AppRadius.pillAll,
       child: Container(
-        height: 40,
+        constraints: const BoxConstraints(minHeight: AppSize.tapTarget),
         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
         decoration: BoxDecoration(
-          color: selected ? const Color(0xFF2563EB) : Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          color: selected ? AppColors.primary : AppColors.surface,
+          borderRadius: AppRadius.pillAll,
           border: Border.all(
-            color: selected ? const Color(0xFF2563EB) : const Color(0xFFE2E8F0),
+            color: selected ? AppColors.primary : AppColors.border,
           ),
         ),
         child: Row(
@@ -481,22 +460,18 @@ class _FilterPanelState extends State<FilterPanel> {
                 spec.label,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: AppGoogleFonts.inter(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: selected ? Colors.white : const Color(0xFF334155),
+                style: context.text.label.copyWith(
+                  color: selected ? Colors.white : AppColors.textBody,
                 ),
               ),
             ),
             const SizedBox(width: AppSpacing.xs),
             Text(
               '${spec.count}',
-              style: AppGoogleFonts.inter(
-                fontSize: 11,
-                fontWeight: FontWeight.w700,
+              style: context.text.label.copyWith(
                 color: selected
                     ? Colors.white.withValues(alpha: 0.85)
-                    : const Color(0xFF94A3B8),
+                    : AppColors.iconMuted,
               ),
             ),
           ],

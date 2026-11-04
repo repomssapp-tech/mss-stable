@@ -12,11 +12,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get goodMorning => 'Good Morning,';
 
   @override
-  String get completeYourProfile => 'Complete Your Profile';
+  String get completeYourProfile => 'Complete your profile';
 
   @override
   String get unlockPersonalizedSchemeRecommendations =>
-      'Unlock personalized scheme recommendations.';
+      'See the schemes that fit you';
 
   @override
   String get applicationsClosingSoon => 'Applications Closing Soon';
@@ -57,7 +57,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get startABusiness => 'Start a Business';
 
   @override
-  String get exploreMsmeSupport => 'Explore MSME Support';
+  String get exploreMsmeSupport => 'MSME support';
 
   @override
   String get schemes => 'Schemes';
@@ -84,7 +84,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get institutions => 'Institutions';
 
   @override
-  String get recommendedForYou => 'Recommended For You';
+  String get recommendedForYou => 'Recommended for you';
 
   @override
   String get homeRecommendationsEmptyMessage =>
@@ -94,16 +94,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get viewAll => 'View All';
 
   @override
-  String get latestUpdates => 'Latest Updates';
+  String get latestUpdates => 'Latest updates';
 
   @override
-  String get tipOfTheDay => 'Tip of the Day';
+  String get tipOfTheDay => 'Tip of the day';
 
   @override
   String get askAi => 'Ask AI';
 
   @override
   String get searchPlaceholder => 'Search schemes, benefits or ask anything...';
+
+  @override
+  String get homeSearchHint => 'Search schemes';
+
+  @override
+  String get homeAskSaarthi => 'Ask Saarthi';
 
   @override
   String get filter => 'Filter';
@@ -246,20 +252,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sortNameDesc => 'Scheme Name (Z-A)';
 
   @override
-  String get browseCategories => 'Browse Categories';
+  String get browseCategories => 'Browse categories';
 
   @override
-  String get forMe => 'For Me';
+  String get forMe => 'For me';
 
   @override
   String get activeBadge => 'Active';
 
   @override
-  String get calculatingMatches => 'Calculating matches...';
+  String get calculatingMatches => 'Finding matches';
 
   @override
   String schemesMatchProfile(Object count) {
-    return '$count schemes match your profile.';
+    return '$count schemes match your profile';
   }
 
   @override
@@ -314,16 +320,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get discoverTitle => 'Discover';
 
   @override
-  String get browseByCategories => 'Browse by Categories';
+  String get browseByCategories => 'By category';
 
   @override
   String get featuredCollections => 'Featured Collections';
 
   @override
-  String get browseByMinistry => 'Browse by Ministry';
+  String get browseByMinistry => 'By ministry';
 
   @override
-  String get browseByState => 'Browse by State';
+  String get browseByState => 'By state';
 
   @override
   String get smartAssessment => 'Smart Assessment';
@@ -337,7 +343,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get exploreTopCuratedCollections => 'Explore top curated collections';
+  String get exploreTopCuratedCollections =>
+      'Schemes grouped by category, ministry and state';
 
   @override
   String get schemesByGovernmentMinistries =>
@@ -352,11 +359,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Personalized recommendation matches';
 
   @override
-  String get savedTitle => 'Saved Schemes';
+  String get savedTitle => 'Saved schemes';
 
   @override
   String allSavedTabFormat(Object count) {
-    return 'All Saved ($count)';
+    return 'All saved ($count)';
   }
 
   @override
@@ -507,11 +514,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'No matches yet — try Search or Discover';
 
   @override
-  String get noSavedSchemes => 'No Saved Schemes Yet';
+  String get noSavedSchemes => 'No saved schemes yet';
 
   @override
   String get noSavedSchemesDesc =>
-      'Bookmark schemes while browsing to view them offline anytime.';
+      'Save a scheme while browsing and it stays here, even offline';
 
   @override
   String savedSubtitleCountFormat(int count) {
@@ -525,7 +532,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get savedRecentlyViewedEmptyTitle => 'No Schemes Viewed Yet';
+  String get savedRecentlyViewedEmptyTitle => 'No schemes viewed yet';
 
   @override
   String get savedRecentlyViewedEmptyDesc => 'Schemes you open appear here';
@@ -570,7 +577,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageSetting => 'Language';
 
   @override
-  String get navigationModeSetting => 'Navigation Mode';
+  String get navigationModeSetting => 'Navigation mode';
 
   @override
   String get navigationModeRegular => 'Regular';
@@ -591,24 +598,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notificationsDisabled => 'Notifications disabled';
 
   @override
-  String get securityPrivacyGroupHeader => 'Security & Privacy';
+  String get securityPrivacyGroupHeader => 'Security and privacy';
 
   @override
-  String get privacyPolicySetting => 'Privacy Policy';
+  String get privacyPolicySetting => 'Privacy policy';
 
   @override
   String get privacyPolicyContent =>
       'Your privacy is important to us. All personal data is encrypted and saved locally on this device.';
 
   @override
-  String get termsConditionsSetting => 'Terms & Conditions';
+  String get termsConditionsSetting => 'Terms and conditions';
 
   @override
   String get termsConditionsContent =>
       'By using MSS, you agree to our terms of service. All scheme information is aggregated from official government portals.';
 
   @override
-  String get deleteAccountSetting => 'Delete Account';
+  String get deleteAccountSetting => 'Delete account';
 
   @override
   String get deleteAccountTitle => 'Delete Account';
@@ -661,7 +668,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get helpFaqSetting => 'Help & FAQ';
 
   @override
-  String get contactUsSetting => 'Contact Us';
+  String get contactUsSetting => 'Contact us';
 
   @override
   String get logoutButton => 'Logout';
@@ -688,17 +695,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileIncomplete => 'Incomplete';
 
   @override
-  String get editProfile => 'Edit Profile';
+  String get editProfile => 'Edit profile';
 
   @override
-  String get userInformation => 'User Information';
+  String get userInformation => 'Your details';
 
   @override
-  String get eligibilityProfessionalDetails =>
-      'Eligibility & Professional Details';
+  String get eligibilityProfessionalDetails => 'Eligibility and work details';
 
   @override
-  String get businessInformation => 'Business Information';
+  String get businessInformation => 'Business details';
 
   @override
   String get labelFullName => 'Full Name';
@@ -852,7 +858,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get valNone => 'None';
 
   @override
-  String get schemeDetailsTitle => 'Scheme Details';
+  String get schemeDetailsTitle => 'Scheme details';
 
   @override
   String get tabOverview => 'Overview';
@@ -876,19 +882,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get schemeAtAGlance => 'Scheme at a glance';
 
   @override
-  String get benefitsDetails => 'Benefits Details';
+  String get benefitsDetails => 'Benefits';
 
   @override
-  String get eligibilityCriteria => 'Eligibility Criteria';
+  String get eligibilityCriteria => 'Who can apply';
 
   @override
-  String get requiredDocuments => 'Required Documents';
+  String get requiredDocuments => 'Documents you need';
 
   @override
-  String get requiredServices => 'Required Services';
+  String get requiredServices => 'Services you need';
 
   @override
-  String get applicationProcessHeader => 'Application Process';
+  String get applicationProcessHeader => 'How to apply';
 
   @override
   String get officialInformation => 'Official scheme information';
@@ -902,13 +908,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sourceButton => 'Source';
 
   @override
-  String get applyNowButton => 'Apply Now';
+  String get applyNowButton => 'Apply now';
 
   @override
-  String get saveSchemeButton => 'Save Scheme';
+  String get saveSchemeButton => 'Save scheme';
 
   @override
-  String get savedSchemeButton => 'Saved Scheme';
+  String get savedSchemeButton => 'Saved';
 
   @override
   String get noVerifiedLink => 'No verified official link is available.';
@@ -925,7 +931,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'No separate service requirement is listed for this scheme.';
 
   @override
-  String get getDocumentOnline => 'Get Document Online';
+  String get getDocumentOnline => 'Get it online';
 
   @override
   String issuedByFormat(Object authority) {
@@ -1793,20 +1799,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get retryVoice => 'Retry voice';
 
   @override
-  String get chooseYourLanguage => 'Choose Your Language';
+  String get chooseYourLanguage => 'Choose your language';
 
   @override
   String get languageSubtitle =>
       'Select your preferred language to explore government schemes in your language.';
 
   @override
-  String get yourLanguageExperience => 'Your Language, Your Experience';
+  String get yourLanguageExperience => 'Your language, your experience';
 
   @override
   String get changeAnytime => 'Change it anytime from Settings.';
 
   @override
-  String get welcome => 'Welcome!';
+  String get welcome => 'Welcome';
 
   @override
   String get loginSubtitle =>
@@ -1892,14 +1898,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get step3Of3 => '3/3 Complete';
 
   @override
-  String get whereLocated => 'Where Are You Located?';
+  String get whereLocated => 'Where are you located?';
 
   @override
   String get locationSubtitle =>
       'We use your location to recommend schemes available in your area.';
 
   @override
-  String get useCurrentLocation => 'Use Current Location';
+  String get useCurrentLocation => 'Use current location';
 
   @override
   String get fetchingCoordinates => 'Fetching coordinates...';
@@ -1954,7 +1960,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pleaseConsentToContinue => 'Please consent to continue';
 
   @override
-  String get tellUsAboutYou => 'Tell Us About You';
+  String get tellUsAboutYou => 'Tell us about you';
 
   @override
   String get aboutYouSubtitle => 'Choose the option that best describes you.';
@@ -2078,7 +2084,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Helps us recommend 100% accurate schemes & subsidies for you.';
 
   @override
-  String get firstGenGraduate => 'First-Generation Graduate';
+  String get firstGenGraduate => 'First-generation graduate';
 
   @override
   String get skipForNow => 'Skip for now';
@@ -2108,7 +2114,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get incomeAbove10l => 'Above ₹10 Lakhs';
 
   @override
-  String get specialCategories => 'Special Status / Priority';
+  String get specialCategories => 'Special status or priority';
 
   @override
   String get loading => 'Loading...';
@@ -2301,27 +2307,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get voiceRecommendedForYou => 'Recommended for you';
 
   @override
-  String get updatingSoon => 'Updating Soon';
+  String get updatingSoon => 'Updating soon';
 
   @override
-  String get updatingSoonCount => 'Updating Soon';
+  String get updatingSoonCount => 'Updating soon';
 
   @override
   String get gotIt => 'Got it';
 
   @override
   String comingSoonSchemesBody(Object name) {
-    return 'Schemes under \"$name\" are currently being verified and will be updated soon. Stay tuned!';
+    return 'Schemes under \"$name\" are being checked and will be added soon';
   }
 
   @override
-  String get allCategories => 'All Categories';
+  String get allCategories => 'All categories';
 
   @override
-  String get allMinistries => 'All Ministries';
+  String get allMinistries => 'All ministries';
 
   @override
-  String get allStatesAndUts => 'All States & UTs';
+  String get allStatesAndUts => 'All states and UTs';
 
   @override
   String get searchCategoriesHint => 'Search categories...';
@@ -3467,7 +3473,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchDiscoverSubtitle =>
-      'Find and explore all eligible government schemes';
+      'Find government schemes you can apply for';
 
   @override
   String get searchCompleteProfileTitle =>
@@ -3521,13 +3527,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clearFiltersAndExplore => 'Clear Filters & Explore Schemes';
 
   @override
-  String get removeSaved => 'Remove Saved';
+  String get removeSaved => 'Remove from saved';
 
   @override
   String get viewDetails => 'View Details';
 
   @override
-  String get eligibilityResultsTitle => 'Eligibility Results';
+  String get eligibilityResultsTitle => 'Eligibility results';
 
   @override
   String get eligibilityResultsCopiedToClipboard =>
@@ -4361,8 +4367,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileErrSelectIncome => 'Please select your annual income range';
 
   @override
-  String get settingsNavModeDialogBody =>
-      'Choose your preferred layout mode for navigating schemes and services.';
+  String get settingsNavModeDialogBody => 'Choose how you move around the app';
 
   @override
   String get settingsSwitchedToCompanion =>
@@ -4388,7 +4393,8 @@ class AppLocalizationsEn extends AppLocalizations {
       'Unable to verify password. Check your network.';
 
   @override
-  String get betaGateAuthorizedTestersOnly => 'Authorized Beta Testers Only';
+  String get betaGateAuthorizedTestersOnly =>
+      'For authorized beta testers only';
 
   @override
   String get betaGateAccess => 'Beta Access';
@@ -4432,21 +4438,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get voiceAssistantLabel => 'Voice assistant';
 
   @override
-  String get eligResGreatNews => 'Great News! 🎉';
+  String get eligResGreatNews => 'Your results';
 
   @override
   String get eligResEligibleForPrefix => 'You are eligible for\n';
 
   @override
   String eligResGovernmentSchemesCount(Object count) {
-    return '$count Government Schemes';
+    return '$count government schemes';
   }
 
   @override
   String get eligResBasedOnInfo => 'based on the information you provided';
 
   @override
-  String get eligResRecommendedSchemes => 'Recommended Schemes';
+  String get eligResRecommendedSchemes => 'Recommended schemes';
 
   @override
   String get eligResNoMatches =>
@@ -4457,10 +4463,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'These schemes are sorted based on your profile match and eligibility criteria.';
 
   @override
-  String get eligResSavedToast => 'Results saved to your eligibility profile!';
+  String get eligResSavedToast => 'Results saved to your eligibility profile';
 
   @override
-  String get eligResSaveResults => 'Save Results';
+  String get eligResSaveResults => 'Save results';
 
   @override
   String get eligResSecurePrivate => 'Your information is secure and private';
@@ -4470,20 +4476,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String eligResShareItem(Object name, Object percent) {
-    return '• $name ($percent% Match)';
+    return '• $name ($percent% match)';
   }
 
   @override
-  String get eligResEligibleSchemesTitle => 'Eligible Schemes';
+  String get eligResEligibleSchemesTitle => 'Eligible schemes';
 
   @override
-  String get eligResExploreAll => 'Explore All Schemes';
+  String get eligResExploreAll => 'Explore all schemes';
 
   @override
   String get eligResSaving => 'Saving...';
 
   @override
-  String get eligResSavedToProfile => 'Saved to Profile';
+  String get eligResSavedToProfile => 'Saved to profile';
 
   @override
   String get eligResSaveFailed => 'Failed to save results. Please try again.';
@@ -4638,7 +4644,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get savedRemoveNoLongerInterested =>
-      'Remove schemes you\'re no longer interested in.';
+      'Remove schemes you\'re no longer interested in';
 
   @override
   String get eduSchool => 'School (10th / 12th)';
@@ -5152,7 +5158,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get passwordSetting => 'Password';
 
   @override
-  String get activeSessionsSetting => 'Active Sessions';
+  String get activeSessionsSetting => 'Signed-in devices';
 
   @override
   String get setPasswordTitle => 'Set Password';
@@ -5935,19 +5941,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sv2TapWhenDone => 'Tap the mic when you\'re done';
 
   @override
-  String get sv2ConfirmTitle => 'Did I hear you right?';
-
-  @override
-  String get sv2Transcribed => 'TRANSCRIBED';
-
-  @override
-  String get sv2ConfirmHelp =>
-      'Tap the tick to send, the cross to discard, or the mic to say it again.';
-
-  @override
-  String get sv2EditTitle => 'Correct your request';
-
-  @override
   String get sv2Speak => 'Speak';
 
   @override
@@ -5955,9 +5948,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sv2Send => 'Send this';
-
-  @override
-  String get sv2Discard => 'Discard';
 
   @override
   String get sv2Room => 'Conversation room';
@@ -5986,6 +5976,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String sv2DocumentsReady(int ready, int total) {
     return '$ready of $total ready';
   }
+
+  @override
+  String get sv2OldSessions => 'Old sessions';
+
+  @override
+  String get sv2TypeMessage => 'Type a message to Saarthi';
 
   @override
   String get sv2HistoryTitle => 'Chat history';
@@ -6055,18 +6051,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sv2AutoplayBody => 'Saarthi reads every answer aloud';
-
-  @override
-  String get sv2HandsFree => 'Hands-free mode';
-
-  @override
-  String get sv2HandsFreeBody => 'Keep listening after each reply';
-
-  @override
-  String get sv2ConfirmSend => 'Confirm before sending';
-
-  @override
-  String get sv2ConfirmSendBody => 'Check what Saarthi heard before it is sent';
 
   @override
   String get sv2VoiceNote => 'Saarthi\'s voice is chosen for each language.';

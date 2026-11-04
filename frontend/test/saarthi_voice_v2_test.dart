@@ -24,6 +24,7 @@ import 'package:frontend/services/voice/realtime_speech_transport.dart';
 import 'package:frontend/services/voice/saarthi_conversation_controller.dart';
 import 'package:frontend/services/voice/saarthi_voice_settings.dart';
 import 'package:frontend/services/voice/voice_microphone.dart';
+import 'package:frontend/utils/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -72,7 +73,15 @@ class _Conversation extends SaarthiConversationController {
       );
 
   String? sent;
+  String? heard;
   int ends = 0;
+
+  void hearSound(Uint8List bytes) => reportInput(bytes);
+
+  @override
+  Future<void> hear(String reply) async {
+    heard = reply;
+  }
 
   void _set(ConversationPhase p) {
     phase = p;
@@ -94,9 +103,7 @@ class _Conversation extends SaarthiConversationController {
 
   @override
   Future<void> finishTurn() async {
-    draft = 'Find schemes for a food business';
-    editing = true;
-    _set(ConversationPhase.paused);
+    await send('Find schemes for a food business');
   }
 
   @override
@@ -172,34 +179,25 @@ void main() {
       );
       await tester.pump();
       expect(find.byKey(const Key('sv2-home')), findsOneWidget);
-      expect(
-        find.byKey(const Key('saarthi-notifications-btn')),
-        findsOneWidget,
-      );
+      expect(find.byKey(const Key('saarthi-profile-btn')), findsOneWidget);
 
-      // C1 -> C2
+      // Home -> listening
       await tester.tap(find.byKey(const Key('saarthi-start-speaking')));
       await tester.pump();
       expect(find.byKey(const Key('sv2-listening')), findsOneWidget);
       expect(find.text(l10n.sv2Listening('English')), findsOneWidget);
 
-      // C2 -> C3 (review before sending is on by default)
-      expect(c.reviewBeforeSend, isTrue);
+      // Finishing the turn sends straight away, with no review step
+      expect(c.reviewBeforeSend, isFalse);
       await tester.tap(find.byKey(const Key('sv2-finish-turn')));
-      await tester.pump();
-      expect(find.byKey(const Key('sv2-confirm')), findsOneWidget);
-      expect(find.text(l10n.sv2ConfirmTitle), findsOneWidget);
-
-      // C3 -> C4
-      await tester.tap(find.bySemanticsLabel(l10n.sv2Send));
       await tester.pump();
       expect(c.sent, 'Find schemes for a food business');
       expect(find.byKey(const Key('sv2-room')), findsOneWidget);
       expect(find.byKey(const Key('live-voice-status')), findsOneWidget);
       expect(find.text(l10n.sv2Thinking), findsOneWidget);
 
-      // End -> back home
-      await tester.tap(find.bySemanticsLabel(l10n.sv2EndConversation));
+      // The Home tab ends the conversation
+      await tester.tap(find.byKey(const Key('sv2-nav-home')));
       await tester.pump();
       expect(c.ends, greaterThan(0));
       expect(find.byKey(const Key('sv2-home')), findsOneWidget);
@@ -207,13 +205,14 @@ void main() {
       await tester.pumpWidget(const SizedBox());
     });
 
-    testWidgets('discarding the first request goes back home', (tester) async {
+    testWidgets('the pill is grey until connected; its bars follow sound', (
+      tester,
+    ) async {
       tester.view.physicalSize = const Size(720, 1560);
       tester.view.devicePixelRatio = 2;
       addTearDown(tester.view.reset);
       final c = _Conversation();
       addTearDown(() async => c.agent.dispose());
-      final l10n = await AppLocalizations.delegate.load(const Locale('en'));
       await tester.pumpWidget(
         _app(
           SaarthiVoiceScreen(
@@ -225,16 +224,160 @@ void main() {
       await tester.pump();
       await tester.tap(find.byKey(const Key('saarthi-start-speaking')));
       await tester.pump();
+
+      Color pill() => tester
+          .widget<Material>(find.byKey(const Key('sv2-wave-pill')))
+          .color!;
+      double bar() =>
+          tester.getSize(find.byKey(const Key('sv2-wave-14'))).height;
+
+      c._set(ConversationPhase.connecting);
+      await tester.pump();
+      expect(pill(), AppColors.disabledBg);
       await tester.tap(find.byKey(const Key('sv2-finish-turn')));
       await tester.pump();
-      await tester.tap(find.bySemanticsLabel(l10n.sv2Discard));
+      expect(c.sent, isNull, reason: 'cannot finish before connecting');
+
+      c._set(ConversationPhase.listening);
       await tester.pump();
-      expect(c.sent, isNull);
+      expect(pill(), AppColors.primary);
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(bar(), 6, reason: 'silence stays flat');
+
+      c.hearSound(Uint8List.fromList([0, 32, 0, 32]));
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(bar(), greaterThan(20));
+      await tester.pumpWidget(const SizedBox());
+    });
+
+    testWidgets('Back stays inside Saarthi and never exits from a chat', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(720, 1560);
+      tester.view.devicePixelRatio = 2;
+      addTearDown(tester.view.reset);
+      final c = _Conversation();
+      addTearDown(() async => c.agent.dispose());
+      await tester.pumpWidget(
+        _app(
+          SaarthiVoiceScreen(
+            conversation: c,
+            history: LocalChatHistory.inMemory(),
+          ),
+        ),
+      );
+      await tester.pump();
+      expect(SaarthiVoiceScreen.handlesBack, isFalse);
+
+      await tester.tap(find.byKey(const Key('saarthi-start-typing')));
+      await tester.pump();
+      await tester.pump();
+      expect(SaarthiVoiceScreen.handlesBack, isTrue);
+
+      await tester.binding.handlePopRoute();
+      expect(
+        SaarthiVoiceScreen.handlesBack,
+        isTrue,
+        reason: 'still true while the shell handler runs',
+      );
+      await tester.pumpAndSettle();
       expect(find.byKey(const Key('sv2-home')), findsOneWidget);
+      expect(SaarthiVoiceScreen.handlesBack, isFalse);
+      await tester.pumpWidget(const SizedBox());
+    });
+
+    testWidgets('the keyboard starts a typed chat without the mic', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(720, 1560);
+      tester.view.devicePixelRatio = 2;
+      addTearDown(tester.view.reset);
+      final c = _Conversation();
+      addTearDown(() async => c.agent.dispose());
+      await tester.pumpWidget(
+        _app(
+          SaarthiVoiceScreen(
+            conversation: c,
+            history: LocalChatHistory.inMemory(),
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.tap(find.byKey(const Key('saarthi-start-typing')));
+      await tester.pump();
+      await tester.pump();
+      expect(find.byKey(const Key('sv2-room')), findsOneWidget);
+      expect(c.phase, ConversationPhase.idle);
+
+      await tester.enterText(
+        find.byKey(const Key('sarvam-chat-input')),
+        'Schemes for farmers',
+      );
+      await tester.tap(find.byKey(const Key('sarvam-chat-send')));
+      await tester.pump();
+      expect(c.sent, 'Schemes for farmers');
+      expect(c.agent.speakReplies, isTrue, reason: 'restored after the turn');
+
+      // The small mic goes back to speaking in the same chat.
+      await tester.tap(find.byKey(const Key('sv2-composer-mic')));
+      await tester.pump();
+      expect(find.byKey(const Key('sv2-listening')), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox());
+    });
+
+    testWidgets('a saved spoken chat reopens, continues and can be re-heard', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(720, 1560);
+      tester.view.devicePixelRatio = 2;
+      addTearDown(tester.view.reset);
+      final c = _Conversation();
+      addTearDown(() async => c.agent.dispose());
+      final h = LocalChatHistory.inMemory();
+      final at = DateTime(2026, 10, 24, 12);
+      await h.save(
+        SavedChat(
+          id: 'v1',
+          mode: 'voice',
+          createdAt: at,
+          updatedAt: at,
+          messages: [
+            SavedChatMessage(role: 'user', text: 'Loans for women', at: at),
+            SavedChatMessage(role: 'assistant', text: 'Try Stand-Up.', at: at),
+          ],
+        ),
+      );
+      await tester.pumpWidget(
+        _app(SaarthiVoiceScreen(conversation: c, history: h)),
+      );
+      await tester.pump();
+
+      await tester.tap(find.byKey(const Key('sv2-nav-sessions')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Loans for women'));
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('sv2-room')), findsOneWidget);
+      expect(c.phase, ConversationPhase.idle, reason: 'mic stays off');
+      expect(c.agent.conversationHistory.map((m) => m['content']), [
+        'Loans for women',
+        'Try Stand-Up.',
+      ]);
+
+      await tester.tap(find.byKey(const Key('sv2-hear-1')));
+      await tester.pump();
+      expect(c.heard, 'Try Stand-Up.');
+
+      await tester.tap(find.byKey(const Key('sv2-room-mic')));
+      await tester.pump();
+      expect(find.byKey(const Key('sv2-listening')), findsOneWidget);
       await tester.pumpWidget(const SizedBox());
     });
 
     testWidgets('the voice switches reach the conversation', (tester) async {
+      tester.view.physicalSize = const Size(720, 1560);
+      tester.view.devicePixelRatio = 2;
+      addTearDown(tester.view.reset);
       final c = _Conversation();
       addTearDown(() async => c.agent.dispose());
       await tester.pumpWidget(
@@ -248,18 +391,12 @@ void main() {
       await tester.pump();
       await tester.tap(find.byKey(const Key('saarthi-start-speaking')));
       await tester.pump();
-      // Defaults: confirm on, hands-free off, read aloud on.
-      expect(c.reviewBeforeSend, isTrue);
-      expect(c.handsFree, isFalse);
+      // The mic always reopens after a reply; read aloud is on by default.
+      expect(c.handsFree, isTrue);
       expect(c.agent.speakReplies, isTrue);
 
-      await SaarthiVoiceSettings.instance.update(
-        confirmBeforeSend: false,
-        handsFree: true,
-        autoplay: false,
-      );
+      await SaarthiVoiceSettings.instance.update(autoplay: false);
       await tester.pump();
-      expect(c.reviewBeforeSend, isFalse);
       expect(c.handsFree, isTrue);
       expect(c.agent.speakReplies, isFalse);
       await tester.pumpWidget(const SizedBox());
@@ -309,6 +446,41 @@ void main() {
       h.resetCache();
       expect((await h.list()).map((c) => c.id), ['a']);
       await h.clear();
+      expect(await h.list(), isEmpty);
+    });
+
+    test('each account sees only its own chats', () async {
+      final dir = await Directory.systemTemp.createTemp('mss_history_');
+      addTearDown(() => dir.delete(recursive: true));
+      String? user = 'asha';
+      final h = LocalChatHistory(directory: () async => dir, owner: () => user);
+      await h.save(chat('a', DateTime(2026, 10, 20), 'Asha question'));
+
+      user = 'ravi';
+      expect(await h.list(), isEmpty);
+      await h.save(chat('r', DateTime(2026, 10, 21), 'Ravi question'));
+      await h.clear();
+
+      user = 'asha';
+      expect((await h.list()).map((c) => c.id), ['a']);
+    });
+
+    test('the old shared file moves to the first account only', () async {
+      final dir = await Directory.systemTemp.createTemp('mss_history_');
+      addTearDown(() => dir.delete(recursive: true));
+      final old = LocalChatHistory(
+        directory: () async => dir,
+        owner: () => null,
+      );
+      await old.save(chat('o', DateTime(2026, 10, 20), 'Old question'));
+      await File(
+        '${dir.path}/saarthi_history_guest_v1.json',
+      ).rename('${dir.path}/${LocalChatHistory.fileName}');
+
+      String? user = 'asha';
+      final h = LocalChatHistory(directory: () async => dir, owner: () => user);
+      expect((await h.list()).map((c) => c.id), ['o']);
+      user = 'ravi';
       expect(await h.list(), isEmpty);
     });
 
@@ -404,10 +576,10 @@ void main() {
     final l10n = await AppLocalizations.delegate.load(const Locale('en'));
     await tester.pumpWidget(_app(const SaarthiVoiceSettingsScreen()));
     await tester.pumpAndSettle();
-    expect(find.text(l10n.sv2HandsFree), findsOneWidget);
-    await tester.tap(find.text(l10n.sv2HandsFree));
+    expect(find.text(l10n.sv2Autoplay), findsOneWidget);
+    await tester.tap(find.text(l10n.sv2Autoplay));
     await tester.pumpAndSettle();
-    expect(SaarthiVoiceSettings.instance.handsFree, isTrue);
+    expect(SaarthiVoiceSettings.instance.autoplay, isFalse);
 
     await tester.tap(find.byKey(const Key('sv2-voice-lang-mr')));
     await tester.pumpAndSettle();
@@ -436,6 +608,125 @@ void main() {
           const [pmegp, mudra, other],
         ).map((s) => s.id),
         ['CEN-2', 'CEN-1'],
+      );
+    });
+
+    test('voice cards show only the schemes the reply names', () {
+      const hit = CloudSchemeResult(
+        id: 'CEN-3',
+        code: 'CEN-3',
+        name: 'Something',
+      );
+      // A search hit the reply never mentions gets no card.
+      expect(
+        schemesForReply(
+          'Try PMEGP first.',
+          const [pmegp, other],
+          results: const [hit],
+        ).map((s) => s.id),
+        ['CEN-1'],
+      );
+      expect(
+        schemesForReply(
+          'I need your state.',
+          const [pmegp, other],
+          results: const [hit],
+        ),
+        isEmpty,
+      );
+      // A hit counts when the reply says its title.
+      const said = CloudSchemeResult(
+        id: 'CEN-3',
+        code: 'CEN-3',
+        name: 'திட்டம் மூன்று',
+      );
+      expect(
+        schemesForReply(
+          'திட்டம் மூன்று உதவும்',
+          const [pmegp, other],
+          results: const [said],
+        ).map((s) => s.id),
+        ['CEN-3'],
+      );
+    });
+
+    test('an acronym matches when split up or spelled in Hindi or Tamil', () {
+      for (final reply in [
+        'Try P.M.E.G.P today.',
+        'Try P M E G P today.',
+        'पीएमईजीपी योजना देखें',
+        'पी.एम.ई.जी.पी योजना देखें',
+        'பிஎம்இஜிபி திட்டம் பாருங்கள்',
+        'பி.எம்.இ.ஜி.பி திட்டம் பாருங்கள்',
+        'பிஎம்இஜிபியில் சேரலாம்',
+      ]) {
+        expect(
+          schemesMentionedIn(reply, const [pmegp, other]).map((s) => s.id),
+          ['CEN-1'],
+          reason: reply,
+        );
+      }
+    });
+
+    test('names ignore punctuation, spelling and Hindi or Tamil endings', () {
+      const named = Scheme(
+        id: 'CEN-4',
+        name: "Prime Minister's Awas Programme",
+        nativeNames: {
+          'name': {'ta': 'பிரதம மந்திரி வீட்டு திட்டம்'},
+          'shortName': {'hi': 'प्रधानमंत्री आवास योजना'},
+        },
+      );
+      for (final reply in [
+        'The Prime Ministers Awas Program helps.',
+        'பிரதம மந்திரி வீட்டு திட்டத்தின் கீழ் உதவி கிடைக்கும்',
+        'प्रधानमंत्री आवास योजना से मदद मिलेगी',
+      ]) {
+        expect(
+          schemesMentionedIn(reply, const [named, other]).map((s) => s.id),
+          ['CEN-4'],
+          reason: reply,
+        );
+      }
+    });
+
+    test('one unique word of a name counts only for a search hit', () {
+      const hit = CloudSchemeResult(id: 'CEN-2', code: 'CEN-2', name: '');
+      const reply = 'Mudra gives small loans.';
+      expect(
+        schemesForReply(
+          reply,
+          const [mudra, other],
+          results: const [hit],
+        ).map((s) => s.id),
+        ['CEN-2'],
+      );
+      expect(
+        schemesForReply(reply, const [mudra, other], results: const []),
+        isEmpty,
+      );
+      // A word another scheme's name also has says nothing.
+      const mudraTwo = Scheme(id: 'CEN-5', name: 'Mudra Support Plan');
+      expect(
+        schemesForReply(reply, const [mudra, mudraTwo], results: const [hit]),
+        isEmpty,
+      );
+    });
+
+    test('schemes sharing a name give one card, the search hit first', () {
+      const twin = Scheme(
+        id: 'TN-1',
+        name: 'PMEGP Tamil Nadu Window',
+        shortName: 'PMEGP',
+      );
+      const hit = CloudSchemeResult(id: 'TN-1', code: 'TN-1', name: '');
+      expect(
+        schemesForReply(
+          'Try PMEGP.',
+          const [pmegp, twin],
+          results: const [hit],
+        ).map((s) => s.id),
+        ['TN-1'],
       );
     });
 

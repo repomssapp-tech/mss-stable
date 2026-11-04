@@ -41,8 +41,7 @@ class CatalogFreshnessFooter extends StatelessWidget {
           child: Center(
             child: Text(
               label,
-              style: AppGoogleFonts.inter(
-                fontSize: 11,
+              style: context.text.bodySmall.copyWith(
                 color: AppColors.textSecondary,
               ),
             ),

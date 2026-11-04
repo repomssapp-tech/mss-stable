@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_colors.dart';
+import '../../../utils/money_format.dart';
 import '../../../utils/app_radius.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/app_text.dart';
-import '../../../utils/responsive.dart';
 
 /// GST / tax calculator bottom sheet (CGST + SGST + total invoice).
 ///
@@ -28,7 +28,7 @@ void showGstCalculatorSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    backgroundColor: Colors.white,
+    backgroundColor: AppColors.surface,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
     ),
@@ -54,7 +54,7 @@ void showGstCalculatorSheet(BuildContext context) {
                       height: 4,
                       margin: const EdgeInsets.only(bottom: AppSpacing.lg),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFE2E8F0),
+                        color: AppColors.border,
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
@@ -64,12 +64,12 @@ void showGstCalculatorSheet(BuildContext context) {
                       Container(
                         padding: const EdgeInsets.all(AppSpacing.sm),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFEFF6FF),
+                          color: AppColors.primarySoft,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: const Icon(
                           Icons.percent_outlined,
-                          color: Color(0xFF2563EB),
+                          color: AppColors.primary,
                           size: 18,
                         ),
                       ),
@@ -80,17 +80,14 @@ void showGstCalculatorSheet(BuildContext context) {
                           children: [
                             Text(
                               context.l10n.calcGstTitle,
-                              style: AppGoogleFonts.poppins(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFF0F172A),
+                              style: context.text.cardTitle.copyWith(
+                                color: AppColors.textPrimary,
                               ),
                             ),
                             Text(
                               context.l10n.calcGstSub,
-                              style: AppGoogleFonts.inter(
-                                fontSize: 10,
-                                color: const Color(0xFF64748B),
+                              style: context.text.bodySmall.copyWith(
+                                color: AppColors.textMuted,
                               ),
                             ),
                           ],
@@ -101,7 +98,7 @@ void showGstCalculatorSheet(BuildContext context) {
                         icon: const Icon(
                           Icons.close,
                           size: 18,
-                          color: Color(0xFF64748B),
+                          color: AppColors.textMuted,
                         ),
                         tooltip: context.l10n.close,
                       ),
@@ -110,10 +107,8 @@ void showGstCalculatorSheet(BuildContext context) {
                   const SizedBox(height: AppSpacing.xl),
                   Text(
                     context.l10n.calcBaseAmountLabel,
-                    style: AppGoogleFonts.inter(
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF334155),
+                    style: context.text.label.copyWith(
+                      color: AppColors.textBody,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.tight),
@@ -124,22 +119,18 @@ void showGstCalculatorSheet(BuildContext context) {
                     ),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: const Color(0xFFF8FAFC),
+                      fillColor: AppColors.background,
                       hintText: '50000',
-                      hintStyle: AppGoogleFonts.inter(
-                        fontSize: 12,
-                        color: const Color(0xFF94A3B8),
+                      hintStyle: context.text.bodySmall.copyWith(
+                        color: AppColors.iconMuted,
                       ),
                       prefixText: '₹ ',
                       helperText: context.l10n.calcBaseAmountHelper,
-                      helperStyle: AppGoogleFonts.inter(
-                        fontSize: 9,
-                        color: const Color(0xFF64748B),
+                      helperStyle: context.text.bodySmall.copyWith(
+                        color: AppColors.textMuted,
                       ),
-                      prefixStyle: AppGoogleFonts.inter(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF0F172A),
+                      prefixStyle: context.text.label.copyWith(
+                        color: AppColors.textPrimary,
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: AppSpacing.lg,
@@ -147,12 +138,12 @@ void showGstCalculatorSheet(BuildContext context) {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                        borderSide: const BorderSide(color: AppColors.border),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: const BorderSide(
-                          color: Color(0xFF2563EB),
+                          color: AppColors.primary,
                           width: 1.5,
                         ),
                       ),
@@ -161,10 +152,8 @@ void showGstCalculatorSheet(BuildContext context) {
                   const SizedBox(height: AppSpacing.lg),
                   Text(
                     context.l10n.calcGstRateLabel,
-                    style: AppGoogleFonts.inter(
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF334155),
+                    style: context.text.label.copyWith(
+                      color: AppColors.textBody,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.sm),
@@ -182,14 +171,13 @@ void showGstCalculatorSheet(BuildContext context) {
                             label: Center(
                               child: Text(
                                 '${rate.toStringAsFixed(0)}%',
-                                style: AppGoogleFonts.inter(
-                                  fontSize: 11.5,
+                                style: context.text.bodySmall.copyWith(
                                   fontWeight: isSelected
                                       ? FontWeight.bold
                                       : FontWeight.normal,
                                   color: isSelected
-                                      ? const Color(0xFF2563EB)
-                                      : const Color(0xFF475569),
+                                      ? AppColors.primary
+                                      : AppColors.textSecondary,
                                 ),
                               ),
                             ),
@@ -199,16 +187,16 @@ void showGstCalculatorSheet(BuildContext context) {
                                 setModalState(() => gstPercentage = rate);
                               }
                             },
-                            selectedColor: const Color(0xFFEFF6FF),
-                            backgroundColor: Colors.white,
-                            checkmarkColor: const Color(0xFF2563EB),
+                            selectedColor: AppColors.primarySoft,
+                            backgroundColor: AppColors.surface,
+                            checkmarkColor: AppColors.primary,
                             showCheckmark: false,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                               side: BorderSide(
                                 color: isSelected
-                                    ? const Color(0xFF2563EB)
-                                    : const Color(0xFFE2E8F0),
+                                    ? AppColors.primary
+                                    : AppColors.border,
                                 width: isSelected ? 1.5 : 1,
                               ),
                             ),
@@ -279,16 +267,14 @@ void showGstCalculatorSheet(BuildContext context) {
                       width: double.infinity,
                       padding: const EdgeInsets.all(AppSpacing.md),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFEF2F2),
+                        color: AppColors.dangerSoft,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: const Color(0xFFFCA5A5)),
+                        border: Border.all(color: AppColors.dangerBorder),
                       ),
                       child: Text(
                         context.l10n.calcErrValidBaseAmount,
-                        style: AppGoogleFonts.inter(
-                          fontSize: 11,
-                          color: const Color(0xFFB91C1C),
-                          fontWeight: FontWeight.w600,
+                        style: context.text.label.copyWith(
+                          color: AppColors.dangerStrong,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -299,9 +285,9 @@ void showGstCalculatorSheet(BuildContext context) {
                       width: double.infinity,
                       padding: const EdgeInsets.all(AppSpacing.md),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFEFF6FF),
+                        color: AppColors.primarySoft,
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: const Color(0xFFDBEAFE)),
+                        border: Border.all(color: AppColors.primaryTint),
                       ),
                       child: Column(
                         children: [
@@ -312,23 +298,17 @@ void showGstCalculatorSheet(BuildContext context) {
                                 child: Text(
                                   context.l10n.calcBasePrice,
                                   softWrap: true,
-                                  style: AppGoogleFonts.inter(
-                                    fontSize: 11.5,
-                                    color: const Color(0xFF475569),
+                                  style: context.text.bodySmall.copyWith(
+                                    color: AppColors.textSecondary,
                                   ),
                                 ),
                               ),
                               const SizedBox(width: AppSpacing.sm),
                               Flexible(
-                                child: FitOneLine(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    '₹ ${baseVal.toStringAsFixed(2)}',
-                                    style: AppGoogleFonts.poppins(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: const Color(0xFF0F172A),
-                                    ),
+                                child: Text(
+                                  '₹ ${baseVal.toStringAsFixed(2)}',
+                                  style: context.text.cardTitle.copyWith(
+                                    color: AppColors.textPrimary,
                                   ),
                                 ),
                               ),
@@ -338,20 +318,26 @@ void showGstCalculatorSheet(BuildContext context) {
                             padding: EdgeInsets.symmetric(
                               vertical: AppSpacing.tight,
                             ),
-                            child: Divider(color: Color(0xFFDBEAFE), height: 1),
+                            child: Divider(
+                              color: AppColors.primaryTint,
+                              height: 1,
+                            ),
                           ),
                           if (interState)
                             _taxRow(
+                              context,
                               'IGST (${gstPercentage.toStringAsFixed(0)}%)',
                               igstVal,
                             )
                           else ...[
                             _taxRow(
+                              context,
                               'CGST (${(gstPercentage / 2).toStringAsFixed(1)}%)',
                               cgstVal,
                             ),
                             const SizedBox(height: AppSpacing.xs),
                             _taxRow(
+                              context,
                               'SGST (${(gstPercentage / 2).toStringAsFixed(1)}%)',
                               sgstVal,
                             ),
@@ -360,7 +346,10 @@ void showGstCalculatorSheet(BuildContext context) {
                             padding: EdgeInsets.symmetric(
                               vertical: AppSpacing.tight,
                             ),
-                            child: Divider(color: Color(0xFFDBEAFE), height: 1),
+                            child: Divider(
+                              color: AppColors.primaryTint,
+                              height: 1,
+                            ),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -369,24 +358,17 @@ void showGstCalculatorSheet(BuildContext context) {
                                 child: Text(
                                   context.l10n.calcTotalInvoice,
                                   softWrap: true,
-                                  style: AppGoogleFonts.inter(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: const Color(0xFF1E293B),
+                                  style: context.text.label.copyWith(
+                                    color: AppColors.textPrimary,
                                   ),
                                 ),
                               ),
                               const SizedBox(width: AppSpacing.sm),
                               Flexible(
-                                child: FitOneLine(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    '₹ ${totalVal.toStringAsFixed(2)}',
-                                    style: AppGoogleFonts.poppins(
-                                      fontSize: 13.5,
-                                      fontWeight: FontWeight.bold,
-                                      color: const Color(0xFF2563EB),
-                                    ),
+                                child: Text(
+                                  '₹ ${totalVal.toStringAsFixed(2)}',
+                                  style: context.text.cardTitle.copyWith(
+                                    color: AppColors.primary,
                                   ),
                                 ),
                               ),
@@ -399,7 +381,6 @@ void showGstCalculatorSheet(BuildContext context) {
                   ],
                   SizedBox(
                     width: double.infinity,
-                    height: 44,
                     child: ElevatedButton(
                       onPressed: () {
                         final double base =
@@ -421,21 +402,7 @@ void showGstCalculatorSheet(BuildContext context) {
                           totalVal = base + gstAmount;
                         });
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF2563EB),
-                        foregroundColor: Colors.white,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Text(
-                        context.l10n.calcBtnCalculateTax,
-                        style: AppGoogleFonts.inter(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12.5,
-                        ),
-                      ),
+                      child: Text(context.l10n.calcBtnCalculateTax),
                     ),
                   ),
                 ],
@@ -449,28 +416,22 @@ void showGstCalculatorSheet(BuildContext context) {
 }
 
 /// One tax line in the result card: label on the left, rupee amount right.
-Widget _taxRow(String label, double amount) => Row(
+/// The amount wraps rather than shrinking.
+Widget _taxRow(BuildContext context, String label, double amount) => Row(
   mainAxisAlignment: MainAxisAlignment.spaceBetween,
   children: [
     Flexible(
       child: Text(
         label,
-        softWrap: true,
-        style: AppGoogleFonts.inter(fontSize: 11, color: AppColors.textSecondary),
+        style: context.text.bodySmall.copyWith(color: AppColors.textSecondary),
       ),
     ),
     const SizedBox(width: AppSpacing.sm),
-    Flexible(
-      child: FitOneLine(
-        alignment: Alignment.centerRight,
-        child: Text(
-          '₹ ${amount.toStringAsFixed(2)}',
-          style: AppGoogleFonts.poppins(
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-            color: AppColors.textPrimary,
-          ),
-        ),
+    Text(
+      formatInr(amount),
+      style: context.text.cardTitle.copyWith(
+        color: AppColors.textPrimary,
+        fontFeatures: const [FontFeature.tabularFigures()],
       ),
     ),
   ],

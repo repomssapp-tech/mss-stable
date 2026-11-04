@@ -35,5 +35,8 @@ class DeviceVoiceMicrophone implements VoiceMicrophone {
   }
 
   @override
-  Future<void> dispose() async { await stop(); await _recorder?.dispose(); }
+  Future<void> dispose() async {
+    await stop();
+    await _recorder?.dispose();
+  }
 }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_size.dart';
+import '../../../utils/app_radius.dart';
+import '../../../utils/app_colors.dart';
 import '../../../utils/app_text.dart';
 import 'package:flutter/services.dart';
 
@@ -18,12 +21,12 @@ class Step1BasicDetailsForm extends StatelessWidget {
   final VoidCallback onOpenConsentModal;
   final VoidCallback onFieldChanged;
 
-  static const Color kPrimaryBlue = Color(0xFF2563EB);
-  static const Color kSlate900 = Color(0xFF0F172A);
-  static const Color kSlate800 = Color(0xFF1E293B);
-  static const Color kSlate500 = Color(0xFF64748B);
-  static const Color kBorderGrey = Color(0xFFE2E8F0);
-  static const Color kInfoBlueBg = Color(0xFFF0F5FA);
+  static const Color kPrimaryBlue = AppColors.primary;
+  static const Color kSlate900 = AppColors.textPrimary;
+  static const Color kSlate800 = AppColors.textPrimary;
+  static const Color kSlate500 = AppColors.textMuted;
+  static const Color kBorderGrey = AppColors.border;
+  static const Color kInfoBlueBg = AppColors.primarySoft;
 
   const Step1BasicDetailsForm({
     super.key,
@@ -69,7 +72,7 @@ class Step1BasicDetailsForm extends StatelessWidget {
         Text(
           l10n.basicDetailsSubtitle,
           textAlign: TextAlign.center,
-          style: AppGoogleFonts.inter(fontSize: 13.5, color: kSlate500),
+          style: context.text.body.copyWith(color: kSlate500),
         ),
         const SizedBox(height: AppSpacing.xl),
 
@@ -138,16 +141,12 @@ class Step1BasicDetailsForm extends StatelessWidget {
             Text.rich(
               TextSpan(
                 text: l10n.labelGender,
-                style: AppGoogleFonts.inter(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: kSlate900,
-                ),
+                style: context.text.button.copyWith(color: kSlate900),
                 children: const [
                   TextSpan(
                     text: ' *',
                     style: TextStyle(
-                      color: Color(0xFFDC2626),
+                      color: AppColors.danger,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -157,14 +156,24 @@ class Step1BasicDetailsForm extends StatelessWidget {
             const SizedBox(height: AppSpacing.xs),
             Row(
               children: [
-                Expanded(child: _buildGenderBox(l10n.genderMale, Icons.male)),
-                const SizedBox(width: AppSpacing.xs),
                 Expanded(
-                  child: _buildGenderBox(l10n.genderFemale, Icons.female),
+                  child: _buildGenderBox(context, l10n.genderMale, Icons.male),
                 ),
                 const SizedBox(width: AppSpacing.xs),
                 Expanded(
-                  child: _buildGenderBox(l10n.genderOther, Icons.transgender),
+                  child: _buildGenderBox(
+                    context,
+                    l10n.genderFemale,
+                    Icons.female,
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.xs),
+                Expanded(
+                  child: _buildGenderBox(
+                    context,
+                    l10n.genderOther,
+                    Icons.transgender,
+                  ),
                 ),
               ],
             ),
@@ -175,16 +184,14 @@ class Step1BasicDetailsForm extends StatelessWidget {
                   const Icon(
                     Icons.error_outline_rounded,
                     size: 13,
-                    color: Color(0xFFDC2626),
+                    color: AppColors.danger,
                   ),
                   const SizedBox(width: AppSpacing.xs),
                   Expanded(
                     child: Text(
                       l10n.profileErrSelectGender,
-                      style: AppGoogleFonts.inter(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xFFDC2626),
+                      style: context.text.bodySmall.copyWith(
+                        color: AppColors.danger,
                       ),
                     ),
                   ),
@@ -239,22 +246,14 @@ class Step1BasicDetailsForm extends StatelessWidget {
       children: [
         Text(
           l10n.profileConsentSectionTitle,
-          style: AppGoogleFonts.inter(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            color: kSlate900,
-          ),
+          style: context.text.button.copyWith(color: kSlate900),
         ),
         const SizedBox(height: AppSpacing.sm),
         // The data-use consent is given by completing the profile: only a
         // notice and a way to read the document are shown, no checkbox.
         Text(
           l10n.profileConsentCheckboxLabel,
-          style: AppGoogleFonts.inter(
-            fontSize: 13,
-            color: kSlate800,
-            height: 1.45,
-          ),
+          style: context.text.body.copyWith(color: kSlate800),
         ),
         const SizedBox(height: AppSpacing.xs),
         Padding(
@@ -266,9 +265,7 @@ class Step1BasicDetailsForm extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
               child: Text(
                 l10n.profileConsentReadMore,
-                style: AppGoogleFonts.inter(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
+                style: context.text.button.copyWith(
                   color: kPrimaryBlue,
                   decoration: context.linkDecoration,
                   decorationColor: kPrimaryBlue.withValues(alpha: 0.5),
@@ -281,11 +278,12 @@ class Step1BasicDetailsForm extends StatelessWidget {
     );
   }
 
-  Widget _buildGenderBox(String gender, IconData icon) {
+  Widget _buildGenderBox(BuildContext context, String gender, IconData icon) {
     final isSelected = selectedGender == gender;
-    const activeBg = Color(0xFFF0F5FF);
+    const activeBg = AppColors.primarySoft;
 
-    return GestureDetector(
+    return InkWell(
+      borderRadius: AppRadius.mdAll,
       onTap: () {
         onGenderChanged(isSelected ? '' : gender);
       },
@@ -302,14 +300,17 @@ class Step1BasicDetailsForm extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: isSelected ? kPrimaryBlue : kSlate500, size: 13),
+            Icon(
+              icon,
+              color: isSelected ? kPrimaryBlue : kSlate500,
+              size: AppSize.iconSm,
+            ),
             const SizedBox(width: AppSpacing.hairline),
             Flexible(
               child: Text(
                 gender,
                 overflow: TextOverflow.ellipsis,
-                style: AppGoogleFonts.inter(
-                  fontSize: 12,
+                style: context.text.bodySmall.copyWith(
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                   color: isSelected ? kPrimaryBlue : kSlate800,
                 ),
@@ -327,7 +328,7 @@ class Step1BasicDetailsForm extends StatelessWidget {
       decoration: BoxDecoration(
         color: kInfoBlueBg,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFD0E1FD)),
+        border: Border.all(color: AppColors.primaryBorder),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -341,11 +342,7 @@ class Step1BasicDetailsForm extends StatelessWidget {
           Expanded(
             child: Text(
               context.l10n.profileInfoNote,
-              style: AppGoogleFonts.inter(
-                fontSize: 12,
-                color: kSlate800,
-                height: 1.4,
-              ),
+              style: context.text.bodySmall.copyWith(color: kSlate800),
             ),
           ),
         ],

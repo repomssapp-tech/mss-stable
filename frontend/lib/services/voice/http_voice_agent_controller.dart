@@ -98,6 +98,23 @@ class HttpVoiceAgentController extends ChangeNotifier
   List<Map<String, String>> get conversationHistory =>
       _history.map((item) => Map<String, String>.from(item)).toList();
 
+  /// Replaces the context sent with the next turn: empty for a new chat, or the
+  /// saved turns of a chat being continued (trimmed like a live conversation).
+  void restoreHistory(List<Map<String, String>> turns) {
+    _history
+      ..clear()
+      ..addAll(turns);
+    while (_history.length > 8 ||
+        _history.fold<int>(0, (sum, item) => sum + item['content']!.length) >
+            8000) {
+      _history.removeAt(0);
+    }
+    _pending = null;
+    _lastAudio = null;
+    _lastReply = null;
+    _lastReplyLanguage = null;
+  }
+
   /// Native calls share the same accessible transcript and correction history.
   void acceptNativeTranscript(String text, {required bool user}) {
     if (_disposed || text.trim().isEmpty) return;
@@ -313,6 +330,17 @@ class HttpVoiceAgentController extends ChangeNotifier
         _set(_state.copyWith(isProcessing: false, isSpeaking: false));
       }
     }
+  }
+
+  /// Speaks [reply] again, which may be any earlier reply of the conversation.
+  Future<void> replay(String reply) async {
+    if (reply != _lastReply) {
+      _lastAudio = null;
+      _lastReply = reply;
+    }
+    _lastReplyLanguage =
+        _selectedLanguage ?? VoiceLanguage.code(_languageCode());
+    await replayLastReply();
   }
 
   @override
