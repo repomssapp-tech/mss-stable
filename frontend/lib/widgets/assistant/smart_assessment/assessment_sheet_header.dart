@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 import '../../../screens/regular_mode/categories/categories_data.dart';
 import '../../../screens/regular_mode/categories/state_map_painter.dart';
 import '../../../utils/app_spacing.dart';
@@ -39,7 +40,7 @@ class AssessmentSheetHeader extends StatelessWidget {
             width: 36,
             height: 4,
             decoration: BoxDecoration(
-              color: const Color(0xFFE2E8F0),
+              color: AppColors.border,
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -89,10 +90,8 @@ class AssessmentSheetHeader extends StatelessWidget {
                     child: Text(
                       cardTitleLocalized,
                       softWrap: true,
-                      style: AppGoogleFonts.poppins(
-                        fontSize: isTamil ? 13.0 : 14.0,
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFF0F172A),
+                      style: context.text.cardTitle.copyWith(
+                        color: AppColors.textPrimary,
                       ),
                     ),
                   ),
@@ -116,7 +115,7 @@ class AssessmentSheetHeader extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4),
                 child: LinearProgressIndicator(
                   value: progress,
-                  backgroundColor: const Color(0xFFEFF6FF),
+                  backgroundColor: AppColors.primarySoft,
                   color: themeColor,
                   minHeight: 4,
                 ),
@@ -125,11 +124,7 @@ class AssessmentSheetHeader extends StatelessWidget {
             const SizedBox(width: AppSpacing.sm),
             Text(
               stepLabel,
-              style: AppGoogleFonts.inter(
-                fontSize: isTamil ? 9.5 : 10.5,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFF64748B),
-              ),
+              style: context.text.label.copyWith(color: AppColors.textMuted),
             ),
           ],
         ),

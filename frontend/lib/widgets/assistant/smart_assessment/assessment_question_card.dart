@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 import '../../../utils/app_spacing.dart';
 import '../question_node.dart';
 import '../../../utils/app_text.dart';
@@ -49,10 +50,8 @@ class AssessmentQuestionCard extends StatelessWidget {
         children: [
           Text(
             localizedNode.questionText,
-            style: AppGoogleFonts.poppins(
-              fontSize: isTamil ? 13.8 : 15.0,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF0F172A),
+            style: context.text.titleSmall.copyWith(
+              color: AppColors.textPrimary,
               height: isTamil ? 1.35 : 1.25,
             ),
           ),
@@ -61,9 +60,8 @@ class AssessmentQuestionCard extends StatelessWidget {
             const SizedBox(height: AppSpacing.tight),
             Text(
               localizedNode.subtitleText!,
-              style: AppGoogleFonts.inter(
-                fontSize: isTamil ? 10.5 : 11.5,
-                color: const Color(0xFF64748B),
+              style: context.text.bodySmall.copyWith(
+                color: AppColors.textMuted,
                 height: isTamil ? 1.35 : 1.25,
               ),
             ),
@@ -92,7 +90,7 @@ class AssessmentQuestionCard extends StatelessWidget {
                       ? themeColor.withValues(alpha: 0.06)
                       : Colors.white,
                   side: BorderSide(
-                    color: isSelected ? themeColor : const Color(0xFFE2E8F0),
+                    color: isSelected ? themeColor : AppColors.border,
                     width: isSelected ? 1.5 : 1,
                   ),
                   shape: RoundedRectangleBorder(
@@ -103,10 +101,9 @@ class AssessmentQuestionCard extends StatelessWidget {
                   optionLocalized,
                   maxLines: 3,
                   overflow: TextOverflow.visible,
-                  style: AppGoogleFonts.inter(
-                    fontSize: isTamil ? 11.5 : 12.5,
+                  style: context.text.bodySmall.copyWith(
                     fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                    color: isSelected ? themeColor : const Color(0xFF334155),
+                    color: isSelected ? themeColor : AppColors.textBody,
                     height: isTamil ? 1.35 : 1.25,
                   ),
                 ),
