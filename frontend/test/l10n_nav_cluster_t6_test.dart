@@ -21,24 +21,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:frontend/l10n/app_localizations.dart';
-import 'package:frontend/providers/app_state_provider.dart';
-import 'package:frontend/screens/regular_mode/eligibility_results_screen.dart';
-
-Widget _host(Locale locale, Widget screen) {
-  return ChangeNotifierProvider<AppProvider>(
-    create: (_) => AppProvider()..changeLanguage(locale.languageCode),
-    child: MaterialApp(
-      locale: locale,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: screen,
-    ),
-  );
-}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -173,33 +158,4 @@ void main() {
     });
   });
 
-  group('EligibilityResultsScreen renders migrated strings for the locale', () {
-    testWidgets('English locale: Great News header + Save Results CTA', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        _host(const Locale('en'), const EligibilityResultsScreen()),
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.text('Your results'), findsOneWidget);
-      expect(find.text('Save results'), findsOneWidget);
-    });
-
-    testWidgets('Tamil locale: Great News header + Save Results CTA from ARB', (
-      tester,
-    ) async {
-      final ta = await AppLocalizations.delegate.load(const Locale('ta'));
-
-      await tester.pumpWidget(
-        _host(const Locale('ta'), const EligibilityResultsScreen()),
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.text(ta.eligResGreatNews), findsOneWidget);
-      expect(find.text(ta.eligResSaveResults), findsOneWidget);
-      expect(find.text('Your results'), findsNothing);
-      expect(find.text('Save results'), findsNothing);
-    });
-  });
 }

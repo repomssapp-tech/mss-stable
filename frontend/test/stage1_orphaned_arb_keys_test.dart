@@ -115,9 +115,6 @@ void main() {
         "title: 'By State'",
       ],
       'lib/screens/notifications_screen.dart': ["'View All',"],
-      'lib/screens/regular_mode/eligibility_results_screen.dart': [
-        "'View All',",
-      ],
       'lib/screens/regular_mode/saved_schemes_screen.dart': ['"Manage List"'],
     };
 

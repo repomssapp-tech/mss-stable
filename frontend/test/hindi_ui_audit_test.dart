@@ -34,7 +34,6 @@ import 'package:frontend/screens/notifications_screen.dart';
 import 'package:frontend/screens/profile_screen.dart';
 import 'package:frontend/screens/regular_mode/basic_profile_screen.dart';
 import 'package:frontend/screens/regular_mode/categories_screen.dart';
-import 'package:frontend/screens/regular_mode/eligibility_results_screen.dart';
 import 'package:frontend/screens/regular_mode/help_support_screen.dart';
 import 'package:frontend/screens/regular_mode/home_screen.dart';
 import 'package:frontend/screens/regular_mode/language_selection_screen.dart';
@@ -251,7 +250,6 @@ void main() {
     'HelpSupport': () => const HelpSupportScreen(),
     'AboutYou': () => const BasicProfileScreen(initialStep: 3),
     'EligibilityProfile': () => const BasicProfileScreen(initialStep: 4),
-    'EligibilityResults': () => const EligibilityResultsScreen(),
     'LocationProfile': () => const BasicProfileScreen(initialStep: 2),
     'LanguageSelection': () => const LanguageSelectionScreen(),
     'Login': () => const LoginScreen(),
