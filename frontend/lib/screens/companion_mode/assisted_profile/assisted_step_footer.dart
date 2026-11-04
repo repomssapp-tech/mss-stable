@@ -28,17 +28,6 @@ class AssistedStepFooter extends StatelessWidget {
       padding: const EdgeInsets.only(top: AppSpacing.md, bottom: AppSpacing.lg),
       color: Colors.transparent,
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF2563EB),
-          foregroundColor: Colors.white,
-          disabledBackgroundColor: const Color(0xFF94A3B8),
-          disabledForegroundColor: Colors.white70,
-          minimumSize: const Size.fromHeight(54),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          elevation: 0,
-        ),
         onPressed: (isEnabled && !isSubmitting) ? onContinue : null,
         child: isSubmitting
             ? Row(
@@ -55,23 +44,14 @@ class AssistedStepFooter extends StatelessWidget {
                   const SizedBox(width: AppSpacing.md),
                   Text(
                     context.l10n.actionSaving,
-                    style: AppGoogleFonts.inter(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: context.text.bodyLarge,
                   ),
                 ],
               )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    label,
-                    style: AppGoogleFonts.inter(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  Text(label, style: context.text.bodyLarge),
                   const SizedBox(width: AppSpacing.sm),
                   Icon(
                     isLastStep

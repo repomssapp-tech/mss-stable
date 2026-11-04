@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
@@ -132,11 +133,7 @@ class MsmeMainFeaturesSection extends StatelessWidget {
       children: [
         Text(
           context.l10n.msmeMainFeaturesInside,
-          style: AppGoogleFonts.poppins(
-            fontSize: 16.5,
-            fontWeight: FontWeight.bold,
-            color: const Color(0xFF0F172A),
-          ),
+          style: context.text.titleSmall.copyWith(color: AppColors.textPrimary),
         ),
         const SizedBox(height: AppSpacing.md),
         ...localizedFeatures.map((feature) {
@@ -157,11 +154,8 @@ class MsmeMainFeaturesSection extends StatelessWidget {
                 Expanded(
                   child: Text(
                     feature,
-                    style: AppGoogleFonts.inter(
-                      fontSize: 13,
-                      color: const Color(0xFF334155),
-                      height: 1.4,
-                      fontWeight: FontWeight.w500,
+                    style: context.text.body.copyWith(
+                      color: AppColors.textBody,
                     ),
                   ),
                 ),

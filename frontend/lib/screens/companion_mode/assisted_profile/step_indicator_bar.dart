@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
@@ -32,7 +33,7 @@ class StepIndicatorBar extends StatelessWidget {
             IconButton(
               icon: const Icon(
                 Icons.arrow_back_rounded,
-                color: Color(0xFF1E293B),
+                color: AppColors.textPrimary,
                 size: 24,
               ),
               padding: EdgeInsets.zero,
@@ -52,9 +53,9 @@ class StepIndicatorBar extends StatelessWidget {
                     return LinearProgressIndicator(
                       value: value,
                       minHeight: 8,
-                      backgroundColor: const Color(0xFFE2E8F0),
+                      backgroundColor: AppColors.border,
                       valueColor: const AlwaysStoppedAnimation<Color>(
-                        Color(0xFF2563EB),
+                        AppColors.primary,
                       ),
                     );
                   },
@@ -64,32 +65,21 @@ class StepIndicatorBar extends StatelessWidget {
             const SizedBox(width: AppSpacing.md),
             Text(
               context.l10n.simpleProfileStepIndicator(currentStep, totalSteps),
-              style: AppGoogleFonts.inter(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFF64748B),
-              ),
+              style: context.text.label.copyWith(color: AppColors.textMuted),
             ),
           ],
         ),
         const SizedBox(height: AppSpacing.md),
         Text(
           title,
-          style: AppGoogleFonts.poppins(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: const Color(0xFF0F172A),
-            height: 1.2,
+          style: context.text.titleMedium.copyWith(
+            color: AppColors.textPrimary,
           ),
         ),
         const SizedBox(height: AppSpacing.xs),
         Text(
           subtitle,
-          style: AppGoogleFonts.inter(
-            fontSize: 13.5,
-            color: const Color(0xFF64748B),
-            height: 1.35,
-          ),
+          style: context.text.body.copyWith(color: AppColors.textMuted),
         ),
       ],
     );

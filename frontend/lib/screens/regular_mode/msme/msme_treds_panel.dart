@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../services/catalog/centralized_translator.dart';
@@ -57,7 +58,7 @@ class _TredsInteractivePanelState extends State<TredsInteractivePanel> {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: const BorderSide(color: Color(0xFFE2E8F0)),
+        side: const BorderSide(color: AppColors.border),
       ),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
@@ -68,24 +69,22 @@ class _TredsInteractivePanelState extends State<TredsInteractivePanel> {
               CentralizedTranslator.instance.localize(
                 'TReDS Invoice Discounting Flow',
               ),
-              style: AppGoogleFonts.poppins(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF0F172A),
+              style: context.text.titleSmall.copyWith(
+                color: AppColors.textPrimary,
               ),
             ),
             const SizedBox(height: AppSpacing.md),
             Container(
               height: 48,
               decoration: BoxDecoration(
-                color: const Color(0xFFF1F5F9),
+                color: AppColors.surfaceMuted,
                 borderRadius: BorderRadius.circular(24),
               ),
               child: Row(
                 children: List.generate(_tredsSteps.length, (idx) {
                   final isSelected = idx == _tredsStepIndex;
                   return Expanded(
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () {
                         setState(() {
                           _tredsStepIndex = idx;
@@ -101,12 +100,10 @@ class _TredsInteractivePanelState extends State<TredsInteractivePanel> {
                         ),
                         child: Text(
                           context.l10n.msmeStepNumber(idx + 1),
-                          style: AppGoogleFonts.inter(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
+                          style: context.text.label.copyWith(
                             color: isSelected
                                 ? Colors.white
-                                : const Color(0xFF64748B),
+                                : AppColors.textMuted,
                           ),
                         ),
                       ),
@@ -132,9 +129,7 @@ class _TredsInteractivePanelState extends State<TredsInteractivePanel> {
                     CentralizedTranslator.instance.localize(
                       _tredsSteps[_tredsStepIndex]['title']!,
                     ),
-                    style: AppGoogleFonts.poppins(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
+                    style: context.text.cardTitle.copyWith(
                       color: widget.iconColor,
                     ),
                   ),
@@ -143,11 +138,8 @@ class _TredsInteractivePanelState extends State<TredsInteractivePanel> {
                     CentralizedTranslator.instance.localize(
                       _tredsSteps[_tredsStepIndex]['desc']!,
                     ),
-                    style: AppGoogleFonts.inter(
-                      fontSize: 12,
-                      color: const Color(0xFF334155),
-                      height: 1.45,
-                      fontWeight: FontWeight.w500,
+                    style: context.text.bodySmall.copyWith(
+                      color: AppColors.textBody,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.sm),
@@ -155,7 +147,7 @@ class _TredsInteractivePanelState extends State<TredsInteractivePanel> {
                     children: [
                       const Icon(
                         Icons.play_circle_outline_rounded,
-                        color: Color(0xFF64748B),
+                        color: AppColors.textMuted,
                         size: 16,
                       ),
                       const SizedBox(width: AppSpacing.tight),
@@ -164,11 +156,9 @@ class _TredsInteractivePanelState extends State<TredsInteractivePanel> {
                           CentralizedTranslator.instance.localize(
                             _tredsSteps[_tredsStepIndex]['action']!,
                           ),
-                          style: AppGoogleFonts.inter(
-                            fontSize: 10.5,
+                          style: context.text.label.copyWith(
                             fontStyle: FontStyle.italic,
-                            color: const Color(0xFF64748B),
-                            fontWeight: FontWeight.w600,
+                            color: AppColors.textMuted,
                           ),
                         ),
                       ),

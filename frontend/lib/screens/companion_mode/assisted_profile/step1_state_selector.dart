@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 import 'package:provider/provider.dart';
 
 import '../../../l10n/l10n.dart';
@@ -135,10 +136,8 @@ class Step1StateSelector extends StatelessWidget {
                     children: [
                       Text(
                         sheetContext.l10n.allStatesAndUts,
-                        style: AppGoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF0F172A),
+                        style: context.text.titleMedium.copyWith(
+                          color: AppColors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: AppSpacing.md),

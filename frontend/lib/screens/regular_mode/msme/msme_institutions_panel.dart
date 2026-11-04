@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../services/catalog/centralized_translator.dart';
@@ -107,10 +108,8 @@ class _InstitutionsInteractivePanelState
               child: Text(
                 label,
                 softWrap: true,
-                style: AppGoogleFonts.inter(
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xFF475569),
+                style: context.text.label.copyWith(
+                  color: AppColors.textSecondary,
                 ),
               ),
             ),
@@ -119,12 +118,7 @@ class _InstitutionsInteractivePanelState
         const SizedBox(height: AppSpacing.xs),
         Text(
           value,
-          style: AppGoogleFonts.inter(
-            fontSize: 11,
-            color: const Color(0xFF1E293B),
-            height: 1.4,
-            fontWeight: FontWeight.w500,
-          ),
+          style: context.text.bodySmall.copyWith(color: AppColors.textPrimary),
         ),
       ],
     );
@@ -151,7 +145,7 @@ class _InstitutionsInteractivePanelState
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: const BorderSide(color: Color(0xFFE2E8F0)),
+        side: const BorderSide(color: AppColors.border),
       ),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
@@ -160,10 +154,8 @@ class _InstitutionsInteractivePanelState
           children: [
             Text(
               context.l10n.msmeSearchSupportInstitutions,
-              style: AppGoogleFonts.poppins(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF0F172A),
+              style: context.text.titleSmall.copyWith(
+                color: AppColors.textPrimary,
               ),
             ),
             const SizedBox(height: AppSpacing.sm),
@@ -177,9 +169,8 @@ class _InstitutionsInteractivePanelState
                 },
                 decoration: InputDecoration(
                   hintText: context.l10n.msmeSearchInstitutionsHint,
-                  hintStyle: AppGoogleFonts.inter(
-                    fontSize: 12,
-                    color: const Color(0xFF94A3B8),
+                  hintStyle: context.text.bodySmall.copyWith(
+                    color: AppColors.iconMuted,
                   ),
                   prefixIcon: const Icon(Icons.search, size: 16),
                   contentPadding: EdgeInsets.zero,
@@ -209,9 +200,9 @@ class _InstitutionsInteractivePanelState
                       return Container(
                         margin: const EdgeInsets.only(bottom: AppSpacing.sm),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFF8FAFC),
+                          color: AppColors.background,
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: const Color(0xFFE2E8F0)),
+                          border: Border.all(color: AppColors.border),
                         ),
                         child: Theme(
                           data: Theme.of(
@@ -220,9 +211,7 @@ class _InstitutionsInteractivePanelState
                           child: ExpansionTile(
                             title: Text(
                               inst['name'],
-                              style: AppGoogleFonts.poppins(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
+                              style: context.text.cardTitle.copyWith(
                                 color: widget.iconColor,
                               ),
                             ),
@@ -230,10 +219,8 @@ class _InstitutionsInteractivePanelState
                               CentralizedTranslator.instance.localize(
                                 inst['fullName'],
                               ),
-                              style: AppGoogleFonts.inter(
-                                fontSize: 11,
-                                color: const Color(0xFF64748B),
-                                fontWeight: FontWeight.w500,
+                              style: context.text.bodySmall.copyWith(
+                                color: AppColors.textMuted,
                               ),
                             ),
                             tilePadding: const EdgeInsets.symmetric(

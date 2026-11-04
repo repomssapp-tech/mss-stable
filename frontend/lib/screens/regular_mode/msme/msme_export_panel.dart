@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
@@ -60,7 +61,7 @@ class _ExportInteractivePanelState extends State<ExportInteractivePanel> {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: const BorderSide(color: Color(0xFFE2E8F0)),
+        side: const BorderSide(color: AppColors.border),
       ),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
@@ -71,10 +72,8 @@ class _ExportInteractivePanelState extends State<ExportInteractivePanel> {
               CentralizedTranslator.instance.localize(
                 'Export Readiness Assessment',
               ),
-              style: AppGoogleFonts.poppins(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF0F172A),
+              style: context.text.titleSmall.copyWith(
+                color: AppColors.textPrimary,
               ),
             ),
             const SizedBox(height: AppSpacing.xs),
@@ -82,9 +81,8 @@ class _ExportInteractivePanelState extends State<ExportInteractivePanel> {
               CentralizedTranslator.instance.localize(
                 'Complete this checklist to identify missing links for international trade registration.',
               ),
-              style: AppGoogleFonts.inter(
-                fontSize: 11.5,
-                color: const Color(0xFF64748B),
+              style: context.text.bodySmall.copyWith(
+                color: AppColors.textMuted,
               ),
             ),
             const SizedBox(height: AppSpacing.lg),
@@ -95,7 +93,7 @@ class _ExportInteractivePanelState extends State<ExportInteractivePanel> {
                     borderRadius: BorderRadius.circular(4),
                     child: LinearProgressIndicator(
                       value: progress,
-                      backgroundColor: const Color(0xFFE2E8F0),
+                      backgroundColor: AppColors.border,
                       valueColor: AlwaysStoppedAnimation<Color>(
                         widget.iconColor,
                       ),
@@ -106,11 +104,7 @@ class _ExportInteractivePanelState extends State<ExportInteractivePanel> {
                 const SizedBox(width: AppSpacing.md),
                 Text(
                   '${(progress * 100).toInt()}%',
-                  style: AppGoogleFonts.inter(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: widget.iconColor,
-                  ),
+                  style: context.text.label.copyWith(color: widget.iconColor),
                 ),
               ],
             ),
@@ -132,10 +126,8 @@ class _ExportInteractivePanelState extends State<ExportInteractivePanel> {
                     dense: true,
                     title: Text(
                       qText,
-                      style: AppGoogleFonts.inter(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF1E293B),
+                      style: context.text.label.copyWith(
+                        color: AppColors.textPrimary,
                       ),
                     ),
                     activeColor: widget.iconColor,
@@ -155,26 +147,24 @@ class _ExportInteractivePanelState extends State<ExportInteractivePanel> {
                       child: Container(
                         padding: const EdgeInsets.all(AppSpacing.sm),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFFFFBEB),
+                          color: AppColors.warningSoft,
                           borderRadius: BorderRadius.circular(6),
-                          border: Border.all(color: const Color(0xFFFEF3C7)),
+                          border: Border.all(color: AppColors.warningSoft),
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Icon(
                               Icons.lightbulb,
-                              color: Color(0xFFD97706),
+                              color: AppColors.warning,
                               size: 14,
                             ),
                             const SizedBox(width: AppSpacing.tight),
                             Expanded(
                               child: Text(
                                 tipText,
-                                style: AppGoogleFonts.inter(
-                                  fontSize: 10.5,
-                                  color: const Color(0xFFB45309),
-                                  fontWeight: FontWeight.w500,
+                                style: context.text.bodySmall.copyWith(
+                                  color: AppColors.warningText,
                                 ),
                               ),
                             ),

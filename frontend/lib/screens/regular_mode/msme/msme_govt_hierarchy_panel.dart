@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
@@ -22,7 +23,7 @@ class _GovtInteractivePanelState extends State<GovtInteractivePanel> {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: const BorderSide(color: Color(0xFFE2E8F0)),
+        side: const BorderSide(color: AppColors.border),
       ),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
@@ -33,10 +34,8 @@ class _GovtInteractivePanelState extends State<GovtInteractivePanel> {
               CentralizedTranslator.instance.localize(
                 'Government Authorities Tree',
               ),
-              style: AppGoogleFonts.poppins(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF0F172A),
+              style: context.text.titleSmall.copyWith(
+                color: AppColors.textPrimary,
               ),
             ),
             const SizedBox(height: AppSpacing.md),
@@ -67,7 +66,7 @@ class _GovtInteractivePanelState extends State<GovtInteractivePanel> {
   Widget _buildGovtTabHeader(int tabIndex, String title) {
     final isSelected = tabIndex == _selectedGovtTab;
     return Expanded(
-      child: GestureDetector(
+      child: InkWell(
         onTap: () {
           setState(() {
             _selectedGovtTab = tabIndex;
@@ -86,10 +85,9 @@ class _GovtInteractivePanelState extends State<GovtInteractivePanel> {
           ),
           child: Text(
             title,
-            style: AppGoogleFonts.inter(
-              fontSize: 12,
+            style: context.text.bodySmall.copyWith(
               fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-              color: isSelected ? widget.iconColor : const Color(0xFF64748B),
+              color: isSelected ? widget.iconColor : AppColors.textMuted,
             ),
           ),
         ),
@@ -129,33 +127,28 @@ class _GovtInteractivePanelState extends State<GovtInteractivePanel> {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8FAFC),
+        color: AppColors.background,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
+        border: Border.all(color: AppColors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             name,
-            style: AppGoogleFonts.poppins(
-              fontSize: 13,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF1E293B),
+            style: context.text.cardTitle.copyWith(
+              color: AppColors.textPrimary,
             ),
           ),
           const SizedBox(height: AppSpacing.sm),
           Text(
             roles,
-            style: AppGoogleFonts.inter(
-              fontSize: 11.5,
-              color: const Color(0xFF475569),
-              height: 1.5,
-              fontWeight: FontWeight.w500,
+            style: context.text.bodySmall.copyWith(
+              color: AppColors.textSecondary,
             ),
           ),
           const SizedBox(height: AppSpacing.sm),
-          const Divider(color: Color(0xFFE2E8F0)),
+          const Divider(color: AppColors.border),
           const SizedBox(height: AppSpacing.xs),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,16 +156,14 @@ class _GovtInteractivePanelState extends State<GovtInteractivePanel> {
               const Icon(
                 Icons.info_outline,
                 size: 14,
-                color: Color(0xFF64748B),
+                color: AppColors.textMuted,
               ),
               const SizedBox(width: AppSpacing.tight),
               Expanded(
                 child: Text(
                   details,
-                  style: AppGoogleFonts.inter(
-                    fontSize: 10.5,
-                    color: const Color(0xFF64748B),
-                    fontWeight: FontWeight.w500,
+                  style: context.text.bodySmall.copyWith(
+                    color: AppColors.textMuted,
                   ),
                 ),
               ),

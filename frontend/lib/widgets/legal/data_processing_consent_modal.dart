@@ -1,5 +1,6 @@
 import '../../services/catalog/centralized_translator.dart';
 import 'package:flutter/material.dart';
+import '../../utils/app_colors.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/app_text.dart';
@@ -39,7 +40,7 @@ class DataProcessingConsentModal extends StatelessWidget {
               width: 36,
               height: 4,
               decoration: BoxDecoration(
-                color: const Color(0xFFCBD5E1),
+                color: AppColors.borderStrong,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -57,12 +58,12 @@ class DataProcessingConsentModal extends StatelessWidget {
                   width: 44,
                   height: 44,
                   decoration: BoxDecoration(
-                    color: const Color(0xFFDBEAFE),
+                    color: AppColors.primaryTint,
                     borderRadius: BorderRadius.circular(14),
                   ),
                   child: const Icon(
                     Icons.shield_outlined,
-                    color: Color(0xFF2563EB),
+                    color: AppColors.primary,
                     size: 24,
                   ),
                 ),
@@ -75,26 +76,23 @@ class DataProcessingConsentModal extends StatelessWidget {
                         CentralizedTranslator.instance.localize(
                           'Consent to Processing of Personal Data',
                         ),
-                        style: AppGoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF0F172A),
+                        style: context.text.titleSmall.copyWith(
+                          color: AppColors.textPrimary,
                         ),
                       ),
                       Text(
                         CentralizedTranslator.instance.localize(
                           'Your consent helps MSS personalize your experience.',
                         ),
-                        style: AppGoogleFonts.inter(
-                          fontSize: 12,
-                          color: const Color(0xFF64748B),
+                        style: context.text.bodySmall.copyWith(
+                          color: AppColors.textMuted,
                         ),
                       ),
                     ],
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.close, color: Color(0xFF334155)),
+                  icon: const Icon(Icons.close, color: AppColors.textBody),
                   tooltip: context.l10n.close,
                   onPressed: () => Navigator.of(context).pop(),
                 ),
@@ -102,7 +100,7 @@ class DataProcessingConsentModal extends StatelessWidget {
             ),
           ),
 
-          const Divider(height: 1, color: Color(0xFFE2E8F0)),
+          const Divider(height: 1, color: AppColors.border),
 
           // Scrollable Content
           Expanded(
@@ -115,10 +113,8 @@ class DataProcessingConsentModal extends StatelessWidget {
                     CentralizedTranslator.instance.localize(
                       'By completing your profile, you voluntarily consent to MSS collecting and processing information from your Google Sign-In and the personal information you provide, including:',
                     ),
-                    style: AppGoogleFonts.inter(
-                      fontSize: 13,
-                      color: const Color(0xFF334155),
-                      height: 1.5,
+                    style: context.text.body.copyWith(
+                      color: AppColors.textBody,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.md),
@@ -128,9 +124,9 @@ class DataProcessingConsentModal extends StatelessWidget {
                     width: double.infinity,
                     padding: const EdgeInsets.all(AppSpacing.md),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF8FAFC),
+                      color: AppColors.background,
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: const Color(0xFFE2E8F0)),
+                      border: Border.all(color: AppColors.border),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,11 +150,8 @@ class DataProcessingConsentModal extends StatelessWidget {
                     CentralizedTranslator.instance.localize(
                       'WHY WE USE YOUR INFORMATION',
                     ),
-                    style: AppGoogleFonts.poppins(
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF0F172A),
-                      letterSpacing: 0.3,
+                    style: context.text.cardTitle.copyWith(
+                      color: AppColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.xs),
@@ -166,10 +159,8 @@ class DataProcessingConsentModal extends StatelessWidget {
                     CentralizedTranslator.instance.localize(
                       'Your information may be used for:',
                     ),
-                    style: AppGoogleFonts.inter(
-                      fontSize: 13,
-                      color: const Color(0xFF334155),
-                      height: 1.4,
+                    style: context.text.body.copyWith(
+                      color: AppColors.textBody,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.sm),
@@ -197,11 +188,8 @@ class DataProcessingConsentModal extends StatelessWidget {
                     CentralizedTranslator.instance.localize(
                       'PLEASE UNDERSTAND',
                     ),
-                    style: AppGoogleFonts.poppins(
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF0F172A),
-                      letterSpacing: 0.3,
+                    style: context.text.cardTitle.copyWith(
+                      color: AppColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.sm),
@@ -240,7 +228,7 @@ class DataProcessingConsentModal extends StatelessWidget {
             ),
             decoration: const BoxDecoration(
               color: Colors.white,
-              border: Border(top: BorderSide(color: Color(0xFFE2E8F0))),
+              border: Border(top: BorderSide(color: AppColors.border)),
             ),
             child: SafeArea(
               top: false,
@@ -251,23 +239,11 @@ class DataProcessingConsentModal extends StatelessWidget {
                   // profile is completed, so there is nothing to accept here.
                   SizedBox(
                     width: double.infinity,
-                    height: 48,
                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF0D53FC),
-                        foregroundColor: Colors.white,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
                       onPressed: () => Navigator.of(context).pop(),
                       child: Text(
                         context.l10n.close,
-                        style: AppGoogleFonts.inter(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: context.text.bodyLarge,
                       ),
                     ),
                   ),
@@ -296,17 +272,15 @@ class _BulletItem extends StatelessWidget {
             '• ',
             style: TextStyle(
               fontSize: 14,
-              color: Color(0xFF334155),
+              color: AppColors.textBody,
               fontWeight: FontWeight.bold,
             ),
           ),
           Expanded(
             child: Text(
               CentralizedTranslator.instance.localize(text),
-              style: AppGoogleFonts.inter(
-                fontSize: 12.5,
-                color: const Color(0xFF475569),
-                height: 1.45,
+              style: context.text.bodySmall.copyWith(
+                color: AppColors.textSecondary,
               ),
             ),
           ),
@@ -330,19 +304,13 @@ class _NumberedItem extends StatelessWidget {
         children: [
           Text(
             '$number. ',
-            style: AppGoogleFonts.inter(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF334155),
-            ),
+            style: context.text.button.copyWith(color: AppColors.textBody),
           ),
           Expanded(
             child: Text(
               CentralizedTranslator.instance.localize(text),
-              style: AppGoogleFonts.inter(
-                fontSize: 12.5,
-                color: const Color(0xFF475569),
-                height: 1.45,
+              style: context.text.bodySmall.copyWith(
+                color: AppColors.textSecondary,
               ),
             ),
           ),
