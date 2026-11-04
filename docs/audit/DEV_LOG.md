@@ -65,3 +65,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-11-03 | Roger-Chris | #179 | unspecified | fix(language): translate the remaining Marathi screen text |
 | 2026-11-03 | Roger-Chris | #180 | unspecified | chore(release): 2.3.1+21 |
 | 2026-11-03 | Roger-Chris | #181 | unspecified | fix(language): correct Hindi, Tamil and Marathi screen text |
+| 2026-11-04 | Anto-Merary | #183 | unspecified | Fix Saarthi suggestions to match spoken and typed replies |
