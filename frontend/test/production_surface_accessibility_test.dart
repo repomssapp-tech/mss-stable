@@ -117,7 +117,7 @@ void main() {
 
           await _pumpSurface(tester, provider, const LanguageSelectionScreen());
 
-          expect(find.text('Choose Your Language'), findsOneWidget);
+          expect(find.text('Choose your language'), findsOneWidget);
           expect(find.text('English'), findsNWidgets(2));
           expect(find.text('Tamil'), findsOneWidget);
           expect(find.byType(InkWell), findsAtLeastNWidgets(2));
@@ -150,7 +150,7 @@ void main() {
           _setViewport(tester, viewport.value);
 
           await _pumpSurface(tester, provider, const BasicProfileScreen());
-          expect(find.text('Complete Your Profile'), findsOneWidget);
+          expect(find.text('Complete your profile'), findsOneWidget);
           expect(find.textContaining('Full Name'), findsOneWidget);
           expect(find.textContaining('Email Address'), findsOneWidget);
           expect(find.textContaining('Gender'), findsOneWidget);
@@ -169,8 +169,8 @@ void main() {
 
           await _pumpSurface(tester, provider, const LocationProfileScreen());
           await tester.pump();
-          expect(find.text('Where Are You Located?'), findsOneWidget);
-          expect(find.text('Use Current Location'), findsOneWidget);
+          expect(find.text('Where are you located?'), findsOneWidget);
+          expect(find.text('Use current location'), findsOneWidget);
           // Address, city/town and pincode are typed; the state and the
           // district are picked from lists.
           expect(find.byType(TextFormField), findsNWidgets(3));
@@ -188,7 +188,7 @@ void main() {
           expect(tester.takeException(), isNull);
 
           await _pumpSurface(tester, provider, const AboutYouProfileScreen());
-          expect(find.text('Tell Us About You'), findsOneWidget);
+          expect(find.text('Tell us about you'), findsOneWidget);
           expect(find.text('Student'), findsOneWidget);
           expect(find.text('Farmer'), findsOneWidget);
           continueButton = find.widgetWithText(ElevatedButton, 'Continue');

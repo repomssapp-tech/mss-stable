@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_radius.dart';
+import '../../../utils/app_colors.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../l10n/app_localizations.dart';
@@ -24,12 +26,12 @@ class Step4EligibilityForm extends StatelessWidget {
   final List<Map<String, String>>? communityOptions;
   final List<Map<String, dynamic>>? incomeOptions;
 
-  static const Color kPrimaryBlue = Color(0xFF2563EB);
-  static const Color kSlate900 = Color(0xFF0F172A);
-  static const Color kSlate800 = Color(0xFF1E293B);
-  static const Color kSlate500 = Color(0xFF64748B);
-  static const Color kBorderGrey = Color(0xFFE2E8F0);
-  static const Color kInfoBlueBg = Color(0xFFF0F5FA);
+  static const Color kPrimaryBlue = AppColors.primary;
+  static const Color kSlate900 = AppColors.textPrimary;
+  static const Color kSlate800 = AppColors.textPrimary;
+  static const Color kSlate500 = AppColors.textMuted;
+  static const Color kBorderGrey = AppColors.border;
+  static const Color kInfoBlueBg = AppColors.primarySoft;
 
   static const List<Map<String, String>> defaultEducationOptions = [
     {'id': 'School', 'key': 'eduSchool'},
@@ -146,6 +148,7 @@ class Step4EligibilityForm extends StatelessWidget {
           final opt = options[index];
           final text = optionLabel(l10n, opt['key'] as String);
           return _buildSelectCard(
+            context,
             label: text,
             isSelected: isSelected(opt),
             onTap: () => onSelect(opt),
@@ -161,22 +164,18 @@ class Step4EligibilityForm extends StatelessWidget {
         Text(
           l10n.checkEligibility,
           textAlign: TextAlign.center,
-          style: AppGoogleFonts.poppins(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: kSlate900,
-          ),
+          style: context.text.titleSmall.copyWith(color: kSlate900),
         ),
         const SizedBox(height: AppSpacing.xs),
         Text(
           l10n.eligibilitySubtitle,
           textAlign: TextAlign.center,
-          style: AppGoogleFonts.inter(fontSize: 13, color: kSlate500, height: 1.3),
+          style: context.text.body.copyWith(color: kSlate500),
         ),
         const SizedBox(height: AppSpacing.lg),
 
         // 1. Education level (required)
-        _buildLabel('${l10n.qualification} *'),
+        _buildLabel(context, '${l10n.qualification} *'),
         const SizedBox(height: AppSpacing.sm),
         optionGrid(
           options: resolvedEduOptions,
@@ -192,11 +191,11 @@ class Step4EligibilityForm extends StatelessWidget {
           },
         ),
         if (hasSubmitted && selectedEducation.isEmpty)
-          _buildFieldError(l10n.profileErrSelectEducation),
+          _buildFieldError(context, l10n.profileErrSelectEducation),
         const SizedBox(height: AppSpacing.lg),
 
         // 2. Community category (required)
-        _buildLabel('${l10n.community} *'),
+        _buildLabel(context, '${l10n.community} *'),
         const SizedBox(height: AppSpacing.tight),
         _buildPrivacyNote(context),
         const SizedBox(height: AppSpacing.sm),
@@ -214,11 +213,11 @@ class Step4EligibilityForm extends StatelessWidget {
           },
         ),
         if (hasSubmitted && selectedCommunity.isEmpty)
-          _buildFieldError(l10n.profileErrSelectCommunity),
+          _buildFieldError(context, l10n.profileErrSelectCommunity),
         const SizedBox(height: AppSpacing.lg),
 
         // 3. Annual household income (required)
-        _buildLabel('${l10n.income} *'),
+        _buildLabel(context, '${l10n.income} *'),
         const SizedBox(height: AppSpacing.sm),
         optionGrid(
           options: resolvedIncOptions,
@@ -235,25 +234,28 @@ class Step4EligibilityForm extends StatelessWidget {
           },
         ),
         if (hasSubmitted && selectedIncome == null)
-          _buildFieldError(l10n.profileErrSelectIncome),
+          _buildFieldError(context, l10n.profileErrSelectIncome),
         const SizedBox(height: AppSpacing.lg),
 
         // 4. Special categories (optional)
-        _buildLabel(l10n.specialCategories),
+        _buildLabel(context, l10n.specialCategories),
         const SizedBox(height: AppSpacing.sm),
         _buildToggleCard(
+          context,
           title: l10n.firstGenGraduate,
           value: isFirstGenGraduate,
           onChanged: onFirstGenGraduateChanged,
         ),
         const SizedBox(height: AppSpacing.tight),
         _buildToggleCard(
+          context,
           title: l10n.disability,
           value: isDifferentlyAbled,
           onChanged: onDifferentlyAbledChanged,
         ),
         const SizedBox(height: AppSpacing.tight),
         _buildToggleCard(
+          context,
           title: l10n.veteran,
           value: isVeteran,
           onChanged: onVeteranChanged,
@@ -263,23 +265,19 @@ class Step4EligibilityForm extends StatelessWidget {
     );
   }
 
-  Widget _buildLabel(String text) {
+  Widget _buildLabel(BuildContext context, String text) {
     final hasAsterisk = text.contains('*');
     final baseText = text.replaceAll('*', '').trim();
     return Text.rich(
       TextSpan(
         text: baseText,
-        style: AppGoogleFonts.inter(
-          fontSize: 13,
-          fontWeight: FontWeight.bold,
-          color: kSlate800,
-        ),
+        style: context.text.button.copyWith(color: kSlate800),
         children: hasAsterisk
             ? [
                 const TextSpan(
                   text: ' *',
                   style: TextStyle(
-                    color: Color(0xFFDC2626),
+                    color: AppColors.danger,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -295,7 +293,7 @@ class Step4EligibilityForm extends StatelessWidget {
       decoration: BoxDecoration(
         color: kInfoBlueBg,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: const Color(0xFFD0E1FD)),
+        border: Border.all(color: AppColors.primaryBorder),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -305,11 +303,7 @@ class Step4EligibilityForm extends StatelessWidget {
           Expanded(
             child: Text(
               context.l10n.profilePrivacyNoteDpdpa,
-              style: AppGoogleFonts.inter(
-                fontSize: 10.5,
-                color: kSlate800,
-                height: 1.35,
-              ),
+              style: context.text.bodySmall.copyWith(color: kSlate800),
             ),
           ),
         ],
@@ -317,7 +311,7 @@ class Step4EligibilityForm extends StatelessWidget {
     );
   }
 
-  Widget _buildFieldError(String message) {
+  Widget _buildFieldError(BuildContext context, String message) {
     return Padding(
       padding: const EdgeInsets.only(top: AppSpacing.sm),
       child: Container(
@@ -326,26 +320,22 @@ class Step4EligibilityForm extends StatelessWidget {
           vertical: AppSpacing.sm,
         ),
         decoration: BoxDecoration(
-          color: const Color(0xFFFEF2F2),
+          color: AppColors.dangerSoft,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: const Color(0xFFFECACA)),
+          border: Border.all(color: AppColors.dangerBorder),
         ),
         child: Row(
           children: [
             const Icon(
               Icons.error_outline_rounded,
-              color: Color(0xFFDC2626),
+              color: AppColors.danger,
               size: 16,
             ),
             const SizedBox(width: AppSpacing.sm),
             Expanded(
               child: Text(
                 message,
-                style: AppGoogleFonts.inter(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: const Color(0xFFDC2626),
-                ),
+                style: context.text.bodySmall.copyWith(color: AppColors.danger),
               ),
             ),
           ],
@@ -354,12 +344,14 @@ class Step4EligibilityForm extends StatelessWidget {
     );
   }
 
-  Widget _buildSelectCard({
+  Widget _buildSelectCard(
+    BuildContext context, {
     required String label,
     required bool isSelected,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
+    return InkWell(
+      borderRadius: AppRadius.mdAll,
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
@@ -368,7 +360,7 @@ class Step4EligibilityForm extends StatelessWidget {
           vertical: AppSpacing.sm,
         ),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFFF5F9FF) : Colors.white,
+          color: isSelected ? AppColors.primarySoft : Colors.white,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: isSelected ? kPrimaryBlue : kBorderGrey,
@@ -397,11 +389,9 @@ class Step4EligibilityForm extends StatelessWidget {
                 label,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: AppGoogleFonts.inter(
-                  fontSize: 12.5,
+                style: context.text.bodySmall.copyWith(
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                   color: isSelected ? kPrimaryBlue : kSlate800,
-                  height: 1.2,
                 ),
               ),
             ),
@@ -428,7 +418,8 @@ class Step4EligibilityForm extends StatelessWidget {
     );
   }
 
-  Widget _buildToggleCard({
+  Widget _buildToggleCard(
+    BuildContext context, {
     required String title,
     required bool value,
     required ValueChanged<bool> onChanged,
@@ -439,7 +430,7 @@ class Step4EligibilityForm extends StatelessWidget {
         vertical: AppSpacing.sm,
       ),
       decoration: BoxDecoration(
-        color: value ? const Color(0xFFF8FAFC) : Colors.white,
+        color: value ? AppColors.background : Colors.white,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
           color: value ? kPrimaryBlue : kBorderGrey,
@@ -455,11 +446,7 @@ class Step4EligibilityForm extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: AppGoogleFonts.inter(
-                  fontSize: 12.5,
-                  fontWeight: FontWeight.w500,
-                  color: kSlate800,
-                ),
+                style: context.text.bodySmall.copyWith(color: kSlate800),
               ),
             ),
             Switch.adaptive(

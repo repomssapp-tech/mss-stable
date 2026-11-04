@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_size.dart';
+import '../../../utils/app_colors.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
-import '../../../utils/responsive.dart';
-import '../../../utils/app_text.dart';
 
 /// Sticky CTA button at the bottom of [BasicProfileScreen]'s card. Disabled
 /// (grey) whenever the current step's validity gate isn't satisfied yet;
@@ -16,7 +16,7 @@ class ProfileContinueButton extends StatelessWidget {
   final bool isStep4Valid;
   final VoidCallback? onPressed;
 
-  static const Color kPrimaryBlue = Color(0xFF2563EB);
+  static const Color kPrimaryBlue = AppColors.primary;
 
   const ProfileContinueButton({
     super.key,
@@ -40,11 +40,15 @@ class ProfileContinueButton extends StatelessWidget {
     final l10n = context.l10n;
 
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: _isEnabled ? kPrimaryBlue : Colors.grey.shade300,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        minimumSize: const Size.fromHeight(52),
-        elevation: 0,
+      // Still tappable when incomplete (it then explains what is missing),
+      // but drawn in the theme's disabled colours until every field is valid.
+      style: ButtonStyle(
+        backgroundColor: WidgetStatePropertyAll(
+          _isEnabled ? AppColors.primary : AppColors.disabledBg,
+        ),
+        foregroundColor: WidgetStatePropertyAll(
+          _isEnabled ? AppColors.textOnPrimary : AppColors.disabledFg,
+        ),
       ),
       onPressed: isSubmitting ? null : onPressed,
       child: isSubmitting
@@ -53,33 +57,22 @@ class ProfileContinueButton extends StatelessWidget {
               height: 22,
               child: CircularProgressIndicator(
                 strokeWidth: 2.5,
-                color: Colors.white,
+                color: AppColors.textOnPrimary,
               ),
             )
           : Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Flexible(
-                  child: FitOneLine(
-                    child: Text(
-                      currentStep == 4
-                          ? l10n.completeProfile
-                          : l10n.navContinueButton,
-                      style: AppGoogleFonts.inter(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
+                  child: Text(
+                    currentStep == 4
+                        ? l10n.completeProfile
+                        : l10n.navContinueButton,
                   ),
                 ),
                 if (currentStep < 4) ...[
                   const SizedBox(width: AppSpacing.xs),
-                  const Icon(
-                    Icons.arrow_forward_rounded,
-                    size: 18,
-                    color: Colors.white,
-                  ),
+                  const Icon(Icons.arrow_forward_rounded, size: AppSize.icon),
                 ],
               ],
             ),

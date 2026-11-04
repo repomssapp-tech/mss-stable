@@ -109,7 +109,7 @@ abstract class AppLocalizations {
   /// No description provided for @completeYourProfile.
   ///
   /// In en, this message translates to:
-  /// **'Complete Your Profile'**
+  /// **'Complete your profile'**
   String get completeYourProfile;
 
   /// No description provided for @unlockPersonalizedSchemeRecommendations.
@@ -3403,7 +3403,7 @@ abstract class AppLocalizations {
   /// No description provided for @chooseYourLanguage.
   ///
   /// In en, this message translates to:
-  /// **'Choose Your Language'**
+  /// **'Choose your language'**
   String get chooseYourLanguage;
 
   /// No description provided for @languageSubtitle.
@@ -3415,7 +3415,7 @@ abstract class AppLocalizations {
   /// No description provided for @yourLanguageExperience.
   ///
   /// In en, this message translates to:
-  /// **'Your Language, Your Experience'**
+  /// **'Your language, your experience'**
   String get yourLanguageExperience;
 
   /// No description provided for @changeAnytime.
@@ -3427,7 +3427,7 @@ abstract class AppLocalizations {
   /// No description provided for @welcome.
   ///
   /// In en, this message translates to:
-  /// **'Welcome!'**
+  /// **'Welcome'**
   String get welcome;
 
   /// No description provided for @loginSubtitle.
@@ -3589,7 +3589,7 @@ abstract class AppLocalizations {
   /// No description provided for @whereLocated.
   ///
   /// In en, this message translates to:
-  /// **'Where Are You Located?'**
+  /// **'Where are you located?'**
   String get whereLocated;
 
   /// No description provided for @locationSubtitle.
@@ -3601,7 +3601,7 @@ abstract class AppLocalizations {
   /// No description provided for @useCurrentLocation.
   ///
   /// In en, this message translates to:
-  /// **'Use Current Location'**
+  /// **'Use current location'**
   String get useCurrentLocation;
 
   /// No description provided for @fetchingCoordinates.
@@ -3709,7 +3709,7 @@ abstract class AppLocalizations {
   /// No description provided for @tellUsAboutYou.
   ///
   /// In en, this message translates to:
-  /// **'Tell Us About You'**
+  /// **'Tell us about you'**
   String get tellUsAboutYou;
 
   /// No description provided for @aboutYouSubtitle.
@@ -3943,7 +3943,7 @@ abstract class AppLocalizations {
   /// No description provided for @firstGenGraduate.
   ///
   /// In en, this message translates to:
-  /// **'First-Generation Graduate'**
+  /// **'First-generation graduate'**
   String get firstGenGraduate;
 
   /// No description provided for @skipForNow.
@@ -4003,7 +4003,7 @@ abstract class AppLocalizations {
   /// No description provided for @specialCategories.
   ///
   /// In en, this message translates to:
-  /// **'Special Status / Priority'**
+  /// **'Special status or priority'**
   String get specialCategories;
 
   /// No description provided for @loading.
@@ -8125,7 +8125,7 @@ abstract class AppLocalizations {
   /// No description provided for @betaGateAuthorizedTestersOnly.
   ///
   /// In en, this message translates to:
-  /// **'Authorized Beta Testers Only'**
+  /// **'For authorized beta testers only'**
   String get betaGateAuthorizedTestersOnly;
 
   /// No description provided for @betaGateAccess.

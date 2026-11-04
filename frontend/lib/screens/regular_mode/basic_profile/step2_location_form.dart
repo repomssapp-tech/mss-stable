@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_colors.dart';
 import 'package:flutter/services.dart';
 
 import '../../../l10n/l10n.dart';
@@ -19,10 +20,10 @@ class Step2LocationForm extends StatelessWidget {
   final VoidCallback? onFetchLocation;
   final VoidCallback onChanged;
 
-  static const Color kPrimaryBlue = Color(0xFF2563EB);
-  static const Color kSlate900 = Color(0xFF0F172A);
-  static const Color kSlate800 = Color(0xFF1E293B);
-  static const Color kSlate500 = Color(0xFF64748B);
+  static const Color kPrimaryBlue = AppColors.primary;
+  static const Color kSlate900 = AppColors.textPrimary;
+  static const Color kSlate800 = AppColors.textPrimary;
+  static const Color kSlate500 = AppColors.textMuted;
 
   /// A place name must have some letters (Latin or Tamil) and a sane length --
   /// rejects junk like "1" / "11" / "." that non-empty checks let through.
@@ -64,11 +65,7 @@ class Step2LocationForm extends StatelessWidget {
         Text(
           l10n.whereLocated,
           textAlign: TextAlign.center,
-          style: AppGoogleFonts.poppins(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: kSlate900,
-          ),
+          style: context.text.titleSmall.copyWith(color: kSlate900),
         ),
         const SizedBox(height: AppSpacing.md),
 
@@ -81,7 +78,7 @@ class Step2LocationForm extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: const Color(0xFFDCE7F5), width: 1.2),
+              border: Border.all(color: AppColors.border, width: 1.2),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.02),
@@ -117,11 +114,7 @@ class Step2LocationForm extends StatelessWidget {
                 Expanded(
                   child: Text(
                     l10n.useCurrentLocation,
-                    style: AppGoogleFonts.inter(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: kSlate900,
-                    ),
+                    style: context.text.bodyLarge.copyWith(color: kSlate900),
                   ),
                 ),
                 const Icon(
@@ -139,31 +132,27 @@ class Step2LocationForm extends StatelessWidget {
         Row(
           children: [
             const Expanded(
-              child: Divider(color: Color(0xFFE2E8F0), thickness: 1),
+              child: Divider(color: AppColors.border, thickness: 1),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
               child: Text(
                 l10n.or,
-                style: AppGoogleFonts.inter(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: kSlate500,
-                  letterSpacing: 1.2,
-                ),
+                style: context.text.label.copyWith(color: kSlate500),
               ),
             ),
             const Expanded(
-              child: Divider(color: Color(0xFFE2E8F0), thickness: 1),
+              child: Divider(color: AppColors.border, thickness: 1),
             ),
           ],
         ),
         const SizedBox(height: AppSpacing.xl),
 
         // Full Address Multi-line Text Area
-        _buildLabel('${l10n.fullAddress} *'),
+        _buildLabel(context, '${l10n.fullAddress} *'),
         const SizedBox(height: AppSpacing.tight),
         _buildTextField(
+          context,
           controller: addressController,
           hintText: l10n.hintAddressExample,
           icon: Icons.home_outlined,
@@ -175,9 +164,10 @@ class Step2LocationForm extends StatelessWidget {
         const SizedBox(height: AppSpacing.lg),
 
         // City / Town Field
-        _buildLabel('${l10n.cityTown} *'),
+        _buildLabel(context, '${l10n.cityTown} *'),
         const SizedBox(height: AppSpacing.tight),
         _buildTextField(
+          context,
           controller: cityController,
           hintText: l10n.hintCityExample,
           icon: Icons.location_city_outlined,
@@ -192,7 +182,7 @@ class Step2LocationForm extends StatelessWidget {
         // State Field: picked from the fixed list of states and union
         // territories, never typed (a typo would break state-based scheme
         // matching).
-        _buildLabel('${l10n.state} *'),
+        _buildLabel(context, '${l10n.state} *'),
         const SizedBox(height: AppSpacing.tight),
         StatePickerField(
           controller: stateController,
@@ -207,7 +197,7 @@ class Step2LocationForm extends StatelessWidget {
 
         // District Field: picked from the chosen state's official (LGD)
         // districts, so it sits below State (issue #145 item 2.1).
-        _buildLabel('${l10n.district} *'),
+        _buildLabel(context, '${l10n.district} *'),
         const SizedBox(height: AppSpacing.tight),
         DistrictPickerField(
           controller: districtController,
@@ -222,9 +212,10 @@ class Step2LocationForm extends StatelessWidget {
         const SizedBox(height: AppSpacing.lg),
 
         // Pincode Field
-        _buildLabel('${l10n.pincode} *'),
+        _buildLabel(context, '${l10n.pincode} *'),
         const SizedBox(height: AppSpacing.tight),
         _buildTextField(
+          context,
           controller: pincodeController,
           hintText: '600001',
           icon: Icons.markunread_mailbox_outlined,
@@ -243,23 +234,19 @@ class Step2LocationForm extends StatelessWidget {
     );
   }
 
-  Widget _buildLabel(String text) {
+  Widget _buildLabel(BuildContext context, String text) {
     final hasAsterisk = text.contains('*');
     final baseText = text.replaceAll('*', '').trim();
     return Text.rich(
       TextSpan(
         text: baseText,
-        style: AppGoogleFonts.inter(
-          fontSize: 13,
-          fontWeight: FontWeight.bold,
-          color: kSlate800,
-        ),
+        style: context.text.button.copyWith(color: kSlate800),
         children: hasAsterisk
             ? [
                 const TextSpan(
                   text: ' *',
                   style: TextStyle(
-                    color: Color(0xFFDC2626),
+                    color: AppColors.danger,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -269,7 +256,8 @@ class Step2LocationForm extends StatelessWidget {
     );
   }
 
-  Widget _buildTextField({
+  Widget _buildTextField(
+    BuildContext context, {
     required TextEditingController controller,
     required String hintText,
     required IconData icon,
@@ -283,24 +271,13 @@ class Step2LocationForm extends StatelessWidget {
       keyboardType: keyboardType,
       inputFormatters: inputFormatters,
       onChanged: onChanged,
-      style: AppGoogleFonts.inter(
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
-        color: kSlate900,
-      ),
+      style: context.text.body.copyWith(color: kSlate900),
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: AppGoogleFonts.inter(
-          fontSize: 13,
-          color: const Color(0xFF94A3B8),
-        ),
+        hintStyle: context.text.body.copyWith(color: AppColors.iconMuted),
         prefixIcon: Icon(icon, color: kSlate500, size: 20),
         errorText: errorText,
-        errorStyle: AppGoogleFonts.inter(
-          fontSize: 11,
-          fontWeight: FontWeight.w500,
-          color: const Color(0xFFDC2626),
-        ),
+        errorStyle: context.text.bodySmall.copyWith(color: AppColors.danger),
         filled: true,
         fillColor: Colors.white,
         contentPadding: const EdgeInsets.symmetric(
@@ -309,11 +286,17 @@ class Step2LocationForm extends StatelessWidget {
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFFCBD5E1), width: 1.0),
+          borderSide: const BorderSide(
+            color: AppColors.borderStrong,
+            width: 1.0,
+          ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFFCBD5E1), width: 1.0),
+          borderSide: const BorderSide(
+            color: AppColors.borderStrong,
+            width: 1.0,
+          ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),

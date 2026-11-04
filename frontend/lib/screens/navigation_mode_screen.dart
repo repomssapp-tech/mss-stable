@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import '../utils/app_radius.dart';
+import '../utils/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'companion_mode/saarthi_welcome_screen.dart';
 import 'regular_mode/language_selection_screen.dart';
 import 'regular_mode/basic_profile_screen.dart';
 import '../providers/app_state_provider.dart';
 import '../main.dart';
-import '../utils/responsive.dart';
 import '../l10n/l10n.dart';
 import '../utils/app_size.dart';
 import '../utils/app_spacing.dart';
@@ -28,10 +29,10 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
   // Constants for design consistency
   static const double kPaddingSide = 24.0;
   static const double kCardRadius = 28.0;
-  static const Color kPrimaryBlue = Color(0xFF2563EB);
-  static const Color kSlate800 = Color(0xFF1E293B);
-  static const Color kSlate500 = Color(0xFF64748B);
-  static const Color kBorderGrey = Color(0xFFE2E8F0);
+  static const Color kPrimaryBlue = AppColors.primary;
+  static const Color kSlate800 = AppColors.textPrimary;
+  static const Color kSlate500 = AppColors.textMuted;
+  static const Color kBorderGrey = AppColors.border;
 
   @override
   Widget build(BuildContext context) {
@@ -114,11 +115,8 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                                       RichText(
                                         textAlign: TextAlign.center,
                                         text: TextSpan(
-                                          style: AppGoogleFonts.poppins(
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.bold,
-                                            color: kSlate800,
-                                          ),
+                                          style: context.text.titleMedium
+                                              .copyWith(color: kSlate800),
                                           children: [
                                             TextSpan(
                                               text: context
@@ -140,8 +138,7 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                                       Text(
                                         context.l10n.navSelectStyleSubtitle,
                                         textAlign: TextAlign.center,
-                                        style: AppGoogleFonts.inter(
-                                          fontSize: 13.5,
+                                        style: context.text.body.copyWith(
                                           color: kSlate500,
                                         ),
                                       ),
@@ -165,7 +162,7 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                                             context.l10n.navModeRegularSubtitle,
                                         icon: Icons.explore_rounded,
                                         iconColor: kPrimaryBlue,
-                                        iconBgColor: const Color(0xFFEFF6FF),
+                                        iconBgColor: AppColors.primarySoft,
                                         chips: [
                                           ChipInfo(
                                             Icons.bolt,
@@ -202,8 +199,8 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                                             .l10n
                                             .navModeCompanionSubtitle,
                                         icon: Icons.support_agent_rounded,
-                                        iconColor: const Color(0xFF2563EB),
-                                        iconBgColor: const Color(0xFFEFF6FF),
+                                        iconColor: AppColors.primary,
+                                        iconBgColor: AppColors.primarySoft,
                                         chips: [
                                           ChipInfo(
                                             Icons.mic,
@@ -338,10 +335,11 @@ class NavigationOptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final activeColor = const Color(0xFF2563EB);
-    final activeBg = const Color(0xFFF0F5FF);
+    final activeColor = AppColors.primary;
+    final activeBg = AppColors.primarySoft;
 
-    return GestureDetector(
+    return InkWell(
+      borderRadius: AppRadius.mdAll,
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
@@ -400,17 +398,16 @@ class NavigationOptionCard extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: AppGoogleFonts.poppins(
-                          fontSize: 15.5, // Tighter font sizing
-                          fontWeight: FontWeight.bold,
+                        style: context.text.titleSmall.copyWith(
+                          // Tighter font sizing
                           color: _NavigationModeScreenState.kSlate800,
                         ),
                       ),
                       const SizedBox(height: AppSpacing.hairline),
                       Text(
                         subtitle,
-                        style: AppGoogleFonts.inter(
-                          fontSize: 12.5, // Tighter font sizing
+                        style: context.text.bodySmall.copyWith(
+                          // Tighter font sizing
                           color: _NavigationModeScreenState.kSlate500,
                         ),
                       ),
@@ -450,9 +447,7 @@ class NavigationOptionCard extends StatelessWidget {
                                       chips[i].label,
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
-                                      style: AppGoogleFonts.inter(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600,
+                                      style: context.text.label.copyWith(
                                         color: iconColor,
                                       ),
                                     ),
@@ -496,7 +491,7 @@ class NavigationOptionCard extends StatelessWidget {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: const Color(0xFFCBD5E1),
+                          color: AppColors.borderStrong,
                           width: 1.5,
                         ),
                       ),
@@ -523,14 +518,14 @@ class InfoCard extends StatelessWidget {
         vertical: AppSpacing.sm,
       ), // More compact padding
       decoration: BoxDecoration(
-        color: const Color(0xFFEFF6FF), // Blue tinted background
+        color: AppColors.primarySoft, // Blue tinted background
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFBFDBFE)),
+        border: Border.all(color: AppColors.primaryBorder),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.info_outline, color: Color(0xFF2563EB), size: 18),
+          const Icon(Icons.info_outline, color: AppColors.primary, size: 18),
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Column(
@@ -539,18 +534,17 @@ class InfoCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: AppGoogleFonts.inter(
-                    fontSize: 13, // Slightly more compact
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF1E3A8A),
+                  style: context.text.button.copyWith(
+                    // Slightly more compact
+                    color: AppColors.primaryDeep,
                   ),
                 ),
                 const SizedBox(height: 1),
                 Text(
                   description,
-                  style: AppGoogleFonts.inter(
-                    fontSize: 11, // Slightly more compact
-                    color: const Color(0xFF1D4ED8),
+                  style: context.text.bodySmall.copyWith(
+                    // Slightly more compact
+                    color: AppColors.primaryStrong,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -583,38 +577,20 @@ class PrimaryButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(16), // Large radius
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF2563EB).withValues(alpha: 0.35),
+            color: AppColors.primary.withValues(alpha: 0.35),
             blurRadius: 18,
             offset: const Offset(0, 8),
           ),
         ],
       ),
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF2563EB), // Blue filled
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          elevation: 0,
-        ),
         onPressed: onPressed,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Flexible(
-              child: FitOneLine(
-                child: Text(
-                  context.l10n.navContinueButton,
-                  style: AppGoogleFonts.inter(
-                    fontSize: 16.5,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
+            Flexible(child: Text(context.l10n.navContinueButton)),
             const SizedBox(width: AppSpacing.sm),
-            const Icon(Icons.arrow_forward, color: Colors.white, size: 20),
+            const Icon(Icons.arrow_forward_rounded, size: AppSize.icon),
           ],
         ),
       ),

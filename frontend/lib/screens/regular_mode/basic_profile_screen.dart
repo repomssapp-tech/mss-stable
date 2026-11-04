@@ -46,8 +46,8 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   late int _currentStep;
 
   // Theme Constants
-  static const Color kSlate900 = Color(0xFF0F172A);
-  static const Color kSlate800 = Color(0xFF1E293B);
+  static const Color kSlate900 = AppColors.textPrimary;
+  static const Color kSlate800 = AppColors.textPrimary;
 
   // --- Step 1: Basic Details Controllers & State ---
   late final TextEditingController _nameController;
@@ -462,9 +462,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
                               l10n.completeYourProfile,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: AppGoogleFonts.poppins(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                              style: context.text.titleMedium.copyWith(
                                 color: kSlate900,
                               ),
                             ),

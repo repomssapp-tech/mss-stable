@@ -8,6 +8,7 @@
 // child flexible, so they collided and overflowed at this size.
 
 import 'package:flutter/material.dart';
+import 'package:frontend/utils/app_colors.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
@@ -80,7 +81,7 @@ void main() {
     'Step 2 heading and step counter are both fully visible (no collision)',
     (tester) async {
       await _pumpStep(tester, const LocationProfileScreen());
-      expect(find.text('Where Are You Located?'), findsOneWidget);
+      expect(find.text('Where are you located?'), findsOneWidget);
       expect(find.text('2/4 Complete'), findsOneWidget);
       expect(tester.takeException(), isNull);
     },
@@ -119,14 +120,14 @@ void main() {
       expect(fields, findsNWidgets(3));
 
       // Nothing filled in -> greyed.
-      expect(bg(), Colors.grey.shade300);
+      expect(bg(), AppColors.disabledBg);
 
       await tester.enterText(fields.at(0), 'Flat 402, Royal Enclave');
       await tester.enterText(fields.at(1), 'Anna Nagar West');
       await tester.pump();
 
       // State still blank -> still greyed.
-      expect(bg(), Colors.grey.shade300);
+      expect(bg(), AppColors.disabledBg);
 
       await tester.ensureVisible(find.text('Select your state'));
       await tester.tap(find.text('Select your state'));
@@ -137,7 +138,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // District still blank -> still greyed; pick it from the LGD list.
-      expect(bg(), Colors.grey.shade300);
+      expect(bg(), AppColors.disabledBg);
       await tester.ensureVisible(find.text('Select your district'));
       await tester.tap(find.text('Select your district'));
       await tester.pumpAndSettle();
@@ -147,10 +148,10 @@ void main() {
       await tester.pumpAndSettle();
 
       // Pincode still blank (or short) -> still greyed.
-      expect(bg(), Colors.grey.shade300);
+      expect(bg(), AppColors.disabledBg);
       await tester.enterText(fields.at(2), '6000');
       await tester.pump();
-      expect(bg(), Colors.grey.shade300);
+      expect(bg(), AppColors.disabledBg);
 
       await tester.enterText(fields.at(2), '600040');
       await tester.pump();

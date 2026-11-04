@@ -12,7 +12,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get goodMorning => 'Good Morning,';
 
   @override
-  String get completeYourProfile => 'Complete Your Profile';
+  String get completeYourProfile => 'Complete your profile';
 
   @override
   String get unlockPersonalizedSchemeRecommendations =>
@@ -1799,20 +1799,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get retryVoice => 'Retry voice';
 
   @override
-  String get chooseYourLanguage => 'Choose Your Language';
+  String get chooseYourLanguage => 'Choose your language';
 
   @override
   String get languageSubtitle =>
       'Select your preferred language to explore government schemes in your language.';
 
   @override
-  String get yourLanguageExperience => 'Your Language, Your Experience';
+  String get yourLanguageExperience => 'Your language, your experience';
 
   @override
   String get changeAnytime => 'Change it anytime from Settings.';
 
   @override
-  String get welcome => 'Welcome!';
+  String get welcome => 'Welcome';
 
   @override
   String get loginSubtitle =>
@@ -1898,14 +1898,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get step3Of3 => '3/3 Complete';
 
   @override
-  String get whereLocated => 'Where Are You Located?';
+  String get whereLocated => 'Where are you located?';
 
   @override
   String get locationSubtitle =>
       'We use your location to recommend schemes available in your area.';
 
   @override
-  String get useCurrentLocation => 'Use Current Location';
+  String get useCurrentLocation => 'Use current location';
 
   @override
   String get fetchingCoordinates => 'Fetching coordinates...';
@@ -1960,7 +1960,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pleaseConsentToContinue => 'Please consent to continue';
 
   @override
-  String get tellUsAboutYou => 'Tell Us About You';
+  String get tellUsAboutYou => 'Tell us about you';
 
   @override
   String get aboutYouSubtitle => 'Choose the option that best describes you.';
@@ -2084,7 +2084,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Helps us recommend 100% accurate schemes & subsidies for you.';
 
   @override
-  String get firstGenGraduate => 'First-Generation Graduate';
+  String get firstGenGraduate => 'First-generation graduate';
 
   @override
   String get skipForNow => 'Skip for now';
@@ -2114,7 +2114,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get incomeAbove10l => 'Above ₹10 Lakhs';
 
   @override
-  String get specialCategories => 'Special Status / Priority';
+  String get specialCategories => 'Special status or priority';
 
   @override
   String get loading => 'Loading...';
@@ -4393,7 +4393,8 @@ class AppLocalizationsEn extends AppLocalizations {
       'Unable to verify password. Check your network.';
 
   @override
-  String get betaGateAuthorizedTestersOnly => 'Authorized Beta Testers Only';
+  String get betaGateAuthorizedTestersOnly =>
+      'For authorized beta testers only';
 
   @override
   String get betaGateAccess => 'Beta Access';

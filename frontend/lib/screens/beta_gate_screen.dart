@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../utils/app_colors.dart';
 import '../l10n/l10n.dart';
 import 'login_screen.dart';
 import 'regular_mode/language_selection_screen.dart';
@@ -163,11 +164,8 @@ class _BetaGateScreenState extends State<BetaGateScreen> {
                             Text(
                               context.l10n.betaGateAuthorizedTestersOnly,
                               textAlign: TextAlign.center,
-                              style: AppGoogleFonts.inter(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w500,
-                                color: const Color(0xFF94A3B8), // Slate 400
-                                letterSpacing: 0.4,
+                              style: context.text.bodySmall.copyWith(
+                                color: AppColors.iconMuted,
                               ),
                             ),
                             const SizedBox(height: AppSpacing.sm),
@@ -230,7 +228,7 @@ class _BetaGateCard extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: const Color(0xFFE2E8F0), // Slate 200
+          color: AppColors.border, // Slate 200
         ),
         boxShadow: const [
           BoxShadow(
@@ -248,7 +246,7 @@ class _BetaGateCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(AppSpacing.md),
             decoration: const BoxDecoration(
-              color: Color(0xFFEFF6FF), // Blue 50
+              color: AppColors.primarySoft, // Blue 50
               shape: BoxShape.circle,
             ),
             child: const Icon(
@@ -262,10 +260,8 @@ class _BetaGateCard extends StatelessWidget {
           // Title
           Text(
             context.l10n.betaGateAccess,
-            style: AppGoogleFonts.poppins(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF0F172A), // Slate 900
+            style: context.text.titleMedium.copyWith(
+              color: AppColors.textPrimary,
             ),
           ),
           const SizedBox(height: AppSpacing.xs),
@@ -274,11 +270,7 @@ class _BetaGateCard extends StatelessWidget {
           Text(
             context.l10n.betaGateEnterPasswordToContinue,
             textAlign: TextAlign.center,
-            style: AppGoogleFonts.inter(
-              fontSize: 12,
-              color: const Color(0xFF64748B), // Slate 500
-              height: 1.4,
-            ),
+            style: context.text.bodySmall.copyWith(color: AppColors.textMuted),
           ),
           const SizedBox(height: AppSpacing.xl),
 
@@ -291,21 +283,14 @@ class _BetaGateCard extends StatelessWidget {
             keyboardType: TextInputType.text,
             textInputAction: TextInputAction.done,
             onSubmitted: (_) => onSubmitted?.call(),
-            style: AppGoogleFonts.inter(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: const Color(0xFF0F172A),
-            ),
+            style: context.text.body.copyWith(color: AppColors.textPrimary),
             decoration: InputDecoration(
               hintText: context.l10n.betaGatePasswordHint,
-              hintStyle: AppGoogleFonts.inter(
-                fontSize: 13,
-                color: const Color(0xFF94A3B8), // Slate 400
-              ),
+              hintStyle: context.text.body.copyWith(color: AppColors.iconMuted),
               prefixIcon: const Icon(
                 Icons.key_rounded,
                 size: 20,
-                color: Color(0xFF64748B),
+                color: AppColors.textMuted,
               ),
               suffixIcon: IconButton(
                 icon: Icon(
@@ -313,23 +298,23 @@ class _BetaGateCard extends StatelessWidget {
                       ? Icons.visibility_off_rounded
                       : Icons.visibility_rounded,
                   size: 20,
-                  color: const Color(0xFF64748B),
+                  color: AppColors.textMuted,
                 ),
                 onPressed: isLoading ? null : onToggleVisibility,
               ),
               filled: true,
-              fillColor: const Color(0xFFF8FAFC), // Slate 50
+              fillColor: AppColors.background, // Slate 50
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: AppSpacing.md,
                 vertical: AppSpacing.md,
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
+                borderSide: const BorderSide(color: AppColors.borderStrong),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                borderSide: const BorderSide(color: AppColors.border),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -350,14 +335,6 @@ class _BetaGateCard extends StatelessWidget {
               minHeight: AppSize.controlHeight,
             ),
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppConstants.primaryColor,
-                foregroundColor: Colors.white,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
               onPressed: isLoading ? null : onSubmitted,
               child: isLoading
                   ? const SizedBox(
@@ -365,7 +342,7 @@ class _BetaGateCard extends StatelessWidget {
                       height: 20,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        color: Colors.white,
+                        color: AppColors.textOnPrimary,
                       ),
                     )
                   : Row(
@@ -373,10 +350,7 @@ class _BetaGateCard extends StatelessWidget {
                       children: [
                         Text(
                           context.l10n.betaGateVerifyAndEnter,
-                          style: AppGoogleFonts.inter(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: context.text.button,
                         ),
                         const SizedBox(width: AppSpacing.xs),
                         const Icon(Icons.arrow_forward_rounded, size: 16),

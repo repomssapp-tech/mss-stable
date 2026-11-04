@@ -10,8 +10,10 @@ import '../services/account/app_session.dart';
 import '../services/account/auth_service.dart';
 import '../services/account/rest_auth_service.dart';
 import '../services/account/session_cache_service.dart';
-import '../utils/constants.dart';
 import '../main.dart';
+import '../utils/app_colors.dart';
+import '../utils/app_radius.dart';
+import '../utils/app_size.dart';
 import '../utils/app_spacing.dart';
 import '../services/beta_gate/beta_config.dart';
 import '../services/beta_gate/beta_gate_service.dart';
@@ -22,6 +24,9 @@ import 'permissions/app_permissions_screen.dart';
 import '../utils/app_text.dart';
 
 enum StartupDestination { home, navigationMode, language, login }
+
+/// Hairlines and the progress track on the splash art's blue footer.
+final Color _faintOnBlue = AppColors.textOnPrimary.withValues(alpha: 0.25);
 
 StartupDestination resolveStartupDestination({
   required bool hasSession,
@@ -70,7 +75,7 @@ class _SplashScreenState extends State<SplashScreen>
     _scaleAnimation = Tween<double>(begin: 0.85, end: 1.0).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: const Interval(0.0, 0.70, curve: Curves.easeOutBack),
+        curve: const Interval(0.0, 0.70, curve: Curves.easeOut),
       ),
     );
 
@@ -81,6 +86,13 @@ class _SplashScreenState extends State<SplashScreen>
       const Duration(milliseconds: 3200),
       _continueStartup,
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Reduced motion: show the logo and text at rest, no fade or scale.
+    if (MediaQuery.disableAnimationsOf(context)) _controller.value = 1;
   }
 
   Future<void> _continueStartup() async {
@@ -244,8 +256,8 @@ class _SplashScreenState extends State<SplashScreen>
       context: context,
       barrierDismissible: false,
       builder: (dialogContext) => Dialog(
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: AppColors.surface,
+        shape: const RoundedRectangleBorder(borderRadius: AppRadius.xlAll),
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.xl),
           child: Column(
@@ -254,32 +266,29 @@ class _SplashScreenState extends State<SplashScreen>
               Container(
                 padding: const EdgeInsets.all(AppSpacing.md),
                 decoration: const BoxDecoration(
-                  color: Color(0xFFFFFBEB),
+                  color: AppColors.warningSoft,
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
                   Icons.wifi_off_rounded,
-                  color: Color(0xFFD97706),
-                  size: 28,
+                  color: AppColors.warningOnSoft,
+                  size: AppSize.iconLg,
                 ),
               ),
               const SizedBox(height: AppSpacing.lg),
               Text(
                 context.l10n.splashNoInternetTitle,
-                style: AppGoogleFonts.poppins(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF0F172A),
+                textAlign: TextAlign.center,
+                style: context.text.titleMedium.copyWith(
+                  color: AppColors.textPrimary,
                 ),
               ),
               const SizedBox(height: AppSpacing.sm),
               Text(
                 context.l10n.splashNoInternetBody,
                 textAlign: TextAlign.center,
-                style: AppGoogleFonts.inter(
-                  fontSize: 13,
-                  height: 1.4,
-                  color: const Color(0xFF64748B),
+                style: context.text.body.copyWith(
+                  color: AppColors.textSecondary,
                 ),
               ),
               const SizedBox(height: AppSpacing.xl),
@@ -354,7 +363,7 @@ class _SplashScreenState extends State<SplashScreen>
                           },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 40.0,
+                              horizontal: AppSpacing.xxxl,
                             ),
                             child: Image.asset(
                               'assets/images/Logo/Logo.webp',
@@ -364,18 +373,10 @@ class _SplashScreenState extends State<SplashScreen>
                                 return Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    const Icon(
-                                      Icons.account_balance,
-                                      size: 80,
-                                      color: AppConstants.primaryColor,
-                                    ),
-                                    const SizedBox(height: AppSpacing.lg),
                                     Text(
                                       'MSS',
-                                      style: AppGoogleFonts.poppins(
-                                        fontSize: 32,
-                                        fontWeight: FontWeight.bold,
-                                        color: AppConstants.primaryColor,
+                                      style: context.text.display.copyWith(
+                                        color: AppColors.primary,
                                       ),
                                     ),
                                   ],
@@ -395,36 +396,30 @@ class _SplashScreenState extends State<SplashScreen>
                             children: [
                               SizedBox(
                                 width: size.width * 0.45,
-                                child: const ClipRRect(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
+                                child: ClipRRect(
+                                  borderRadius: AppRadius.pillAll,
                                   child: LinearProgressIndicator(
                                     minHeight: 3.5,
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                      Colors.white,
-                                    ),
-                                    backgroundColor: Colors.white24,
+                                    valueColor:
+                                        const AlwaysStoppedAnimation<Color>(
+                                          AppColors.textOnPrimary,
+                                        ),
+                                    backgroundColor: _faintOnBlue,
                                   ),
                                 ),
                               ),
                               const SizedBox(height: AppSpacing.md),
                               Text(
                                 context.l10n.loading,
-                                style: AppGoogleFonts.inter(
-                                  fontSize: 12.5,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                  letterSpacing: 0.3,
+                                style: context.text.label.copyWith(
+                                  color: AppColors.textOnPrimary,
                                 ),
                               ),
                               const SizedBox(height: AppSpacing.xs),
                               Text(
                                 context.l10n.splashPreparingSubtitle,
-                                style: AppGoogleFonts.inter(
-                                  fontSize: 10.5,
-                                  color: Colors.white70,
-                                  height: 1.4,
+                                style: context.text.bodySmall.copyWith(
+                                  color: AppColors.textOnPrimary,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -446,9 +441,9 @@ class _SplashScreenState extends State<SplashScreen>
                                 ),
                                 child: Row(
                                   children: [
-                                    const Expanded(
+                                    Expanded(
                                       child: Divider(
-                                        color: Color(0x40FFFFFF),
+                                        color: _faintOnBlue,
                                         thickness: 0.8,
                                       ),
                                     ),
@@ -458,17 +453,14 @@ class _SplashScreenState extends State<SplashScreen>
                                       ),
                                       child: Text(
                                         context.l10n.splashDevelopedBy,
-                                        style: AppGoogleFonts.inter(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w500,
-                                          color: const Color(0xCCFFFFFF),
-                                          letterSpacing: 0.3,
+                                        style: context.text.bodySmall.copyWith(
+                                          color: AppColors.textOnPrimary,
                                         ),
                                       ),
                                     ),
-                                    const Expanded(
+                                    Expanded(
                                       child: Divider(
-                                        color: Color(0x40FFFFFF),
+                                        color: _faintOnBlue,
                                         thickness: 0.8,
                                       ),
                                     ),
@@ -512,7 +504,7 @@ class _SplashScreenState extends State<SplashScreen>
                                       margin: const EdgeInsets.symmetric(
                                         horizontal: AppSpacing.lg,
                                       ),
-                                      color: const Color(0x40FFFFFF),
+                                      color: _faintOnBlue,
                                     ),
                                     // Swadeshi Shodh Sansthan (SSS TN Chapter) logo
                                     Flexible(

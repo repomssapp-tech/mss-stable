@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/utils/app_colors.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -122,7 +123,7 @@ void main() {
       expect(find.text('OR FILL MANUALLY'), findsNothing);
 
       // Verify "Use Current Location" is shown (no "My" and no subtitle)
-      expect(find.text('Use Current Location'), findsOneWidget);
+      expect(find.text('Use current location'), findsOneWidget);
       expect(find.text('Use My Current Location'), findsNothing);
       expect(
         find.text('Get your current location automatically'),
@@ -171,7 +172,7 @@ void main() {
       );
       expect(
         continueBtn.style?.backgroundColor?.resolve({}),
-        Colors.grey.shade300,
+        AppColors.disabledBg,
       );
 
       // Verify small descriptions under select options are removed
@@ -211,7 +212,7 @@ void main() {
       );
       expect(
         deselectedContinueBtn.style?.backgroundColor?.resolve({}),
-        Colors.grey.shade300,
+        AppColors.disabledBg,
       );
     },
   );
