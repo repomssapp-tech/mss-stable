@@ -67,6 +67,39 @@ HttpVoiceAgentController _controller(_Client client, _Audio audio) =>
 
 void main() {
   test(
+    'HTTP and native replies preserve authoritative empty card selections',
+    () async {
+      final client = _Client(
+        (_, _) async => {
+          'reply': 'தமிழ் பதில்',
+          'language': 'ta',
+          'scheme_ids': [],
+          'results': [
+            {'id': 'A', 'code': 'A', 'name': 'Test Grant'},
+          ],
+        },
+      );
+      final agent = _controller(client, _Audio())..speakReplies = false;
+      final events = <VoiceAgentEvent>[];
+      final subscription = agent.events.listen(events.add);
+      addTearDown(() async {
+        await subscription.cancel();
+        await agent.dispose();
+      });
+      await agent.connect();
+      await agent.sendText('help');
+      await agent.turnCompleted;
+      await Future<void>.delayed(Duration.zero);
+      final selection = events.firstWhere(
+        (e) => e.type == VoiceAgentEventType.schemeResults,
+      );
+      expect(selection.data?['scheme_ids'], isEmpty);
+      agent.acceptNativeResults([], schemeIds: ['A']);
+      await Future<void>.delayed(Duration.zero);
+      expect(events.last.data?['scheme_ids'], ['A']);
+    },
+  );
+  test(
     'managed reply in the wrong main language is neither displayed nor spoken',
     () async {
       final client = _Client(
