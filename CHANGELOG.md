@@ -11,6 +11,23 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [2.4.0+23] - 2026-11-04
+
+### Changed
+- Every screen has a cleaner, calmer look: one set of colours, text sizes and spacing across the app, larger buttons that are easier to tap, and Tamil and Hindi labels that wrap instead of shrinking on small phones. This covers Home, Scheme details, Search, Saved, Discover and its calculators, Profile, Settings, Help, Legal and the setup screens from launch to the profile steps.
+- Saarthi's voice screen has a new design.
+- Saarthi shows scheme cards only for the schemes its reply talks about, and none when it says it has no verified details for a scheme.
+- Scheme details open with the benefits expanded and show exact amounts, written the Indian way (₹ 10,00,000).
+
+### Fixed
+- Scheme details added "Loan" or "Subsidy" tags to schemes whose record has neither.
+- Hindi showed "middle" for Central schemes, and two Hindi search shortcuts searched for the wrong words.
+- The loan calculator now groups EMI amounts the Indian way.
+- Removed a privacy claim the app could not back up.
+
+### Removed
+- The old voice assistant overlay and the old eligibility results screen, which the app no longer opened.
+
 ## [2.3.2+22] - 2026-11-03
 
 ### Fixed
