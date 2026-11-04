@@ -11,12 +11,18 @@ import '../../widgets/chat/chat_markdown_body.dart';
 import '../../utils/app_colors.dart';
 import '../mss_design.dart';
 
-const kInk = AppColors.textPrimary;
-const kBrand = AppColors.primary;
-const kMuted = AppColors.textMuted;
-const kBody = AppColors.textBody;
-const kHairline = AppColors.border;
-const kHint = AppColors.iconMuted;
+// The Saarathi redesign canvas's palette: Ashoka navy for text and actions,
+// saffron and green only in the rings and halos, on white.
+const kInk = MssColors.ashokaBlue;
+const kBrand = MssColors.ashokaBlue;
+const kMuted = Color(0xFF5A5A8A);
+const kBody = Color(0xFF3A3A6A);
+const kHint = Color(0xFF5A5A8A);
+const kHairline = Color(0x14000080); // navy 8%
+const kOutline = Color(0x1A000080); // navy 10%, round buttons
+const kFieldBorder = Color(0x33000080); // navy 20%, text fields
+const kSaarthiBg = Colors.white;
+const kSaffronHalo = Color(0x59FF9933); // saffron 35%, around the mic
 
 /// "9:41" in the user's locale.
 String sv2Time(BuildContext context, DateTime at) =>
@@ -36,14 +42,9 @@ class SaarthiAvatar extends StatelessWidget {
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: AppColors.primaryTint,
+        color: MssColors.saffronLight,
         boxShadow: ring
-            ? [
-                BoxShadow(
-                  color: AppColors.primary.withValues(alpha: .18),
-                  spreadRadius: 6,
-                ),
-              ]
+            ? const [BoxShadow(color: kSaffronHalo, spreadRadius: 6)]
             : null,
         border: ring ? null : Border.all(color: Colors.white, width: 2),
       ),
@@ -57,69 +58,13 @@ class SaarthiAvatar extends StatelessWidget {
   );
 }
 
-/// Type / Voice segmented switch.
-class ModeToggle extends StatelessWidget {
-  const ModeToggle({
-    super.key,
-    required this.voiceActive,
-    required this.onSwitch,
-  });
-
-  final bool voiceActive;
-  final VoidCallback onSwitch;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    Widget seg(String label, bool active, Color activeBg, Color activeFg) =>
-        Semantics(
-          button: true,
-          selected: active,
-          label: label,
-          excludeSemantics: true,
-          child: InkWell(
-            borderRadius: BorderRadius.circular(999),
-            onTap: active ? null : onSwitch,
-            child: Container(
-              constraints: const BoxConstraints(minHeight: 32, minWidth: 48),
-              alignment: Alignment.center,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: active ? activeBg : Colors.transparent,
-                borderRadius: BorderRadius.circular(999),
-              ),
-              child: Text(
-                label,
-                style: pop(12, FontWeight.w600, active ? activeFg : kInk, 1),
-              ),
-            ),
-          ),
-        );
-    return Container(
-      padding: const EdgeInsets.all(3),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: const Color(0x1A0F172A)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          seg(l10n.sv2ModeType, !voiceActive, kBrand, Colors.white),
-          seg(l10n.sv2ModeVoice, voiceActive, kBrand, Colors.white),
-        ],
-      ),
-    );
-  }
-}
-
 class RoundIconButton extends StatelessWidget {
   const RoundIconButton({
     super.key,
     required this.icon,
     required this.tooltip,
     this.onTap,
-    this.bg = AppColors.primarySoft,
+    this.bg = MssColors.cream,
     this.fg = kInk,
     this.size = 44,
     this.iconSize = 18,
@@ -148,9 +93,7 @@ class RoundIconButton extends StatelessWidget {
       child: Material(
         color: bg,
         shape: CircleBorder(
-          side: border
-              ? const BorderSide(color: Color(0x1A0F172A))
-              : BorderSide.none,
+          side: border ? const BorderSide(color: kOutline) : BorderSide.none,
         ),
         child: InkWell(
           customBorder: const CircleBorder(),
@@ -163,58 +106,6 @@ class RoundIconButton extends StatelessWidget {
         ),
       ),
     ),
-  );
-}
-
-/// "Saarthi / Powered by Sarvam AI" title block.
-class SaarthiTitle extends StatelessWidget {
-  const SaarthiTitle({
-    super.key,
-    this.size = 20,
-    this.subtitle,
-    this.subtitleColor = kMuted,
-    this.subtitleDot = false,
-  });
-
-  final double size;
-  final String? subtitle;
-  final Color subtitleColor;
-  final bool subtitleDot;
-
-  @override
-  Widget build(BuildContext context) => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      Text(
-        context.l10n.sv2Name,
-        style: pop(size, FontWeight.w800, kInk, 1, height: 1.1),
-      ),
-      Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (subtitleDot) ...[
-            Container(
-              width: 7,
-              height: 7,
-              decoration: BoxDecoration(
-                color: subtitleColor,
-                shape: BoxShape.circle,
-              ),
-            ),
-            const SizedBox(width: 5),
-          ],
-          Flexible(
-            child: Text(
-              subtitle ?? context.l10n.sv2PoweredBy,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: pop(11, FontWeight.w500, subtitleColor, 1, height: 1.3),
-            ),
-          ),
-        ],
-      ),
-    ],
   );
 }
 
@@ -550,19 +441,12 @@ class TypeBar extends StatelessWidget {
       children: [
         Expanded(
           child: Container(
-            constraints: const BoxConstraints(minHeight: 52),
+            constraints: const BoxConstraints(minHeight: 48),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: kHairline),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0x1A0F172A),
-                  blurRadius: 24,
-                  offset: Offset(0, 8),
-                ),
-              ],
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(color: kFieldBorder),
             ),
             alignment: Alignment.centerLeft,
             child: TextField(
@@ -591,27 +475,15 @@ class TypeBar extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 10),
-        Container(
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: Color(0x4D2563EB),
-                blurRadius: 20,
-                offset: Offset(0, 8),
-              ),
-            ],
-          ),
-          child: RoundIconButton(
-            key: const Key('sarvam-chat-send'),
-            icon: Icons.arrow_upward_rounded,
-            tooltip: l10n.send,
-            onTap: enabled ? onSend : null,
-            bg: kBrand,
-            fg: Colors.white,
-            size: 52,
-            iconSize: 22,
-          ),
+        RoundIconButton(
+          key: const Key('sarvam-chat-send'),
+          icon: Icons.arrow_upward_rounded,
+          tooltip: l10n.send,
+          onTap: enabled ? onSend : null,
+          bg: kBrand,
+          fg: Colors.white,
+          size: 48,
+          iconSize: 20,
         ),
       ],
     );

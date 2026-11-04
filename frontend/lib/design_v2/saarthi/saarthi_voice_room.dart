@@ -73,7 +73,7 @@ class SaarthiRoomView extends StatelessWidget {
 
     return Scaffold(
       key: const Key('sv2-room'),
-      backgroundColor: AppColors.background,
+      backgroundColor: kSaarthiBg,
       resizeToAvoidBottomInset: true,
       appBar: ChatHeader(
         leading: const SaarthiAvatar(size: 44),
@@ -228,8 +228,9 @@ class _LiveSpeech extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
         decoration: BoxDecoration(
-          color: AppColors.primarySoft,
-          border: Border.all(color: AppColors.primaryBorder),
+          // What Saarthi has heard so far: an outlined bubble, not yet sent.
+          color: Colors.white,
+          border: Border.all(color: const Color(0x59000080), width: 1.5),
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(18),
             topRight: Radius.circular(18),
@@ -327,10 +328,7 @@ class _ListeningPillState extends State<_ListeningPill> {
                   borderRadius: BorderRadius.circular(999),
                   boxShadow: [
                     if (connected)
-                      BoxShadow(
-                        color: AppColors.primary.withValues(alpha: .2),
-                        spreadRadius: 6,
-                      ),
+                      const BoxShadow(color: kSaffronHalo, spreadRadius: 6),
                   ],
                 ),
                 child: Material(
@@ -357,7 +355,7 @@ class _ListeningPillState extends State<_ListeningPill> {
                                   color: !connected
                                       ? AppColors.disabledFg
                                       : i % 3 == 0
-                                      ? AppColors.primaryTint
+                                      ? MssColors.saffron
                                       : Colors.white,
                                   borderRadius: BorderRadius.circular(2),
                                 ),

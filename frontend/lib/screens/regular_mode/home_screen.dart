@@ -17,7 +17,6 @@ import 'home/home_msme_support_section.dart';
 import 'home/home_profile_completion_card.dart';
 import 'home/home_recommended_section.dart';
 import 'home/home_updates_section.dart';
-import '../../design_v2/saarthi/saarthi_type_screen.dart';
 import '../../design_v2/saarthi/saarthi_voice_screen.dart';
 import '../../utils/app_text.dart';
 
@@ -73,19 +72,10 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  /// Opens Saarthi on its own home: the greeting, the mic and the keyboard.
   Future<void> _openChatbot() async {
-    final provider = Provider.of<AppProvider>(context, listen: false);
     await Navigator.of(context).push<void>(
-      MaterialPageRoute(
-        builder: (typeContext) => SaarthiTypeScreen(
-          profile: provider.profile,
-          language: provider.selectedLanguage,
-          // The Voice segment opens Saarthi's voice screen in its place.
-          onSwitchToVoice: () => Navigator.of(typeContext).pushReplacement(
-            MaterialPageRoute<void>(builder: (_) => const SaarthiVoiceScreen()),
-          ),
-        ),
-      ),
+      MaterialPageRoute(builder: (_) => const SaarthiVoiceScreen()),
     );
   }
 

@@ -7,7 +7,6 @@
 // strings that used to be `isTamil ? '…' : '…'` literals now render from
 // `AppLocalizations`.
 
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -15,42 +14,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:frontend/l10n/app_localizations.dart';
-import 'package:frontend/models/user_profile.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/companion_mode/saarthi_welcome_screen.dart';
-import 'package:frontend/design_v2/saarthi/saarthi_type_screen.dart';
-import 'package:frontend/services/chat/sarvam_chat_service.dart';
-
-// The v2 Type screen's chrome strings (sv2PoweredBy, sv2TypeIntro).
-const _poweredByEn = "Powered by Sarvam AI";
-const _poweredByTa = "Sarvam AI மூலம் இயங்குகிறது";
-const _askAboutEn =
-    "Ask about any scheme, loan or subsidy — or start with one of these.";
-const _askAboutTa =
-    "எந்தத் திட்டம், கடன் அல்லது மானியம் பற்றியும் கேளுங்கள் — அல்லது இவற்றில் ஒன்றில் தொடங்குங்கள்.";
-
-class _NoopSarvamChatClient implements SarvamChatClient {
-  @override
-  Future<SarvamChatResponse> complete({
-    required List<SarvamChatMessage> messages,
-    required String language,
-  }) {
-    return Completer<SarvamChatResponse>().future;
-  }
-}
-
-Widget _sarvamHost(Locale locale) {
-  return MaterialApp(
-    locale: locale,
-    localizationsDelegates: AppLocalizations.localizationsDelegates,
-    supportedLocales: AppLocalizations.supportedLocales,
-    home: SaarthiTypeScreen(
-      client: _NoopSarvamChatClient(),
-      profile: UserProfile(name: 'Anto'),
-      language: locale.languageCode,
-    ),
-  );
-}
 
 Widget _welcomeHost([Locale locale = const Locale('en')]) {
   return ChangeNotifierProvider<AppProvider>(
@@ -71,29 +36,6 @@ void main() {
 
   setUp(() {
     SharedPreferences.setMockInitialValues({});
-  });
-
-  group('SaarthiTypeScreen renders ARB strings for the active locale', () {
-    testWidgets('Tamil locale shows the Tamil chrome strings', (tester) async {
-      await tester.pumpWidget(_sarvamHost(const Locale('ta')));
-      await tester.pump();
-
-      expect(find.text(_poweredByTa), findsOneWidget);
-      expect(find.text(_poweredByEn), findsNothing);
-      expect(find.text(_askAboutTa), findsOneWidget);
-    });
-
-    testWidgets('English locale shows the English chrome strings', (
-      tester,
-    ) async {
-      await tester.pumpWidget(_sarvamHost(const Locale('en')));
-      await tester.pump();
-
-      expect(find.text(_poweredByEn), findsOneWidget);
-      expect(find.text(_poweredByTa), findsNothing);
-      expect(find.text(_askAboutEn), findsOneWidget);
-      expect(find.textContaining('How can I help you?'), findsOneWidget);
-    });
   });
 
   group('SaarthiWelcomeScreen renders ARB strings for the active locale', () {
