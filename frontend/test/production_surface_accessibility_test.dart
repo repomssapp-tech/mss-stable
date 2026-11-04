@@ -10,9 +10,6 @@ import 'package:frontend/screens/regular_mode/basic_profile/state_picker_field.d
 import 'package:frontend/screens/regular_mode/basic_profile_screen.dart';
 import 'package:frontend/screens/regular_mode/language_selection_screen.dart';
 import 'package:frontend/screens/regular_mode/location_profile_screen.dart';
-import 'package:frontend/services/voice/speech_output_controller.dart';
-import 'package:frontend/services/voice/voice_recognition_controller.dart';
-import 'package:frontend/widgets/assistant/voice_assistant_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -200,54 +197,6 @@ void main() {
         });
       },
     );
-
-    testWidgets(
-      'voice overlay exposes responsive mic and close controls on ${viewport.key}',
-      (tester) async {
-        await _withSemantics(tester, () async {
-          _setViewport(tester, viewport.value);
-          final recognition = _AuditRecognitionController();
-          var closed = false;
-
-          await tester.pumpWidget(
-            MaterialApp(
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
-              supportedLocales: AppLocalizations.supportedLocales,
-              home: VoiceAssistantOverlay(
-                autoStart: false,
-                recognitionController: recognition,
-                speechOutputController: const _AuditSpeechOutputController(),
-                onClose: () => closed = true,
-                onSubmit: (_) {},
-              ),
-            ),
-          );
-          await tester.pump();
-
-          final mic = find.byKey(const Key('voice-primary-control'));
-          final close = find.byKey(const Key('voice-close-button'));
-          expect(mic, findsOneWidget);
-          expect(close, findsOneWidget);
-          _expectTappableSemantics(tester, mic, 'Start listening');
-          final closeSemantics = tester.getSemantics(close).getSemanticsData();
-          expect(closeSemantics.tooltip, 'Cancel assistant');
-          expect(closeSemantics.hasAction(SemanticsAction.tap), isTrue);
-          expect(tester.widget<IconButton>(mic).onPressed, isNotNull);
-          expect(tester.widget<IconButton>(close).onPressed, isNotNull);
-
-          await tester.tap(mic);
-          await tester.pump();
-          expect(recognition.listenCount, 1);
-          _expectTappableSemantics(tester, mic, 'Stop listening');
-          expect(tester.takeException(), isNull);
-
-          await tester.tap(close);
-          await tester.pump();
-          expect(closed, isTrue);
-          expect(recognition.cancelCount, 1);
-        });
-      },
-    );
   }
 }
 
@@ -299,74 +248,4 @@ void _expectTappableSemantics(
   expect(semanticsFinder, findsOneWidget);
   final data = tester.getSemantics(semanticsFinder).getSemanticsData();
   expect(data.hasAction(SemanticsAction.tap), isTrue);
-}
-
-class _AuditRecognitionController implements VoiceRecognitionController {
-  VoiceStatusCallback? _onStatus;
-  bool _isListening = false;
-  int listenCount = 0;
-  int cancelCount = 0;
-
-  @override
-  bool get isListening => _isListening;
-
-  @override
-  Future<VoiceRecognitionCapabilities> initialize({
-    required VoiceStatusCallback onStatus,
-    required VoiceResultCallback onResult,
-    required VoiceSoundLevelCallback onSoundLevel,
-    required VoiceLanguageCallback onLanguage,
-    required VoiceErrorCallback onError,
-  }) async {
-    _onStatus = onStatus;
-    return const VoiceRecognitionCapabilities(
-      available: true,
-      automaticLanguageDetection: true,
-    );
-  }
-
-  @override
-  Future<void> listen({String? localeId}) async {
-    listenCount++;
-    _isListening = true;
-    _onStatus?.call('listening');
-  }
-
-  @override
-  Future<void> stop() async {
-    _isListening = false;
-    _onStatus?.call('done');
-  }
-
-  @override
-  Future<void> cancel() async {
-    cancelCount++;
-    _isListening = false;
-  }
-
-  @override
-  Future<void> dispose() async {
-    _isListening = false;
-  }
-}
-
-class _AuditSpeechOutputController implements SpeechOutputController {
-  const _AuditSpeechOutputController();
-
-  @override
-  Future<SpeechOutputCapabilities> initialize() async =>
-      const SpeechOutputCapabilities(
-        available: true,
-        english: true,
-        tamil: true,
-      );
-
-  @override
-  Future<bool> speak(String text, {required String languageTag}) async => false;
-
-  @override
-  Future<void> stop() async {}
-
-  @override
-  Future<void> dispose() async {}
 }

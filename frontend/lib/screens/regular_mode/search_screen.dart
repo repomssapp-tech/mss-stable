@@ -12,13 +12,11 @@ import '../../utils/app_colors.dart';
 import '../../utils/app_size.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/share_text.dart';
-import '../../widgets/assistant/voice_assistant_overlay.dart';
 import '../../widgets/common/app_bottom_nav_bar.dart';
 import '../../widgets/common/app_toast.dart';
 import '../../widgets/common/quick_pills.dart';
 import '../../widgets/common/standard_page_header.dart';
 import '../../widgets/scheme/filter_panel.dart';
-import 'scheme_details_screen.dart';
 import 'search/browse_scope.dart';
 import 'search/search_filter_strip.dart';
 import 'search/search_idle_content.dart';
@@ -477,50 +475,6 @@ class SearchScreenState extends State<SearchScreen> {
       context,
       '${context.l10n.searchResultsShareHeader(title)}\n$names',
       copiedMessage: context.l10n.resultsCopiedToClipboard,
-    );
-  }
-
-  Future<void> openVoiceAssistant() async {
-    final provider = Provider.of<AppProvider>(context, listen: false);
-    final schemes = provider.allSchemes.isNotEmpty
-        ? provider.allSchemes
-        : await SchemeRepository.instance.getAllSchemes();
-    if (!mounted) return;
-    await showGeneralDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      barrierLabel: context.l10n.voiceAssistantLabel,
-      barrierColor: Colors.transparent,
-      transitionDuration: const Duration(milliseconds: 220),
-      pageBuilder: (overlayContext, animation, secondaryAnimation) {
-        return VoiceAssistantOverlay(
-          onClose: () =>
-              Navigator.of(overlayContext, rootNavigator: true).pop(),
-          schemes: schemes,
-          profile: provider.profile,
-          onProfileConfirmed: provider.updateProfile,
-          onSearch: (query) =>
-              SchemeRepository.instance.searchSchemeMatches(query, limit: 20),
-          onSchemeSelected: (scheme) {
-            Navigator.of(overlayContext, rootNavigator: true).pop();
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => SchemeDetailsScreen(scheme: scheme),
-              ),
-            );
-          },
-          onSubmit: (query) {
-            Navigator.of(overlayContext, rootNavigator: true).pop();
-            submitVoiceQuery(query);
-          },
-        );
-      },
-      transitionBuilder: (context, animation, secondaryAnimation, child) {
-        return FadeTransition(
-          opacity: CurvedAnimation(parent: animation, curve: Curves.easeOut),
-          child: child,
-        );
-      },
     );
   }
 
