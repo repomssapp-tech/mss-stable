@@ -8,6 +8,7 @@ import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/regular_mode/msme_module_details_screen.dart';
 import 'package:frontend/services/catalog/centralized_translator.dart';
+import 'package:frontend/utils/app_size.dart';
 
 Widget _host(Locale locale, String id, String title) {
   return ChangeNotifierProvider<AppProvider>(
@@ -88,6 +89,32 @@ void main() {
         expect(
           find.descendant(of: find.byType(AppBar), matching: titleText),
           findsOneWidget,
+        );
+        final icon = find.byIcon(Icons.business);
+        expect(icon, findsOneWidget);
+        expect(
+          find.descendant(of: find.byType(AppBar), matching: icon),
+          findsOneWidget,
+        );
+        final backButton = find.byTooltip(back);
+        expect(
+          tester.getSize(backButton).width,
+          greaterThanOrEqualTo(AppSize.tapTarget),
+        );
+        expect(
+          tester.getCenter(icon).dy,
+          closeTo(tester.getCenter(backButton).dy, 1),
+        );
+        final subtitle = find.text(
+          CentralizedTranslator.instance.localizeFor(
+            lang,
+            'Free official MSME Udyam registration',
+          ),
+        );
+        expect(subtitle, findsOneWidget);
+        expect(
+          tester.getTopLeft(subtitle).dy,
+          greaterThan(tester.getBottomLeft(find.byType(AppBar)).dy),
         );
         expect(tester.takeException(), isNull);
         handle.dispose();

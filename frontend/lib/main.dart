@@ -23,8 +23,10 @@ import 'services/network/connectivity_service.dart';
 import 'services/catalog/centralized_translator.dart';
 import 'services/chat/chat_log_service.dart';
 import 'utils/constants.dart';
+import 'utils/app_colors.dart';
 import 'utils/app_theme.dart';
 import 'utils/app_spacing.dart';
+import 'utils/app_system_ui_style.dart';
 import 'widgets/common/app_bottom_nav_bar.dart';
 import 'widgets/common/app_update_prompt.dart';
 import 'widgets/onboarding/home_tour.dart';
@@ -66,18 +68,7 @@ void main() async {
   ]);
 
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-      statusBarBrightness: Brightness.light,
-      systemStatusBarContrastEnforced: false,
-      systemNavigationBarColor: Colors.transparent,
-      systemNavigationBarDividerColor: Colors.transparent,
-      systemNavigationBarIconBrightness: Brightness.dark,
-      systemNavigationBarContrastEnforced: false,
-    ),
-  );
+  SystemChrome.setSystemUIOverlayStyle(appSystemUiStyle);
 
   // The backend origin is injected at build time (API_BASE_URL) and defaults to
   // production. When it is malformed, render a visible error instead of a blank
@@ -130,6 +121,14 @@ class _StartupErrorApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+      builder: (context, child) => AnnotatedRegion<SystemUiOverlayStyle>(
+        value: appSystemUiStyle.copyWith(
+          systemNavigationBarColor: AppColors.textPrimary,
+          systemNavigationBarDividerColor: AppColors.textPrimary,
+          systemNavigationBarIconBrightness: Brightness.light,
+        ),
+        child: child!,
+      ),
       home: Builder(
         builder: (context) => Scaffold(
           backgroundColor: const Color(0xFF0F172A),
@@ -219,7 +218,10 @@ class MSSApp extends StatelessWidget {
           data: mediaQueryData.copyWith(
             textScaler: TextScaler.linear(boundedScale),
           ),
-          child: DeviceIntegrityGate(child: HapticTouchLayer(child: child!)),
+          child: AnnotatedRegion<SystemUiOverlayStyle>(
+            value: appSystemUiStyle,
+            child: DeviceIntegrityGate(child: HapticTouchLayer(child: child!)),
+          ),
         );
       },
       // 2.3 (design system): the whole ThemeData moved to AppTheme.light.

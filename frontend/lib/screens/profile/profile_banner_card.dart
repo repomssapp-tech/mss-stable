@@ -61,6 +61,7 @@ class ProfileBannerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final profile = provider.profile;
     final isComplete = provider.profileCompletionPercentage == 100;
+    void pickPhoto() => changeProfilePicture(context, provider);
     final onBlue = context.text.bodySmall.copyWith(
       color: AppColors.textOnPrimary,
     );
@@ -71,54 +72,65 @@ class ProfileBannerCard extends StatelessWidget {
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.sm,
       ),
-      padding: const EdgeInsets.all(AppSpacing.xl),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: const BoxDecoration(
         color: AppColors.primary,
         borderRadius: AppRadius.lgAll,
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Photo; tapping it (or the camera badge) changes it.
           Semantics(
             button: true,
             label: context.l10n.changeProfilePhoto,
+            onTap: pickPhoto,
             excludeSemantics: true,
-            child: Material(
-              color: Colors.transparent,
-              shape: const CircleBorder(),
-              clipBehavior: Clip.antiAlias,
-              child: InkWell(
-                onTap: () => changeProfilePicture(context, provider),
-                child: Stack(
-                  alignment: Alignment.bottomRight,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: AppColors.textOnPrimary,
-                          width: AppSize.borderWidthSelected,
-                        ),
-                      ),
-                      child: ClipOval(child: _photo()),
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: AppColors.textOnPrimary,
+                      width: AppSize.borderWidthSelected,
                     ),
-                    Container(
-                      width: AppSize.iconLg,
-                      height: AppSize.iconLg,
-                      decoration: const BoxDecoration(
-                        color: AppColors.surface,
-                        shape: BoxShape.circle,
-                      ),
-                      alignment: Alignment.center,
-                      child: const Icon(
-                        Icons.camera_alt_outlined,
-                        size: AppSize.iconSm,
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                  ],
+                  ),
+                  child: ClipOval(child: _photo()),
                 ),
-              ),
+                Positioned(
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    width: AppSize.iconLg,
+                    height: AppSize.iconLg,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: AppColors.textOnPrimary,
+                        width: AppSize.borderWidth,
+                      ),
+                    ),
+                    alignment: Alignment.center,
+                    child: const Icon(
+                      Icons.camera_alt_outlined,
+                      size: AppSize.iconSm,
+                      color: AppColors.textOnPrimary,
+                    ),
+                  ),
+                ),
+                Positioned.fill(
+                  child: Material(
+                    type: MaterialType.transparency,
+                    child: InkWell(
+                      customBorder: const CircleBorder(),
+                      onTap: pickPhoto,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(width: AppSpacing.lg),
@@ -179,6 +191,7 @@ class ProfileBannerCard extends StatelessWidget {
                   profile.mobile.isNotEmpty ? '+91 ${profile.mobile}' : '-',
                   style: onBlue,
                 ),
+                const SizedBox(height: AppSpacing.xs),
                 // An address has no spaces; it breaks between characters on
                 // a second line rather than being cut off.
                 Text(

@@ -34,49 +34,51 @@ class ProfileUserInfoCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // Title, with "Edit profile" beside it or, when a long label does
-          // not fit (Tamil, large text), under it.
-          Wrap(
-            alignment: WrapAlignment.spaceBetween,
-            crossAxisAlignment: WrapCrossAlignment.start,
-            spacing: AppSpacing.sm,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Icon(
-                    Icons.person_outline_rounded,
-                    color: AppColors.primary,
-                    size: AppSize.icon,
-                  ),
-                  const SizedBox(width: AppSpacing.sm),
-                  Flexible(
-                    child: Text(
-                      context.l10n.userInformation,
-                      style: context.text.cardTitle.copyWith(
-                        color: AppColors.textPrimary,
+              Expanded(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Icon(
+                      Icons.person_outline_rounded,
+                      color: AppColors.primary,
+                      size: AppSize.icon,
+                    ),
+                    const SizedBox(width: AppSpacing.sm),
+                    Expanded(
+                      child: Text(
+                        context.l10n.userInformation,
+                        style: context.text.cardTitle.copyWith(
+                          color: AppColors.textPrimary,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const BasicProfileScreen(),
-                    ),
-                  );
-                },
-                // The label may wrap; TextButton.icon's row cannot.
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.edit_outlined, size: AppSize.iconSm),
-                    const SizedBox(width: AppSpacing.sm),
-                    Flexible(child: Text(context.l10n.editProfile)),
                   ],
+                ),
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Flexible(
+                child: Align(
+                  alignment: AlignmentDirectional.topEnd,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const BasicProfileScreen(),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.edit_outlined, size: AppSize.iconSm),
+                        const SizedBox(width: AppSpacing.sm),
+                        Flexible(child: Text(context.l10n.editProfile)),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ],

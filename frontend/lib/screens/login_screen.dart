@@ -1,6 +1,7 @@
 import '../services/account/onboarding_api_service.dart' show LegalConsentStore;
 import '../services/account/sign_in_progress.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_state_provider.dart';
 import '../l10n/l10n.dart';
@@ -11,6 +12,7 @@ import 'navigation_mode_screen.dart';
 import 'permissions/app_permissions_screen.dart';
 import 'regular_mode/legal_screens.dart';
 import '../utils/app_spacing.dart';
+import '../utils/app_system_ui_style.dart';
 import '../utils/app_colors.dart';
 import '../utils/app_radius.dart';
 import '../utils/app_text.dart';
@@ -111,12 +113,15 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           // 1. Background image
           Positioned.fill(
-            child: Image.asset(
-              'assets/images/Background/splash_screen.webp',
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => Container(
-                decoration: const BoxDecoration(
-                  gradient: AppColors.scaffoldGradient,
+            child: AnnotatedRegion<SystemUiOverlayStyle>(
+              value: appBlueFooterSystemUiStyle,
+              child: Image.asset(
+                'assets/images/Background/splash_screen.webp',
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  decoration: const BoxDecoration(
+                    gradient: AppColors.scaffoldGradient,
+                  ),
                 ),
               ),
             ),

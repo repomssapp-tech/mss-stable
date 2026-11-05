@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'regular_mode/language_selection_screen.dart';
 import 'login_screen.dart';
@@ -15,6 +16,7 @@ import '../utils/app_colors.dart';
 import '../utils/app_radius.dart';
 import '../utils/app_size.dart';
 import '../utils/app_spacing.dart';
+import '../utils/app_system_ui_style.dart';
 import '../services/beta_gate/beta_config.dart';
 import '../services/beta_gate/beta_gate_service.dart';
 import 'beta_gate_screen.dart';
@@ -328,12 +330,15 @@ class _SplashScreenState extends State<SplashScreen>
         children: [
           // 1. Full screen background
           Positioned.fill(
-            child: Image.asset(
-              'assets/images/Background/splash_screen.webp',
-              fit: BoxFit.cover,
-              // Keep the wave and blue footer (where the loading text sits)
-              // anchored to the bottom whatever the screen's aspect ratio.
-              alignment: Alignment.bottomCenter,
+            child: AnnotatedRegion<SystemUiOverlayStyle>(
+              value: appBlueFooterSystemUiStyle,
+              child: Image.asset(
+                'assets/images/Background/splash_screen.webp',
+                fit: BoxFit.cover,
+                // Keep the wave and blue footer (where the loading text sits)
+                // anchored to the bottom whatever the screen's aspect ratio.
+                alignment: Alignment.bottomCenter,
+              ),
             ),
           ),
 

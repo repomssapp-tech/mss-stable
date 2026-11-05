@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../services/catalog/centralized_translator.dart';
 import '../../utils/app_colors.dart';
+import '../../utils/app_size.dart';
 import '../../utils/app_spacing.dart';
 import '../../widgets/common/standard_page_header.dart';
 import 'msme/msme_action_panels.dart';
@@ -54,17 +55,28 @@ class MSMEModuleDetailsScreen extends StatelessWidget {
       label: localizedTitle,
       child: Scaffold(
         backgroundColor: AppColors.background,
-        appBar: StandardPageHeader(title: localizedTitle, elevation: 1),
+        appBar: StandardPageHeader(
+          title: localizedTitle,
+          titleIcon: Container(
+            width: AppSize.avatarSm,
+            height: AppSize.avatarSm,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: themeColor.withValues(alpha: 0.12),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: iconColor, size: AppSize.iconLg),
+          ),
+          elevation: 1,
+        ),
         body: SingleChildScrollView(
           physics: const ClampingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Module Header Card & What the User Gets
               MsmeHeaderSection(
                 moduleId: moduleId,
                 description: description,
-                icon: icon,
                 iconColor: iconColor,
                 themeColor: themeColor,
               ),
