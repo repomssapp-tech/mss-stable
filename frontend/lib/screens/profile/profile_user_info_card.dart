@@ -38,11 +38,12 @@ class ProfileUserInfoCard extends StatelessWidget {
           // not fit (Tamil, large text), under it.
           Wrap(
             alignment: WrapAlignment.spaceBetween,
-            crossAxisAlignment: WrapCrossAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.start,
             spacing: AppSpacing.sm,
             children: [
               Row(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Icon(
                     Icons.person_outline_rounded,
