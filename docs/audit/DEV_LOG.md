@@ -78,3 +78,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-11-05 | Anto-Merary | #192 | unspecified | Pin the Android APK release verifier |
 | 2026-11-05 | Anto-Merary | #193 | unspecified | Keep Android navigation buttons legible on dark startup screens |
 | 2026-11-05 | Anto-Merary | #194 | unspecified | Disable legal acceptance until the end and release 2.4.4+27 |
+| 2026-11-05 | Anto-Merary | #195 | unspecified | Update the sign-in consent test for disabled Accept |
