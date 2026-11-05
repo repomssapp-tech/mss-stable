@@ -11,6 +11,7 @@ import '../l10n/l10n.dart';
 import '../utils/app_size.dart';
 import '../utils/app_spacing.dart';
 import '../utils/app_text.dart';
+import '../widgets/common/app_icon_button.dart';
 
 enum NavigationMode { regular, companion }
 
@@ -68,26 +69,23 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                             // Back Button (Top Left)
                             Align(
                               alignment: Alignment.topLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  left: AppSpacing.md,
-                                  top: AppSpacing.sm,
-                                ),
-                                child: IconButton(
-                                  icon: const Icon(
-                                    Icons.arrow_back,
-                                    color: kSlate800,
-                                    size: 24,
+                              // Same slot as StandardPageHeader's leading.
+                              child: SizedBox(
+                                width: kToolbarHeight,
+                                height: kToolbarHeight,
+                                child: Center(
+                                  child: AppIconButton(
+                                    icon: Icons.arrow_back_rounded,
+                                    semanticLabel: context.l10n.back,
+                                    onPressed: () {
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (_) =>
+                                              const LanguageSelectionScreen(),
+                                        ),
+                                      );
+                                    },
                                   ),
-                                  tooltip: context.l10n.back,
-                                  onPressed: () {
-                                    Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                        builder: (_) =>
-                                            const LanguageSelectionScreen(),
-                                      ),
-                                    );
-                                  },
                                 ),
                               ),
                             ),

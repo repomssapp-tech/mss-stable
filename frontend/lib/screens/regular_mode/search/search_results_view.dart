@@ -207,13 +207,19 @@ class SearchResultsList extends StatelessWidget {
       itemCount: searchResults.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
-          final titleText = isForMe
+          final forMePartial =
+              isForMe && forMeEmptyState == ForMeEmptyState.partialMatches;
+          final titleText = forMePartial
+              ? context.l10n.forYouPartialTitle
+              : isForMe
               ? context.l10n.eligibleSchemesForYouCount(
                   searchResults.length - notApplicableIds.length,
                 )
               : context.l10n.matchingSchemesCount(searchResults.length);
 
-          final subtitleText = isForMe
+          final subtitleText = forMePartial
+              ? context.l10n.forYouPartialNote
+              : isForMe
               ? context.l10n.matchedStrictlyAgainstProfile
               : (queryText.isNotEmpty
                     ? context.l10n.searchBestMatchesForQuery(queryText)

@@ -12,6 +12,8 @@ import 'notifications/notification_category_bar.dart';
 import 'notifications/notification_detail_screen.dart';
 import 'notifications/notification_cards.dart';
 import 'notifications/notification_empty_state.dart';
+import '../widgets/common/app_icon_button.dart';
+import '../widgets/common/standard_page_header.dart';
 
 export 'notifications/notification_helpers.dart';
 export 'notifications/notification_category_bar.dart';
@@ -112,10 +114,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
     return Scaffold(
       backgroundColor: AppConstants.backgroundColor,
-      appBar: AppBar(
+      appBar: StandardPageHeader(
         leading: _isSelectionMode
-            ? IconButton(
-                icon: const Icon(Icons.close, color: AppConstants.primaryText),
+            ? AppIconButton(
+                icon: Icons.close_rounded,
+                semanticLabel: context.l10n.notifCancelSelectionTooltip,
                 tooltip: context.l10n.notifCancelSelectionTooltip,
                 onPressed: () {
                   setState(() {
@@ -125,20 +128,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 },
               )
             : null,
-        title: Text(
-          _isSelectionMode
-              ? context.l10n.notifSelectedCount(_selectedIds.length)
-              : context.l10n.notificationsGroupHeader,
-          style: AppGoogleFonts.poppins(
-            color: AppConstants.primaryText,
-            fontWeight: FontWeight.bold,
-            fontSize: 18.0,
-          ),
-        ),
-        backgroundColor: AppColors.surface,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        iconTheme: const IconThemeData(color: AppConstants.primaryText),
+        title: _isSelectionMode
+            ? context.l10n.notifSelectedCount(_selectedIds.length)
+            : context.l10n.notificationsGroupHeader,
         actions: _isSelectionMode
             ? [
                 IconButton(

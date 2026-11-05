@@ -7,6 +7,7 @@ import '../../../models/localized_scheme.dart';
 import '../../../models/scheme_model.dart';
 import '../../../providers/app_state_provider.dart';
 import '../../../services/catalog/centralized_translator.dart';
+import '../../../services/recommendation/for_you_picks.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_radius.dart';
 import '../../../utils/app_size.dart';
@@ -44,11 +45,19 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
     // (see the badge-suppression rule below). Production always goes
     // through `appProvider.recommendedSchemes`, which carries a real score.
     final List<MapEntry<Scheme, int?>> scoredSchemes;
+    // Production resolves through the same pickForYou as Search's "For Me",
+    // so the two always agree. A test passing `widget.schemes` sees them as
+    // strong matches.
+    var tier = ForYouTier.strong;
     if (widget.schemes != null) {
       scoredSchemes = widget.schemes!.map((s) => MapEntry(s, null)).toList();
     } else {
-      scoredSchemes = appProvider.recommendedSchemes
-          .where((entry) => entry.value.score > 0)
+      final picks = pickForYou(
+        profile: appProvider.profile,
+        ranked: appProvider.recommendedSchemes,
+      );
+      tier = picks.tier;
+      scoredSchemes = picks.items
           .take(5)
           .map((entry) => MapEntry(entry.key, entry.value.percentage))
           .toList();
@@ -76,6 +85,18 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
       context.l10n.recommendedForYou,
       style: context.text.titleSmall.copyWith(color: AppColors.textPrimary),
     );
+    // Nothing is a strong match: say so, then show the closest ones.
+    final partialNote = tier == ForYouTier.partial
+        ? Padding(
+            padding: const EdgeInsets.only(top: AppSpacing.hairline),
+            child: Text(
+              context.l10n.forYouPartialNote,
+              style: context.text.bodySmall.copyWith(
+                color: AppColors.textMuted,
+              ),
+            ),
+          )
+        : null;
 
     if (items.isEmpty) {
       return Column(
@@ -91,7 +112,12 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
               widget.schemes == null)
             _buildLoadingState(context)
           else
-            _buildEmptyState(context),
+            _buildEmptyState(
+              context,
+              message: tier == ForYouTier.none
+                  ? context.l10n.searchNoProfileMatchesTitle
+                  : context.l10n.homeRecommendationsEmptyMessage,
+            ),
         ],
       );
     }
@@ -104,6 +130,7 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         heading,
+        ?partialNote,
         const SizedBox(height: AppSpacing.md),
         SingleChildScrollView(
           controller: _scrollController,
@@ -378,7 +405,7 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
     );
   }
 
-  Widget _buildEmptyState(BuildContext context) {
+  Widget _buildEmptyState(BuildContext context, {required String message}) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppSpacing.lg),
@@ -391,7 +418,7 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            context.l10n.homeRecommendationsEmptyMessage,
+            message,
             style: context.text.body.copyWith(color: AppColors.textSecondary),
           ),
           const SizedBox(height: AppSpacing.md),

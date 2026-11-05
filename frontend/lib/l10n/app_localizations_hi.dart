@@ -276,6 +276,18 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
+  String get forYouPartialTitle => 'अभी कोई पूर्ण मिलान नहीं';
+
+  @override
+  String get forYouPartialNote =>
+      'ये योजनाएँ आपकी प्रोफ़ाइल से आंशिक रूप से मेल खाती हैं। बेहतर मिलान के लिए और विवरण जोड़ें।';
+
+  @override
+  String forMePartialCount(int count) {
+    return '$count योजनाएँ आपसे आंशिक रूप से मेल खाती हैं';
+  }
+
+  @override
   String noSchemesFound(Object query) {
     return '\"$query\" के लिए कोई योजना नहीं मिली';
   }
@@ -312,7 +324,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get filterLoan => 'ऋण';
 
   @override
-  String get filterUdyam => 'Udyam';
+  String get filterUdyam => 'उद्यम';
 
   @override
   String get filterStartup => 'स्टार्टअप';
@@ -698,6 +710,9 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get editProfile => 'प्रोफ़ाइल संपादित करें';
+
+  @override
+  String get profileEditAction => 'संपादित करें';
 
   @override
   String get userInformation => 'उपयोगकर्ता जानकारी';

@@ -1,3 +1,4 @@
+import '../../../services/recommendation/for_you_picks.dart';
 import '../../../services/recommendation/recommendation_engine.dart';
 import '../../../models/scheme_filter.dart';
 import '../../../models/scheme_model.dart';
@@ -27,6 +28,11 @@ enum ForMeEmptyState {
 
   /// Profile is usable but nothing cleared the score gate / facet filters.
   noMatches,
+
+  /// Nothing cleared the score gate, so the list holds the closest partial
+  /// matches instead (see `pickForYou`). Not empty: the view shows them
+  /// under a "no perfect match yet" heading.
+  partialMatches,
 }
 
 /// Result of resolving the "For Me" view: the schemes to show plus which
@@ -82,31 +88,40 @@ List<Scheme> exactMatchesHidden({
   ];
 }
 
-/// Resolves the "For Me" results view from the master result set. Additive:
-/// score gate (>= RecommendationEngine.forMeThreshold) INTERSECTED with the
-/// FilterPanel facets. Returns an empty list — never the catalog — with a
-/// [ForMeEmptyState] the caller renders:
+/// Resolves the "For Me" results view from the master result set, through
+/// the same `pickForYou` as Home's "Recommended for you": FilterPanel facets
+/// first, then the score gate (>= RecommendationEngine.forMeThreshold). When
+/// nothing clears the gate, the closest partial matches are returned with
+/// [ForMeEmptyState.partialMatches], so a usable profile always sees
+/// something. Never the catalog. Empty only for:
 ///  - [ForMeEmptyState.completeProfile] when the profile is too sparse;
-///  - [ForMeEmptyState.noMatches] when it is usable but nothing qualifies.
+///  - [ForMeEmptyState.noMatches] when nothing matches at all.
+/// Strong matches keep [master]'s order; partial ones are best first.
 /// Pure — no BuildContext.
 ForMeViewResult computeForMeView({
   required List<Scheme> master,
   required UserProfile profile,
   required Map<String, dynamic> filters,
 }) {
-  if (!RecommendationEngine.hasEnoughProfileForRecommendation(profile)) {
-    return const ForMeViewResult(<Scheme>[], ForMeEmptyState.completeProfile);
-  }
-  final gated = master
-      .where(
-        (s) =>
-            RecommendationEngine.evaluate(profile, s).score >=
-            RecommendationEngine.forMeThreshold,
-      )
-      .toList();
-  final filtered = applyProviderFacetFilters(gated, filters);
-  return ForMeViewResult(
-    filtered,
-    filtered.isEmpty ? ForMeEmptyState.noMatches : ForMeEmptyState.none,
+  final filtered = applyProviderFacetFilters(master, filters);
+  final picks = pickForYou(
+    profile: profile,
+    ranked: RecommendationEngine.getRecommendations(profile, filtered),
   );
+  switch (picks.tier) {
+    case ForYouTier.needsProfile:
+      return const ForMeViewResult(<Scheme>[], ForMeEmptyState.completeProfile);
+    case ForYouTier.none:
+      return const ForMeViewResult(<Scheme>[], ForMeEmptyState.noMatches);
+    case ForYouTier.partial:
+      return ForMeViewResult([
+        for (final e in picks.items) e.key,
+      ], ForMeEmptyState.partialMatches);
+    case ForYouTier.strong:
+      final ids = {for (final e in picks.items) e.key.id};
+      return ForMeViewResult([
+        for (final s in filtered)
+          if (ids.contains(s.id)) s,
+      ], ForMeEmptyState.none);
+  }
 }

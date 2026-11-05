@@ -280,6 +280,18 @@ class AppLocalizationsTa extends AppLocalizations {
   }
 
   @override
+  String get forYouPartialTitle => 'இன்னும் முழுமையான பொருத்தம் இல்லை';
+
+  @override
+  String get forYouPartialNote =>
+      'இந்தத் திட்டங்கள் உங்கள் சுயவிவரத்துடன் ஓரளவு பொருந்துகின்றன. நெருக்கமான பொருத்தங்களுக்கு மேலும் விவரங்களைச் சேர்க்கவும்.';
+
+  @override
+  String forMePartialCount(int count) {
+    return '$count திட்டங்கள் உங்களுடன் ஓரளவு பொருந்துகின்றன';
+  }
+
+  @override
   String noSchemesFound(Object query) {
     return '\"$query\" -க்கு திட்டங்கள் எதுவும் கிடைக்கவில்லை';
   }
@@ -705,6 +717,9 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get editProfile => 'சுயவிவரத்தை திருத்துக';
+
+  @override
+  String get profileEditAction => 'திருத்து';
 
   @override
   String get userInformation => 'பயனர் விவரங்கள்';
@@ -1328,7 +1343,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String companionAiTimestampLabel(Object time) {
-    return 'MSS Saarthi  $time';
+    return 'MSS சாரதி  $time';
   }
 
   @override

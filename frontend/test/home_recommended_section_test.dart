@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/models/scheme_model.dart';
+import 'package:frontend/models/user_profile.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/regular_mode/home/home_recommended_section.dart';
 import 'package:frontend/services/recommendation/recommendation_engine.dart';
@@ -44,6 +45,12 @@ void main() {
     overview: 'Support scheme for micro enterprises in Tamil Nadu.',
   );
 
+  // Age and gender: enough for Search's "For Me" gate, which Home shares.
+  final usableProfile = UserProfile(
+    dob: DateTime(1995, 6, 1),
+    gender: 'Female',
+  );
+
   group('HomeRecommendedSection', () {
     testWidgets(
       'shows a match badge with the real recommendation percentage, and '
@@ -56,6 +63,7 @@ void main() {
           missingRequirements: [],
           missingDocuments: [],
         );
+        provider.setProfileForTesting(usableProfile);
         provider.setRecommendedSchemesForTesting([
           MapEntry(dummyScheme, realResult),
         ]);
@@ -67,6 +75,64 @@ void main() {
         // Nothing may ever start pre-bookmarked.
         expect(find.byIcon(Icons.bookmark), findsNothing);
         expect(find.byIcon(Icons.bookmark_border), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'no strong match: the closest partial match shows under a note',
+      (tester) async {
+        final provider = AppProvider();
+        provider.setProfileForTesting(usableProfile);
+        provider.setRecommendedSchemesForTesting([
+          MapEntry(
+            dummyScheme,
+            RecommendationResult(
+              score: RecommendationEngine.forMeThreshold - 0.05,
+              matchingReasons: const [],
+              missingRequirements: const [],
+              missingDocuments: const [],
+            ),
+          ),
+        ]);
+
+        await tester.pumpWidget(buildTestWidget(provider));
+        await tester.pumpAndSettle();
+
+        expect(find.text(dummyScheme.name), findsOneWidget);
+        expect(
+          find.text(
+            'These schemes partly match your profile. '
+            'Add more details for closer matches.',
+          ),
+          findsOneWidget,
+        );
+      },
+    );
+
+    testWidgets(
+      'a profile too sparse for "For Me" shows the complete-profile prompt',
+      (tester) async {
+        final provider = AppProvider();
+        provider.setRecommendedSchemesForTesting([
+          MapEntry(
+            dummyScheme,
+            RecommendationResult(
+              score: 0.85,
+              matchingReasons: const [],
+              missingRequirements: const [],
+              missingDocuments: const [],
+            ),
+          ),
+        ]);
+
+        await tester.pumpWidget(buildTestWidget(provider));
+        await tester.pumpAndSettle();
+
+        expect(find.text(dummyScheme.name), findsNothing);
+        expect(
+          find.text('Complete your profile to see recommendations'),
+          findsOneWidget,
+        );
       },
     );
 
@@ -119,6 +185,7 @@ void main() {
           missingRequirements: const [],
           missingDocuments: const [],
         );
+        provider.setProfileForTesting(usableProfile);
         provider.setRecommendedSchemesForTesting([
           MapEntry(dummyScheme, realResult),
         ]);

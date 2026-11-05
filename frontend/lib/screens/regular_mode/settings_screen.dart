@@ -22,6 +22,7 @@ import '../../design_v2/saarthi/saarthi_voice_settings_screen.dart';
 import 'settings/active_sessions_dialog.dart';
 import 'settings/delete_account_screen.dart';
 import 'settings/settings_parts.dart';
+import '../../widgets/common/standard_page_header.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -81,31 +82,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: AppColors.surface,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        shape: const Border(
-          bottom: BorderSide(
-            color: AppColors.border,
-            width: AppSize.borderWidth,
-          ),
-        ),
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: AppColors.textPrimary,
-          ),
-          tooltip: l10n.back,
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: Text(
-          l10n.profileSettingsTitle,
-          style: context.text.titleMedium.copyWith(
-            color: AppColors.textPrimary,
-          ),
-        ),
-        centerTitle: true,
+      appBar: StandardPageHeader(
+        title: l10n.profileSettingsTitle,
+        elevation: 1,
       ),
       body: SafeArea(
         child: ListView(

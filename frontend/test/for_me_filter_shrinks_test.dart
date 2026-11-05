@@ -316,6 +316,30 @@ void main() {
       expect(view.schemes, isEmpty);
     });
 
+    test('populated profile, nothing clears the threshold but something '
+        'partly matches -> partialMatches with those schemes, best first', () {
+      // National coverage alone scores below forMeThreshold but above 0.
+      final nationalOnly = [
+        Scheme(id: 'NAT_1', name: 'National 1', state: 'All India'),
+        Scheme(id: 'NAT_2', name: 'National 2', state: 'All India'),
+      ];
+      final view = computeForMeView(
+        master: nationalOnly,
+        profile: populated(),
+        filters: const {},
+      );
+      expect(view.emptyState, ForMeEmptyState.partialMatches);
+      expect(
+        view.schemes.map((s) => s.id),
+        unorderedEquals(['NAT_1', 'NAT_2']),
+      );
+      for (final s in view.schemes) {
+        final score = RecommendationEngine.evaluate(populated(), s).score;
+        expect(score, greaterThan(0));
+        expect(score, lessThan(RecommendationEngine.forMeThreshold));
+      }
+    });
+
     test('populated profile with matches -> none empty state and a strict '
         'subset of the catalog', () {
       final view = computeForMeView(

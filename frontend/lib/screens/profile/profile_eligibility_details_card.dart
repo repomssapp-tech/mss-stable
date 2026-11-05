@@ -50,6 +50,8 @@ class ProfileEligibilityDetailsCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   context.l10n.eligibilityProfessionalDetails,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: context.text.cardTitle.copyWith(
                     color: AppColors.textPrimary,
                   ),

@@ -143,6 +143,8 @@ class ProfileTile extends StatelessWidget {
                     children: [
                       Text(
                         title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: context.text.cardTitle.copyWith(
                           color: textColor ?? AppColors.textPrimary,
                         ),

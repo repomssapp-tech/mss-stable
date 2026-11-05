@@ -34,50 +34,60 @@ class ProfileUserInfoCard extends StatelessWidget {
       ),
       child: Column(
         children: [
+          // Icon, title and Edit button share one centre line; both labels
+          // stay on a single line in every language (they shrink instead).
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Icon(
+                Icons.person_outline_rounded,
+                color: AppColors.primary,
+                size: AppSize.icon,
+              ),
+              const SizedBox(width: AppSpacing.sm),
               Expanded(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Icon(
-                      Icons.person_outline_rounded,
-                      color: AppColors.primary,
-                      size: AppSize.icon,
-                    ),
-                    const SizedBox(width: AppSpacing.sm),
-                    Expanded(
-                      child: Text(
-                        context.l10n.userInformation,
-                        style: context.text.cardTitle.copyWith(
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                    ),
-                  ],
+                child: Text(
+                  context.l10n.userInformation,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.text.cardTitle.copyWith(
+                    color: AppColors.textPrimary,
+                  ),
                 ),
               ),
               const SizedBox(width: AppSpacing.sm),
-              Flexible(
-                child: Align(
-                  alignment: AlignmentDirectional.topEnd,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => const BasicProfileScreen(),
-                        ),
-                      );
-                    },
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.edit_outlined, size: AppSize.iconSm),
-                        const SizedBox(width: AppSpacing.sm),
-                        Flexible(child: Text(context.l10n.editProfile)),
-                      ],
+              // Never wider than half the row, so the title keeps its room;
+              // the short label fits in every language at 1.3x text.
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth:
+                      MediaQuery.sizeOf(context).width / 2 - AppSpacing.xl,
+                ),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.sm,
                     ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const BasicProfileScreen(),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.edit_outlined, size: AppSize.iconSm),
+                      const SizedBox(width: AppSpacing.xs),
+                      Flexible(
+                        child: Text(
+                          context.l10n.profileEditAction,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

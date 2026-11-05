@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../utils/constants.dart';
 import '../../utils/app_spacing.dart';
+import '../../widgets/common/standard_page_header.dart';
 import 'help_support/help_support_sections.dart';
 
 export 'help_support/help_support_data.dart';
@@ -17,13 +18,20 @@ class HelpSupportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppConstants.backgroundColor,
+      appBar: StandardPageHeader(
+        title: HelpHeaderSection.titleFor(context, initialMode),
+        backgroundColor: AppConstants.backgroundColor,
+      ),
       body: SafeArea(
         child: ListView(
           physics: const ClampingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
+          padding: const EdgeInsets.only(
+            top: AppSpacing.xs,
+            bottom: AppSpacing.lg,
+          ),
           children: [
             HelpHeaderSection(initialMode: initialMode),
-            const SizedBox(height: AppSpacing.xxl),
+            const SizedBox(height: AppSpacing.xl),
             if (initialMode == 'both' || initialMode == 'faq')
               const HelpFaqSection(),
             if (initialMode == 'both' || initialMode == 'contact')

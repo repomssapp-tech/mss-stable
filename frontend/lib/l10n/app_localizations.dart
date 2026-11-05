@@ -600,6 +600,24 @@ abstract class AppLocalizations {
   /// **'{count} schemes match your profile'**
   String schemesMatchProfile(Object count);
 
+  /// Heading over the closest partial matches when no scheme is a strong match for the profile (Home and Search For Me).
+  ///
+  /// In en, this message translates to:
+  /// **'No perfect match yet'**
+  String get forYouPartialTitle;
+
+  /// Explains that the listed schemes only partly match the profile.
+  ///
+  /// In en, this message translates to:
+  /// **'These schemes partly match your profile. Add more details for closer matches.'**
+  String get forYouPartialNote;
+
+  /// Search For Me card subtitle when only partial matches exist.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} schemes partly match you'**
+  String forMePartialCount(int count);
+
   /// No description provided for @noSchemesFound.
   ///
   /// In en, this message translates to:
@@ -1349,6 +1367,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit profile'**
   String get editProfile;
+
+  /// Short label of the Edit button on the profile card, beside the "Your details" title. Keep it one short word.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get profileEditAction;
 
   /// No description provided for @userInformation.
   ///

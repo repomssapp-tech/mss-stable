@@ -11,6 +11,7 @@ import '../../utils/app_colors.dart';
 import '../../utils/app_size.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/share_text.dart';
+import '../../widgets/common/app_icon_button.dart';
 import '../../widgets/common/app_toast.dart';
 import 'scheme_details/scheme_action_target.dart';
 import 'scheme_details/scheme_benefits_section.dart';
@@ -301,13 +302,10 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                   backgroundColor: AppColors.surface,
                   elevation: 0,
                   scrolledUnderElevation: 0,
-                  leading: IconButton(
-                    tooltip: context.l10n.back,
-                    icon: const Icon(
-                      Icons.arrow_back_rounded,
-                      color: AppColors.textPrimary,
-                      size: AppSize.iconLg,
-                    ),
+                  titleSpacing: 0,
+                  leading: AppIconButton(
+                    icon: Icons.arrow_back_rounded,
+                    semanticLabel: context.l10n.back,
                     onPressed: () => Navigator.of(context).maybePop(),
                   ),
                   title: Text(
