@@ -11,6 +11,14 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [2.4.3+26] - 2026-11-05
+
+### Fixed
+- The profile photo and Edit profile button stay at the top on narrow screens and with larger text.
+- The full camera badge is visible. Tap the photo or the badge to change your profile picture.
+- Each MSME support page shows its icon and title in the top bar, with the description below.
+- Android Back, Home and Recents buttons have clearer contrast in three-button navigation.
+
 ## [2.4.2+25] - 2026-11-05
 
 ### Fixed
