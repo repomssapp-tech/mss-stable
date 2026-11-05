@@ -58,9 +58,7 @@ class HomeHeaderSection extends StatelessWidget {
     final displayName = provider.profile.name.isNotEmpty
         ? provider.profile.name.split(' ').first
         : context.l10n.commonUserFallback;
-    final unread = provider.notifications
-        .where((n) => n['read'] == false)
-        .length;
+    final unread = provider.unreadNotificationCount;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

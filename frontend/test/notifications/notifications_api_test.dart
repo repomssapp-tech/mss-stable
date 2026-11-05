@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
@@ -350,28 +351,87 @@ void main() {
       controller.unsubscribe();
     });
 
-    test('a failed server write is reconciled by reloading', () async {
-      final controller = controllerFor((request) async {
-        if (request.method == 'GET') {
-          return _json({
-            'items': [_item(_id1)],
-            'next_cursor': null,
-            'unread_count': 1,
+    test(
+      'an opened item stays read during a failed write and after restart',
+      () async {
+        var serverRead = false;
+        var failWrite = true;
+        Future<http.Response> respond(http.Request request) async {
+          if (request.method == 'GET') {
+            return _json({
+              'items': [_item(_id1, read: serverRead)],
+              'next_cursor': null,
+              'unread_count': serverRead ? 0 : 1,
+            });
+          }
+          expect(jsonDecode(request.body), {
+            'ids': [_id1],
           });
+          if (failWrite) return _json({'error': 'INTERNAL_ERROR'}, 500);
+          serverRead = true;
+          return _json({'updated': 1});
         }
-        return _json({'error': 'INTERNAL_ERROR'}, 500);
-      });
 
-      controller.subscribe('user-1');
-      await controller.refresh(force: true);
-      await controller.markNotificationRead(_id1);
-      await controller.flushPending();
+        final first = controllerFor(respond)..subscribe('user-1');
+        await first.refresh(force: true);
+        await first.markNotificationRead(_id1);
+        expect(first.unreadCount, 0);
+        await first.flushPending();
+        expect(first.readSyncPending, isTrue);
+        await first.refresh(force: true);
+        expect(first.notifications.single['read'], isTrue);
+        expect(first.unreadCount, 0);
+        first.dispose();
 
-      // The server never accepted the change, so the item is unread again.
-      expect(controller.notifications.single['read'], false);
-      expect(controller.unreadCount, 1);
-      controller.unsubscribe();
-    });
+        failWrite = false;
+        final restarted = controllerFor(respond)..subscribe('user-1');
+        addTearDown(restarted.dispose);
+        await restarted.refresh(force: true);
+        expect(restarted.notifications.single['read'], isTrue);
+        expect(restarted.unreadCount, 0);
+        await restarted.flushPending();
+        expect(serverRead, isTrue);
+        expect(restarted.readSyncPending, isFalse);
+        final prefs = await SharedPreferences.getInstance();
+        expect(
+          prefs.getStringList('notifications.pendingRead.user-1'),
+          isEmpty,
+        );
+      },
+    );
+
+    test(
+      'a stale refresh cannot undo a read while the PATCH is in flight',
+      () async {
+        final started = Completer<void>();
+        final release = Completer<void>();
+        var serverRead = false;
+        final controller = controllerFor((request) async {
+          if (request.method == 'GET') {
+            return _json({
+              'items': [_item(_id1, read: serverRead)],
+              'next_cursor': null,
+              'unread_count': serverRead ? 0 : 1,
+            });
+          }
+          started.complete();
+          await release.future;
+          serverRead = true;
+          return _json({'updated': 1});
+        })..subscribe('user-1');
+        addTearDown(controller.dispose);
+        await controller.refresh(force: true);
+        await controller.markNotificationRead(_id1);
+        final pending = controller.flushPending();
+        await started.future;
+        await controller.refresh(force: true);
+        expect(controller.notifications.single['read'], isTrue);
+        expect(controller.unreadCount, 0);
+        release.complete();
+        await pending;
+        expect(controller.notifications.single['read'], isTrue);
+      },
+    );
 
     test('going to the background sends the pending batch at once', () async {
       var writes = 0;

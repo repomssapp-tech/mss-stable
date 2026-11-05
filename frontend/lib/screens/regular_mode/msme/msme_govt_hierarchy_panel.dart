@@ -1,3 +1,4 @@
+import '../../../l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/app_colors.dart';
 
@@ -31,9 +32,7 @@ class _GovtInteractivePanelState extends State<GovtInteractivePanel> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              CentralizedTranslator.instance.localize(
-                'Government Authorities Tree',
-              ),
+              context.l10n.msmeAuthoritiesTreeHeading,
               style: context.text.titleSmall.copyWith(
                 color: AppColors.textPrimary,
               ),
@@ -41,18 +40,9 @@ class _GovtInteractivePanelState extends State<GovtInteractivePanel> {
             const SizedBox(height: AppSpacing.md),
             Row(
               children: [
-                _buildGovtTabHeader(
-                  0,
-                  CentralizedTranslator.instance.localize('Central'),
-                ),
-                _buildGovtTabHeader(
-                  1,
-                  CentralizedTranslator.instance.localize('State'),
-                ),
-                _buildGovtTabHeader(
-                  2,
-                  CentralizedTranslator.instance.localize('District'),
-                ),
+                _buildGovtTabHeader(0, context.l10n.filterCentral),
+                _buildGovtTabHeader(1, context.l10n.state),
+                _buildGovtTabHeader(2, context.l10n.district),
               ],
             ),
             const SizedBox(height: AppSpacing.lg),

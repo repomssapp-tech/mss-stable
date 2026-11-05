@@ -35,7 +35,7 @@ class TermsConditionsScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          CentralizedTranslator.instance.localize('Terms of Use'),
+          context.l10n.legalTermsOfUseLink,
           style: context.text.titleMedium.copyWith(color: kSlate900),
         ),
         centerTitle: true,
@@ -77,18 +77,14 @@ class TermsConditionsScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            CentralizedTranslator.instance.localize(
-                              'MSS App Terms of Use',
-                            ),
+                            context.l10n.termsOfUseHeading,
                             style: context.text.titleSmall.copyWith(
                               color: kSlate900,
                             ),
                           ),
                           const SizedBox(height: AppSpacing.xs),
                           Text(
-                            CentralizedTranslator.instance.localize(
-                              'Effective Date: 1 September 2026',
-                            ),
+                            context.l10n.termsEffectiveDate,
                             style: context.text.bodySmall.copyWith(
                               color: kSlate500,
                             ),
@@ -102,9 +98,7 @@ class TermsConditionsScreen extends StatelessWidget {
               const SizedBox(height: AppSpacing.xxl),
 
               Text(
-                CentralizedTranslator.instance.localize(
-                  'Welcome to MSS. MSS is a digital platform designed to help users discover, understand and explore Government schemes that may be relevant to them. By accessing or using the MSS application, you acknowledge that you have read, understood and agree to be bound by these Terms of Use.',
-                ),
+                context.l10n.termsIntroduction,
                 style: context.text.body.copyWith(color: kSlate700),
               ),
               const SizedBox(height: AppSpacing.xl),
@@ -256,9 +250,7 @@ class TermsConditionsScreen extends StatelessWidget {
                         const SizedBox(width: AppSpacing.sm),
                         Expanded(
                           child: Text(
-                            CentralizedTranslator.instance.localize(
-                              'Terms Agreement',
-                            ),
+                            context.l10n.termsAgreementHeading,
                             style: context.text.cardTitle.copyWith(
                               color: kSlate900,
                             ),
@@ -268,9 +260,7 @@ class TermsConditionsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: AppSpacing.tight),
                     Text(
-                      CentralizedTranslator.instance.localize(
-                        'Continued use of the MSS App signifies your acceptance of these Terms of Use.',
-                      ),
+                      context.l10n.termsAgreementBody,
                       style: context.text.bodySmall.copyWith(color: kSlate500),
                     ),
                   ],

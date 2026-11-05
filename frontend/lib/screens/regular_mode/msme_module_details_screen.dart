@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../services/catalog/centralized_translator.dart';
+import '../../utils/app_colors.dart';
 import '../../utils/app_spacing.dart';
 import '../../widgets/common/standard_page_header.dart';
 import 'msme/msme_action_panels.dart';
@@ -42,18 +43,18 @@ class MSMEModuleDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // The app bar title is empty (see below), so name the route for screen
-    // readers with the same localized text the header card shows.
+    final localizedTitle = CentralizedTranslator.instance.localizeFor(
+      Localizations.localeOf(context).languageCode,
+      title,
+    );
     return Semantics(
       scopesRoute: true,
       explicitChildNodes: true,
       namesRoute: true,
-      label: CentralizedTranslator.instance.localize(title),
+      label: localizedTitle,
       child: Scaffold(
-        backgroundColor: const Color(0xFFF8FAFC),
-        // The header card below carries the module title; the bar keeps only
-        // the back arrow so the title is not shown twice.
-        appBar: const StandardPageHeader(title: '', elevation: 1),
+        backgroundColor: AppColors.background,
+        appBar: StandardPageHeader(title: localizedTitle, elevation: 1),
         body: SingleChildScrollView(
           physics: const ClampingScrollPhysics(),
           child: Column(
@@ -62,7 +63,6 @@ class MSMEModuleDetailsScreen extends StatelessWidget {
               // Module Header Card & What the User Gets
               MsmeHeaderSection(
                 moduleId: moduleId,
-                title: title,
                 description: description,
                 icon: icon,
                 iconColor: iconColor,

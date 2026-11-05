@@ -25,9 +25,9 @@ class Step2LocationForm extends StatelessWidget {
   static const Color kSlate800 = AppColors.textPrimary;
   static const Color kSlate500 = AppColors.textMuted;
 
-  /// A place name must have some letters (Latin or Tamil) and a sane length --
+  /// A place name must have some letters in any supported script and a sane length --
   /// rejects junk like "1" / "11" / "." that non-empty checks let through.
-  static final RegExp _placeNameLetters = RegExp(r'[A-Za-z஀-௿]');
+  static final RegExp _placeNameLetters = RegExp(r'\p{L}', unicode: true);
   static bool looksLikePlaceName(String value, {int min = 2}) {
     final t = value.trim();
     return t.length >= min && _placeNameLetters.hasMatch(t);

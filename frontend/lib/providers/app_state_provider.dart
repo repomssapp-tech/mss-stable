@@ -184,6 +184,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _selectedLanguage,
   );
 
+  int get unreadNotificationCount => _notifications.unreadCount;
+  bool get notificationReadSyncPending => _notifications.readSyncPending;
+
   List<Map<String, dynamic>> get carouselItems {
     final filteredPromos = _promos.promoAlerts.where((promo) {
       if (promo['target_gender'] != null &&

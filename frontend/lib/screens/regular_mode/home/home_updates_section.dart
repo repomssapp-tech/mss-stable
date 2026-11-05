@@ -126,7 +126,11 @@ class HomeLatestUpdatesCard extends StatelessWidget {
           child: InkWell(
             onTap: () {
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const NotificationsScreen()),
+                MaterialPageRoute<void>(
+                  builder: (_) => latestUpdate == null
+                      ? const NotificationsScreen()
+                      : NotificationDetailScreen(item: latestUpdate),
+                ),
               );
             },
             child: Padding(

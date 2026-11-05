@@ -66,9 +66,7 @@ class _TredsInteractivePanelState extends State<TredsInteractivePanel> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              CentralizedTranslator.instance.localize(
-                'TReDS Invoice Discounting Flow',
-              ),
+              context.l10n.msmeTredsFlowHeading,
               style: context.text.titleSmall.copyWith(
                 color: AppColors.textPrimary,
               ),

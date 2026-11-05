@@ -288,6 +288,19 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       ),
       body: Column(
         children: [
+          if (provider.notificationReadSyncPending)
+            Padding(
+              padding: const EdgeInsets.all(AppSpacing.md),
+              child: Semantics(
+                liveRegion: true,
+                child: Text(
+                  context.l10n.notifReadSyncPending,
+                  style: context.text.bodySmall.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ),
+            ),
           NotificationCategoryBar(
             activeFilter: _activeFilter,
             categories: kNotificationCategories,

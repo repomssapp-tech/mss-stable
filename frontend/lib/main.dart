@@ -85,7 +85,7 @@ void main() async {
   final configError = AppConfig.validationError;
   if (configError != null) {
     debugPrint('[main] $configError ${AppConfig.setupHint}');
-    runApp(_StartupErrorApp(message: '$configError\n\n${AppConfig.setupHint}'));
+    runApp(const _StartupErrorApp());
     return;
   }
 
@@ -122,39 +122,45 @@ void main() async {
 /// configuration). Replaces what would
 /// otherwise be a blank screen with an actionable message.
 class _StartupErrorApp extends StatelessWidget {
-  const _StartupErrorApp({required this.message});
-
-  final String message;
+  const _StartupErrorApp();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: const Color(0xFF0F172A),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.xxl),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.error_outline, color: Colors.white, size: 48),
-                const SizedBox(height: AppSpacing.lg),
-                const Text(
-                  'App configuration error',
-                  style: TextStyle(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: Builder(
+        builder: (context) => Scaffold(
+          backgroundColor: const Color(0xFF0F172A),
+          body: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.xxl),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.error_outline,
                     color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                    size: 48,
                   ),
-                ),
-                const SizedBox(height: AppSpacing.md),
-                Text(
-                  message,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white70, height: 1.5),
-                ),
-              ],
+                  const SizedBox(height: AppSpacing.lg),
+                  Text(
+                    AppLocalizations.of(context)!.startupConfigError,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  Text(
+                    AppLocalizations.of(context)!.startupConfigErrorBody,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: Colors.white70, height: 1.5),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

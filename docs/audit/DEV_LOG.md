@@ -15,9 +15,7 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 
 <!-- Automated entries start here — .github/workflows/dev-log.yml appends below this line -->
 | 2026-09-13 | Roger-Chris | #107 | unspecified | Chore/audit rules skills devlog |
-| 2026-09-17 | PaulBrytonRaj18 | #109 | frontend/companion_mode
- | Replaced the static marketing welcome screen with an accessible, zero-keyboard 6-step Assisted Profile Creation wizard for AI Companion Mode that feeds directly into the scheme recommendation engine, and resolved PostgreSQL check-constraint failures during cloud profile submission.
- |
+| 2026-09-17 | PaulBrytonRaj18 | #109 | frontend/companion_mode | Replaced the static marketing welcome screen with an accessible, zero-keyboard 6-step Assisted Profile Creation wizard for AI Companion Mode that feeds directly into the scheme recommendation engine, and resolved PostgreSQL check-constraint failures during cloud profile submission. |
 | 2026-10-02 | Roger-Chris | #110 | unspecified | Production readiness: correctness, design system, accessibility (Phases 1–2, partial 3) |
 | 2026-10-05 | Roger-Chris | #111 | unspecified | This PR delivers the complete, verified, and locked remediation of **MSME Catalog v3.1** (promoted to **Release `1.35.1-alpha`**), resolving all audit findings from `docs/audit/CATALOG_V3_1_AUDIT.md`, executing all remediation phases from `docs/audit/ANTIGRAVITY_FIX_PROMPT.md`, and completing the final verification housekeeping items from `docs/FINAL_VERIFICATION_1_35_1.md`. |
 | 2026-10-17 | praveen-ofl | #113 | unspecified | feat(api): integrate MSS REST backend client, auth PKCE flow, and pro… |

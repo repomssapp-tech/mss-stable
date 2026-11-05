@@ -1,3 +1,4 @@
+import '../../../l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/app_colors.dart';
 
@@ -69,18 +70,14 @@ class _ExportInteractivePanelState extends State<ExportInteractivePanel> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              CentralizedTranslator.instance.localize(
-                'Export Readiness Assessment',
-              ),
+              context.l10n.msmeExportReadinessHeading,
               style: context.text.titleSmall.copyWith(
                 color: AppColors.textPrimary,
               ),
             ),
             const SizedBox(height: AppSpacing.xs),
             Text(
-              CentralizedTranslator.instance.localize(
-                'Complete this checklist to identify missing links for international trade registration.',
-              ),
+              context.l10n.msmeExportReadinessDescription,
               style: context.text.bodySmall.copyWith(
                 color: AppColors.textMuted,
               ),
