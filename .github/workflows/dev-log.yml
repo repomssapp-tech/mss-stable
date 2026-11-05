@@ -35,8 +35,8 @@ jobs:
           # Pull "## Area" / "## Summary" sections out of the PR body (template in
           # .github/pull_request_template.md); fall back to the PR title if empty
           # or if the template wasn't used.
-          AREA=$(printf '%s\n' "$PR_BODY" | awk '/^## Area/{flag=1;next}/^## /{flag=0}flag' | grep -v '^<!--' | grep -v '^-->' | sed '/^\s*$/d' | head -n1 | xargs)
-          SUMMARY=$(printf '%s\n' "$PR_BODY" | awk '/^## Summary/{flag=1;next}/^## /{flag=0}flag' | grep -v '^<!--' | grep -v '^-->' | sed '/^\s*$/d' | head -n1 | xargs)
+          AREA=$(printf '%s\n' "$PR_BODY" | awk '/^## Area/{flag=1;next}/^## /{flag=0}flag' | grep -v '^<!--' | grep -v '^-->' | sed '/^\s*$/d' | head -n1 | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')
+          SUMMARY=$(printf '%s\n' "$PR_BODY" | awk '/^## Summary/{flag=1;next}/^## /{flag=0}flag' | grep -v '^<!--' | grep -v '^-->' | sed '/^\s*$/d' | head -n1 | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')
 
           AREA="${AREA:-unspecified}"
           SUMMARY="${SUMMARY:-$PR_TITLE}"
